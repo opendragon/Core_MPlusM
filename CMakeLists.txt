@@ -28,6 +28,13 @@ list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
 # add YARP include directories
 include_directories(${YARP_INCLUDE_DIRS})
 
+# find ACE
+find_package(ACE REQUIRED)
+list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
+
+# add ACE include directories
+include_directories(${ACE_INCLUDE_DIRS})
+
 add_subdirectory(Debugging)
 add_subdirectory(Common)
 add_subdirectory(ExampleService)
