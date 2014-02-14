@@ -9,9 +9,29 @@
 #if (! defined(YPPCONFIG_H_))
 # define YPPCONFIG_H_ /* */
 
+# include <yarp/os/Contact.h>
+
+/*! @brief The base file name for disk devices.
+
+ The initial (left) part of the file name for the files corresponding to disk devices. */
 # define YPP_VERSION_MAJOR @YPP_VERSION_MAJOR@
+/*! @brief The base file name for disk devices.
+
+ The initial (left) part of the file name for the files corresponding to disk devices. */
 # define YPP_VERSION_MINOR @YPP_VERSION_MINOR@
+/*! @brief The base file name for disk devices.
+
+ The initial (left) part of the file name for the files corresponding to disk devices. */
 # define YPP_VERSION_PATCH @YPP_VERSION_PATCH@
+/*! @brief The base file name for disk devices.
+
+ The initial (left) part of the file name for the files corresponding to disk devices. */
 # define YPP_VERSION "@YPP_VERSION_MAJOR@.@YPP_VERSION_MINOR@.@YPP_VERSION_PATCH@"
+
+/*! @brief Dump out a description of the provided connection information to the log.
+@param tag A unique string used to identify the call point for the output.
+@param aContact The connection information to be reported. */
+void dumpContact(const char *              tag,
+                 const yarp::os::Contact & aContact);
 
 #endif // ! defined(YPPCONFIG_H_)

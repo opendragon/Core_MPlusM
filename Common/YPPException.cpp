@@ -11,7 +11,15 @@
 #include "ODSyslog.h"
 #include "YPPConfig.h"
 
-YarpPlusPlus::Exception::Exception(const ConstString & reason)
+#pragma mark Private structures and constants
+
+#pragma mark Local functions
+
+#pragma mark Class methods
+
+#pragma mark Constructors and destructors
+
+YarpPlusPlus::Exception::Exception(const yarp::os::ConstString & reason)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("reason = ", reason.c_str());//####
@@ -23,3 +31,9 @@ YarpPlusPlus::Exception::~Exception(void)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
 } // YarpPlusPlus::Exception::~Exception
+
+#pragma mark Actions
+
+#pragma mark Accessors
+
+#pragma mark Global functions

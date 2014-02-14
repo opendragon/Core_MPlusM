@@ -11,14 +11,19 @@
 
 namespace YarpPlusPlus
 {
+    /*! @brief The data returned from a service request. */
     class ServiceResponse
     {
     public:
+        
+        /*! @brief The constructor. */
         ServiceResponse(void);
         
+        /*! @brief The destructor. */
         virtual ~ServiceResponse(void);
         
     protected:
+        
     private:
         
     }; // ServiceResponse

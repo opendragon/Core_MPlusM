@@ -16,34 +16,26 @@
 #include "YPPConfig.h"
 #include "YPPException.h"
 
-using yarp::os::Contact;
-using yarp::os::Network;
-using yarp::os::impl::Carrier;
-using yarp::os::impl::Carriers;
+#pragma mark Private structures and constants
 
-static void dumpContact(const char *    tag,//####
-                        const Contact & aContact)//####
-{//####
-    OD_SYSLOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
-                 "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ", aContact.getCarrier().c_str());//####
-    OD_SYSLOG_L1("contact.port = ", aContact.getPort());//####
-    OD_SYSLOG_S1("contact.toString = ", aContact.toString().c_str());//####
-    OD_SYSLOG_B1("contact.isValid = ", aContact.isValid());//####
-} // dumpContact
+#pragma mark Local functions
 
-static bool checkEndpointName(const ConstString & name)
+/*! @brief Check the syntax of the given name to make sure that it conforms to YARP conventions.
+ @param portName The name to be checked.
+ @returns @c true if the name can be used as a YARP port name and @c false otherwise. */
+static bool checkEndpointName(const yarp::os::ConstString & portName)
 {
     bool   result;
-    size_t nameLength = name.length();
+    size_t nameLength = portName.length();
     
     if (0 < nameLength)
     {
-        char firstChar = name[0];
+        char firstChar = portName[0];
         
         result = ('/' == firstChar);
         for (size_t ii = 1; result && (ii < nameLength); ++ii)
         {
-            result = isprint(name[ii]);
+            result = isprint(portName[ii]);
         }
     }
     else
@@ -53,13 +45,16 @@ static bool checkEndpointName(const ConstString & name)
     return result;
 } // checkEndpointName
 
-static bool checkCarrier(const String & carrierName)
+/*! @brief Check if the given name is a valid YARP carrier name.
+ @param carrierName The name to be checked.
+ @returns @c true if the name is a known YARP carrier name and @c false otherwise. */
+static bool checkCarrier(const yarp::os::impl::String & carrierName)
 {
     bool result;
     
     if (0 < carrierName.length())
     {
-        Carrier * foundCarrier = Carriers::chooseCarrier(carrierName);
+        yarp::os::impl::Carrier * foundCarrier = yarp::os::impl::Carriers::chooseCarrier(carrierName);
         
         if (foundCarrier)
         {
@@ -79,8 +74,12 @@ static bool checkCarrier(const String & carrierName)
     return result;
 } // checkCarrier
 
-static bool checkHostPort(int &               realPort,
-                          const ConstString & portNumber)
+/*! @brief Check if the given port number is valid.
+ @param realPort The numeric value of 'portNumber'.
+ @param portNumber The port number as a string to be checked.
+ @returns @c true if the port number string is numeric or empty. */
+static bool checkHostPort(int &                         realPort,
+                          const yarp::os::ConstString & portNumber)
 {
     bool   result = true;
     size_t portLength = portNumber.length();
@@ -104,21 +103,27 @@ static bool checkHostPort(int &               realPort,
     return result;
 } // checkHostPort
 
-static bool checkHostName(Contact &           workingContact,
-                          const ConstString & hostName,
-                          const int           portNumber,
-                          const String &      carrierName)
+/*! @brief Check if the given host name is valid.
+ @param workingContact The connection information that is to be filled in.
+ @param hostName The host name that is to be validated.
+ @param portNumber The port number to be applied to the connection.
+ @param carrierName The YARP carrier name to be applied to the connection.
+ @returns @c true if the connection information has been constructed and @c false otherwise. */
+static bool checkHostName(yarp::os::Contact &            workingContact,
+                          const yarp::os::ConstString &  hostName,
+                          const int                      portNumber,
+                          const yarp::os::impl::String & carrierName)
 {
-//    dumpContact("enter checkHostName", workingContact);//####
+    //    dumpContact("enter checkHostName", workingContact);//####
     bool result;
     
     if (0 < hostName.length())
     {
         // Non-empty hostname - check it...
-        ConstString ipAddress = Contact::convertHostToIp(hostName);
+        yarp::os::ConstString ipAddress = yarp::os::Contact::convertHostToIp(hostName);
         
         OD_SYSLOG_S1("ipAddress = ", ipAddress.c_str());//####
-
+        
         if (0 < carrierName.length())
         {
             workingContact = workingContact.addSocket(carrierName.c_str(), ipAddress, portNumber);
@@ -127,7 +132,7 @@ static bool checkHostName(Contact &           workingContact,
         {
             workingContact = workingContact.addSocket("tcp", ipAddress, portNumber);
         }
-//        dumpContact("after addSocket", workingContact);//####
+        //        dumpContact("after addSocket", workingContact);//####
         result = workingContact.isValid();
     }
     else
@@ -138,11 +143,25 @@ static bool checkHostName(Contact &           workingContact,
     return result;
 } // checkHostName
 
-YarpPlusPlus::Endpoint::Endpoint(const ConstString & endpointName,
-                                 const ConstString & hostName,
-                                 const ConstString & portNumber,
-                                 const String &      carrierName) :
-        _handler(NULL), _port(NULL)
+#pragma mark Class methods
+
+yarp::os::ConstString YarpPlusPlus::Endpoint::getRandomPortName(void)
+{
+    yarp::os::ConstString result;
+    char *                temp = tempnam(NULL, "port_");
+    
+    result = temp;
+    free(temp);
+    return result;
+} // YarpPlusPlus::Endpoint::getRandomPortName
+
+#pragma mark Constructors and destructors
+
+YarpPlusPlus::Endpoint::Endpoint(const yarp::os::ConstString &  endpointName,
+                                 const yarp::os::ConstString &  hostName,
+                                 const yarp::os::ConstString &  portNumber,
+                                 const yarp::os::impl::String & carrierName) :
+        _isOpen(false), _contact(), _handler(NULL), _handlerCreator(NULL), _port(NULL)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S4("endpointName = ", endpointName.c_str(), "hostName = ", hostName.c_str(),//####
@@ -155,38 +174,15 @@ YarpPlusPlus::Endpoint::Endpoint(const ConstString & endpointName,
 
             if (checkHostPort(realPort, portNumber))
             {
-                Contact workingContact = Contact::byName(endpointName);
-                
-                if (checkHostName(workingContact, hostName, realPort, carrierName))
+                _contact = yarp::os::Contact::byName(endpointName);
+                if (checkHostName(_contact, hostName, realPort, carrierName))
                 {
                     // Ready to be set up... we have a valid port, and either a blank URI or a valid one.
-                    _port = new Port();
-                    if (0 < hostName.length())
+                    _port = new yarp::os::Port();
+                    if (! _port)
                     {
-                        workingContact = Network::registerContact(workingContact);
-//                        dumpContact("after registerContact", workingContact);//####
-                        if (_port->open(workingContact))
-                        {
-//                            Contact where = _port->where();//####
-                            
-//                            dumpContact("after open", where);//####
-                        }
-                        else
-                        {
-                            OD_SYSLOG_EXIT_THROW_S("Port could not be opened");//####
-                            throw new YarpPlusPlus::Exception("Port could not be opened");
-                        }
-                    }
-                    else if (_port->open(endpointName))
-                    {
-//                        Contact where = _port->where();//####
-                        
-//                        dumpContact("after open", where);//####
-                    }
-                    else
-                    {
-                        OD_SYSLOG_EXIT_THROW_S("Port could not be opened");//####
-                        throw new YarpPlusPlus::Exception("Port could not be opened");
+                        OD_SYSLOG_EXIT_THROW_S("Could not create port");//####
+                        throw new YarpPlusPlus::Exception("Could not create port");
                     }
                 }
                 else
@@ -225,15 +221,151 @@ YarpPlusPlus::Endpoint::~Endpoint(void)
     if (_port)
     {
         _port->close();
-        delete _port;
     }
+    delete _port;
     OD_SYSLOG_EXIT();//####
 } // YarpPlusPlus::Endpoint::~Endpoint
 
-ConstString YarpPlusPlus::Endpoint::getName(void)
+#pragma mark Actions
+
+bool YarpPlusPlus::Endpoint::open(void)
+{
+    OD_SYSLOG_ENTER();//####
+    if (! isOpen())
+    {
+        if (_port)
+        {
+            OD_SYSLOG_S1("_contact.getHost = ", _contact.getHost().c_str());//####
+            if (0 < _contact.getHost().length())
+            {
+                _contact = yarp::os::Network::registerContact(_contact);
+                //                        dumpContact("after registerContact", _contact);//####
+                if (_port->open(_contact))
+                {
+                    _isOpen = true;
+                    //                   Contact where = _port->where();//####
+                    
+                    //                   dumpContact("after open", where);//####
+                }
+                else
+                {
+                    OD_SYSLOG("Port could not be opened");//####
+                }
+            }
+            else if (_port->open(_contact.getName()))
+            {
+                _isOpen = true;
+                //                Contact where = _port->where();//####
+                
+                //                dumpContact("after open", where);//####
+            }
+            else
+            {
+                OD_SYSLOG("Port could not be opened");//####
+            }
+        }
+    }
+    OD_SYSLOG_EXIT_B(isOpen());//####
+    return isOpen();
+} // YarpPlusPlus::Endpoint::open
+
+bool YarpPlusPlus::Endpoint::setInputHandler(InputHandler & handler)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("handler = ", &handler);//####
+    bool result;
+    
+    if (_handlerCreator)
+    {
+        result = false;
+    }
+    else if (_port)
+    {
+        OD_SYSLOG("(_port)");//####
+        if (isOpen())
+        {
+            result = false;
+        }
+        else
+        {
+            _handler = &handler;
+            _port->setReader(handler);
+            result = true;
+        }
+    }
+    else
+    {
+        result = false;
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // YarpPlusPlus::Endpoint::setInputHandler
+
+bool YarpPlusPlus::Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("handlerCreator = ", &handlerCreator);//####
+    bool result;
+    
+    if (_handler)
+    {
+        result = false;
+    }
+    else if (_port)
+    {
+        OD_SYSLOG("(_port)");//####
+        if (isOpen())
+        {
+            result = false;
+        }
+        else
+        {
+            _handlerCreator = &handlerCreator;
+            _port->setReaderCreator(handlerCreator);
+            result = true;
+        }
+    }
+    else
+    {
+        result = false;
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // YarpPlusPlus::Endpoint::setInputHandlerCreator
+
+bool YarpPlusPlus::Endpoint::setReporter(yarp::os::PortReport & reporter,
+                                         const bool             andReportNow)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("reporter = ", &reporter);//####
+    OD_SYSLOG_B1("andReportNow = ", andReportNow);//####
+    bool result;
+    
+    if (_port)
+    {
+        OD_SYSLOG("(_port)");//####
+        _port->setReporter(reporter);
+        if (andReportNow)
+        {
+            OD_SYSLOG("(andReportNow)");//####
+            _port->getReport(reporter);
+        }
+        result = true;
+    }
+    else
+    {
+        result = false;
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // YarpPlusPlus::Endpoint::setReporter
+
+#pragma mark Accessors
+
+yarp::os::ConstString YarpPlusPlus::Endpoint::getName(void)
 const
 {
-    ConstString result;
+    yarp::os::ConstString result;
     
     if (_port)
     {
@@ -246,39 +378,14 @@ const
     return result;
 } // YarpPlusPlus::Endpoint::getName
 
-ConstString YarpPlusPlus::Endpoint::getRandomPortName(void)
-{
-    ConstString result;
-    char *      temp = tempnam(NULL, "port_");
-    
-    result = temp;
-    free(temp);
-    return result;
-} // YarpPlusPlus::Endpoint::getRandomPortName
+#pragma mark Global functions
 
-void YarpPlusPlus::Endpoint::setInputHandler(InputHandler & handler)
+void dumpContact(const char *              tag,
+                 const yarp::os::Contact & aContact)
 {
-    OD_SYSLOG_ENTER();//####
-    if (_port)
-    {
-        _handler = &handler;
-        _port->setReader(handler);
-    }
-    OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::Endpoint::setInputHandler
-
-void YarpPlusPlus::Endpoint::setReporter(PortReport & reporter,
-                                         const bool   andReportNow)
-{
-    OD_SYSLOG_ENTER();//####
-    if (_port)
-    {
-        _port->setReporter(reporter);
-        if (andReportNow)
-        {
-            _port->getReport(reporter);
-        }
-    }
-    OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::Endpoint::setReporter
-
+    OD_SYSLOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
+                 "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ", aContact.getCarrier().c_str());//####
+    OD_SYSLOG_L1("contact.port = ", aContact.getPort());//####
+    OD_SYSLOG_S1("contact.toString = ", aContact.toString().c_str());//####
+    OD_SYSLOG_B1("contact.isValid = ", aContact.isValid());//####
+} // dumpContact

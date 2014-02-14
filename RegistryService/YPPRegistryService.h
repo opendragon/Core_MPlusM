@@ -13,14 +13,19 @@
 
 namespace YarpPlusPlus
 {
+    /*! @brief The Yarp++ Service Registry service. */
     class RegistryService : BaseService
     {
     public:
+        
+        /*! @brief The constructor. */
         RegistryService(void);
         
+        /*! @brief The destructor. */
         virtual ~RegistryService(void);
         
     protected:
+        
     private:
         
     }; // RegistryService

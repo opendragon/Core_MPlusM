@@ -13,14 +13,19 @@
 
 namespace YarpPlusPlus
 {
+    /*! @brief An example Yarp++ service. */
     class ExampleService : BaseService
     {
     public:
+        
+        /*! @brief The constructor. */
         ExampleService(void);
         
+        /*! @brief The destructor. */
         virtual ~ExampleService(void);
         
     protected:
+        
     private:
         
     }; // ExampleService

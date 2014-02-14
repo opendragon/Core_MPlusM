@@ -15,19 +15,28 @@
 #include "ODSyslog.h"
 #include "YPPConfig.h"
 
-using namespace yarp::os;
 using namespace YarpPlusPlus;
 using std::cout;
 using std::cerr;
 using std::endl;
 
+#pragma mark Private structures and constants
+
+#pragma mark Local functions
+
+#pragma mark Global functions
+
+/*! @brief The entry point for creating an example service.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used with the example service.
+ @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int     argc,
          char ** argv)
 {
 #pragma unused(argc,argv)
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID);//####
     OD_SYSLOG_ENTER();//####
-    Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+    yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
 
     cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << endl;
     ExampleService * stuff = new ExampleService;

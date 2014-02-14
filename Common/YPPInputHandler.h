@@ -12,29 +12,39 @@
 # include <yarp/os/Bottle.h>
 # include <yarp/os/PortReader.h>
 
-using yarp::os::Bottle;
-using yarp::os::ConnectionReader;
-using yarp::os::ConnectionWriter;
-using yarp::os::PortReader;
-
 namespace YarpPlusPlus
 {
-    class InputHandler : public PortReader
+    /*! @brief A handler for partially-structured input data. */
+    class InputHandler : public yarp::os::PortReader
     {
     public:
+        
+        /*! @brief The constructor. */
         InputHandler(void);
         
+        /*! @brief The destructor. */
         virtual ~InputHandler(void);
         
-        virtual bool handleInput(Bottle &           input,
-                                 ConnectionWriter * replyMechanism) = 0;
+        /*! @brief Process partially-structured input data.
+         @param input The partially-structured input data.
+         @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+         @returns @c true if the input was correctly structured and successfully processed. */
+        virtual bool handleInput(yarp::os::Bottle &           input,
+                                 yarp::os::ConnectionWriter * replyMechanism) = 0;
         
+        /*! @brief Terminate processing of the input data stream. */
         void stopProcessing(void);
         
     protected:
-    private:
-        virtual bool read(ConnectionReader & connection);
         
+    private:
+        
+        /*! @brief Read an object from the input stream.
+         @param connection The input stream that is to be read from.
+         @returns @c true if the object was successfully read and @c false otherwise. */
+        virtual bool read(yarp::os::ConnectionReader & connection);
+        
+        /*! @brief @c true if input stream processing is enabled. */
         bool _canProcessInput;
         
     }; // InputHandler

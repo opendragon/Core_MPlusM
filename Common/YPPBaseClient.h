@@ -11,14 +11,19 @@
 
 namespace YarpPlusPlus
 {
+    /*! @brief The minimal functionality required for a Yarp++ client. */
     class BaseClient
     {
     public:
+        
+        /*! @brief The constructor. */
         BaseClient(void);
         
+        /*! @brief The destructor. */
         virtual ~BaseClient(void);
         
     protected:
+        
     private:
         
     }; // BaseClient

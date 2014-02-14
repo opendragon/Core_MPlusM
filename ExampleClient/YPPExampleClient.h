@@ -13,14 +13,19 @@
 
 namespace YarpPlusPlus
 {
+    /*! @brief An example Yarp++ client. */
     class ExampleClient : BaseClient
     {
     public:
+        
+        /*! @brief The constructor. */
         ExampleClient(void);
         
+        /*! @brief The destructor. */
         virtual ~ExampleClient(void);
         
     protected:
+        
     private:
         
     }; // ExampleClient

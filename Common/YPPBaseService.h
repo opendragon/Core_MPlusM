@@ -11,14 +11,19 @@
 
 namespace YarpPlusPlus
 {
+    /*! @brief The minimal functionality required for a Yarp++ service. */
     class BaseService
     {
     public:
+        
+        /*! @brief The constructor. */
         BaseService(void);
         
+        /*! @brief The destructor. */
         virtual ~BaseService(void);
         
     protected:
+        
     private:
         
     }; // BaseService

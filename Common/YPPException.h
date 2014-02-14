@@ -11,19 +11,24 @@
 
 # include <yarp/os/ConstString.h>
 
-using yarp::os::ConstString;
-
 namespace YarpPlusPlus
 {
+    /*! @brief A convenience class to provide distinct exception objects. */
     class Exception
     {
     public:
-        Exception(const ConstString & reason);
         
+        /*! @brief The constructor.
+         @param reason A description of the exception being reported. */
+        Exception(const yarp::os::ConstString & reason);
+        
+        /*! @brief The destructor. */
         virtual ~Exception(void);
         
     protected:
+        
     private:
+        
     }; // Exception
     
 } // YarpPlusPlus

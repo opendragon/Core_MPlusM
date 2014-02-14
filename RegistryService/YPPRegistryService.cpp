@@ -11,6 +11,14 @@
 #include "ODSyslog.h"
 #include "YPPConfig.h"
 
+#pragma mark Private structures and constants
+
+#pragma mark Local functions
+
+#pragma mark Class methods
+
+#pragma mark Constructors and destructors
+
 YarpPlusPlus::RegistryService::RegistryService(void) : BaseService()
 {
     OD_SYSLOG_ENTER();//####
@@ -22,3 +30,9 @@ YarpPlusPlus::RegistryService::~RegistryService(void)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
 } // YarpPlusPlus::RegistryService::~RegistryService
+
+#pragma mark Actions
+
+#pragma mark Accessors
+
+#pragma mark Global functions

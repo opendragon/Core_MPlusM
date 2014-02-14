@@ -12,17 +12,13 @@
 #include "ODSyslog.h"
 #include "YPPConfig.h"
 
-using yarp::os::Contact;
+#pragma mark Private structures and constants
 
-#if 0
-static void dumpContact(const Contact & aContact)//####
-{//####
-    OD_SYSLOG_S4("contact.name = ", aContact.getName().c_str(), "contact.host = ", aContact.getHost().c_str(),//####
-                 "contact.carrier = ", aContact.getCarrier().c_str(), "contact.toString = ", aContact.toString().c_str());//####
-    OD_SYSLOG_L1("contact.port = ", aContact.getPort());//####
-    OD_SYSLOG_B1("contact.isValid = ", aContact.isValid());//####
-} // dumpContact
-#endif//0
+#pragma mark Local functions
+
+#pragma mark Class methods
+
+#pragma mark Constructors and destructors
 
 YarpPlusPlus::InputHandler::InputHandler(void) :
         _canProcessInput(true)
@@ -38,15 +34,18 @@ YarpPlusPlus::InputHandler::~InputHandler(void)
     OD_SYSLOG_EXIT();//####
 } // YarpPlusPlus::InputHandler::~InputHandler
 
-bool YarpPlusPlus::InputHandler::read(ConnectionReader & connection)
+#pragma mark Actions
+
+bool YarpPlusPlus::InputHandler::read(yarp::os::ConnectionReader & connection)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("connection = ", &connection);//####
     bool result;
     
     if (_canProcessInput)
     {
 //        dumpContact(connection.getRemoteContact());//####
-        Bottle aBottle;
+        yarp::os::Bottle aBottle;
         
         aBottle.read(connection);
         result = handleInput(aBottle, connection.getWriter());
@@ -65,3 +64,7 @@ void YarpPlusPlus::InputHandler::stopProcessing(void)
     _canProcessInput = false;
     OD_SYSLOG_EXIT();//####
 } // YarpPlusPlus::InputHandler::stopProcessing
+
+#pragma mark Accessors
+
+#pragma mark Global functions
