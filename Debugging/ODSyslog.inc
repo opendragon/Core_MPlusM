@@ -16,6 +16,7 @@
 # include <ctype.h>
 # include <errno.h>
 # include <unistd.h>
+# include <stdio.h>
 # if defined(__OBJC__)
 #  import "Foundation/NSObjCRuntime.h"
 # else // ! defined(__OBJC__)

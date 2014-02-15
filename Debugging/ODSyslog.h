@@ -9,7 +9,6 @@
 #if (! defined(ODSYSLOG_H_))
 # define ODSYSLOG_H_ /* */
 
-# include <stdio.h>
 # if defined(__OBJC__)
 #  include <Foundation/Foundation.h>
 # endif // defined(__OBJC__)
