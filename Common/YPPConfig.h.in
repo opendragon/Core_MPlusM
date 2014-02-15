@@ -11,21 +11,13 @@
 
 # include <yarp/os/Contact.h>
 
-/*! @brief The base file name for disk devices.
-
- The initial (left) part of the file name for the files corresponding to disk devices. */
+/*! @brief The major part of the version number. */
 # define YPP_VERSION_MAJOR @YPP_VERSION_MAJOR@
-/*! @brief The base file name for disk devices.
-
- The initial (left) part of the file name for the files corresponding to disk devices. */
+/*! @brief The minor part of the version number. */
 # define YPP_VERSION_MINOR @YPP_VERSION_MINOR@
-/*! @brief The base file name for disk devices.
-
- The initial (left) part of the file name for the files corresponding to disk devices. */
+/*! @brief The patch part of the version number. */
 # define YPP_VERSION_PATCH @YPP_VERSION_PATCH@
-/*! @brief The base file name for disk devices.
-
- The initial (left) part of the file name for the files corresponding to disk devices. */
+/*! @brief The version number as a string. */
 # define YPP_VERSION "@YPP_VERSION_MAJOR@.@YPP_VERSION_MINOR@.@YPP_VERSION_PATCH@"
 
 /*! @brief Dump out a description of the provided connection information to the log.

@@ -15,6 +15,7 @@
 #include "YPPBaseService.h"
 #include "YPPEndpoint.h"
 #include "YPPInputHandler.h"
+#include "YPPConfig.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 
@@ -101,10 +102,6 @@ static YarpPlusPlus::Endpoint * doCreateEndpointForTest(int     argc,
                 
             case 3:
                 stuff = new YarpPlusPlus::Endpoint(*argv, argv[1], argv[2]);
-                break;
-                
-            case 4:
-                stuff = new YarpPlusPlus::Endpoint(*argv, argv[1], argv[2], argv[3]);
                 break;
                 
             default:
@@ -712,7 +709,7 @@ int main(int     argc,
 {
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID);//####
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("YARP Version = ", YARP_VERSION_STRING);//####
+    OD_SYSLOG_S2("YARP Version = ", YARP_VERSION_STRING, "YARP++ Version = ", YPP_VERSION);//####
     yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
     int               result;
     

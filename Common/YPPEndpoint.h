@@ -16,21 +16,19 @@
 
 namespace YarpPlusPlus
 {
-    /*! @brief An object that represents an endpoint that provides a bidirectional connection for services and clients. */
+    /*! @brief An object that represents an endpoint that provides a bidirectional connection for services and clients.
+     */
     class Endpoint
     {
     public:
         
-        /*! @brief The constructor. */
-        /*! @brief Write out the work buffer to a file.
+        /*! @brief The constructor.
          @param endpointName The YARP name to be assigned to the new endpoint.
          @param hostName The name or IP address of the machine holding the endpoint.
-         @param portNumber The port being used by the endpoint.
-         @param carrierName The protocol / physical connection being used by the endpoint. */
+         @param portNumber The port being used by the endpoint. */
         Endpoint(const yarp::os::ConstString &  endpointName,
                  const yarp::os::ConstString &  hostName = "",
-                 const yarp::os::ConstString &  portNumber = "",
-                 const yarp::os::impl::String & carrierName = "");
+                 const yarp::os::ConstString &  portNumber = "");
         
         /*! @brief The destructor. */
         virtual ~Endpoint(void);
@@ -53,16 +51,16 @@ namespace YarpPlusPlus
         
         /*! @brief Set the input handler for the endpoint.
          
-         Either an input handler or an input handler creator must be set up before any incoming data will be processed and
-         the endpoint cannot be open before set up.
+         Either an input handler or an input handler creator must be set up before any incoming data will be processed
+         and the endpoint cannot be open before set up.
          @param handler The input handler to be used by the endpoint to process incoming data.
          @returns @c true if the input handler was attached to the endpoint. */
         bool setInputHandler(InputHandler & handler);
         
         /*! @brief Set the input handler creator for the endpoint.
 
-         Either an input handler or an input handler creator must be set up before any incoming data will be processed and
-         the endpoint cannot be open before set up.
+         Either an input handler or an input handler creator must be set up before any incoming data will be processed
+         and the endpoint cannot be open before set up.
          @param handlerCreator The input handler creator to be used by the endpoint to process incoming data.
          @returns @c true if the input handler creator was attached to the endpoint. */
         bool setInputHandlerCreator(InputHandlerCreator & handlerCreator);

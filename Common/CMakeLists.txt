@@ -31,27 +31,22 @@ target_link_libraries(CommonTest YPPBaseShared YPPBaseClient YPPBaseService YPPD
 add_test(NAME TestCreateEndpoint1 COMMAND CommonTest 1 "/service/test1_1")
 add_test(NAME TestCreateEndpoint2 COMMAND CommonTest 1 "/service/test1_2" "localhost")
 add_test(NAME TestCreateEndpoint3 COMMAND CommonTest 1 "/service/test1_3" "localhost" "12340")
-add_test(NAME TestCreateEndpoint4 COMMAND CommonTest 1 "/service/test1_4" "localhost" "23450" "tcp")
 # Test connection to endpoints, same arguments as test 1
 add_test(NAME TestConnectToEndpoint1 COMMAND CommonTest 2 "/service/test2_1")
 add_test(NAME TestConnectToEndpoint2 COMMAND CommonTest 2 "/service/test2_2" "localhost")
 add_test(NAME TestConnectToEndpoint3 COMMAND CommonTest 2 "/service/test2_3" "localhost" "12340")
-add_test(NAME TestConnectToEndpoint4 COMMAND CommonTest 2 "/service/test2_4" "localhost" "23450" "tcp")
 # Test data write to endpoints, same arguments as test 1
 add_test(NAME TestWriteToEndpoint1 COMMAND CommonTest 3 "/service/test3_1")
 add_test(NAME TestWriteToEndpoint2 COMMAND CommonTest 3 "/service/test3_2" "localhost")
 add_test(NAME TestWriteToEndpoint3 COMMAND CommonTest 3 "/service/test3_3" "localhost" "12340")
-add_test(NAME TestWriteToEndpoint4 COMMAND CommonTest 3 "/service/test3_4" "localhost" "23450" "tcp")
 # Test data echo from endpoints, same arguments as test 1
 add_test(NAME TestEchoFromEndpoint1 COMMAND CommonTest 4 "/service/test4_1")
 add_test(NAME TestEchoFromEndpoint2 COMMAND CommonTest 4 "/service/test4_2" "localhost")
 add_test(NAME TestEchoFromEndpoint3 COMMAND CommonTest 4 "/service/test4_3" "localhost" "12340")
-add_test(NAME TestEchoFromEndpoint4 COMMAND CommonTest 4 "/service/test4_4" "localhost" "23450" "tcp")
 # Test data echo from endpoints, using reader creator, same arguments as test 1
 add_test(NAME TestEchoFromEndpoint5 COMMAND CommonTest 5 "/service/test5_1")
 add_test(NAME TestEchoFromEndpoint6 COMMAND CommonTest 5 "/service/test5_2" "localhost")
 add_test(NAME TestEchoFromEndpoint7 COMMAND CommonTest 5 "/service/test5_3" "localhost" "12340")
-add_test(NAME TestEchoFromEndpoint8 COMMAND CommonTest 5 "/service/test5_4" "localhost" "23450" "tcp")
 
 # First tests - creation of objects
 add_test(NAME TestCreateRequest COMMAND CommonTest 10)

@@ -45,35 +45,6 @@ static bool checkEndpointName(const yarp::os::ConstString & portName)
     return result;
 } // checkEndpointName
 
-/*! @brief Check if the given name is a valid YARP carrier name.
- @param carrierName The name to be checked.
- @returns @c true if the name is a known YARP carrier name and @c false otherwise. */
-static bool checkCarrier(const yarp::os::impl::String & carrierName)
-{
-    bool result;
-    
-    if (0 < carrierName.length())
-    {
-        yarp::os::impl::Carrier * foundCarrier = yarp::os::impl::Carriers::chooseCarrier(carrierName);
-        
-        if (foundCarrier)
-        {
-            delete foundCarrier;
-            result = true;
-        }
-        else
-        {
-            result = false;
-        }
-    }
-    else
-    {
-        // An empty carrier name will be treated as 'tcp'.
-        result = true;
-    }
-    return result;
-} // checkCarrier
-
 /*! @brief Check if the given port number is valid.
  @param realPort The numeric value of 'portNumber'.
  @param portNumber The port number as a string to be checked.
@@ -107,12 +78,10 @@ static bool checkHostPort(int &                         realPort,
  @param workingContact The connection information that is to be filled in.
  @param hostName The host name that is to be validated.
  @param portNumber The port number to be applied to the connection.
- @param carrierName The YARP carrier name to be applied to the connection.
  @returns @c true if the connection information has been constructed and @c false otherwise. */
 static bool checkHostName(yarp::os::Contact &            workingContact,
                           const yarp::os::ConstString &  hostName,
-                          const int                      portNumber,
-                          const yarp::os::impl::String & carrierName)
+                          const int                      portNumber)
 {
     //    dumpContact("enter checkHostName", workingContact);//####
     bool result;
@@ -124,14 +93,7 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
         
         OD_SYSLOG_S1("ipAddress = ", ipAddress.c_str());//####
         
-        if (0 < carrierName.length())
-        {
-            workingContact = workingContact.addSocket(carrierName.c_str(), ipAddress, portNumber);
-        }
-        else
-        {
-            workingContact = workingContact.addSocket("tcp", ipAddress, portNumber);
-        }
+        workingContact = workingContact.addSocket("tcp", ipAddress, portNumber);
         //        dumpContact("after addSocket", workingContact);//####
         result = workingContact.isValid();
     }
@@ -159,48 +121,39 @@ yarp::os::ConstString YarpPlusPlus::Endpoint::getRandomPortName(void)
 
 YarpPlusPlus::Endpoint::Endpoint(const yarp::os::ConstString &  endpointName,
                                  const yarp::os::ConstString &  hostName,
-                                 const yarp::os::ConstString &  portNumber,
-                                 const yarp::os::impl::String & carrierName) :
+                                 const yarp::os::ConstString &  portNumber) :
         _isOpen(false), _contact(), _handler(NULL), _handlerCreator(NULL), _port(NULL)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S4("endpointName = ", endpointName.c_str(), "hostName = ", hostName.c_str(),//####
-                 "portNumber = ", portNumber.c_str(), "carrierName = ", carrierName.c_str());//####
+    OD_SYSLOG_S3("endpointName = ", endpointName.c_str(), "hostName = ", hostName.c_str(),//####
+                 "portNumber = ", portNumber.c_str());//####
     if (checkEndpointName(endpointName))
     {
-        if (checkCarrier(carrierName))
-        {
-            int realPort;
+        int realPort;
 
-            if (checkHostPort(realPort, portNumber))
+        if (checkHostPort(realPort, portNumber))
+        {
+            _contact = yarp::os::Contact::byName(endpointName);
+            if (checkHostName(_contact, hostName, realPort))
             {
-                _contact = yarp::os::Contact::byName(endpointName);
-                if (checkHostName(_contact, hostName, realPort, carrierName))
+                // Ready to be set up... we have a valid port, and either a blank URI or a valid one.
+                _port = new yarp::os::Port();
+                if (! _port)
                 {
-                    // Ready to be set up... we have a valid port, and either a blank URI or a valid one.
-                    _port = new yarp::os::Port();
-                    if (! _port)
-                    {
-                        OD_SYSLOG_EXIT_THROW_S("Could not create port");//####
-                        throw new YarpPlusPlus::Exception("Could not create port");
-                    }
-                }
-                else
-                {
-                    OD_SYSLOG_EXIT_THROW_S("Bad host name");//####
-                    throw new YarpPlusPlus::Exception("Bad host name");
+                    OD_SYSLOG_EXIT_THROW_S("Could not create port");//####
+                    throw new YarpPlusPlus::Exception("Could not create port");
                 }
             }
             else
             {
-                OD_SYSLOG_EXIT_THROW_S("Bad port number");//####
-                throw new YarpPlusPlus::Exception("Bad port number");
+                OD_SYSLOG_EXIT_THROW_S("Bad host name");//####
+                throw new YarpPlusPlus::Exception("Bad host name");
             }
         }
         else
         {
-            OD_SYSLOG_EXIT_THROW_S("Bad carrier name");//####
-            throw new YarpPlusPlus::Exception("Bad carrier name");
+            OD_SYSLOG_EXIT_THROW_S("Bad port number");//####
+            throw new YarpPlusPlus::Exception("Bad port number");
         }
     }
     else
@@ -239,13 +192,13 @@ bool YarpPlusPlus::Endpoint::open(void)
             if (0 < _contact.getHost().length())
             {
                 _contact = yarp::os::Network::registerContact(_contact);
-                //                        dumpContact("after registerContact", _contact);//####
+//                        dumpContact("after registerContact", _contact);//####
                 if (_port->open(_contact))
                 {
                     _isOpen = true;
-                    //                   Contact where = _port->where();//####
-                    
-                    //                   dumpContact("after open", where);//####
+//                   Contact where = _port->where();//####
+
+//                   dumpContact("after open", where);//####
                 }
                 else
                 {
@@ -255,9 +208,9 @@ bool YarpPlusPlus::Endpoint::open(void)
             else if (_port->open(_contact.getName()))
             {
                 _isOpen = true;
-                //                Contact where = _port->where();//####
-                
-                //                dumpContact("after open", where);//####
+//                Contact where = _port->where();//####
+
+//                dumpContact("after open", where);//####
             }
             else
             {
@@ -384,7 +337,8 @@ void dumpContact(const char *              tag,
                  const yarp::os::Contact & aContact)
 {
     OD_SYSLOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
-                 "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ", aContact.getCarrier().c_str());//####
+                 "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ",//####
+                 aContact.getCarrier().c_str());//####
     OD_SYSLOG_L1("contact.port = ", aContact.getPort());//####
     OD_SYSLOG_S1("contact.toString = ", aContact.toString().c_str());//####
     OD_SYSLOG_B1("contact.isValid = ", aContact.isValid());//####

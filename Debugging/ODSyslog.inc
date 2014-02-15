@@ -15,6 +15,12 @@
 # include <string.h>
 # include <ctype.h>
 # include <errno.h>
+# include <unistd.h>
+# if defined(__OBJC__)
+#  import "Foundation/NSObjCRuntime.h"
+# else // ! defined(__OBJC__)
+#  include <syslog.h>
+# endif // ! defined(__OBJC__)
 
 # if defined(__cplusplus)
 #  define EXTERN_C extern "C"
@@ -75,11 +81,15 @@ static void odSetUpThreadKey_(void)
 {
     if (pthread_key_create(&lAbsThreadSpecificKey, odReleaseThreadSpecificData_))
     {
+#  if defined(__OBJC__)
+        NSLog(@"problem creating thread-specific key => %d", errno);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, "problem creating thread-specific key => %d", errno);
+#  endif // ! defined(__OBJC__)
     }
 } // odSetUpThreadKey_
 
-inline tAbsThreadData * odGetThreadData_(void)
+inline static tAbsThreadData * odGetThreadData_(void)
 {
     tAbsThreadData * stuff;
     
@@ -202,7 +212,11 @@ EXTERN_C void ODSysLog_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s", OD_FUNC_PREFIX_(rootName), text ? text : "");
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s", OD_FUNC_PREFIX_(rootName), text ? text : "");
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -226,8 +240,12 @@ EXTERN_C void ODSysLogB1_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%s", OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1));
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s", OD_FUNC_PREFIX_(rootName), text1,
                odBoolToString_(val1));
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -254,8 +272,13 @@ EXTERN_C void ODSysLogB2_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1), text2,
+              odBoolToString_(val2));
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1,
                odBoolToString_(val1), text2, odBoolToString_(val2));
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -286,10 +309,16 @@ EXTERN_C void ODSysLogB3_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1), text2,
+              odBoolToString_(val2));
+        NSLog(@OD_FUNC_FORMAT_ " %s%s", OD_FUNC_PREFIX_(rootName), text3, odBoolToString_(val3));
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1,
                odBoolToString_(val1), text2, odBoolToString_(val2));
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s", OD_FUNC_PREFIX_(rootName), text3,
                odBoolToString_(val3));
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -323,10 +352,17 @@ EXTERN_C void ODSysLogB4_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1), text2,
+              odBoolToString_(val2));
+        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text3, odBoolToString_(val3), text4,
+              odBoolToString_(val4));
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1,
                odBoolToString_(val1), text2, odBoolToString_(val2));
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text3,
                odBoolToString_(val3), text4, odBoolToString_(val4));
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -350,7 +386,11 @@ EXTERN_C void ODSysLogC1_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -377,8 +417,13 @@ EXTERN_C void ODSysLogC2_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+              val2, val2);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName),
                text1, val1, val1, text2, val2, val2);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -409,9 +454,15 @@ EXTERN_C void ODSysLogC3_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+              val2, val2);
+        NSLog(@OD_FUNC_FORMAT_ " %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName),
                text1, val1, val1, text2, val2, val2);
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -445,10 +496,17 @@ EXTERN_C void ODSysLogC4_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+              val2, val2);
+        NSLog(@OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
+              val4, val4);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName),
                text1, val1, val1, text2, val2, val2);
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName),
                text3, val3, val3, text4, val4, val4);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -472,7 +530,11 @@ EXTERN_C void ODSysLogD1_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%g", OD_FUNC_PREFIX_(rootName), text1, val1);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%g", OD_FUNC_PREFIX_(rootName), text1, val1);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -498,8 +560,12 @@ EXTERN_C void ODSysLogD2_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text1, val1, text2,
                val2);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -529,9 +595,14 @@ EXTERN_C void ODSysLogD3_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
+        NSLog(@OD_FUNC_FORMAT_ " %s%g", OD_FUNC_PREFIX_(rootName), text3, val3);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text1, val1, text2,
                val2);
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%g", OD_FUNC_PREFIX_(rootName), text3, val3);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -563,10 +634,15 @@ EXTERN_C void ODSysLogD4_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
+        NSLog(@OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text3, val3, text4, val4);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text1, val1, text2,
                val2);
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text3, val3, text4,
                val4);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -588,7 +664,11 @@ EXTERN_C void ODSysLogEnter_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " enter", OD_FUNC_PREFIX_(rootName));
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " enter", OD_FUNC_PREFIX_(rootName));
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -612,7 +692,11 @@ EXTERN_C void ODSysLogExit_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " exit", OD_FUNC_PREFIX_(rootName));
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit", OD_FUNC_PREFIX_(rootName));
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -636,8 +720,12 @@ EXTERN_C void ODSysLogExitB_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " exit -> %s", OD_FUNC_PREFIX_(rootName), odBoolToString_(val));
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> %s", OD_FUNC_PREFIX_(rootName),
                odBoolToString_(val));
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -661,7 +749,11 @@ EXTERN_C void ODSysLogExitC_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " exit -> '%c'(%#02X)", OD_FUNC_PREFIX_(rootName), val, val);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> '%c'(%#02X)", OD_FUNC_PREFIX_(rootName), val, val);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -685,7 +777,11 @@ EXTERN_C void ODSysLogExitD_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " exit -> %g", OD_FUNC_PREFIX_(rootName), val);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> %g", OD_FUNC_PREFIX_(rootName), val);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -709,7 +805,11 @@ EXTERN_C void ODSysLogExitExit_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " call exit(%ld(%#lx))", OD_FUNC_PREFIX_(rootName), val, val);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " call exit(%ld(%#lx))", OD_FUNC_PREFIX_(rootName), val, val);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -733,7 +833,11 @@ EXTERN_C void ODSysLogExitL_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " exit -> %ld(%#lX)", OD_FUNC_PREFIX_(rootName), val, val);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> %ld(%#lX)", OD_FUNC_PREFIX_(rootName), val, val);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -757,7 +861,11 @@ EXTERN_C void ODSysLogExitLL_(const char *    fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " exit -> %lld(%#llX)", OD_FUNC_PREFIX_(rootName), val, val);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> %lld(%#llX)", OD_FUNC_PREFIX_(rootName), val, val);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -783,7 +891,7 @@ EXTERN_C void ODSysLogExitO_(const char * fileName,
     }
     else
     {
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> %s", OD_FUNC_PREFIX_(rootName), valString);
+        NSLog(@OD_FUNC_FORMAT_ " exit -> %s", OD_FUNC_PREFIX_(rootName), valString);
     }
     OD_FREE_PREFIX_();
 	OD_FREE_INDENT_();
@@ -808,7 +916,11 @@ EXTERN_C void ODSysLogExitP_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " exit -> %p", OD_FUNC_PREFIX_(rootName), val);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> %p", OD_FUNC_PREFIX_(rootName), val);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -828,14 +940,19 @@ EXTERN_C void ODSysLogExitR_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " exit -> [l: %g, t: %g, h: %g, w: %g]\n", OD_FUNC_PREFIX_(rootName), val.origin.x,
-                val.origin.y, val.size.height, val.size.width);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " exit -> [l: %g, t: %g, h: %g, w: %g]\n", OD_FUNC_PREFIX_(rootName),
+                val.origin.x, val.origin.y, val.size.height, val.size.width);
         fflush(lAbsLogFile_);
     }
     else
     {
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> [l: %g, t: %g, h: %g, w: %g]", OD_FUNC_PREFIX_(rootName), val.origin.x,
-               val.origin.y, val.size.height, val.size.width);
+#   if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " exit -> [l: %g, t: %g, h: %g, w: %g]", OD_FUNC_PREFIX_(rootName), val.origin.x,
+              val.origin.y, val.size.height, val.size.width);
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> [l: %g, t: %g, h: %g, w: %g]", OD_FUNC_PREFIX_(rootName),
+               val.origin.x, val.origin.y, val.size.height, val.size.width);
+#   endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
 	OD_FREE_INDENT_();
@@ -860,7 +977,11 @@ EXTERN_C void ODSysLogExitS_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " exit -> '%s'", OD_FUNC_PREFIX_(rootName), val ? val : "<>");
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> '%s'", OD_FUNC_PREFIX_(rootName), val ? val : "<>");
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -884,7 +1005,11 @@ EXTERN_C void ODSysLogExitThrowL_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " throw(%ld(%#lx))", OD_FUNC_PREFIX_(rootName), val, val);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " throw(%ld(%#lx))", OD_FUNC_PREFIX_(rootName), val, val);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -908,7 +1033,11 @@ EXTERN_C void ODSysLogExitThrowS_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " throw(%s)", OD_FUNC_PREFIX_(rootName), val ? val : "<>");
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " throw(%s)", OD_FUNC_PREFIX_(rootName), val ? val : "<>");
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -945,7 +1074,9 @@ EXTERN_C void ODSysLogInit_(const char * prefix,
     stars = (char *) malloc(starsLength + 1);
     memset(stars, '*', starsLength);
     stars[starsLength] = '\0';
+#  if (! defined(__OBJC__))
     openlog(prefix, LOG_PID | LOG_CONS | LOG_PERROR, OD_SYSLOG_LOG_TARGET_);
+#  endif // ! defined(__OBJC__)
     if (odWriteToFile)
     {
         char pidString[100];
@@ -959,12 +1090,20 @@ EXTERN_C void ODSysLogInit_(const char * prefix,
         }
         else
         {
+#  if defined(__OBJC__)
+            NSLog(@"problem opening %s => %d", pidString, errno);
+#  else // ! defined(__OBJC__)
             syslog(OD_SYSLOG_LOG_LEVEL_, "problem opening %s => %d", pidString, errno);
+#  endif // ! defined(__OBJC__)
         }
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@"%s", stars);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, "%s", stars);
+#  endif // ! defined(__OBJC__)
     }
     if (lAbsLogFile_)
     {
@@ -973,7 +1112,11 @@ EXTERN_C void ODSysLogInit_(const char * prefix,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_INIT_FORMAT_, prefixString_, suffixString, funcName, rootName, lineNumber);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_INIT_FORMAT_, prefixString_, suffixString, funcName, rootName, lineNumber);
+#  endif // ! defined(__OBJC__)
     }
     if (lAbsLogFile_)
     {
@@ -983,7 +1126,11 @@ EXTERN_C void ODSysLogInit_(const char * prefix,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@"%s", stars);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, "%s", stars);
+#  endif // ! defined(__OBJC__)
     }
 	free(stars);
     OD_FREE_PREFIX_();
@@ -1016,8 +1163,13 @@ EXTERN_C void ODSysLogIP_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%d.%d.%d.%d:%ld", OD_FUNC_PREFIX_(rootName), text1, address.asBytes[0],
+              address.asBytes[1], address.asBytes[2], address.asBytes[3], val2);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%d.%d.%d.%d:%ld", OD_FUNC_PREFIX_(rootName), text1,
                address.asBytes[0], address.asBytes[1], address.asBytes[2], address.asBytes[3], val2);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1041,7 +1193,11 @@ EXTERN_C void ODSysLogL1_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%ld(%#lX)", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%ld(%#lX)", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1068,8 +1224,13 @@ EXTERN_C void ODSysLogL2_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%ld(%#lX), %s%ld(%#lX)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2,
+              val2);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%ld(%#lX), %s%ld(%#lX)", OD_FUNC_PREFIX_(rootName), text1,
                val1, val1, text2, val2, val2);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1100,9 +1261,15 @@ EXTERN_C void ODSysLogL3_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%ld(%#lX), %s%ld(%#lX)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2,
+              val2);
+        NSLog(@OD_FUNC_FORMAT_ " %s%ld(%#lX)", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%ld(%#lX), %s%ld(%#lX)", OD_FUNC_PREFIX_(rootName), text1,
                val1, val1, text2, val2, val2);
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%ld(%#lX)", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1136,10 +1303,17 @@ EXTERN_C void ODSysLogL4_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%ld(%#lX), %s%ld(%#lX)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2,
+              val2);
+        NSLog(@OD_FUNC_FORMAT_ " %s%ld(%#lX), %s%ld(%#lX)", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4, val4,
+              val4);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%ld(%#lX), %s%ld(%#lX)", OD_FUNC_PREFIX_(rootName), text1,
                val1, val1, text2, val2, val2);
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%ld(%#lX), %s%ld(%#lX)", OD_FUNC_PREFIX_(rootName), text3,
                val3, val3, text4, val4, val4);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1163,7 +1337,11 @@ EXTERN_C void ODSysLogLL1_(const char *    fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%lld(%#llX)", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%lld(%#llX)", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1190,8 +1368,13 @@ EXTERN_C void ODSysLogLL2_(const char *    fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%lld(%#llX), %s%lld(%#llX)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+              val2, val2);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%lld(%#llX), %s%lld(%#llX)", OD_FUNC_PREFIX_(rootName),
                text1, val1, val1, text2, val2, val2);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1222,9 +1405,15 @@ EXTERN_C void ODSysLogLL3_(const char *    fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%lld(%#llX), %s%lld(%#llX)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+              val2, val2);
+        NSLog(@OD_FUNC_FORMAT_ " %s%lld(%#llX)", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%lld(%#llX), %s%lld(%#llX)", OD_FUNC_PREFIX_(rootName),
                text1, val1, val1, text2, val2, val2);
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%lld(%#llX)", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1258,10 +1447,17 @@ EXTERN_C void ODSysLogLL4_(const char *    fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%lld(%#llX), %s%lld(%#llX)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+              val2, val2);
+        NSLog(@OD_FUNC_FORMAT_ " %s%lld(%#llX), %s%lld(%#llX)", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
+              val4, val4);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%lld(%#llX), %s%lld(%#llX)", OD_FUNC_PREFIX_(rootName),
                text1, val1, val1, text2, val2, val2);
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%lld(%#llX), %s%lld(%#llX)", OD_FUNC_PREFIX_(rootName),
                text3, val3, val3, text4, val4, val4);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1305,8 +1501,12 @@ EXTERN_C void ODSysLogLS_(const char * fileName,
                 }
                 else
                 {
+#  if defined(__OBJC__)
+                    NSLog(@OD_FUNC_FORMAT_ " %s | %s |", OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
+#  else // ! defined(__OBJC__)
                     syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s | %s |", OD_FUNC_PREFIX_(rootName), heading,
                            lineBuffer);
+#  endif // ! defined(__OBJC__)
                 }
                 heading = blankCaption;
                 memset(lineBuffer, ' ', sizeof(lineBuffer) - 1);
@@ -1324,8 +1524,12 @@ EXTERN_C void ODSysLogLS_(const char * fileName,
             }
             else
             {
+#  if defined(__OBJC__)
+                NSLog(@OD_FUNC_FORMAT_ " %s | %s |", OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
+#  else // ! defined(__OBJC__)
                 syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s | %s |", OD_FUNC_PREFIX_(rootName), heading,
                        lineBuffer);
+#  endif // ! defined(__OBJC__)
             }
             heading = blankCaption;
             memset(lineBuffer, ' ', sizeof(lineBuffer) - 1);
@@ -1341,8 +1545,12 @@ EXTERN_C void ODSysLogLS_(const char * fileName,
         }
         else
         {
+#  if defined(__OBJC__)
+            NSLog(@OD_FUNC_FORMAT_ " %s | %s |", OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
+#  else // ! defined(__OBJC__)
             syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s | %s |", OD_FUNC_PREFIX_(rootName), heading,
                    lineBuffer);
+#  endif // ! defined(__OBJC__)
         }
     }
     if (lAbsLogFile_)
@@ -1374,7 +1582,7 @@ EXTERN_C void ODSysLogO1_(const char * fileName,
     }
     else
     {
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s", OD_FUNC_PREFIX_(rootName), text1, obj1String);
+        NSLog(@OD_FUNC_FORMAT_ " %s%s", OD_FUNC_PREFIX_(rootName), text1, obj1String);
     }
     OD_FREE_PREFIX_();
 	OD_FREE_INDENT_();
@@ -1399,12 +1607,13 @@ EXTERN_C void ODSysLogO2_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%sX, %s%s\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%sX, %s%s\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
+                obj2String);
         fflush(lAbsLogFile_);
     }
     else
     {
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
+        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
     }
     OD_FREE_PREFIX_();
 	OD_FREE_INDENT_();
@@ -1432,14 +1641,15 @@ EXTERN_C void ODSysLogO3_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s, %s%s\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s, %s%s\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
+                obj2String);
         fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s\n", OD_FUNC_PREFIX_(rootName), text3, obj3String);
         fflush(lAbsLogFile_);
     }
     else
     {
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s", OD_FUNC_PREFIX_(rootName), text3, obj3String);
+        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
+        NSLog(@OD_FUNC_FORMAT_ " %s%s", OD_FUNC_PREFIX_(rootName), text3, obj3String);
     }
     OD_FREE_PREFIX_();
 	OD_FREE_INDENT_();
@@ -1470,14 +1680,16 @@ EXTERN_C void ODSysLogO4_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s, %s%s\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s, %s%s\n", OD_FUNC_PREFIX_(rootName), text3, obj3String, text4, obj4String);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s, %s%s\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
+                obj2String);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s, %s%s\n", OD_FUNC_PREFIX_(rootName), text3, obj3String, text4,
+                obj4String);
         fflush(lAbsLogFile_);
     }
     else
     {
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text3, obj3String, text4, obj4String);
+        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
+        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text3, obj3String, text4, obj4String);
     }
     OD_FREE_PREFIX_();
 	OD_FREE_INDENT_();
@@ -1502,7 +1714,11 @@ EXTERN_C void ODSysLogP1_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1528,8 +1744,12 @@ EXTERN_C void ODSysLogP2_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
                ptr2);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1559,9 +1779,14 @@ EXTERN_C void ODSysLogP3_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
+        NSLog(@OD_FUNC_FORMAT_ " %s%p", OD_FUNC_PREFIX_(rootName), text3, ptr3);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
                ptr2);
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%p", OD_FUNC_PREFIX_(rootName), text3, ptr3);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1593,10 +1818,15 @@ EXTERN_C void ODSysLogP4_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
+        NSLog(@OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text3, ptr3, text4, ptr4);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
                ptr2);
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text3, ptr3, text4,
                ptr4);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1626,7 +1856,12 @@ EXTERN_C void ODSysLogPacket_(const char * fileName,
     }
     else
     {
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " address = %p, size = %d", OD_FUNC_PREFIX_(rootName), buffer, size);
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " address = %p, size = %d", OD_FUNC_PREFIX_(rootName), buffer, size);
+#  else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " address = %p, size = %d", OD_FUNC_PREFIX_(rootName), buffer,
+               size);
+#  endif // ! defined(__OBJC__)
     }
     memset(blankCaption, ' ', captionLength);
     blankCaption[captionLength] = '\0';
@@ -1653,8 +1888,13 @@ EXTERN_C void ODSysLogPacket_(const char * fileName,
         }
         else
         {
+#  if defined(__OBJC__)
+            NSLog(@OD_FUNC_FORMAT_ " %s | %04X : %s| %s", OD_FUNC_PREFIX_(rootName), heading, ii, lineBuffer,
+                  charBuffer);
+#  else // ! defined(__OBJC__)
             syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s | %04X : %s| %s", OD_FUNC_PREFIX_(rootName), heading,
                    ii, lineBuffer, charBuffer);
+#  endif // ! defined(__OBJC__)
         }
         memset(lineBuffer, ' ', sizeof(lineBuffer) - 1);
         heading = blankCaption;
@@ -1688,8 +1928,13 @@ EXTERN_C void ODSysLogRect_(const char * fileName,
     }
     else
     {
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s[l: %g, t: %g, h: %g, w: %g]", OD_FUNC_PREFIX_(rootName), caption,
-               rect.origin.x, rect.origin.y, rect.size.height, rect.size.width);
+#   if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s[l: %g, t: %g, h: %g, w: %g]", OD_FUNC_PREFIX_(rootName), caption, rect.origin.x,
+              rect.origin.y, rect.size.height, rect.size.width);
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s[l: %g, t: %g, h: %g, w: %g]", OD_FUNC_PREFIX_(rootName),
+               caption, rect.origin.x, rect.origin.y, rect.size.height, rect.size.width);
+#   endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
 	OD_FREE_INDENT_();
@@ -1714,8 +1959,12 @@ EXTERN_C void ODSysLogS1_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s'%s'", OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>");
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%s'", OD_FUNC_PREFIX_(rootName), text1,
                val1 ? val1 : "<>");
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1742,8 +1991,13 @@ EXTERN_C void ODSysLogS2_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>", text2,
+              val2 ? val2 : "<>");
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text1,
                val1 ? val1 : "<>", text2, val2 ? val2 : "<>");
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1774,10 +2028,16 @@ EXTERN_C void ODSysLogS3_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>", text2,
+              val2 ? val2 : "<>");
+        NSLog(@OD_FUNC_FORMAT_ " %s'%s'", OD_FUNC_PREFIX_(rootName), text3, val3 ? val3 : "<>");
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text1,
                val1 ? val1 : "<>", text2, val2 ? val2 : "<>");
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%s'", OD_FUNC_PREFIX_(rootName), text3,
                val3 ? val3 : "<>");
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1811,10 +2071,17 @@ EXTERN_C void ODSysLogS4_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>", text2,
+              val2 ? val2 : "<>");
+        NSLog(@OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text3, val3 ? val3 : "<>", text4,
+              val4 ? val4 : "<>");
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text1,
                val1 ? val1 : "<>", text2, val2 ? val2 : "<>");
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text3,
                val3 ? val3 : "<>", text4, val4 ? val4 : "<>");
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1839,8 +2106,12 @@ EXTERN_C void ODSysLogSp_(const char * fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s'%.*s'", OD_FUNC_PREFIX_(rootName), text, len, val ? val : "");
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%.*s'", OD_FUNC_PREFIX_(rootName), text, len,
                val ? val : "");
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1865,8 +2136,12 @@ EXTERN_C void ODSysLogTi_(const char *           fileName,
     }
     else
     {
+#  if defined(__OBJC__)
+        NSLog(@OD_FUNC_FORMAT_ " %s%ld:%ld", OD_FUNC_PREFIX_(rootName), text1, val1->tv_sec, (long) val1->tv_usec);
+#  else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%ld:%ld", OD_FUNC_PREFIX_(rootName), text1, val1->tv_sec,
                (long) val1->tv_usec);
+#  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();

@@ -7,6 +7,7 @@
 #
 
 add_library(YPPDebugging ODSyslog.cpp)
+#add_library(YPPDebugging ODSyslog.m)
 
 install(TARGETS YPPDebugging DESTINATION bin)
 install(FILES YPPDebugging DESTINATION include)

@@ -13,8 +13,6 @@
 # if defined(__OBJC__)
 #  include <Foundation/Foundation.h>
 # endif // defined(__OBJC__)
-# include <unistd.h>
-# include <syslog.h>
 
 enum
 {
