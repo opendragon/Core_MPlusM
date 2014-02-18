@@ -9,6 +9,7 @@
 #if (! defined(YPPINPUTHANDLER_H_))
 # define YPPINPUTHANDLER_H_ /* */
 
+# include "YPPConfig.h"
 # include <yarp/os/Bottle.h>
 # include <yarp/os/PortReader.h>
 

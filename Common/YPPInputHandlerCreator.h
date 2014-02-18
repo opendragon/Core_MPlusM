@@ -9,8 +9,8 @@
 #if (! defined(YPPINPUTHANDLERCREATOR_H_))
 # define YPPINPUTHANDLERCREATOR_H_ /* */
 
-# include <yarp/os/PortReaderCreator.h>
 # include "YPPInputHandler.h"
+# include <yarp/os/PortReaderCreator.h>
 
 namespace YarpPlusPlus
 {

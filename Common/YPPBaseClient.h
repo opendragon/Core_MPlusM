@@ -9,6 +9,8 @@
 #if (! defined(YPPBASECLIENT_H_))
 # define YPPBASECLIENT_H_ /* */
 
+# include "YPPConfig.h"
+
 namespace YarpPlusPlus
 {
     /*! @brief The minimal functionality required for a Yarp++ client. */

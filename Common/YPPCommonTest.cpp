@@ -6,18 +6,16 @@
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#include <yarp/os/all.h>
-#include <yarp/conf/version.h>
-#include <iostream>
 #include "YPPServiceRequest.h"
 #include "YPPServiceResponse.h"
 #include "YPPBaseClient.h"
 #include "YPPBaseService.h"
 #include "YPPEndpoint.h"
-#include "YPPInputHandler.h"
-#include "YPPConfig.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include <yarp/os/all.h>
+#include <yarp/conf/version.h>
+#include <iostream>
 
 using std::cout;
 using std::cerr;
@@ -82,8 +80,8 @@ void EndpointStatusReporter::report(const yarp::os::PortInfo & info)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the endpoint constructor.
  @returns A newly created endpoint, or @c NULL if one could not be created. */
-static YarpPlusPlus::Endpoint * doCreateEndpointForTest(int     argc,
-                                                        char ** argv)
+static YarpPlusPlus::Endpoint * doCreateEndpointForTest(const int argc,
+                                                        char **   argv)
 {
     YarpPlusPlus::Endpoint * stuff = NULL;
     
@@ -116,8 +114,8 @@ static YarpPlusPlus::Endpoint * doCreateEndpointForTest(int     argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase1(int     argc,
-                   char ** argv) // create endpoint
+static int doCase01(const int argc,
+                    char **   argv) // create endpoint
 {
     int                      result;
     YarpPlusPlus::Endpoint * stuff = doCreateEndpointForTest(argc, argv);
@@ -140,14 +138,14 @@ static int doCase1(int     argc,
         result = 1;
     }
     return result;
-} // doCase1
+} // doCase01
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase2(int     argc,
-                   char ** argv) // connect to endpoint
+static int doCase02(const int argc,
+                    char **   argv) // connect to endpoint
 {
     int                      result;
     YarpPlusPlus::Endpoint * stuff = doCreateEndpointForTest(argc, argv);
@@ -197,18 +195,18 @@ static int doCase2(int     argc,
         result = 1;
     }
     return result;
-} // doCase2
+} // doCase02
 
 /*! @brief A test input handler. */
-class Test3Handler : public YarpPlusPlus::InputHandler
+class Test03Handler : public YarpPlusPlus::InputHandler
 {
 public:
     
     /*! @brief The constructor. */
-    Test3Handler(void);
+    Test03Handler(void);
     
     /*! @brief The destructor. */
-    virtual ~Test3Handler(void);
+    virtual ~Test03Handler(void);
     
     /*! @brief Process partially-structured input data.
      @param input The partially-structured input data.
@@ -221,36 +219,36 @@ protected:
     
 private:
     
-}; // Test3Handler
+}; // Test03Handler
 
 #pragma mark Class methods
 
 #pragma mark Constructors and destructors
 
-Test3Handler::Test3Handler(void) :
+Test03Handler::Test03Handler(void) :
         InputHandler()
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // Test3Handler::Test3Handler
+} // Test03Handler::Test03Handler
 
-Test3Handler::~Test3Handler(void)
+Test03Handler::~Test03Handler(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // Test3Handler::~Test3Handler
+} // Test03Handler::~Test03Handler
 
 #pragma mark Actions
 
-bool Test3Handler::handleInput(yarp::os::Bottle &           input,
-                               yarp::os::ConnectionWriter * replyMechanism)
+bool Test03Handler::handleInput(yarp::os::Bottle &           input,
+                                yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     OD_SYSLOG_S1("got ", input.toString().c_str());//####
     OD_SYSLOG_EXIT_B(true);//####
     return true;
-} // Test3Handler::handleInput
+} // Test03Handler::handleInput
 
 #pragma mark Accessors
 
@@ -260,8 +258,8 @@ bool Test3Handler::handleInput(yarp::os::Bottle &           input,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase3(int     argc,
-                   char ** argv) // send to endpoint
+static int doCase03(const int argc,
+                    char **   argv) // send to endpoint
 {
     int                      result;
     YarpPlusPlus::Endpoint * stuff = doCreateEndpointForTest(argc, argv);
@@ -269,7 +267,7 @@ static int doCase3(int     argc,
     if (stuff)
     {
         EndpointStatusReporter reporter;
-        Test3Handler           handler;
+        Test03Handler          handler;
 
         if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
         {
@@ -325,18 +323,18 @@ static int doCase3(int     argc,
         result = 1;
     }
     return result;
-} // doCase3
+} // doCase03
 
 /*! @brief A test input handler. */
-class Test4Handler : public YarpPlusPlus::InputHandler
+class Test04Handler : public YarpPlusPlus::InputHandler
 {
 public:
     
     /*! @brief The constructor. */
-    Test4Handler(void);
+    Test04Handler(void);
     
     /*! @brief The destructor. */
-    virtual ~Test4Handler(void);
+    virtual ~Test04Handler(void);
     
     /*! @brief Process partially-structured input data.
      @param input The partially-structured input data.
@@ -349,29 +347,29 @@ protected:
     
 private:
     
-}; // Test4Handler
+}; // Test04Handler
 
 #pragma mark Class methods
 
 #pragma mark Constructors and destructors
 
-Test4Handler::Test4Handler(void) :
+Test04Handler::Test04Handler(void) :
         InputHandler()
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // Test4Handler::Test4Handler
+} // Test04Handler::Test04Handler
 
-Test4Handler::~Test4Handler(void)
+Test04Handler::~Test04Handler(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // Test4Handler::~Test4Handler
+} // Test04Handler::~Test04Handler
 
 #pragma mark Actions
 
-bool Test4Handler::handleInput(yarp::os::Bottle &           input,
-                               yarp::os::ConnectionWriter * replyMechanism)
+bool Test04Handler::handleInput(yarp::os::Bottle &           input,
+                                yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
@@ -382,7 +380,7 @@ bool Test4Handler::handleInput(yarp::os::Bottle &           input,
     }
     OD_SYSLOG_EXIT_B(true);//####
     return true;
-} // Test4Handler::handleInput
+} // Test04Handler::handleInput
 
 #pragma mark Accessors
 
@@ -392,8 +390,8 @@ bool Test4Handler::handleInput(yarp::os::Bottle &           input,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase4(int     argc,
-                   char ** argv) // send to endpoint
+static int doCase04(const int argc,
+                    char **   argv) // send to endpoint
 {
     int                      result;
     YarpPlusPlus::Endpoint * stuff = doCreateEndpointForTest(argc, argv);
@@ -401,7 +399,7 @@ static int doCase4(int     argc,
     if (stuff)
     {
         EndpointStatusReporter reporter;
-        Test4Handler           handler;
+        Test04Handler          handler;
 
         if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
         {
@@ -459,18 +457,18 @@ static int doCase4(int     argc,
         result = 1;
     }
     return result;
-} // doCase4
+} // doCase04
 
 /*! @brief A test input handler. */
-class Test5Handler : public YarpPlusPlus::InputHandler
+class Test05Handler : public YarpPlusPlus::InputHandler
 {
 public:
     
     /*! @brief The constructor. */
-    Test5Handler(void);
+    Test05Handler(void);
     
     /*! @brief The destructor. */
-    virtual ~Test5Handler(void);
+    virtual ~Test05Handler(void);
     
     /*! @brief Process partially-structured input data.
      @param input The partially-structured input data.
@@ -483,29 +481,29 @@ protected:
     
 private:
     
-}; // Test5Handler
+}; // Test05Handler
 
 #pragma mark Class methods
 
 #pragma mark Constructors and destructors
 
-Test5Handler::Test5Handler(void) :
+Test05Handler::Test05Handler(void) :
         InputHandler()
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // Test5Handler::Test5Handler
+} // Test05Handler::Test05Handler
 
-Test5Handler::~Test5Handler(void)
+Test05Handler::~Test05Handler(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // Test5Handler::~Test5Handler
+} // Test05Handler::~Test05Handler
 
 #pragma mark Actions
 
-bool Test5Handler::handleInput(yarp::os::Bottle &           input,
-                               yarp::os::ConnectionWriter * replyMechanism)
+bool Test05Handler::handleInput(yarp::os::Bottle &           input,
+                                yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
@@ -516,20 +514,20 @@ bool Test5Handler::handleInput(yarp::os::Bottle &           input,
     }
     OD_SYSLOG_EXIT_B(true);//####
     return true;
-} // Test5Handler::handleInput
+} // Test05Handler::handleInput
 
 #pragma mark Accessors
 
 /*! @brief A test input handler creator. */
-class Test5HandlerCreator : public YarpPlusPlus::InputHandlerCreator
+class Test05HandlerCreator : public YarpPlusPlus::InputHandlerCreator
 {
 public:
     
     /*! @brief The constructor. */
-    Test5HandlerCreator(void);
+    Test05HandlerCreator(void);
     
     /*! @brief The destructor. */
-    virtual ~Test5HandlerCreator(void);
+    virtual ~Test05HandlerCreator(void);
     
     /*! @brief Create a new InputHandler object to process input data.
      @returns A new InputHandler or @c NULL if one cannot be created. */
@@ -539,31 +537,31 @@ protected:
     
 private:
     
-}; // Test5HandlerCreator
+}; // Test05HandlerCreator
 
 #pragma mark Class methods
 
 #pragma mark Constructors and destructors
 
-Test5HandlerCreator::Test5HandlerCreator(void) :
+Test05HandlerCreator::Test05HandlerCreator(void) :
         InputHandlerCreator()
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // Test5HandlerCreator::Test5HandlerCreator
+} // Test05HandlerCreator::Test05HandlerCreator
 
-Test5HandlerCreator::~Test5HandlerCreator(void)
+Test05HandlerCreator::~Test05HandlerCreator(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // Test5HandlerCreator::~Test5HandlerCreator
+} // Test05HandlerCreator::~Test05HandlerCreator
 
 #pragma mark Actions
 
-YarpPlusPlus::InputHandler * Test5HandlerCreator::create(void)
+YarpPlusPlus::InputHandler * Test05HandlerCreator::create(void)
 {
-    return new Test5Handler;
-} // Test5HandlerCreator::create
+    return new Test05Handler;
+} // Test05HandlerCreator::create
 
 #pragma mark Accessors
 
@@ -573,8 +571,8 @@ YarpPlusPlus::InputHandler * Test5HandlerCreator::create(void)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase5(int     argc,
-                   char ** argv) // send to endpoint
+static int doCase05(const int argc,
+                    char **   argv) // send to endpoint
 {
     int                      result;
     YarpPlusPlus::Endpoint * stuff = doCreateEndpointForTest(argc, argv);
@@ -582,7 +580,7 @@ static int doCase5(int     argc,
     if (stuff)
     {
         EndpointStatusReporter reporter;
-        Test5HandlerCreator    handlerCreator;
+        Test05HandlerCreator   handlerCreator;
 
         if (stuff->setInputHandlerCreator(handlerCreator) && stuff->open() && stuff->setReporter(reporter, true))
         {
@@ -640,15 +638,16 @@ static int doCase5(int     argc,
         result = 1;
     }
     return result;
-} // doCase5
+} // doCase05
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase10(int     argc,
-                    char ** argv) // create request
+static int doCase10(const int argc,
+                    char **   argv) // create request
 {
+#pragma unused(argc,argv)
     // Simple new / delete
     YarpPlusPlus::ServiceRequest * stuff = new YarpPlusPlus::ServiceRequest;
     
@@ -660,9 +659,10 @@ static int doCase10(int     argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase11(int     argc,
-                    char ** argv) // create response
+static int doCase11(const int argc,
+                    char **   argv) // create response
 {
+#pragma unused(argc,argv)
     // Simple new / delete
     YarpPlusPlus::ServiceResponse * stuff = new YarpPlusPlus::ServiceResponse;
     
@@ -674,9 +674,10 @@ static int doCase11(int     argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase12(int     argc,
-                    char ** argv) // create service
+static int doCase12(const int argc,
+                    char **   argv) // create service
 {
+#pragma unused(argc,argv)
     // Simple new / delete
     YarpPlusPlus::BaseService * stuff = new YarpPlusPlus::BaseService;
     
@@ -688,9 +689,10 @@ static int doCase12(int     argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase13(int     argc,
-                    char ** argv) // create client
+static int doCase13(const int argc,
+                    char **   argv) // create client
 {
+#pragma unused(argc,argv)
     // Simple new / delete
     YarpPlusPlus::BaseClient * stuff = new YarpPlusPlus::BaseClient;
     
@@ -721,23 +723,23 @@ int main(int     argc,
         switch (selector)
         {
             case 1:
-                result = doCase1(argc - 1, argv + 2);
+                result = doCase01(argc - 1, argv + 2);
                 break;
                 
             case 2:
-                result = doCase2(argc - 1, argv + 2);
+                result = doCase02(argc - 1, argv + 2);
                 break;
                 
             case 3:
-                result = doCase3(argc - 1, argv + 2);
+                result = doCase03(argc - 1, argv + 2);
                 break;
                 
             case 4:
-                result = doCase4(argc - 1, argv + 2);
+                result = doCase04(argc - 1, argv + 2);
                 break;
                 
             case 5:
-                result = doCase5(argc - 1, argv + 2);
+                result = doCase05(argc - 1, argv + 2);
                 break;
                 
             case 10:

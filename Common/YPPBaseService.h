@@ -9,6 +9,8 @@
 #if (! defined(YPPBASESERVICE_H_))
 # define YPPBASESERVICE_H_ /* */
 
+# include "YPPConfig.h"
+
 namespace YarpPlusPlus
 {
     /*! @brief The minimal functionality required for a Yarp++ service. */

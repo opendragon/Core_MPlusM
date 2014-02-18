@@ -9,6 +9,8 @@
 #if (! defined(YPPSERVICEREQUEST_H_))
 # define YPPSERVICEREQUEST_H_ /* */
 
+# include "YPPConfig.h"
+
 namespace YarpPlusPlus
 {
     /*! @brief The data constituting a service request. */

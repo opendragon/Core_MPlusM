@@ -10,8 +10,11 @@
 # define ODSYSLOG_H_ /* */
 
 # if defined(__OBJC__)
-#  include <Foundation/Foundation.h>
+#  import <Foundation/Foundation.h>
 # endif // defined(__OBJC__)
+# if defined(__APPLE__)
+#  include <CoreGraphics/CGGeometry.h>
+# endif // defined(__APPLE__)
 
 enum
 {
@@ -77,10 +80,10 @@ enum
 #  endif // defined(__OBJC__)
 #  define OD_SYSLOG_EXIT_P(val) \
         ODSysLogExitP_(__FILE__, __func__, __LINE__, val)
-#  if defined(__MAC__)
+#  if defined(__APPLE__)
 #   define OD_SYSLOG_EXIT_R(val) \
         ODSysLogExitR_(__FILE__, __func__, __LINE__, val)
-#  endif // defined(__MAC__)
+#  endif // defined(__APPLE__)
 #  define OD_SYSLOG_EXIT_S(val) \
         ODSysLogExitS_(__FILE__, __func__, __LINE__, val)
 #  define OD_SYSLOG_EXIT_THROW_L(val) \
@@ -134,10 +137,10 @@ enum
                     (const void *) (ptr3), text4, (const void *) (ptr4))
 #  define OD_SYSLOG_PACKET(caption, buffer, size)  \
         ODSysLogPacket_(__FILE__, __func__,  __LINE__, caption, buffer, size)
-#  if defined(__MAC__)
+#  if defined(__APPLE__)
 #   define OD_SYSLOG_RECT(caption, rect)  \
         ODSysLogRect_(__FILE__, __func__,  __LINE__, caption, rect)
-#  endif // defined(__MAC__)
+#  endif // defined(__APPLE__)
 #  define OD_SYSLOG_S1(text1, val1)  \
         ODSysLogS1_(__FILE__, __func__, __LINE__, text1, val1)
 #  define OD_SYSLOG_S2(text1, val1, text2, val2)  \
@@ -319,12 +322,12 @@ extern "C"
                         const int    lineNumber,
                         const void * val);
 
-#  if defined(__MAC__)
+#  if defined(__APPLE__)
     void ODSysLogExitR_(const char * fileName,
                         const char * funcName,
                         const int    lineNumber,
                         const CGRect val);
-#  endif // defined(__MAC__)
+#  endif // defined(__APPLE__)
 
     void ODSysLogExitS_(const char * fileName,
                         const char * funcName,
@@ -513,13 +516,13 @@ extern "C"
                          const char * buffer,
                          const int    size);
 
-#  if defined(__MAC__)
+#  if defined(__APPLE__)
     void ODSysLogRect_(const char * fileName,
                        const char * funcName,
                        const int    lineNumber,
                        const char * caption,
                        const CGRect rect);
-#  endif // defined(__MAC__)
+#  endif // defined(__APPLE__)
 
     void ODSysLogS1_(const char * fileName,
                      const char * funcName,
@@ -603,9 +606,9 @@ extern "C"
 #   define OD_SYSLOG_EXIT_O(val) /* */
 #  endif // defined(__OBJC__)
 #  define OD_SYSLOG_EXIT_P(val) /* */
-#  if defined(__MAC__)
+#  if defined(__APPLE__)
 #   define OD_SYSLOG_EXIT_R(val) /* */
-#  endif // defined(__MAC__)
+#  endif // defined(__APPLE__)
 #  define OD_SYSLOG_EXIT_S(val) /* */
 #  define OD_SYSLOG_EXIT_THROW_L(val) /* */
 #  define OD_SYSLOG_EXIT_THROW_S(val) /* */
@@ -631,9 +634,9 @@ extern "C"
 #  define OD_SYSLOG_P3(text1, ptr1, text2, ptr2, text3, ptr3)  /* */
 #  define OD_SYSLOG_P4(text1, ptr1, text2, ptr2, text3, ptr3, text4, ptr4)  /* */
 #  define OD_SYSLOG_PACKET(caption, buffer, size)  /* */
-#  if defined(__MAC__)
+#  if defined(__APPLE__)
 #   define OD_SYSLOG_RECT(caption, rect)  /* */
-#  endif // defined(__MAC__)
+#  endif // defined(__APPLE__)
 #  define OD_SYSLOG_S1(text1, val1)  /* */
 #  define OD_SYSLOG_S2(text1, val1, text2, val2)  /* */
 #  define OD_SYSLOG_S3(text1, val1, text2, val2, text3, val3)  /* */

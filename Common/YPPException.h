@@ -9,6 +9,7 @@
 #if (! defined(YPPEXCEPTION_H_))
 # define YPPEXCEPTION_H_ /* */
 
+# include "YPPConfig.h"
 # include <yarp/os/ConstString.h>
 
 namespace YarpPlusPlus

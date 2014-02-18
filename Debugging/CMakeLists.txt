@@ -6,8 +6,14 @@
 #  Copyright (c) 2014 OpenDragon. All rights reserved.
 #
 
-add_library(YPPDebugging ODSyslog.cpp)
-#add_library(YPPDebugging ODSyslog.m)
+option(USE_OBJECTIVE_C_DEBUG "Use Objective C Debug" FALSE)
+mark_as_advanced(USE_OBJECTIVE_C_DEBUG)
+
+if(USE_OBJECTIVE_C_DEBUG)
+    add_library(YPPDebugging ODSyslog.m)
+else(USE_OBJECTIVE_C_DEBUG)
+    add_library(YPPDebugging ODSyslog.cpp)
+endif(USE_OBJECTIVE_C_DEBUG)
 
 install(TARGETS YPPDebugging DESTINATION bin)
 install(FILES YPPDebugging DESTINATION include)

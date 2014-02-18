@@ -6,15 +6,14 @@
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#include <yarp/os/Port.h>
-#include <yarp/os/impl/Carriers.h>
-#include <cctype>
-#include <cstdlib>
 #include "YPPEndpoint.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include "YPPConfig.h"
 #include "YPPException.h"
+#include <yarp/os/Network.h>
+#include <cctype>
+#include <cstdlib>
+#include <cstdio>
 
 #pragma mark Private structures and constants
 
@@ -119,9 +118,9 @@ yarp::os::ConstString YarpPlusPlus::Endpoint::getRandomPortName(void)
 
 #pragma mark Constructors and destructors
 
-YarpPlusPlus::Endpoint::Endpoint(const yarp::os::ConstString &  endpointName,
-                                 const yarp::os::ConstString &  hostName,
-                                 const yarp::os::ConstString &  portNumber) :
+YarpPlusPlus::Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
+                                 const yarp::os::ConstString & hostName,
+                                 const yarp::os::ConstString & portNumber) :
         _isOpen(false), _contact(), _handler(NULL), _handlerCreator(NULL), _port(NULL)
 {
     OD_SYSLOG_ENTER();//####

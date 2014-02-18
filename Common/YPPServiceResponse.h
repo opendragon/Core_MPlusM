@@ -9,6 +9,8 @@
 #if (! defined(YPPSERVICERESPONSE_H_))
 # define YPPSERVICERESPONSE_H_ /* */
 
+# include "YPPConfig.h"
+
 namespace YarpPlusPlus
 {
     /*! @brief The data returned from a service request. */

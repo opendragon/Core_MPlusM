@@ -9,10 +9,8 @@
 #if (! defined(YPPENDPOINT_H_))
 # define YPPENDPOINT_H_ /* */
 
-# include <yarp/os/Contact.h>
-# include <yarp/os/impl/String.h>
-# include "YPPInputHandler.h"
 # include "YPPInputHandlerCreator.h"
+# include <yarp/os/Port.h>
 
 namespace YarpPlusPlus
 {
@@ -26,16 +24,17 @@ namespace YarpPlusPlus
          @param endpointName The YARP name to be assigned to the new endpoint.
          @param hostName The name or IP address of the machine holding the endpoint.
          @param portNumber The port being used by the endpoint. */
-        Endpoint(const yarp::os::ConstString &  endpointName,
-                 const yarp::os::ConstString &  hostName = "",
-                 const yarp::os::ConstString &  portNumber = "");
+        Endpoint(const yarp::os::ConstString & endpointName,
+                 const yarp::os::ConstString & hostName = "",
+                 const yarp::os::ConstString & portNumber = "");
         
         /*! @brief The destructor. */
         virtual ~Endpoint(void);
         
         /*! @brief Return the YARP name for the endpoint.
          @returns The YARP name for the endpoint. */
-        yarp::os::ConstString getName(void) const;
+        yarp::os::ConstString getName(void)
+        const;
         
         /*! @brief Return the state of the endpoint.
          @returns @c true if the endpoint is open and @c false otherwise. */

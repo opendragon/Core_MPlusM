@@ -9,7 +9,6 @@
 #include "YPPBaseService.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include "YPPConfig.h"
 
 #pragma mark Private structures and constants
 
