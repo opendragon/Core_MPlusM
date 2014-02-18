@@ -24,15 +24,15 @@
  @returns @c true if the name can be used as a YARP port name and @c false otherwise. */
 static bool checkEndpointName(const yarp::os::ConstString & portName)
 {
-    bool   result;
-    size_t nameLength = portName.length();
+    bool result;
+    int  nameLength = portName.length();
     
     if (0 < nameLength)
     {
         char firstChar = portName[0];
         
         result = ('/' == firstChar);
-        for (size_t ii = 1; result && (ii < nameLength); ++ii)
+        for (int ii = 1; result && (ii < nameLength); ++ii)
         {
             result = isprint(portName[ii]);
         }
@@ -51,12 +51,12 @@ static bool checkEndpointName(const yarp::os::ConstString & portName)
 static bool checkHostPort(int &                         realPort,
                           const yarp::os::ConstString & portNumber)
 {
-    bool   result = true;
-    size_t portLength = portNumber.length();
+    bool result = true;
+    int  portLength = portNumber.length();
     
     if (0 < portLength)
     {
-        for (size_t ii = 0; result && (ii < portLength); ++ii)
+        for (int ii = 0; result && (ii < portLength); ++ii)
         {
             result = isdigit(portNumber[ii]);
         }
@@ -121,7 +121,7 @@ yarp::os::ConstString YarpPlusPlus::Endpoint::getRandomPortName(void)
 YarpPlusPlus::Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
                                  const yarp::os::ConstString & hostName,
                                  const yarp::os::ConstString & portNumber) :
-        _isOpen(false), _contact(), _handler(NULL), _handlerCreator(NULL), _port(NULL)
+        _contact(), _handler(NULL), _handlerCreator(NULL), _port(NULL), _isOpen(false)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S3("endpointName = ", endpointName.c_str(), "hostName = ", hostName.c_str(),//####

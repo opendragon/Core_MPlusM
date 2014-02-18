@@ -65,7 +65,7 @@ EndpointStatusReporter::~EndpointStatusReporter(void)
 
 void EndpointStatusReporter::report(const yarp::os::PortInfo & info)
 {
-    OD_SYSLOG_L1("tag = ", info.tag);
+    OD_SYSLOG_LL1("tag = ", info.tag);
     OD_SYSLOG_B2("incoming = ", info.incoming, "created = ", info.created);
     OD_SYSLOG_S4("portName = ", info.portName.c_str(), "sourceName = ", info.sourceName.c_str(),
                  "targetName = ", info.targetName.c_str(), "carrierName = ", info.carrierName.c_str());

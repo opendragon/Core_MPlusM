@@ -79,8 +79,6 @@ namespace YarpPlusPlus
         
     private:
         
-        /*! @brief @c true if the endpoint is open and @c false otherwise. */
-        bool                  _isOpen;
         /*! @brief The connection details for the endpoint. */
         yarp::os::Contact     _contact;
         /*! @brief The input handler for the endpoint. */
@@ -89,6 +87,8 @@ namespace YarpPlusPlus
         InputHandlerCreator * _handlerCreator;
         /*! @brief The YARP port to be used by the endpoint. */
         yarp::os::Port *      _port;
+        /*! @brief @c true if the endpoint is open and @c false otherwise. */
+        bool                  _isOpen;
         
     }; // Endpoint
     

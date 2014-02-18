@@ -104,15 +104,15 @@ enum
         ODSysLogL4_(__FILE__, __func__, __LINE__, text1, (long) (val1), text2, (long) (val2), text3, (long) (val3),\
                     text4, (long) (val4))
 #  define OD_SYSLOG_LL1(text1, val1)  \
-        ODSysLogLL1_(__FILE__, __func__, __LINE__, text1, (long long) (val1))
+        ODSysLogLL1_(__FILE__, __func__, __LINE__, text1, (long int) (val1))
 #  define OD_SYSLOG_LL2(text1, val1, text2, val2)  \
-        ODSysLogLL2_(__FILE__, __func__, __LINE__, text1, (long long) (val1), text2, (long long) (val2))
+        ODSysLogLL2_(__FILE__, __func__, __LINE__, text1, (long int) (val1), text2, (long int) (val2))
 #  define OD_SYSLOG_LL3(text1, val1, text2, val2, text3, val3)  \
-        ODSysLogLL3_(__FILE__, __func__, __LINE__, text1, (long long) (val1), text2, (long long) (val2), text3,\
-                        (long long) (val3))
+        ODSysLogLL3_(__FILE__, __func__, __LINE__, text1, (long int) (val1), text2, (long int) (val2), text3,\
+                        (long int) (val3))
 #  define OD_SYSLOG_LL4(text1, val1, text2, val2, text3, val3, text4, val4)  \
-        ODSysLogLL4_(__FILE__, __func__, __LINE__, text1, (long long) (val1), text2, (long long) (val2), text3,\
-                        (long long) (val3), text4, (long long) (val4))
+        ODSysLogLL4_(__FILE__, __func__, __LINE__, text1, (long int) (val1), text2, (long int) (val2), text3,\
+                        (long int) (val3), text4, (long int) (val4))
 #  define OD_SYSLOG_LS(text1, val1)  \
         ODSysLogLS_(__FILE__, __func__, __LINE__, text1, val1)
 #  if defined(__OBJC__)
@@ -300,15 +300,15 @@ extern "C"
                            const int    lineNumber,
                            const long   val);
 
-    void ODSysLogExitL_(const char * fileName,
-                        const char * funcName,
-                        const int    lineNumber,
-                        const long   val);
+    void ODSysLogExitL_(const char *  fileName,
+                        const char *  funcName,
+                        const int     lineNumber,
+                        const int32_t val);
 
-    void ODSysLogExitLL_(const char *    fileName,
-                         const char *    funcName,
-                         const int       lineNumber,
-                         const long long val);
+    void ODSysLogExitLL_(const char *  fileName,
+                         const char *  funcName,
+                         const int     lineNumber,
+                         const int64_t val);
 
 #  if defined(__OBJC__)
     void ODSysLogExitO_(const char * fileName,
@@ -334,10 +334,10 @@ extern "C"
                         const int    lineNumber,
                         const char * val);
 
-    void ODSysLogExitThrowL_(const char * fileName,
-                             const char * funcName,
-                             const int    lineNumber,
-                             const long   val);
+    void ODSysLogExitThrowL_(const char *  fileName,
+                             const char *  funcName,
+                             const int     lineNumber,
+                             const int32_t val);
     
     void ODSysLogExitThrowS_(const char * fileName,
                              const char * funcName,
@@ -350,84 +350,84 @@ extern "C"
                        const char * funcName,
                        const int    lineNumber);
 
-    void ODSysLogIP_(const char * fileName,
-                     const char * funcName,
-                     const int    lineNumber,
-                     const char * text1,
-                     const long   val1,
-                     const long   val2);
+    void ODSysLogIP_(const char *  fileName,
+                     const char *  funcName,
+                     const int     lineNumber,
+                     const char *  text1,
+                     const int32_t val1,
+                     const int     val2);
 
-    void ODSysLogL1_(const char * fileName,
-                     const char * funcName,
-                     const int    lineNumber,
-                     const char * text1,
-                     const long   val1);
+    void ODSysLogL1_(const char *  fileName,
+                     const char *  funcName,
+                     const int     lineNumber,
+                     const char *  text1,
+                     const int32_t val1);
 
-    void ODSysLogL2_(const char * fileName,
-                     const char * funcName,
-                     const int    lineNumber,
-                     const char * text1,
-                     const long   val1,
-                     const char * text2,
-                     const long   val2);
+    void ODSysLogL2_(const char *  fileName,
+                     const char *  funcName,
+                     const int     lineNumber,
+                     const char *  text1,
+                     const int32_t val1,
+                     const char *  text2,
+                     const int32_t val2);
 
-    void ODSysLogL3_(const char * fileName,
-                     const char * funcName,
-                     const int    lineNumber,
-                     const char * text1,
-                     const long   val1,
-                     const char * text2,
-                     const long   val2,
-                     const char * text3,
-                     const long   val3);
+    void ODSysLogL3_(const char *  fileName,
+                     const char *  funcName,
+                     const int     lineNumber,
+                     const char *  text1,
+                     const int32_t val1,
+                     const char *  text2,
+                     const int32_t val2,
+                     const char *  text3,
+                     const int32_t val3);
 
-    void ODSysLogL4_(const char * fileName,
-                     const char * funcName,
-                     const int    lineNumber,
-                     const char * text1,
-                     const long   val1,
-                     const char * text2,
-                     const long   val2,
-                     const char * text3,
-                     const long   val3,
-                     const char * text4,
-                     const long   val4);
+    void ODSysLogL4_(const char *  fileName,
+                     const char *  funcName,
+                     const int     lineNumber,
+                     const char *  text1,
+                     const int32_t val1,
+                     const char *  text2,
+                     const int32_t val2,
+                     const char *  text3,
+                     const int32_t val3,
+                     const char *  text4,
+                     const int32_t val4);
 
-    void ODSysLogLL1_(const char *    fileName,
-                      const char *    funcName,
-                      const int       lineNumber,
-                      const char *    text1,
-                      const long long val1);
+    void ODSysLogLL1_(const char *  fileName,
+                      const char *  funcName,
+                      const int     lineNumber,
+                      const char *  text1,
+                      const int64_t val1);
 
-    void ODSysLogLL2_(const char *    fileName,
-                      const char *    funcName,
-                      const int       lineNumber,
-                      const char *    text1,
-                      const long long val1,
-                      const char *    text2,
-                      const long long val2);
+    void ODSysLogLL2_(const char *  fileName,
+                      const char *  funcName,
+                      const int     lineNumber,
+                      const char *  text1,
+                      const int64_t val1,
+                      const char *  text2,
+                      const int64_t val2);
 
-    void ODSysLogLL3_(const char *    fileName,
-                      const char *    funcName,
-                      const int       lineNumber,
-                      const char *    text1,
-                      const long long val1,
-                      const char *    text2,
-                      const long long val2,
-                      const char *    text3,
-                      const long long val3);
+    void ODSysLogLL3_(const char *  fileName,
+                      const char *  funcName,
+                      const int     lineNumber,
+                      const char *  text1,
+                      const int64_t val1,
+                      const char *  text2,
+                      const int64_t val2,
+                      const char *  text3,
+                      const int64_t val3);
 
-    void ODSysLogLL4_(const char *    fileName,
-                      const char *    funcName,
-                      const int       lineNumber,
-                      const char *    text1,
-                      const long long val1,
-                      const char *    text2,
-                      const long long val2,
-                      const char *    text3,
-                      const long long val3,
-                      const char *    text4,
-                      const long long val4);
+    void ODSysLogLL4_(const char *  fileName,
+                      const char *  funcName,
+                      const int     lineNumber,
+                      const char *  text1,
+                      const int64_t val1,
+                      const char *  text2,
+                      const int64_t val2,
+                      const char *  text3,
+                      const int64_t val3,
+                      const char *  text4,
+                      const int64_t val4);
 
     void ODSysLogLS_(const char * fileName,
                      const char * funcName,

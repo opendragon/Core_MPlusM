@@ -196,6 +196,37 @@ static void odWriteTime_(void)
     fputs(buffer, lAbsLogFile_);
 } // odWriteTime_
 
+#  define OD_EXIT_VALUE_       "exit -> "
+#  define OD_FORMAT_B1_        " %s%s"
+#  define OD_FORMAT_B2_        " %s%s, %s%s"
+#  define OD_FORMAT_C1_        " %s'%c'(%#02X)"
+#  define OD_FORMAT_C2_        " %s'%c'(%#02X), %s'%c'(%#02X)"
+#  define OD_FORMAT_D1_        " %s%g"
+#  define OD_FORMAT_D2_        " %s%g, %s%g"
+#  define OD_FORMAT_ENTER_     " enter"
+#  define OD_FORMAT_EXIT_      " exit"
+#  define OD_FORMAT_EXIT_CALL_ " call exit(%ld(%#lx))"
+#  define OD_FORMAT_EXIT_T_L_  " throw(%d(%#x))"
+#  define OD_FORMAT_EXIT_T_S_  " throw(%s)"
+#  define OD_FORMAT_IP_        " %s%d.%d.%d.%d:%d"
+#  define OD_FORMAT_L1_        " %s%d(%#x)"
+#  define OD_FORMAT_L2_        " %s%d(%#x), %s%d(%#x)"
+#  define OD_FORMAT_LL1_       " %s%lld(%#llx)"
+#  define OD_FORMAT_LL2_       " %s%lld(%#llx), %s%lld(%#llx)"
+#  define OD_FORMAT_LOG_       " %s"
+#  define OD_FORMAT_LS         " %s | %s |"
+#  define OD_FORMAT_O1_        " %s%s"
+#  define OD_FORMAT_O2_        " %s%s, %s%s"
+#  define OD_FORMAT_P1_        " %s%p"
+#  define OD_FORMAT_P2_        " %s%p, %s%p"
+#  define OD_FORMAT_PACKET_1_  " address = %p, size = %d"
+#  define OD_FORMAT_PACKET_2_  " %s | %04X : %s| %s"
+#  define OD_FORMAT_RECT_      " %s[l: %g, t: %g, h: %g, w: %g]"
+#  define OD_FORMAT_S1_        " %s'%s'"
+#  define OD_FORMAT_S2_        " %s'%s', %s'%s'"
+#  define OD_FORMAT_SP_        " %s'%.*s'"
+#  define OD_FORMAT_TI_        " %s%ld:%ld"
+
 EXTERN_C void ODSysLog_(const char * fileName,
                         const char * funcName,
                         const int    lineNumber,
@@ -208,15 +239,15 @@ EXTERN_C void ODSysLog_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s\n", OD_FUNC_PREFIX_(rootName), text ? text : "");
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LOG_ "\n", OD_FUNC_PREFIX_(rootName), text ? text : "");
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s", OD_FUNC_PREFIX_(rootName), text ? text : "");
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LOG_, OD_FUNC_PREFIX_(rootName), text ? text : "");
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s", OD_FUNC_PREFIX_(rootName), text ? text : "");
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LOG_, OD_FUNC_PREFIX_(rootName), text ? text : "");
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -236,15 +267,16 @@ EXTERN_C void ODSysLogB1_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s\n", OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1));
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+                odBoolToString_(val1));
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%s", OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1));
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_B1_, OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1));
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s", OD_FUNC_PREFIX_(rootName), text1,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_B1_, OD_FUNC_PREFIX_(rootName), text1,
                odBoolToString_(val1));
 #  endif // ! defined(__OBJC__)
     }
@@ -267,17 +299,17 @@ EXTERN_C void ODSysLogB2_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s, %s%s\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 odBoolToString_(val1), text2, odBoolToString_(val2));
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1), text2,
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_B2_, OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1), text2,
               odBoolToString_(val2));
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_B2_, OD_FUNC_PREFIX_(rootName), text1,
                odBoolToString_(val1), text2, odBoolToString_(val2));
 #  endif // ! defined(__OBJC__)
     }
@@ -302,22 +334,23 @@ EXTERN_C void ODSysLogB3_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s, %s%s\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 odBoolToString_(val1), text2, odBoolToString_(val2));
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s\n", OD_FUNC_PREFIX_(rootName), text3, odBoolToString_(val3));
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), text3,
+                odBoolToString_(val3));
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1), text2,
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_B2_, OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1), text2,
               odBoolToString_(val2));
-        NSLog(@OD_FUNC_FORMAT_ " %s%s", OD_FUNC_PREFIX_(rootName), text3, odBoolToString_(val3));
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_B1_, OD_FUNC_PREFIX_(rootName), text3, odBoolToString_(val3));
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_B2_, OD_FUNC_PREFIX_(rootName), text1,
                odBoolToString_(val1), text2, odBoolToString_(val2));
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s", OD_FUNC_PREFIX_(rootName), text3,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_B1_, OD_FUNC_PREFIX_(rootName), text3,
                odBoolToString_(val3));
 #  endif // ! defined(__OBJC__)
     }
@@ -344,24 +377,24 @@ EXTERN_C void ODSysLogB4_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s, %s%s\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 odBoolToString_(val1), text2, odBoolToString_(val2));
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s, %s%s\n", OD_FUNC_PREFIX_(rootName), text3,
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text3,
                 odBoolToString_(val3), text4, odBoolToString_(val4));
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1), text2,
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_B2_, OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1), text2,
               odBoolToString_(val2));
-        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text3, odBoolToString_(val3), text4,
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_B2_, OD_FUNC_PREFIX_(rootName), text3, odBoolToString_(val3), text4,
               odBoolToString_(val4));
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_B2_, OD_FUNC_PREFIX_(rootName), text1,
                odBoolToString_(val1), text2, odBoolToString_(val2));
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text3,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_B2_, OD_FUNC_PREFIX_(rootName), text3,
                odBoolToString_(val3), text4, odBoolToString_(val4));
 #  endif // ! defined(__OBJC__)
     }
@@ -382,15 +415,15 @@ EXTERN_C void ODSysLogC1_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s'%c'(%#02X)\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_C1_, OD_FUNC_PREFIX_(rootName), text1, val1, val1);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_C1_, OD_FUNC_PREFIX_(rootName), text1, val1, val1);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -412,18 +445,17 @@ EXTERN_C void ODSysLogC2_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)\n", OD_FUNC_PREFIX_(rootName), text1,
-                val1, val1, text2, val2, val2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
-              val2, val2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_C2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName),
-               text1, val1, val1, text2, val2, val2);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_C2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+               val2, val2);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -447,22 +479,21 @@ EXTERN_C void ODSysLogC3_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)\n", OD_FUNC_PREFIX_(rootName), text1,
-                val1, val1, text2, val2, val2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s'%c'(%#02X)\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
-              val2, val2);
-        NSLog(@OD_FUNC_FORMAT_ " %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_C2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_C1_, OD_FUNC_PREFIX_(rootName), text3, val3, val3);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName),
-               text1, val1, val1, text2, val2, val2);
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_C2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+               val2, val2);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_C1_, OD_FUNC_PREFIX_(rootName), text3, val3, val3);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -488,25 +519,23 @@ EXTERN_C void ODSysLogC4_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)\n", OD_FUNC_PREFIX_(rootName), text1,
-                val1, val1, text2, val2, val2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)\n", OD_FUNC_PREFIX_(rootName), text3,
-                val3, val3, text4, val4, val4);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
+                val4, val4);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
-              val2, val2);
-        NSLog(@OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
-              val4, val4);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_C2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_C2_, OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4, val4, val4);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName),
-               text1, val1, val1, text2, val2, val2);
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%c'(%#02X), %s'%c'(%#02X)", OD_FUNC_PREFIX_(rootName),
-               text3, val3, val3, text4, val4, val4);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_C2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+               val2, val2);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_C2_, OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
+               val4, val4);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -526,15 +555,15 @@ EXTERN_C void ODSysLogD1_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%g\n", OD_FUNC_PREFIX_(rootName), text1, val1);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%g", OD_FUNC_PREFIX_(rootName), text1, val1);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_D1_, OD_FUNC_PREFIX_(rootName), text1, val1);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%g", OD_FUNC_PREFIX_(rootName), text1, val1);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_D1_, OD_FUNC_PREFIX_(rootName), text1, val1);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -556,15 +585,15 @@ EXTERN_C void ODSysLogD2_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%g, %s%g\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_D2_, OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text1, val1, text2,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_D2_, OD_FUNC_PREFIX_(rootName), text1, val1, text2,
                val2);
 #  endif // ! defined(__OBJC__)
     }
@@ -589,20 +618,20 @@ EXTERN_C void ODSysLogD3_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%g, %s%g\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%g\n", OD_FUNC_PREFIX_(rootName), text3, val3);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
-        NSLog(@OD_FUNC_FORMAT_ " %s%g", OD_FUNC_PREFIX_(rootName), text3, val3);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_D2_, OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_D1_, OD_FUNC_PREFIX_(rootName), text3, val3);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text1, val1, text2,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_D2_, OD_FUNC_PREFIX_(rootName), text1, val1, text2,
                val2);
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%g", OD_FUNC_PREFIX_(rootName), text3, val3);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_D1_, OD_FUNC_PREFIX_(rootName), text3, val3);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -628,20 +657,20 @@ EXTERN_C void ODSysLogD4_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%g, %s%g\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%g, %s%g\n", OD_FUNC_PREFIX_(rootName), text3, val3, text4, val4);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, text4, val4);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
-        NSLog(@OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text3, val3, text4, val4);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_D2_, OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_D2_, OD_FUNC_PREFIX_(rootName), text3, val3, text4, val4);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text1, val1, text2,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_D2_, OD_FUNC_PREFIX_(rootName), text1, val1, text2,
                val2);
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%g, %s%g", OD_FUNC_PREFIX_(rootName), text3, val3, text4,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_D2_, OD_FUNC_PREFIX_(rootName), text3, val3, text4,
                val4);
 #  endif // ! defined(__OBJC__)
     }
@@ -660,15 +689,15 @@ EXTERN_C void ODSysLogEnter_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " enter\n", OD_FUNC_PREFIX_(rootName));
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_ENTER_ "\n", OD_FUNC_PREFIX_(rootName));
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " enter", OD_FUNC_PREFIX_(rootName));
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_ENTER_, OD_FUNC_PREFIX_(rootName));
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " enter", OD_FUNC_PREFIX_(rootName));
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_ENTER_, OD_FUNC_PREFIX_(rootName));
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -688,15 +717,15 @@ EXTERN_C void ODSysLogExit_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " exit\n", OD_FUNC_PREFIX_(rootName));
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_ "\n", OD_FUNC_PREFIX_(rootName));
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " exit", OD_FUNC_PREFIX_(rootName));
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_EXIT_, OD_FUNC_PREFIX_(rootName));
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit", OD_FUNC_PREFIX_(rootName));
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_, OD_FUNC_PREFIX_(rootName));
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -716,15 +745,16 @@ EXTERN_C void ODSysLogExitB_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " exit -> %s\n", OD_FUNC_PREFIX_(rootName), odBoolToString_(val));
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                odBoolToString_(val));
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " exit -> %s", OD_FUNC_PREFIX_(rootName), odBoolToString_(val));
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_B1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, odBoolToString_(val));
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> %s", OD_FUNC_PREFIX_(rootName),
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_B1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
                odBoolToString_(val));
 #  endif // ! defined(__OBJC__)
     }
@@ -745,15 +775,15 @@ EXTERN_C void ODSysLogExitC_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " exit -> '%c'(%#02X)\n", OD_FUNC_PREFIX_(rootName), val, val);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " exit -> '%c'(%#02X)", OD_FUNC_PREFIX_(rootName), val, val);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_C1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> '%c'(%#02X)", OD_FUNC_PREFIX_(rootName), val, val);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_C1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -773,15 +803,15 @@ EXTERN_C void ODSysLogExitD_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " exit -> %g\n", OD_FUNC_PREFIX_(rootName), val);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " exit -> %g", OD_FUNC_PREFIX_(rootName), val);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_D1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> %g", OD_FUNC_PREFIX_(rootName), val);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_D1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -801,25 +831,25 @@ EXTERN_C void ODSysLogExitExit_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " call exit(%ld(%#lx))\n", OD_FUNC_PREFIX_(rootName), val, val);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_CALL_ "\n", OD_FUNC_PREFIX_(rootName), val, val);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " call exit(%ld(%#lx))", OD_FUNC_PREFIX_(rootName), val, val);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_EXIT_CALL_, OD_FUNC_PREFIX_(rootName), val, val);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " call exit(%ld(%#lx))", OD_FUNC_PREFIX_(rootName), val, val);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_CALL_, OD_FUNC_PREFIX_(rootName), val, val);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
 } // ODSysLogExitExit_
 
-EXTERN_C void ODSysLogExitL_(const char * fileName,
-                             const char * funcName,
-                             const int    lineNumber,
-                             const long   val)
+EXTERN_C void ODSysLogExitL_(const char *  fileName,
+                             const char *  funcName,
+                             const int     lineNumber,
+                             const int32_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -829,25 +859,26 @@ EXTERN_C void ODSysLogExitL_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " exit -> %ld(%#lx)\n", OD_FUNC_PREFIX_(rootName), val, val);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " exit -> %ld(%#lx)", OD_FUNC_PREFIX_(rootName), val, val);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_L1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> %ld(%#lx)", OD_FUNC_PREFIX_(rootName), val, val);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_L1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
+               val);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
 } // ODSysLogExitL_
 
-EXTERN_C void ODSysLogExitLL_(const char *    fileName,
-                              const char *    funcName,
-                              const int       lineNumber,
-                              const long long val)
+EXTERN_C void ODSysLogExitLL_(const char *  fileName,
+                              const char *  funcName,
+                              const int     lineNumber,
+                              const int64_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -857,15 +888,16 @@ EXTERN_C void ODSysLogExitLL_(const char *    fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " exit -> %lld(%#llx)\n", OD_FUNC_PREFIX_(rootName), val, val);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " exit -> %lld(%#llx)", OD_FUNC_PREFIX_(rootName), val, val);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LL1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> %lld(%#llx)", OD_FUNC_PREFIX_(rootName), val, val);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
+               val);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -887,12 +919,12 @@ EXTERN_C void ODSysLogExitO_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " exit -> %s\n", OD_FUNC_PREFIX_(rootName), valString);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, valString);
         fflush(lAbsLogFile_);
     }
     else
     {
-        NSLog(@OD_FUNC_FORMAT_ " exit -> %s", OD_FUNC_PREFIX_(rootName), valString);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_O1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, valString);
     }
     OD_FREE_PREFIX_();
 	OD_FREE_INDENT_();
@@ -912,15 +944,15 @@ EXTERN_C void ODSysLogExitP_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " exit -> %p\n", OD_FUNC_PREFIX_(rootName), val);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " exit -> %p", OD_FUNC_PREFIX_(rootName), val);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_P1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> %p", OD_FUNC_PREFIX_(rootName), val);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_P1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -941,17 +973,17 @@ EXTERN_C void ODSysLogExitR_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " exit -> [l: %g, t: %g, h: %g, w: %g]\n", OD_FUNC_PREFIX_(rootName),
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_RECT_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
                 val.origin.x, val.origin.y, val.size.height, val.size.width);
         fflush(lAbsLogFile_);
     }
     else
     {
 #   if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " exit -> [l: %g, t: %g, h: %g, w: %g]", OD_FUNC_PREFIX_(rootName), val.origin.x,
-              val.origin.y, val.size.height, val.size.width);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_RECT_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val.origin.x, val.origin.y,
+              val.size.height, val.size.width);
 #   else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> [l: %g, t: %g, h: %g, w: %g]", OD_FUNC_PREFIX_(rootName),
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_RECT_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
                val.origin.x, val.origin.y, val.size.height, val.size.width);
 #   endif // ! defined(__OBJC__)
     }
@@ -973,25 +1005,27 @@ EXTERN_C void ODSysLogExitS_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " exit -> '%s'\n", OD_FUNC_PREFIX_(rootName), val ? val : "<>");
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                val ? val : "<>");
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " exit -> '%s'", OD_FUNC_PREFIX_(rootName), val ? val : "<>");
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_S1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val ? val : "<>");
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " exit -> '%s'", OD_FUNC_PREFIX_(rootName), val ? val : "<>");
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_S1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+               val ? val : "<>");
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
 } // ODSysLogExitS_
 
-EXTERN_C void ODSysLogExitThrowL_(const char * fileName,
-                                  const char * funcName,
-                                  const int    lineNumber,
-                                  const long   val)
+EXTERN_C void ODSysLogExitThrowL_(const char *  fileName,
+                                  const char *  funcName,
+                                  const int     lineNumber,
+                                  const int32_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1001,15 +1035,15 @@ EXTERN_C void ODSysLogExitThrowL_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " throw(%ld(%#lx))\n", OD_FUNC_PREFIX_(rootName), val, val);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_L_ "\n", OD_FUNC_PREFIX_(rootName), val, val);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " throw(%ld(%#lx))", OD_FUNC_PREFIX_(rootName), val, val);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_L_, OD_FUNC_PREFIX_(rootName), val, val);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " throw(%ld(%#lx))", OD_FUNC_PREFIX_(rootName), val, val);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_L_, OD_FUNC_PREFIX_(rootName), val, val);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -1029,15 +1063,15 @@ EXTERN_C void ODSysLogExitThrowS_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " throw(%s)\n", OD_FUNC_PREFIX_(rootName), val ? val : "<>");
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_S_ "\n", OD_FUNC_PREFIX_(rootName), val ? val : "<>");
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " throw(%s)", OD_FUNC_PREFIX_(rootName), val ? val : "<>");
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_S_, OD_FUNC_PREFIX_(rootName), val ? val : "<>");
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " throw(%s)", OD_FUNC_PREFIX_(rootName), val ? val : "<>");
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_S_, OD_FUNC_PREFIX_(rootName), val ? val : "<>");
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -1141,12 +1175,12 @@ EXTERN_C void ODSysLogInit_(const char * prefix,
     odSetIndent_(OD_SYSLOG_INIT_VALUE_);
 } // ODSysLogInit_
 
-EXTERN_C void ODSysLogIP_(const char * fileName,
-                          const char * funcName,
-                          const int    lineNumber,
-                          const char * text1,
-                          const long   val1,
-                          const long   val2)
+EXTERN_C void ODSysLogIP_(const char *  fileName,
+                          const char *  funcName,
+                          const int     lineNumber,
+                          const char *  text1,
+                          const int32_t val1,
+                          const int     val2)
 {
     const char * rootName = odFileNameRoot_(fileName);
     union IP_TYPE_
@@ -1157,21 +1191,21 @@ EXTERN_C void ODSysLogIP_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    address.asInt32 = (int32_t) val1;
+    address.asInt32 = val1;
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%d.%d.%d.%d:%ld\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_IP_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 address.asBytes[0], address.asBytes[1], address.asBytes[2], address.asBytes[3], val2);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%d.%d.%d.%d:%ld", OD_FUNC_PREFIX_(rootName), text1, address.asBytes[0],
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_IP_, OD_FUNC_PREFIX_(rootName), text1, address.asBytes[0],
               address.asBytes[1], address.asBytes[2], address.asBytes[3], val2);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%d.%d.%d.%d:%ld", OD_FUNC_PREFIX_(rootName), text1,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_IP_, OD_FUNC_PREFIX_(rootName), text1,
                address.asBytes[0], address.asBytes[1], address.asBytes[2], address.asBytes[3], val2);
 #  endif // ! defined(__OBJC__)
     }
@@ -1179,11 +1213,11 @@ EXTERN_C void ODSysLogIP_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODSysLogIP_
 
-EXTERN_C void ODSysLogL1_(const char * fileName,
-                          const char * funcName,
-                          const int    lineNumber,
-                          const char * text1,
-                          const long   val1)
+EXTERN_C void ODSysLogL1_(const char *  fileName,
+                          const char *  funcName,
+                          const int     lineNumber,
+                          const char *  text1,
+                          const int32_t val1)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1192,28 +1226,28 @@ EXTERN_C void ODSysLogL1_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%ld(%#lx)\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%ld(%#lx)", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_L1_, OD_FUNC_PREFIX_(rootName), text1, val1, val1);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%ld(%#lx)", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_L1_, OD_FUNC_PREFIX_(rootName), text1, val1, val1);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
 } // ODSysLogL1_
 
-EXTERN_C void ODSysLogL2_(const char * fileName,
-                          const char * funcName,
-                          const int    lineNumber,
-                          const char * text1,
-                          const long   val1,
-                          const char * text2,
-                          const long   val2)
+EXTERN_C void ODSysLogL2_(const char *  fileName,
+                          const char *  funcName,
+                          const int     lineNumber,
+                          const char *  text1,
+                          const int32_t val1,
+                          const char *  text2,
+                          const int32_t val2)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1222,33 +1256,32 @@ EXTERN_C void ODSysLogL2_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%ld(%#lx), %s%ld(%#lx)\n", OD_FUNC_PREFIX_(rootName), text1, val1,
-                val1, text2, val2, val2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%ld(%#lx), %s%ld(%#lx)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2,
-              val2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_L2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%ld(%#lx), %s%ld(%#lx)", OD_FUNC_PREFIX_(rootName), text1,
-               val1, val1, text2, val2, val2);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_L2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+               val2, val2);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
 } // ODSysLogL2_
 
-EXTERN_C void ODSysLogL3_(const char * fileName,
-                          const char * funcName,
-                          const int    lineNumber,
-                          const char * text1,
-                          const long   val1,
-                          const char * text2,
-                          const long   val2,
-                          const char * text3,
-                          const long   val3)
+EXTERN_C void ODSysLogL3_(const char *  fileName,
+                          const char *  funcName,
+                          const int     lineNumber,
+                          const char *  text1,
+                          const int32_t val1,
+                          const char *  text2,
+                          const int32_t val2,
+                          const char *  text3,
+                          const int32_t val3)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1257,39 +1290,38 @@ EXTERN_C void ODSysLogL3_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%ld(%#lx), %s%ld(%#lx)\n", OD_FUNC_PREFIX_(rootName), text1, val1,
-                val1, text2, val2, val2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%ld(%#lx)\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%ld(%#lx), %s%ld(%#lx)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2,
-              val2);
-        NSLog(@OD_FUNC_FORMAT_ " %s%ld(%#lx)", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_L2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_L1_, OD_FUNC_PREFIX_(rootName), text3, val3, val3);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%ld(%#lx), %s%ld(%#lx)", OD_FUNC_PREFIX_(rootName), text1,
-               val1, val1, text2, val2, val2);
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%ld(%#lx)", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_L2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+               val2, val2);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_L1_, OD_FUNC_PREFIX_(rootName), text3, val3, val3);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
 } // ODSysLogL3_
 
-EXTERN_C void ODSysLogL4_(const char * fileName,
-                          const char * funcName,
-                          const int    lineNumber,
-                          const char * text1,
-                          const long   val1,
-                          const char * text2,
-                          const long   val2,
-                          const char * text3,
-                          const long   val3,
-                          const char * text4,
-                          const long   val4)
+EXTERN_C void ODSysLogL4_(const char *  fileName,
+                          const char *  funcName,
+                          const int     lineNumber,
+                          const char *  text1,
+                          const int32_t val1,
+                          const char *  text2,
+                          const int32_t val2,
+                          const char *  text3,
+                          const int32_t val3,
+                          const char *  text4,
+                          const int32_t val4)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1298,36 +1330,34 @@ EXTERN_C void ODSysLogL4_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%ld(%#lx), %s%ld(%#lx)\n", OD_FUNC_PREFIX_(rootName), text1, val1,
-                val1, text2, val2, val2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%ld(%#lx), %s%ld(%#lx)\n", OD_FUNC_PREFIX_(rootName), text3, val3,
-                val3, text4, val4, val4);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
+                val4, val4);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%ld(%#lx), %s%ld(%#lx)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2,
-              val2);
-        NSLog(@OD_FUNC_FORMAT_ " %s%ld(%#lx), %s%ld(%#lx)", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4, val4,
-              val4);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_L2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_L2_, OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4, val4, val4);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%ld(%#lx), %s%ld(%#lx)", OD_FUNC_PREFIX_(rootName), text1,
-               val1, val1, text2, val2, val2);
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%ld(%#lx), %s%ld(%#lx)", OD_FUNC_PREFIX_(rootName), text3,
-               val3, val3, text4, val4, val4);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_L2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+               val2, val2);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_L2_, OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
+               val4, val4);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
 } // ODSysLogL4_
 
-EXTERN_C void ODSysLogLL1_(const char *    fileName,
-                           const char *    funcName,
-                           const int       lineNumber,
-                           const char *    text1,
-                           const long long val1)
+EXTERN_C void ODSysLogLL1_(const char *  fileName,
+                           const char *  funcName,
+                           const int     lineNumber,
+                           const char *  text1,
+                           const int64_t val1)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1336,28 +1366,28 @@ EXTERN_C void ODSysLogLL1_(const char *    fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%lld(%#llx)\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%lld(%#llx)", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LL1_, OD_FUNC_PREFIX_(rootName), text1, val1, val1);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%lld(%#llx)", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_, OD_FUNC_PREFIX_(rootName), text1, val1, val1);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
 } // ODSysLogLL1_
 
-EXTERN_C void ODSysLogLL2_(const char *    fileName,
-                           const char *    funcName,
-                           const int       lineNumber,
-                           const char *    text1,
-                           const long long val1,
-                           const char *    text2,
-                           const long long val2)
+EXTERN_C void ODSysLogLL2_(const char *  fileName,
+                           const char *  funcName,
+                           const int     lineNumber,
+                           const char *  text1,
+                           const int64_t val1,
+                           const char *  text2,
+                           const int64_t val2)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1366,33 +1396,32 @@ EXTERN_C void ODSysLogLL2_(const char *    fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%lld(%#llx), %s%lld(%#llx)\n", OD_FUNC_PREFIX_(rootName), text1,
-                val1, val1, text2, val2, val2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%lld(%#llx), %s%lld(%#llx)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
-              val2, val2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LL2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%lld(%#llx), %s%lld(%#llx)", OD_FUNC_PREFIX_(rootName),
-               text1, val1, val1, text2, val2, val2);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1,
+               text2, val2, val2);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
 } // ODSysLogLL2_
 
-EXTERN_C void ODSysLogLL3_(const char *    fileName,
-                           const char *    funcName,
-                           const int       lineNumber,
-                           const char *    text1,
-                           const long long val1,
-                           const char *    text2,
-                           const long long val2,
-                           const char *    text3,
-                           const long long val3)
+EXTERN_C void ODSysLogLL3_(const char *  fileName,
+                           const char *  funcName,
+                           const int     lineNumber,
+                           const char *  text1,
+                           const int64_t val1,
+                           const char *  text2,
+                           const int64_t val2,
+                           const char *  text3,
+                           const int64_t val3)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1401,39 +1430,38 @@ EXTERN_C void ODSysLogLL3_(const char *    fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%lld(%#llx), %s%lld(%#llx)\n", OD_FUNC_PREFIX_(rootName), text1,
-                val1, val1, text2, val2, val2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%lld(%#llx)\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%lld(%#llx), %s%lld(%#llx)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
-              val2, val2);
-        NSLog(@OD_FUNC_FORMAT_ " %s%lld(%#llx)", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LL2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LL1_, OD_FUNC_PREFIX_(rootName), text3, val3, val3);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%lld(%#llx), %s%lld(%#llx)", OD_FUNC_PREFIX_(rootName),
-               text1, val1, val1, text2, val2, val2);
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%lld(%#llx)", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1,
+               text2, val2, val2);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_, OD_FUNC_PREFIX_(rootName), text3, val3, val3);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
 } // ODSysLogLL3_
 
-EXTERN_C void ODSysLogLL4_(const char *    fileName,
-                           const char *    funcName,
-                           const int       lineNumber,
-                           const char *    text1,
-                           const long long val1,
-                           const char *    text2,
-                           const long long val2,
-                           const char *    text3,
-                           const long long val3,
-                           const char *    text4,
-                           const long long val4)
+EXTERN_C void ODSysLogLL4_(const char *  fileName,
+                           const char *  funcName,
+                           const int     lineNumber,
+                           const char *  text1,
+                           const int64_t val1,
+                           const char *  text2,
+                           const int64_t val2,
+                           const char *  text3,
+                           const int64_t val3,
+                           const char *  text4,
+                           const int64_t val4)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1442,25 +1470,23 @@ EXTERN_C void ODSysLogLL4_(const char *    fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%lld(%#llx), %s%lld(%#llx)\n", OD_FUNC_PREFIX_(rootName), text1,
-                val1, val1, text2, val2, val2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%lld(%#llx), %s%lld(%#llx)\n", OD_FUNC_PREFIX_(rootName), text3,
-                val3, val3, text4, val4, val4);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
+                val4, val4);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%lld(%#llx), %s%lld(%#llx)", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
-              val2, val2);
-        NSLog(@OD_FUNC_FORMAT_ " %s%lld(%#llx), %s%lld(%#llx)", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
-              val4, val4);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LL2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LL2_, OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4, val4, val4);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%lld(%#llx), %s%lld(%#llx)", OD_FUNC_PREFIX_(rootName),
-               text1, val1, val1, text2, val2, val2);
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%lld(%#llx), %s%lld(%#llx)", OD_FUNC_PREFIX_(rootName),
-               text3, val3, val3, text4, val4, val4);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1,
+               text2, val2, val2);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_, OD_FUNC_PREFIX_(rootName), text3, val3, val3,
+               text4, val4, val4);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -1500,15 +1526,15 @@ EXTERN_C void ODSysLogLS_(const char * fileName,
                 if (lAbsLogFile_)
                 {
                     odWriteTime_();
-                    fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s | %s |\n", OD_FUNC_PREFIX_(rootName), heading,
+                    fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading,
                             lineBuffer);
                 }
                 else
                 {
 #  if defined(__OBJC__)
-                    NSLog(@OD_FUNC_FORMAT_ " %s | %s |", OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
+                    NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LS, OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
 #  else // ! defined(__OBJC__)
-                    syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s | %s |", OD_FUNC_PREFIX_(rootName), heading,
+                    syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LS, OD_FUNC_PREFIX_(rootName), heading,
                            lineBuffer);
 #  endif // ! defined(__OBJC__)
                 }
@@ -1524,14 +1550,15 @@ EXTERN_C void ODSysLogLS_(const char * fileName,
             if (lAbsLogFile_)
             {
                 odWriteTime_();
-                fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s | %s |\n", OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
+                fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading,
+                        lineBuffer);
             }
             else
             {
 #  if defined(__OBJC__)
-                NSLog(@OD_FUNC_FORMAT_ " %s | %s |", OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
+                NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LS, OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
 #  else // ! defined(__OBJC__)
-                syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s | %s |", OD_FUNC_PREFIX_(rootName), heading,
+                syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LS, OD_FUNC_PREFIX_(rootName), heading,
                        lineBuffer);
 #  endif // ! defined(__OBJC__)
             }
@@ -1545,14 +1572,14 @@ EXTERN_C void ODSysLogLS_(const char * fileName,
         if (lAbsLogFile_)
         {
             odWriteTime_();
-            fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s | %s |\n", OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
+            fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
         }
         else
         {
 #  if defined(__OBJC__)
-            NSLog(@OD_FUNC_FORMAT_ " %s | %s |", OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
+            NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LS, OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
 #  else // ! defined(__OBJC__)
-            syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s | %s |", OD_FUNC_PREFIX_(rootName), heading,
+            syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LS, OD_FUNC_PREFIX_(rootName), heading,
                    lineBuffer);
 #  endif // ! defined(__OBJC__)
         }
@@ -1581,12 +1608,12 @@ EXTERN_C void ODSysLogO1_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s\n", OD_FUNC_PREFIX_(rootName), text1, obj1String);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O1_ "\n", OD_FUNC_PREFIX_(rootName), text1, obj1String);
         fflush(lAbsLogFile_);
     }
     else
     {
-        NSLog(@OD_FUNC_FORMAT_ " %s%s", OD_FUNC_PREFIX_(rootName), text1, obj1String);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_O1_, OD_FUNC_PREFIX_(rootName), text1, obj1String);
     }
     OD_FREE_PREFIX_();
 	OD_FREE_INDENT_();
@@ -1611,13 +1638,13 @@ EXTERN_C void ODSysLogO2_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%sX, %s%s\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O2_ "\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
                 obj2String);
         fflush(lAbsLogFile_);
     }
     else
     {
-        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_O2_, OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
     }
     OD_FREE_PREFIX_();
 	OD_FREE_INDENT_();
@@ -1645,15 +1672,15 @@ EXTERN_C void ODSysLogO3_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s, %s%s\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O2_ "\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
                 obj2String);
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s\n", OD_FUNC_PREFIX_(rootName), text3, obj3String);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O1_ "\n", OD_FUNC_PREFIX_(rootName), text3, obj3String);
         fflush(lAbsLogFile_);
     }
     else
     {
-        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
-        NSLog(@OD_FUNC_FORMAT_ " %s%s", OD_FUNC_PREFIX_(rootName), text3, obj3String);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_O2_, OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_O1_, OD_FUNC_PREFIX_(rootName), text3, obj3String);
     }
     OD_FREE_PREFIX_();
 	OD_FREE_INDENT_();
@@ -1684,16 +1711,16 @@ EXTERN_C void ODSysLogO4_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s, %s%s\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O2_ "\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
                 obj2String);
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%s, %s%s\n", OD_FUNC_PREFIX_(rootName), text3, obj3String, text4,
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O2_ "\n", OD_FUNC_PREFIX_(rootName), text3, obj3String, text4,
                 obj4String);
         fflush(lAbsLogFile_);
     }
     else
     {
-        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
-        NSLog(@OD_FUNC_FORMAT_ " %s%s, %s%s", OD_FUNC_PREFIX_(rootName), text3, obj3String, text4, obj4String);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_O2_, OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_O2_, OD_FUNC_PREFIX_(rootName), text3, obj3String, text4, obj4String);
     }
     OD_FREE_PREFIX_();
 	OD_FREE_INDENT_();
@@ -1713,15 +1740,15 @@ EXTERN_C void ODSysLogP1_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%p\n", OD_FUNC_PREFIX_(rootName), text1, ptr1);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_P1_, OD_FUNC_PREFIX_(rootName), text1, ptr1);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_P1_, OD_FUNC_PREFIX_(rootName), text1, ptr1);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -1743,15 +1770,15 @@ EXTERN_C void ODSysLogP2_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%p, %s%p\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_P2_, OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_P2_, OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
                ptr2);
 #  endif // ! defined(__OBJC__)
     }
@@ -1776,20 +1803,20 @@ EXTERN_C void ODSysLogP3_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%p, %s%p\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%p\n", OD_FUNC_PREFIX_(rootName), text3, ptr3);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), text3, ptr3);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
-        NSLog(@OD_FUNC_FORMAT_ " %s%p", OD_FUNC_PREFIX_(rootName), text3, ptr3);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_P2_, OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_P1_, OD_FUNC_PREFIX_(rootName), text3, ptr3);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_P2_, OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
                ptr2);
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%p", OD_FUNC_PREFIX_(rootName), text3, ptr3);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_P1_, OD_FUNC_PREFIX_(rootName), text3, ptr3);
 #  endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -1815,20 +1842,20 @@ EXTERN_C void ODSysLogP4_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%p, %s%p\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%p, %s%p\n", OD_FUNC_PREFIX_(rootName), text3, ptr3, text4, ptr4);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text3, ptr3, text4, ptr4);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
-        NSLog(@OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text3, ptr3, text4, ptr4);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_P2_, OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_P2_, OD_FUNC_PREFIX_(rootName), text3, ptr3, text4, ptr4);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_P2_, OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
                ptr2);
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%p, %s%p", OD_FUNC_PREFIX_(rootName), text3, ptr3, text4,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_P2_, OD_FUNC_PREFIX_(rootName), text3, ptr3, text4,
                ptr4);
 #  endif // ! defined(__OBJC__)
     }
@@ -1856,15 +1883,14 @@ EXTERN_C void ODSysLogPacket_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " address = %p, size = %d\n", OD_FUNC_PREFIX_(rootName), buffer, size);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_PACKET_1_ "\n", OD_FUNC_PREFIX_(rootName), buffer, size);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " address = %p, size = %d", OD_FUNC_PREFIX_(rootName), buffer, size);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_PACKET_1_, OD_FUNC_PREFIX_(rootName), buffer, size);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " address = %p, size = %d", OD_FUNC_PREFIX_(rootName), buffer,
-               size);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_PACKET_1_, OD_FUNC_PREFIX_(rootName), buffer, size);
 #  endif // ! defined(__OBJC__)
     }
     memset(blankCaption, ' ', captionLength);
@@ -1887,16 +1913,16 @@ EXTERN_C void ODSysLogPacket_(const char * fileName,
         if (lAbsLogFile_)
         {
             odWriteTime_();
-            fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s | %04X : %s| %s\n", OD_FUNC_PREFIX_(rootName), heading, ii,
+            fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_PACKET_2_ "\n", OD_FUNC_PREFIX_(rootName), heading, ii,
                     lineBuffer, charBuffer);
         }
         else
         {
 #  if defined(__OBJC__)
-            NSLog(@OD_FUNC_FORMAT_ " %s | %04X : %s| %s", OD_FUNC_PREFIX_(rootName), heading, ii, lineBuffer,
+            NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_PACKET_2_, OD_FUNC_PREFIX_(rootName), heading, ii, lineBuffer,
                   charBuffer);
 #  else // ! defined(__OBJC__)
-            syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s | %04X : %s| %s", OD_FUNC_PREFIX_(rootName), heading,
+            syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_PACKET_2_, OD_FUNC_PREFIX_(rootName), heading,
                    ii, lineBuffer, charBuffer);
 #  endif // ! defined(__OBJC__)
         }
@@ -1926,18 +1952,18 @@ EXTERN_C void ODSysLogRect_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s[l: %g, t: %g, h: %g, w: %g]\n", OD_FUNC_PREFIX_(rootName), caption,
-                rect.origin.x, rect.origin.y, rect.size.height, rect.size.width);
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_RECT_ "\n", OD_FUNC_PREFIX_(rootName), caption, rect.origin.x,
+                rect.origin.y, rect.size.height, rect.size.width);
         fflush(lAbsLogFile_);
     }
     else
     {
 #   if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s[l: %g, t: %g, h: %g, w: %g]", OD_FUNC_PREFIX_(rootName), caption, rect.origin.x,
-              rect.origin.y, rect.size.height, rect.size.width);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_RECT_, OD_FUNC_PREFIX_(rootName), caption, rect.origin.x, rect.origin.y,
+              rect.size.height, rect.size.width);
 #   else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s[l: %g, t: %g, h: %g, w: %g]", OD_FUNC_PREFIX_(rootName),
-               caption, rect.origin.x, rect.origin.y, rect.size.height, rect.size.width);
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_RECT_, OD_FUNC_PREFIX_(rootName), caption, rect.origin.x,
+               rect.origin.y, rect.size.height, rect.size.width);
 #   endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
@@ -1958,15 +1984,15 @@ EXTERN_C void ODSysLogS1_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s'%s'\n", OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>");
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>");
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s'%s'", OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>");
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_S1_, OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>");
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%s'", OD_FUNC_PREFIX_(rootName), text1,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_S1_, OD_FUNC_PREFIX_(rootName), text1,
                val1 ? val1 : "<>");
 #  endif // ! defined(__OBJC__)
     }
@@ -1989,17 +2015,17 @@ EXTERN_C void ODSysLogS2_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s'%s', %s'%s'\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 val1 ? val1 : "<>", text2, val2 ? val2 : "<>");
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>", text2,
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_S2_, OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>", text2,
               val2 ? val2 : "<>");
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text1,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_S2_, OD_FUNC_PREFIX_(rootName), text1,
                val1 ? val1 : "<>", text2, val2 ? val2 : "<>");
 #  endif // ! defined(__OBJC__)
     }
@@ -2024,22 +2050,22 @@ EXTERN_C void ODSysLogS3_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s'%s', %s'%s'\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 val1 ? val1 : "<>", text2, val2 ? val2 : "<>");
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s'%s'\n", OD_FUNC_PREFIX_(rootName), text3, val3 ? val3 : "<>");
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3 ? val3 : "<>");
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>", text2,
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_S2_, OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>", text2,
               val2 ? val2 : "<>");
-        NSLog(@OD_FUNC_FORMAT_ " %s'%s'", OD_FUNC_PREFIX_(rootName), text3, val3 ? val3 : "<>");
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_S1_, OD_FUNC_PREFIX_(rootName), text3, val3 ? val3 : "<>");
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text1,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_S2_, OD_FUNC_PREFIX_(rootName), text1,
                val1 ? val1 : "<>", text2, val2 ? val2 : "<>");
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%s'", OD_FUNC_PREFIX_(rootName), text3,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_S1_, OD_FUNC_PREFIX_(rootName), text3,
                val3 ? val3 : "<>");
 #  endif // ! defined(__OBJC__)
     }
@@ -2066,24 +2092,24 @@ EXTERN_C void ODSysLogS4_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s'%s', %s'%s'\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 val1 ? val1 : "<>", text2, val2 ? val2 : "<>");
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s'%s', %s'%s'\n", OD_FUNC_PREFIX_(rootName), text3,
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text3,
                 val3 ? val3 : "<>", text4, val4 ? val4 : "<>");
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>", text2,
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_S2_, OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>", text2,
               val2 ? val2 : "<>");
-        NSLog(@OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text3, val3 ? val3 : "<>", text4,
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_S2_, OD_FUNC_PREFIX_(rootName), text3, val3 ? val3 : "<>", text4,
               val4 ? val4 : "<>");
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text1,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_S2_, OD_FUNC_PREFIX_(rootName), text1,
                val1 ? val1 : "<>", text2, val2 ? val2 : "<>");
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%s', %s'%s'", OD_FUNC_PREFIX_(rootName), text3,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_S2_, OD_FUNC_PREFIX_(rootName), text3,
                val3 ? val3 : "<>", text4, val4 ? val4 : "<>");
 #  endif // ! defined(__OBJC__)
     }
@@ -2105,15 +2131,15 @@ EXTERN_C void ODSysLogSp_(const char * fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s'%.*s'\n", OD_FUNC_PREFIX_(rootName), text, len, val ? val : "");
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_SP_ "\n", OD_FUNC_PREFIX_(rootName), text, len, val ? val : "");
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s'%.*s'", OD_FUNC_PREFIX_(rootName), text, len, val ? val : "");
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_SP_, OD_FUNC_PREFIX_(rootName), text, len, val ? val : "");
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s'%.*s'", OD_FUNC_PREFIX_(rootName), text, len,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_SP_, OD_FUNC_PREFIX_(rootName), text, len,
                val ? val : "");
 #  endif // ! defined(__OBJC__)
     }
@@ -2134,16 +2160,16 @@ EXTERN_C void ODSysLogTi_(const char *           fileName,
     if (lAbsLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ " %s%ld:%ld\n", OD_FUNC_PREFIX_(rootName), text1, val1->tv_sec,
+        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_TI_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1->tv_sec,
                 (long) val1->tv_usec);
         fflush(lAbsLogFile_);
     }
     else
     {
 #  if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ " %s%ld:%ld", OD_FUNC_PREFIX_(rootName), text1, val1->tv_sec, (long) val1->tv_usec);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_TI_, OD_FUNC_PREFIX_(rootName), text1, val1->tv_sec, (long) val1->tv_usec);
 #  else // ! defined(__OBJC__)
-        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ " %s%ld:%ld", OD_FUNC_PREFIX_(rootName), text1, val1->tv_sec,
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_TI_, OD_FUNC_PREFIX_(rootName), text1, val1->tv_sec,
                (long) val1->tv_usec);
 #  endif // ! defined(__OBJC__)
     }
