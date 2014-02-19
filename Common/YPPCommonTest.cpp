@@ -218,7 +218,7 @@ public:
 protected:
     
 private:
-    
+
 }; // Test03Handler
 
 #pragma mark Class methods
@@ -246,7 +246,7 @@ bool Test03Handler::handleInput(yarp::os::Bottle &           input,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     OD_SYSLOG_S1("got ", input.toString().c_str());//####
-    OD_SYSLOG_EXIT_B(true);//####
+    OD_SYSLOG_EXIT_B(TRUE);//####
     return true;
 } // Test03Handler::handleInput
 
@@ -378,7 +378,7 @@ bool Test04Handler::handleInput(yarp::os::Bottle &           input,
     {
         input.write(*replyMechanism);
     }
-    OD_SYSLOG_EXIT_B(true);//####
+    OD_SYSLOG_EXIT_B(TRUE);//####
     return true;
 } // Test04Handler::handleInput
 
@@ -512,7 +512,7 @@ bool Test05Handler::handleInput(yarp::os::Bottle &           input,
     {
         input.write(*replyMechanism);
     }
-    OD_SYSLOG_EXIT_B(true);//####
+    OD_SYSLOG_EXIT_B(TRUE);//####
     return true;
 } // Test05Handler::handleInput
 
@@ -581,11 +581,11 @@ static int doCase05(const int argc,
     {
         EndpointStatusReporter reporter;
         Test05HandlerCreator   handlerCreator;
-
+        
         if (stuff->setInputHandlerCreator(handlerCreator) && stuff->open() && stuff->setReporter(reporter, true))
         {
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
-            // Now we try to connect!
+                                                                       // Now we try to connect!
             yarp::os::Port        outPort;
             yarp::os::ConstString aName = YarpPlusPlus::Endpoint::getRandomPortName();
             
@@ -644,31 +644,161 @@ static int doCase05(const int argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase10(const int argc,
+static int doCase06(const int argc,
                     char **   argv) // create request
 {
-#pragma unused(argc,argv)
-    // Simple new / delete
-    YarpPlusPlus::ServiceRequest * stuff = new YarpPlusPlus::ServiceRequest;
+    int result;
     
-    delete stuff;
-    return 0;
-} // doCase10
+    if (0 == argc)
+    {
+        result = 1;
+    }
+    else
+    {
+        YarpPlusPlus::ParameterType parameters;
+        
+        for (int ii = 1; ii < argc; ++ii)
+        {
+            parameters.push_back(argv[ii]);
+        }
+        YarpPlusPlus::ServiceRequest * stuff = new YarpPlusPlus::ServiceRequest(*argv, &parameters);
+        
+        delete stuff;
+        result = 0;
+    }
+    return result;
+} // doCase06
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase11(const int argc,
-                    char **   argv) // create response
+static int doCase07(const int argc,
+                    char **   argv) // create request
 {
-#pragma unused(argc,argv)
-    // Simple new / delete
-    YarpPlusPlus::ServiceResponse * stuff = new YarpPlusPlus::ServiceResponse;
+    int                         result;
+    YarpPlusPlus::ParameterType parameters;
+    
+    for (int ii = 0; ii < argc; ++ii)
+    {
+        parameters.push_back(argv[ii]);
+    }
+    YarpPlusPlus::ServiceResponse * stuff = new YarpPlusPlus::ServiceResponse(&parameters);
     
     delete stuff;
-    return 0;
-} // doCase11
+    result = 0;
+    return result;
+} // doCase07
+
+/*! @brief A test input handler. */
+class Test08Handler : public YarpPlusPlus::InputHandler
+{
+public:
+    
+    /*! @brief The constructor. */
+    Test08Handler(void);
+    
+    /*! @brief The destructor. */
+    virtual ~Test08Handler(void);
+    
+    /*! @brief Process partially-structured input data.
+     @param input The partially-structured input data.
+     @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+     @returns @c true if the input was correctly structured and successfully processed. */
+    virtual bool handleInput(yarp::os::Bottle &           input,
+                             yarp::os::ConnectionWriter * replyMechanism);
+    
+protected:
+    
+private:
+    
+}; // Test08Handler
+
+#pragma mark Class methods
+
+#pragma mark Constructors and destructors
+
+Test08Handler::Test08Handler(void) :
+        InputHandler()
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test08Handler::Test08Handler
+
+Test08Handler::~Test08Handler(void)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test08Handler::~Test08Handler
+
+#pragma mark Actions
+
+bool Test08Handler::handleInput(yarp::os::Bottle &           input,
+                                yarp::os::ConnectionWriter * replyMechanism)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
+    OD_SYSLOG_S1("got ", input.toString().c_str());//####
+    if (replyMechanism)
+    {
+        input.write(*replyMechanism);
+    }
+    OD_SYSLOG_EXIT_B(TRUE);//####
+    return true;
+} // Test08Handler::handleInput
+
+/*! @brief Perform a test case.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used for the test.
+ @returns @c 0 on success and @c 1 on failure. */
+static int doCase08(const int argc,
+                    char **   argv) // create request
+{
+    int                      result;
+    YarpPlusPlus::Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+    
+    if (stuff)
+    {
+        EndpointStatusReporter reporter;
+        Test08Handler          handler;
+        
+        if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
+        {
+            OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
+            YarpPlusPlus::ParameterType parameters;
+
+            parameters.push_back("some");
+            parameters.push_back("to");
+            parameters.push_back("send");
+            YarpPlusPlus::ServiceRequest  request("echo", &parameters);
+            YarpPlusPlus::ServiceResponse response;
+            
+            if (request.send(*stuff, &response))
+            {
+                OD_SYSLOG_LL1("response size = ", response.count());//####
+                for (size_t ii = 0; ii < response.count(); ++ii)
+                {
+                    OD_SYSLOG_S1("response value = ", response.element(ii).c_str());//####
+                }
+                result = 0;
+            }
+            else
+            {
+                result = 1;
+            }
+        }
+        else
+        {
+            result = 1;
+        }
+        delete stuff;
+    }
+    else
+    {
+        result = 1;
+    }
+    return result;
+} // doCase08
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -719,7 +849,8 @@ int main(int     argc,
     {
         int selector = atoi(argv[1]);
         
-        cout << selector << endl;
+        //cout << selector << endl;
+        OD_SYSLOG_LL1("selector <- ", selector);//####
         switch (selector)
         {
             case 1:
@@ -742,13 +873,25 @@ int main(int     argc,
                 result = doCase05(argc - 1, argv + 2);
                 break;
                 
-            case 10:
-                result = doCase10(argc - 1, argv + 2);
+            case 6:
+                result = doCase06(argc - 1, argv + 2);
                 break;
                 
-            case 11:
-                result = doCase11(argc - 1, argv + 2);
+            case 7:
+                result = doCase07(argc - 1, argv + 2);
                 break;
+                
+            case 8:
+                result = doCase08(argc - 1, argv + 2);
+                break;
+                
+//            case 10:
+//                result = doCase10(argc - 1, argv + 2);
+//                break;
+                
+//            case 11:
+//                result = doCase11(argc - 1, argv + 2);
+//                break;
                 
             case 12:
                 result = doCase12(argc - 1, argv + 2);
@@ -761,6 +904,7 @@ int main(int     argc,
             default:
                 result = 1;
                 break;
+                
         }
     }
     else

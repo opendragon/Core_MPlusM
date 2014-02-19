@@ -27,7 +27,7 @@ add_executable(CommonTest YPPCommonTest.cpp)
 
 target_link_libraries(CommonTest YPPBaseShared YPPBaseClient YPPBaseService YPPDebugging ${YARP_LIBRARIES})
 
-# Argument order for test 1 = endpoint name [, IP address / name [, port [, carrier]]]
+# Argument order for test 1 = endpoint name [, IP address / name [, port]]
 add_test(NAME TestCreateEndpoint1 COMMAND CommonTest 1 "/service/test1_1")
 add_test(NAME TestCreateEndpoint2 COMMAND CommonTest 1 "/service/test1_2" "localhost")
 add_test(NAME TestCreateEndpoint3 COMMAND CommonTest 1 "/service/test1_3" "localhost" "12340")
@@ -47,9 +47,20 @@ add_test(NAME TestEchoFromEndpoint3 COMMAND CommonTest 4 "/service/test4_3" "loc
 add_test(NAME TestEchoFromEndpoint5 COMMAND CommonTest 5 "/service/test5_1")
 add_test(NAME TestEchoFromEndpoint6 COMMAND CommonTest 5 "/service/test5_2" "localhost")
 add_test(NAME TestEchoFromEndpoint7 COMMAND CommonTest 5 "/service/test5_3" "localhost" "12340")
+# Test service request creation
+add_test(NAME TestCreateRequest1 COMMAND CommonTest 6 "echo")
+add_test(NAME TestCreateRequest2 COMMAND CommonTest 6 "echo" "something")
+# Test service response creation
+add_test(NAME TestCreateResponse1 COMMAND CommonTest 7)
+add_test(NAME TestCreateResponse2 COMMAND CommonTest 7 "back")
+add_test(NAME TestCreateResponse3 COMMAND CommonTest 7 "back" "at" "you")
+# Test echo via request/response, fixed message [echo something to send] but arguments as with test 1
+add_test(NAME TestRequestEchoFromEndpoint1 COMMAND CommonTest 8 "/service/test8_1")
+add_test(NAME TestRequestEchoFromEndpoint2 COMMAND CommonTest 8 "/service/test8_2" "localhost")
+add_test(NAME TestRequestEchoFromEndpoint3 COMMAND CommonTest 8 "/service/test8_3" "localhost" "12340")
+
+
 
 # First tests - creation of objects
-add_test(NAME TestCreateRequest COMMAND CommonTest 10)
-add_test(NAME TestCreateResponse COMMAND CommonTest 11)
 add_test(NAME TestCreateService COMMAND CommonTest 12)
 add_test(NAME TestCreateClient COMMAND CommonTest 13)

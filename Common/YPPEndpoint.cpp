@@ -10,6 +10,7 @@
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPException.h"
+#include "YPPCommon.h"
 #include <yarp/os/Network.h>
 #include <cctype>
 #include <cstdlib>
@@ -82,7 +83,7 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
                           const yarp::os::ConstString &  hostName,
                           const int                      portNumber)
 {
-    //    dumpContact("enter checkHostName", workingContact);//####
+//    dumpContact("enter checkHostName", workingContact);//####
     bool result;
     
     if (0 < hostName.length())
@@ -93,7 +94,7 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
         OD_SYSLOG_S1("ipAddress = ", ipAddress.c_str());//####
         
         workingContact = workingContact.addSocket("tcp", ipAddress, portNumber);
-        //        dumpContact("after addSocket", workingContact);//####
+//        dumpContact("after addSocket", workingContact);//####
         result = workingContact.isValid();
     }
     else
@@ -332,13 +333,13 @@ const
 
 #pragma mark Global functions
 
-void dumpContact(const char *              tag,
-                 const yarp::os::Contact & aContact)
+void YarpPlusPlus::dumpContact(const char *              tag,
+                               const yarp::os::Contact & aContact)
 {
     OD_SYSLOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
                  "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ",//####
                  aContact.getCarrier().c_str());//####
-    OD_SYSLOG_L1("contact.port = ", aContact.getPort());//####
+    OD_SYSLOG_LL1("contact.port = ", aContact.getPort());//####
     OD_SYSLOG_S1("contact.toString = ", aContact.toString().c_str());//####
     OD_SYSLOG_B1("contact.isValid = ", aContact.isValid());//####
-} // dumpContact
+} // YarpPlusPlus::dumpContact

@@ -47,7 +47,12 @@ namespace YarpPlusPlus
         
         /*! @brief @c true if input stream processing is enabled. */
         bool _canProcessInput;
-        
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wunused-private-field"
+        /*! @brief Filler to pad to alignment boundary */
+        char _filler[7];
+# pragma clang diagnostic pop
+
     }; // InputHandler
     
 } // YarpPlusPlus

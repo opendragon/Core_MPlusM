@@ -89,6 +89,11 @@ namespace YarpPlusPlus
         yarp::os::Port *      _port;
         /*! @brief @c true if the endpoint is open and @c false otherwise. */
         bool                  _isOpen;
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wunused-private-field"
+        /*! @brief Filler to pad to alignment boundary */
+        char                  _filler[7];
+# pragma clang diagnostic pop
         
     }; // Endpoint
     

@@ -9,6 +9,7 @@
 #include "YPPInputHandler.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPCommon.h"
 
 #pragma mark Private structures and constants
 
