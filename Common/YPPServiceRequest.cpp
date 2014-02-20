@@ -21,21 +21,18 @@
 #pragma mark Constructors and destructors
 
 YarpPlusPlus::ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName,
-                                             const ParameterType *         parameters)
+                                             const yarp::os::Bottle &      parameters)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("requestName = ", requestName.c_str());//####
-    OD_SYSLOG_P1("parameters = ", parameters);//####
+    OD_SYSLOG_P1("parameters = ", parameters.toString().c_str());//####
     _name = requestName;
-    if (parameters)
+    OD_SYSLOG_LL1("parameter size = ", parameters.size());//####
+    for (int ii = 0; ii < parameters.size(); ++ii)
     {
-        OD_SYSLOG_LL1("parameter size = ", parameters->size());//####
-        for (size_t ii = 0; ii < parameters->size(); ++ii)
-        {
-            OD_SYSLOG_S1("parameter = ", parameters->at(ii).c_str());//####
-        }
-        _parameters = *parameters;
+        OD_SYSLOG_S1("parameter = ", parameters.get(ii).asString().c_str());//####
     }
+    _parameters = parameters;
     OD_SYSLOG_EXIT();//####
 } // YarpPlusPlus::ServiceRequest::ServiceRequest
 
@@ -66,15 +63,12 @@ bool YarpPlusPlus::ServiceRequest::send(Endpoint &        destination,
             yarp::os::Bottle message;
             
             OD_SYSLOG_LL1("parameter size = ", _parameters.size());//####
-            for (size_t ii = 0; ii < _parameters.size(); ++ii)
+            for (int ii = 0; ii < _parameters.size(); ++ii)
             {
-                OD_SYSLOG_S1("parameter = ", _parameters.at(ii).c_str());//####
+                OD_SYSLOG_S1("parameter = ", _parameters.get(ii).asString().c_str());//####
             }
             message.addString(_name);
-            for (size_t ii = 0; ii < _parameters.size(); ++ii)
-            {
-                message.addString(_parameters.at(ii));
-            }
+            message.append(_parameters);
             if (response)
             {
                 yarp::os::Bottle holder;

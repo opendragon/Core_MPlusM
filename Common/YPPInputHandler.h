@@ -40,6 +40,18 @@ namespace YarpPlusPlus
         
     private:
         
+        /*! @brief Copy constructor.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        InputHandler(const InputHandler & other);
+        
+        /*! @brief Assignment operator.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        InputHandler & operator=(const InputHandler & other);
+        
         /*! @brief Read an object from the input stream.
          @param connection The input stream that is to be read from.
          @returns @c true if the object was successfully read and @c false otherwise. */

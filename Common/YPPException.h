@@ -30,6 +30,18 @@ namespace YarpPlusPlus
         
     private:
         
+        /*! @brief Copy constructor.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        Exception(const Exception & other);
+        
+        /*! @brief Assignment operator.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        Exception & operator=(const Exception & other);
+        
     }; // Exception
     
 } // YarpPlusPlus

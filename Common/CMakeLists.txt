@@ -44,9 +44,9 @@ add_test(NAME TestEchoFromEndpoint1 COMMAND CommonTest 4 "/service/test4_1")
 add_test(NAME TestEchoFromEndpoint2 COMMAND CommonTest 4 "/service/test4_2" "localhost")
 add_test(NAME TestEchoFromEndpoint3 COMMAND CommonTest 4 "/service/test4_3" "localhost" "12340")
 # Test data echo from endpoints, using reader creator, same arguments as test 1
-add_test(NAME TestEchoFromEndpoint5 COMMAND CommonTest 5 "/service/test5_1")
-add_test(NAME TestEchoFromEndpoint6 COMMAND CommonTest 5 "/service/test5_2" "localhost")
-add_test(NAME TestEchoFromEndpoint7 COMMAND CommonTest 5 "/service/test5_3" "localhost" "12340")
+add_test(NAME TestEchoFromEndpoint4 COMMAND CommonTest 5 "/service/test5_1")
+add_test(NAME TestEchoFromEndpoint5 COMMAND CommonTest 5 "/service/test5_2" "localhost")
+add_test(NAME TestEchoFromEndpoint6 COMMAND CommonTest 5 "/service/test5_3" "localhost" "12340")
 # Test service request creation
 add_test(NAME TestCreateRequest1 COMMAND CommonTest 6 "echo")
 add_test(NAME TestCreateRequest2 COMMAND CommonTest 6 "echo" "something")
@@ -58,9 +58,12 @@ add_test(NAME TestCreateResponse3 COMMAND CommonTest 7 "back" "at" "you")
 add_test(NAME TestRequestEchoFromEndpoint1 COMMAND CommonTest 8 "/service/test8_1")
 add_test(NAME TestRequestEchoFromEndpoint2 COMMAND CommonTest 8 "/service/test8_2" "localhost")
 add_test(NAME TestRequestEchoFromEndpoint3 COMMAND CommonTest 8 "/service/test8_3" "localhost" "12340")
-
+# Test echo via service request/response, fixed message [echo something to send] but arguments as with test 1
+add_test(NAME TestRequestEchoFromService1 COMMAND CommonTest 9 "/service/test9_1")
+add_test(NAME TestRequestEchoFromService2 COMMAND CommonTest 9 "/service/test9_2" "localhost")
+add_test(NAME TestRequestEchoFromService3 COMMAND CommonTest 9 "/service/test9_3" "localhost" "12340")
 
 
 # First tests - creation of objects
-add_test(NAME TestCreateService COMMAND CommonTest 12)
-add_test(NAME TestCreateClient COMMAND CommonTest 13)
+#add_test(NAME TestCreateService COMMAND CommonTest 12)
+#add_test(NAME TestCreateClient COMMAND CommonTest 13)

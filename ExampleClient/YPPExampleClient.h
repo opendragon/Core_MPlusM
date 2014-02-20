@@ -28,6 +28,18 @@ namespace YarpPlusPlus
         
     private:
         
+        /*! @brief Copy constructor.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        ExampleClient(const ExampleClient & other);
+        
+        /*! @brief Assignment operator.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        ExampleClient & operator=(const ExampleClient & other);
+        
     }; // ExampleClient
     
 } // YarpPlusPlus

@@ -41,9 +41,9 @@ int main(int     argc,
     yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
     
     cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << endl;
-    RegistryService * stuff = new RegistryService;
-
-    delete stuff;
+//    RegistryService * stuff = new RegistryService;
+//
+//    delete stuff;
     OD_SYSLOG_EXIT_L(0);//####
     return 0;
 } // main

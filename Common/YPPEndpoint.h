@@ -79,6 +79,18 @@ namespace YarpPlusPlus
         
     private:
         
+        /*! @brief Copy constructor.
+
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        Endpoint(const Endpoint & other);
+        
+        /*! @brief Assignment operator.
+
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        Endpoint & operator=(const Endpoint & other);
+        
         /*! @brief The connection details for the endpoint. */
         yarp::os::Contact     _contact;
         /*! @brief The input handler for the endpoint. */

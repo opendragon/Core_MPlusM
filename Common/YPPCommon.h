@@ -16,8 +16,7 @@
 
 namespace YarpPlusPlus
 {
-    typedef std::vector<yarp::os::ConstString> ParameterType;
-    
+
     /*! @brief Dump out a description of the provided connection information to the log.
      @param tag A unique string used to identify the call point for the output.
      @param aContact The connection information to be reported. */

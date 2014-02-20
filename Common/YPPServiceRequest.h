@@ -24,7 +24,7 @@ namespace YarpPlusPlus
          @param requestName The request to be processed.
          @param parameters The (optional) parameters for the request. */
         ServiceRequest(const yarp::os::ConstString & requestName,
-                       const ParameterType *         parameters = NULL);
+                       const yarp::os::Bottle &      parameters = "");
         
         /*! @brief The destructor. */
         virtual ~ServiceRequest(void);
@@ -40,10 +40,22 @@ namespace YarpPlusPlus
         
     private:
         
+        /*! @brief Copy constructor.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        ServiceRequest(const ServiceRequest & other);
+        
+        /*! @brief Assignment operator.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        ServiceRequest & operator=(const ServiceRequest & other);
+        
         /*! @brief The request name. */
         yarp::os::ConstString _name;
         /*! @brief The request parameters. */
-        ParameterType         _parameters;
+        yarp::os::Bottle      _parameters;
         
     }; // ServiceRequest
     

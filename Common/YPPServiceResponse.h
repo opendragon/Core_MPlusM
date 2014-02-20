@@ -21,11 +21,7 @@ namespace YarpPlusPlus
         
         /*! @brief The constructor.
          @param values The (optional) values for the response. */
-        ServiceResponse(const ParameterType * values = NULL);
-        
-        /*! @brief The constructor.
-         @param values The (optional) values for the response. */
-        ServiceResponse(const yarp::os::Bottle & values);
+        ServiceResponse(const yarp::os::Bottle & values = "");
 
         /*! @brief The destructor. */
         virtual ~ServiceResponse(void);
@@ -36,21 +32,33 @@ namespace YarpPlusPlus
         
         /*! @brief The number of values in the response.
          @returns The number of values in the response. */
-        size_t count(void)
+        int count(void)
         const;
         
         /*! @brief Fetch an element from the values.
          @param index The @c 0-based index of the desired element.
          @returns The element corresponding to the provided index. */
-        yarp::os::ConstString element(const size_t index)
+        yarp::os::Value element(const int index)
         const;
         
     protected:
         
     private:
         
+        /*! @brief Copy constructor.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        ServiceResponse(const ServiceResponse & other);
+        
+        /*! @brief Assignment operator.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        ServiceResponse & operator=(const ServiceResponse & other);
+        
         /*! @brief The response values. */
-        ParameterType _values;
+        yarp::os::Bottle _values;
 
     }; // ServiceResponse
     

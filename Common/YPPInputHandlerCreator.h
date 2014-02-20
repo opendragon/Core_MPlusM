@@ -33,6 +33,18 @@ namespace YarpPlusPlus
 
     private:
         
+        /*! @brief Copy constructor.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        InputHandlerCreator(const InputHandlerCreator & other);
+        
+        /*! @brief Assignment operator.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        InputHandlerCreator & operator=(const InputHandlerCreator & other);
+        
     }; // InputHandlerCreator
     
 } // YarpPlusPlus
