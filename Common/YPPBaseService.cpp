@@ -10,6 +10,8 @@
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPException.h"
+#include "YPPBaseServiceInputHandler.h"
+#include "YPPBaseServiceInputHandlerCreator.h"
 
 #pragma mark Private structures and constants
 
@@ -19,10 +21,12 @@
 
 #pragma mark Constructors and destructors
 
-YarpPlusPlus::BaseService::BaseService(const yarp::os::ConstString & serviceEndpointName,
+YarpPlusPlus::BaseService::BaseService(const bool                    useMultipleHandlers,
+                                       const yarp::os::ConstString & serviceEndpointName,
                                        const yarp::os::ConstString & serviceHostName,
                                        const yarp::os::ConstString & servicePortNumber) :
-        _started(false), _endpoint(NULL)
+        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
+        _useMultipleHandlers(useMultipleHandlers)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
@@ -31,9 +35,11 @@ YarpPlusPlus::BaseService::BaseService(const yarp::os::ConstString & serviceEndp
     OD_SYSLOG_EXIT();//####
 } // YarpPlusPlus::BaseService::BaseService
 
-YarpPlusPlus::BaseService::BaseService(const int argc,
-                                       char **   argv) :
-        _started(false), _endpoint(NULL)
+YarpPlusPlus::BaseService::BaseService(const bool useMultipleHandlers,
+                                       const int  argc,
+                                       char **    argv) :
+        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
+        _useMultipleHandlers(useMultipleHandlers)
 {
     OD_SYSLOG_ENTER();//####
     switch (argc)
@@ -63,7 +69,9 @@ YarpPlusPlus::BaseService::~BaseService(void)
 {
     OD_SYSLOG_ENTER();//####
     delete _endpoint;
-    OD_SYSLOG_EXIT();//####    
+    delete _handler;
+    delete _handlerCreator;
+    OD_SYSLOG_EXIT();//####
 } // YarpPlusPlus::BaseService::~BaseService
 
 #pragma mark Actions
@@ -71,7 +79,45 @@ YarpPlusPlus::BaseService::~BaseService(void)
 bool YarpPlusPlus::BaseService::start(void)
 {
     OD_SYSLOG_ENTER();//####
-    _started = true;
+    if (! _started)
+    {
+        if (_useMultipleHandlers)
+        {
+            _handlerCreator = new BaseServiceInputHandlerCreator(*this);
+            if (_handlerCreator)
+            {
+                YarpPlusPlus::Endpoint & ourEndpoint = getEndpoint();
+                
+                if (ourEndpoint.setInputHandlerCreator(*_handlerCreator) && ourEndpoint.open())
+                {
+                    _started = true;
+                }
+                else
+                {
+                    delete _handlerCreator;
+                    _handlerCreator = NULL;
+                }
+            }
+        }
+        else
+        {
+            _handler = new BaseServiceInputHandler(*this);
+            if (_handler)
+            {
+                YarpPlusPlus::Endpoint & ourEndpoint = getEndpoint();
+                
+                if (ourEndpoint.setInputHandler(*_handler) && ourEndpoint.open())
+                {
+                    _started = true;
+                }
+                else
+                {
+                    delete _handler;
+                    _handler = NULL;
+                }
+            }
+        }
+    }
     OD_SYSLOG_EXIT_B(_started);//####
     return _started;
 } // YarpPlusPlus::BaseService::start

@@ -10,7 +10,6 @@
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPEndpoint.h"
-#include "YPPServiceResponse.h"
 
 #pragma mark Private structures and constants
 

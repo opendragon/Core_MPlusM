@@ -31,6 +31,9 @@ namespace YarpPlusPlus
         /*! @brief The destructor. */
         virtual ~Endpoint(void);
         
+        /*! @brief Stop processing input. */
+        void close(void);
+        
         /*! @brief Return the YARP name for the endpoint.
          @returns The YARP name for the endpoint. */
         yarp::os::ConstString getName(void)

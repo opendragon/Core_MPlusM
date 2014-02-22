@@ -21,7 +21,7 @@
 YarpPlusPlus::RegistryService::RegistryService(const yarp::os::ConstString & serviceEndpointName,
                                                const yarp::os::ConstString & serviceHostName,
                                                const yarp::os::ConstString & servicePortNumber) :
-            BaseService(serviceEndpointName, serviceHostName, servicePortNumber)
+            BaseService(true, serviceEndpointName, serviceHostName, servicePortNumber)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
@@ -29,7 +29,7 @@ YarpPlusPlus::RegistryService::RegistryService(const yarp::os::ConstString & ser
 
 YarpPlusPlus::RegistryService::RegistryService(const int argc,
                                                char **   argv) :
-        BaseService(argc, argv)
+        BaseService(true, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
     
@@ -58,17 +58,16 @@ bool YarpPlusPlus::RegistryService::processRequest(yarp::os::Bottle &           
 bool YarpPlusPlus::RegistryService::start(void)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_ENTER();//####
-    if (! _started)
+    if (! isStarted())
     {
-        if (BaseService::start())
+        BaseService::start();
+        if (isStarted())
         {
-//            YarpPlusPlus::Endpoint & ourEndpoint = getEndpoint();
             
         }
     }
-    OD_SYSLOG_EXIT_B(_started);//####
-    return _started;
+    OD_SYSLOG_EXIT_B(isStarted());//####
+    return isStarted();
 } // YarpPlusPlus::RegistryService::start
 
 bool YarpPlusPlus::RegistryService::stop(void)

@@ -16,7 +16,7 @@ add_library(YPPBaseShared
             YPPServiceRequest.cpp
             YPPServiceResponse.cpp)
 add_library(YPPBaseClient YPPBaseClient.cpp)
-add_library(YPPBaseService YPPBaseService.cpp)
+add_library(YPPBaseService YPPBaseService.cpp YPPBaseServiceInputHandler.cpp YPPBaseServiceInputHandlerCreator.cpp)
 
 install(TARGETS YPPBaseClient YPPBaseService YPPBaseShared DESTINATION bin)
 install(FILES YPPBaseClient YPPBaseService YPPBaseShared DESTINATION include)
@@ -62,6 +62,10 @@ add_test(NAME TestRequestEchoFromEndpoint3 COMMAND CommonTest 8 "/service/test8_
 add_test(NAME TestRequestEchoFromService1 COMMAND CommonTest 9 "/service/test9_1")
 add_test(NAME TestRequestEchoFromService2 COMMAND CommonTest 9 "/service/test9_2" "localhost")
 add_test(NAME TestRequestEchoFromService3 COMMAND CommonTest 9 "/service/test9_3" "localhost" "12340")
+# Test echo via service request/response, fixed message [echo something to send] but arguments as with test 1
+add_test(NAME TestRequestEchoFromService4 COMMAND CommonTest 10 "/service/test10_1")
+add_test(NAME TestRequestEchoFromService5 COMMAND CommonTest 10 "/service/test10_2" "localhost")
+add_test(NAME TestRequestEchoFromService6 COMMAND CommonTest 10 "/service/test10_3" "localhost" "12340")
 
 
 # First tests - creation of objects

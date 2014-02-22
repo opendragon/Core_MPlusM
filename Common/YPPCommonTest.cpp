@@ -7,10 +7,8 @@
 //
 
 #include "YPPServiceRequest.h"
-#include "YPPServiceResponse.h"
 #include "YPPBaseClient.h"
 #include "YPPBaseService.h"
-#include "YPPEndpoint.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include <yarp/os/all.h>
@@ -814,52 +812,6 @@ static int doCase08(const int argc,
 
 #pragma mark *** Test Case 09 ***
 
-class Test09Service;
-
-/*! @brief A test input handler. */
-class Test09Handler : public YarpPlusPlus::InputHandler
-{
-public:
-    
-    /*! @brief The constructor.
-     @param service The service that owns this handler. */
-    Test09Handler(Test09Service & service);
-    
-    /*! @brief The destructor. */
-    virtual ~Test09Handler(void);
-    
-    /*! @brief Process partially-structured input data.
-     @param input The partially-structured input data.
-     @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-     @returns @c true if the input was correctly structured and successfully processed. */
-    virtual bool handleInput(yarp::os::Bottle &           input,
-                             yarp::os::ConnectionWriter * replyMechanism);
-    
-protected:
-    
-private:
-    
-    Test09Service & _service;
-    
-}; // Test09Handler
-
-#pragma mark Class methods
-
-#pragma mark Constructors and destructors
-
-Test09Handler::Test09Handler(Test09Service & service) :
-        InputHandler(), _service(service)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test09Handler::Test09Handler
-
-Test09Handler::~Test09Handler(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test09Handler::~Test09Handler
-
 /*! @brief A test input handler. */
 class Test09Service : public YarpPlusPlus::BaseService
 {
@@ -881,19 +833,9 @@ public:
     virtual bool processRequest(yarp::os::Bottle &           input,
                                 yarp::os::ConnectionWriter * replyMechanism);
     
-    /*! @brief Start processing requests.
-     @returns @c true if the service was started and @c false if it was not. */
-    virtual bool start(void);
-    
-    /*! @brief Stop processing requests.
-     @returns @c true if the service was stopped and @c false it if was not. */
-    virtual bool stop(void);
-
 protected:
     
 private:
-    
-    Test09Handler _handler;
     
 }; // Test09Service
 
@@ -903,7 +845,7 @@ private:
 
 Test09Service::Test09Service(const int argc,
                              char **   argv) :
-        BaseService(argc, argv), _handler(*this)
+        BaseService(false, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
@@ -928,54 +870,9 @@ bool Test09Service::processRequest(yarp::os::Bottle &           input,
     {
         input.write(*replyMechanism);
     }
-    
-    
     OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // Test09Service::processRequest
-
-bool Test09Service::start(void)
-{
-    OD_SYSLOG_ENTER();//####
-    if (! _started)
-    {
-        if (BaseService::start())
-        {
-            YarpPlusPlus::Endpoint & ourEndpoint = getEndpoint();
-            
-            _started = false;
-            if (ourEndpoint.setInputHandler(_handler) && ourEndpoint.open())
-            {
-                _started = true;
-            }
-        }
-    }
-    OD_SYSLOG_EXIT_B(_started);//####
-    return _started;
-} // Test09Service::start
-
-bool Test09Service::stop(void)
-{
-    OD_SYSLOG_ENTER();//####
-    bool result = BaseService::stop();
-    
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // Test09Service::stop
-
-#pragma mark Actions
-
-bool Test09Handler::handleInput(yarp::os::Bottle &           input,
-                                yarp::os::ConnectionWriter * replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
-    OD_SYSLOG_S1("got ", input.toString().c_str());//####
-    bool result = _service.processRequest(input, replyMechanism);
-    
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // Test09Handler::handleInput
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -1016,11 +913,108 @@ static int doCase09(const int argc,
     return result;
 } // doCase09
 
+#pragma mark *** Test Case 10 ***
 
+/*! @brief A test input handler. */
+class Test10Service : public YarpPlusPlus::BaseService
+{
+public:
+    
+    /*! @brief The constructor.
+     @param argc The number of arguments in 'argv'.
+     @param argv The arguments to be used to specify the new service. */
+    Test10Service(const int argc,
+                  char **   argv);
+    
+    /*! @brief The destructor. */
+    virtual ~Test10Service(void);
+    
+    /*! @brief Process partially-structured input data.
+     @param input The partially-structured input data.
+     @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+     @returns @c true if the input was correctly structured and successfully processed. */
+    virtual bool processRequest(yarp::os::Bottle &           input,
+                                yarp::os::ConnectionWriter * replyMechanism);
+    
+protected:
+    
+private:
+    
+}; // Test10Service
 
+#pragma mark Class methods
 
+#pragma mark Constructors and destructors
 
+Test10Service::Test10Service(const int argc,
+                             char **   argv) :
+        BaseService(true, argc, argv)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test10Service::Test10Service
 
+Test10Service::~Test10Service(void)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test10Service::~Test10Service
+
+#pragma mark Actions
+
+bool Test10Service::processRequest(yarp::os::Bottle &           input,
+                                   yarp::os::ConnectionWriter * replyMechanism)
+{
+    OD_SYSLOG_ENTER();//####
+    bool result = true;
+    
+    
+    if (replyMechanism)
+    {
+        input.write(*replyMechanism);
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // Test10Service::processRequest
+
+/*! @brief Perform a test case.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used for the test.
+ @returns @c 0 on success and @c 1 on failure. */
+static int doCase10(const int argc,
+                    char **   argv) // create request
+{
+    int             result;
+    Test10Service * stuff = new Test10Service(argc, argv);
+    
+    if (stuff && stuff->start())
+    {
+        yarp::os::Bottle              parameters("some to send");
+        YarpPlusPlus::ServiceRequest  request("echo", parameters);
+        YarpPlusPlus::ServiceResponse response;
+        
+        if (request.send(stuff->getEndpoint(), &response))
+        {
+            OD_SYSLOG_LL1("response size = ", response.count());//####
+            for (int ii = 0; ii < response.count(); ++ii)
+            {
+                OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+            }
+            result = 0;
+        }
+        else
+        {
+            result = 1;
+        }
+        stuff->stop();
+        delete stuff;
+    }
+    else
+    {
+        result = 1;
+    }
+    return result;
+} // doCase10
 
 
 
@@ -1118,9 +1112,9 @@ int main(int     argc,
                 result = doCase09(argc - 1, argv + 2);
                 break;
 
-//            case 10:
-//                result = doCase10(argc - 1, argv + 2);
-//                break;
+            case 10:
+                result = doCase10(argc - 1, argv + 2);
+                break;
                 
 //            case 11:
 //                result = doCase11(argc - 1, argv + 2);

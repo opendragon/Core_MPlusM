@@ -167,19 +167,34 @@ YarpPlusPlus::Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
 YarpPlusPlus::Endpoint::~Endpoint(void)
 {
     OD_SYSLOG_ENTER();//####
-    if (_handler)
-    {
-        _handler->stopProcessing();
-    }
-    if (_port)
-    {
-        _port->close();
-    }
-    delete _port;
+    close();
     OD_SYSLOG_EXIT();//####
 } // YarpPlusPlus::Endpoint::~Endpoint
 
 #pragma mark Actions
+
+void YarpPlusPlus::Endpoint::close(void)
+{
+    OD_SYSLOG_ENTER();//####
+    if (isOpen())
+    {
+        if (_handler)
+        {
+            _handler->stopProcessing();
+        }
+        if (_port)
+        {
+            _port->close();
+            _contact = yarp::os::Network::unregisterContact(_contact);
+            delete _port;
+            _port = NULL;
+        }
+        _handler = NULL;
+        _handlerCreator = NULL;
+        _isOpen = false;
+    }
+    OD_SYSLOG_EXIT();//####
+} // YarpPlusPlus::Endpoint::close
 
 bool YarpPlusPlus::Endpoint::open(void)
 {
