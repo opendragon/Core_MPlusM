@@ -30,7 +30,7 @@ namespace YarpPlusPlus
          @param input The partially-structured input data.
          @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
          @returns @c true if the input was correctly structured and successfully processed. */
-        virtual bool handleInput(yarp::os::Bottle &           input,
+        virtual bool handleInput(const yarp::os::Bottle &     input,
                                  yarp::os::ConnectionWriter * replyMechanism) = 0;
         
         /*! @brief Terminate processing of the input data stream. */

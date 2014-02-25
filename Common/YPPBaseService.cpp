@@ -12,6 +12,7 @@
 #include "YPPException.h"
 #include "YPPBaseServiceInputHandler.h"
 #include "YPPBaseServiceInputHandlerCreator.h"
+#include <string>
 
 #pragma mark Private structures and constants
 
@@ -25,8 +26,8 @@ YarpPlusPlus::BaseService::BaseService(const bool                    useMultiple
                                        const yarp::os::ConstString & serviceEndpointName,
                                        const yarp::os::ConstString & serviceHostName,
                                        const yarp::os::ConstString & servicePortNumber) :
-        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
-        _useMultipleHandlers(useMultipleHandlers)
+        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _requestHandlers(), _defaultHandler(NULL),
+        _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
@@ -38,8 +39,8 @@ YarpPlusPlus::BaseService::BaseService(const bool                    useMultiple
 YarpPlusPlus::BaseService::BaseService(const bool useMultipleHandlers,
                                        const int  argc,
                                        char **    argv) :
-        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
-        _useMultipleHandlers(useMultipleHandlers)
+        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _requestHandlers(), _defaultHandler(NULL),
+        _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_SYSLOG_ENTER();//####
     switch (argc)
@@ -75,6 +76,65 @@ YarpPlusPlus::BaseService::~BaseService(void)
 } // YarpPlusPlus::BaseService::~BaseService
 
 #pragma mark Actions
+
+YarpPlusPlus::BaseService::HandlerFunction YarpPlusPlus::BaseService::lookupRequestHandler(const yarp::os::ConstString & request)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("request = ", request.c_str());//####
+    HandlerMap::const_iterator match(_requestHandlers.find(std::string(request)));
+    HandlerFunction            result;
+    
+    if (_requestHandlers.end() == match)
+    {
+        OD_SYSLOG("(_requestHandlers.end() == match)");//####
+        result = _defaultHandler;
+    }
+    else
+    {
+        OD_SYSLOG("! (_requestHandlers.end() == match)");//####
+        result = match->second;
+    }
+    OD_SYSLOG_EXIT();//####
+    return result;
+} // YarpPlusPlus::BaseService::lookupRequestHandler
+
+bool YarpPlusPlus::BaseService::processRequest(const yarp::os::ConstString & request,
+                                               const yarp::os::Bottle &      restOfInput,
+                                               yarp::os::ConnectionWriter *  replyMechanism)
+{
+    OD_SYSLOG_ENTER();//####
+    bool            result;
+    HandlerFunction handler = lookupRequestHandler(request);
+    
+    if (handler)
+    {
+        OD_SYSLOG("(handler)");//####
+        result = handler(this, request, restOfInput, replyMechanism);
+    }
+    else
+    {
+        OD_SYSLOG("! (handler)");//####
+        result = false;
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // YarpPlusPlus::BaseService::processRequest
+
+void YarpPlusPlus::BaseService::registerRequestHandler(const yarp::os::ConstString & request,
+                                                       HandlerFunction               handler)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("request = ", request.c_str());//####
+    _requestHandlers.insert(HandlerMapValue(std::string(request), handler));
+    OD_SYSLOG_EXIT();//####
+} // YarpPlusPlus::BaseService::registerRequestHandler
+
+void YarpPlusPlus::BaseService::setDefaultRequestHandler(HandlerFunction handler)
+{
+    OD_SYSLOG_ENTER();//####
+    _defaultHandler = handler;
+    OD_SYSLOG_EXIT();//####
+} // YarpPlusPlus::BaseService::setDefaultRequestHandler
 
 bool YarpPlusPlus::BaseService::start(void)
 {

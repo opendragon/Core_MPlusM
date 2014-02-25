@@ -35,13 +35,6 @@ namespace YarpPlusPlus
         /*! @brief The destructor. */
         virtual ~RegistryService(void);
         
-        /*! @brief Process partially-structured input data.
-         @param input The partially-structured input data.
-         @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-         @returns @c true if the input was correctly structured and successfully processed. */
-        virtual bool processRequest(yarp::os::Bottle &           input,
-                                    yarp::os::ConnectionWriter * replyMechanism);
-        
         /*! @brief Start processing requests.
          @returns @c true if the service was started and @c false if it was not. */
         virtual bool start(void);

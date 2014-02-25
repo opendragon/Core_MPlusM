@@ -45,17 +45,6 @@ YarpPlusPlus::ExampleService::~ExampleService(void)
 
 #pragma mark Actions
 
-bool YarpPlusPlus::ExampleService::processRequest(yarp::os::Bottle &           input,
-                                                  yarp::os::ConnectionWriter * replyMechanism)
-{
-#pragma unused(input,replyMechanism)
-    OD_SYSLOG_ENTER();//####
-    bool result = true;
-    
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // YarpPlusPlus::ExampleService::processRequest
-
 bool YarpPlusPlus::ExampleService::start(void)
 {
     OD_SYSLOG_ENTER();//####

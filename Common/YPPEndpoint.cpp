@@ -110,7 +110,10 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
 yarp::os::ConstString YarpPlusPlus::Endpoint::getRandomPortName(void)
 {
     yarp::os::ConstString result;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     char *                temp = tempnam(NULL, "port_");
+#pragma clang diagnostic pop
     
     result = temp;
     free(temp);

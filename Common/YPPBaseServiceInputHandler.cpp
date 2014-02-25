@@ -36,14 +36,22 @@ YarpPlusPlus::BaseServiceInputHandler::~BaseServiceInputHandler(void)
 
 #pragma mark Actions
 
-bool YarpPlusPlus::BaseServiceInputHandler::handleInput(yarp::os::Bottle &           input,
+bool YarpPlusPlus::BaseServiceInputHandler::handleInput(const yarp::os::Bottle &     input,
                                                         yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     OD_SYSLOG_S1("got ", input.toString().c_str());//####
-    bool result = _service.processRequest(input, replyMechanism);
+    bool result;
     
+    if (0 < input.size())
+    {
+        result = _service.processRequest(input.get(0).toString(), input.tail(), replyMechanism);
+    }
+    else
+    {
+        result = true;
+    }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // YarpPlusPlus::BaseServiceInputHandler::handleInput

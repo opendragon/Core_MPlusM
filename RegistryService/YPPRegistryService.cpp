@@ -44,17 +44,6 @@ YarpPlusPlus::RegistryService::~RegistryService(void)
 
 #pragma mark Actions
 
-bool YarpPlusPlus::RegistryService::processRequest(yarp::os::Bottle &           input,
-                                                   yarp::os::ConnectionWriter * replyMechanism)
-{
-#pragma unused(input,replyMechanism)
-    OD_SYSLOG_ENTER();//####
-    bool result = true;
-    
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // YarpPlusPlus::RegistryService::processRequest
-
 bool YarpPlusPlus::RegistryService::start(void)
 {
     OD_SYSLOG_ENTER();//####

@@ -216,7 +216,7 @@ public:
      @param input The partially-structured input data.
      @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
      @returns @c true if the input was correctly structured and successfully processed. */
-    virtual bool handleInput(yarp::os::Bottle &           input,
+    virtual bool handleInput(const yarp::os::Bottle &     input,
                              yarp::os::ConnectionWriter * replyMechanism);
     
 protected:
@@ -244,7 +244,7 @@ Test03Handler::~Test03Handler(void)
 
 #pragma mark Actions
 
-bool Test03Handler::handleInput(yarp::os::Bottle &           input,
+bool Test03Handler::handleInput(const yarp::os::Bottle &     input,
                                 yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
@@ -346,7 +346,7 @@ public:
      @param input The partially-structured input data.
      @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
      @returns @c true if the input was correctly structured and successfully processed. */
-    virtual bool handleInput(yarp::os::Bottle &           input,
+    virtual bool handleInput(const yarp::os::Bottle &     input,
                              yarp::os::ConnectionWriter * replyMechanism);
     
 protected:
@@ -374,7 +374,7 @@ Test04Handler::~Test04Handler(void)
 
 #pragma mark Actions
 
-bool Test04Handler::handleInput(yarp::os::Bottle &           input,
+bool Test04Handler::handleInput(const yarp::os::Bottle &     input,
                                 yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
@@ -382,7 +382,9 @@ bool Test04Handler::handleInput(yarp::os::Bottle &           input,
     OD_SYSLOG_S1("got ", input.toString().c_str());//####
     if (replyMechanism)
     {
-        input.write(*replyMechanism);
+        yarp::os::Bottle inputCopy(input);
+        
+        inputCopy.write(*replyMechanism);
     }
     OD_SYSLOG_EXIT_B(TRUE);//####
     return true;
@@ -482,7 +484,7 @@ public:
      @param input The partially-structured input data.
      @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
      @returns @c true if the input was correctly structured and successfully processed. */
-    virtual bool handleInput(yarp::os::Bottle &           input,
+    virtual bool handleInput(const yarp::os::Bottle &     input,
                              yarp::os::ConnectionWriter * replyMechanism);
     
 protected:
@@ -510,7 +512,7 @@ Test05Handler::~Test05Handler(void)
 
 #pragma mark Actions
 
-bool Test05Handler::handleInput(yarp::os::Bottle &           input,
+bool Test05Handler::handleInput(const yarp::os::Bottle &     input,
                                 yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
@@ -518,7 +520,9 @@ bool Test05Handler::handleInput(yarp::os::Bottle &           input,
     OD_SYSLOG_S1("got ", input.toString().c_str());//####
     if (replyMechanism)
     {
-        input.write(*replyMechanism);
+        yarp::os::Bottle inputCopy(input);
+        
+        inputCopy.write(*replyMechanism);
     }
     OD_SYSLOG_EXIT_B(TRUE);//####
     return true;
@@ -719,7 +723,7 @@ public:
      @param input The partially-structured input data.
      @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
      @returns @c true if the input was correctly structured and successfully processed. */
-    virtual bool handleInput(yarp::os::Bottle &           input,
+    virtual bool handleInput(const yarp::os::Bottle &     input,
                              yarp::os::ConnectionWriter * replyMechanism);
     
 protected:
@@ -747,7 +751,7 @@ Test08Handler::~Test08Handler(void)
 
 #pragma mark Actions
 
-bool Test08Handler::handleInput(yarp::os::Bottle &           input,
+bool Test08Handler::handleInput(const yarp::os::Bottle &     input,
                                 yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
@@ -755,7 +759,9 @@ bool Test08Handler::handleInput(yarp::os::Bottle &           input,
     OD_SYSLOG_S1("got ", input.toString().c_str());//####
     if (replyMechanism)
     {
-        input.write(*replyMechanism);
+        yarp::os::Bottle inputCopy(input);
+        
+        inputCopy.write(*replyMechanism);
     }
     OD_SYSLOG_EXIT_B(TRUE);//####
     return true;
@@ -826,18 +832,34 @@ public:
     /*! @brief The destructor. */
     virtual ~Test09Service(void);
     
-    /*! @brief Process partially-structured input data.
-     @param input The partially-structured input data.
-     @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-     @returns @c true if the input was correctly structured and successfully processed. */
-    virtual bool processRequest(yarp::os::Bottle &           input,
-                                yarp::os::ConnectionWriter * replyMechanism);
-    
 protected:
     
 private:
     
 }; // Test09Service
+
+#pragma mark Local functions
+
+static bool service09DefaultHandler(YarpPlusPlus::BaseService *   service,
+                                    const yarp::os::ConstString & request,
+                                    const yarp::os::Bottle &      restOfInput,
+                                    yarp::os::ConnectionWriter *  replyMechanism)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("service = ", service);//####
+    OD_SYSLOG_S1("request = ", request.c_str());//####
+    bool result = true;
+    
+    if (replyMechanism)
+    {
+        yarp::os::Bottle argsCopy(request);
+        
+        argsCopy.append(restOfInput);
+        argsCopy.write(*replyMechanism);
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // service09DefaultHandler
 
 #pragma mark Class methods
 
@@ -848,6 +870,7 @@ Test09Service::Test09Service(const int argc,
         BaseService(false, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
+    setDefaultRequestHandler(service09DefaultHandler);
     OD_SYSLOG_EXIT();//####
 } // Test09Service::Test09Service
 
@@ -858,21 +881,6 @@ Test09Service::~Test09Service(void)
 } // Test09Service::~Test09Service
 
 #pragma mark Actions
-
-bool Test09Service::processRequest(yarp::os::Bottle &           input,
-                                   yarp::os::ConnectionWriter * replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    bool result = true;
-    
-    
-    if (replyMechanism)
-    {
-        input.write(*replyMechanism);
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // Test09Service::processRequest
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -929,18 +937,34 @@ public:
     /*! @brief The destructor. */
     virtual ~Test10Service(void);
     
-    /*! @brief Process partially-structured input data.
-     @param input The partially-structured input data.
-     @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-     @returns @c true if the input was correctly structured and successfully processed. */
-    virtual bool processRequest(yarp::os::Bottle &           input,
-                                yarp::os::ConnectionWriter * replyMechanism);
-    
 protected:
     
 private:
     
 }; // Test10Service
+
+#pragma mark Local functions
+
+static bool service10DefaultHandler(YarpPlusPlus::BaseService *   service,
+                                    const yarp::os::ConstString & request,
+                                    const yarp::os::Bottle &      restOfInput,
+                                    yarp::os::ConnectionWriter *  replyMechanism)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("service = ", service);//####
+    OD_SYSLOG_S1("request = ", request.c_str());//####
+    bool result = true;
+    
+    if (replyMechanism)
+    {
+        yarp::os::Bottle argsCopy(request);
+        
+        argsCopy.append(restOfInput);
+        argsCopy.write(*replyMechanism);
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // service10DefaultHandler
 
 #pragma mark Class methods
 
@@ -951,6 +975,7 @@ Test10Service::Test10Service(const int argc,
         BaseService(true, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
+    setDefaultRequestHandler(service10DefaultHandler);
     OD_SYSLOG_EXIT();//####
 } // Test10Service::Test10Service
 
@@ -961,21 +986,6 @@ Test10Service::~Test10Service(void)
 } // Test10Service::~Test10Service
 
 #pragma mark Actions
-
-bool Test10Service::processRequest(yarp::os::Bottle &           input,
-                                   yarp::os::ConnectionWriter * replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    bool result = true;
-    
-    
-    if (replyMechanism)
-    {
-        input.write(*replyMechanism);
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // Test10Service::processRequest
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -1016,7 +1026,145 @@ static int doCase10(const int argc,
     return result;
 } // doCase10
 
+#pragma mark *** Test Case 11 ***
 
+/*! @brief A test input handler. */
+class Test11Service : public YarpPlusPlus::BaseService
+{
+public:
+    
+    /*! @brief The constructor.
+     @param argc The number of arguments in 'argv'.
+     @param argv The arguments to be used to specify the new service. */
+    Test11Service(const int argc,
+                  char **   argv);
+    
+    /*! @brief The destructor. */
+    virtual ~Test11Service(void);
+    
+protected:
+    
+private:
+    
+}; // Test11Service
+
+#pragma mark Local functions
+
+static bool service11DefaultHandler(YarpPlusPlus::BaseService *   service,
+                                    const yarp::os::ConstString & request,
+                                    const yarp::os::Bottle &      restOfInput,
+                                    yarp::os::ConnectionWriter *  replyMechanism)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("service = ", service);//####
+    OD_SYSLOG_S1("request = ", request.c_str());//####
+    bool result = true;
+    
+    if (replyMechanism)
+    {
+        yarp::os::Bottle argsCopy(request);
+        
+        argsCopy.append(restOfInput);
+        argsCopy.write(*replyMechanism);
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // service11DefaultHandler
+
+static bool service11EchoHandler(YarpPlusPlus::BaseService *   service,
+                                 const yarp::os::ConstString & request,
+                                 const yarp::os::Bottle &      restOfInput,
+                                 yarp::os::ConnectionWriter *  replyMechanism)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("service = ", service);//####
+    OD_SYSLOG_S1("request = ", request.c_str());//####
+    bool result = true;
+    
+    if (replyMechanism)
+    {
+        yarp::os::Bottle argsCopy(restOfInput);
+        
+        argsCopy.write(*replyMechanism);
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // service11DefaultHandler
+
+#pragma mark Class methods
+
+#pragma mark Constructors and destructors
+
+Test11Service::Test11Service(const int argc,
+                             char **   argv) :
+        BaseService(true, argc, argv)
+{
+    OD_SYSLOG_ENTER();//####
+    setDefaultRequestHandler(service11DefaultHandler);
+    registerRequestHandler("echo", service11EchoHandler);
+    OD_SYSLOG_EXIT();//####
+} // Test11Service::Test11Service
+
+Test11Service::~Test11Service(void)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test11Service::~Test11Service
+
+#pragma mark Actions
+
+/*! @brief Perform a test case.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used for the test.
+ @returns @c 0 on success and @c 1 on failure. */
+static int doCase11(const int argc,
+                    char **   argv) // create request
+{
+    int             result;
+    Test11Service * stuff = new Test11Service(argc, argv);
+    
+    if (stuff && stuff->start())
+    {
+        yarp::os::Bottle              parameters("some to send");
+        YarpPlusPlus::ServiceRequest  request("echo", parameters);
+        YarpPlusPlus::ServiceResponse response;
+        
+        if (request.send(stuff->getEndpoint(), &response))
+        {
+            if (3 == response.count())
+            {
+                yarp::os::ConstString expected[] = { "some", "to", "send" };
+                
+                result = 0;
+                for (int ii = 0; (! result) && (ii < response.count()); ++ii)
+                {
+                    if (expected[ii] != response.element(ii).toString())
+                    {
+                        OD_SYSLOG_S2("expected[ii] = ", expected[ii].c_str(),//####
+                                     "response.element(ii).toString() = ",//####
+                                     response.element(ii).toString().c_str());//####
+                        result = 1;
+                    }
+                }
+            }
+            else
+            {
+                result = 1;
+            }
+        }
+        else
+        {
+            result = 1;
+        }
+        stuff->stop();
+        delete stuff;
+    }
+    else
+    {
+        result = 1;
+    }
+    return result;
+} // doCase11
 
 
 #if 0
@@ -1116,9 +1264,9 @@ int main(int     argc,
                 result = doCase10(argc - 1, argv + 2);
                 break;
                 
-//            case 11:
-//                result = doCase11(argc - 1, argv + 2);
-//                break;
+            case 11:
+                result = doCase11(argc - 1, argv + 2);
+                break;
                 
 //            case 12:
 //                result = doCase12(argc - 1, argv + 2);

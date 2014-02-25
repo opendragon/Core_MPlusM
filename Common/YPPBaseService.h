@@ -10,12 +10,32 @@
 # define YPPBASESERVICE_H_ /* */
 
 # include "YPPEndpoint.h"
+# include <map>
 # include <yarp/os/ConstString.h>
 
 namespace YarpPlusPlus
 {
     class BaseServiceInputHandler;
     class BaseServiceInputHandlerCreator;
+    
+#if 0
+    /*! A function object to compare ConsString objects with. */
+    class StringCompare
+    {
+    public:
+        /*! @brief The comparison operator.
+         @param lhs The first value to be compared.
+         @param rhs The second value to be compared.
+         @returns @c true if the right-hand value is greater than the left-hand value. */
+        bool operator() (const std::string & lhs,
+                         const std::string & rhs)
+        const
+        {
+            return (lhs < rhs);
+        } // operator()
+        
+    }; // StringCompare
+#endif//0
     
     /*! @brief The minimal functionality required for a Yarp++ service. */
     class BaseService
@@ -60,11 +80,13 @@ namespace YarpPlusPlus
         } // isStarted
         
         /*! @brief Process partially-structured input data.
-         @param input The partially-structured input data.
+         @param request The requested operation.
+         @param restOfInput The arguments for the operation.
          @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
          @returns @c true if the input was correctly structured and successfully processed. */
-        virtual bool processRequest(yarp::os::Bottle &           input,
-                                    yarp::os::ConnectionWriter * replyMechanism) = 0;
+        bool processRequest(const yarp::os::ConstString & request,
+                            const yarp::os::Bottle &      restOfInput,
+                            yarp::os::ConnectionWriter *  replyMechanism);
         
         /*! @brief Start processing requests.
          @returns @c true if the service was started and @c false if it was not. */
@@ -75,6 +97,30 @@ namespace YarpPlusPlus
         virtual bool stop(void);
         
     protected:
+        
+        typedef bool (*HandlerFunction) (BaseService *                 service,
+                                         const yarp::os::ConstString & request,
+                                         const yarp::os::Bottle &      restOfInput,
+                                         yarp::os::ConnectionWriter *  replyMechanism);
+        
+        typedef std::map<std::string, HandlerFunction> HandlerMap;
+        
+        typedef HandlerMap::value_type HandlerMapValue;
+        
+        /*! @brief Return the function corresponding to a particular request.
+         @param request The requested operation.
+         @returns A pointer to the function to be invoked for the request, or @c NULL if it is not recognized. */
+        HandlerFunction lookupRequestHandler(const yarp::os::ConstString & request);
+
+        /*! @brief Remember the function to be used to handle a particular request.
+         @param request The requested operation.
+         @param handler The function to be called for the operation. */
+        void registerRequestHandler(const yarp::os::ConstString & request,
+                                    HandlerFunction               handler);
+        
+        /*! @brief Remember the function to be used to handle unrecognized requests.
+         @param handler The function to be called by default. */
+        void setDefaultRequestHandler(HandlerFunction handler);
         
     private:
         
@@ -98,6 +144,12 @@ namespace YarpPlusPlus
 
         /*! @brief The input handler creator for the service. */
         BaseServiceInputHandlerCreator * _handlerCreator;
+        
+        /*! @brief The map between requests and request handlers. */
+        HandlerMap _requestHandlers;
+        
+        /*! @brief The default handler to use for unrecognized requests. */
+        HandlerFunction _defaultHandler;
         
         /*! @brief The current state of the service - @c true if active and @c false otherwise. */
         bool _started;
