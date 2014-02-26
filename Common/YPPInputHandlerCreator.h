@@ -32,6 +32,8 @@ namespace YarpPlusPlus
     protected:
 
     private:
+
+        typedef yarp::os::PortReaderCreator inherited;
         
         /*! @brief Copy constructor.
          

@@ -9,6 +9,7 @@
 #include "YPPRegistryService.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPRequests.h"
 
 #pragma mark Private structures and constants
 
@@ -21,7 +22,7 @@
 YarpPlusPlus::RegistryService::RegistryService(const yarp::os::ConstString & serviceEndpointName,
                                                const yarp::os::ConstString & serviceHostName,
                                                const yarp::os::ConstString & servicePortNumber) :
-            BaseService(true, serviceEndpointName, serviceHostName, servicePortNumber)
+        inherited(true, serviceEndpointName, serviceHostName, servicePortNumber)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
@@ -43,6 +44,13 @@ YarpPlusPlus::RegistryService::~RegistryService(void)
 } // YarpPlusPlus::RegistryService::~RegistryService
 
 #pragma mark Actions
+
+void YarpPlusPlus::RegistryService::fillInListReply(yarp::os::Bottle & reply)
+{
+    OD_SYSLOG_ENTER();//####
+    inherited::fillInListReply(reply);
+    OD_SYSLOG_EXIT();//####
+} // YarpPlusPlus::RegistryService::fillInListReply
 
 bool YarpPlusPlus::RegistryService::start(void)
 {

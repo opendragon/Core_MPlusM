@@ -21,7 +21,7 @@
 #pragma mark Constructors and destructors
 
 YarpPlusPlus::BaseServiceInputHandlerCreator::BaseServiceInputHandlerCreator(BaseService & service) :
-        _service(service)
+        inherited(), _service(service)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("service = ", &service);

@@ -18,25 +18,6 @@ namespace YarpPlusPlus
     class BaseServiceInputHandler;
     class BaseServiceInputHandlerCreator;
     
-#if 0
-    /*! A function object to compare ConsString objects with. */
-    class StringCompare
-    {
-    public:
-        /*! @brief The comparison operator.
-         @param lhs The first value to be compared.
-         @param rhs The second value to be compared.
-         @returns @c true if the right-hand value is greater than the left-hand value. */
-        bool operator() (const std::string & lhs,
-                         const std::string & rhs)
-        const
-        {
-            return (lhs < rhs);
-        } // operator()
-        
-    }; // StringCompare
-#endif//0
-    
     /*! @brief The minimal functionality required for a Yarp++ service. */
     class BaseService
     {
@@ -62,6 +43,10 @@ namespace YarpPlusPlus
         
         /*! @brief The destructor. */
         virtual ~BaseService(void);
+        
+        /*! @brief Construct the response to a 'list' request.
+         @param reply The Bottle to hold the reply. */
+        virtual void fillInListReply(yarp::os::Bottle & reply);
         
         /*! @brief Return the associated endpoint.
          @returns The associated endpoint. */
@@ -135,6 +120,9 @@ namespace YarpPlusPlus
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
         BaseService & operator=(const BaseService & other);
+        
+        /*! @brief Set up the standard request handlers. */
+        void setUpStandardHandlers(void);
         
         /*! @brief The connection point for the service. */
         Endpoint * _endpoint;

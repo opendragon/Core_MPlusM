@@ -9,6 +9,7 @@
 #include "YPPExampleService.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPRequests.h"
 
 #pragma mark Private structures and constants
 
@@ -21,10 +22,9 @@
 YarpPlusPlus::ExampleService::ExampleService(const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & serviceHostName,
                                              const yarp::os::ConstString & servicePortNumber) :
-        BaseService(true, serviceEndpointName, serviceHostName, servicePortNumber)
+        inherited(true, serviceEndpointName, serviceHostName, servicePortNumber)
 {
     OD_SYSLOG_ENTER();//####
-
     OD_SYSLOG_EXIT();//####
 } // YarpPlusPlus::ExampleService::ExampleService
 
@@ -44,6 +44,13 @@ YarpPlusPlus::ExampleService::~ExampleService(void)
 } // YarpPlusPlus::ExampleService::~ExampleService
 
 #pragma mark Actions
+
+void YarpPlusPlus::ExampleService::fillInListReply(yarp::os::Bottle & reply)
+{
+    OD_SYSLOG_ENTER();//####
+    inherited::fillInListReply(reply);
+    OD_SYSLOG_EXIT();//####
+} // YarpPlusPlus::ExampleService::fillInListReply
 
 bool YarpPlusPlus::ExampleService::start(void)
 {

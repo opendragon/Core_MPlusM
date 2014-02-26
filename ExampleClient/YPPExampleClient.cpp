@@ -9,6 +9,7 @@
 #include "YPPExampleClient.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+//#include "YPPRequests.h"
 
 #pragma mark Private structures and constants
 
@@ -18,7 +19,8 @@
 
 #pragma mark Constructors and destructors
 
-YarpPlusPlus::ExampleClient::ExampleClient(void) : BaseClient()
+YarpPlusPlus::ExampleClient::ExampleClient(void) :
+        inherited()
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####

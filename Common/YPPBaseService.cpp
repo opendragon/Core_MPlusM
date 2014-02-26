@@ -12,11 +12,34 @@
 #include "YPPException.h"
 #include "YPPBaseServiceInputHandler.h"
 #include "YPPBaseServiceInputHandlerCreator.h"
+#include "YPPRequests.h"
+#include <yarp/os/Property.h>
 #include <string>
 
 #pragma mark Private structures and constants
 
 #pragma mark Local functions
+
+static bool standardListHandler(YarpPlusPlus::BaseService *   service,
+                                const yarp::os::ConstString & request,
+                                const yarp::os::Bottle &      restOfInput,
+                                yarp::os::ConnectionWriter *  replyMechanism)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("service = ", service);//####
+    OD_SYSLOG_S2("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str());//####
+    bool result = true;
+    
+    if (replyMechanism)
+    {
+        yarp::os::Bottle reply;
+        
+        service->fillInListReply(reply);
+        reply.write(*replyMechanism);
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // standardListHandler
 
 #pragma mark Class methods
 
@@ -33,6 +56,7 @@ YarpPlusPlus::BaseService::BaseService(const bool                    useMultiple
     OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
                  serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     _endpoint = new Endpoint(serviceEndpointName, serviceHostName, servicePortNumber);
+    setUpStandardHandlers();
     OD_SYSLOG_EXIT();//####
 } // YarpPlusPlus::BaseService::BaseService
 
@@ -63,6 +87,7 @@ YarpPlusPlus::BaseService::BaseService(const bool useMultipleHandlers,
             throw new YarpPlusPlus::Exception("Invalid parameters for service endpoint");
             
     }
+    setUpStandardHandlers();
     OD_SYSLOG_EXIT();//####
 } // YarpPlusPlus::BaseService::BaseService
 
@@ -76,6 +101,17 @@ YarpPlusPlus::BaseService::~BaseService(void)
 } // YarpPlusPlus::BaseService::~BaseService
 
 #pragma mark Actions
+
+void YarpPlusPlus::BaseService::fillInListReply(yarp::os::Bottle & reply)
+{
+    OD_SYSLOG_ENTER();//####
+    yarp::os::Property & aDict = reply.addDict();
+    
+    aDict.put(YPP_REQREP_DICT_NAME_KEY, YPP_LIST_REQUEST);
+    aDict.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_LIST_START YPP_REQREP_DICT_START YPP_REQREP_DICT_END
+              YPP_REQREP_1_OR_MORE YPP_REQREP_LIST_END);
+    OD_SYSLOG_EXIT();//####
+} // YarpPlusPlus::BaseService::fillInListReply
 
 YarpPlusPlus::BaseService::HandlerFunction YarpPlusPlus::BaseService::lookupRequestHandler(const yarp::os::ConstString & request)
 {
@@ -114,6 +150,12 @@ bool YarpPlusPlus::BaseService::processRequest(const yarp::os::ConstString & req
     else
     {
         OD_SYSLOG("! (handler)");//####
+        if (replyMechanism)
+        {
+            yarp::os::Bottle errorMessage("unrecognized request");
+            
+            errorMessage.write(*replyMechanism);
+        }
         result = false;
     }
     OD_SYSLOG_EXIT_B(result);//####
@@ -135,6 +177,13 @@ void YarpPlusPlus::BaseService::setDefaultRequestHandler(HandlerFunction handler
     _defaultHandler = handler;
     OD_SYSLOG_EXIT();//####
 } // YarpPlusPlus::BaseService::setDefaultRequestHandler
+
+void YarpPlusPlus::BaseService::setUpStandardHandlers(void)
+{
+    OD_SYSLOG_ENTER();//####
+    registerRequestHandler(YPP_LIST_REQUEST, standardListHandler);
+    OD_SYSLOG_EXIT();//####
+} // YarpPlusPlus::BaseService::setUpStandardHandlers
 
 bool YarpPlusPlus::BaseService::start(void)
 {

@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#include "YPPExampleClient.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPExampleClient.h"
 #include <yarp/os/all.h>
 #include <yarp/conf/version.h>
 #include <iostream>

@@ -70,8 +70,7 @@ add_test(NAME TestRequestEchoFromService6 COMMAND CommonTest 10 "/service/test10
 add_test(NAME TestRequestEchoFromService7 COMMAND CommonTest 11 "/service/test10_1")
 add_test(NAME TestRequestEchoFromService8 COMMAND CommonTest 11 "/service/test10_2" "localhost")
 add_test(NAME TestRequestEchoFromService9 COMMAND CommonTest 11 "/service/test10_3" "localhost" "12340")
-
-
-# First tests - creation of objects
-#add_test(NAME TestCreateService COMMAND CommonTest 12)
-#add_test(NAME TestCreateClient COMMAND CommonTest 13)
+# Test list request
+add_test(NAME TestRequestListFromService1 COMMAND CommonTest 12 "/service/test10_1")
+add_test(NAME TestRequestListFromService2 COMMAND CommonTest 12 "/service/test10_2" "localhost")
+add_test(NAME TestRequestListFromService3 COMMAND CommonTest 12 "/service/test10_3" "localhost" "12340")

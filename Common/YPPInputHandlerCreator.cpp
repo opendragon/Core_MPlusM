@@ -18,7 +18,8 @@
 
 #pragma mark Constructors and destructors
 
-YarpPlusPlus::InputHandlerCreator::InputHandlerCreator(void)
+YarpPlusPlus::InputHandlerCreator::InputHandlerCreator(void) :
+        inherited()
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####

@@ -20,7 +20,7 @@
 #pragma mark Constructors and destructors
 
 YarpPlusPlus::InputHandler::InputHandler(void) :
-        _canProcessInput(true)
+        inherited(), _canProcessInput(true)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####

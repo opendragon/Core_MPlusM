@@ -28,6 +28,8 @@ namespace YarpPlusPlus
         
     private:
         
+        typedef BaseClient inherited;
+
         /*! @brief Copy constructor.
          
          Note - not implemented and private, to prevent unexpected copying.
