@@ -10,6 +10,8 @@
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 
+using namespace YarpPlusPlus;
+
 #pragma mark Private structures and constants
 
 #pragma mark Local functions
@@ -18,18 +20,18 @@
 
 #pragma mark Constructors and destructors
 
-YarpPlusPlus::Exception::Exception(const yarp::os::ConstString & reason)
+Exception::Exception(const yarp::os::ConstString & reason)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("reason = ", reason.c_str());//####
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::Exception::Exception
+} // Exception::Exception
 
-YarpPlusPlus::Exception::~Exception(void)
+Exception::~Exception(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::Exception::~Exception
+} // Exception::~Exception
 
 #pragma mark Actions
 

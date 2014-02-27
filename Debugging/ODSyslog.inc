@@ -29,7 +29,7 @@
 #  define EXTERN_C /* */
 # endif // ! defined(__cplusplus)
 
-# if defined(ENABLE_OD_SYSLOG)
+# if (defined(ENABLE_OD_SYSLOG) && (! defined(DISABLE_OD_SYSLOG)))
 #  define OD_MAX_BYTES_IN_LINE_ 16
 #  define OD_MAX_CHARS_IN_LINE_ (OD_MAX_BYTES_IN_LINE_ * 4)
 #  define OD_SYSLOG_INIT_VALUE_ 1
@@ -52,18 +52,21 @@
 #  define OD_FREE_PREFIX_() \
         free(prefixString_)
 
-static bool lAbsIncludeProcessID = false;
-static bool lAbsIncludeThreadID = false;
-
-static FILE * lAbsLogFile_ = NULL;
-
-static pthread_key_t lAbsThreadSpecificKey;
-static pthread_once_t lAbsThreadSpecificKeyOnce = PTHREAD_ONCE_INIT;
-
-typedef struct tAbsThreadData_
+typedef struct tOdThreadData_
 {
     int _indentLevel;
-} tAbsThreadData;
+} tOdThreadData;
+
+static bool lOdIncludeProcessID_ = false;
+static bool lOdIncludeThreadID_ = false;
+static bool lOdEnableThreadSupport_ = false;
+
+static FILE * lOdLogFile_ = NULL;
+
+static pthread_key_t  lOdThreadSpecificKey_;
+static pthread_once_t lOdThreadSpecificKeyOnce_ = PTHREAD_ONCE_INIT;
+
+static tOdThreadData lOdThreadData_ = { OD_SYSLOG_INIT_VALUE_ };
 
 inline static const char * odBoolToString_(const bool val)
 {
@@ -72,15 +75,15 @@ inline static const char * odBoolToString_(const bool val)
 
 static void odReleaseThreadSpecificData_(void * data)
 {
-    tAbsThreadData * stuff = (tAbsThreadData *) data;
+    tOdThreadData * stuff = (tOdThreadData *) data;
     
-    pthread_setspecific(lAbsThreadSpecificKey, NULL);
+    pthread_setspecific(lOdThreadSpecificKey_, NULL);
     free(stuff);
 } // odReleaseThreadSpecificData_
 
 static void odSetUpThreadKey_(void)
 {
-    if (pthread_key_create(&lAbsThreadSpecificKey, odReleaseThreadSpecificData_))
+    if (pthread_key_create(&lOdThreadSpecificKey_, odReleaseThreadSpecificData_))
     {
 #  if defined(__OBJC__)
         NSLog(@"problem creating thread-specific key => %d", errno);
@@ -90,17 +93,24 @@ static void odSetUpThreadKey_(void)
     }
 } // odSetUpThreadKey_
 
-inline static tAbsThreadData * odGetThreadData_(void)
+inline static tOdThreadData * odGetThreadData_(void)
 {
-    tAbsThreadData * stuff;
+    tOdThreadData * stuff;
     
-    pthread_once(&lAbsThreadSpecificKeyOnce, odSetUpThreadKey_);
-    stuff = (tAbsThreadData *) pthread_getspecific(lAbsThreadSpecificKey);
-    if (! stuff)
+    if (lOdEnableThreadSupport_)
     {
-        stuff = (tAbsThreadData *) malloc(sizeof(tAbsThreadData));
-        stuff->_indentLevel = OD_SYSLOG_INIT_VALUE_;
-        pthread_setspecific(lAbsThreadSpecificKey, stuff);
+        pthread_once(&lOdThreadSpecificKeyOnce_, odSetUpThreadKey_);
+        stuff = (tOdThreadData *) pthread_getspecific(lOdThreadSpecificKey_);
+        if (! stuff)
+        {
+            stuff = (tOdThreadData *) malloc(sizeof(tOdThreadData));
+            stuff->_indentLevel = OD_SYSLOG_INIT_VALUE_;
+            pthread_setspecific(lOdThreadSpecificKey_, stuff);
+        }
+    }
+    else
+    {
+        stuff = &lOdThreadData_;
     }
     return stuff;
 } // odGetThreadData_
@@ -114,14 +124,14 @@ static const char * odFileNameRoot_(const char * fileName)
 
 inline static int odGetIndent_(void)
 {
-    tAbsThreadData * stuff = odGetThreadData_();
+    tOdThreadData * stuff = odGetThreadData_();
 
     return stuff->_indentLevel;
 } // odGetIndent_
 
 inline static void odSetIndent_(const int value)
 {
-    tAbsThreadData * stuff = odGetThreadData_();
+    tOdThreadData * stuff = odGetThreadData_();
 
     stuff->_indentLevel = value;
 } // odSetIndent_
@@ -146,9 +156,9 @@ static char * odBuildPrefix_(void)
     size_t              length;
     static const size_t lengthHexString = 20; // Enough digits for an 8-byte value in hexadecimal, plus a little more.
     
-    if (lAbsIncludeProcessID)
+    if (lOdIncludeProcessID_)
     {
-        if (lAbsIncludeThreadID)
+        if (lOdIncludeThreadID_)
         {
             length = (2 * lengthHexString) + 3; // '<', ':', '>'
             result = (char *) malloc(length + 1);
@@ -161,7 +171,7 @@ static char * odBuildPrefix_(void)
             snprintf(result, length, "<%#lx>", (long unsigned) getpid());
         }
     }
-    else if (lAbsIncludeThreadID)
+    else if (lOdIncludeThreadID_)
     {
         length = lengthHexString + 2; // '<', '>'
         result = (char *) malloc(length + 1);
@@ -193,7 +203,7 @@ static void odWriteTime_(void)
 
     time(&rawtime);
     strftime(buffer, sizeof(buffer), "%F %T ", localtime(&rawtime));
-    fputs(buffer, lAbsLogFile_);
+    fputs(buffer, lOdLogFile_);
 } // odWriteTime_
 
 #  define OD_EXIT_VALUE_       "exit -> "
@@ -236,11 +246,11 @@ EXTERN_C void ODSysLog_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LOG_ "\n", OD_FUNC_PREFIX_(rootName), text ? text : "");
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LOG_ "\n", OD_FUNC_PREFIX_(rootName), text ? text : "");
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -264,12 +274,12 @@ EXTERN_C void ODSysLogB1_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 odBoolToString_(val1));
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -296,12 +306,12 @@ EXTERN_C void ODSysLogB2_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 odBoolToString_(val1), text2, odBoolToString_(val2));
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -331,15 +341,15 @@ EXTERN_C void ODSysLogB3_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 odBoolToString_(val1), text2, odBoolToString_(val2));
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), text3,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), text3,
                 odBoolToString_(val3));
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -374,15 +384,15 @@ EXTERN_C void ODSysLogB4_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 odBoolToString_(val1), text2, odBoolToString_(val2));
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text3,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text3,
                 odBoolToString_(val3), text4, odBoolToString_(val4));
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -412,11 +422,11 @@ EXTERN_C void ODSysLogC1_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -442,12 +452,12 @@ EXTERN_C void ODSysLogC2_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
                 val2, val2);
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -476,14 +486,14 @@ EXTERN_C void ODSysLogC3_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
                 val2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -516,15 +526,15 @@ EXTERN_C void ODSysLogC4_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
                 val2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
                 val4, val4);
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -552,11 +562,11 @@ EXTERN_C void ODSysLogD1_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -582,11 +592,11 @@ EXTERN_C void ODSysLogD2_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -615,13 +625,13 @@ EXTERN_C void ODSysLogD3_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -654,13 +664,13 @@ EXTERN_C void ODSysLogD4_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, text4, val4);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, text4, val4);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -686,11 +696,11 @@ EXTERN_C void ODSysLogEnter_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_ENTER_ "\n", OD_FUNC_PREFIX_(rootName));
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_ENTER_ "\n", OD_FUNC_PREFIX_(rootName));
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -714,11 +724,11 @@ EXTERN_C void ODSysLogExit_(const char * fileName,
     odDecreaseIndent_();
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_ "\n", OD_FUNC_PREFIX_(rootName));
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_ "\n", OD_FUNC_PREFIX_(rootName));
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -742,12 +752,12 @@ EXTERN_C void ODSysLogExitB_(const char * fileName,
     odDecreaseIndent_();
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
                 odBoolToString_(val));
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -772,11 +782,11 @@ EXTERN_C void ODSysLogExitC_(const char * fileName,
     odDecreaseIndent_();
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -800,11 +810,11 @@ EXTERN_C void ODSysLogExitD_(const char * fileName,
     odDecreaseIndent_();
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -828,11 +838,11 @@ EXTERN_C void ODSysLogExitExit_(const char * fileName,
     odDecreaseIndent_();
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_CALL_ "\n", OD_FUNC_PREFIX_(rootName), val, val);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_CALL_ "\n", OD_FUNC_PREFIX_(rootName), val, val);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -856,11 +866,11 @@ EXTERN_C void ODSysLogExitL_(const char *  fileName,
     odDecreaseIndent_();
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -885,11 +895,11 @@ EXTERN_C void ODSysLogExitLL_(const char *  fileName,
     odDecreaseIndent_();
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -916,11 +926,11 @@ EXTERN_C void ODSysLogExitO_(const char * fileName,
     odDecreaseIndent_();
 	OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, valString);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, valString);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -941,11 +951,11 @@ EXTERN_C void ODSysLogExitP_(const char * fileName,
     odDecreaseIndent_();
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -970,12 +980,12 @@ EXTERN_C void ODSysLogExitR_(const char * fileName,
     odDecreaseIndent_();
 	OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_RECT_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_RECT_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
                 val.origin.x, val.origin.y, val.size.height, val.size.width);
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1002,12 +1012,12 @@ EXTERN_C void ODSysLogExitS_(const char * fileName,
     odDecreaseIndent_();
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
                 val ? val : "<>");
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1032,11 +1042,11 @@ EXTERN_C void ODSysLogExitThrowL_(const char *  fileName,
     odDecreaseIndent_();
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_L_ "\n", OD_FUNC_PREFIX_(rootName), val, val);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_L_ "\n", OD_FUNC_PREFIX_(rootName), val, val);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1060,11 +1070,11 @@ EXTERN_C void ODSysLogExitThrowS_(const char * fileName,
     odDecreaseIndent_();
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_S_ "\n", OD_FUNC_PREFIX_(rootName), val ? val : "<>");
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_S_ "\n", OD_FUNC_PREFIX_(rootName), val ? val : "<>");
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1095,8 +1105,9 @@ EXTERN_C void ODSysLogInit_(const char * prefix,
 	char *       stars;
     size_t       starsLength = strlen(rootName) + strlen(funcName) + (sizeof(OD_INIT_FORMAT_) - 1) - 8; // 4 %s
     
-    lAbsIncludeProcessID = (options & kODSyslogOptionIncludeProcessID);
-    lAbsIncludeThreadID = (options & kODSyslogOptionIncludeThreadID);
+    lOdIncludeProcessID_ = (options & kODSyslogOptionIncludeProcessID);
+    lOdIncludeThreadID_ = (options & kODSyslogOptionIncludeThreadID);
+    lOdEnableThreadSupport_ = (options & kODSyslogOptionEnableThreadSupport);
     OD_CREATE_PREFIX_();
     size_t prefixLength = strlen(prefixString_);
     
@@ -1120,11 +1131,11 @@ EXTERN_C void ODSysLogInit_(const char * prefix,
         char pidString[100];
         
         snprintf(pidString, sizeof(pidString), "/var/log/pid-%lX.log", (long unsigned) getpid());
-        lAbsLogFile_ = fopen(pidString, "w");
-        if (lAbsLogFile_)
+        lOdLogFile_ = fopen(pidString, "w");
+        if (lOdLogFile_)
         {
             odWriteTime_();
-            fprintf(lAbsLogFile_, "%s\n", stars);
+            fprintf(lOdLogFile_, "%s\n", stars);
         }
         else
         {
@@ -1143,10 +1154,10 @@ EXTERN_C void ODSysLogInit_(const char * prefix,
         syslog(OD_SYSLOG_LOG_LEVEL_, "%s", stars);
 #  endif // ! defined(__OBJC__)
     }
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_INIT_FORMAT_ "\n", prefixString_, suffixString, funcName, rootName, lineNumber);
+        fprintf(lOdLogFile_, OD_INIT_FORMAT_ "\n", prefixString_, suffixString, funcName, rootName, lineNumber);
     }
     else
     {
@@ -1156,11 +1167,11 @@ EXTERN_C void ODSysLogInit_(const char * prefix,
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_INIT_FORMAT_, prefixString_, suffixString, funcName, rootName, lineNumber);
 #  endif // ! defined(__OBJC__)
     }
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, "%s\n", stars);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, "%s\n", stars);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1192,12 +1203,12 @@ EXTERN_C void ODSysLogIP_(const char *  fileName,
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
     address.asInt32 = val1;
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_IP_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_IP_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 address.asBytes[0], address.asBytes[1], address.asBytes[2], address.asBytes[3], val2);
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1223,11 +1234,11 @@ EXTERN_C void ODSysLogL1_(const char *  fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1253,12 +1264,12 @@ EXTERN_C void ODSysLogL2_(const char *  fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
                 val2, val2);
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1287,14 +1298,14 @@ EXTERN_C void ODSysLogL3_(const char *  fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
                 val2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1327,15 +1338,15 @@ EXTERN_C void ODSysLogL4_(const char *  fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
                 val2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
                 val4, val4);
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1363,11 +1374,11 @@ EXTERN_C void ODSysLogLL1_(const char *  fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1393,12 +1404,12 @@ EXTERN_C void ODSysLogLL2_(const char *  fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
                 val2, val2);
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1427,14 +1438,14 @@ EXTERN_C void ODSysLogLL3_(const char *  fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
                 val2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1467,15 +1478,15 @@ EXTERN_C void ODSysLogLL4_(const char *  fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
                 val2, val2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
                 val4, val4);
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1523,10 +1534,10 @@ EXTERN_C void ODSysLogLS_(const char * fileName,
             lineBuffer[jj++] = '\\';
             if (OD_MAX_CHARS_IN_LINE_ <= jj)
             {
-                if (lAbsLogFile_)
+                if (lOdLogFile_)
                 {
                     odWriteTime_();
-                    fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading,
+                    fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading,
                             lineBuffer);
                 }
                 else
@@ -1547,10 +1558,10 @@ EXTERN_C void ODSysLogLS_(const char * fileName,
         lineBuffer[jj++] = (isprint(bb) ? bb : '.');
         if (OD_MAX_CHARS_IN_LINE_ <= jj)
         {
-            if (lAbsLogFile_)
+            if (lOdLogFile_)
             {
                 odWriteTime_();
-                fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading,
+                fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading,
                         lineBuffer);
             }
             else
@@ -1569,10 +1580,10 @@ EXTERN_C void ODSysLogLS_(const char * fileName,
     }
     if (jj)
     {
-        if (lAbsLogFile_)
+        if (lOdLogFile_)
         {
             odWriteTime_();
-            fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
+            fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
         }
         else
         {
@@ -1584,9 +1595,9 @@ EXTERN_C void ODSysLogLS_(const char * fileName,
 #  endif // ! defined(__OBJC__)
         }
     }
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     free(blankCaption);
     OD_FREE_PREFIX_();
@@ -1605,11 +1616,11 @@ EXTERN_C void ODSysLogO1_(const char * fileName,
     
 	OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O1_ "\n", OD_FUNC_PREFIX_(rootName), text1, obj1String);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O1_ "\n", OD_FUNC_PREFIX_(rootName), text1, obj1String);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1635,12 +1646,12 @@ EXTERN_C void ODSysLogO2_(const char * fileName,
     
 	OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O2_ "\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O2_ "\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
                 obj2String);
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1669,13 +1680,13 @@ EXTERN_C void ODSysLogO3_(const char * fileName,
     
 	OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O2_ "\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O2_ "\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
                 obj2String);
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O1_ "\n", OD_FUNC_PREFIX_(rootName), text3, obj3String);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O1_ "\n", OD_FUNC_PREFIX_(rootName), text3, obj3String);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1708,14 +1719,14 @@ EXTERN_C void ODSysLogO4_(const char * fileName,
     
 	OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O2_ "\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O2_ "\n", OD_FUNC_PREFIX_(rootName), text1, obj1String, text2,
                 obj2String);
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O2_ "\n", OD_FUNC_PREFIX_(rootName), text3, obj3String, text4,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_O2_ "\n", OD_FUNC_PREFIX_(rootName), text3, obj3String, text4,
                 obj4String);
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1737,11 +1748,11 @@ EXTERN_C void ODSysLogP1_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1767,11 +1778,11 @@ EXTERN_C void ODSysLogP2_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1800,13 +1811,13 @@ EXTERN_C void ODSysLogP3_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), text3, ptr3);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), text3, ptr3);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1839,13 +1850,13 @@ EXTERN_C void ODSysLogP4_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text3, ptr3, text4, ptr4);
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text3, ptr3, text4, ptr4);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1880,10 +1891,10 @@ EXTERN_C void ODSysLogPacket_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_PACKET_1_ "\n", OD_FUNC_PREFIX_(rootName), buffer, size);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_PACKET_1_ "\n", OD_FUNC_PREFIX_(rootName), buffer, size);
     }
     else
     {
@@ -1910,10 +1921,10 @@ EXTERN_C void ODSysLogPacket_(const char * fileName,
             charBuffer[jj] = (isprint(bb) ? bb : '.');
         }
         charBuffer[ww] = '\0';
-        if (lAbsLogFile_)
+        if (lOdLogFile_)
         {
             odWriteTime_();
-            fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_PACKET_2_ "\n", OD_FUNC_PREFIX_(rootName), heading, ii,
+            fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_PACKET_2_ "\n", OD_FUNC_PREFIX_(rootName), heading, ii,
                     lineBuffer, charBuffer);
         }
         else
@@ -1929,9 +1940,9 @@ EXTERN_C void ODSysLogPacket_(const char * fileName,
         memset(lineBuffer, ' ', sizeof(lineBuffer) - 1);
         heading = blankCaption;
     }
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     free(blankCaption);
     OD_FREE_PREFIX_();
@@ -1949,12 +1960,12 @@ EXTERN_C void ODSysLogRect_(const char * fileName,
     
 	OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_RECT_ "\n", OD_FUNC_PREFIX_(rootName), caption, rect.origin.x,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_RECT_ "\n", OD_FUNC_PREFIX_(rootName), caption, rect.origin.x,
                 rect.origin.y, rect.size.height, rect.size.width);
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -1981,11 +1992,11 @@ EXTERN_C void ODSysLogS1_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>");
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1 ? val1 : "<>");
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -2012,12 +2023,12 @@ EXTERN_C void ODSysLogS2_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 val1 ? val1 : "<>", text2, val2 ? val2 : "<>");
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -2047,14 +2058,14 @@ EXTERN_C void ODSysLogS3_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 val1 ? val1 : "<>", text2, val2 ? val2 : "<>");
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3 ? val3 : "<>");
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3 ? val3 : "<>");
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -2089,15 +2100,15 @@ EXTERN_C void ODSysLogS4_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
                 val1 ? val1 : "<>", text2, val2 ? val2 : "<>");
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text3,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text3,
                 val3 ? val3 : "<>", text4, val4 ? val4 : "<>");
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -2128,11 +2139,11 @@ EXTERN_C void ODSysLogSp_(const char * fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_SP_ "\n", OD_FUNC_PREFIX_(rootName), text, len, val ? val : "");
-        fflush(lAbsLogFile_);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_SP_ "\n", OD_FUNC_PREFIX_(rootName), text, len, val ? val : "");
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -2157,12 +2168,12 @@ EXTERN_C void ODSysLogTi_(const char *           fileName,
     
     OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
-    if (lAbsLogFile_)
+    if (lOdLogFile_)
     {
         odWriteTime_();
-        fprintf(lAbsLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_TI_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1->tv_sec,
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_TI_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1->tv_sec,
                 (long) val1->tv_usec);
-        fflush(lAbsLogFile_);
+        fflush(lOdLogFile_);
     }
     else
     {
@@ -2177,5 +2188,5 @@ EXTERN_C void ODSysLogTi_(const char *           fileName,
     OD_FREE_INDENT_();
 } // ODSysLogTi_
 
-# endif // defined(ENABLE_OD_SYSLOG)
+# endif // defined(ENABLE_OD_SYSLOG) && (! defined(DISABLE_OD_SYSLOG))
 #endif // ! defined(ODSYSLOG_INC_)

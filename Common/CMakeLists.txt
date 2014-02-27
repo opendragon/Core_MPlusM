@@ -13,6 +13,8 @@ add_library(YPPBaseShared
             YPPException.cpp
             YPPInputHandler.cpp
             YPPInputHandlerCreator.cpp
+            YPPListRequestHandler.cpp
+            YPPRequestHandler.cpp
             YPPServiceRequest.cpp
             YPPServiceResponse.cpp)
 add_library(YPPBaseClient YPPBaseClient.cpp)

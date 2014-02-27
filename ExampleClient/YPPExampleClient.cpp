@@ -11,6 +11,8 @@
 #include "ODSyslog.h"
 //#include "YPPRequests.h"
 
+using namespace YarpPlusPlus;
+
 #pragma mark Private structures and constants
 
 #pragma mark Local functions
@@ -19,18 +21,18 @@
 
 #pragma mark Constructors and destructors
 
-YarpPlusPlus::ExampleClient::ExampleClient(void) :
+ExampleClient::ExampleClient(void) :
         inherited()
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::ExampleClient::ExampleClient
+} // ExampleClient::ExampleClient
 
-YarpPlusPlus::ExampleClient::~ExampleClient(void)
+ExampleClient::~ExampleClient(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::ExampleClient::~ExampleClient
+} // ExampleClient::~ExampleClient
 
 #pragma mark Actions
 

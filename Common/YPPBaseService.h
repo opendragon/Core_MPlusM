@@ -17,6 +17,7 @@ namespace YarpPlusPlus
 {
     class BaseServiceInputHandler;
     class BaseServiceInputHandlerCreator;
+    class RequestHandler;
     
     /*! @brief The minimal functionality required for a Yarp++ service. */
     class BaseService
@@ -83,29 +84,24 @@ namespace YarpPlusPlus
         
     protected:
         
-        typedef bool (*HandlerFunction) (BaseService *                 service,
-                                         const yarp::os::ConstString & request,
-                                         const yarp::os::Bottle &      restOfInput,
-                                         yarp::os::ConnectionWriter *  replyMechanism);
+        typedef std::map<std::string, RequestHandler *> RequestHandlerMap;
         
-        typedef std::map<std::string, HandlerFunction> HandlerMap;
-        
-        typedef HandlerMap::value_type HandlerMapValue;
+        typedef RequestHandlerMap::value_type RequestHandlerMapValue;
         
         /*! @brief Return the function corresponding to a particular request.
          @param request The requested operation.
          @returns A pointer to the function to be invoked for the request, or @c NULL if it is not recognized. */
-        HandlerFunction lookupRequestHandler(const yarp::os::ConstString & request);
+        RequestHandler * lookupRequestHandler(const yarp::os::ConstString & request);
 
         /*! @brief Remember the function to be used to handle a particular request.
          @param request The requested operation.
          @param handler The function to be called for the operation. */
         void registerRequestHandler(const yarp::os::ConstString & request,
-                                    HandlerFunction               handler);
+                                    RequestHandler *              handler);
         
         /*! @brief Remember the function to be used to handle unrecognized requests.
          @param handler The function to be called by default. */
-        void setDefaultRequestHandler(HandlerFunction handler);
+        void setDefaultRequestHandler(RequestHandler * handler);
         
     private:
         
@@ -134,10 +130,10 @@ namespace YarpPlusPlus
         BaseServiceInputHandlerCreator * _handlerCreator;
         
         /*! @brief The map between requests and request handlers. */
-        HandlerMap _requestHandlers;
+        RequestHandlerMap _requestHandlers;
         
         /*! @brief The default handler to use for unrecognized requests. */
-        HandlerFunction _defaultHandler;
+        RequestHandler * _defaultHandler;
         
         /*! @brief The current state of the service - @c true if active and @c false otherwise. */
         bool _started;

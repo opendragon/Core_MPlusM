@@ -12,6 +12,7 @@
 #include <yarp/os/all.h>
 #include <yarp/conf/version.h>
 #include <iostream>
+#include <unistd.h>
 
 using namespace YarpPlusPlus;
 using std::cout;
@@ -20,7 +21,18 @@ using std::endl;
 
 #pragma mark Private structures and constants
 
+/*! @brief Run loop control; @c true if the service is to keep going and @c false otherwise. */
+static bool lKeepRunning;
+
 #pragma mark Local functions
+
+/*! @brief The signal handler to catch requests to stop the service.
+ @param signal The signal being handled. */
+static void stopRunning(int signal)
+{
+#pragma unused(signal)
+    lKeepRunning = false;
+} // stopRunning
 
 #pragma mark Global functions
 
@@ -31,19 +43,34 @@ using std::endl;
 int main(int     argc,
          char ** argv)
 {
-#if defined(ENABLE_OD_SYSLOG)
-# pragma unused(argc)
-#else // ! defined(ENABLE_OD_SYSLOG)
-# pragma unused(argc,argv)
-#endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID);//####
+    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
+                   kODSyslogOptionEnableThreadSupport);//####
     OD_SYSLOG_ENTER();//####
     yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
 
     cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << endl;
-//    ExampleService * stuff = new ExampleService;
-//    
-//    delete stuff;
+    if (argc > 1)
+    {
+        ExampleService * stuff = new ExampleService(argc - 1, argv + 1);
+        
+        if (stuff)
+        {
+            if (stuff->start())
+            {
+                lKeepRunning = true;
+                signal(SIGHUP, stopRunning);
+                signal(SIGINT, stopRunning);
+                signal(SIGINT, stopRunning);
+                signal(SIGUSR1, stopRunning);
+                for ( ; lKeepRunning; )
+                {
+                    sleep(1);
+                }
+                stuff->stop();
+            }
+            delete stuff;
+        }
+    }
     OD_SYSLOG_EXIT_L(0);//####
     return 0;
 } // main

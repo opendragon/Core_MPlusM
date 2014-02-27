@@ -12,6 +12,8 @@
 #include "ODSyslog.h"
 #include "YPPBaseService.h"
 
+using namespace YarpPlusPlus;
+
 #pragma mark Private structures and constants
 
 #pragma mark Local functions
@@ -20,24 +22,24 @@
 
 #pragma mark Constructors and destructors
 
-YarpPlusPlus::BaseServiceInputHandler::BaseServiceInputHandler(BaseService & service) :
+BaseServiceInputHandler::BaseServiceInputHandler(BaseService & service) :
         inherited(), _service(service)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("service = ", &service);
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::BaseServiceInputHandler::BaseServiceInputHandler
+} // BaseServiceInputHandler::BaseServiceInputHandler
 
-YarpPlusPlus::BaseServiceInputHandler::~BaseServiceInputHandler(void)
+BaseServiceInputHandler::~BaseServiceInputHandler(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::BaseServiceInputHandler::~BaseServiceInputHandler
+} // BaseServiceInputHandler::~BaseServiceInputHandler
 
 #pragma mark Actions
 
-bool YarpPlusPlus::BaseServiceInputHandler::handleInput(const yarp::os::Bottle &     input,
-                                                        yarp::os::ConnectionWriter * replyMechanism)
+bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &     input,
+                                          yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
@@ -54,7 +56,7 @@ bool YarpPlusPlus::BaseServiceInputHandler::handleInput(const yarp::os::Bottle &
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
-} // YarpPlusPlus::BaseServiceInputHandler::handleInput
+} // BaseServiceInputHandler::handleInput
 
 #pragma mark Accessors
 

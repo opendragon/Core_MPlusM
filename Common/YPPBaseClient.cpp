@@ -10,6 +10,8 @@
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 
+using namespace YarpPlusPlus;
+
 #pragma mark Private structures and constants
 
 #pragma mark Local functions
@@ -18,17 +20,17 @@
 
 #pragma mark Constructors and destructors
 
-YarpPlusPlus::BaseClient::BaseClient(void)
+BaseClient::BaseClient(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::BaseClient::BaseClient
+} // BaseClient::BaseClient
 
-YarpPlusPlus::BaseClient::~BaseClient(void)
+BaseClient::~BaseClient(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::BaseClient::~BaseClient
+} // BaseClient::~BaseClient
 
 #pragma mark Actions
 

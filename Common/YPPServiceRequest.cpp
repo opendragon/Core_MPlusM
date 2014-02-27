@@ -11,6 +11,8 @@
 #include "ODSyslog.h"
 #include "YPPEndpoint.h"
 
+using namespace YarpPlusPlus;
+
 #pragma mark Private structures and constants
 
 #pragma mark Local functions
@@ -19,8 +21,8 @@
 
 #pragma mark Constructors and destructors
 
-YarpPlusPlus::ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName,
-                                             const yarp::os::Bottle &      parameters)
+ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName,
+                               const yarp::os::Bottle &      parameters)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("requestName = ", requestName.c_str());//####
@@ -33,23 +35,23 @@ YarpPlusPlus::ServiceRequest::ServiceRequest(const yarp::os::ConstString & reque
     }
     _parameters = parameters;
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::ServiceRequest::ServiceRequest
+} // ServiceRequest::ServiceRequest
 
-YarpPlusPlus::ServiceRequest::~ServiceRequest(void)
+ServiceRequest::~ServiceRequest(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####    
-} // YarpPlusPlus::ServiceRequest::~ServiceRequest
+} // ServiceRequest::~ServiceRequest
 
 #pragma mark Actions
 
-bool YarpPlusPlus::ServiceRequest::send(Endpoint &        destination,
-                                        ServiceResponse * response)
+bool ServiceRequest::send(Endpoint &        destination,
+                          ServiceResponse * response)
 {
     OD_SYSLOG_ENTER();//####
     // Now we try to connect!
     yarp::os::Port        outPort;
-    yarp::os::ConstString aName = YarpPlusPlus::Endpoint::getRandomPortName();
+    yarp::os::ConstString aName = Endpoint::getRandomPortName();
     bool                  result;
 
     OD_SYSLOG_S1("opening ", aName.c_str());//####
@@ -110,7 +112,7 @@ bool YarpPlusPlus::ServiceRequest::send(Endpoint &        destination,
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
-} // YarpPlusPlus::ServiceRequest::send
+} // ServiceRequest::send
 
 #pragma mark Accessors
 

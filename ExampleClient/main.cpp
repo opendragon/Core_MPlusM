@@ -36,7 +36,8 @@ int main(int     argc,
 #else // ! defined(ENABLE_OD_SYSLOG)
 # pragma unused(argc,argv)
 #endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID);//####
+    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
+                   kODSyslogOptionEnableThreadSupport);//####
     OD_SYSLOG_ENTER();//####
     yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
 

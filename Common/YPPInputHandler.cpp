@@ -11,6 +11,8 @@
 #include "ODSyslog.h"
 #include "YPPCommon.h"
 
+using namespace YarpPlusPlus;
+
 #pragma mark Private structures and constants
 
 #pragma mark Local functions
@@ -19,23 +21,23 @@
 
 #pragma mark Constructors and destructors
 
-YarpPlusPlus::InputHandler::InputHandler(void) :
+InputHandler::InputHandler(void) :
         inherited(), _canProcessInput(true)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::InputHandler::InputHandler
+} // InputHandler::InputHandler
 
-YarpPlusPlus::InputHandler::~InputHandler(void)
+InputHandler::~InputHandler(void)
 {
     OD_SYSLOG_ENTER();//####
     stopProcessing();
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::InputHandler::~InputHandler
+} // InputHandler::~InputHandler
 
 #pragma mark Actions
 
-bool YarpPlusPlus::InputHandler::read(yarp::os::ConnectionReader & connection)
+bool InputHandler::read(yarp::os::ConnectionReader & connection)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("connection = ", &connection);//####
@@ -55,14 +57,14 @@ bool YarpPlusPlus::InputHandler::read(yarp::os::ConnectionReader & connection)
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
-} // YarpPlusPlus::InputHandler::read
+} // InputHandler::read
 
-void YarpPlusPlus::InputHandler::stopProcessing(void)
+void InputHandler::stopProcessing(void)
 {
     OD_SYSLOG_ENTER();//####
     _canProcessInput = false;
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::InputHandler::stopProcessing
+} // InputHandler::stopProcessing
 
 #pragma mark Accessors
 

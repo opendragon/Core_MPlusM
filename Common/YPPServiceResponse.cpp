@@ -10,6 +10,8 @@
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 
+using namespace YarpPlusPlus;
+
 #pragma mark Private structures and constants
 
 #pragma mark Local functions
@@ -18,38 +20,38 @@
 
 #pragma mark Constructors and destructors
 
-YarpPlusPlus::ServiceResponse::ServiceResponse(const yarp::os::Bottle & values) :
+ServiceResponse::ServiceResponse(const yarp::os::Bottle & values) :
         _values(values)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_LL1("input size = ", values.size());//####
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::ServiceResponse::ServiceResponse
+} // ServiceResponse::ServiceResponse
 
-YarpPlusPlus::ServiceResponse::~ServiceResponse(void)
+ServiceResponse::~ServiceResponse(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::ServiceResponse::~ServiceResponse
+} // ServiceResponse::~ServiceResponse
 
 #pragma mark Actions
 
-YarpPlusPlus::ServiceResponse & YarpPlusPlus::ServiceResponse::operator=(const yarp::os::Bottle & values)
+ServiceResponse & ServiceResponse::operator=(const yarp::os::Bottle & values)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_LL1("input size = ", values.size());//####
     _values = values;
     OD_SYSLOG_EXIT_P(this);//####
     return *this;
-} // YarpPlusPlus::ServiceResponse::operator=
+} // ServiceResponse::operator=
 
-int YarpPlusPlus::ServiceResponse::count(void)
+int ServiceResponse::count(void)
 const
 {
     return _values.size();
-} // YarpPlusPlus::ServiceResponse::count
+} // ServiceResponse::count
 
-yarp::os::Value YarpPlusPlus::ServiceResponse::element(const int index)
+yarp::os::Value ServiceResponse::element(const int index)
 const
 {
     OD_SYSLOG_ENTER();//####
@@ -61,7 +63,7 @@ const
     }
     OD_SYSLOG_EXIT_S(result.toString().c_str());//####
     return result;
-} // YarpPlusPlus::ServiceResponse::element
+} // ServiceResponse::element
 
 #pragma mark Accessors
 

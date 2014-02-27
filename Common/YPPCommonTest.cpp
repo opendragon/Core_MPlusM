@@ -11,16 +11,23 @@
 #include "YPPServiceRequest.h"
 #include "YPPBaseClient.h"
 #include "YPPBaseService.h"
+#include "YPPRequestHandler.h"
 #include "YPPRequests.h"
 #include <yarp/os/all.h>
 #include <yarp/conf/version.h>
 #include <iostream>
 
+using namespace YarpPlusPlus;
 using std::cout;
 using std::cerr;
 using std::endl;
 
 #pragma mark Private structures and constants
+
+/*! @brief The name for the 'echo' request. */
+#define ECHO_REQUEST_NAME           "echo"
+/*! @brief The protocol version number for the 'echo' request. */
+#define ECHO_REQUEST_VERSION_NUMBER "1.0"
 
 #pragma mark Local functions
 
@@ -40,21 +47,19 @@ public:
     /*! @brief Write out the endpoint event / state information.
      @param info The event / state information from the endpoint. */
     virtual void report(const yarp::os::PortInfo & info);
-
+    
 protected:
-
+    
 private:
-
+    
     typedef yarp::os::PortReport inherited;
-
+    
 }; // EndpointStatusReporter
-
-#pragma mark Class methods
 
 #pragma mark Constructors and destructors
 
 EndpointStatusReporter::EndpointStatusReporter(void) :
-        inherited()
+inherited()
 {
 } // EndpointStatusReporter::EndpointStatusReporter
 
@@ -73,34 +78,32 @@ void EndpointStatusReporter::report(const yarp::os::PortInfo & info)
     OD_SYSLOG_S1("message = ", info.message.c_str());
 } // EndpointStatusReporter::report
 
-#pragma mark Accessors
-
 #pragma mark Local functions
 
 /*! @brief Create an endpoint for a test.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the endpoint constructor.
  @returns A newly created endpoint, or @c NULL if one could not be created. */
-static YarpPlusPlus::Endpoint * doCreateEndpointForTest(const int argc,
-                                                        char **   argv)
+static Endpoint * doCreateEndpointForTest(const int argc,
+                                          char **   argv)
 {
-    YarpPlusPlus::Endpoint * stuff = NULL;
+    Endpoint * stuff = NULL;
     
     if (argc > 0)
     {
         switch (argc)
         {
-            // Argument order for tests = endpoint name [, IP address / name [, port [, carrier]]]
+                // Argument order for tests = endpoint name [, IP address / name [, port]]
             case 1:
-                stuff = new YarpPlusPlus::Endpoint(*argv);
+                stuff = new Endpoint(*argv);
                 break;
                 
             case 2:
-                stuff = new YarpPlusPlus::Endpoint(*argv, argv[1]);
+                stuff = new Endpoint(*argv, argv[1]);
                 break;
                 
             case 3:
-                stuff = new YarpPlusPlus::Endpoint(*argv, argv[1], argv[2]);
+                stuff = new Endpoint(*argv, argv[1], argv[2]);
                 break;
                 
             default:
@@ -120,8 +123,8 @@ static YarpPlusPlus::Endpoint * doCreateEndpointForTest(const int argc,
 static int doCase01(const int argc,
                     char **   argv) // create endpoint
 {
-    int                      result;
-    YarpPlusPlus::Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+    int        result;
+    Endpoint * stuff = doCreateEndpointForTest(argc, argv);
     
     if (stuff)
     {
@@ -152,8 +155,8 @@ static int doCase01(const int argc,
 static int doCase02(const int argc,
                     char **   argv) // connect to endpoint
 {
-    int                      result;
-    YarpPlusPlus::Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+    int        result;
+    Endpoint * stuff = doCreateEndpointForTest(argc, argv);
     
     if (stuff)
     {
@@ -164,7 +167,7 @@ static int doCase02(const int argc,
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
             // Now we try to connect!
             yarp::os::Port        outPort;
-            yarp::os::ConstString aName = YarpPlusPlus::Endpoint::getRandomPortName();
+            yarp::os::ConstString aName = Endpoint::getRandomPortName();
             
             OD_SYSLOG_S1("opening ", aName.c_str());//####
             if (outPort.open(aName))
@@ -205,7 +208,7 @@ static int doCase02(const int argc,
 #pragma mark *** Test Case 03 ***
 
 /*! @brief A test input handler. */
-class Test03Handler : public YarpPlusPlus::InputHandler
+class Test03Handler : public InputHandler
 {
 public:
     
@@ -225,12 +228,10 @@ public:
 protected:
     
 private:
-
-    typedef YarpPlusPlus::InputHandler inherited;
-
+    
+    typedef InputHandler inherited;
+    
 }; // Test03Handler
-
-#pragma mark Class methods
 
 #pragma mark Constructors and destructors
 
@@ -259,8 +260,6 @@ bool Test03Handler::handleInput(const yarp::os::Bottle &     input,
     return true;
 } // Test03Handler::handleInput
 
-#pragma mark Accessors
-
 #pragma mark Local functions
 
 /*! @brief Perform a test case.
@@ -270,20 +269,20 @@ bool Test03Handler::handleInput(const yarp::os::Bottle &     input,
 static int doCase03(const int argc,
                     char **   argv) // send to endpoint
 {
-    int                      result;
-    YarpPlusPlus::Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+    int        result;
+    Endpoint * stuff = doCreateEndpointForTest(argc, argv);
     
     if (stuff)
     {
         EndpointStatusReporter reporter;
         Test03Handler          handler;
-
+        
         if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
         {
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
             // Now we try to connect!
             yarp::os::Port        outPort;
-            yarp::os::ConstString aName = YarpPlusPlus::Endpoint::getRandomPortName();
+            yarp::os::ConstString aName = Endpoint::getRandomPortName();
             
             OD_SYSLOG_S1("opening ", aName.c_str());//####
             if (outPort.open(aName))
@@ -337,7 +336,7 @@ static int doCase03(const int argc,
 #pragma mark *** Test Case 04 ***
 
 /*! @brief A test input handler. */
-class Test04Handler : public YarpPlusPlus::InputHandler
+class Test04Handler : public InputHandler
 {
 public:
     
@@ -358,11 +357,9 @@ protected:
     
 private:
     
-    typedef YarpPlusPlus::InputHandler inherited;
+    typedef InputHandler inherited;
     
 }; // Test04Handler
-
-#pragma mark Class methods
 
 #pragma mark Constructors and destructors
 
@@ -397,8 +394,6 @@ bool Test04Handler::handleInput(const yarp::os::Bottle &     input,
     return true;
 } // Test04Handler::handleInput
 
-#pragma mark Accessors
-
 #pragma mark Local functions
 
 /*! @brief Perform a test case.
@@ -408,20 +403,20 @@ bool Test04Handler::handleInput(const yarp::os::Bottle &     input,
 static int doCase04(const int argc,
                     char **   argv) // send to endpoint
 {
-    int                      result;
-    YarpPlusPlus::Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+    int        result;
+    Endpoint * stuff = doCreateEndpointForTest(argc, argv);
     
     if (stuff)
     {
         EndpointStatusReporter reporter;
         Test04Handler          handler;
-
+        
         if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
         {
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
             // Now we try to connect!
             yarp::os::Port        outPort;
-            yarp::os::ConstString aName = YarpPlusPlus::Endpoint::getRandomPortName();
+            yarp::os::ConstString aName = Endpoint::getRandomPortName();
             
             OD_SYSLOG_S1("opening ", aName.c_str());//####
             if (outPort.open(aName))
@@ -477,7 +472,7 @@ static int doCase04(const int argc,
 #pragma mark *** Test Case 05 ***
 
 /*! @brief A test input handler. */
-class Test05Handler : public YarpPlusPlus::InputHandler
+class Test05Handler : public InputHandler
 {
 public:
     
@@ -498,11 +493,9 @@ protected:
     
 private:
     
-    typedef YarpPlusPlus::InputHandler inherited;
+    typedef InputHandler inherited;
     
 }; // Test05Handler
-
-#pragma mark Class methods
 
 #pragma mark Constructors and destructors
 
@@ -540,7 +533,7 @@ bool Test05Handler::handleInput(const yarp::os::Bottle &     input,
 #pragma mark Accessors
 
 /*! @brief A test input handler creator. */
-class Test05HandlerCreator : public YarpPlusPlus::InputHandlerCreator
+class Test05HandlerCreator : public InputHandlerCreator
 {
 public:
     
@@ -552,17 +545,15 @@ public:
     
     /*! @brief Create a new InputHandler object to process input data.
      @returns A new InputHandler or @c NULL if one cannot be created. */
-    virtual YarpPlusPlus::InputHandler * create(void);
-
+    virtual InputHandler * create(void);
+    
 protected:
     
 private:
     
-    typedef YarpPlusPlus::InputHandlerCreator inherited;
+    typedef InputHandlerCreator inherited;
     
 }; // Test05HandlerCreator
-
-#pragma mark Class methods
 
 #pragma mark Constructors and destructors
 
@@ -581,12 +572,10 @@ Test05HandlerCreator::~Test05HandlerCreator(void)
 
 #pragma mark Actions
 
-YarpPlusPlus::InputHandler * Test05HandlerCreator::create(void)
+InputHandler * Test05HandlerCreator::create(void)
 {
     return new Test05Handler;
 } // Test05HandlerCreator::create
-
-#pragma mark Accessors
 
 #pragma mark Local functions
 
@@ -597,8 +586,8 @@ YarpPlusPlus::InputHandler * Test05HandlerCreator::create(void)
 static int doCase05(const int argc,
                     char **   argv) // send to endpoint
 {
-    int                      result;
-    YarpPlusPlus::Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+    int        result;
+    Endpoint * stuff = doCreateEndpointForTest(argc, argv);
     
     if (stuff)
     {
@@ -610,7 +599,7 @@ static int doCase05(const int argc,
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
             // Now we try to connect!
             yarp::os::Port        outPort;
-            yarp::os::ConstString aName = YarpPlusPlus::Endpoint::getRandomPortName();
+            yarp::os::ConstString aName = Endpoint::getRandomPortName();
             
             OD_SYSLOG_S1("opening ", aName.c_str());//####
             if (outPort.open(aName))
@@ -686,7 +675,7 @@ static int doCase06(const int argc,
         {
             parameters.addString(argv[ii]);
         }
-        YarpPlusPlus::ServiceRequest * stuff = new YarpPlusPlus::ServiceRequest(*argv, parameters);
+        ServiceRequest * stuff = new ServiceRequest(*argv, parameters);
         
         delete stuff;
         result = 0;
@@ -710,7 +699,7 @@ static int doCase07(const int argc,
     {
         parameters.addString(argv[ii]);
     }
-    YarpPlusPlus::ServiceResponse * stuff = new YarpPlusPlus::ServiceResponse(parameters);
+    ServiceResponse * stuff = new ServiceResponse(parameters);
     
     delete stuff;
     result = 0;
@@ -720,7 +709,7 @@ static int doCase07(const int argc,
 #pragma mark *** Test Case 08 ***
 
 /*! @brief A test input handler. */
-class Test08Handler : public YarpPlusPlus::InputHandler
+class Test08Handler : public InputHandler
 {
 public:
     
@@ -741,11 +730,9 @@ protected:
     
 private:
     
-    typedef YarpPlusPlus::InputHandler inherited;
+    typedef InputHandler inherited;
     
 }; // Test08Handler
-
-#pragma mark Class methods
 
 #pragma mark Constructors and destructors
 
@@ -780,8 +767,6 @@ bool Test08Handler::handleInput(const yarp::os::Bottle &     input,
     return true;
 } // Test08Handler::handleInput
 
-#pragma mark Accessors
-
 #pragma mark Local functions
 
 /*! @brief Perform a test case.
@@ -791,8 +776,8 @@ bool Test08Handler::handleInput(const yarp::os::Bottle &     input,
 static int doCase08(const int argc,
                     char **   argv) // create request
 {
-    int                      result;
-    YarpPlusPlus::Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+    int        result;
+    Endpoint * stuff = doCreateEndpointForTest(argc, argv);
     
     if (stuff)
     {
@@ -802,9 +787,9 @@ static int doCase08(const int argc,
         if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
         {
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
-            yarp::os::Bottle              parameters("some to send");
-            YarpPlusPlus::ServiceRequest  request("echo", parameters);
-            YarpPlusPlus::ServiceResponse response;
+            yarp::os::Bottle parameters("some to send");
+            ServiceRequest   request(ECHO_REQUEST_NAME, parameters);
+            ServiceResponse  response;
             
             if (request.send(*stuff, &response))
             {
@@ -835,8 +820,68 @@ static int doCase08(const int argc,
 
 #pragma mark *** Test Case 09 ***
 
+class Test09DefaultRequestHandler : public RequestHandler
+{
+public:
+    
+    /*! @brief The constructor.
+     @param service The service that responds to this request. */
+    Test09DefaultRequestHandler(BaseService & service);
+    
+    /*! @brief The destructor. */
+    virtual ~Test09DefaultRequestHandler(void);
+    
+    /*! @brief Process a request.
+     @param restOfInput The arguments to the operation.
+     @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+    virtual bool operator() (const yarp::os::Bottle &     restOfInput,
+                             yarp::os::ConnectionWriter * replyMechanism);
+    
+protected:
+    
+private:
+    
+    typedef RequestHandler inherited;
+    
+}; // Test09DefaultRequestHandler
+
+#pragma mark Constructors and destructors
+
+Test09DefaultRequestHandler::Test09DefaultRequestHandler(BaseService & service) :
+        inherited("", service)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test09DefaultRequestHandler::Test09DefaultRequestHandler
+
+Test09DefaultRequestHandler::~Test09DefaultRequestHandler(void)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test09DefaultRequestHandler::~Test09DefaultRequestHandler
+
+#pragma mark Actions
+
+bool Test09DefaultRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
+                                              yarp::os::ConnectionWriter * replyMechanism)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
+    bool result = true;
+    
+    if (replyMechanism)
+    {
+        yarp::os::Bottle argsCopy(name());
+        
+        argsCopy.append(restOfInput);
+        argsCopy.write(*replyMechanism);
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // Test09DefaultRequestHandler::operator()
+
 /*! @brief A test input handler. */
-class Test09Service : public YarpPlusPlus::BaseService
+class Test09Service : public BaseService
 {
 public:
     
@@ -853,34 +898,9 @@ protected:
     
 private:
     
-    typedef YarpPlusPlus::BaseService inherited;
+    typedef BaseService inherited;
     
 }; // Test09Service
-
-#pragma mark Local functions
-
-static bool service09DefaultHandler(YarpPlusPlus::BaseService *   service,
-                                    const yarp::os::ConstString & request,
-                                    const yarp::os::Bottle &      restOfInput,
-                                    yarp::os::ConnectionWriter *  replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("service = ", service);//####
-    OD_SYSLOG_S2("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str());//####
-    bool result = true;
-    
-    if (replyMechanism)
-    {
-        yarp::os::Bottle argsCopy(request);
-        
-        argsCopy.append(restOfInput);
-        argsCopy.write(*replyMechanism);
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // service09DefaultHandler
-
-#pragma mark Class methods
 
 #pragma mark Constructors and destructors
 
@@ -889,7 +909,7 @@ Test09Service::Test09Service(const int argc,
         inherited(false, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
-    setDefaultRequestHandler(service09DefaultHandler);
+    setDefaultRequestHandler(new Test09DefaultRequestHandler(*this));
     OD_SYSLOG_EXIT();//####
 } // Test09Service::Test09Service
 
@@ -898,10 +918,6 @@ Test09Service::~Test09Service(void)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
 } // Test09Service::~Test09Service
-
-#pragma mark Actions
-
-#pragma mark Accessors
 
 #pragma mark Local functions
 
@@ -917,9 +933,9 @@ static int doCase09(const int argc,
     
     if (stuff && stuff->start())
     {
-        yarp::os::Bottle              parameters("some to send");
-        YarpPlusPlus::ServiceRequest  request("echo", parameters);
-        YarpPlusPlus::ServiceResponse response;
+        yarp::os::Bottle parameters("some to send");
+        ServiceRequest   request(ECHO_REQUEST_NAME, parameters);
+        ServiceResponse  response;
         
         if (request.send(stuff->getEndpoint(), &response))
         {
@@ -946,8 +962,68 @@ static int doCase09(const int argc,
 
 #pragma mark *** Test Case 10 ***
 
+class Test10DefaultRequestHandler : public RequestHandler
+{
+public:
+    
+    /*! @brief The constructor.
+     @param service The service that responds to this request. */
+    Test10DefaultRequestHandler(BaseService & service);
+    
+    /*! @brief The destructor. */
+    virtual ~Test10DefaultRequestHandler(void);
+    
+    /*! @brief Process a request.
+     @param restOfInput The arguments to the operation.
+     @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+    virtual bool operator() (const yarp::os::Bottle &     restOfInput,
+                             yarp::os::ConnectionWriter * replyMechanism);
+    
+protected:
+    
+private:
+    
+    typedef RequestHandler inherited;
+    
+}; // Test10DefaultRequestHandler
+
+#pragma mark Constructors and destructors
+
+Test10DefaultRequestHandler::Test10DefaultRequestHandler(BaseService & service) :
+        inherited("", service)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test10DefaultRequestHandler::Test10DefaultRequestHandler
+
+Test10DefaultRequestHandler::~Test10DefaultRequestHandler(void)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test10DefaultRequestHandler::~Test10DefaultRequestHandler
+
+#pragma mark Actions
+
+bool Test10DefaultRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
+                                              yarp::os::ConnectionWriter * replyMechanism)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
+    bool result = true;
+    
+    if (replyMechanism)
+    {
+        yarp::os::Bottle argsCopy(name());
+        
+        argsCopy.append(restOfInput);
+        argsCopy.write(*replyMechanism);
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // Test10DefaultRequestHandler::operator()
+
 /*! @brief A test input handler. */
-class Test10Service : public YarpPlusPlus::BaseService
+class Test10Service : public BaseService
 {
 public:
     
@@ -964,34 +1040,9 @@ protected:
     
 private:
     
-    typedef YarpPlusPlus::BaseService inherited;
+    typedef BaseService inherited;
     
 }; // Test10Service
-
-#pragma mark Local functions
-
-static bool service10DefaultHandler(YarpPlusPlus::BaseService *   service,
-                                    const yarp::os::ConstString & request,
-                                    const yarp::os::Bottle &      restOfInput,
-                                    yarp::os::ConnectionWriter *  replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("service = ", service);//####
-    OD_SYSLOG_S2("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str());//####
-    bool result = true;
-    
-    if (replyMechanism)
-    {
-        yarp::os::Bottle argsCopy(request);
-        
-        argsCopy.append(restOfInput);
-        argsCopy.write(*replyMechanism);
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // service10DefaultHandler
-
-#pragma mark Class methods
 
 #pragma mark Constructors and destructors
 
@@ -1000,7 +1051,7 @@ Test10Service::Test10Service(const int argc,
         inherited(true, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
-    setDefaultRequestHandler(service10DefaultHandler);
+    setDefaultRequestHandler(new Test09DefaultRequestHandler(*this));
     OD_SYSLOG_EXIT();//####
 } // Test10Service::Test10Service
 
@@ -1009,10 +1060,6 @@ Test10Service::~Test10Service(void)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
 } // Test10Service::~Test10Service
-
-#pragma mark Actions
-
-#pragma mark Accessors
 
 #pragma mark Local functions
 
@@ -1028,9 +1075,9 @@ static int doCase10(const int argc,
     
     if (stuff && stuff->start())
     {
-        yarp::os::Bottle              parameters("some to send");
-        YarpPlusPlus::ServiceRequest  request("echo", parameters);
-        YarpPlusPlus::ServiceResponse response;
+        yarp::os::Bottle parameters("some to send");
+        ServiceRequest   request(ECHO_REQUEST_NAME, parameters);
+        ServiceResponse  response;
         
         if (request.send(stuff->getEndpoint(), &response))
         {
@@ -1057,8 +1104,67 @@ static int doCase10(const int argc,
 
 #pragma mark *** Test Case 11 ***
 
+class Test11EchoRequestHandler : public RequestHandler
+{
+public:
+    
+    /*! @brief The constructor.
+     @param service The service that responds to this request. */
+    Test11EchoRequestHandler(BaseService & service);
+    
+    /*! @brief The destructor. */
+    virtual ~Test11EchoRequestHandler(void);
+    
+    /*! @brief Process a request.
+     @param restOfInput The arguments to the operation.
+     @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+    virtual bool operator() (const yarp::os::Bottle &     restOfInput,
+                             yarp::os::ConnectionWriter * replyMechanism);
+    
+protected:
+    
+private:
+    
+    typedef RequestHandler inherited;
+    
+}; // Test11EchoRequestHandler
+
+#pragma mark Constructors and destructors
+
+Test11EchoRequestHandler::Test11EchoRequestHandler(BaseService & service) :
+        inherited(ECHO_REQUEST_NAME, service)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test11EchoRequestHandler::Test11EchoRequestHandler
+
+Test11EchoRequestHandler::~Test11EchoRequestHandler(void)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test11EchoRequestHandler::~Test11EchoRequestHandler
+
+#pragma mark Actions
+
+bool Test11EchoRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
+                                           yarp::os::ConnectionWriter * replyMechanism)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
+    bool result = true;
+    
+    if (replyMechanism)
+    {
+        yarp::os::Bottle argsCopy(restOfInput);
+        
+        argsCopy.write(*replyMechanism);
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // Test11EchoRequestHandler::operator()
+
 /*! @brief A test input handler. */
-class Test11Service : public YarpPlusPlus::BaseService
+class Test11Service : public BaseService
 {
 public:
     
@@ -1075,33 +1181,9 @@ protected:
     
 private:
     
-    typedef YarpPlusPlus::BaseService inherited;
-
-}; // Test11Service
-
-#pragma mark Local functions
-
-static bool service11EchoHandler(YarpPlusPlus::BaseService *   service,
-                                 const yarp::os::ConstString & request,
-                                 const yarp::os::Bottle &      restOfInput,
-                                 yarp::os::ConnectionWriter *  replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("service = ", service);//####
-    OD_SYSLOG_S2("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str());//####
-    bool result = true;
+    typedef BaseService inherited;
     
-    if (replyMechanism)
-    {
-        yarp::os::Bottle argsCopy(restOfInput);
-        
-        argsCopy.write(*replyMechanism);
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // service11EchoHandler
-
-#pragma mark Class methods
+}; // Test11Service
 
 #pragma mark Constructors and destructors
 
@@ -1110,7 +1192,7 @@ Test11Service::Test11Service(const int argc,
         inherited(true, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
-    registerRequestHandler("echo", service11EchoHandler);
+    registerRequestHandler(ECHO_REQUEST_NAME, new Test11EchoRequestHandler(*this));
     OD_SYSLOG_EXIT();//####
 } // Test11Service::Test11Service
 
@@ -1138,9 +1220,9 @@ static int doCase11(const int argc,
     
     if (stuff && stuff->start())
     {
-        yarp::os::Bottle              parameters("some to send");
-        YarpPlusPlus::ServiceRequest  request("echo", parameters);
-        YarpPlusPlus::ServiceResponse response;
+        yarp::os::Bottle parameters("some to send");
+        ServiceRequest   request(ECHO_REQUEST_NAME, parameters);
+        ServiceResponse  response;
         
         if (request.send(stuff->getEndpoint(), &response))
         {
@@ -1181,8 +1263,67 @@ static int doCase11(const int argc,
 
 #pragma mark *** Test Case 12 ***
 
+class Test12EchoRequestHandler : public RequestHandler
+{
+public:
+    
+    /*! @brief The constructor.
+     @param service The service that responds to this request. */
+    Test12EchoRequestHandler(BaseService & service);
+    
+    /*! @brief The destructor. */
+    virtual ~Test12EchoRequestHandler(void);
+    
+    /*! @brief Process a request.
+     @param restOfInput The arguments to the operation.
+     @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+    virtual bool operator() (const yarp::os::Bottle &     restOfInput,
+                             yarp::os::ConnectionWriter * replyMechanism);
+    
+protected:
+    
+private:
+    
+    typedef RequestHandler inherited;
+    
+}; // Test12EchoRequestHandler
+
+#pragma mark Constructors and destructors
+
+Test12EchoRequestHandler::Test12EchoRequestHandler(BaseService & service) :
+        inherited(ECHO_REQUEST_NAME, service)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test12EchoRequestHandler::Test12EchoRequestHandler
+
+Test12EchoRequestHandler::~Test12EchoRequestHandler(void)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test12EchoRequestHandler::~Test12EchoRequestHandler
+
+#pragma mark Actions
+
+bool Test12EchoRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
+                                           yarp::os::ConnectionWriter * replyMechanism)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
+    bool result = true;
+    
+    if (replyMechanism)
+    {
+        yarp::os::Bottle argsCopy(restOfInput);
+        
+        argsCopy.write(*replyMechanism);
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // Test12EchoRequestHandler::operator()
+
 /*! @brief A test input handler. */
-class Test12Service : public YarpPlusPlus::BaseService
+class Test12Service : public BaseService
 {
 public:
     
@@ -1203,33 +1344,9 @@ protected:
     
 private:
     
-    typedef YarpPlusPlus::BaseService inherited;
-
-}; // Test12Service
-
-#pragma mark Local functions
-
-static bool service12EchoHandler(YarpPlusPlus::BaseService *   service,
-                                 const yarp::os::ConstString & request,
-                                 const yarp::os::Bottle &      restOfInput,
-                                 yarp::os::ConnectionWriter *  replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("service = ", service);//####
-    OD_SYSLOG_S2("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str());//####
-    bool result = true;
+    typedef BaseService inherited;
     
-    if (replyMechanism)
-    {
-        yarp::os::Bottle argsCopy(restOfInput);
-        
-        argsCopy.write(*replyMechanism);
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // service12EchoHandler
-
-#pragma mark Class methods
+}; // Test12Service
 
 #pragma mark Constructors and destructors
 
@@ -1238,7 +1355,7 @@ Test12Service::Test12Service(const int argc,
         inherited(true, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
-    registerRequestHandler("echo", service12EchoHandler);
+    registerRequestHandler(ECHO_REQUEST_NAME, new Test12EchoRequestHandler(*this));
     OD_SYSLOG_EXIT();//####
 } // Test12Service::Test12Service
 
@@ -1256,20 +1373,25 @@ void Test12Service::fillInListReply(yarp::os::Bottle & reply)
     inherited::fillInListReply(reply);
     yarp::os::Property & aDict = reply.addDict();
     
-    aDict.put(YPP_REQREP_DICT_NAME_KEY, "echo");
+    aDict.put(YPP_REQREP_DICT_NAME_KEY, ECHO_REQUEST_NAME);
     aDict.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
     aDict.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
+    aDict.put(YPP_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
+    aDict.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Echo back any input");
+    yarp::os::Value    keywords;
+    yarp::os::Bottle * asList = keywords.asList();
+    
+    asList->addString(ECHO_REQUEST_NAME);
+    aDict.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
     OD_SYSLOG_EXIT();//####
 } // Test12Service::fillInListReply
-
-#pragma mark Accessors
 
 #pragma mark Local functions
 
 /*! @brief Check the response from the 'list' request for this test.
  @param response The response to be analyzed.
  @returns @c true if the expected values are all present and @c false if they are not or if unexpected values appear. */
-static bool checkList12Response(const YarpPlusPlus::ServiceResponse & response)
+static bool checkList12Response(const ServiceResponse & response)
 {
     bool result;
     
@@ -1285,7 +1407,7 @@ static bool checkList12Response(const YarpPlusPlus::ServiceResponse & response)
             bool                 sawList = false;
             yarp::os::Property * firstAsDict = firstElement.asDict();
             yarp::os::Property * secondAsDict = secondElement.asDict();
-
+            
             if (firstAsDict->check(YPP_REQREP_DICT_NAME_KEY) && secondAsDict->check(YPP_REQREP_DICT_NAME_KEY) &&
                 firstAsDict->check(YPP_REQREP_DICT_OUTPUT_KEY) && secondAsDict->check(YPP_REQREP_DICT_OUTPUT_KEY))
             {
@@ -1297,7 +1419,7 @@ static bool checkList12Response(const YarpPlusPlus::ServiceResponse & response)
                 
                 OD_SYSLOG_S4("firstName = ", firstName.c_str(), "secondName = ", secondName.c_str(),//####
                              "firstOutput = ", firstOutput.c_str(), "secondOutput = ", secondOutput.c_str());
-                if ((firstName == YPP_LIST_REQUEST) && (secondName == "echo"))
+                if ((firstName == YPP_LIST_REQUEST) && (secondName == ECHO_REQUEST_NAME))
                 {
                     sawList = ((! firstAsDict->check(YPP_REQREP_DICT_INPUT_KEY)) && (firstOutput == "([]+)"));
                     if (secondAsDict->check(YPP_REQREP_DICT_INPUT_KEY))
@@ -1308,7 +1430,7 @@ static bool checkList12Response(const YarpPlusPlus::ServiceResponse & response)
                         sawEcho = ((secondInput == ".*") && (secondOutput == ".*"));
                     }
                 }
-                else if ((secondName == YPP_LIST_REQUEST) && (firstName == "echo"))
+                else if ((secondName == YPP_LIST_REQUEST) && (firstName == ECHO_REQUEST_NAME))
                 {
                     sawList = ((! secondAsDict->check(YPP_REQREP_DICT_INPUT_KEY)) && (secondOutput == "([]+)"));
                     if (firstAsDict->check(YPP_REQREP_DICT_INPUT_KEY))
@@ -1341,15 +1463,15 @@ static bool checkList12Response(const YarpPlusPlus::ServiceResponse & response)
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doCase12(const int argc,
-                    char **   argv) // send 'echo' and 'list' requests
+                    char **   argv) // send 'list' request
 {
     int             result;
     Test12Service * stuff = new Test12Service(argc, argv);
     
     if (stuff && stuff->start())
     {
-        YarpPlusPlus::ServiceRequest  request(YPP_LIST_REQUEST);
-        YarpPlusPlus::ServiceResponse response;
+        ServiceRequest  request(YPP_LIST_REQUEST);
+        ServiceResponse response;
         
         if (request.send(stuff->getEndpoint(), &response))
         {
@@ -1359,28 +1481,6 @@ static int doCase12(const int argc,
                 OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
             }
             result = (checkList12Response(response) ? 0 : 1);
-#if 0
-            if (3 == response.count())
-            {
-                yarp::os::ConstString expected[] = { "some", "to", "send" };
-                
-                result = 0;
-                for (int ii = 0; (! result) && (ii < response.count()); ++ii)
-                {
-                    if (expected[ii] != response.element(ii).toString())
-                    {
-                        OD_SYSLOG_S2("expected[ii] = ", expected[ii].c_str(),//####
-                                     "response.element(ii).toString() = ",//####
-                                     response.element(ii).toString().c_str());//####
-                        result = 1;
-                    }
-                }
-            }
-            else
-            {
-                result = 1;
-            }
-#endif//0
         }
         else
         {
@@ -1405,7 +1505,8 @@ static int doCase12(const int argc,
 int main(int     argc,
          char ** argv)
 {
-    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID);//####
+    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
+                   kODSyslogOptionEnableThreadSupport);//####
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S2("YARP Version = ", YARP_VERSION_STRING, "YARP++ Version = ", YPP_VERSION);//####
     yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
@@ -1453,7 +1554,7 @@ int main(int     argc,
             case 9:
                 result = doCase09(argc - 1, argv + 2);
                 break;
-
+                
             case 10:
                 result = doCase10(argc - 1, argv + 2);
                 break;

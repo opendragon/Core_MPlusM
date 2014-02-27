@@ -9,7 +9,10 @@
 #include "YPPRegistryService.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPRequestHandler.h"
 #include "YPPRequests.h"
+
+using namespace YarpPlusPlus;
 
 #pragma mark Private structures and constants
 
@@ -19,40 +22,40 @@
 
 #pragma mark Constructors and destructors
 
-YarpPlusPlus::RegistryService::RegistryService(const yarp::os::ConstString & serviceEndpointName,
-                                               const yarp::os::ConstString & serviceHostName,
-                                               const yarp::os::ConstString & servicePortNumber) :
+RegistryService::RegistryService(const yarp::os::ConstString & serviceEndpointName,
+                                 const yarp::os::ConstString & serviceHostName,
+                                 const yarp::os::ConstString & servicePortNumber) :
         inherited(true, serviceEndpointName, serviceHostName, servicePortNumber)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::RegistryService::RegistryService
+} // RegistryService::RegistryService
 
-YarpPlusPlus::RegistryService::RegistryService(const int argc,
-                                               char **   argv) :
+RegistryService::RegistryService(const int argc,
+                                 char **   argv) :
         BaseService(true, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
     
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::RegistryService::RegistryService
+} // RegistryService::RegistryService
 
-YarpPlusPlus::RegistryService::~RegistryService(void)
+RegistryService::~RegistryService(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::RegistryService::~RegistryService
+} // RegistryService::~RegistryService
 
 #pragma mark Actions
 
-void YarpPlusPlus::RegistryService::fillInListReply(yarp::os::Bottle & reply)
+void RegistryService::fillInListReply(yarp::os::Bottle & reply)
 {
     OD_SYSLOG_ENTER();//####
     inherited::fillInListReply(reply);
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::RegistryService::fillInListReply
+} // RegistryService::fillInListReply
 
-bool YarpPlusPlus::RegistryService::start(void)
+bool RegistryService::start(void)
 {
     OD_SYSLOG_ENTER();//####
     if (! isStarted())
@@ -65,16 +68,16 @@ bool YarpPlusPlus::RegistryService::start(void)
     }
     OD_SYSLOG_EXIT_B(isStarted());//####
     return isStarted();
-} // YarpPlusPlus::RegistryService::start
+} // RegistryService::start
 
-bool YarpPlusPlus::RegistryService::stop(void)
+bool RegistryService::stop(void)
 {
     OD_SYSLOG_ENTER();//####
     bool result = BaseService::stop();
     
     OD_SYSLOG_EXIT_B(result);//####
     return result;
-} // YarpPlusPlus::RegistryService::stop
+} // RegistryService::stop
 
 #pragma mark Accessors
 

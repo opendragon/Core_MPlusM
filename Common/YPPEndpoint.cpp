@@ -16,6 +16,8 @@
 #include <cstdlib>
 #include <cstdio>
 
+using namespace YarpPlusPlus;
+
 #pragma mark Private structures and constants
 
 #pragma mark Local functions
@@ -107,7 +109,7 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
 
 #pragma mark Class methods
 
-yarp::os::ConstString YarpPlusPlus::Endpoint::getRandomPortName(void)
+yarp::os::ConstString Endpoint::getRandomPortName(void)
 {
     yarp::os::ConstString result;
 #pragma clang diagnostic push
@@ -118,13 +120,13 @@ yarp::os::ConstString YarpPlusPlus::Endpoint::getRandomPortName(void)
     result = temp;
     free(temp);
     return result;
-} // YarpPlusPlus::Endpoint::getRandomPortName
+} // Endpoint::getRandomPortName
 
 #pragma mark Constructors and destructors
 
-YarpPlusPlus::Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
-                                 const yarp::os::ConstString & hostName,
-                                 const yarp::os::ConstString & portNumber) :
+Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
+                   const yarp::os::ConstString & hostName,
+                   const yarp::os::ConstString & portNumber) :
         _contact(), _handler(NULL), _handlerCreator(NULL), _port(NULL), _isOpen(false)
 {
     OD_SYSLOG_ENTER();//####
@@ -144,39 +146,39 @@ YarpPlusPlus::Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
                 if (! _port)
                 {
                     OD_SYSLOG_EXIT_THROW_S("Could not create port");//####
-                    throw new YarpPlusPlus::Exception("Could not create port");
+                    throw new Exception("Could not create port");
                 }
             }
             else
             {
                 OD_SYSLOG_EXIT_THROW_S("Bad host name");//####
-                throw new YarpPlusPlus::Exception("Bad host name");
+                throw new Exception("Bad host name");
             }
         }
         else
         {
             OD_SYSLOG_EXIT_THROW_S("Bad port number");//####
-            throw new YarpPlusPlus::Exception("Bad port number");
+            throw new Exception("Bad port number");
         }
     }
     else
     {
         OD_SYSLOG_EXIT_THROW_S("Bad endpoint name");//####
-        throw new YarpPlusPlus::Exception("Bad endpoint name");
+        throw new Exception("Bad endpoint name");
     }
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::Endpoint::Endpoint
+} // Endpoint::Endpoint
 
-YarpPlusPlus::Endpoint::~Endpoint(void)
+Endpoint::~Endpoint(void)
 {
     OD_SYSLOG_ENTER();//####
     close();
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::Endpoint::~Endpoint
+} // Endpoint::~Endpoint
 
 #pragma mark Actions
 
-void YarpPlusPlus::Endpoint::close(void)
+void Endpoint::close(void)
 {
     OD_SYSLOG_ENTER();//####
     if (isOpen())
@@ -197,9 +199,9 @@ void YarpPlusPlus::Endpoint::close(void)
         _isOpen = false;
     }
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::Endpoint::close
+} // Endpoint::close
 
-bool YarpPlusPlus::Endpoint::open(void)
+bool Endpoint::open(void)
 {
     OD_SYSLOG_ENTER();//####
     if (! isOpen())
@@ -238,9 +240,9 @@ bool YarpPlusPlus::Endpoint::open(void)
     }
     OD_SYSLOG_EXIT_B(isOpen());//####
     return isOpen();
-} // YarpPlusPlus::Endpoint::open
+} // Endpoint::open
 
-bool YarpPlusPlus::Endpoint::setInputHandler(InputHandler & handler)
+bool Endpoint::setInputHandler(InputHandler & handler)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("handler = ", &handler);//####
@@ -270,9 +272,9 @@ bool YarpPlusPlus::Endpoint::setInputHandler(InputHandler & handler)
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
-} // YarpPlusPlus::Endpoint::setInputHandler
+} // Endpoint::setInputHandler
 
-bool YarpPlusPlus::Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
+bool Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("handlerCreator = ", &handlerCreator);//####
@@ -302,10 +304,10 @@ bool YarpPlusPlus::Endpoint::setInputHandlerCreator(InputHandlerCreator & handle
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
-} // YarpPlusPlus::Endpoint::setInputHandlerCreator
+} // Endpoint::setInputHandlerCreator
 
-bool YarpPlusPlus::Endpoint::setReporter(yarp::os::PortReport & reporter,
-                                         const bool             andReportNow)
+bool Endpoint::setReporter(yarp::os::PortReport & reporter,
+                           const bool             andReportNow)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("reporter = ", &reporter);//####
@@ -329,11 +331,11 @@ bool YarpPlusPlus::Endpoint::setReporter(yarp::os::PortReport & reporter,
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
-} // YarpPlusPlus::Endpoint::setReporter
+} // Endpoint::setReporter
 
 #pragma mark Accessors
 
-yarp::os::ConstString YarpPlusPlus::Endpoint::getName(void)
+yarp::os::ConstString Endpoint::getName(void)
 const
 {
     yarp::os::ConstString result;
@@ -347,7 +349,7 @@ const
         result = "";
     }
     return result;
-} // YarpPlusPlus::Endpoint::getName
+} // Endpoint::getName
 
 #pragma mark Global functions
 
@@ -360,4 +362,4 @@ void YarpPlusPlus::dumpContact(const char *              tag,
     OD_SYSLOG_LL1("contact.port = ", aContact.getPort());//####
     OD_SYSLOG_S1("contact.toString = ", aContact.toString().c_str());//####
     OD_SYSLOG_B1("contact.isValid = ", aContact.isValid());//####
-} // YarpPlusPlus::dumpContact
+} // dumpContact

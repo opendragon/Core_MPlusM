@@ -12,6 +12,8 @@
 #include "ODSyslog.h"
 #include "YPPBaseServiceInputHandler.h"
 
+using namespace YarpPlusPlus;
+
 #pragma mark Private structures and constants
 
 #pragma mark Local functions
@@ -20,30 +22,30 @@
 
 #pragma mark Constructors and destructors
 
-YarpPlusPlus::BaseServiceInputHandlerCreator::BaseServiceInputHandlerCreator(BaseService & service) :
+BaseServiceInputHandlerCreator::BaseServiceInputHandlerCreator(BaseService & service) :
         inherited(), _service(service)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("service = ", &service);
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::BaseServiceInputHandlerCreator::BaseServiceInputHandlerCreator
+} // BaseServiceInputHandlerCreator::BaseServiceInputHandlerCreator
 
-YarpPlusPlus::BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator(void)
+BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // YarpPlusPlus::BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator
+} // BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator
 
 #pragma mark Actions
 
-YarpPlusPlus::InputHandler * YarpPlusPlus::BaseServiceInputHandlerCreator::create(void)
+InputHandler * BaseServiceInputHandlerCreator::create(void)
 {
     OD_SYSLOG_ENTER();//####
     InputHandler * result = new BaseServiceInputHandler(_service);
     
     OD_SYSLOG_EXIT_P(result);//####
     return result;
-} // YarpPlusPlus::BaseServiceInputHandlerCreator::create
+} // BaseServiceInputHandlerCreator::create
 
 #pragma mark Accessors
 
