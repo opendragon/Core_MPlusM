@@ -11,9 +11,11 @@ include_directories("${DEBUGGING_DIR}")
 add_library(YPPBaseShared
             YPPEndpoint.cpp
             YPPException.cpp
+            YPPInfoRequestHandler.cpp
             YPPInputHandler.cpp
             YPPInputHandlerCreator.cpp
             YPPListRequestHandler.cpp
+            YPPRegistryService.cpp
             YPPRequestHandler.cpp
             YPPServiceRequest.cpp
             YPPServiceResponse.cpp)

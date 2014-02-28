@@ -10,7 +10,7 @@ include_directories("${DEBUGGING_DIR}"
                     "${COMMON_DIR}")
 
 # set up our program
-add_executable(RegistryService main.cpp YPPRegistryService.cpp)
+add_executable(RegistryService main.cpp)
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RegistryService YPPBaseService YPPBaseShared YPPDebugging ${YARP_LIBRARIES})

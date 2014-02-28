@@ -47,7 +47,13 @@ namespace YarpPlusPlus
         
         /*! @brief Construct the response to a 'list' request.
          @param reply The Bottle to hold the reply. */
-        virtual void fillInListReply(yarp::os::Bottle & reply);
+        void fillInListReply(yarp::os::Bottle & reply);
+        
+        /*! @brief Construct the response to an 'info' request.
+         @param reply The Bottle to hold the reply.
+         @param requestName The name of the request that is being looked at. */
+        void fillInRequestInfo(yarp::os::Bottle &            reply,
+                               const yarp::os::ConstString & requestName);
         
         /*! @brief Return the associated endpoint.
          @returns The associated endpoint. */

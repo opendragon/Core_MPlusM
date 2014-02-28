@@ -831,6 +831,10 @@ public:
     /*! @brief The destructor. */
     virtual ~Test09DefaultRequestHandler(void);
     
+    /*! @brief Fill in a description dictionary for the request.
+     @param info The dictionary to be filled in. */
+    virtual void fillInDescription(yarp::os::Property & info);
+
     /*! @brief Process a request.
      @param restOfInput The arguments to the operation.
      @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
@@ -861,6 +865,13 @@ Test09DefaultRequestHandler::~Test09DefaultRequestHandler(void)
 } // Test09DefaultRequestHandler::~Test09DefaultRequestHandler
 
 #pragma mark Actions
+
+void Test09DefaultRequestHandler::fillInDescription(yarp::os::Property & info)
+{
+#pragma unused(info)
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test09DefaultRequestHandler::fillInDescription
 
 bool Test09DefaultRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
                                               yarp::os::ConnectionWriter * replyMechanism)
@@ -973,6 +984,10 @@ public:
     /*! @brief The destructor. */
     virtual ~Test10DefaultRequestHandler(void);
     
+    /*! @brief Fill in a description dictionary for the request.
+     @param info The dictionary to be filled in. */
+    virtual void fillInDescription(yarp::os::Property & info);
+
     /*! @brief Process a request.
      @param restOfInput The arguments to the operation.
      @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
@@ -1003,6 +1018,13 @@ Test10DefaultRequestHandler::~Test10DefaultRequestHandler(void)
 } // Test10DefaultRequestHandler::~Test10DefaultRequestHandler
 
 #pragma mark Actions
+
+void Test10DefaultRequestHandler::fillInDescription(yarp::os::Property & info)
+{
+#pragma unused(info)
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test10DefaultRequestHandler::fillInDescription
 
 bool Test10DefaultRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
                                               yarp::os::ConnectionWriter * replyMechanism)
@@ -1115,6 +1137,10 @@ public:
     /*! @brief The destructor. */
     virtual ~Test11EchoRequestHandler(void);
     
+    /*! @brief Fill in a description dictionary for the request.
+     @param info The dictionary to be filled in. */
+    virtual void fillInDescription(yarp::os::Property & info);
+
     /*! @brief Process a request.
      @param restOfInput The arguments to the operation.
      @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
@@ -1145,6 +1171,13 @@ Test11EchoRequestHandler::~Test11EchoRequestHandler(void)
 } // Test11EchoRequestHandler::~Test11EchoRequestHandler
 
 #pragma mark Actions
+
+void Test11EchoRequestHandler::fillInDescription(yarp::os::Property & info)
+{
+#pragma unused(info)
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // Test11EchoRequestHandler::fillInDescription
 
 bool Test11EchoRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
                                            yarp::os::ConnectionWriter * replyMechanism)
@@ -1274,6 +1307,10 @@ public:
     /*! @brief The destructor. */
     virtual ~Test12EchoRequestHandler(void);
     
+    /*! @brief Fill in a description dictionary for the request.
+     @param info The dictionary to be filled in. */
+    virtual void fillInDescription(yarp::os::Property & info);
+    
     /*! @brief Process a request.
      @param restOfInput The arguments to the operation.
      @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
@@ -1304,6 +1341,22 @@ Test12EchoRequestHandler::~Test12EchoRequestHandler(void)
 } // Test12EchoRequestHandler::~Test12EchoRequestHandler
 
 #pragma mark Actions
+
+void Test12EchoRequestHandler::fillInDescription(yarp::os::Property & info)
+{
+    OD_SYSLOG_ENTER();//####
+    info.put(YPP_REQREP_DICT_NAME_KEY, ECHO_REQUEST_NAME);
+    info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
+    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
+    info.put(YPP_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
+    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Echo back any input");
+    yarp::os::Value    keywords;
+    yarp::os::Bottle * asList = keywords.asList();
+    
+    asList->addString(ECHO_REQUEST_NAME);
+    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    OD_SYSLOG_EXIT();//####
+} // Test12EchoRequestHandler::fillInDescription
 
 bool Test12EchoRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
                                            yarp::os::ConnectionWriter * replyMechanism)
@@ -1336,10 +1389,6 @@ public:
     /*! @brief The destructor. */
     virtual ~Test12Service(void);
     
-    /*! @brief Construct the response to a 'list' request.
-     @param reply The Bottle to hold the reply. */
-    virtual void fillInListReply(yarp::os::Bottle & reply);
-    
 protected:
     
 private:
@@ -1367,25 +1416,6 @@ Test12Service::~Test12Service(void)
 
 #pragma mark Actions
 
-void Test12Service::fillInListReply(yarp::os::Bottle & reply)
-{
-    OD_SYSLOG_ENTER();//####
-    inherited::fillInListReply(reply);
-    yarp::os::Property & aDict = reply.addDict();
-    
-    aDict.put(YPP_REQREP_DICT_NAME_KEY, ECHO_REQUEST_NAME);
-    aDict.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
-    aDict.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
-    aDict.put(YPP_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
-    aDict.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Echo back any input");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(ECHO_REQUEST_NAME);
-    aDict.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
-    OD_SYSLOG_EXIT();//####
-} // Test12Service::fillInListReply
-
 #pragma mark Local functions
 
 /*! @brief Check the response from the 'list' request for this test.
@@ -1395,60 +1425,80 @@ static bool checkList12Response(const ServiceResponse & response)
 {
     bool result;
     
-    if (2 == response.count())
+    if (3 <= response.count())
     {
-        yarp::os::Value firstElement(response.element(0));
-        yarp::os::Value secondElement(response.element(1));
-        
-        OD_SYSLOG_S2("first = ", firstElement.toString().c_str(), "second = ", secondElement.toString().c_str());//####
-        if (firstElement.isDict() && secondElement.isDict())
+        bool sawEcho = false;
+        bool sawInfo = false;
+        bool sawList = false;
+
+        result = true;
+        for (int ii = 0; result && (ii < response.count()); ++ii)
         {
-            bool                 sawEcho = false;
-            bool                 sawList = false;
-            yarp::os::Property * firstAsDict = firstElement.asDict();
-            yarp::os::Property * secondAsDict = secondElement.asDict();
+            yarp::os::Value anElement(response.element(ii));
             
-            if (firstAsDict->check(YPP_REQREP_DICT_NAME_KEY) && secondAsDict->check(YPP_REQREP_DICT_NAME_KEY) &&
-                firstAsDict->check(YPP_REQREP_DICT_OUTPUT_KEY) && secondAsDict->check(YPP_REQREP_DICT_OUTPUT_KEY))
+            if (anElement.isDict())
             {
-                // Both have 'name' and 'output' entries.
-                yarp::os::ConstString firstName = firstAsDict->find(YPP_REQREP_DICT_NAME_KEY).asString();
-                yarp::os::ConstString secondName = secondAsDict->find(YPP_REQREP_DICT_NAME_KEY).asString();
-                yarp::os::ConstString firstOutput = firstAsDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString();
-                yarp::os::ConstString secondOutput = secondAsDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString();
+                yarp::os::Property * asDict = anElement.asDict();
+                bool                 hasInput = asDict->check(YPP_REQREP_DICT_INPUT_KEY);
+                bool                 hasOutput = asDict->check(YPP_REQREP_DICT_OUTPUT_KEY);
                 
-                OD_SYSLOG_S4("firstName = ", firstName.c_str(), "secondName = ", secondName.c_str(),//####
-                             "firstOutput = ", firstOutput.c_str(), "secondOutput = ", secondOutput.c_str());
-                if ((firstName == YPP_LIST_REQUEST) && (secondName == ECHO_REQUEST_NAME))
+                if (asDict->check(YPP_REQREP_DICT_NAME_KEY))
                 {
-                    sawList = ((! firstAsDict->check(YPP_REQREP_DICT_INPUT_KEY)) && (firstOutput == "([]+)"));
-                    if (secondAsDict->check(YPP_REQREP_DICT_INPUT_KEY))
+                    yarp::os::ConstString aName = asDict->find(YPP_REQREP_DICT_NAME_KEY).asString();
+                    
+                    if (aName == YPP_LIST_REQUEST)
                     {
-                        yarp::os::ConstString secondInput = secondAsDict->find(YPP_REQREP_DICT_INPUT_KEY).asString();
-                        
-                        OD_SYSLOG_S1("secondInput = ", secondInput.c_str());//####
-                        sawEcho = ((secondInput == ".*") && (secondOutput == ".*"));
+                        if (sawList)
+                        {
+                            result = false;
+                        }
+                        else if ((! hasInput) && hasOutput)
+                        {
+                            yarp::os::ConstString itsOutput = asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString();
+                            
+                            sawList = (itsOutput == "([]+)");
+                        }
+                    }
+                    else if (aName == YPP_INFO_REQUEST)
+                    {
+                        if (sawInfo)
+                        {
+                            result = false;
+                        }
+                        else if (hasInput && hasOutput)
+                        {
+                            yarp::os::ConstString itsOutput = asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString();
+                            yarp::os::ConstString itsInput = asDict->find(YPP_REQREP_DICT_INPUT_KEY).asString();
+                            
+                            sawInfo = ((itsInput == ".+") && (itsOutput == "([]?)"));
+                        }
+                    }
+                    else if (aName == ECHO_REQUEST_NAME)
+                    {
+                        if (sawEcho)
+                        {
+                            result = false;
+                        }
+                        else if (hasInput && hasOutput)
+                        {
+                            yarp::os::ConstString itsOutput = asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString();
+                            yarp::os::ConstString itsInput = asDict->find(YPP_REQREP_DICT_INPUT_KEY).asString();
+                            
+                            sawEcho = ((itsInput == ".*") && (itsOutput == ".*"));
+                        }
                     }
                 }
-                else if ((secondName == YPP_LIST_REQUEST) && (firstName == ECHO_REQUEST_NAME))
+                else
                 {
-                    sawList = ((! secondAsDict->check(YPP_REQREP_DICT_INPUT_KEY)) && (secondOutput == "([]+)"));
-                    if (firstAsDict->check(YPP_REQREP_DICT_INPUT_KEY))
-                    {
-                        yarp::os::ConstString firstInput = firstAsDict->find(YPP_REQREP_DICT_INPUT_KEY).asString();
-                        
-                        OD_SYSLOG_S1("firstInput = ", firstInput.c_str());//####
-                        sawEcho = ((firstInput == ".*") && (firstInput == ".*"));
-                    }
+                    result = false;
                 }
             }
-            result = (sawEcho && sawList);
+            else
+            {
+                result = false;
+            }
         }
-        else
-        {
-            // One or both values are not dictionaries.
-            result = false;
-        }
+        result &= (sawInfo && sawEcho && sawList);
     }
     else
     {

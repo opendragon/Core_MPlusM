@@ -12,6 +12,7 @@
 #include "YPPException.h"
 #include "YPPBaseServiceInputHandler.h"
 #include "YPPBaseServiceInputHandlerCreator.h"
+#include "YPPInfoRequestHandler.h"
 #include "YPPListRequestHandler.h"
 #include "YPPRequests.h"
 #include <yarp/os/Property.h>
@@ -20,9 +21,6 @@
 using namespace YarpPlusPlus;
 
 #pragma mark Private structures and constants
-
-/*! @brief The protocol version number for the 'list' request. */
-#define LIST_REQUEST_VERSION_NUMBER "1.0"
 
 #pragma mark Local functions
 
@@ -90,23 +88,33 @@ BaseService::~BaseService(void)
 void BaseService::fillInListReply(yarp::os::Bottle & reply)
 {
     OD_SYSLOG_ENTER();//####
-    yarp::os::Property & aDict = reply.addDict();
-    
-    aDict.put(YPP_REQREP_DICT_NAME_KEY, YPP_LIST_REQUEST);
-    aDict.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_LIST_START YPP_REQREP_DICT_START YPP_REQREP_DICT_END
-              YPP_REQREP_1_OR_MORE YPP_REQREP_LIST_END);
-    aDict.put(YPP_REQREP_DICT_VERSION_KEY, LIST_REQUEST_VERSION_NUMBER);
-    aDict.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "List the recognized requests");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(YPP_LIST_REQUEST);
-    asList->addString("requests");
-    asList->addString("methods");
-    asList->addString("operations");
-    aDict.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    RequestHandlerMap::const_iterator requestWalker(_requestHandlers.cbegin());
+
+    for ( ; requestWalker != _requestHandlers.cend(); ++requestWalker)
+    {
+        yarp::os::Property & aDict = reply.addDict();
+        RequestHandler *     aHandler = requestWalker->second;
+        
+        aHandler->fillInDescription(aDict);
+    }
     OD_SYSLOG_EXIT();//####
 } // BaseService::fillInListReply
+
+void BaseService::fillInRequestInfo(yarp::os::Bottle &            reply,
+                                    const yarp::os::ConstString & requestName)
+{
+    OD_SYSLOG_ENTER();//####
+    RequestHandlerMap::const_iterator match(_requestHandlers.find(std::string(requestName)));
+    
+    if (_requestHandlers.cend() != match)
+    {
+        yarp::os::Property & aDict = reply.addDict();
+        RequestHandler *     aHandler = match->second;
+        
+        aHandler->fillInDescription(aDict);
+    }
+    OD_SYSLOG_EXIT();//####
+} // BaseService::fillInRequestInfo
 
 RequestHandler * BaseService::lookupRequestHandler(const yarp::os::ConstString & request)
 {
@@ -115,7 +123,7 @@ RequestHandler * BaseService::lookupRequestHandler(const yarp::os::ConstString &
     RequestHandlerMap::const_iterator match(_requestHandlers.find(std::string(request)));
     RequestHandler *                  result;
     
-    if (_requestHandlers.end() == match)
+    if (_requestHandlers.cend() == match)
     {
         OD_SYSLOG("(_requestHandlers.end() == match)");//####
         result = _defaultHandler;
@@ -176,6 +184,7 @@ void BaseService::setDefaultRequestHandler(RequestHandler * handler)
 void BaseService::setUpStandardHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
+    registerRequestHandler(YPP_INFO_REQUEST, new InfoRequestHandler(*this));
     registerRequestHandler(YPP_LIST_REQUEST, new ListRequestHandler(*this));
     OD_SYSLOG_EXIT();//####
 } // BaseService::setUpStandardHandlers

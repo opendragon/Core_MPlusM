@@ -1,12 +1,12 @@
 //
-//  YPPListRequestHandler.cpp
+//  YPPInfoRequestHandler.cpp
 //  YarpPlusPlus
 //
-//  Created by Norman Jaffe on 2014-02-26.
+//  Created by Norman Jaffe on 2014-02-27.
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#include "YPPListRequestHandler.h"
+#include "YPPInfoRequestHandler.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPBaseService.h"
@@ -16,8 +16,8 @@ using namespace YarpPlusPlus;
 
 #pragma mark Private structures and constants
 
-/*! @brief The protocol version number for the 'list' request. */
-#define LIST_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'info' request. */
+#define INFO_REQUEST_VERSION_NUMBER "1.0"
 
 #pragma mark Local functions
 
@@ -25,36 +25,34 @@ using namespace YarpPlusPlus;
 
 #pragma mark Constructors and destructors
 
-ListRequestHandler::ListRequestHandler(BaseService & service) :
+InfoRequestHandler::InfoRequestHandler(BaseService & service) :
         inherited(YPP_LIST_REQUEST, service)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // ListRequestHandler::ListRequestHandler
+} // InfoRequestHandler::InfoRequestHandler
 
-ListRequestHandler::~ListRequestHandler(void)
+InfoRequestHandler::~InfoRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // ListRequestHandler::~ListRequestHandler
+} // InfoRequestHandler::~InfoRequestHandler
 
 #pragma mark Actions
 
-void ListRequestHandler::fillInDescription(yarp::os::Property & info)
+void InfoRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_NAME_KEY, YPP_LIST_REQUEST);
+    info.put(YPP_REQREP_DICT_NAME_KEY, YPP_INFO_REQUEST);
+    info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_1_OR_MORE);
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_LIST_START YPP_REQREP_DICT_START YPP_REQREP_DICT_END
-             YPP_REQREP_1_OR_MORE YPP_REQREP_LIST_END);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, LIST_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "List the recognized requests");
+             YPP_REQREP_0_OR_1 YPP_REQREP_LIST_END);
+    info.put(YPP_REQREP_DICT_VERSION_KEY, INFO_REQUEST_VERSION_NUMBER);
+    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Return information on a request");
     yarp::os::Value    keywords;
     yarp::os::Bottle * asList = keywords.asList();
     
-    asList->addString(YPP_LIST_REQUEST);
-    asList->addString("requests");
-    asList->addString("methods");
-    asList->addString("operations");
+    asList->addString(YPP_INFO_REQUEST);
     asList->addString("key-" YPP_REQREP_DICT_NAME_KEY);
     asList->addString("key-" YPP_REQREP_DICT_OUTPUT_KEY);
     asList->addString("key-" YPP_REQREP_DICT_INPUT_KEY);
@@ -62,9 +60,9 @@ void ListRequestHandler::fillInDescription(yarp::os::Property & info)
     asList->addString("key-" YPP_REQREP_DICT_DESCRIPTION_KEY);
     info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
     OD_SYSLOG_EXIT();//####
-} // ListRequestHandler::fillInDescription
+} // InfoRequestHandler::fillInDescription
 
-bool ListRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
+bool InfoRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
                                      yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
@@ -75,13 +73,16 @@ bool ListRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
     {
         yarp::os::Bottle reply;
         
-        _service.fillInListReply(reply);
+        if (1 == restOfInput.size())
+        {
+            _service.fillInRequestInfo(reply, restOfInput.get(0).toString());
+        }
         OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
         reply.write(*replyMechanism);
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
-} // ListRequestHandler::operator()
+} // InfoRequestHandler::operator()
 
 #pragma mark Accessors
 

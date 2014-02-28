@@ -9,6 +9,8 @@
 #if (! defined(YPPREQUESTS_H_))
 # define YPPREQUESTS_H_ /* */
 
+/*! @brief The standard name for an 'info' request. */
+# define YPP_INFO_REQUEST     "info"
 /*! @brief The standard name for a 'list' request. */
 # define YPP_LIST_REQUEST     "list"
 /*! @brief The standard name for a 'register' request. */
@@ -34,6 +36,8 @@
 # define YPP_REQREP_1_OR_MORE  "+"
 /*! @brief Request/response specification character - zero or more repetitions of preceding. */
 # define YPP_REQREP_0_OR_MORE  "*"
+/*! @brief Request/response specification character - zero or one repetitions of preceding. */
+# define YPP_REQREP_0_OR_1     "?"
 /*! @brief Request/response specification character - any element. */
 # define YPP_REQREP_ANYTHING   "."
 

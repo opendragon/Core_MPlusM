@@ -1,29 +1,29 @@
 //
-//  YPPListRequestHandler.h
+//  YPPInfoRequestHandler.h
 //  YarpPlusPlus
 //
-//  Created by Norman Jaffe on 2014-02-26.
+//  Created by Norman Jaffe on 2014-02-27.
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#if (! defined(YPPLISTREQUESTHANDLER_H_))
-# define YPPLISTREQUESTHANDLER_H_ /* */
+#if (! defined(YPPINFOREQUESTHANDLER_H_))
+# define YPPINFOREQUESTHANDLER_H_ /* */
 
 # include "YPPRequestHandler.h"
 
 namespace YarpPlusPlus
 {
     /*! @brief The 'list' request handler. */
-    class ListRequestHandler : public RequestHandler
+    class InfoRequestHandler : public RequestHandler
     {
     public:
         
         /*! @brief The constructor.
          @param service The service that responds to this request. */
-        ListRequestHandler(BaseService & service);
+        InfoRequestHandler(BaseService & service);
         
         /*! @brief The destructor. */
-        virtual ~ListRequestHandler(void);
+        virtual ~InfoRequestHandler(void);
         
         /*! @brief Fill in a description dictionary for the request.
          @param info The dictionary to be filled in. */
@@ -45,16 +45,16 @@ namespace YarpPlusPlus
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        ListRequestHandler(const ListRequestHandler & other);
+        InfoRequestHandler(const InfoRequestHandler & other);
         
         /*! @brief Assignment operator.
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        ListRequestHandler & operator=(const ListRequestHandler & other);
+        InfoRequestHandler & operator=(const InfoRequestHandler & other);
         
-    }; // ListRequestHandler
+    }; // InfoRequestHandler
     
 } // YarpPlusPlus
 
-#endif // ! defined(YPPLISTREQUESTHANDLER_H_)
+#endif // ! defined(YPPINFOREQUESTHANDLER_H_)

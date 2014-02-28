@@ -48,13 +48,6 @@ RegistryService::~RegistryService(void)
 
 #pragma mark Actions
 
-void RegistryService::fillInListReply(yarp::os::Bottle & reply)
-{
-    OD_SYSLOG_ENTER();//####
-    inherited::fillInListReply(reply);
-    OD_SYSLOG_EXIT();//####
-} // RegistryService::fillInListReply
-
 bool RegistryService::start(void)
 {
     OD_SYSLOG_ENTER();//####

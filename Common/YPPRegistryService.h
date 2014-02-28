@@ -35,10 +35,6 @@ namespace YarpPlusPlus
         /*! @brief The destructor. */
         virtual ~RegistryService(void);
         
-        /*! @brief Construct the response to a 'list' request.
-         @param reply The Bottle to hold the reply. */
-        virtual void fillInListReply(yarp::os::Bottle & reply);
-        
         /*! @brief Start processing requests.
          @returns @c true if the service was started and @c false if it was not. */
         virtual bool start(void);

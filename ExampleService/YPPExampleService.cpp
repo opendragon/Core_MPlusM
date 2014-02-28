@@ -33,6 +33,10 @@ public:
     /*! @brief The destructor. */
     virtual ~EchoRequestHandler(void);
     
+    /*! @brief Fill in a description dictionary for the request.
+     @param info The dictionary to be filled in. */
+    virtual void fillInDescription(yarp::os::Property & info);
+    
     /*! @brief Process a request.
      @param restOfInput The arguments to the operation.
      @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
@@ -63,6 +67,22 @@ EchoRequestHandler::~EchoRequestHandler(void)
 } // EchoRequestHandler::~EchoRequestHandler
 
 #pragma mark Actions
+
+void EchoRequestHandler::fillInDescription(yarp::os::Property & info)
+{
+    OD_SYSLOG_ENTER();//####
+    info.put(YPP_REQREP_DICT_NAME_KEY, ECHO_REQUEST_NAME);
+    info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
+    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
+    info.put(YPP_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
+    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Echo back any input");
+    yarp::os::Value    keywords;
+    yarp::os::Bottle * asList = keywords.asList();
+    
+    asList->addString(ECHO_REQUEST_NAME);
+    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    OD_SYSLOG_EXIT();//####
+} // EchoRequestHandler::fillInDescription
 
 bool EchoRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
                                      yarp::os::ConnectionWriter * replyMechanism)
@@ -109,25 +129,6 @@ ExampleService::~ExampleService(void)
 } // ExampleService::~ExampleService
 
 #pragma mark Actions
-
-void ExampleService::fillInListReply(yarp::os::Bottle & reply)
-{
-    OD_SYSLOG_ENTER();//####
-    inherited::fillInListReply(reply);
-    yarp::os::Property & aDict = reply.addDict();
-    
-    aDict.put(YPP_REQREP_DICT_NAME_KEY, ECHO_REQUEST_NAME);
-    aDict.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
-    aDict.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
-    aDict.put(YPP_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
-    aDict.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Echo back any input");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(ECHO_REQUEST_NAME);
-    aDict.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
-    OD_SYSLOG_EXIT();//####
-} // ExampleService::fillInListReply
 
 bool ExampleService::start(void)
 {

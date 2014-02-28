@@ -13,6 +13,7 @@
 # include <yarp/os/ConstString.h>
 # include <yarp/os/Bottle.h>
 # include <yarp/os/ConnectionWriter.h>
+# include <yarp/os/Property.h>
 
 namespace YarpPlusPlus
 {
@@ -32,11 +33,16 @@ namespace YarpPlusPlus
         /*! @brief The destructor. */
         virtual ~RequestHandler(void);
         
+        /*! @brief Fill in a description dictionary for the request.
+         @param info The dictionary to be filled in. */
+        virtual void fillInDescription(yarp::os::Property & info) = 0;
+        
         inline const yarp::os::ConstString & name(void)
         const
         {
             return _name;
         } // name
+        
         
         /*! @brief Process a request.
          @param restOfInput The arguments to the operation.
