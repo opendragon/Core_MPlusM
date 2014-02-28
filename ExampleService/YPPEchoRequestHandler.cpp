@@ -24,8 +24,8 @@ using namespace YarpPlusPlusExample;
 
 #pragma mark Constructors and destructors
 
-EchoRequestHandler::EchoRequestHandler(YarpPlusPlus::BaseService & service) :
-        inherited(YPP_ECHO_REQUEST, service)
+EchoRequestHandler::EchoRequestHandler(void) :
+        inherited(YPP_ECHO_REQUEST)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####

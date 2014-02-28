@@ -18,9 +18,8 @@ namespace YarpPlusPlusTest
     {
     public:
         
-        /*! @brief The constructor.
-         @param service The service that responds to this request. */
-        Test10DefaultRequestHandler(YarpPlusPlus::BaseService & service);
+        /*! @brief The constructor. */
+        Test10DefaultRequestHandler(void);
         
         /*! @brief The destructor. */
         virtual ~Test10DefaultRequestHandler(void);

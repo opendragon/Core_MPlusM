@@ -20,9 +20,8 @@ using namespace YarpPlusPlus;
 
 #pragma mark Constructors and destructors
 
-RequestHandler::RequestHandler(const yarp::os::ConstString & request,
-                               BaseService &                 service) :
-        _service(service), _name(request)
+RequestHandler::RequestHandler(const yarp::os::ConstString & request) :
+        _mapper(NULL), _name(request)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
@@ -35,6 +34,14 @@ RequestHandler::~RequestHandler(void)
 } // RequestHandler::~RequestHandler
 
 #pragma mark Actions
+
+void RequestHandler::setOwner(RequestMap & owner)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("owner = ", &owner);//####
+    _mapper = &owner;
+    OD_SYSLOG_EXIT();//####
+} // RequestHandler::setOwner
 
 #pragma mark Accessors
 

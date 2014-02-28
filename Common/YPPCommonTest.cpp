@@ -10,6 +10,7 @@
 #include "ODSyslog.h"
 #include "YPPServiceRequest.h"
 #include "YPPBaseClient.h"
+#include "YPPEndpoint.h"
 #include "YPPRequestHandler.h"
 #include "YPPRequests.h"
 #include "Tests/YPPTEndpointStatusReporter.h"

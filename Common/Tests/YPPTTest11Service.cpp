@@ -27,7 +27,7 @@ Test11Service::Test11Service(const int argc,
         inherited(true, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
-    registerRequestHandler(YPP_ECHO_REQUEST, new Test11EchoRequestHandler(*this));
+    _requestHandlers.registerRequestHandler(YPP_ECHO_REQUEST, new Test11EchoRequestHandler());
     OD_SYSLOG_EXIT();//####
 } // Test11Service::Test11Service
 

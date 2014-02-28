@@ -22,6 +22,7 @@ add_library(YPPBaseShared
             YPPListRequestHandler.cpp
             YPPRegistryService.cpp
             YPPRequestHandler.cpp
+            YPPRequestMap.cpp
             YPPServiceRequest.cpp
             YPPServiceResponse.cpp)
 add_library(YPPBaseClient YPPBaseClient.cpp)

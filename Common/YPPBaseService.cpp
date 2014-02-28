@@ -12,6 +12,7 @@
 #include "YPPException.h"
 #include "YPPBaseServiceInputHandler.h"
 #include "YPPBaseServiceInputHandlerCreator.h"
+#include "YPPEndpoint.h"
 #include "YPPInfoRequestHandler.h"
 #include "YPPListRequestHandler.h"
 #include "YPPRequests.h"
@@ -31,8 +32,8 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & serviceHostName,
                          const yarp::os::ConstString & servicePortNumber) :
-        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _requestHandlers(), _defaultHandler(NULL),
-        _started(false), _useMultipleHandlers(useMultipleHandlers)
+        _requestHandlers(*this), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
+        _useMultipleHandlers(useMultipleHandlers)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
@@ -45,8 +46,8 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
 BaseService::BaseService(const bool useMultipleHandlers,
                          const int  argc,
                          char **    argv) :
-        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _requestHandlers(), _defaultHandler(NULL),
-        _started(false), _useMultipleHandlers(useMultipleHandlers)
+        _requestHandlers(*this), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
+        _useMultipleHandlers(useMultipleHandlers)
 {
     OD_SYSLOG_ENTER();//####
     switch (argc)
@@ -84,70 +85,18 @@ BaseService::~BaseService(void)
 
 #pragma mark Actions
 
-void BaseService::fillInListReply(yarp::os::Bottle & reply)
-{
-    OD_SYSLOG_ENTER();//####
-    RequestHandlerMap::const_iterator requestWalker(_requestHandlers.cbegin());
-
-    for ( ; requestWalker != _requestHandlers.cend(); ++requestWalker)
-    {
-        yarp::os::Property & aDict = reply.addDict();
-        RequestHandler *     aHandler = requestWalker->second;
-        
-        aHandler->fillInDescription(aDict);
-    }
-    OD_SYSLOG_EXIT();//####
-} // BaseService::fillInListReply
-
-void BaseService::fillInRequestInfo(yarp::os::Bottle &            reply,
-                                    const yarp::os::ConstString & requestName)
-{
-    OD_SYSLOG_ENTER();//####
-    RequestHandlerMap::const_iterator match(_requestHandlers.find(std::string(requestName)));
-    
-    if (_requestHandlers.cend() != match)
-    {
-        yarp::os::Property & aDict = reply.addDict();
-        RequestHandler *     aHandler = match->second;
-        
-        aHandler->fillInDescription(aDict);
-    }
-    OD_SYSLOG_EXIT();//####
-} // BaseService::fillInRequestInfo
-
-RequestHandler * BaseService::lookupRequestHandler(const yarp::os::ConstString & request)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("request = ", request.c_str());//####
-    RequestHandlerMap::const_iterator match(_requestHandlers.find(std::string(request)));
-    RequestHandler *                  result;
-    
-    if (_requestHandlers.cend() == match)
-    {
-        OD_SYSLOG("(_requestHandlers.end() == match)");//####
-        result = _defaultHandler;
-    }
-    else
-    {
-        OD_SYSLOG("! (_requestHandlers.end() == match)");//####
-        result = match->second;
-    }
-    OD_SYSLOG_EXIT();//####
-    return result;
-} // BaseService::lookupRequestHandler
-
 bool BaseService::processRequest(const yarp::os::ConstString & request,
                                  const yarp::os::Bottle &      restOfInput,
                                  yarp::os::ConnectionWriter *  replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
     bool             result;
-    RequestHandler * handler = lookupRequestHandler(request);
+    RequestHandler * handler = _requestHandlers.lookupRequestHandler(request);
     
     if (handler)
     {
         OD_SYSLOG("(handler)");//####
-        result = (*handler)(/*this, request,*/ restOfInput, replyMechanism);
+        result = (*handler)(restOfInput, replyMechanism);
     }
     else
     {
@@ -164,27 +113,11 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
     return result;
 } // BaseService::processRequest
 
-void BaseService::registerRequestHandler(const yarp::os::ConstString & request,
-                                         RequestHandler *              handler)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("request = ", request.c_str());//####
-    _requestHandlers.insert(RequestHandlerMapValue(std::string(request), handler));
-    OD_SYSLOG_EXIT();//####
-} // BaseService::registerRequestHandler
-
-void BaseService::setDefaultRequestHandler(RequestHandler * handler)
-{
-    OD_SYSLOG_ENTER();//####
-    _defaultHandler = handler;
-    OD_SYSLOG_EXIT();//####
-} // BaseService::setDefaultRequestHandler
-
 void BaseService::setUpStandardHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
-    registerRequestHandler(YPP_INFO_REQUEST, new InfoRequestHandler(*this));
-    registerRequestHandler(YPP_LIST_REQUEST, new ListRequestHandler(*this));
+    _requestHandlers.registerRequestHandler(YPP_INFO_REQUEST, new InfoRequestHandler());
+    _requestHandlers.registerRequestHandler(YPP_LIST_REQUEST, new ListRequestHandler());
     OD_SYSLOG_EXIT();//####
 } // BaseService::setUpStandardHandlers
 

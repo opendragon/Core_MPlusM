@@ -25,8 +25,8 @@ using namespace YarpPlusPlus;
 
 #pragma mark Constructors and destructors
 
-InfoRequestHandler::InfoRequestHandler(BaseService & service) :
-        inherited(YPP_LIST_REQUEST, service)
+InfoRequestHandler::InfoRequestHandler(void) :
+        inherited(YPP_LIST_REQUEST)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
@@ -73,9 +73,9 @@ bool InfoRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
     {
         yarp::os::Bottle reply;
         
-        if (1 == restOfInput.size())
+        if (_mapper && (1 == restOfInput.size()))
         {
-            _service.fillInRequestInfo(reply, restOfInput.get(0).toString());
+            _mapper->fillInRequestInfo(reply, restOfInput.get(0).toString());
         }
         OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
         reply.write(*replyMechanism);

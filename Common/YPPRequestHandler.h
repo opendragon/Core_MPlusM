@@ -17,7 +17,7 @@
 
 namespace YarpPlusPlus
 {
-    class BaseService;
+    class RequestMap;
 
     /*! @brief A convenience class to provide function objects for requests. */
     class RequestHandler
@@ -25,10 +25,8 @@ namespace YarpPlusPlus
     public:
         
         /*! @brief The constructor.
-         @param request The name of the request.
-         @param service The service that responds to this request. */
-        RequestHandler(const yarp::os::ConstString & request,
-                       BaseService &                 service);
+         @param request The name of the request. */
+        RequestHandler(const yarp::os::ConstString & request);
         
         /*! @brief The destructor. */
         virtual ~RequestHandler(void);
@@ -43,17 +41,20 @@ namespace YarpPlusPlus
             return _name;
         } // name
         
-        
         /*! @brief Process a request.
          @param restOfInput The arguments to the operation.
          @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
         virtual bool operator() (const yarp::os::Bottle &     restOfInput,
                                  yarp::os::ConnectionWriter * replyMechanism) = 0;
         
+        /*! @brief Connect the handler to a map.
+         @param owner The map that contains this handler. */
+        void setOwner(RequestMap & owner);
+        
     protected:
         
-        /*! @brief The service that 'owns' this handler. */
-        BaseService & _service;
+        /*! @brief The request map that 'owns' this handler. */
+        RequestMap * _mapper;
         
     private:
         

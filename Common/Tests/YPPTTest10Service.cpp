@@ -26,7 +26,7 @@ Test10Service::Test10Service(const int argc,
         inherited(true, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
-    setDefaultRequestHandler(new Test10DefaultRequestHandler(*this));
+    _requestHandlers.setDefaultRequestHandler(new Test10DefaultRequestHandler());
     OD_SYSLOG_EXIT();//####
 } // Test10Service::Test10Service
 

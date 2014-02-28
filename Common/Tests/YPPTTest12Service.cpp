@@ -27,7 +27,7 @@ Test12Service::Test12Service(const int argc,
         inherited(true, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
-    registerRequestHandler(YPP_ECHO_REQUEST, new Test12EchoRequestHandler(*this));
+    _requestHandlers.registerRequestHandler(YPP_ECHO_REQUEST, new Test12EchoRequestHandler());
     OD_SYSLOG_EXIT();//####
 } // Test12Service::Test12Service
 

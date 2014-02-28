@@ -18,9 +18,8 @@ namespace YarpPlusPlus
     {
     public:
         
-        /*! @brief The constructor.
-         @param service The service that responds to this request. */
-        ListRequestHandler(BaseService & service);
+        /*! @brief The constructor. */
+        ListRequestHandler(void);
         
         /*! @brief The destructor. */
         virtual ~ListRequestHandler(void);

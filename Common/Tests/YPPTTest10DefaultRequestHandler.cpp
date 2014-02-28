@@ -20,8 +20,8 @@ using namespace YarpPlusPlusTest;
 
 #pragma mark Constructors and destructors
 
-Test10DefaultRequestHandler::Test10DefaultRequestHandler(YarpPlusPlus::BaseService & service) :
-        inherited("", service)
+Test10DefaultRequestHandler::Test10DefaultRequestHandler(void) :
+        inherited("")
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####

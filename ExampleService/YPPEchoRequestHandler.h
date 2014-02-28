@@ -17,9 +17,8 @@ namespace YarpPlusPlusExample
     {
     public:
         
-        /*! @brief The constructor.
-         @param service The service that responds to this request. */
-        EchoRequestHandler(YarpPlusPlus::BaseService & service);
+        /*! @brief The constructor. */
+        EchoRequestHandler(void);
         
         /*! @brief The destructor. */
         virtual ~EchoRequestHandler(void);

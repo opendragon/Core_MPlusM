@@ -9,14 +9,13 @@
 #if (! defined(YPPBASESERVICE_H_))
 # define YPPBASESERVICE_H_ /* */
 
-# include "YPPEndpoint.h"
-# include <map>
-# include <yarp/os/ConstString.h>
+# include "YPPRequestMap.h"
 
 namespace YarpPlusPlus
 {
     class BaseServiceInputHandler;
     class BaseServiceInputHandlerCreator;
+    class Endpoint;
     class RequestHandler;
     
     /*! @brief The minimal functionality required for a Yarp++ service. */
@@ -44,16 +43,6 @@ namespace YarpPlusPlus
         
         /*! @brief The destructor. */
         virtual ~BaseService(void);
-        
-        /*! @brief Construct the response to a 'list' request.
-         @param reply The Bottle to hold the reply. */
-        void fillInListReply(yarp::os::Bottle & reply);
-        
-        /*! @brief Construct the response to an 'info' request.
-         @param reply The Bottle to hold the reply.
-         @param requestName The name of the request that is being looked at. */
-        void fillInRequestInfo(yarp::os::Bottle &            reply,
-                               const yarp::os::ConstString & requestName);
         
         /*! @brief Return the associated endpoint.
          @returns The associated endpoint. */
@@ -90,24 +79,8 @@ namespace YarpPlusPlus
         
     protected:
         
-        typedef std::map<std::string, RequestHandler *> RequestHandlerMap;
-        
-        typedef RequestHandlerMap::value_type RequestHandlerMapValue;
-        
-        /*! @brief Return the function corresponding to a particular request.
-         @param request The requested operation.
-         @returns A pointer to the function to be invoked for the request, or @c NULL if it is not recognized. */
-        RequestHandler * lookupRequestHandler(const yarp::os::ConstString & request);
-
-        /*! @brief Remember the function to be used to handle a particular request.
-         @param request The requested operation.
-         @param handler The function to be called for the operation. */
-        void registerRequestHandler(const yarp::os::ConstString & request,
-                                    RequestHandler *              handler);
-        
-        /*! @brief Remember the function to be used to handle unrecognized requests.
-         @param handler The function to be called by default. */
-        void setDefaultRequestHandler(RequestHandler * handler);
+        /*! @brief The map between requests and request handlers. */
+        RequestMap _requestHandlers;
         
     private:
         
@@ -134,12 +107,6 @@ namespace YarpPlusPlus
 
         /*! @brief The input handler creator for the service. */
         BaseServiceInputHandlerCreator * _handlerCreator;
-        
-        /*! @brief The map between requests and request handlers. */
-        RequestHandlerMap _requestHandlers;
-        
-        /*! @brief The default handler to use for unrecognized requests. */
-        RequestHandler * _defaultHandler;
         
         /*! @brief The current state of the service - @c true if active and @c false otherwise. */
         bool _started;

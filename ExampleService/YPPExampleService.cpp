@@ -22,7 +22,7 @@ ExampleService::ExampleService(const yarp::os::ConstString & serviceEndpointName
         inherited(true, serviceEndpointName, serviceHostName, servicePortNumber)
 {
     OD_SYSLOG_ENTER();//####
-    registerRequestHandler(YPP_ECHO_REQUEST, new EchoRequestHandler(*this));
+    _requestHandlers.registerRequestHandler(YPP_ECHO_REQUEST, new EchoRequestHandler());
     OD_SYSLOG_EXIT();//####
 } // ExampleService::ExampleService
 
@@ -31,7 +31,7 @@ ExampleService::ExampleService(const int argc,
         BaseService(true, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
-    registerRequestHandler(YPP_ECHO_REQUEST, new EchoRequestHandler(*this));
+    _requestHandlers.registerRequestHandler(YPP_ECHO_REQUEST, new EchoRequestHandler());
     OD_SYSLOG_EXIT();//####
 } // ExampleService::ExampleService
 

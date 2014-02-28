@@ -1,0 +1,119 @@
+//
+//  YPPRequestMap.cpp
+//  YarpPlusPlus
+//
+//  Created by Norman Jaffe on 2014-02-28.
+//  Copyright (c) 2014 OpenDragon. All rights reserved.
+//
+
+#include "YPPRequestMap.h"
+#define ENABLE_OD_SYSLOG /* */
+#include "ODSyslog.h"
+#include "YPPRequestHandler.h"
+
+using namespace YarpPlusPlus;
+
+#pragma mark Private structures and constants
+
+#pragma mark Local functions
+
+#pragma mark Class methods
+
+#pragma mark Constructors and destructors
+
+RequestMap::RequestMap(BaseService & owner) :
+        _defaultHandler(NULL), _handlers(), _owner(owner)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("owner = ", &owner);//####
+    OD_SYSLOG_EXIT();//####
+} // RequestMap::RequestMap
+
+RequestMap::~RequestMap(void)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // RequestMap::~RequestMap
+
+#pragma mark Actions
+
+void RequestMap::fillInListReply(yarp::os::Bottle & reply)
+{
+    OD_SYSLOG_ENTER();//####
+    RequestHandlerMap::const_iterator walker(_handlers.cbegin());
+    
+    for ( ; walker != _handlers.cend(); ++walker)
+    {
+        yarp::os::Property & aDict = reply.addDict();
+        RequestHandler *     aHandler = walker->second;
+        
+        aHandler->fillInDescription(aDict);
+    }
+    OD_SYSLOG_EXIT();//####
+} // RequestMap::fillInListReply
+
+void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
+                                   const yarp::os::ConstString & requestName)
+{
+    OD_SYSLOG_ENTER();//####
+    RequestHandlerMap::const_iterator match(_handlers.find(std::string(requestName)));
+    
+    if (_handlers.cend() != match)
+    {
+        yarp::os::Property & aDict = reply.addDict();
+        RequestHandler *     aHandler = match->second;
+        
+        aHandler->fillInDescription(aDict);
+    }
+    OD_SYSLOG_EXIT();//####
+} // RequestMap::fillInRequestInfo
+
+RequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstString & request)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("request = ", request.c_str());//####
+    RequestHandlerMap::const_iterator match(_handlers.find(std::string(request)));
+    RequestHandler *                  result;
+    
+    if (_handlers.cend() == match)
+    {
+        OD_SYSLOG("(_handlers.end() == match)");//####
+        result = _defaultHandler;
+    }
+    else
+    {
+        OD_SYSLOG("! (_handlers.end() == match)");//####
+        result = match->second;
+    }
+    OD_SYSLOG_EXIT_P(result);//####
+    return result;
+} // RequestMap::lookupRequestHandler
+
+void RequestMap::registerRequestHandler(const yarp::os::ConstString & request,
+                                        RequestHandler *              handler)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("request = ", request.c_str());//####
+    OD_SYSLOG_P1("handler = ", handler);//####
+    if (handler)
+    {
+        _handlers.insert(RequestHandlerMapValue(std::string(request), handler));
+        handler->setOwner(*this);
+    }
+    else
+    {
+        _handlers.erase(std::string(request));
+    }
+    OD_SYSLOG_EXIT();//####
+} // RequestMap::registerRequestHandler
+
+void RequestMap::setDefaultRequestHandler(RequestHandler * handler)
+{
+    OD_SYSLOG_ENTER();//####
+    _defaultHandler = handler;
+    OD_SYSLOG_EXIT();//####
+} // RequestMap::setDefaultRequestHandler
+
+#pragma mark Accessors
+
+#pragma mark Global functions

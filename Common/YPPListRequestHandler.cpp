@@ -25,8 +25,8 @@ using namespace YarpPlusPlus;
 
 #pragma mark Constructors and destructors
 
-ListRequestHandler::ListRequestHandler(BaseService & service) :
-        inherited(YPP_LIST_REQUEST, service)
+ListRequestHandler::ListRequestHandler(void) :
+        inherited(YPP_LIST_REQUEST)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
@@ -75,7 +75,10 @@ bool ListRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
     {
         yarp::os::Bottle reply;
         
-        _service.fillInListReply(reply);
+        if (_mapper)
+        {
+            _mapper->fillInListReply(reply);            
+        }
         OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
         reply.write(*replyMechanism);
     }
