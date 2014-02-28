@@ -11,10 +11,10 @@
 
 # include "YPPBaseClient.h"
 
-namespace YarpPlusPlus
+namespace YarpPlusPlusExample
 {
     /*! @brief An example Yarp++ client. */
-    class ExampleClient : BaseClient
+    class ExampleClient : YarpPlusPlus::BaseClient
     {
     public:
         
@@ -44,6 +44,6 @@ namespace YarpPlusPlus
         
     }; // ExampleClient
     
-} // YarpPlusPlus
+} // YarpPlusPlusExample
 
 #endif // ! defined(YPPEXAMPLECLIENT_H_)

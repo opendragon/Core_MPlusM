@@ -11,10 +11,10 @@
 
 # include "YPPBaseService.h"
 
-namespace YarpPlusPlus
+namespace YarpPlusPlusExample
 {
     /*! @brief An example Yarp++ service. */
-    class ExampleService : BaseService
+    class ExampleService : YarpPlusPlus::BaseService
     {
     public:
         
@@ -63,6 +63,6 @@ namespace YarpPlusPlus
         
     }; // ExampleService
     
-} // YarpPlusPlus
+} // YarpPlusPlusExample
 
 #endif // ! defined(YPPEXAMPLESERVICE_H_)

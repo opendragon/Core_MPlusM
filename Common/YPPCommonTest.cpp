@@ -10,73 +10,28 @@
 #include "ODSyslog.h"
 #include "YPPServiceRequest.h"
 #include "YPPBaseClient.h"
-#include "YPPBaseService.h"
 #include "YPPRequestHandler.h"
 #include "YPPRequests.h"
+#include "Tests/YPPTEndpointStatusReporter.h"
+#include "Tests/YPPTTest03Handler.h"
+#include "Tests/YPPTTest04Handler.h"
+#include "Tests/YPPTTest05HandlerCreator.h"
+#include "Tests/YPPTTest08Handler.h"
+#include "Tests/YPPTTest09Service.h"
+#include "Tests/YPPTTest10Service.h"
+#include "Tests/YPPTTest11Service.h"
+#include "Tests/YPPTTest12Service.h"
 #include <yarp/os/all.h>
 #include <yarp/conf/version.h>
 #include <iostream>
 
 using namespace YarpPlusPlus;
+using namespace YarpPlusPlusTest;
 using std::cout;
 using std::cerr;
 using std::endl;
 
 #pragma mark Private structures and constants
-
-/*! @brief The name for the 'echo' request. */
-#define ECHO_REQUEST_NAME           "echo"
-/*! @brief The protocol version number for the 'echo' request. */
-#define ECHO_REQUEST_VERSION_NUMBER "1.0"
-
-#pragma mark Local functions
-
-/*! @brief The critical information for each volume.
- 
- This class represents the information for a volume that is needed to perform the data delete operations. */
-class EndpointStatusReporter : public yarp::os::PortReport
-{
-public:
-    
-    /*! @brief The constructor. */
-    EndpointStatusReporter(void);
-    
-    /*! @brief The destructor. */
-    virtual ~EndpointStatusReporter(void);
-    
-    /*! @brief Write out the endpoint event / state information.
-     @param info The event / state information from the endpoint. */
-    virtual void report(const yarp::os::PortInfo & info);
-    
-protected:
-    
-private:
-    
-    typedef yarp::os::PortReport inherited;
-    
-}; // EndpointStatusReporter
-
-#pragma mark Constructors and destructors
-
-EndpointStatusReporter::EndpointStatusReporter(void) :
-inherited()
-{
-} // EndpointStatusReporter::EndpointStatusReporter
-
-EndpointStatusReporter::~EndpointStatusReporter(void)
-{
-} // EndpointStatusReporter::~EndpointStatusReporter
-
-#pragma mark Actions
-
-void EndpointStatusReporter::report(const yarp::os::PortInfo & info)
-{
-    OD_SYSLOG_LL1("tag = ", info.tag);
-    OD_SYSLOG_B2("incoming = ", info.incoming, "created = ", info.created);
-    OD_SYSLOG_S4("portName = ", info.portName.c_str(), "sourceName = ", info.sourceName.c_str(),
-                 "targetName = ", info.targetName.c_str(), "carrierName = ", info.carrierName.c_str());
-    OD_SYSLOG_S1("message = ", info.message.c_str());
-} // EndpointStatusReporter::report
 
 #pragma mark Local functions
 
@@ -207,61 +162,6 @@ static int doCase02(const int argc,
 
 #pragma mark *** Test Case 03 ***
 
-/*! @brief A test input handler. */
-class Test03Handler : public InputHandler
-{
-public:
-    
-    /*! @brief The constructor. */
-    Test03Handler(void);
-    
-    /*! @brief The destructor. */
-    virtual ~Test03Handler(void);
-    
-    /*! @brief Process partially-structured input data.
-     @param input The partially-structured input data.
-     @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-     @returns @c true if the input was correctly structured and successfully processed. */
-    virtual bool handleInput(const yarp::os::Bottle &     input,
-                             yarp::os::ConnectionWriter * replyMechanism);
-    
-protected:
-    
-private:
-    
-    typedef InputHandler inherited;
-    
-}; // Test03Handler
-
-#pragma mark Constructors and destructors
-
-Test03Handler::Test03Handler(void) :
-        inherited()
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test03Handler::Test03Handler
-
-Test03Handler::~Test03Handler(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test03Handler::~Test03Handler
-
-#pragma mark Actions
-
-bool Test03Handler::handleInput(const yarp::os::Bottle &     input,
-                                yarp::os::ConnectionWriter * replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
-    OD_SYSLOG_S1("got ", input.toString().c_str());//####
-    OD_SYSLOG_EXIT_B(TRUE);//####
-    return true;
-} // Test03Handler::handleInput
-
-#pragma mark Local functions
-
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
@@ -334,67 +234,6 @@ static int doCase03(const int argc,
 } // doCase03
 
 #pragma mark *** Test Case 04 ***
-
-/*! @brief A test input handler. */
-class Test04Handler : public InputHandler
-{
-public:
-    
-    /*! @brief The constructor. */
-    Test04Handler(void);
-    
-    /*! @brief The destructor. */
-    virtual ~Test04Handler(void);
-    
-    /*! @brief Process partially-structured input data.
-     @param input The partially-structured input data.
-     @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-     @returns @c true if the input was correctly structured and successfully processed. */
-    virtual bool handleInput(const yarp::os::Bottle &     input,
-                             yarp::os::ConnectionWriter * replyMechanism);
-    
-protected:
-    
-private:
-    
-    typedef InputHandler inherited;
-    
-}; // Test04Handler
-
-#pragma mark Constructors and destructors
-
-Test04Handler::Test04Handler(void) :
-        inherited()
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test04Handler::Test04Handler
-
-Test04Handler::~Test04Handler(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test04Handler::~Test04Handler
-
-#pragma mark Actions
-
-bool Test04Handler::handleInput(const yarp::os::Bottle &     input,
-                                yarp::os::ConnectionWriter * replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
-    OD_SYSLOG_S1("got ", input.toString().c_str());//####
-    if (replyMechanism)
-    {
-        yarp::os::Bottle inputCopy(input);
-        
-        inputCopy.write(*replyMechanism);
-    }
-    OD_SYSLOG_EXIT_B(TRUE);//####
-    return true;
-} // Test04Handler::handleInput
-
-#pragma mark Local functions
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -470,114 +309,6 @@ static int doCase04(const int argc,
 } // doCase04
 
 #pragma mark *** Test Case 05 ***
-
-/*! @brief A test input handler. */
-class Test05Handler : public InputHandler
-{
-public:
-    
-    /*! @brief The constructor. */
-    Test05Handler(void);
-    
-    /*! @brief The destructor. */
-    virtual ~Test05Handler(void);
-    
-    /*! @brief Process partially-structured input data.
-     @param input The partially-structured input data.
-     @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-     @returns @c true if the input was correctly structured and successfully processed. */
-    virtual bool handleInput(const yarp::os::Bottle &     input,
-                             yarp::os::ConnectionWriter * replyMechanism);
-    
-protected:
-    
-private:
-    
-    typedef InputHandler inherited;
-    
-}; // Test05Handler
-
-#pragma mark Constructors and destructors
-
-Test05Handler::Test05Handler(void) :
-        inherited()
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test05Handler::Test05Handler
-
-Test05Handler::~Test05Handler(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test05Handler::~Test05Handler
-
-#pragma mark Actions
-
-bool Test05Handler::handleInput(const yarp::os::Bottle &     input,
-                                yarp::os::ConnectionWriter * replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
-    OD_SYSLOG_S1("got ", input.toString().c_str());//####
-    if (replyMechanism)
-    {
-        yarp::os::Bottle inputCopy(input);
-        
-        inputCopy.write(*replyMechanism);
-    }
-    OD_SYSLOG_EXIT_B(TRUE);//####
-    return true;
-} // Test05Handler::handleInput
-
-#pragma mark Accessors
-
-/*! @brief A test input handler creator. */
-class Test05HandlerCreator : public InputHandlerCreator
-{
-public:
-    
-    /*! @brief The constructor. */
-    Test05HandlerCreator(void);
-    
-    /*! @brief The destructor. */
-    virtual ~Test05HandlerCreator(void);
-    
-    /*! @brief Create a new InputHandler object to process input data.
-     @returns A new InputHandler or @c NULL if one cannot be created. */
-    virtual InputHandler * create(void);
-    
-protected:
-    
-private:
-    
-    typedef InputHandlerCreator inherited;
-    
-}; // Test05HandlerCreator
-
-#pragma mark Constructors and destructors
-
-Test05HandlerCreator::Test05HandlerCreator(void) :
-        inherited()
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test05HandlerCreator::Test05HandlerCreator
-
-Test05HandlerCreator::~Test05HandlerCreator(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test05HandlerCreator::~Test05HandlerCreator
-
-#pragma mark Actions
-
-InputHandler * Test05HandlerCreator::create(void)
-{
-    return new Test05Handler;
-} // Test05HandlerCreator::create
-
-#pragma mark Local functions
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -708,67 +439,6 @@ static int doCase07(const int argc,
 
 #pragma mark *** Test Case 08 ***
 
-/*! @brief A test input handler. */
-class Test08Handler : public InputHandler
-{
-public:
-    
-    /*! @brief The constructor. */
-    Test08Handler(void);
-    
-    /*! @brief The destructor. */
-    virtual ~Test08Handler(void);
-    
-    /*! @brief Process partially-structured input data.
-     @param input The partially-structured input data.
-     @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-     @returns @c true if the input was correctly structured and successfully processed. */
-    virtual bool handleInput(const yarp::os::Bottle &     input,
-                             yarp::os::ConnectionWriter * replyMechanism);
-    
-protected:
-    
-private:
-    
-    typedef InputHandler inherited;
-    
-}; // Test08Handler
-
-#pragma mark Constructors and destructors
-
-Test08Handler::Test08Handler(void) :
-        inherited()
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test08Handler::Test08Handler
-
-Test08Handler::~Test08Handler(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test08Handler::~Test08Handler
-
-#pragma mark Actions
-
-bool Test08Handler::handleInput(const yarp::os::Bottle &     input,
-                                yarp::os::ConnectionWriter * replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
-    OD_SYSLOG_S1("got ", input.toString().c_str());//####
-    if (replyMechanism)
-    {
-        yarp::os::Bottle inputCopy(input);
-        
-        inputCopy.write(*replyMechanism);
-    }
-    OD_SYSLOG_EXIT_B(TRUE);//####
-    return true;
-} // Test08Handler::handleInput
-
-#pragma mark Local functions
-
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
@@ -788,7 +458,7 @@ static int doCase08(const int argc,
         {
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
             yarp::os::Bottle parameters("some to send");
-            ServiceRequest   request(ECHO_REQUEST_NAME, parameters);
+            ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
             ServiceResponse  response;
             
             if (request.send(*stuff, &response))
@@ -820,118 +490,6 @@ static int doCase08(const int argc,
 
 #pragma mark *** Test Case 09 ***
 
-class Test09DefaultRequestHandler : public RequestHandler
-{
-public:
-    
-    /*! @brief The constructor.
-     @param service The service that responds to this request. */
-    Test09DefaultRequestHandler(BaseService & service);
-    
-    /*! @brief The destructor. */
-    virtual ~Test09DefaultRequestHandler(void);
-    
-    /*! @brief Fill in a description dictionary for the request.
-     @param info The dictionary to be filled in. */
-    virtual void fillInDescription(yarp::os::Property & info);
-
-    /*! @brief Process a request.
-     @param restOfInput The arguments to the operation.
-     @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-    virtual bool operator() (const yarp::os::Bottle &     restOfInput,
-                             yarp::os::ConnectionWriter * replyMechanism);
-    
-protected:
-    
-private:
-    
-    typedef RequestHandler inherited;
-    
-}; // Test09DefaultRequestHandler
-
-#pragma mark Constructors and destructors
-
-Test09DefaultRequestHandler::Test09DefaultRequestHandler(BaseService & service) :
-        inherited("", service)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test09DefaultRequestHandler::Test09DefaultRequestHandler
-
-Test09DefaultRequestHandler::~Test09DefaultRequestHandler(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test09DefaultRequestHandler::~Test09DefaultRequestHandler
-
-#pragma mark Actions
-
-void Test09DefaultRequestHandler::fillInDescription(yarp::os::Property & info)
-{
-#pragma unused(info)
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test09DefaultRequestHandler::fillInDescription
-
-bool Test09DefaultRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
-                                              yarp::os::ConnectionWriter * replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
-    bool result = true;
-    
-    if (replyMechanism)
-    {
-        yarp::os::Bottle argsCopy(name());
-        
-        argsCopy.append(restOfInput);
-        argsCopy.write(*replyMechanism);
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // Test09DefaultRequestHandler::operator()
-
-/*! @brief A test input handler. */
-class Test09Service : public BaseService
-{
-public:
-    
-    /*! @brief The constructor.
-     @param argc The number of arguments in 'argv'.
-     @param argv The arguments to be used to specify the new service. */
-    Test09Service(const int argc,
-                  char **   argv);
-    
-    /*! @brief The destructor. */
-    virtual ~Test09Service(void);
-    
-protected:
-    
-private:
-    
-    typedef BaseService inherited;
-    
-}; // Test09Service
-
-#pragma mark Constructors and destructors
-
-Test09Service::Test09Service(const int argc,
-                             char **   argv) :
-        inherited(false, argc, argv)
-{
-    OD_SYSLOG_ENTER();//####
-    setDefaultRequestHandler(new Test09DefaultRequestHandler(*this));
-    OD_SYSLOG_EXIT();//####
-} // Test09Service::Test09Service
-
-Test09Service::~Test09Service(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test09Service::~Test09Service
-
-#pragma mark Local functions
-
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
@@ -945,7 +503,7 @@ static int doCase09(const int argc,
     if (stuff && stuff->start())
     {
         yarp::os::Bottle parameters("some to send");
-        ServiceRequest   request(ECHO_REQUEST_NAME, parameters);
+        ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
         ServiceResponse  response;
         
         if (request.send(stuff->getEndpoint(), &response))
@@ -973,118 +531,6 @@ static int doCase09(const int argc,
 
 #pragma mark *** Test Case 10 ***
 
-class Test10DefaultRequestHandler : public RequestHandler
-{
-public:
-    
-    /*! @brief The constructor.
-     @param service The service that responds to this request. */
-    Test10DefaultRequestHandler(BaseService & service);
-    
-    /*! @brief The destructor. */
-    virtual ~Test10DefaultRequestHandler(void);
-    
-    /*! @brief Fill in a description dictionary for the request.
-     @param info The dictionary to be filled in. */
-    virtual void fillInDescription(yarp::os::Property & info);
-
-    /*! @brief Process a request.
-     @param restOfInput The arguments to the operation.
-     @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-    virtual bool operator() (const yarp::os::Bottle &     restOfInput,
-                             yarp::os::ConnectionWriter * replyMechanism);
-    
-protected:
-    
-private:
-    
-    typedef RequestHandler inherited;
-    
-}; // Test10DefaultRequestHandler
-
-#pragma mark Constructors and destructors
-
-Test10DefaultRequestHandler::Test10DefaultRequestHandler(BaseService & service) :
-        inherited("", service)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test10DefaultRequestHandler::Test10DefaultRequestHandler
-
-Test10DefaultRequestHandler::~Test10DefaultRequestHandler(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test10DefaultRequestHandler::~Test10DefaultRequestHandler
-
-#pragma mark Actions
-
-void Test10DefaultRequestHandler::fillInDescription(yarp::os::Property & info)
-{
-#pragma unused(info)
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test10DefaultRequestHandler::fillInDescription
-
-bool Test10DefaultRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
-                                              yarp::os::ConnectionWriter * replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
-    bool result = true;
-    
-    if (replyMechanism)
-    {
-        yarp::os::Bottle argsCopy(name());
-        
-        argsCopy.append(restOfInput);
-        argsCopy.write(*replyMechanism);
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // Test10DefaultRequestHandler::operator()
-
-/*! @brief A test input handler. */
-class Test10Service : public BaseService
-{
-public:
-    
-    /*! @brief The constructor.
-     @param argc The number of arguments in 'argv'.
-     @param argv The arguments to be used to specify the new service. */
-    Test10Service(const int argc,
-                  char **   argv);
-    
-    /*! @brief The destructor. */
-    virtual ~Test10Service(void);
-    
-protected:
-    
-private:
-    
-    typedef BaseService inherited;
-    
-}; // Test10Service
-
-#pragma mark Constructors and destructors
-
-Test10Service::Test10Service(const int argc,
-                             char **   argv) :
-        inherited(true, argc, argv)
-{
-    OD_SYSLOG_ENTER();//####
-    setDefaultRequestHandler(new Test09DefaultRequestHandler(*this));
-    OD_SYSLOG_EXIT();//####
-} // Test10Service::Test10Service
-
-Test10Service::~Test10Service(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test10Service::~Test10Service
-
-#pragma mark Local functions
-
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
@@ -1098,7 +544,7 @@ static int doCase10(const int argc,
     if (stuff && stuff->start())
     {
         yarp::os::Bottle parameters("some to send");
-        ServiceRequest   request(ECHO_REQUEST_NAME, parameters);
+        ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
         ServiceResponse  response;
         
         if (request.send(stuff->getEndpoint(), &response))
@@ -1126,121 +572,6 @@ static int doCase10(const int argc,
 
 #pragma mark *** Test Case 11 ***
 
-class Test11EchoRequestHandler : public RequestHandler
-{
-public:
-    
-    /*! @brief The constructor.
-     @param service The service that responds to this request. */
-    Test11EchoRequestHandler(BaseService & service);
-    
-    /*! @brief The destructor. */
-    virtual ~Test11EchoRequestHandler(void);
-    
-    /*! @brief Fill in a description dictionary for the request.
-     @param info The dictionary to be filled in. */
-    virtual void fillInDescription(yarp::os::Property & info);
-
-    /*! @brief Process a request.
-     @param restOfInput The arguments to the operation.
-     @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-    virtual bool operator() (const yarp::os::Bottle &     restOfInput,
-                             yarp::os::ConnectionWriter * replyMechanism);
-    
-protected:
-    
-private:
-    
-    typedef RequestHandler inherited;
-    
-}; // Test11EchoRequestHandler
-
-#pragma mark Constructors and destructors
-
-Test11EchoRequestHandler::Test11EchoRequestHandler(BaseService & service) :
-        inherited(ECHO_REQUEST_NAME, service)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test11EchoRequestHandler::Test11EchoRequestHandler
-
-Test11EchoRequestHandler::~Test11EchoRequestHandler(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test11EchoRequestHandler::~Test11EchoRequestHandler
-
-#pragma mark Actions
-
-void Test11EchoRequestHandler::fillInDescription(yarp::os::Property & info)
-{
-#pragma unused(info)
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test11EchoRequestHandler::fillInDescription
-
-bool Test11EchoRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
-                                           yarp::os::ConnectionWriter * replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
-    bool result = true;
-    
-    if (replyMechanism)
-    {
-        yarp::os::Bottle argsCopy(restOfInput);
-        
-        argsCopy.write(*replyMechanism);
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // Test11EchoRequestHandler::operator()
-
-/*! @brief A test input handler. */
-class Test11Service : public BaseService
-{
-public:
-    
-    /*! @brief The constructor.
-     @param argc The number of arguments in 'argv'.
-     @param argv The arguments to be used to specify the new service. */
-    Test11Service(const int argc,
-                  char **   argv);
-    
-    /*! @brief The destructor. */
-    virtual ~Test11Service(void);
-    
-protected:
-    
-private:
-    
-    typedef BaseService inherited;
-    
-}; // Test11Service
-
-#pragma mark Constructors and destructors
-
-Test11Service::Test11Service(const int argc,
-                             char **   argv) :
-        inherited(true, argc, argv)
-{
-    OD_SYSLOG_ENTER();//####
-    registerRequestHandler(ECHO_REQUEST_NAME, new Test11EchoRequestHandler(*this));
-    OD_SYSLOG_EXIT();//####
-} // Test11Service::Test11Service
-
-Test11Service::~Test11Service(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test11Service::~Test11Service
-
-#pragma mark Actions
-
-#pragma mark Accessors
-
-#pragma mark Local functions
-
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
@@ -1254,7 +585,7 @@ static int doCase11(const int argc,
     if (stuff && stuff->start())
     {
         yarp::os::Bottle parameters("some to send");
-        ServiceRequest   request(ECHO_REQUEST_NAME, parameters);
+        ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
         ServiceResponse  response;
         
         if (request.send(stuff->getEndpoint(), &response))
@@ -1295,128 +626,6 @@ static int doCase11(const int argc,
 } // doCase11
 
 #pragma mark *** Test Case 12 ***
-
-class Test12EchoRequestHandler : public RequestHandler
-{
-public:
-    
-    /*! @brief The constructor.
-     @param service The service that responds to this request. */
-    Test12EchoRequestHandler(BaseService & service);
-    
-    /*! @brief The destructor. */
-    virtual ~Test12EchoRequestHandler(void);
-    
-    /*! @brief Fill in a description dictionary for the request.
-     @param info The dictionary to be filled in. */
-    virtual void fillInDescription(yarp::os::Property & info);
-    
-    /*! @brief Process a request.
-     @param restOfInput The arguments to the operation.
-     @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-    virtual bool operator() (const yarp::os::Bottle &     restOfInput,
-                             yarp::os::ConnectionWriter * replyMechanism);
-    
-protected:
-    
-private:
-    
-    typedef RequestHandler inherited;
-    
-}; // Test12EchoRequestHandler
-
-#pragma mark Constructors and destructors
-
-Test12EchoRequestHandler::Test12EchoRequestHandler(BaseService & service) :
-        inherited(ECHO_REQUEST_NAME, service)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test12EchoRequestHandler::Test12EchoRequestHandler
-
-Test12EchoRequestHandler::~Test12EchoRequestHandler(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test12EchoRequestHandler::~Test12EchoRequestHandler
-
-#pragma mark Actions
-
-void Test12EchoRequestHandler::fillInDescription(yarp::os::Property & info)
-{
-    OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_NAME_KEY, ECHO_REQUEST_NAME);
-    info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
-    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Echo back any input");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(ECHO_REQUEST_NAME);
-    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
-    OD_SYSLOG_EXIT();//####
-} // Test12EchoRequestHandler::fillInDescription
-
-bool Test12EchoRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
-                                           yarp::os::ConnectionWriter * replyMechanism)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
-    bool result = true;
-    
-    if (replyMechanism)
-    {
-        yarp::os::Bottle argsCopy(restOfInput);
-        
-        argsCopy.write(*replyMechanism);
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // Test12EchoRequestHandler::operator()
-
-/*! @brief A test input handler. */
-class Test12Service : public BaseService
-{
-public:
-    
-    /*! @brief The constructor.
-     @param argc The number of arguments in 'argv'.
-     @param argv The arguments to be used to specify the new service. */
-    Test12Service(const int argc,
-                  char **   argv);
-    
-    /*! @brief The destructor. */
-    virtual ~Test12Service(void);
-    
-protected:
-    
-private:
-    
-    typedef BaseService inherited;
-    
-}; // Test12Service
-
-#pragma mark Constructors and destructors
-
-Test12Service::Test12Service(const int argc,
-                             char **   argv) :
-        inherited(true, argc, argv)
-{
-    OD_SYSLOG_ENTER();//####
-    registerRequestHandler(ECHO_REQUEST_NAME, new Test12EchoRequestHandler(*this));
-    OD_SYSLOG_EXIT();//####
-} // Test12Service::Test12Service
-
-Test12Service::~Test12Service(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // Test12Service::~Test12Service
-
-#pragma mark Actions
-
-#pragma mark Local functions
 
 /*! @brief Check the response from the 'list' request for this test.
  @param response The response to be analyzed.
@@ -1473,7 +682,7 @@ static bool checkList12Response(const ServiceResponse & response)
                             sawInfo = ((itsInput == ".+") && (itsOutput == "([]?)"));
                         }
                     }
-                    else if (aName == ECHO_REQUEST_NAME)
+                    else if (aName == YPP_ECHO_REQUEST)
                     {
                         if (sawEcho)
                         {

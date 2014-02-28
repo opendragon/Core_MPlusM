@@ -15,7 +15,6 @@
 #include "YPPInfoRequestHandler.h"
 #include "YPPListRequestHandler.h"
 #include "YPPRequests.h"
-#include <yarp/os/Property.h>
 #include <string>
 
 using namespace YarpPlusPlus;

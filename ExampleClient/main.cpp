@@ -13,7 +13,7 @@
 #include <yarp/conf/version.h>
 #include <iostream>
 
-using namespace YarpPlusPlus;
+using namespace YarpPlusPlusExample;
 using std::cout;
 using std::cerr;
 using std::endl;

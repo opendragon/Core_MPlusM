@@ -9,6 +9,8 @@
 #if (! defined(YPPREQUESTS_H_))
 # define YPPREQUESTS_H_ /* */
 
+/*! @brief The name for the 'echo' request. */
+#define YPP_ECHO_REQUEST      "echo"
 /*! @brief The standard name for an 'info' request. */
 # define YPP_INFO_REQUEST     "info"
 /*! @brief The standard name for a 'list' request. */

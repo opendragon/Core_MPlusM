@@ -14,7 +14,7 @@
 #include <iostream>
 #include <unistd.h>
 
-using namespace YarpPlusPlus;
+using namespace YarpPlusPlusExample;
 using std::cout;
 using std::cerr;
 using std::endl;

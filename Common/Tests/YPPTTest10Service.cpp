@@ -1,17 +1,17 @@
 //
-//  YPPExampleClient.cpp
+//  YPPTTest10Service.cpp
 //  YarpPlusPlus
 //
-//  Created by Norman Jaffe on 2014-02-06.
+//  Created by Norman Jaffe on 2014-02-28.
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#include "YPPExampleClient.h"
+#include "YPPTTest10Service.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-//#include "YPPRequests.h"
+#include "YPPTTest10DefaultRequestHandler.h"
 
-using namespace YarpPlusPlusExample;
+using namespace YarpPlusPlusTest;
 
 #pragma mark Private structures and constants
 
@@ -21,18 +21,20 @@ using namespace YarpPlusPlusExample;
 
 #pragma mark Constructors and destructors
 
-ExampleClient::ExampleClient(void) :
-        inherited()
+Test10Service::Test10Service(const int argc,
+                             char **   argv) :
+        inherited(true, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
+    setDefaultRequestHandler(new Test10DefaultRequestHandler(*this));
     OD_SYSLOG_EXIT();//####
-} // ExampleClient::ExampleClient
+} // Test10Service::Test10Service
 
-ExampleClient::~ExampleClient(void)
+Test10Service::~Test10Service(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // ExampleClient::~ExampleClient
+} // Test10Service::~Test10Service
 
 #pragma mark Actions
 

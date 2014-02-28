@@ -10,7 +10,7 @@ include_directories("${DEBUGGING_DIR}"
                     "${COMMON_DIR}")
 
 # set up our program
-add_executable(ExampleService main.cpp YPPExampleService.cpp)
+add_executable(ExampleService main.cpp YPPExampleService.cpp YPPEchoRequestHandler.cpp)
 
 # link with YARP libraries and our interface classes
 target_link_libraries(ExampleService YPPBaseService YPPBaseShared YPPDebugging ${YARP_LIBRARIES})
