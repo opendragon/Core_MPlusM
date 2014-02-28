@@ -75,9 +75,9 @@ bool ListRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
     {
         yarp::os::Bottle reply;
         
-        if (_mapper)
+        if (_owner)
         {
-            _mapper->fillInListReply(reply);            
+            _owner->fillInListReply(reply);            
         }
         OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
         reply.write(*replyMechanism);

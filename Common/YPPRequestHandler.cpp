@@ -21,7 +21,7 @@ using namespace YarpPlusPlus;
 #pragma mark Constructors and destructors
 
 RequestHandler::RequestHandler(const yarp::os::ConstString & request) :
-        _mapper(NULL), _name(request)
+        _owner(NULL), _name(request)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
@@ -39,7 +39,7 @@ void RequestHandler::setOwner(RequestMap & owner)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("owner = ", &owner);//####
-    _mapper = &owner;
+    _owner = &owner;
     OD_SYSLOG_EXIT();//####
 } // RequestHandler::setOwner
 

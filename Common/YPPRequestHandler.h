@@ -54,7 +54,7 @@ namespace YarpPlusPlus
     protected:
         
         /*! @brief The request map that 'owns' this handler. */
-        RequestMap * _mapper;
+        RequestMap * _owner;
         
     private:
         

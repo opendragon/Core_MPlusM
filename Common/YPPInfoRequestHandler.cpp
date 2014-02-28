@@ -73,9 +73,9 @@ bool InfoRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
     {
         yarp::os::Bottle reply;
         
-        if (_mapper && (1 == restOfInput.size()))
+        if (_owner && (1 == restOfInput.size()))
         {
-            _mapper->fillInRequestInfo(reply, restOfInput.get(0).toString());
+            _owner->fillInRequestInfo(reply, restOfInput.get(0).toString());
         }
         OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
         reply.write(*replyMechanism);
