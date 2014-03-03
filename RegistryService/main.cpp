@@ -42,29 +42,43 @@ static void stopRunning(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Service Registry service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
                    kODSyslogOptionEnableThreadSupport);//####
     OD_SYSLOG_ENTER();//####
     yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+    RegistryService * stuff = NULL;
     
     cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << endl;
-    // Note that we need to copy any arguments, preceding them with our standard port name.
-    char ** argvActual = (char **) malloc(static_cast<size_t>(argc + 1) * sizeof(char *));
-    
-    *argvActual = strdup(YPP_SERVICE_REGISTRY_PORT_NAME);
-    for (int ii = 1; ii < argc; ++ii)
+    if (argc >= 1)
     {
-        argvActual[ii] = argv[ii];
+        switch (argc)
+        {
+                // Argument order for tests = endpoint name [, IP address / name [, port]]
+            case 1:
+                stuff = new RegistryService();
+                break;
+                
+            case 2:
+                stuff = new RegistryService(argv[1]);
+                break;
+                
+            case 3:
+                stuff = new RegistryService(argv[1], argv[2]);
+                break;
+                
+            default:
+                break;
+                
+        }
     }
-    RegistryService * stuff = new RegistryService(argc, argvActual);
-    
     if (stuff)
     {
         if (stuff->start())
         {
+            // Note that the Registry Service is self-registering... so we don't need to call registerLocalService().
             lKeepRunning = true;
             signal(SIGHUP, stopRunning);
             signal(SIGINT, stopRunning);
@@ -78,8 +92,6 @@ int main(int     argc,
         }
         delete stuff;
     }
-    free(*argvActual);
-    free(argvActual);
     OD_SYSLOG_EXIT_L(0);//####
     return 0;
 } // main

@@ -30,10 +30,18 @@ namespace YarpPlusPlus
          @param values The (optional) values for the response. */
         ServiceResponse & operator=(const yarp::os::Bottle & values);
         
+        /*! @brief Return a printable version of the response.
+         @returns A printable version of the response. */
+        yarp::os::ConstString asString(void)
+        const;
+        
         /*! @brief The number of values in the response.
          @returns The number of values in the response. */
-        int count(void)
-        const;
+        inline int count(void)
+        const
+        {
+            return _values.size();
+        } // count
         
         /*! @brief Fetch an element from the values.
          @param index The @c 0-based index of the desired element.

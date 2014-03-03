@@ -23,7 +23,7 @@ using namespace YarpPlusPlus;
 BaseClient::BaseClient(void)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // BaseClient::BaseClient
 
 BaseClient::~BaseClient(void)

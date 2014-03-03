@@ -24,7 +24,7 @@ Test09DefaultRequestHandler::Test09DefaultRequestHandler(void) :
         inherited("")
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // Test09DefaultRequestHandler::Test09DefaultRequestHandler
 
 Test09DefaultRequestHandler::~Test09DefaultRequestHandler(void)

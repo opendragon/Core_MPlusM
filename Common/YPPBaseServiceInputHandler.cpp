@@ -8,7 +8,7 @@
 //
 
 #include "YPPBaseServiceInputHandler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPBaseService.h"
 
@@ -27,7 +27,7 @@ BaseServiceInputHandler::BaseServiceInputHandler(BaseService & service) :
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("service = ", &service);
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // BaseServiceInputHandler::BaseServiceInputHandler
 
 BaseServiceInputHandler::~BaseServiceInputHandler(void)

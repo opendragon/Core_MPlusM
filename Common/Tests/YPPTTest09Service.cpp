@@ -27,7 +27,7 @@ Test09Service::Test09Service(const int argc,
 {
     OD_SYSLOG_ENTER();//####
     _requestHandlers.setDefaultRequestHandler(new YarpPlusPlusTest::Test09DefaultRequestHandler());
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // Test09Service::Test09Service
 
 Test09Service::~Test09Service(void)

@@ -8,7 +8,9 @@
 
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPEndpoint.h"
 #include "YPPExampleService.h"
+#include "YPPRegistryService.h"
 #include <yarp/os/all.h>
 #include <yarp/conf/version.h>
 #include <iostream>
@@ -40,8 +42,8 @@ static void stopRunning(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
                    kODSyslogOptionEnableThreadSupport);//####
@@ -55,7 +57,9 @@ int main(int     argc,
         
         if (stuff)
         {
-            if (stuff->start())
+            yarp::os::ConstString portName(stuff->getEndpoint().getName());
+
+            if (stuff->start() && YarpPlusPlus::RegistryService::registerLocalService(portName))
             {
                 lKeepRunning = true;
                 signal(SIGHUP, stopRunning);

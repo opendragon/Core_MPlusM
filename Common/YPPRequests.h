@@ -10,13 +10,20 @@
 # define YPPREQUESTS_H_ /* */
 
 /*! @brief The name for the 'echo' request. */
-#define YPP_ECHO_REQUEST      "echo"
+# define YPP_ECHO_REQUEST       "echo"
 /*! @brief The standard name for an 'info' request. */
-# define YPP_INFO_REQUEST     "info"
+# define YPP_INFO_REQUEST       "info"
 /*! @brief The standard name for a 'list' request. */
-# define YPP_LIST_REQUEST     "list"
+# define YPP_LIST_REQUEST       "list"
 /*! @brief The standard name for a 'register' request. */
-# define YPP_REGISTER_REQUEST "register"
+# define YPP_REGISTER_REQUEST   "register"
+/*! @brief The standard name for a 'unregister' request. */
+# define YPP_UNREGISTER_REQUEST "unregister"
+
+/*! @brief The standard response to an invalid 'register' / 'unregister' request. */
+# define YPP_FAILED_RESPONSE "FAILED"
+/*! @brief The standard response to a valid 'register' / 'unregister' request. */
+# define YPP_OK_RESPONSE     "OK"
 
 /*! @brief Request/response specification character - integer value. */
 # define YPP_REQREP_INT        "i"

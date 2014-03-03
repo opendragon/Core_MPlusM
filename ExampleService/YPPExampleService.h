@@ -14,7 +14,7 @@
 namespace YarpPlusPlusExample
 {
     /*! @brief An example Yarp++ service. */
-    class ExampleService : YarpPlusPlus::BaseService
+    class ExampleService : public YarpPlusPlus::BaseService
     {
     public:
         
@@ -60,6 +60,9 @@ namespace YarpPlusPlusExample
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
         ExampleService & operator=(const ExampleService & other);
+        
+        /*! @brief Set up the standard request handlers. */
+        void setUpRequestHandlers(void);
         
     }; // ExampleService
     

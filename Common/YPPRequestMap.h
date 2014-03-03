@@ -10,10 +10,10 @@
 # define YPPREQUESTMAP_H_ /* */
 
 # include "YPPConfig.h"
-# include <yarp/os/ConstString.h>
-# include <yarp/os/Bottle.h>
 # include <map>
 # include <string>
+# include <yarp/os/Bottle.h>
+# include <yarp/os/ConstString.h>
 
 namespace YarpPlusPlus
 {

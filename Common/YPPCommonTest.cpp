@@ -8,11 +8,6 @@
 
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include "YPPServiceRequest.h"
-#include "YPPBaseClient.h"
-#include "YPPEndpoint.h"
-#include "YPPRequestHandler.h"
-#include "YPPRequests.h"
 #include "Tests/YPPTEndpointStatusReporter.h"
 #include "Tests/YPPTTest03Handler.h"
 #include "Tests/YPPTTest04Handler.h"
@@ -22,9 +17,15 @@
 #include "Tests/YPPTTest10Service.h"
 #include "Tests/YPPTTest11Service.h"
 #include "Tests/YPPTTest12Service.h"
-#include <yarp/os/all.h>
-#include <yarp/conf/version.h>
+#include "YPPBaseClient.h"
+#include "YPPEndpoint.h"
+#include "YPPRegistryService.h"
+#include "YPPRequestHandler.h"
+#include "YPPRequests.h"
+#include "YPPServiceRequest.h"
 #include <iostream>
+#include <yarp/conf/version.h>
+#include <yarp/os/all.h>
 
 using namespace YarpPlusPlus;
 using namespace YarpPlusPlusTest;
@@ -756,14 +757,59 @@ static int doCase12(const int argc,
     return result;
 } // doCase12
 
+/*! @brief Perform a test case.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used for the test.
+ @returns @c 0 on success and @c 1 on failure. */
+static int doCase13(const int argc,
+                    char **   argv) // send 'register' request
+{
+    int               result;
+    RegistryService * stuff = NULL;
+    
+    if (argc >= 0)
+    {
+        switch (argc)
+        {
+                // Argument order for tests = endpoint name [, IP address / name [, port]]
+            case 0:
+                stuff = new RegistryService();
+                break;
+                
+            case 1:
+                stuff = new RegistryService(*argv);
+                break;
+                
+            case 2:
+                stuff = new RegistryService(*argv, argv[1]);
+                break;
+                
+            default:
+                break;
+                
+        }
+    }
+    if (stuff && stuff->start())
+    {
+        result = (stuff->isActive() ? 0 : 1);
+        stuff->stop();
+        delete stuff;
+    }
+    else
+    {
+        result = 1;
+    }
+    return result;
+} // doCase13
+
 #pragma mark Global functions
 
 /*! @brief The entry point for unit tests.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
                    kODSyslogOptionEnableThreadSupport);//####
@@ -825,6 +871,10 @@ int main(int     argc,
                 
             case 12:
                 result = doCase12(argc - 1, argv + 2);
+                break;
+            
+            case 13:
+                result = doCase13(argc - 1, argv + 2);
                 break;
                 
             default:

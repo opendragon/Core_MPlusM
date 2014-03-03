@@ -7,7 +7,7 @@
 //
 
 #include "YPPServiceRequest.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPEndpoint.h"
 
@@ -34,7 +34,7 @@ ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName,
         OD_SYSLOG_S1("parameter = ", parameters.get(ii).asString().c_str());//####
     }
     _parameters = parameters;
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // ServiceRequest::ServiceRequest
 
 ServiceRequest::~ServiceRequest(void)

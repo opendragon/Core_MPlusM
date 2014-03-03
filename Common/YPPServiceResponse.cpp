@@ -7,7 +7,7 @@
 //
 
 #include "YPPServiceResponse.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 
 using namespace YarpPlusPlus;
@@ -25,7 +25,7 @@ ServiceResponse::ServiceResponse(const yarp::os::Bottle & values) :
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_LL1("input size = ", values.size());//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // ServiceResponse::ServiceResponse
 
 ServiceResponse::~ServiceResponse(void)
@@ -33,8 +33,6 @@ ServiceResponse::~ServiceResponse(void)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
 } // ServiceResponse::~ServiceResponse
-
-#pragma mark Actions
 
 ServiceResponse & ServiceResponse::operator=(const yarp::os::Bottle & values)
 {
@@ -45,11 +43,19 @@ ServiceResponse & ServiceResponse::operator=(const yarp::os::Bottle & values)
     return *this;
 } // ServiceResponse::operator=
 
-int ServiceResponse::count(void)
+#pragma mark Actions
+
+/*! @brief Return a printable version of the response.
+ @returns A printable version of the response. */
+yarp::os::ConstString ServiceResponse::asString(void)
 const
 {
-    return _values.size();
-} // ServiceResponse::count
+    OD_SYSLOG_ENTER();//####
+    yarp::os::ConstString result = _values.toString();
+    
+    OD_SYSLOG_EXIT_S(result.c_str());//####
+    return result;
+} // ServiceResponse::asString
 
 yarp::os::Value ServiceResponse::element(const int index)
 const

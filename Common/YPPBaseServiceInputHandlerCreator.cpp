@@ -8,7 +8,7 @@
 //
 
 #include "YPPBaseServiceInputHandlerCreator.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPBaseServiceInputHandler.h"
 
@@ -27,13 +27,13 @@ BaseServiceInputHandlerCreator::BaseServiceInputHandlerCreator(BaseService & ser
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("service = ", &service);
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // BaseServiceInputHandlerCreator::BaseServiceInputHandlerCreator
 
 BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator(void)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator
 
 #pragma mark Actions

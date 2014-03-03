@@ -7,45 +7,20 @@
 //
 
 #include "YPPEndpoint.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include "YPPException.h"
 #include "YPPCommon.h"
-#include <yarp/os/Network.h>
+#include "YPPException.h"
 #include <cctype>
-#include <cstdlib>
 #include <cstdio>
+#include <cstdlib>
+#include <yarp/os/Network.h>
 
 using namespace YarpPlusPlus;
 
 #pragma mark Private structures and constants
 
 #pragma mark Local functions
-
-/*! @brief Check the syntax of the given name to make sure that it conforms to YARP conventions.
- @param portName The name to be checked.
- @returns @c true if the name can be used as a YARP port name and @c false otherwise. */
-static bool checkEndpointName(const yarp::os::ConstString & portName)
-{
-    bool result;
-    int  nameLength = portName.length();
-    
-    if (0 < nameLength)
-    {
-        char firstChar = portName[0];
-        
-        result = ('/' == firstChar);
-        for (int ii = 1; result && (ii < nameLength); ++ii)
-        {
-            result = isprint(portName[ii]);
-        }
-    }
-    else
-    {
-        result = false;
-    }
-    return result;
-} // checkEndpointName
 
 /*! @brief Check if the given port number is valid.
  @param realPort The numeric value of 'portNumber'.
@@ -109,6 +84,28 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
 
 #pragma mark Class methods
 
+bool Endpoint::checkEndpointName(const yarp::os::ConstString & portName)
+{
+    bool result;
+    int  nameLength = portName.length();
+    
+    if (0 < nameLength)
+    {
+        char firstChar = portName[0];
+        
+        result = ('/' == firstChar);
+        for (int ii = 1; result && (ii < nameLength); ++ii)
+        {
+            result = isprint(portName[ii]);
+        }
+    }
+    else
+    {
+        result = false;
+    }
+    return result;
+} // Endpoint::checkEndpointName
+
 yarp::os::ConstString Endpoint::getRandomPortName(void)
 {
     yarp::os::ConstString result;
@@ -166,7 +163,7 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
         OD_SYSLOG_EXIT_THROW_S("Bad endpoint name");//####
         throw new Exception("Bad endpoint name");
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // Endpoint::Endpoint
 
 Endpoint::~Endpoint(void)
@@ -356,6 +353,9 @@ const
 void YarpPlusPlus::dumpContact(const char *              tag,
                                const yarp::os::Contact & aContact)
 {
+#if (! defined(ENABLE_OD_SYSLOG))
+# pragma unused(tag,aContact)
+#endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
                  "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ",//####
                  aContact.getCarrier().c_str());//####

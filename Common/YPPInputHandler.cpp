@@ -7,7 +7,7 @@
 //
 
 #include "YPPInputHandler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPCommon.h"
 
@@ -25,7 +25,7 @@ InputHandler::InputHandler(void) :
         inherited(), _canProcessInput(true)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // InputHandler::InputHandler
 
 InputHandler::~InputHandler(void)

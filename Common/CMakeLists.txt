@@ -20,11 +20,13 @@ add_library(YPPBaseShared
             YPPInputHandler.cpp
             YPPInputHandlerCreator.cpp
             YPPListRequestHandler.cpp
+            YPPRegisterRequestHandler.cpp
             YPPRegistryService.cpp
             YPPRequestHandler.cpp
             YPPRequestMap.cpp
             YPPServiceRequest.cpp
-            YPPServiceResponse.cpp)
+            YPPServiceResponse.cpp
+            YPPUnregisterRequestHandler.cpp)
 add_library(YPPBaseClient YPPBaseClient.cpp)
 add_library(YPPBaseService YPPBaseService.cpp YPPBaseServiceInputHandler.cpp YPPBaseServiceInputHandlerCreator.cpp)
 
@@ -77,10 +79,14 @@ add_test(NAME TestRequestEchoFromService4 COMMAND CommonTest 10 "/service/test10
 add_test(NAME TestRequestEchoFromService5 COMMAND CommonTest 10 "/service/test10_2" "localhost")
 add_test(NAME TestRequestEchoFromService6 COMMAND CommonTest 10 "/service/test10_3" "localhost" "12340")
 # Test echo via service request/response, fixed message [echo something to send] but arguments as with test 1
-add_test(NAME TestRequestEchoFromService7 COMMAND CommonTest 11 "/service/test10_1")
-add_test(NAME TestRequestEchoFromService8 COMMAND CommonTest 11 "/service/test10_2" "localhost")
-add_test(NAME TestRequestEchoFromService9 COMMAND CommonTest 11 "/service/test10_3" "localhost" "12340")
+add_test(NAME TestRequestEchoFromService7 COMMAND CommonTest 11 "/service/test11_1")
+add_test(NAME TestRequestEchoFromService8 COMMAND CommonTest 11 "/service/test11_2" "localhost")
+add_test(NAME TestRequestEchoFromService9 COMMAND CommonTest 11 "/service/test11_3" "localhost" "12340")
 # Test list request
-add_test(NAME TestRequestListFromService1 COMMAND CommonTest 12 "/service/test10_1")
-add_test(NAME TestRequestListFromService2 COMMAND CommonTest 12 "/service/test10_2" "localhost")
-add_test(NAME TestRequestListFromService3 COMMAND CommonTest 12 "/service/test10_3" "localhost" "12340")
+add_test(NAME TestRequestListFromService1 COMMAND CommonTest 12 "/service/test12_1")
+add_test(NAME TestRequestListFromService2 COMMAND CommonTest 12 "/service/test12_2" "localhost")
+add_test(NAME TestRequestListFromService3 COMMAND CommonTest 12 "/service/test12_3" "localhost" "12340")
+# Test register request
+add_test(NAME TestRequestRegisterService1 COMMAND CommonTest 13)
+add_test(NAME TestRequestRegisterService2 COMMAND CommonTest 13 "localhost")
+add_test(NAME TestRequestRegisterService3 COMMAND CommonTest 13 "localhost" "12340")

@@ -25,7 +25,7 @@ Test05HandlerCreator::Test05HandlerCreator(void) :
         inherited()
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // Test05HandlerCreator::Test05HandlerCreator
 
 Test05HandlerCreator::~Test05HandlerCreator(void)

@@ -7,7 +7,7 @@
 //
 
 #include "YPPRequestMap.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPRequestHandler.h"
 
@@ -26,7 +26,7 @@ RequestMap::RequestMap(BaseService & owner) :
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("owner = ", &owner);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // RequestMap::RequestMap
 
 RequestMap::~RequestMap(void)
@@ -77,12 +77,12 @@ RequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstString & 
     
     if (_handlers.cend() == match)
     {
-        OD_SYSLOG("(_handlers.end() == match)");//####
+        OD_SYSLOG("(_handlers.cend() == match)");//####
         result = _defaultHandler;
     }
     else
     {
-        OD_SYSLOG("! (_handlers.end() == match)");//####
+        OD_SYSLOG("! (_handlers.cend() == match)");//####
         result = match->second;
     }
     OD_SYSLOG_EXIT_P(result);//####
@@ -104,6 +104,7 @@ void RequestMap::registerRequestHandler(const yarp::os::ConstString & request,
     {
         _handlers.erase(std::string(request));
     }
+    OD_SYSLOG_LL1("_handlers.size = ", _handlers.size());//####
     OD_SYSLOG_EXIT();//####
 } // RequestMap::registerRequestHandler
 

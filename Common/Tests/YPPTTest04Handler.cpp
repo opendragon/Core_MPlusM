@@ -24,7 +24,7 @@ Test04Handler::Test04Handler(void) :
         inherited()
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // Test04Handler::Test04Handler
 
 Test04Handler::~Test04Handler(void)

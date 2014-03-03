@@ -28,7 +28,7 @@ Test12EchoRequestHandler::Test12EchoRequestHandler(void) :
         inherited(YPP_ECHO_REQUEST)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // Test12EchoRequestHandler::Test12EchoRequestHandler
 
 Test12EchoRequestHandler::~Test12EchoRequestHandler(void)

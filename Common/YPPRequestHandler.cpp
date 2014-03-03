@@ -7,7 +7,7 @@
 //
 
 #include "YPPRequestHandler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 
 using namespace YarpPlusPlus;
@@ -24,7 +24,7 @@ RequestHandler::RequestHandler(const yarp::os::ConstString & request) :
         _owner(NULL), _name(request)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // RequestHandler::RequestHandler
 
 RequestHandler::~RequestHandler(void)

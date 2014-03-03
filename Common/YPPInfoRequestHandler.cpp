@@ -7,7 +7,7 @@
 //
 
 #include "YPPInfoRequestHandler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPBaseService.h"
 #include "YPPRequests.h"
@@ -29,7 +29,7 @@ InfoRequestHandler::InfoRequestHandler(void) :
         inherited(YPP_LIST_REQUEST)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // InfoRequestHandler::InfoRequestHandler
 
 InfoRequestHandler::~InfoRequestHandler(void)

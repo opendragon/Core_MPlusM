@@ -97,7 +97,7 @@ namespace YarpPlusPlus
         BaseService & operator=(const BaseService & other);
         
         /*! @brief Set up the standard request handlers. */
-        void setUpStandardHandlers(void);
+        void setUpRequestHandlers(void);
         
         /*! @brief The connection point for the service. */
         Endpoint * _endpoint;

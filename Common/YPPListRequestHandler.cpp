@@ -7,9 +7,9 @@
 //
 
 #include "YPPListRequestHandler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include "YPPBaseService.h"
+#include "YPPRequestMap.h"
 #include "YPPRequests.h"
 
 using namespace YarpPlusPlus;
@@ -29,7 +29,7 @@ ListRequestHandler::ListRequestHandler(void) :
         inherited(YPP_LIST_REQUEST)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // ListRequestHandler::ListRequestHandler
 
 ListRequestHandler::~ListRequestHandler(void)
@@ -67,6 +67,9 @@ void ListRequestHandler::fillInDescription(yarp::os::Property & info)
 bool ListRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
                                      yarp::os::ConnectionWriter * replyMechanism)
 {
+#if (! defined(ENABLE_OD_SYSLOG))
+# pragma unused(restOfInput)
+#endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
     bool result = true;

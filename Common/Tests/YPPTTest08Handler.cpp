@@ -24,7 +24,7 @@ Test08Handler::Test08Handler(void) :
         inherited()
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // Test08Handler::Test08Handler
 
 Test08Handler::~Test08Handler(void)

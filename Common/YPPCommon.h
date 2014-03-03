@@ -10,9 +10,8 @@
 # define YPPCOMMON_H_ /* */
 
 # include "YPPConfig.h"
-# include <yarp/os/Contact.h>
 # include <yarp/os/ConstString.h>
-# include <vector>
+# include <yarp/os/Contact.h>
 
 namespace YarpPlusPlus
 {

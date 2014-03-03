@@ -7,7 +7,7 @@
 //
 
 #include "YPPException.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 
 using namespace YarpPlusPlus;
@@ -22,9 +22,12 @@ using namespace YarpPlusPlus;
 
 Exception::Exception(const yarp::os::ConstString & reason)
 {
+#if (! defined(ENABLE_OD_SYSLOG))
+# pragma unused(reason)
+#endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("reason = ", reason.c_str());//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // Exception::Exception
 
 Exception::~Exception(void)

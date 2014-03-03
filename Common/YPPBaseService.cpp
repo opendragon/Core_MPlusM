@@ -9,14 +9,13 @@
 #include "YPPBaseService.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include "YPPException.h"
 #include "YPPBaseServiceInputHandler.h"
 #include "YPPBaseServiceInputHandlerCreator.h"
 #include "YPPEndpoint.h"
+#include "YPPException.h"
 #include "YPPInfoRequestHandler.h"
 #include "YPPListRequestHandler.h"
 #include "YPPRequests.h"
-#include <string>
 
 using namespace YarpPlusPlus;
 
@@ -39,8 +38,8 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
     OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
                  serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     _endpoint = new Endpoint(serviceEndpointName, serviceHostName, servicePortNumber);
-    setUpStandardHandlers();
-    OD_SYSLOG_EXIT();//####
+    setUpRequestHandlers();
+    OD_SYSLOG_EXIT_P(this);//####
 } // BaseService::BaseService
 
 BaseService::BaseService(const bool useMultipleHandlers,
@@ -70,8 +69,8 @@ BaseService::BaseService(const bool useMultipleHandlers,
             throw new Exception("Invalid parameters for service endpoint");
             
     }
-    setUpStandardHandlers();
-    OD_SYSLOG_EXIT();//####
+    setUpRequestHandlers();
+    OD_SYSLOG_EXIT_P(this);//####
 } // BaseService::BaseService
 
 BaseService::~BaseService(void)
@@ -113,13 +112,13 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
     return result;
 } // BaseService::processRequest
 
-void BaseService::setUpStandardHandlers(void)
+void BaseService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
     _requestHandlers.registerRequestHandler(YPP_INFO_REQUEST, new InfoRequestHandler());
     _requestHandlers.registerRequestHandler(YPP_LIST_REQUEST, new ListRequestHandler());
     OD_SYSLOG_EXIT();//####
-} // BaseService::setUpStandardHandlers
+} // BaseService::setUpRequestHandlers
 
 bool BaseService::start(void)
 {

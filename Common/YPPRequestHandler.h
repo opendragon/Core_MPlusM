@@ -9,10 +9,9 @@
 #if (! defined(YPPREQUESTHANDLER_H_))
 # define YPPREQUESTHANDLER_H_ /* */
 
-//# include "YPPConfig.h"
-# include <yarp/os/ConstString.h>
 # include <yarp/os/Bottle.h>
 # include <yarp/os/ConnectionWriter.h>
+# include <yarp/os/ConstString.h>
 # include <yarp/os/Property.h>
 
 namespace YarpPlusPlus

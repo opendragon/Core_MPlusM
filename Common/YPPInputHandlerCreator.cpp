@@ -7,7 +7,7 @@
 //
 
 #include "YPPInputHandlerCreator.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 
 using namespace YarpPlusPlus;
@@ -24,7 +24,7 @@ InputHandlerCreator::InputHandlerCreator(void) :
         inherited()
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // InputHandlerCreator::InputHandlerCreator
 
 InputHandlerCreator::~InputHandlerCreator(void)
