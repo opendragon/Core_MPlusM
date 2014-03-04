@@ -25,9 +25,11 @@ enum
     kODSyslogOptionEnableThreadSupport = 8
 };
 
-//#define ENABLE_OD_SYSLOG  /* */
+#if defined(DISABLE_OD_SYSLOG)
+# undef ENABLE_OD_SYSLOG
+#endif // defined(DISABLE_OD_SYSLOG)
 
-# if (defined(ENABLE_OD_SYSLOG) && (! defined(DISABLE_OD_SYSLOG)))
+# if defined(ENABLE_OD_SYSLOG)
 #  if defined(__OBJC__)
 #   define OD_PRINTABLE_STRING(xx)   (xx ? [[xx description] UTF8String] : "<>")
 #  endif // defined(__OBJC__)
@@ -577,7 +579,7 @@ extern "C"
 #  if defined(__cplusplus)
 }
 #  endif // defined(__cplusplus)
-# else // (! defined(ENABLE_OD_SYSLOG)) || defined(DISABLE_OD_SYSLOG)
+# else // ! defined(ENABLE_OD_SYSLOG)
 #  if defined(__OBJC__)
 #   define OD_PRINTABLE_STRING(xx) ""
 #  endif // defined(__OBJC__)
@@ -643,6 +645,6 @@ extern "C"
 #  define OD_SYSLOG_S4(text1, val1, text2, val2, text3, val3, text4, val4) /* */
 #  define OD_SYSLOG_Sp(text, len, val)  /* */
 #  define OD_SYSLOG_Ti(text1, val1)  /* */
-# endif // (! defined(ENABLE_OD_SYSLOG)) || defined(DISABLE_OD_SYSLOG)
+# endif // ! defined(ENABLE_OD_SYSLOG)
 
-#endif // ! defined(ODSyslog_h)
+#endif // ! defined(ODSYSLOG_H_)

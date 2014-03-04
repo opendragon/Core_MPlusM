@@ -18,11 +18,17 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
-#pragma mark Private structures and constants
+#if defined(__APPLE__)
+# pragma mark Private structures and constants
+#endif // defined(__APPLE__)
 
-#pragma mark Local functions
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
 
-#pragma mark Global functions
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)
 
 /*! @brief The entry point for creating an example client.
  @param argc The number of arguments in 'argv'.

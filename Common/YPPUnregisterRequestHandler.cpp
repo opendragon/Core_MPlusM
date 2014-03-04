@@ -15,16 +15,24 @@
 
 using namespace YarpPlusPlus;
 
-#pragma mark Private structures and constants
+#if defined(__APPLE__)
+# pragma mark Private structures and constants
+#endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'list' request. */
 #define UNREGISTER_REQUEST_VERSION_NUMBER "1.0"
 
-#pragma mark Local functions
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
 
-#pragma mark Class methods
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
 
-#pragma mark Constructors and destructors
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
 
 UnregisterRequestHandler::UnregisterRequestHandler(RegistryService & service) :
         inherited(YPP_UNREGISTER_REQUEST), _service(service)
@@ -40,7 +48,9 @@ UnregisterRequestHandler::~UnregisterRequestHandler(void)
     OD_SYSLOG_EXIT();//####
 } // UnregisterRequestHandler::~UnregisterRequestHandler
 
-#pragma mark Actions
+#if defined(__APPLE__)
+# pragma mark Actions
+#endif // defined(__APPLE__)
 
 void UnregisterRequestHandler::fillInDescription(yarp::os::Property & info)
 {
@@ -109,6 +119,10 @@ bool UnregisterRequestHandler::operator() (const yarp::os::Bottle &     restOfIn
     return result;
 } // UnregisterRequestHandler::operator()
 
-#pragma mark Accessors
+#if defined(__APPLE__)
+# pragma mark Accessors
+#endif // defined(__APPLE__)
 
-#pragma mark Global functions
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

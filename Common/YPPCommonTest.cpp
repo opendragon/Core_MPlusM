@@ -33,9 +33,13 @@ using std::cout;
 using std::cerr;
 using std::endl;
 
-#pragma mark Private structures and constants
+#if defined(__APPLE__)
+# pragma mark Private structures and constants
+#endif // defined(__APPLE__)
 
-#pragma mark Local functions
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
 
 /*! @brief Create an endpoint for a test.
  @param argc The number of arguments in 'argv'.
@@ -71,7 +75,9 @@ static Endpoint * doCreateEndpointForTest(const int argc,
     return stuff;
 } // doCreateEndpointForTest
 
-#pragma mark *** Test Case 01 ***
+#if defined(__APPLE__)
+# pragma mark *** Test Case 01 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -103,7 +109,9 @@ static int doCase01(const int argc,
     return result;
 } // doCase01
 
-#pragma mark *** Test Case 02 ***
+#if defined(__APPLE__)
+# pragma mark *** Test Case 02 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -162,7 +170,9 @@ static int doCase02(const int argc,
     return result;
 } // doCase02
 
-#pragma mark *** Test Case 03 ***
+#if defined(__APPLE__)
+# pragma mark *** Test Case 03 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -235,7 +245,9 @@ static int doCase03(const int argc,
     return result;
 } // doCase03
 
-#pragma mark *** Test Case 04 ***
+#if defined(__APPLE__)
+# pragma mark *** Test Case 04 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -310,7 +322,9 @@ static int doCase04(const int argc,
     return result;
 } // doCase04
 
-#pragma mark *** Test Case 05 ***
+#if defined(__APPLE__)
+# pragma mark *** Test Case 05 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -385,7 +399,9 @@ static int doCase05(const int argc,
     return result;
 } // doCase05
 
-#pragma mark *** Test Case 06 ***
+#if defined(__APPLE__)
+# pragma mark *** Test Case 06 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -416,7 +432,9 @@ static int doCase06(const int argc,
     return result;
 } // doCase06
 
-#pragma mark *** Test Case 07 ***
+#if defined(__APPLE__)
+# pragma mark *** Test Case 07 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -439,7 +457,9 @@ static int doCase07(const int argc,
     return result;
 } // doCase07
 
-#pragma mark *** Test Case 08 ***
+#if defined(__APPLE__)
+# pragma mark *** Test Case 08 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -490,7 +510,9 @@ static int doCase08(const int argc,
     return result;
 } // doCase08
 
-#pragma mark *** Test Case 09 ***
+#if defined(__APPLE__)
+# pragma mark *** Test Case 09 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -531,7 +553,9 @@ static int doCase09(const int argc,
     return result;
 } // doCase09
 
-#pragma mark *** Test Case 10 ***
+#if defined(__APPLE__)
+# pragma mark *** Test Case 10 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -572,7 +596,9 @@ static int doCase10(const int argc,
     return result;
 } // doCase10
 
-#pragma mark *** Test Case 11 ***
+#if defined(__APPLE__)
+# pragma mark *** Test Case 11 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
@@ -627,7 +653,9 @@ static int doCase11(const int argc,
     return result;
 } // doCase11
 
-#pragma mark *** Test Case 12 ***
+#if defined(__APPLE__)
+# pragma mark *** Test Case 12 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Check the response from the 'list' request for this test.
  @param response The response to be analyzed.
@@ -802,7 +830,9 @@ static int doCase13(const int argc,
     return result;
 } // doCase13
 
-#pragma mark Global functions
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)
 
 /*! @brief The entry point for unit tests.
  @param argc The number of arguments in 'argv'.

@@ -35,10 +35,17 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 # add ACE include directories
 include_directories(${ACE_INCLUDE_DIRS})
 
-add_subdirectory(Debugging)
+# find SQLite
+find_package(SQLite REQUIRED)
+list(APPEND CMAKE_MODULE_PATH ${SQLite_MODULE_PATH})
+
+# add SQLite include directories
+include_directories(${SQLite_INCLUDE_DIRS})
+
 add_subdirectory(Common)
-add_subdirectory(ExampleService)
+add_subdirectory(Debugging)
 add_subdirectory(ExampleClient)
+add_subdirectory(ExampleService)
 add_subdirectory(RegistryService)
 
 include_directories("${DEBUGGING_DIR}"

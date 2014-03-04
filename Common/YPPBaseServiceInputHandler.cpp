@@ -14,13 +14,21 @@
 
 using namespace YarpPlusPlus;
 
-#pragma mark Private structures and constants
+#if defined(__APPLE__)
+# pragma mark Private structures and constants
+#endif // defined(__APPLE__)
 
-#pragma mark Local functions
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
 
-#pragma mark Class methods
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
 
-#pragma mark Constructors and destructors
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
 
 BaseServiceInputHandler::BaseServiceInputHandler(BaseService & service) :
         inherited(), _service(service)
@@ -36,7 +44,9 @@ BaseServiceInputHandler::~BaseServiceInputHandler(void)
     OD_SYSLOG_EXIT();//####
 } // BaseServiceInputHandler::~BaseServiceInputHandler
 
-#pragma mark Actions
+#if defined(__APPLE__)
+# pragma mark Actions
+#endif // defined(__APPLE__)
 
 bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &     input,
                                           yarp::os::ConnectionWriter * replyMechanism)
@@ -58,6 +68,10 @@ bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &     input,
     return result;
 } // BaseServiceInputHandler::handleInput
 
-#pragma mark Accessors
+#if defined(__APPLE__)
+# pragma mark Accessors
+#endif // defined(__APPLE__)
 
-#pragma mark Global functions
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

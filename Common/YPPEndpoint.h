@@ -109,11 +109,15 @@ namespace YarpPlusPlus
         yarp::os::Port *      _port;
         /*! @brief @c true if the endpoint is open and @c false otherwise. */
         bool                  _isOpen;
-# pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Wunused-private-field"
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
         /*! @brief Filler to pad to alignment boundary */
         char                  _filler[7];
-# pragma clang diagnostic pop
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
         
     }; // Endpoint
     

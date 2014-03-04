@@ -14,7 +14,9 @@
 
 using namespace YarpPlusPlusExample;
 
-#pragma mark Private structures and constants
+#if defined(__APPLE__)
+# pragma mark Private structures and constants
+#endif // defined(__APPLE__)
 
 ExampleService::ExampleService(const yarp::os::ConstString & serviceEndpointName,
                                const yarp::os::ConstString & serviceHostName,
@@ -41,7 +43,9 @@ ExampleService::~ExampleService(void)
     OD_SYSLOG_EXIT();//####
 } // ExampleService::~ExampleService
 
-#pragma mark Actions
+#if defined(__APPLE__)
+# pragma mark Actions
+#endif // defined(__APPLE__)
 
 void ExampleService::setUpRequestHandlers(void)
 {

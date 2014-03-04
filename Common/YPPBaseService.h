@@ -114,11 +114,15 @@ namespace YarpPlusPlus
         /*! @brief Whether to use a handler creator or a handler - @c true for a creator and @c false otherwise. */
         bool _useMultipleHandlers;
         
-# pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Wunused-private-field"
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
         /*! @brief Filler to pad to alignment boundary */
         char _filler[6];
-# pragma clang diagnostic pop
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
         
     }; // BaseService
     

@@ -13,14 +13,21 @@
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
 #include "YPPUnregisterRequestHandler.h"
+//#include 
 
 using namespace YarpPlusPlus;
 
-#pragma mark Private structures and constants
+#if defined(__APPLE__)
+# pragma mark Private structures and constants
+#endif // defined(__APPLE__)
 
-#pragma mark Local functions
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
 
-#pragma mark Class methods
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
 
 bool RegistryService::registerLocalService(const yarp::os::ConstString & portName)
 {
@@ -50,7 +57,9 @@ bool RegistryService::registerLocalService(const yarp::os::ConstString & portNam
     return result;
 } // RegistryService::registerLocalService
 
-#pragma mark Constructors and destructors
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
 
 RegistryService::RegistryService(const yarp::os::ConstString & serviceHostName,
                                  const yarp::os::ConstString & servicePortNumber) :
@@ -67,7 +76,9 @@ RegistryService::~RegistryService(void)
     OD_SYSLOG_EXIT();//####
 } // RegistryService::~RegistryService
 
-#pragma mark Actions
+#if defined(__APPLE__)
+# pragma mark Actions
+#endif // defined(__APPLE__)
 
 void RegistryService::setUpRequestHandlers(void)
 {
@@ -119,6 +130,10 @@ bool RegistryService::stop(void)
     return result;
 } // RegistryService::stop
 
-#pragma mark Accessors
+#if defined(__APPLE__)
+# pragma mark Accessors
+#endif // defined(__APPLE__)
 
-#pragma mark Global functions
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

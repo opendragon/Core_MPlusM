@@ -18,9 +18,13 @@
 
 using namespace YarpPlusPlus;
 
-#pragma mark Private structures and constants
+#if defined(__APPLE__)
+# pragma mark Private structures and constants
+#endif // defined(__APPLE__)
 
-#pragma mark Local functions
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
 
 /*! @brief Check if the given port number is valid.
  @param realPort The numeric value of 'portNumber'.
@@ -82,7 +86,9 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
     return result;
 } // checkHostName
 
-#pragma mark Class methods
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
 
 bool Endpoint::checkEndpointName(const yarp::os::ConstString & portName)
 {
@@ -109,17 +115,23 @@ bool Endpoint::checkEndpointName(const yarp::os::ConstString & portName)
 yarp::os::ConstString Endpoint::getRandomPortName(void)
 {
     yarp::os::ConstString result;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif // defined(__APPLE__)
     char *                temp = tempnam(NULL, "port_");
-#pragma clang diagnostic pop
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
     
     result = temp;
     free(temp);
     return result;
 } // Endpoint::getRandomPortName
 
-#pragma mark Constructors and destructors
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
 
 Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
                    const yarp::os::ConstString & hostName,
@@ -173,7 +185,9 @@ Endpoint::~Endpoint(void)
     OD_SYSLOG_EXIT();//####
 } // Endpoint::~Endpoint
 
-#pragma mark Actions
+#if defined(__APPLE__)
+# pragma mark Actions
+#endif // defined(__APPLE__)
 
 void Endpoint::close(void)
 {
@@ -330,7 +344,9 @@ bool Endpoint::setReporter(yarp::os::PortReport & reporter,
     return result;
 } // Endpoint::setReporter
 
-#pragma mark Accessors
+#if defined(__APPLE__)
+# pragma mark Accessors
+#endif // defined(__APPLE__)
 
 yarp::os::ConstString Endpoint::getName(void)
 const
@@ -348,7 +364,9 @@ const
     return result;
 } // Endpoint::getName
 
-#pragma mark Global functions
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)
 
 void YarpPlusPlus::dumpContact(const char *              tag,
                                const yarp::os::Contact & aContact)

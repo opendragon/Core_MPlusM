@@ -15,16 +15,24 @@
 
 using namespace YarpPlusPlus;
 
-#pragma mark Private structures and constants
+#if defined(__APPLE__)
+# pragma mark Private structures and constants
+#endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'list' request. */
 #define REGISTER_REQUEST_VERSION_NUMBER "1.0"
 
-#pragma mark Local functions
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
 
-#pragma mark Class methods
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
 
-#pragma mark Constructors and destructors
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
 
 RegisterRequestHandler::RegisterRequestHandler(RegistryService & service) :
         inherited(YPP_REGISTER_REQUEST), _service(service)
@@ -40,7 +48,9 @@ RegisterRequestHandler::~RegisterRequestHandler(void)
     OD_SYSLOG_EXIT();//####
 } // RegisterRequestHandler::~RegisterRequestHandler
 
-#pragma mark Actions
+#if defined(__APPLE__)
+# pragma mark Actions
+#endif // defined(__APPLE__)
 
 void RegisterRequestHandler::fillInDescription(yarp::os::Property & info)
 {
@@ -278,6 +288,10 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
     return result;
 } // RegisterRequestHandler::processListResponse
 
-#pragma mark Accessors
+#if defined(__APPLE__)
+# pragma mark Accessors
+#endif // defined(__APPLE__)
 
-#pragma mark Global functions
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

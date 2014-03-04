@@ -14,31 +14,39 @@
 #include <yarp/os/all.h>
 #include <yarp/conf/version.h>
 #include <iostream>
-#if defined(__APPLE__)
+#if (defined(__APPLE__) || defined(__linux__))
 # include <unistd.h>
-#endif // defined(__APPLE__)
+#endif // defined(__APPLE__) || defined(__linux__)
 
 using namespace YarpPlusPlusExample;
 using std::cout;
 using std::cerr;
 using std::endl;
 
-#pragma mark Private structures and constants
+#if defined(__APPLE__)
+# pragma mark Private structures and constants
+#endif // defined(__APPLE__)
 
 /*! @brief Run loop control; @c true if the service is to keep going and @c false otherwise. */
 static bool lKeepRunning;
 
-#pragma mark Local functions
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
 
+#if (defined(__APPLE__) || defined(__linux__))
 /*! @brief The signal handler to catch requests to stop the service.
  @param signal The signal being handled. */
 static void stopRunning(int signal)
 {
-#pragma unused(signal)
+# pragma unused(signal)
     lKeepRunning = false;
 } // stopRunning
+#endif // defined(__APPLE__) || defined(__linux__)
 
-#pragma mark Global functions
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)
 
 /*! @brief The entry point for creating an example service.
  @param argc The number of arguments in 'argv'.
@@ -64,18 +72,18 @@ int main(int      argc,
             if (stuff->start() && YarpPlusPlus::RegistryService::registerLocalService(portName))
             {
                 lKeepRunning = true;
-#if defined(__APPLE__)
+#if (defined(__APPLE__) || defined(__linux__))
                 signal(SIGHUP, stopRunning);
                 signal(SIGINT, stopRunning);
                 signal(SIGINT, stopRunning);
                 signal(SIGUSR1, stopRunning);
-#endif // defined(__APPLE__)
+#endif // defined(__APPLE__) || defined(__linux__)
                 for ( ; lKeepRunning; )
                 {
-#if defined(__APPLE__)
+#if (defined(__APPLE__) || defined(__linux__))
 					//TODO: find windows equivalent
                     sleep(1);
-#endif // defined(__APPLE__)
+#endif // defined(__APPLE__) || defined(__linux__)
                 }
                 stuff->stop();
             }

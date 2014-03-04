@@ -76,11 +76,15 @@ namespace YarpPlusPlus
         /*! @brief @c true if the registry service is fully operational and @c false if it could not be set up. */
         bool _isActive;
 
-# pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Wunused-private-field"
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
         /*! @brief Filler to pad to alignment boundary */
         char _filler[7];
-# pragma clang diagnostic pop
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
         
     }; // RegistryService
 

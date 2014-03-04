@@ -12,13 +12,21 @@
 
 using namespace YarpPlusPlusTest;
 
-#pragma mark Private structures and constants
+#if defined(__APPLE__)
+# pragma mark Private structures and constants
+#endif // defined(__APPLE__)
 
-#pragma mark Local functions
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
 
-#pragma mark Class methods
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
 
-#pragma mark Constructors and destructors
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
 
 Test09DefaultRequestHandler::Test09DefaultRequestHandler(void) :
         inherited("")
@@ -33,7 +41,9 @@ Test09DefaultRequestHandler::~Test09DefaultRequestHandler(void)
     OD_SYSLOG_EXIT();//####
 } // Test09DefaultRequestHandler::~Test09DefaultRequestHandler
 
-#pragma mark Actions
+#if defined(__APPLE__)
+# pragma mark Actions
+#endif // defined(__APPLE__)
 
 void Test09DefaultRequestHandler::fillInDescription(yarp::os::Property & info)
 {
@@ -60,6 +70,10 @@ bool Test09DefaultRequestHandler::operator() (const yarp::os::Bottle &     restO
     return result;
 } // Test09DefaultRequestHandler::operator()
 
-#pragma mark Accessors
+#if defined(__APPLE__)
+# pragma mark Accessors
+#endif // defined(__APPLE__)
 
-#pragma mark Global functions
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

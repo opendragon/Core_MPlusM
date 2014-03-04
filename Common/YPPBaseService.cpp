@@ -19,13 +19,21 @@
 
 using namespace YarpPlusPlus;
 
-#pragma mark Private structures and constants
+#if defined(__APPLE__)
+# pragma mark Private structures and constants
+#endif // defined(__APPLE__)
 
-#pragma mark Local functions
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
 
-#pragma mark Class methods
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
 
-#pragma mark Constructors and destructors
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
 
 BaseService::BaseService(const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & serviceEndpointName,
@@ -82,7 +90,9 @@ BaseService::~BaseService(void)
     OD_SYSLOG_EXIT();//####
 } // BaseService::~BaseService
 
-#pragma mark Actions
+#if defined(__APPLE__)
+# pragma mark Actions
+#endif // defined(__APPLE__)
 
 bool BaseService::processRequest(const yarp::os::ConstString & request,
                                  const yarp::os::Bottle &      restOfInput,
@@ -174,6 +184,10 @@ bool BaseService::stop(void)
     return (! _started);
 } // BaseService::stop
 
-#pragma mark Accessors
+#if defined(__APPLE__)
+# pragma mark Accessors
+#endif // defined(__APPLE__)
 
-#pragma mark Global functions
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

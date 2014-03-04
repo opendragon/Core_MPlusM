@@ -13,13 +13,21 @@
 
 using namespace YarpPlusPlusTest;
 
-#pragma mark Private structures and constants
+#if defined(__APPLE__)
+# pragma mark Private structures and constants
+#endif // defined(__APPLE__)
 
-#pragma mark Local functions
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
 
-#pragma mark Class methods
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
 
-#pragma mark Constructors and destructors
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
 
 Test11EchoRequestHandler::Test11EchoRequestHandler(void) :
         inherited(YPP_ECHO_REQUEST)
@@ -34,7 +42,9 @@ Test11EchoRequestHandler::~Test11EchoRequestHandler(void)
     OD_SYSLOG_EXIT();//####
 } // Test11EchoRequestHandler::~Test11EchoRequestHandler
 
-#pragma mark Actions
+#if defined(__APPLE__)
+# pragma mark Actions
+#endif // defined(__APPLE__)
 
 void Test11EchoRequestHandler::fillInDescription(yarp::os::Property & info)
 {
@@ -60,6 +70,10 @@ bool Test11EchoRequestHandler::operator() (const yarp::os::Bottle &     restOfIn
     return result;
 } // Test11EchoRequestHandler::operator()
 
-#pragma mark Accessors
+#if defined(__APPLE__)
+# pragma mark Accessors
+#endif // defined(__APPLE__)
 
-#pragma mark Global functions
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

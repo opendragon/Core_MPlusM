@@ -10,10 +10,10 @@
 # define ODSYSLOG_INC_ /* */
 
 # include "ODSyslog.h"
-# if defined(__APPLE__)
+# if (defined(__APPLE__) || defined(__linux))
 #  include <pthread.h>
 #  include <unistd.h>
-# endif // defined(__APPLE__)
+# endif // defined(__APPLE__) || defined(__linux)
 # include <stdlib.h>
 # include <string.h>
 # include <ctype.h>
@@ -21,9 +21,9 @@
 # include <stdio.h>
 # if defined(__OBJC__)
 #  import "Foundation/NSObjCRuntime.h"
-# elif defined(__APPLE__)
+# elif (defined(__APPLE__) || defined(__linux))
 #  include <syslog.h>
-# endif // defined(__APPLE__)
+# endif // defined(__APPLE__) || defined(__linux)
 
 # if defined(__cplusplus)
 #  define EXTERN_C extern "C"
@@ -916,7 +916,7 @@ EXTERN_C void ODSysLogExitLL_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODSysLogExitLL_
 
-# if defined(__OBJC__)
+#  if defined(__OBJC__)
 EXTERN_C void ODSysLogExitO_(const char * fileName,
                              const char * funcName,
                              const int    lineNumber,
@@ -941,7 +941,7 @@ EXTERN_C void ODSysLogExitO_(const char * fileName,
     OD_FREE_PREFIX_();
 	OD_FREE_INDENT_();
 } // ODSysLogExitO_
-# endif // defined(__OBJC__)
+#  endif // defined(__OBJC__)
 
 EXTERN_C void ODSysLogExitP_(const char * fileName,
                              const char * funcName,
@@ -991,18 +991,18 @@ EXTERN_C void ODSysLogExitR_(const char * fileName,
     }
     else
     {
-#   if defined(__OBJC__)
+#    if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_RECT_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val.origin.x, val.origin.y,
               val.size.height, val.size.width);
-#   else // ! defined(__OBJC__)
+#    else // ! defined(__OBJC__)
         syslog(OD_SYSLOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_RECT_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
                val.origin.x, val.origin.y, val.size.height, val.size.width);
-#   endif // ! defined(__OBJC__)
+#    endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
 	OD_FREE_INDENT_();
 } // ODSysLogExitR_
-#  endif // defined(__APPLE__)
+#   endif // defined(__APPLE__)
 
 EXTERN_C void ODSysLogExitS_(const char * fileName,
                              const char * funcName,
@@ -1098,9 +1098,9 @@ EXTERN_C void ODSysLogInit_(const char * prefix,
                             const char * funcName,
                             const int    lineNumber)
 {
-#if defined(__OBJC__)
-# pragma unused(prefix)
-#endif // defined(__OBJC__)
+#  if defined(__OBJC__)
+#   pragma unused(prefix)
+#  endif // defined(__OBJC__)
     bool         odWriteToFile = (options & kODSyslogOptionWriteToFile);
 	const char * rootName = odFileNameRoot_(fileName);
     const char * suffixString;
