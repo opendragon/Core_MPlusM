@@ -10,18 +10,20 @@
 # define ODSYSLOG_INC_ /* */
 
 # include "ODSyslog.h"
-# include <pthread.h>
+# if defined(__APPLE__)
+#  include <pthread.h>
+#  include <unistd.h>
+# endif // defined(__APPLE__)
 # include <stdlib.h>
 # include <string.h>
 # include <ctype.h>
 # include <errno.h>
-# include <unistd.h>
 # include <stdio.h>
 # if defined(__OBJC__)
 #  import "Foundation/NSObjCRuntime.h"
-# else // ! defined(__OBJC__)
+# elif defined(__APPLE__)
 #  include <syslog.h>
-# endif // ! defined(__OBJC__)
+# endif // defined(__APPLE__)
 
 # if defined(__cplusplus)
 #  define EXTERN_C extern "C"
