@@ -27,6 +27,9 @@ using std::endl;
 # pragma mark Private structures and constants
 #endif // defined(__APPLE__)
 
+/*! @brief Set to @c true to use an in-memory database and @c false to use a disk-based database. */
+#define USE_INMEMORY true
+
 /*! @brief Run loop control; @c true if the service is to keep going and @c false otherwise. */
 static bool lKeepRunning;
 
@@ -68,15 +71,15 @@ int main(int      argc,
         {
                 // Argument order for tests = endpoint name [, IP address / name [, port]]
             case 1:
-                stuff = new RegistryService();
+                stuff = new RegistryService(USE_INMEMORY);
                 break;
                 
             case 2:
-                stuff = new RegistryService(argv[1]);
+                stuff = new RegistryService(USE_INMEMORY, argv[1]);
                 break;
                 
             case 3:
-                stuff = new RegistryService(argv[1], argv[2]);
+                stuff = new RegistryService(USE_INMEMORY, argv[1], argv[2]);
                 break;
                 
             default:
@@ -98,10 +101,7 @@ int main(int      argc,
 #endif // defined(__APPLE__) || defined(__linux__)
             for ( ; lKeepRunning; )
             {
-#if (defined(__APPLE__) || defined(__linux__))
-				//TODO: find windows equivalent
-                sleep(1);
-#endif // defined(__APPLE__) || defined(__linux__)
+                yarp::os::Time::delay(1.0);
             }
             stuff->stop();
         }

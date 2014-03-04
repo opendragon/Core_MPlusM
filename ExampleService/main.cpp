@@ -80,10 +80,7 @@ int main(int      argc,
 #endif // defined(__APPLE__) || defined(__linux__)
                 for ( ; lKeepRunning; )
                 {
-#if (defined(__APPLE__) || defined(__linux__))
-					//TODO: find windows equivalent
-                    sleep(1);
-#endif // defined(__APPLE__) || defined(__linux__)
+                    yarp::os::Time::delay(1.0);
                 }
                 stuff->stop();
             }

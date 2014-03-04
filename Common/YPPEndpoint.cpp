@@ -7,14 +7,16 @@
 //
 
 #include "YPPEndpoint.h"
-//#define ENABLE_OD_SYSLOG /* */
+#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPCommon.h"
 #include "YPPException.h"
 #include <cctype>
+#include <cmath>
 #include <cstdio>
 #include <cstdlib>
 #include <yarp/os/Network.h>
+#include <yarp/os/Time.h>
 
 using namespace YarpPlusPlus;
 
@@ -115,17 +117,14 @@ bool Endpoint::checkEndpointName(const yarp::os::ConstString & portName)
 yarp::os::ConstString Endpoint::getRandomPortName(void)
 {
     yarp::os::ConstString result;
-#if defined(__APPLE__)
-# pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Wdeprecated-declarations"
-#endif // defined(__APPLE__)
-    char *                temp = tempnam(NULL, "port_");
-#if defined(__APPLE__)
-# pragma clang diagnostic pop
-#endif // defined(__APPLE__)
+    char                  buff[24];
+    double                intPart;
     
-    result = temp;
-    free(temp);
+    modf((yarp::os::Time::now() * 100000.0), &intPart);
+    int64_t               asInt64 = (static_cast<int64_t>(intPart) % 10000000000);
+    
+    snprintf(buff, sizeof(buff), "/port_%llx", asInt64);
+    result = buff;
     return result;
 } // Endpoint::getRandomPortName
 

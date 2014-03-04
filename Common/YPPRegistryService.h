@@ -11,6 +11,8 @@
 
 # include "YPPBaseService.h"
 
+struct sqlite3;
+
 namespace YarpPlusPlus
 {
     /*! @brief The Yarp++ Service Registry service. */
@@ -19,9 +21,11 @@ namespace YarpPlusPlus
     public:
         
         /*! @brief The constructor.
+         @param useInMemoryDb @c true if the database is in-memory and @c false if a temporary disk file is to be used.
          @param serviceHostName The name or IP address of the machine running the service.
          @param servicePortNumber The port being used by the service. */
-        RegistryService(const yarp::os::ConstString & serviceHostName = "",
+        RegistryService(const bool                    useInMemoryDb = false,
+                        const yarp::os::ConstString & serviceHostName = "",
                         const yarp::os::ConstString & servicePortNumber = "");
         
         /*! @brief The destructor. */
@@ -70,8 +74,18 @@ namespace YarpPlusPlus
          @param other Another object to construct from. */
         RegistryService & operator=(const RegistryService & other);
         
+        /*! @brief Set up the service registry database.
+         @returns @c true if the database was set up and @c false otherwise. */
+        bool setUpDatabase(void);
+        
         /*! @brief Set up the standard request handlers. */
         void setUpRequestHandlers(void);
+        
+        /*! @brief The service registry database. */
+        sqlite3 * _db;
+        
+        /*! @brief @c true if the database is in-memory and @c false if it is disk-based. */
+        bool _inMemory;
         
         /*! @brief @c true if the registry service is fully operational and @c false if it could not be set up. */
         bool _isActive;
@@ -81,7 +95,7 @@ namespace YarpPlusPlus
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
         /*! @brief Filler to pad to alignment boundary */
-        char _filler[7];
+        char _filler[6];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

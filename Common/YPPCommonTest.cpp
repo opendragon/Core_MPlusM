@@ -37,6 +37,9 @@ using std::endl;
 # pragma mark Private structures and constants
 #endif // defined(__APPLE__)
 
+/*! @brief Set to @c true to use an in-memory database and @c false to use a disk-based database. */
+#define TEST_INMEMORY true
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -801,15 +804,15 @@ static int doCase13(const int argc,
         {
                 // Argument order for tests = endpoint name [, IP address / name [, port]]
             case 0:
-                stuff = new RegistryService();
+                stuff = new RegistryService(TEST_INMEMORY);
                 break;
                 
             case 1:
-                stuff = new RegistryService(*argv);
+                stuff = new RegistryService(TEST_INMEMORY, *argv);
                 break;
                 
             case 2:
-                stuff = new RegistryService(*argv, argv[1]);
+                stuff = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
                 break;
                 
             default:

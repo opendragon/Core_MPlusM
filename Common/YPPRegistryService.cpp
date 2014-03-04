@@ -13,7 +13,14 @@
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
 #include "YPPUnregisterRequestHandler.h"
-//#include 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wc++11-long-long"
+#endif // defined(__APPLE__)
+#include <sqlite3.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
 using namespace YarpPlusPlus;
 
@@ -61,9 +68,11 @@ bool RegistryService::registerLocalService(const yarp::os::ConstString & portNam
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RegistryService::RegistryService(const yarp::os::ConstString & serviceHostName,
+RegistryService::RegistryService(const bool                    useInMemoryDb,
+                                 const yarp::os::ConstString & serviceHostName,
                                  const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, YPP_SERVICE_REGISTRY_PORT_NAME, serviceHostName, servicePortNumber), _isActive(false)
+        inherited(true, YPP_SERVICE_REGISTRY_PORT_NAME, serviceHostName, servicePortNumber), _db(NULL),
+        _inMemory(useInMemoryDb), _isActive(false)
 {
     OD_SYSLOG_ENTER();//####
     setUpRequestHandlers();
@@ -73,12 +82,50 @@ RegistryService::RegistryService(const yarp::os::ConstString & serviceHostName,
 RegistryService::~RegistryService(void)
 {
     OD_SYSLOG_ENTER();//####
+    if (_db)
+    {
+        sqlite3_close(_db);
+    }
     OD_SYSLOG_EXIT();//####
 } // RegistryService::~RegistryService
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
+
+bool RegistryService::setUpDatabase(void)
+{
+    OD_SYSLOG_ENTER();//####
+    bool okSoFar = true;
+    int  sqlRes;
+    
+    if (! _db)
+    {
+        const char * dbFileName;
+        
+        if (_inMemory)
+        {
+            dbFileName = ":memory:";
+        }
+        else
+        {
+            dbFileName = "";
+        }
+        sqlRes = sqlite3_open(dbFileName, &_db);
+        if (SQLITE_OK != sqlRes)
+        {
+            okSoFar = false;
+            sqlite3_close(_db);
+            _db = NULL;
+        }
+    }
+    if (_db)
+    {
+        OD_SYSLOG("(_db)");//####
+    }
+    OD_SYSLOG_EXIT_B(okSoFar);//####
+    return okSoFar;
+} // RegistryService::setUpDatabase
 
 void RegistryService::setUpRequestHandlers(void)
 {
@@ -94,7 +141,7 @@ bool RegistryService::start(void)
     if ((! isActive()) && (! isStarted()))
     {
         BaseService::start();
-        if (isStarted())
+        if (isStarted() && setUpDatabase())
         {
             // Register ourselves!!!
             yarp::os::Bottle parameters(YPP_SERVICE_REGISTRY_PORT_NAME);
