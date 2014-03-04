@@ -117,13 +117,20 @@ bool Endpoint::checkEndpointName(const yarp::os::ConstString & portName)
 yarp::os::ConstString Endpoint::getRandomPortName(void)
 {
     yarp::os::ConstString result;
-    char                  buff[24];
+    char                  buff[32];
     double                intPart;
     
     modf((yarp::os::Time::now() * 100000.0), &intPart);
-    int64_t               asInt64 = (static_cast<int64_t>(intPart) % 10000000000);
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wc++11-long-long"
+#endif // defined(__APPLE__)
+    long long             asLongLong = (static_cast<long long>(intPart) % 10000000000);
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
     
-    snprintf(buff, sizeof(buff), "/port_%llx", asInt64);
+    sprintf(buff, "/port_%llx", asLongLong);
     result = buff;
     return result;
 } // Endpoint::getRandomPortName
