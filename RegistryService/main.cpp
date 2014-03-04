@@ -13,7 +13,9 @@
 #include <yarp/os/all.h>
 #include <yarp/conf/version.h>
 #include <iostream>
-#include <unistd.h>
+#if defined(__APPLE__)
+# include <unistd.h>
+#endif // defined(__APPLE__)
 #include <string.h>
 
 using namespace YarpPlusPlus;
@@ -80,13 +82,18 @@ int main(int      argc,
         {
             // Note that the Registry Service is self-registering... so we don't need to call registerLocalService().
             lKeepRunning = true;
+#if defined(__APPLE__)
             signal(SIGHUP, stopRunning);
             signal(SIGINT, stopRunning);
             signal(SIGINT, stopRunning);
             signal(SIGUSR1, stopRunning);
+#endif // defined(__APPLE__)
             for ( ; lKeepRunning; )
             {
+#if defined(__APPLE__)
+				//TODO: find windows equivalent
                 sleep(1);
+#endif // defined(__APPLE__)
             }
             stuff->stop();
         }
