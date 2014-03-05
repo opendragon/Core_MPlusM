@@ -36,6 +36,12 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 include_directories(${ACE_INCLUDE_DIRS})
 
 # find SQLite
+if(WIN32)
+	set(PC_SQLITE_INCLUDE_DIRS "D:/dev/yarp-2.3.22/extern/sqlite/sqlite")
+	set(PC_SQLITE_LIBRARY_DIRS "D:/dev/yarp-2.3.22/lib/Debug/")
+	set(PC_SQLITE_LIBRARIES "D:/dev/yarp-2.3.22/lib/Debug/YARP_sqlited.lib")
+endif(WIN32)
+
 find_package(SQLite REQUIRED)
 list(APPEND CMAKE_MODULE_PATH ${SQLite_MODULE_PATH})
 
