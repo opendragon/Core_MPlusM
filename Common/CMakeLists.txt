@@ -90,3 +90,11 @@ add_test(NAME TestRequestListFromService3 COMMAND CommonTest 12 "/service/test12
 add_test(NAME TestRequestRegisterService1 COMMAND CommonTest 13)
 add_test(NAME TestRequestRegisterService2 COMMAND CommonTest 13 "localhost")
 add_test(NAME TestRequestRegisterService3 COMMAND CommonTest 13 "localhost" "12340")
+# Test register request, second service
+add_test(NAME TestRequestRegisterService4 COMMAND CommonTest 14)
+add_test(NAME TestRequestRegisterService5 COMMAND CommonTest 14 "localhost")
+add_test(NAME TestRequestRegisterService6 COMMAND CommonTest 14 "localhost" "12340")
+# Test unregister request, second service
+add_test(NAME TestRequestUnregisterService1 COMMAND CommonTest 15)
+add_test(NAME TestRequestUnregisterService2 COMMAND CommonTest 15 "localhost")
+add_test(NAME TestRequestUnregisterService3 COMMAND CommonTest 15 "localhost" "12340")

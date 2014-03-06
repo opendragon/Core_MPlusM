@@ -36,6 +36,13 @@ namespace YarpPlusPlus
         bool send(Endpoint &        destination,
                   ServiceResponse * response = NULL);
         
+        /*! @brief Send the request to an endpoint for processing.
+         @param portName The port that is to receive the request.
+         @param response The response from the request, @c NULL if none is expected.
+         @returns @c true if the request was successfully transmitted. */
+        bool send(const yarp::os::ConstString & portName,
+                  ServiceResponse *             response = NULL);
+        
     protected:
         
     private:

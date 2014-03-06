@@ -7,7 +7,7 @@
 //
 
 #include "YPPServiceRequest.h"
-//#define ENABLE_OD_SYSLOG /* */
+#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPEndpoint.h"
 
@@ -111,6 +111,76 @@ bool ServiceRequest::send(Endpoint &        destination,
         else
         {
             OD_SYSLOG("! (outPort.addOutput(destination.getName()))");//####
+            result = false;
+        }
+        outPort.close();
+    }
+    else
+    {
+        OD_SYSLOG("! (outPort.open(aName))");//####
+        result = false;
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // ServiceRequest::send
+
+bool ServiceRequest::send(const yarp::os::ConstString & portName,
+                          ServiceResponse *             response)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("portName = ", portName.c_str());//####
+    // Now we try to connect!
+    yarp::os::Port        outPort;
+    yarp::os::ConstString aName = Endpoint::getRandomPortName();
+    bool                  result;
+    
+    OD_SYSLOG_S1("opening ", aName.c_str());//####
+    if (outPort.open(aName))
+    {
+        OD_SYSLOG("(outPort.open(aName))");//####
+        if (outPort.addOutput(portName))
+        {
+            OD_SYSLOG("(outPort.addOutput(portName))");//####
+            yarp::os::Bottle message;
+            
+            OD_SYSLOG_LL1("parameter size = ", _parameters.size());//####
+            for (int ii = 0; ii < _parameters.size(); ++ii)
+            {
+                OD_SYSLOG_S1("parameter = ", _parameters.get(ii).asString().c_str());//####
+            }
+            message.addString(_name);
+            message.append(_parameters);
+            if (response)
+            {
+                yarp::os::Bottle holder;
+                
+                if (outPort.write(message, holder))
+                {
+                    OD_SYSLOG("(outPort.write(message, holder))");//####
+                    OD_SYSLOG_S1("got ", holder.toString().c_str());//####
+                    *response = holder;
+                    result = true;
+                }
+                else
+                {
+                    OD_SYSLOG("! (outPort.write(message, holder))");//####
+                    result = false;
+                }
+            }
+            else if (outPort.write(message))
+            {
+                OD_SYSLOG("(outPort.write(message))");//####
+                result = true;
+            }
+            else
+            {
+                OD_SYSLOG("! (outPort.write(message))");//####
+                result = false;
+            }
+        }
+        else
+        {
+            OD_SYSLOG("! (outPort.addOutput(portName))");//####
             result = false;
         }
         outPort.close();

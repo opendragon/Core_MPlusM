@@ -82,6 +82,7 @@ int main(int      argc,
                 {
                     yarp::os::Time::delay(1.0);
                 }
+                YarpPlusPlus::RegistryService::unregisterLocalService(portName);
                 stuff->stop();
             }
             delete stuff;

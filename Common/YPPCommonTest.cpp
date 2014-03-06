@@ -17,6 +17,8 @@
 #include "Tests/YPPTTest10Service.h"
 #include "Tests/YPPTTest11Service.h"
 #include "Tests/YPPTTest12Service.h"
+#include "Tests/YPPTTest14Service.h"
+#include "Tests/YPPTTest15Service.h"
 #include "YPPBaseClient.h"
 #include "YPPEndpoint.h"
 #include "YPPRegistryService.h"
@@ -796,7 +798,7 @@ static int doCase13(const int argc,
                     char **   argv) // send 'register' request
 {
     int               result;
-    RegistryService * stuff = NULL;
+    RegistryService * registry = NULL;
     
     if (argc >= 0)
     {
@@ -804,15 +806,15 @@ static int doCase13(const int argc,
         {
                 // Argument order for tests = endpoint name [, IP address / name [, port]]
             case 0:
-                stuff = new RegistryService(TEST_INMEMORY);
+                registry = new RegistryService(TEST_INMEMORY);
                 break;
                 
             case 1:
-                stuff = new RegistryService(TEST_INMEMORY, *argv);
+                registry = new RegistryService(TEST_INMEMORY, *argv);
                 break;
                 
             case 2:
-                stuff = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
+                registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
                 break;
                 
             default:
@@ -820,11 +822,11 @@ static int doCase13(const int argc,
                 
         }
     }
-    if (stuff && stuff->start())
+    if (registry && registry->start())
     {
-        result = (stuff->isActive() ? 0 : 1);
-        stuff->stop();
-        delete stuff;
+        result = (registry->isActive() ? 0 : 1);
+        registry->stop();
+        delete registry;
     }
     else
     {
@@ -832,6 +834,167 @@ static int doCase13(const int argc,
     }
     return result;
 } // doCase13
+
+/*! @brief Perform a test case.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used for the test.
+ @returns @c 0 on success and @c 1 on failure. */
+static int doCase14(const int argc,
+                    char **   argv) // send 'register' request
+{
+    const char *      secondServicePort;
+    int               result;
+    RegistryService * registry = NULL;
+    
+    if (argc >= 0)
+    {
+        switch (argc)
+        {
+                // Argument order for tests = endpoint name [, IP address / name [, port]]
+            case 0:
+                registry = new RegistryService(TEST_INMEMORY);
+                secondServicePort = "/service/test14_1";
+                break;
+                
+            case 1:
+                registry = new RegistryService(TEST_INMEMORY, *argv);
+                secondServicePort = "/service/test14_2";
+                break;
+                
+            case 2:
+                registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
+                secondServicePort = "/service/test14_3";
+                break;
+                
+            default:
+                break;
+                
+        }
+    }
+    if (registry && registry->start())
+    {
+        if (registry->isActive())
+        {
+            // Now we start up another service (Test14Service) and register it
+            Test14Service * stuff = new Test14Service(1, const_cast<char * *>(&secondServicePort));
+            
+            if (stuff && stuff->start())
+            {
+                yarp::os::ConstString portName(stuff->getEndpoint().getName());
+
+                if (YarpPlusPlus::RegistryService::registerLocalService(portName))
+                {
+                    result = 0;
+                }
+                else
+                {
+                    result = 1;
+                }
+                stuff->stop();
+                delete stuff;
+            }
+            else
+            {
+                result = 1;
+            }
+        }
+        else
+        {
+            result = 1;
+        }
+        registry->stop();
+        delete registry;
+    }
+    else
+    {
+        result = 1;
+    }
+    return result;
+} // doCase14
+
+/*! @brief Perform a test case.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used for the test.
+ @returns @c 0 on success and @c 1 on failure. */
+static int doCase15(const int argc,
+                    char **   argv) // send 'register' request
+{
+    const char *      secondServicePort;
+    int               result;
+    RegistryService * registry = NULL;
+    
+    if (argc >= 0)
+    {
+        switch (argc)
+        {
+                // Argument order for tests = endpoint name [, IP address / name [, port]]
+            case 0:
+                registry = new RegistryService(TEST_INMEMORY);
+                secondServicePort = "/service/test15_1";
+                break;
+                
+            case 1:
+                registry = new RegistryService(TEST_INMEMORY, *argv);
+                secondServicePort = "/service/test15_2";
+                break;
+                
+            case 2:
+                registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
+                secondServicePort = "/service/test15_3";
+                break;
+                
+            default:
+                break;
+                
+        }
+    }
+    if (registry && registry->start())
+    {
+        if (registry->isActive())
+        {
+            // Now we start up another service (Test14Service) and register it
+            Test15Service * stuff = new Test15Service(1, const_cast<char * *>(&secondServicePort));
+            
+            if (stuff && stuff->start())
+            {
+                yarp::os::ConstString portName(stuff->getEndpoint().getName());
+                
+                if (YarpPlusPlus::RegistryService::registerLocalService(portName))
+                {
+                    if (YarpPlusPlus::RegistryService::unregisterLocalService(portName))
+                    {
+                        result = 0;
+                    }
+                    else
+                    {
+                        result = 1;
+                    }
+                }
+                else
+                {
+                    result = 1;
+                }
+                stuff->stop();
+                delete stuff;
+            }
+            else
+            {
+                result = 1;
+            }
+        }
+        else
+        {
+            result = 1;
+        }
+        registry->stop();
+        delete registry;
+    }
+    else
+    {
+        result = 1;
+    }
+    return result;
+} // doCase15
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -910,6 +1073,14 @@ int main(int      argc,
                 result = doCase13(argc - 1, argv + 2);
                 break;
                 
+            case 14:
+                result = doCase14(argc - 1, argv + 2);
+                break;
+                
+            case 15:
+                result = doCase15(argc - 1, argv + 2);
+                break;
+
             default:
                 result = 1;
                 break;

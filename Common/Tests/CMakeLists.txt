@@ -23,7 +23,11 @@ add_library(YPPTestSupport
             YPPTTest11EchoRequestHandler.cpp
             YPPTTest11Service.cpp
             YPPTTest12EchoRequestHandler.cpp
-            YPPTTest12Service.cpp)
+            YPPTTest12Service.cpp
+	    YPPTTest14EchoRequestHandler.cpp
+            YPPTTest14Service.cpp
+	    YPPTTest15EchoRequestHandler.cpp
+            YPPTTest15Service.cpp)
 
 install(TARGETS YPPTestSupport DESTINATION bin)
 install(FILES YPPTestSupport DESTINATION include)

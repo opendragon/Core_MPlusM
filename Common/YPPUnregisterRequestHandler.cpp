@@ -92,8 +92,15 @@ bool UnregisterRequestHandler::operator() (const yarp::os::Bottle &     restOfIn
                 if (Endpoint::checkEndpointName(argAsString))
                 {
                     // Forget the information associated with the port name
-                    
-                    reply.addString(YPP_OK_RESPONSE);
+                    if (_service.removeServiceRecord(argAsString))
+                    {
+                        reply.addString(YPP_OK_RESPONSE);
+                    }
+                    else
+                    {
+                        reply.addString(YPP_FAILED_RESPONSE);
+                        reply.addString("Could not remove service");
+                    }
                 }
                 else
                 {

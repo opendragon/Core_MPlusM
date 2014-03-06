@@ -15,6 +15,23 @@ struct sqlite3;
 
 namespace YarpPlusPlus
 {
+    /*! @brief The characteristics of a request. */
+    struct RequestDescription
+    {
+        /*! @brief The description of the request. */
+        yarp::os::ConstString _description;
+        /*! @brief The inputs descriptor for the request. */
+        yarp::os::ConstString _inputs;
+        /*! @brief The name of the request. */
+        yarp::os::ConstString _name;
+        /*! @brief The outputs descriptor for the request. */
+        yarp::os::ConstString _outputs;
+        /*! @brief The service port for the request. */
+        yarp::os::ConstString _port;
+        /*! @brief The version of the request. */
+        yarp::os::ConstString _version;
+    }; // RequestDescription
+    
     /*! @brief The Yarp++ Service Registry service. */
     class RegistryService : BaseService
     {
@@ -31,11 +48,25 @@ namespace YarpPlusPlus
         /*! @brief The destructor. */
         virtual ~RegistryService(void);
         
+        /*! @brief Add a request to the registry.
+         @param keywordList The list of keywords associated with the request.
+         @param description The attributes of the request.
+         @returns @c true if the request was successfully added and @c false otherwise. */
+        bool addRequestRecord(const yarp::os::Bottle &   keywordList,
+                              const RequestDescription & description);
+        
+        /*! @brief Return @c true if the service is active.
+         @returns @c true if the service is active and @c false otherwise. */
         inline bool isActive(void)
         const
         {
             return _isActive;
         } // isActive
+        
+        /*! @brief Remove a service entry from the registry.
+         @param servicePortName The service port that is being removed.
+         @returns @c true if the service was successfully removed and @c false otherwise. */
+        bool removeServiceRecord(const yarp::os::ConstString & servicePortName);
         
         /*! @brief Start processing requests.
          @returns @c true if the service was started and @c false if it was not. */
@@ -50,6 +81,11 @@ namespace YarpPlusPlus
          @returns @c true if the service was successfully registered and @c false otherwise. */
         static bool registerLocalService(const yarp::os::ConstString & portName);
         
+        /*! @brief Unregister a local service with a running Service Registry service.
+         @param portName The port provided by the service.
+         @returns @c true if the service was successfully unregistered and @c false otherwise. */
+        static bool unregisterLocalService(const yarp::os::ConstString & portName);
+
     protected:
         
     private:

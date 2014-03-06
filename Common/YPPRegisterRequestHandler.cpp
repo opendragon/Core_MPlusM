@@ -179,6 +179,8 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                 if (asDict->check(YPP_REQREP_DICT_NAME_KEY))
                 {
                     yarp::os::ConstString theName = asDict->find(YPP_REQREP_DICT_NAME_KEY).asString();
+                    yarp::os::Bottle      keywordList;
+                    RequestDescription    requestDescriptor;
 
                     OD_SYSLOG_S1("theName <- ", theName.c_str());//####
                     if (asDict->check(YPP_REQREP_DICT_DESCRIPTION_KEY))
@@ -188,7 +190,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                         OD_SYSLOG_S1("theDescription <- ", theDescription.toString().c_str());//####
                         if (theDescription.isString())
                         {
-                            //TBD!!
+                            requestDescriptor._description = theDescription.toString();
                         }
                         else
                         {
@@ -203,7 +205,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                         OD_SYSLOG_S1("theInputs <- ", theInputs.toString().c_str());//####
                         if (theInputs.isString())
                         {
-                            //TBD!!
+                            requestDescriptor._inputs = theInputs.toString();
                         }
                         else
                         {
@@ -218,7 +220,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                         OD_SYSLOG_S1("theKeywords <- ", theKeywords.toString().c_str());//####
                         if (theKeywords.isList())
                         {
-                            //TBD!!
+                            keywordList = *theKeywords.asList();
                         }
                         else
                         {
@@ -233,7 +235,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                         OD_SYSLOG_S1("theOutputs <- ", theOutputs.toString().c_str());//####
                         if (theOutputs.isString())
                         {
-                            //TBD!!
+                            requestDescriptor._outputs = theOutputs.toString();
                         }
                         else
                         {
@@ -248,7 +250,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                         OD_SYSLOG_S1("theVersion <- ", theVersion.toString().c_str());//####
                         if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
                         {
-                            //TBD!!
+                            requestDescriptor._version = theVersion.toString();
                         }
                         else
                         {
@@ -258,7 +260,9 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                     }
                     if (result)
                     {
-                        
+                        requestDescriptor._name = theName;
+                        requestDescriptor._port = portName;
+                        result = _service.addRequestRecord(keywordList, requestDescriptor);
                     }
                 }
                 else
@@ -282,7 +286,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
     if (! result)
     {
         // We need to remove any values that we've recorded for this port!
-        //TBD!!
+        _service.removeServiceRecord(portName);
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
