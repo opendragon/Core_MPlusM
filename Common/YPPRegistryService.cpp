@@ -228,9 +228,8 @@ static bool constructTables(sqlite3 * database)
             "CREATE TABLE IF NOT EXISTS " KEYWORDS_TABLE_NAME_ "("
                 " " KEYWORD_COLUMN_NAME_ " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT IGNORE)",
             "CREATE TABLE IF NOT EXISTS " REQUESTS_TABLE_NAME_ "("
-//                " " PORTNAME_COLUMN_NAME_ "    Text NOT NULL DEFAULT _ REFERENCES " SERVICES_TABLE_NAME_ "(" PORTNAME_COLUMN_NAME_ "),"
                 " " PORTNAME_COLUMN_NAME_ "    Text NOT NULL DEFAULT _ REFERENCES " SERVICES_TABLE_NAME_ "("
-                    PORTNAME_COLUMN_NAME_ ") ON DELETE CASCADE,"
+                    PORTNAME_COLUMN_NAME_ "),"
                 " " REQUEST_COLUMN_NAME_ "     Text NOT NULL DEFAULT _,"
                 " " INPUT_COLUMN_NAME_ "       Text,"
                 " " OUTPUT_COLUMN_NAME_ "      Text,"
@@ -447,6 +446,68 @@ static int setupInsertForServices(sqlite3_stmt * statement,
     return result;
 } // setupInsertForServices
 
+/*! @brief Bind the values that are to be removed from the Requests table.
+ @param statement The prepared statement that is to be updated.
+ @param stuff The source of data that is to be bound.
+ @returns The SQLite error from the bind operation. */
+static int setupRemoveForRequests(sqlite3_stmt * statement,
+                                  const void *   stuff)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P2("statement = ", statement, "stuff = ", stuff);//####
+    int portNameIndex = sqlite3_bind_parameter_index(statement, "@" PORTNAME_COLUMN_NAME_);
+    int result;
+    
+    if (0 < portNameIndex)
+    {
+        const char * portName = static_cast<const char *>(stuff);
+        
+        result = sqlite3_bind_text(statement, portNameIndex, portName, static_cast<int>(strlen(portName)),
+                                   SQLITE_TRANSIENT);
+        if (SQLITE_OK != result)
+        {
+            OD_SYSLOG_S1("error description: ", sqlite3_errstr(result));//####
+        }
+    }
+    else
+    {
+        result = SQLITE_MISUSE;
+    }
+    OD_SYSLOG_EXIT_LL(result);
+    return result;
+} // setupRemoveForRequests
+
+/*! @brief Bind the values that are to be removed from the RequestsKeywords table.
+ @param statement The prepared statement that is to be updated.
+ @param stuff The source of data that is to be bound.
+ @returns The SQLite error from the bind operation. */
+static int setupRemoveForRequestsKeywords(sqlite3_stmt * statement,
+                                          const void *   stuff)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P2("statement = ", statement, "stuff = ", stuff);//####
+    int portNameIndex = sqlite3_bind_parameter_index(statement, "@" PORTNAME_COLUMN_NAME_);
+    int result;
+    
+    if (0 < portNameIndex)
+    {
+        const char * portName = static_cast<const char *>(stuff);
+        
+        result = sqlite3_bind_text(statement, portNameIndex, portName, static_cast<int>(strlen(portName)),
+                                   SQLITE_TRANSIENT);
+        if (SQLITE_OK != result)
+        {
+            OD_SYSLOG_S1("error description: ", sqlite3_errstr(result));//####
+        }
+    }
+    else
+    {
+        result = SQLITE_MISUSE;
+    }
+    OD_SYSLOG_EXIT_LL(result);
+    return result;
+} // setupRemoveForRequestsKeywords
+
 /*! @brief Bind the values that are to be removed from the Services table.
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
@@ -587,30 +648,30 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceP
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("servicePortName = ", servicePortName.c_str());//####
     bool                okSoFar = performSQLstatementWithNoResults(_db, kBeginTransaction);
-    
-//    static const char * removeFromRequests = "DELETE FROM " REQUESTS_TABLE_NAME_ " WHERE " PORTNAME_COLUMN_NAME_ " = @" PORTNAME_COLUMN_NAME_;
-    
-    
-    
-    
-    
-    
-    
-    
+    static const char * removeFromRequests = "DELETE FROM " REQUESTS_TABLE_NAME_ " WHERE " PORTNAME_COLUMN_NAME_ " = @"
+                                                PORTNAME_COLUMN_NAME_;
+    static const char * removeFromRequestsKeywords = "DELETE FROM " REQUESTSKEYWORDS_TABLE_NAME_ " WHERE "
+                                                        REQUESTS_ID_COLUMN_NAME_ " IN (SELECT " KEY_COLUMN_NAME_
+                                                        " FROM " REQUESTS_TABLE_NAME_ " WHERE " PORTNAME_COLUMN_NAME_
+                                                        " = @" PORTNAME_COLUMN_NAME_ ")";
     static const char * removeFromServices = "DELETE FROM " SERVICES_TABLE_NAME_ " WHERE " PORTNAME_COLUMN_NAME_ " = @"
                                                 PORTNAME_COLUMN_NAME_;
     
-    // For each request provided by the service
-    //    Remove it's RequestsKeywords
-    //    Remove the request
-    // Remove the service
-    
-    // DELETE FROM Services WHERE portName = ?1
-    
-    // Note that this should be do-able with the proper linkage settings...
     if (okSoFar)
     {
-        // Add the service port name.
+        // Remove the service port requests.
+        okSoFar = performSQLstatementWithNoResults(_db, removeFromRequestsKeywords, setupRemoveForRequestsKeywords,
+                                                   static_cast<const void *>(servicePortName.c_str()));
+    }
+    if (okSoFar)
+    {
+        // Remove the service port requests.
+        okSoFar = performSQLstatementWithNoResults(_db, removeFromRequests, setupRemoveForRequests,
+                                                   static_cast<const void *>(servicePortName.c_str()));
+    }
+    if (okSoFar)
+    {
+        // Remove the service port name.
         okSoFar = performSQLstatementWithNoResults(_db, removeFromServices, setupRemoveForServices,
                                                    static_cast<const void *>(servicePortName.c_str()));
     }

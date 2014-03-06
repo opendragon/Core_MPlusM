@@ -65,11 +65,13 @@ void ListRequestHandler::fillInDescription(yarp::os::Property & info)
     asList->addString("requests");
     asList->addString("methods");
     asList->addString("operations");
+#if 0
     asList->addString("key-" YPP_REQREP_DICT_REQUEST_KEY);
     asList->addString("key-" YPP_REQREP_DICT_OUTPUT_KEY);
     asList->addString("key-" YPP_REQREP_DICT_INPUT_KEY);
     asList->addString("key-" YPP_REQREP_DICT_VERSION_KEY);
     asList->addString("key-" YPP_REQREP_DICT_DESCRIPTION_KEY);
+#endif//0
     info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
     OD_SYSLOG_EXIT();//####
 } // ListRequestHandler::fillInDescription
