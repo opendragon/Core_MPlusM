@@ -12,7 +12,7 @@ cmake_minimum_required(VERSION 2.6)
 project(YARPPlusPlus)
 
 set(YPP_VERSION_MAJOR 0)
-set(YPP_VERSION_MINOR 8)
+set(YPP_VERSION_MINOR 9)
 set(YPP_VERSION_PATCH 0)
 
 set(DEBUGGING_DIR "${PROJECT_SOURCE_DIR}/Debugging")
@@ -50,8 +50,10 @@ include_directories(${SQLite_INCLUDE_DIRS})
 
 add_subdirectory(Common)
 add_subdirectory(Debugging)
-add_subdirectory(ExampleClient)
-add_subdirectory(ExampleService)
+add_subdirectory(ExampleEchoClient)
+add_subdirectory(ExampleEchoService)
+add_subdirectory(ExampleRandomNumberClient)
+add_subdirectory(ExampleRandomNumberService)
 add_subdirectory(RegistryService)
 
 include_directories("${DEBUGGING_DIR}"

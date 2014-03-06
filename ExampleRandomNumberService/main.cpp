@@ -1,5 +1,5 @@
 //
-//  ExampleService/main.cpp
+//  ExampleRandomNumberService/main.cpp
 //  YarpPlusPlus
 //
 //  Created by Norman Jaffe on 2014-02-06.
@@ -9,8 +9,9 @@
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPEndpoint.h"
-#include "YPPExampleService.h"
+#include "YPPExampleRandomNumberService.h"
 #include "YPPRegistryService.h"
+#include <ace/Version.h>
 #include <yarp/os/all.h>
 #include <yarp/conf/version.h>
 #include <iostream>
@@ -60,16 +61,17 @@ int main(int      argc,
     OD_SYSLOG_ENTER();//####
     yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
 
-    cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << endl;
+    cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << ", ACE Version = " <<
+            ACE_VERSION << endl;
     if (argc > 1)
     {
-        ExampleService * stuff = new ExampleService(argc - 1, argv + 1);
+        ExampleRandomNumberService * stuff = new ExampleRandomNumberService(argc - 1, argv + 1);
         
         if (stuff)
         {
             yarp::os::ConstString portName(stuff->getEndpoint().getName());
 
-            if (stuff->start() && YarpPlusPlus::RegistryService::registerLocalService(portName))
+            if (stuff->start() && YarpPlusPlus::registerLocalService(portName))
             {
                 lKeepRunning = true;
 #if (defined(__APPLE__) || defined(__linux__))
@@ -82,7 +84,7 @@ int main(int      argc,
                 {
                     yarp::os::Time::delay(1.0);
                 }
-                YarpPlusPlus::RegistryService::unregisterLocalService(portName);
+                YarpPlusPlus::unregisterLocalService(portName);
                 stuff->stop();
             }
             delete stuff;

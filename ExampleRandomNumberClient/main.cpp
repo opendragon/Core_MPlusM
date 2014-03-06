@@ -1,14 +1,15 @@
 //
-//  ExampleClient/main.cpp
+//  ExampleRandomNumberClient/main.cpp
 //  YarpPlusPlus
 //
-//  Created by Norman Jaffe on 2014-02-06.
+//  Created by Norman Jaffe on 2014-03-06.
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include "YPPExampleClient.h"
+#include "YPPExampleRandomNumberClient.h"
+#include <ace/Version.h>
 #include <yarp/os/all.h>
 #include <yarp/conf/version.h>
 #include <iostream>
@@ -47,8 +48,9 @@ int main(int      argc,
     OD_SYSLOG_ENTER();//####
     yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
 
-    cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << endl;
-    ExampleClient * stuff = new ExampleClient;
+    cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << ", ACE Version = " <<
+            ACE_VERSION << endl;
+    ExampleRandomNumberClient * stuff = new ExampleRandomNumberClient;
     
     delete stuff;
     OD_SYSLOG_EXIT_L(0);//####

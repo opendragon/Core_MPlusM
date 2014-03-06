@@ -7,7 +7,7 @@
 //
 
 #include "YPPTTest09DefaultRequestHandler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 
 using namespace YarpPlusPlusTest;

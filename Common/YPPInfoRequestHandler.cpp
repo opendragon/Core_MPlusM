@@ -34,7 +34,7 @@ using namespace YarpPlusPlus;
 #endif // defined(__APPLE__)
 
 InfoRequestHandler::InfoRequestHandler(void) :
-        inherited(YPP_LIST_REQUEST)
+        inherited(YPP_INFO_REQUEST)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT_P(this);//####

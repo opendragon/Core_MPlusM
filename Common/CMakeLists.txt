@@ -98,3 +98,7 @@ add_test(NAME TestRequestRegisterService6 COMMAND CommonTest 14 "localhost" "123
 add_test(NAME TestRequestUnregisterService1 COMMAND CommonTest 15)
 add_test(NAME TestRequestUnregisterService2 COMMAND CommonTest 15 "localhost")
 add_test(NAME TestRequestUnregisterService3 COMMAND CommonTest 15 "localhost" "12340")
+# Test search for request / service
+add_test(NAME TestRequestSearchService1 COMMAND CommonTest 16)
+add_test(NAME TestRequestSearchService2 COMMAND CommonTest 16 "localhost")
+add_test(NAME TestRequestSearchService3 COMMAND CommonTest 16 "localhost" "12340")

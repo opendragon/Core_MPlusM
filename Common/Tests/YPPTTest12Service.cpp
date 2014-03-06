@@ -7,7 +7,7 @@
 //
 
 #include "YPPTTest12Service.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPTTest12EchoRequestHandler.h"
 #include "../YPPRequests.h"
@@ -35,7 +35,7 @@ Test12Service::Test12Service(const int argc,
         inherited(true, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
-    _requestHandlers.registerRequestHandler(YPP_ECHO_REQUEST, new Test12EchoRequestHandler());
+    _requestHandlers.registerRequestHandler(new Test12EchoRequestHandler());
     OD_SYSLOG_EXIT_P(this);//####
 } // Test12Service::Test12Service
 

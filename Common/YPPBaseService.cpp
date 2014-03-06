@@ -32,58 +32,6 @@ using namespace YarpPlusPlus;
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-bool BaseService::registerLocalService(const yarp::os::ConstString & portName)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("portName = ", portName.c_str());//####
-    bool             result = false;
-    yarp::os::Bottle parameters(portName);
-    ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
-    ServiceResponse  response;
-    
-    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, &response))
-    {
-        // Check that we got a successful self-registration!
-        if (1 == response.count())
-        {
-            yarp::os::Value theValue = response.element(0);
-            
-            if (theValue.isString())
-            {
-                result = (theValue.toString() == YPP_OK_RESPONSE);
-            }
-        }
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // BaseService::registerLocalService
-
-bool BaseService::unregisterLocalService(const yarp::os::ConstString & portName)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("portName = ", portName.c_str());//####
-    bool             result = false;
-    yarp::os::Bottle parameters(portName);
-    ServiceRequest   request(YPP_UNREGISTER_REQUEST, parameters);
-    ServiceResponse  response;
-    
-    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, &response))
-    {
-        // Check that we got a successful self-registration!
-        if (1 == response.count())
-        {
-            yarp::os::Value theValue = response.element(0);
-            
-            if (theValue.isString())
-            {
-                result = (theValue.toString() == YPP_OK_RESPONSE);
-            }
-        }
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // BaseService::unregisterLocalService
-
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
@@ -178,8 +126,8 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
 void BaseService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
-    _requestHandlers.registerRequestHandler(YPP_INFO_REQUEST, new InfoRequestHandler());
-    _requestHandlers.registerRequestHandler(YPP_LIST_REQUEST, new ListRequestHandler());
+    _requestHandlers.registerRequestHandler(new InfoRequestHandler());
+    _requestHandlers.registerRequestHandler(new ListRequestHandler());
     OD_SYSLOG_EXIT();//####
 } // BaseService::setUpRequestHandlers
 
@@ -244,3 +192,55 @@ bool BaseService::stop(void)
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
+
+bool YarpPlusPlus::registerLocalService(const yarp::os::ConstString & portName)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("portName = ", portName.c_str());//####
+    bool             result = false;
+    yarp::os::Bottle parameters(portName);
+    ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
+    ServiceResponse  response;
+    
+    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, &response))
+    {
+        // Check that we got a successful self-registration!
+        if (1 == response.count())
+        {
+            yarp::os::Value theValue = response.element(0);
+            
+            if (theValue.isString())
+            {
+                result = (theValue.toString() == YPP_OK_RESPONSE);
+            }
+        }
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // registerLocalService
+
+bool YarpPlusPlus::unregisterLocalService(const yarp::os::ConstString & portName)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("portName = ", portName.c_str());//####
+    bool             result = false;
+    yarp::os::Bottle parameters(portName);
+    ServiceRequest   request(YPP_UNREGISTER_REQUEST, parameters);
+    ServiceResponse  response;
+    
+    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, &response))
+    {
+        // Check that we got a successful self-registration!
+        if (1 == response.count())
+        {
+            yarp::os::Value theValue = response.element(0);
+            
+            if (theValue.isString())
+            {
+                result = (theValue.toString() == YPP_OK_RESPONSE);
+            }
+        }
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // unregisterLocalService

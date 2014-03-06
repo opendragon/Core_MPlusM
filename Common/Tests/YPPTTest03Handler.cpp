@@ -7,7 +7,7 @@
 //
 
 #include "YPPTTest03Handler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 
 using namespace YarpPlusPlusTest;
@@ -48,10 +48,13 @@ Test03Handler::~Test03Handler(void)
 bool Test03Handler::handleInput(const yarp::os::Bottle &     input,
                                 yarp::os::ConnectionWriter * replyMechanism)
 {
+#if (! defined(ENABLE_OD_SYSLOG))
+# pragma unused(input,replyMechanism)
+#endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     OD_SYSLOG_S1("got ", input.toString().c_str());//####
-    OD_SYSLOG_EXIT_B(TRUE);//####
+    OD_SYSLOG_EXIT_B(true);//####
     return true;
 } // Test03Handler::handleInput
 

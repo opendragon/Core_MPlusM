@@ -19,12 +19,14 @@
 #include "Tests/YPPTTest12Service.h"
 #include "Tests/YPPTTest14Service.h"
 #include "Tests/YPPTTest15Service.h"
+#include "Tests/YPPTTest16Service.h"
 #include "YPPBaseClient.h"
 #include "YPPEndpoint.h"
 #include "YPPRegistryService.h"
 #include "YPPRequestHandler.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
+#include <ace/Version.h>
 #include <iostream>
 #include <yarp/conf/version.h>
 #include <yarp/os/all.h>
@@ -850,7 +852,7 @@ static int doCase14(const int argc,
     {
         switch (argc)
         {
-                // Argument order for tests = endpoint name [, IP address / name [, port]]
+            // Argument order for tests = endpoint name [, IP address / name [, port]]
             case 0:
                 registry = new RegistryService(TEST_INMEMORY);
                 secondServicePort = "/service/test14_1";
@@ -882,7 +884,7 @@ static int doCase14(const int argc,
             {
                 yarp::os::ConstString portName(stuff->getEndpoint().getName());
 
-                if (YarpPlusPlus::RegistryService::registerLocalService(portName))
+                if (YarpPlusPlus::registerLocalService(portName))
                 {
                     result = 0;
                 }
@@ -927,7 +929,7 @@ static int doCase15(const int argc,
     {
         switch (argc)
         {
-                // Argument order for tests = endpoint name [, IP address / name [, port]]
+            // Argument order for tests = endpoint name [, IP address / name [, port]]
             case 0:
                 registry = new RegistryService(TEST_INMEMORY);
                 secondServicePort = "/service/test15_1";
@@ -952,16 +954,16 @@ static int doCase15(const int argc,
     {
         if (registry->isActive())
         {
-            // Now we start up another service (Test14Service) and register it
+            // Now we start up another service (Test15Service) and register it
             Test15Service * stuff = new Test15Service(1, const_cast<char * *>(&secondServicePort));
             
             if (stuff && stuff->start())
             {
                 yarp::os::ConstString portName(stuff->getEndpoint().getName());
                 
-                if (YarpPlusPlus::RegistryService::registerLocalService(portName))
+                if (YarpPlusPlus::registerLocalService(portName))
                 {
-                    if (YarpPlusPlus::RegistryService::unregisterLocalService(portName))
+                    if (YarpPlusPlus::unregisterLocalService(portName))
                     {
                         result = 0;
                     }
@@ -996,6 +998,100 @@ static int doCase15(const int argc,
     return result;
 } // doCase15
 
+/*! @brief Perform a test case.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used for the test.
+ @returns @c 0 on success and @c 1 on failure. */
+static int doCase16(const int argc,
+                    char **   argv) // send 'register' request
+{
+    const char *      secondServicePort;
+    int               result;
+    RegistryService * registry = NULL;
+    
+    if (argc >= 0)
+    {
+        switch (argc)
+        {
+            // Argument order for tests = endpoint name [, IP address / name [, port]]
+            case 0:
+                registry = new RegistryService(TEST_INMEMORY);
+                secondServicePort = "/service/test16_1";
+                break;
+                
+            case 1:
+                registry = new RegistryService(TEST_INMEMORY, *argv);
+                secondServicePort = "/service/test16_2";
+                break;
+                
+            case 2:
+                registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
+                secondServicePort = "/service/test16_3";
+                break;
+                
+            default:
+                break;
+                
+        }
+    }
+    if (registry && registry->start())
+    {
+        if (registry->isActive())
+        {
+            // Now we start up another service (Test14Service) and register it
+            Test16Service * stuff = new Test16Service(1, const_cast<char * *>(&secondServicePort));
+            
+            if (stuff && stuff->start())
+            {
+                yarp::os::ConstString portName(stuff->getEndpoint().getName());
+                
+                if (YarpPlusPlus::registerLocalService(portName))
+                {
+                    // Search!!!
+                    
+                    
+                    result = 0;
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+#if 0
+                    if (! YarpPlusPlus::unregisterLocalService(portName))
+                    {
+                        result = 1;
+                    }
+#endif//0
+                }
+                else
+                {
+                    result = 1;
+                }
+                stuff->stop();
+                delete stuff;
+            }
+            else
+            {
+                result = 1;
+            }
+        }
+        else
+        {
+            result = 1;
+        }
+        registry->stop();
+        delete registry;
+    }
+    else
+    {
+        result = 1;
+    }
+    return result;
+} // doCase16
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -1010,7 +1106,8 @@ int main(int      argc,
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
                    kODSyslogOptionEnableThreadSupport);//####
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S2("YARP Version = ", YARP_VERSION_STRING, "YARP++ Version = ", YPP_VERSION);//####
+    OD_SYSLOG_S3("YARP Version = ", YARP_VERSION_STRING, "YARP++ Version = ", YPP_VERSION, "ACE Version = ",//####
+                 ACE_VERSION);//####
     yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
     int               result;
     
@@ -1081,6 +1178,10 @@ int main(int      argc,
                 result = doCase15(argc - 1, argv + 2);
                 break;
 
+            case 16:
+                result = doCase16(argc - 1, argv + 2);
+                break;
+                
             default:
                 result = 1;
                 break;

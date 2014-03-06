@@ -6,3 +6,9 @@ install_manifest.txt
 *.a
 Testing
 Doxygen_output
+Common/test.db
+ExampleEchoClient/ExampleEchoClient
+ExampleEchoService/ExampleEchoService
+ExampleRandomNumberClient/ExampleRandomNumberClient
+ExampleRandomNumberService/ExampleRandomNumberService
+YarpPlusPlus/YarpPlusPlus.xcodeproj/project.xcworkspace/xcshareddata/YarpPlusPlus.xccheckout

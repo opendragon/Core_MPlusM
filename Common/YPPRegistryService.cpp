@@ -729,8 +729,8 @@ bool RegistryService::setUpDatabase(void)
 void RegistryService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
-    _requestHandlers.registerRequestHandler(YPP_REGISTER_REQUEST, new RegisterRequestHandler(*this));
-    _requestHandlers.registerRequestHandler(YPP_UNREGISTER_REQUEST, new UnregisterRequestHandler(*this));
+    _requestHandlers.registerRequestHandler(new RegisterRequestHandler(*this));
+    _requestHandlers.registerRequestHandler(new UnregisterRequestHandler(*this));
     OD_SYSLOG_EXIT();//####
 } // RegistryService::setUpRequestHandlers
 

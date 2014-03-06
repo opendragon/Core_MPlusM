@@ -1,13 +1,13 @@
 //
-//  YPPTTest12EchoRequestHandler.cpp
+//  YPPTTest16EchoRequestHandler.cpp
 //  YarpPlusPlus
 //
-//  Created by Norman Jaffe on 2014-02-28.
+//  Created by Norman Jaffe on 2014-03-06.
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#include "YPPTTest12EchoRequestHandler.h"
-//#define ENABLE_OD_SYSLOG /* */
+#include "YPPTTest16EchoRequestHandler.h"
+#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "../YPPRequests.h"
 
@@ -32,24 +32,24 @@ using namespace YarpPlusPlusTest;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-Test12EchoRequestHandler::Test12EchoRequestHandler(void) :
+Test16EchoRequestHandler::Test16EchoRequestHandler(void) :
         inherited(YPP_ECHO_REQUEST)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT_P(this);//####
-} // Test12EchoRequestHandler::Test12EchoRequestHandler
+} // Test16EchoRequestHandler::Test16EchoRequestHandler
 
-Test12EchoRequestHandler::~Test12EchoRequestHandler(void)
+Test16EchoRequestHandler::~Test16EchoRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // Test12EchoRequestHandler::~Test12EchoRequestHandler
+} // Test16EchoRequestHandler::~Test16EchoRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test12EchoRequestHandler::fillInDescription(yarp::os::Property & info)
+void Test16EchoRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
     info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_ECHO_REQUEST);
@@ -61,11 +61,13 @@ void Test12EchoRequestHandler::fillInDescription(yarp::os::Property & info)
     yarp::os::Bottle * asList = keywords.asList();
     
     asList->addString(YPP_ECHO_REQUEST);
+    asList->addString("blorg");
+    asList->addString("blirg");
     info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
     OD_SYSLOG_EXIT();//####
-} // Test12EchoRequestHandler::fillInDescription
+} // Test16EchoRequestHandler::fillInDescription
 
-bool Test12EchoRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
+bool Test16EchoRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
                                            yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
@@ -80,7 +82,7 @@ bool Test12EchoRequestHandler::operator() (const yarp::os::Bottle &     restOfIn
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
-} // Test12EchoRequestHandler::operator()
+} // Test16EchoRequestHandler::operator()
 
 #if defined(__APPLE__)
 # pragma mark Accessors

@@ -7,7 +7,7 @@
 //
 
 #include "YPPTTest10Service.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPTTest10DefaultRequestHandler.h"
 

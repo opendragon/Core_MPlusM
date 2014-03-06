@@ -77,16 +77,6 @@ namespace YarpPlusPlus
          @returns @c true if the service was stopped and @c false it if was not. */
         virtual bool stop(void);
         
-        /*! @brief Register a local service with a running Service Registry service.
-         @param portName The port provided by the service.
-         @returns @c true if the service was successfully registered and @c false otherwise. */
-        static bool registerLocalService(const yarp::os::ConstString & portName);
-        
-        /*! @brief Unregister a local service with a running Service Registry service.
-         @param portName The port provided by the service.
-         @returns @c true if the service was successfully unregistered and @c false otherwise. */
-        static bool unregisterLocalService(const yarp::os::ConstString & portName);
-        
     protected:
         
         /*! @brief The map between requests and request handlers. */
@@ -135,6 +125,16 @@ namespace YarpPlusPlus
 # endif // defined(__APPLE__)
         
     }; // BaseService
+    
+    /*! @brief Register a local service with a running Service Registry service.
+     @param portName The port provided by the service.
+     @returns @c true if the service was successfully registered and @c false otherwise. */
+    bool registerLocalService(const yarp::os::ConstString & portName);
+    
+    /*! @brief Unregister a local service with a running Service Registry service.
+     @param portName The port provided by the service.
+     @returns @c true if the service was successfully unregistered and @c false otherwise. */
+    bool unregisterLocalService(const yarp::os::ConstString & portName);
     
 } // YarpPlusPlus
 

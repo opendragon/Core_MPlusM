@@ -7,7 +7,7 @@
 //
 
 #include "YPPTTest14Service.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPTTest14EchoRequestHandler.h"
 #include "../YPPRequests.h"
@@ -35,7 +35,7 @@ Test14Service::Test14Service(const int argc,
         inherited(true, argc, argv)
 {
     OD_SYSLOG_ENTER();//####
-    _requestHandlers.registerRequestHandler(YPP_ECHO_REQUEST, new Test14EchoRequestHandler());
+    _requestHandlers.registerRequestHandler(new Test14EchoRequestHandler());
     OD_SYSLOG_EXIT_P(this);//####
 } // Test14Service::Test14Service
 

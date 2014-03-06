@@ -7,7 +7,7 @@
 //
 
 #include "YPPTTest11EchoRequestHandler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "../YPPRequests.h"
 

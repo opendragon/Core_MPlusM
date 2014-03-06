@@ -7,7 +7,7 @@
 //
 
 #include "YPPTTest05HandlerCreator.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPTTest05Handler.h"
 

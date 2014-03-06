@@ -99,20 +99,15 @@ RequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstString & 
     return result;
 } // RequestMap::lookupRequestHandler
 
-void RequestMap::registerRequestHandler(const yarp::os::ConstString & request,
-                                        RequestHandler *              handler)
+void RequestMap::registerRequestHandler(RequestHandler * handler)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("request = ", request.c_str());//####
     OD_SYSLOG_P1("handler = ", handler);//####
+
     if (handler)
     {
-        _handlers.insert(RequestHandlerMapValue(std::string(request), handler));
+        _handlers.insert(RequestHandlerMapValue(std::string(handler->name()), handler));
         handler->setOwner(*this);
-    }
-    else
-    {
-        _handlers.erase(std::string(request));
     }
     OD_SYSLOG_LL1("_handlers.size = ", _handlers.size());//####
     OD_SYSLOG_EXIT();//####
@@ -121,9 +116,23 @@ void RequestMap::registerRequestHandler(const yarp::os::ConstString & request,
 void RequestMap::setDefaultRequestHandler(RequestHandler * handler)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("handler = ", handler);//####
     _defaultHandler = handler;
     OD_SYSLOG_EXIT();//####
 } // RequestMap::setDefaultRequestHandler
+
+void RequestMap::unregisterRequestHandler(RequestHandler * handler)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("handler = ", handler);//####
+    
+    if (handler)
+    {
+        _handlers.erase(std::string(handler->name()));
+    }
+    OD_SYSLOG_LL1("_handlers.size = ", _handlers.size());//####
+    OD_SYSLOG_EXIT();//####
+} // RequestMap::unregisterRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Accessors

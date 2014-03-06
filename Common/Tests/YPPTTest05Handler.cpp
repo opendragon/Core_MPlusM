@@ -7,7 +7,7 @@
 //
 
 #include "YPPTTest05Handler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 
 using namespace YarpPlusPlusTest;
@@ -57,7 +57,7 @@ bool Test05Handler::handleInput(const yarp::os::Bottle &     input,
         
         inputCopy.write(*replyMechanism);
     }
-    OD_SYSLOG_EXIT_B(TRUE);//####
+    OD_SYSLOG_EXIT_B(true);//####
     return true;
 } // Test05Handler::handleInput
 

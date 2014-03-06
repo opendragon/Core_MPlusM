@@ -47,15 +47,17 @@ namespace YarpPlusPlus
         RequestHandler * lookupRequestHandler(const yarp::os::ConstString & request);
 
         /*! @brief Remember the function to be used to handle a particular request.
-         @param request The requested operation.
-         @param handler The function to be called for the operation. */
-        void registerRequestHandler(const yarp::os::ConstString & request,
-                                    RequestHandler *              handler);
+         @param handler The function to be called for the request. */
+        void registerRequestHandler(RequestHandler * handler);
         
         /*! @brief Remember the function to be used to handle unrecognized requests.
          @param handler The function to be called by default. */
         void setDefaultRequestHandler(RequestHandler * handler);
 
+        /*! @brief Forget the function to be used to handle a particular request.
+         @param handler The function that was called for the request. */
+        void unregisterRequestHandler(RequestHandler * handler);
+        
     protected:
         
     private:

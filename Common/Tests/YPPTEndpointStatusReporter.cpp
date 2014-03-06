@@ -7,7 +7,7 @@
 //
 
 #include "YPPTEndpointStatusReporter.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include <yarp/os/PortInfo.h>
 
@@ -44,6 +44,9 @@ EndpointStatusReporter::~EndpointStatusReporter(void)
 
 void EndpointStatusReporter::report(const yarp::os::PortInfo & info)
 {
+#if (! defined(ENABLE_OD_SYSLOG))
+# pragma unused(info)
+#endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_LL1("tag = ", info.tag);
     OD_SYSLOG_B2("incoming = ", info.incoming, "created = ", info.created);
     OD_SYSLOG_S4("portName = ", info.portName.c_str(), "sourceName = ", info.sourceName.c_str(),

@@ -1,5 +1,5 @@
 //
-//  RegistryService/main.cpp
+//  ExampleEchoService/main.cpp
 //  YarpPlusPlus
 //
 //  Created by Norman Jaffe on 2014-02-06.
@@ -8,18 +8,18 @@
 
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPEndpoint.h"
+#include "YPPExampleEchoService.h"
 #include "YPPRegistryService.h"
-#include "YPPRequests.h"
 #include <ace/Version.h>
 #include <yarp/os/all.h>
 #include <yarp/conf/version.h>
 #include <iostream>
-#include <string.h>
 #if (defined(__APPLE__) || defined(__linux__))
 # include <unistd.h>
 #endif // defined(__APPLE__) || defined(__linux__)
 
-using namespace YarpPlusPlus;
+using namespace YarpPlusPlusExample;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -27,9 +27,6 @@ using std::endl;
 #if defined(__APPLE__)
 # pragma mark Private structures and constants
 #endif // defined(__APPLE__)
-
-/*! @brief Set to @c true to use an in-memory database and @c false to use a disk-based database. */
-#define USE_INMEMORY true
 
 /*! @brief Run loop control; @c true if the service is to keep going and @c false otherwise. */
 static bool lKeepRunning;
@@ -52,9 +49,9 @@ static void stopRunning(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating the Service Registry service.
+/*! @brief The entry point for creating an example service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Service Registry service.
+ @param argv The arguments to be used with the example service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -63,52 +60,37 @@ int main(int      argc,
                    kODSyslogOptionEnableThreadSupport);//####
     OD_SYSLOG_ENTER();//####
     yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-    RegistryService * stuff = NULL;
-    
+
     cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << ", ACE Version = " <<
             ACE_VERSION << endl;
-    if (argc >= 1)
+    if (argc > 1)
     {
-        switch (argc)
+        ExampleEchoService * stuff = new ExampleEchoService(argc - 1, argv + 1);
+        
+        if (stuff)
         {
-                // Argument order for tests = endpoint name [, IP address / name [, port]]
-            case 1:
-                stuff = new RegistryService(USE_INMEMORY);
-                break;
-                
-            case 2:
-                stuff = new RegistryService(USE_INMEMORY, argv[1]);
-                break;
-                
-            case 3:
-                stuff = new RegistryService(USE_INMEMORY, argv[1], argv[2]);
-                break;
-                
-            default:
-                break;
-                
-        }
-    }
-    if (stuff)
-    {
-        if (stuff->start())
-        {
-            // Note that the Registry Service is self-registering... so we don't need to call registerLocalService().
-            lKeepRunning = true;
-#if (defined(__APPLE__) || defined(__linux__))
-            signal(SIGHUP, stopRunning);
-            signal(SIGINT, stopRunning);
-            signal(SIGINT, stopRunning);
-            signal(SIGUSR1, stopRunning);
-#endif // defined(__APPLE__) || defined(__linux__)
-            for ( ; lKeepRunning; )
+            yarp::os::ConstString portName(stuff->getEndpoint().getName());
+
+            if (stuff->start() && YarpPlusPlus::registerLocalService(portName))
             {
-                yarp::os::Time::delay(1.0);
+                lKeepRunning = true;
+#if (defined(__APPLE__) || defined(__linux__))
+                signal(SIGHUP, stopRunning);
+                signal(SIGINT, stopRunning);
+                signal(SIGINT, stopRunning);
+                signal(SIGUSR1, stopRunning);
+#endif // defined(__APPLE__) || defined(__linux__)
+                for ( ; lKeepRunning; )
+                {
+                    yarp::os::Time::delay(1.0);
+                }
+                YarpPlusPlus::unregisterLocalService(portName);
+                stuff->stop();
             }
-            stuff->stop();
+            delete stuff;
         }
-        delete stuff;
     }
     OD_SYSLOG_EXIT_L(0);//####
     return 0;
 } // main
+
