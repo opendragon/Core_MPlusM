@@ -16,6 +16,7 @@
 #include "YPPInfoRequestHandler.h"
 #include "YPPListRequestHandler.h"
 #include "YPPRequests.h"
+#include "YPPServiceRequest.h"
 
 using namespace YarpPlusPlus;
 
@@ -30,6 +31,58 @@ using namespace YarpPlusPlus;
 #if defined(__APPLE__)
 # pragma mark Class methods
 #endif // defined(__APPLE__)
+
+bool BaseService::registerLocalService(const yarp::os::ConstString & portName)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("portName = ", portName.c_str());//####
+    bool             result = false;
+    yarp::os::Bottle parameters(portName);
+    ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
+    ServiceResponse  response;
+    
+    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, &response))
+    {
+        // Check that we got a successful self-registration!
+        if (1 == response.count())
+        {
+            yarp::os::Value theValue = response.element(0);
+            
+            if (theValue.isString())
+            {
+                result = (theValue.toString() == YPP_OK_RESPONSE);
+            }
+        }
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // BaseService::registerLocalService
+
+bool BaseService::unregisterLocalService(const yarp::os::ConstString & portName)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("portName = ", portName.c_str());//####
+    bool             result = false;
+    yarp::os::Bottle parameters(portName);
+    ServiceRequest   request(YPP_UNREGISTER_REQUEST, parameters);
+    ServiceResponse  response;
+    
+    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, &response))
+    {
+        // Check that we got a successful self-registration!
+        if (1 == response.count())
+        {
+            yarp::os::Value theValue = response.element(0);
+            
+            if (theValue.isString())
+            {
+                result = (theValue.toString() == YPP_OK_RESPONSE);
+            }
+        }
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // BaseService::unregisterLocalService
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors

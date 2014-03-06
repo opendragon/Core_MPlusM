@@ -33,7 +33,7 @@ namespace YarpPlusPlus
     }; // RequestDescription
     
     /*! @brief The Yarp++ Service Registry service. */
-    class RegistryService : BaseService
+    class RegistryService : public BaseService
     {
     public:
         
@@ -75,16 +75,6 @@ namespace YarpPlusPlus
         /*! @brief Stop processing requests.
          @returns @c true if the service was stopped and @c false it if was not. */
         virtual bool stop(void);
-
-        /*! @brief Register a local service with a running Service Registry service.
-         @param portName The port provided by the service.
-         @returns @c true if the service was successfully registered and @c false otherwise. */
-        static bool registerLocalService(const yarp::os::ConstString & portName);
-        
-        /*! @brief Unregister a local service with a running Service Registry service.
-         @param portName The port provided by the service.
-         @returns @c true if the service was successfully unregistered and @c false otherwise. */
-        static bool unregisterLocalService(const yarp::os::ConstString & portName);
 
     protected:
         

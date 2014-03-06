@@ -14,7 +14,7 @@
 namespace YarpPlusPlusExample
 {
     /*! @brief An example Yarp++ client. */
-    class ExampleClient : YarpPlusPlus::BaseClient
+    class ExampleClient : public YarpPlusPlus::BaseClient
     {
     public:
         

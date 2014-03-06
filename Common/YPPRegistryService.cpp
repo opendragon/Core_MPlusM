@@ -65,6 +65,21 @@ using namespace YarpPlusPlus;
 
 #define USE_TEST_DATABASE /* */
 
+/*! @brief The named parameter for the 'description' column. */
+#define DESCRIPTION_NAME_ "@description"
+/*! @brief The named parameter for the 'input' column. */
+#define INPUT_NAME_       "@input"
+/*! @brief The named parameter for the 'keyword' column. */
+#define KEYWORD_NAME_     "@keyword"
+/*! @brief The named parameter for the 'name' column. */
+#define NAME_NAME_        "@name"
+/*! @brief The named parameter for the 'output' column. */
+#define OUTPUT_NAME_      "@output"
+/*! @brief The named parameter for the 'portName' column. */
+#define PORTNAME_NAME_    "@portName"
+/*! @brief The named parameter for the 'version' column. */
+#define VERSION_NAME_     "@version"
+
 /*! @brief The command to initiate an SQL transaction. */
 static const char * kBeginTransaction = "BEGIN TRANSACTION";
 /*! @brief The command to successfully complete an SQL transaction. */
@@ -237,13 +252,23 @@ static int setupInsertForKeywords(sqlite3_stmt * statement,
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P2("statement = ", statement, "stuff = ", stuff);//####
-    const char * nameString = static_cast<const char *>(stuff);
-    int          result = sqlite3_bind_text(statement, 1, nameString, static_cast<int>(strlen(nameString)),
-                                            SQLITE_TRANSIENT);
+    int keywordIndex = sqlite3_bind_parameter_index(statement, KEYWORD_NAME_);
+    int result;
     
-    if (SQLITE_OK != result)
+    if (0 < keywordIndex)
     {
-        OD_SYSLOG_S1("error description: ", sqlite3_errstr(result));//####
+        const char * nameString = static_cast<const char *>(stuff);
+        
+        result = sqlite3_bind_text(statement, keywordIndex, nameString, static_cast<int>(strlen(nameString)),
+                                   SQLITE_TRANSIENT);
+        if (SQLITE_OK != result)
+        {
+            OD_SYSLOG_S1("error description: ", sqlite3_errstr(result));//####
+        }
+    }
+    else
+    {
+        result = SQLITE_MISUSE;
     }
     OD_SYSLOG_EXIT_LL(result);
     return result;
@@ -258,44 +283,63 @@ static int setupInsertForRequests(sqlite3_stmt * statement,
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P2("statement = ", statement, "stuff = ", stuff);//####
-    const RequestDescription * descriptor = static_cast<const RequestDescription *>(stuff);
-    const char *               portName = descriptor->_port.c_str();
-    int                        result = sqlite3_bind_text(statement, 1, portName, static_cast<int>(strlen(portName)),
-                                                          SQLITE_TRANSIENT);
-    
-    if (SQLITE_OK == result)
+    int descriptionIndex = sqlite3_bind_parameter_index(statement, DESCRIPTION_NAME_);
+    int inputIndex = sqlite3_bind_parameter_index(statement, INPUT_NAME_);
+    int nameIndex = sqlite3_bind_parameter_index(statement, NAME_NAME_);
+    int outputIndex = sqlite3_bind_parameter_index(statement, OUTPUT_NAME_);
+    int portNameIndex = sqlite3_bind_parameter_index(statement, PORTNAME_NAME_);
+    int versionIndex = sqlite3_bind_parameter_index(statement, VERSION_NAME_);
+    int result;
+
+    if ((0 < descriptionIndex) && (0 < inputIndex) && (0 < nameIndex) && (0 < outputIndex) && (0 < portNameIndex) &&
+        (0 < versionIndex))
     {
-        const char * name = descriptor->_name.c_str();
+        const RequestDescription * descriptor = static_cast<const RequestDescription *>(stuff);
+        const char *               portName = descriptor->_port.c_str();
         
-        result = sqlite3_bind_text(statement, 2, name, static_cast<int>(strlen(name)), SQLITE_TRANSIENT);
+        result = sqlite3_bind_text(statement, portNameIndex, portName, static_cast<int>(strlen(portName)),
+                                   SQLITE_TRANSIENT);
+        if (SQLITE_OK == result)
+        {
+            const char * name = descriptor->_name.c_str();
+            
+            result = sqlite3_bind_text(statement, nameIndex, name, static_cast<int>(strlen(name)), SQLITE_TRANSIENT);
+        }
+        if (SQLITE_OK == result)
+        {
+            const char * input = descriptor->_inputs.c_str();
+            
+            result = sqlite3_bind_text(statement, inputIndex, input, static_cast<int>(strlen(input)), SQLITE_TRANSIENT);
+        }
+        if (SQLITE_OK == result)
+        {
+            const char * output = descriptor->_outputs.c_str();
+            
+            result = sqlite3_bind_text(statement, outputIndex, output, static_cast<int>(strlen(output)),
+                                       SQLITE_TRANSIENT);
+        }
+        if (SQLITE_OK == result)
+        {
+            const char * version = descriptor->_version.c_str();
+            
+            result = sqlite3_bind_text(statement, versionIndex, version, static_cast<int>(strlen(version)),
+                                       SQLITE_TRANSIENT);
+        }
+        if (SQLITE_OK == result)
+        {
+            const char * description = descriptor->_description.c_str();
+            
+            result = sqlite3_bind_text(statement, descriptionIndex, description, static_cast<int>(strlen(description)),
+                                       SQLITE_TRANSIENT);
+        }
+        if (SQLITE_OK != result)
+        {
+            OD_SYSLOG_S1("error description: ", sqlite3_errstr(result));//####
+        }
     }
-    if (SQLITE_OK == result)
+    else
     {
-        const char * input = descriptor->_inputs.c_str();
-        
-        result = sqlite3_bind_text(statement, 3, input, static_cast<int>(strlen(input)), SQLITE_TRANSIENT);
-    }
-    if (SQLITE_OK == result)
-    {
-        const char * output = descriptor->_outputs.c_str();
-        
-        result = sqlite3_bind_text(statement, 4, output, static_cast<int>(strlen(output)), SQLITE_TRANSIENT);
-    }
-    if (SQLITE_OK == result)
-    {
-        const char * version = descriptor->_version.c_str();
-        
-        result = sqlite3_bind_text(statement, 5, version, static_cast<int>(strlen(version)), SQLITE_TRANSIENT);
-    }
-    if (SQLITE_OK == result)
-    {
-        const char * description = descriptor->_description.c_str();
-        
-        result = sqlite3_bind_text(statement, 6, description, static_cast<int>(strlen(description)), SQLITE_TRANSIENT);
-    }
-    if (SQLITE_OK != result)
-    {
-        OD_SYSLOG_S1("error description: ", sqlite3_errstr(result));//####
+        result = SQLITE_MISUSE;
     }
     OD_SYSLOG_EXIT_LL(result);
     return result;
@@ -310,22 +354,35 @@ static int setupInsertForRequestsKeywords(sqlite3_stmt * statement,
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P2("statement = ", statement, "stuff = ", stuff);//####
-    const ReqKeyData * descriptor = static_cast<const ReqKeyData *>(stuff);
-    const char *       keyword = descriptor->_key.c_str();
-    int                result = sqlite3_bind_text(statement, 1, keyword, static_cast<int>(strlen(keyword)),
-                                                  SQLITE_TRANSIENT);
-    
-    if (SQLITE_OK == result)
+    int keywordIndex = sqlite3_bind_parameter_index(statement, KEYWORD_NAME_);
+    int nameIndex = sqlite3_bind_parameter_index(statement, NAME_NAME_);
+    int portNameIndex = sqlite3_bind_parameter_index(statement, PORTNAME_NAME_);
+    int result;
+
+    if ((0 < keywordIndex) && (0 < nameIndex) && (0 < portNameIndex))
     {
-        const char * name = descriptor->_name.c_str();
+        const ReqKeyData * descriptor = static_cast<const ReqKeyData *>(stuff);
+        const char *       keyword = descriptor->_key.c_str();
         
-        result = sqlite3_bind_text(statement, 2, name, static_cast<int>(strlen(name)), SQLITE_TRANSIENT);
+        result = sqlite3_bind_text(statement, keywordIndex, keyword, static_cast<int>(strlen(keyword)),
+                                   SQLITE_TRANSIENT);
+        if (SQLITE_OK == result)
+        {
+            const char * name = descriptor->_name.c_str();
+            
+            result = sqlite3_bind_text(statement, nameIndex, name, static_cast<int>(strlen(name)), SQLITE_TRANSIENT);
+        }
+        if (SQLITE_OK == result)
+        {
+            const char * portName = descriptor->_port.c_str();
+            
+            result = sqlite3_bind_text(statement, portNameIndex, portName, static_cast<int>(strlen(portName)),
+                                       SQLITE_TRANSIENT);
+        }
     }
-    if (SQLITE_OK == result)
+    else
     {
-        const char * portName = descriptor->_port.c_str();
-        
-        result = sqlite3_bind_text(statement, 3, portName, static_cast<int>(strlen(portName)), SQLITE_TRANSIENT);
+        result = SQLITE_MISUSE;
     }
     OD_SYSLOG_EXIT_LL(result);
     return result;
@@ -340,13 +397,23 @@ static int setupInsertForServices(sqlite3_stmt * statement,
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P2("statement = ", statement, "stuff = ", stuff);//####
-    const char * nameString = static_cast<const char *>(stuff);
-    int          result = sqlite3_bind_text(statement, 1, nameString, static_cast<int>(strlen(nameString)),
-                                            SQLITE_TRANSIENT);
+    int portNameIndex = sqlite3_bind_parameter_index(statement, PORTNAME_NAME_);
+    int result;
     
-    if (SQLITE_OK != result)
+    if (0 < portNameIndex)
     {
-        OD_SYSLOG_S1("error description: ", sqlite3_errstr(result));//####
+        const char * portName = static_cast<const char *>(stuff);
+        
+        result = sqlite3_bind_text(statement, portNameIndex, portName, static_cast<int>(strlen(portName)),
+                                   SQLITE_TRANSIENT);
+        if (SQLITE_OK != result)
+        {
+            OD_SYSLOG_S1("error description: ", sqlite3_errstr(result));//####
+        }
+    }
+    else
+    {
+        result = SQLITE_MISUSE;
     }
     OD_SYSLOG_EXIT_LL(result);
     return result;
@@ -361,13 +428,23 @@ static int setupRemoveForServices(sqlite3_stmt * statement,
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P2("statement = ", statement, "stuff = ", stuff);//####
-    const char * nameString = static_cast<const char *>(stuff);
-    int          result = sqlite3_bind_text(statement, 1, nameString, static_cast<int>(strlen(nameString)),
-                                            SQLITE_TRANSIENT);
-    
-    if (SQLITE_OK != result)
+    int portNameIndex = sqlite3_bind_parameter_index(statement, PORTNAME_NAME_);
+    int result;
+
+    if (0 < portNameIndex)
     {
-        OD_SYSLOG_S1("error description: ", sqlite3_errstr(result));//####
+        const char * portName = static_cast<const char *>(stuff);
+        
+        result = sqlite3_bind_text(statement, portNameIndex, portName, static_cast<int>(strlen(portName)),
+                                   SQLITE_TRANSIENT);
+        if (SQLITE_OK != result)
+        {
+            OD_SYSLOG_S1("error description: ", sqlite3_errstr(result));//####
+        }
+    }
+    else
+    {
+        result = SQLITE_MISUSE;
     }
     OD_SYSLOG_EXIT_LL(result);
     return result;
@@ -376,58 +453,6 @@ static int setupRemoveForServices(sqlite3_stmt * statement,
 #if defined(__APPLE__)
 # pragma mark Class methods
 #endif // defined(__APPLE__)
-
-bool RegistryService::registerLocalService(const yarp::os::ConstString & portName)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("portName = ", portName.c_str());//####
-    bool             result = false;
-    yarp::os::Bottle parameters(portName);
-    ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
-    ServiceResponse  response;
-    
-    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, &response))
-    {
-        // Check that we got a successful self-registration!
-        if (1 == response.count())
-        {
-            yarp::os::Value theValue = response.element(0);
-            
-            if (theValue.isString())
-            {
-                result = (theValue.toString() == YPP_OK_RESPONSE);
-            }
-        }
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // RegistryService::registerLocalService
-
-bool RegistryService::unregisterLocalService(const yarp::os::ConstString & portName)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("portName = ", portName.c_str());//####
-    bool             result = false;
-    yarp::os::Bottle parameters(portName);
-    ServiceRequest   request(YPP_UNREGISTER_REQUEST, parameters);
-    ServiceResponse  response;
-    
-    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, &response))
-    {
-        // Check that we got a successful self-registration!
-        if (1 == response.count())
-        {
-            yarp::os::Value theValue = response.element(0);
-            
-            if (theValue.isString())
-            {
-                result = (theValue.toString() == YPP_OK_RESPONSE);
-            }
-        }
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // RegistryService::unregisterLocalService
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors
@@ -463,13 +488,14 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
 {
     OD_SYSLOG_ENTER();//####
     bool                okSoFar = performSQLstatementWithNoResults(_db, kBeginTransaction);
-    static const char * insertIntoKeywords = "INSERT INTO Keywords(keyword) VALUES(?1)";
+    static const char * insertIntoKeywords = "INSERT INTO Keywords(keyword) VALUES(" KEYWORD_NAME_ ")";
     static const char * insertIntoRequests = "INSERT INTO Requests(portName,name,input,output,version,description) "
-                                             "VALUES(?1,?2,?3,?4,?5,?6)";
+                                                "VALUES(" PORTNAME_NAME_ "," NAME_NAME_ "," INPUT_NAME_ "," OUTPUT_NAME_
+                                                "," VERSION_NAME_ "," DESCRIPTION_NAME_ ")";
     static const char * insertIntoRequestsKeywords = "INSERT INTO RequestsKeywords(keywords_id,requests_id) "
-                                                        "SELECT ?1, KEY FROM requests WHERE name = ?2 AND "
-                                                        "portname = ?3";
-    static const char * insertIntoServices = "INSERT INTO Services(portName) VALUES(?1)";
+                                                        "SELECT " KEYWORD_NAME_ ", KEY FROM requests WHERE name = "
+                                                        NAME_NAME_ " AND portname = " PORTNAME_NAME_;
+    static const char * insertIntoServices = "INSERT INTO Services(portName) VALUES(" PORTNAME_NAME_ ")";
     
     if (okSoFar)
     {
@@ -525,7 +551,7 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceP
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("servicePortName = ", servicePortName.c_str());//####
     bool                okSoFar = performSQLstatementWithNoResults(_db, kBeginTransaction);
-    static const char * removeFromServices = "DELETE FROM Services WHERE portName = ?1";
+    static const char * removeFromServices = "DELETE FROM Services WHERE portName = " PORTNAME_NAME_;
     
     // For each request provided by the service
     //    Remove it's RequestsKeywords
