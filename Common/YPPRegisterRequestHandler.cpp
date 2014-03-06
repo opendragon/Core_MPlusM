@@ -55,7 +55,7 @@ RegisterRequestHandler::~RegisterRequestHandler(void)
 void RegisterRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_NAME_KEY, YPP_REGISTER_REQUEST);
+    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_REGISTER_REQUEST);
     info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_STRING);
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_STRING);
     info.put(YPP_REQREP_DICT_VERSION_KEY, REGISTER_REQUEST_VERSION_NUMBER);
@@ -176,13 +176,13 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
             {
                 yarp::os::Property * asDict = anElement.asDict();
                 
-                if (asDict->check(YPP_REQREP_DICT_NAME_KEY))
+                if (asDict->check(YPP_REQREP_DICT_REQUEST_KEY))
                 {
-                    yarp::os::ConstString theName = asDict->find(YPP_REQREP_DICT_NAME_KEY).asString();
+                    yarp::os::ConstString theRequest = asDict->find(YPP_REQREP_DICT_REQUEST_KEY).asString();
                     yarp::os::Bottle      keywordList;
                     RequestDescription    requestDescriptor;
 
-                    OD_SYSLOG_S1("theName <- ", theName.c_str());//####
+                    OD_SYSLOG_S1("theRequest <- ", theRequest.c_str());//####
                     if (asDict->check(YPP_REQREP_DICT_DESCRIPTION_KEY))
                     {
                         yarp::os::Value theDescription = asDict->find(YPP_REQREP_DICT_DESCRIPTION_KEY);
@@ -260,8 +260,8 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                     }
                     if (result)
                     {
-                        requestDescriptor._name = theName;
                         requestDescriptor._port = portName;
+                        requestDescriptor._request = theRequest;
                         result = _service.addRequestRecord(keywordList, requestDescriptor);
                     }
                 }

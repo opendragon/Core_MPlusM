@@ -53,7 +53,7 @@ InfoRequestHandler::~InfoRequestHandler(void)
 void InfoRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_NAME_KEY, YPP_INFO_REQUEST);
+    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_INFO_REQUEST);
     info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_1_OR_MORE);
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_LIST_START YPP_REQREP_DICT_START YPP_REQREP_DICT_END
              YPP_REQREP_0_OR_1 YPP_REQREP_LIST_END);
@@ -63,7 +63,7 @@ void InfoRequestHandler::fillInDescription(yarp::os::Property & info)
     yarp::os::Bottle * asList = keywords.asList();
     
     asList->addString(YPP_INFO_REQUEST);
-    asList->addString("key-" YPP_REQREP_DICT_NAME_KEY);
+    asList->addString("key-" YPP_REQREP_DICT_REQUEST_KEY);
     asList->addString("key-" YPP_REQREP_DICT_OUTPUT_KEY);
     asList->addString("key-" YPP_REQREP_DICT_INPUT_KEY);
     asList->addString("key-" YPP_REQREP_DICT_VERSION_KEY);

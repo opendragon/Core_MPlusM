@@ -686,9 +686,9 @@ static bool checkList12Response(const ServiceResponse & response)
                 bool                 hasInput = asDict->check(YPP_REQREP_DICT_INPUT_KEY);
                 bool                 hasOutput = asDict->check(YPP_REQREP_DICT_OUTPUT_KEY);
                 
-                if (asDict->check(YPP_REQREP_DICT_NAME_KEY))
+                if (asDict->check(YPP_REQREP_DICT_REQUEST_KEY))
                 {
-                    yarp::os::ConstString aName = asDict->find(YPP_REQREP_DICT_NAME_KEY).asString();
+                    yarp::os::ConstString aName = asDict->find(YPP_REQREP_DICT_REQUEST_KEY).asString();
                     
                     if (aName == YPP_LIST_REQUEST)
                     {

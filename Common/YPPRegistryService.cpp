@@ -65,20 +65,44 @@ using namespace YarpPlusPlus;
 
 #define USE_TEST_DATABASE /* */
 
+/*! @brief The name of the 'keywords' table. */
+#define KEYWORDS_TABLE_NAME_         "Keywords"
+/*! @brief The name of the 'requests' table. */
+#define REQUESTS_TABLE_NAME_         "Requests"
+/*! @brief The name of the 'requests-keywords' table. */
+#define REQUESTSKEYWORDS_TABLE_NAME_ "RequestsKeywords"
+/*! @brief The name of the 'services' table. */
+#define SERVICES_TABLE_NAME_         "Services"
+
+/*! @brief The name of the index for the 'portName' column of the 'requests' table. */
+#define REQUESTS_PORTNAME_INDEX_NAME_            "Requests_portName_idx"
+/*! @brief The name of the index for the 'requests' column of the 'requests' table. */
+#define REQUESTS_REQUEST_INDEX_NAME_             "Requests_request_idx"
+/*! @brief The name of the index for the 'keywords_id' column of the 'requests-keywords' table. */
+#define REQUESTSKEYWORDS_KEYWORDS_ID_INDEX_NAME_ "RequestsKeywords_Keywords_id_idx"
+/*! @brief The name of the index for the 'requests_id' column of the 'requests-keywords' table. */
+#define REQUESTSKEYWORDS_REQUESTS_ID_INDEX_NAME_ "RequestsKeywords_Requests_id_idx"
+
 /*! @brief The named parameter for the 'description' column. */
-#define DESCRIPTION_NAME_ "@description"
+#define DESCRIPTION_COLUMN_NAME_ "description"
 /*! @brief The named parameter for the 'input' column. */
-#define INPUT_NAME_       "@input"
+#define INPUT_COLUMN_NAME_       "input"
+/*! @brief The named parameter for the 'key' column. */
+#define KEY_COLUMN_NAME_         "key"
 /*! @brief The named parameter for the 'keyword' column. */
-#define KEYWORD_NAME_     "@keyword"
-/*! @brief The named parameter for the 'name' column. */
-#define NAME_NAME_        "@name"
+#define KEYWORD_COLUMN_NAME_     "keyword"
+/*! @brief The named parameter for the 'Keywords_id' column. */
+#define KEYWORDS_ID_COLUMN_NAME_ "keywords_id"
 /*! @brief The named parameter for the 'output' column. */
-#define OUTPUT_NAME_      "@output"
+#define OUTPUT_COLUMN_NAME_      "output"
 /*! @brief The named parameter for the 'portName' column. */
-#define PORTNAME_NAME_    "@portName"
+#define PORTNAME_COLUMN_NAME_    "portName"
+/*! @brief The named parameter for the 'request' column. */
+#define REQUEST_COLUMN_NAME_     "request"
+/*! @brief The named parameter for the 'Keywords_id' column. */
+#define REQUESTS_ID_COLUMN_NAME_ "requests_id"
 /*! @brief The named parameter for the 'version' column. */
-#define VERSION_NAME_     "@version"
+#define VERSION_COLUMN_NAME_     "version"
 
 /*! @brief The command to initiate an SQL transaction. */
 static const char * kBeginTransaction = "BEGIN TRANSACTION";
@@ -89,7 +113,7 @@ static const char * kEndTransaction = "END TRANSACTION";
 struct ReqKeyData
 {
     /*! @brief The name of the request. */
-    yarp::os::ConstString _name;
+    yarp::os::ConstString _request;
     /*! @brief The service port for the request. */
     yarp::os::ConstString _port;
     /*! @brief A keyword for the request. */
@@ -190,38 +214,40 @@ static bool constructTables(sqlite3 * database)
         static const char * tableSQL[] =
         {
 #if defined(USE_TEST_DATABASE)
-//            "DROP INDEX IF EXISTS Keywords_keyword_idx",
-            "DROP INDEX IF EXISTS Requests_name_idx",
-            "DROP INDEX IF EXISTS Requests_portName_idx",
-            "DROP INDEX IF EXISTS RequestsKeywords_Keywords_id_idx",
-            "DROP INDEX IF EXISTS RequestsKeywords_Requests_id_idx",
-//            "DROP INDEX IF EXISTS Services_portName_idx",
-            "DROP TABLE IF EXISTS RequestsKeywords",
-            "DROP TABLE IF EXISTS Requests",
-            "DROP TABLE IF EXISTS Keywords",
-            "DROP TABLE IF EXISTS Services",
+            "DROP INDEX IF EXISTS " REQUESTS_REQUEST_INDEX_NAME_,
+            "DROP INDEX IF EXISTS " REQUESTS_PORTNAME_INDEX_NAME_,
+            "DROP INDEX IF EXISTS " REQUESTSKEYWORDS_KEYWORDS_ID_INDEX_NAME_,
+            "DROP INDEX IF EXISTS " REQUESTSKEYWORDS_REQUESTS_ID_INDEX_NAME_,
+            "DROP TABLE IF EXISTS " REQUESTSKEYWORDS_TABLE_NAME_,
+            "DROP TABLE IF EXISTS " REQUESTS_TABLE_NAME_,
+            "DROP TABLE IF EXISTS " KEYWORDS_TABLE_NAME_,
+            "DROP TABLE IF EXISTS " SERVICES_TABLE_NAME_,
 #endif // defined(USE_TEST_DATABASE)
-            "CREATE TABLE IF NOT EXISTS Services("
-                " portName Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT REPLACE)",
-//            "CREATE UNIQUE INDEX IF NOT EXISTS Services_portName_idx ON Services(portName)",
-            "CREATE TABLE IF NOT EXISTS Keywords("
-                " keyword Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT IGNORE)",
-//            "CREATE UNIQUE INDEX IF NOT EXISTS Keywords_keyword_idx ON Keywords(keyword)",
-            "CREATE TABLE IF NOT EXISTS Requests("
-                " portName    Text NOT NULL DEFAULT _ REFERENCES Services(portName),"
-                " name        Text NOT NULL DEFAULT _,"
-                " input       Text,"
-                " output      Text,"
-                " version     Text,"
-                " description Text,"
-                " key         Integer PRIMARY KEY)",
-            "CREATE INDEX IF NOT EXISTS Requests_name_idx ON Requests(name)",
-            "CREATE INDEX IF NOT EXISTS Requests_portName_idx ON Requests(portName)",
-            "CREATE TABLE RequestsKeywords("
-                " Keywords_id Text REFERENCES Keywords(keyword),"
-                " Requests_id Integer REFERENCES Requests(key))",
-            "CREATE INDEX IF NOT EXISTS RequestsKeywords_Keywords_id_idx ON RequestsKeywords(Keywords_id)",
-            "CREATE INDEX IF NOT EXISTS RequestsKeywords_Requests_id_idx ON RequestsKeywords(Requests_id)"
+            "CREATE TABLE IF NOT EXISTS " SERVICES_TABLE_NAME_ "("
+                " " PORTNAME_COLUMN_NAME_ " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT REPLACE)",
+            "CREATE TABLE IF NOT EXISTS " KEYWORDS_TABLE_NAME_ "("
+                " " KEYWORD_COLUMN_NAME_ " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT IGNORE)",
+            "CREATE TABLE IF NOT EXISTS " REQUESTS_TABLE_NAME_ "("
+//                " " PORTNAME_COLUMN_NAME_ "    Text NOT NULL DEFAULT _ REFERENCES " SERVICES_TABLE_NAME_ "(" PORTNAME_COLUMN_NAME_ "),"
+                " " PORTNAME_COLUMN_NAME_ "    Text NOT NULL DEFAULT _ REFERENCES " SERVICES_TABLE_NAME_ "("
+                    PORTNAME_COLUMN_NAME_ ") ON DELETE CASCADE,"
+                " " REQUEST_COLUMN_NAME_ "     Text NOT NULL DEFAULT _,"
+                " " INPUT_COLUMN_NAME_ "       Text,"
+                " " OUTPUT_COLUMN_NAME_ "      Text,"
+                " " VERSION_COLUMN_NAME_ "     Text,"
+                " " DESCRIPTION_COLUMN_NAME_ " Text,"
+                " " KEY_COLUMN_NAME_ "         Integer PRIMARY KEY)",
+            "CREATE INDEX IF NOT EXISTS " REQUESTS_REQUEST_INDEX_NAME_ " ON " REQUESTS_TABLE_NAME_ "("
+                REQUEST_COLUMN_NAME_ ")",
+            "CREATE INDEX IF NOT EXISTS " REQUESTS_PORTNAME_INDEX_NAME_ " ON " REQUESTS_TABLE_NAME_ "("
+                PORTNAME_COLUMN_NAME_ ")",
+            "CREATE TABLE " REQUESTSKEYWORDS_TABLE_NAME_ "("
+                " " KEYWORDS_ID_COLUMN_NAME_ " Text REFERENCES " KEYWORDS_TABLE_NAME_ "(" KEYWORD_COLUMN_NAME_ "),"
+                " " REQUESTS_ID_COLUMN_NAME_ " Integer REFERENCES " REQUESTS_TABLE_NAME_ "(" KEY_COLUMN_NAME_ "))",
+            "CREATE INDEX IF NOT EXISTS " REQUESTSKEYWORDS_KEYWORDS_ID_INDEX_NAME_ " ON " REQUESTSKEYWORDS_TABLE_NAME_
+                "(" KEYWORDS_ID_COLUMN_NAME_ ")",
+            "CREATE INDEX IF NOT EXISTS " REQUESTSKEYWORDS_REQUESTS_ID_INDEX_NAME_ " ON " REQUESTSKEYWORDS_TABLE_NAME_
+                "(" REQUESTS_ID_COLUMN_NAME_ ")"
         };
         int numTables = (sizeof(tableSQL) / sizeof(*tableSQL));
         
@@ -252,7 +278,7 @@ static int setupInsertForKeywords(sqlite3_stmt * statement,
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P2("statement = ", statement, "stuff = ", stuff);//####
-    int keywordIndex = sqlite3_bind_parameter_index(statement, KEYWORD_NAME_);
+    int keywordIndex = sqlite3_bind_parameter_index(statement, "@" KEYWORD_COLUMN_NAME_);
     int result;
     
     if (0 < keywordIndex)
@@ -283,15 +309,15 @@ static int setupInsertForRequests(sqlite3_stmt * statement,
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P2("statement = ", statement, "stuff = ", stuff);//####
-    int descriptionIndex = sqlite3_bind_parameter_index(statement, DESCRIPTION_NAME_);
-    int inputIndex = sqlite3_bind_parameter_index(statement, INPUT_NAME_);
-    int nameIndex = sqlite3_bind_parameter_index(statement, NAME_NAME_);
-    int outputIndex = sqlite3_bind_parameter_index(statement, OUTPUT_NAME_);
-    int portNameIndex = sqlite3_bind_parameter_index(statement, PORTNAME_NAME_);
-    int versionIndex = sqlite3_bind_parameter_index(statement, VERSION_NAME_);
+    int descriptionIndex = sqlite3_bind_parameter_index(statement, "@" DESCRIPTION_COLUMN_NAME_);
+    int inputIndex = sqlite3_bind_parameter_index(statement, "@" INPUT_COLUMN_NAME_);
+    int outputIndex = sqlite3_bind_parameter_index(statement, "@" OUTPUT_COLUMN_NAME_);
+    int portNameIndex = sqlite3_bind_parameter_index(statement, "@" PORTNAME_COLUMN_NAME_);
+    int requestIndex = sqlite3_bind_parameter_index(statement, "@" REQUEST_COLUMN_NAME_);
+    int versionIndex = sqlite3_bind_parameter_index(statement, "@" VERSION_COLUMN_NAME_);
     int result;
 
-    if ((0 < descriptionIndex) && (0 < inputIndex) && (0 < nameIndex) && (0 < outputIndex) && (0 < portNameIndex) &&
+    if ((0 < descriptionIndex) && (0 < inputIndex) && (0 < outputIndex) && (0 < portNameIndex) && (0 < requestIndex) &&
         (0 < versionIndex))
     {
         const RequestDescription * descriptor = static_cast<const RequestDescription *>(stuff);
@@ -301,9 +327,10 @@ static int setupInsertForRequests(sqlite3_stmt * statement,
                                    SQLITE_TRANSIENT);
         if (SQLITE_OK == result)
         {
-            const char * name = descriptor->_name.c_str();
+            const char * request = descriptor->_request.c_str();
             
-            result = sqlite3_bind_text(statement, nameIndex, name, static_cast<int>(strlen(name)), SQLITE_TRANSIENT);
+            result = sqlite3_bind_text(statement, requestIndex, request, static_cast<int>(strlen(request)),
+                                       SQLITE_TRANSIENT);
         }
         if (SQLITE_OK == result)
         {
@@ -354,12 +381,12 @@ static int setupInsertForRequestsKeywords(sqlite3_stmt * statement,
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P2("statement = ", statement, "stuff = ", stuff);//####
-    int keywordIndex = sqlite3_bind_parameter_index(statement, KEYWORD_NAME_);
-    int nameIndex = sqlite3_bind_parameter_index(statement, NAME_NAME_);
-    int portNameIndex = sqlite3_bind_parameter_index(statement, PORTNAME_NAME_);
+    int keywordIndex = sqlite3_bind_parameter_index(statement, "@" KEYWORD_COLUMN_NAME_);
+    int portNameIndex = sqlite3_bind_parameter_index(statement, "@" PORTNAME_COLUMN_NAME_);
+    int requestIndex = sqlite3_bind_parameter_index(statement, "@" REQUEST_COLUMN_NAME_);
     int result;
 
-    if ((0 < keywordIndex) && (0 < nameIndex) && (0 < portNameIndex))
+    if ((0 < keywordIndex) && (0 < portNameIndex) && (0 < requestIndex))
     {
         const ReqKeyData * descriptor = static_cast<const ReqKeyData *>(stuff);
         const char *       keyword = descriptor->_key.c_str();
@@ -368,9 +395,10 @@ static int setupInsertForRequestsKeywords(sqlite3_stmt * statement,
                                    SQLITE_TRANSIENT);
         if (SQLITE_OK == result)
         {
-            const char * name = descriptor->_name.c_str();
+            const char * request = descriptor->_request.c_str();
             
-            result = sqlite3_bind_text(statement, nameIndex, name, static_cast<int>(strlen(name)), SQLITE_TRANSIENT);
+            result = sqlite3_bind_text(statement, requestIndex, request, static_cast<int>(strlen(request)),
+                                       SQLITE_TRANSIENT);
         }
         if (SQLITE_OK == result)
         {
@@ -397,7 +425,7 @@ static int setupInsertForServices(sqlite3_stmt * statement,
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P2("statement = ", statement, "stuff = ", stuff);//####
-    int portNameIndex = sqlite3_bind_parameter_index(statement, PORTNAME_NAME_);
+    int portNameIndex = sqlite3_bind_parameter_index(statement, "@" PORTNAME_COLUMN_NAME_);
     int result;
     
     if (0 < portNameIndex)
@@ -428,7 +456,7 @@ static int setupRemoveForServices(sqlite3_stmt * statement,
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P2("statement = ", statement, "stuff = ", stuff);//####
-    int portNameIndex = sqlite3_bind_parameter_index(statement, PORTNAME_NAME_);
+    int portNameIndex = sqlite3_bind_parameter_index(statement, "@" PORTNAME_COLUMN_NAME_);
     int result;
 
     if (0 < portNameIndex)
@@ -488,14 +516,22 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
 {
     OD_SYSLOG_ENTER();//####
     bool                okSoFar = performSQLstatementWithNoResults(_db, kBeginTransaction);
-    static const char * insertIntoKeywords = "INSERT INTO Keywords(keyword) VALUES(" KEYWORD_NAME_ ")";
-    static const char * insertIntoRequests = "INSERT INTO Requests(portName,name,input,output,version,description) "
-                                                "VALUES(" PORTNAME_NAME_ "," NAME_NAME_ "," INPUT_NAME_ "," OUTPUT_NAME_
-                                                "," VERSION_NAME_ "," DESCRIPTION_NAME_ ")";
-    static const char * insertIntoRequestsKeywords = "INSERT INTO RequestsKeywords(keywords_id,requests_id) "
-                                                        "SELECT " KEYWORD_NAME_ ", KEY FROM requests WHERE name = "
-                                                        NAME_NAME_ " AND portname = " PORTNAME_NAME_;
-    static const char * insertIntoServices = "INSERT INTO Services(portName) VALUES(" PORTNAME_NAME_ ")";
+    static const char * insertIntoKeywords = "INSERT INTO " KEYWORDS_TABLE_NAME_ "(" KEYWORD_COLUMN_NAME_ ") VALUES(@"
+                                                KEYWORD_COLUMN_NAME_ ")";
+    static const char * insertIntoRequests = "INSERT INTO " REQUESTS_TABLE_NAME_ "(" PORTNAME_COLUMN_NAME_ ","
+                                                REQUEST_COLUMN_NAME_ "," INPUT_COLUMN_NAME_ "," OUTPUT_COLUMN_NAME_ ","
+                                                VERSION_COLUMN_NAME_ "," DESCRIPTION_COLUMN_NAME_ ") VALUES(@"
+                                                PORTNAME_COLUMN_NAME_ ",@" REQUEST_COLUMN_NAME_ ",@" INPUT_COLUMN_NAME_
+                                                ",@" OUTPUT_COLUMN_NAME_ ",@" VERSION_COLUMN_NAME_ ",@"
+                                                DESCRIPTION_COLUMN_NAME_ ")";
+    static const char * insertIntoRequestsKeywords = "INSERT INTO " REQUESTSKEYWORDS_TABLE_NAME_ "("
+                                                        KEYWORDS_ID_COLUMN_NAME_ "," REQUESTS_ID_COLUMN_NAME_
+                                                        ") SELECT @" KEYWORD_COLUMN_NAME_ ", " KEY_COLUMN_NAME_ " FROM "
+                                                        REQUESTS_TABLE_NAME_ " WHERE " REQUEST_COLUMN_NAME_ " = @"
+                                                        REQUEST_COLUMN_NAME_ " AND " PORTNAME_COLUMN_NAME_ " = @"
+                                                        PORTNAME_COLUMN_NAME_;
+    static const char * insertIntoServices = "INSERT INTO " SERVICES_TABLE_NAME_ "(" PORTNAME_COLUMN_NAME_ ") VALUES(@"
+                                                PORTNAME_COLUMN_NAME_ ")";
     
     if (okSoFar)
     {
@@ -515,7 +551,7 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
         int        numKeywords = keywordList.size();
         ReqKeyData reqData;
         
-        reqData._name = description._name;
+        reqData._request = description._request;
         reqData._port = description._port;
         for (int ii = 0; okSoFar && (ii < numKeywords); ++ii)
         {
@@ -551,7 +587,18 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceP
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("servicePortName = ", servicePortName.c_str());//####
     bool                okSoFar = performSQLstatementWithNoResults(_db, kBeginTransaction);
-    static const char * removeFromServices = "DELETE FROM Services WHERE portName = " PORTNAME_NAME_;
+    
+//    static const char * removeFromRequests = "DELETE FROM " REQUESTS_TABLE_NAME_ " WHERE " PORTNAME_COLUMN_NAME_ " = @" PORTNAME_COLUMN_NAME_;
+    
+    
+    
+    
+    
+    
+    
+    
+    static const char * removeFromServices = "DELETE FROM " SERVICES_TABLE_NAME_ " WHERE " PORTNAME_COLUMN_NAME_ " = @"
+                                                PORTNAME_COLUMN_NAME_;
     
     // For each request provided by the service
     //    Remove it's RequestsKeywords

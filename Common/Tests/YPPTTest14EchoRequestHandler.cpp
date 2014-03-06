@@ -52,7 +52,7 @@ Test14EchoRequestHandler::~Test14EchoRequestHandler(void)
 void Test14EchoRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_NAME_KEY, YPP_ECHO_REQUEST);
+    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_ECHO_REQUEST);
     info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
     info.put(YPP_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);

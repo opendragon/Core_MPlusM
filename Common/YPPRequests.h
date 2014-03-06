@@ -56,10 +56,10 @@
 # define YPP_REQREP_DICT_INPUT_KEY       "input"
 /*! @brief Request/response dictionary key - keywords. */
 # define YPP_REQREP_DICT_KEYWORDS_KEY    "keywords"
-/*! @brief Request/response dictionary key - name specification. */
-# define YPP_REQREP_DICT_NAME_KEY        "name"
 /*! @brief Request/response dictionary key - output specification. */
 # define YPP_REQREP_DICT_OUTPUT_KEY      "output"
+/*! @brief Request/response dictionary key - request specification. */
+# define YPP_REQREP_DICT_REQUEST_KEY     "request"
 /*! @brief Request/response dictionary key - version. */
 # define YPP_REQREP_DICT_VERSION_KEY     "version"
 

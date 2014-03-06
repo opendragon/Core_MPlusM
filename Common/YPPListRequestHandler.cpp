@@ -53,7 +53,7 @@ ListRequestHandler::~ListRequestHandler(void)
 void ListRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_NAME_KEY, YPP_LIST_REQUEST);
+    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_LIST_REQUEST);
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_LIST_START YPP_REQREP_DICT_START YPP_REQREP_DICT_END
              YPP_REQREP_1_OR_MORE YPP_REQREP_LIST_END);
     info.put(YPP_REQREP_DICT_VERSION_KEY, LIST_REQUEST_VERSION_NUMBER);
@@ -65,7 +65,7 @@ void ListRequestHandler::fillInDescription(yarp::os::Property & info)
     asList->addString("requests");
     asList->addString("methods");
     asList->addString("operations");
-    asList->addString("key-" YPP_REQREP_DICT_NAME_KEY);
+    asList->addString("key-" YPP_REQREP_DICT_REQUEST_KEY);
     asList->addString("key-" YPP_REQREP_DICT_OUTPUT_KEY);
     asList->addString("key-" YPP_REQREP_DICT_INPUT_KEY);
     asList->addString("key-" YPP_REQREP_DICT_VERSION_KEY);

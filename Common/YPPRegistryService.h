@@ -22,12 +22,12 @@ namespace YarpPlusPlus
         yarp::os::ConstString _description;
         /*! @brief The inputs descriptor for the request. */
         yarp::os::ConstString _inputs;
-        /*! @brief The name of the request. */
-        yarp::os::ConstString _name;
         /*! @brief The outputs descriptor for the request. */
         yarp::os::ConstString _outputs;
         /*! @brief The service port for the request. */
         yarp::os::ConstString _port;
+        /*! @brief The name of the request. */
+        yarp::os::ConstString _request;
         /*! @brief The version of the request. */
         yarp::os::ConstString _version;
     }; // RequestDescription
