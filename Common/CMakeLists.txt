@@ -6,12 +6,13 @@
 #  Copyright (c) 2014 OpenDragon. All rights reserved.
 #
 
-set(TESTSUPPORT_DIR "${COMMON_DIR}/Tests")
+set(YPP_TESTSUPPORT_DIR "${YPP_COMMON_DIR}/Tests")
 
 add_subdirectory(Tests)
 
-include_directories("${DEBUGGING_DIR}"
-                    "${TESTSUPPORT_DIR}")
+include_directories("${YPP_DEBUGGING_DIR}"
+                    “${YPP_PARSER_DIR}”
+                    "${YPP_TESTSUPPORT_DIR}")
 
 add_library(YPPBaseShared
             YPPEndpoint.cpp
@@ -37,7 +38,7 @@ enable_testing()
 
 add_executable(CommonTest YPPCommonTest.cpp)
 
-target_link_libraries(CommonTest YPPBaseShared YPPBaseClient YPPBaseService YPPDebugging YPPTestSupport ${YARP_LIBRARIES})
+target_link_libraries(CommonTest YPPBaseShared YPPBaseClient YPPBaseService YPPDebugging YPPParser YPPTestSupport ${YARP_LIBRARIES})
 
 # Argument order for test 1 = endpoint name [, IP address / name [, port]]
 add_test(NAME TestCreateEndpoint1 COMMAND CommonTest 1 "/service/test1_1")

@@ -11,13 +11,13 @@
 #include "YPPRegistryService.h"
 #include "YPPRequests.h"
 #include <ace/Version.h>
-#include <yarp/os/all.h>
-#include <yarp/conf/version.h>
 #include <iostream>
 #include <string.h>
 #if (defined(__APPLE__) || defined(__linux__))
 # include <unistd.h>
 #endif // defined(__APPLE__) || defined(__linux__)
+#include <yarp/conf/version.h>
+#include <yarp/os/all.h>
 
 using namespace YarpPlusPlus;
 using std::cout;

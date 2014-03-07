@@ -6,8 +6,9 @@
 #  Copyright (c) 2014 OpenDragon. All rights reserved.
 #
 
-include_directories("${DEBUGGING_DIR}"
-                    "${COMMON_DIR}")
+include_directories("${YPP_DEBUGGING_DIR}"
+                    "${YPP_COMMON_DIR}"
+                    “${YPP_PARSER_DIR}”)
 
 add_library(YPPTestSupport
             YPPTEndpointStatusReporter.cpp

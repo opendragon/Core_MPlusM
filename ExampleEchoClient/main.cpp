@@ -10,9 +10,9 @@
 #include "ODSyslog.h"
 #include "YPPExampleEchoClient.h"
 #include <ace/Version.h>
-#include <yarp/os/all.h>
-#include <yarp/conf/version.h>
 #include <iostream>
+#include <yarp/conf/version.h>
+#include <yarp/os/all.h>
 
 using namespace YarpPlusPlusExample;
 using std::cout;

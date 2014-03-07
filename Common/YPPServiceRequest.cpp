@@ -7,7 +7,7 @@
 //
 
 #include "YPPServiceRequest.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPEndpoint.h"
 

@@ -12,12 +12,12 @@
 #include "YPPExampleEchoService.h"
 #include "YPPRegistryService.h"
 #include <ace/Version.h>
-#include <yarp/os/all.h>
-#include <yarp/conf/version.h>
 #include <iostream>
 #if (defined(__APPLE__) || defined(__linux__))
 # include <unistd.h>
 #endif // defined(__APPLE__) || defined(__linux__)
+#include <yarp/conf/version.h>
+#include <yarp/os/all.h>
 
 using namespace YarpPlusPlusExample;
 using std::cout;

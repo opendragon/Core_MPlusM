@@ -109,16 +109,20 @@ static const char * kBeginTransaction = "BEGIN TRANSACTION";
 /*! @brief The command to successfully complete an SQL transaction. */
 static const char * kEndTransaction = "END TRANSACTION";
 
-/*! @brief The data needed to add a request-keyword entry into the database. */
-struct ReqKeyData
+namespace YarpPlusPlus
 {
-    /*! @brief The name of the request. */
-    yarp::os::ConstString _request;
-    /*! @brief The service port for the request. */
-    yarp::os::ConstString _port;
-    /*! @brief A keyword for the request. */
-    yarp::os::ConstString _key;
-}; // ReqKeyData
+    /*! @brief The data needed to add a request-keyword entry into the database. */
+    struct RequestKeywordData
+    {
+        /*! @brief The name of the request. */
+        yarp::os::ConstString _request;
+        /*! @brief The service port for the request. */
+        yarp::os::ConstString _port;
+        /*! @brief A keyword for the request. */
+        yarp::os::ConstString _key;
+    }; // RequestKeywordData
+    
+} // YarpPlusPlus
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -387,8 +391,8 @@ static int setupInsertForRequestsKeywords(sqlite3_stmt * statement,
 
     if ((0 < keywordIndex) && (0 < portNameIndex) && (0 < requestIndex))
     {
-        const ReqKeyData * descriptor = static_cast<const ReqKeyData *>(stuff);
-        const char *       keyword = descriptor->_key.c_str();
+        const RequestKeywordData * descriptor = static_cast<const RequestKeywordData *>(stuff);
+        const char *               keyword = descriptor->_key.c_str();
         
         result = sqlite3_bind_text(statement, keywordIndex, keyword, static_cast<int>(strlen(keyword)),
                                    SQLITE_TRANSIENT);
@@ -609,24 +613,24 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
     if (okSoFar)
     {
         // Add the keywords.
-        int        numKeywords = keywordList.size();
-        ReqKeyData reqData;
+        int                numKeywords = keywordList.size();
+        RequestKeywordData reqKeyData;
         
-        reqData._request = description._request;
-        reqData._port = description._port;
+        reqKeyData._request = description._request;
+        reqKeyData._port = description._port;
         for (int ii = 0; okSoFar && (ii < numKeywords); ++ii)
         {
             yarp::os::Value & aKeyword(keywordList.get(ii));
             
             if (aKeyword.isString())
             {
-                reqData._key = aKeyword.toString();
+                reqKeyData._key = aKeyword.toString();
                 okSoFar = performSQLstatementWithNoResults(_db, insertIntoKeywords, setupInsertForKeywords,
-                                                           static_cast<const void *>(reqData._key.c_str()));
+                                                           static_cast<const void *>(reqKeyData._key.c_str()));
                 if (okSoFar)
                 {
                     okSoFar = performSQLstatementWithNoResults(_db, insertIntoRequestsKeywords,
-                                                               setupInsertForRequestsKeywords, &reqData);
+                                                               setupInsertForRequestsKeywords, &reqKeyData);
                 }
             }
             else

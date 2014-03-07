@@ -15,11 +15,12 @@ set(YPP_VERSION_MAJOR 0)
 set(YPP_VERSION_MINOR 9)
 set(YPP_VERSION_PATCH 0)
 
-set(DEBUGGING_DIR "${PROJECT_SOURCE_DIR}/Debugging")
-set(COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
+set(YPP_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
+set(YPP_DEBUGGING_DIR "${PROJECT_SOURCE_DIR}/Debugging")
+set(YPP_PARSER_DIR “${PROJECT_SOURCE_DIR}/Parser”)
 
-configure_file("${COMMON_DIR}/YPPConfig.h.in"
-                "${COMMON_DIR}/YPPConfig.h")
+configure_file("${YPP_COMMON_DIR}/YPPConfig.h.in"
+                "${YPP_COMMON_DIR}/YPPConfig.h")
 
 # find YARP
 find_package(YARP REQUIRED)
@@ -54,9 +55,11 @@ add_subdirectory(ExampleEchoClient)
 add_subdirectory(ExampleEchoService)
 add_subdirectory(ExampleRandomNumberClient)
 add_subdirectory(ExampleRandomNumberService)
+add_subdirectory(Parser)
 add_subdirectory(RegistryService)
 
-include_directories("${DEBUGGING_DIR}"
-                    "${COMMON_DIR}")
+include_directories("${YPP_COMMON_DIR}"
+                    "${YPP_DEBUGGING_DIR}"
+                    "${YPP_PARSER_DIR}")
 
 enable_testing()

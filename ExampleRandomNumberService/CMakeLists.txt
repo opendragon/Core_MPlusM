@@ -6,8 +6,8 @@
 #  Copyright (c) 2014 OpenDragon. All rights reserved.
 #
 
-include_directories("${DEBUGGING_DIR}"
-                    "${COMMON_DIR}")
+include_directories("${YPP_DEBUGGING_DIR}"
+                    "${YPP_COMMON_DIR}")
 
 # set up our program
 add_executable(ExampleRandomNumberService main.cpp YPPExampleRandomNumberService.cpp YPPRandomRequestHandler.cpp)

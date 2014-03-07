@@ -12,3 +12,5 @@ ExampleEchoService/ExampleEchoService
 ExampleRandomNumberClient/ExampleRandomNumberClient
 ExampleRandomNumberService/ExampleRandomNumberService
 YarpPlusPlus/YarpPlusPlus.xcodeproj/project.xcworkspace/xcshareddata/YarpPlusPlus.xccheckout
+Parser/ParserTest
+YarpPlusPlus/YarpPlusPlus.xcodeproj/xcuserdata/M_M.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist

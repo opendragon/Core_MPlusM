@@ -7,7 +7,7 @@
 //
 
 #include "YPPBaseService.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPBaseServiceInputHandler.h"
 #include "YPPBaseServiceInputHandlerCreator.h"

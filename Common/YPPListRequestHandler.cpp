@@ -7,7 +7,7 @@
 //
 
 #include "YPPListRequestHandler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPRequestMap.h"
 #include "YPPRequests.h"

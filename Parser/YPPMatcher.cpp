@@ -1,16 +1,16 @@
 //
-//  YPPRequestHandler.cpp
+//  YPPMatcher.cpp
 //  YarpPlusPlus
 //
-//  Created by Norman Jaffe on 2014-02-26.
+//  Created by Norman Jaffe on 2014-03-07.
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#include "YPPRequestHandler.h"
-//#define ENABLE_OD_SYSLOG /* */
+#include "YPPMatcher.h"
+#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 
-using namespace YarpPlusPlus;
+using namespace YarpPlusPlusParser;
 
 #if defined(__APPLE__)
 # pragma mark Private structures and constants
@@ -28,30 +28,21 @@ using namespace YarpPlusPlus;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RequestHandler::RequestHandler(const yarp::os::ConstString & request) :
-        _owner(NULL), _name(request)
+Matcher::Matcher(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT_P(this);//####
-} // RequestHandler::RequestHandler
+} // Matcher::Matcher
 
-RequestHandler::~RequestHandler(void)
+Matcher::~Matcher(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // RequestHandler::~RequestHandler
+} // Matcher::~Matcher
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
-
-void RequestHandler::setOwner(RequestMap & owner)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("owner = ", &owner);//####
-    _owner = &owner;
-    OD_SYSLOG_EXIT();//####
-} // RequestHandler::setOwner
 
 #if defined(__APPLE__)
 # pragma mark Accessors
