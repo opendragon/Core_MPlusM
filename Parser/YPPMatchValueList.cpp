@@ -69,12 +69,10 @@ MatchValueList * MatchValueList::createMatcher(const yarp::os::ConstString & inS
                 int          nextElementPos;
                 MatchValue * element = MatchValue::createMatcher(inString, true, workPos, nextElementPos);
                 
-                OD_SYSLOG_LL1("nextElementPos <- ", nextElementPos);//####
                 if (element)
                 {
-                    // Skip over any whitespace after the element.
-                    workPos = nextElementPos;
-                    for ( ; workPos < length; ++workPos)
+                    // Skip over any trailing whitespace, to find if the list is complete or more coming.
+                    for (workPos = nextElementPos; workPos < length; ++workPos)
                     {
                         scanChar = inString[workPos];
                         if (! isspace(scanChar))
@@ -131,6 +129,11 @@ MatchValueList * MatchValueList::createMatcher(const yarp::os::ConstString & inS
     return result;
 } // MatchValueList::createMatcher
 
+char MatchValueList::listInitiatorCharacter(void)
+{
+    return kRoundOpenBracket;
+} // MatchValueList::listInitiatorCharacter
+
 char MatchValueList::listSeparatorCharacter(void)
 {
     return kComma;
@@ -176,6 +179,7 @@ const
         if (ii)
         {
             result += kComma;
+            result += " ";
         }
         result += element->asString();
     }

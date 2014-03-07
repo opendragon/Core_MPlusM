@@ -14,7 +14,7 @@
 
 namespace YarpPlusPlusParser
 {
-    /*! @brief A pattern matcher for simple values. */
+    /*! @brief A pattern matcher for field names. */
     class MatchFieldName : public Matcher
     {
     public:

@@ -19,6 +19,8 @@
 		DF27F43118CA593500E93C95 /* YPPMatchValueList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPMatchValueList.h; path = ../Parser/YPPMatchValueList.h; sourceTree = "<group>"; };
 		DF27F43218CA729700E93C95 /* YPPMatchFieldName.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPMatchFieldName.cpp; path = ../Parser/YPPMatchFieldName.cpp; sourceTree = "<group>"; };
 		DF27F43318CA729700E93C95 /* YPPMatchFieldName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPMatchFieldName.h; path = ../Parser/YPPMatchFieldName.h; sourceTree = "<group>"; };
+		DF27F43418CA7EC500E93C95 /* YPPMatchFieldWithValues.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPMatchFieldWithValues.cpp; path = ../Parser/YPPMatchFieldWithValues.cpp; sourceTree = "<group>"; };
+		DF27F43518CA7EC500E93C95 /* YPPMatchFieldWithValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPMatchFieldWithValues.h; path = ../Parser/YPPMatchFieldWithValues.h; sourceTree = "<group>"; };
 		DFA3431318C91B7E0053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../RegistryService/main.cpp; sourceTree = "<group>"; };
 		DFA3431518C91BAB0053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ExampleEchoService/CMakeLists.txt; sourceTree = "<group>"; };
 		DFA3431618C91BAB0053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../ExampleEchoService/main.cpp; sourceTree = "<group>"; };
@@ -137,6 +139,8 @@
 				DF27F42E18CA3BBA00E93C95 /* YPPMatcher.h */,
 				DF27F43218CA729700E93C95 /* YPPMatchFieldName.cpp */,
 				DF27F43318CA729700E93C95 /* YPPMatchFieldName.h */,
+				DF27F43418CA7EC500E93C95 /* YPPMatchFieldWithValues.cpp */,
+				DF27F43518CA7EC500E93C95 /* YPPMatchFieldWithValues.h */,
 				DF27F42918CA36C200E93C95 /* YPPMatchValue.cpp */,
 				DF27F42A18CA36C200E93C95 /* YPPMatchValue.h */,
 				DF27F43018CA593500E93C95 /* YPPMatchValueList.cpp */,

@@ -12,6 +12,7 @@ include_directories("${YPP_COMMON_DIR}"
 add_library(YPPParser
             YPPMatcher.cpp
             YPPMatchFieldName.cpp
+            YPPMatchFieldWithValues.cpp
             YPPMatchValue.cpp
             YPPMatchValueList.cpp)
 
@@ -55,3 +56,14 @@ add_test(NAME TestParseFieldName2 COMMAND ParserTest 3 f "blort ")
 add_test(NAME TestParseFieldName3 COMMAND ParserTest 3 t "keyword ")
 add_test(NAME TestParseFieldName4 COMMAND ParserTest 3 t "keyword:")
 add_test(NAME TestParseFieldName5 COMMAND ParserTest 3 t "request ")
+# Test expressions
+add_test(NAME TestParseFieldWithValues1 COMMAND ParserTest 4 f "")
+add_test(NAME TestParseFieldWithValues2 COMMAND ParserTest 4 f "keyword ")
+add_test(NAME TestParseFieldWithValues3 COMMAND ParserTest 4 f "keyword:")
+add_test(NAME TestParseFieldWithValues4 COMMAND ParserTest 4 t "keyword alpha")
+add_test(NAME TestParseFieldWithValues5 COMMAND ParserTest 4 t "keyword:alpha")
+add_test(NAME TestParseFieldWithValues6 COMMAND ParserTest 4 t "keyword (alpha,beta)")
+add_test(NAME TestParseFieldWithValues7 COMMAND ParserTest 4 t "keyword:(alpha,beta)")
+add_test(NAME TestParseFieldWithValues8 COMMAND ParserTest 4 f "keyword (alpha,)")
+add_test(NAME TestParseFieldWithValues9 COMMAND ParserTest 4 f "keyword:(alpha")
+add_test(NAME TestParseFieldWithValues10 COMMAND ParserTest 4 t "keyword:(alpha,\"beta gamma\")")

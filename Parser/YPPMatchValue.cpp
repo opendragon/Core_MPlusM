@@ -50,7 +50,8 @@ MatchValue * MatchValue::createMatcher(const yarp::os::ConstString & inString,
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
     OD_SYSLOG_B1("insideList = ", insideList);//####
     OD_SYSLOG_LL1("startPos = ", startPos);//####
-    char         delimiter;
+    char         delimiter = '\0';
+    char         listInitiator = MatchValueList::listInitiatorCharacter();
     char         listSeparator = (insideList ? MatchValueList::listSeparatorCharacter() : '\0');
     char         listTerminator = (insideList ? MatchValueList::listTerminatorCharacter() : '\0');
     char         scanChar = '\0';
@@ -73,15 +74,17 @@ MatchValue * MatchValue::createMatcher(const yarp::os::ConstString & inString,
         // Remember where we began.
         int startSubPos = workPos;
         
-        // If we have a quote character, scan for the matching character.
+        // If we have a quote character, scan for the matching character. If we have an illegal starting character,
+        // reject the string.
         if ((kDoubleQuote == scanChar) || (kSingleQuote == scanChar))
         {
             delimiter = scanChar;
             ++startSubPos;
         }
-        else
+        else if (listInitiator == scanChar)
         {
-            delimiter = '\0';
+            workPos = length;
+            delimiter = '\1';
         }
         for (++workPos; workPos < length; ++workPos)
         {
@@ -90,6 +93,7 @@ MatchValue * MatchValue::createMatcher(const yarp::os::ConstString & inString,
             {
                 if (delimiter == scanChar)
                 {
+                    OD_SYSLOG("(delimiter == scanChar)");//####
                     break;
                 }
                 
@@ -98,19 +102,22 @@ MatchValue * MatchValue::createMatcher(const yarp::os::ConstString & inString,
             {
                 if (isspace(scanChar))
                 {
+                    OD_SYSLOG("(isspace(scanChar))");//####
                     break;
                 }
                 
                 // Check if we are at the end of a list element.
                 if ((listSeparator == scanChar) || (listTerminator == scanChar))
                 {
+                    OD_SYSLOG("((listSeparator == scanChar) || (listTerminator == scanChar))");//####
                     break;
                 }
        
             }
         }
-        if ((! delimiter) || (workPos < length))
+        if ((workPos < length) || ((! delimiter) && (! insideList)))
         {
+            OD_SYSLOG("((workPos < length) || ((! delimiter) && (! insideList)))");//####
             // Either we stopped with a blank or the end of the string, or we saw a matching delimiter before the end.
             if (0 < (workPos - startSubPos))
             {
@@ -212,6 +219,81 @@ const
     OD_SYSLOG_EXIT_S(converted.c_str());//####
     return converted;
 } // MatchValue::asSQLString
+
+yarp::os::ConstString MatchValue::asString(void)
+const
+{
+    bool                  sawDoubleQuote = false;
+    bool                  sawSingleQuote = false;
+    bool                  sawWhitespace = false;
+    yarp::os::ConstString converted;
+    int                   len = _matchingString.length();
+
+    // First, check if there are blanks or quotes in the string:
+    for (int ii = 0; ii < len; ++ii)
+    {
+        char walker = _matchingString[ii];
+        
+        if (isspace(walker))
+        {
+            sawWhitespace = true;
+        }
+        else if (kDoubleQuote == walker)
+        {
+            sawDoubleQuote = true;
+        }
+        else if (kSingleQuote == walker)
+        {
+            sawSingleQuote = true;
+        }
+    }
+    if (sawWhitespace || sawDoubleQuote || sawSingleQuote)
+    {
+        if (sawDoubleQuote && sawSingleQuote)
+        {
+            // If both quotes are present, use double quotes and escape any double quotes that we find.
+            converted += kDoubleQuote;
+            for (int ii = 0; ii < len; ++ii)
+            {
+                char walker = _matchingString[ii];
+                
+                if (kDoubleQuote == walker)
+                {
+                    converted += kEscapeCharacter;
+                }
+                converted += walker;
+            }
+            converted += kDoubleQuote;
+        }
+        else if (sawDoubleQuote)
+        {
+            // If only one type of quote is present, use the other quote.
+            converted += kSingleQuote;
+            converted += _matchingString;
+            converted += kSingleQuote;
+        }
+        else if (sawSingleQuote)
+        {
+            // If only one type of quote is present, use the other quote.
+            converted += kDoubleQuote;
+            converted += _matchingString;
+            converted += kDoubleQuote;
+        }
+        else
+        {
+            // If no quotes are present, just use double quotes.
+            converted += kDoubleQuote;
+            converted += _matchingString;
+            converted += kDoubleQuote;
+        }
+    }
+    else
+    {
+        // If neither blanks nor quotes are in the string, just return the string.
+        converted = _matchingString;
+    }
+    return converted;
+} // MatchValue::asString
 
 #if defined(__APPLE__)
 # pragma mark Accessors
