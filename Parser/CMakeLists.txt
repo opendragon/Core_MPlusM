@@ -11,6 +11,7 @@ include_directories("${YPP_COMMON_DIR}"
 
 add_library(YPPParser
             YPPMatcher.cpp
+            YPPMatchFieldName.cpp
             YPPMatchValue.cpp
             YPPMatchValueList.cpp)
 
@@ -48,3 +49,9 @@ add_test(NAME TestParseValueList8 COMMAND ParserTest 2 f "(alpha,")
 add_test(NAME TestParseValueList9 COMMAND ParserTest 2 t "(alpha,beta)")
 add_test(NAME TestParseValueList10 COMMAND ParserTest 2 f "(alpha,beta")
 add_test(NAME TestParseValueList11 COMMAND ParserTest 2 t "  ( alpha , beta )")
+# Test field names
+add_test(NAME TestParseFieldName1 COMMAND ParserTest 3 f "")
+add_test(NAME TestParseFieldName2 COMMAND ParserTest 3 f "blort ")
+add_test(NAME TestParseFieldName3 COMMAND ParserTest 3 t "keyword ")
+add_test(NAME TestParseFieldName4 COMMAND ParserTest 3 t "keyword:")
+add_test(NAME TestParseFieldName5 COMMAND ParserTest 3 t "request ")

@@ -108,7 +108,6 @@ MatchValue * MatchValue::createMatcher(const yarp::os::ConstString & inString,
                 }
        
             }
-            
         }
         if ((! delimiter) || (workPos < length))
         {
