@@ -747,7 +747,7 @@ bool RegistryService::start(void)
             ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
             ServiceResponse  response;
             
-            if (request.send(getEndpoint(), &response))
+            if (request.send(getEndpoint(), NULL, &response))
             {
                 // Check that we got a successful self-registration!
                 if (1 == response.count())

@@ -61,7 +61,7 @@ yarp::os::ConstString ServiceResponse::asString(void)
 const
 {
     OD_SYSLOG_ENTER();//####
-    yarp::os::ConstString result = _values.toString();
+    yarp::os::ConstString result(_values.toString());
     
     OD_SYSLOG_EXIT_S(result.c_str());//####
     return result;

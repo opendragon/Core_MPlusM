@@ -202,7 +202,7 @@ bool YarpPlusPlus::registerLocalService(const yarp::os::ConstString & portName)
     ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
     ServiceResponse  response;
     
-    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, &response))
+    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
     {
         // Check that we got a successful self-registration!
         if (1 == response.count())
@@ -228,7 +228,7 @@ bool YarpPlusPlus::unregisterLocalService(const yarp::os::ConstString & portName
     ServiceRequest   request(YPP_UNREGISTER_REQUEST, parameters);
     ServiceResponse  response;
     
-    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, &response))
+    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
     {
         // Check that we got a successful self-registration!
         if (1 == response.count())

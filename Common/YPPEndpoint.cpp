@@ -72,7 +72,7 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
     if (0 < hostName.length())
     {
         // Non-empty hostname - check it...
-        yarp::os::ConstString ipAddress = yarp::os::Contact::convertHostToIp(hostName);
+        yarp::os::ConstString ipAddress(yarp::os::Contact::convertHostToIp(hostName));
         
         OD_SYSLOG_S1("ipAddress = ", ipAddress.c_str());//####
         

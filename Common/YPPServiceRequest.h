@@ -10,6 +10,7 @@
 # define YPPSERVICEREQUEST_H_ /* */
 
 # include "YPPServiceResponse.h"
+# include <yarp/os/Port.h>
 
 namespace YarpPlusPlus
 {
@@ -30,17 +31,21 @@ namespace YarpPlusPlus
         virtual ~ServiceRequest(void);
         
         /*! @brief Send the request to an endpoint for processing.
-         @param destination The endpoint that is to receive the request.
+         @param destinationPort The endpoint that is to receive the request.
+         @param usingPort The port that is to send the request, or @c NULL if an arbitrary port is to be used.
          @param response The response from the request, @c NULL if none is expected.
          @returns @c true if the request was successfully transmitted. */
-        bool send(Endpoint &        destination,
+        bool send(Endpoint &        destinationPort,
+                  yarp::os::Port *  usingPort = NULL,
                   ServiceResponse * response = NULL);
         
         /*! @brief Send the request to an endpoint for processing.
-         @param portName The port that is to receive the request.
+         @param destinationPortName The port that is to receive the request.
+         @param usingPort The port that is to send the request, or @c NULL if an arbitrary port is to be used.
          @param response The response from the request, @c NULL if none is expected.
          @returns @c true if the request was successfully transmitted. */
-        bool send(const yarp::os::ConstString & portName,
+        bool send(const yarp::os::ConstString & destinationPortName,
+                  yarp::os::Port *              usingPort = NULL,
                   ServiceResponse *             response = NULL);
         
     protected:

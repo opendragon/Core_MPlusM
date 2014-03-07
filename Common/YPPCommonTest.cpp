@@ -139,7 +139,7 @@ static int doCase02(const int argc,
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
             // Now we try to connect!
             yarp::os::Port        outPort;
-            yarp::os::ConstString aName = Endpoint::getRandomPortName();
+            yarp::os::ConstString aName(Endpoint::getRandomPortName());
             
             OD_SYSLOG_S1("opening ", aName.c_str());//####
             if (outPort.open(aName))
@@ -201,7 +201,7 @@ static int doCase03(const int argc,
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
             // Now we try to connect!
             yarp::os::Port        outPort;
-            yarp::os::ConstString aName = Endpoint::getRandomPortName();
+            yarp::os::ConstString aName(Endpoint::getRandomPortName());
             
             OD_SYSLOG_S1("opening ", aName.c_str());//####
             if (outPort.open(aName))
@@ -276,7 +276,7 @@ static int doCase04(const int argc,
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
             // Now we try to connect!
             yarp::os::Port        outPort;
-            yarp::os::ConstString aName = Endpoint::getRandomPortName();
+            yarp::os::ConstString aName(Endpoint::getRandomPortName());
             
             OD_SYSLOG_S1("opening ", aName.c_str());//####
             if (outPort.open(aName))
@@ -353,7 +353,7 @@ static int doCase05(const int argc,
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
             // Now we try to connect!
             yarp::os::Port        outPort;
-            yarp::os::ConstString aName = Endpoint::getRandomPortName();
+            yarp::os::ConstString aName(Endpoint::getRandomPortName());
             
             OD_SYSLOG_S1("opening ", aName.c_str());//####
             if (outPort.open(aName))
@@ -490,7 +490,7 @@ static int doCase08(const int argc,
             ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
             ServiceResponse  response;
             
-            if (request.send(*stuff, &response))
+            if (request.send(*stuff, NULL, &response))
             {
                 OD_SYSLOG_LL1("response size = ", response.count());//####
                 for (int ii = 0; ii < response.count(); ++ii)
@@ -537,7 +537,7 @@ static int doCase09(const int argc,
         ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
         ServiceResponse  response;
         
-        if (request.send(stuff->getEndpoint(), &response))
+        if (request.send(stuff->getEndpoint(), NULL, &response))
         {
             OD_SYSLOG_LL1("response size = ", response.count());//####
             for (int ii = 0; ii < response.count(); ++ii)
@@ -580,7 +580,7 @@ static int doCase10(const int argc,
         ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
         ServiceResponse  response;
         
-        if (request.send(stuff->getEndpoint(), &response))
+        if (request.send(stuff->getEndpoint(), NULL, &response))
         {
             OD_SYSLOG_LL1("response size = ", response.count());//####
             for (int ii = 0; ii < response.count(); ++ii)
@@ -623,7 +623,7 @@ static int doCase11(const int argc,
         ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
         ServiceResponse  response;
         
-        if (request.send(stuff->getEndpoint(), &response))
+        if (request.send(stuff->getEndpoint(), NULL, &response))
         {
             if (3 == response.count())
             {
@@ -690,7 +690,7 @@ static bool checkList12Response(const ServiceResponse & response)
                 
                 if (asDict->check(YPP_REQREP_DICT_REQUEST_KEY))
                 {
-                    yarp::os::ConstString aName = asDict->find(YPP_REQREP_DICT_REQUEST_KEY).asString();
+                    yarp::os::ConstString aName(asDict->find(YPP_REQREP_DICT_REQUEST_KEY).asString());
                     
                     if (aName == YPP_LIST_REQUEST)
                     {
@@ -700,7 +700,7 @@ static bool checkList12Response(const ServiceResponse & response)
                         }
                         else if ((! hasInput) && hasOutput)
                         {
-                            yarp::os::ConstString itsOutput = asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString();
+                            yarp::os::ConstString itsOutput(asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString());
                             
                             sawList = (itsOutput == "([]+)");
                         }
@@ -713,8 +713,8 @@ static bool checkList12Response(const ServiceResponse & response)
                         }
                         else if (hasInput && hasOutput)
                         {
-                            yarp::os::ConstString itsOutput = asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString();
-                            yarp::os::ConstString itsInput = asDict->find(YPP_REQREP_DICT_INPUT_KEY).asString();
+                            yarp::os::ConstString itsOutput(asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString());
+                            yarp::os::ConstString itsInput(asDict->find(YPP_REQREP_DICT_INPUT_KEY).asString());
                             
                             sawInfo = ((itsInput == ".+") && (itsOutput == "([]?)"));
                         }
@@ -727,8 +727,8 @@ static bool checkList12Response(const ServiceResponse & response)
                         }
                         else if (hasInput && hasOutput)
                         {
-                            yarp::os::ConstString itsOutput = asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString();
-                            yarp::os::ConstString itsInput = asDict->find(YPP_REQREP_DICT_INPUT_KEY).asString();
+                            yarp::os::ConstString itsOutput(asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString());
+                            yarp::os::ConstString itsInput(asDict->find(YPP_REQREP_DICT_INPUT_KEY).asString());
                             
                             sawEcho = ((itsInput == ".*") && (itsOutput == ".*"));
                         }
@@ -769,7 +769,7 @@ static int doCase12(const int argc,
         ServiceRequest  request(YPP_LIST_REQUEST);
         ServiceResponse response;
         
-        if (request.send(stuff->getEndpoint(), &response))
+        if (request.send(stuff->getEndpoint(), NULL, &response))
         {
             OD_SYSLOG_LL1("response size = ", response.count());//####
             for (int ii = 0; ii < response.count(); ++ii)

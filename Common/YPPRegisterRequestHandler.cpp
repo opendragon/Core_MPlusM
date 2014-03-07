@@ -93,7 +93,7 @@ bool RegisterRequestHandler::operator() (const yarp::os::Bottle &     restOfInpu
                 {
                     // Send a 'list' request to the port
                     yarp::os::Port        outPort;
-                    yarp::os::ConstString aName = Endpoint::getRandomPortName();
+                    yarp::os::ConstString aName(Endpoint::getRandomPortName());
 
                     if (outPort.open(aName))
                     {
@@ -178,7 +178,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                 
                 if (asDict->check(YPP_REQREP_DICT_REQUEST_KEY))
                 {
-                    yarp::os::ConstString theRequest = asDict->find(YPP_REQREP_DICT_REQUEST_KEY).asString();
+                    yarp::os::ConstString theRequest(asDict->find(YPP_REQREP_DICT_REQUEST_KEY).asString());
                     yarp::os::Bottle      keywordList;
                     RequestDescription    requestDescriptor;
 
