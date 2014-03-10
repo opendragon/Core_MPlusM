@@ -43,12 +43,12 @@ namespace YarpPlusPlusParser
         
         /*! @brief Create a pattern matcher if the next substring would be a valid value.
          @param inString The string being scanned.
-         @param insideList @c true if we are scanning list elements and @c false if we are looking for singular values.
+         @param inLength The length of the string being scanned.
          @param startPos Where in the string to start scanning.
          @param endPos Where the scan terminated, if successful.
          @returns A non-null matcher if the string would be a valid value and @c NULL otherwise. */
         static MatchValue * createMatcher(const yarp::os::ConstString & inString,
-                                          const bool                    insideList,
+                                          const int                     inLength,
                                           const int                     startPos,
                                           int &                         endPos);
         

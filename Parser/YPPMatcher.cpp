@@ -9,6 +9,7 @@
 #include "YPPMatcher.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include <cctype>
 
 using namespace YarpPlusPlusParser;
 
@@ -23,6 +24,25 @@ using namespace YarpPlusPlusParser;
 #if defined(__APPLE__)
 # pragma mark Class methods
 #endif // defined(__APPLE__)
+
+int Matcher::skipWhitespace(const yarp::os::ConstString & inString,
+                            const int                     inLength,
+                            const int                     startPos)
+{
+    int result = startPos;
+    
+    for ( ; result < inLength; ++result)
+    {
+        char scanChar = inString[result];
+        
+        if (! isspace(scanChar))
+        {
+            break;
+        }
+        
+    }
+    return result;
+} // Matcher::skipWhitespace
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors

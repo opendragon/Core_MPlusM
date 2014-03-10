@@ -9,6 +9,7 @@
 #include "YPPMatchFieldName.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPMatchValueList.h"
 #include <cctype>
 #include <cstdlib>
 #include <cstring>
@@ -22,21 +23,6 @@ using namespace YarpPlusPlusParser;
 /*! @brief The colon character, which is an optional field name terminating character. */
 static const char kColon = ':';
 
-/*! @brief the valid field names that may be used. Note that the strings are all lower-case for comparison purposes. */
-static const char * kFieldNames[] =
-{
-    "description",
-    "input",
-    "keyword",
-    "output",
-    "portname",
-    "request",
-    "version"
-};
-
-/*! @brief The number of valid field names. */
-static const size_t kFieldNamesCount = (sizeof(kFieldNames) / sizeof(*kFieldNames));
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -46,75 +32,60 @@ static const size_t kFieldNamesCount = (sizeof(kFieldNames) / sizeof(*kFieldName
 #endif // defined(__APPLE__)
 
 MatchFieldName * MatchFieldName::createMatcher(const yarp::os::ConstString & inString,
+                                               const int                     inLength,
                                                const int                     startPos,
-                                               int &                         endPos)
+                                               int &                         endPos,
+                                               FieldNameValidator            validator)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
-    OD_SYSLOG_LL1("startPos = ", startPos);//####
-    char             scanChar = '\0';
-    int              workPos = startPos;
-    int              length = inString.length();
+    OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
+    int              workPos = skipWhitespace(inString, inLength, startPos);
     MatchFieldName * result = NULL;
     
-    // Skip whitespace
-    for ( ; workPos < length; ++workPos)
-    {
-        scanChar = inString[workPos];
-        if (! isspace(scanChar))
-        {
-            break;
-        }
-        
-    }
-    if (workPos < length)
+    if (workPos < inLength)
     {
         // Remember where we began.
-        int startSubPos = workPos;
+        char listStart = MatchValueList::listInitiatorCharacter();
+        char scanChar = inString[workPos];
+        int  startSubPos = workPos;
         
-        for (++workPos; workPos < length; ++workPos)
+        for (++workPos; workPos < inLength; ++workPos)
         {
             scanChar = inString[workPos];
-            if (isspace(scanChar))
+            if (isspace(scanChar) || (kColon == scanChar) || (listStart == scanChar))
             {
                 break;
             }
             
-            if (kColon == scanChar)
-            {
-                break;
-            }
-       
         }
-        if (workPos < length)
+        if (workPos < inLength)
         {
-            // Either we stopped with a blank, a colon or the end of the string.
+            // Either we stopped with a blank, a colon, a list beginning or the end of the string.
             if (0 < (workPos - startSubPos))
             {
-                // If we have a non-empty substring, we just need to check if the field is a know name.
-                bool                  isOK = false;
-                yarp::os::ConstString tempString((inString.substr(startSubPos, workPos - startSubPos)));
-                char *                tempAsChars = strdup(tempString.c_str());
-                
-                // Convert the copy of the string to lower-case:
-                for (size_t ii = 0, len = strlen(tempAsChars); ii < len; ++ii)
+                yarp::os::ConstString tempString(inString.substr(startSubPos, workPos - startSubPos));
+
+                if (validator)
                 {
-                    tempAsChars[ii] = static_cast<char>(tolower(tempAsChars[ii]));
-                }
-                for (size_t ii = 0; ii < kFieldNamesCount; ++ii)
-                {
-                    if (! strcmp(tempAsChars, kFieldNames[ii]))
-                    {
-                        isOK = true;
-                        break;
-                    }
+                    // If we have a non-empty substring, we need to check if the field is a known name.
+                    char * tempAsChars = strdup(tempString.c_str());
                     
+                    // Convert the copy of the string to lower-case:
+                    for (size_t ii = 0, len = strlen(tempAsChars); ii < len; ++ii)
+                    {
+                        tempAsChars[ii] = static_cast<char>(tolower(tempAsChars[ii]));
+                    }
+                    if (validator(tempAsChars))
+                    {
+                        result = new MatchFieldName(tempString);
+                    }
+                    free(tempAsChars);
                 }
-                if (isOK)
+                else
                 {
                     result = new MatchFieldName(tempString);
                 }
-                free(tempAsChars);
             }
         }
         if (result)

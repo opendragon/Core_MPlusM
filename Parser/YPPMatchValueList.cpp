@@ -34,29 +34,20 @@ static const char kRoundOpenBracket = '(';
 #endif // defined(__APPLE__)
 
 MatchValueList * MatchValueList::createMatcher(const yarp::os::ConstString & inString,
+                                               const int                     inLength,
                                                const int                     startPos,
                                                int &                         endPos)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
-    OD_SYSLOG_LL1("startPos = ", startPos);
-    char             scanChar = '\0';
-    int              workPos = startPos;
-    int              length = inString.length();
+    OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);
+    int              workPos = skipWhitespace(inString, inLength, startPos);
     MatchValueList * result = NULL;
     
-    // Skip whitespace
-    for ( ; workPos < length; ++workPos)
+    if (workPos < inLength)
     {
-        scanChar = inString[workPos];
-        if (! isspace(scanChar))
-        {
-            break;
-        }
+        char scanChar = inString[workPos];
         
-    }
-    if (workPos < length)
-    {
         if (kRoundOpenBracket == scanChar)
         {
             // We potentially have a list.
@@ -67,12 +58,12 @@ MatchValueList * MatchValueList::createMatcher(const yarp::os::ConstString & inS
             for (++workPos; okSoFar && (! done); )
             {
                 int          nextElementPos;
-                MatchValue * element = MatchValue::createMatcher(inString, true, workPos, nextElementPos);
+                MatchValue * element = MatchValue::createMatcher(inString, inLength, workPos, nextElementPos);
                 
                 if (element)
                 {
                     // Skip over any trailing whitespace, to find if the list is complete or more coming.
-                    for (workPos = nextElementPos; workPos < length; ++workPos)
+                    for (workPos = nextElementPos; workPos < inLength; ++workPos)
                     {
                         scanChar = inString[workPos];
                         if (! isspace(scanChar))
@@ -81,7 +72,7 @@ MatchValueList * MatchValueList::createMatcher(const yarp::os::ConstString & inS
                         }
                         
                     }
-                    if (workPos < length)
+                    if (workPos < inLength)
                     {
                         if (kRoundCloseBracket == scanChar)
                         {

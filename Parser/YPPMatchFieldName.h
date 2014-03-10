@@ -12,6 +12,8 @@
 # include "YPPMatcher.h"
 # include <yarp/os/ConstString.h>
 
+typedef bool (*FieldNameValidator)(const char * aString);
+
 namespace YarpPlusPlusParser
 {
     /*! @brief A pattern matcher for field names. */
@@ -32,12 +34,16 @@ namespace YarpPlusPlusParser
 
         /*! @brief Create a pattern matcher if the next substring would be a valid value.
          @param inString The string being scanned.
+         @param inLength The length of the string being scanned.
          @param startPos Where in the string to start scanning.
          @param endPos Where the scan terminated, if successful.
+         @param validator A function that returns @c true if the field name is valid and @c false otherwise.
          @returns A non-null matcher if the string would be a valid value and @c NULL otherwise. */
         static MatchFieldName * createMatcher(const yarp::os::ConstString & inString,
+                                              const int                     inLength,
                                               const int                     startPos,
-                                              int &                         endPos);
+                                              int &                         endPos,
+                                              FieldNameValidator            validator = NULL);
         
     protected:
         

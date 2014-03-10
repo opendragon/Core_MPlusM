@@ -26,9 +26,43 @@ using std::endl;
 # pragma mark Private structures and constants
 #endif // defined(__APPLE__)
 
+/*! @brief the valid field names that may be used. Note that the strings are all lower-case for comparison purposes. */
+static const char * kFieldNames[] =
+{
+    "description",
+    "input",
+    "keyword",
+    "output",
+    "portname",
+    "request",
+    "version"
+};
+
+/*! @brief The number of valid field names. */
+static const size_t kFieldNamesCount = (sizeof(kFieldNames) / sizeof(*kFieldNames));
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
+
+/*! @brief Check a candidate field name against the list of legal field names.
+ @param aString The string to be checked.
+ @returns @c true if the field name is recognized and @c false otherwise. */
+static bool fieldNameValidator(const char * aString)
+{
+    bool result = false;
+    
+    for (size_t ii = 0; ii < kFieldNamesCount; ++ii)
+    {
+        if (! strcmp(aString, kFieldNames[ii]))
+        {
+            result = true;
+            break;
+        }
+        
+    }
+    return result;
+} // fieldNameValidator
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 01 ***
@@ -45,7 +79,8 @@ static int doCase01(const bool expected,
     OD_SYSLOG_B1("expected = ", expected);//####
     OD_SYSLOG_S1("inString = ", inString);//####
     int          endPos;
-    MatchValue * didMatch = MatchValue::createMatcher(inString, false, 0, endPos);
+    int          len = static_cast<int>(strlen(inString));
+    MatchValue * didMatch = MatchValue::createMatcher(inString, len, 0, endPos);
     int          result = ((expected == (NULL != didMatch)) ? 0 : 1);
 
     if (didMatch)
@@ -68,7 +103,8 @@ static int doCase02(const bool expected,
     OD_SYSLOG_B1("expected = ", expected);//####
     OD_SYSLOG_S1("inString = ", inString);//####
     int              endPos;
-    MatchValueList * didMatch = MatchValueList::createMatcher(inString, 0, endPos);
+    int              len = static_cast<int>(strlen(inString));
+    MatchValueList * didMatch = MatchValueList::createMatcher(inString, len, 0, endPos);
     int              result = ((expected == (NULL != didMatch)) ? 0 : 1);
     
     if (didMatch)
@@ -91,7 +127,8 @@ static int doCase03(const bool expected,
     OD_SYSLOG_B1("expected = ", expected);//####
     OD_SYSLOG_S1("inString = ", inString);//####
     int              endPos;
-    MatchFieldName * didMatch = MatchFieldName::createMatcher(inString, 0, endPos);
+    int              len = static_cast<int>(strlen(inString));
+    MatchFieldName * didMatch = MatchFieldName::createMatcher(inString, len, 0, endPos, fieldNameValidator);
     int              result = ((expected == (NULL != didMatch)) ? 0 : 1);
     
     if (didMatch)
@@ -114,7 +151,8 @@ static int doCase04(const bool expected,
     OD_SYSLOG_B1("expected = ", expected);//####
     OD_SYSLOG_S1("inString = ", inString);//####
     int                    endPos;
-    MatchFieldWithValues * didMatch = MatchFieldWithValues::createMatcher(inString, 0, endPos);
+    int                    len = static_cast<int>(strlen(inString));
+    MatchFieldWithValues * didMatch = MatchFieldWithValues::createMatcher(inString, len, 0, endPos, fieldNameValidator);
     int                    result = ((expected == (NULL != didMatch)) ? 0 : 1);
     
     if (didMatch)

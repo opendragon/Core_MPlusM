@@ -31,35 +31,41 @@ using namespace YarpPlusPlusParser;
 #endif // defined(__APPLE__)
 
 MatchFieldWithValues * MatchFieldWithValues::createMatcher(const yarp::os::ConstString & inString,
+                                                           const int                     inLength,
                                                            const int                     startPos,
-                                                           int &                         endPos)
+                                                           int &                         endPos,
+                                                           FieldNameValidator            validator)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
-    OD_SYSLOG_LL1("startPos = ", startPos);//####
-//    char                   scanChar = '\0';
+    OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
     int                    workPos = startPos;
-//    int                    length = inString.length();
     MatchFieldWithValues * result = NULL;
-    MatchFieldName *       fieldName = MatchFieldName::createMatcher(inString, startPos, workPos);
+    MatchFieldName *       fieldName = MatchFieldName::createMatcher(inString, inLength, startPos, workPos, validator);
 
     if (fieldName)
     {
-        int              nextPos;
         MatchValue *     asSingle = NULL;
         MatchValueList * asList = NULL;
         
-        // Check for a list of values first
-        asList = MatchValueList::createMatcher(inString, workPos, nextPos);
-        if (! asList)
+        workPos = skipWhitespace(inString, inLength, workPos);
+        if (workPos < inLength)
         {
-            // If it isn't a list of values, check for a single value
-            asSingle = MatchValue::createMatcher(inString, false, workPos, nextPos);
-        }
-        if (asList || asSingle)
-        {
-            result = new MatchFieldWithValues(fieldName, asSingle, asList);
-            endPos = nextPos;
+            int nextPos;
+            
+            if (MatchValueList::listInitiatorCharacter() == inString[workPos])
+            {
+                asList = MatchValueList::createMatcher(inString, inLength, workPos, nextPos);
+            }
+            else
+            {
+                asSingle = MatchValue::createMatcher(inString, inLength, workPos, nextPos);
+            }
+            if (asList || asSingle)
+            {
+                result = new MatchFieldWithValues(fieldName, asSingle, asList);
+                endPos = nextPos;
+            }
         }
     }
     OD_SYSLOG_EXIT_P(result);//####

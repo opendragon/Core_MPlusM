@@ -9,7 +9,7 @@
 #if (! defined(YPPMATCHER_H_))
 # define YPPMATCHER_H_ /* */
 
-# include "YPPConfig.h"
+# include "YPPCommon.h"
 # include <yarp/os/ConstString.h>
 
 namespace YarpPlusPlusParser
@@ -26,6 +26,16 @@ namespace YarpPlusPlusParser
         
         /*! @brief The constructor. */
         Matcher(void);
+        
+        /*! @brief Scan a string for the next non-whitespace character.
+         @param inString The string to be scanned.
+         @param inLength The length of the string being scanned.
+         @param startPos Where in the string to begin scanning.
+         @returns The position in the string where the next non-whitespace character appears, or the length of the
+         string - which is past the end of the string - if the remainder of the string is whitespace. */
+        static int skipWhitespace(const yarp::os::ConstString & inString,
+                                  const int                     inLength,
+                                  const int                     startPos);
         
     private:
         

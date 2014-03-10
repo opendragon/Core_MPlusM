@@ -42,82 +42,68 @@ static const char kUnderscore = '_';
 #endif // defined(__APPLE__)
 
 MatchValue * MatchValue::createMatcher(const yarp::os::ConstString & inString,
-                                       const bool                    insideList,
+                                       const int                     inLength,
                                        const int                     startPos,
                                        int &                         endPos)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
-    OD_SYSLOG_B1("insideList = ", insideList);//####
-    OD_SYSLOG_LL1("startPos = ", startPos);//####
-    char         delimiter = '\0';
-    char         listInitiator = MatchValueList::listInitiatorCharacter();
-    char         listSeparator = (insideList ? MatchValueList::listSeparatorCharacter() : '\0');
-    char         listTerminator = (insideList ? MatchValueList::listTerminatorCharacter() : '\0');
-    char         scanChar = '\0';
-    int          workPos = startPos;
-    int          length = inString.length();
+    OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
+    int          workPos = skipWhitespace(inString, inLength, startPos);
     MatchValue * result = NULL;
     
-    // Skip whitespace
-    for ( ; workPos < length; ++workPos)
+    if (workPos < inLength)
     {
-        scanChar = inString[workPos];
-        if (! isspace(scanChar))
-        {
-            break;
-        }
-        
-    }
-    if (workPos < length)
-    {
+        OD_SYSLOG("(workPos < inLength)");//####
         // Remember where we began.
-        int startSubPos = workPos;
+        char delimiter;
+        char listInitiator = MatchValueList::listInitiatorCharacter();
+        char listSeparator = MatchValueList::listSeparatorCharacter();
+        char listTerminator = MatchValueList::listTerminatorCharacter();
+        char scanChar = inString[workPos];
+        int  startSubPos = workPos;
         
         // If we have a quote character, scan for the matching character. If we have an illegal starting character,
         // reject the string.
         if ((kDoubleQuote == scanChar) || (kSingleQuote == scanChar))
         {
+            OD_SYSLOG("(workPos < inLength)");//####
             delimiter = scanChar;
             ++startSubPos;
         }
         else if (listInitiator == scanChar)
         {
-            workPos = length;
+            OD_SYSLOG("(workPos < inLength)");//####
+            workPos = inLength;
             delimiter = '\1';
         }
-        for (++workPos; workPos < length; ++workPos)
+        else
+        {
+            OD_SYSLOG("(workPos < inLength)");//####
+            delimiter = '\0';
+        }
+        for (++workPos; workPos < inLength; ++workPos)
         {
             scanChar = inString[workPos];
             if (delimiter)
             {
                 if (delimiter == scanChar)
                 {
-                    OD_SYSLOG("(delimiter == scanChar)");//####
                     break;
                 }
                 
             }
-            else
+            else if (isspace(scanChar) || (listSeparator == scanChar) || (listTerminator == scanChar))
             {
-                if (isspace(scanChar))
-                {
-                    OD_SYSLOG("(isspace(scanChar))");//####
-                    break;
-                }
-                
-                // Check if we are at the end of a list element.
-                if ((listSeparator == scanChar) || (listTerminator == scanChar))
-                {
-                    OD_SYSLOG("((listSeparator == scanChar) || (listTerminator == scanChar))");//####
-                    break;
-                }
-       
+                break;
             }
+            
         }
-        if ((workPos < length) || ((! delimiter) && (! insideList)))
+        // If we have a delimiter, then we must match before the end of the input string. If we don't have a delimiter,
+        // we can match the rest of the input string.
+        if (workPos < (inLength + (delimiter ? 0 : 1)))
         {
-            OD_SYSLOG("((workPos < length) || ((! delimiter) && (! insideList)))");//####
+            OD_SYSLOG("(workPos < (inLength + (delimiter ? 0 : 1)))");//####
             // Either we stopped with a blank or the end of the string, or we saw a matching delimiter before the end.
             if (0 < (workPos - startSubPos))
             {

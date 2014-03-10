@@ -9,12 +9,11 @@
 #if (! defined(YPPMATCHFIELDWITHVALUES_H_))
 # define YPPMATCHFIELDWITHVALUES_H_ /* */
 
-# include "YPPMatcher.h"
+# include "YPPMatchFieldName.h"
 # include <yarp/os/ConstString.h>
 
 namespace YarpPlusPlusParser
 {
-    class MatchFieldName;
     class MatchValue;
     class MatchValueList;
     
@@ -33,12 +32,16 @@ namespace YarpPlusPlusParser
 
         /*! @brief Create a pattern matcher if the next substring would be a valid value.
          @param inString The string being scanned.
+         @param inLength The length of the string being scanned.
          @param startPos Where in the string to start scanning.
          @param endPos Where the scan terminated, if successful.
+         @param validator A function that returns @c true if the field name is valid and @c false otherwise.
          @returns A non-null matcher if the string would be a valid value and @c NULL otherwise. */
         static MatchFieldWithValues * createMatcher(const yarp::os::ConstString & inString,
+                                                    const int                     inLength,
                                                     const int                     startPos,
-                                                    int &                         endPos);
+                                                    int &                         endPos,
+                                                    FieldNameValidator            validator = NULL);
         
     protected:
         
