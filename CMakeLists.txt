@@ -15,13 +15,6 @@ set(YPP_VERSION_MAJOR 0)
 set(YPP_VERSION_MINOR 9)
 set(YPP_VERSION_PATCH 0)
 
-set(YPP_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
-set(YPP_DEBUGGING_DIR "${PROJECT_SOURCE_DIR}/Debugging")
-set(YPP_PARSER_DIR “${PROJECT_SOURCE_DIR}/Parser”)
-
-configure_file("${YPP_COMMON_DIR}/YPPConfig.h.in"
-                "${YPP_COMMON_DIR}/YPPConfig.h")
-
 # find YARP
 find_package(YARP REQUIRED)
 list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
@@ -49,6 +42,17 @@ list(APPEND CMAKE_MODULE_PATH ${SQLite_MODULE_PATH})
 # add SQLite include directories
 include_directories(${SQLite_INCLUDE_DIRS})
 
+set(YPP_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
+set(YPP_DEBUGGING_DIR "${PROJECT_SOURCE_DIR}/Debugging")
+set(YPP_PARSER_DIR "${PROJECT_SOURCE_DIR}/Parser")
+
+configure_file("${YPP_COMMON_DIR}/YPPConfig.h.in"
+                "${YPP_COMMON_DIR}/YPPConfig.h")
+
+include_directories("${YPP_COMMON_DIR}"
+                    "${YPP_DEBUGGING_DIR}"
+                    "${YPP_PARSER_DIR}")
+
 add_subdirectory(Common)
 add_subdirectory(Debugging)
 add_subdirectory(ExampleEchoClient)
@@ -57,9 +61,5 @@ add_subdirectory(ExampleRandomNumberClient)
 add_subdirectory(ExampleRandomNumberService)
 add_subdirectory(Parser)
 add_subdirectory(RegistryService)
-
-include_directories("${YPP_COMMON_DIR}"
-                    "${YPP_DEBUGGING_DIR}"
-                    "${YPP_PARSER_DIR}")
 
 enable_testing()

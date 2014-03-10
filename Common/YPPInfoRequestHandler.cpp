@@ -63,13 +63,6 @@ void InfoRequestHandler::fillInDescription(yarp::os::Property & info)
     yarp::os::Bottle * asList = keywords.asList();
     
     asList->addString(YPP_INFO_REQUEST);
-#if 0
-    asList->addString("key-" YPP_REQREP_DICT_REQUEST_KEY);
-    asList->addString("key-" YPP_REQREP_DICT_OUTPUT_KEY);
-    asList->addString("key-" YPP_REQREP_DICT_INPUT_KEY);
-    asList->addString("key-" YPP_REQREP_DICT_VERSION_KEY);
-    asList->addString("key-" YPP_REQREP_DICT_DESCRIPTION_KEY);
-#endif//0
     info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
     OD_SYSLOG_EXIT();//####
 } // InfoRequestHandler::fillInDescription

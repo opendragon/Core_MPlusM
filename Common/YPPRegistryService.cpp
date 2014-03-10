@@ -9,6 +9,7 @@
 #include "YPPRegistryService.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPMatchRequestHandler.h"
 #include "YPPRegisterRequestHandler.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
@@ -22,40 +23,6 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 #include <yarp/os/Time.h>
-
-#if 0
-#define SQLITE_OK           0   /* Successful result */
-/* beginning-of-error-codes */
-#define SQLITE_ERROR        1   /* SQL error or missing database */
-#define SQLITE_INTERNAL     2   /* Internal logic error in SQLite */
-#define SQLITE_PERM         3   /* Access permission denied */
-#define SQLITE_ABORT        4   /* Callback routine requested an abort */
-#define SQLITE_BUSY         5   /* The database file is locked */
-#define SQLITE_LOCKED       6   /* A table in the database is locked */
-#define SQLITE_NOMEM        7   /* A malloc() failed */
-#define SQLITE_READONLY     8   /* Attempt to write a readonly database */
-#define SQLITE_INTERRUPT    9   /* Operation terminated by sqlite3_interrupt()*/
-#define SQLITE_IOERR       10   /* Some kind of disk I/O error occurred */
-#define SQLITE_CORRUPT     11   /* The database disk image is malformed */
-#define SQLITE_NOTFOUND    12   /* Unknown opcode in sqlite3_file_control() */
-#define SQLITE_FULL        13   /* Insertion failed because database is full */
-#define SQLITE_CANTOPEN    14   /* Unable to open the database file */
-#define SQLITE_PROTOCOL    15   /* Database lock protocol error */
-#define SQLITE_EMPTY       16   /* Database is empty */
-#define SQLITE_SCHEMA      17   /* The database schema changed */
-#define SQLITE_TOOBIG      18   /* String or BLOB exceeds size limit */
-#define SQLITE_CONSTRAINT  19   /* Abort due to constraint violation */
-#define SQLITE_MISMATCH    20   /* Data type mismatch */
-#define SQLITE_MISUSE      21   /* Library used incorrectly */
-#define SQLITE_NOLFS       22   /* Uses OS features not supported on host */
-#define SQLITE_AUTH        23   /* Authorization denied */
-#define SQLITE_FORMAT      24   /* Auxiliary database format error */
-#define SQLITE_RANGE       25   /* 2nd parameter to sqlite3_bind out of range */
-#define SQLITE_NOTADB      26   /* File opened that is not a database file */
-#define SQLITE_ROW         100  /* sqlite3_step() has another row ready */
-#define SQLITE_DONE        101  /* sqlite3_step() has finished executing */
-/* end-of-error-codes */
-#endif//0
 
 using namespace YarpPlusPlus;
 
@@ -75,7 +42,7 @@ using namespace YarpPlusPlus;
 #define SERVICES_TABLE_NAME_         "Services"
 
 /*! @brief The name of the index for the 'portName' column of the 'requests' table. */
-#define REQUESTS_PORTNAME_INDEX_NAME_            "Requests_portName_idx"
+#define REQUESTS_PORTNAME_INDEX_NAME_            "Requests_portname_idx"
 /*! @brief The name of the index for the 'requests' column of the 'requests' table. */
 #define REQUESTS_REQUEST_INDEX_NAME_             "Requests_request_idx"
 /*! @brief The name of the index for the 'keywords_id' column of the 'requests-keywords' table. */
@@ -96,7 +63,7 @@ using namespace YarpPlusPlus;
 /*! @brief The named parameter for the 'output' column. */
 #define OUTPUT_COLUMN_NAME_      "output"
 /*! @brief The named parameter for the 'portName' column. */
-#define PORTNAME_COLUMN_NAME_    "portName"
+#define PORTNAME_COLUMN_NAME_    "portname"
 /*! @brief The named parameter for the 'request' column. */
 #define REQUEST_COLUMN_NAME_     "request"
 /*! @brief The named parameter for the 'Keywords_id' column. */
@@ -130,6 +97,44 @@ namespace YarpPlusPlus
 
 typedef int (*bindFunction) (sqlite3_stmt * statement,
                              const void *   stuff);
+
+/*! @brief the valid field names that may be used. Note that the strings are all lower-case for comparison purposes. */
+static const char * kColumnNames[] =
+{
+    DESCRIPTION_COLUMN_NAME_, DESCRIPTION_COLUMN_NAME_,
+    INPUT_COLUMN_NAME_,       INPUT_COLUMN_NAME_,
+    KEYWORD_COLUMN_NAME_,     KEYWORDS_ID_COLUMN_NAME_,
+    OUTPUT_COLUMN_NAME_,      OUTPUT_COLUMN_NAME_,
+    PORTNAME_COLUMN_NAME_,    PORTNAME_COLUMN_NAME_,
+    REQUEST_COLUMN_NAME_,     REQUEST_COLUMN_NAME_,
+    VERSION_COLUMN_NAME_,     VERSION_COLUMN_NAME_
+};
+
+/*! @brief The number of valid field names. */
+static const size_t kColumnNamesCount = (sizeof(kColumnNames) / sizeof(*kColumnNames));
+
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
+
+/*! @brief Check a candidate field name against the list of legal field names.
+ @param aString The string to be checked.
+ @returns The actual field name to be used or @c NULL if the field name was unmatched. */
+static const char * columnNameValidator(const char * aString)
+{
+    const char * result = NULL;
+    
+    for (size_t ii = 0; ii < kColumnNamesCount; ii += 2)
+    {
+        if (! strcmp(aString, kColumnNames[ii]))
+        {
+            result = kColumnNames[ii + 1];
+            break;
+        }
+        
+    }
+    return result;
+} // columnNameValidator
 
 /*! @brief Construct a table needed in the database.
  @param database The database to be modified.
@@ -647,6 +652,21 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
     return okSoFar;
 } // RegistryService::addRequestRecord
 
+#if 0
+add_test(NAME TestRequestSearchService1 COMMAND CommonTest 16 "" "FAILED")
+add_test(NAME TestRequestSearchService2 COMMAND CommonTest 16 "Version 42" "OK ()")
+add_test(NAME TestRequestSearchService3 COMMAND CommonTest 16 "Description:Echo*" "OK (/service/test16)")
+add_test(NAME TestRequestSearchService4 COMMAND CommonTest 16 "Description:Echo*,Keyword(requests)" "OK (/service/test16 /$ervice)")
+#endif//0
+void RegistryService::processMatchRequest(YarpPlusPlusParser::MatchExpression * matcher,
+                                          yarp::os::Bottle &                    reply)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("matcher = ", matcher->asString().c_str());//####
+    
+    OD_SYSLOG_EXIT();//####
+} // RegistryService::processMatchRequest
+
 bool RegistryService::removeServiceRecord(const yarp::os::ConstString & servicePortName)
 {
     OD_SYSLOG_ENTER();//####
@@ -733,6 +753,7 @@ bool RegistryService::setUpDatabase(void)
 void RegistryService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
+    _requestHandlers.registerRequestHandler(new MatchRequestHandler(*this, columnNameValidator));
     _requestHandlers.registerRequestHandler(new RegisterRequestHandler(*this));
     _requestHandlers.registerRequestHandler(new UnregisterRequestHandler(*this));
     OD_SYSLOG_EXIT();//####

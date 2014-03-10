@@ -1005,85 +1005,70 @@ static int doCase15(const int argc,
 static int doCase16(const int argc,
                     char **   argv) // send 'register' request
 {
-    const char *      secondServicePort;
-    int               result;
-    RegistryService * registry = NULL;
-    
-    if (argc >= 0)
+    int result;
+
+    if (argc > 1)
     {
-        switch (argc)
+        const char *      secondServicePort = "/service/test16";
+        RegistryService * registry = new RegistryService(TEST_INMEMORY);
+        
+        if (registry && registry->start())
         {
-            // Argument order for tests = endpoint name [, IP address / name [, port]]
-            case 0:
-                registry = new RegistryService(TEST_INMEMORY);
-                secondServicePort = "/service/test16_1";
-                break;
-                
-            case 1:
-                registry = new RegistryService(TEST_INMEMORY, *argv);
-                secondServicePort = "/service/test16_2";
-                break;
-                
-            case 2:
-                registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
-                secondServicePort = "/service/test16_3";
-                break;
-                
-            default:
-                break;
-                
-        }
-    }
-    if (registry && registry->start())
-    {
-        if (registry->isActive())
-        {
-            // Now we start up another service (Test14Service) and register it
-            Test16Service * stuff = new Test16Service(1, const_cast<char * *>(&secondServicePort));
-            
-            if (stuff && stuff->start())
+            if (registry->isActive())
             {
-                yarp::os::ConstString portName(stuff->getEndpoint().getName());
+                // Now we start up another service (Test16Service) and register it
+                Test16Service * stuff = new Test16Service(1, const_cast<char * *>(&secondServicePort));
                 
-                if (YarpPlusPlus::registerLocalService(portName))
+                if (stuff && stuff->start())
                 {
-                    // Search!!!
+                    yarp::os::ConstString portName(stuff->getEndpoint().getName());
                     
-                    
-                    result = 0;
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+                    if (YarpPlusPlus::registerLocalService(portName))
+                    {
+                        // Search for the service that we just registered.
+                        yarp::os::ConstString expected(argv[1]);
+                        OD_SYSLOG_S2("criteria <- ", *argv, "expected <- ", expected.c_str());//####
+                        yarp::os::Bottle      matches(YarpPlusPlus::findMatchingServices(*argv));
+                        
+                        OD_SYSLOG_S1("matches <- ", matches.toString().c_str());//####
+                        
+                        
+                        result = 0;
+                        
+                        
+                        
+                        
+                        
 #if 0
-                    if (! YarpPlusPlus::unregisterLocalService(portName))
+                        if (! YarpPlusPlus::unregisterLocalService(portName))
+                        {
+                            result = 1;
+                        }
+#endif//0
+                    }
+                    else
                     {
                         result = 1;
                     }
-#endif//0
+                    stuff->stop();
+                    delete stuff;
                 }
                 else
                 {
                     result = 1;
                 }
-                stuff->stop();
-                delete stuff;
             }
             else
             {
                 result = 1;
             }
+            registry->stop();
+            delete registry;
         }
         else
         {
             result = 1;
         }
-        registry->stop();
-        delete registry;
     }
     else
     {

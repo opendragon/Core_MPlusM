@@ -12,8 +12,8 @@
 		DF27F42A18CA36C200E93C95 /* YPPMatchValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPMatchValue.h; path = ../Parser/YPPMatchValue.h; sourceTree = "<group>"; };
 		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../CMakeLists.txt; sourceTree = "<group>"; };
 		DF27F42C18CA37E000E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../RegistryService/CMakeLists.txt; sourceTree = "<group>"; };
-		DF27F42D18CA3BBA00E93C95 /* YPPMatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPMatcher.cpp; path = ../Parser/YPPMatcher.cpp; sourceTree = "<group>"; };
-		DF27F42E18CA3BBA00E93C95 /* YPPMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPMatcher.h; path = ../Parser/YPPMatcher.h; sourceTree = "<group>"; };
+		DF27F42D18CA3BBA00E93C95 /* YPPBaseMatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPBaseMatcher.cpp; path = ../Parser/YPPBaseMatcher.cpp; sourceTree = "<group>"; };
+		DF27F42E18CA3BBA00E93C95 /* YPPBaseMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseMatcher.h; path = ../Parser/YPPBaseMatcher.h; sourceTree = "<group>"; };
 		DF27F42F18CA3DCC00E93C95 /* YPPParserTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPParserTest.cpp; path = ../Parser/YPPParserTest.cpp; sourceTree = "<group>"; };
 		DF27F43018CA593500E93C95 /* YPPMatchValueList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPMatchValueList.cpp; path = ../Parser/YPPMatchValueList.cpp; sourceTree = "<group>"; };
 		DF27F43118CA593500E93C95 /* YPPMatchValueList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPMatchValueList.h; path = ../Parser/YPPMatchValueList.h; sourceTree = "<group>"; };
@@ -23,6 +23,10 @@
 		DF27F43518CA7EC500E93C95 /* YPPMatchFieldWithValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPMatchFieldWithValues.h; path = ../Parser/YPPMatchFieldWithValues.h; sourceTree = "<group>"; };
 		DF27F43618CE2A7B00E93C95 /* YPPMatchConstraint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPMatchConstraint.cpp; path = ../Parser/YPPMatchConstraint.cpp; sourceTree = "<group>"; };
 		DF27F43718CE2A7B00E93C95 /* YPPMatchConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPMatchConstraint.h; path = ../Parser/YPPMatchConstraint.h; sourceTree = "<group>"; };
+		DF27F43818CE39BC00E93C95 /* YPPMatchExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPMatchExpression.cpp; path = ../Parser/YPPMatchExpression.cpp; sourceTree = "<group>"; };
+		DF27F43918CE39BC00E93C95 /* YPPMatchExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPMatchExpression.h; path = ../Parser/YPPMatchExpression.h; sourceTree = "<group>"; };
+		DF27F43A18CE48E000E93C95 /* YPPMatchRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPMatchRequestHandler.cpp; path = ../Common/YPPMatchRequestHandler.cpp; sourceTree = "<group>"; };
+		DF27F43B18CE48E000E93C95 /* YPPMatchRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPMatchRequestHandler.h; path = ../Common/YPPMatchRequestHandler.h; sourceTree = "<group>"; };
 		DFA3431318C91B7E0053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../RegistryService/main.cpp; sourceTree = "<group>"; };
 		DFA3431518C91BAB0053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ExampleEchoService/CMakeLists.txt; sourceTree = "<group>"; };
 		DFA3431618C91BAB0053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../ExampleEchoService/main.cpp; sourceTree = "<group>"; };
@@ -137,10 +141,12 @@
 			isa = PBXGroup;
 			children = (
 				DF27F42818CA358C00E93C95 /* CMakeLists.txt */,
+				DF27F42D18CA3BBA00E93C95 /* YPPBaseMatcher.cpp */,
+				DF27F42E18CA3BBA00E93C95 /* YPPBaseMatcher.h */,
 				DF27F43618CE2A7B00E93C95 /* YPPMatchConstraint.cpp */,
 				DF27F43718CE2A7B00E93C95 /* YPPMatchConstraint.h */,
-				DF27F42D18CA3BBA00E93C95 /* YPPMatcher.cpp */,
-				DF27F42E18CA3BBA00E93C95 /* YPPMatcher.h */,
+				DF27F43818CE39BC00E93C95 /* YPPMatchExpression.cpp */,
+				DF27F43918CE39BC00E93C95 /* YPPMatchExpression.h */,
 				DF27F43218CA729700E93C95 /* YPPMatchFieldName.cpp */,
 				DF27F43318CA729700E93C95 /* YPPMatchFieldName.h */,
 				DF27F43418CA7EC500E93C95 /* YPPMatchFieldWithValues.cpp */,
@@ -243,6 +249,8 @@
 				DFA3433D18C91C5A0053B87C /* YPPInputHandlerCreator.h */,
 				DFA3433E18C91C5A0053B87C /* YPPListRequestHandler.cpp */,
 				DFA3433F18C91C5A0053B87C /* YPPListRequestHandler.h */,
+				DF27F43A18CE48E000E93C95 /* YPPMatchRequestHandler.cpp */,
+				DF27F43B18CE48E000E93C95 /* YPPMatchRequestHandler.h */,
 				DFA3434018C91C5A0053B87C /* YPPRegisterRequestHandler.cpp */,
 				DFA3434118C91C5A0053B87C /* YPPRegisterRequestHandler.h */,
 				DFA3434218C91C5A0053B87C /* YPPRegistryService.cpp */,

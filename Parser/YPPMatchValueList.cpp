@@ -7,7 +7,7 @@
 //
 
 #include "YPPMatchValueList.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPMatchValue.h"
 #include <cctype>
@@ -148,6 +148,80 @@ MatchValueList::~MatchValueList(void)
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
+
+yarp::os::ConstString MatchValueList::asSQLString(const char * fieldName)
+const
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("fieldName = ", fieldName);//####
+    yarp::os::ConstString result;
+    
+    if (0 < _values.size())
+    {
+        bool simpleForm = true;
+        
+        result += fieldName;
+        // Check if none of the values contain wildcards.
+        for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
+        {
+            MatchValue * element = _values[ii];
+        
+            if (element->hasWildcardCharacters())
+            {
+                simpleForm = false;
+                break;
+            }
+        }
+        if (simpleForm)
+        {
+            if (1 == _values.size())
+            {
+                result += " = ";
+                result += _values[0]->asSQLString();
+            }
+            else
+            {
+                result += " IN (";
+                for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
+                {
+                    MatchValue * element = _values[ii];
+                    
+                    if (ii)
+                    {
+                        result += kComma;
+                        result += " ";
+                    }
+                    result += element->asSQLString();
+                }
+                result += ")";
+            }
+        }
+        else
+        {
+            for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
+            {
+                MatchValue * element = _values[ii];
+                
+                if (ii)
+                {
+                    result += " OR ";
+                    result += fieldName;
+                }
+                if (element->hasWildcardCharacters())
+                {
+                    result += " LIKE ";
+                }
+                else
+                {
+                    result += " = ";
+                }
+                result += element->asSQLString();
+            }
+        }
+    }
+    OD_SYSLOG_EXIT_S(result.c_str());//####
+    return result;
+} // MatchValueList::asSQLString
 
 const yarp::os::ConstString MatchValueList::asString(void)
 const

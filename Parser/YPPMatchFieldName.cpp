@@ -78,7 +78,7 @@ MatchFieldName * MatchFieldName::createMatcher(const yarp::os::ConstString & inS
                     }
                     if (validator(tempAsChars))
                     {
-                        result = new MatchFieldName(tempString);
+                        result = new MatchFieldName(tempAsChars);
                     }
                     free(tempAsChars);
                 }

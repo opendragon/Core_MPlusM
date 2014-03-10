@@ -7,7 +7,7 @@
 //
 
 #include "YPPUnregisterRequestHandler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPEndpoint.h"
 #include "YPPRegistryService.h"
@@ -19,7 +19,7 @@ using namespace YarpPlusPlus;
 # pragma mark Private structures and constants
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'list' request. */
+/*! @brief The protocol version number for the 'unregister' request. */
 #define UNREGISTER_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)

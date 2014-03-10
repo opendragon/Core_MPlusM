@@ -1,13 +1,13 @@
 //
-//  YPPMatcher.cpp
+//  YPPBaseMatcher.cpp
 //  YarpPlusPlus
 //
 //  Created by Norman Jaffe on 2014-03-07.
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#include "YPPMatcher.h"
-#define ENABLE_OD_SYSLOG /* */
+#include "YPPBaseMatcher.h"
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include <cctype>
 
@@ -25,9 +25,9 @@ using namespace YarpPlusPlusParser;
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-int Matcher::skipWhitespace(const yarp::os::ConstString & inString,
-                            const int                     inLength,
-                            const int                     startPos)
+int BaseMatcher::skipWhitespace(const yarp::os::ConstString & inString,
+                                const int                     inLength,
+                                const int                     startPos)
 {
     int result = startPos;
     
@@ -42,23 +42,23 @@ int Matcher::skipWhitespace(const yarp::os::ConstString & inString,
         
     }
     return result;
-} // Matcher::skipWhitespace
+} // BaseMatcher::skipWhitespace
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-Matcher::Matcher(void)
+BaseMatcher::BaseMatcher(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT_P(this);//####
-} // Matcher::Matcher
+} // BaseMatcher::BaseMatcher
 
-Matcher::~Matcher(void)
+BaseMatcher::~BaseMatcher(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // Matcher::~Matcher
+} // BaseMatcher::~BaseMatcher
 
 #if defined(__APPLE__)
 # pragma mark Actions

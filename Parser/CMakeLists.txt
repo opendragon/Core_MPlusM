@@ -10,8 +10,9 @@ include_directories("${YPP_COMMON_DIR}"
                     "${YPP_DEBUGGING_DIR}")
 
 add_library(YPPParser
+            YPPBaseMatcher.cpp
             YPPMatchConstraint.cpp
-            YPPMatcher.cpp
+            YPPMatchExpression.cpp
             YPPMatchFieldName.cpp
             YPPMatchFieldWithValues.cpp
             YPPMatchValue.cpp
@@ -62,7 +63,7 @@ add_test(NAME TestParseFieldName3 COMMAND ParserTest 3 t "keyword ")
 add_test(NAME TestParseFieldName4 COMMAND ParserTest 3 t "keyword:")
 add_test(NAME TestParseFieldName5 COMMAND ParserTest 3 t "request ")
 add_test(NAME TestParseFieldName6 COMMAND ParserTest 3 t "description(")
-# Test expressions
+# Test field with value(s)
 add_test(NAME TestParseFieldWithValues1 COMMAND ParserTest 4 f "")
 add_test(NAME TestParseFieldWithValues2 COMMAND ParserTest 4 f "keyword ")
 add_test(NAME TestParseFieldWithValues3 COMMAND ParserTest 4 f "keyword:")
@@ -74,20 +75,15 @@ add_test(NAME TestParseFieldWithValues8 COMMAND ParserTest 4 f "keyword (alpha,)
 add_test(NAME TestParseFieldWithValues9 COMMAND ParserTest 4 f "keyword:(alpha")
 add_test(NAME TestParseFieldWithValues10 COMMAND ParserTest 4 t "keyword:(alpha,\"beta gamma\")")
 add_test(NAME TestParseFieldWithValues11 COMMAND ParserTest 4 t "keyword(alpha,\"beta gamma\")")
-# Test AND-clauses
-add_test(NAME TestParseAndClause1 COMMAND ParserTest 5 f "")
-add_test(NAME TestParseAndClause2 COMMAND ParserTest 5 t "keyword(alpha,\"beta gamma\")")
-add_test(NAME TestParseAndClause3 COMMAND ParserTest 5 f "keyword(alpha,\"beta gamma\")&")
-add_test(NAME TestParseAndClause4 COMMAND ParserTest 5 t "keyword(alpha,\"beta gamma\")& description:alpha")
-
-
-
-
-
-
-
-
-
-
-
+# Test constraint lists
+add_test(NAME TestParseConstraintList1 COMMAND ParserTest 5 f "")
+add_test(NAME TestParseConstraintList2 COMMAND ParserTest 5 t "keyword(alpha,\"beta gamma\")")
+add_test(NAME TestParseConstraintList3 COMMAND ParserTest 5 f "keyword(alpha,\"beta gamma\")&")
+add_test(NAME TestParseConstraintList4 COMMAND ParserTest 5 t "keyword(alpha,\"beta gamma\")& description:alpha")
+# Test expressions
+add_test(NAME TestParseExpression1 COMMAND ParserTest 6 f "")
+add_test(NAME TestParseExpression2 COMMAND ParserTest 6 t "keyword(alpha,\"beta gamma\")")
+add_test(NAME TestParseExpression3 COMMAND ParserTest 6 f "keyword(alpha,\"beta gamma\"),")
+add_test(NAME TestParseExpression4 COMMAND ParserTest 6 t "keyword(alpha,\"beta gamma\"), description:alpha")
+add_test(NAME TestParseExpression5 COMMAND ParserTest 6 t "keyword(alpha,\"beta gamma\") & description:alpha, request:echo")
 

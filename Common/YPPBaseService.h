@@ -126,6 +126,11 @@ namespace YarpPlusPlus
         
     }; // BaseService
     
+    /*! @brief Find one or more matching local services that are registered with a running Service Registry service.
+     @param criteria The matching conditions.
+     @returns A (possibly empty) list of matching services. */
+    yarp::os::Bottle findMatchingServices(const char * criteria);
+
     /*! @brief Register a local service with a running Service Registry service.
      @param portName The port provided by the service.
      @returns @c true if the service was successfully registered and @c false otherwise. */

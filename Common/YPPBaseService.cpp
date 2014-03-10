@@ -193,6 +193,29 @@ bool BaseService::stop(void)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
+/*! @brief Find one or more matching local services that are registered with a running Service Registry service.
+ @param criteria The matching conditions.
+ @returns A (possibly empty) list of matching services. */
+yarp::os::Bottle YarpPlusPlus::findMatchingServices(const char * criteria)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("criteria = ", criteria);//####
+    yarp::os::Bottle parameters;
+    
+    parameters.addString(criteria); // Note that we can't simply initialize the Bottle with the criteria, as it will be
+                                    // parsed by YARP.
+    yarp::os::Bottle result;
+    ServiceRequest   request(YPP_MATCH_REQUEST, parameters);
+    ServiceResponse  response;
+    
+    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
+    {
+        result = response.values();
+    }
+    OD_SYSLOG_EXIT();//####
+    return result;
+} // YarpPlusPlus::findMatchingServices
+
 bool YarpPlusPlus::registerLocalService(const yarp::os::ConstString & portName)
 {
     OD_SYSLOG_ENTER();//####

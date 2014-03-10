@@ -1,30 +1,30 @@
 //
-//  YPPMatcher.h
+//  YPPBaseMatcher.h
 //  YarpPlusPlus
 //
 //  Created by Norman Jaffe on 2014-03-07.
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#if (! defined(YPPMATCHER_H_))
-# define YPPMATCHER_H_ /* */
+#if (! defined(YPPBASEMATCHER_H_))
+# define YPPBASEMATCHER_H_ /* */
 
 # include "YPPCommon.h"
 
 namespace YarpPlusPlusParser
 {
     /*! @brief A pattern matcher for simple values. */
-    class Matcher
+    class BaseMatcher
     {
     public:
         
         /*! @brief The destructor. */
-        virtual ~Matcher(void);
+        virtual ~BaseMatcher(void);
         
     protected:
         
         /*! @brief The constructor. */
-        Matcher(void);
+        BaseMatcher(void);
         
         /*! @brief Scan a string for the next non-whitespace character.
          @param inString The string to be scanned.
@@ -42,16 +42,16 @@ namespace YarpPlusPlusParser
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        Matcher(const Matcher & other);
+        BaseMatcher(const BaseMatcher & other);
         
         /*! @brief Assignment operator.
 
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        Matcher & operator=(const Matcher & other);
+        BaseMatcher & operator=(const BaseMatcher & other);
         
-    }; // Matcher
+    }; // BaseMatcher
     
 } // YarpPlusPlusParser
 
-#endif // ! defined(YPPMATCHER_H_)
+#endif // ! defined(YPPBASEMATCHER_H_)

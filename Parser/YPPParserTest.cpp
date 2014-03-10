@@ -9,6 +9,7 @@
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPMatchConstraint.h"
+#include "YPPMatchExpression.h"
 #include "YPPMatchFieldName.h"
 #include "YPPMatchFieldWithValues.h"
 #include "YPPMatchValue.h"
@@ -48,20 +49,23 @@ static const size_t kFieldNamesCount = (sizeof(kFieldNames) / sizeof(*kFieldName
 
 /*! @brief Check a candidate field name against the list of legal field names.
  @param aString The string to be checked.
- @returns @c true if the field name is recognized and @c false otherwise. */
-static bool fieldNameValidator(const char * aString)
+ @returns The actual field name to be used or @c NULL if the field name was unmatched. */
+static const char * fieldNameValidator(const char * aString)
 {
-    bool result = false;
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("aString = ", aString);//####
+    const char * result = NULL;
     
     for (size_t ii = 0; ii < kFieldNamesCount; ++ii)
     {
         if (! strcmp(aString, kFieldNames[ii]))
         {
-            result = true;
+            result = kFieldNames[ii];
             break;
         }
         
     }
+    OD_SYSLOG_EXIT_P(result);//####
     return result;
 } // fieldNameValidator
 
@@ -86,7 +90,8 @@ static int doCase01(const bool expected,
 
     if (didMatch)
     {
-        OD_SYSLOG_S1("didMatch->asSQLString = ", didMatch->asSQLString().c_str());//####
+        OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString(), "didMatch->asSQLString = ",//####
+                     didMatch->asSQLString().c_str());//####
         delete didMatch;
     }
     OD_SYSLOG_EXIT_LL(result);//####
@@ -158,7 +163,8 @@ static int doCase04(const bool expected,
     
     if (didMatch)
     {
-        OD_SYSLOG_S1("didMatch->asString = ", didMatch->asString().c_str());//####
+        OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString(), "didMatch->asSQLString = ",//####
+                     didMatch->asSQLString().c_str());//####
         delete didMatch;
     }
     OD_SYSLOG_EXIT_LL(result);//####
@@ -188,6 +194,30 @@ static int doCase05(const bool expected,
     OD_SYSLOG_EXIT_LL(result);//####
     return result;
 } // doCase05
+
+/*! @brief Perform a test case.
+ @param expected @c true if the test is expected to succeed, and @c false otherwise.
+ @param inString The string to be used for the test.
+ @returns @c 0 on success and @c 1 on failure. */
+static int doCase06(const bool expected,
+                    char *     inString) // create value matcher
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_B1("expected = ", expected);//####
+    OD_SYSLOG_S1("inString = ", inString);//####
+    int               endPos;
+    int               len = static_cast<int>(strlen(inString));
+    MatchExpression * didMatch = MatchExpression::createMatcher(inString, len, 0, endPos, fieldNameValidator);
+    int               result = ((expected == (NULL != didMatch)) ? 0 : 1);
+    
+    if (didMatch)
+    {
+        OD_SYSLOG_S1("didMatch->asString = ", didMatch->asString().c_str());//####
+        delete didMatch;
+    }
+    OD_SYSLOG_EXIT_LL(result);//####
+    return result;
+} // doCase06
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -236,6 +266,10 @@ int main(int      argc,
                 result = doCase05(expected, *(argv + 3));
                 break;
 
+            case 6:
+                result = doCase06(expected, *(argv + 3));
+                break;
+                
             default:
                 result = 1;
                 break;

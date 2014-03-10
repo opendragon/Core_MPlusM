@@ -9,7 +9,7 @@
 #if (! defined(YPPMATCHVALUELIST_H_))
 # define YPPMATCHVALUELIST_H_ /* */
 
-# include "YPPMatcher.h"
+# include "YPPBaseMatcher.h"
 # include <vector>
 
 namespace YarpPlusPlusParser
@@ -17,26 +17,32 @@ namespace YarpPlusPlusParser
     class MatchValue;
     
     /*! @brief A pattern matcher for simple values. */
-    class MatchValueList : public Matcher
+    class MatchValueList : public BaseMatcher
     {
     public:
         
         /*! @brief The destructor. */
         virtual ~MatchValueList(void);
         
+        /*! @brief Generate a proper SQL string value corresponding to this match value.
+         @param fieldName The name to be used in the SQL matching expression.
+         @returns A string representing the value as a string suitable for use with SQL. */
+        yarp::os::ConstString asSQLString(const char * fieldName)
+        const;
+
         /*! @brief Create a printable representation of the value list.
-         @returns A printable representation of the list. */
+         @returns A printable representation of the value list. */
         const yarp::os::ConstString asString(void)
         const;
         
-        /*! @brief Return the number of elements in the list.
-         @returns The number of elements in the list. */
+        /*! @brief Return the number of elements in the value list.
+         @returns The number of elements in the value list. */
         int count(void)
         const;
         
-        /*! @brief Return an element from the list.
+        /*! @brief Return an element from the value list.
          @param index The zero-origin index of the element.
-         @returns An element of the list or @c NULL if the index is outside the range of the list. */
+         @returns An element of the value list or @c NULL if the index is outside the range of the value list. */
         const MatchValue * element(const int index)
         const;
 
@@ -70,7 +76,7 @@ namespace YarpPlusPlusParser
         
     private:
         
-        typedef Matcher inherited;
+        typedef BaseMatcher inherited;
         
         typedef std::vector<MatchValue *> MatchValueListData;
         

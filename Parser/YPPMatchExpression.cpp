@@ -1,16 +1,15 @@
 //
-//  YPPMatchConstraint.cpp
+//  YPPMatchExpression.cpp
 //  YarpPlusPlus
 //
 //  Created by Norman Jaffe on 2014-03-10.
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#include "YPPMatchConstraint.h"
+#include "YPPMatchExpression.h"
 //#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include "YPPMatchExpression.h"
-#include "YPPMatchFieldWithValues.h"
+#include "YPPMatchConstraint.h"
 
 using namespace YarpPlusPlusParser;
 
@@ -18,8 +17,8 @@ using namespace YarpPlusPlusParser;
 # pragma mark Private structures and constants
 #endif // defined(__APPLE__)
 
-/*! @brief The character used to separate constraint list elements. */
-static const char kAmpersand = '&';
+/*! @brief The character used to separate expression list elements. */
+static const char kComma = ',';
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -29,12 +28,7 @@ static const char kAmpersand = '&';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-char MatchConstraint::constraintSeparatorCharacter(void)
-{
-    return kAmpersand;
-} // MatchConstraint::constraintSeparatorCharacter
-
-MatchConstraint * MatchConstraint::createMatcher(const yarp::os::ConstString & inString,
+MatchExpression * MatchExpression::createMatcher(const yarp::os::ConstString & inString,
                                                  const int                     inLength,
                                                  const int                     startPos,
                                                  int &                         endPos,
@@ -44,21 +38,20 @@ MatchConstraint * MatchConstraint::createMatcher(const yarp::os::ConstString & i
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
     OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);
     int               workPos = skipWhitespace(inString, inLength, startPos);
-    MatchConstraint * result = NULL;
+    MatchExpression * result = NULL;
     
     if (workPos < inLength)
     {
         // We potentially have a constraint list.
-        bool       done = false;
-        bool       okSoFar = true;
-        const char expressionSeparator = MatchExpression::expressionSeparatorCharacter();
+        bool done = false;
+        bool okSoFar = true;
         
-        result = new MatchConstraint();
+        result = new MatchExpression();
         for ( ; okSoFar && (! done); )
         {
-            int                    nextElementPos;
-            MatchFieldWithValues * element = MatchFieldWithValues::createMatcher(inString, inLength, workPos,
-                                                                                 nextElementPos, validator);
+            int               nextElementPos;
+            MatchConstraint * element = MatchConstraint::createMatcher(inString, inLength, workPos, nextElementPos,
+                                                                       validator);
             
             if (element)
             {
@@ -68,17 +61,11 @@ MatchConstraint * MatchConstraint::createMatcher(const yarp::os::ConstString & i
                 {
                     char scanChar = inString[workPos];
 
-                    if (kAmpersand == scanChar)
+                    if (kComma == scanChar)
                     {
                         // We've got more elements to go.
-                        result->_fieldsWithValues.push_back(element);
+                        result->_constraints.push_back(element);
                         ++workPos;
-                    }
-                    else if (expressionSeparator == scanChar)
-                    {
-                        // This is the last element.
-                        result->_fieldsWithValues.push_back(element);
-                        done = true;
                     }
                     else
                     {
@@ -89,7 +76,7 @@ MatchConstraint * MatchConstraint::createMatcher(const yarp::os::ConstString & i
                 else
                 {
                     // This is the last element.
-                    result->_fieldsWithValues.push_back(element);
+                    result->_constraints.push_back(element);
                     done = true;
                 }
             }
@@ -111,84 +98,88 @@ MatchConstraint * MatchConstraint::createMatcher(const yarp::os::ConstString & i
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
-} // MatchConstraint::createMatcher
+} // MatchExpression::createMatcher
+
+char MatchExpression::expressionSeparatorCharacter(void)
+{
+    return kComma;
+} // MatchExpression::expressionSeparatorCharacter
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-MatchConstraint::MatchConstraint(void) :
-        inherited(), _fieldsWithValues()
+MatchExpression::MatchExpression(void) :
+        inherited(), _constraints()
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT_P(this);//####
-} // MatchConstraint::MatchConstraint
+} // MatchExpression::MatchExpression
 
-MatchConstraint::~MatchConstraint(void)
+MatchExpression::~MatchExpression(void)
 {
     OD_SYSLOG_ENTER();//####
     empty();
     OD_SYSLOG_EXIT();//####
-} // MatchConstraint::~MatchConstraint
+} // MatchExpression::~MatchExpression
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-yarp::os::ConstString MatchConstraint::asString(void)
+yarp::os::ConstString MatchExpression::asString(void)
 const
 {
     yarp::os::ConstString result;
     
-    for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)
+    for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
     {
-        MatchFieldWithValues * element = _fieldsWithValues[ii];
+        MatchConstraint * element = _constraints[ii];
         
         if (ii)
         {
-            result += " ";
-            result += kAmpersand;
+            result += kComma;
             result += " ";
         }
         result += element->asString();
     }
     return result;
-} // MatchConstraint::asString
+} // MatchExpression::asString
 
-int MatchConstraint::count(void)
+int MatchExpression::count(void)
 const
 {
-    return static_cast<int>(_fieldsWithValues.size());
-} // MatchConstraint::count
+    return static_cast<int>(_constraints.size());
+} // MatchExpression::count
 
-const MatchFieldWithValues * MatchConstraint::element(const int index)
+const MatchConstraint * MatchExpression::element(const int index)
 const
 {
-    MatchFieldWithValues * result;
+    MatchConstraint * result;
     
-    if ((index >= 0) && (index < static_cast<int>(_fieldsWithValues.size())))
+    if ((index >= 0) && (index < static_cast<int>(_constraints.size())))
     {
-        result = _fieldsWithValues[static_cast<MatchConstraintListSize>(index)];
+        result = _constraints[static_cast<MatchExpressionListSize>(index)];
     }
     else
     {
         result = NULL;
     }
     return result;
-} // MatchConstraint::element
+} // MatchExpression::element
 
-void MatchConstraint::empty(void)
+void MatchExpression::empty(void)
 {
     OD_SYSLOG_ENTER();//####
-    for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)
+    for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
     {
-        MatchFieldWithValues * element = _fieldsWithValues[ii];
+        MatchConstraint * element = _constraints[ii];
         
         delete element;
     }
-    _fieldsWithValues.clear();
+    _constraints.clear();
     OD_SYSLOG_EXIT();//####
-} // MatchConstraint::empty
+} // MatchExpression::empty
 
 #if defined(__APPLE__)
 # pragma mark Accessors

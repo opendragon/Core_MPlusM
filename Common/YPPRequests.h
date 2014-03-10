@@ -15,6 +15,8 @@
 # define YPP_INFO_REQUEST       "info"
 /*! @brief The standard name for a 'list' request. */
 # define YPP_LIST_REQUEST       "list"
+/*! @brief The standard name for a 'match' request. */
+# define YPP_MATCH_REQUEST      "match"
 /*! @brief The standard name for a 'register' request. */
 # define YPP_REGISTER_REQUEST   "register"
 /*! @brief The standard name for a 'unregister' request. */

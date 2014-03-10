@@ -42,13 +42,12 @@ MatchFieldWithValues * MatchFieldWithValues::createMatcher(const yarp::os::Const
 
     if (fieldName)
     {
-        MatchValue *     asSingle = NULL;
-        MatchValueList * asList = NULL;
-        
         workPos = skipWhitespace(inString, inLength, workPos);
         if (workPos < inLength)
         {
-            int nextPos;
+            int              nextPos;
+            MatchValue *     asSingle = NULL;
+            MatchValueList * asList = NULL;
             
             if (MatchValueList::listInitiatorCharacter() == inString[workPos])
             {
@@ -60,9 +59,17 @@ MatchFieldWithValues * MatchFieldWithValues::createMatcher(const yarp::os::Const
             }
             if (asList || asSingle)
             {
-                result = new MatchFieldWithValues(fieldName, asSingle, asList);
+                result = new MatchFieldWithValues(validator, fieldName, asSingle, asList);
                 endPos = nextPos;
             }
+            else
+            {
+                delete fieldName;
+            }
+        }
+        else
+        {
+            delete fieldName;
         }
     }
     OD_SYSLOG_EXIT_P(result);//####
@@ -73,12 +80,14 @@ MatchFieldWithValues * MatchFieldWithValues::createMatcher(const yarp::os::Const
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-MatchFieldWithValues::MatchFieldWithValues(MatchFieldName * fieldName,
-                                           MatchValue *     asSingle,
-                                           MatchValueList * asList) :
-        inherited(), _fieldName(fieldName), _singleValue(asSingle), _values(asList)
+MatchFieldWithValues::MatchFieldWithValues(FieldNameValidator validator,
+                                           MatchFieldName *   fieldName,
+                                           MatchValue *       asSingle,
+                                           MatchValueList *   asList) :
+        inherited(), _validator(validator), _fieldName(fieldName), _singleValue(asSingle), _values(asList)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P3("fieldName = ", fieldName, "asSingle = ", asSingle, "asList = ", asList);//####
     OD_SYSLOG_EXIT_P(this);//####
 } // MatchFieldWithValues::MatchFieldWithValues
 
@@ -94,6 +103,44 @@ MatchFieldWithValues::~MatchFieldWithValues(void)
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
+
+yarp::os::ConstString MatchFieldWithValues::asSQLString(void)
+const
+{
+    OD_SYSLOG_ENTER();//####
+    yarp::os::ConstString field(_fieldName->asString());
+    const char *          trueName;
+    yarp::os::ConstString converted;
+
+    if (_validator)
+    {
+        trueName = _validator(field.c_str());
+    }
+    else
+    {
+        trueName = field.c_str();
+    }
+    OD_SYSLOG_S1("trueName <- ", trueName);//####
+    if (_singleValue)
+    {
+        converted += trueName;
+        if (_singleValue->hasWildcardCharacters())
+        {
+            converted += " LIKE ";
+        }
+        else
+        {
+            converted += " = ";
+        }
+        converted += _singleValue->asSQLString();
+    }
+    else if (_values)
+    {
+        converted += _values->asSQLString(trueName);
+    }
+    OD_SYSLOG_EXIT_S(converted.c_str());//####
+    return converted;
+} // MatchFieldWithValues::asSQLString
 
 yarp::os::ConstString MatchFieldWithValues::asString(void)
 const

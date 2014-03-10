@@ -9,12 +9,12 @@
 #if (! defined(YPPMATCHFIELDNAME_H_))
 # define YPPMATCHFIELDNAME_H_ /* */
 
-# include "YPPMatcher.h"
+# include "YPPBaseMatcher.h"
 
 namespace YarpPlusPlusParser
 {
     /*! @brief A pattern matcher for field names. */
-    class MatchFieldName : public Matcher
+    class MatchFieldName : public BaseMatcher
     {
     public:
         
@@ -46,7 +46,7 @@ namespace YarpPlusPlusParser
         
     private:
         
-        typedef Matcher inherited;
+        typedef BaseMatcher inherited;
         
         /*! @brief The constructor.
          @param inString The matching segment of the original string. */

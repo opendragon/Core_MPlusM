@@ -7,8 +7,10 @@
 //
 
 #include "YPPMatchValue.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPMatchConstraint.h"
+#include "YPPMatchExpression.h"
 #include "YPPMatchValueList.h"
 #include <cctype>
 
@@ -56,12 +58,14 @@ MatchValue * MatchValue::createMatcher(const yarp::os::ConstString & inString,
     {
         OD_SYSLOG("(workPos < inLength)");//####
         // Remember where we began.
-        char delimiter;
-        char listInitiator = MatchValueList::listInitiatorCharacter();
-        char listSeparator = MatchValueList::listSeparatorCharacter();
-        char listTerminator = MatchValueList::listTerminatorCharacter();
-        char scanChar = inString[workPos];
-        int  startSubPos = workPos;
+        char       delimiter;
+        char       scanChar = inString[workPos];
+        const char constraintSeparator = MatchConstraint::constraintSeparatorCharacter();
+        const char expressionSeparator = MatchExpression::expressionSeparatorCharacter();
+        const char listInitiator = MatchValueList::listInitiatorCharacter();
+        const char listSeparator = MatchValueList::listSeparatorCharacter();
+        const char listTerminator = MatchValueList::listTerminatorCharacter();
+        int        startSubPos = workPos;
         
         // If we have a quote character, scan for the matching character. If we have an illegal starting character,
         // reject the string.
@@ -93,7 +97,8 @@ MatchValue * MatchValue::createMatcher(const yarp::os::ConstString & inString,
                 }
                 
             }
-            else if (isspace(scanChar) || (listSeparator == scanChar) || (listTerminator == scanChar))
+            else if (isspace(scanChar) || (listSeparator == scanChar) || (listTerminator == scanChar) ||
+                     (constraintSeparator == scanChar) || (expressionSeparator == scanChar))
             {
                 break;
             }
@@ -120,17 +125,12 @@ MatchValue * MatchValue::createMatcher(const yarp::os::ConstString & inString,
     return result;
 } // MatchValue::createMatcher
 
-char MatchValue::escapeCharacter(void)
-{
-    return kEscapeCharacter;
-} // MatchValue::escapeCharacter
-
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
 MatchValue::MatchValue(const yarp::os::ConstString & inString) :
-        inherited(), _matchingString(inString), _hasWildcards(false), _needsEscaping(false)
+        inherited(), _matchingString(inString), _hasSingleQuotes(false), _hasWildcards(false), _needsEscaping(false)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
@@ -148,6 +148,11 @@ MatchValue::MatchValue(const yarp::os::ConstString & inString) :
         {
             // If there are wildcard characters present, flag this.
             _hasWildcards = true;
+        }
+        else if (kSingleQuote == walker)
+        {
+            // If there are single quote characters present, flag this.
+            _hasSingleQuotes = true;
         }
     }
     OD_SYSLOG_EXIT_P(this);//####
@@ -169,7 +174,8 @@ const
     OD_SYSLOG_ENTER();//####
     yarp::os::ConstString converted;
     
-    if (_hasWildcards || _needsEscaping)
+    converted += kSingleQuote;
+    if (_hasSingleQuotes || _hasWildcards || _needsEscaping)
     {
         OD_SYSLOG("(_hasWildcards || _needsEscaping)");//####
         for (int ii = 0, len = _matchingString.length(); ii < len; ++ii)
@@ -192,16 +198,29 @@ const
                 // Substitute the corresponding SQL wildcard character.
                 converted += kUnderscore;
             }
+            else if (kSingleQuote == walker)
+            {
+                converted += kSingleQuote;
+                converted += walker;
+            }
             else
             {
                 converted += walker;
             }
         }
+        if (_needsEscaping)
+        {
+            converted += kSingleQuote;
+            converted += " ESCAPE ";
+            converted += kSingleQuote;
+            converted += kEscapeCharacter;
+        }
     }
     else
     {
-        converted = _matchingString;
+        converted += _matchingString;
     }
+    converted += kSingleQuote;
     OD_SYSLOG_EXIT_S(converted.c_str());//####
     return converted;
 } // MatchValue::asSQLString

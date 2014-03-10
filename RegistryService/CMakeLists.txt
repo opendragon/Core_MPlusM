@@ -13,6 +13,6 @@ include_directories("${YPP_DEBUGGING_DIR}"
 add_executable(RegistryService main.cpp)
 
 # link with YARP libraries and our interface classes
-target_link_libraries(RegistryService YPPBaseService YPPBaseShared YPPDebugging ${YARP_LIBRARIES})
+target_link_libraries(RegistryService YPPBaseService YPPBaseShared YPPDebugging YPPParser ${YARP_LIBRARIES})
 
 enable_testing()

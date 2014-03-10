@@ -10,6 +10,7 @@
 # define YPPREGISTRYSERVICE_H_ /* */
 
 # include "YPPBaseService.h"
+# include "YPPMatchExpression.h"
 
 struct sqlite3;
 
@@ -62,6 +63,12 @@ namespace YarpPlusPlus
         {
             return _isActive;
         } // isActive
+        
+        /*! @brief Convert a match expression into SQL and process it.
+         @param matcher The match expression to be processed.
+         @param reply The result from performing a SELECT with the converted match expression. */
+        void processMatchRequest(YarpPlusPlusParser::MatchExpression * matcher,
+                                 yarp::os::Bottle &                    reply);
         
         /*! @brief Remove a service entry from the registry.
          @param servicePortName The service port that is being removed.

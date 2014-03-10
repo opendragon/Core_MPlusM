@@ -49,6 +49,14 @@ namespace YarpPlusPlus
         yarp::os::Value element(const int index)
         const;
         
+        /*! @brief Return the full set of values.
+         @returns All the values in the response. */
+        yarp::os::Bottle values(void)
+        const
+        {
+            return _values;
+        } // values
+        
     protected:
         
     private:
