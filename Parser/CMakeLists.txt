@@ -10,6 +10,7 @@ include_directories("${YPP_COMMON_DIR}"
                     "${YPP_DEBUGGING_DIR}")
 
 add_library(YPPParser
+            YPPMatchConstraint.cpp
             YPPMatcher.cpp
             YPPMatchFieldName.cpp
             YPPMatchFieldWithValues.cpp
@@ -38,6 +39,10 @@ add_test(NAME TestParseValue9 COMMAND ParserTest 1 t "'alpha beta'")
 add_test(NAME TestParseValue10 COMMAND ParserTest 1 t "\"alpha beta\"")
 add_test(NAME TestParseValue11 COMMAND ParserTest 1 f "\"alpha")
 add_test(NAME TestParseValue12 COMMAND ParserTest 1 f "'alpha beta\"")
+add_test(NAME TestParseValue13 COMMAND ParserTest 1 t "'alpha(beta'")
+add_test(NAME TestParseValue14 COMMAND ParserTest 1 t "'alpha)beta'")
+add_test(NAME TestParseValue15 COMMAND ParserTest 1 t "'alpha&beta'")
+add_test(NAME TestParseValue16 COMMAND ParserTest 1 t "'alpha,beta'")
 # Test value lists
 add_test(NAME TestParseValueList1 COMMAND ParserTest 2 f "")
 add_test(NAME TestParseValueList2 COMMAND ParserTest 2 f alpha)
@@ -61,13 +66,28 @@ add_test(NAME TestParseFieldName6 COMMAND ParserTest 3 t "description(")
 add_test(NAME TestParseFieldWithValues1 COMMAND ParserTest 4 f "")
 add_test(NAME TestParseFieldWithValues2 COMMAND ParserTest 4 f "keyword ")
 add_test(NAME TestParseFieldWithValues3 COMMAND ParserTest 4 f "keyword:")
-
 add_test(NAME TestParseFieldWithValues4 COMMAND ParserTest 4 t "keyword alpha")
 add_test(NAME TestParseFieldWithValues5 COMMAND ParserTest 4 t "keyword:alpha")
-
 add_test(NAME TestParseFieldWithValues6 COMMAND ParserTest 4 t "keyword (alpha,beta)")
 add_test(NAME TestParseFieldWithValues7 COMMAND ParserTest 4 t "keyword:(alpha,beta)")
 add_test(NAME TestParseFieldWithValues8 COMMAND ParserTest 4 f "keyword (alpha,)")
 add_test(NAME TestParseFieldWithValues9 COMMAND ParserTest 4 f "keyword:(alpha")
 add_test(NAME TestParseFieldWithValues10 COMMAND ParserTest 4 t "keyword:(alpha,\"beta gamma\")")
 add_test(NAME TestParseFieldWithValues11 COMMAND ParserTest 4 t "keyword(alpha,\"beta gamma\")")
+# Test AND-clauses
+add_test(NAME TestParseAndClause1 COMMAND ParserTest 5 f "")
+add_test(NAME TestParseAndClause2 COMMAND ParserTest 5 t "keyword(alpha,\"beta gamma\")")
+add_test(NAME TestParseAndClause3 COMMAND ParserTest 5 f "keyword(alpha,\"beta gamma\")&")
+add_test(NAME TestParseAndClause4 COMMAND ParserTest 5 t "keyword(alpha,\"beta gamma\")& description:alpha")
+
+
+
+
+
+
+
+
+
+
+
+

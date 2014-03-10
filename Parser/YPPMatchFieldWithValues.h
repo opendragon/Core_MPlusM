@@ -9,10 +9,11 @@
 #if (! defined(YPPMATCHFIELDWITHVALUES_H_))
 # define YPPMATCHFIELDWITHVALUES_H_ /* */
 
-# include "YPPMatchFieldName.h"
+# include "YPPMatcher.h"
 
 namespace YarpPlusPlusParser
 {
+    class MatchFieldName;
     class MatchValue;
     class MatchValueList;
     

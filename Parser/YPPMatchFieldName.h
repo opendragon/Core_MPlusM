@@ -11,8 +11,6 @@
 
 # include "YPPMatcher.h"
 
-typedef bool (*FieldNameValidator)(const char * aString);
-
 namespace YarpPlusPlusParser
 {
     /*! @brief A pattern matcher for field names. */

@@ -8,6 +8,8 @@
 
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPMatchConstraint.h"
+#include "YPPMatchFieldName.h"
 #include "YPPMatchFieldWithValues.h"
 #include "YPPMatchValue.h"
 #include "YPPMatchValueList.h"
@@ -163,6 +165,30 @@ static int doCase04(const bool expected,
     return result;
 } // doCase04
 
+/*! @brief Perform a test case.
+ @param expected @c true if the test is expected to succeed, and @c false otherwise.
+ @param inString The string to be used for the test.
+ @returns @c 0 on success and @c 1 on failure. */
+static int doCase05(const bool expected,
+                    char *     inString) // create value matcher
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_B1("expected = ", expected);//####
+    OD_SYSLOG_S1("inString = ", inString);//####
+    int               endPos;
+    int               len = static_cast<int>(strlen(inString));
+    MatchConstraint * didMatch = MatchConstraint::createMatcher(inString, len, 0, endPos, fieldNameValidator);
+    int               result = ((expected == (NULL != didMatch)) ? 0 : 1);
+    
+    if (didMatch)
+    {
+        OD_SYSLOG_S1("didMatch->asString = ", didMatch->asString().c_str());//####
+        delete didMatch;
+    }
+    OD_SYSLOG_EXIT_LL(result);//####
+    return result;
+} // doCase05
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -204,6 +230,10 @@ int main(int      argc,
                                 
             case 4:
                 result = doCase04(expected, *(argv + 3));
+                break;
+
+            case 5:
+                result = doCase05(expected, *(argv + 3));
                 break;
 
             default:

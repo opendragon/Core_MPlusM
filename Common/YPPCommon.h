@@ -13,6 +13,8 @@
 # include <yarp/os/ConstString.h>
 # include <yarp/os/Contact.h>
 
+typedef bool (*FieldNameValidator)(const char * aString);
+
 namespace YarpPlusPlus
 {
 

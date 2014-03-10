@@ -51,16 +51,16 @@ namespace YarpPlusPlusParser
                                               const int                     startPos,
                                               int &                         endPos);
         
-        /*! @brief The character used to signal the beginning of a list.
-         @returns The character that ends a list. */
+        /*! @brief The character used to signal the beginning of a value list.
+         @returns The character that ends a value list. */
         static char listInitiatorCharacter(void);
 
-        /*! @brief The character used between list elements.
-         @returns The character that separates list elements. */
+        /*! @brief The character used between value list elements.
+         @returns The character that separates value list elements. */
         static char listSeparatorCharacter(void);
         
-        /*! @brief The character used to signal the end of a list.
-         @returns The character that ends a list. */
+        /*! @brief The character used to signal the end of a value list.
+         @returns The character that ends a value list. */
         static char listTerminatorCharacter(void);
 
     protected:

@@ -9,6 +9,7 @@
 #include "YPPMatchFieldWithValues.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPMatchFieldName.h"
 #include "YPPMatchValue.h"
 #include "YPPMatchValueList.h"
 

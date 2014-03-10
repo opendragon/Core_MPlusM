@@ -18,11 +18,11 @@ using namespace YarpPlusPlusParser;
 # pragma mark Private structures and constants
 #endif // defined(__APPLE__)
 
-/*! @brief The character used to separate list elements. */
+/*! @brief The character used to separate value list elements. */
 static const char kComma = ',';
-/*! @brief The character used to end a list. */
+/*! @brief The character used to end a value list. */
 static const char kRoundCloseBracket = ')';
-/*! @brief The character used to start a list. */
+/*! @brief The character used to start a value list. */
 static const char kRoundOpenBracket = '(';
 
 #if defined(__APPLE__)
@@ -46,13 +46,11 @@ MatchValueList * MatchValueList::createMatcher(const yarp::os::ConstString & inS
     
     if (workPos < inLength)
     {
-        char scanChar = inString[workPos];
-        
-        if (kRoundOpenBracket == scanChar)
+        if (kRoundOpenBracket == inString[workPos])
         {
-            // We potentially have a list.
-            bool okSoFar = true;
+            // We potentially have a value list.
             bool done = false;
+            bool okSoFar = true;
             
             result = new MatchValueList();
             for (++workPos; okSoFar && (! done); )
@@ -62,21 +60,15 @@ MatchValueList * MatchValueList::createMatcher(const yarp::os::ConstString & inS
                 
                 if (element)
                 {
-                    // Skip over any trailing whitespace, to find if the list is complete or more coming.
-                    for (workPos = nextElementPos; workPos < inLength; ++workPos)
-                    {
-                        scanChar = inString[workPos];
-                        if (! isspace(scanChar))
-                        {
-                            break;
-                        }
-                        
-                    }
+                    // Skip over any trailing whitespace, to find if the value list is complete or more coming.
+                    workPos = skipWhitespace(inString, inLength, nextElementPos);
                     if (workPos < inLength)
                     {
+                        char scanChar = inString[workPos];
+                        
                         if (kRoundCloseBracket == scanChar)
                         {
-                            // We've seen the end of the list.
+                            // We've seen the end of the value list.
                             result->_values.push_back(element);
                             ++workPos;
                             done = true;
@@ -101,7 +93,7 @@ MatchValueList * MatchValueList::createMatcher(const yarp::os::ConstString & inS
                 }
                 else
                 {
-                    // We have a malformed list.
+                    // We have a malformed value list.
                     okSoFar = false;
                 }
             }
