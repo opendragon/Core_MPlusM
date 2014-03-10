@@ -10,7 +10,6 @@
 # define YPPMATCHER_H_ /* */
 
 # include "YPPCommon.h"
-# include <yarp/os/ConstString.h>
 
 namespace YarpPlusPlusParser
 {

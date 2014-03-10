@@ -10,7 +10,6 @@
 # define YPPMATCHFIELDWITHVALUES_H_ /* */
 
 # include "YPPMatchFieldName.h"
-# include <yarp/os/ConstString.h>
 
 namespace YarpPlusPlusParser
 {

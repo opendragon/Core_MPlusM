@@ -8,7 +8,6 @@
 
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include "YPPMatchFieldName.h"
 #include "YPPMatchFieldWithValues.h"
 #include "YPPMatchValue.h"
 #include "YPPMatchValueList.h"

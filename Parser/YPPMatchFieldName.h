@@ -10,7 +10,6 @@
 # define YPPMATCHFIELDNAME_H_ /* */
 
 # include "YPPMatcher.h"
-# include <yarp/os/ConstString.h>
 
 typedef bool (*FieldNameValidator)(const char * aString);
 

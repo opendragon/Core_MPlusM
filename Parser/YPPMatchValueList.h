@@ -11,7 +11,6 @@
 
 # include "YPPMatcher.h"
 # include <vector>
-# include <yarp/os/ConstString.h>
 
 namespace YarpPlusPlusParser
 {
