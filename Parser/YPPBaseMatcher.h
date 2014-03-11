@@ -32,7 +32,7 @@ namespace YarpPlusPlusParser
          @param startPos Where in the string to begin scanning.
          @returns The position in the string where the next non-whitespace character appears, or the length of the
          string - which is past the end of the string - if the remainder of the string is whitespace. */
-        static int skipWhitespace(const yarp::os::ConstString & inString,
+        static int SkipWhitespace(const yarp::os::ConstString & inString,
                                   const int                     inLength,
                                   const int                     startPos);
         

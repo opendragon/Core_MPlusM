@@ -89,11 +89,11 @@ bool RegisterRequestHandler::operator() (const yarp::os::Bottle &     restOfInpu
             {
                 yarp::os::ConstString argAsString(argument.toString());
                 
-                if (Endpoint::checkEndpointName(argAsString))
+                if (Endpoint::CheckEndpointName(argAsString))
                 {
                     // Send a 'list' request to the port
                     yarp::os::Port        outPort;
-                    yarp::os::ConstString aName(Endpoint::getRandomPortName());
+                    yarp::os::ConstString aName(Endpoint::GetRandomPortName());
 
                     if (outPort.open(aName))
                     {

@@ -29,12 +29,12 @@ static const char kAmpersand = '&';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-char MatchConstraint::constraintSeparatorCharacter(void)
+char MatchConstraint::ConstraintSeparatorCharacter(void)
 {
     return kAmpersand;
-} // MatchConstraint::constraintSeparatorCharacter
+} // MatchConstraint::ConstraintSeparatorCharacter
 
-MatchConstraint * MatchConstraint::createMatcher(const yarp::os::ConstString & inString,
+MatchConstraint * MatchConstraint::CreateMatcher(const yarp::os::ConstString & inString,
                                                  const int                     inLength,
                                                  const int                     startPos,
                                                  int &                         endPos,
@@ -43,7 +43,7 @@ MatchConstraint * MatchConstraint::createMatcher(const yarp::os::ConstString & i
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
     OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);
-    int               workPos = skipWhitespace(inString, inLength, startPos);
+    int               workPos = SkipWhitespace(inString, inLength, startPos);
     MatchConstraint * result = NULL;
     
     if (workPos < inLength)
@@ -51,19 +51,19 @@ MatchConstraint * MatchConstraint::createMatcher(const yarp::os::ConstString & i
         // We potentially have a constraint list.
         bool       done = false;
         bool       okSoFar = true;
-        const char expressionSeparator = MatchExpression::expressionSeparatorCharacter();
+        const char expressionSeparator = MatchExpression::ExpressionSeparatorCharacter();
         
         result = new MatchConstraint();
         for ( ; okSoFar && (! done); )
         {
             int                    nextElementPos;
-            MatchFieldWithValues * element = MatchFieldWithValues::createMatcher(inString, inLength, workPos,
+            MatchFieldWithValues * element = MatchFieldWithValues::CreateMatcher(inString, inLength, workPos,
                                                                                  nextElementPos, validator);
             
             if (element)
             {
                 // Skip over any trailing whitespace, to find if the constraint list is complete or more coming.
-                workPos = skipWhitespace(inString, inLength, nextElementPos);
+                workPos = SkipWhitespace(inString, inLength, nextElementPos);
                 if (workPos < inLength)
                 {
                     char scanChar = inString[workPos];
@@ -111,7 +111,7 @@ MatchConstraint * MatchConstraint::createMatcher(const yarp::os::ConstString & i
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
-} // MatchConstraint::createMatcher
+} // MatchConstraint::CreateMatcher
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors

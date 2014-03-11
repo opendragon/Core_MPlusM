@@ -28,7 +28,7 @@ static const char kComma = ',';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchExpression * MatchExpression::createMatcher(const yarp::os::ConstString & inString,
+MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & inString,
                                                  const int                     inLength,
                                                  const int                     startPos,
                                                  int &                         endPos,
@@ -37,7 +37,7 @@ MatchExpression * MatchExpression::createMatcher(const yarp::os::ConstString & i
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
     OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);
-    int               workPos = skipWhitespace(inString, inLength, startPos);
+    int               workPos = SkipWhitespace(inString, inLength, startPos);
     MatchExpression * result = NULL;
     
     if (workPos < inLength)
@@ -50,13 +50,13 @@ MatchExpression * MatchExpression::createMatcher(const yarp::os::ConstString & i
         for ( ; okSoFar && (! done); )
         {
             int               nextElementPos;
-            MatchConstraint * element = MatchConstraint::createMatcher(inString, inLength, workPos, nextElementPos,
+            MatchConstraint * element = MatchConstraint::CreateMatcher(inString, inLength, workPos, nextElementPos,
                                                                        validator);
             
             if (element)
             {
                 // Skip over any trailing whitespace, to find if the constraint list is complete or more coming.
-                workPos = skipWhitespace(inString, inLength, nextElementPos);
+                workPos = SkipWhitespace(inString, inLength, nextElementPos);
                 if (workPos < inLength)
                 {
                     char scanChar = inString[workPos];
@@ -98,12 +98,12 @@ MatchExpression * MatchExpression::createMatcher(const yarp::os::ConstString & i
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
-} // MatchExpression::createMatcher
+} // MatchExpression::CreateMatcher
 
-char MatchExpression::expressionSeparatorCharacter(void)
+char MatchExpression::ExpressionSeparatorCharacter(void)
 {
     return kComma;
-} // MatchExpression::expressionSeparatorCharacter
+} // MatchExpression::ExpressionSeparatorCharacter
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors

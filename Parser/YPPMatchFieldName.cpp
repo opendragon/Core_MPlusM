@@ -31,7 +31,7 @@ static const char kColon = ':';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchFieldName * MatchFieldName::createMatcher(const yarp::os::ConstString & inString,
+MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inString,
                                                const int                     inLength,
                                                const int                     startPos,
                                                int &                         endPos,
@@ -40,13 +40,13 @@ MatchFieldName * MatchFieldName::createMatcher(const yarp::os::ConstString & inS
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
     OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
-    int              workPos = skipWhitespace(inString, inLength, startPos);
+    int              workPos = SkipWhitespace(inString, inLength, startPos);
     MatchFieldName * result = NULL;
     
     if (workPos < inLength)
     {
         // Remember where we began.
-        char listStart = MatchValueList::listInitiatorCharacter();
+        char listStart = MatchValueList::ListInitiatorCharacter();
         char scanChar = inString[workPos];
         int  startSubPos = workPos;
         
@@ -95,7 +95,7 @@ MatchFieldName * MatchFieldName::createMatcher(const yarp::os::ConstString & inS
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
-} // MatchFieldName::createMatcher
+} // MatchFieldName::CreateMatcher
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors

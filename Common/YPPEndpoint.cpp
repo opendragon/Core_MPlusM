@@ -92,7 +92,7 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-bool Endpoint::checkEndpointName(const yarp::os::ConstString & portName)
+bool Endpoint::CheckEndpointName(const yarp::os::ConstString & portName)
 {
     bool result;
     int  nameLength = portName.length();
@@ -112,9 +112,9 @@ bool Endpoint::checkEndpointName(const yarp::os::ConstString & portName)
         result = false;
     }
     return result;
-} // Endpoint::checkEndpointName
+} // Endpoint::CheckEndpointName
 
-yarp::os::ConstString Endpoint::getRandomPortName(void)
+yarp::os::ConstString Endpoint::GetRandomPortName(void)
 {
     yarp::os::ConstString result;
     char                  buff[32];
@@ -133,7 +133,7 @@ yarp::os::ConstString Endpoint::getRandomPortName(void)
     sprintf(buff, "/port_%llx", asLongLong);
     result = buff;
     return result;
-} // Endpoint::getRandomPortName
+} // Endpoint::GetRandomPortName
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors
@@ -147,7 +147,7 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S3("endpointName = ", endpointName.c_str(), "hostName = ", hostName.c_str(),//####
                  "portNumber = ", portNumber.c_str());//####
-    if (checkEndpointName(endpointName))
+    if (CheckEndpointName(endpointName))
     {
         int realPort;
 

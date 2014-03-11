@@ -54,7 +54,7 @@ namespace YarpPlusPlusParser
          @param endPos Where the scan terminated, if successful.
          @param validator A function that returns @c true if the field name is valid and @c false otherwise.
          @returns A non-null matcher if the string would be a valid value and @c NULL otherwise. */
-        static MatchExpression * createMatcher(const yarp::os::ConstString & inString,
+        static MatchExpression * CreateMatcher(const yarp::os::ConstString & inString,
                                                const int                     inLength,
                                                const int                     startPos,
                                                int &                         endPos,
@@ -62,7 +62,7 @@ namespace YarpPlusPlusParser
         
         /*! @brief The character used between expression list elements.
          @returns The character that separates expression list elements. */
-        static char expressionSeparatorCharacter(void);
+        static char ExpressionSeparatorCharacter(void);
         
     protected:
         

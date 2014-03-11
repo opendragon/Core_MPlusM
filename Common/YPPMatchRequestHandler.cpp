@@ -95,7 +95,7 @@ bool MatchRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
             
                 OD_SYSLOG_S1("argAsString <- ", argAsString.c_str());//####
                 int               endPos;
-                MatchExpression * matcher = MatchExpression::createMatcher(argAsString, argAsString.length(), 0, endPos,
+                MatchExpression * matcher = MatchExpression::CreateMatcher(argAsString, argAsString.length(), 0, endPos,
                                                                            _validator);
                 
                 if (matcher)

@@ -54,7 +54,7 @@ namespace YarpPlusPlusParser
          @param startPos Where in the string to start scanning.
          @param endPos Where the scan terminated, if successful.
          @returns A non-null matcher if the string would be a valid value and @c NULL otherwise. */
-        static MatchValue * createMatcher(const yarp::os::ConstString & inString,
+        static MatchValue * CreateMatcher(const yarp::os::ConstString & inString,
                                           const int                     inLength,
                                           const int                     startPos,
                                           int &                         endPos);

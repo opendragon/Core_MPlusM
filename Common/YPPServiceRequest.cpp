@@ -126,7 +126,7 @@ bool ServiceRequest::send(Endpoint &        destinationPort,
     }
     else
     {
-        yarp::os::ConstString aName(Endpoint::getRandomPortName());
+        yarp::os::ConstString aName(Endpoint::GetRandomPortName());
         yarp::os::Port        outPort;
 
         if (outPort.open(aName))
@@ -253,7 +253,7 @@ bool ServiceRequest::send(const yarp::os::ConstString & destinationPortName,
     else
     {
         yarp::os::Port        outPort;
-        yarp::os::ConstString aName(Endpoint::getRandomPortName());
+        yarp::os::ConstString aName(Endpoint::GetRandomPortName());
 
         if (outPort.open(aName))
         {

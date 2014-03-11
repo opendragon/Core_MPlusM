@@ -25,7 +25,7 @@ using namespace YarpPlusPlusParser;
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-int BaseMatcher::skipWhitespace(const yarp::os::ConstString & inString,
+int BaseMatcher::SkipWhitespace(const yarp::os::ConstString & inString,
                                 const int                     inLength,
                                 const int                     startPos)
 {
@@ -42,7 +42,7 @@ int BaseMatcher::skipWhitespace(const yarp::os::ConstString & inString,
         
     }
     return result;
-} // BaseMatcher::skipWhitespace
+} // BaseMatcher::SkipWhitespace
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors

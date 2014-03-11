@@ -33,7 +33,7 @@ static const char kRoundOpenBracket = '(';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchValueList * MatchValueList::createMatcher(const yarp::os::ConstString & inString,
+MatchValueList * MatchValueList::CreateMatcher(const yarp::os::ConstString & inString,
                                                const int                     inLength,
                                                const int                     startPos,
                                                int &                         endPos)
@@ -41,7 +41,7 @@ MatchValueList * MatchValueList::createMatcher(const yarp::os::ConstString & inS
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
     OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);
-    int              workPos = skipWhitespace(inString, inLength, startPos);
+    int              workPos = SkipWhitespace(inString, inLength, startPos);
     MatchValueList * result = NULL;
     
     if (workPos < inLength)
@@ -56,12 +56,12 @@ MatchValueList * MatchValueList::createMatcher(const yarp::os::ConstString & inS
             for (++workPos; okSoFar && (! done); )
             {
                 int          nextElementPos;
-                MatchValue * element = MatchValue::createMatcher(inString, inLength, workPos, nextElementPos);
+                MatchValue * element = MatchValue::CreateMatcher(inString, inLength, workPos, nextElementPos);
                 
                 if (element)
                 {
                     // Skip over any trailing whitespace, to find if the value list is complete or more coming.
-                    workPos = skipWhitespace(inString, inLength, nextElementPos);
+                    workPos = SkipWhitespace(inString, inLength, nextElementPos);
                     if (workPos < inLength)
                     {
                         char scanChar = inString[workPos];
@@ -110,22 +110,22 @@ MatchValueList * MatchValueList::createMatcher(const yarp::os::ConstString & inS
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
-} // MatchValueList::createMatcher
+} // MatchValueList::CreateMatcher
 
-char MatchValueList::listInitiatorCharacter(void)
+char MatchValueList::ListInitiatorCharacter(void)
 {
     return kRoundOpenBracket;
-} // MatchValueList::listInitiatorCharacter
+} // MatchValueList::ListInitiatorCharacter
 
-char MatchValueList::listSeparatorCharacter(void)
+char MatchValueList::ListSeparatorCharacter(void)
 {
     return kComma;
-} // MatchValueList::listSeparatorCharacter
+} // MatchValueList::ListSeparatorCharacter
 
-char MatchValueList::listTerminatorCharacter(void)
+char MatchValueList::ListTerminatorCharacter(void)
 {
     return kRoundCloseBracket;
-} // MatchValueList::listTerminatorCharacter
+} // MatchValueList::ListTerminatorCharacter
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors

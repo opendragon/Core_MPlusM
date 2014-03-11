@@ -43,7 +43,7 @@ static const char kUnderscore = '_';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchValue * MatchValue::createMatcher(const yarp::os::ConstString & inString,
+MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
                                        const int                     inLength,
                                        const int                     startPos,
                                        int &                         endPos)
@@ -51,7 +51,7 @@ MatchValue * MatchValue::createMatcher(const yarp::os::ConstString & inString,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
     OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
-    int          workPos = skipWhitespace(inString, inLength, startPos);
+    int          workPos = SkipWhitespace(inString, inLength, startPos);
     MatchValue * result = NULL;
     
     if (workPos < inLength)
@@ -60,11 +60,11 @@ MatchValue * MatchValue::createMatcher(const yarp::os::ConstString & inString,
         // Remember where we began.
         char       delimiter;
         char       scanChar = inString[workPos];
-        const char constraintSeparator = MatchConstraint::constraintSeparatorCharacter();
-        const char expressionSeparator = MatchExpression::expressionSeparatorCharacter();
-        const char listInitiator = MatchValueList::listInitiatorCharacter();
-        const char listSeparator = MatchValueList::listSeparatorCharacter();
-        const char listTerminator = MatchValueList::listTerminatorCharacter();
+        const char constraintSeparator = MatchConstraint::ConstraintSeparatorCharacter();
+        const char expressionSeparator = MatchExpression::ExpressionSeparatorCharacter();
+        const char listInitiator = MatchValueList::ListInitiatorCharacter();
+        const char listSeparator = MatchValueList::ListSeparatorCharacter();
+        const char listTerminator = MatchValueList::ListTerminatorCharacter();
         int        startSubPos = workPos;
         
         // If we have a quote character, scan for the matching character. If we have an illegal starting character,
@@ -123,7 +123,7 @@ MatchValue * MatchValue::createMatcher(const yarp::os::ConstString & inString,
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
-} // MatchValue::createMatcher
+} // MatchValue::CreateMatcher
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors

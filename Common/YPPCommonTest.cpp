@@ -139,7 +139,7 @@ static int doCase02(const int argc,
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
             // Now we try to connect!
             yarp::os::Port        outPort;
-            yarp::os::ConstString aName(Endpoint::getRandomPortName());
+            yarp::os::ConstString aName(Endpoint::GetRandomPortName());
             
             OD_SYSLOG_S1("opening ", aName.c_str());//####
             if (outPort.open(aName))
@@ -201,7 +201,7 @@ static int doCase03(const int argc,
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
             // Now we try to connect!
             yarp::os::Port        outPort;
-            yarp::os::ConstString aName(Endpoint::getRandomPortName());
+            yarp::os::ConstString aName(Endpoint::GetRandomPortName());
             
             OD_SYSLOG_S1("opening ", aName.c_str());//####
             if (outPort.open(aName))
@@ -276,7 +276,7 @@ static int doCase04(const int argc,
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
             // Now we try to connect!
             yarp::os::Port        outPort;
-            yarp::os::ConstString aName(Endpoint::getRandomPortName());
+            yarp::os::ConstString aName(Endpoint::GetRandomPortName());
             
             OD_SYSLOG_S1("opening ", aName.c_str());//####
             if (outPort.open(aName))
@@ -353,7 +353,7 @@ static int doCase05(const int argc,
             OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
             // Now we try to connect!
             yarp::os::Port        outPort;
-            yarp::os::ConstString aName(Endpoint::getRandomPortName());
+            yarp::os::ConstString aName(Endpoint::GetRandomPortName());
             
             OD_SYSLOG_S1("opening ", aName.c_str());//####
             if (outPort.open(aName))

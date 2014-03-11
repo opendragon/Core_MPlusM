@@ -48,7 +48,7 @@ namespace YarpPlusPlusParser
         
         /*! @brief The character used between constraint list elements.
          @returns The character that separates constraint list elements. */
-        static char constraintSeparatorCharacter(void);
+        static char ConstraintSeparatorCharacter(void);
         
         /*! @brief Create a pattern matcher if the next substring would be a valid constraint.
          @param inString The string being scanned.
@@ -57,7 +57,7 @@ namespace YarpPlusPlusParser
          @param endPos Where the scan terminated, if successful.
          @param validator A function that returns @c true if the field name is valid and @c false otherwise.
          @returns A non-null matcher if the string would be a valid value and @c NULL otherwise. */
-        static MatchConstraint * createMatcher(const yarp::os::ConstString & inString,
+        static MatchConstraint * CreateMatcher(const yarp::os::ConstString & inString,
                                                const int                     inLength,
                                                const int                     startPos,
                                                int &                         endPos,

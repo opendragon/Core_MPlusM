@@ -89,7 +89,7 @@ bool UnregisterRequestHandler::operator() (const yarp::os::Bottle &     restOfIn
             {
                 yarp::os::ConstString argAsString(argument.toString());
                 
-                if (Endpoint::checkEndpointName(argAsString))
+                if (Endpoint::CheckEndpointName(argAsString))
                 {
                     // Forget the information associated with the port name
                     if (_service.removeServiceRecord(argAsString))

@@ -27,7 +27,7 @@ using namespace YarpPlusPlusParser;
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchFieldWithValues * MatchFieldWithValues::createMatcher(const yarp::os::ConstString & inString,
+MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const yarp::os::ConstString & inString,
                                                            const int                     inLength,
                                                            const int                     startPos,
                                                            int &                         endPos,
@@ -38,24 +38,24 @@ MatchFieldWithValues * MatchFieldWithValues::createMatcher(const yarp::os::Const
     OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
     int                    workPos = startPos;
     MatchFieldWithValues * result = NULL;
-    MatchFieldName *       fieldName = MatchFieldName::createMatcher(inString, inLength, startPos, workPos, validator);
+    MatchFieldName *       fieldName = MatchFieldName::CreateMatcher(inString, inLength, startPos, workPos, validator);
 
     if (fieldName)
     {
-        workPos = skipWhitespace(inString, inLength, workPos);
+        workPos = SkipWhitespace(inString, inLength, workPos);
         if (workPos < inLength)
         {
             int              nextPos;
             MatchValue *     asSingle = NULL;
             MatchValueList * asList = NULL;
             
-            if (MatchValueList::listInitiatorCharacter() == inString[workPos])
+            if (MatchValueList::ListInitiatorCharacter() == inString[workPos])
             {
-                asList = MatchValueList::createMatcher(inString, inLength, workPos, nextPos);
+                asList = MatchValueList::CreateMatcher(inString, inLength, workPos, nextPos);
             }
             else
             {
-                asSingle = MatchValue::createMatcher(inString, inLength, workPos, nextPos);
+                asSingle = MatchValue::CreateMatcher(inString, inLength, workPos, nextPos);
             }
             if (asList || asSingle)
             {
@@ -74,7 +74,7 @@ MatchFieldWithValues * MatchFieldWithValues::createMatcher(const yarp::os::Const
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
-} // MatchFieldWithValues::createMatcher
+} // MatchFieldWithValues::CreateMatcher
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors

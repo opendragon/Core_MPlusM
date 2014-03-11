@@ -97,7 +97,7 @@ static int doCase01(const bool expected,
     OD_SYSLOG_S1("inString = ", inString);//####
     int          endPos;
     int          len = static_cast<int>(strlen(inString));
-    MatchValue * didMatch = MatchValue::createMatcher(inString, len, 0, endPos);
+    MatchValue * didMatch = MatchValue::CreateMatcher(inString, len, 0, endPos);
     int          result = ((expected == (NULL != didMatch)) ? 0 : 1);
 
     if (didMatch)
@@ -122,7 +122,7 @@ static int doCase02(const bool expected,
     OD_SYSLOG_S1("inString = ", inString);//####
     int              endPos;
     int              len = static_cast<int>(strlen(inString));
-    MatchValueList * didMatch = MatchValueList::createMatcher(inString, len, 0, endPos);
+    MatchValueList * didMatch = MatchValueList::CreateMatcher(inString, len, 0, endPos);
     int              result = ((expected == (NULL != didMatch)) ? 0 : 1);
     
     if (didMatch)
@@ -147,7 +147,7 @@ static int doCase03(const bool expected,
     OD_SYSLOG_S1("inString = ", inString);//####
     int              endPos;
     int              len = static_cast<int>(strlen(inString));
-    MatchFieldName * didMatch = MatchFieldName::createMatcher(inString, len, 0, endPos, fieldNameValidator);
+    MatchFieldName * didMatch = MatchFieldName::CreateMatcher(inString, len, 0, endPos, fieldNameValidator);
     int              result = ((expected == (NULL != didMatch)) ? 0 : 1);
     
     if (didMatch)
@@ -172,7 +172,7 @@ static int doCase04(const bool expected,
     OD_SYSLOG_S1("inString = ", inString);//####
     int                    endPos;
     int                    len = static_cast<int>(strlen(inString));
-    MatchFieldWithValues * didMatch = MatchFieldWithValues::createMatcher(inString, len, 0, endPos, fieldNameValidator);
+    MatchFieldWithValues * didMatch = MatchFieldWithValues::CreateMatcher(inString, len, 0, endPos, fieldNameValidator);
     int                    result = ((expected == (NULL != didMatch)) ? 0 : 1);
     
     if (didMatch)
@@ -197,7 +197,7 @@ static int doCase05(const bool expected,
     OD_SYSLOG_S1("inString = ", inString);//####
     int               endPos;
     int               len = static_cast<int>(strlen(inString));
-    MatchConstraint * didMatch = MatchConstraint::createMatcher(inString, len, 0, endPos, fieldNameValidator);
+    MatchConstraint * didMatch = MatchConstraint::CreateMatcher(inString, len, 0, endPos, fieldNameValidator);
     int               result = ((expected == (NULL != didMatch)) ? 0 : 1);
     
     if (didMatch)
@@ -222,7 +222,7 @@ static int doCase06(const bool expected,
     OD_SYSLOG_S1("inString = ", inString);//####
     int               endPos;
     int               len = static_cast<int>(strlen(inString));
-    MatchExpression * didMatch = MatchExpression::createMatcher(inString, len, 0, endPos, fieldNameValidator);
+    MatchExpression * didMatch = MatchExpression::CreateMatcher(inString, len, 0, endPos, fieldNameValidator);
     int               result = ((expected == (NULL != didMatch)) ? 0 : 1);
     
     if (didMatch)

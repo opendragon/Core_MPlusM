@@ -42,7 +42,7 @@ namespace YarpPlusPlusParser
          @param endPos Where the scan terminated, if successful.
          @param validator A function that returns @c true if the field name is valid and @c false otherwise.
          @returns A non-null matcher if the string would be a valid value and @c NULL otherwise. */
-        static MatchFieldWithValues * createMatcher(const yarp::os::ConstString & inString,
+        static MatchFieldWithValues * CreateMatcher(const yarp::os::ConstString & inString,
                                                     const int                     inLength,
                                                     const int                     startPos,
                                                     int &                         endPos,

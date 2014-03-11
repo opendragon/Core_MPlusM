@@ -52,22 +52,22 @@ namespace YarpPlusPlusParser
          @param startPos Where in the string to start scanning.
          @param endPos Where the scan terminated, if successful.
          @returns A non-null matcher if the string would be a valid value and @c NULL otherwise. */
-        static MatchValueList * createMatcher(const yarp::os::ConstString & inString,
+        static MatchValueList * CreateMatcher(const yarp::os::ConstString & inString,
                                               const int                     inLength,
                                               const int                     startPos,
                                               int &                         endPos);
         
         /*! @brief The character used to signal the beginning of a value list.
          @returns The character that ends a value list. */
-        static char listInitiatorCharacter(void);
+        static char ListInitiatorCharacter(void);
 
         /*! @brief The character used between value list elements.
          @returns The character that separates value list elements. */
-        static char listSeparatorCharacter(void);
+        static char ListSeparatorCharacter(void);
         
         /*! @brief The character used to signal the end of a value list.
          @returns The character that ends a value list. */
-        static char listTerminatorCharacter(void);
+        static char ListTerminatorCharacter(void);
 
     protected:
         
