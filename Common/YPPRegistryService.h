@@ -66,8 +66,9 @@ namespace YarpPlusPlus
         
         /*! @brief Convert a match expression into SQL and process it.
          @param matcher The match expression to be processed.
-         @param reply The result from performing a SELECT with the converted match expression. */
-        void processMatchRequest(YarpPlusPlusParser::MatchExpression * matcher,
+         @param reply The result from performing a SELECT with the converted match expression.
+         @returns @c true if the match request was successfully performed and @c false otherwise. */
+        bool processMatchRequest(YarpPlusPlusParser::MatchExpression * matcher,
                                  yarp::os::Bottle &                    reply);
         
         /*! @brief Remove a service entry from the registry.

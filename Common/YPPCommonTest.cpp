@@ -1026,25 +1026,102 @@ static int doCase16(const int argc,
                     if (YarpPlusPlus::registerLocalService(portName))
                     {
                         // Search for the service that we just registered.
-                        yarp::os::ConstString expected(argv[1]);
-                        OD_SYSLOG_S2("criteria <- ", *argv, "expected <- ", expected.c_str());//####
-                        yarp::os::Bottle      matches(YarpPlusPlus::findMatchingServices(*argv));
+                        yarp::os::Bottle matches(YarpPlusPlus::findMatchingServices(*argv));
+                        yarp::os::Bottle expected(argv[1]);
                         
-                        OD_SYSLOG_S1("matches <- ", matches.toString().c_str());//####
-                        
-                        
-                        result = 0;
-                        
-                        
-                        
-                        
-                        
-#if 0
+                        OD_SYSLOG_S3("criteria <- ", *argv, "expected <- ", expected.toString().c_str(),//####
+                                     "matches <- ", matches.toString().c_str());//####
+                        if ((expected.size() == matches.size()) && (2 == matches.size()))
+                        {
+                            bool            wasASuccess = false;
+                            yarp::os::Value matchesFirst(matches.get(0));
+                            yarp::os::Value expectedFirst(expected.get(0));
+
+                            if (matchesFirst.isString() && expectedFirst.isString())
+                            {
+                                yarp::os::ConstString matchesFirstAsString(matchesFirst.toString());
+                                yarp::os::ConstString expectedFirstAsString(expectedFirst.toString());
+                                
+                                if (matchesFirstAsString == expectedFirstAsString)
+                                {
+                                    result = 0;
+                                    if (! strcmp(YPP_OK_RESPONSE, matchesFirstAsString.c_str()))
+                                    {
+                                        wasASuccess = true;
+                                    }
+                                }
+                                else
+                                {
+                                    result = 1;
+                                }
+                            }
+                            else
+                            {
+                                result = 1;
+                            }
+                            if ((! result) && wasASuccess)
+                            {
+                                yarp::os::Value matchesSecond(matches.get(1));
+                                yarp::os::Value expectedSecond(expected.get(1));
+                                
+                                if (matchesSecond.isList() && expectedSecond.isList())
+                                {
+                                    yarp::os::Bottle * matchesSecondAsList = matchesSecond.asList();
+                                    yarp::os::Bottle * expectedSecondAsList = expectedSecond.asList();
+                                    int                matchesSecondCount = matchesSecondAsList->size();
+                                    int                expectedSecondCount = expectedSecondAsList->size();
+                                    
+                                    OD_SYSLOG_LL2("matchesSecondCount <- ", matchesSecondCount,//####
+                                                  "expectedSecondCount <- ", expectedSecondCount);//####
+                                    if (matchesSecondCount == expectedSecondCount)
+                                    {
+                                        // Since the lists are the same length, we can just look for the expected values
+                                        // in the matched values.
+                                        for (int ii = 0; ii < expectedSecondCount; ++ii)
+                                        {
+                                            bool                  didFind = false;
+                                            yarp::os::Value       expectedSecondValue(expectedSecondAsList->get(ii));
+                                            yarp::os::ConstString expectedString(expectedSecondValue.toString());
+                                            
+                                            for (int jj = 0; jj < expectedSecondCount; ++jj)
+                                            {
+                                                yarp::os::Value       matchesSecondValue(matchesSecondAsList->get(jj));
+                                                yarp::os::ConstString matchesString(matchesSecondValue.toString());
+                                                
+                                                if (expectedString == matchesString)
+                                                {
+                                                    didFind = true;
+                                                    break;
+                                                }
+                                                
+                                            }
+                                            if (! didFind)
+                                            {
+                                                result = 1;
+                                                break;
+                                            }
+                                            
+                                        }
+                                    }
+                                    else
+                                    {
+                                        result = 1;
+                                    }
+                                }
+                                else
+                                {
+                                    result = 1;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            result = 1;
+                        }
                         if (! YarpPlusPlus::unregisterLocalService(portName))
                         {
                             result = 1;
                         }
-#endif//0
                     }
                     else
                     {

@@ -24,6 +24,11 @@ namespace YarpPlusPlusParser
         /*! @brief The destructor. */
         virtual ~MatchConstraint(void);
         
+        /*! @brief Generate a proper SQL string value corresponding to this match value.
+         @returns A string representing the value as a string suitable for use with SQL. */
+        yarp::os::ConstString asSQLString(void)
+        const;
+        
         /*! @brief Return the match value as a printable string.
          @returns The matching substring as a printable string. */
         yarp::os::ConstString asString(void)

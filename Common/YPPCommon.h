@@ -13,7 +13,9 @@
 # include <yarp/os/ConstString.h>
 # include <yarp/os/Contact.h>
 
-typedef const char * (*FieldNameValidator)(const char * aString);
+typedef const char * (*FieldNameValidator)(const char *   aString,
+                                           const char * * prefixString,
+                                           const char * * suffixString);
 
 namespace YarpPlusPlus
 {

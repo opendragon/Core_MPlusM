@@ -34,7 +34,7 @@ namespace YarpPlusPlus
          @param info The dictionary to be filled in. */
         virtual void fillInDescription(yarp::os::Property & info) = 0;
         
-        inline yarp::os::ConstString name(void)
+        inline const yarp::os::ConstString & name(void)
         const
         {
             return _name;

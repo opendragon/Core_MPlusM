@@ -109,12 +109,14 @@ const
 {
     OD_SYSLOG_ENTER();//####
     yarp::os::ConstString field(_fieldName->asString());
+    const char *          prefixString = NULL;
+    const char *          suffixString = NULL;
     const char *          trueName;
     yarp::os::ConstString converted;
 
     if (_validator)
     {
-        trueName = _validator(field.c_str());
+        trueName = _validator(field.c_str(), &prefixString, &suffixString);
     }
     else
     {
@@ -123,6 +125,10 @@ const
     OD_SYSLOG_S1("trueName <- ", trueName);//####
     if (_singleValue)
     {
+        if (prefixString)
+        {
+            converted += prefixString;
+        }
         converted += trueName;
         if (_singleValue->hasWildcardCharacters())
         {
@@ -133,10 +139,22 @@ const
             converted += " = ";
         }
         converted += _singleValue->asSQLString();
+        if (suffixString)
+        {
+            converted += suffixString;
+        }
     }
     else if (_values)
     {
+        if (prefixString)
+        {
+            converted += prefixString;
+        }
         converted += _values->asSQLString(trueName);
+        if (suffixString)
+        {
+            converted += suffixString;
+        }
     }
     OD_SYSLOG_EXIT_S(converted.c_str());//####
     return converted;

@@ -101,7 +101,7 @@ add_test(NAME TestRequestUnregisterService1 COMMAND CommonTest 15)
 add_test(NAME TestRequestUnregisterService2 COMMAND CommonTest 15 "localhost")
 add_test(NAME TestRequestUnregisterService3 COMMAND CommonTest 15 "localhost" "12340")
 # Test search for request / service - note the change in arguments
-add_test(NAME TestRequestSearchService1 COMMAND CommonTest 16 "" "FAILED")
+add_test(NAME TestRequestSearchService1 COMMAND CommonTest 16 "" "FAILED \"An error message\"")
 add_test(NAME TestRequestSearchService2 COMMAND CommonTest 16 "Version 42" "OK ()")
 add_test(NAME TestRequestSearchService3 COMMAND CommonTest 16 "Description:Echo*" "OK (/service/test16)")
 add_test(NAME TestRequestSearchService4 COMMAND CommonTest 16 "Description:Echo*,Keyword(requests)" "OK (/service/test16 /$ervice)")

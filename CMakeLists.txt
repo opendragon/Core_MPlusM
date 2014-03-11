@@ -11,8 +11,8 @@ cmake_minimum_required(VERSION 2.6)
 
 project(YARPPlusPlus)
 
-set(YPP_VERSION_MAJOR 0)
-set(YPP_VERSION_MINOR 9)
+set(YPP_VERSION_MAJOR 1)
+set(YPP_VERSION_MINOR 0)
 set(YPP_VERSION_PATCH 0)
 
 # find YARP

@@ -76,7 +76,7 @@ MatchFieldName * MatchFieldName::createMatcher(const yarp::os::ConstString & inS
                     {
                         tempAsChars[ii] = static_cast<char>(tolower(tempAsChars[ii]));
                     }
-                    if (validator(tempAsChars))
+                    if (validator(tempAsChars, NULL, NULL))
                     {
                         result = new MatchFieldName(tempAsChars);
                     }

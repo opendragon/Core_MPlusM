@@ -24,6 +24,12 @@ namespace YarpPlusPlusParser
         /*! @brief The destructor. */
         virtual ~MatchExpression(void);
         
+        /*! @brief Generate a proper SQL string value corresponding to this match value.
+         @param prefixString The SELECT prefix to be applied before each expression.
+         @returns A string representing the value as a string suitable for use with SQL. */
+        yarp::os::ConstString asSQLString(const char * prefixString)
+        const;
+        
         /*! @brief Return the match value as a printable string.
          @returns The matching substring as a printable string. */
         yarp::os::ConstString asString(void)

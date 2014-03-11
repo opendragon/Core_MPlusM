@@ -135,6 +135,26 @@ MatchConstraint::~MatchConstraint(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
+yarp::os::ConstString MatchConstraint::asSQLString(void)
+const
+{
+    OD_SYSLOG_ENTER();//####
+    yarp::os::ConstString result;
+    
+    for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)
+    {
+        MatchFieldWithValues * element = _fieldsWithValues[ii];
+        
+        if (ii)
+        {
+            result += " AND ";
+        }
+        result += element->asSQLString();
+    }
+    OD_SYSLOG_EXIT_S(result.c_str());//####
+    return result;
+} // MatchConstraint::asSQLString
+
 yarp::os::ConstString MatchConstraint::asString(void)
 const
 {

@@ -21,9 +21,17 @@ namespace YarpPlusPlusParser
         /*! @brief The destructor. */
         virtual ~MatchFieldName(void);
         
+        /*! @brief Generate a proper SQL string value corresponding to this match value.
+         @returns A string representing the value as a string suitable for use with SQL. */
+        const yarp::os::ConstString & asSQLString(void)
+        const
+        {
+            return _matchingString;
+        } // asSQLString
+        
         /*! @brief Return the match value.
          @returns The matching substring. */
-        yarp::os::ConstString asString(void)
+        const yarp::os::ConstString & asString(void)
         const
         {
             return _matchingString;

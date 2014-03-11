@@ -49,8 +49,12 @@ static const size_t kFieldNamesCount = (sizeof(kFieldNames) / sizeof(*kFieldName
 
 /*! @brief Check a candidate field name against the list of legal field names.
  @param aString The string to be checked.
+ @param prefixString If non-@c NULL, a pointer to the string to be used in the SQL prefix for this field.
+ @param suffixString If non-@c NULL, a pointer to the string to be used in the SQL suffix for this field.
  @returns The actual field name to be used or @c NULL if the field name was unmatched. */
-static const char * fieldNameValidator(const char * aString)
+static const char * fieldNameValidator(const char *  aString,
+                                       const char ** prefixString,
+                                       const char ** suffixString)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("aString = ", aString);//####
@@ -64,6 +68,14 @@ static const char * fieldNameValidator(const char * aString)
             break;
         }
         
+    }
+    if (prefixString)
+    {
+        *prefixString = NULL;
+    }
+    if (suffixString)
+    {
+        *suffixString = NULL;
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
@@ -115,7 +127,8 @@ static int doCase02(const bool expected,
     
     if (didMatch)
     {
-        OD_SYSLOG_S1("didMatch->asString = ", didMatch->asString().c_str());//####
+        OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
+                     didMatch->asSQLString("blort"));//####
         delete didMatch;
     }
     OD_SYSLOG_EXIT_LL(result);//####
@@ -139,7 +152,8 @@ static int doCase03(const bool expected,
     
     if (didMatch)
     {
-        OD_SYSLOG_S1("didMatch->asString = ", didMatch->asString().c_str());//####
+        OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
+                     didMatch->asSQLString());//####
         delete didMatch;
     }
     OD_SYSLOG_EXIT_LL(result);//####
@@ -188,7 +202,8 @@ static int doCase05(const bool expected,
     
     if (didMatch)
     {
-        OD_SYSLOG_S1("didMatch->asString = ", didMatch->asString().c_str());//####
+        OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
+                     didMatch->asSQLString());//####
         delete didMatch;
     }
     OD_SYSLOG_EXIT_LL(result);//####
@@ -212,7 +227,8 @@ static int doCase06(const bool expected,
     
     if (didMatch)
     {
-        OD_SYSLOG_S1("didMatch->asString = ", didMatch->asString().c_str());//####
+        OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
+                     didMatch->asSQLString("SELECT "));//####
         delete didMatch;
     }
     OD_SYSLOG_EXIT_LL(result);//####

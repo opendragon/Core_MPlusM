@@ -127,6 +127,30 @@ MatchExpression::~MatchExpression(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
+yarp::os::ConstString MatchExpression::asSQLString(const char * prefixString)
+const
+{
+    OD_SYSLOG_ENTER();//####
+    yarp::os::ConstString result;
+    
+    for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
+    {
+        MatchConstraint * element = _constraints[ii];
+        
+        if (ii)
+        {
+            result += " UNION ";
+        }
+        if (prefixString)
+        {
+            result += prefixString;
+        }
+        result += element->asSQLString();
+    }
+    OD_SYSLOG_EXIT_S(result.c_str());//####
+    return result;
+} // MatchExpression::asSQLString
+
 yarp::os::ConstString MatchExpression::asString(void)
 const
 {
