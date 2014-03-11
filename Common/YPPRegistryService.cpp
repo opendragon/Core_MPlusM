@@ -100,6 +100,8 @@ typedef int (*BindFunction) (sqlite3_stmt * statement,
 
 /*! @brief The prefix to be used when generating SQL for a keyword request. */
 #define KEYWORD_PREFIX_STRING_ "KEY IN (SELECT " REQUESTS_ID_C_ " FROM " REQUESTSKEYWORDS_T_ " WHERE "
+/*! @brief The suffix to be used when generating SQL for a keyword request. */
+#define KEYWORD_SUFFIX_STRING_ ")"
 
 /*! @brief the valid field names that may be used. Note that the strings are all lower-case for comparison purposes. */
 static const char * kColumnNames[] =
@@ -107,7 +109,7 @@ static const char * kColumnNames[] =
     // Name to match   Name to use     Prefix to be used      Suffix to be used
     DESCRIPTION_C_, DESCRIPTION_C_, NULL,                   NULL,
     INPUT_C_,       INPUT_C_,       NULL,                   NULL,
-    KEYWORD_C_,     KEYWORDS_ID_C_, KEYWORD_PREFIX_STRING_, ")",
+    KEYWORD_C_,     KEYWORDS_ID_C_, KEYWORD_PREFIX_STRING_, KEYWORD_SUFFIX_STRING_,
     OUTPUT_C_,      OUTPUT_C_,      NULL,                   NULL,
     PORTNAME_C_,    PORTNAME_C_,    NULL,                   NULL,
     REQUEST_C_,     REQUEST_C_,     NULL,                   NULL,
