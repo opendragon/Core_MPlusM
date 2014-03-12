@@ -16,7 +16,7 @@ namespace YarpPlusPlusParser
 {
     class MatchValue;
     
-    /*! @brief A pattern matcher for simple values. */
+    /*! @brief A pattern matcher for lists of simple values. */
     class MatchValueList : public BaseMatcher
     {
     public:
@@ -76,10 +76,13 @@ namespace YarpPlusPlusParser
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef BaseMatcher inherited;
         
-        typedef std::vector<MatchValue *> MatchValueListData;
+        /*! @brief A sequence of values. */
+        typedef std::vector<MatchValue *>     MatchValueListData;
         
+        /*! @brief The size-type for sequence data. */
         typedef MatchValueListData::size_type MatchValueListSize;
         
         /*! @brief Copy constructor.

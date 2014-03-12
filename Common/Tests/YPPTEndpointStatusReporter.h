@@ -13,9 +13,7 @@
 
 namespace YarpPlusPlusTest
 {
-    /*! @brief The critical information for each volume.
-     
-     This class represents the information for a volume that is needed to perform the data delete operations. */
+    /*! @brief An endpoint status reporter. */
     class EndpointStatusReporter : public yarp::os::PortReport
     {
     public:
@@ -34,6 +32,7 @@ namespace YarpPlusPlusTest
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef yarp::os::PortReport inherited;
         
     }; // EndpointStatusReporter

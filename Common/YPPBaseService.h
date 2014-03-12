@@ -100,26 +100,26 @@ namespace YarpPlusPlus
         void setUpRequestHandlers(void);
         
         /*! @brief The connection point for the service. */
-        Endpoint * _endpoint;
+        Endpoint *                       _endpoint;
         
         /*! @brief The input handler for the service. */
-        BaseServiceInputHandler * _handler;
+        BaseServiceInputHandler *        _handler;
 
         /*! @brief The input handler creator for the service. */
         BaseServiceInputHandlerCreator * _handlerCreator;
         
         /*! @brief The current state of the service - @c true if active and @c false otherwise. */
-        bool _started;
+        bool                             _started;
         
         /*! @brief Whether to use a handler creator or a handler - @c true for a creator and @c false otherwise. */
-        bool _useMultipleHandlers;
+        bool                             _useMultipleHandlers;
         
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
         /*! @brief Filler to pad to alignment boundary */
-        char _filler[6];
+        char                             _filler[6];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -129,17 +129,17 @@ namespace YarpPlusPlus
     /*! @brief Find one or more matching local services that are registered with a running Service Registry service.
      @param criteria The matching conditions.
      @returns A (possibly empty) list of matching services. */
-    yarp::os::Bottle findMatchingServices(const char * criteria);
+    yarp::os::Bottle FindMatchingServices(const char * criteria);
 
     /*! @brief Register a local service with a running Service Registry service.
      @param portName The port provided by the service.
      @returns @c true if the service was successfully registered and @c false otherwise. */
-    bool registerLocalService(const yarp::os::ConstString & portName);
+    bool RegisterLocalService(const yarp::os::ConstString & portName);
     
     /*! @brief Unregister a local service with a running Service Registry service.
      @param portName The port provided by the service.
      @returns @c true if the service was successfully unregistered and @c false otherwise. */
-    bool unregisterLocalService(const yarp::os::ConstString & portName);
+    bool UnregisterLocalService(const yarp::os::ConstString & portName);
     
 } // YarpPlusPlus
 

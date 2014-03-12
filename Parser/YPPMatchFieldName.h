@@ -54,6 +54,7 @@ namespace YarpPlusPlusParser
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef BaseMatcher inherited;
         
         /*! @brief The constructor.

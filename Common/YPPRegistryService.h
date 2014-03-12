@@ -88,6 +88,7 @@ namespace YarpPlusPlus
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef BaseService inherited;
 
         /*! @brief The constructor.
@@ -119,17 +120,17 @@ namespace YarpPlusPlus
         sqlite3 * _db;
         
         /*! @brief @c true if the database is in-memory and @c false if it is disk-based. */
-        bool _inMemory;
+        bool      _inMemory;
         
         /*! @brief @c true if the registry service is fully operational and @c false if it could not be set up. */
-        bool _isActive;
+        bool      _isActive;
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
         /*! @brief Filler to pad to alignment boundary */
-        char _filler[6];
+        char      _filler[6];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

@@ -16,7 +16,7 @@ namespace YarpPlusPlusParser
 {
     class MatchConstraint;
     
-    /*! @brief A pattern matcher for field/values pairs. */
+    /*! @brief A pattern matcher for expressions. */
     class MatchExpression : public BaseMatcher
     {
     public:
@@ -68,10 +68,13 @@ namespace YarpPlusPlusParser
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef BaseMatcher inherited;
         
-        typedef std::vector<MatchConstraint *> MatchExpressionListData;
+        /*! @brief A sequence of AND clauses. */
+        typedef std::vector<MatchConstraint *>     MatchExpressionListData;
         
+        /*! @brief The size-type for sequence data. */
         typedef MatchExpressionListData::size_type MatchExpressionListSize;
         
         /*! @brief The constructor. */

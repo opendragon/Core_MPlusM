@@ -13,7 +13,7 @@
 
 namespace YarpPlusPlusTest
 {
-    /*! @brief A test input handler creator. */
+    /*! @brief A test input handler factory. */
     class Test05HandlerCreator : public YarpPlusPlus::InputHandlerCreator
     {
     public:
@@ -32,6 +32,7 @@ namespace YarpPlusPlusTest
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef InputHandlerCreator inherited;
         
     }; // Test05HandlerCreator

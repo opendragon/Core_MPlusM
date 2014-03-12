@@ -101,14 +101,19 @@ namespace YarpPlusPlus
         
         /*! @brief The connection details for the endpoint. */
         yarp::os::Contact     _contact;
+        
         /*! @brief The input handler for the endpoint. */
         InputHandler *        _handler;
+        
         /*! @brief The input handler creator for the endpoint. */
         InputHandlerCreator * _handlerCreator;
+        
         /*! @brief The YARP port to be used by the endpoint. */
         yarp::os::Port *      _port;
+        
         /*! @brief @c true if the endpoint is open and @c false otherwise. */
         bool                  _isOpen;
+        
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"

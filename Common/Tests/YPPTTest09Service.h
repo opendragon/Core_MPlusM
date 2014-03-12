@@ -13,7 +13,7 @@
 
 namespace YarpPlusPlusTest
 {
-    /*! @brief A test input handler. */
+    /*! @brief A test service. */
     class Test09Service : public YarpPlusPlus::BaseService
     {
     public:
@@ -31,6 +31,7 @@ namespace YarpPlusPlusTest
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef BaseService inherited;
         
     }; // Test09Service

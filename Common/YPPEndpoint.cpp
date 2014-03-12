@@ -66,7 +66,7 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
                           const yarp::os::ConstString &  hostName,
                           const int                      portNumber)
 {
-//    dumpContact("enter checkHostName", workingContact);//####
+//    DumpContact("enter checkHostName", workingContact);//####
     bool result;
     
     if (0 < hostName.length())
@@ -77,7 +77,7 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
         OD_SYSLOG_S1("ipAddress = ", ipAddress.c_str());//####
         
         workingContact = workingContact.addSocket("tcp", ipAddress, portNumber);
-//        dumpContact("after addSocket", workingContact);//####
+//        DumpContact("after addSocket", workingContact);//####
         result = workingContact.isValid();
     }
     else
@@ -229,13 +229,13 @@ bool Endpoint::open(void)
             if (0 < _contact.getHost().length())
             {
                 _contact = yarp::os::Network::registerContact(_contact);
-//                        dumpContact("after registerContact", _contact);//####
+//                        DumpContact("after registerContact", _contact);//####
                 if (_port->open(_contact))
                 {
                     _isOpen = true;
 //                   Contact where = _port->where();//####
 
-//                   dumpContact("after open", where);//####
+//                   DumpContact("after open", where);//####
                 }
                 else
                 {
@@ -247,7 +247,7 @@ bool Endpoint::open(void)
                 _isOpen = true;
 //                Contact where = _port->where();//####
 
-//                dumpContact("after open", where);//####
+//                DumpContact("after open", where);//####
             }
             else
             {
@@ -374,7 +374,7 @@ const
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-void YarpPlusPlus::dumpContact(const char *              tag,
+void YarpPlusPlus::DumpContact(const char *              tag,
                                const yarp::os::Contact & aContact)
 {
 #if (! defined(ENABLE_OD_SYSLOG))
@@ -386,4 +386,4 @@ void YarpPlusPlus::dumpContact(const char *              tag,
     OD_SYSLOG_LL1("contact.port = ", aContact.getPort());//####
     OD_SYSLOG_S1("contact.toString = ", aContact.toString().c_str());//####
     OD_SYSLOG_B1("contact.isValid = ", aContact.isValid());//####
-} // dumpContact
+} // DumpContact

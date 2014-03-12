@@ -196,7 +196,7 @@ bool BaseService::stop(void)
 /*! @brief Find one or more matching local services that are registered with a running Service Registry service.
  @param criteria The matching conditions.
  @returns A (possibly empty) list of matching services. */
-yarp::os::Bottle YarpPlusPlus::findMatchingServices(const char * criteria)
+yarp::os::Bottle YarpPlusPlus::FindMatchingServices(const char * criteria)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("criteria = ", criteria);//####
@@ -214,9 +214,9 @@ yarp::os::Bottle YarpPlusPlus::findMatchingServices(const char * criteria)
     }
     OD_SYSLOG_EXIT();//####
     return result;
-} // YarpPlusPlus::findMatchingServices
+} // YarpPlusPlus::FindMatchingServices
 
-bool YarpPlusPlus::registerLocalService(const yarp::os::ConstString & portName)
+bool YarpPlusPlus::RegisterLocalService(const yarp::os::ConstString & portName)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("portName = ", portName.c_str());//####
@@ -240,9 +240,9 @@ bool YarpPlusPlus::registerLocalService(const yarp::os::ConstString & portName)
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
-} // registerLocalService
+} // RegisterLocalService
 
-bool YarpPlusPlus::unregisterLocalService(const yarp::os::ConstString & portName)
+bool YarpPlusPlus::UnregisterLocalService(const yarp::os::ConstString & portName)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("portName = ", portName.c_str());//####
@@ -266,4 +266,4 @@ bool YarpPlusPlus::unregisterLocalService(const yarp::os::ConstString & portName
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
-} // unregisterLocalService
+} // UnregisterLocalService

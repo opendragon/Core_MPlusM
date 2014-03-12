@@ -55,7 +55,7 @@ bool InputHandler::read(yarp::os::ConnectionReader & connection)
     
     if (_canProcessInput)
     {
-//        dumpContact(connection.getRemoteContact());//####
+//        DumpContact(connection.getRemoteContact());//####
         yarp::os::Bottle aBottle;
         
         aBottle.read(connection);

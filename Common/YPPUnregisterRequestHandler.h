@@ -15,7 +15,10 @@ namespace YarpPlusPlus
 {
     class RegistryService;
 
-    /*! @brief The 'unregister' request handler. */
+    /*! @brief The standard 'unregister' request handler.
+     
+     The input is the name of a service port and the output is either 'OK', which indicates success, or 'FAILED'
+     followed with a description of the reason for failure. */
     class UnregisterRequestHandler : public RequestHandler
     {
     public:
@@ -41,6 +44,7 @@ namespace YarpPlusPlus
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef RequestHandler inherited;
         
         /*! @brief Copy constructor.

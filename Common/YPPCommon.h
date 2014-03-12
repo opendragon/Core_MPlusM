@@ -13,17 +13,13 @@
 # include <yarp/os/ConstString.h>
 # include <yarp/os/Contact.h>
 
-typedef const char * (*FieldNameValidator)(const char *   aString,
-                                           const char * * prefixString,
-                                           const char * * suffixString);
-
 namespace YarpPlusPlus
 {
 
     /*! @brief Dump out a description of the provided connection information to the log.
      @param tag A unique string used to identify the call point for the output.
      @param aContact The connection information to be reported. */
-    void dumpContact(const char *              tag,
+    void DumpContact(const char *              tag,
                      const yarp::os::Contact & aContact);
     
 } // YarpPlusPlus

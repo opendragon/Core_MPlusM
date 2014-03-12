@@ -13,6 +13,9 @@
 
 namespace YarpPlusPlusExample
 {
+    /*! @brief The example 'echo' request handler.
+     
+    The input is a list of strings and the output is the same list of strings. */
     class EchoRequestHandler : public YarpPlusPlus::RequestHandler
     {
     public:
@@ -37,6 +40,7 @@ namespace YarpPlusPlusExample
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef RequestHandler inherited;
         
     }; // EchoRequestHandler

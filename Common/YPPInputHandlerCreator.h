@@ -33,6 +33,7 @@ namespace YarpPlusPlus
 
     private:
 
+        /*! @brief The class that this class is derived from. */
         typedef yarp::os::PortReaderCreator inherited;
         
         /*! @brief Copy constructor.

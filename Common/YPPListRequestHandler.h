@@ -13,7 +13,11 @@
 
 namespace YarpPlusPlus
 {
-    /*! @brief The 'list' request handler. */
+    /*! @brief The standard 'list' request handler.
+     
+     There is no input for the request and the output is a list of dictionaries of fields, describing all the known
+     requests. The fields 'description', 'input', 'keywords', 'output', and 'version' are optional in each dictionary,
+     while the field 'request' is always present. */
     class ListRequestHandler : public RequestHandler
     {
     public:
@@ -38,6 +42,7 @@ namespace YarpPlusPlus
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef RequestHandler inherited;
         
         /*! @brief Copy constructor.

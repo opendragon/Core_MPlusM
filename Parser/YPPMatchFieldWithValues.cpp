@@ -45,21 +45,28 @@ MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const yarp::os::Const
         workPos = SkipWhitespace(inString, inLength, workPos);
         if (workPos < inLength)
         {
-            int              nextPos;
-            MatchValue *     asSingle = NULL;
-            MatchValueList * asList = NULL;
+            int nextPos;
             
             if (MatchValueList::ListInitiatorCharacter() == inString[workPos])
             {
-                asList = MatchValueList::CreateMatcher(inString, inLength, workPos, nextPos);
+                MatchValueList * asList = MatchValueList::CreateMatcher(inString, inLength, workPos, nextPos);
+                
+                if (asList)
+                {
+                    result = new MatchFieldWithValues(validator, fieldName, asList);
+                }
             }
             else
             {
-                asSingle = MatchValue::CreateMatcher(inString, inLength, workPos, nextPos);
+                MatchValue * asSingle = MatchValue::CreateMatcher(inString, inLength, workPos, nextPos);
+                
+                if (asSingle)
+                {
+                    result = new MatchFieldWithValues(validator, fieldName, asSingle);                    
+                }
             }
-            if (asList || asSingle)
+            if (result)
             {
-                result = new MatchFieldWithValues(validator, fieldName, asSingle, asList);
                 endPos = nextPos;
             }
             else
@@ -82,12 +89,21 @@ MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const yarp::os::Const
 
 MatchFieldWithValues::MatchFieldWithValues(FieldNameValidator validator,
                                            MatchFieldName *   fieldName,
-                                           MatchValue *       asSingle,
-                                           MatchValueList *   asList) :
-        inherited(), _validator(validator), _fieldName(fieldName), _singleValue(asSingle), _values(asList)
+                                           MatchValue *       asSingle) :
+        inherited(), _validator(validator), _fieldName(fieldName), _singleValue(asSingle), _values(NULL)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P3("fieldName = ", fieldName, "asSingle = ", asSingle, "asList = ", asList);//####
+    OD_SYSLOG_P2("fieldName = ", fieldName, "asSingle = ", asSingle);//####
+    OD_SYSLOG_EXIT_P(this);//####
+} // MatchFieldWithValues::MatchFieldWithValues
+
+MatchFieldWithValues::MatchFieldWithValues(FieldNameValidator validator,
+                                           MatchFieldName *   fieldName,
+                                           MatchValueList *   asList) :
+inherited(), _validator(validator), _fieldName(fieldName), _singleValue(NULL), _values(asList)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P2("fieldName = ", fieldName, "asList = ", asList);//####
     OD_SYSLOG_EXIT_P(this);//####
 } // MatchFieldWithValues::MatchFieldWithValues
 

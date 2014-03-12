@@ -35,6 +35,7 @@ namespace YarpPlusPlusTest
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef InputHandler inherited;
         
     }; // Test03Handler

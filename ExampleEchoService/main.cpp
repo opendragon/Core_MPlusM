@@ -71,7 +71,7 @@ int main(int      argc,
         {
             yarp::os::ConstString portName(stuff->getEndpoint().getName());
 
-            if (stuff->start() && YarpPlusPlus::registerLocalService(portName))
+            if (stuff->start() && YarpPlusPlus::RegisterLocalService(portName))
             {
                 lKeepRunning = true;
 #if (defined(__APPLE__) || defined(__linux__))
@@ -84,7 +84,7 @@ int main(int      argc,
                 {
                     yarp::os::Time::delay(1.0);
                 }
-                YarpPlusPlus::unregisterLocalService(portName);
+                YarpPlusPlus::UnregisterLocalService(portName);
                 stuff->stop();
             }
             delete stuff;

@@ -78,6 +78,14 @@ static const char * kEndTransaction = "END TRANSACTION";
 
 namespace YarpPlusPlus
 {
+    /*! @brief A function that provides bindings for parameters in an SQL statement.
+     @param statement The prepared statement that is to be updated.
+     @param stuff The source of data that is to be bound.
+     @returns The SQLite error from the bind operation. */
+    typedef int (*BindFunction)
+        (sqlite3_stmt * statement,
+         const void *   stuff);
+    
     /*! @brief The data needed to add a request-keyword entry into the database. */
     struct RequestKeywordData
     {
@@ -95,9 +103,6 @@ namespace YarpPlusPlus
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-typedef int (*BindFunction) (sqlite3_stmt * statement,
-                             const void *   stuff);
-
 /*! @brief The prefix to be used when generating SQL for a keyword request. */
 #define KEYWORD_PREFIX_STRING_ "KEY IN (SELECT " REQUESTS_ID_C_ " FROM " REQUESTSKEYWORDS_T_ " WHERE "
 /*! @brief The suffix to be used when generating SQL for a keyword request. */
@@ -114,7 +119,7 @@ static const char * kColumnNames[] =
     PORTNAME_C_,    PORTNAME_C_,    NULL,                   NULL,
     REQUEST_C_,     REQUEST_C_,     NULL,                   NULL,
     VERSION_C_,     VERSION_C_,     NULL,                   NULL
-};
+}; // kColumnNames
 
 /*! @brief The number of valid field names. */
 static const size_t kColumnNamesCount = (sizeof(kColumnNames) / sizeof(*kColumnNames));

@@ -40,6 +40,7 @@ namespace YarpPlusPlus
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef yarp::os::PortReader inherited;
 
         /*! @brief Copy constructor.
@@ -61,6 +62,7 @@ namespace YarpPlusPlus
         
         /*! @brief @c true if input stream processing is enabled. */
         bool _canProcessInput;
+        
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"

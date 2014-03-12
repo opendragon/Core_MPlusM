@@ -13,7 +13,7 @@
 
 namespace YarpPlusPlusExample
 {
-    /*! @brief An example Yarp++ service. */
+    /*! @brief An example Yarp++ service, handling 'random' requests. */
     class ExampleRandomNumberService : public YarpPlusPlus::BaseService
     {
     public:
@@ -47,6 +47,7 @@ namespace YarpPlusPlusExample
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef BaseService inherited;
 
         /*! @brief Copy constructor.

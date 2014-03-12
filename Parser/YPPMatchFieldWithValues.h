@@ -52,14 +52,25 @@ namespace YarpPlusPlusParser
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef BaseMatcher inherited;
         
-        /*! @brief The constructor. */
+        /*! @brief The constructor.
+         @param validator A function that returns @c true if the field name is valid and @c false otherwise.
+         @param fieldName The name of the field.
+         @param asSingle The value for the field. */
         MatchFieldWithValues(FieldNameValidator validator,
                              MatchFieldName *   fieldName,
-                             MatchValue *       asSingle,
-                             MatchValueList *   asList);
+                             MatchValue *       asSingle);
         
+        /*! @brief The constructor.
+         @param validator A function that returns @c true if the field name is valid and @c false otherwise.
+         @param fieldName The name of the field.
+         @param asList The list of values for the field. */
+        MatchFieldWithValues(FieldNameValidator validator,
+                             MatchFieldName *   fieldName,
+                             MatchValueList *   asList);
+
         /*! @brief Copy constructor.
          
          Note - not implemented and private, to prevent unexpected copying.

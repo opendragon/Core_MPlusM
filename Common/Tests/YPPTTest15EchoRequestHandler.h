@@ -38,6 +38,7 @@ namespace YarpPlusPlusTest
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef RequestHandler inherited;
         
     }; // Test15EchoRequestHandler

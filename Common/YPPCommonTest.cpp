@@ -884,7 +884,7 @@ static int doCase14(const int argc,
             {
                 yarp::os::ConstString portName(stuff->getEndpoint().getName());
 
-                if (YarpPlusPlus::registerLocalService(portName))
+                if (YarpPlusPlus::RegisterLocalService(portName))
                 {
                     result = 0;
                 }
@@ -961,9 +961,9 @@ static int doCase15(const int argc,
             {
                 yarp::os::ConstString portName(stuff->getEndpoint().getName());
                 
-                if (YarpPlusPlus::registerLocalService(portName))
+                if (YarpPlusPlus::RegisterLocalService(portName))
                 {
-                    if (YarpPlusPlus::unregisterLocalService(portName))
+                    if (YarpPlusPlus::UnregisterLocalService(portName))
                     {
                         result = 0;
                     }
@@ -1023,10 +1023,10 @@ static int doCase16(const int argc,
                 {
                     yarp::os::ConstString portName(stuff->getEndpoint().getName());
                     
-                    if (YarpPlusPlus::registerLocalService(portName))
+                    if (YarpPlusPlus::RegisterLocalService(portName))
                     {
                         // Search for the service that we just registered.
-                        yarp::os::Bottle matches(YarpPlusPlus::findMatchingServices(*argv));
+                        yarp::os::Bottle matches(YarpPlusPlus::FindMatchingServices(*argv));
                         yarp::os::Bottle expected(argv[1]);
                         
                         OD_SYSLOG_S3("criteria <- ", *argv, "expected <- ", expected.toString().c_str(),//####
@@ -1118,7 +1118,7 @@ static int doCase16(const int argc,
                         {
                             result = 1;
                         }
-                        if (! YarpPlusPlus::unregisterLocalService(portName))
+                        if (! YarpPlusPlus::UnregisterLocalService(portName))
                         {
                             result = 1;
                         }

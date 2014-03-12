@@ -34,6 +34,7 @@ namespace YarpPlusPlus
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef InputHandlerCreator inherited;
         
         /*! @brief Copy constructor.

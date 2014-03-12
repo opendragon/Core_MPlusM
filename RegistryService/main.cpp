@@ -93,7 +93,7 @@ int main(int      argc,
     {
         if (stuff->start())
         {
-            // Note that the Registry Service is self-registering... so we don't need to call registerLocalService().
+            // Note that the Registry Service is self-registering... so we don't need to call RegisterLocalService().
             lKeepRunning = true;
 #if (defined(__APPLE__) || defined(__linux__))
             signal(SIGHUP, stopRunning);

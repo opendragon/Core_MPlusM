@@ -20,7 +20,7 @@ namespace YarpPlusPlus
     class BaseService;
     class RequestHandler;
     
-    /*! @brief A convenience class to provide distinct exception objects. */
+    /*! @brief A class to manage the mapping from requests to request handlers. */
     class RequestMap
     {
     public:
@@ -62,9 +62,11 @@ namespace YarpPlusPlus
         
     private:
         
+        /*! @brief A mapping from strings to requests. */
         typedef std::map<std::string, RequestHandler *> RequestHandlerMap;
         
-        typedef RequestHandlerMap::value_type RequestHandlerMapValue;
+        /*! @brief The entry-type for the mapping. */
+        typedef RequestHandlerMap::value_type           RequestHandlerMapValue;
         
         /*! @brief Copy constructor.
          
@@ -79,13 +81,13 @@ namespace YarpPlusPlus
         RequestMap & operator=(const RequestMap & other);
         
         /*! @brief The default handler to use for unrecognized requests. */
-        RequestHandler * _defaultHandler;
+        RequestHandler *  _defaultHandler;
         
         /*! @brief The map between requests and request handlers. */
         RequestHandlerMap _handlers;
         
         /*! @brief The service that owns this map. */
-        BaseService & _owner;
+        BaseService &     _owner;
         
     }; // RequestMap
     

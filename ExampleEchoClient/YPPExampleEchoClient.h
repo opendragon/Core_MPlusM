@@ -13,7 +13,7 @@
 
 namespace YarpPlusPlusExample
 {
-    /*! @brief An example Yarp++ client. */
+    /*! @brief An example Yarp++ client, for the 'echo' service. */
     class ExampleEchoClient : public YarpPlusPlus::BaseClient
     {
     public:
@@ -28,6 +28,7 @@ namespace YarpPlusPlusExample
         
     private:
         
+        /*! @brief The class that this class is derived from. */
         typedef BaseClient inherited;
 
         /*! @brief Copy constructor.
