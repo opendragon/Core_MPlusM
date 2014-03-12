@@ -20,8 +20,8 @@ namespace YarpPlusPlusParser
      @returns The actual field name to be used or @c NULL if the field name was unmatched. */
     typedef const char * (*FieldNameValidator)
         (const char *   aString,
-         const char * * prefixString,
-         const char * * suffixString);
+         const char **  prefixString,
+         const char **  suffixString);
     
     /*! @brief The common functionality for pattern matchers. */
     class BaseMatcher

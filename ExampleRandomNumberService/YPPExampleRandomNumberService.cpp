@@ -7,7 +7,7 @@
 //
 
 #include "YPPExampleRandomNumberService.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPRandomRequestHandler.h"
 #include "YPPRequests.h"
@@ -15,7 +15,7 @@
 using namespace YarpPlusPlusExample;
 
 #if defined(__APPLE__)
-# pragma mark Private structures and constants
+# pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 ExampleRandomNumberService::ExampleRandomNumberService(const yarp::os::ConstString & serviceEndpointName,
@@ -24,15 +24,8 @@ ExampleRandomNumberService::ExampleRandomNumberService(const yarp::os::ConstStri
         inherited(true, serviceEndpointName, serviceHostName, servicePortNumber)
 {
     OD_SYSLOG_ENTER();//####
-    setUpRequestHandlers();
-    OD_SYSLOG_EXIT();//####
-} // ExampleRandomNumberService::ExampleRandomNumberService
-
-ExampleRandomNumberService::ExampleRandomNumberService(const int argc,
-                                                       char **   argv) :
-        BaseService(true, argc, argv)
-{
-    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
+                 serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     setUpRequestHandlers();
     OD_SYSLOG_EXIT();//####
 } // ExampleRandomNumberService::ExampleRandomNumberService

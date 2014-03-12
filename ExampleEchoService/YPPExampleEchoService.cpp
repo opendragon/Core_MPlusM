@@ -7,7 +7,7 @@
 //
 
 #include "YPPExampleEchoService.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPEchoRequestHandler.h"
 #include "YPPRequests.h"
@@ -15,7 +15,7 @@
 using namespace YarpPlusPlusExample;
 
 #if defined(__APPLE__)
-# pragma mark Private structures and constants
+# pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 ExampleEchoService::ExampleEchoService(const yarp::os::ConstString & serviceEndpointName,
@@ -24,15 +24,8 @@ ExampleEchoService::ExampleEchoService(const yarp::os::ConstString & serviceEndp
         inherited(true, serviceEndpointName, serviceHostName, servicePortNumber)
 {
     OD_SYSLOG_ENTER();//####
-    setUpRequestHandlers();
-    OD_SYSLOG_EXIT();//####
-} // ExampleEchoService::ExampleEchoService
-
-ExampleEchoService::ExampleEchoService(const int argc,
-                               char **   argv) :
-        BaseService(true, argc, argv)
-{
-    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
+                 serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     setUpRequestHandlers();
     OD_SYSLOG_EXIT();//####
 } // ExampleEchoService::ExampleEchoService

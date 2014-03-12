@@ -11,6 +11,9 @@
 
 # include "YPPBaseService.h"
 
+/*! @brief The port name to use for the service if not provided. */
+# define DEFAULT_ECHO_SERVICE_NAME "/service/echo"
+
 namespace YarpPlusPlusExample
 {
     /*! @brief An example Yarp++ service, handling 'echo' requests. */
@@ -25,12 +28,6 @@ namespace YarpPlusPlusExample
         ExampleEchoService(const yarp::os::ConstString & serviceEndpointName,
                            const yarp::os::ConstString & serviceHostName = "",
                            const yarp::os::ConstString & servicePortNumber = "");
-        
-        /*! @brief The constructor.
-         @param argc The number of arguments in 'argv'.
-         @param argv The arguments to be used to specify the new service. */
-        ExampleEchoService(const int argc,
-                       char **   argv);
         
         /*! @brief The destructor. */
         virtual ~ExampleEchoService(void);

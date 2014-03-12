@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPEndpoint.h"
 #include "YPPExampleRandomNumberService.h"
@@ -25,7 +25,7 @@ using std::cerr;
 using std::endl;
 
 #if defined(__APPLE__)
-# pragma mark Private structures and constants
+# pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 /*! @brief Run loop control; @c true if the service is to keep going and @c false otherwise. */
@@ -53,25 +53,46 @@ static void stopRunning(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int main(int     argc,
+         char ** argv)
 {
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
                    kODSyslogOptionEnableThreadSupport);//####
     OD_SYSLOG_ENTER();//####
-    yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-
     cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << ", ACE Version = " <<
             ACE_VERSION << endl;
+    yarp::os::ConstString serviceEndpointName;
+    yarp::os::ConstString serviceHostName;
+    yarp::os::ConstString servicePortNumber;
+    yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
+
     if (argc > 1)
     {
-        ExampleRandomNumberService * stuff = new ExampleRandomNumberService(argc - 1, argv + 1);
-        
-        if (stuff)
+        serviceEndpointName = argv[1];
+        if (argc > 2)
+        {
+            serviceHostName = argv[2];
+            if (argc > 3)
+            {
+                servicePortNumber = argv[3];
+            }
+        }
+    }
+    else
+    {
+        serviceEndpointName = DEFAULT_RANDOM_SERVICE_NAME;
+    }
+    ExampleRandomNumberService * stuff = new ExampleRandomNumberService(serviceEndpointName, serviceHostName,
+                                                                        servicePortNumber);
+    
+    if (stuff)
+    {
+        if (stuff->start())
         {
             yarp::os::ConstString portName(stuff->getEndpoint().getName());
-
-            if (stuff->start() && YarpPlusPlus::RegisterLocalService(portName))
+            
+            OD_SYSLOG_S1("portName = ", portName.c_str());//####
+            if (YarpPlusPlus::RegisterLocalService(portName))
             {
                 lKeepRunning = true;
 #if (defined(__APPLE__) || defined(__linux__))
@@ -87,8 +108,8 @@ int main(int      argc,
                 YarpPlusPlus::UnregisterLocalService(portName);
                 stuff->stop();
             }
-            delete stuff;
         }
+        delete stuff;
     }
     OD_SYSLOG_EXIT_L(0);//####
     return 0;

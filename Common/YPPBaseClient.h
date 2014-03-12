@@ -10,13 +10,19 @@
 # define YPPBASECLIENT_H_ /* */
 
 # include "YPPConfig.h"
+# include <yarp/os/Bottle.h>
 
 namespace YarpPlusPlus
 {
+    class ServiceResponse;
+    
     /*! @brief The minimal functionality required for a Yarp++ client. */
     class BaseClient
     {
     public:
+        
+        /*! @brief The number of elements expected in the output of FindMatchingServices. */
+        static const int kExpectedResponseSize;
         
         /*! @brief The constructor. */
         BaseClient(void);
@@ -24,8 +30,14 @@ namespace YarpPlusPlus
         /*! @brief The destructor. */
         virtual ~BaseClient(void);
         
+        bool connect(const char * criteria,
+                     const bool   allowOnlyOneMatch = false);
+        
     protected:
         
+        bool send(const yarp::os::Bottle & request,
+                  ServiceResponse *        response);
+
     private:
         
         /*! @brief Copy constructor.
@@ -40,7 +52,15 @@ namespace YarpPlusPlus
          @param other Another object to construct from. */
         BaseClient & operator=(const BaseClient & other);
         
+        /*! @brief The name of the service port being used. */
+        yarp::os::ConstString _servicePort;
+        
     }; // BaseClient
+    
+    /*! @brief Find one or more matching services that are registered with a running Service Registry service.
+     @param criteria The matching conditions.
+     @returns A (possibly empty) list of matching services. */
+    yarp::os::Bottle FindMatchingServices(const char * criteria);
     
 } // YarpPlusPlus
 

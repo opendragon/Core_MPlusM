@@ -15,7 +15,7 @@
 using namespace YarpPlusPlusParser;
 
 #if defined(__APPLE__)
-# pragma mark Private structures and constants
+# pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 /*! @brief The character used to separate value list elements. */

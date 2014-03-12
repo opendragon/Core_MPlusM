@@ -21,7 +21,7 @@
 using namespace YarpPlusPlus;
 
 #if defined(__APPLE__)
-# pragma mark Private structures and constants
+# pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
@@ -225,9 +225,11 @@ bool Endpoint::open(void)
     {
         if (_port)
         {
-            OD_SYSLOG_S1("_contact.getHost = ", _contact.getHost().c_str());//####
+            OD_SYSLOG_S2("_contact.getHost = ", _contact.getHost().c_str(), "_contact.getName() = ",//####
+                         _contact.getName().c_str());//####
             if (0 < _contact.getHost().length())
             {
+                OD_SYSLOG("(0 < _contact.getHost().length())");//####
                 _contact = yarp::os::Network::registerContact(_contact);
 //                        DumpContact("after registerContact", _contact);//####
                 if (_port->open(_contact))
@@ -244,6 +246,7 @@ bool Endpoint::open(void)
             }
             else if (_port->open(_contact.getName()))
             {
+                OD_SYSLOG("(_port->open(_contact.getName()))");//####
                 _isOpen = true;
 //                Contact where = _port->where();//####
 
@@ -253,6 +256,7 @@ bool Endpoint::open(void)
             {
                 OD_SYSLOG("Port could not be opened");//####
             }
+            OD_SYSLOG_S1("_port->getName = ", _port->getName().c_str());//####
         }
     }
     OD_SYSLOG_EXIT_B(isOpen());//####

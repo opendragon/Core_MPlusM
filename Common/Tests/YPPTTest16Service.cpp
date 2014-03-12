@@ -7,7 +7,7 @@
 //
 
 #include "YPPTTest16Service.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPTTest16EchoRequestHandler.h"
 #include "../YPPRequests.h"
@@ -15,7 +15,7 @@
 using namespace YarpPlusPlusTest;
 
 #if defined(__APPLE__)
-# pragma mark Private structures and constants
+# pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)

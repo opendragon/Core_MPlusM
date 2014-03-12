@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "Tests/YPPTEndpointStatusReporter.h"
 #include "Tests/YPPTTest03Handler.h"
@@ -38,7 +38,7 @@ using std::cerr;
 using std::endl;
 
 #if defined(__APPLE__)
-# pragma mark Private structures and constants
+# pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 /*! @brief Set to @c true to use an in-memory database and @c false to use a disk-based database. */
@@ -878,7 +878,7 @@ static int doCase14(const int argc,
         if (registry->isActive())
         {
             // Now we start up another service (Test14Service) and register it
-            Test14Service * stuff = new Test14Service(1, const_cast<char * *>(&secondServicePort));
+            Test14Service * stuff = new Test14Service(1, const_cast<char **>(&secondServicePort));
             
             if (stuff && stuff->start())
             {
@@ -955,7 +955,7 @@ static int doCase15(const int argc,
         if (registry->isActive())
         {
             // Now we start up another service (Test15Service) and register it
-            Test15Service * stuff = new Test15Service(1, const_cast<char * *>(&secondServicePort));
+            Test15Service * stuff = new Test15Service(1, const_cast<char **>(&secondServicePort));
             
             if (stuff && stuff->start())
             {
@@ -1017,7 +1017,7 @@ static int doCase16(const int argc,
             if (registry->isActive())
             {
                 // Now we start up another service (Test16Service) and register it
-                Test16Service * stuff = new Test16Service(1, const_cast<char * *>(&secondServicePort));
+                Test16Service * stuff = new Test16Service(1, const_cast<char **>(&secondServicePort));
                 
                 if (stuff && stuff->start())
                 {
@@ -1031,13 +1031,14 @@ static int doCase16(const int argc,
                         
                         OD_SYSLOG_S3("criteria <- ", *argv, "expected <- ", expected.toString().c_str(),//####
                                      "matches <- ", matches.toString().c_str());//####
-                        if ((expected.size() == matches.size()) && (2 == matches.size()))
+                        if ((expected.size() == matches.size()) &&
+                            (BaseClient::kExpectedResponseSize == matches.size()))
                         {
                             bool            wasASuccess = false;
                             yarp::os::Value matchesFirst(matches.get(0));
                             yarp::os::Value expectedFirst(expected.get(0));
 
-                            if (matchesFirst.isString() && expectedFirst.isString())
+                            if (expectedFirst.isString())
                             {
                                 yarp::os::ConstString matchesFirstAsString(matchesFirst.toString());
                                 yarp::os::ConstString expectedFirstAsString(expectedFirst.toString());
@@ -1064,7 +1065,7 @@ static int doCase16(const int argc,
                                 yarp::os::Value matchesSecond(matches.get(1));
                                 yarp::os::Value expectedSecond(expected.get(1));
                                 
-                                if (matchesSecond.isList() && expectedSecond.isList())
+                                if (expectedSecond.isList())
                                 {
                                     yarp::os::Bottle * matchesSecondAsList = matchesSecond.asList();
                                     yarp::os::Bottle * expectedSecondAsList = expectedSecond.asList();
@@ -1162,8 +1163,8 @@ static int doCase16(const int argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int main(int     argc,
+         char ** argv)
 {
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
                    kODSyslogOptionEnableThreadSupport);//####

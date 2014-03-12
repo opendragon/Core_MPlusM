@@ -7,14 +7,14 @@
 //
 
 #include "YPPTTest16EchoRequestHandler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "../YPPRequests.h"
 
 using namespace YarpPlusPlusTest;
 
 #if defined(__APPLE__)
-# pragma mark Private structures and constants
+# pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'echo' request. */

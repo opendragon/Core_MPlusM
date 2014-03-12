@@ -61,5 +61,6 @@ add_subdirectory(ExampleRandomNumberClient)
 add_subdirectory(ExampleRandomNumberService)
 add_subdirectory(Parser)
 add_subdirectory(RegistryService)
+add_subdirectory(ServiceLister)
 
 enable_testing()

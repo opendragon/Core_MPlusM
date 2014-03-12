@@ -14,7 +14,7 @@
 using namespace YarpPlusPlus;
 
 #if defined(__APPLE__)
-# pragma mark Private structures and constants
+# pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)

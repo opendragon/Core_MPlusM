@@ -7,7 +7,7 @@
 //
 
 #include "YPPRegistryService.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPMatchRequestHandler.h"
 #include "YPPRegisterRequestHandler.h"
@@ -27,7 +27,7 @@
 using namespace YarpPlusPlus;
 
 #if defined(__APPLE__)
-# pragma mark Private structures and constants
+# pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 #define USE_TEST_DATABASE /* */
@@ -104,7 +104,7 @@ namespace YarpPlusPlus
 #endif // defined(__APPLE__)
 
 /*! @brief The prefix to be used when generating SQL for a keyword request. */
-#define KEYWORD_PREFIX_STRING_ "KEY IN (SELECT " REQUESTS_ID_C_ " FROM " REQUESTSKEYWORDS_T_ " WHERE "
+#define KEYWORD_PREFIX_STRING_ "KEY IN (SELECT DISTINCT " REQUESTS_ID_C_ " FROM " REQUESTSKEYWORDS_T_ " WHERE "
 /*! @brief The suffix to be used when generating SQL for a keyword request. */
 #define KEYWORD_SUFFIX_STRING_ ")"
 
@@ -662,6 +662,9 @@ RegistryService::RegistryService(const bool                    useInMemoryDb,
         _inMemory(useInMemoryDb), _isActive(false)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_B1("useInMemoryDb = ", useInMemoryDb);//####
+    OD_SYSLOG_S2("serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ",//####
+                 servicePortNumber.c_Str());//####
     setUpRequestHandlers();
     OD_SYSLOG_EXIT_P(this);//####
 } // RegistryService::RegistryService
@@ -754,7 +757,8 @@ bool RegistryService::processMatchRequest(YarpPlusPlusParser::MatchExpression * 
     
     if (matcher)
     {
-        yarp::os::ConstString requestAsSQL(matcher->asSQLString("SELECT " PORTNAME_C_ " FROM " REQUESTS_T_ " WHERE "));
+        yarp::os::ConstString requestAsSQL(matcher->asSQLString("SELECT DISTINCT " PORTNAME_C_ " FROM " REQUESTS_T_
+                                                                " WHERE "));
         
         OD_SYSLOG_S1("requestAsSQL <- ", requestAsSQL.c_str());//####
         okSoFar = performSQLstatementWithNoResults(_db, kBeginTransaction);

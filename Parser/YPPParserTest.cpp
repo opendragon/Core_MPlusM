@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPMatchConstraint.h"
 #include "YPPMatchExpression.h"
@@ -25,7 +25,7 @@ using std::cerr;
 using std::endl;
 
 #if defined(__APPLE__)
-# pragma mark Private structures and constants
+# pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 /*! @brief the valid field names that may be used. Note that the strings are all lower-case for comparison purposes. */
@@ -243,8 +243,8 @@ static int doCase06(const bool expected,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int main(int     argc,
+         char ** argv)
 {
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
                    kODSyslogOptionEnableThreadSupport);//####

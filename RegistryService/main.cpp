@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 OpenDragon. All rights reserved.
 //
 
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPRegistryService.h"
 #include "YPPRequests.h"
@@ -25,7 +25,7 @@ using std::cerr;
 using std::endl;
 
 #if defined(__APPLE__)
-# pragma mark Private structures and constants
+# pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 /*! @brief Set to @c true to use an in-memory database and @c false to use a disk-based database. */
@@ -56,17 +56,17 @@ static void stopRunning(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Service Registry service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int main(int     argc,
+         char ** argv)
 {
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
                    kODSyslogOptionEnableThreadSupport);//####
     OD_SYSLOG_ENTER();//####
+    cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << ", ACE Version = " <<
+            ACE_VERSION << endl;
     yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
     RegistryService * stuff = NULL;
     
-    cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << ", ACE Version = " <<
-            ACE_VERSION << endl;
     if (argc >= 1)
     {
         switch (argc)

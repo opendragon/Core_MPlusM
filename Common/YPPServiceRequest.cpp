@@ -14,7 +14,7 @@
 using namespace YarpPlusPlus;
 
 #if defined(__APPLE__)
-# pragma mark Private structures and constants
+# pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
@@ -30,18 +30,17 @@ using namespace YarpPlusPlus;
 #endif // defined(__APPLE__)
 
 ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName,
-                               const yarp::os::Bottle &      parameters)
+                               const yarp::os::Bottle &      parameters) :
+        _name(requestName), _parameters(parameters)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("requestName = ", requestName.c_str());//####
     OD_SYSLOG_P1("parameters = ", parameters.toString().c_str());//####
-    _name = requestName;
     OD_SYSLOG_LL1("parameter size = ", parameters.size());//####
     for (int ii = 0; ii < parameters.size(); ++ii)
     {
         OD_SYSLOG_S1("parameter = ", parameters.get(ii).asString().c_str());//####
     }
-    _parameters = parameters;
     OD_SYSLOG_EXIT_P(this);//####
 } // ServiceRequest::ServiceRequest
 
