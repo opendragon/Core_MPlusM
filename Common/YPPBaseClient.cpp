@@ -151,38 +151,43 @@ bool BaseClient::connect(const char * criteria,
                 if ((! allowOnlyOneMatch) || (1 == candidateCount))
                 {
                     _servicePort = candidateList->get(0).toString();
+                    OD_SYSLOG_S1("_servicePort <- ", _servicePort.c_str());
                     result = true;
                 }
-                
             }
         }
+    }
+    if (! result)
+    {
+        _servicePort = "";
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // BaseClient::connect
 
-bool BaseClient::send(const yarp::os::Bottle & request,
+bool BaseClient::send(const char *             request,
+                      const yarp::os::Bottle & parameters,
+                      yarp::os::Port *         usingPort,
                       ServiceResponse *        response)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("request = ", request.toString().c_str());//####
+    OD_SYSLOG_S2("request = ", request, "parameters = ", parameters.toString().c_str());//####
     OD_SYSLOG_P1("response = ", response);//####
-    bool result = false;
+    bool result;
 
+    if (0 < _servicePort.length())
+    {
+        ServiceRequest  actualRequest(request, parameters);
+        
+        result = actualRequest.send(_servicePort, usingPort, response);
+    }
+    else
+    {
+        result = false;
+    }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // BaseClient::send
-
-
-
-
-
-
-
-
-
-
-
 
 #if defined(__APPLE__)
 # pragma mark Accessors

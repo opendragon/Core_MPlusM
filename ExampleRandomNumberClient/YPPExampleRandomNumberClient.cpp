@@ -40,9 +40,9 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPExampleRandomNumberClient.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-//#include "YPPRequests.h"
+#include "YPPServiceResponse.h"
 
 using namespace YarpPlusPlusExample;
 
@@ -78,6 +78,73 @@ ExampleRandomNumberClient::~ExampleRandomNumberClient(void)
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
+
+bool ExampleRandomNumberClient::getOneRandomNumber(double & result)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("result = ", &result);//####
+    bool                          okSoFar = false;
+    yarp::os::Bottle              parameters;
+    YarpPlusPlus::ServiceResponse response;
+    
+    if (send("random", parameters, NULL, &response))
+    {
+        if (1 == response.count())
+        {
+            yarp::os::Value retrieved(response.element(0));
+            
+            if (retrieved.isDouble())
+            {
+                result = retrieved.asDouble();
+                okSoFar = true;
+            }
+        }        
+    }
+    OD_SYSLOG_EXIT_B(okSoFar);//####
+    return okSoFar;
+} // ExampleRandomNumberClient::getOneRandomNumber
+
+bool ExampleRandomNumberClient::getRandomNumbers(const int      howMany,
+                                                 RandomVector & result)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_LL1("howMany = ", howMany);//####
+    OD_SYSLOG_P1("result = ", &result);//####
+    bool okSoFar = false;
+    
+    if (0 < howMany)
+    {
+        yarp::os::Bottle              parameters;
+        YarpPlusPlus::ServiceResponse response;
+        
+        parameters.addInt(howMany);
+        if (send("random", parameters, NULL, &response))
+        {
+            if (howMany == response.count())
+            {
+                result.clear();
+                okSoFar = true;
+                for (int ii = 0; ii < howMany; ++ii)
+                {
+                    yarp::os::Value retrieved(response.element(ii));
+                    
+                    if (retrieved.isDouble())
+                    {
+                        result.push_back(retrieved.asDouble());
+                    }
+                    else
+                    {
+                        okSoFar = false;
+                        break;
+                    }
+                    
+                }
+            }
+        }
+    }
+    OD_SYSLOG_EXIT_B(okSoFar);//####
+    return okSoFar;
+} // ExampleRandomNumberClient::getRandomNumbers
 
 #if defined(__APPLE__)
 # pragma mark Accessors

@@ -45,6 +45,7 @@
 
 # include "YPPConfig.h"
 # include <yarp/os/Bottle.h>
+# include <yarp/os/Port.h>
 
 namespace YarpPlusPlus
 {
@@ -64,14 +65,27 @@ namespace YarpPlusPlus
         /*! @brief The destructor. */
         virtual ~BaseClient(void);
         
+        /*! @brief Find a matching service and prepare to send requests to it.
+         @param criteria The criteria to use to locate the service.
+         @param allowOnlyOneMatch @c true if only one match is allowed and @c false if the first match will be used.
+         @returns @c true if a matching service was found and @c false if no matching service or too many services were
+         found. */
         bool connect(const char * criteria,
                      const bool   allowOnlyOneMatch = false);
         
     protected:
         
-        bool send(const yarp::os::Bottle & request,
-                  ServiceResponse *        response);
-
+        /*! @brief Send a request to the service associated with the client.
+         @param request The name of the request.
+         @param parameters The required parameters for the request.
+         @param usingPort The port that is to send the request, or @c NULL if an arbitrary port is to be used.
+         @param response If non-@c NULL, where to store any response received.
+         @returns @c true on a successful communication with the service and @c false otherwise. */
+        bool send(const char *             request,
+                  const yarp::os::Bottle & parameters,
+                  yarp::os::Port *         usingPort = NULL,
+                  ServiceResponse *        response = NULL);
+        
     private:
         
         /*! @brief Copy constructor.

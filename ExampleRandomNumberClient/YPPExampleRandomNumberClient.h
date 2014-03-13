@@ -43,6 +43,7 @@
 # define YPPEXAMPLERANDOMNUMBERCLIENT_H_ /* */
 
 # include "YPPBaseClient.h"
+# include <vector>
 
 namespace YarpPlusPlusExample
 {
@@ -51,11 +52,29 @@ namespace YarpPlusPlusExample
     {
     public:
         
+        /*! @brief A sequence of random numbers. */
+        typedef std::vector<double>    RandomVector;
+        
+        /*! @brief An iterator for a sequence of random numbers. */
+        typedef RandomVector::iterator RandomVectorIterator;
+        
         /*! @brief The constructor. */
         ExampleRandomNumberClient(void);
         
         /*! @brief The destructor. */
         virtual ~ExampleRandomNumberClient(void);
+        
+        /*! @brief Get one random number from the service.
+         @param value Where to return the number.
+         @returns @c true if the number was retrieved successfully and @c false otherwise. */
+        bool getOneRandomNumber(double & value);
+        
+        /*! @brief Get a sequence of random numbers from the service.
+         @param howMany The number of random numbers to retrieve.
+         @param result Where to return the numbers.
+         @returns @c true if the numbere were retrieved successfully and @c false otherwise. */
+        bool getRandomNumbers(const int      howMany,
+                              RandomVector & result);
         
     protected:
         

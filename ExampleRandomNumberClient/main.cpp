@@ -39,7 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPExampleRandomNumberClient.h"
 #include <ace/Version.h>
@@ -48,6 +48,7 @@
 #include <yarp/os/all.h>
 
 using namespace YarpPlusPlusExample;
+using std::cin;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -96,7 +97,7 @@ int main(int     argc,
             ACE_VERSION << endl;
     yarp::os::Network           yarp; // This is necessary to establish any connection to the YARP infrastructure
     ExampleRandomNumberClient * stuff = new ExampleRandomNumberClient;
-    
+
     if (stuff)
     {
         lKeepRunning = true;
@@ -108,7 +109,50 @@ int main(int     argc,
 #endif // defined(__APPLE__) || defined(__linux__)
         for ( ; lKeepRunning; )
         {
-            yarp::os::Time::delay(1.0);
+            int count;
+            
+            cout << "How many random numbers? ";
+            cin >> count;
+            if (0 >= count)
+            {
+                break;
+            }
+
+            if (stuff->connect("keyword random"))
+            {
+                if (1 == count)
+                {
+                    double result;
+                    
+                    if (stuff->getOneRandomNumber(result))
+                    {
+                        cout << "result = " << result << endl;
+                    }
+                    else
+                    {
+                        cerr << "Problem getting random number from service." << endl;
+                    }
+                }
+                else
+                {
+                    ExampleRandomNumberClient::RandomVector results;
+                    
+                    if (stuff->getRandomNumbers(count, results))
+                    {
+                        cout << "result = ( ";
+                        for (ExampleRandomNumberClient::RandomVectorIterator it(results.begin()); it != results.end();
+                             ++it)
+                        {
+                            cout << " " << *it;
+                        }
+                        cout << " )" << endl;
+                    }
+                    else
+                    {
+                        cerr << "Problem getting random numbers from service." << endl;
+                    }
+                }
+            }
         }
         delete stuff;
     }
