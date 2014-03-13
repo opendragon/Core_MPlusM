@@ -99,13 +99,13 @@ int main(int     argc,
     yarp::os::ConstString servicePortNumber;
     yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
 
-    if (argc > 1)
+    if (1 < argc)
     {
         serviceEndpointName = argv[1];
-        if (argc > 2)
+        if (2 < argc)
         {
             serviceHostName = argv[2];
-            if (argc > 3)
+            if (3 < argc)
             {
                 servicePortNumber = argv[3];
             }

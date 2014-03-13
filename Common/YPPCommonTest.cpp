@@ -90,7 +90,7 @@ static Endpoint * doCreateEndpointForTest(const int argc,
 {
     Endpoint * stuff = NULL;
     
-    if (argc > 0)
+    if (0 < argc)
     {
         switch (argc)
         {
@@ -835,7 +835,7 @@ static int doCase13(const int argc,
     int               result;
     RegistryService * registry = NULL;
     
-    if (argc >= 0)
+    if (0 <= argc)
     {
         switch (argc)
         {
@@ -881,7 +881,7 @@ static int doCase14(const int argc,
     int               result;
     RegistryService * registry = NULL;
     
-    if (argc >= 0)
+    if (0 <= argc)
     {
         switch (argc)
         {
@@ -958,7 +958,7 @@ static int doCase15(const int argc,
     int               result;
     RegistryService * registry = NULL;
     
-    if (argc >= 0)
+    if (0 <= argc)
     {
         switch (argc)
         {
@@ -1040,7 +1040,7 @@ static int doCase16(const int argc,
 {
     int result;
 
-    if (argc > 1)
+    if (1 < argc)
     {
         const char *      secondServicePort = "/service/test16";
         RegistryService * registry = new RegistryService(TEST_INMEMORY);
@@ -1207,7 +1207,7 @@ int main(int     argc,
     yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
     int               result;
     
-    if (--argc > 0)
+    if (0 < --argc)
     {
         int selector = atoi(argv[1]);
         

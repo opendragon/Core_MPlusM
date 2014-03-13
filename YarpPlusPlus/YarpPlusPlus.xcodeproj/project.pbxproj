@@ -9,6 +9,8 @@
 /* Begin PBXFileReference section */
 		DF20929018D0DAFF0093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ServiceLister/CMakeLists.txt; sourceTree = "<group>"; };
 		DF20929118D0DB860093D3DC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../ServiceLister/main.cpp; sourceTree = "<group>"; };
+		DF20929318D241AC0093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../RequestInfo/CMakeLists.txt; sourceTree = "<group>"; };
+		DF20929418D241AC0093D3DC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../RequestInfo/main.cpp; sourceTree = "<group>"; };
 		DF27F42818CA358C00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../Parser/CMakeLists.txt; sourceTree = "<group>"; };
 		DF27F42918CA36C200E93C95 /* YPPMatchValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchValue.cpp; path = ../Parser/YPPMatchValue.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF27F42A18CA36C200E93C95 /* YPPMatchValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchValue.h; path = ../Parser/YPPMatchValue.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -148,6 +150,15 @@
 			name = ServiceLister;
 			sourceTree = "<group>";
 		};
+		DF20929218D241270093D3DC /* RequestLister */ = {
+			isa = PBXGroup;
+			children = (
+				DF20929318D241AC0093D3DC /* CMakeLists.txt */,
+				DF20929418D241AC0093D3DC /* main.cpp */,
+			);
+			name = RequestLister;
+			sourceTree = "<group>";
+		};
 		DF27F42718CA357400E93C95 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
@@ -183,6 +194,7 @@
 				DFA3438518C91E2C0053B87C /* ExampleRandomNumberService */,
 				DF27F42718CA357400E93C95 /* Parser */,
 				DFA3431418C91B8B0053B87C /* RegistryService */,
+				DF20929218D241270093D3DC /* RequestLister */,
 				DF20928F18D0DAA50093D3DC /* ServiceLister */,
 			);
 			sourceTree = "<group>";

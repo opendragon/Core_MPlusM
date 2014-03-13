@@ -100,7 +100,7 @@ int main(int     argc,
     yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
     RegistryService * stuff = NULL;
     
-    if (argc >= 1)
+    if (1 <= argc)
     {
         switch (argc)
         {

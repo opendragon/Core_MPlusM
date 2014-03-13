@@ -286,7 +286,7 @@ int main(int     argc,
                  ACE_VERSION);//####
     int result;
     
-    if (--argc > 2)
+    if (2 < --argc)
     {
         int  selector = atoi(argv[1]);
         bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));

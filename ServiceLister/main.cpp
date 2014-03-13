@@ -115,7 +115,7 @@ int main(int     argc,
                 }
                 else
                 {
-                    cout << "No services found." << endl;
+                    cerr << "No services found." << endl;
                 }
             }
         }
@@ -123,7 +123,7 @@ int main(int     argc,
         {
             yarp::os::ConstString reason(matches.get(1).toString());
             
-            cout << "Failed: " << reason.c_str() << "." << endl;
+            cerr << "Failed: " << reason.c_str() << "." << endl;
         }
     }
     else
