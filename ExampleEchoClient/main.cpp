@@ -39,7 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPExampleEchoClient.h"
 #include <ace/Version.h>
@@ -109,7 +109,35 @@ int main(int     argc,
 #endif // defined(__APPLE__) || defined(__linux__)
         for ( ; lKeepRunning; )
         {
-            yarp::os::Time::delay(1.0);
+            yarp::os::ConstString incoming;
+            std::string           inputLine;
+        
+            cout << "Type something to be echoed: ";
+            if (getline(cin, inputLine))
+            {
+                if (stuff->connect("description Echo*"))
+                {
+                    yarp::os::ConstString outgoing(inputLine.c_str());
+                    
+                    if (stuff->sendAndReceive(outgoing, incoming))
+                    {
+                        cout << "Received: '" << incoming.c_str() << "'." << endl;
+                    }
+                    else
+                    {
+                        cerr << "Problem communicating with the service." << endl;
+                    }
+                }
+                else
+                {
+                    cerr << "Problem connecting to the service." << endl;
+                }
+            }
+            else
+            {
+                break;
+            }
+            
         }
         delete stuff;
     }

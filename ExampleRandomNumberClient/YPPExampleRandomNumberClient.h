@@ -65,9 +65,9 @@ namespace YarpPlusPlusExample
         virtual ~ExampleRandomNumberClient(void);
         
         /*! @brief Get one random number from the service.
-         @param value Where to return the number.
+         @param result Where to return the number.
          @returns @c true if the number was retrieved successfully and @c false otherwise. */
-        bool getOneRandomNumber(double & value);
+        bool getOneRandomNumber(double & result);
         
         /*! @brief Get a sequence of random numbers from the service.
          @param howMany The number of random numbers to retrieve.

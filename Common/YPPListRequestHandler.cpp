@@ -111,6 +111,7 @@ bool ListRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
 #endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
+    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
     if (replyMechanism)

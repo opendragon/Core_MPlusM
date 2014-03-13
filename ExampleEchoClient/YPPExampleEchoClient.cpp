@@ -40,9 +40,9 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPExampleEchoClient.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-//#include "YPPRequests.h"
+#include "YPPServiceResponse.h"
 
 using namespace YarpPlusPlusExample;
 
@@ -78,6 +78,25 @@ ExampleEchoClient::~ExampleEchoClient(void)
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
+
+bool ExampleEchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
+                                       yarp::os::ConstString &       incoming)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("outgoing = ", outgoing.c_str());//####
+    OD_SYSLOG_P1("incoming = ", &incoming);//####
+    bool                          okSoFar = false;
+    yarp::os::Bottle              parameters(outgoing);
+    YarpPlusPlus::ServiceResponse response;
+    
+    if (send("echo", parameters, NULL, &response))
+    {
+        incoming = response.asString();
+        okSoFar = true;
+    }
+    OD_SYSLOG_EXIT_B(okSoFar);//####
+    return okSoFar;
+} // ExampleEchoClient::sendAndReceive
 
 #if defined(__APPLE__)
 # pragma mark Accessors

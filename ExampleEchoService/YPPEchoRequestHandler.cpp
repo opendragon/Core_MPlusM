@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPEchoRequestHandler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPRequests.h"
 
@@ -103,6 +103,7 @@ bool EchoRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
+    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
     if (replyMechanism)

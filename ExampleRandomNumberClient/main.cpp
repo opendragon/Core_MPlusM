@@ -153,6 +153,10 @@ int main(int     argc,
                     }
                 }
             }
+            else
+            {
+                cerr << "Problem connecting to the service." << endl;
+            }
         }
         delete stuff;
     }
