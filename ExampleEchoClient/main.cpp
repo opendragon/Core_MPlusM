@@ -44,6 +44,7 @@
 #include "YPPExampleEchoClient.h"
 #include <ace/Version.h>
 #include <iostream>
+#include <string>
 #include <yarp/conf/version.h>
 #include <yarp/os/all.h>
 
