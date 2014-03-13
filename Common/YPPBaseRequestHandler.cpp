@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPTTest09Service.h
+//  File:       YPPBaseRequestHandler.cpp
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for a simple service used by the unit tests.
+//  Contains:   The class definition for the minimal functionality required for a Yarp++
+//              request handler.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,40 +36,61 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-28
+//  Created:    2014-02-26
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(YPPTTEST09SERVICE_H_))
-# define YPPTTEST09SERVICE_H_ /* */
+#include "YPPBaseRequestHandler.h"
+//#define ENABLE_OD_SYSLOG /* */
+#include "ODSyslog.h"
 
-# include "YPPBaseService.h"
+using namespace YarpPlusPlus;
 
-namespace YarpPlusPlusTest
+#if defined(__APPLE__)
+# pragma mark Private structures, constants and variables
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
+
+BaseRequestHandler::BaseRequestHandler(const yarp::os::ConstString & request) :
+        _owner(NULL), _name(request)
 {
-    /*! @brief A test service. */
-    class Test09Service : public YarpPlusPlus::BaseService
-    {
-    public:
-        
-        /*! @brief The constructor.
-         @param argc The number of arguments in 'argv'.
-         @param argv The arguments to be used to specify the new service. */
-        Test09Service(const int argc,
-                      char **   argv);
-        
-        /*! @brief The destructor. */
-        virtual ~Test09Service(void);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseService inherited;
-        
-    }; // Test09Service
-    
-} // YarpPlusPlusTest
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT_P(this);//####
+} // BaseRequestHandler::BaseRequestHandler
 
-#endif // ! defined(YPPTTEST09SERVICE_H_)
+BaseRequestHandler::~BaseRequestHandler(void)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // BaseRequestHandler::~BaseRequestHandler
+
+#if defined(__APPLE__)
+# pragma mark Actions
+#endif // defined(__APPLE__)
+
+void BaseRequestHandler::setOwner(RequestMap & owner)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("owner = ", &owner);//####
+    _owner = &owner;
+    OD_SYSLOG_EXIT();//####
+} // BaseRequestHandler::setOwner
+
+#if defined(__APPLE__)
+# pragma mark Accessors
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

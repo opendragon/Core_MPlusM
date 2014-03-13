@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPExampleEchoService.h
+//  File:       YPPBaseRequestHandler.h
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for a simple Yarp++ service.
+//  Contains:   The class declaration for the minimal functionality required for a Yarp++
+//              request handler.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,68 +36,78 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-06
+//  Created:    2014-02-26
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(YPPEXAMPLEECHOSERVICE_H_))
-# define YPPEXAMPLEECHOSERVICE_H_ /* */
+#if (! defined(YPPBASEREQUESTHANDLER_H_))
+# define YPPBASEREQUESTHANDLER_H_ /* */
 
-# include "YPPBaseService.h"
+# include <yarp/os/Bottle.h>
+# include <yarp/os/ConnectionWriter.h>
+# include <yarp/os/ConstString.h>
+# include <yarp/os/Property.h>
 
-/*! @brief The port name to use for the service if not provided. */
-# define DEFAULT_ECHO_SERVICE_NAME "/service/echo"
-
-namespace YarpPlusPlusExample
+namespace YarpPlusPlus
 {
-    /*! @brief An example Yarp++ service, handling 'echo' requests. */
-    class ExampleEchoService : public YarpPlusPlus::BaseService
+    class RequestMap;
+
+    /*! @brief A convenience class to provide function objects for requests. */
+    class BaseRequestHandler
     {
     public:
         
         /*! @brief The constructor.
-         @param serviceEndpointName The YARP name to be assigned to the new service.
-         @param serviceHostName The name or IP address of the machine running the service.
-         @param servicePortNumber The port being used by the service. */
-        ExampleEchoService(const yarp::os::ConstString & serviceEndpointName,
-                           const yarp::os::ConstString & serviceHostName = "",
-                           const yarp::os::ConstString & servicePortNumber = "");
+         @param request The name of the request. */
+        BaseRequestHandler(const yarp::os::ConstString & request);
         
         /*! @brief The destructor. */
-        virtual ~ExampleEchoService(void);
+        virtual ~BaseRequestHandler(void);
         
-        /*! @brief Start processing requests.
-         @returns @c true if the service was started and @c false if it was not. */
-        virtual bool start(void);
+        /*! @brief Fill in a description dictionary for the request.
+         @param info The dictionary to be filled in. */
+        virtual void fillInDescription(yarp::os::Property & info) = 0;
         
-        /*! @brief Stop processing requests.
-         @returns @c true if the service was stopped and @c false it if was not. */
-        virtual bool stop(void);
-
+        inline const yarp::os::ConstString & name(void)
+        const
+        {
+            return _name;
+        } // name
+        
+        /*! @brief Process a request.
+         @param restOfInput The arguments to the operation.
+         @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+        virtual bool operator() (const yarp::os::Bottle &     restOfInput,
+                                 yarp::os::ConnectionWriter * replyMechanism) = 0;
+        
+        /*! @brief Connect the handler to a map.
+         @param owner The map that contains this handler. */
+        void setOwner(RequestMap & owner);
+        
     protected:
+        
+        /*! @brief The request map that 'owns' this handler. */
+        RequestMap * _owner;
         
     private:
         
-        /*! @brief The class that this class is derived from. */
-        typedef BaseService inherited;
-
         /*! @brief Copy constructor.
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        ExampleEchoService(const ExampleEchoService & other);
+        BaseRequestHandler(const BaseRequestHandler & other);
         
         /*! @brief Assignment operator.
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        ExampleEchoService & operator=(const ExampleEchoService & other);
+        BaseRequestHandler & operator=(const BaseRequestHandler & other);
         
-        /*! @brief Set up the standard request handlers. */
-        void setUpRequestHandlers(void);
+        /*! @brief The name of the request. */
+        yarp::os::ConstString _name;
         
-    }; // ExampleEchoService
+    }; // BaseRequestHandler
     
-} // YarpPlusPlusExample
+} // YarpPlusPlus
 
-#endif // ! defined(YPPEXAMPLEECHOSERVICE_H_)
+#endif // ! defined(YPPBASEREQUESTHANDLER_H_)

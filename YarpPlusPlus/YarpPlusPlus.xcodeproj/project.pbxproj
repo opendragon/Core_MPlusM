@@ -74,8 +74,8 @@
 		DFA3434118C91C5A0053B87C /* YPPRegisterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRegisterRequestHandler.h; path = ../Common/YPPRegisterRequestHandler.h; sourceTree = "<group>"; };
 		DFA3434218C91C5A0053B87C /* YPPRegistryService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRegistryService.cpp; path = ../Common/YPPRegistryService.cpp; sourceTree = "<group>"; };
 		DFA3434318C91C5A0053B87C /* YPPRegistryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRegistryService.h; path = ../Common/YPPRegistryService.h; sourceTree = "<group>"; };
-		DFA3434418C91C5A0053B87C /* YPPRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRequestHandler.cpp; path = ../Common/YPPRequestHandler.cpp; sourceTree = "<group>"; };
-		DFA3434518C91C5A0053B87C /* YPPRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRequestHandler.h; path = ../Common/YPPRequestHandler.h; sourceTree = "<group>"; };
+		DFA3434418C91C5A0053B87C /* YPPBaseRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPBaseRequestHandler.cpp; path = ../Common/YPPBaseRequestHandler.cpp; sourceTree = "<group>"; };
+		DFA3434518C91C5A0053B87C /* YPPBaseRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseRequestHandler.h; path = ../Common/YPPBaseRequestHandler.h; sourceTree = "<group>"; };
 		DFA3434618C91C5A0053B87C /* YPPRequestMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRequestMap.cpp; path = ../Common/YPPRequestMap.cpp; sourceTree = "<group>"; };
 		DFA3434718C91C5A0053B87C /* YPPRequestMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRequestMap.h; path = ../Common/YPPRequestMap.h; sourceTree = "<group>"; };
 		DFA3434818C91C5A0053B87C /* YPPRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRequests.h; path = ../Common/YPPRequests.h; sourceTree = "<group>"; };
@@ -142,8 +142,8 @@
 		DF20928F18D0DAA50093D3DC /* ServiceLister */ = {
 			isa = PBXGroup;
 			children = (
-				DF20929118D0DB860093D3DC /* main.cpp */,
 				DF20929018D0DAFF0093D3DC /* CMakeLists.txt */,
+				DF20929118D0DB860093D3DC /* main.cpp */,
 			);
 			name = ServiceLister;
 			sourceTree = "<group>";
@@ -239,6 +239,8 @@
 				DFA3437918C91C940053B87C /* Tests */,
 				DFA3432818C91C5A0053B87C /* YPPBaseClient.cpp */,
 				DFA3432918C91C5A0053B87C /* YPPBaseClient.h */,
+				DFA3434418C91C5A0053B87C /* YPPBaseRequestHandler.cpp */,
+				DFA3434518C91C5A0053B87C /* YPPBaseRequestHandler.h */,
 				DFA3432A18C91C5A0053B87C /* YPPBaseService.cpp */,
 				DFA3432B18C91C5A0053B87C /* YPPBaseService.h */,
 				DFA3432C18C91C5A0053B87C /* YPPBaseServiceInputHandler.cpp */,
@@ -267,8 +269,6 @@
 				DFA3434118C91C5A0053B87C /* YPPRegisterRequestHandler.h */,
 				DFA3434218C91C5A0053B87C /* YPPRegistryService.cpp */,
 				DFA3434318C91C5A0053B87C /* YPPRegistryService.h */,
-				DFA3434418C91C5A0053B87C /* YPPRequestHandler.cpp */,
-				DFA3434518C91C5A0053B87C /* YPPRequestHandler.h */,
 				DFA3434618C91C5A0053B87C /* YPPRequestMap.cpp */,
 				DFA3434718C91C5A0053B87C /* YPPRequestMap.h */,
 				DFA3434818C91C5A0053B87C /* YPPRequests.h */,
