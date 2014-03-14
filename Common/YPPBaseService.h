@@ -144,6 +144,9 @@ namespace YarpPlusPlus
         /*! @brief Set up the standard request handlers. */
         void setUpRequestHandlers(void);
         
+        /*! @brief The port-independent name of the service. */
+        yarp::os::ConstString            _canonicalName;
+        
         /*! @brief The connection point for the service. */
         Endpoint *                       _endpoint;
         
@@ -152,9 +155,6 @@ namespace YarpPlusPlus
 
         /*! @brief The input handler creator for the service. */
         BaseServiceInputHandlerCreator * _handlerCreator;
-        
-        /*! @brief The port-independent name of the service. */
-        yarp::os::ConstString            _canonicalName;
         
         /*! @brief The current state of the service - @c true if active and @c false otherwise. */
         bool                             _started;

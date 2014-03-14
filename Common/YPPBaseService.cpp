@@ -76,7 +76,7 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & serviceHostName,
                          const yarp::os::ConstString & servicePortNumber) :
-        _requestHandlers(*this), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _canonicalName(canonicalName),
+        _requestHandlers(*this), _canonicalName(canonicalName), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
         _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_SYSLOG_ENTER();//####
@@ -92,7 +92,7 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
                          const int                     argc,
                          char **                       argv) :
-        _requestHandlers(*this), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _canonicalName(canonicalName),
+        _requestHandlers(*this), _canonicalName(canonicalName), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
         _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_SYSLOG_ENTER();//####
