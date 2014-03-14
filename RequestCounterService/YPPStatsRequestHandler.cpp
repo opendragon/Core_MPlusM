@@ -42,8 +42,8 @@
 #include "YPPStatsRequestHandler.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPRequestCounterService.h"
 #include "YPPRequests.h"
-#include <cstdlib>
 
 using namespace YarpPlusPlus;
 
@@ -66,8 +66,8 @@ using namespace YarpPlusPlus;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-StatsRequestHandler::StatsRequestHandler(void) :
-        inherited(YPP_STATS_REQUEST)
+StatsRequestHandler::StatsRequestHandler(RequestCounterService & service) :
+        inherited(YPP_STATS_REQUEST), _service(service)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
@@ -87,10 +87,9 @@ void StatsRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
     info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_STATS_REQUEST);
-    info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_INT YPP_REQREP_0_OR_1);
-    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_DOUBLE YPP_REQREP_1_OR_MORE);
+    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_INT YPP_REQREP_DOUBLE);
     info.put(YPP_REQREP_DICT_VERSION_KEY, STATS_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Generate one or more random numbers");
+    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Return the number of requests and the time since last reset");
     yarp::os::Value    keywords;
     yarp::os::Bottle * asList = keywords.asList();
     
@@ -109,36 +108,13 @@ bool StatsRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
     
     if (replyMechanism)
     {
-        yarp::os::Bottle    response;
-        int                 count;
-        static const double maxValue = (1.0 * RAND_MAX);
-        
-        if (0 < restOfInput.size())
-        {
-            yarp::os::Value number(restOfInput.get(0));
-            
-            if (number.isInt())
-            {
-                count = number.asInt();
-            }
-            else
-            {
-                count = -1;
-            }
-        }
-        else
-        {
-            count = 1;
-        }
-        if (count > 0)
-        {
-            for (int ii = 0; ii < count; ++ii)
-            {
-                int                 value = rand();
-                
-                response.addDouble(value / maxValue);
-            }
-        }
+        yarp::os::Bottle response;
+        double           elapsedTime;
+        long             counter;
+
+        _service.getStatistics(counter, elapsedTime);
+        response.addInt(static_cast<int>(counter));
+        response.addDouble(elapsedTime);
         response.write(*replyMechanism);
     }
     OD_SYSLOG_EXIT_B(result);//####

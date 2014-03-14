@@ -47,13 +47,16 @@
 
 namespace YarpPlusPlus
 {
+    class RequestCounterService;
+
     /*! @brief A test request handler. */
     class RequestCounterDefaultRequestHandler : public YarpPlusPlus::BaseRequestHandler
     {
     public:
         
-        /*! @brief The constructor. */
-        RequestCounterDefaultRequestHandler(void);
+        /*! @brief The constructor.
+         @param service The service that has registered this request. */
+        RequestCounterDefaultRequestHandler(RequestCounterService & service);
         
         /*! @brief The destructor. */
         virtual ~RequestCounterDefaultRequestHandler(void);
@@ -74,6 +77,9 @@ namespace YarpPlusPlus
         
         /*! @brief The class that this class is derived from. */
         typedef BaseRequestHandler inherited;
+        
+        /*! @brief The service that will manages the statistics. */
+        RequestCounterService & _service;
         
     }; // RequestCounterDefaultRequestHandler
     

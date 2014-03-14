@@ -73,6 +73,18 @@ namespace YarpPlusPlus
          @returns @c true if the service was stopped and @c false it if was not. */
         virtual bool stop(void);
 
+        /*! @brief Record a request. */
+        void countRequest(void);
+        
+        /*! @brief Return the request statistics.
+         @param counter The number of requests since the last reset.
+         @param elapsedTime The number of seconds since the last reset. */
+        void getStatistics(long &   counter,
+                           double & elapsedTime);
+
+        /*! @brief Reset the request statistics counters. */
+        void resetCounters(void);
+
     protected:
         
     private:
@@ -94,6 +106,12 @@ namespace YarpPlusPlus
         
         /*! @brief Set up the standard request handlers. */
         void setUpRequestHandlers(void);
+        
+        /*! @brief The number of requests since the most recent reset. */
+        long _counter;
+        
+        /*! @brief The time of the last reset. */
+        double _lastReset;
         
     }; // RequestCounterService
     

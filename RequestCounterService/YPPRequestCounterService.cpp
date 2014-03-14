@@ -46,6 +46,7 @@
 #include "YPPRequests.h"
 #include "YPPResetRequestHandler.h"
 #include "YPPStatsRequestHandler.h"
+#include <yarp/os/Time.h>
 
 using namespace YarpPlusPlus;
 
@@ -56,7 +57,8 @@ using namespace YarpPlusPlus;
 RequestCounterService::RequestCounterService(const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & serviceHostName,
                                              const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, serviceEndpointName, serviceHostName, servicePortNumber)
+        inherited(true, serviceEndpointName, serviceHostName, servicePortNumber), _counter(0),
+        _lastReset(yarp::os::Time::now())
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
@@ -75,12 +77,36 @@ RequestCounterService::~RequestCounterService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
+void RequestCounterService::countRequest(void)
+{
+    OD_SYSLOG_ENTER();//####
+    ++_counter;
+    OD_SYSLOG_EXIT();//####
+} // RequestCounterService::countRequest
+
+void RequestCounterService::getStatistics(long &   counter,
+                                          double & elapsedTime)
+{
+    OD_SYSLOG_ENTER();//####
+    counter = _counter;
+    elapsedTime = yarp::os::Time::now() - _lastReset;
+    OD_SYSLOG_EXIT();//####
+} // RequestCounterService::getStatistics
+
+void RequestCounterService::resetCounters(void)
+{
+    OD_SYSLOG_ENTER();//####
+    _counter = 0;
+    _lastReset = yarp::os::Time::now();
+    OD_SYSLOG_EXIT();//####
+} // RequestCounterService::resetCounters
+
 void RequestCounterService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
-    _requestHandlers.registerRequestHandler(new ResetRequestHandler());
-    _requestHandlers.registerRequestHandler(new StatsRequestHandler());
-    _requestHandlers.setDefaultRequestHandler(new RequestCounterDefaultRequestHandler());
+    _requestHandlers.registerRequestHandler(new ResetRequestHandler(*this));
+    _requestHandlers.registerRequestHandler(new StatsRequestHandler(*this));
+    _requestHandlers.setDefaultRequestHandler(new RequestCounterDefaultRequestHandler(*this));
     OD_SYSLOG_EXIT();//####
 } // RequestCounterService::setUpRequestHandlers
 

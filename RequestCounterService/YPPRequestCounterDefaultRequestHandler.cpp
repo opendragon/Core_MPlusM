@@ -43,6 +43,8 @@
 #include "YPPRequestCounterDefaultRequestHandler.h"
 #define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPRequestCounterService.h"
+#include "YPPRequests.h"
 
 using namespace YarpPlusPlus;
 
@@ -62,8 +64,8 @@ using namespace YarpPlusPlus;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RequestCounterDefaultRequestHandler::RequestCounterDefaultRequestHandler(void) :
-        inherited("")
+RequestCounterDefaultRequestHandler::RequestCounterDefaultRequestHandler(RequestCounterService & service) :
+        inherited(""), _service(service)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT_P(this);//####
@@ -94,12 +96,12 @@ bool RequestCounterDefaultRequestHandler::operator() (const yarp::os::Bottle &  
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
+    _service.countRequest();
     if (replyMechanism)
     {
-        yarp::os::Bottle argsCopy(name());
+        yarp::os::Bottle response(YPP_OK_RESPONSE);
         
-        argsCopy.append(restOfInput);
-        argsCopy.write(*replyMechanism);
+        response.write(*replyMechanism);
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

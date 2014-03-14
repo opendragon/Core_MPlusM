@@ -49,6 +49,8 @@
 
 namespace YarpPlusPlus
 {
+    class RequestCounterService;
+
     /*! @brief The example 'random' request handler.
      
      There is no input for the request and the output is a single floating point number, between 0 and 1. */
@@ -56,8 +58,9 @@ namespace YarpPlusPlus
     {
     public:
         
-        /*! @brief The constructor. */
-        ResetRequestHandler(void);
+        /*! @brief The constructor.
+         @param service The service that has registered this request. */
+        ResetRequestHandler(RequestCounterService & service);
         
         /*! @brief The destructor. */
         virtual ~ResetRequestHandler(void);
@@ -79,6 +82,9 @@ namespace YarpPlusPlus
         /*! @brief The class that this class is derived from. */
         typedef BaseRequestHandler inherited;
         
+        /*! @brief The service that will manages the statistics. */
+        RequestCounterService & _service;
+
     }; // ResetRequestHandler
     
 } // YarpPlusPlusExample
