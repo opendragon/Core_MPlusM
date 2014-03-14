@@ -45,7 +45,7 @@
 # include "YPPBaseService.h"
 
 /*! @brief The port name to use for the service if not provided. */
-# define DEFAULT_RANDOM_SERVICE_NAME "/service/random"
+# define DEFAULT_REQUESTCOUNTER_SERVICE_NAME "/service/requestCounter"
 
 namespace YarpPlusPlus
 {

@@ -42,6 +42,7 @@
 #include "YPPExampleRandomNumberClient.h"
 //#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPExampleRandomNumberRequests.h"
 #include "YPPServiceResponse.h"
 
 using namespace YarpPlusPlusExample;
@@ -118,7 +119,7 @@ bool ExampleRandomNumberClient::getRandomNumbers(const int      howMany,
         YarpPlusPlus::ServiceResponse response;
         
         parameters.addInt(howMany);
-        if (send("random", parameters, NULL, &response))
+        if (send(YPP_RANDOM_REQUEST, parameters, NULL, &response))
         {
             if (howMany == response.count())
             {

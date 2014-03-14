@@ -697,7 +697,7 @@ RegistryService::RegistryService(const bool                    useInMemoryDb,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_B1("useInMemoryDb = ", useInMemoryDb);//####
     OD_SYSLOG_S2("serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ",//####
-                 servicePortNumber.c_Str());//####
+                 servicePortNumber.c_str());//####
     setUpRequestHandlers();
     OD_SYSLOG_EXIT_P(this);//####
 } // RegistryService::RegistryService

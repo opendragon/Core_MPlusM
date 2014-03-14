@@ -40,10 +40,10 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPStatsRequestHandler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPRequestCounterRequests.h"
 #include "YPPRequestCounterService.h"
-#include "YPPRequests.h"
 
 using namespace YarpPlusPlus;
 
@@ -101,6 +101,9 @@ void StatsRequestHandler::fillInDescription(yarp::os::Property & info)
 bool StatsRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
                                       yarp::os::ConnectionWriter * replyMechanism)
 {
+#if (! defined(ENABLE_OD_SYSLOG))
+# pragma unused(restOfInput)
+#endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####

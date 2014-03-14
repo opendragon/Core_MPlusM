@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------
 #
-#  File:       CMakeLists.txt
+#  File:       RequestCounterClient/CMakeLists.txt
 #
 #  Project:    YarpPlusPlus
 #
-#  Contains:   The common CMAKE definitions for the Yarp++ project.
+#  Contains:   The CMAKE definitions for the request counter client application.
 #
 #  Written by: Norman Jaffe
 #
@@ -35,68 +35,23 @@
 #              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-#  Created:    2014-02-06
+#  Created:    2014-03-14
 #
 #--------------------------------------------------------------------------------------
 
-# YARP needs CMake 2.6 or greater
-cmake_minimum_required(VERSION 2.6)
+include_directories("${YPP_DEBUGGING_DIR}"
+                    "${YPP_COMMON_DIR}"
+                    "../RequestCounterService")
 
-project(YARPPlusPlus)
+# set up our program
+add_executable(RequestCounterClient
+               main.cpp
+               YPPRequestCounterClient.cpp)
 
-set(YPP_VERSION_MAJOR 1)
-set(YPP_VERSION_MINOR 0)
-set(YPP_VERSION_PATCH 0)
-
-# find YARP
-find_package(YARP REQUIRED)
-list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
-
-# add YARP include directories
-include_directories(${YARP_INCLUDE_DIRS})
-
-# find ACE
-find_package(ACE REQUIRED)
-list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
-
-# add ACE include directories
-include_directories(${ACE_INCLUDE_DIRS})
-
-# find SQLite
-if(WIN32)
-	set(PC_SQLITE_INCLUDE_DIRS "D:/dev/yarp-2.3.22/extern/sqlite/sqlite")
-	set(PC_SQLITE_LIBRARY_DIRS "D:/dev/yarp-2.3.22/lib/Debug/")
-	set(PC_SQLITE_LIBRARIES "D:/dev/yarp-2.3.22/lib/Debug/YARP_sqlited.lib")
-endif(WIN32)
-
-find_package(SQLite REQUIRED)
-list(APPEND CMAKE_MODULE_PATH ${SQLite_MODULE_PATH})
-
-# add SQLite include directories
-include_directories(${SQLite_INCLUDE_DIRS})
-
-set(YPP_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
-set(YPP_DEBUGGING_DIR "${PROJECT_SOURCE_DIR}/Debugging")
-set(YPP_PARSER_DIR "${PROJECT_SOURCE_DIR}/Parser")
-
-configure_file("${YPP_COMMON_DIR}/YPPConfig.h.in"
-                "${YPP_COMMON_DIR}/YPPConfig.h")
-
-include_directories("${YPP_COMMON_DIR}"
-                    "${YPP_DEBUGGING_DIR}"
-                    "${YPP_PARSER_DIR}")
-
-add_subdirectory(Common)
-add_subdirectory(Debugging)
-add_subdirectory(ExampleEchoClient)
-add_subdirectory(ExampleEchoService)
-add_subdirectory(ExampleRandomNumberClient)
-add_subdirectory(ExampleRandomNumberService)
-add_subdirectory(Parser)
-add_subdirectory(RegistryService)
-add_subdirectory(RequestCounterClient)
-add_subdirectory(RequestCounterService)
-add_subdirectory(RequestInfo)
-add_subdirectory(ServiceLister)
+# link with YARP libraries and our interface classes
+target_link_libraries(RequestCounterClient
+                      YPPCommon
+                      YPPDebugging
+                      ${YARP_LIBRARIES})
 
 enable_testing()

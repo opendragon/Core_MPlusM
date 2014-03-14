@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPRequestCounterService.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPRequestCounterDefaultRequestHandler.h"
 #include "YPPRequests.h"

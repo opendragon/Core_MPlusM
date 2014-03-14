@@ -42,8 +42,8 @@
 #include "YPPExampleRandomNumberService.h"
 //#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPExampleRandomNumberRequests.h"
 #include "YPPRandomRequestHandler.h"
-#include "YPPRequests.h"
 
 using namespace YarpPlusPlusExample;
 

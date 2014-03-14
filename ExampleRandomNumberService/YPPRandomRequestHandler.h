@@ -44,9 +44,6 @@
 
 # include "YPPBaseRequestHandler.h"
 
-/*! @brief The name for the 'random' request. */
-# define YPP_RANDOM_REQUEST "random"
-
 namespace YarpPlusPlusExample
 {
     /*! @brief The example 'random' request handler.

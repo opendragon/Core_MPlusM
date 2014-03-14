@@ -42,7 +42,7 @@
 #include "YPPEchoRequestHandler.h"
 //#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include "YPPRequests.h"
+#include "YPPExampleEchoRequests.h"
 
 using namespace YarpPlusPlusExample;
 

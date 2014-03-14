@@ -40,7 +40,8 @@
 #--------------------------------------------------------------------------------------
 
 include_directories("${YPP_DEBUGGING_DIR}"
-                    "${YPP_COMMON_DIR}")
+                    "${YPP_COMMON_DIR}"
+                    "../ExampleRandomNumberService")
 
 # set up our program
 add_executable(ExampleRandomNumberClient

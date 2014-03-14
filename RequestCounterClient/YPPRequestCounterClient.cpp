@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPExampleEchoClient.cpp
+//  File:       YPPRequestCounterClient.cpp
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class definition for the client of a simple Yarp++ service.
+//  Contains:   The class definition for the client of the request counter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,17 +35,17 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-06
+//  Created:    2014-03-14
 //
 //--------------------------------------------------------------------------------------
 
-#include "YPPExampleEchoClient.h"
+#include "YPPRequestCounterClient.h"
 //#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include "YPPExampleEchoRequests.h"
+#include "YPPRequestCounterRequests.h"
 #include "YPPServiceResponse.h"
 
-using namespace YarpPlusPlusExample;
+using namespace YarpPlusPlus;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -63,41 +63,79 @@ using namespace YarpPlusPlusExample;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-ExampleEchoClient::ExampleEchoClient(void) :
+RequestCounterClient::RequestCounterClient(void) :
         inherited()
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // ExampleEchoClient::ExampleEchoClient
+} // RequestCounterClient::RequestCounterClient
 
-ExampleEchoClient::~ExampleEchoClient(void)
+RequestCounterClient::~RequestCounterClient(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // ExampleEchoClient::~ExampleEchoClient
+} // RequestCounterClient::~RequestCounterClient
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool ExampleEchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
-                                       yarp::os::ConstString &       incoming)
+bool RequestCounterClient::getServiceStatistics(long &   counter,
+                                                double & elapsedTime)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("outgoing = ", outgoing.c_str());//####
-    OD_SYSLOG_P1("incoming = ", &incoming);//####
-    bool                          okSoFar = false;
-    yarp::os::Bottle              parameters(outgoing);
+    OD_SYSLOG_ENTER();
+    OD_SYSLOG_P2("counter = ", &counter, "elapsedTime = ", &elapsedTime);//####
+    bool okSoFar = false;
+    
+    yarp::os::Bottle              parameters;
     YarpPlusPlus::ServiceResponse response;
     
-    if (send(YPP_ECHO_REQUEST, parameters, NULL, &response))
+    if (send(YPP_STATS_REQUEST, parameters, NULL, &response))
     {
-        incoming = response.asString();
+        if (2 == response.count())
+        {
+            yarp::os::Value retrievedCounter(response.element(0));
+            yarp::os::Value retrievedElapsed(response.element(1));
+            
+            if (retrievedCounter.isInt() && retrievedElapsed.isDouble())
+            {
+                counter = retrievedCounter.asInt();
+                elapsedTime = retrievedElapsed.asDouble();
+                okSoFar = true;
+            }
+        }
+    }
+    OD_SYSLOG_EXIT_B(okSoFar);
+    return okSoFar;
+} // RequestCounterClient::getServiceStatistics
+
+bool RequestCounterClient::pokeService(void)
+{
+    OD_SYSLOG_ENTER();
+    bool             okSoFar = false;
+    yarp::os::Bottle parameters;
+    
+    if (send("blort", parameters))
+    {
         okSoFar = true;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);//####
+    OD_SYSLOG_EXIT_B(okSoFar);
     return okSoFar;
-} // ExampleEchoClient::sendAndReceive
+} // RequestCounterClient::pokeService
+
+bool RequestCounterClient::resetServiceCounters(void)
+{
+    OD_SYSLOG_ENTER();
+    bool             okSoFar = false;
+    yarp::os::Bottle parameters;
+    
+    if (send(YPP_RESET_REQUEST, parameters))
+    {
+        okSoFar = true;
+    }
+    OD_SYSLOG_EXIT_B(okSoFar);
+    return okSoFar;
+} // RequestCounterClient::resetServiceCounters
 
 #if defined(__APPLE__)
 # pragma mark Accessors

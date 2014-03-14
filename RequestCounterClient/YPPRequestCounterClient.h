@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPResetRequestHandler.h
+//  File:       YPPRequestCounterClient.h
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for the request handler for a 'reset' request.
+//  Contains:   The class declaration for the client of the request counter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -39,51 +39,61 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(YPPTRANDOMREQUESTHANDLER_H_))
-# define YPPTRANDOMREQUESTHANDLER_H_ /* */
+#if (! defined(YPPEXAMPLERANDOMNUMBERCLIENT_H_))
+# define YPPEXAMPLERANDOMNUMBERCLIENT_H_ /* */
 
-# include "YPPBaseRequestHandler.h"
+# include "YPPBaseClient.h"
+# include <vector>
 
 namespace YarpPlusPlus
 {
-    class RequestCounterService;
-
-    /*! @brief The example 'random' request handler.
-     
-     There is no input for the request and the output is a single floating point number, between 0 and 1. */
-    class ResetRequestHandler : public YarpPlusPlus::BaseRequestHandler
+    /*! @brief An example Yarp++ client, for the 'random' service. */
+    class RequestCounterClient : public YarpPlusPlus::BaseClient
     {
     public:
         
-        /*! @brief The constructor.
-         @param service The service that has registered this request. */
-        ResetRequestHandler(RequestCounterService & service);
+        /*! @brief The constructor. */
+        RequestCounterClient(void);
         
         /*! @brief The destructor. */
-        virtual ~ResetRequestHandler(void);
+        virtual ~RequestCounterClient(void);
         
-        /*! @brief Fill in a description dictionary for the request.
-         @param info The dictionary to be filled in. */
-        virtual void fillInDescription(yarp::os::Property & info);
+        /*! @brief Get the statistics from the service.
+         @param counter The number of requests since the last reset.
+         @param elapsedTime The number of seconds since the last reset.
+         @returns @c true if the statistics were retrieved successfully and @c false otherwise. */
+        bool getServiceStatistics(long &   counter,
+                                  double & elapsedTime);
         
-        /*! @brief Process a request.
-         @param restOfInput The arguments to the operation.
-         @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-        virtual bool operator() (const yarp::os::Bottle &     restOfInput,
-                                 yarp::os::ConnectionWriter * replyMechanism);
+        /*! @brief Trigger the service counter.
+         @returns @c true if the service handled the request and @c false otherwise. */
+        bool pokeService(void);
+        
+        /*! @brief Reset the service counters.
+         @returns @c true if the service handled the request and @c false otherwise. */
+        bool resetServiceCounters(void);
         
     protected:
         
     private:
         
         /*! @brief The class that this class is derived from. */
-        typedef BaseRequestHandler inherited;
-        
-        /*! @brief The service that will manages the statistics. */
-        RequestCounterService & _service;
+        typedef BaseClient inherited;
 
-    }; // ResetRequestHandler
+        /*! @brief Copy constructor.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        RequestCounterClient(const RequestCounterClient & other);
+        
+        /*! @brief Assignment operator.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        RequestCounterClient & operator=(const RequestCounterClient & other);
+        
+    }; // RequestCounterClient
     
 } // YarpPlusPlusExample
 
-#endif // ! defined(YPPTRANDOMREQUESTHANDLER_H_)
+#endif // ! defined(YPPEXAMPLERANDOMNUMBERCLIENT_H_)

@@ -41,7 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPBaseClient.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"

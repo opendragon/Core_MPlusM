@@ -64,6 +64,13 @@
 		DF2092CA18D362890093D3DC /* YPPTTest12EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest12EchoRequestHandler.h; path = ../Common/CommonTests/YPPTTest12EchoRequestHandler.h; sourceTree = SOURCE_ROOT; };
 		DF2092CB18D362890093D3DC /* YPPTTest12Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest12Service.cpp; path = ../Common/CommonTests/YPPTTest12Service.cpp; sourceTree = SOURCE_ROOT; };
 		DF2092CC18D362890093D3DC /* YPPTTest12Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest12Service.h; path = ../Common/CommonTests/YPPTTest12Service.h; sourceTree = SOURCE_ROOT; };
+		DF2092CE18D371ED0093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../RequestCounterClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF2092CF18D371ED0093D3DC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../RequestCounterClient/main.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092D018D371ED0093D3DC /* YPPRequestCounterClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRequestCounterClient.cpp; path = ../RequestCounterClient/YPPRequestCounterClient.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092D118D371ED0093D3DC /* YPPRequestCounterClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRequestCounterClient.h; path = ../RequestCounterClient/YPPRequestCounterClient.h; sourceTree = SOURCE_ROOT; };
+		DF2092D218D37F820093D3DC /* YPPRequestCounterRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRequestCounterRequests.h; path = ../RequestCounterService/YPPRequestCounterRequests.h; sourceTree = "<group>"; };
+		DF2092D318D3816D0093D3DC /* YPPExampleRandomNumberRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPExampleRandomNumberRequests.h; path = ../ExampleRandomNumberService/YPPExampleRandomNumberRequests.h; sourceTree = "<group>"; };
+		DF2092D418D382530093D3DC /* YPPExampleEchoRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPExampleEchoRequests.h; path = ../ExampleEchoService/YPPExampleEchoRequests.h; sourceTree = "<group>"; };
 		DF27F42818CA358C00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../Parser/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF27F42918CA36C200E93C95 /* YPPMatchValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchValue.cpp; path = ../Parser/YPPMatchValue.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF27F42A18CA36C200E93C95 /* YPPMatchValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchValue.h; path = ../Parser/YPPMatchValue.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -178,6 +185,7 @@
 				DF20929718D357A80093D3DC /* main.cpp */,
 				DF20929818D357A80093D3DC /* YPPRequestCounterDefaultRequestHandler.cpp */,
 				DF20929918D357A80093D3DC /* YPPRequestCounterDefaultRequestHandler.h */,
+				DF2092D218D37F820093D3DC /* YPPRequestCounterRequests.h */,
 				DF20929A18D357A80093D3DC /* YPPRequestCounterService.cpp */,
 				DF20929B18D357A80093D3DC /* YPPRequestCounterService.h */,
 				DF20929C18D357A80093D3DC /* YPPResetRequestHandler.cpp */,
@@ -206,6 +214,17 @@
 				DF2092AE18D3626D0093D3DC /* YPPTTest16Service.h */,
 			);
 			name = RegistryTests;
+			sourceTree = "<group>";
+		};
+		DF2092CD18D371CB0093D3DC /* RequestCounterClient */ = {
+			isa = PBXGroup;
+			children = (
+				DF2092CE18D371ED0093D3DC /* CMakeLists.txt */,
+				DF2092CF18D371ED0093D3DC /* main.cpp */,
+				DF2092D018D371ED0093D3DC /* YPPRequestCounterClient.cpp */,
+				DF2092D118D371ED0093D3DC /* YPPRequestCounterClient.h */,
+			);
+			name = RequestCounterClient;
 			sourceTree = "<group>";
 		};
 		DF27F42718CA357400E93C95 /* Parser */ = {
@@ -243,6 +262,7 @@
 				DFA3438518C91E2C0053B87C /* ExampleRandomNumberService */,
 				DF27F42718CA357400E93C95 /* Parser */,
 				DFA3431418C91B8B0053B87C /* RegistryService */,
+				DF2092CD18D371CB0093D3DC /* RequestCounterClient */,
 				DF20929518D3577D0093D3DC /* RequestCounterService */,
 				DF20929218D241270093D3DC /* RequestInfo */,
 				DF20928F18D0DAA50093D3DC /* ServiceLister */,
@@ -275,6 +295,7 @@
 				DFA3431618C91BAB0053B87C /* main.cpp */,
 				DFA3431718C91BAB0053B87C /* YPPEchoRequestHandler.cpp */,
 				DFA3431818C91BAB0053B87C /* YPPEchoRequestHandler.h */,
+				DF2092D418D382530093D3DC /* YPPExampleEchoRequests.h */,
 				DFA3431918C91BAB0053B87C /* YPPExampleEchoService.cpp */,
 				DFA3431A18C91BAB0053B87C /* YPPExampleEchoService.h */,
 			);
@@ -398,6 +419,7 @@
 			children = (
 				DFA3437F18C91E220053B87C /* CMakeLists.txt */,
 				DFA3438018C91E220053B87C /* main.cpp */,
+				DF2092D318D3816D0093D3DC /* YPPExampleRandomNumberRequests.h */,
 				DFA3438118C91E220053B87C /* YPPExampleRandomNumberService.cpp */,
 				DFA3438218C91E220053B87C /* YPPExampleRandomNumberService.h */,
 				DFA3438318C91E220053B87C /* YPPRandomRequestHandler.cpp */,

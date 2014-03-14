@@ -44,9 +44,6 @@
 
 # include "YPPBaseRequestHandler.h"
 
-/*! @brief The name for the 'random' request. */
-# define YPP_STATS_REQUEST "stats"
-
 namespace YarpPlusPlus
 {
     class RequestCounterService;

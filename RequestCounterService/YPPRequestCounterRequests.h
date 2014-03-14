@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPExampleEchoClient.cpp
+//  File:       YPPRequestCounterRequests.h
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class definition for the client of a simple Yarp++ service.
+//  Contains:   The common macro definitions for requests and responses for the request
+//              counter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,74 +36,19 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-06
+//  Created:    2014-03-14
 //
 //--------------------------------------------------------------------------------------
 
-#include "YPPExampleEchoClient.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
-#include "YPPExampleEchoRequests.h"
-#include "YPPServiceResponse.h"
+#if (! defined(YPPREQUESTCOUNTERREQUESTS_H_))
+# define YPPREQUESTCOUNTERREQUESTS_H_ /* */
 
-using namespace YarpPlusPlusExample;
+# include "YPPRequests.h"
 
-#if defined(__APPLE__)
-# pragma mark Private structures, constants and variables
-#endif // defined(__APPLE__)
+/*! @brief The name for the 'reset' request. */
+# define YPP_RESET_REQUEST "reset"
 
-#if defined(__APPLE__)
-# pragma mark Local functions
-#endif // defined(__APPLE__)
+/*! @brief The name for the 'stats' request. */
+# define YPP_STATS_REQUEST "stats"
 
-#if defined(__APPLE__)
-# pragma mark Class methods
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma mark Constructors and destructors
-#endif // defined(__APPLE__)
-
-ExampleEchoClient::ExampleEchoClient(void) :
-        inherited()
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // ExampleEchoClient::ExampleEchoClient
-
-ExampleEchoClient::~ExampleEchoClient(void)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
-} // ExampleEchoClient::~ExampleEchoClient
-
-#if defined(__APPLE__)
-# pragma mark Actions
-#endif // defined(__APPLE__)
-
-bool ExampleEchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
-                                       yarp::os::ConstString &       incoming)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("outgoing = ", outgoing.c_str());//####
-    OD_SYSLOG_P1("incoming = ", &incoming);//####
-    bool                          okSoFar = false;
-    yarp::os::Bottle              parameters(outgoing);
-    YarpPlusPlus::ServiceResponse response;
-    
-    if (send(YPP_ECHO_REQUEST, parameters, NULL, &response))
-    {
-        incoming = response.asString();
-        okSoFar = true;
-    }
-    OD_SYSLOG_EXIT_B(okSoFar);//####
-    return okSoFar;
-} // ExampleEchoClient::sendAndReceive
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma mark Global functions
-#endif // defined(__APPLE__)
+#endif // ! defined(YPPREQUESTCOUNTERREQUESTS_H_)

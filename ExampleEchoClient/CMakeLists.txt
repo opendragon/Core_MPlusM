@@ -40,7 +40,8 @@
 #--------------------------------------------------------------------------------------
 
 include_directories("${YPP_DEBUGGING_DIR}"
-                    "${YPP_COMMON_DIR}")
+                    "${YPP_COMMON_DIR}"
+                    "../ExampleEchoService")
 
 # set up our program
 add_executable(ExampleEchoClient
