@@ -8,7 +8,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by OpenDragon.
+//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms,
 //              with or without modification, are permitted provided that the following
@@ -64,7 +64,7 @@ using namespace YarpPlusPlusTest;
 
 Test10Service::Test10Service(const int argc,
                              char **   argv) :
-        inherited(true, argc, argv)
+        inherited(true, "Test10", argc, argv)
 {
     OD_SYSLOG_ENTER();//####
     _requestHandlers.setDefaultRequestHandler(new Test10DefaultRequestHandler());

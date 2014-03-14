@@ -8,7 +8,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by OpenDragon.
+//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms,
 //              with or without modification, are permitted provided that the following
@@ -54,7 +54,7 @@ using namespace YarpPlusPlusExample;
 ExampleRandomNumberService::ExampleRandomNumberService(const yarp::os::ConstString & serviceEndpointName,
                                                        const yarp::os::ConstString & serviceHostName,
                                                        const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, serviceEndpointName, serviceHostName, servicePortNumber)
+        inherited(true, YPP_RANDOM_CANONICAL_NAME, serviceEndpointName, serviceHostName, servicePortNumber)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####

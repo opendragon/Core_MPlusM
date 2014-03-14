@@ -8,7 +8,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by OpenDragon.
+//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms,
 //              with or without modification, are permitted provided that the following
@@ -88,7 +88,7 @@ bool ExampleRandomNumberClient::getOneRandomNumber(double & result)
     yarp::os::Bottle              parameters;
     YarpPlusPlus::ServiceResponse response;
     
-    if (send("random", parameters, NULL, &response))
+    if (send(YPP_RANDOM_REQUEST, parameters, NULL, &response))
     {
         if (1 == response.count())
         {

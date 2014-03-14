@@ -9,7 +9,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by OpenDragon.
+//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms,
 //              with or without modification, are permitted provided that the following
@@ -102,6 +102,14 @@ namespace YarpPlusPlus
         bool processListResponse(const yarp::os::ConstString & portName,
                                  const ServiceResponse &       response);
 
+        /*! @brief Check the response from the 'name' request.
+         @param portName The port that sent the response.
+         @param response The response to be analyzed.
+         @returns @c true if the expected values are all present and @c false if they are not or if unexpected values
+         appear. */
+        bool processNameResponse(const yarp::os::ConstString & portName,
+                                 const ServiceResponse &       response);
+        
         /*! @brief The service that will handle the registration operation. */
         RegistryService & _service;
         

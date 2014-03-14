@@ -8,7 +8,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by OpenDragon.
+//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms,
 //              with or without modification, are permitted provided that the following
@@ -43,7 +43,7 @@
 //#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPRequestCounterDefaultRequestHandler.h"
-#include "YPPRequests.h"
+#include "YPPRequestCounterRequests.h"
 #include "YPPResetRequestHandler.h"
 #include "YPPStatsRequestHandler.h"
 #include <yarp/os/Time.h>
@@ -57,8 +57,8 @@ using namespace YarpPlusPlus;
 RequestCounterService::RequestCounterService(const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & serviceHostName,
                                              const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, serviceEndpointName, serviceHostName, servicePortNumber), _counter(0),
-        _lastReset(yarp::os::Time::now())
+        inherited(true, YPP_REQUESTCOUNTER_CANONICAL_NAME, serviceEndpointName, serviceHostName, servicePortNumber),
+        _counter(0), _lastReset(yarp::os::Time::now())
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####

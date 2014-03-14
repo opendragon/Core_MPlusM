@@ -9,7 +9,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by OpenDragon.
+//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms,
 //              with or without modification, are permitted provided that the following
@@ -134,20 +134,38 @@ bool RegisterRequestHandler::operator() (const yarp::os::Bottle &     restOfInpu
                     {
                         if (outPort.addOutput(argAsString))
                         {
-                            yarp::os::Bottle message(YPP_LIST_REQUEST);
+                            yarp::os::Bottle message1(YPP_NAME_REQUEST);
                             yarp::os::Bottle response;
                             
-                            if (outPort.write(message, response))
+                            if (outPort.write(message1, response))
                             {
-                                if (processListResponse(argAsString, response))
+                                if (processNameResponse(argAsString, response))
                                 {
-                                    // Remember the response
-                                    reply.addString(YPP_OK_RESPONSE);
+                                    yarp::os::Bottle message2(YPP_LIST_REQUEST);
+
+                                    if (outPort.write(message2, response))
+                                    {
+                                        if (processListResponse(argAsString, response))
+                                        {
+                                            // Remember the response
+                                            reply.addString(YPP_OK_RESPONSE);
+                                        }
+                                        else
+                                        {
+                                            reply.addString(YPP_FAILED_RESPONSE);
+                                            reply.addString("Invalid response to 'list' request");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        reply.addString(YPP_FAILED_RESPONSE);
+                                        reply.addString("Could not write to port");
+                                    }
                                 }
                                 else
                                 {
                                     reply.addString(YPP_FAILED_RESPONSE);
-                                    reply.addString("Invalid response to 'list' request");
+                                    reply.addString("Invalid response to 'name' request");
                                 }
                             }
                             else
@@ -216,7 +234,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                     yarp::os::ConstString theRequest(asDict->find(YPP_REQREP_DICT_REQUEST_KEY).asString());
                     yarp::os::Bottle      keywordList;
                     RequestDescription    requestDescriptor;
-
+                    
                     OD_SYSLOG_S1("theRequest <- ", theRequest.c_str());//####
                     if (asDict->check(YPP_REQREP_DICT_DESCRIPTION_KEY))
                     {
@@ -326,6 +344,41 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
     OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // RegisterRequestHandler::processListResponse
+
+bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & portName,
+                                                 const ServiceResponse &       response)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S2("portName = ", portName.c_str(), "response = ", response.asString().c_str());//####
+    bool result;
+    
+    if (1 == response.count())
+    {
+        yarp::os::Value theAnswer(response.element(0));
+        
+        if (theAnswer.isString())
+        {
+            result = _service.addServiceRecord(portName, theAnswer.toString());
+        }
+        else
+        {
+            // The name is present, but it's not a string
+            result = false;
+        }
+    }
+    else
+    {
+        // Wrong number of values in the response.
+        result = false;
+    }
+    if (! result)
+    {
+        // We need to remove any values that we've recorded for this port!
+        _service.removeServiceRecord(portName);
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // RegisterRequestHandler::processNameResponse
 
 #if defined(__APPLE__)
 # pragma mark Accessors

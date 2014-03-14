@@ -8,7 +8,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by OpenDragon.
+//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms,
 //              with or without modification, are permitted provided that the following
@@ -52,7 +52,7 @@ namespace YarpPlusPlus
     /*! @brief The characteristics of a request. */
     struct RequestDescription
     {
-        /*! @brief The description of the request. */
+    /*! @brief The description of the request. */
         yarp::os::ConstString _description;
         /*! @brief The inputs descriptor for the request. */
         yarp::os::ConstString _inputs;
@@ -88,6 +88,13 @@ namespace YarpPlusPlus
          @returns @c true if the request was successfully added and @c false otherwise. */
         bool addRequestRecord(const yarp::os::Bottle &   keywordList,
                               const RequestDescription & description);
+        
+        /*! @brief Add a service to the registry.
+         @param portName The service port for the service.
+         @param name The canonical name for the service.
+         @returns @c true if the request was successfully added and @c false otherwise. */
+        bool addServiceRecord(const yarp::os::ConstString & portName,
+                              const yarp::os::ConstString & name);
         
         /*! @brief Return @c true if the service is active.
          @returns @c true if the service is active and @c false otherwise. */

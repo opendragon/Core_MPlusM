@@ -9,7 +9,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by OpenDragon.
+//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms,
 //              with or without modification, are permitted provided that the following
@@ -59,10 +59,12 @@ namespace YarpPlusPlus
         
         /*! @brief The constructor.
          @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if one handler is used.
+         @param canonicalName The port-independent name of the service.
          @param serviceEndpointName The YARP name to be assigned to the new service.
          @param serviceHostName The name or IP address of the machine running the service.
          @param servicePortNumber The port being used by the service. */
         BaseService(const bool                    useMultipleHandlers,
+                    const yarp::os::ConstString & canonicalName,
                     const yarp::os::ConstString & serviceEndpointName,
                     const yarp::os::ConstString & serviceHostName = "",
                     const yarp::os::ConstString & servicePortNumber = "");
@@ -71,12 +73,21 @@ namespace YarpPlusPlus
          @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if one handler is used.
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used to specify the new service. */
-        BaseService(const bool useMultipleHandlers,
-                    const int  argc,
-                    char **    argv);
+        BaseService(const bool                    useMultipleHandlers,
+                    const yarp::os::ConstString & canonicalName,
+                    const int                     argc,
+                    char **                       argv);
         
         /*! @brief The destructor. */
         virtual ~BaseService(void);
+        
+        /*! @brief Return the standard name of the service.
+         @returns The standard name of the service. */
+        inline const yarp::os::ConstString & canonicalName(void)
+        const
+        {
+            return _canonicalName;
+        } // canonicalName
         
         /*! @brief Return the associated endpoint.
          @returns The associated endpoint. */
@@ -141,6 +152,9 @@ namespace YarpPlusPlus
 
         /*! @brief The input handler creator for the service. */
         BaseServiceInputHandlerCreator * _handlerCreator;
+        
+        /*! @brief The port-independent name of the service. */
+        yarp::os::ConstString            _canonicalName;
         
         /*! @brief The current state of the service - @c true if active and @c false otherwise. */
         bool                             _started;

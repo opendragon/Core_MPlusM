@@ -8,7 +8,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by OpenDragon.
+//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms,
 //              with or without modification, are permitted provided that the following
@@ -133,27 +133,28 @@ static bool processResponse(const yarp::os::ConstString &         serviceName,
                             theVersionString = theVersion.toString();
                         }
                     }
-                    cout <<     "Service:     " << serviceName.c_str() << endl;
-                    cout <<     "Request:     " << theRequest.c_str() << endl;
+                    cout <<     "Service Port: " << serviceName.c_str() << endl;
+                    cout <<     "Service Name: " << "blort for now" << endl;//!!!
+                    cout <<     "Request:      " << theRequest.c_str() << endl;
                     if (0 < theVersionString.length())
                     {
-                        cout << "Version:     " << theVersionString.c_str() << endl;
+                        cout << "Version:      " << theVersionString.c_str() << endl;
                     }
                     if (0 < theDescriptionString.length())
                     {
-                        cout << "Description: " << theDescriptionString.c_str() << endl;
+                        cout << "Description:  " << theDescriptionString.c_str() << endl;
                     }
                     if (0 < keywordList.size())
                     {
-                        cout << "Keywords:    " << keywordList.toString().c_str() << endl;
+                        cout << "Keywords:     " << keywordList.toString().c_str() << endl;
                     }
                     if (0 < theInputsString.length())
                     {
-                        cout << "Inputs:      " << theInputsString.c_str() << endl;
+                        cout << "Inputs:       " << theInputsString.c_str() << endl;
                     }
                     if (0 < theInputsString.length())
                     {
-                        cout << "Outputs:     " << theOutputsString.c_str() << endl;
+                        cout << "Outputs:      " << theOutputsString.c_str() << endl;
                     }
                     cout << endl;
                 }

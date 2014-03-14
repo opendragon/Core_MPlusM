@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPBaseMatcher.cpp
+//  File:       YPPNameRequestHandler.cpp
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class definition for the minimal functionality required for a Yarp++
-//              pattern matcher.
+//  Contains:   The class definition for the request handler for the standard 'name'
+//              request.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,20 +36,24 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-07
+//  Created:    2014-03-14
 //
 //--------------------------------------------------------------------------------------
 
-#include "YPPBaseMatcher.h"
+#include "YPPNameRequestHandler.h"
 //#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include <cctype>
+#include "YPPBaseService.h"
+#include "YPPRequests.h"
 
-using namespace YarpPlusPlusParser;
+using namespace YarpPlusPlus;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
+
+/*! @brief The protocol version number for the 'list' request. */
+#define NAME_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -59,44 +63,65 @@ using namespace YarpPlusPlusParser;
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-int BaseMatcher::SkipWhitespace(const yarp::os::ConstString & inString,
-                                const int                     inLength,
-                                const int                     startPos)
-{
-    int result = startPos;
-    
-    for ( ; result < inLength; ++result)
-    {
-        char scanChar = inString[result];
-        
-        if (! isspace(scanChar))
-        {
-            break;
-        }
-        
-    }
-    return result;
-} // BaseMatcher::SkipWhitespace
-
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-BaseMatcher::BaseMatcher(void)
+NameRequestHandler::NameRequestHandler(BaseService & service) :
+        inherited(YPP_NAME_REQUEST), _service(service)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT_P(this);//####
-} // BaseMatcher::BaseMatcher
+} // NameRequestHandler::NameRequestHandler
 
-BaseMatcher::~BaseMatcher(void)
+NameRequestHandler::~NameRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // BaseMatcher::~BaseMatcher
+} // NameRequestHandler::~NameRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
+
+void NameRequestHandler::fillInDescription(yarp::os::Property & info)
+{
+    OD_SYSLOG_ENTER();//####
+    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_NAME_REQUEST);
+    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_STRING);
+    info.put(YPP_REQREP_DICT_VERSION_KEY, NAME_REQUEST_VERSION_NUMBER);
+    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Return the canonical name of the service");
+    yarp::os::Value    keywords;
+    yarp::os::Bottle * asList = keywords.asList();
+    
+    asList->addString(YPP_NAME_REQUEST);
+    asList->addString("canonical");
+    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    OD_SYSLOG_EXIT();//####
+} // NameRequestHandler::fillInDescription
+
+bool NameRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
+                                     yarp::os::ConnectionWriter * replyMechanism)
+{
+#if (! defined(ENABLE_OD_SYSLOG))
+# pragma unused(restOfInput)
+#endif // ! defined(ENABLE_OD_SYSLOG)
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
+    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
+    bool result = true;
+    
+    if (replyMechanism)
+    {
+        yarp::os::Bottle reply;
+        
+        reply.addString(_service.canonicalName());
+        OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
+        reply.write(*replyMechanism);
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // NameRequestHandler::operator()
 
 #if defined(__APPLE__)
 # pragma mark Accessors

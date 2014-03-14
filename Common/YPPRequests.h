@@ -8,7 +8,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by OpenDragon.
+//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms,
 //              with or without modification, are permitted provided that the following
@@ -42,6 +42,9 @@
 #if (! defined(YPPREQUESTS_H_))
 # define YPPREQUESTS_H_ /* */
 
+/*! @brief The port-independent name of the service registry service. */
+# define YPP_REGISTRY_CANONICAL_NAME "Registry"
+
 /*! @brief The name for the 'echo' request. */
 # define YPP_ECHO_REQUEST       "echo"
 /*! @brief The standard name for an 'info' request. */
@@ -50,6 +53,8 @@
 # define YPP_LIST_REQUEST       "list"
 /*! @brief The standard name for a 'match' request. */
 # define YPP_MATCH_REQUEST      "match"
+/*! @brief The standard name for a 'name' request. */
+# define YPP_NAME_REQUEST       "name"
 /*! @brief The standard name for a 'register' request. */
 # define YPP_REGISTER_REQUEST   "register"
 /*! @brief The standard name for a 'unregister' request. */

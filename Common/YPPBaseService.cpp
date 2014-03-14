@@ -9,7 +9,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by OpenDragon.
+//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms,
 //              with or without modification, are permitted provided that the following
@@ -49,6 +49,7 @@
 #include "YPPException.h"
 #include "YPPInfoRequestHandler.h"
 #include "YPPListRequestHandler.h"
+#include "YPPNameRequestHandler.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
 
@@ -71,28 +72,32 @@ using namespace YarpPlusPlus;
 #endif // defined(__APPLE__)
 
 BaseService::BaseService(const bool                    useMultipleHandlers,
+                         const yarp::os::ConstString & canonicalName,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & serviceHostName,
                          const yarp::os::ConstString & servicePortNumber) :
-        _requestHandlers(*this), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
-        _useMultipleHandlers(useMultipleHandlers)
+        _requestHandlers(*this), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _canonicalName(canonicalName),
+        _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
-    OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
-                 serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_SYSLOG_S4("canonicalName = ", canonicalName.c_str(), "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+                 "serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     _endpoint = new Endpoint(serviceEndpointName, serviceHostName, servicePortNumber);
     setUpRequestHandlers();
     OD_SYSLOG_EXIT_P(this);//####
 } // BaseService::BaseService
 
-BaseService::BaseService(const bool useMultipleHandlers,
-                         const int  argc,
-                         char **    argv) :
-        _requestHandlers(*this), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
-        _useMultipleHandlers(useMultipleHandlers)
+BaseService::BaseService(const bool                    useMultipleHandlers,
+                         const yarp::os::ConstString & canonicalName,
+                         const int                     argc,
+                         char **                       argv) :
+        _requestHandlers(*this), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _canonicalName(canonicalName),
+        _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
+    OD_SYSLOG_S1("canonicalName = ", canonicalName.c_str());//####
     switch (argc)
     {
             // Argument order for tests = endpoint name [, IP address / name [, port [, carrier]]]
@@ -163,6 +168,7 @@ void BaseService::setUpRequestHandlers(void)
     OD_SYSLOG_ENTER();//####
     _requestHandlers.registerRequestHandler(new InfoRequestHandler());
     _requestHandlers.registerRequestHandler(new ListRequestHandler());
+    _requestHandlers.registerRequestHandler(new NameRequestHandler(*this));
     OD_SYSLOG_EXIT();//####
 } // BaseService::setUpRequestHandlers
 

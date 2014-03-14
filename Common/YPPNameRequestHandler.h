@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPBaseMatcher.h
+//  File:       YPPNameRequestHandler.h
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for the minimal functionality required for a Yarp++
-//              pattern matcher.
+//  Contains:   The class declaration for the request handler for the standard 'name'
+//              request.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,66 +36,69 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-07
+//  Created:    2014-03-14
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(YPPBASEMATCHER_H_))
-# define YPPBASEMATCHER_H_ /* */
+#if (! defined(YPPNAMEREQUESTHANDLER_H_))
+# define YPPNAMEREQUESTHANDLER_H_ /* */
 
-# include "YPPCommon.h"
+# include "YPPBaseRequestHandler.h"
 
-namespace YarpPlusPlusParser
+namespace YarpPlusPlus
 {
-    /*! @brief A function that checks field names for validity.
-     @param aString The string to be checked.
-     @param prefixString If non-@c NULL, a pointer to the string to be used in the SQL prefix for this field.
-     @param suffixString If non-@c NULL, a pointer to the string to be used in the SQL suffix for this field.
-     @returns The actual field name to be used or @c NULL if the field name was unmatched. */
-    typedef const char * (*FieldNameValidator)
-        (const char *   aString,
-         const char **  prefixString,
-         const char **  suffixString);
+    class BaseService;
     
-    /*! @brief The common functionality for pattern matchers. */
-    class BaseMatcher
+    /*! @brief The standard 'list' request handler.
+     
+     There is no input for the request and the output is a list of dictionaries of fields, describing all the known
+     requests. The fields 'description', 'input', 'keywords', 'output', and 'version' are optional in each dictionary,
+     while the field 'request' is always present. */
+    class NameRequestHandler : public BaseRequestHandler
     {
     public:
         
+        /*! @brief The constructor.
+         @param service The service that has registered this request. */
+        NameRequestHandler(BaseService & service);
+        
         /*! @brief The destructor. */
-        virtual ~BaseMatcher(void);
+        virtual ~NameRequestHandler(void);
+        
+        /*! @brief Fill in a description dictionary for the request.
+         @param info The dictionary to be filled in. */
+        virtual void fillInDescription(yarp::os::Property & info);
+        
+        /*! @brief Process a request.
+         @param restOfInput The arguments to the operation.
+         @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+        virtual bool operator() (const yarp::os::Bottle &     restOfInput,
+                                 yarp::os::ConnectionWriter * replyMechanism);
         
     protected:
         
-        /*! @brief The constructor. */
-        BaseMatcher(void);
-        
-        /*! @brief Scan a string for the next non-whitespace character.
-         @param inString The string to be scanned.
-         @param inLength The length of the string being scanned.
-         @param startPos Where in the string to begin scanning.
-         @returns The position in the string where the next non-whitespace character appears, or the length of the
-         string - which is past the end of the string - if the remainder of the string is whitespace. */
-        static int SkipWhitespace(const yarp::os::ConstString & inString,
-                                  const int                     inLength,
-                                  const int                     startPos);
-        
     private:
+        
+        /*! @brief The class that this class is derived from. */
+        typedef BaseRequestHandler inherited;
         
         /*! @brief Copy constructor.
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        BaseMatcher(const BaseMatcher & other);
+        NameRequestHandler(const NameRequestHandler & other);
         
         /*! @brief Assignment operator.
-
+         
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        BaseMatcher & operator=(const BaseMatcher & other);
+        NameRequestHandler & operator=(const NameRequestHandler & other);
         
-    }; // BaseMatcher
+        /*! @brief The service that will handle the name operation. */
+        BaseService & _service;
+        
+    }; // NameRequestHandler
     
-} // YarpPlusPlusParser
+} // YarpPlusPlus
 
-#endif // ! defined(YPPBASEMATCHER_H_)
+#endif // ! defined(YPPNAMEREQUESTHANDLER_H_)

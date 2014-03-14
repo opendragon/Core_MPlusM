@@ -9,7 +9,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by OpenDragon.
+//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms,
 //              with or without modification, are permitted provided that the following
@@ -44,5 +44,8 @@
 # define YPPEXAMPLEECHOREQUESTS_H_ /* */
 
 # include "YPPRequests.h"
+
+/*! @brief The port-independent name of the example echo service. */
+# define YPP_ECHO_CANONICAL_NAME "Echo"
 
 #endif // ! defined(YPPEXAMPLEECHOREQUESTS_H_)

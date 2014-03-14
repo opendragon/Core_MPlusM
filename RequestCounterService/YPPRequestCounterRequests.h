@@ -9,7 +9,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by OpenDragon.
+//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms,
 //              with or without modification, are permitted provided that the following
@@ -44,6 +44,9 @@
 # define YPPREQUESTCOUNTERREQUESTS_H_ /* */
 
 # include "YPPRequests.h"
+
+/*! @brief The port-independent name of the example echo service. */
+# define YPP_REQUESTCOUNTER_CANONICAL_NAME "RequestCounter"
 
 /*! @brief The name for the 'reset' request. */
 # define YPP_RESET_REQUEST "reset"
