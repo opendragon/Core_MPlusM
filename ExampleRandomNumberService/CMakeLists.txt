@@ -43,9 +43,15 @@ include_directories("${YPP_DEBUGGING_DIR}"
                     "${YPP_COMMON_DIR}")
 
 # set up our program
-add_executable(ExampleRandomNumberService main.cpp YPPExampleRandomNumberService.cpp YPPRandomRequestHandler.cpp)
+add_executable(ExampleRandomNumberService
+               main.cpp
+               YPPExampleRandomNumberService.cpp
+               YPPRandomRequestHandler.cpp)
 
 # link with YARP libraries and our interface classes
-target_link_libraries(ExampleRandomNumberService YPPCommon YPPDebugging ${YARP_LIBRARIES})
+target_link_libraries(ExampleRandomNumberService
+                      YPPCommon
+                      YPPDebugging
+                      ${YARP_LIBRARIES})
 
 enable_testing()

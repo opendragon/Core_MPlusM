@@ -14,3 +14,6 @@ ExampleRandomNumberService/ExampleRandomNumberService
 YarpPlusPlus/YarpPlusPlus.xcodeproj/project.xcworkspace/xcshareddata/YarpPlusPlus.xccheckout
 Parser/ParserTest
 YarpPlusPlus/YarpPlusPlus.xcodeproj/xcuserdata/M_M.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+RegistryService/RegistryTest
+RegistryService/test.db
+RequestCounterService/RequestCounterService

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPRandomRequestHandler.cpp
+//  File:       YPPResetRequestHandler.cpp
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class definition for the request handler for a 'random' request.
+//  Contains:   The class definition for the request handler for a 'reset' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,24 +35,24 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-06
+//  Created:    2014-03-14
 //
 //--------------------------------------------------------------------------------------
 
-#include "YPPRandomRequestHandler.h"
-//#define ENABLE_OD_SYSLOG /* */
+#include "YPPResetRequestHandler.h"
+#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPRequests.h"
 #include <cstdlib>
 
-using namespace YarpPlusPlusExample;
+using namespace YarpPlusPlus;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'random' request. */
-#define RANDOM_REQUEST_VERSION_NUMBER "1.0"
+#define RESET_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -66,41 +66,41 @@ using namespace YarpPlusPlusExample;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RandomRequestHandler::RandomRequestHandler(void) :
-        inherited(YPP_RANDOM_REQUEST)
+ResetRequestHandler::ResetRequestHandler(void) :
+        inherited(YPP_RESET_REQUEST)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // RandomRequestHandler::RandomRequestHandler
+} // ResetRequestHandler::ResetRequestHandler
 
-RandomRequestHandler::~RandomRequestHandler(void)
+ResetRequestHandler::~ResetRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // RandomRequestHandler::~RandomRequestHandler
+} // ResetRequestHandler::~ResetRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RandomRequestHandler::fillInDescription(yarp::os::Property & info)
+void ResetRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_RANDOM_REQUEST);
+    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_RESET_REQUEST);
     info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_INT YPP_REQREP_0_OR_1);
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_DOUBLE YPP_REQREP_1_OR_MORE);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, RANDOM_REQUEST_VERSION_NUMBER);
+    info.put(YPP_REQREP_DICT_VERSION_KEY, RESET_REQUEST_VERSION_NUMBER);
     info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Generate one or more random numbers");
     yarp::os::Value    keywords;
     yarp::os::Bottle * asList = keywords.asList();
     
-    asList->addString(YPP_RANDOM_REQUEST);
+    asList->addString(YPP_RESET_REQUEST);
     info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
     OD_SYSLOG_EXIT();//####
-} // RandomRequestHandler::fillInDescription
+} // ResetRequestHandler::fillInDescription
 
-bool RandomRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
-                                       yarp::os::ConnectionWriter * replyMechanism)
+bool ResetRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
+                                      yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
@@ -134,7 +134,7 @@ bool RandomRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
         {
             for (int ii = 0; ii < count; ++ii)
             {
-                int value = rand();
+                int                 value = rand();
                 
                 response.addDouble(value / maxValue);
             }
@@ -143,7 +143,7 @@ bool RandomRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
-} // RandomRequestHandler::operator()
+} // ResetRequestHandler::operator()
 
 #if defined(__APPLE__)
 # pragma mark Accessors

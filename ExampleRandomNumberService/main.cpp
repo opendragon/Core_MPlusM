@@ -43,7 +43,6 @@
 #include "ODSyslog.h"
 #include "YPPEndpoint.h"
 #include "YPPExampleRandomNumberService.h"
-#include "YPPRegistryService.h"
 #include <ace/Version.h>
 #include <iostream>
 #if (defined(__APPLE__) || defined(__linux__))

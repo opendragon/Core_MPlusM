@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPCommonTest.cpp
+//  File:       YPPRegistryTest.cpp
 //
 //  Project:    YarpPlusPlus
 //
@@ -35,30 +35,30 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-06
+//  Created:    2014-03-14
 //
 //--------------------------------------------------------------------------------------
 
 //#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include "CommonTests/YPPTEndpointStatusReporter.h"
-#include "CommonTests/YPPTTest03Handler.h"
-#include "CommonTests/YPPTTest04Handler.h"
-#include "CommonTests/YPPTTest05HandlerCreator.h"
-#include "CommonTests/YPPTTest08Handler.h"
-#include "CommonTests/YPPTTest09Service.h"
-#include "CommonTests/YPPTTest10Service.h"
-#include "CommonTests/YPPTTest11Service.h"
-#include "CommonTests/YPPTTest12Service.h"
 #if 0
-#include "CommonTests/YPPTTest14Service.h"
-#include "CommonTests/YPPTTest15Service.h"
-#include "CommonTests/YPPTTest16Service.h"
+#include "Tests/YPPTEndpointStatusReporter.h"
+#include "Tests/YPPTTest03Handler.h"
+#include "Tests/YPPTTest04Handler.h"
+#include "Tests/YPPTTest05HandlerCreator.h"
+#include "Tests/YPPTTest08Handler.h"
+#include "Tests/YPPTTest09Service.h"
+#include "Tests/YPPTTest10Service.h"
+#include "Tests/YPPTTest11Service.h"
+#include "Tests/YPPTTest12Service.h"
 #endif//0
+#include "RegistryTests/YPPTTest14Service.h"
+#include "RegistryTests/YPPTTest15Service.h"
+#include "RegistryTests/YPPTTest16Service.h"
 #include "YPPBaseClient.h"
 #include "YPPBaseRequestHandler.h"
 #include "YPPEndpoint.h"
-//#include "YPPRegistryService.h"
+#include "YPPRegistryService.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
 #include <ace/Version.h>
@@ -83,6 +83,7 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if 0
 /*! @brief Create an endpoint for a test.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the endpoint constructor.
@@ -826,8 +827,8 @@ static int doCase12(const int argc,
     }
     return result;
 } // doCase12
+#endif//0
 
-#if 0
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
@@ -1190,7 +1191,6 @@ static int doCase16(const int argc,
     }
     return result;
 } // doCase16
-#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -1218,6 +1218,7 @@ int main(int     argc,
         OD_SYSLOG_LL1("selector <- ", selector);//####
         switch (selector)
         {
+#if 0
             case 1:
                 result = doCase01(argc - 1, argv + 2);
                 break;
@@ -1265,8 +1266,8 @@ int main(int     argc,
             case 12:
                 result = doCase12(argc - 1, argv + 2);
                 break;
-            
-#if 0
+#endif//0
+                
             case 13:
                 result = doCase13(argc - 1, argv + 2);
                 break;
@@ -1282,7 +1283,6 @@ int main(int     argc,
             case 16:
                 result = doCase16(argc - 1, argv + 2);
                 break;
-#endif//0
                 
             default:
                 result = 1;

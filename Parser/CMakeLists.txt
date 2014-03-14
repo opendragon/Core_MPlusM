@@ -56,9 +56,13 @@ install(FILES YPPParser DESTINATION include)
 
 enable_testing()
 
-add_executable(ParserTest YPPParserTest.cpp)
+add_executable(ParserTest
+               YPPParserTest.cpp)
 
-target_link_libraries(ParserTest YPPDebugging YPPParser ${YARP_LIBRARIES})
+target_link_libraries(ParserTest
+                      YPPDebugging
+                      YPPParser
+                      ${YARP_LIBRARIES})
 
 # Argument order for test 1 = expected result (t/f), string to match
 add_test(NAME TestParseValue1 COMMAND ParserTest 1 f "")

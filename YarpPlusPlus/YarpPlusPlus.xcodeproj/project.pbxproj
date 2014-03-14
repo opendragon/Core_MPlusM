@@ -7,137 +7,149 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		DF20929018D0DAFF0093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ServiceLister/CMakeLists.txt; sourceTree = "<group>"; };
-		DF20929118D0DB860093D3DC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../ServiceLister/main.cpp; sourceTree = "<group>"; };
-		DF20929318D241AC0093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../RequestInfo/CMakeLists.txt; sourceTree = "<group>"; };
-		DF20929418D241AC0093D3DC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../RequestInfo/main.cpp; sourceTree = "<group>"; };
-		DF27F42818CA358C00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../Parser/CMakeLists.txt; sourceTree = "<group>"; };
-		DF27F42918CA36C200E93C95 /* YPPMatchValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchValue.cpp; path = ../Parser/YPPMatchValue.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DF27F42A18CA36C200E93C95 /* YPPMatchValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchValue.h; path = ../Parser/YPPMatchValue.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../CMakeLists.txt; sourceTree = "<group>"; };
-		DF27F42C18CA37E000E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../RegistryService/CMakeLists.txt; sourceTree = "<group>"; };
-		DF27F42D18CA3BBA00E93C95 /* YPPBaseMatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPBaseMatcher.cpp; path = ../Parser/YPPBaseMatcher.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DF27F42E18CA3BBA00E93C95 /* YPPBaseMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPBaseMatcher.h; path = ../Parser/YPPBaseMatcher.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		DF27F42F18CA3DCC00E93C95 /* YPPParserTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPParserTest.cpp; path = ../Parser/YPPParserTest.cpp; sourceTree = "<group>"; };
-		DF27F43018CA593500E93C95 /* YPPMatchValueList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchValueList.cpp; path = ../Parser/YPPMatchValueList.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DF27F43118CA593500E93C95 /* YPPMatchValueList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchValueList.h; path = ../Parser/YPPMatchValueList.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		DF27F43218CA729700E93C95 /* YPPMatchFieldName.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchFieldName.cpp; path = ../Parser/YPPMatchFieldName.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DF27F43318CA729700E93C95 /* YPPMatchFieldName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchFieldName.h; path = ../Parser/YPPMatchFieldName.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		DF27F43418CA7EC500E93C95 /* YPPMatchFieldWithValues.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchFieldWithValues.cpp; path = ../Parser/YPPMatchFieldWithValues.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DF27F43518CA7EC500E93C95 /* YPPMatchFieldWithValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchFieldWithValues.h; path = ../Parser/YPPMatchFieldWithValues.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		DF27F43618CE2A7B00E93C95 /* YPPMatchConstraint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchConstraint.cpp; path = ../Parser/YPPMatchConstraint.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DF27F43718CE2A7B00E93C95 /* YPPMatchConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchConstraint.h; path = ../Parser/YPPMatchConstraint.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		DF27F43818CE39BC00E93C95 /* YPPMatchExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchExpression.cpp; path = ../Parser/YPPMatchExpression.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DF27F43918CE39BC00E93C95 /* YPPMatchExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchExpression.h; path = ../Parser/YPPMatchExpression.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		DF27F43A18CE48E000E93C95 /* YPPMatchRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchRequestHandler.cpp; path = ../Common/YPPMatchRequestHandler.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DF27F43B18CE48E000E93C95 /* YPPMatchRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPMatchRequestHandler.h; path = ../Common/YPPMatchRequestHandler.h; sourceTree = "<group>"; };
-		DFA3431318C91B7E0053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = main.cpp; path = ../RegistryService/main.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DFA3431518C91BAB0053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ExampleEchoService/CMakeLists.txt; sourceTree = "<group>"; };
-		DFA3431618C91BAB0053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = main.cpp; path = ../ExampleEchoService/main.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DFA3431718C91BAB0053B87C /* YPPEchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPEchoRequestHandler.cpp; path = ../ExampleEchoService/YPPEchoRequestHandler.cpp; sourceTree = "<group>"; };
-		DFA3431818C91BAB0053B87C /* YPPEchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPEchoRequestHandler.h; path = ../ExampleEchoService/YPPEchoRequestHandler.h; sourceTree = "<group>"; };
-		DFA3431918C91BAB0053B87C /* YPPExampleEchoService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPExampleEchoService.cpp; path = ../ExampleEchoService/YPPExampleEchoService.cpp; sourceTree = "<group>"; };
-		DFA3431A18C91BAB0053B87C /* YPPExampleEchoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPExampleEchoService.h; path = ../ExampleEchoService/YPPExampleEchoService.h; sourceTree = "<group>"; };
-		DFA3431C18C91BEB0053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ExampleEchoClient/CMakeLists.txt; sourceTree = "<group>"; };
-		DFA3431D18C91BEB0053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../ExampleEchoClient/main.cpp; sourceTree = "<group>"; };
-		DFA3431E18C91BEB0053B87C /* YPPExampleEchoClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPExampleEchoClient.cpp; path = ../ExampleEchoClient/YPPExampleEchoClient.cpp; sourceTree = "<group>"; };
-		DFA3431F18C91BEB0053B87C /* YPPExampleEchoClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPExampleEchoClient.h; path = ../ExampleEchoClient/YPPExampleEchoClient.h; sourceTree = "<group>"; };
-		DFA3432118C91C150053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../Debugging/CMakeLists.txt; sourceTree = "<group>"; };
-		DFA3432218C91C150053B87C /* ODSyslog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ODSyslog.cpp; path = ../Debugging/ODSyslog.cpp; sourceTree = "<group>"; };
-		DFA3432318C91C150053B87C /* ODSyslog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODSyslog.h; path = ../Debugging/ODSyslog.h; sourceTree = "<group>"; };
-		DFA3432418C91C150053B87C /* ODSyslog.inc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.pascal; name = ODSyslog.inc; path = ../Debugging/ODSyslog.inc; sourceTree = "<group>"; };
-		DFA3432518C91C150053B87C /* ODSyslog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODSyslog.m; path = ../Debugging/ODSyslog.m; sourceTree = "<group>"; };
-		DFA3432718C91C5A0053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../Common/CMakeLists.txt; sourceTree = "<group>"; };
-		DFA3432818C91C5A0053B87C /* YPPBaseClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPBaseClient.cpp; path = ../Common/YPPBaseClient.cpp; sourceTree = "<group>"; };
-		DFA3432918C91C5A0053B87C /* YPPBaseClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseClient.h; path = ../Common/YPPBaseClient.h; sourceTree = "<group>"; };
-		DFA3432A18C91C5A0053B87C /* YPPBaseService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPBaseService.cpp; path = ../Common/YPPBaseService.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DFA3432B18C91C5A0053B87C /* YPPBaseService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPBaseService.h; path = ../Common/YPPBaseService.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		DFA3432C18C91C5A0053B87C /* YPPBaseServiceInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPBaseServiceInputHandler.cpp; path = ../Common/YPPBaseServiceInputHandler.cpp; sourceTree = "<group>"; };
-		DFA3432D18C91C5A0053B87C /* YPPBaseServiceInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseServiceInputHandler.h; path = ../Common/YPPBaseServiceInputHandler.h; sourceTree = "<group>"; };
-		DFA3432E18C91C5A0053B87C /* YPPBaseServiceInputHandlerCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPBaseServiceInputHandlerCreator.cpp; path = ../Common/YPPBaseServiceInputHandlerCreator.cpp; sourceTree = "<group>"; };
-		DFA3432F18C91C5A0053B87C /* YPPBaseServiceInputHandlerCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseServiceInputHandlerCreator.h; path = ../Common/YPPBaseServiceInputHandlerCreator.h; sourceTree = "<group>"; };
-		DFA3433018C91C5A0053B87C /* YPPCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPCommon.h; path = ../Common/YPPCommon.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		DFA3433118C91C5A0053B87C /* YPPCommonTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPCommonTest.cpp; path = ../Common/YPPCommonTest.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DFA3433218C91C5A0053B87C /* YPPConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPConfig.h; path = ../Common/YPPConfig.h; sourceTree = "<group>"; };
-		DFA3433318C91C5A0053B87C /* YPPConfig.h.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = YPPConfig.h.in; path = ../Common/YPPConfig.h.in; sourceTree = "<group>"; };
-		DFA3433418C91C5A0053B87C /* YPPEndpoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPEndpoint.cpp; path = ../Common/YPPEndpoint.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DFA3433518C91C5A0053B87C /* YPPEndpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPEndpoint.h; path = ../Common/YPPEndpoint.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		DFA3433618C91C5A0053B87C /* YPPException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPException.cpp; path = ../Common/YPPException.cpp; sourceTree = "<group>"; };
-		DFA3433718C91C5A0053B87C /* YPPException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPException.h; path = ../Common/YPPException.h; sourceTree = "<group>"; };
-		DFA3433818C91C5A0053B87C /* YPPInfoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPInfoRequestHandler.cpp; path = ../Common/YPPInfoRequestHandler.cpp; sourceTree = "<group>"; };
-		DFA3433918C91C5A0053B87C /* YPPInfoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPInfoRequestHandler.h; path = ../Common/YPPInfoRequestHandler.h; sourceTree = "<group>"; };
-		DFA3433A18C91C5A0053B87C /* YPPInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPInputHandler.cpp; path = ../Common/YPPInputHandler.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DFA3433B18C91C5A0053B87C /* YPPInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPInputHandler.h; path = ../Common/YPPInputHandler.h; sourceTree = "<group>"; };
-		DFA3433C18C91C5A0053B87C /* YPPInputHandlerCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPInputHandlerCreator.cpp; path = ../Common/YPPInputHandlerCreator.cpp; sourceTree = "<group>"; };
-		DFA3433D18C91C5A0053B87C /* YPPInputHandlerCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPInputHandlerCreator.h; path = ../Common/YPPInputHandlerCreator.h; sourceTree = "<group>"; };
-		DFA3433E18C91C5A0053B87C /* YPPListRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPListRequestHandler.cpp; path = ../Common/YPPListRequestHandler.cpp; sourceTree = "<group>"; };
-		DFA3433F18C91C5A0053B87C /* YPPListRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPListRequestHandler.h; path = ../Common/YPPListRequestHandler.h; sourceTree = "<group>"; };
-		DFA3434018C91C5A0053B87C /* YPPRegisterRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPRegisterRequestHandler.cpp; path = ../Common/YPPRegisterRequestHandler.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DFA3434118C91C5A0053B87C /* YPPRegisterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRegisterRequestHandler.h; path = ../Common/YPPRegisterRequestHandler.h; sourceTree = "<group>"; };
-		DFA3434218C91C5A0053B87C /* YPPRegistryService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRegistryService.cpp; path = ../Common/YPPRegistryService.cpp; sourceTree = "<group>"; };
-		DFA3434318C91C5A0053B87C /* YPPRegistryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRegistryService.h; path = ../Common/YPPRegistryService.h; sourceTree = "<group>"; };
-		DFA3434418C91C5A0053B87C /* YPPBaseRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPBaseRequestHandler.cpp; path = ../Common/YPPBaseRequestHandler.cpp; sourceTree = "<group>"; };
-		DFA3434518C91C5A0053B87C /* YPPBaseRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseRequestHandler.h; path = ../Common/YPPBaseRequestHandler.h; sourceTree = "<group>"; };
-		DFA3434618C91C5A0053B87C /* YPPRequestMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRequestMap.cpp; path = ../Common/YPPRequestMap.cpp; sourceTree = "<group>"; };
-		DFA3434718C91C5A0053B87C /* YPPRequestMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRequestMap.h; path = ../Common/YPPRequestMap.h; sourceTree = "<group>"; };
-		DFA3434818C91C5A0053B87C /* YPPRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRequests.h; path = ../Common/YPPRequests.h; sourceTree = "<group>"; };
-		DFA3434918C91C5A0053B87C /* YPPServiceRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPServiceRequest.cpp; path = ../Common/YPPServiceRequest.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DFA3434A18C91C5A0053B87C /* YPPServiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPServiceRequest.h; path = ../Common/YPPServiceRequest.h; sourceTree = "<group>"; };
-		DFA3434B18C91C5A0053B87C /* YPPServiceResponse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPServiceResponse.cpp; path = ../Common/YPPServiceResponse.cpp; sourceTree = "<group>"; };
-		DFA3434C18C91C5A0053B87C /* YPPServiceResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPServiceResponse.h; path = ../Common/YPPServiceResponse.h; sourceTree = "<group>"; };
-		DFA3434D18C91C5A0053B87C /* YPPUnregisterRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPUnregisterRequestHandler.cpp; path = ../Common/YPPUnregisterRequestHandler.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DFA3434E18C91C5A0053B87C /* YPPUnregisterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPUnregisterRequestHandler.h; path = ../Common/YPPUnregisterRequestHandler.h; sourceTree = "<group>"; };
-		DFA3435018C91C860053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../Common/Tests/CMakeLists.txt; sourceTree = "<group>"; };
-		DFA3435118C91C860053B87C /* YPPTEndpointStatusReporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTEndpointStatusReporter.cpp; path = ../Common/Tests/YPPTEndpointStatusReporter.cpp; sourceTree = "<group>"; };
-		DFA3435218C91C860053B87C /* YPPTEndpointStatusReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTEndpointStatusReporter.h; path = ../Common/Tests/YPPTEndpointStatusReporter.h; sourceTree = "<group>"; };
-		DFA3435318C91C860053B87C /* YPPTTest03Handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest03Handler.cpp; path = ../Common/Tests/YPPTTest03Handler.cpp; sourceTree = "<group>"; };
-		DFA3435418C91C860053B87C /* YPPTTest03Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest03Handler.h; path = ../Common/Tests/YPPTTest03Handler.h; sourceTree = "<group>"; };
-		DFA3435518C91C860053B87C /* YPPTTest04Handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest04Handler.cpp; path = ../Common/Tests/YPPTTest04Handler.cpp; sourceTree = "<group>"; };
-		DFA3435618C91C860053B87C /* YPPTTest04Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest04Handler.h; path = ../Common/Tests/YPPTTest04Handler.h; sourceTree = "<group>"; };
-		DFA3435718C91C860053B87C /* YPPTTest05Handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest05Handler.cpp; path = ../Common/Tests/YPPTTest05Handler.cpp; sourceTree = "<group>"; };
-		DFA3435818C91C860053B87C /* YPPTTest05Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest05Handler.h; path = ../Common/Tests/YPPTTest05Handler.h; sourceTree = "<group>"; };
-		DFA3435918C91C860053B87C /* YPPTTest05HandlerCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest05HandlerCreator.cpp; path = ../Common/Tests/YPPTTest05HandlerCreator.cpp; sourceTree = "<group>"; };
-		DFA3435A18C91C860053B87C /* YPPTTest05HandlerCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest05HandlerCreator.h; path = ../Common/Tests/YPPTTest05HandlerCreator.h; sourceTree = "<group>"; };
-		DFA3435B18C91C860053B87C /* YPPTTest08Handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest08Handler.cpp; path = ../Common/Tests/YPPTTest08Handler.cpp; sourceTree = "<group>"; };
-		DFA3435C18C91C860053B87C /* YPPTTest08Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest08Handler.h; path = ../Common/Tests/YPPTTest08Handler.h; sourceTree = "<group>"; };
-		DFA3435D18C91C860053B87C /* YPPTTest09DefaultRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest09DefaultRequestHandler.cpp; path = ../Common/Tests/YPPTTest09DefaultRequestHandler.cpp; sourceTree = "<group>"; };
-		DFA3435E18C91C860053B87C /* YPPTTest09DefaultRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest09DefaultRequestHandler.h; path = ../Common/Tests/YPPTTest09DefaultRequestHandler.h; sourceTree = "<group>"; };
-		DFA3435F18C91C860053B87C /* YPPTTest09Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest09Service.cpp; path = ../Common/Tests/YPPTTest09Service.cpp; sourceTree = "<group>"; };
-		DFA3436018C91C860053B87C /* YPPTTest09Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest09Service.h; path = ../Common/Tests/YPPTTest09Service.h; sourceTree = "<group>"; };
-		DFA3436118C91C860053B87C /* YPPTTest10DefaultRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest10DefaultRequestHandler.cpp; path = ../Common/Tests/YPPTTest10DefaultRequestHandler.cpp; sourceTree = "<group>"; };
-		DFA3436218C91C860053B87C /* YPPTTest10DefaultRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest10DefaultRequestHandler.h; path = ../Common/Tests/YPPTTest10DefaultRequestHandler.h; sourceTree = "<group>"; };
-		DFA3436318C91C860053B87C /* YPPTTest10Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest10Service.cpp; path = ../Common/Tests/YPPTTest10Service.cpp; sourceTree = "<group>"; };
-		DFA3436418C91C860053B87C /* YPPTTest10Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest10Service.h; path = ../Common/Tests/YPPTTest10Service.h; sourceTree = "<group>"; };
-		DFA3436518C91C860053B87C /* YPPTTest11EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest11EchoRequestHandler.cpp; path = ../Common/Tests/YPPTTest11EchoRequestHandler.cpp; sourceTree = "<group>"; };
-		DFA3436618C91C860053B87C /* YPPTTest11EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest11EchoRequestHandler.h; path = ../Common/Tests/YPPTTest11EchoRequestHandler.h; sourceTree = "<group>"; };
-		DFA3436718C91C860053B87C /* YPPTTest11Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest11Service.cpp; path = ../Common/Tests/YPPTTest11Service.cpp; sourceTree = "<group>"; };
-		DFA3436818C91C860053B87C /* YPPTTest11Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest11Service.h; path = ../Common/Tests/YPPTTest11Service.h; sourceTree = "<group>"; };
-		DFA3436918C91C860053B87C /* YPPTTest12EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest12EchoRequestHandler.cpp; path = ../Common/Tests/YPPTTest12EchoRequestHandler.cpp; sourceTree = "<group>"; };
-		DFA3436A18C91C860053B87C /* YPPTTest12EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest12EchoRequestHandler.h; path = ../Common/Tests/YPPTTest12EchoRequestHandler.h; sourceTree = "<group>"; };
-		DFA3436B18C91C860053B87C /* YPPTTest12Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest12Service.cpp; path = ../Common/Tests/YPPTTest12Service.cpp; sourceTree = "<group>"; };
-		DFA3436C18C91C860053B87C /* YPPTTest12Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest12Service.h; path = ../Common/Tests/YPPTTest12Service.h; sourceTree = "<group>"; };
-		DFA3436D18C91C860053B87C /* YPPTTest14EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest14EchoRequestHandler.cpp; path = ../Common/Tests/YPPTTest14EchoRequestHandler.cpp; sourceTree = "<group>"; };
-		DFA3436E18C91C860053B87C /* YPPTTest14EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest14EchoRequestHandler.h; path = ../Common/Tests/YPPTTest14EchoRequestHandler.h; sourceTree = "<group>"; };
-		DFA3436F18C91C860053B87C /* YPPTTest14Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest14Service.cpp; path = ../Common/Tests/YPPTTest14Service.cpp; sourceTree = "<group>"; };
-		DFA3437018C91C860053B87C /* YPPTTest14Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest14Service.h; path = ../Common/Tests/YPPTTest14Service.h; sourceTree = "<group>"; };
-		DFA3437118C91C860053B87C /* YPPTTest15EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest15EchoRequestHandler.cpp; path = ../Common/Tests/YPPTTest15EchoRequestHandler.cpp; sourceTree = "<group>"; };
-		DFA3437218C91C860053B87C /* YPPTTest15EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest15EchoRequestHandler.h; path = ../Common/Tests/YPPTTest15EchoRequestHandler.h; sourceTree = "<group>"; };
-		DFA3437318C91C860053B87C /* YPPTTest15Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest15Service.cpp; path = ../Common/Tests/YPPTTest15Service.cpp; sourceTree = "<group>"; };
-		DFA3437418C91C860053B87C /* YPPTTest15Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest15Service.h; path = ../Common/Tests/YPPTTest15Service.h; sourceTree = "<group>"; };
-		DFA3437518C91C860053B87C /* YPPTTest16EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest16EchoRequestHandler.cpp; path = ../Common/Tests/YPPTTest16EchoRequestHandler.cpp; sourceTree = "<group>"; };
-		DFA3437618C91C860053B87C /* YPPTTest16EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest16EchoRequestHandler.h; path = ../Common/Tests/YPPTTest16EchoRequestHandler.h; sourceTree = "<group>"; };
-		DFA3437718C91C860053B87C /* YPPTTest16Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest16Service.cpp; path = ../Common/Tests/YPPTTest16Service.cpp; sourceTree = "<group>"; };
-		DFA3437818C91C860053B87C /* YPPTTest16Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest16Service.h; path = ../Common/Tests/YPPTTest16Service.h; sourceTree = "<group>"; };
-		DFA3437A18C91DF90053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ExampleRandomNumberClient/CMakeLists.txt; sourceTree = "<group>"; };
-		DFA3437B18C91DF90053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../ExampleRandomNumberClient/main.cpp; sourceTree = "<group>"; };
-		DFA3437C18C91DF90053B87C /* YPPExampleRandomNumberClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPExampleRandomNumberClient.cpp; path = ../ExampleRandomNumberClient/YPPExampleRandomNumberClient.cpp; sourceTree = "<group>"; };
-		DFA3437D18C91DF90053B87C /* YPPExampleRandomNumberClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPExampleRandomNumberClient.h; path = ../ExampleRandomNumberClient/YPPExampleRandomNumberClient.h; sourceTree = "<group>"; };
-		DFA3437F18C91E220053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ExampleRandomNumberService/CMakeLists.txt; sourceTree = "<group>"; };
-		DFA3438018C91E220053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = main.cpp; path = ../ExampleRandomNumberService/main.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DFA3438118C91E220053B87C /* YPPExampleRandomNumberService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPExampleRandomNumberService.cpp; path = ../ExampleRandomNumberService/YPPExampleRandomNumberService.cpp; sourceTree = "<group>"; };
-		DFA3438218C91E220053B87C /* YPPExampleRandomNumberService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPExampleRandomNumberService.h; path = ../ExampleRandomNumberService/YPPExampleRandomNumberService.h; sourceTree = "<group>"; };
-		DFA3438318C91E220053B87C /* YPPRandomRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRandomRequestHandler.cpp; path = ../ExampleRandomNumberService/YPPRandomRequestHandler.cpp; sourceTree = "<group>"; };
-		DFA3438418C91E220053B87C /* YPPRandomRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRandomRequestHandler.h; path = ../ExampleRandomNumberService/YPPRandomRequestHandler.h; sourceTree = "<group>"; };
+		DF20929018D0DAFF0093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ServiceLister/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF20929118D0DB860093D3DC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../ServiceLister/main.cpp; sourceTree = SOURCE_ROOT; };
+		DF20929318D241AC0093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../RequestInfo/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF20929418D241AC0093D3DC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../RequestInfo/main.cpp; sourceTree = SOURCE_ROOT; };
+		DF20929618D357A80093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../RequestCounterService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF20929718D357A80093D3DC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../RequestCounterService/main.cpp; sourceTree = SOURCE_ROOT; };
+		DF20929818D357A80093D3DC /* YPPRequestCounterDefaultRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRequestCounterDefaultRequestHandler.cpp; path = ../RequestCounterService/YPPRequestCounterDefaultRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DF20929918D357A80093D3DC /* YPPRequestCounterDefaultRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRequestCounterDefaultRequestHandler.h; path = ../RequestCounterService/YPPRequestCounterDefaultRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DF20929A18D357A80093D3DC /* YPPRequestCounterService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRequestCounterService.cpp; path = ../RequestCounterService/YPPRequestCounterService.cpp; sourceTree = SOURCE_ROOT; };
+		DF20929B18D357A80093D3DC /* YPPRequestCounterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRequestCounterService.h; path = ../RequestCounterService/YPPRequestCounterService.h; sourceTree = SOURCE_ROOT; };
+		DF20929C18D357A80093D3DC /* YPPResetRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPResetRequestHandler.cpp; path = ../RequestCounterService/YPPResetRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DF20929D18D357A80093D3DC /* YPPResetRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPResetRequestHandler.h; path = ../RequestCounterService/YPPResetRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DF20929E18D357A80093D3DC /* YPPStatsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPStatsRequestHandler.cpp; path = ../RequestCounterService/YPPStatsRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DF20929F18D357A80093D3DC /* YPPStatsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPStatsRequestHandler.h; path = ../RequestCounterService/YPPStatsRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DF2092A018D35D720093D3DC /* YPPRegistryTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRegistryTest.cpp; path = ../RegistryService/YPPRegistryTest.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092A218D3626D0093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../RegistryService/RegistryTests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF2092A318D3626D0093D3DC /* YPPTTest14EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest14EchoRequestHandler.cpp; path = ../RegistryService/RegistryTests/YPPTTest14EchoRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092A418D3626D0093D3DC /* YPPTTest14EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest14EchoRequestHandler.h; path = ../RegistryService/RegistryTests/YPPTTest14EchoRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DF2092A518D3626D0093D3DC /* YPPTTest14Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest14Service.cpp; path = ../RegistryService/RegistryTests/YPPTTest14Service.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092A618D3626D0093D3DC /* YPPTTest14Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest14Service.h; path = ../RegistryService/RegistryTests/YPPTTest14Service.h; sourceTree = SOURCE_ROOT; };
+		DF2092A718D3626D0093D3DC /* YPPTTest15EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest15EchoRequestHandler.cpp; path = ../RegistryService/RegistryTests/YPPTTest15EchoRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092A818D3626D0093D3DC /* YPPTTest15EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest15EchoRequestHandler.h; path = ../RegistryService/RegistryTests/YPPTTest15EchoRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DF2092A918D3626D0093D3DC /* YPPTTest15Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest15Service.cpp; path = ../RegistryService/RegistryTests/YPPTTest15Service.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092AA18D3626D0093D3DC /* YPPTTest15Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest15Service.h; path = ../RegistryService/RegistryTests/YPPTTest15Service.h; sourceTree = SOURCE_ROOT; };
+		DF2092AB18D3626D0093D3DC /* YPPTTest16EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest16EchoRequestHandler.cpp; path = ../RegistryService/RegistryTests/YPPTTest16EchoRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092AC18D3626D0093D3DC /* YPPTTest16EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest16EchoRequestHandler.h; path = ../RegistryService/RegistryTests/YPPTTest16EchoRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DF2092AD18D3626D0093D3DC /* YPPTTest16Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest16Service.cpp; path = ../RegistryService/RegistryTests/YPPTTest16Service.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092AE18D3626D0093D3DC /* YPPTTest16Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest16Service.h; path = ../RegistryService/RegistryTests/YPPTTest16Service.h; sourceTree = SOURCE_ROOT; };
+		DF2092AF18D362890093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../Common/CommonTests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF2092B118D362890093D3DC /* YPPTEndpointStatusReporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTEndpointStatusReporter.cpp; path = ../Common/CommonTests/YPPTEndpointStatusReporter.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092B218D362890093D3DC /* YPPTEndpointStatusReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTEndpointStatusReporter.h; path = ../Common/CommonTests/YPPTEndpointStatusReporter.h; sourceTree = SOURCE_ROOT; };
+		DF2092B318D362890093D3DC /* YPPTTest03Handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest03Handler.cpp; path = ../Common/CommonTests/YPPTTest03Handler.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092B418D362890093D3DC /* YPPTTest03Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest03Handler.h; path = ../Common/CommonTests/YPPTTest03Handler.h; sourceTree = SOURCE_ROOT; };
+		DF2092B518D362890093D3DC /* YPPTTest04Handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest04Handler.cpp; path = ../Common/CommonTests/YPPTTest04Handler.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092B618D362890093D3DC /* YPPTTest04Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest04Handler.h; path = ../Common/CommonTests/YPPTTest04Handler.h; sourceTree = SOURCE_ROOT; };
+		DF2092B718D362890093D3DC /* YPPTTest05Handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest05Handler.cpp; path = ../Common/CommonTests/YPPTTest05Handler.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092B818D362890093D3DC /* YPPTTest05Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest05Handler.h; path = ../Common/CommonTests/YPPTTest05Handler.h; sourceTree = SOURCE_ROOT; };
+		DF2092B918D362890093D3DC /* YPPTTest05HandlerCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest05HandlerCreator.cpp; path = ../Common/CommonTests/YPPTTest05HandlerCreator.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092BA18D362890093D3DC /* YPPTTest05HandlerCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest05HandlerCreator.h; path = ../Common/CommonTests/YPPTTest05HandlerCreator.h; sourceTree = SOURCE_ROOT; };
+		DF2092BB18D362890093D3DC /* YPPTTest08Handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest08Handler.cpp; path = ../Common/CommonTests/YPPTTest08Handler.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092BC18D362890093D3DC /* YPPTTest08Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest08Handler.h; path = ../Common/CommonTests/YPPTTest08Handler.h; sourceTree = SOURCE_ROOT; };
+		DF2092BD18D362890093D3DC /* YPPTTest09DefaultRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest09DefaultRequestHandler.cpp; path = ../Common/CommonTests/YPPTTest09DefaultRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092BE18D362890093D3DC /* YPPTTest09DefaultRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest09DefaultRequestHandler.h; path = ../Common/CommonTests/YPPTTest09DefaultRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DF2092BF18D362890093D3DC /* YPPTTest09Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest09Service.cpp; path = ../Common/CommonTests/YPPTTest09Service.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092C018D362890093D3DC /* YPPTTest09Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest09Service.h; path = ../Common/CommonTests/YPPTTest09Service.h; sourceTree = SOURCE_ROOT; };
+		DF2092C118D362890093D3DC /* YPPTTest10DefaultRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest10DefaultRequestHandler.cpp; path = ../Common/CommonTests/YPPTTest10DefaultRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092C218D362890093D3DC /* YPPTTest10DefaultRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest10DefaultRequestHandler.h; path = ../Common/CommonTests/YPPTTest10DefaultRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DF2092C318D362890093D3DC /* YPPTTest10Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest10Service.cpp; path = ../Common/CommonTests/YPPTTest10Service.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092C418D362890093D3DC /* YPPTTest10Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest10Service.h; path = ../Common/CommonTests/YPPTTest10Service.h; sourceTree = SOURCE_ROOT; };
+		DF2092C518D362890093D3DC /* YPPTTest11EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest11EchoRequestHandler.cpp; path = ../Common/CommonTests/YPPTTest11EchoRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092C618D362890093D3DC /* YPPTTest11EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest11EchoRequestHandler.h; path = ../Common/CommonTests/YPPTTest11EchoRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DF2092C718D362890093D3DC /* YPPTTest11Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest11Service.cpp; path = ../Common/CommonTests/YPPTTest11Service.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092C818D362890093D3DC /* YPPTTest11Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest11Service.h; path = ../Common/CommonTests/YPPTTest11Service.h; sourceTree = SOURCE_ROOT; };
+		DF2092C918D362890093D3DC /* YPPTTest12EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest12EchoRequestHandler.cpp; path = ../Common/CommonTests/YPPTTest12EchoRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092CA18D362890093D3DC /* YPPTTest12EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest12EchoRequestHandler.h; path = ../Common/CommonTests/YPPTTest12EchoRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DF2092CB18D362890093D3DC /* YPPTTest12Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTTest12Service.cpp; path = ../Common/CommonTests/YPPTTest12Service.cpp; sourceTree = SOURCE_ROOT; };
+		DF2092CC18D362890093D3DC /* YPPTTest12Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTTest12Service.h; path = ../Common/CommonTests/YPPTTest12Service.h; sourceTree = SOURCE_ROOT; };
+		DF27F42818CA358C00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../Parser/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF27F42918CA36C200E93C95 /* YPPMatchValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchValue.cpp; path = ../Parser/YPPMatchValue.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DF27F42A18CA36C200E93C95 /* YPPMatchValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchValue.h; path = ../Parser/YPPMatchValue.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF27F42C18CA37E000E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../RegistryService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF27F42D18CA3BBA00E93C95 /* YPPBaseMatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPBaseMatcher.cpp; path = ../Parser/YPPBaseMatcher.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DF27F42E18CA3BBA00E93C95 /* YPPBaseMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPBaseMatcher.h; path = ../Parser/YPPBaseMatcher.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DF27F42F18CA3DCC00E93C95 /* YPPParserTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPParserTest.cpp; path = ../Parser/YPPParserTest.cpp; sourceTree = SOURCE_ROOT; };
+		DF27F43018CA593500E93C95 /* YPPMatchValueList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchValueList.cpp; path = ../Parser/YPPMatchValueList.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DF27F43118CA593500E93C95 /* YPPMatchValueList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchValueList.h; path = ../Parser/YPPMatchValueList.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DF27F43218CA729700E93C95 /* YPPMatchFieldName.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchFieldName.cpp; path = ../Parser/YPPMatchFieldName.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DF27F43318CA729700E93C95 /* YPPMatchFieldName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchFieldName.h; path = ../Parser/YPPMatchFieldName.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DF27F43418CA7EC500E93C95 /* YPPMatchFieldWithValues.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchFieldWithValues.cpp; path = ../Parser/YPPMatchFieldWithValues.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DF27F43518CA7EC500E93C95 /* YPPMatchFieldWithValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchFieldWithValues.h; path = ../Parser/YPPMatchFieldWithValues.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DF27F43618CE2A7B00E93C95 /* YPPMatchConstraint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchConstraint.cpp; path = ../Parser/YPPMatchConstraint.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DF27F43718CE2A7B00E93C95 /* YPPMatchConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchConstraint.h; path = ../Parser/YPPMatchConstraint.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DF27F43818CE39BC00E93C95 /* YPPMatchExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchExpression.cpp; path = ../Parser/YPPMatchExpression.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DF27F43918CE39BC00E93C95 /* YPPMatchExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchExpression.h; path = ../Parser/YPPMatchExpression.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DF27F43A18CE48E000E93C95 /* YPPMatchRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchRequestHandler.cpp; path = ../RegistryService/YPPMatchRequestHandler.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DF27F43B18CE48E000E93C95 /* YPPMatchRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPMatchRequestHandler.h; path = ../RegistryService/YPPMatchRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DFA3431318C91B7E0053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = main.cpp; path = ../RegistryService/main.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DFA3431518C91BAB0053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ExampleEchoService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFA3431618C91BAB0053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = main.cpp; path = ../ExampleEchoService/main.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DFA3431718C91BAB0053B87C /* YPPEchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPEchoRequestHandler.cpp; path = ../ExampleEchoService/YPPEchoRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3431818C91BAB0053B87C /* YPPEchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPEchoRequestHandler.h; path = ../ExampleEchoService/YPPEchoRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DFA3431918C91BAB0053B87C /* YPPExampleEchoService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPExampleEchoService.cpp; path = ../ExampleEchoService/YPPExampleEchoService.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3431A18C91BAB0053B87C /* YPPExampleEchoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPExampleEchoService.h; path = ../ExampleEchoService/YPPExampleEchoService.h; sourceTree = SOURCE_ROOT; };
+		DFA3431C18C91BEB0053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ExampleEchoClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFA3431D18C91BEB0053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../ExampleEchoClient/main.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3431E18C91BEB0053B87C /* YPPExampleEchoClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPExampleEchoClient.cpp; path = ../ExampleEchoClient/YPPExampleEchoClient.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3431F18C91BEB0053B87C /* YPPExampleEchoClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPExampleEchoClient.h; path = ../ExampleEchoClient/YPPExampleEchoClient.h; sourceTree = SOURCE_ROOT; };
+		DFA3432118C91C150053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../Debugging/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFA3432218C91C150053B87C /* ODSyslog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ODSyslog.cpp; path = ../Debugging/ODSyslog.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3432318C91C150053B87C /* ODSyslog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODSyslog.h; path = ../Debugging/ODSyslog.h; sourceTree = SOURCE_ROOT; };
+		DFA3432418C91C150053B87C /* ODSyslog.inc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.pascal; name = ODSyslog.inc; path = ../Debugging/ODSyslog.inc; sourceTree = SOURCE_ROOT; };
+		DFA3432518C91C150053B87C /* ODSyslog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODSyslog.m; path = ../Debugging/ODSyslog.m; sourceTree = SOURCE_ROOT; };
+		DFA3432718C91C5A0053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../Common/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFA3432818C91C5A0053B87C /* YPPBaseClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPBaseClient.cpp; path = ../Common/YPPBaseClient.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3432918C91C5A0053B87C /* YPPBaseClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseClient.h; path = ../Common/YPPBaseClient.h; sourceTree = SOURCE_ROOT; };
+		DFA3432A18C91C5A0053B87C /* YPPBaseService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPBaseService.cpp; path = ../Common/YPPBaseService.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DFA3432B18C91C5A0053B87C /* YPPBaseService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPBaseService.h; path = ../Common/YPPBaseService.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DFA3432C18C91C5A0053B87C /* YPPBaseServiceInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPBaseServiceInputHandler.cpp; path = ../Common/YPPBaseServiceInputHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3432D18C91C5A0053B87C /* YPPBaseServiceInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseServiceInputHandler.h; path = ../Common/YPPBaseServiceInputHandler.h; sourceTree = SOURCE_ROOT; };
+		DFA3432E18C91C5A0053B87C /* YPPBaseServiceInputHandlerCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPBaseServiceInputHandlerCreator.cpp; path = ../Common/YPPBaseServiceInputHandlerCreator.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3432F18C91C5A0053B87C /* YPPBaseServiceInputHandlerCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseServiceInputHandlerCreator.h; path = ../Common/YPPBaseServiceInputHandlerCreator.h; sourceTree = SOURCE_ROOT; };
+		DFA3433018C91C5A0053B87C /* YPPCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPCommon.h; path = ../Common/YPPCommon.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DFA3433118C91C5A0053B87C /* YPPCommonTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPCommonTest.cpp; path = ../Common/YPPCommonTest.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DFA3433218C91C5A0053B87C /* YPPConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPConfig.h; path = ../Common/YPPConfig.h; sourceTree = SOURCE_ROOT; };
+		DFA3433318C91C5A0053B87C /* YPPConfig.h.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = YPPConfig.h.in; path = ../Common/YPPConfig.h.in; sourceTree = SOURCE_ROOT; };
+		DFA3433418C91C5A0053B87C /* YPPEndpoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPEndpoint.cpp; path = ../Common/YPPEndpoint.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DFA3433518C91C5A0053B87C /* YPPEndpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPEndpoint.h; path = ../Common/YPPEndpoint.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		DFA3433618C91C5A0053B87C /* YPPException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPException.cpp; path = ../Common/YPPException.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3433718C91C5A0053B87C /* YPPException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPException.h; path = ../Common/YPPException.h; sourceTree = SOURCE_ROOT; };
+		DFA3433818C91C5A0053B87C /* YPPInfoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPInfoRequestHandler.cpp; path = ../Common/YPPInfoRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3433918C91C5A0053B87C /* YPPInfoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPInfoRequestHandler.h; path = ../Common/YPPInfoRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DFA3433A18C91C5A0053B87C /* YPPInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPInputHandler.cpp; path = ../Common/YPPInputHandler.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DFA3433B18C91C5A0053B87C /* YPPInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPInputHandler.h; path = ../Common/YPPInputHandler.h; sourceTree = SOURCE_ROOT; };
+		DFA3433C18C91C5A0053B87C /* YPPInputHandlerCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPInputHandlerCreator.cpp; path = ../Common/YPPInputHandlerCreator.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3433D18C91C5A0053B87C /* YPPInputHandlerCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPInputHandlerCreator.h; path = ../Common/YPPInputHandlerCreator.h; sourceTree = SOURCE_ROOT; };
+		DFA3433E18C91C5A0053B87C /* YPPListRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPListRequestHandler.cpp; path = ../Common/YPPListRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3433F18C91C5A0053B87C /* YPPListRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPListRequestHandler.h; path = ../Common/YPPListRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DFA3434018C91C5A0053B87C /* YPPRegisterRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPRegisterRequestHandler.cpp; path = ../RegistryService/YPPRegisterRequestHandler.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DFA3434118C91C5A0053B87C /* YPPRegisterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRegisterRequestHandler.h; path = ../RegistryService/YPPRegisterRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DFA3434218C91C5A0053B87C /* YPPRegistryService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRegistryService.cpp; path = ../RegistryService/YPPRegistryService.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3434318C91C5A0053B87C /* YPPRegistryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRegistryService.h; path = ../RegistryService/YPPRegistryService.h; sourceTree = SOURCE_ROOT; };
+		DFA3434418C91C5A0053B87C /* YPPBaseRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPBaseRequestHandler.cpp; path = ../Common/YPPBaseRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3434518C91C5A0053B87C /* YPPBaseRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseRequestHandler.h; path = ../Common/YPPBaseRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DFA3434618C91C5A0053B87C /* YPPRequestMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRequestMap.cpp; path = ../Common/YPPRequestMap.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3434718C91C5A0053B87C /* YPPRequestMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRequestMap.h; path = ../Common/YPPRequestMap.h; sourceTree = SOURCE_ROOT; };
+		DFA3434818C91C5A0053B87C /* YPPRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRequests.h; path = ../Common/YPPRequests.h; sourceTree = SOURCE_ROOT; };
+		DFA3434918C91C5A0053B87C /* YPPServiceRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPServiceRequest.cpp; path = ../Common/YPPServiceRequest.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DFA3434A18C91C5A0053B87C /* YPPServiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPServiceRequest.h; path = ../Common/YPPServiceRequest.h; sourceTree = SOURCE_ROOT; };
+		DFA3434B18C91C5A0053B87C /* YPPServiceResponse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPServiceResponse.cpp; path = ../Common/YPPServiceResponse.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3434C18C91C5A0053B87C /* YPPServiceResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPServiceResponse.h; path = ../Common/YPPServiceResponse.h; sourceTree = SOURCE_ROOT; };
+		DFA3434D18C91C5A0053B87C /* YPPUnregisterRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPUnregisterRequestHandler.cpp; path = ../RegistryService/YPPUnregisterRequestHandler.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DFA3434E18C91C5A0053B87C /* YPPUnregisterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPUnregisterRequestHandler.h; path = ../RegistryService/YPPUnregisterRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DFA3437A18C91DF90053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ExampleRandomNumberClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFA3437B18C91DF90053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../ExampleRandomNumberClient/main.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3437C18C91DF90053B87C /* YPPExampleRandomNumberClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPExampleRandomNumberClient.cpp; path = ../ExampleRandomNumberClient/YPPExampleRandomNumberClient.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3437D18C91DF90053B87C /* YPPExampleRandomNumberClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPExampleRandomNumberClient.h; path = ../ExampleRandomNumberClient/YPPExampleRandomNumberClient.h; sourceTree = SOURCE_ROOT; };
+		DFA3437F18C91E220053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ExampleRandomNumberService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFA3438018C91E220053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = main.cpp; path = ../ExampleRandomNumberService/main.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DFA3438118C91E220053B87C /* YPPExampleRandomNumberService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPExampleRandomNumberService.cpp; path = ../ExampleRandomNumberService/YPPExampleRandomNumberService.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3438218C91E220053B87C /* YPPExampleRandomNumberService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPExampleRandomNumberService.h; path = ../ExampleRandomNumberService/YPPExampleRandomNumberService.h; sourceTree = SOURCE_ROOT; };
+		DFA3438318C91E220053B87C /* YPPRandomRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRandomRequestHandler.cpp; path = ../ExampleRandomNumberService/YPPRandomRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DFA3438418C91E220053B87C /* YPPRandomRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRandomRequestHandler.h; path = ../ExampleRandomNumberService/YPPRandomRequestHandler.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -150,13 +162,50 @@
 			name = ServiceLister;
 			sourceTree = "<group>";
 		};
-		DF20929218D241270093D3DC /* RequestLister */ = {
+		DF20929218D241270093D3DC /* RequestInfo */ = {
 			isa = PBXGroup;
 			children = (
 				DF20929318D241AC0093D3DC /* CMakeLists.txt */,
 				DF20929418D241AC0093D3DC /* main.cpp */,
 			);
-			name = RequestLister;
+			name = RequestInfo;
+			sourceTree = "<group>";
+		};
+		DF20929518D3577D0093D3DC /* RequestCounterService */ = {
+			isa = PBXGroup;
+			children = (
+				DF20929618D357A80093D3DC /* CMakeLists.txt */,
+				DF20929718D357A80093D3DC /* main.cpp */,
+				DF20929818D357A80093D3DC /* YPPRequestCounterDefaultRequestHandler.cpp */,
+				DF20929918D357A80093D3DC /* YPPRequestCounterDefaultRequestHandler.h */,
+				DF20929A18D357A80093D3DC /* YPPRequestCounterService.cpp */,
+				DF20929B18D357A80093D3DC /* YPPRequestCounterService.h */,
+				DF20929C18D357A80093D3DC /* YPPResetRequestHandler.cpp */,
+				DF20929D18D357A80093D3DC /* YPPResetRequestHandler.h */,
+				DF20929E18D357A80093D3DC /* YPPStatsRequestHandler.cpp */,
+				DF20929F18D357A80093D3DC /* YPPStatsRequestHandler.h */,
+			);
+			name = RequestCounterService;
+			sourceTree = "<group>";
+		};
+		DF2092A118D360DE0093D3DC /* RegistryTests */ = {
+			isa = PBXGroup;
+			children = (
+				DF2092A218D3626D0093D3DC /* CMakeLists.txt */,
+				DF2092A318D3626D0093D3DC /* YPPTTest14EchoRequestHandler.cpp */,
+				DF2092A418D3626D0093D3DC /* YPPTTest14EchoRequestHandler.h */,
+				DF2092A518D3626D0093D3DC /* YPPTTest14Service.cpp */,
+				DF2092A618D3626D0093D3DC /* YPPTTest14Service.h */,
+				DF2092A718D3626D0093D3DC /* YPPTTest15EchoRequestHandler.cpp */,
+				DF2092A818D3626D0093D3DC /* YPPTTest15EchoRequestHandler.h */,
+				DF2092A918D3626D0093D3DC /* YPPTTest15Service.cpp */,
+				DF2092AA18D3626D0093D3DC /* YPPTTest15Service.h */,
+				DF2092AB18D3626D0093D3DC /* YPPTTest16EchoRequestHandler.cpp */,
+				DF2092AC18D3626D0093D3DC /* YPPTTest16EchoRequestHandler.h */,
+				DF2092AD18D3626D0093D3DC /* YPPTTest16Service.cpp */,
+				DF2092AE18D3626D0093D3DC /* YPPTTest16Service.h */,
+			);
+			name = RegistryTests;
 			sourceTree = "<group>";
 		};
 		DF27F42718CA357400E93C95 /* Parser */ = {
@@ -194,7 +243,8 @@
 				DFA3438518C91E2C0053B87C /* ExampleRandomNumberService */,
 				DF27F42718CA357400E93C95 /* Parser */,
 				DFA3431418C91B8B0053B87C /* RegistryService */,
-				DF20929218D241270093D3DC /* RequestLister */,
+				DF20929518D3577D0093D3DC /* RequestCounterService */,
+				DF20929218D241270093D3DC /* RequestInfo */,
 				DF20928F18D0DAA50093D3DC /* ServiceLister */,
 			);
 			sourceTree = "<group>";
@@ -204,6 +254,16 @@
 			children = (
 				DF27F42C18CA37E000E93C95 /* CMakeLists.txt */,
 				DFA3431318C91B7E0053B87C /* main.cpp */,
+				DF2092A118D360DE0093D3DC /* RegistryTests */,
+				DF27F43A18CE48E000E93C95 /* YPPMatchRequestHandler.cpp */,
+				DF27F43B18CE48E000E93C95 /* YPPMatchRequestHandler.h */,
+				DFA3434018C91C5A0053B87C /* YPPRegisterRequestHandler.cpp */,
+				DFA3434118C91C5A0053B87C /* YPPRegisterRequestHandler.h */,
+				DFA3434218C91C5A0053B87C /* YPPRegistryService.cpp */,
+				DFA3434318C91C5A0053B87C /* YPPRegistryService.h */,
+				DF2092A018D35D720093D3DC /* YPPRegistryTest.cpp */,
+				DFA3434D18C91C5A0053B87C /* YPPUnregisterRequestHandler.cpp */,
+				DFA3434E18C91C5A0053B87C /* YPPUnregisterRequestHandler.h */,
 			);
 			name = RegistryService;
 			sourceTree = "<group>";
@@ -248,7 +308,7 @@
 			isa = PBXGroup;
 			children = (
 				DFA3432718C91C5A0053B87C /* CMakeLists.txt */,
-				DFA3437918C91C940053B87C /* Tests */,
+				DFA3437918C91C940053B87C /* CommonTests */,
 				DFA3432818C91C5A0053B87C /* YPPBaseClient.cpp */,
 				DFA3432918C91C5A0053B87C /* YPPBaseClient.h */,
 				DFA3434418C91C5A0053B87C /* YPPBaseRequestHandler.cpp */,
@@ -275,12 +335,6 @@
 				DFA3433D18C91C5A0053B87C /* YPPInputHandlerCreator.h */,
 				DFA3433E18C91C5A0053B87C /* YPPListRequestHandler.cpp */,
 				DFA3433F18C91C5A0053B87C /* YPPListRequestHandler.h */,
-				DF27F43A18CE48E000E93C95 /* YPPMatchRequestHandler.cpp */,
-				DF27F43B18CE48E000E93C95 /* YPPMatchRequestHandler.h */,
-				DFA3434018C91C5A0053B87C /* YPPRegisterRequestHandler.cpp */,
-				DFA3434118C91C5A0053B87C /* YPPRegisterRequestHandler.h */,
-				DFA3434218C91C5A0053B87C /* YPPRegistryService.cpp */,
-				DFA3434318C91C5A0053B87C /* YPPRegistryService.h */,
 				DFA3434618C91C5A0053B87C /* YPPRequestMap.cpp */,
 				DFA3434718C91C5A0053B87C /* YPPRequestMap.h */,
 				DFA3434818C91C5A0053B87C /* YPPRequests.h */,
@@ -288,58 +342,44 @@
 				DFA3434A18C91C5A0053B87C /* YPPServiceRequest.h */,
 				DFA3434B18C91C5A0053B87C /* YPPServiceResponse.cpp */,
 				DFA3434C18C91C5A0053B87C /* YPPServiceResponse.h */,
-				DFA3434D18C91C5A0053B87C /* YPPUnregisterRequestHandler.cpp */,
-				DFA3434E18C91C5A0053B87C /* YPPUnregisterRequestHandler.h */,
 			);
 			name = Common;
 			sourceTree = "<group>";
 		};
-		DFA3437918C91C940053B87C /* Tests */ = {
+		DFA3437918C91C940053B87C /* CommonTests */ = {
 			isa = PBXGroup;
 			children = (
-				DFA3435018C91C860053B87C /* CMakeLists.txt */,
-				DFA3435118C91C860053B87C /* YPPTEndpointStatusReporter.cpp */,
-				DFA3435218C91C860053B87C /* YPPTEndpointStatusReporter.h */,
-				DFA3435318C91C860053B87C /* YPPTTest03Handler.cpp */,
-				DFA3435418C91C860053B87C /* YPPTTest03Handler.h */,
-				DFA3435518C91C860053B87C /* YPPTTest04Handler.cpp */,
-				DFA3435618C91C860053B87C /* YPPTTest04Handler.h */,
-				DFA3435718C91C860053B87C /* YPPTTest05Handler.cpp */,
-				DFA3435818C91C860053B87C /* YPPTTest05Handler.h */,
-				DFA3435918C91C860053B87C /* YPPTTest05HandlerCreator.cpp */,
-				DFA3435A18C91C860053B87C /* YPPTTest05HandlerCreator.h */,
-				DFA3435B18C91C860053B87C /* YPPTTest08Handler.cpp */,
-				DFA3435C18C91C860053B87C /* YPPTTest08Handler.h */,
-				DFA3435D18C91C860053B87C /* YPPTTest09DefaultRequestHandler.cpp */,
-				DFA3435E18C91C860053B87C /* YPPTTest09DefaultRequestHandler.h */,
-				DFA3435F18C91C860053B87C /* YPPTTest09Service.cpp */,
-				DFA3436018C91C860053B87C /* YPPTTest09Service.h */,
-				DFA3436118C91C860053B87C /* YPPTTest10DefaultRequestHandler.cpp */,
-				DFA3436218C91C860053B87C /* YPPTTest10DefaultRequestHandler.h */,
-				DFA3436318C91C860053B87C /* YPPTTest10Service.cpp */,
-				DFA3436418C91C860053B87C /* YPPTTest10Service.h */,
-				DFA3436518C91C860053B87C /* YPPTTest11EchoRequestHandler.cpp */,
-				DFA3436618C91C860053B87C /* YPPTTest11EchoRequestHandler.h */,
-				DFA3436718C91C860053B87C /* YPPTTest11Service.cpp */,
-				DFA3436818C91C860053B87C /* YPPTTest11Service.h */,
-				DFA3436918C91C860053B87C /* YPPTTest12EchoRequestHandler.cpp */,
-				DFA3436A18C91C860053B87C /* YPPTTest12EchoRequestHandler.h */,
-				DFA3436B18C91C860053B87C /* YPPTTest12Service.cpp */,
-				DFA3436C18C91C860053B87C /* YPPTTest12Service.h */,
-				DFA3436D18C91C860053B87C /* YPPTTest14EchoRequestHandler.cpp */,
-				DFA3436E18C91C860053B87C /* YPPTTest14EchoRequestHandler.h */,
-				DFA3436F18C91C860053B87C /* YPPTTest14Service.cpp */,
-				DFA3437018C91C860053B87C /* YPPTTest14Service.h */,
-				DFA3437118C91C860053B87C /* YPPTTest15EchoRequestHandler.cpp */,
-				DFA3437218C91C860053B87C /* YPPTTest15EchoRequestHandler.h */,
-				DFA3437318C91C860053B87C /* YPPTTest15Service.cpp */,
-				DFA3437418C91C860053B87C /* YPPTTest15Service.h */,
-				DFA3437518C91C860053B87C /* YPPTTest16EchoRequestHandler.cpp */,
-				DFA3437618C91C860053B87C /* YPPTTest16EchoRequestHandler.h */,
-				DFA3437718C91C860053B87C /* YPPTTest16Service.cpp */,
-				DFA3437818C91C860053B87C /* YPPTTest16Service.h */,
+				DF2092AF18D362890093D3DC /* CMakeLists.txt */,
+				DF2092B118D362890093D3DC /* YPPTEndpointStatusReporter.cpp */,
+				DF2092B218D362890093D3DC /* YPPTEndpointStatusReporter.h */,
+				DF2092B318D362890093D3DC /* YPPTTest03Handler.cpp */,
+				DF2092B418D362890093D3DC /* YPPTTest03Handler.h */,
+				DF2092B518D362890093D3DC /* YPPTTest04Handler.cpp */,
+				DF2092B618D362890093D3DC /* YPPTTest04Handler.h */,
+				DF2092B718D362890093D3DC /* YPPTTest05Handler.cpp */,
+				DF2092B818D362890093D3DC /* YPPTTest05Handler.h */,
+				DF2092B918D362890093D3DC /* YPPTTest05HandlerCreator.cpp */,
+				DF2092BA18D362890093D3DC /* YPPTTest05HandlerCreator.h */,
+				DF2092BB18D362890093D3DC /* YPPTTest08Handler.cpp */,
+				DF2092BC18D362890093D3DC /* YPPTTest08Handler.h */,
+				DF2092BD18D362890093D3DC /* YPPTTest09DefaultRequestHandler.cpp */,
+				DF2092BE18D362890093D3DC /* YPPTTest09DefaultRequestHandler.h */,
+				DF2092BF18D362890093D3DC /* YPPTTest09Service.cpp */,
+				DF2092C018D362890093D3DC /* YPPTTest09Service.h */,
+				DF2092C118D362890093D3DC /* YPPTTest10DefaultRequestHandler.cpp */,
+				DF2092C218D362890093D3DC /* YPPTTest10DefaultRequestHandler.h */,
+				DF2092C318D362890093D3DC /* YPPTTest10Service.cpp */,
+				DF2092C418D362890093D3DC /* YPPTTest10Service.h */,
+				DF2092C518D362890093D3DC /* YPPTTest11EchoRequestHandler.cpp */,
+				DF2092C618D362890093D3DC /* YPPTTest11EchoRequestHandler.h */,
+				DF2092C718D362890093D3DC /* YPPTTest11Service.cpp */,
+				DF2092C818D362890093D3DC /* YPPTTest11Service.h */,
+				DF2092C918D362890093D3DC /* YPPTTest12EchoRequestHandler.cpp */,
+				DF2092CA18D362890093D3DC /* YPPTTest12EchoRequestHandler.h */,
+				DF2092CB18D362890093D3DC /* YPPTTest12Service.cpp */,
+				DF2092CC18D362890093D3DC /* YPPTTest12Service.h */,
 			);
-			name = Tests;
+			name = CommonTests;
 			sourceTree = "<group>";
 		};
 		DFA3437E18C91E040053B87C /* ExampleRandomNumberClient */ = {

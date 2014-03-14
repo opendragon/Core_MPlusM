@@ -94,6 +94,7 @@ add_subdirectory(ExampleRandomNumberClient)
 add_subdirectory(ExampleRandomNumberService)
 add_subdirectory(Parser)
 add_subdirectory(RegistryService)
+add_subdirectory(RequestCounterService)
 add_subdirectory(RequestInfo)
 add_subdirectory(ServiceLister)
 

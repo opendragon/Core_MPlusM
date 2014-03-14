@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------
 #
-#  File:       Debugging/CMakeLists.txt
+#  File:       RegistryTests/CMakeLists.txt
 #
 #  Project:    YarpPlusPlus
 #
-#  Contains:   The CMAKE definitions for the debugging library.
+#  Contains:   The CMAKE definitions for the registry unit test application.
 #
 #  Written by: Norman Jaffe
 #
@@ -35,20 +35,21 @@
 #              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-#  Created:    2014-02-06
+#  Created:    2014-03-14
 #
 #--------------------------------------------------------------------------------------
 
-option(USE_OBJECTIVE_C_DEBUG "Use Objective C Debug" FALSE)
-mark_as_advanced(USE_OBJECTIVE_C_DEBUG)
+include_directories("${YPP_DEBUGGING_DIR}"
+                    "${YPP_COMMON_DIR}"
+                    “${YPP_PARSER_DIR}”)
 
-if(USE_OBJECTIVE_C_DEBUG)
-    add_library(YPPDebugging
-                ODSyslog.m)
-else(USE_OBJECTIVE_C_DEBUG)
-    add_library(YPPDebugging
-                ODSyslog.cpp)
-endif(USE_OBJECTIVE_C_DEBUG)
+add_library(YPPRegistryTestSupport
+            YPPTTest14EchoRequestHandler.cpp
+            YPPTTest14Service.cpp
+            YPPTTest15EchoRequestHandler.cpp
+            YPPTTest15Service.cpp
+            YPPTTest16EchoRequestHandler.cpp
+            YPPTTest16Service.cpp)
 
-install(TARGETS YPPDebugging DESTINATION bin)
-install(FILES YPPDebugging DESTINATION include)
+install(TARGETS YPPRegistryTestSupport DESTINATION bin)
+install(FILES YPPRegistryTestSupport DESTINATION include)

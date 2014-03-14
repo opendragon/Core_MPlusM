@@ -43,9 +43,14 @@ include_directories("${YPP_DEBUGGING_DIR}"
                     "${YPP_COMMON_DIR}")
 
 # set up our program
-add_executable(RequestInfo main.cpp)
+add_executable(RequestInfo
+               main.cpp)
 
 # link with YARP libraries and our interface classes
-target_link_libraries(RequestInfo YPPCommon YPPDebugging YPPParser ${YARP_LIBRARIES})
+target_link_libraries(RequestInfo
+                      YPPCommon
+                      YPPDebugging
+                      YPPParser
+                      ${YARP_LIBRARIES})
 
 enable_testing()

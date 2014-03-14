@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------
 #
-#  File:       Tests/CMakeLists.txt
+#  File:       CommonTests/CMakeLists.txt
 #
 #  Project:    YarpPlusPlus
 #
-#  Contains:   The CMAKE definitions for the unit test application.
+#  Contains:   The CMAKE definitions for the common unit test application.
 #
 #  Written by: Norman Jaffe
 #
@@ -43,7 +43,7 @@ include_directories("${YPP_DEBUGGING_DIR}"
                     "${YPP_COMMON_DIR}"
                     “${YPP_PARSER_DIR}”)
 
-add_library(YPPTestSupport
+add_library(YPPCommonTestSupport
             YPPTEndpointStatusReporter.cpp
             YPPTTest03Handler.cpp
             YPPTTest04Handler.cpp
@@ -57,13 +57,7 @@ add_library(YPPTestSupport
             YPPTTest11EchoRequestHandler.cpp
             YPPTTest11Service.cpp
             YPPTTest12EchoRequestHandler.cpp
-            YPPTTest12Service.cpp
-            YPPTTest14EchoRequestHandler.cpp
-            YPPTTest14Service.cpp
-            YPPTTest15EchoRequestHandler.cpp
-            YPPTTest15Service.cpp
-            YPPTTest16EchoRequestHandler.cpp
-            YPPTTest16Service.cpp)
+            YPPTTest12Service.cpp)
 
-install(TARGETS YPPTestSupport DESTINATION bin)
-install(FILES YPPTestSupport DESTINATION include)
+install(TARGETS YPPCommonTestSupport DESTINATION bin)
+install(FILES YPPCommonTestSupport DESTINATION include)

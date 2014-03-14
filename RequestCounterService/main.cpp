@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       ExampleEchoService/main.cpp
+//  File:       RequestCounterService/main.cpp
 //
 //  Project:    YarpPlusPlus
 //
@@ -35,14 +35,14 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-06
+//  Created:    2014-03-14
 //
 //--------------------------------------------------------------------------------------
 
-//#define ENABLE_OD_SYSLOG /* */
+#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPEndpoint.h"
-#include "YPPExampleEchoService.h"
+#include "YPPRequestCounterService.h"
 #include <ace/Version.h>
 #include <iostream>
 #if (defined(__APPLE__) || defined(__linux__))
@@ -51,7 +51,7 @@
 #include <yarp/conf/version.h>
 #include <yarp/os/all.h>
 
-using namespace YarpPlusPlusExample;
+using namespace YarpPlusPlus;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -112,9 +112,9 @@ int main(int     argc,
     }
     else
     {
-        serviceEndpointName = DEFAULT_ECHO_SERVICE_NAME;
+        serviceEndpointName = DEFAULT_RANDOM_SERVICE_NAME;
     }
-    ExampleEchoService * stuff = new ExampleEchoService(serviceEndpointName, serviceHostName, servicePortNumber);
+    RequestCounterService * stuff = new RequestCounterService(serviceEndpointName, serviceHostName, servicePortNumber);
     
     if (stuff)
     {

@@ -43,9 +43,14 @@ include_directories("${YPP_DEBUGGING_DIR}"
                     "${YPP_COMMON_DIR}")
 
 # set up our program
-add_executable(ExampleEchoClient main.cpp YPPExampleEchoClient.cpp)
+add_executable(ExampleEchoClient
+               main.cpp
+               YPPExampleEchoClient.cpp)
 
 # link with YARP libraries and our interface classes
-target_link_libraries(ExampleEchoClient YPPCommon YPPDebugging ${YARP_LIBRARIES})
+target_link_libraries(ExampleEchoClient
+                      YPPCommon
+                      YPPDebugging
+                      ${YARP_LIBRARIES})
 
 enable_testing()

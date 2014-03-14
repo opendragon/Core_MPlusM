@@ -39,13 +39,13 @@
 #
 #--------------------------------------------------------------------------------------
 
-set(YPP_TESTSUPPORT_DIR "${YPP_COMMON_DIR}/Tests")
+set(YPP_COMMONTESTSUPPORT_DIR "${YPP_COMMON_DIR}/CommonTests")
 
-add_subdirectory(Tests)
+add_subdirectory(CommonTests)
 
 include_directories("${YPP_DEBUGGING_DIR}"
                     “${YPP_PARSER_DIR}”
-                    "${YPP_TESTSUPPORT_DIR}")
+                    "${YPP_COMMONTESTSUPPORT_DIR}")
 
 add_library(YPPCommon
             YPPBaseClient.cpp
@@ -59,22 +59,24 @@ add_library(YPPCommon
             YPPInputHandler.cpp
             YPPInputHandlerCreator.cpp
             YPPListRequestHandler.cpp
-            YPPMatchRequestHandler.cpp
-            YPPRegisterRequestHandler.cpp
-            YPPRegistryService.cpp
             YPPRequestMap.cpp
             YPPServiceRequest.cpp
-            YPPServiceResponse.cpp
-            YPPUnregisterRequestHandler.cpp)
+            YPPServiceResponse.cpp)
 
 install(TARGETS YPPCommon DESTINATION bin)
 install(FILES YPPCommon DESTINATION include)
 
 enable_testing()
 
-add_executable(CommonTest YPPCommonTest.cpp)
+add_executable(CommonTest
+               YPPCommonTest.cpp)
 
-target_link_libraries(CommonTest YPPCommon YPPDebugging YPPParser YPPTestSupport ${YARP_LIBRARIES})
+target_link_libraries(CommonTest
+                      YPPCommon
+                      YPPDebugging
+                      YPPParser
+                      YPPCommonTestSupport
+                      ${YARP_LIBRARIES})
 
 # Argument order for test 1 = endpoint name [, IP address / name [, port]]
 add_test(NAME TestCreateEndpoint1 COMMAND CommonTest 1 "/service/test1_1")
@@ -123,20 +125,3 @@ add_test(NAME TestRequestEchoFromService9 COMMAND CommonTest 11 "/service/test11
 add_test(NAME TestRequestListFromService1 COMMAND CommonTest 12 "/service/test12_1")
 add_test(NAME TestRequestListFromService2 COMMAND CommonTest 12 "/service/test12_2" "localhost")
 add_test(NAME TestRequestListFromService3 COMMAND CommonTest 12 "/service/test12_3" "localhost" "12340")
-# Test register request
-add_test(NAME TestRequestRegisterService1 COMMAND CommonTest 13)
-add_test(NAME TestRequestRegisterService2 COMMAND CommonTest 13 "localhost")
-add_test(NAME TestRequestRegisterService3 COMMAND CommonTest 13 "localhost" "12340")
-# Test register request, second service
-add_test(NAME TestRequestRegisterService4 COMMAND CommonTest 14)
-add_test(NAME TestRequestRegisterService5 COMMAND CommonTest 14 "localhost")
-add_test(NAME TestRequestRegisterService6 COMMAND CommonTest 14 "localhost" "12340")
-# Test unregister request, second service
-add_test(NAME TestRequestUnregisterService1 COMMAND CommonTest 15)
-add_test(NAME TestRequestUnregisterService2 COMMAND CommonTest 15 "localhost")
-add_test(NAME TestRequestUnregisterService3 COMMAND CommonTest 15 "localhost" "12340")
-# Test search for request / service - note the change in arguments
-add_test(NAME TestRequestSearchService1 COMMAND CommonTest 16 "" "FAILED \"An error message\"")
-add_test(NAME TestRequestSearchService2 COMMAND CommonTest 16 "Version 42" "OK ()")
-add_test(NAME TestRequestSearchService3 COMMAND CommonTest 16 "Description:Echo*" "OK (/service/test16)")
-add_test(NAME TestRequestSearchService4 COMMAND CommonTest 16 "Description:Echo*,Keyword(requests)" "OK (/service/test16 /$ervice)")

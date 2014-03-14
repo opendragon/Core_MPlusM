@@ -39,13 +39,59 @@
 #
 #--------------------------------------------------------------------------------------
 
+set(YPP_REGISTRYTESTSUPPORT_DIR "${YPP_COMMON_DIR}/RegistryTests")
+
+add_subdirectory(RegistryTests)
+
 include_directories("${YPP_DEBUGGING_DIR}"
-                    "${YPP_COMMON_DIR}")
+                    “${YPP_COMMON_DIR}”
+                    "${YPP_REGISTRYTESTSUPPORT_DIR}")
 
 # set up our program
-add_executable(RegistryService main.cpp)
+add_executable(RegistryService
+               main.cpp
+               YPPMatchRequestHandler.cpp
+               YPPRegisterRequestHandler.cpp
+               YPPRegistryService.cpp
+               YPPUnregisterRequestHandler.cpp)
 
 # link with YARP libraries and our interface classes
-target_link_libraries(RegistryService YPPCommon YPPDebugging YPPParser ${YARP_LIBRARIES})
+target_link_libraries(RegistryService
+                      YPPCommon
+                      YPPDebugging
+                      YPPParser
+                      ${YARP_LIBRARIES})
 
 enable_testing()
+
+add_executable(RegistryTest
+               YPPRegistryTest.cpp
+               YPPMatchRequestHandler.cpp
+               YPPRegisterRequestHandler.cpp
+               YPPRegistryService.cpp
+               YPPUnregisterRequestHandler.cpp)
+
+target_link_libraries(RegistryTest
+                      YPPCommon
+                      YPPDebugging
+                      YPPParser
+                      YPPRegistryTestSupport
+                      ${YARP_LIBRARIES})
+
+# Test register request
+add_test(NAME TestRequestRegisterService1 COMMAND RegistryTest 13)
+add_test(NAME TestRequestRegisterService2 COMMAND RegistryTest 13 "localhost")
+add_test(NAME TestRequestRegisterService3 COMMAND RegistryTest 13 "localhost" "12340")
+# Test register request, second service
+add_test(NAME TestRequestRegisterService4 COMMAND RegistryTest 14)
+add_test(NAME TestRequestRegisterService5 COMMAND RegistryTest 14 "localhost")
+add_test(NAME TestRequestRegisterService6 COMMAND RegistryTest 14 "localhost" "12340")
+# Test unregister request, second service
+add_test(NAME TestRequestUnregisterService1 COMMAND RegistryTest 15)
+add_test(NAME TestRequestUnregisterService2 COMMAND RegistryTest 15 "localhost")
+add_test(NAME TestRequestUnregisterService3 COMMAND RegistryTest 15 "localhost" "12340")
+# Test search for request / service - note the change in arguments
+add_test(NAME TestRequestSearchService1 COMMAND RegistryTest 16 "" "FAILED \"An error message\"")
+add_test(NAME TestRequestSearchService2 COMMAND RegistryTest 16 "Version 42" "OK ()")
+add_test(NAME TestRequestSearchService3 COMMAND RegistryTest 16 "Description:Echo*" "OK (/service/test16)")
+add_test(NAME TestRequestSearchService4 COMMAND RegistryTest 16 "Description:Echo*,Keyword(requests)" "OK (/service/test16 /$ervice)")
