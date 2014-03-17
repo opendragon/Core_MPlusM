@@ -80,7 +80,7 @@ static bool processResponse(const yarp::os::ConstString &         serviceName,
             {
                 if (propList->check(YPP_REQREP_DICT_REQUEST_KEY))
                 {
-                    yarp::os::ConstString theDescriptionString;
+                    yarp::os::ConstString theDetailsString;
                     yarp::os::ConstString theInputsString;
                     yarp::os::ConstString theOutputsString;
                     yarp::os::ConstString theVersionString;
@@ -88,13 +88,13 @@ static bool processResponse(const yarp::os::ConstString &         serviceName,
                     yarp::os::Bottle      keywordList;
                     
                     result = true;
-                    if (propList->check(YPP_REQREP_DICT_DESCRIPTION_KEY))
+                    if (propList->check(YPP_REQREP_DICT_DETAILS_KEY))
                     {
-                        yarp::os::Value theDescription = propList->find(YPP_REQREP_DICT_DESCRIPTION_KEY);
+                        yarp::os::Value theDetails = propList->find(YPP_REQREP_DICT_DETAILS_KEY);
                         
-                        if (theDescription.isString())
+                        if (theDetails.isString())
                         {
-                            theDescriptionString = theDescription.toString();
+                            theDetailsString = theDetails.toString();
                         }
                     }
                     if (propList->check(YPP_REQREP_DICT_INPUT_KEY))
@@ -134,15 +134,14 @@ static bool processResponse(const yarp::os::ConstString &         serviceName,
                         }
                     }
                     cout <<     "Service Port: " << serviceName.c_str() << endl;
-                    cout <<     "Service Name: " << "blort for now" << endl;//!!!
                     cout <<     "Request:      " << theRequest.c_str() << endl;
                     if (0 < theVersionString.length())
                     {
                         cout << "Version:      " << theVersionString.c_str() << endl;
                     }
-                    if (0 < theDescriptionString.length())
+                    if (0 < theDetailsString.length())
                     {
-                        cout << "Description:  " << theDescriptionString.c_str() << endl;
+                        cout << "Details:      " << theDetailsString.c_str() << endl;
                     }
                     if (0 < keywordList.size())
                     {

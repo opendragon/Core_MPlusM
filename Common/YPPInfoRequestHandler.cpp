@@ -92,7 +92,7 @@ void InfoRequestHandler::fillInDescription(yarp::os::Property & info)
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_LIST_START YPP_REQREP_DICT_START YPP_REQREP_DICT_END
              YPP_REQREP_0_OR_1 YPP_REQREP_LIST_END);
     info.put(YPP_REQREP_DICT_VERSION_KEY, INFO_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Return information on a request");
+    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Return information on a request");
     yarp::os::Value    keywords;
     yarp::os::Bottle * asList = keywords.asList();
     

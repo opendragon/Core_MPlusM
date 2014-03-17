@@ -89,7 +89,7 @@ void StatsRequestHandler::fillInDescription(yarp::os::Property & info)
     info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_STATS_REQUEST);
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_INT YPP_REQREP_DOUBLE);
     info.put(YPP_REQREP_DICT_VERSION_KEY, STATS_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Return the number of requests and the time since last reset");
+    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Return the number of requests and the time since last reset");
     yarp::os::Value    keywords;
     yarp::os::Bottle * asList = keywords.asList();
     

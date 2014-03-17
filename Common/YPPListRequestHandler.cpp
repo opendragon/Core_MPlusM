@@ -91,7 +91,7 @@ void ListRequestHandler::fillInDescription(yarp::os::Property & info)
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_LIST_START YPP_REQREP_DICT_START YPP_REQREP_DICT_END
              YPP_REQREP_1_OR_MORE YPP_REQREP_LIST_END);
     info.put(YPP_REQREP_DICT_VERSION_KEY, LIST_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "List the recognized requests");
+    info.put(YPP_REQREP_DICT_DETAILS_KEY, "List the recognized requests");
     yarp::os::Value    keywords;
     yarp::os::Bottle * asList = keywords.asList();
     

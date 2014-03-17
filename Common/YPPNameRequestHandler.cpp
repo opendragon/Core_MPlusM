@@ -90,7 +90,7 @@ void NameRequestHandler::fillInDescription(yarp::os::Property & info)
     info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_NAME_REQUEST);
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_STRING);
     info.put(YPP_REQREP_DICT_VERSION_KEY, NAME_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Return the canonical name of the service");
+    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Return the canonical name of the service");
     yarp::os::Value    keywords;
     yarp::os::Bottle * asList = keywords.asList();
     

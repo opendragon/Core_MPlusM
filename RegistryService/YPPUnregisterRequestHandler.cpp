@@ -93,7 +93,7 @@ void UnregisterRequestHandler::fillInDescription(yarp::os::Property & info)
     info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_STRING);
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_STRING);
     info.put(YPP_REQREP_DICT_VERSION_KEY, UNREGISTER_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Unregister the service and its requests");
+    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Unregister the service and its requests");
     yarp::os::Value    keywords;
     yarp::os::Bottle * asList = keywords.asList();
     

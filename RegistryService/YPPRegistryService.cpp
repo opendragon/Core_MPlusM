@@ -85,8 +85,8 @@ using namespace YarpPlusPlus;
 /*! @brief The name of the index for the 'name' column of the 'services' table. */
 #define SERVICES_NAME_I_                "Services_name_idx"
 
-/*! @brief The named parameter for the 'description' column. */
-#define DESCRIPTION_C_ "description"
+/*! @brief The named parameter for the 'details' column. */
+#define DETAILS_C_     "details"
 /*! @brief The named parameter for the 'input' column. */
 #define INPUT_C_       "input"
 /*! @brief The named parameter for the 'key' column. */
@@ -162,7 +162,7 @@ namespace YarpPlusPlus
 static const char * kColumnNames[] =
 {
     // Name to match   Name to use     Prefix to be used      Suffix to be used
-    DESCRIPTION_C_, DESCRIPTION_C_, NULL,                   NULL,
+    DETAILS_C_,     DETAILS_C_,     NULL,                   NULL,
     INPUT_C_,       INPUT_C_,       NULL,                   NULL,
     KEYWORD_C_,     KEYWORDS_ID_C_, KEYWORD_PREFIX_STRING_, KEYWORD_SUFFIX_STRING_,
     NAME_C_,        NAME_C_,        NAME_PREFIX_STRING_,    NAME_SUFFIX_STRING_,
@@ -393,13 +393,13 @@ static bool constructTables(sqlite3 * database)
             "CREATE TABLE IF NOT EXISTS " KEYWORDS_T_ "("
                 " " KEYWORD_C_ " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT IGNORE)",
             "CREATE TABLE IF NOT EXISTS " REQUESTS_T_ "("
-                " " PORTNAME_C_ "    Text NOT NULL DEFAULT _ REFERENCES " SERVICES_T_ "(" PORTNAME_C_ "),"
-                " " REQUEST_C_ "     Text NOT NULL DEFAULT _,"
-                " " INPUT_C_ "       Text,"
-                " " OUTPUT_C_ "      Text,"
-                " " VERSION_C_ "     Text,"
-                " " DESCRIPTION_C_ " Text,"
-                " " KEY_C_ "         Integer PRIMARY KEY)",
+                " " PORTNAME_C_ " Text NOT NULL DEFAULT _ REFERENCES " SERVICES_T_ "(" PORTNAME_C_ "),"
+                " " REQUEST_C_ "  Text NOT NULL DEFAULT _,"
+                " " INPUT_C_ "    Text,"
+                " " OUTPUT_C_ "   Text,"
+                " " VERSION_C_ "  Text,"
+                " " DETAILS_C_ "  Text,"
+                " " KEY_C_ "      Integer PRIMARY KEY)",
             "CREATE INDEX IF NOT EXISTS " REQUESTS_REQUEST_I_ " ON " REQUESTS_T_ "(" REQUEST_C_ ")",
             "CREATE INDEX IF NOT EXISTS " REQUESTS_PORTNAME_I_ " ON " REQUESTS_T_ "(" PORTNAME_C_ ")",
             "CREATE TABLE " REQUESTSKEYWORDS_T_ "("
@@ -471,7 +471,7 @@ static int setupInsertForRequests(sqlite3_stmt * statement,
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P2("statement = ", statement, "stuff = ", stuff);//####
-    int descriptionIndex = sqlite3_bind_parameter_index(statement, "@" DESCRIPTION_C_);
+    int detailsIndex = sqlite3_bind_parameter_index(statement, "@" DETAILS_C_);
     int inputIndex = sqlite3_bind_parameter_index(statement, "@" INPUT_C_);
     int outputIndex = sqlite3_bind_parameter_index(statement, "@" OUTPUT_C_);
     int portNameIndex = sqlite3_bind_parameter_index(statement, "@" PORTNAME_C_);
@@ -479,7 +479,7 @@ static int setupInsertForRequests(sqlite3_stmt * statement,
     int versionIndex = sqlite3_bind_parameter_index(statement, "@" VERSION_C_);
     int result;
 
-    if ((0 < descriptionIndex) && (0 < inputIndex) && (0 < outputIndex) && (0 < portNameIndex) && (0 < requestIndex) &&
+    if ((0 < detailsIndex) && (0 < inputIndex) && (0 < outputIndex) && (0 < portNameIndex) && (0 < requestIndex) &&
         (0 < versionIndex))
     {
         const RequestDescription * descriptor = static_cast<const RequestDescription *>(stuff);
@@ -521,10 +521,10 @@ static int setupInsertForRequests(sqlite3_stmt * statement,
         }
         if (SQLITE_OK == result)
         {
-            const char * description = descriptor->_description.c_str();
+            const char * details = descriptor->_details.c_str();
             
-            OD_SYSLOG_S1("description <- ", description);//####
-            result = sqlite3_bind_text(statement, descriptionIndex, description, static_cast<int>(strlen(description)),
+            OD_SYSLOG_S1("details <- ", details);//####
+            result = sqlite3_bind_text(statement, detailsIndex, details, static_cast<int>(strlen(details)),
                                        SQLITE_TRANSIENT);
         }
         if (SQLITE_OK != result)
@@ -768,9 +768,9 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
     bool                okSoFar = performSQLstatementWithNoResults(_db, kBeginTransaction);
     static const char * insertIntoKeywords = "INSERT INTO " KEYWORDS_T_ "(" KEYWORD_C_ ") VALUES(@" KEYWORD_C_ ")";
     static const char * insertIntoRequests = "INSERT INTO " REQUESTS_T_ "(" PORTNAME_C_ "," REQUEST_C_ "," INPUT_C_ ","
-                                                OUTPUT_C_ "," VERSION_C_ "," DESCRIPTION_C_ ") VALUES(@" PORTNAME_C_
-                                                ",@" REQUEST_C_ ",@" INPUT_C_ ",@" OUTPUT_C_ ",@" VERSION_C_ ",@"
-                                                DESCRIPTION_C_ ")";
+                                                OUTPUT_C_ "," VERSION_C_ "," DETAILS_C_ ") VALUES(@" PORTNAME_C_ ",@"
+                                                REQUEST_C_ ",@" INPUT_C_ ",@" OUTPUT_C_ ",@" VERSION_C_ ",@" DETAILS_C_
+                                                ")";
     static const char * insertIntoRequestsKeywords = "INSERT INTO " REQUESTSKEYWORDS_T_ "(" KEYWORDS_ID_C_ ","
                                                         REQUESTS_ID_C_ ") SELECT @" KEYWORD_C_ ", " KEY_C_ " FROM "
                                                         REQUESTS_T_ " WHERE " REQUEST_C_ " = @" REQUEST_C_ " AND "

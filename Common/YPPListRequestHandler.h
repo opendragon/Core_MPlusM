@@ -50,8 +50,8 @@ namespace YarpPlusPlus
     /*! @brief The standard 'list' request handler.
      
      There is no input for the request and the output is a list of dictionaries of fields, describing all the known
-     requests. The fields 'description', 'input', 'keywords', 'output', and 'version' are optional in each dictionary,
-     while the field 'request' is always present. */
+     requests. The fields 'details', 'input', 'keywords', 'output', and 'version' are optional in each dictionary, while
+     the field 'request' is always present. */
     class ListRequestHandler : public BaseRequestHandler
     {
     public:

@@ -116,7 +116,7 @@ int main(int     argc,
             cout << "Type something to be echoed: ";
             if (getline(cin, inputLine))
             {
-                if (stuff->connect("description Echo*"))
+                if (stuff->connect("details Echo*"))
                 {
                     yarp::os::ConstString outgoing(inputLine.c_str());
                     

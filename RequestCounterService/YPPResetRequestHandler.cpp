@@ -88,7 +88,7 @@ void ResetRequestHandler::fillInDescription(yarp::os::Property & info)
     OD_SYSLOG_ENTER();//####
     info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_RESET_REQUEST);
     info.put(YPP_REQREP_DICT_VERSION_KEY, RESET_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Reset the request statistics");
+    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Reset the request statistics");
     yarp::os::Value    keywords;
     yarp::os::Bottle * asList = keywords.asList();
     

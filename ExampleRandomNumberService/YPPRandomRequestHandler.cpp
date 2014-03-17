@@ -90,7 +90,7 @@ void RandomRequestHandler::fillInDescription(yarp::os::Property & info)
     info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_INT YPP_REQREP_0_OR_1);
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_DOUBLE YPP_REQREP_1_OR_MORE);
     info.put(YPP_REQREP_DICT_VERSION_KEY, RANDOM_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Generate one or more random numbers");
+    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Generate one or more random numbers");
     yarp::os::Value    keywords;
     yarp::os::Bottle * asList = keywords.asList();
     

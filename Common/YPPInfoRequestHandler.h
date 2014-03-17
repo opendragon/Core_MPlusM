@@ -50,7 +50,7 @@ namespace YarpPlusPlus
     /*! @brief The standard 'info' request handler.
      
      The input is the name of a request and the output is a dictionary of fields describing the request. The fields
-     'description', 'input', 'keywords', 'output', and 'version' are optional, while the field 'request' is always
+     'detail', 'input', 'keywords', 'output', and 'version' are optional, while the field 'request' is always
      present. */
     class InfoRequestHandler : public BaseRequestHandler
     {

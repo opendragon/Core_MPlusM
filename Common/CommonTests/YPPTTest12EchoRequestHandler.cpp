@@ -89,7 +89,7 @@ void Test12EchoRequestHandler::fillInDescription(yarp::os::Property & info)
     info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
     info.put(YPP_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Echo back any input");
+    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Echo back any input");
     yarp::os::Value    keywords;
     yarp::os::Bottle * asList = keywords.asList();
     

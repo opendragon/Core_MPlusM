@@ -93,5 +93,5 @@ add_test(NAME TestRequestUnregisterService3 COMMAND RegistryTest 15 "localhost" 
 # Test search for request / service - note the change in arguments
 add_test(NAME TestRequestSearchService1 COMMAND RegistryTest 16 "" "FAILED \"An error message\"")
 add_test(NAME TestRequestSearchService2 COMMAND RegistryTest 16 "Version 42" "OK ()")
-add_test(NAME TestRequestSearchService3 COMMAND RegistryTest 16 "Description:Echo*" "OK (/service/test16)")
-add_test(NAME TestRequestSearchService4 COMMAND RegistryTest 16 "Description:Echo*,Keyword(requests)" "OK (/service/test16 /$ervice)")
+add_test(NAME TestRequestSearchService3 COMMAND RegistryTest 16 "Details:Echo*" "OK (/service/test16)")
+add_test(NAME TestRequestSearchService4 COMMAND RegistryTest 16 "Details:Echo*,Keyword(requests)" "OK (/service/test16 /$ervice)")

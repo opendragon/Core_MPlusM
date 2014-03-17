@@ -49,11 +49,9 @@ namespace YarpPlusPlus
 {
     class BaseService;
     
-    /*! @brief The standard 'list' request handler.
+    /*! @brief The standard 'name' request handler.
      
-     There is no input for the request and the output is a list of dictionaries of fields, describing all the known
-     requests. The fields 'description', 'input', 'keywords', 'output', and 'version' are optional in each dictionary,
-     while the field 'request' is always present. */
+     There is no input for the request and the output is the canonical name of the service. */
     class NameRequestHandler : public BaseRequestHandler
     {
     public:

@@ -90,18 +90,18 @@
 /*! @brief Request/response specification character - any element. */
 # define YPP_REQREP_ANYTHING   "."
 
-/*! @brief Request/response dictionary key - description. */
-# define YPP_REQREP_DICT_DESCRIPTION_KEY "description"
+/*! @brief Request/response dictionary key - details. */
+# define YPP_REQREP_DICT_DETAILS_KEY  "details"
 /*! @brief Request/response dictionary key - input specification. */
-# define YPP_REQREP_DICT_INPUT_KEY       "input"
+# define YPP_REQREP_DICT_INPUT_KEY    "input"
 /*! @brief Request/response dictionary key - keywords. */
-# define YPP_REQREP_DICT_KEYWORDS_KEY    "keywords"
+# define YPP_REQREP_DICT_KEYWORDS_KEY "keywords"
 /*! @brief Request/response dictionary key - output specification. */
-# define YPP_REQREP_DICT_OUTPUT_KEY      "output"
+# define YPP_REQREP_DICT_OUTPUT_KEY   "output"
 /*! @brief Request/response dictionary key - request specification. */
-# define YPP_REQREP_DICT_REQUEST_KEY     "request"
+# define YPP_REQREP_DICT_REQUEST_KEY  "request"
 /*! @brief Request/response dictionary key - version. */
-# define YPP_REQREP_DICT_VERSION_KEY     "version"
+# define YPP_REQREP_DICT_VERSION_KEY  "version"
 
 /*! @brief THe standard name for the service registry port. */
 # define YPP_SERVICE_REGISTRY_PORT_NAME "/$ervice"

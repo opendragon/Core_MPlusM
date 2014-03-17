@@ -52,8 +52,8 @@ namespace YarpPlusPlus
     /*! @brief The characteristics of a request. */
     struct RequestDescription
     {
-    /*! @brief The description of the request. */
-        yarp::os::ConstString _description;
+    /*! @brief The details of the request. */
+        yarp::os::ConstString _details;
         /*! @brief The inputs descriptor for the request. */
         yarp::os::ConstString _inputs;
         /*! @brief The outputs descriptor for the request. */

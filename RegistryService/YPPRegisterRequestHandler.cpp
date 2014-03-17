@@ -93,7 +93,7 @@ void RegisterRequestHandler::fillInDescription(yarp::os::Property & info)
     info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_STRING);
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_STRING);
     info.put(YPP_REQREP_DICT_VERSION_KEY, REGISTER_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DESCRIPTION_KEY, "Register the service and its requests");
+    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Register the service and its requests");
     yarp::os::Value    keywords;
     yarp::os::Bottle * asList = keywords.asList();
     
@@ -236,18 +236,18 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                     RequestDescription    requestDescriptor;
                     
                     OD_SYSLOG_S1("theRequest <- ", theRequest.c_str());//####
-                    if (asDict->check(YPP_REQREP_DICT_DESCRIPTION_KEY))
+                    if (asDict->check(YPP_REQREP_DICT_DETAILS_KEY))
                     {
-                        yarp::os::Value theDescription = asDict->find(YPP_REQREP_DICT_DESCRIPTION_KEY);
+                        yarp::os::Value theDetails = asDict->find(YPP_REQREP_DICT_DETAILS_KEY);
                         
-                        OD_SYSLOG_S1("theDescription <- ", theDescription.toString().c_str());//####
-                        if (theDescription.isString())
+                        OD_SYSLOG_S1("theDetails <- ", theDetails.toString().c_str());//####
+                        if (theDetails.isString())
                         {
-                            requestDescriptor._description = theDescription.toString();
+                            requestDescriptor._details = theDetails.toString();
                         }
                         else
                         {
-                            // The description is present, but it's not a string.
+                            // The details field is present, but it's not a string.
                             result = false;
                         }
                     }
