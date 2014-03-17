@@ -57,8 +57,8 @@ using namespace YarpPlusPlus;
 RequestCounterService::RequestCounterService(const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & serviceHostName,
                                              const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, YPP_REQUESTCOUNTER_CANONICAL_NAME, serviceEndpointName, serviceHostName, servicePortNumber),
-        _counter(0), _lastReset(yarp::os::Time::now())
+        inherited(true, YPP_REQUESTCOUNTER_CANONICAL_NAME, "The request counter service", serviceEndpointName,
+                  serviceHostName, servicePortNumber), _counter(0), _lastReset(yarp::os::Time::now())
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####

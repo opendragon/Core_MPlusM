@@ -65,7 +65,7 @@ using namespace YarpPlusPlusTest;
 
 Test16Service::Test16Service(const int argc,
                              char **   argv) :
-        inherited(true, "Test16", argc, argv)
+        inherited(true, "Test16", "Simple service for unit tests", argc, argv)
 {
     OD_SYSLOG_ENTER();//####
     _requestHandlers.registerRequestHandler(new Test16EchoRequestHandler());

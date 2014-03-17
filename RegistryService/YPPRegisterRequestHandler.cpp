@@ -352,17 +352,18 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & p
     OD_SYSLOG_S2("portName = ", portName.c_str(), "response = ", response.asString().c_str());//####
     bool result;
     
-    if (1 == response.count())
+    if (2 == response.count())
     {
-        yarp::os::Value theAnswer(response.element(0));
+        yarp::os::Value theCanonicalName(response.element(0));
+        yarp::os::Value theDescription(response.element(1));
         
-        if (theAnswer.isString())
+        if (theCanonicalName.isString() && theDescription.isString())
         {
-            result = _service.addServiceRecord(portName, theAnswer.toString());
+            result = _service.addServiceRecord(portName, theCanonicalName.toString(), theDescription.toString());
         }
         else
         {
-            // The name is present, but it's not a string
+            // The canonical name and description are present, but at least one of them is not a string
             result = false;
         }
     }

@@ -60,13 +60,13 @@ using namespace YarpPlusPlus;
 /*! @brief Check the response to the 'match' request for validity.
  @param response The response to be checked.
  @returns The original response, if it is valid, or an empty response if it is not. */
-static yarp::os::Bottle ValidateMatchRequest(const yarp::os::Bottle & response)
+static yarp::os::Bottle ValidateMatchResponse(const yarp::os::Bottle & response)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("response = ", response.toString().c_str());//####
     yarp::os::Bottle result;
     
-    if (BaseClient::kExpectedResponseSize == response.size())
+    if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == response.size())
     {
         // The first element of the response should be 'OK' or 'FAILED'; if 'OK', the second element should be a list of
         // service names.
@@ -94,13 +94,11 @@ static yarp::os::Bottle ValidateMatchRequest(const yarp::os::Bottle & response)
     }
     OD_SYSLOG_EXIT();//####
     return result;
-} // ValidateMatchRequest
+} // ValidateMatchResponse
 
 #if defined(__APPLE__)
 # pragma mark Class methods
 #endif // defined(__APPLE__)
-
-const int BaseClient::kExpectedResponseSize = 2;
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors
@@ -133,7 +131,7 @@ bool BaseClient::connect(const char * criteria,
     yarp::os::Bottle candidates(FindMatchingServices(criteria));
     
     OD_SYSLOG_S1("candidates <- ", candidates.toString().c_str());//####
-    if (BaseClient::kExpectedResponseSize == candidates.size())
+    if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())
     {
         // First, check if the search succeeded.
         yarp::os::ConstString candidatesFirstString(candidates.get(0).toString());
@@ -214,7 +212,7 @@ yarp::os::Bottle YarpPlusPlus::FindMatchingServices(const char * criteria)
     
     if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
     {
-        result = ValidateMatchRequest(response.values());
+        result = ValidateMatchResponse(response.values());
     }
     OD_SYSLOG_EXIT();//####
     return result;

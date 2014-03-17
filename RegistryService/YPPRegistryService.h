@@ -92,9 +92,11 @@ namespace YarpPlusPlus
         /*! @brief Add a service to the registry.
          @param portName The service port for the service.
          @param name The canonical name for the service.
+         @param description The description of the service.
          @returns @c true if the request was successfully added and @c false otherwise. */
         bool addServiceRecord(const yarp::os::ConstString & portName,
-                              const yarp::os::ConstString & name);
+                              const yarp::os::ConstString & name,
+                              const yarp::os::ConstString & description);
         
         /*! @brief Return @c true if the service is active.
          @returns @c true if the service is active and @c false otherwise. */

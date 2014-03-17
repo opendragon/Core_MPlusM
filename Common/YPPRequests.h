@@ -60,6 +60,11 @@
 /*! @brief The standard name for a 'unregister' request. */
 # define YPP_UNREGISTER_REQUEST "unregister"
 
+/*! @brief The number of elements expected in the output of a 'match' request. */
+# define YPP_EXPECTED_MATCH_RESPONSE_SIZE 2
+/*! @brief The number of elements expected in the output of a 'name' request. */
+# define YPP_EXPECTED_NAME_RESPONSE_SIZE  2
+
 /*! @brief The standard response to an invalid 'register' / 'unregister' request. */
 # define YPP_FAILED_RESPONSE "FAILED"
 /*! @brief The standard response to a valid 'register' / 'unregister' request. */

@@ -86,6 +86,8 @@ using namespace YarpPlusPlus;
 #define SERVICES_NAME_I_                "Services_name_idx"
 
 /*! @brief The named parameter for the 'details' column. */
+#define DESCRIPTION_C_ "description"
+/*! @brief The named parameter for the 'details' column. */
 #define DETAILS_C_     "details"
 /*! @brief The named parameter for the 'input' column. */
 #define INPUT_C_       "input"
@@ -141,6 +143,8 @@ namespace YarpPlusPlus
         yarp::os::ConstString _port;
         /*! @brief The name for the service. */
         yarp::os::ConstString _name;
+        /*! @brief The description of the service. */
+        yarp::os::ConstString _description;
     }; // ServiceData
     
 } // YarpPlusPlus
@@ -149,27 +153,32 @@ namespace YarpPlusPlus
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief The prefix to be used when generating SQL for a keyword request. */
-#define KEYWORD_PREFIX_STRING_ "KEY IN (SELECT DISTINCT " REQUESTS_ID_C_ " FROM " REQUESTSKEYWORDS_T_ " WHERE "
-/*! @brief The suffix to be used when generating SQL for a keyword request. */
-#define KEYWORD_SUFFIX_STRING_ ")"
-/*! @brief The prefix to be used when generating SQL for a keyword request. */
-#define NAME_PREFIX_STRING_    PORTNAME_C_ " IN (SELECT DISTINCT " PORTNAME_C_ " FROM " SERVICES_T_ " WHERE "
-/*! @brief The suffix to be used when generating SQL for a keyword request. */
-#define NAME_SUFFIX_STRING_    ")"
+/*! @brief The prefix to be used when generating SQL for a 'description' request. */
+#define DESCRIPTION_PREFIX_ PORTNAME_C_ " IN (SELECT DISTINCT " PORTNAME_C_ " FROM " SERVICES_T_ " WHERE "
+/*! @brief The suffix to be used when generating SQL for a 'description' request. */
+#define DESCRIPTION_SUFFIX_ ")"
+/*! @brief The prefix to be used when generating SQL for a 'keyword' request. */
+#define KEYWORD_PREFIX_     "KEY IN (SELECT DISTINCT " REQUESTS_ID_C_ " FROM " REQUESTSKEYWORDS_T_ " WHERE "
+/*! @brief The suffix to be used when generating SQL for a 'keyword' request. */
+#define KEYWORD_SUFFIX_     ")"
+/*! @brief The prefix to be used when generating SQL for a 'name' request. */
+#define NAME_PREFIX_        PORTNAME_C_ " IN (SELECT DISTINCT " PORTNAME_C_ " FROM " SERVICES_T_ " WHERE "
+/*! @brief The suffix to be used when generating SQL for a 'name' request. */
+#define NAME_SUFFIX_        ")"
 
 /*! @brief the valid field names that may be used. Note that the strings are all lower-case for comparison purposes. */
 static const char * kColumnNames[] =
 {
-    // Name to match   Name to use     Prefix to be used      Suffix to be used
-    DETAILS_C_,     DETAILS_C_,     NULL,                   NULL,
-    INPUT_C_,       INPUT_C_,       NULL,                   NULL,
-    KEYWORD_C_,     KEYWORDS_ID_C_, KEYWORD_PREFIX_STRING_, KEYWORD_SUFFIX_STRING_,
-    NAME_C_,        NAME_C_,        NAME_PREFIX_STRING_,    NAME_SUFFIX_STRING_,
-    OUTPUT_C_,      OUTPUT_C_,      NULL,                   NULL,
-    PORTNAME_C_,    PORTNAME_C_,    NULL,                   NULL,
-    REQUEST_C_,     REQUEST_C_,     NULL,                   NULL,
-    VERSION_C_,     VERSION_C_,     NULL,                   NULL
+    // Name to match   Name to use     Prefix to be used    Suffix to be used
+    DESCRIPTION_C_, DESCRIPTION_C_, DESCRIPTION_PREFIX_, DESCRIPTION_SUFFIX_,
+    DETAILS_C_,     DETAILS_C_,     NULL,                NULL,
+    INPUT_C_,       INPUT_C_,       NULL,                NULL,
+    KEYWORD_C_,     KEYWORDS_ID_C_, KEYWORD_PREFIX_,     KEYWORD_SUFFIX_,
+    NAME_C_,        NAME_C_,        NAME_PREFIX_,        NAME_SUFFIX_,
+    OUTPUT_C_,      OUTPUT_C_,      NULL,                NULL,
+    PORTNAME_C_,    PORTNAME_C_,    NULL,                NULL,
+    REQUEST_C_,     REQUEST_C_,     NULL,                NULL,
+    VERSION_C_,     VERSION_C_,     NULL,                NULL
 }; // kColumnNames
 
 /*! @brief The number of valid field names. */
@@ -387,8 +396,9 @@ static bool constructTables(sqlite3 * database)
             "DROP TABLE IF EXISTS " SERVICES_T_,
 #endif // defined(USE_TEST_DATABASE)
             "CREATE TABLE IF NOT EXISTS " SERVICES_T_ "("
-                " " PORTNAME_C_ " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT REPLACE,"
-                " " NAME_C_     " Text NOT NULL DEFAULT _)",
+                " " PORTNAME_C_ "    Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT REPLACE,"
+                " " NAME_C_ "        Text NOT NULL DEFAULT _,"
+                " " DESCRIPTION_C_ " Text NOT NULL DEFAULT _)",
             "CREATE INDEX IF NOT EXISTS " SERVICES_NAME_I_ " ON " SERVICES_T_ "(" NAME_C_ ")",
             "CREATE TABLE IF NOT EXISTS " KEYWORDS_T_ "("
                 " " KEYWORD_C_ " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT IGNORE)",
@@ -600,11 +610,12 @@ static int setupInsertForServices(sqlite3_stmt * statement,
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P2("statement = ", statement, "stuff = ", stuff);//####
+    int descriptionIndex = sqlite3_bind_parameter_index(statement, "@" DESCRIPTION_C_);
     int nameIndex = sqlite3_bind_parameter_index(statement, "@" NAME_C_);
     int portNameIndex = sqlite3_bind_parameter_index(statement, "@" PORTNAME_C_);
     int result;
     
-    if ((0 < nameIndex) && (0 < portNameIndex))
+    if ((0 < descriptionIndex) && (0 < nameIndex) && (0 < portNameIndex))
     {
         const ServiceData * descriptor = static_cast<const ServiceData *>(stuff);
         const char *        portName = descriptor->_port.c_str();
@@ -618,6 +629,14 @@ static int setupInsertForServices(sqlite3_stmt * statement,
             
             OD_SYSLOG_S1("name <- ", name);//####
             result = sqlite3_bind_text(statement, nameIndex, name, static_cast<int>(strlen(name)), SQLITE_TRANSIENT);
+        }
+        if (SQLITE_OK == result)
+        {
+            const char * description = descriptor->_description.c_str();
+            
+            OD_SYSLOG_S1("description <- ", description);//####
+            result = sqlite3_bind_text(statement, descriptionIndex, description, static_cast<int>(strlen(description)),
+                                       SQLITE_TRANSIENT);
         }
         if (SQLITE_OK != result)
         {
@@ -736,8 +755,8 @@ static int setupRemoveForServices(sqlite3_stmt * statement,
 RegistryService::RegistryService(const bool                    useInMemoryDb,
                                  const yarp::os::ConstString & serviceHostName,
                                  const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, YPP_REGISTRY_CANONICAL_NAME, YPP_SERVICE_REGISTRY_PORT_NAME, serviceHostName,
-                  servicePortNumber), _db(NULL), _inMemory(useInMemoryDb), _isActive(false)
+        inherited(true, YPP_REGISTRY_CANONICAL_NAME, "The Service Registry service", YPP_SERVICE_REGISTRY_PORT_NAME,
+                  serviceHostName, servicePortNumber), _db(NULL), _inMemory(useInMemoryDb), _isActive(false)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_B1("useInMemoryDb = ", useInMemoryDb);//####
@@ -819,18 +838,15 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
     return okSoFar;
 } // RegistryService::addRequestRecord
 
-/*! @brief Add a service to the registry.
- @param portName The service port for the service.
- @param name The canonical name for the service.
- @returns @c true if the request was successfully added and @c false otherwise. */
 bool RegistryService::addServiceRecord(const yarp::os::ConstString & portName,
-                                       const yarp::os::ConstString & name)
+                                       const yarp::os::ConstString & name,
+                                       const yarp::os::ConstString & description)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S2("portName = ", portName.c_str(), "name = ", name.c_str());//####
     bool                okSoFar = performSQLstatementWithNoResults(_db, kBeginTransaction);
-    static const char * insertIntoServices = "INSERT INTO " SERVICES_T_ "(" PORTNAME_C_ "," NAME_C_ ") VALUES(@"
-                                                PORTNAME_C_ ",@" NAME_C_ ")";
+    static const char * insertIntoServices = "INSERT INTO " SERVICES_T_ "(" PORTNAME_C_ "," NAME_C_ "," DESCRIPTION_C_
+                                                ") VALUES(@" PORTNAME_C_ ",@" NAME_C_ ",@" DESCRIPTION_C_ ")";
     
     if (okSoFar)
     {
@@ -839,6 +855,7 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & portName,
         
         servData._port = portName;
         servData._name = name;
+        servData._description = description;
         okSoFar = performSQLstatementWithNoResults(_db, insertIntoServices, setupInsertForServices,
                                                    static_cast<const void *>(&servData));
     }

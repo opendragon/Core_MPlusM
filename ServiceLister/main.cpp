@@ -43,6 +43,7 @@
 #include "ODSyslog.h"
 #include "YPPBaseClient.h"
 #include "YPPRequests.h"
+#include "YPPServiceRequest.h"
 #include <ace/Version.h>
 #include <iostream>
 #include <yarp/conf/version.h>
@@ -59,6 +60,44 @@ using std::endl;
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
+
+/*! @brief Retrieve the details for a service.
+ @param aServicePort The port for the service.
+ @param canonicalName The canonical name for the service.
+ @param description The description of the service.
+ @returns @c true if the service returned the desired information and @c false otherwise. */
+static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServicePort,
+                                            yarp::os::ConstString &       canonicalName,
+                                            yarp::os::ConstString &       description)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("aServicePort = ", aServicePort.c_str());//####
+    bool                          result = false;
+    yarp::os::Bottle              parameters;
+    YarpPlusPlus::ServiceRequest  request(YPP_NAME_REQUEST, parameters);
+    YarpPlusPlus::ServiceResponse response;
+    
+    if (request.send(aServicePort, NULL, &response))
+    {
+        OD_SYSLOG_S1("response <- ", response.asString().c_str());//####
+        if (YPP_EXPECTED_NAME_RESPONSE_SIZE == response.count())
+        {
+            yarp::os::Value theCanonicalName(response.element(0));
+            yarp::os::Value theDescription(response.element(1));
+            
+            OD_SYSLOG_S2("theCanonicalName <- ", theCanonicalName.toString().c_str(), "theDescription <- ",//####
+                         theDescription.toString().c_str());//####
+            if (theCanonicalName.isString() && theDescription.isString())
+            {
+                canonicalName = theCanonicalName.toString();
+                description = theDescription.toString();
+                result = true;
+            }
+        }
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // getNameAndDescriptionForService
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -84,7 +123,7 @@ int main(int     argc,
     yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
     yarp::os::Bottle  matches(YarpPlusPlus::FindMatchingServices("request:*"));
     
-    if (YarpPlusPlus::BaseClient::kExpectedResponseSize == matches.size())
+    if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
     {
         // First, check if the search succeeded.
         yarp::os::ConstString matchesFirstString(matches.get(0).toString());
@@ -96,24 +135,32 @@ int main(int     argc,
             
             if (matchesList)
             {
-                int matchesCount = matchesList->size();
+                bool reported = false;
+                int  matchesCount = matchesList->size();
                 
                 if (matchesCount)
                 {
-                    cout << "Service ports: ";
                     for (int ii = 0; ii < matchesCount; ++ii)
                     {
                         yarp::os::ConstString aMatch(matchesList->get(ii).toString());
-                        
-                        if (ii)
+                        yarp::os::ConstString canonicalName;
+                        yarp::os::ConstString description;
+
+                        if (getNameAndDescriptionForService(aMatch, canonicalName, description))
                         {
-                            cout << ", ";
+                            if (! reported)
+                            {
+                                cout << "Services: " << endl << endl;
+                            }
+                            reported = true;
+                            cout << "Service port: " << aMatch.c_str() << endl;
+                            cout << "Service name: " << canonicalName.c_str() << endl;
+                            cout << "Description:  " << description.c_str() << endl;
                         }
-                        cout << aMatch.c_str();
-                    }
+                     }
                     cout << endl;
                 }
-                else
+                if (! reported)
                 {
                     cerr << "No services found." << endl;
                 }

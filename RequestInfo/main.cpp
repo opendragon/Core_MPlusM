@@ -210,7 +210,7 @@ int main(int     argc,
     }
     yarp::os::Bottle matches(YarpPlusPlus::FindMatchingServices(portNameRequest));
     
-    if (YarpPlusPlus::BaseClient::kExpectedResponseSize == matches.size())
+    if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
     {
         // First, check if the search succeeded.
         yarp::os::ConstString matchesFirstString(matches.get(0).toString());

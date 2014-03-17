@@ -56,9 +56,6 @@ namespace YarpPlusPlus
     {
     public:
         
-        /*! @brief The number of elements expected in the output of FindMatchingServices. */
-        static const int kExpectedResponseSize;
-        
         /*! @brief The constructor. */
         BaseClient(void);
         

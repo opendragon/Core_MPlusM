@@ -311,8 +311,7 @@ static int doCase16(const int argc,
                         
                         OD_SYSLOG_S3("criteria <- ", *argv, "expected <- ", expected.toString().c_str(),//####
                                      "matches <- ", matches.toString().c_str());//####
-                        if ((expected.size() == matches.size()) &&
-                            (BaseClient::kExpectedResponseSize == matches.size()))
+                        if ((expected.size() == matches.size()) && (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size()))
                         {
                             bool            wasASuccess = false;
                             yarp::os::Value matchesFirst(matches.get(0));

@@ -73,16 +73,19 @@ using namespace YarpPlusPlus;
 
 BaseService::BaseService(const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
+                         const yarp::os::ConstString & description,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & serviceHostName,
                          const yarp::os::ConstString & servicePortNumber) :
-        _requestHandlers(*this), _canonicalName(canonicalName), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
-        _started(false), _useMultipleHandlers(useMultipleHandlers)
+        _requestHandlers(*this), _canonicalName(canonicalName), _description(description), _endpoint(NULL),
+        _handler(NULL), _handlerCreator(NULL), _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
-    OD_SYSLOG_S4("canonicalName = ", canonicalName.c_str(), "serviceEndpointName = ", serviceEndpointName.c_str(),//####
-                 "serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_SYSLOG_S4("canonicalName = ", canonicalName.c_str(), "description = ", description.c_str(),//####
+                 "serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
+                 serviceHostName.c_str());//####
+    OD_SYSLOG_S1("servicePortNumber = ", servicePortNumber.c_str());//####
     _endpoint = new Endpoint(serviceEndpointName, serviceHostName, servicePortNumber);
     setUpRequestHandlers();
     OD_SYSLOG_EXIT_P(this);//####
@@ -90,14 +93,15 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
 
 BaseService::BaseService(const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
+                         const yarp::os::ConstString & description,
                          const int                     argc,
                          char **                       argv) :
-        _requestHandlers(*this), _canonicalName(canonicalName), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
-        _started(false), _useMultipleHandlers(useMultipleHandlers)
+        _requestHandlers(*this), _canonicalName(canonicalName), _description(description), _endpoint(NULL),
+        _handler(NULL), _handlerCreator(NULL), _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
-    OD_SYSLOG_S1("canonicalName = ", canonicalName.c_str());//####
+    OD_SYSLOG_S2("canonicalName = ", canonicalName.c_str(), "description = ", description.c_str());//####
     switch (argc)
     {
             // Argument order for tests = endpoint name [, IP address / name [, port [, carrier]]]

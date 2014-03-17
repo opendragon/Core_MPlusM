@@ -54,7 +54,8 @@ using namespace YarpPlusPlusExample;
 ExampleRandomNumberService::ExampleRandomNumberService(const yarp::os::ConstString & serviceEndpointName,
                                                        const yarp::os::ConstString & serviceHostName,
                                                        const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, YPP_RANDOM_CANONICAL_NAME, serviceEndpointName, serviceHostName, servicePortNumber)
+        inherited(true, YPP_RANDOM_CANONICAL_NAME, "An example random number service", serviceEndpointName,
+                  serviceHostName, servicePortNumber)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####

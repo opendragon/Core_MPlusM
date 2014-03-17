@@ -64,7 +64,7 @@ using namespace YarpPlusPlusTest;
 
 Test09Service::Test09Service(const int argc,
                              char **   argv) :
-        inherited(false, "Test09", argc, argv)
+        inherited(false, "Test09", "Simple service for unit tests", argc, argv)
 {
     OD_SYSLOG_ENTER();//####
     _requestHandlers.setDefaultRequestHandler(new YarpPlusPlusTest::Test09DefaultRequestHandler());
