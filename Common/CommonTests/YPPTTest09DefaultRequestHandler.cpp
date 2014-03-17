@@ -85,11 +85,15 @@ void Test09DefaultRequestHandler::fillInDescription(yarp::os::Property & info)
     OD_SYSLOG_EXIT();//####
 } // Test09DefaultRequestHandler::fillInDescription
 
-bool Test09DefaultRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
-                                              yarp::os::ConnectionWriter * replyMechanism)
+bool Test09DefaultRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
+                                              const yarp::os::ConstString & senderPort,
+                                              yarp::os::ConnectionWriter *  replyMechanism)
 {
+#if (! defined(ENABLE_OD_SYSLOG))
+# pragma unused(senderPort)
+#endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
+    OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     

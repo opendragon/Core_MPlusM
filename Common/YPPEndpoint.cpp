@@ -48,10 +48,13 @@
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
+#include <iostream>
 #include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
 
 using namespace YarpPlusPlus;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -120,6 +123,24 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
     }
     return result;
 } // checkHostName
+
+/*! @brief Returns a printable string, even for null strings.
+ @param aString The string to be checked.
+ @returns The input string, if non-@c NULL, or a fixed string if it is @c NULL. */
+static const char * nullOrString(const char * aString)
+{
+    const char * result;
+    
+    if (aString)
+    {
+        result = aString;
+    }
+    else
+    {
+        result = "<>";
+    }
+    return result;
+} // nullOrString
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -414,13 +435,17 @@ const
 void YarpPlusPlus::DumpContact(const char *              tag,
                                const yarp::os::Contact & aContact)
 {
-#if (! defined(ENABLE_OD_SYSLOG))
-# pragma unused(tag,aContact)
-#endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
                  "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ",//####
                  aContact.getCarrier().c_str());//####
     OD_SYSLOG_LL1("contact.port = ", aContact.getPort());//####
     OD_SYSLOG_S1("contact.toString = ", aContact.toString().c_str());//####
     OD_SYSLOG_B1("contact.isValid = ", aContact.isValid());//####
+    cout << "tag = '" << nullOrString(tag) << "', contact.name = '" << nullOrString(aContact.getName().c_str()) <<
+            "'" << endl;
+    cout << "contact.host = '" << nullOrString(aContact.getHost().c_str()) << "', contact.carrier = '" <<
+            nullOrString(aContact.getCarrier().c_str()) << "'" << endl;
+    cout << "contact.port = " << aContact.getPort() << endl;
+    cout << "contact.toString = '" << nullOrString(aContact.toString().c_str()) << "'" << endl;
+    cout << "contact.isValid = " << (aContact.isValid() ? "true" : "false") << endl;
 } // DumpContact

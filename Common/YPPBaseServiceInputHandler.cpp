@@ -81,17 +81,18 @@ BaseServiceInputHandler::~BaseServiceInputHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &     input,
-                                          yarp::os::ConnectionWriter * replyMechanism)
+bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &      input,
+                                          const yarp::os::ConstString & senderPort,
+                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
-    OD_SYSLOG_S1("got ", input.toString().c_str());//####
     bool result;
     
     if (0 < input.size())
     {
-        result = _service.processRequest(input.get(0).toString(), input.tail(), replyMechanism);
+        result = _service.processRequest(input.get(0).toString(), input.tail(), senderPort, replyMechanism);
     }
     else
     {

@@ -88,14 +88,15 @@ void RequestCounterDefaultRequestHandler::fillInDescription(yarp::os::Property &
     OD_SYSLOG_EXIT();//####
 } // RequestCounterDefaultRequestHandler::fillInDescription
 
-bool RequestCounterDefaultRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
-                                                      yarp::os::ConnectionWriter * replyMechanism)
+bool RequestCounterDefaultRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
+                                                      const yarp::os::ConstString & senderPort,
+                                                      yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(ENABLE_OD_SYSLOG))
-# pragma unused(restOfInput)
+# pragma unused(restOfInput,senderPort)
 #endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("restOfInput = ", restOfInput.toString().c_str());//####
+    OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     

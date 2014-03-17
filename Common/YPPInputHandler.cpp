@@ -89,11 +89,11 @@ bool InputHandler::read(yarp::os::ConnectionReader & connection)
     
     if (_canProcessInput)
     {
-//        DumpContact(connection.getRemoteContact());//####
+//        DumpContact("input read", connection.getRemoteContact());//####
         yarp::os::Bottle aBottle;
         
         aBottle.read(connection);
-        result = handleInput(aBottle, connection.getWriter());
+        result = handleInput(aBottle, connection.getRemoteContact().getName(), connection.getWriter());
     }
     else
     {

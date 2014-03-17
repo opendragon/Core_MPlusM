@@ -141,16 +141,20 @@ BaseService::~BaseService(void)
 
 bool BaseService::processRequest(const yarp::os::ConstString & request,
                                  const yarp::os::Bottle &      restOfInput,
+                                 const yarp::os::ConstString & senderPort,
                                  yarp::os::ConnectionWriter *  replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
+                 "senderPort = ", senderPort.c_str());//####
+    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool                 result;
     BaseRequestHandler * handler = _requestHandlers.lookupRequestHandler(request);
     
     if (handler)
     {
         OD_SYSLOG("(handler)");//####
-        result = (*handler) (restOfInput, replyMechanism);
+        result = (*handler) (restOfInput, senderPort, replyMechanism);
     }
     else
     {

@@ -59,10 +59,12 @@ namespace YarpPlusPlusTest
         
         /*! @brief Process partially-structured input data.
          @param input The partially-structured input data.
+         @param senderPort The name of the port used to send the input data.
          @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
          @returns @c true if the input was correctly structured and successfully processed. */
-        virtual bool handleInput(const yarp::os::Bottle &     input,
-                                 yarp::os::ConnectionWriter * replyMechanism);
+        virtual bool handleInput(const yarp::os::Bottle &      input,
+                                 const yarp::os::ConstString & senderPort,
+                                 yarp::os::ConnectionWriter *  replyMechanism);
         
     protected:
         

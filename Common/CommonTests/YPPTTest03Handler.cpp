@@ -78,15 +78,16 @@ Test03Handler::~Test03Handler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool Test03Handler::handleInput(const yarp::os::Bottle &     input,
-                                yarp::os::ConnectionWriter * replyMechanism)
+bool Test03Handler::handleInput(const yarp::os::Bottle &      input,
+                                const yarp::os::ConstString & senderPort,
+                                yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(ENABLE_OD_SYSLOG))
-# pragma unused(input,replyMechanism)
+# pragma unused(input,senderPort,replyMechanism)
 #endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
-    OD_SYSLOG_S1("got ", input.toString().c_str());//####
     OD_SYSLOG_EXIT_B(true);//####
     return true;
 } // Test03Handler::handleInput

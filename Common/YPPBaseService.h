@@ -121,10 +121,12 @@ namespace YarpPlusPlus
         /*! @brief Process partially-structured input data.
          @param request The requested operation.
          @param restOfInput The arguments for the operation.
+         @param senderPort The name of the port used to send the input data.
          @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
          @returns @c true if the input was correctly structured and successfully processed. */
         bool processRequest(const yarp::os::ConstString & request,
                             const yarp::os::Bottle &      restOfInput,
+                            const yarp::os::ConstString & senderPort,
                             yarp::os::ConnectionWriter *  replyMechanism);
         
         /*! @brief Start processing requests.

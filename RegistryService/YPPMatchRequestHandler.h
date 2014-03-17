@@ -102,9 +102,11 @@ namespace YarpPlusPlus
         
         /*! @brief Process a request.
          @param restOfInput The arguments to the operation.
+         @param senderPort The name of the port used to send the input data.
          @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-        virtual bool operator() (const yarp::os::Bottle &     restOfInput,
-                                 yarp::os::ConnectionWriter * replyMechanism);
+        virtual bool operator() (const yarp::os::Bottle &      restOfInput,
+                                 const yarp::os::ConstString & senderPort,
+                                 yarp::os::ConnectionWriter *  replyMechanism);
         
     protected:
         
