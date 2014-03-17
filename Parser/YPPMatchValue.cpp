@@ -134,6 +134,17 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
             if (escapeNextChar)
             {
                 escapeNextChar = false;
+                // If the escaped character is one that will still need to be escaped when converted to SQL, retain the
+                // escape character.
+                if ((kEscapeCharacter == scanChar) || (kAsterisk == scanChar) || (kQuestionMark == scanChar))
+                {
+                    assembled += kEscapeCharacter;
+                }
+            }
+            else if (kEscapeCharacter == scanChar)
+            {
+                escapeNextChar = true;
+                continue;
             }
             else if (delimiter)
             {
@@ -142,11 +153,6 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
                     break;
                 }
                 
-            }
-            else if (kEscapeCharacter == scanChar)
-            {
-                escapeNextChar = true;
-                continue;
             }
             else if (isspace(scanChar) || (listSeparator == scanChar) || (listTerminator == scanChar) ||
                      (constraintSeparator == scanChar) || (expressionSeparator == scanChar))
@@ -187,25 +193,42 @@ MatchValue::MatchValue(const yarp::os::ConstString & inString) :
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
-    // Mark if the string will need escaping.
+    bool escapeNextChar = false;
+    
+    // Mark if the string will need escaping or has unescaped wildcards.
     for (int ii = 0, len = inString.length(); ii < len; ++ii)
     {
         char walker = inString[ii];
         
-        // If there are SQL special characters present, flag this as needing to be escaped.
-        if ((kUnderscore == walker) || (kPercent == walker) || (kEscapeCharacter == walker))
+        if (escapeNextChar)
         {
-            _needsEscaping = true;
+            if ((kEscapeCharacter == walker) || (kAsterisk == walker) || (kQuestionMark == walker))
+            {
+                // If the escaped character will still need to be escaped when converted to SQL, remember to do so.
+                _needsEscaping = true;
+            }
         }
-        else if ((kAsterisk == walker) || (kQuestionMark == walker))
+        else if (kEscapeCharacter == walker)
         {
-            // If there are wildcard characters present, flag this.
-            _hasWildcards = true;
+            escapeNextChar = true;
         }
-        else if (kSingleQuote == walker)
+        else
         {
-            // If there are single quote characters present, flag this.
-            _hasSingleQuotes = true;
+            // If there are SQL special characters present, flag this as needing to be escaped.
+            if ((kUnderscore == walker) || (kPercent == walker))
+            {
+                _needsEscaping = true;
+            }
+            else if ((kAsterisk == walker) || (kQuestionMark == walker))
+            {
+                // If there are wildcard characters present, flag this.
+                _hasWildcards = true;
+            }
+            else if (kSingleQuote == walker)
+            {
+                // If there are single quote characters present, flag this.
+                _hasSingleQuotes = true;
+            }
         }
     }
     OD_SYSLOG_EXIT_P(this);//####
@@ -225,19 +248,40 @@ yarp::os::ConstString MatchValue::asSQLString(void)
 const
 {
     OD_SYSLOG_ENTER();//####
+    bool                  escapeNextChar = false;
     yarp::os::ConstString converted;
     
     converted += kSingleQuote;
     if (_hasSingleQuotes || _hasWildcards || _needsEscaping)
     {
         OD_SYSLOG("(_hasWildcards || _needsEscaping)");//####
+        bool wasEscaped = false;
+        
         for (int ii = 0, len = _matchingString.length(); ii < len; ++ii)
         {
             char walker = _matchingString[ii];
             
             // If there are SQL special characters present, escape them.
-            if ((kUnderscore == walker) || (kPercent == walker) || (kEscapeCharacter == walker))
+            if (escapeNextChar)
             {
+                if ((kUnderscore == walker) || (kPercent == walker) || (kSingleQuote == walker))
+                {
+                    wasEscaped = true;
+                    converted += kEscapeCharacter;
+                    converted += walker;
+                }
+                else
+                {
+                    converted += walker;
+                }
+            }
+            else if (kEscapeCharacter == walker)
+            {
+                escapeNextChar = true;
+            }
+            else if ((kUnderscore == walker) || (kPercent == walker))
+            {
+                wasEscaped = true;
                 converted += kEscapeCharacter;
                 converted += walker;
             }
@@ -261,7 +305,7 @@ const
                 converted += walker;
             }
         }
-        if (_needsEscaping)
+        if (wasEscaped)
         {
             converted += kSingleQuote;
             converted += " ESCAPE ";

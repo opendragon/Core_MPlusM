@@ -139,6 +139,7 @@ static int doCase01(const bool expected,
     {
         OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString(), "didMatch->asSQLString = ",//####
                      didMatch->asSQLString().c_str());//####
+        cout << didMatch->asSQLString().c_str() << endl;
         delete didMatch;
     }
     OD_SYSLOG_EXIT_LL(result);//####
@@ -163,7 +164,8 @@ static int doCase02(const bool expected,
     if (didMatch)
     {
         OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                     didMatch->asSQLString("blort"));//####
+                     didMatch->asSQLString("field"));//####
+        cout << didMatch->asSQLString("field").c_str() << endl;
         delete didMatch;
     }
     OD_SYSLOG_EXIT_LL(result);//####
@@ -189,6 +191,7 @@ static int doCase03(const bool expected,
     {
         OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
                      didMatch->asSQLString());//####
+        cout << didMatch->asSQLString().c_str() << endl;
         delete didMatch;
     }
     OD_SYSLOG_EXIT_LL(result);//####
@@ -214,6 +217,7 @@ static int doCase04(const bool expected,
     {
         OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString(), "didMatch->asSQLString = ",//####
                      didMatch->asSQLString().c_str());//####
+        cout << didMatch->asSQLString().c_str() << endl;
         delete didMatch;
     }
     OD_SYSLOG_EXIT_LL(result);//####
@@ -239,6 +243,7 @@ static int doCase05(const bool expected,
     {
         OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
                      didMatch->asSQLString());//####
+        cout << didMatch->asSQLString().c_str() << endl;
         delete didMatch;
     }
     OD_SYSLOG_EXIT_LL(result);//####
@@ -264,6 +269,7 @@ static int doCase06(const bool expected,
     {
         OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
                      didMatch->asSQLString("SELECT "));//####
+        cout << didMatch->asSQLString("SELECT ").c_str() << endl;
         delete didMatch;
     }
     OD_SYSLOG_EXIT_LL(result);//####
