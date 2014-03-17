@@ -135,11 +135,13 @@ bool MatchRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
                 
                 if (matcher)
                 {
+                    OD_SYSLOG("(matcher)");//####
                     // Hand off the processing to the registry service. First, put the 'OK' response in the output
                     // buffer, as we have successfully parsed the request.
                     reply.addString(YPP_OK_RESPONSE);
                     if (! _service.processMatchRequest(matcher, reply))
                     {
+                        OD_SYSLOG("(! _service.processMatchRequest(matcher, reply))");//####
                         reply = yarp::os::Bottle::getNullBottle();
                         reply.addString(YPP_FAILED_RESPONSE);
                         reply.addString("Invalid criteria");
@@ -148,6 +150,7 @@ bool MatchRequestHandler::operator() (const yarp::os::Bottle &     restOfInput,
                 }
                 else
                 {
+                    OD_SYSLOG("! (matcher)");//####
                     reply.addString(YPP_FAILED_RESPONSE);
                     reply.addString("Invalid criteria");
                 }

@@ -91,38 +91,51 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
     {
         OD_SYSLOG("(workPos < inLength)");//####
         // Remember where we began.
-        char       delimiter;
-        char       scanChar = inString[workPos];
-        const char constraintSeparator = MatchConstraint::ConstraintSeparatorCharacter();
-        const char expressionSeparator = MatchExpression::ExpressionSeparatorCharacter();
-        const char listInitiator = MatchValueList::ListInitiatorCharacter();
-        const char listSeparator = MatchValueList::ListSeparatorCharacter();
-        const char listTerminator = MatchValueList::ListTerminatorCharacter();
-        int        startSubPos = workPos;
+        bool                  escapeNextChar = false;
+        char                  delimiter;
+        char                  scanChar = inString[workPos];
+        const char            constraintSeparator = MatchConstraint::ConstraintSeparatorCharacter();
+        const char            expressionSeparator = MatchExpression::ExpressionSeparatorCharacter();
+        const char            listInitiator = MatchValueList::ListInitiatorCharacter();
+        const char            listSeparator = MatchValueList::ListSeparatorCharacter();
+        const char            listTerminator = MatchValueList::ListTerminatorCharacter();
+        yarp::os::ConstString assembled;
+        int                   startSubPos = workPos;
         
         // If we have a quote character, scan for the matching character. If we have an illegal starting character,
         // reject the string.
         if ((kDoubleQuote == scanChar) || (kSingleQuote == scanChar))
         {
-            OD_SYSLOG("(workPos < inLength)");//####
+            // A delimited string.
             delimiter = scanChar;
             ++startSubPos;
         }
         else if (listInitiator == scanChar)
         {
-            OD_SYSLOG("(workPos < inLength)");//####
+            // We've seen the start of a list - this is not a singular value!
             workPos = inLength;
             delimiter = '\1';
         }
+        else if (kEscapeCharacter == scanChar)
+        {
+            // The first character needed to be escaped.
+            delimiter = '\0';
+            escapeNextChar = true;
+        }
         else
         {
-            OD_SYSLOG("(workPos < inLength)");//####
+            // A normal character.
             delimiter = '\0';
+            assembled += scanChar;
         }
         for (++workPos; workPos < inLength; ++workPos)
         {
             scanChar = inString[workPos];
-            if (delimiter)
+            if (escapeNextChar)
+            {
+                escapeNextChar = false;
+            }
+            else if (delimiter)
             {
                 if (delimiter == scanChar)
                 {
@@ -130,13 +143,20 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
                 }
                 
             }
+            else if (kEscapeCharacter == scanChar)
+            {
+                escapeNextChar = true;
+                continue;
+            }
             else if (isspace(scanChar) || (listSeparator == scanChar) || (listTerminator == scanChar) ||
                      (constraintSeparator == scanChar) || (expressionSeparator == scanChar))
             {
                 break;
             }
             
+            assembled += scanChar;
         }
+        OD_SYSLOG_S1("assembled = ", assembled.c_str());//####
         // If we have a delimiter, then we must match before the end of the input string. If we don't have a delimiter,
         // we can match the rest of the input string.
         if (workPos < (inLength + (delimiter ? 0 : 1)))
@@ -146,7 +166,7 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
             if (0 < (workPos - startSubPos))
             {
                 // If we have a non-empty substring, we have success.
-                result = new MatchValue(inString.substr(startSubPos, workPos - startSubPos));
+                result = new MatchValue(assembled);
             }
         }
         if (result)

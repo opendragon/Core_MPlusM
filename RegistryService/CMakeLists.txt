@@ -95,3 +95,4 @@ add_test(NAME TestRequestSearchService1 COMMAND RegistryTest 16 "" "FAILED \"An 
 add_test(NAME TestRequestSearchService2 COMMAND RegistryTest 16 "Version 42" "OK ()")
 add_test(NAME TestRequestSearchService3 COMMAND RegistryTest 16 "Details:Echo*" "OK (/service/test16)")
 add_test(NAME TestRequestSearchService4 COMMAND RegistryTest 16 "Details:Echo*,Keyword(requests)" "OK (/service/test16 /$ervice)")
+add_test(NAME TestRequestSearchService5 COMMAND RegistryTest 16 "Description:*unit\\ tests" "OK (/service/test16)")
