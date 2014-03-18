@@ -174,7 +174,7 @@ yarp::os::ConstString Endpoint::GetRandomPortName(void)
     char                  buff[32];
     double                intPart;
     
-    modf(yarp::os::Time::now() * 100000.0, &intPart);
+    modf(yarp::os::Time::now() * 1000000.0, &intPart);
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-long-long"

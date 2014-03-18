@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       ExampleRunningSumService/main.cpp
+//  File:       ExampleRunningSumClient/main.cpp
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The main application for a simple Yarp++ service with context.
+//  Contains:   The main application for the client of a simple Yarp++ service.
 //
 //  Written by: Norman Jaffe
 //
@@ -41,17 +41,14 @@
 
 //#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include "YPPEndpoint.h"
-#include "YPPExampleRunningSumService.h"
+#include "YPPExampleRunningSumClient.h"
 #include <ace/Version.h>
 #include <iostream>
-#if (defined(__APPLE__) || defined(__linux__))
-# include <unistd.h>
-#endif // defined(__APPLE__) || defined(__linux__)
 #include <yarp/conf/version.h>
 #include <yarp/os/all.h>
 
 using namespace YarpPlusPlusExample;
+using std::cin;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -81,64 +78,95 @@ static void stopRunning(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating an example service.
+/*! @brief The entry point for creating an example client.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the example service.
+ @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int     argc,
          char ** argv)
 {
+#if defined(ENABLE_OD_SYSLOG)
+# pragma unused(argc)
+#else // ! defined(ENABLE_OD_SYSLOG)
+# pragma unused(argc,argv)
+#endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
                    kODSyslogOptionEnableThreadSupport);//####
     OD_SYSLOG_ENTER();//####
     cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << ", ACE Version = " <<
             ACE_VERSION << endl;
-    yarp::os::ConstString serviceEndpointName;
-    yarp::os::ConstString serviceHostName;
-    yarp::os::ConstString servicePortNumber;
-    yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
+    yarp::os::Network         yarp; // This is necessary to establish any connection to the YARP infrastructure
+    ExampleRunningSumClient * stuff = new ExampleRunningSumClient;
 
-    if (1 < argc)
-    {
-        serviceEndpointName = argv[1];
-        if (2 < argc)
-        {
-            serviceHostName = argv[2];
-            if (3 < argc)
-            {
-                servicePortNumber = argv[3];
-            }
-        }
-    }
-    else
-    {
-        serviceEndpointName = DEFAULT_RUNNINGSUM_SERVICE_NAME;
-    }
-    ExampleRunningSumService * stuff = new ExampleRunningSumService(serviceEndpointName, serviceHostName,
-                                                                    servicePortNumber);
-    
     if (stuff)
     {
-        if (stuff->start())
-        {
-            yarp::os::ConstString portName(stuff->getEndpoint().getName());
-            
-            OD_SYSLOG_S1("portName = ", portName.c_str());//####
-            if (YarpPlusPlus::RegisterLocalService(portName))
-            {
-                lKeepRunning = true;
+        lKeepRunning = true;
 #if (defined(__APPLE__) || defined(__linux__))
-                signal(SIGHUP, stopRunning);
-                signal(SIGINT, stopRunning);
-                signal(SIGINT, stopRunning);
-                signal(SIGUSR1, stopRunning);
+        signal(SIGHUP, stopRunning);
+        signal(SIGINT, stopRunning);
+        signal(SIGINT, stopRunning);
+        signal(SIGUSR1, stopRunning);
 #endif // defined(__APPLE__) || defined(__linux__)
-                for ( ; lKeepRunning; )
+        if (stuff->connect("Name RunningSum"))
+        {
+            OD_SYSLOG("(stuff->connect(\"Name RunningSum\"))");//####
+            for ( ; lKeepRunning; )
+            {
+                char   inChar;
+                double newSum;
+                double value;
+                
+                cout << "Operation: [+ r x s]? ";
+                cin >> inChar;
+                switch (inChar)
                 {
-                    yarp::os::Time::delay(1.0);
+                    case '+':
+                        cout << "add: ";
+                        cin >> value;
+                        cout << "adding " << value << endl;
+                        if (stuff->addToSum(value, newSum))
+                        {
+                            cout << "running sum = " << newSum << endl;
+                        }
+                        else
+                        {
+                            cerr << "Problem adding to the sum." << endl;
+                        }
+                        break;
+                        
+                    case 'r':
+                    case 'R':
+                        cout << "Resetting" << endl;
+                        if (! stuff->resetSum())
+                        {
+                            cerr << "Problem resetting the sum." << endl;
+                        }
+                        break;
+                        
+                    case 's':
+                    case 'S':
+                        cout << "Starting" << endl;
+                        if (! stuff->startSum())
+                        {
+                            cerr << "Problem starting the sum." << endl;
+                        }
+                        break;
+                        
+                    case 'x':
+                    case 'X':
+                        cout << "Exiting" << endl;
+                        if (! stuff->stopSum())
+                        {
+                            cerr << "Problem stopping the sum." << endl;
+                        }
+                        lKeepRunning = false;
+                        break;
+                        
+                    default:
+                        cout << "Unrecognized request '" << inChar << "'." << endl;
+                        break;
+                        
                 }
-                YarpPlusPlus::UnregisterLocalService(portName);
-                stuff->stop();
             }
         }
         delete stuff;
@@ -146,4 +174,3 @@ int main(int     argc,
     OD_SYSLOG_EXIT_L(0);//####
     return 0;
 } // main
-

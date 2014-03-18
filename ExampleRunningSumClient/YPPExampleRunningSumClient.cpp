@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPStartRequestHandler.cpp
+//  File:       YPPExampleRunningSumClient.cpp
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class definition for the request handler for a 'start' request.
+//  Contains:   The class definition for the client of a simple Yarp++ service with context.
 //
 //  Written by: Norman Jaffe
 //
@@ -39,20 +39,19 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "YPPStartRequestHandler.h"
+#include "YPPExampleRunningSumClient.h"
 //#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPEndpoint.h"
+#include "YPPException.h"
 #include "YPPExampleRunningSumRequests.h"
-#include "YPPExampleRunningSumService.h"
+#include "YPPServiceResponse.h"
 
 using namespace YarpPlusPlusExample;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-/*! @brief The protocol version number for the 'start' request. */
-#define START_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -66,60 +65,117 @@ using namespace YarpPlusPlusExample;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-StartRequestHandler::StartRequestHandler(ExampleRunningSumService & service) :
-        inherited(YPP_START_REQUEST), _service(service)
+ExampleRunningSumClient::ExampleRunningSumClient(void) :
+        inherited(), _port(NULL)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("service = ", &service);//####
+    yarp::os::ConstString aName(YarpPlusPlus::Endpoint::GetRandomPortName());
+    
+    _port = new yarp::os::Port();
+    if (! _port)
+    {
+        OD_SYSLOG_EXIT_THROW_S("Could not create port");//####
+        throw new YarpPlusPlus::Exception("Could not create port");
+    }
+    OD_SYSLOG_S1("opening ", aName.c_str());//####
+    if (! _port->open(aName))
+    {
+        OD_SYSLOG_EXIT_THROW_S("Could not open port");//####
+        throw new YarpPlusPlus::Exception("Could not open port");
+    }
     OD_SYSLOG_EXIT_P(this);//####
-} // StartRequestHandler::StartRequestHandler
+} // ExampleRunningSumClient::ExampleRunningSumClient
 
-StartRequestHandler::~StartRequestHandler(void)
+ExampleRunningSumClient::~ExampleRunningSumClient(void)
 {
     OD_SYSLOG_ENTER();//####
+    if (_port)
+    {
+        _port->close();
+    }
     OD_SYSLOG_EXIT();//####
-} // StartRequestHandler::~StartRequestHandler
+} // ExampleRunningSumClient::~ExampleRunningSumClient
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void StartRequestHandler::fillInDescription(yarp::os::Property & info)
+bool ExampleRunningSumClient::addToSum(const double value,
+                                       double &     newSum)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_START_REQUEST);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, START_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Start the running sum");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
+    bool                          okSoFar = false;
+    yarp::os::Bottle              parameters;
+    YarpPlusPlus::ServiceResponse response;
     
-    asList->addString(YPP_START_REQUEST);
-    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
-    OD_SYSLOG_EXIT();//####
-} // StartRequestHandler::fillInDescription
-
-bool StartRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
-                                      const yarp::os::ConstString & senderPort,
-                                      yarp::os::ConnectionWriter *  replyMechanism)
-{
-#if (! defined(ENABLE_OD_SYSLOG))
-# pragma unused(restOfInput)
-#endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
-    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
-    bool result = true;
-
-    _service.startSum(senderPort);
-    if (replyMechanism)
+    parameters.addDouble(value);
+    if (send(YPP_ADD_REQUEST, parameters, _port, &response))
     {
-        yarp::os::Bottle response(YPP_OK_RESPONSE);
-        
-        response.write(*replyMechanism);
+        OD_SYSLOG("(send(YPP_ADD_REQUEST, parameters, _port))");//####
+        if (1 == response.count())
+        {
+            OD_SYSLOG("(1 == response.count())");//####
+            yarp::os::Value retrieved(response.element(0));
+            
+            if (retrieved.isDouble())
+            {
+                OD_SYSLOG("(retrieved.isDouble())");//####
+                newSum = retrieved.asDouble();
+                okSoFar = true;
+            }
+            else if (retrieved.isInt())
+            {
+                OD_SYSLOG("(retrieved.isInt())");//####
+                newSum = retrieved.asInt();
+                okSoFar = true;
+            }
+        }
     }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // StartRequestHandler::operator()
+    OD_SYSLOG_EXIT_B(okSoFar);
+    return okSoFar;
+} // ExampleRunningSumClient::addToSum
+
+bool ExampleRunningSumClient::resetSum(void)
+{
+    OD_SYSLOG_ENTER();//####
+    bool             okSoFar = false;
+    yarp::os::Bottle parameters;
+    
+    if (send(YPP_RESET_REQUEST, parameters, _port))
+    {
+        okSoFar = true;
+    }
+    OD_SYSLOG_EXIT_B(okSoFar);
+    return okSoFar;
+} // ExampleRunningSumClient::resetSum
+
+bool ExampleRunningSumClient::startSum(void)
+{
+    OD_SYSLOG_ENTER();//####
+    bool             okSoFar = false;
+    yarp::os::Bottle parameters;
+    
+    if (send(YPP_START_REQUEST, parameters, _port))
+    {
+        okSoFar = true;
+    }
+    OD_SYSLOG_EXIT_B(okSoFar);
+    return okSoFar;
+} // ExampleRunningSumClient::startSum
+
+bool ExampleRunningSumClient::stopSum(void)
+{
+    OD_SYSLOG_ENTER();//####
+    bool             okSoFar = false;
+    yarp::os::Bottle parameters;
+    
+    if (send(YPP_STOP_REQUEST, parameters, _port))
+    {
+        okSoFar = true;
+    }
+    OD_SYSLOG_EXIT_B(okSoFar);
+    return okSoFar;
+} // ExampleRunningSumClient::stopSum
 
 #if defined(__APPLE__)
 # pragma mark Accessors

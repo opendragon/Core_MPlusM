@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPAddRequestHandler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPExampleRunningSumRequests.h"
 #include "YPPExampleRunningSumService.h"

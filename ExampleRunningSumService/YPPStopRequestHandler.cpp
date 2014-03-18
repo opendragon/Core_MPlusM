@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPStopRequestHandler.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPExampleRunningSumRequests.h"
 #include "YPPExampleRunningSumService.h"
@@ -102,6 +102,9 @@ bool StopRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
                                      const yarp::os::ConstString & senderPort,
                                      yarp::os::ConnectionWriter *  replyMechanism)
 {
+#if (! defined(ENABLE_OD_SYSLOG))
+# pragma unused(restOfInput)
+#endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
