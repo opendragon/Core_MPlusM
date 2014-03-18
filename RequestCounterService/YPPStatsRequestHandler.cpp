@@ -70,7 +70,7 @@ StatsRequestHandler::StatsRequestHandler(RequestCounterService & service) :
         inherited(YPP_STATS_REQUEST), _service(service)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // StatsRequestHandler::StatsRequestHandler
 
 StatsRequestHandler::~StatsRequestHandler(void)

@@ -67,7 +67,7 @@ RequestCounterClient::RequestCounterClient(void) :
         inherited()
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // RequestCounterClient::RequestCounterClient
 
 RequestCounterClient::~RequestCounterClient(void)

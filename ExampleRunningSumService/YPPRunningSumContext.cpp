@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPBaseContext.h
+//  File:       YPPRunningSumContext.cpp
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for contexts used with persistent services in Yarp++.
+//  Contains:   The class definition for a contexts used with a simple Yarp++ service.
 //
 //  Written by: Norman Jaffe
 //
@@ -39,42 +39,49 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(YPPBASECONTEXT_H_))
-# define YPPBASECONTEXT_H_ /* */
+#include "YPPRunningSumContext.h"
+#define ENABLE_OD_SYSLOG /* */
+#include "ODSyslog.h"
 
-# include "YPPConfig.h"
+using namespace YarpPlusPlusExample;
 
-namespace YarpPlusPlus
+#if defined(__APPLE__)
+# pragma mark Private structures, constants and variables
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
+
+RunningSumContext::RunningSumContext(void) :
+        inherited(), _sum(0.0)
 {
-    /*! @brief A convenience class to provide distinct context objects. */
-    class BaseContext
-    {
-    public:
-        
-        /*! @brief The constructor. */
-        BaseContext(void);
-        
-        /*! @brief The destructor. */
-        virtual ~BaseContext(void);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseContext(const BaseContext & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseContext & operator=(const BaseContext & other);
-        
-    }; // BaseContext
-    
-} // YarpPlusPlus
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT_P(this);//####
+} // RunningSumContext::RunningSumContext
 
-#endif // ! defined(YPPBASECONTEXT_H_)
+RunningSumContext::~RunningSumContext(void)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_EXIT();//####
+} // RunningSumContext::~RunningSumContext
+
+#if defined(__APPLE__)
+# pragma mark Actions
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Accessors
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

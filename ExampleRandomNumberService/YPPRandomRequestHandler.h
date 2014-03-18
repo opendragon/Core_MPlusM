@@ -48,7 +48,8 @@ namespace YarpPlusPlusExample
 {
     /*! @brief The example 'random' request handler.
      
-     There is no input for the request and the output is a single floating point number, between 0 and 1. */
+     The input for the request is an optional count of the number of random numbers to generate and the output is
+     either a single floating point number, between 0 and 1 or a list of floating point numbers, between 0 and 1. */
     class RandomRequestHandler : public YarpPlusPlus::BaseRequestHandler
     {
     public:

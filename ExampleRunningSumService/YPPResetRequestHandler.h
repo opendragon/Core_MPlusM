@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPBaseContext.h
+//  File:       YPPResetRequestHandler.h
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for contexts used with persistent services in Yarp++.
+//  Contains:   The class declaration for the request handler for a 'reset' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -39,42 +39,53 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(YPPBASECONTEXT_H_))
-# define YPPBASECONTEXT_H_ /* */
+#if (! defined(YPPTRESETREQUESTHANDLER_H_))
+# define YPPTRESETREQUESTHANDLER_H_ /* */
 
-# include "YPPConfig.h"
+# include "YPPBaseRequestHandler.h"
 
-namespace YarpPlusPlus
+namespace YarpPlusPlusExample
 {
-    /*! @brief A convenience class to provide distinct context objects. */
-    class BaseContext
+    class ExampleRunningSumService;
+
+    /*! @brief The example 'reset' request handler.
+     
+     There is no input for the request and there is no output. */
+    class ResetRequestHandler : public YarpPlusPlus::BaseRequestHandler
     {
     public:
         
-        /*! @brief The constructor. */
-        BaseContext(void);
+        /*! @brief The constructor.
+         @param service The service that has registered this request. */
+        ResetRequestHandler(ExampleRunningSumService & service);
         
         /*! @brief The destructor. */
-        virtual ~BaseContext(void);
+        virtual ~ResetRequestHandler(void);
+        
+        /*! @brief Fill in a description dictionary for the request.
+         @param info The dictionary to be filled in. */
+        virtual void fillInDescription(yarp::os::Property & info);
+        
+        /*! @brief Process a request.
+         @param restOfInput The arguments to the operation.
+         @param senderPort The name of the port used to send the input data.
+         @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+        virtual bool operator() (const yarp::os::Bottle &      restOfInput,
+                                 const yarp::os::ConstString & senderPort,
+                                 yarp::os::ConnectionWriter *  replyMechanism);
         
     protected:
         
     private:
         
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseContext(const BaseContext & other);
+        /*! @brief The class that this class is derived from. */
+        typedef BaseRequestHandler inherited;
         
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseContext & operator=(const BaseContext & other);
+        /*! @brief The service that will manages the statistics. */
+        ExampleRunningSumService & _service;
         
-    }; // BaseContext
+    }; // ResetRequestHandler
     
-} // YarpPlusPlus
+} // YarpPlusPlusExample
 
-#endif // ! defined(YPPBASECONTEXT_H_)
+#endif // ! defined(YPPTRESETREQUESTHANDLER_H_)

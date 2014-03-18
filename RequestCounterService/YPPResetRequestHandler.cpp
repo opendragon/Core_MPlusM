@@ -70,7 +70,8 @@ ResetRequestHandler::ResetRequestHandler(RequestCounterService & service) :
         inherited(YPP_RESET_REQUEST), _service(service)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_P1("service = ", &service);//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // ResetRequestHandler::ResetRequestHandler
 
 ResetRequestHandler::~ResetRequestHandler(void)

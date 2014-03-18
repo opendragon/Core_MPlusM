@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPBaseContext.h
+//  File:       YPPExampleRunningSumRequests.h
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for contexts used with persistent services in Yarp++.
+//  Contains:   The common macro definitions for requests and responses for the random
+//              number service.
 //
 //  Written by: Norman Jaffe
 //
@@ -39,42 +40,24 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(YPPBASECONTEXT_H_))
-# define YPPBASECONTEXT_H_ /* */
+#if (! defined(YPPEXAMPLERUNNINGSUMREQUESTS_H_))
+# define YPPEXAMPLERUNNINGSUMREQUESTS_H_ /* */
 
-# include "YPPConfig.h"
+# include "YPPRequests.h"
 
-namespace YarpPlusPlus
-{
-    /*! @brief A convenience class to provide distinct context objects. */
-    class BaseContext
-    {
-    public:
-        
-        /*! @brief The constructor. */
-        BaseContext(void);
-        
-        /*! @brief The destructor. */
-        virtual ~BaseContext(void);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseContext(const BaseContext & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseContext & operator=(const BaseContext & other);
-        
-    }; // BaseContext
-    
-} // YarpPlusPlus
+/*! @brief The port-independent name of the example echo service. */
+# define YPP_RUNNINGSUM_CANONICAL_NAME "RunningSum"
 
-#endif // ! defined(YPPBASECONTEXT_H_)
+/*! @brief The name for the 'add' request. */
+# define YPP_ADD_REQUEST   "add"
+
+/*! @brief The name for the 'reset' request. */
+# define YPP_RESET_REQUEST "reset"
+
+/*! @brief The name for the 'start' request. */
+# define YPP_START_REQUEST "start"
+
+/*! @brief The name for the 'stop' request. */
+# define YPP_STOP_REQUEST  "stop"
+
+#endif // ! defined(YPPEXAMPLERUNNINGSUMREQUESTS_H_)

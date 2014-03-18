@@ -105,7 +105,7 @@ static yarp::os::Bottle ValidateMatchResponse(const yarp::os::Bottle & response)
 #endif // defined(__APPLE__)
 
 BaseClient::BaseClient(void) :
-    _servicePort()
+        _servicePort()
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT_P(this);//####

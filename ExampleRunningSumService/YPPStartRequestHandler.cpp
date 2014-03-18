@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPEchoRequestHandler.cpp
+//  File:       YPPStartRequestHandler.cpp
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class definition for the request handler for an 'echo' request.
+//  Contains:   The class definition for the request handler for a 'start' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,14 +35,15 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-28
+//  Created:    2014-03-18
 //
 //--------------------------------------------------------------------------------------
 
-#include "YPPEchoRequestHandler.h"
-//#define ENABLE_OD_SYSLOG /* */
+#include "YPPStartRequestHandler.h"
+#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
-#include "YPPExampleEchoRequests.h"
+#include "YPPExampleRunningSumRequests.h"
+#include "YPPExampleRunningSumService.h"
 
 using namespace YarpPlusPlusExample;
 
@@ -50,8 +51,8 @@ using namespace YarpPlusPlusExample;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'echo' request. */
-#define ECHO_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'start' request. */
+#define START_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -65,60 +66,57 @@ using namespace YarpPlusPlusExample;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-EchoRequestHandler::EchoRequestHandler(void) :
-        inherited(YPP_ECHO_REQUEST)
+StartRequestHandler::StartRequestHandler(ExampleRunningSumService & service) :
+        inherited(YPP_START_REQUEST), _service(service)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("service = ", &service);//####
     OD_SYSLOG_EXIT_P(this);//####
-} // EchoRequestHandler::EchoRequestHandler
+} // StartRequestHandler::StartRequestHandler
 
-EchoRequestHandler::~EchoRequestHandler(void)
+StartRequestHandler::~StartRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT();//####
-} // EchoRequestHandler::~EchoRequestHandler
+} // StartRequestHandler::~StartRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void EchoRequestHandler::fillInDescription(yarp::os::Property & info)
+void StartRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_ECHO_REQUEST);
-    info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
-    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Echo back any input");
+    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_START_REQUEST);
+    info.put(YPP_REQREP_DICT_VERSION_KEY, START_REQUEST_VERSION_NUMBER);
+    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Start the running sum");
     yarp::os::Value    keywords;
     yarp::os::Bottle * asList = keywords.asList();
     
-    asList->addString(YPP_ECHO_REQUEST);
+    asList->addString(YPP_START_REQUEST);
     info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
     OD_SYSLOG_EXIT();//####
-} // EchoRequestHandler::fillInDescription
+} // StartRequestHandler::fillInDescription
 
-bool EchoRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
-                                     const yarp::os::ConstString & senderPort,
-                                     yarp::os::ConnectionWriter *  replyMechanism)
+bool StartRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
+                                      const yarp::os::ConstString & senderPort,
+                                      yarp::os::ConnectionWriter *  replyMechanism)
 {
-#if (! defined(ENABLE_OD_SYSLOG))
-# pragma unused(senderPort)
-#endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
-    
+
+    _service.startSum(senderPort);
     if (replyMechanism)
     {
-        yarp::os::Bottle argsCopy(restOfInput);
+        yarp::os::Bottle response(YPP_OK_RESPONSE);
         
-        argsCopy.write(*replyMechanism);
+        response.write(*replyMechanism);
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
-} // EchoRequestHandler::operator()
+} // StartRequestHandler::operator()
 
 #if defined(__APPLE__)
 # pragma mark Accessors

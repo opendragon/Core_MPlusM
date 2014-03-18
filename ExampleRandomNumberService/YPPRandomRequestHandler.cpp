@@ -70,7 +70,7 @@ RandomRequestHandler::RandomRequestHandler(void) :
         inherited(YPP_RANDOM_REQUEST)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // RandomRequestHandler::RandomRequestHandler
 
 RandomRequestHandler::~RandomRequestHandler(void)

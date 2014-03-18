@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPBaseContext.h
+//  File:       YPPRunningSumContext.h
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for contexts used with persistent services in Yarp++.
+//  Contains:   The class declaration for a contexts used with a simple Yarp++ service.
 //
 //  Written by: Norman Jaffe
 //
@@ -39,42 +39,54 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(YPPBASECONTEXT_H_))
-# define YPPBASECONTEXT_H_ /* */
+#if (! defined(YPPRUNNINGSUMCONTEXT_H_))
+# define YPPRUNNINGSUMCONTEXT_H_ /* */
 
-# include "YPPConfig.h"
+# include "YPPBaseContext.h"
 
-namespace YarpPlusPlus
+namespace YarpPlusPlusExample
 {
-    /*! @brief A convenience class to provide distinct context objects. */
-    class BaseContext
+    /*! @brief A convenience class to provide context objects for the running sum service. */
+    class RunningSumContext : public YarpPlusPlus::BaseContext
     {
     public:
         
         /*! @brief The constructor. */
-        BaseContext(void);
+        RunningSumContext(void);
         
         /*! @brief The destructor. */
-        virtual ~BaseContext(void);
+        virtual ~RunningSumContext(void);
+        
+        /*! @brief An accessor for the running sum. */
+        inline double & sum(void)
+        {
+            return _sum;
+        } // sum
         
     protected:
         
     private:
         
+        /*! @brief The class that this class is derived from. */
+        typedef BaseContext inherited;
+        
         /*! @brief Copy constructor.
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        BaseContext(const BaseContext & other);
+        RunningSumContext(const RunningSumContext & other);
         
         /*! @brief Assignment operator.
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        BaseContext & operator=(const BaseContext & other);
+        RunningSumContext & operator=(const RunningSumContext & other);
         
-    }; // BaseContext
+        /*! @brief The running sum. */
+        double _sum;
+        
+    }; // RunningSumContext
     
 } // YarpPlusPlus
 
-#endif // ! defined(YPPBASECONTEXT_H_)
+#endif // ! defined(YPPRUNNINGSUMCONTEXT_H_)

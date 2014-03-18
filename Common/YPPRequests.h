@@ -70,30 +70,32 @@
 /*! @brief The standard response to a valid 'register' / 'unregister' request. */
 # define YPP_OK_RESPONSE     "OK"
 
-/*! @brief Request/response specification character - integer value. */
-# define YPP_REQREP_INT        "i"
-/*! @brief Request/response specification character - double value. */
-# define YPP_REQREP_DOUBLE     "d"
-/*! @brief Request/response specification character - string value. */
-# define YPP_REQREP_STRING     "s"
-/*! @brief Request/response specification character - start of list specification. */
-# define YPP_REQREP_LIST_START "("
-/*! @brief Request/response specification character - end of list specification. */
-# define YPP_REQREP_LIST_END   ")"
-/*! @brief Request/response specification character - start of dictionary specification. */
-# define YPP_REQREP_DICT_START "["
+/*! @brief Request/response specification character - zero or one repetitions of preceding. */
+# define YPP_REQREP_0_OR_1     "?"
+/*! @brief Request/response specification character - zero or more repetitions of preceding. */
+# define YPP_REQREP_0_OR_MORE  "*"
+/*! @brief Request/response specification character - one or more repetitions of preceding. */
+# define YPP_REQREP_1_OR_MORE  "+"
+/*! @brief Request/response specification character - any element. */
+# define YPP_REQREP_ANYTHING   "."
 /*! @brief Request/response specification character - end of dictionary specification. */
 # define YPP_REQREP_DICT_END   "]"
 /*! @brief Request/response specification character - key/value separator for dictionary. */
 # define YPP_REQREP_DICT_SEP   ":"
-/*! @brief Request/response specification character - one or more repetitions of preceding. */
-# define YPP_REQREP_1_OR_MORE  "+"
-/*! @brief Request/response specification character - zero or more repetitions of preceding. */
-# define YPP_REQREP_0_OR_MORE  "*"
-/*! @brief Request/response specification character - zero or one repetitions of preceding. */
-# define YPP_REQREP_0_OR_1     "?"
-/*! @brief Request/response specification character - any element. */
-# define YPP_REQREP_ANYTHING   "."
+/*! @brief Request/response specification character - start of dictionary specification. */
+# define YPP_REQREP_DICT_START "["
+/*! @brief Request/response specification character - double value. */
+# define YPP_REQREP_DOUBLE     "d"
+/*! @brief Request/response specification character - integer value. */
+# define YPP_REQREP_INT        "i"
+/*! @brief Request/response specification character - end of list specification. */
+# define YPP_REQREP_LIST_END   ")"
+/*! @brief Request/response specification character - start of list specification. */
+# define YPP_REQREP_LIST_START "("
+/*! @brief Request/response specification character - numeric value (double or integer). */
+# define YPP_REQREP_NUMBER     "n"
+/*! @brief Request/response specification character - string value. */
+# define YPP_REQREP_STRING     "s"
 
 /*! @brief Request/response dictionary key - details. */
 # define YPP_REQREP_DICT_DETAILS_KEY  "details"

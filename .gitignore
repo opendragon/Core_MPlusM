@@ -27,3 +27,4 @@ ExampleService/CTestTestfile.cmake
 ExampleService/ExampleService
 RegistryService/CTestTestfile.cmake
 RegistryService/RegistryService
+ExampleRunningSumService

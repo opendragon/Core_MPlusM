@@ -67,7 +67,7 @@ ExampleEchoClient::ExampleEchoClient(void) :
         inherited()
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // ExampleEchoClient::ExampleEchoClient
 
 ExampleEchoClient::~ExampleEchoClient(void)

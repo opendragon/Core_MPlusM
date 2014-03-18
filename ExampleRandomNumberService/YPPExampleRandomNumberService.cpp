@@ -61,7 +61,7 @@ ExampleRandomNumberService::ExampleRandomNumberService(const yarp::os::ConstStri
     OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
                  serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     setUpRequestHandlers();
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_EXIT_P(this);//####
 } // ExampleRandomNumberService::ExampleRandomNumberService
 
 ExampleRandomNumberService::~ExampleRandomNumberService(void)
