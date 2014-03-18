@@ -43,7 +43,6 @@
 # define YPPEXAMPLERUNNINGSUMCLIENT_H_ /* */
 
 # include "YPPBaseClient.h"
-# include <yarp/os/Port.h>
 
 namespace YarpPlusPlusExample
 {
