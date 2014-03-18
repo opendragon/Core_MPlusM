@@ -58,9 +58,9 @@ enum
     kODSyslogOptionEnableThreadSupport = 8
 };
 
-#if defined(DISABLE_OD_SYSLOG)
-# undef ENABLE_OD_SYSLOG
-#endif // defined(DISABLE_OD_SYSLOG)
+# if defined(DISABLE_OD_SYSLOG)
+#  undef ENABLE_OD_SYSLOG
+# endif // defined(DISABLE_OD_SYSLOG)
 
 # if defined(ENABLE_OD_SYSLOG)
 #  if defined(__OBJC__)
