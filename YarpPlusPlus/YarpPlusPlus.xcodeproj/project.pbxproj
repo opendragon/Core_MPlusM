@@ -73,6 +73,8 @@
 		DF2092D418D382530093D3DC /* YPPExampleEchoRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPExampleEchoRequests.h; path = ../ExampleEchoService/YPPExampleEchoRequests.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DF2092D518D39D4F0093D3DC /* YPPNameRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPNameRequestHandler.cpp; path = ../Common/YPPNameRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
 		DF2092D618D39D4F0093D3DC /* YPPNameRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPNameRequestHandler.h; path = ../Common/YPPNameRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DF2092D718D8BC570093D3DC /* YPPBaseContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPBaseContext.cpp; path = ../Common/YPPBaseContext.cpp; sourceTree = "<group>"; };
+		DF2092D818D8BC570093D3DC /* YPPBaseContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseContext.h; path = ../Common/YPPBaseContext.h; sourceTree = "<group>"; };
 		DF27F42818CA358C00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = ../Parser/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF27F42918CA36C200E93C95 /* YPPMatchValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchValue.cpp; path = ../Parser/YPPMatchValue.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF27F42A18CA36C200E93C95 /* YPPMatchValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchValue.h; path = ../Parser/YPPMatchValue.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -334,6 +336,8 @@
 				DFA3437918C91C940053B87C /* CommonTests */,
 				DFA3432818C91C5A0053B87C /* YPPBaseClient.cpp */,
 				DFA3432918C91C5A0053B87C /* YPPBaseClient.h */,
+				DF2092D718D8BC570093D3DC /* YPPBaseContext.cpp */,
+				DF2092D818D8BC570093D3DC /* YPPBaseContext.h */,
 				DFA3434418C91C5A0053B87C /* YPPBaseRequestHandler.cpp */,
 				DFA3434518C91C5A0053B87C /* YPPBaseRequestHandler.h */,
 				DFA3432A18C91C5A0053B87C /* YPPBaseService.cpp */,

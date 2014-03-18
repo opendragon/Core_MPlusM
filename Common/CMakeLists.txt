@@ -49,6 +49,7 @@ include_directories("${YPP_DEBUGGING_DIR}"
 
 add_library(YPPCommon
             YPPBaseClient.cpp
+            YPPBaseContext.cpp
             YPPBaseRequestHandler.cpp
             YPPBaseService.cpp
             YPPBaseServiceInputHandler.cpp

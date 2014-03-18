@@ -47,10 +47,11 @@
 
 namespace YarpPlusPlus
 {
+    class BaseContext;
+    class BaseRequestHandler;
     class BaseServiceInputHandler;
     class BaseServiceInputHandlerCreator;
     class Endpoint;
-    class BaseRequestHandler;
     
     /*! @brief The minimal functionality required for a Yarp++ service. */
     class BaseService
@@ -139,10 +140,34 @@ namespace YarpPlusPlus
         
     protected:
         
+        /*! @brief Add a context for a persistent connection.
+         @param key The name for the context.
+         @param context The context to be remembered. */
+        void addContext(const yarp::os::ConstString & key,
+                        BaseContext *                 context);
+        
+        /*! @brief Remove all contexts. */
+        void clearContexts(void);
+        
+        /*! @brief Locate the context corresponding to a name.
+         @param key The name of the context.
+         @returns @c NULL if the named context could not be found or a pointer to the context if found. */
+        BaseContext * findContext(const yarp::os::ConstString & key);
+        
+        /*! @brief Remove a context.
+         @param key The name of the context. */
+        void removeContext(const yarp::os::ConstString & key);
+        
         /*! @brief The map between requests and request handlers. */
         RequestMap _requestHandlers;
         
     private:
+        
+        /*! @brief A mapping from strings to contexts. */
+        typedef std::map<std::string, BaseContext *> ContextMap;
+        
+        /*! @brief The entry-type for the mapping. */
+        typedef ContextMap::value_type               ContextMapValue;
         
         /*! @brief Copy constructor.
 
@@ -158,6 +183,9 @@ namespace YarpPlusPlus
         
         /*! @brief Set up the standard request handlers. */
         void setUpRequestHandlers(void);
+        
+        /*! @brief The map between requests and request handlers. */
+        ContextMap                       _contexts;
         
         /*! @brief The port-independent name of the service. */
         yarp::os::ConstString            _canonicalName;

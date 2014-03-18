@@ -43,6 +43,7 @@
 #include "YPPBaseService.h"
 //#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
+#include "YPPBaseContext.h"
 #include "YPPBaseServiceInputHandler.h"
 #include "YPPBaseServiceInputHandlerCreator.h"
 #include "YPPEndpoint.h"
@@ -77,8 +78,9 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & serviceHostName,
                          const yarp::os::ConstString & servicePortNumber) :
-        _requestHandlers(*this), _canonicalName(canonicalName), _description(description), _endpoint(NULL),
-        _handler(NULL), _handlerCreator(NULL), _started(false), _useMultipleHandlers(useMultipleHandlers)
+        _requestHandlers(*this), _contexts(), _canonicalName(canonicalName), _description(description),
+        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
+        _useMultipleHandlers(useMultipleHandlers)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
@@ -96,8 +98,9 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & description,
                          const int                     argc,
                          char **                       argv) :
-        _requestHandlers(*this), _canonicalName(canonicalName), _description(description), _endpoint(NULL),
-        _handler(NULL), _handlerCreator(NULL), _started(false), _useMultipleHandlers(useMultipleHandlers)
+        _requestHandlers(*this), _contexts(), _canonicalName(canonicalName), _description(description),
+        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
+        _useMultipleHandlers(useMultipleHandlers)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
@@ -132,12 +135,57 @@ BaseService::~BaseService(void)
     delete _endpoint;
     delete _handler;
     delete _handlerCreator;
+    clearContexts();
     OD_SYSLOG_EXIT();//####
 } // BaseService::~BaseService
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
+
+void BaseService::addContext(const yarp::os::ConstString & key,
+                             BaseContext *                 context)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("key = ", key.c_str());//####
+    OD_SYSLOG_P1("context = ", context);//####
+    if (context)
+    {
+        _contexts.insert(ContextMapValue(std::string(key), context));
+    }
+    OD_SYSLOG_EXIT();//####
+} // BaseService::addContext
+
+void BaseService::clearContexts(void)
+{
+    OD_SYSLOG_ENTER();//####
+    for (ContextMap::iterator walker(_contexts.begin()); _contexts.end() != walker; ++walker)
+    {
+        BaseContext * value = walker->second;
+        
+        if (value)
+        {
+            delete value;
+        }
+    }
+    _contexts.clear();
+    OD_SYSLOG_EXIT();//####
+} // BaseService::clearContexts
+
+BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("key = ", key.c_str());//####
+    BaseContext *              result = NULL;
+    ContextMap::const_iterator match(_contexts.find(std::string(key)));
+    
+    if (_contexts.cend() != match)
+    {
+        result = match->second;
+    }
+    OD_SYSLOG_EXIT_P(result);//####
+    return result;
+} // BaseService::findContext
 
 bool BaseService::processRequest(const yarp::os::ConstString & request,
                                  const yarp::os::Bottle &      restOfInput,
@@ -170,6 +218,25 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
     OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // BaseService::processRequest
+
+void BaseService::removeContext(const yarp::os::ConstString & key)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("key = ", key.c_str());//####
+    ContextMap::iterator match(_contexts.find(std::string(key)));
+    
+    if (_contexts.end() != match)
+    {
+        BaseContext * value = match->second;
+        
+        if (value)
+        {
+            delete value;
+        }
+        _contexts.erase(match);
+    }
+    OD_SYSLOG_EXIT();//####
+} // BaseService::removeContext
 
 void BaseService::setUpRequestHandlers(void)
 {
