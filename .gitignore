@@ -17,3 +17,13 @@ YarpPlusPlus/YarpPlusPlus.xcodeproj/xcuserdata/M_M.xcuserdatad/xcdebugger/Breakp
 RegistryService/RegistryTest
 RegistryService/test.db
 RequestCounterService/RequestCounterService
+CTestTestfile.cmake
+Common/CTestTestfile.cmake
+Common/CommonTest
+Common/YPPConfig.h
+ExampleClient/CTestTestfile.cmake
+ExampleClient/ExampleClient
+ExampleService/CTestTestfile.cmake
+ExampleService/ExampleService
+RegistryService/CTestTestfile.cmake
+RegistryService/RegistryService
