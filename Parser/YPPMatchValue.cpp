@@ -136,7 +136,8 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
                 escapeNextChar = false;
                 // If the escaped character is one that will still need to be escaped when converted to SQL, retain the
                 // escape character.
-                if ((kEscapeCharacter == scanChar) || (kAsterisk == scanChar) || (kQuestionMark == scanChar))
+                if ((kEscapeCharacter == scanChar) || (kAsterisk == scanChar) || (kQuestionMark == scanChar) ||
+                    (kAsterisk == scanChar) || (kQuestionMark == scanChar))
                 {
                     assembled += kEscapeCharacter;
                 }

@@ -192,8 +192,8 @@ const
     if (0 < _values.size())
     {
         bool simpleForm = true;
+        int  nonWild = 0;
         
-        result += fieldName;
         // Check if none of the values contain wildcards.
         for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
         {
@@ -202,11 +202,15 @@ const
             if (element->hasWildcardCharacters())
             {
                 simpleForm = false;
-                break;
+            }
+            else
+            {
+                ++nonWild;
             }
         }
         if (simpleForm)
         {
+            result += fieldName;
             if (1 == _values.size())
             {
                 result += " = ";
@@ -231,24 +235,73 @@ const
         }
         else
         {
-            for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
+            if (nonWild)
+            {
+                result += kRoundOpenBracket;
+            }
+            result += fieldName;
+            if (1 == nonWild)
+            {
+                // Find the single non-wildcard value.
+                for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
+                {
+                    MatchValue * element = _values[ii];
+                    
+                    if (! element->hasWildcardCharacters())
+                    {
+                        result += " = ";
+                        result += _values[ii]->asSQLString();
+                        break;
+                    }
+                    
+                }
+            }
+            else if (nonWild)
+            {
+                // Gather the non-wildcard values together.
+                result += " IN (";
+                for (MatchValueListSize ii = 0, maxI = _values.size(), jj = 0; ii < maxI; ++ii)
+                {
+                    MatchValue * element = _values[ii];
+                    
+                    if (! element->hasWildcardCharacters())
+                    {
+                        if (jj)
+                        {
+                            result += kComma;
+                            result += " ";
+                        }
+                        result += element->asSQLString();
+                        ++jj;
+                    }
+                }
+                result += ")";
+            }
+            // Add the wildcard values
+            if (nonWild)
+            {
+                result += " OR ";
+                result += fieldName;
+            }
+            for (MatchValueListSize ii = 0, maxI = _values.size(), jj = 0; ii < maxI; ++ii)
             {
                 MatchValue * element = _values[ii];
                 
-                if (ii)
-                {
-                    result += " OR ";
-                    result += fieldName;
-                }
                 if (element->hasWildcardCharacters())
                 {
+                    if (jj)
+                    {
+                        result += " OR ";
+                        result += fieldName;
+                    }
                     result += " LIKE ";
+                    result += element->asSQLString();
+                    ++jj;
                 }
-                else
-                {
-                    result += " = ";
-                }
-                result += element->asSQLString();
+            }
+            if (nonWild)
+            {
+                result += kRoundCloseBracket;
             }
         }
     }
