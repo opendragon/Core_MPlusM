@@ -51,6 +51,21 @@ using namespace YarpPlusPlusExample;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The operation timeout to use with YARP. */
+static const float kExampleRandomNumberServiceTimeout = 5.0;
+
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
+
 ExampleRandomNumberService::ExampleRandomNumberService(const yarp::os::ConstString & serviceEndpointName,
                                                        const yarp::os::ConstString & serviceHostName,
                                                        const yarp::os::ConstString & servicePortNumber) :
@@ -77,20 +92,41 @@ ExampleRandomNumberService::~ExampleRandomNumberService(void)
 void ExampleRandomNumberService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
-    _requestHandlers.registerRequestHandler(new RandomRequestHandler());
+    try
+    {
+        _requestHandlers.registerRequestHandler(new RandomRequestHandler());
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // ExampleRandomNumberService::setUpRequestHandlers
 
 bool ExampleRandomNumberService::start(void)
 {
     OD_SYSLOG_ENTER();//####
-    if (! isStarted())
+    try
     {
-        BaseService::start();
-        if (isStarted())
+        if (! isStarted())
         {
-            
+            setTimeout(kExampleRandomNumberServiceTimeout);
+            inherited::start();
+            if (isStarted())
+            {
+                
+            }
+            else
+            {
+                OD_SYSLOG("! (isStarted())");//####
+            }
         }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(isStarted());//####
     return isStarted();
@@ -99,8 +135,17 @@ bool ExampleRandomNumberService::start(void)
 bool ExampleRandomNumberService::stop(void)
 {
     OD_SYSLOG_ENTER();//####
-    bool result = BaseService::stop();
+    bool result;
     
+    try
+    {
+        result = inherited::stop();
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // ExampleRandomNumberService::stop

@@ -97,9 +97,9 @@ typedef struct tOdThreadData_
 } tOdThreadData;
 
 #  if (! defined(WIN32))
+static bool lOdEnableThreadSupport_ = false;
 static bool lOdIncludeProcessID_ = false;
 static bool lOdIncludeThreadID_ = false;
-static bool lOdEnableThreadSupport_ = false;
 #  endif // ! defined(WIN32)
 
 static FILE * lOdLogFile_ = NULL;
@@ -198,9 +198,9 @@ inline static tOdThreadData * odGetThreadData_(void)
 
 static const char * odFileNameRoot_(const char * fileName)
 {
-	char * result = strrchr(fileName, '/');
+    char * result = strrchr(fileName, '/');
 
-	return (result ? (result + 1) : fileName);
+    return (result ? (result + 1) : fileName);
 } // odFileNameRoot_
 
 inline static int odGetIndent_(void)
@@ -220,15 +220,15 @@ inline static void odSetIndent_(const int value)
 static char * odBuildIndent_(void)
 {
     int    level = odGetIndent_();
-	int    length = ((level > 0) ? level : 1);
-	char * result = (char *) malloc((size_t) (length + 1));
+    int    length = ((level > 0) ? level : 1);
+    char * result = (char *) malloc((size_t) (length + 1));
 
-	for (int ii = 0; ii < length; ++ii)
-	{
-		result[ii] = ((ii & 1) ? '.' : ' ');
-	}
-	result[length] = '\0';
-	return result;
+    for (int ii = 0; ii < length; ++ii)
+    {
+        result[ii] = ((ii & 1) ? '.' : ' ');
+    }
+    result[length] = '\0';
+    return result;
 } // odBuildIndent_
 
 static char * odBuildPrefix_(void)
@@ -1163,9 +1163,9 @@ EXTERN_C void ODSysLogExitO_(const char * fileName,
 {
     const char * rootName = odFileNameRoot_(fileName);
     const char * valString = odNullOrDescription(val);
-    
+
     odDecreaseIndent_();
-	OD_CREATE_INDENT_();
+    OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
     if (lOdLogFile_)
     {
@@ -1178,7 +1178,7 @@ EXTERN_C void ODSysLogExitO_(const char * fileName,
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_O1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, valString);
     }
     OD_FREE_PREFIX_();
-	OD_FREE_INDENT_();
+    OD_FREE_INDENT_();
 } // ODSysLogExitO_
 #  endif // defined(__OBJC__)
 
@@ -1223,9 +1223,9 @@ EXTERN_C void ODSysLogExitR_(const char * fileName,
                              const CGRect val)
 {
     const char * rootName = odFileNameRoot_(fileName);
-    
+
     odDecreaseIndent_();
-	OD_CREATE_INDENT_();
+    OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
     if (lOdLogFile_)
     {
@@ -1245,7 +1245,7 @@ EXTERN_C void ODSysLogExitR_(const char * fileName,
 #   endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
-	OD_FREE_INDENT_();
+    OD_FREE_INDENT_();
 } // ODSysLogExitR_
 #  endif // defined(__APPLE__)
 
@@ -1368,15 +1368,15 @@ EXTERN_C void ODSysLogInit_(const char * prefix,
 #   pragma unused(prefix)
 #  endif // defined(__OBJC__) || defined(WIN32)
     bool         odWriteToFile = (options & kODSyslogOptionWriteToFile);
-	const char * rootName = odFileNameRoot_(fileName);
+    const char * rootName = odFileNameRoot_(fileName);
     const char * suffixString;
-	char *       stars;
+    char *       stars;
     size_t       starsLength = strlen(rootName) + strlen(funcName) + (sizeof(OD_INIT_FORMAT_) - 1) - 8; // 4 %s
-    
+
 #  if (! defined(WIN32))
+    lOdEnableThreadSupport_ = (options & kODSyslogOptionEnableThreadSupport);
     lOdIncludeProcessID_ = (options & kODSyslogOptionIncludeProcessID);
     lOdIncludeThreadID_ = (options & kODSyslogOptionIncludeThreadID);
-    lOdEnableThreadSupport_ = (options & kODSyslogOptionEnableThreadSupport);
 #  endif // ! defined(WIN32)
     OD_CREATE_PREFIX_();
     size_t prefixLength = strlen(prefixString_);
@@ -1394,7 +1394,14 @@ EXTERN_C void ODSysLogInit_(const char * prefix,
     memset(stars, '*', starsLength);
     stars[starsLength] = '\0';
 #  if ((! defined(WIN32)) && (! defined(__OBJC__)))
-    openlog(prefix, LOG_PID | LOG_CONS | LOG_PERROR, OD_SYSLOG_LOG_TARGET_);
+    if (options & kODSyslogOptionWriteToStderr)
+    {
+        openlog(prefix, LOG_PID | LOG_CONS | LOG_PERROR, OD_SYSLOG_LOG_TARGET_);
+    }
+    else
+    {
+        openlog(prefix, LOG_PID | LOG_CONS, OD_SYSLOG_LOG_TARGET_);
+    }
 #  endif // (! defined(WIN32)) && (! defined(__OBJC__))
     if (odWriteToFile)
     {
@@ -1474,7 +1481,7 @@ EXTERN_C void ODSysLogInit_(const char * prefix,
 #   endif // ! defined(__OBJC__)
 #  endif // ! defined(WIN32)
     }
-	free(stars);
+    free(stars);
     OD_FREE_PREFIX_();
     odSetIndent_(OD_SYSLOG_INIT_VALUE_);
 } // ODSysLogInit_
@@ -2000,8 +2007,8 @@ EXTERN_C void ODSysLogO1_(const char * fileName,
 {
     const char * obj1String = odNullOrDescription(obj1);
     const char * rootName = odFileNameRoot_(fileName);
-    
-	OD_CREATE_INDENT_();
+
+    OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
     if (lOdLogFile_)
     {
@@ -2014,7 +2021,7 @@ EXTERN_C void ODSysLogO1_(const char * fileName,
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_O1_, OD_FUNC_PREFIX_(rootName), text1, obj1String);
     }
     OD_FREE_PREFIX_();
-	OD_FREE_INDENT_();
+    OD_FREE_INDENT_();
 } // ODSysLogO1_
 #  endif // defined(__OBJC__)
 
@@ -2030,8 +2037,8 @@ EXTERN_C void ODSysLogO2_(const char * fileName,
     const char * obj1String = odNullOrDescription(obj1);
     const char * obj2String = odNullOrDescription(obj2);
     const char * rootName = odFileNameRoot_(fileName);
-    
-	OD_CREATE_INDENT_();
+
+    OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
     if (lOdLogFile_)
     {
@@ -2045,7 +2052,7 @@ EXTERN_C void ODSysLogO2_(const char * fileName,
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_O2_, OD_FUNC_PREFIX_(rootName), text1, obj1String, text2, obj2String);
     }
     OD_FREE_PREFIX_();
-	OD_FREE_INDENT_();
+    OD_FREE_INDENT_();
 } // ODSysLogO2_
 #  endif // defined(__OBJC__)
 
@@ -2064,8 +2071,8 @@ EXTERN_C void ODSysLogO3_(const char * fileName,
     const char * obj2String = odNullOrDescription(obj2);
     const char * obj3String = odNullOrDescription(obj3);
     const char * rootName = odFileNameRoot_(fileName);
-    
-	OD_CREATE_INDENT_();
+
+    OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
     if (lOdLogFile_)
     {
@@ -2081,7 +2088,7 @@ EXTERN_C void ODSysLogO3_(const char * fileName,
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_O1_, OD_FUNC_PREFIX_(rootName), text3, obj3String);
     }
     OD_FREE_PREFIX_();
-	OD_FREE_INDENT_();
+    OD_FREE_INDENT_();
 } // ODSysLogO3_
 #  endif // defined(__OBJC__)
 
@@ -2103,8 +2110,8 @@ EXTERN_C void ODSysLogO4_(const char * fileName,
     const char * obj3String = odNullOrDescription(obj3);
     const char * obj4String = odNullOrDescription(obj4);
     const char * rootName = odFileNameRoot_(fileName);
-    
-	OD_CREATE_INDENT_();
+
+    OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
     if (lOdLogFile_)
     {
@@ -2121,7 +2128,7 @@ EXTERN_C void ODSysLogO4_(const char * fileName,
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_O2_, OD_FUNC_PREFIX_(rootName), text3, obj3String, text4, obj4String);
     }
     OD_FREE_PREFIX_();
-	OD_FREE_INDENT_();
+    OD_FREE_INDENT_();
 } // ODSysLogO4_
 #  endif // defined(__OBJC__)
 
@@ -2393,8 +2400,8 @@ EXTERN_C void ODSysLogRect_(const char * fileName,
                             const CGRect rect)
 {
     const char * rootName = odFileNameRoot_(fileName);
-    
-	OD_CREATE_INDENT_();
+
+    OD_CREATE_INDENT_();
     OD_CREATE_PREFIX_();
     if (lOdLogFile_)
     {
@@ -2414,7 +2421,7 @@ EXTERN_C void ODSysLogRect_(const char * fileName,
 #   endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
-	OD_FREE_INDENT_();
+    OD_FREE_INDENT_();
 } // ODSysLogRect_
 #  endif // defined(__APPLE__)
 

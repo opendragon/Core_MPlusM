@@ -84,102 +84,122 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
     OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
-    int          workPos = SkipWhitespace(inString, inLength, startPos);
     MatchValue * result = NULL;
     
-    if (workPos < inLength)
+    try
     {
-        OD_SYSLOG("(workPos < inLength)");//####
-        // Remember where we began.
-        bool                  escapeNextChar = false;
-        char                  delimiter;
-        char                  scanChar = inString[workPos];
-        const char            constraintSeparator = MatchConstraint::ConstraintSeparatorCharacter();
-        const char            expressionSeparator = MatchExpression::ExpressionSeparatorCharacter();
-        const char            listInitiator = MatchValueList::ListInitiatorCharacter();
-        const char            listSeparator = MatchValueList::ListSeparatorCharacter();
-        const char            listTerminator = MatchValueList::ListTerminatorCharacter();
-        yarp::os::ConstString assembled;
-        int                   startSubPos = workPos;
-        
-        // If we have a quote character, scan for the matching character. If we have an illegal starting character,
-        // reject the string.
-        if ((kDoubleQuote == scanChar) || (kSingleQuote == scanChar))
+        int workPos = SkipWhitespace(inString, inLength, startPos);
+
+        if (workPos < inLength)
         {
-            // A delimited string.
-            delimiter = scanChar;
-            ++startSubPos;
-        }
-        else if (listInitiator == scanChar)
-        {
-            // We've seen the start of a list - this is not a singular value!
-            workPos = inLength;
-            delimiter = '\1';
-        }
-        else if (kEscapeCharacter == scanChar)
-        {
-            // The first character needed to be escaped.
-            delimiter = '\0';
-            escapeNextChar = true;
-        }
-        else
-        {
-            // A normal character.
-            delimiter = '\0';
-            assembled += scanChar;
-        }
-        for (++workPos; workPos < inLength; ++workPos)
-        {
-            scanChar = inString[workPos];
-            if (escapeNextChar)
+            // Remember where we began.
+            bool                  escapeNextChar = false;
+            char                  delimiter;
+            char                  scanChar = inString[workPos];
+            const char            constraintSeparator = MatchConstraint::ConstraintSeparatorCharacter();
+            const char            expressionSeparator = MatchExpression::ExpressionSeparatorCharacter();
+            const char            listInitiator = MatchValueList::ListInitiatorCharacter();
+            const char            listSeparator = MatchValueList::ListSeparatorCharacter();
+            const char            listTerminator = MatchValueList::ListTerminatorCharacter();
+            yarp::os::ConstString assembled;
+            int                   startSubPos = workPos;
+            
+            // If we have a quote character, scan for the matching character. If we have an illegal starting character,
+            // reject the string.
+            if ((kDoubleQuote == scanChar) || (kSingleQuote == scanChar))
             {
-                escapeNextChar = false;
-                // If the escaped character is one that will still need to be escaped when converted to SQL, retain the
-                // escape character.
-                if ((kEscapeCharacter == scanChar) || (kAsterisk == scanChar) || (kQuestionMark == scanChar) ||
-                    (kAsterisk == scanChar) || (kQuestionMark == scanChar))
-                {
-                    assembled += kEscapeCharacter;
-                }
+                // A delimited string.
+                delimiter = scanChar;
+                ++startSubPos;
+            }
+            else if (listInitiator == scanChar)
+            {
+                // We've seen the start of a list - this is not a singular value!
+                workPos = inLength;
+                delimiter = '\1';
             }
             else if (kEscapeCharacter == scanChar)
             {
+                // The first character needed to be escaped.
+                delimiter = '\0';
                 escapeNextChar = true;
-                continue;
             }
-            else if (delimiter)
+            else
             {
-                if (delimiter == scanChar)
+                // A normal character.
+                delimiter = '\0';
+                assembled += scanChar;
+            }
+            for (++workPos; workPos < inLength; ++workPos)
+            {
+                scanChar = inString[workPos];
+                if (escapeNextChar)
+                {
+                    escapeNextChar = false;
+                    // If the escaped character is one that will still need to be escaped when converted to SQL, retain
+                    // the escape character.
+                    if ((kEscapeCharacter == scanChar) || (kAsterisk == scanChar) || (kQuestionMark == scanChar) ||
+                        (kAsterisk == scanChar) || (kQuestionMark == scanChar))
+                    {
+                        assembled += kEscapeCharacter;
+                    }
+                }
+                else if (kEscapeCharacter == scanChar)
+                {
+                    escapeNextChar = true;
+                    continue;
+                }
+                else if (delimiter)
+                {
+                    if (delimiter == scanChar)
+                    {
+                        break;
+                    }
+                    
+                }
+                else if (isspace(scanChar) || (listSeparator == scanChar) || (listTerminator == scanChar) ||
+                         (constraintSeparator == scanChar) || (expressionSeparator == scanChar))
                 {
                     break;
                 }
                 
+                assembled += scanChar;
             }
-            else if (isspace(scanChar) || (listSeparator == scanChar) || (listTerminator == scanChar) ||
-                     (constraintSeparator == scanChar) || (expressionSeparator == scanChar))
+            OD_SYSLOG_S1("assembled = ", assembled.c_str());//####
+            // If we have a delimiter, then we must match before the end of the input string. If we don't have a
+            // delimiter, we can match the rest of the input string.
+            if (workPos < (inLength + (delimiter ? 0 : 1)))
             {
-                break;
+                // Either we stopped with a blank or the end of the string, or we saw a matching delimiter before the
+                // end.
+                if (0 < (workPos - startSubPos))
+                {
+                    // If we have a non-empty substring, we have success.
+                    result = new MatchValue(assembled);
+                }
+                else
+                {
+                    OD_SYSLOG("! (0 < (workPos - startSubPos))");//####
+                }
             }
-            
-            assembled += scanChar;
-        }
-        OD_SYSLOG_S1("assembled = ", assembled.c_str());//####
-        // If we have a delimiter, then we must match before the end of the input string. If we don't have a delimiter,
-        // we can match the rest of the input string.
-        if (workPos < (inLength + (delimiter ? 0 : 1)))
-        {
-            OD_SYSLOG("(workPos < (inLength + (delimiter ? 0 : 1)))");//####
-            // Either we stopped with a blank or the end of the string, or we saw a matching delimiter before the end.
-            if (0 < (workPos - startSubPos))
+            else
             {
-                // If we have a non-empty substring, we have success.
-                result = new MatchValue(assembled);
+                OD_SYSLOG("! (workPos < (inLength + (delimiter ? 0 : 1)))");//####
             }
+            if (result)
+            {
+                endPos = (delimiter ? 1 : 0) + workPos;
+            }        
         }
-        if (result)
+        else
         {
-            endPos = (delimiter ? 1 : 0) + workPos;
-        }        
+            OD_SYSLOG("! (workPos < inLength)");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
@@ -249,26 +269,59 @@ yarp::os::ConstString MatchValue::asSQLString(void)
 const
 {
     OD_SYSLOG_ENTER();//####
-    bool                  escapeNextChar = false;
     yarp::os::ConstString converted;
     
-    converted += kSingleQuote;
-    if (_hasSingleQuotes || _hasWildcards || _needsEscaping)
+    try
     {
-        OD_SYSLOG("(_hasWildcards || _needsEscaping)");//####
-        bool wasEscaped = false;
-        
-        for (int ii = 0, len = _matchingString.length(); ii < len; ++ii)
+        bool escapeNextChar = false;
+
+        converted += kSingleQuote;
+        if (_hasSingleQuotes || _hasWildcards || _needsEscaping)
         {
-            char walker = _matchingString[ii];
+            OD_SYSLOG("(_hasWildcards || _needsEscaping)");//####
+            bool wasEscaped = false;
             
-            // If there are SQL special characters present, escape them.
-            if (escapeNextChar)
+            for (int ii = 0, len = _matchingString.length(); ii < len; ++ii)
             {
-                if ((kUnderscore == walker) || (kPercent == walker) || (kSingleQuote == walker))
+                char walker = _matchingString[ii];
+                
+                // If there are SQL special characters present, escape them.
+                if (escapeNextChar)
+                {
+                    if ((kUnderscore == walker) || (kPercent == walker) || (kSingleQuote == walker))
+                    {
+                        wasEscaped = true;
+                        converted += kEscapeCharacter;
+                        converted += walker;
+                    }
+                    else
+                    {
+                        converted += walker;
+                    }
+                }
+                else if (kEscapeCharacter == walker)
+                {
+                    escapeNextChar = true;
+                }
+                else if ((kUnderscore == walker) || (kPercent == walker))
                 {
                     wasEscaped = true;
                     converted += kEscapeCharacter;
+                    converted += walker;
+                }
+                else if (kAsterisk == walker)
+                {
+                    // Substitute the corresponding SQL wildcard character.
+                    converted += kPercent;
+                }
+                else if (kQuestionMark == walker)
+                {
+                    // Substitute the corresponding SQL wildcard character.
+                    converted += kUnderscore;
+                }
+                else if (kSingleQuote == walker)
+                {
+                    converted += kSingleQuote;
                     converted += walker;
                 }
                 else
@@ -276,49 +329,25 @@ const
                     converted += walker;
                 }
             }
-            else if (kEscapeCharacter == walker)
-            {
-                escapeNextChar = true;
-            }
-            else if ((kUnderscore == walker) || (kPercent == walker))
-            {
-                wasEscaped = true;
-                converted += kEscapeCharacter;
-                converted += walker;
-            }
-            else if (kAsterisk == walker)
-            {
-                // Substitute the corresponding SQL wildcard character.
-                converted += kPercent;
-            }
-            else if (kQuestionMark == walker)
-            {
-                // Substitute the corresponding SQL wildcard character.
-                converted += kUnderscore;
-            }
-            else if (kSingleQuote == walker)
+            if (wasEscaped)
             {
                 converted += kSingleQuote;
-                converted += walker;
-            }
-            else
-            {
-                converted += walker;
+                converted += " ESCAPE ";
+                converted += kSingleQuote;
+                converted += kEscapeCharacter;
             }
         }
-        if (wasEscaped)
+        else
         {
-            converted += kSingleQuote;
-            converted += " ESCAPE ";
-            converted += kSingleQuote;
-            converted += kEscapeCharacter;
+            converted += _matchingString;
         }
+        converted += kSingleQuote;
     }
-    else
+    catch (...)
     {
-        converted += _matchingString;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
-    converted += kSingleQuote;
     OD_SYSLOG_EXIT_S(converted.c_str());//####
     return converted;
 } // MatchValue::asSQLString
@@ -326,74 +355,83 @@ const
 yarp::os::ConstString MatchValue::asString(void)
 const
 {
-    bool                  sawDoubleQuote = false;
-    bool                  sawSingleQuote = false;
-    bool                  sawWhitespace = false;
     yarp::os::ConstString converted;
-    int                   len = _matchingString.length();
 
-    // First, check if there are blanks or quotes in the string:
-    for (int ii = 0; ii < len; ++ii)
+    try
     {
-        char walker = _matchingString[ii];
+        bool sawDoubleQuote = false;
+        bool sawSingleQuote = false;
+        bool sawWhitespace = false;
+        int  len = _matchingString.length();
         
-        if (isspace(walker))
+        // First, check if there are blanks or quotes in the string:
+        for (int ii = 0; ii < len; ++ii)
         {
-            sawWhitespace = true;
-        }
-        else if (kDoubleQuote == walker)
-        {
-            sawDoubleQuote = true;
-        }
-        else if (kSingleQuote == walker)
-        {
-            sawSingleQuote = true;
-        }
-    }
-    if (sawWhitespace || sawDoubleQuote || sawSingleQuote)
-    {
-        if (sawDoubleQuote && sawSingleQuote)
-        {
-            // If both quotes are present, use double quotes and escape any double quotes that we find.
-            converted += kDoubleQuote;
-            for (int ii = 0; ii < len; ++ii)
+            char walker = _matchingString[ii];
+            
+            if (isspace(walker))
             {
-                char walker = _matchingString[ii];
-                
-                if (kDoubleQuote == walker)
-                {
-                    converted += kEscapeCharacter;
-                }
-                converted += walker;
+                sawWhitespace = true;
             }
-            converted += kDoubleQuote;
+            else if (kDoubleQuote == walker)
+            {
+                sawDoubleQuote = true;
+            }
+            else if (kSingleQuote == walker)
+            {
+                sawSingleQuote = true;
+            }
         }
-        else if (sawDoubleQuote)
+        if (sawWhitespace || sawDoubleQuote || sawSingleQuote)
         {
-            // If only one type of quote is present, use the other quote.
-            converted += kSingleQuote;
-            converted += _matchingString;
-            converted += kSingleQuote;
-        }
-        else if (sawSingleQuote)
-        {
-            // If only one type of quote is present, use the other quote.
-            converted += kDoubleQuote;
-            converted += _matchingString;
-            converted += kDoubleQuote;
+            if (sawDoubleQuote && sawSingleQuote)
+            {
+                // If both quotes are present, use double quotes and escape any double quotes that we find.
+                converted += kDoubleQuote;
+                for (int ii = 0; ii < len; ++ii)
+                {
+                    char walker = _matchingString[ii];
+                    
+                    if (kDoubleQuote == walker)
+                    {
+                        converted += kEscapeCharacter;
+                    }
+                    converted += walker;
+                }
+                converted += kDoubleQuote;
+            }
+            else if (sawDoubleQuote)
+            {
+                // If only one type of quote is present, use the other quote.
+                converted += kSingleQuote;
+                converted += _matchingString;
+                converted += kSingleQuote;
+            }
+            else if (sawSingleQuote)
+            {
+                // If only one type of quote is present, use the other quote.
+                converted += kDoubleQuote;
+                converted += _matchingString;
+                converted += kDoubleQuote;
+            }
+            else
+            {
+                // If no quotes are present, just use double quotes.
+                converted += kDoubleQuote;
+                converted += _matchingString;
+                converted += kDoubleQuote;
+            }
         }
         else
         {
-            // If no quotes are present, just use double quotes.
-            converted += kDoubleQuote;
-            converted += _matchingString;
-            converted += kDoubleQuote;
+            // If neither blanks nor quotes are in the string, just return the string.
+            converted = _matchingString;
         }
     }
-    else
+    catch (...)
     {
-        // If neither blanks nor quotes are in the string, just return the string.
-        converted = _matchingString;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     return converted;
 } // MatchValue::asString

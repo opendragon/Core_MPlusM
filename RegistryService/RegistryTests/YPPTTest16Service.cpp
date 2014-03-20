@@ -51,6 +51,9 @@ using namespace YarpPlusPlusTest;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The operation timeout to use with YARP. */
+static const float kTest16ServiceTimeout = 5.0;
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -68,7 +71,7 @@ Test16Service::Test16Service(const int argc,
         inherited(true, "Test16", "Simple service for unit tests", argc, argv)
 {
     OD_SYSLOG_ENTER();//####
-    _requestHandlers.registerRequestHandler(new Test16EchoRequestHandler());
+    setUpRequestHandlers();
     OD_SYSLOG_EXIT_P(this);//####
 } // Test16Service::Test16Service
 
@@ -81,6 +84,70 @@ Test16Service::~Test16Service(void)
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
+
+void Test16Service::setUpRequestHandlers(void)
+{
+    OD_SYSLOG_ENTER();//####
+    try
+    {
+        _requestHandlers.registerRequestHandler(new Test16EchoRequestHandler());
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT();//####
+} // Test16Service::setUpRequestHandlers
+
+bool Test16Service::start(void)
+{
+    OD_SYSLOG_ENTER();//####
+    bool result = false;
+    
+    try
+    {
+        if (! isStarted())
+        {
+            setTimeout(kTest16ServiceTimeout);
+            inherited::start();
+            if (isStarted())
+            {
+                
+            }
+            else
+            {
+                OD_SYSLOG("! (isStarted())");//####
+            }
+        }
+        result = isStarted();
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // Test16Service::start
+
+bool Test16Service::stop(void)
+{
+    OD_SYSLOG_ENTER();//####
+    bool result = false;
+    
+    try
+    {
+        result = inherited::stop();
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // Test16Service::stop
 
 #if defined(__APPLE__)
 # pragma mark Accessors

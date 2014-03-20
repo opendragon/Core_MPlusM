@@ -73,59 +73,76 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
     OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
-    int              workPos = SkipWhitespace(inString, inLength, startPos);
     MatchFieldName * result = NULL;
     
-    if (workPos < inLength)
+    try
     {
-        // Remember where we began.
-        char listStart = MatchValueList::ListInitiatorCharacter();
-        char scanChar = inString[workPos];
-        int  startSubPos = workPos;
-        
-        for (++workPos; workPos < inLength; ++workPos)
-        {
-            scanChar = inString[workPos];
-            if (isspace(scanChar) || (kColon == scanChar) || (listStart == scanChar))
-            {
-                break;
-            }
-            
-        }
+        int workPos = SkipWhitespace(inString, inLength, startPos);
+
         if (workPos < inLength)
         {
-            // Either we stopped with a blank, a colon, a list beginning or the end of the string.
-            if (0 < (workPos - startSubPos))
+            // Remember where we began.
+            char listStart = MatchValueList::ListInitiatorCharacter();
+            char scanChar = inString[workPos];
+            int  startSubPos = workPos;
+            
+            for (++workPos; workPos < inLength; ++workPos)
             {
-                yarp::os::ConstString tempString(inString.substr(startSubPos, workPos - startSubPos));
-
-                if (validator)
+                scanChar = inString[workPos];
+                if (isspace(scanChar) || (kColon == scanChar) || (listStart == scanChar))
                 {
-                    // If we have a non-empty substring, we need to check if the field is a known name.
-                    char * tempAsChars = strdup(tempString.c_str());
-                    
-                    // Convert the copy of the string to lower-case:
-                    for (size_t ii = 0, len = strlen(tempAsChars); ii < len; ++ii)
-                    {
-                        tempAsChars[ii] = static_cast<char>(tolower(tempAsChars[ii]));
-                    }
-                    if (validator(tempAsChars, NULL, NULL))
-                    {
-                        result = new MatchFieldName(tempAsChars);
-                    }
-                    free(tempAsChars);
+                    break;
                 }
-                else
+                
+            }
+            if (workPos < inLength)
+            {
+                // Either we stopped with a blank, a colon, a list beginning or the end of the string.
+                if (0 < (workPos - startSubPos))
                 {
-                    result = new MatchFieldName(tempString);
+                    yarp::os::ConstString tempString(inString.substr(startSubPos, workPos - startSubPos));
+                    
+                    if (validator)
+                    {
+                        // If we have a non-empty substring, we need to check if the field is a known name.
+                        char * tempAsChars = strdup(tempString.c_str());
+                        
+                        // Convert the copy of the string to lower-case:
+                        for (size_t ii = 0, len = strlen(tempAsChars); ii < len; ++ii)
+                        {
+                            tempAsChars[ii] = static_cast<char>(tolower(tempAsChars[ii]));
+                        }
+                        if (validator(tempAsChars, NULL, NULL))
+                        {
+                            result = new MatchFieldName(tempAsChars);
+                        }
+                        free(tempAsChars);
+                    }
+                    else
+                    {
+                        result = new MatchFieldName(tempString);
+                    }
                 }
             }
+            else
+            {
+                OD_SYSLOG("! (workPos < inLength)");//####
+            }
+            if (result)
+            {
+                endPos = ((kColon == scanChar) ? 1 : 0) + workPos;
+            }        
         }
-        if (result)
+        else
         {
-            endPos = ((kColon == scanChar) ? 1 : 0) + workPos;
-        }        
+            OD_SYSLOG("! (workPos < inLength)");//####
+        }
     }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }    
     OD_SYSLOG_EXIT_P(result);//####
     return result;
 } // MatchFieldName::CreateMatcher

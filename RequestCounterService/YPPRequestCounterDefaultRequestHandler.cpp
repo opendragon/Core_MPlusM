@@ -100,12 +100,20 @@ bool RequestCounterDefaultRequestHandler::operator() (const yarp::os::Bottle &  
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
-    _service.countRequest();
-    if (replyMechanism)
+    try
     {
-        yarp::os::Bottle response(YPP_OK_RESPONSE);
-        
-        response.write(*replyMechanism);
+        _service.countRequest();
+        if (replyMechanism)
+        {
+            yarp::os::Bottle response(YPP_OK_RESPONSE);
+            
+            response.write(*replyMechanism);
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

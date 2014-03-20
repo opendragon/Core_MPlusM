@@ -87,14 +87,22 @@ ResetRequestHandler::~ResetRequestHandler(void)
 void ResetRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_RESET_REQUEST);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, RESET_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Reset the request statistics");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(YPP_RESET_REQUEST);
-    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    try
+    {
+        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_RESET_REQUEST);
+        info.put(YPP_REQREP_DICT_VERSION_KEY, RESET_REQUEST_VERSION_NUMBER);
+        info.put(YPP_REQREP_DICT_DETAILS_KEY, "Reset the request statistics");
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
+        
+        asList->addString(YPP_RESET_REQUEST);
+        info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // ResetRequestHandler::fillInDescription
 
@@ -110,12 +118,20 @@ bool ResetRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
-    _service.resetCounters();
-    if (replyMechanism)
+    try
     {
-        yarp::os::Bottle response(YPP_OK_RESPONSE);
-        
-        response.write(*replyMechanism);
+        _service.resetCounters();
+        if (replyMechanism)
+        {
+            yarp::os::Bottle response(YPP_OK_RESPONSE);
+            
+            response.write(*replyMechanism);
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

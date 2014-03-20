@@ -87,17 +87,25 @@ InfoRequestHandler::~InfoRequestHandler(void)
 void InfoRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_INFO_REQUEST);
-    info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_1_OR_MORE);
-    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_LIST_START YPP_REQREP_DICT_START YPP_REQREP_DICT_END
-             YPP_REQREP_0_OR_1 YPP_REQREP_LIST_END);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, INFO_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Return information on a request");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(YPP_INFO_REQUEST);
-    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    try
+    {
+        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_INFO_REQUEST);
+        info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_1_OR_MORE);
+        info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_LIST_START YPP_REQREP_DICT_START YPP_REQREP_DICT_END
+                 YPP_REQREP_0_OR_1 YPP_REQREP_LIST_END);
+        info.put(YPP_REQREP_DICT_VERSION_KEY, INFO_REQUEST_VERSION_NUMBER);
+        info.put(YPP_REQREP_DICT_DETAILS_KEY, "Return information on a request");
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
+        
+        asList->addString(YPP_INFO_REQUEST);
+        info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // InfoRequestHandler::fillInDescription
 
@@ -113,16 +121,28 @@ bool InfoRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
-    if (replyMechanism)
+    try
     {
-        yarp::os::Bottle reply;
-        
-        if (_owner && (1 == restOfInput.size()))
+        if (replyMechanism)
         {
-            _owner->fillInRequestInfo(reply, restOfInput.get(0).toString());
+            yarp::os::Bottle reply;
+            
+            if (_owner && (1 == restOfInput.size()))
+            {
+                _owner->fillInRequestInfo(reply, restOfInput.get(0).toString());
+            }
+            else
+            {
+                OD_SYSLOG("! (_owner && (1 == restOfInput.size()))");//####
+            }
+            OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
+            reply.write(*replyMechanism);
         }
-        OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
-        reply.write(*replyMechanism);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

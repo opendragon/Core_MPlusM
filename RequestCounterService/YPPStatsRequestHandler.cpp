@@ -86,15 +86,23 @@ StatsRequestHandler::~StatsRequestHandler(void)
 void StatsRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_STATS_REQUEST);
-    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_INT YPP_REQREP_DOUBLE);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, STATS_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Return the number of requests and the time since last reset");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(YPP_STATS_REQUEST);
-    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    try
+    {
+        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_STATS_REQUEST);
+        info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_INT YPP_REQREP_DOUBLE);
+        info.put(YPP_REQREP_DICT_VERSION_KEY, STATS_REQUEST_VERSION_NUMBER);
+        info.put(YPP_REQREP_DICT_DETAILS_KEY, "Return the number of requests and the time since last reset");
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
+        
+        asList->addString(YPP_STATS_REQUEST);
+        info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // StatsRequestHandler::fillInDescription
 
@@ -110,16 +118,24 @@ bool StatsRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
-    if (replyMechanism)
+    try
     {
-        yarp::os::Bottle response;
-        double           elapsedTime;
-        long             counter;
-
-        _service.getStatistics(counter, elapsedTime);
-        response.addInt(static_cast<int>(counter));
-        response.addDouble(elapsedTime);
-        response.write(*replyMechanism);
+        if (replyMechanism)
+        {
+            yarp::os::Bottle response;
+            double           elapsedTime;
+            long             counter;
+            
+            _service.getStatistics(counter, elapsedTime);
+            response.addInt(static_cast<int>(counter));
+            response.addDouble(elapsedTime);
+            response.write(*replyMechanism);
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

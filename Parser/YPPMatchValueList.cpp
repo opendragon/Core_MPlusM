@@ -74,72 +74,92 @@ MatchValueList * MatchValueList::CreateMatcher(const yarp::os::ConstString & inS
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
     OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);
-    int              workPos = SkipWhitespace(inString, inLength, startPos);
     MatchValueList * result = NULL;
     
-    if (workPos < inLength)
+    try
     {
-        if (kRoundOpenBracket == inString[workPos])
+        int workPos = SkipWhitespace(inString, inLength, startPos);
+
+        if (workPos < inLength)
         {
-            // We potentially have a value list.
-            bool done = false;
-            bool okSoFar = true;
-            
-            result = new MatchValueList();
-            for (++workPos; okSoFar && (! done); )
+            if (kRoundOpenBracket == inString[workPos])
             {
-                int          nextElementPos;
-                MatchValue * element = MatchValue::CreateMatcher(inString, inLength, workPos, nextElementPos);
+                // We potentially have a value list.
+                bool done = false;
+                bool okSoFar = true;
                 
-                if (element)
+                result = new MatchValueList();
+                for (++workPos; okSoFar && (! done); )
                 {
-                    // Skip over any trailing whitespace, to find if the value list is complete or more coming.
-                    workPos = SkipWhitespace(inString, inLength, nextElementPos);
-                    if (workPos < inLength)
+                    int          nextElementPos;
+                    MatchValue * element = MatchValue::CreateMatcher(inString, inLength, workPos, nextElementPos);
+                    
+                    if (element)
                     {
-                        char scanChar = inString[workPos];
-                        
-                        if (kRoundCloseBracket == scanChar)
+                        // Skip over any trailing whitespace, to find if the value list is complete or more coming.
+                        workPos = SkipWhitespace(inString, inLength, nextElementPos);
+                        if (workPos < inLength)
                         {
-                            // We've seen the end of the value list.
-                            result->_values.push_back(element);
-                            ++workPos;
-                            done = true;
-                        }
-                        else if (kComma == scanChar)
-                        {
-                            // We've got more elements to go.
-                            result->_values.push_back(element);
-                            ++workPos;
+                            char scanChar = inString[workPos];
+                            
+                            if (kRoundCloseBracket == scanChar)
+                            {
+                                // We've seen the end of the value list.
+                                result->_values.push_back(element);
+                                ++workPos;
+                                done = true;
+                            }
+                            else if (kComma == scanChar)
+                            {
+                                // We've got more elements to go.
+                                result->_values.push_back(element);
+                                ++workPos;
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (kComma == scanChar)");//####
+                                // Something unexpected has appeared.
+                                okSoFar = false;
+                            }
                         }
                         else
                         {
-                            // Something unexpected has appeared.
+                            OD_SYSLOG("! (workPos < inLength)");//####
+                            // We've gone past the end of the string without seeing a terminator or a separator.
                             okSoFar = false;
                         }
                     }
                     else
                     {
-                        // We've gone past the end of the string without seeing a terminator or a separator.
+                        OD_SYSLOG("! (element)");//####
+                                                 // We have a malformed value list.
                         okSoFar = false;
                     }
                 }
+                if (okSoFar)
+                {
+                    endPos = workPos;
+                }
                 else
                 {
-                    // We have a malformed value list.
-                    okSoFar = false;
+                    delete result;
+                    result = NULL;
                 }
-            }
-            if (okSoFar)
-            {
-                endPos = workPos;
             }
             else
             {
-                delete result;
-                result = NULL;
+                OD_SYSLOG("! (kRoundOpenBracket == inString[workPos])");//####
             }
         }
+        else
+        {
+            OD_SYSLOG("! (0 < (workPos < inLength))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
@@ -189,121 +209,129 @@ const
     OD_SYSLOG_S1("fieldName = ", fieldName);//####
     yarp::os::ConstString result;
     
-    if (0 < _values.size())
+    try
     {
-        bool simpleForm = true;
-        int  nonWild = 0;
-        
-        // Check if none of the values contain wildcards.
-        for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
+        if (0 < _values.size())
         {
-            MatchValue * element = _values[ii];
-        
-            if (element->hasWildcardCharacters())
-            {
-                simpleForm = false;
-            }
-            else
-            {
-                ++nonWild;
-            }
-        }
-        if (simpleForm)
-        {
-            result += fieldName;
-            if (1 == _values.size())
-            {
-                result += " = ";
-                result += _values[0]->asSQLString();
-            }
-            else
-            {
-                result += " IN (";
-                for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
-                {
-                    MatchValue * element = _values[ii];
-                    
-                    if (ii)
-                    {
-                        result += kComma;
-                        result += " ";
-                    }
-                    result += element->asSQLString();
-                }
-                result += ")";
-            }
-        }
-        else
-        {
-            if (nonWild)
-            {
-                result += kRoundOpenBracket;
-            }
-            result += fieldName;
-            if (1 == nonWild)
-            {
-                // Find the single non-wildcard value.
-                for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
-                {
-                    MatchValue * element = _values[ii];
-                    
-                    if (! element->hasWildcardCharacters())
-                    {
-                        result += " = ";
-                        result += _values[ii]->asSQLString();
-                        break;
-                    }
-                    
-                }
-            }
-            else if (nonWild)
-            {
-                // Gather the non-wildcard values together.
-                result += " IN (";
-                for (MatchValueListSize ii = 0, maxI = _values.size(), jj = 0; ii < maxI; ++ii)
-                {
-                    MatchValue * element = _values[ii];
-                    
-                    if (! element->hasWildcardCharacters())
-                    {
-                        if (jj)
-                        {
-                            result += kComma;
-                            result += " ";
-                        }
-                        result += element->asSQLString();
-                        ++jj;
-                    }
-                }
-                result += ")";
-            }
-            // Add the wildcard values
-            if (nonWild)
-            {
-                result += " OR ";
-                result += fieldName;
-            }
-            for (MatchValueListSize ii = 0, maxI = _values.size(), jj = 0; ii < maxI; ++ii)
+            bool simpleForm = true;
+            int  nonWild = 0;
+            
+            // Check if none of the values contain wildcards.
+            for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
             {
                 MatchValue * element = _values[ii];
                 
                 if (element->hasWildcardCharacters())
                 {
-                    if (jj)
-                    {
-                        result += " OR ";
-                        result += fieldName;
-                    }
-                    result += " LIKE ";
-                    result += element->asSQLString();
-                    ++jj;
+                    simpleForm = false;
+                }
+                else
+                {
+                    ++nonWild;
                 }
             }
-            if (nonWild)
+            if (simpleForm)
             {
-                result += kRoundCloseBracket;
+                result += fieldName;
+                if (1 == _values.size())
+                {
+                    result += " = ";
+                    result += _values[0]->asSQLString();
+                }
+                else
+                {
+                    result += " IN (";
+                    for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
+                    {
+                        MatchValue * element = _values[ii];
+                        
+                        if (ii)
+                        {
+                            result += kComma;
+                            result += " ";
+                        }
+                        result += element->asSQLString();
+                    }
+                    result += ")";
+                }
+            }
+            else
+            {
+                if (nonWild)
+                {
+                    result += kRoundOpenBracket;
+                }
+                result += fieldName;
+                if (1 == nonWild)
+                {
+                    // Find the single non-wildcard value.
+                    for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
+                    {
+                        MatchValue * element = _values[ii];
+                        
+                        if (! element->hasWildcardCharacters())
+                        {
+                            result += " = ";
+                            result += _values[ii]->asSQLString();
+                            break;
+                        }
+                        
+                    }
+                }
+                else if (nonWild)
+                {
+                    // Gather the non-wildcard values together.
+                    result += " IN (";
+                    for (MatchValueListSize ii = 0, maxI = _values.size(), jj = 0; ii < maxI; ++ii)
+                    {
+                        MatchValue * element = _values[ii];
+                        
+                        if (! element->hasWildcardCharacters())
+                        {
+                            if (jj)
+                            {
+                                result += kComma;
+                                result += " ";
+                            }
+                            result += element->asSQLString();
+                            ++jj;
+                        }
+                    }
+                    result += ")";
+                }
+                // Add the wildcard values
+                if (nonWild)
+                {
+                    result += " OR ";
+                    result += fieldName;
+                }
+                for (MatchValueListSize ii = 0, maxI = _values.size(), jj = 0; ii < maxI; ++ii)
+                {
+                    MatchValue * element = _values[ii];
+                    
+                    if (element->hasWildcardCharacters())
+                    {
+                        if (jj)
+                        {
+                            result += " OR ";
+                            result += fieldName;
+                        }
+                        result += " LIKE ";
+                        result += element->asSQLString();
+                        ++jj;
+                    }
+                }
+                if (nonWild)
+                {
+                    result += kRoundCloseBracket;
+                }
             }
         }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_S(result.c_str());//####
     return result;
@@ -314,19 +342,27 @@ const
 {
     yarp::os::ConstString result;
     
-    result += kRoundOpenBracket;
-    for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
+    try
     {
-        MatchValue * element = _values[ii];
-        
-        if (ii)
+        result += kRoundOpenBracket;
+        for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
         {
-            result += kComma;
-            result += " ";
+            MatchValue * element = _values[ii];
+            
+            if (ii)
+            {
+                result += kComma;
+                result += " ";
+            }
+            result += element->asString();
         }
-        result += element->asString();
+        result += kRoundCloseBracket;
     }
-    result += kRoundCloseBracket;
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     return result;
 } // MatchValueList::asString
 
@@ -339,15 +375,24 @@ const
 const MatchValue * MatchValueList::element(const int index)
 const
 {
-    MatchValue * result;
+    MatchValue * result = NULL;
     
-    if ((index >= 0) && (index < static_cast<int>(_values.size())))
+    try
     {
-        result = _values[static_cast<MatchValueListSize>(index)];
+        if ((index >= 0) && (index < static_cast<int>(_values.size())))
+        {
+            result = _values[static_cast<MatchValueListSize>(index)];
+        }
+        else
+        {
+            OD_SYSLOG("! ((index >= 0) && (index < static_cast<int>(_values.size())))");//####
+            result = NULL;
+        }
     }
-    else
+    catch (...)
     {
-        result = NULL;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     return result;
 } // MatchValueList::element
@@ -355,13 +400,21 @@ const
 void MatchValueList::empty(void)
 {
     OD_SYSLOG_ENTER();//####
-    for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
+    try
     {
-        MatchValue * element = _values[ii];
-        
-        delete element;
+        for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
+        {
+            MatchValue * element = _values[ii];
+            
+            delete element;
+        }
+        _values.clear();
     }
-    _values.clear();
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // MatchValueList::empty
 

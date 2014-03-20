@@ -44,9 +44,7 @@
 #include "YPPBaseClient.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
-#include <ace/Version.h>
 #include <iostream>
-#include <yarp/conf/version.h>
 #include <yarp/os/all.h>
 
 using std::cout;
@@ -176,22 +174,33 @@ int main(int     argc,
          char ** argv)
 {
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionEnableThreadSupport);//####
+                   kODSyslogOptionEnableThreadSupport | kODSyslogOptionWriteToStderr);//####
     OD_SYSLOG_ENTER();//####
-    cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << ", ACE Version = " <<
-            ACE_VERSION << endl;
-    yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
-    yarp::os::ConstString portNameRequest("portname:");
-    const char *          requestName;
-    
-    if (1 < argc)
+    try
     {
-        portNameRequest += argv[1];
-        if (2 < argc)
+#if defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network::setVerbosity(1);
+#else // ! defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network::setVerbosity(-1);
+#endif // ! defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure       
+        yarp::os::ConstString portNameRequest("portname:");
+        const char *          requestName;
+
+        YarpPlusPlus::Initialize();
+        if (1 < argc)
         {
-            if (strcmp(argv[2], "*"))
+            portNameRequest += argv[1];
+            if (2 < argc)
             {
-                requestName = argv[2];
+                if (strcmp(argv[2], "*"))
+                {
+                    requestName = argv[2];
+                }
+                else
+                {
+                    requestName = NULL;
+                }
             }
             else
             {
@@ -200,107 +209,116 @@ int main(int     argc,
         }
         else
         {
+            portNameRequest += "*";
             requestName = NULL;
         }
-    }
-    else
-    {
-        portNameRequest += "*";
-        requestName = NULL;
-    }
-    yarp::os::Bottle matches(YarpPlusPlus::FindMatchingServices(portNameRequest));
-    
-    if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
-    {
-        // First, check if the search succeeded.
-        yarp::os::ConstString matchesFirstString(matches.get(0).toString());
+        yarp::os::Bottle matches(YarpPlusPlus::FindMatchingServices(portNameRequest));
         
-        if (! strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))
+        if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
         {
-            // Now, process the second element.
-            yarp::os::Bottle * matchesList = matches.get(1).asList();
+            // First, check if the search succeeded.
+            yarp::os::ConstString matchesFirstString(matches.get(0).toString());
             
-            if (matchesList)
+            if (strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))
             {
-                int matchesCount = matchesList->size();
+                OD_SYSLOG("(strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))");//####
+                yarp::os::ConstString reason(matches.get(1).toString());
                 
-                if (matchesCount)
+                cerr << "Failed: " << reason.c_str() << "." << endl;
+            }
+            else
+            {
+                // Now, process the second element.
+                yarp::os::Bottle * matchesList = matches.get(1).asList();
+                
+                if (matchesList)
                 {
-                    bool             sawRequestResponse = false;
-                    yarp::os::Bottle parameters;
-
-                    if (requestName)
+                    int matchesCount = matchesList->size();
+                    
+                    if (matchesCount)
                     {
-                        parameters = requestName;
-                    }
-                    for (int ii = 0; ii < matchesCount; ++ii)
-                    {
-                        yarp::os::ConstString         aMatch(matchesList->get(ii).toString());
-                        YarpPlusPlus::ServiceResponse response;
+                        bool             sawRequestResponse = false;
+                        yarp::os::Bottle parameters;
                         
-                        // If no request was identified, or a wildcard was specified, we use the 'list' request;
-                        // otherwise, do an 'info' request.
                         if (requestName)
                         {
-                            YarpPlusPlus::ServiceRequest request(YPP_INFO_REQUEST, parameters);
+                            parameters = requestName;
+                        }
+                        for (int ii = 0; ii < matchesCount; ++ii)
+                        {
+                            yarp::os::ConstString         aMatch(matchesList->get(ii).toString());
+                            YarpPlusPlus::ServiceResponse response;
                             
-                            if (request.send(aMatch, NULL, &response))
+                            // If no request was identified, or a wildcard was specified, we use the 'list' request;
+                            // otherwise, do an 'info' request.
+                            if (requestName)
                             {
-                                if (0 < response.count())
+                                YarpPlusPlus::ServiceRequest request(YPP_INFO_REQUEST, parameters);
+                                
+                                if (request.send(aMatch, NULL, &response))
                                 {
-                                    if (processResponse(aMatch, response))
+                                    if (0 < response.count())
                                     {
-                                        sawRequestResponse = true;
+                                        if (processResponse(aMatch, response))
+                                        {
+                                            sawRequestResponse = true;
+                                        }
                                     }
+                                }
+                                else
+                                {
+                                    OD_SYSLOG("! (request.send(aMatch, NULL, &response))");//####
+                                    cerr << "Problem communicating with " << aMatch.c_str() << "." << endl;
                                 }
                             }
                             else
                             {
-                                cerr << "Problem communicating with " << aMatch.c_str() << "." << endl;
+                                YarpPlusPlus::ServiceRequest request(YPP_LIST_REQUEST, parameters);
+                                
+                                if (request.send(aMatch, NULL, &response))
+                                {
+                                    if (0 < response.count())
+                                    {
+                                        if (processResponse(aMatch, response))
+                                        {
+                                            sawRequestResponse = true;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    OD_SYSLOG("! (request.send(aMatch, NULL, &response))");//####
+                                    cerr << "Problem communicating with " << aMatch.c_str() << "." << endl;
+                                }
                             }
                         }
-                        else
+                        if (! sawRequestResponse)
                         {
-                            YarpPlusPlus::ServiceRequest request(YPP_LIST_REQUEST, parameters);
-                            
-                            if (request.send(aMatch, NULL, &response))
-                            {
-                                if (0 < response.count())
-                                {
-                                    if (processResponse(aMatch, response))
-                                    {
-                                        sawRequestResponse = true;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                cerr << "Problem communicating with " << aMatch.c_str() << "." << endl;
-                            }
+                            cout << "No matching request found." << endl;
                         }
                     }
-                    if (! sawRequestResponse)
+                    else
                     {
-                        cout << "No matching request found." << endl;
+                        cout << "No services found." << endl;
                     }
                 }
                 else
                 {
-                    cout << "No services found." << endl;
+                    OD_SYSLOG("! (matchesList)");//####
                 }
             }
         }
         else
         {
-            yarp::os::ConstString reason(matches.get(1).toString());
-            
-            cerr << "Failed: " << reason.c_str() << "." << endl;
+            OD_SYSLOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
+            cerr << "Problem getting information from the Service Registry." << endl;
         }
     }
-    else
+    catch (...)
     {
-        cerr << "Problem getting information from the Service Registry." << endl;
+        OD_SYSLOG("Exception caught");//####
     }
+    yarp::os::Network::fini();
     OD_SYSLOG_EXIT_L(0);//####
     return 0;
 } // main

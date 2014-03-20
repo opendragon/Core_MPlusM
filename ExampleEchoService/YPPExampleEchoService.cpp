@@ -51,6 +51,21 @@ using namespace YarpPlusPlusExample;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The operation timeout to use with YARP. */
+static const float kExampleEchoServiceTimeout = 5.0;
+
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
+
 ExampleEchoService::ExampleEchoService(const yarp::os::ConstString & serviceEndpointName,
                                        const yarp::os::ConstString & serviceHostName,
                                        const yarp::os::ConstString & servicePortNumber) :
@@ -77,20 +92,41 @@ ExampleEchoService::~ExampleEchoService(void)
 void ExampleEchoService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
-    _requestHandlers.registerRequestHandler(new EchoRequestHandler());
+    try
+    {
+        _requestHandlers.registerRequestHandler(new EchoRequestHandler());
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // ExampleEchoService::setUpRequestHandlers
 
 bool ExampleEchoService::start(void)
 {
     OD_SYSLOG_ENTER();//####
-    if (! isStarted())
+    try
     {
-        BaseService::start();
-        if (isStarted())
+        if (! isStarted())
         {
-            
+            setTimeout(kExampleEchoServiceTimeout);
+            inherited::start();
+            if (isStarted())
+            {
+                
+            }
+            else
+            {
+                OD_SYSLOG("! (isStarted())");//####
+            }
         }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(isStarted());//####
     return isStarted();
@@ -99,8 +135,17 @@ bool ExampleEchoService::start(void)
 bool ExampleEchoService::stop(void)
 {
     OD_SYSLOG_ENTER();//####
-    bool result = BaseService::stop();
+    bool result = false;
     
+    try
+    {
+        result = inherited::stop();
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // ExampleEchoService::stop

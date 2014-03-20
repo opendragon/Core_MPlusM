@@ -92,18 +92,26 @@ MatchRequestHandler::~MatchRequestHandler(void)
 void MatchRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_MATCH_REQUEST);
-    info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_STRING YPP_REQREP_1_OR_MORE);
-    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_LIST_START YPP_REQREP_STRING YPP_REQREP_0_OR_MORE
-             YPP_REQREP_LIST_END);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, MATCH_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Find a matching service");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(YPP_MATCH_REQUEST);
-    asList->addString("find");
-    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    try
+    {
+        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_MATCH_REQUEST);
+        info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_STRING YPP_REQREP_1_OR_MORE);
+        info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_LIST_START YPP_REQREP_STRING YPP_REQREP_0_OR_MORE
+                 YPP_REQREP_LIST_END);
+        info.put(YPP_REQREP_DICT_VERSION_KEY, MATCH_REQUEST_VERSION_NUMBER);
+        info.put(YPP_REQREP_DICT_DETAILS_KEY, "Find a matching service");
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
+        
+        asList->addString(YPP_MATCH_REQUEST);
+        asList->addString("find");
+        info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // MatchRequestHandler::fillInDescription
 
@@ -119,59 +127,69 @@ bool MatchRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
-    if (replyMechanism)
+    try
     {
-        yarp::os::Bottle reply;
-        
-        // We are expecting just one string as the parameter
-        if (1 == restOfInput.size())
+        if (replyMechanism)
         {
-            yarp::os::Value argument(restOfInput.get(0));
+            yarp::os::Bottle reply;
             
-            if (argument.isString())
+            // We are expecting just one string as the parameter
+            if (1 == restOfInput.size())
             {
-                yarp::os::ConstString argAsString(argument.toString());
-            
-                OD_SYSLOG_S1("argAsString <- ", argAsString.c_str());//####
-                int               endPos;
-                MatchExpression * matcher = MatchExpression::CreateMatcher(argAsString, argAsString.length(), 0, endPos,
-                                                                           _validator);
+                yarp::os::Value argument(restOfInput.get(0));
                 
-                if (matcher)
+                if (argument.isString())
                 {
-                    OD_SYSLOG("(matcher)");//####
-                    // Hand off the processing to the registry service. First, put the 'OK' response in the output
-                    // buffer, as we have successfully parsed the request.
-                    reply.addString(YPP_OK_RESPONSE);
-                    if (! _service.processMatchRequest(matcher, reply))
+                    yarp::os::ConstString argAsString(argument.toString());
+                    
+                    OD_SYSLOG_S1("argAsString <- ", argAsString.c_str());//####
+                    int               endPos;
+                    MatchExpression * matcher = MatchExpression::CreateMatcher(argAsString, argAsString.length(), 0,
+                                                                               endPos, _validator);
+                    
+                    if (matcher)
                     {
-                        OD_SYSLOG("(! _service.processMatchRequest(matcher, reply))");//####
-                        reply = yarp::os::Bottle::getNullBottle();
+                        OD_SYSLOG("(matcher)");//####
+                        // Hand off the processing to the registry service. First, put the 'OK' response in the output
+                        // buffer, as we have successfully parsed the request.
+                        reply.addString(YPP_OK_RESPONSE);
+                        if (! _service.processMatchRequest(matcher, reply))
+                        {
+                            OD_SYSLOG("(! _service.processMatchRequest(matcher, reply))");//####
+                            reply = yarp::os::Bottle::getNullBottle();
+                            reply.addString(YPP_FAILED_RESPONSE);
+                            reply.addString("Invalid criteria");
+                        }
+                        delete matcher;
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (matcher)");//####
                         reply.addString(YPP_FAILED_RESPONSE);
                         reply.addString("Invalid criteria");
                     }
-                    delete matcher;
                 }
                 else
                 {
-                    OD_SYSLOG("! (matcher)");//####
+                    OD_SYSLOG("! (argument.isString())");//####
                     reply.addString(YPP_FAILED_RESPONSE);
                     reply.addString("Invalid criteria");
                 }
             }
             else
             {
+                OD_SYSLOG("! (1 == restOfInput.size())");//####
                 reply.addString(YPP_FAILED_RESPONSE);
-                reply.addString("Invalid criteria");
+                reply.addString("Missing criteria or extra arguments to request");
             }
+            OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
+            reply.write(*replyMechanism);
         }
-        else
-        {
-            reply.addString(YPP_FAILED_RESPONSE);
-            reply.addString("Missing criteria or extra arguments to request");
-        }
-        OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
-        reply.write(*replyMechanism);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

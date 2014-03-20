@@ -66,31 +66,55 @@ static yarp::os::Bottle ValidateMatchResponse(const yarp::os::Bottle & response)
     OD_SYSLOG_S1("response = ", response.toString().c_str());//####
     yarp::os::Bottle result;
     
-    if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == response.size())
+    try
     {
-        // The first element of the response should be 'OK' or 'FAILED'; if 'OK', the second element should be a list of
-        // service names.
-        yarp::os::Value responseFirst(response.get(0));
-        
-        if (responseFirst.isString())
+        if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == response.size())
         {
-            yarp::os::ConstString responseFirstAsString(responseFirst.toString());
+            // The first element of the response should be 'OK' or 'FAILED'; if 'OK', the second element should be a list of
+            // service names.
+            yarp::os::Value responseFirst(response.get(0));
             
-            if (! strcmp(YPP_OK_RESPONSE, responseFirstAsString.c_str()))
+            if (responseFirst.isString())
             {
-                // Now, check the second element.
-                yarp::os::Value responseSecond(response.get(1));
+                yarp::os::ConstString responseFirstAsString(responseFirst.toString());
                 
-                if (responseSecond.isList())
+                if (! strcmp(YPP_OK_RESPONSE, responseFirstAsString.c_str()))
+                {
+                    // Now, check the second element.
+                    yarp::os::Value responseSecond(response.get(1));
+                    
+                    if (responseSecond.isList())
+                    {
+                        result = response;
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (responseSecond.isList())");//####
+                    }
+                }
+                else if (! strcmp(YPP_FAILED_RESPONSE, responseFirstAsString.c_str()))
                 {
                     result = response;
                 }
+                else
+                {
+                    OD_SYSLOG("! (! strcmp(YPP_FAILED_RESPONSE, responseFirstAsString.c_str()))");//####
+                }
             }
-            else if (! strcmp(YPP_FAILED_RESPONSE, responseFirstAsString.c_str()))
+            else
             {
-                result = response;
+                OD_SYSLOG("! (responseFirst.isString())");//####
             }
         }
+        else
+        {
+            OD_SYSLOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == response.size())");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT();//####
     return result;
@@ -121,47 +145,72 @@ BaseClient::~BaseClient(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool BaseClient::connect(const char * criteria,
-                         const bool   allowOnlyOneMatch)
+bool BaseClient::findService(const char * criteria,
+                             const bool   allowOnlyOneMatch)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("criteria = ", criteria);//####
     OD_SYSLOG_B1("allowOnlyOneMatch = ", allowOnlyOneMatch);//####
-    bool             result = false;
-    yarp::os::Bottle candidates(FindMatchingServices(criteria));
+    bool result = false;
     
-    OD_SYSLOG_S1("candidates <- ", candidates.toString().c_str());//####
-    if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())
+    try
     {
-        // First, check if the search succeeded.
-        yarp::os::ConstString candidatesFirstString(candidates.get(0).toString());
-        
-        if (! strcmp(YPP_OK_RESPONSE, candidatesFirstString.c_str()))
+        yarp::os::Bottle candidates(FindMatchingServices(criteria));
+
+        OD_SYSLOG_S1("candidates <- ", candidates.toString().c_str());//####
+        if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())
         {
-            // Now, process the second element.
-            yarp::os::Bottle * candidateList = candidates.get(1).asList();
+            // First, check if the search succeeded.
+            yarp::os::ConstString candidatesFirstString(candidates.get(0).toString());
             
-            if (candidateList)
+            if (! strcmp(YPP_OK_RESPONSE, candidatesFirstString.c_str()))
             {
-                // Now, set up the service port.
-                int candidateCount = candidateList->size();
+                // Now, process the second element.
+                yarp::os::Bottle * candidateList = candidates.get(1).asList();
                 
-                if ((! allowOnlyOneMatch) || (1 == candidateCount))
+                if (candidateList)
                 {
-                    _servicePort = candidateList->get(0).toString();
-                    OD_SYSLOG_S1("_servicePort <- ", _servicePort.c_str());
-                    result = true;
+                    // Now, set up the service port.
+                    int candidateCount = candidateList->size();
+                    
+                    if ((! allowOnlyOneMatch) || (1 == candidateCount))
+                    {
+                        _servicePort = candidateList->get(0).toString();
+                        OD_SYSLOG_S1("_servicePort <- ", _servicePort.c_str());
+                        result = true;
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! ((! allowOnlyOneMatch) || (1 == candidateCount))");//####
+                    }
+                }
+                else
+                {
+                    OD_SYSLOG("! (candidateList)");//####
                 }
             }
+            else
+            {
+                OD_SYSLOG("! (! strcmp(YPP_OK_RESPONSE, candidatesFirstString.c_str()))");//####
+            }
+        }
+        else
+        {
+            OD_SYSLOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())");//####
+        }
+        if (! result)
+        {
+            _servicePort = "";
         }
     }
-    if (! result)
+    catch (...)
     {
-        _servicePort = "";
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
-} // BaseClient::connect
+} // BaseClient::findService
 
 bool BaseClient::send(const char *             request,
                       const yarp::os::Bottle & parameters,
@@ -171,17 +220,26 @@ bool BaseClient::send(const char *             request,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S2("request = ", request, "parameters = ", parameters.toString().c_str());//####
     OD_SYSLOG_P1("response = ", response);//####
-    bool result;
+    bool result = false;
 
-    if (0 < _servicePort.length())
+    try
     {
-        ServiceRequest  actualRequest(request, parameters);
-        
-        result = actualRequest.send(_servicePort, usingPort, response);
+        if (0 < _servicePort.length())
+        {
+            ServiceRequest actualRequest(request, parameters);
+            
+            result = actualRequest.send(_servicePort, usingPort, response);
+        }
+        else
+        {
+            OD_SYSLOG("! (0 < _servicePort.length())");//####
+            result = false;
+        }
     }
-    else
+    catch (...)
     {
-        result = false;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
@@ -202,17 +260,30 @@ yarp::os::Bottle YarpPlusPlus::FindMatchingServices(const char * criteria)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("criteria = ", criteria);//####
-    yarp::os::Bottle parameters;
-    
-    parameters.addString(criteria); // Note that we can't simply initialize the Bottle with the criteria, as it will be
-                                    // parsed by YARP.
     yarp::os::Bottle result;
-    ServiceRequest   request(YPP_MATCH_REQUEST, parameters);
-    ServiceResponse  response;
-    
-    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
+
+    try
     {
-        result = ValidateMatchResponse(response.values());
+        yarp::os::Bottle parameters;
+
+        parameters.addString(criteria); // Note that we can't simply initialize the Bottle with the criteria, as it will be
+                                        // parsed by YARP.
+        ServiceRequest   request(YPP_MATCH_REQUEST, parameters);
+        ServiceResponse  response;
+        
+        if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
+        {
+            result = ValidateMatchResponse(response.values());
+        }
+        else
+        {
+            OD_SYSLOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT();//####
     return result;

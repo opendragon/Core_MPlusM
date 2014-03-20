@@ -60,12 +60,23 @@ namespace YarpPlusPlusTest
         /*! @brief The destructor. */
         virtual ~Test15Service(void);
         
+        /*! @brief Start processing requests.
+         @returns @c true if the service was started and @c false if it was not. */
+        virtual bool start(void);
+        
+        /*! @brief Stop processing requests.
+         @returns @c true if the service was stopped and @c false it if was not. */
+        virtual bool stop(void);
+        
     protected:
         
     private:
         
         /*! @brief The class that this class is derived from. */
         typedef BaseService inherited;
+        
+        /*! @brief Set up the standard request handlers. */
+        void setUpRequestHandlers(void);
         
     }; // Test15Service
     

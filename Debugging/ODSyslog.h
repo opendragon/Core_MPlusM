@@ -55,7 +55,8 @@ enum
     kODSyslogOptionWriteToFile = 1,
     kODSyslogOptionIncludeProcessID = 2,
     kODSyslogOptionIncludeThreadID = 4,
-    kODSyslogOptionEnableThreadSupport = 8
+    kODSyslogOptionEnableThreadSupport = 8,
+    kODSyslogOptionWriteToStderr = 16
 };
 
 # if defined(DISABLE_OD_SYSLOG)

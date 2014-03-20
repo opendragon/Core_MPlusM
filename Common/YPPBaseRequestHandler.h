@@ -70,7 +70,7 @@ namespace YarpPlusPlus
         
         /*! @brief Return the name of the request.
          @returns The name of the request. */
-        inline const yarp::os::ConstString & name(void)
+        inline yarp::os::ConstString name(void)
         const
         {
             return _name;

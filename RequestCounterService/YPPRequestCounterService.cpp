@@ -54,6 +54,21 @@ using namespace YarpPlusPlus;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The operation timeout to use with YARP. */
+static const float kRequestCounterServiceTimeout = 5.0;
+
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
+
 RequestCounterService::RequestCounterService(const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & serviceHostName,
                                              const yarp::os::ConstString & servicePortNumber) :
@@ -80,7 +95,15 @@ RequestCounterService::~RequestCounterService(void)
 void RequestCounterService::countRequest(void)
 {
     OD_SYSLOG_ENTER();//####
-    ++_counter;
+    try
+    {
+        ++_counter;
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // RequestCounterService::countRequest
 
@@ -88,48 +111,97 @@ void RequestCounterService::getStatistics(long &   counter,
                                           double & elapsedTime)
 {
     OD_SYSLOG_ENTER();//####
-    counter = _counter;
-    elapsedTime = yarp::os::Time::now() - _lastReset;
+    try
+    {
+        counter = _counter;
+        elapsedTime = yarp::os::Time::now() - _lastReset;
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // RequestCounterService::getStatistics
 
 void RequestCounterService::resetCounters(void)
 {
     OD_SYSLOG_ENTER();//####
-    _counter = 0;
-    _lastReset = yarp::os::Time::now();
+    try
+    {
+        _counter = 0;
+        _lastReset = yarp::os::Time::now();
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // RequestCounterService::resetCounters
 
 void RequestCounterService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
-    _requestHandlers.registerRequestHandler(new ResetRequestHandler(*this));
-    _requestHandlers.registerRequestHandler(new StatsRequestHandler(*this));
-    _requestHandlers.setDefaultRequestHandler(new RequestCounterDefaultRequestHandler(*this));
+    try
+    {
+        _requestHandlers.registerRequestHandler(new ResetRequestHandler(*this));
+        _requestHandlers.registerRequestHandler(new StatsRequestHandler(*this));
+        _requestHandlers.setDefaultRequestHandler(new RequestCounterDefaultRequestHandler(*this));
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // RequestCounterService::setUpRequestHandlers
 
 bool RequestCounterService::start(void)
 {
     OD_SYSLOG_ENTER();//####
-    if (! isStarted())
+    bool result = false;
+    
+    try
     {
-        BaseService::start();
-        if (isStarted())
+        if (! isStarted())
         {
-            
+            setTimeout(kRequestCounterServiceTimeout);
+            inherited::start();
+            if (isStarted())
+            {
+                
+            }
+            else
+            {
+                OD_SYSLOG("! (isStarted())");//####
+            }
         }
+        result = isStarted();
     }
-    OD_SYSLOG_EXIT_B(isStarted());//####
-    return isStarted();
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
 } // RequestCounterService::start
 
 bool RequestCounterService::stop(void)
 {
     OD_SYSLOG_ENTER();//####
-    bool result = BaseService::stop();
+    bool result = false;
     
+    try
+    {
+        result = inherited::stop();
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // RequestCounterService::stop

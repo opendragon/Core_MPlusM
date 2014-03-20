@@ -89,17 +89,25 @@ UnregisterRequestHandler::~UnregisterRequestHandler(void)
 void UnregisterRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_UNREGISTER_REQUEST);
-    info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_STRING);
-    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_STRING);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, UNREGISTER_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Unregister the service and its requests");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(YPP_UNREGISTER_REQUEST);
-    asList->addString("remove");
-    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    try
+    {
+        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_UNREGISTER_REQUEST);
+        info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_STRING);
+        info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_STRING);
+        info.put(YPP_REQREP_DICT_VERSION_KEY, UNREGISTER_REQUEST_VERSION_NUMBER);
+        info.put(YPP_REQREP_DICT_DETAILS_KEY, "Unregister the service and its requests");
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
+        
+        asList->addString(YPP_UNREGISTER_REQUEST);
+        asList->addString("remove");
+        info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // UnregisterRequestHandler::fillInDescription
 
@@ -115,51 +123,63 @@ bool UnregisterRequestHandler::operator() (const yarp::os::Bottle &      restOfI
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
-    if (replyMechanism)
+    try
     {
-        yarp::os::Bottle reply;
-        
-        // Validate the name as a port name
-        if (1 == restOfInput.size())
+        if (replyMechanism)
         {
-            yarp::os::Value argument(restOfInput.get(0));
+            yarp::os::Bottle reply;
             
-            if (argument.isString())
+            // Validate the name as a port name
+            if (1 == restOfInput.size())
             {
-                yarp::os::ConstString argAsString(argument.toString());
+                yarp::os::Value argument(restOfInput.get(0));
                 
-                if (Endpoint::CheckEndpointName(argAsString))
+                if (argument.isString())
                 {
-                    // Forget the information associated with the port name
-                    if (_service.removeServiceRecord(argAsString))
+                    yarp::os::ConstString argAsString(argument.toString());
+                    
+                    if (Endpoint::CheckEndpointName(argAsString))
                     {
-                        reply.addString(YPP_OK_RESPONSE);
+                        // Forget the information associated with the port name
+                        if (_service.removeServiceRecord(argAsString))
+                        {
+                            reply.addString(YPP_OK_RESPONSE);
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (_service.removeServiceRecord(argAsString))");//####
+                            reply.addString(YPP_FAILED_RESPONSE);
+                            reply.addString("Could not remove service");
+                        }
                     }
                     else
                     {
+                        OD_SYSLOG("! (Endpoint::CheckEndpointName(argAsString))");//####
                         reply.addString(YPP_FAILED_RESPONSE);
-                        reply.addString("Could not remove service");
+                        reply.addString("Invalid port name");
                     }
                 }
                 else
                 {
+                    OD_SYSLOG("! (argument.isString())");//####
                     reply.addString(YPP_FAILED_RESPONSE);
                     reply.addString("Invalid port name");
                 }
             }
             else
             {
+                OD_SYSLOG("! (1 == restOfInput.size())");//####
                 reply.addString(YPP_FAILED_RESPONSE);
-                reply.addString("Invalid port name");
+                reply.addString("Missing port name or extra arguments to request");
             }
+            OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
+            reply.write(*replyMechanism);
         }
-        else
-        {
-            reply.addString(YPP_FAILED_RESPONSE);
-            reply.addString("Missing port name or extra arguments to request");
-        }
-        OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
-        reply.write(*replyMechanism);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

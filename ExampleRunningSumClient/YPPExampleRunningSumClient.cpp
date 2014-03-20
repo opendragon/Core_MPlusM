@@ -46,6 +46,7 @@
 #include "YPPException.h"
 #include "YPPExampleRunningSumRequests.h"
 #include "YPPServiceResponse.h"
+#include <yarp/os/Time.h>
 
 using namespace YarpPlusPlusExample;
 
@@ -69,7 +70,7 @@ ExampleRunningSumClient::ExampleRunningSumClient(void) :
         inherited(), _port(NULL)
 {
     OD_SYSLOG_ENTER();//####
-    yarp::os::ConstString aName(YarpPlusPlus::Endpoint::GetRandomPortName());
+    yarp::os::ConstString aName(YarpPlusPlus::GetRandomPortName("example/runningsum_"));
     
     _port = new yarp::os::Port();
     if (! _port)
@@ -91,7 +92,9 @@ ExampleRunningSumClient::~ExampleRunningSumClient(void)
     OD_SYSLOG_ENTER();//####
     if (_port)
     {
+        OD_SYSLOG("about to close");//####
         _port->close();
+        OD_SYSLOG("close completed.");//####
     }
     OD_SYSLOG_EXIT();//####
 } // ExampleRunningSumClient::~ExampleRunningSumClient
@@ -104,32 +107,50 @@ bool ExampleRunningSumClient::addToSum(const double value,
                                        double &     newSum)
 {
     OD_SYSLOG_ENTER();//####
-    bool                          okSoFar = false;
-    yarp::os::Bottle              parameters;
-    YarpPlusPlus::ServiceResponse response;
+    bool okSoFar = false;
     
-    parameters.addDouble(value);
-    if (send(YPP_ADD_REQUEST, parameters, _port, &response))
+    try
     {
-        OD_SYSLOG("(send(YPP_ADD_REQUEST, parameters, _port))");//####
-        if (1 == response.count())
+        yarp::os::Bottle              parameters;
+        YarpPlusPlus::ServiceResponse response;
+        
+        parameters.addDouble(value);
+        if (send(YPP_ADD_REQUEST, parameters, _port, &response))
         {
-            OD_SYSLOG("(1 == response.count())");//####
-            yarp::os::Value retrieved(response.element(0));
-            
-            if (retrieved.isDouble())
+            OD_SYSLOG("(send(YPP_ADD_REQUEST, parameters, _port))");//####
+            if (1 == response.count())
             {
-                OD_SYSLOG("(retrieved.isDouble())");//####
-                newSum = retrieved.asDouble();
-                okSoFar = true;
+                yarp::os::Value retrieved(response.element(0));
+                
+                if (retrieved.isDouble())
+                {
+                    newSum = retrieved.asDouble();
+                    okSoFar = true;
+                }
+                else if (retrieved.isInt())
+                {
+                    newSum = retrieved.asInt();
+                    okSoFar = true;
+                }
+                else
+                {
+                    OD_SYSLOG("! (retrieved.isInt())");//####
+                }
             }
-            else if (retrieved.isInt())
+            else
             {
-                OD_SYSLOG("(retrieved.isInt())");//####
-                newSum = retrieved.asInt();
-                okSoFar = true;
+                OD_SYSLOG("! (1 == response.count())");//####
             }
         }
+        else
+        {
+            OD_SYSLOG("! (send(YPP_ADD_REQUEST, parameters, _port, &response))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(okSoFar);
     return okSoFar;
@@ -138,12 +159,25 @@ bool ExampleRunningSumClient::addToSum(const double value,
 bool ExampleRunningSumClient::resetSum(void)
 {
     OD_SYSLOG_ENTER();//####
-    bool             okSoFar = false;
-    yarp::os::Bottle parameters;
-    
-    if (send(YPP_RESET_REQUEST, parameters, _port))
+    bool okSoFar = false;
+
+    try
     {
-        okSoFar = true;
+        yarp::os::Bottle parameters;
+        
+        if (send(YPP_RESET_REQUEST, parameters, _port))
+        {
+            okSoFar = true;
+        }
+        else
+        {
+            OD_SYSLOG("! (send(YPP_RESET_REQUEST, parameters, _port))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(okSoFar);
     return okSoFar;
@@ -152,12 +186,25 @@ bool ExampleRunningSumClient::resetSum(void)
 bool ExampleRunningSumClient::startSum(void)
 {
     OD_SYSLOG_ENTER();//####
-    bool             okSoFar = false;
-    yarp::os::Bottle parameters;
-    
-    if (send(YPP_START_REQUEST, parameters, _port))
+    bool okSoFar = false;
+
+    try
     {
-        okSoFar = true;
+        yarp::os::Bottle parameters;
+        
+        if (send(YPP_START_REQUEST, parameters, _port))
+        {
+            okSoFar = true;
+        }
+        else
+        {
+            OD_SYSLOG("! (send(YPP_START_REQUEST, parameters, _port))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(okSoFar);
     return okSoFar;
@@ -166,12 +213,25 @@ bool ExampleRunningSumClient::startSum(void)
 bool ExampleRunningSumClient::stopSum(void)
 {
     OD_SYSLOG_ENTER();//####
-    bool             okSoFar = false;
-    yarp::os::Bottle parameters;
+    bool okSoFar = false;
     
-    if (send(YPP_STOP_REQUEST, parameters, _port))
+    try
     {
-        okSoFar = true;
+        yarp::os::Bottle parameters;
+        
+        if (send(YPP_STOP_REQUEST, parameters, _port))
+        {
+            okSoFar = true;
+        }
+        else
+        {
+            OD_SYSLOG("! (send(YPP_STOP_REQUEST, parameters, _port))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(okSoFar);
     return okSoFar;

@@ -42,7 +42,7 @@
 #if (! defined(YPPREQUESTMAP_H_))
 # define YPPREQUESTMAP_H_ /* */
 
-# include "YPPConfig.h"
+# include "YPPCommon.h"
 # include <map>
 # include <string>
 # include <yarp/os/Bottle.h>

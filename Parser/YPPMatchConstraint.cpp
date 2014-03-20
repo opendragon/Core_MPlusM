@@ -76,71 +76,86 @@ MatchConstraint * MatchConstraint::CreateMatcher(const yarp::os::ConstString & i
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
     OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);
-    int               workPos = SkipWhitespace(inString, inLength, startPos);
     MatchConstraint * result = NULL;
     
-    if (workPos < inLength)
+    try
     {
-        // We potentially have a constraint list.
-        bool       done = false;
-        bool       okSoFar = true;
-        const char expressionSeparator = MatchExpression::ExpressionSeparatorCharacter();
-        
-        result = new MatchConstraint();
-        for ( ; okSoFar && (! done); )
-        {
-            int                    nextElementPos;
-            MatchFieldWithValues * element = MatchFieldWithValues::CreateMatcher(inString, inLength, workPos,
-                                                                                 nextElementPos, validator);
-            
-            if (element)
-            {
-                // Skip over any trailing whitespace, to find if the constraint list is complete or more coming.
-                workPos = SkipWhitespace(inString, inLength, nextElementPos);
-                if (workPos < inLength)
-                {
-                    char scanChar = inString[workPos];
+        int workPos = SkipWhitespace(inString, inLength, startPos);
 
-                    if (kAmpersand == scanChar)
+        if (workPos < inLength)
+        {
+            // We potentially have a constraint list.
+            bool       done = false;
+            bool       okSoFar = true;
+            const char expressionSeparator = MatchExpression::ExpressionSeparatorCharacter();
+            
+            result = new MatchConstraint();
+            for ( ; okSoFar && (! done); )
+            {
+                int                    nextElementPos;
+                MatchFieldWithValues * element = MatchFieldWithValues::CreateMatcher(inString, inLength, workPos,
+                                                                                     nextElementPos, validator);
+                
+                if (element)
+                {
+                    // Skip over any trailing whitespace, to find if the constraint list is complete or more coming.
+                    workPos = SkipWhitespace(inString, inLength, nextElementPos);
+                    if (workPos < inLength)
                     {
-                        // We've got more elements to go.
-                        result->_fieldsWithValues.push_back(element);
-                        ++workPos;
+                        char scanChar = inString[workPos];
+                        
+                        if (kAmpersand == scanChar)
+                        {
+                            // We've got more elements to go.
+                            result->_fieldsWithValues.push_back(element);
+                            ++workPos;
+                        }
+                        else if (expressionSeparator == scanChar)
+                        {
+                            // This is the last element.
+                            result->_fieldsWithValues.push_back(element);
+                            done = true;
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (expressionSeparator == scanChar)");//####
+                                                                             // Something unexpected has appeared.
+                            okSoFar = false;
+                        }
                     }
-                    else if (expressionSeparator == scanChar)
+                    else
                     {
                         // This is the last element.
                         result->_fieldsWithValues.push_back(element);
                         done = true;
                     }
-                    else
-                    {
-                        // Something unexpected has appeared.
-                        okSoFar = false;
-                    }
                 }
                 else
                 {
-                    // This is the last element.
-                    result->_fieldsWithValues.push_back(element);
-                    done = true;
+                    OD_SYSLOG("! (element)");//####
+                                             // We have a malformed constraint list.
+                    okSoFar = false;
                 }
+            }
+            if (okSoFar)
+            {
+                endPos = workPos;
             }
             else
             {
-                // We have a malformed constraint list.
-                okSoFar = false;
+                delete result;
+                result = NULL;
             }
-        }
-        if (okSoFar)
-        {
-            endPos = workPos;
         }
         else
         {
-            delete result;
-            result = NULL;
+            OD_SYSLOG("! (workPos < inLength)");//####
         }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
@@ -174,15 +189,23 @@ const
     OD_SYSLOG_ENTER();//####
     yarp::os::ConstString result;
     
-    for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)
+    try
     {
-        MatchFieldWithValues * element = _fieldsWithValues[ii];
-        
-        if (ii)
+        for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)
         {
-            result += " AND ";
+            MatchFieldWithValues * element = _fieldsWithValues[ii];
+            
+            if (ii)
+            {
+                result += " AND ";
+            }
+            result += element->asSQLString();
         }
-        result += element->asSQLString();
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_S(result.c_str());//####
     return result;
@@ -193,17 +216,25 @@ const
 {
     yarp::os::ConstString result;
     
-    for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)
+    try
     {
-        MatchFieldWithValues * element = _fieldsWithValues[ii];
-        
-        if (ii)
+        for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)
         {
-            result += " ";
-            result += kAmpersand;
-            result += " ";
+            MatchFieldWithValues * element = _fieldsWithValues[ii];
+            
+            if (ii)
+            {
+                result += " ";
+                result += kAmpersand;
+                result += " ";
+            }
+            result += element->asString();
         }
-        result += element->asString();
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     return result;
 } // MatchConstraint::asString
@@ -217,15 +248,24 @@ const
 const MatchFieldWithValues * MatchConstraint::element(const int index)
 const
 {
-    MatchFieldWithValues * result;
+    MatchFieldWithValues * result = NULL;
     
-    if ((index >= 0) && (index < static_cast<int>(_fieldsWithValues.size())))
+    try
     {
-        result = _fieldsWithValues[static_cast<MatchConstraintListSize>(index)];
+        if ((index >= 0) && (index < static_cast<int>(_fieldsWithValues.size())))
+        {
+            result = _fieldsWithValues[static_cast<MatchConstraintListSize>(index)];
+        }
+        else
+        {
+            OD_SYSLOG("! ((index >= 0) && (index < static_cast<int>(_fieldsWithValues.size())))");//####
+            result = NULL;
+        }
     }
-    else
+    catch (...)
     {
-        result = NULL;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     return result;
 } // MatchConstraint::element
@@ -233,13 +273,21 @@ const
 void MatchConstraint::empty(void)
 {
     OD_SYSLOG_ENTER();//####
-    for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)
+    try
     {
-        MatchFieldWithValues * element = _fieldsWithValues[ii];
-        
-        delete element;
+        for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)
+        {
+            MatchFieldWithValues * element = _fieldsWithValues[ii];
+            
+            delete element;
+        }
+        _fieldsWithValues.clear();
     }
-    _fieldsWithValues.clear();
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // MatchConstraint::empty
 

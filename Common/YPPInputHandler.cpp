@@ -51,6 +51,8 @@ using namespace YarpPlusPlus;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+//#define REPORT_CONTACT_DETAILS /* Report details of the open() method. */
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -85,19 +87,29 @@ bool InputHandler::read(yarp::os::ConnectionReader & connection)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("connection = ", &connection);//####
-    bool result;
+    bool result = false;
     
-    if (_canProcessInput)
+    try
     {
-//        DumpContact("input read", connection.getRemoteContact());//####
-        yarp::os::Bottle aBottle;
-        
-        aBottle.read(connection);
-        result = handleInput(aBottle, connection.getRemoteContact().getName(), connection.getWriter());
+        if (_canProcessInput)
+        {
+#if defined(REPORT_CONTACT_DETAILS)
+            DumpContact("input read", connection.getRemoteContact());//####
+#endif // defined(REPORT_CONTACT_DETAILS)
+            yarp::os::Bottle aBottle;
+            
+            aBottle.read(connection);
+            result = handleInput(aBottle, connection.getRemoteContact().getName(), connection.getWriter());
+        }
+        else
+        {
+            result = true;
+        }
     }
-    else
+    catch (...)
     {
-        result = true;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

@@ -55,6 +55,21 @@ using namespace YarpPlusPlusExample;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The operation timeout to use with YARP. */
+static const float kExampleRunningSumServiceTimeout = 5.0;
+
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
+
 ExampleRunningSumService::ExampleRunningSumService(const yarp::os::ConstString & serviceEndpointName,
                                                    const yarp::os::ConstString & serviceHostName,
                                                    const yarp::os::ConstString & servicePortNumber) :
@@ -78,101 +93,144 @@ ExampleRunningSumService::~ExampleRunningSumService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-#if 0
-void addContext(const yarp::os::ConstString & key,
-                BaseContext *                 context);
-
-/*! @brief Remove all contexts. */
-void clearContexts(void);
-
-/*! @brief Locate the context corresponding to a name.
- @param key The name of the context.
- @returns @c NULL if the named context could not be found or a pointer to the context if found. */
-BaseContext * findContext(const yarp::os::ConstString & key);
-
-/*! @brief Remove a context.
- @param key The name of the context. */
-void removeContext(const yarp::os::ConstString & key);
-#endif//0
-
 double ExampleRunningSumService::addToSum(const yarp::os::ConstString & key,
                                           const double                  value)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     OD_SYSLOG_D1("value = ", value);//####
-    RunningSumContext * context = (RunningSumContext *) findContext(key);
+    double result = 0.0;
     
-    if (! context)
+    try
     {
-        context = new RunningSumContext;
-        addContext(key, context);
+        RunningSumContext * context = (RunningSumContext *) findContext(key);
+        
+        if (! context)
+        {
+            context = new RunningSumContext;
+            addContext(key, context);
+        }
+        context->sum() += value;
+        result = context->sum();
     }
-    context->sum() += value;
-    OD_SYSLOG_EXIT_D(context->sum());//####
-    return context->sum();
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_D(result);//####
+    return result;
 } // ExampleRunningSumService::addToSum
 
 void ExampleRunningSumService::resetSum(const yarp::os::ConstString & key)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
-    RunningSumContext * context = (RunningSumContext *) findContext(key);
-    
-    if (! context)
+    try
     {
-        context = new RunningSumContext;
-        addContext(key, context);
+        RunningSumContext * context = (RunningSumContext *) findContext(key);
+        
+        if (! context)
+        {
+            context = new RunningSumContext;
+            addContext(key, context);
+        }
+        context->sum() = 0;
     }
-    context->sum() = 0;
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // ExampleRunningSumService::resetSum
 
 void ExampleRunningSumService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
-    _requestHandlers.registerRequestHandler(new AddRequestHandler(*this));
-    _requestHandlers.registerRequestHandler(new ResetRequestHandler(*this));
-    _requestHandlers.registerRequestHandler(new StartRequestHandler(*this));
-    _requestHandlers.registerRequestHandler(new StopRequestHandler(*this));
+    try
+    {
+        _requestHandlers.registerRequestHandler(new AddRequestHandler(*this));
+        _requestHandlers.registerRequestHandler(new ResetRequestHandler(*this));
+        _requestHandlers.registerRequestHandler(new StartRequestHandler(*this));
+        _requestHandlers.registerRequestHandler(new StopRequestHandler(*this));
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // ExampleRunningSumService::setUpRequestHandlers
 
 bool ExampleRunningSumService::start(void)
 {
     OD_SYSLOG_ENTER();//####
-    if (! isStarted())
+    bool result = false;
+    
+    try
     {
-        BaseService::start();
-        if (isStarted())
+        if (! isStarted())
         {
-            
+            setTimeout(kExampleRunningSumServiceTimeout);
+            inherited::start();
+            if (isStarted())
+            {
+                
+            }
+            else
+            {
+                OD_SYSLOG("! (isStarted())");//####
+            }
         }
+        result = isStarted();
     }
-    OD_SYSLOG_EXIT_B(isStarted());//####
-    return isStarted();
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
 } // ExampleRunningSumService::start
 
 void ExampleRunningSumService::startSum(const yarp::os::ConstString & key)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
-    RunningSumContext * context = (RunningSumContext *) findContext(key);
-    
-    if (! context)
+    try
     {
-        context = new RunningSumContext;
-        addContext(key, context);
+        RunningSumContext * context = (RunningSumContext *) findContext(key);
+        
+        if (! context)
+        {
+            context = new RunningSumContext;
+            addContext(key, context);
+        }
+        context->sum() = 0;
     }
-    context->sum() = 0;
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // ExampleRunningSumService::startSum
 
 bool ExampleRunningSumService::stop(void)
 {
     OD_SYSLOG_ENTER();//####
-    bool result = BaseService::stop();
+    bool result = false;
     
+    try
+    {
+        result = inherited::stop();
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // ExampleRunningSumService::stop
@@ -181,6 +239,14 @@ void ExampleRunningSumService::stopSum(const yarp::os::ConstString & key)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
-    removeContext(key);
+    try
+    {
+        removeContext(key);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // ExampleRunningSumService::stopSum

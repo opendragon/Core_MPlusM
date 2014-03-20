@@ -87,17 +87,25 @@ NameRequestHandler::~NameRequestHandler(void)
 void NameRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_NAME_REQUEST);
-    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_STRING YPP_REQREP_STRING);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, NAME_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Return the canonical name and description of the service");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(YPP_NAME_REQUEST);
-    asList->addString("canonical");
-    asList->addString("description");
-    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    try
+    {
+        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_NAME_REQUEST);
+        info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_STRING YPP_REQREP_STRING);
+        info.put(YPP_REQREP_DICT_VERSION_KEY, NAME_REQUEST_VERSION_NUMBER);
+        info.put(YPP_REQREP_DICT_DETAILS_KEY, "Return the canonical name and description of the service");
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
+        
+        asList->addString(YPP_NAME_REQUEST);
+        asList->addString("canonical");
+        asList->addString("description");
+        info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // NameRequestHandler::fillInDescription
 
@@ -113,14 +121,22 @@ bool NameRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
-    if (replyMechanism)
+    try
     {
-        yarp::os::Bottle reply;
-        
-        reply.addString(_service.canonicalName());
-        reply.addString(_service.description());
-        OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
-        reply.write(*replyMechanism);
+        if (replyMechanism)
+        {
+            yarp::os::Bottle reply;
+            
+            reply.addString(_service.canonicalName());
+            reply.addString(_service.description());
+            OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
+            reply.write(*replyMechanism);
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

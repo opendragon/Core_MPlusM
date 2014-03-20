@@ -149,9 +149,17 @@ void BaseService::addContext(const yarp::os::ConstString & key,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     OD_SYSLOG_P1("context = ", context);//####
-    if (context)
+    try
     {
-        _contexts.insert(ContextMapValue(std::string(key), context));
+        if (context)
+        {
+            _contexts.insert(ContextMapValue(std::string(key), context));
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT();//####
 } // BaseService::addContext
@@ -176,12 +184,21 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
-    BaseContext *              result = NULL;
-    ContextMap::const_iterator match(_contexts.find(std::string(key)));
+    BaseContext * result = NULL;
     
-    if (_contexts.cend() != match)
+    try
     {
-        result = match->second;
+        ContextMap::const_iterator match(_contexts.find(std::string(key)));
+        
+        if (_contexts.cend() != match)
+        {
+            result = match->second;
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
@@ -196,24 +213,33 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
     OD_SYSLOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
                  "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
-    bool                 result;
-    BaseRequestHandler * handler = _requestHandlers.lookupRequestHandler(request);
+    bool result;
     
-    if (handler)
+    try
     {
-        OD_SYSLOG("(handler)");//####
-        result = (*handler) (restOfInput, senderPort, replyMechanism);
-    }
-    else
-    {
-        OD_SYSLOG("! (handler)");//####
-        if (replyMechanism)
+        BaseRequestHandler * handler = _requestHandlers.lookupRequestHandler(request);
+        
+        if (handler)
         {
-            yarp::os::Bottle errorMessage("unrecognized request");
-            
-            errorMessage.write(*replyMechanism);
+            OD_SYSLOG("(handler)");//####
+            result = (*handler) (restOfInput, senderPort, replyMechanism);
         }
-        result = false;
+        else
+        {
+            OD_SYSLOG("! (handler)");//####
+            if (replyMechanism)
+            {
+                yarp::os::Bottle errorMessage("unrecognized request");
+                
+                errorMessage.write(*replyMechanism);
+            }
+            result = false;
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
@@ -223,71 +249,127 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
-    ContextMap::iterator match(_contexts.find(std::string(key)));
-    
-    if (_contexts.end() != match)
+    try
     {
-        BaseContext * value = match->second;
+        ContextMap::iterator match(_contexts.find(std::string(key)));
         
-        if (value)
+        if (_contexts.end() != match)
         {
-            delete value;
+            BaseContext * value = match->second;
+            
+            if (value)
+            {
+                delete value;
+            }
+            _contexts.erase(match);
         }
-        _contexts.erase(match);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT();//####
 } // BaseService::removeContext
 
+bool BaseService::setTimeout(const float timeout)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_D1("timeout = ", timeout);//####
+    bool result = false;
+    
+    try
+    {
+        if (! _started)
+        {
+            result = _endpoint->setTimeout(timeout);
+        }
+        else
+        {
+            OD_SYSLOG("! (! _started)");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // BaseService::setTimeout
+
 void BaseService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
-    _requestHandlers.registerRequestHandler(new InfoRequestHandler());
-    _requestHandlers.registerRequestHandler(new ListRequestHandler());
-    _requestHandlers.registerRequestHandler(new NameRequestHandler(*this));
+    try
+    {
+        _requestHandlers.registerRequestHandler(new InfoRequestHandler());
+        _requestHandlers.registerRequestHandler(new ListRequestHandler());
+        _requestHandlers.registerRequestHandler(new NameRequestHandler(*this));
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // BaseService::setUpRequestHandlers
 
 bool BaseService::start(void)
 {
     OD_SYSLOG_ENTER();//####
-    if (! _started)
+    try
     {
-        if (_useMultipleHandlers)
+        if (! _started)
         {
-            _handlerCreator = new BaseServiceInputHandlerCreator(*this);
-            if (_handlerCreator)
+            if (_useMultipleHandlers)
             {
-                Endpoint & ourEndpoint = getEndpoint();
-                
-                if (ourEndpoint.setInputHandlerCreator(*_handlerCreator) && ourEndpoint.open())
+                _handlerCreator = new BaseServiceInputHandlerCreator(*this);
+                if (_handlerCreator)
                 {
-                    _started = true;
+                    if (_endpoint->setInputHandlerCreator(*_handlerCreator) && _endpoint->open())
+                    {
+                        _started = true;
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (_endpoint->setInputHandlerCreator(*_handlerCreator) && _endpoint->open())");//####
+                        delete _handlerCreator;
+                        _handlerCreator = NULL;
+                    }
                 }
                 else
                 {
-                    delete _handlerCreator;
-                    _handlerCreator = NULL;
+                    OD_SYSLOG("! (_handlerCreator)");//####
                 }
             }
-        }
-        else
-        {
-            _handler = new BaseServiceInputHandler(*this);
-            if (_handler)
+            else
             {
-                Endpoint & ourEndpoint = getEndpoint();
-                
-                if (ourEndpoint.setInputHandler(*_handler) && ourEndpoint.open())
+                _handler = new BaseServiceInputHandler(*this);
+                if (_handler)
                 {
-                    _started = true;
+                    if (_endpoint->setInputHandler(*_handler) && _endpoint->open())
+                    {
+                        _started = true;
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (_endpoint->setInputHandler(*_handler) && _endpoint->open())");//####
+                        delete _handler;
+                        _handler = NULL;
+                    }
                 }
                 else
                 {
-                    delete _handler;
-                    _handler = NULL;
+                    OD_SYSLOG("! (_handler)");//####
                 }
             }
         }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(_started);//####
     return _started;
@@ -313,23 +395,44 @@ bool YarpPlusPlus::RegisterLocalService(const yarp::os::ConstString & portName)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("portName = ", portName.c_str());//####
-    bool             result = false;
-    yarp::os::Bottle parameters(portName);
-    ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
-    ServiceResponse  response;
+    bool result = false;
     
-    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
+    try
     {
-        // Check that we got a successful self-registration!
-        if (1 == response.count())
+        yarp::os::Bottle parameters(portName);
+        ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
+        ServiceResponse  response;
+        
+        if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
         {
-            yarp::os::Value theValue = response.element(0);
-            
-            if (theValue.isString())
+            // Check that we got a successful self-registration!
+            if (1 == response.count())
             {
-                result = (theValue.toString() == YPP_OK_RESPONSE);
+                yarp::os::Value theValue = response.element(0);
+                
+                if (theValue.isString())
+                {
+                    result = (theValue.toString() == YPP_OK_RESPONSE);
+                }
+                else
+                {
+                    OD_SYSLOG("! (theValue.isString())");//####
+                }
+            }
+            else
+            {
+                OD_SYSLOG("! (1 == response.count())");//####
             }
         }
+        else
+        {
+            OD_SYSLOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
@@ -339,23 +442,44 @@ bool YarpPlusPlus::UnregisterLocalService(const yarp::os::ConstString & portName
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("portName = ", portName.c_str());//####
-    bool             result = false;
-    yarp::os::Bottle parameters(portName);
-    ServiceRequest   request(YPP_UNREGISTER_REQUEST, parameters);
-    ServiceResponse  response;
+    bool result = false;
     
-    if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
+    try
     {
-        // Check that we got a successful self-registration!
-        if (1 == response.count())
+        yarp::os::Bottle parameters(portName);
+        ServiceRequest   request(YPP_UNREGISTER_REQUEST, parameters);
+        ServiceResponse  response;
+        
+        if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
         {
-            yarp::os::Value theValue = response.element(0);
-            
-            if (theValue.isString())
+            // Check that we got a successful self-registration!
+            if (1 == response.count())
             {
-                result = (theValue.toString() == YPP_OK_RESPONSE);
+                yarp::os::Value theValue = response.element(0);
+                
+                if (theValue.isString())
+                {
+                    result = (theValue.toString() == YPP_OK_RESPONSE);
+                }
+                else
+                {
+                    OD_SYSLOG("! (theValue.isString())");//####
+                }
+            }
+            else
+            {
+                OD_SYSLOG("! (1 == response.count())");//####
             }
         }
+        else
+        {
+            OD_SYSLOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

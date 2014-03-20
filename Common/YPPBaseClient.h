@@ -43,7 +43,7 @@
 #if (! defined(YPPBASECLIENT_H_))
 # define YPPBASECLIENT_H_ /* */
 
-# include "YPPConfig.h"
+# include "YPPCommon.h"
 # include <yarp/os/Bottle.h>
 # include <yarp/os/Port.h>
 
@@ -67,8 +67,8 @@ namespace YarpPlusPlus
          @param allowOnlyOneMatch @c true if only one match is allowed and @c false if the first match will be used.
          @returns @c true if a matching service was found and @c false if no matching service or too many services were
          found. */
-        bool connect(const char * criteria,
-                     const bool   allowOnlyOneMatch = false);
+        bool findService(const char * criteria,
+                         const bool   allowOnlyOneMatch = false);
         
     protected:
         

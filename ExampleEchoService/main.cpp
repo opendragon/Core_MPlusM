@@ -43,12 +43,10 @@
 #include "ODSyslog.h"
 #include "YPPEndpoint.h"
 #include "YPPExampleEchoService.h"
-#include <ace/Version.h>
 #include <iostream>
 #if (defined(__APPLE__) || defined(__linux__))
 # include <unistd.h>
 #endif // defined(__APPLE__) || defined(__linux__)
-#include <yarp/conf/version.h>
 #include <yarp/os/all.h>
 
 using namespace YarpPlusPlusExample;
@@ -91,57 +89,83 @@ int main(int     argc,
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
                    kODSyslogOptionEnableThreadSupport);//####
     OD_SYSLOG_ENTER();//####
-    cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << ", ACE Version = " <<
-            ACE_VERSION << endl;
-    yarp::os::ConstString serviceEndpointName;
-    yarp::os::ConstString serviceHostName;
-    yarp::os::ConstString servicePortNumber;
-    yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
+    try
+    {
+#if defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network::setVerbosity(1);
+#else // ! defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network::setVerbosity(-1);
+#endif // ! defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+        
+        yarp::os::ConstString serviceEndpointName;
+        yarp::os::ConstString serviceHostName;
+        yarp::os::ConstString servicePortNumber;
 
-    if (1 < argc)
-    {
-        serviceEndpointName = argv[1];
-        if (2 < argc)
+        YarpPlusPlus::Initialize();
+        if (1 < argc)
         {
-            serviceHostName = argv[2];
-            if (3 < argc)
+            serviceEndpointName = argv[1];
+            if (2 < argc)
             {
-                servicePortNumber = argv[3];
-            }
-        }
-    }
-    else
-    {
-        serviceEndpointName = DEFAULT_ECHO_SERVICE_NAME;
-    }
-    ExampleEchoService * stuff = new ExampleEchoService(serviceEndpointName, serviceHostName, servicePortNumber);
-    
-    if (stuff)
-    {
-        if (stuff->start())
-        {
-            yarp::os::ConstString portName(stuff->getEndpoint().getName());
-            
-            OD_SYSLOG_S1("portName = ", portName.c_str());//####
-            if (YarpPlusPlus::RegisterLocalService(portName))
-            {
-                lKeepRunning = true;
-#if (defined(__APPLE__) || defined(__linux__))
-                signal(SIGHUP, stopRunning);
-                signal(SIGINT, stopRunning);
-                signal(SIGINT, stopRunning);
-                signal(SIGUSR1, stopRunning);
-#endif // defined(__APPLE__) || defined(__linux__)
-                for ( ; lKeepRunning; )
+                serviceHostName = argv[2];
+                if (3 < argc)
                 {
-                    yarp::os::Time::delay(1.0);
+                    servicePortNumber = argv[3];
                 }
-                YarpPlusPlus::UnregisterLocalService(portName);
-                stuff->stop();
             }
         }
-        delete stuff;
+        else
+        {
+            serviceEndpointName = DEFAULT_ECHO_SERVICE_NAME;
+        }
+        ExampleEchoService * stuff = new ExampleEchoService(serviceEndpointName, serviceHostName, servicePortNumber);
+        
+        if (stuff)
+        {
+            if (stuff->start())
+            {
+                yarp::os::ConstString portName(stuff->getEndpoint().getName());
+                
+                OD_SYSLOG_S1("portName = ", portName.c_str());//####
+                if (YarpPlusPlus::RegisterLocalService(portName))
+                {
+                    lKeepRunning = true;
+#if (defined(__APPLE__) || defined(__linux__))
+                    signal(SIGHUP, stopRunning);
+                    signal(SIGINT, stopRunning);
+                    signal(SIGINT, stopRunning);
+                    signal(SIGUSR1, stopRunning);
+#endif // defined(__APPLE__) || defined(__linux__)
+                    for ( ; lKeepRunning; )
+                    {
+                        yarp::os::Time::yield();
+//                    yarp::os::Time::delay(1.0);
+                    }
+                    YarpPlusPlus::UnregisterLocalService(portName);
+                    stuff->stop();
+                }
+                else
+                {
+                    OD_SYSLOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
+                }
+            }
+            else
+            {
+                OD_SYSLOG("! (stuff->start())");//####
+            }
+            delete stuff;
+        }
+        else
+        {
+            OD_SYSLOG("! (stuff)");//####
+        }
     }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+    }
+    yarp::os::Network::fini();
     OD_SYSLOG_EXIT_L(0);//####
     return 0;
 } // main

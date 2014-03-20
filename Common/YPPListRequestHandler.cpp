@@ -87,19 +87,27 @@ ListRequestHandler::~ListRequestHandler(void)
 void ListRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_LIST_REQUEST);
-    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_LIST_START YPP_REQREP_DICT_START YPP_REQREP_DICT_END
-             YPP_REQREP_1_OR_MORE YPP_REQREP_LIST_END);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, LIST_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DETAILS_KEY, "List the recognized requests");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(YPP_LIST_REQUEST);
-    asList->addString("requests");
-    asList->addString("methods");
-    asList->addString("operations");
-    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    try
+    {
+        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_LIST_REQUEST);
+        info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_LIST_START YPP_REQREP_DICT_START YPP_REQREP_DICT_END
+                 YPP_REQREP_1_OR_MORE YPP_REQREP_LIST_END);
+        info.put(YPP_REQREP_DICT_VERSION_KEY, LIST_REQUEST_VERSION_NUMBER);
+        info.put(YPP_REQREP_DICT_DETAILS_KEY, "List the recognized requests");
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
+        
+        asList->addString(YPP_LIST_REQUEST);
+        asList->addString("requests");
+        asList->addString("methods");
+        asList->addString("operations");
+        info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // ListRequestHandler::fillInDescription
 
@@ -115,17 +123,29 @@ bool ListRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
-    if (replyMechanism)
+    try
     {
-        yarp::os::Bottle reply;
-        
-        if (_owner)
+        if (replyMechanism)
         {
-            _owner->fillInListReply(reply);            
+            yarp::os::Bottle reply;
+            
+            if (_owner)
+            {
+                _owner->fillInListReply(reply);
+            }
+            else
+            {
+                OD_SYSLOG("! (_owner)");//####
+            }
+            OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
+            reply.write(*replyMechanism);
         }
-        OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
-        reply.write(*replyMechanism);
     }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }    
     OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // ListRequestHandler::operator()

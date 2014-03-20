@@ -43,7 +43,8 @@
 //#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPExampleRandomNumberRequests.h"
-#include <cstdlib>
+//#include <cstdlib>
+#include <yarp/os/Random.h>
 
 using namespace YarpPlusPlusExample;
 
@@ -86,16 +87,24 @@ RandomRequestHandler::~RandomRequestHandler(void)
 void RandomRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_RANDOM_REQUEST);
-    info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_INT YPP_REQREP_0_OR_1);
-    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_DOUBLE YPP_REQREP_1_OR_MORE);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, RANDOM_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Generate one or more random numbers");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(YPP_RANDOM_REQUEST);
-    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    try
+    {
+        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_RANDOM_REQUEST);
+        info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_INT YPP_REQREP_0_OR_1);
+        info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_DOUBLE YPP_REQREP_1_OR_MORE);
+        info.put(YPP_REQREP_DICT_VERSION_KEY, RANDOM_REQUEST_VERSION_NUMBER);
+        info.put(YPP_REQREP_DICT_DETAILS_KEY, "Generate one or more random numbers");
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
+        
+        asList->addString(YPP_RANDOM_REQUEST);
+        info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // RandomRequestHandler::fillInDescription
 
@@ -111,39 +120,48 @@ bool RandomRequestHandler::operator() (const yarp::os::Bottle &      restOfInput
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
-    if (replyMechanism)
+    try
     {
-        yarp::os::Bottle    response;
-        int                 count;
-        static const double maxValue = (1.0 * RAND_MAX);
-        
-        if (0 < restOfInput.size())
+        if (replyMechanism)
         {
-            yarp::os::Value number(restOfInput.get(0));
+            yarp::os::Bottle response;
+            int               count;
             
-            if (number.isInt())
+            if (0 < restOfInput.size())
             {
-                count = number.asInt();
+                yarp::os::Value number(restOfInput.get(0));
+                
+                if (number.isInt())
+                {
+                    count = number.asInt();
+                }
+                else
+                {
+                    count = -1;
+                }
             }
             else
             {
-                count = -1;
+                count = 1;
             }
-        }
-        else
-        {
-            count = 1;
-        }
-        if (count > 0)
-        {
-            for (int ii = 0; ii < count; ++ii)
+            if (count > 0)
             {
-                int value = rand();
-                
-                response.addDouble(value / maxValue);
+                for (int ii = 0; ii < count; ++ii)
+                {
+                    response.addDouble(yarp::os::Random::uniform());
+                }
             }
+            else
+            {
+                OD_SYSLOG("! (count > 0)");//####
+            }
+            response.write(*replyMechanism);
         }
-        response.write(*replyMechanism);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

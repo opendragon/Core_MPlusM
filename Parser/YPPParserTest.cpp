@@ -47,9 +47,7 @@
 #include "YPPMatchFieldWithValues.h"
 #include "YPPMatchValue.h"
 #include "YPPMatchValueList.h"
-#include <ace/Version.h>
 #include <iostream>
-#include <yarp/conf/version.h>
 #include <yarp/os/all.h>
 
 using namespace YarpPlusPlusParser;
@@ -95,22 +93,30 @@ static const char * fieldNameValidator(const char *  aString,
     OD_SYSLOG_S1("aString = ", aString);//####
     const char * result = NULL;
     
-    for (size_t ii = 0; ii < kFieldNamesCount; ++ii)
+    try
     {
-        if (! strcmp(aString, kFieldNames[ii]))
+        for (size_t ii = 0; ii < kFieldNamesCount; ++ii)
         {
-            result = kFieldNames[ii];
-            break;
+            if (! strcmp(aString, kFieldNames[ii]))
+            {
+                result = kFieldNames[ii];
+                break;
+            }
+            
         }
-        
+        if (prefixString)
+        {
+            *prefixString = NULL;
+        }
+        if (suffixString)
+        {
+            *suffixString = NULL;
+        }
     }
-    if (prefixString)
+    catch (...)
     {
-        *prefixString = NULL;
-    }
-    if (suffixString)
-    {
-        *suffixString = NULL;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
@@ -130,19 +136,32 @@ static int doCase01(const bool expected,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_B1("expected = ", expected);//####
     OD_SYSLOG_S1("inString = ", inString);//####
-    int          endPos;
-    int          len = static_cast<int>(strlen(inString));
-    MatchValue * didMatch = MatchValue::CreateMatcher(inString, len, 0, endPos);
-    int          result = ((expected == (NULL != didMatch)) ? 0 : 1);
-
-    if (didMatch)
+    int result = 1;
+    
+    try
     {
-        OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString(), "didMatch->asSQLString = ",//####
-                     didMatch->asSQLString().c_str());//####
-        cout << didMatch->asSQLString().c_str() << endl;
-        delete didMatch;
+        int          endPos;
+        int          len = static_cast<int>(strlen(inString));
+        MatchValue * didMatch = MatchValue::CreateMatcher(inString, len, 0, endPos);
+        
+        if ((NULL != didMatch) == expected)
+        {
+            result = 0;
+        }
+        if (didMatch)
+        {
+            OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString(), "didMatch->asSQLString = ",//####
+                         didMatch->asSQLString().c_str());//####
+            cout << didMatch->asSQLString().c_str() << endl;
+            delete didMatch;
+        }
     }
-    OD_SYSLOG_EXIT_LL(result);//####
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase01
 
@@ -156,19 +175,32 @@ static int doCase02(const bool expected,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_B1("expected = ", expected);//####
     OD_SYSLOG_S1("inString = ", inString);//####
-    int              endPos;
-    int              len = static_cast<int>(strlen(inString));
-    MatchValueList * didMatch = MatchValueList::CreateMatcher(inString, len, 0, endPos);
-    int              result = ((expected == (NULL != didMatch)) ? 0 : 1);
+    int result = 1;
     
-    if (didMatch)
+    try
     {
-        OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                     didMatch->asSQLString("field"));//####
-        cout << didMatch->asSQLString("field").c_str() << endl;
-        delete didMatch;
+        int              endPos;
+        int              len = static_cast<int>(strlen(inString));
+        MatchValueList * didMatch = MatchValueList::CreateMatcher(inString, len, 0, endPos);
+
+        if ((NULL != didMatch) == expected)
+        {
+            result = 0;
+        }
+        if (didMatch)
+        {
+            OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
+                         didMatch->asSQLString("field"));//####
+            cout << didMatch->asSQLString("field").c_str() << endl;
+            delete didMatch;
+        }
     }
-    OD_SYSLOG_EXIT_LL(result);//####
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase02
 
@@ -182,19 +214,32 @@ static int doCase03(const bool expected,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_B1("expected = ", expected);//####
     OD_SYSLOG_S1("inString = ", inString);//####
-    int              endPos;
-    int              len = static_cast<int>(strlen(inString));
-    MatchFieldName * didMatch = MatchFieldName::CreateMatcher(inString, len, 0, endPos, fieldNameValidator);
-    int              result = ((expected == (NULL != didMatch)) ? 0 : 1);
+    int result = 1;
     
-    if (didMatch)
+    try
     {
-        OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                     didMatch->asSQLString());//####
-        cout << didMatch->asSQLString().c_str() << endl;
-        delete didMatch;
+        int              endPos;
+        int              len = static_cast<int>(strlen(inString));
+        MatchFieldName * didMatch = MatchFieldName::CreateMatcher(inString, len, 0, endPos, fieldNameValidator);
+
+        if ((NULL != didMatch) == expected)
+        {
+            result = 0;
+        }
+        if (didMatch)
+        {
+            OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
+                         didMatch->asSQLString());//####
+            cout << didMatch->asSQLString().c_str() << endl;
+            delete didMatch;
+        }
     }
-    OD_SYSLOG_EXIT_LL(result);//####
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase03
 
@@ -208,19 +253,33 @@ static int doCase04(const bool expected,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_B1("expected = ", expected);//####
     OD_SYSLOG_S1("inString = ", inString);//####
-    int                    endPos;
-    int                    len = static_cast<int>(strlen(inString));
-    MatchFieldWithValues * didMatch = MatchFieldWithValues::CreateMatcher(inString, len, 0, endPos, fieldNameValidator);
-    int                    result = ((expected == (NULL != didMatch)) ? 0 : 1);
+    int result = 1;
     
-    if (didMatch)
+    try
     {
-        OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString(), "didMatch->asSQLString = ",//####
-                     didMatch->asSQLString().c_str());//####
-        cout << didMatch->asSQLString().c_str() << endl;
-        delete didMatch;
+        int                    endPos;
+        int                    len = static_cast<int>(strlen(inString));
+        MatchFieldWithValues * didMatch = MatchFieldWithValues::CreateMatcher(inString, len, 0, endPos,
+                                                                              fieldNameValidator);
+
+        if ((NULL != didMatch) == expected)
+        {
+            result = 0;
+        }
+        if (didMatch)
+        {
+            OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString(), "didMatch->asSQLString = ",//####
+                         didMatch->asSQLString().c_str());//####
+            cout << didMatch->asSQLString().c_str() << endl;
+            delete didMatch;
+        }
     }
-    OD_SYSLOG_EXIT_LL(result);//####
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase04
 
@@ -234,19 +293,32 @@ static int doCase05(const bool expected,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_B1("expected = ", expected);//####
     OD_SYSLOG_S1("inString = ", inString);//####
-    int               endPos;
-    int               len = static_cast<int>(strlen(inString));
-    MatchConstraint * didMatch = MatchConstraint::CreateMatcher(inString, len, 0, endPos, fieldNameValidator);
-    int               result = ((expected == (NULL != didMatch)) ? 0 : 1);
+    int result = 1;
     
-    if (didMatch)
+    try
     {
-        OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                     didMatch->asSQLString());//####
-        cout << didMatch->asSQLString().c_str() << endl;
-        delete didMatch;
+        int               endPos;
+        int               len = static_cast<int>(strlen(inString));
+        MatchConstraint * didMatch = MatchConstraint::CreateMatcher(inString, len, 0, endPos, fieldNameValidator);
+
+        if ((NULL != didMatch) == expected)
+        {
+            result = 0;
+        }
+        if (didMatch)
+        {
+            OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
+                         didMatch->asSQLString());//####
+            cout << didMatch->asSQLString().c_str() << endl;
+            delete didMatch;
+        }
     }
-    OD_SYSLOG_EXIT_LL(result);//####
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase05
 
@@ -260,19 +332,32 @@ static int doCase06(const bool expected,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_B1("expected = ", expected);//####
     OD_SYSLOG_S1("inString = ", inString);//####
-    int               endPos;
-    int               len = static_cast<int>(strlen(inString));
-    MatchExpression * didMatch = MatchExpression::CreateMatcher(inString, len, 0, endPos, fieldNameValidator);
-    int               result = ((expected == (NULL != didMatch)) ? 0 : 1);
+    int result = 1;
     
-    if (didMatch)
+    try
     {
-        OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                     didMatch->asSQLString("SELECT "));//####
-        cout << didMatch->asSQLString("SELECT ").c_str() << endl;
-        delete didMatch;
+        int               endPos;
+        int               len = static_cast<int>(strlen(inString));
+        MatchExpression * didMatch = MatchExpression::CreateMatcher(inString, len, 0, endPos, fieldNameValidator);
+
+        if ((NULL != didMatch) == expected)
+        {
+            result = 0;
+        }
+        if (didMatch)
+        {
+            OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
+                         didMatch->asSQLString("SELECT "));//####
+            cout << didMatch->asSQLString("SELECT ").c_str() << endl;
+            delete didMatch;
+        }
     }
-    OD_SYSLOG_EXIT_LL(result);//####
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase06
 
@@ -288,54 +373,59 @@ int main(int     argc,
          char ** argv)
 {
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionEnableThreadSupport);//####
+                   kODSyslogOptionEnableThreadSupport | kODSyslogOptionWriteToStderr);//####
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S3("YARP Version = ", YARP_VERSION_STRING, "YARP++ Version = ", YPP_VERSION, "ACE Version = ",//####
-                 ACE_VERSION);//####
-    int result;
+    int result = 1;
     
-    if (2 < --argc)
+    try
     {
-        int  selector = atoi(argv[1]);
-        bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));
-        
-        OD_SYSLOG_LL1("selector <- ", selector);//####
-        OD_SYSLOG_B1("expected <- ", expected);//####
-        switch (selector)
+        if (2 < --argc)
         {
-            case 1:
-                result = doCase01(expected, *(argv + 3));
-                break;
-
-            case 2:
-                result = doCase02(expected, *(argv + 3));
-                break;
-                
-            case 3:
-                result = doCase03(expected, *(argv + 3));
-                break;
-                                
-            case 4:
-                result = doCase04(expected, *(argv + 3));
-                break;
-
-            case 5:
-                result = doCase05(expected, *(argv + 3));
-                break;
-
-            case 6:
-                result = doCase06(expected, *(argv + 3));
-                break;
-                
-            default:
-                result = 1;
-                break;
-                
+            int  selector = atoi(argv[1]);
+            bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));
+            
+            OD_SYSLOG_LL1("selector <- ", selector);//####
+            OD_SYSLOG_B1("expected <- ", expected);//####
+            switch (selector)
+            {
+                case 1:
+                    result = doCase01(expected, *(argv + 3));
+                    break;
+                    
+                case 2:
+                    result = doCase02(expected, *(argv + 3));
+                    break;
+                    
+                case 3:
+                    result = doCase03(expected, *(argv + 3));
+                    break;
+                    
+                case 4:
+                    result = doCase04(expected, *(argv + 3));
+                    break;
+                    
+                case 5:
+                    result = doCase05(expected, *(argv + 3));
+                    break;
+                    
+                case 6:
+                    result = doCase06(expected, *(argv + 3));
+                    break;
+                    
+                default:
+                    break;
+                    
+            }
+        }
+        else
+        {
+            OD_SYSLOG("! (2 < --argc)");//####
         }
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_L(result);//####
     return result;

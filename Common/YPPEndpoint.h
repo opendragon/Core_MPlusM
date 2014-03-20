@@ -107,15 +107,16 @@ namespace YarpPlusPlus
         bool setReporter(yarp::os::PortReport & reporter,
                          const bool             andReportNow = false);
         
+        /*! @brief Set the endpoint timeout; must be called between creating an endpoint and opening it.
+         @param timeout The number of seconds to wait; if negative, wait forever.
+         @returns @c true if the timeou was set and @c false otherwise. */
+        bool setTimeout(const float timeout);
+        
         /*! @brief Check the format of an endpoint name.
          @param portName The name to be checked.
          @returns @c true if the name is a valid endpoint name and @c false otherwise. */
         static bool CheckEndpointName(const yarp::os::ConstString & portName);
 
-        /*! @brief Generate a random port name.
-         @returns A randomly-generated port name. */
-        static yarp::os::ConstString GetRandomPortName(void);
-        
     protected:
         
     private:

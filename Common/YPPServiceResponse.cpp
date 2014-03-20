@@ -106,9 +106,21 @@ const
     OD_SYSLOG_ENTER();//####
     yarp::os::Value result;
     
-    if ((index >= 0) && (index < _values.size()))
+    try
     {
-        result = _values.get(index);
+        if ((index >= 0) && (index < _values.size()))
+        {
+            result = _values.get(index);
+        }
+        else
+        {
+            OD_SYSLOG("! ((index >= 0) && (index < _values.size()))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_S(result.toString().c_str());//####
     return result;

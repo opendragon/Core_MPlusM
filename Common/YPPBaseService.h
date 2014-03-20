@@ -89,7 +89,7 @@ namespace YarpPlusPlus
         
         /*! @brief Return the standard name of the service.
          @returns The standard name of the service. */
-        inline const yarp::os::ConstString & canonicalName(void)
+        inline yarp::os::ConstString canonicalName(void)
         const
         {
             return _canonicalName;
@@ -97,7 +97,7 @@ namespace YarpPlusPlus
         
         /*! @brief Return the description of the service.
          @returns The standard name of the service. */
-        inline const yarp::os::ConstString & description(void)
+        inline yarp::os::ConstString description(void)
         const
         {
             return _description;
@@ -157,6 +157,11 @@ namespace YarpPlusPlus
         /*! @brief Remove a context.
          @param key The name of the context. */
         void removeContext(const yarp::os::ConstString & key);
+        
+        /*! @brief Set the endpoint timeout; must be called between creating an endpoint and opening it.
+         @param timeout The number of seconds to wait; if negative, wait forever.
+         @returns @c true if the timeou was set and @c false otherwise. */
+        bool setTimeout(const float timeout);
         
         /*! @brief The map between requests and request handlers. */
         RequestMap _requestHandlers;

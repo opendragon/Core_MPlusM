@@ -88,17 +88,25 @@ bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &      input,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
-    bool result;
+    bool result = false;
     
-    if (0 < input.size())
+    try
     {
-        result = _service.processRequest(input.get(0).toString(), input.tail(), senderPort, replyMechanism);
+        if (0 < input.size())
+        {
+            result = _service.processRequest(input.get(0).toString(), input.tail(), senderPort, replyMechanism);
+        }
+        else
+        {
+            result = true;
+        }
     }
-    else
+    catch (...)
     {
-        result = true;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+        OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // BaseServiceInputHandler::handleInput
 

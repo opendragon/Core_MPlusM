@@ -70,64 +70,79 @@ MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & i
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
     OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);
-    int               workPos = SkipWhitespace(inString, inLength, startPos);
     MatchExpression * result = NULL;
     
-    if (workPos < inLength)
+    try
     {
-        // We potentially have a constraint list.
-        bool done = false;
-        bool okSoFar = true;
-        
-        result = new MatchExpression();
-        for ( ; okSoFar && (! done); )
-        {
-            int               nextElementPos;
-            MatchConstraint * element = MatchConstraint::CreateMatcher(inString, inLength, workPos, nextElementPos,
-                                                                       validator);
-            
-            if (element)
-            {
-                // Skip over any trailing whitespace, to find if the constraint list is complete or more coming.
-                workPos = SkipWhitespace(inString, inLength, nextElementPos);
-                if (workPos < inLength)
-                {
-                    char scanChar = inString[workPos];
+        int workPos = SkipWhitespace(inString, inLength, startPos);
 
-                    if (kComma == scanChar)
+        if (workPos < inLength)
+        {
+            // We potentially have a constraint list.
+            bool done = false;
+            bool okSoFar = true;
+            
+            result = new MatchExpression();
+            for ( ; okSoFar && (! done); )
+            {
+                int               nextElementPos;
+                MatchConstraint * element = MatchConstraint::CreateMatcher(inString, inLength, workPos, nextElementPos,
+                                                                           validator);
+                
+                if (element)
+                {
+                    // Skip over any trailing whitespace, to find if the constraint list is complete or more coming.
+                    workPos = SkipWhitespace(inString, inLength, nextElementPos);
+                    if (workPos < inLength)
                     {
-                        // We've got more elements to go.
-                        result->_constraints.push_back(element);
-                        ++workPos;
+                        char scanChar = inString[workPos];
+                        
+                        if (kComma == scanChar)
+                        {
+                            // We've got more elements to go.
+                            result->_constraints.push_back(element);
+                            ++workPos;
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (kComma == scanChar)");//####
+                            // Something unexpected has appeared.
+                            okSoFar = false;
+                        }
                     }
                     else
                     {
-                        // Something unexpected has appeared.
-                        okSoFar = false;
+                        // This is the last element.
+                        result->_constraints.push_back(element);
+                        done = true;
                     }
                 }
                 else
                 {
-                    // This is the last element.
-                    result->_constraints.push_back(element);
-                    done = true;
+                    OD_SYSLOG("! (element)");//####
+                    // We have a malformed constraint list.
+                    okSoFar = false;
                 }
+            }
+            if (okSoFar)
+            {
+                endPos = workPos;
             }
             else
             {
-                // We have a malformed constraint list.
-                okSoFar = false;
+                delete result;
+                result = NULL;
             }
-        }
-        if (okSoFar)
-        {
-            endPos = workPos;
         }
         else
         {
-            delete result;
-            result = NULL;
+            OD_SYSLOG("! (workPos < inLength)");//####
         }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
@@ -166,19 +181,27 @@ const
     OD_SYSLOG_ENTER();//####
     yarp::os::ConstString result;
     
-    for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
+    try
     {
-        MatchConstraint * element = _constraints[ii];
-        
-        if (ii)
+        for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
         {
-            result += " UNION ";
+            MatchConstraint * element = _constraints[ii];
+            
+            if (ii)
+            {
+                result += " UNION ";
+            }
+            if (prefixString)
+            {
+                result += prefixString;
+            }
+            result += element->asSQLString();
         }
-        if (prefixString)
-        {
-            result += prefixString;
-        }
-        result += element->asSQLString();
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_S(result.c_str());//####
     return result;
@@ -189,16 +212,24 @@ const
 {
     yarp::os::ConstString result;
     
-    for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
+    try
     {
-        MatchConstraint * element = _constraints[ii];
-        
-        if (ii)
+        for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
         {
-            result += kComma;
-            result += " ";
+            MatchConstraint * element = _constraints[ii];
+            
+            if (ii)
+            {
+                result += kComma;
+                result += " ";
+            }
+            result += element->asString();
         }
-        result += element->asString();
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     return result;
 } // MatchExpression::asString
@@ -212,15 +243,24 @@ const
 const MatchConstraint * MatchExpression::element(const int index)
 const
 {
-    MatchConstraint * result;
+    MatchConstraint * result = NULL;
     
-    if ((index >= 0) && (index < static_cast<int>(_constraints.size())))
+    try
     {
-        result = _constraints[static_cast<MatchExpressionListSize>(index)];
+        if ((index >= 0) && (index < static_cast<int>(_constraints.size())))
+        {
+            result = _constraints[static_cast<MatchExpressionListSize>(index)];
+        }
+        else
+        {
+            OD_SYSLOG("! ((index >= 0) && (index < static_cast<int>(_constraints.size())))");//####
+            result = NULL;
+        }
     }
-    else
+    catch (...)
     {
-        result = NULL;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     return result;
 } // MatchExpression::element
@@ -228,13 +268,21 @@ const
 void MatchExpression::empty(void)
 {
     OD_SYSLOG_ENTER();//####
-    for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
+    try
     {
-        MatchConstraint * element = _constraints[ii];
-        
-        delete element;
+        for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
+        {
+            MatchConstraint * element = _constraints[ii];
+            
+            delete element;
+        }
+        _constraints.clear();
     }
-    _constraints.clear();
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // MatchExpression::empty
 

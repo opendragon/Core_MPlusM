@@ -44,10 +44,6 @@
 #include "ODSyslog.h"
 #include "YPPCommon.h"
 #include "YPPException.h"
-#include <cctype>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
 #include <iostream>
 #include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
@@ -59,6 +55,8 @@ using std::endl;
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
+
+//#define REPORT_CONTACT_DETAILS /* Report details of the open() method. */
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -72,23 +70,32 @@ static bool checkHostPort(int &                         realPort,
                           const yarp::os::ConstString & portNumber)
 {
     bool result = true;
-    int  portLength = portNumber.length();
-    
-    if (0 < portLength)
+
+    try
     {
-        for (int ii = 0; result && (ii < portLength); ++ii)
+        int  portLength = portNumber.length();
+        
+        if (0 < portLength)
         {
-            result = isdigit(portNumber[ii]);
+            for (int ii = 0; result && (ii < portLength); ++ii)
+            {
+                result = isdigit(portNumber[ii]);
+            }
+            if (result)
+            {
+                realPort = atoi(portNumber.c_str());
+            }
         }
-        if (result)
+        else
         {
-            realPort = atoi(portNumber.c_str());
+            // Empty port number - YARP will pick a port for us.
+            realPort = 0;
         }
     }
-    else
+    catch (...)
     {
-        // Empty port number - YARP will pick a port for us.
-        realPort = 0;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     return result;
 } // checkHostPort
@@ -102,45 +109,38 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
                           const yarp::os::ConstString &  hostName,
                           const int                      portNumber)
 {
-//    DumpContact("enter checkHostName", workingContact);//####
-    bool result;
+#if defined(REPORT_CONTACT_DETAILS)
+    DumpContact("enter checkHostName", workingContact);//####
+#endif // defined(REPORT_CONTACT_DETAILS)
+    bool result = false;
     
-    if (0 < hostName.length())
+    try
     {
-        // Non-empty hostname - check it...
-        yarp::os::ConstString ipAddress(yarp::os::Contact::convertHostToIp(hostName));
-        
-        OD_SYSLOG_S1("ipAddress = ", ipAddress.c_str());//####
-        
-        workingContact = workingContact.addSocket("tcp", ipAddress, portNumber);
-//        DumpContact("after addSocket", workingContact);//####
-        result = workingContact.isValid();
+        if (0 < hostName.length())
+        {
+            // Non-empty hostname - check it...
+            yarp::os::ConstString ipAddress(yarp::os::Contact::convertHostToIp(hostName));
+            
+            OD_SYSLOG_S1("ipAddress = ", ipAddress.c_str());//####
+            workingContact = workingContact.addSocket("tcp", ipAddress, portNumber);
+#if defined(REPORT_CONTACT_DETAILS)
+            DumpContact("after addSocket", workingContact);//####
+#endif // defined(REPORT_CONTACT_DETAILS)
+            result = workingContact.isValid();
+        }
+        else
+        {
+            // Empty host name - YARP will use the local machine name.
+            result = true;
+        }
     }
-    else
+    catch (...)
     {
-        // Empty host name - YARP will use the local machine name.
-        result = true;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     return result;
 } // checkHostName
-
-/*! @brief Returns a printable string, even for null strings.
- @param aString The string to be checked.
- @returns The input string, if non-@c NULL, or a fixed string if it is @c NULL. */
-static const char * nullOrString(const char * aString)
-{
-    const char * result;
-    
-    if (aString)
-    {
-        result = aString;
-    }
-    else
-    {
-        result = "<>";
-    }
-    return result;
-} // nullOrString
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -148,46 +148,38 @@ static const char * nullOrString(const char * aString)
 
 bool Endpoint::CheckEndpointName(const yarp::os::ConstString & portName)
 {
-    bool result;
-    int  nameLength = portName.length();
-    
-    if (0 < nameLength)
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S1("portName = ", portName.c_str());//####
+    bool result = false;
+
+    try
     {
-        char firstChar = portName[0];
+        int  nameLength = portName.length();
         
-        result = ('/' == firstChar);
-        for (int ii = 1; result && (ii < nameLength); ++ii)
+        if (0 < nameLength)
         {
-            result = isprint(portName[ii]);
+            char firstChar = portName[0];
+            
+            result = ('/' == firstChar);
+            for (int ii = 1; result && (ii < nameLength); ++ii)
+            {
+                result = isprint(portName[ii]);
+            }
+        }
+        else
+        {
+            OD_SYSLOG("! (0 < nameLength)");//####
+            result = false;
         }
     }
-    else
+    catch (...)
     {
-        result = false;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // Endpoint::CheckEndpointName
-
-yarp::os::ConstString Endpoint::GetRandomPortName(void)
-{
-    yarp::os::ConstString result;
-    char                  buff[32];
-    double                intPart;
-    
-    modf(yarp::os::Time::now() * 1000000.0, &intPart);
-#if defined(__APPLE__)
-# pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Wc++11-long-long"
-#endif // defined(__APPLE__)
-    long long             asLongLong = (static_cast<long long>(intPart) % 10000000000);
-#if defined(__APPLE__)
-# pragma clang diagnostic pop
-#endif // defined(__APPLE__)
-    
-    sprintf(buff, "/port_%llx", asLongLong);
-    result = buff;
-    return result;
-} // Endpoint::GetRandomPortName
 
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors
@@ -252,22 +244,40 @@ Endpoint::~Endpoint(void)
 void Endpoint::close(void)
 {
     OD_SYSLOG_ENTER();//####
-    if (isOpen())
+    try
     {
-        if (_handler)
+        if (isOpen())
         {
-            _handler->stopProcessing();
+            if (_handler)
+            {
+                _handler->stopProcessing();
+            }
+            if (_port)
+            {
+                OD_SYSLOG_S1("about to close, port = ", getName().c_str());//####
+                _port->close();
+                OD_SYSLOG("close completed.");//####
+                OD_SYSLOG("about to unregister port");//####
+                if (0 < _contact.getHost().length())
+                {
+                    yarp::os::Network::unregisterContact(_contact);
+                }
+                else
+                {
+                    yarp::os::Network::unregisterName(_contact.getName());
+                }
+                delete _port;
+                _port = NULL;
+            }
+            _handler = NULL;
+            _handlerCreator = NULL;
+            _isOpen = false;
         }
-        if (_port)
-        {
-            _port->close();
-            _contact = yarp::os::Network::unregisterContact(_contact);
-            delete _port;
-            _port = NULL;
-        }
-        _handler = NULL;
-        _handlerCreator = NULL;
-        _isOpen = false;
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT();//####
 } // Endpoint::close
@@ -275,75 +285,98 @@ void Endpoint::close(void)
 bool Endpoint::open(void)
 {
     OD_SYSLOG_ENTER();//####
-    if (! isOpen())
+    bool result = false;
+    
+    try
     {
-        if (_port)
+        if (! isOpen())
         {
-            OD_SYSLOG_S2("_contact.getHost = ", _contact.getHost().c_str(), "_contact.getName() = ",//####
-                         _contact.getName().c_str());//####
-            if (0 < _contact.getHost().length())
+            if (_port)
             {
-                OD_SYSLOG("(0 < _contact.getHost().length())");//####
-                _contact = yarp::os::Network::registerContact(_contact);
-//                        DumpContact("after registerContact", _contact);//####
-                if (_port->open(_contact))
+                if (0 < _contact.getHost().length())
                 {
+                    OD_SYSLOG("(0 < _contact.getHost().length())");//####
+                    _contact = yarp::os::Network::registerContact(_contact);
+#if defined(REPORT_CONTACT_DETAILS)
+                    DumpContact("after registerContact", _contact);//####
+#endif // defined(REPORT_CONTACT_DETAILS)
+                    if (_port->open(_contact))
+                    {
+                        _isOpen = true;
+#if defined(REPORT_CONTACT_DETAILS)
+                        DumpContact("after open", _port->where());//####
+#endif // defined(REPORT_CONTACT_DETAILS)
+                    }
+                    else
+                    {
+                        OD_SYSLOG("Port could not be opened");//####
+                    }
+                }
+                else if (_port->open(_contact.getName()))
+                {
+                    OD_SYSLOG("(_port->open(_contact.getName()))");//####
                     _isOpen = true;
-//                   Contact where = _port->where();//####
-
-//                   DumpContact("after open", where);//####
+#if defined(REPORT_CONTACT_DETAILS)
+                    DumpContact("after open", _port->where());//####
+#endif // defined(REPORT_CONTACT_DETAILS)
                 }
                 else
                 {
                     OD_SYSLOG("Port could not be opened");//####
                 }
-            }
-            else if (_port->open(_contact.getName()))
-            {
-                OD_SYSLOG("(_port->open(_contact.getName()))");//####
-                _isOpen = true;
-//                Contact where = _port->where();//####
-
-//                DumpContact("after open", where);//####
+                OD_SYSLOG_S1("_port->getName = ", _port->getName().c_str());//####
             }
             else
             {
-                OD_SYSLOG("Port could not be opened");//####
+                OD_SYSLOG("! (_port)");//####
             }
-            OD_SYSLOG_S1("_port->getName = ", _port->getName().c_str());//####
         }
+        result = isOpen();
     }
-    OD_SYSLOG_EXIT_B(isOpen());//####
-    return isOpen();
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
 } // Endpoint::open
 
 bool Endpoint::setInputHandler(InputHandler & handler)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("handler = ", &handler);//####
-    bool result;
+    bool result = false;
     
-    if (_handlerCreator)
+    try
     {
-        result = false;
-    }
-    else if (_port)
-    {
-        OD_SYSLOG("(_port)");//####
-        if (isOpen())
+        if (_handlerCreator)
         {
-            result = false;
+            OD_SYSLOG("(_handlerCreator)");//####
+        }
+        else if (_port)
+        {
+            OD_SYSLOG("(_port)");//####
+            if (isOpen())
+            {
+                OD_SYSLOG("(isOpen())");//####
+            }
+            else
+            {
+                _handler = &handler;
+                _port->setReader(handler);
+                result = true;
+            }
         }
         else
         {
-            _handler = &handler;
-            _port->setReader(handler);
-            result = true;
+            OD_SYSLOG("! (_port)");//####
         }
     }
-    else
+    catch (...)
     {
-        result = false;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
@@ -353,29 +386,36 @@ bool Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("handlerCreator = ", &handlerCreator);//####
-    bool result;
+    bool result = false;
     
-    if (_handler)
+    try
     {
-        result = false;
-    }
-    else if (_port)
-    {
-        OD_SYSLOG("(_port)");//####
-        if (isOpen())
+        if (_handler)
         {
-            result = false;
+            OD_SYSLOG("(_handler)");//####
+        }
+        else if (_port)
+        {
+            if (isOpen())
+            {
+                OD_SYSLOG("(isOpen())");//####
+            }
+            else
+            {
+                _handlerCreator = &handlerCreator;
+                _port->setReaderCreator(handlerCreator);
+                result = true;
+            }
         }
         else
         {
-            _handlerCreator = &handlerCreator;
-            _port->setReaderCreator(handlerCreator);
-            result = true;
+            OD_SYSLOG("! (_port)");//####
         }
     }
-    else
+    catch (...)
     {
-        result = false;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
@@ -387,26 +427,58 @@ bool Endpoint::setReporter(yarp::os::PortReport & reporter,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("reporter = ", &reporter);//####
     OD_SYSLOG_B1("andReportNow = ", andReportNow);//####
-    bool result;
+    bool result = false;
     
-    if (_port)
+    try
     {
-        OD_SYSLOG("(_port)");//####
-        _port->setReporter(reporter);
-        if (andReportNow)
+        if (_port)
         {
-            OD_SYSLOG("(andReportNow)");//####
-            _port->getReport(reporter);
+            _port->setReporter(reporter);
+            if (andReportNow)
+            {
+                _port->getReport(reporter);
+            }
+            result = true;
         }
-        result = true;
+        else
+        {
+            OD_SYSLOG("! (_port)");//####
+        }
     }
-    else
+    catch (...)
     {
-        result = false;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // Endpoint::setReporter
+
+bool Endpoint::setTimeout(const float timeout)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_D1("timeout = ", timeout);//####
+    bool result = false;
+    
+    try
+    {
+        if (_port)
+        {
+            result = _port->setTimeout(timeout);
+        }
+        else
+        {
+            OD_SYSLOG("! (_port)");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_B(result);//####
+    return result;
+} // Endpoint::setTimeout
 
 #if defined(__APPLE__)
 # pragma mark Accessors
@@ -416,14 +488,22 @@ yarp::os::ConstString Endpoint::getName(void)
 const
 {
     yarp::os::ConstString result;
-    
-    if (_port)
+
+    try
     {
-        result = _port->getName();
+        if (_port)
+        {
+            result = _port->getName();
+        }
+        else
+        {
+            result = "";
+        }
     }
-    else
+    catch (...)
     {
-        result = "";
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     return result;
 } // Endpoint::getName
@@ -431,21 +511,3 @@ const
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
-
-void YarpPlusPlus::DumpContact(const char *              tag,
-                               const yarp::os::Contact & aContact)
-{
-    OD_SYSLOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
-                 "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ",//####
-                 aContact.getCarrier().c_str());//####
-    OD_SYSLOG_LL1("contact.port = ", aContact.getPort());//####
-    OD_SYSLOG_S1("contact.toString = ", aContact.toString().c_str());//####
-    OD_SYSLOG_B1("contact.isValid = ", aContact.isValid());//####
-    cout << "tag = '" << nullOrString(tag) << "', contact.name = '" << nullOrString(aContact.getName().c_str()) <<
-            "'" << endl;
-    cout << "contact.host = '" << nullOrString(aContact.getHost().c_str()) << "', contact.carrier = '" <<
-            nullOrString(aContact.getCarrier().c_str()) << "'" << endl;
-    cout << "contact.port = " << aContact.getPort() << endl;
-    cout << "contact.toString = '" << nullOrString(aContact.toString().c_str()) << "'" << endl;
-    cout << "contact.isValid = " << (aContact.isValid() ? "true" : "false") << endl;
-} // DumpContact

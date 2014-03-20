@@ -87,14 +87,22 @@ StartRequestHandler::~StartRequestHandler(void)
 void StartRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_START_REQUEST);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, START_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Start the running sum");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(YPP_START_REQUEST);
-    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    try
+    {
+        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_START_REQUEST);
+        info.put(YPP_REQREP_DICT_VERSION_KEY, START_REQUEST_VERSION_NUMBER);
+        info.put(YPP_REQREP_DICT_DETAILS_KEY, "Start the running sum");
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
+        
+        asList->addString(YPP_START_REQUEST);
+        info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // StartRequestHandler::fillInDescription
 
@@ -110,12 +118,20 @@ bool StartRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
 
-    _service.startSum(senderPort);
-    if (replyMechanism)
+    try
     {
-        yarp::os::Bottle response(YPP_OK_RESPONSE);
-        
-        response.write(*replyMechanism);
+        _service.startSum(senderPort);
+        if (replyMechanism)
+        {
+            yarp::os::Bottle response(YPP_OK_RESPONSE);
+            
+            response.write(*replyMechanism);
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

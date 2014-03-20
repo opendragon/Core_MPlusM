@@ -86,14 +86,27 @@ bool ExampleEchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("outgoing = ", outgoing.c_str());//####
     OD_SYSLOG_P1("incoming = ", &incoming);//####
-    bool                          okSoFar = false;
-    yarp::os::Bottle              parameters(outgoing);
-    YarpPlusPlus::ServiceResponse response;
-    
-    if (send(YPP_ECHO_REQUEST, parameters, NULL, &response))
+    bool okSoFar = false;
+
+    try
     {
-        incoming = response.asString();
-        okSoFar = true;
+        yarp::os::Bottle              parameters(outgoing);
+        YarpPlusPlus::ServiceResponse response;
+        
+        if (send(YPP_ECHO_REQUEST, parameters, NULL, &response))
+        {
+            incoming = response.asString();
+            okSoFar = true;
+        }
+        else
+        {
+            OD_SYSLOG("! (send(YPP_ECHO_REQUEST, parameters, NULL, &response))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(okSoFar);//####
     return okSoFar;

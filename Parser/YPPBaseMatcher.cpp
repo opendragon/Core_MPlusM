@@ -65,15 +65,23 @@ int BaseMatcher::SkipWhitespace(const yarp::os::ConstString & inString,
 {
     int result = startPos;
     
-    for ( ; result < inLength; ++result)
+    try
     {
-        char scanChar = inString[result];
-        
-        if (! isspace(scanChar))
+        for ( ; result < inLength; ++result)
         {
-            break;
+            char scanChar = inString[result];
+            
+            if (! isspace(scanChar))
+            {
+                break;
+            }
+            
         }
-        
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     return result;
 } // BaseMatcher::SkipWhitespace

@@ -87,16 +87,24 @@ AddRequestHandler::~AddRequestHandler(void)
 void AddRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_ADD_REQUEST);
-    info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_NUMBER);
-    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_DOUBLE);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, ADD_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Add to the running sum");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(YPP_ADD_REQUEST);
-    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    try
+    {
+        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_ADD_REQUEST);
+        info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_NUMBER);
+        info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_DOUBLE);
+        info.put(YPP_REQREP_DICT_VERSION_KEY, ADD_REQUEST_VERSION_NUMBER);
+        info.put(YPP_REQREP_DICT_DETAILS_KEY, "Add to the running sum");
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
+        
+        asList->addString(YPP_ADD_REQUEST);
+        info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // AddRequestHandler::fillInDescription
 
@@ -107,33 +115,44 @@ bool AddRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
-    bool             result = true;
-    yarp::os::Bottle response;
+    bool  result = true;
 
-    if (1 == restOfInput.size())
+    try
     {
-        yarp::os::Value incoming(restOfInput.get(0));
+        yarp::os::Bottle response;
         
-        if (incoming.isInt())
+        if (1 == restOfInput.size())
         {
-            response.addDouble(_service.addToSum(senderPort, incoming.asInt()));
-        }
-        else if (incoming.isDouble())
-        {
-            response.addDouble(_service.addToSum(senderPort, incoming.asDouble()));
+            yarp::os::Value incoming(restOfInput.get(0));
+            
+            if (incoming.isInt())
+            {
+                response.addDouble(_service.addToSum(senderPort, incoming.asInt()));
+            }
+            else if (incoming.isDouble())
+            {
+                response.addDouble(_service.addToSum(senderPort, incoming.asDouble()));
+            }
+            else
+            {
+                OD_SYSLOG("! (incoming.isDouble())");//####
+                response.addString(YPP_FAILED_RESPONSE);
+            }
         }
         else
         {
+            OD_SYSLOG("! (1 == restOfInput.size())");//####
             response.addString(YPP_FAILED_RESPONSE);
         }
+        if (replyMechanism)
+        {
+            response.write(*replyMechanism);
+        }
     }
-    else
+    catch (...)
     {
-        response.addString(YPP_FAILED_RESPONSE);
-    }
-    if (replyMechanism)
-    {
-        response.write(*replyMechanism);
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

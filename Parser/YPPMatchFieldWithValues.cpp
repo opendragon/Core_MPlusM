@@ -69,48 +69,70 @@ MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const yarp::os::Const
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("inString = ", inString.c_str());//####
     OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
-    int                    workPos = startPos;
     MatchFieldWithValues * result = NULL;
-    MatchFieldName *       fieldName = MatchFieldName::CreateMatcher(inString, inLength, startPos, workPos, validator);
 
-    if (fieldName)
+    try
     {
-        workPos = SkipWhitespace(inString, inLength, workPos);
-        if (workPos < inLength)
+        int              workPos = startPos;
+        MatchFieldName * fieldName = MatchFieldName::CreateMatcher(inString, inLength, startPos, workPos, validator);
+        
+        if (fieldName)
         {
-            int nextPos;
-            
-            if (MatchValueList::ListInitiatorCharacter() == inString[workPos])
+            workPos = SkipWhitespace(inString, inLength, workPos);
+            if (workPos < inLength)
             {
-                MatchValueList * asList = MatchValueList::CreateMatcher(inString, inLength, workPos, nextPos);
+                int nextPos;
                 
-                if (asList)
+                if (MatchValueList::ListInitiatorCharacter() == inString[workPos])
                 {
-                    result = new MatchFieldWithValues(validator, fieldName, asList);
+                    MatchValueList * asList = MatchValueList::CreateMatcher(inString, inLength, workPos, nextPos);
+                    
+                    if (asList)
+                    {
+                        result = new MatchFieldWithValues(validator, fieldName, asList);
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (asList)");//####
+                    }
+                }
+                else
+                {
+                    MatchValue * asSingle = MatchValue::CreateMatcher(inString, inLength, workPos, nextPos);
+                    
+                    if (asSingle)
+                    {
+                        result = new MatchFieldWithValues(validator, fieldName, asSingle);
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (asSingle)");//####
+                    }
+                }
+                if (result)
+                {
+                    endPos = nextPos;
+                }
+                else
+                {
+                    delete fieldName;
                 }
             }
             else
             {
-                MatchValue * asSingle = MatchValue::CreateMatcher(inString, inLength, workPos, nextPos);
-                
-                if (asSingle)
-                {
-                    result = new MatchFieldWithValues(validator, fieldName, asSingle);                    
-                }
-            }
-            if (result)
-            {
-                endPos = nextPos;
-            }
-            else
-            {
+                OD_SYSLOG("! (workPos < inLength)");//####
                 delete fieldName;
             }
         }
         else
         {
-            delete fieldName;
+            OD_SYSLOG("! (fieldName)");//####
         }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
@@ -133,7 +155,7 @@ MatchFieldWithValues::MatchFieldWithValues(FieldNameValidator validator,
 MatchFieldWithValues::MatchFieldWithValues(FieldNameValidator validator,
                                            MatchFieldName *   fieldName,
                                            MatchValueList *   asList) :
-inherited(), _validator(validator), _fieldName(fieldName), _singleValue(NULL), _values(asList)
+        inherited(), _validator(validator), _fieldName(fieldName), _singleValue(NULL), _values(asList)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P2("fieldName = ", fieldName, "asList = ", asList);//####
@@ -157,53 +179,62 @@ yarp::os::ConstString MatchFieldWithValues::asSQLString(void)
 const
 {
     OD_SYSLOG_ENTER();//####
-    yarp::os::ConstString field(_fieldName->asString());
-    const char *          prefixString = NULL;
-    const char *          suffixString = NULL;
-    const char *          trueName;
     yarp::os::ConstString converted;
 
-    if (_validator)
+    try
     {
-        trueName = _validator(field.c_str(), &prefixString, &suffixString);
-    }
-    else
-    {
-        trueName = field.c_str();
-    }
-    OD_SYSLOG_S1("trueName <- ", trueName);//####
-    if (_singleValue)
-    {
-        if (prefixString)
+        yarp::os::ConstString field(_fieldName->asString());
+        const char *          prefixString = NULL;
+        const char *          suffixString = NULL;
+        const char *          trueName;
+        
+        if (_validator)
         {
-            converted += prefixString;
-        }
-        converted += trueName;
-        if (_singleValue->hasWildcardCharacters())
-        {
-            converted += " LIKE ";
+            trueName = _validator(field.c_str(), &prefixString, &suffixString);
         }
         else
         {
-            converted += " = ";
+            trueName = field.c_str();
         }
-        converted += _singleValue->asSQLString();
-        if (suffixString)
+        OD_SYSLOG_S1("trueName <- ", trueName);//####
+        if (_singleValue)
         {
-            converted += suffixString;
+            if (prefixString)
+            {
+                converted += prefixString;
+            }
+            converted += trueName;
+            if (_singleValue->hasWildcardCharacters())
+            {
+                converted += " LIKE ";
+            }
+            else
+            {
+                converted += " = ";
+            }
+            converted += _singleValue->asSQLString();
+            if (suffixString)
+            {
+                converted += suffixString;
+            }
+        }
+        else if (_values)
+        {
+            if (prefixString)
+            {
+                converted += prefixString;
+            }
+            converted += _values->asSQLString(trueName);
+            if (suffixString)
+            {
+                converted += suffixString;
+            }
         }
     }
-    else if (_values)
+    catch (...)
     {
-        if (prefixString)
-        {
-            converted += prefixString;
-        }
-        converted += _values->asSQLString(trueName);
-        if (suffixString)
-        {
-            converted += suffixString;
-        }
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_S(converted.c_str());//####
     return converted;
@@ -214,15 +245,23 @@ const
 {
     yarp::os::ConstString result;
     
-    result += _fieldName->asString();
-    result += ": ";
-    if (_singleValue)
+    try
     {
-        result += _singleValue->asString();
+        result += _fieldName->asString();
+        result += ": ";
+        if (_singleValue)
+        {
+            result += _singleValue->asString();
+        }
+        else if (_values)
+        {
+            result += _values->asString();
+        }
     }
-    else if (_values)
+    catch (...)
     {
-        result += _values->asString();
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     return result;
 } // MatchFieldWithValues::asString

@@ -42,9 +42,7 @@
 //#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPExampleRandomNumberClient.h"
-#include <ace/Version.h>
 #include <iostream>
-#include <yarp/conf/version.h>
 #include <yarp/os/all.h>
 
 using namespace YarpPlusPlusExample;
@@ -91,75 +89,95 @@ int main(int     argc,
 # pragma unused(argc,argv)
 #endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionEnableThreadSupport);//####
+                   kODSyslogOptionEnableThreadSupport | kODSyslogOptionWriteToStderr);//####
     OD_SYSLOG_ENTER();//####
-    cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << ", ACE Version = " <<
-            ACE_VERSION << endl;
-    yarp::os::Network           yarp; // This is necessary to establish any connection to the YARP infrastructure
-    ExampleRandomNumberClient * stuff = new ExampleRandomNumberClient;
-
-    if (stuff)
+    try
     {
-        lKeepRunning = true;
-#if (defined(__APPLE__) || defined(__linux__))
-        signal(SIGHUP, stopRunning);
-        signal(SIGINT, stopRunning);
-        signal(SIGINT, stopRunning);
-        signal(SIGUSR1, stopRunning);
-#endif // defined(__APPLE__) || defined(__linux__)
-        for ( ; lKeepRunning; )
-        {
-            int count;
-            
-            cout << "How many random numbers? ";
-            cin >> count;
-            if (0 >= count)
-            {
-                break;
-            }
+#if defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network::setVerbosity(1);
+#else // ! defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network::setVerbosity(-1);
+#endif // ! defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+        
+        YarpPlusPlus::Initialize();
+        ExampleRandomNumberClient * stuff = new ExampleRandomNumberClient;
 
-            if (stuff->connect("keyword random"))
+        if (stuff)
+        {
+            lKeepRunning = true;
+#if (defined(__APPLE__) || defined(__linux__))
+            signal(SIGHUP, stopRunning);
+            signal(SIGINT, stopRunning);
+            signal(SIGINT, stopRunning);
+            signal(SIGUSR1, stopRunning);
+#endif // defined(__APPLE__) || defined(__linux__)
+            if (stuff->findService("keyword random"))
             {
-                if (1 == count)
+                for ( ; lKeepRunning; )
                 {
-                    double result;
+                    int count;
                     
-                    if (stuff->getOneRandomNumber(result))
+                    cout << "How many random numbers? ";
+                    cin >> count;
+                    if (0 >= count)
                     {
-                        cout << "result = " << result << endl;
+                        break;
                     }
-                    else
-                    {
-                        cerr << "Problem getting random number from service." << endl;
-                    }
-                }
-                else
-                {
-                    ExampleRandomNumberClient::RandomVector results;
                     
-                    if (stuff->getRandomNumbers(count, results))
+                    if (1 == count)
                     {
-                        cout << "result = ( ";
-                        for (ExampleRandomNumberClient::RandomVectorIterator it(results.begin()); it != results.end();
-                             ++it)
+                        double result;
+                        
+                        if (stuff->getOneRandomNumber(result))
                         {
-                            cout << " " << *it;
+                            cout << "result = " << result << endl;
                         }
-                        cout << " )" << endl;
+                        else
+                        {
+                            OD_SYSLOG("! (stuff->getOneRandomNumber(result))");//####
+                            cerr << "Problem getting random number from service." << endl;
+                        }
                     }
                     else
                     {
-                        cerr << "Problem getting random numbers from service." << endl;
+                        ExampleRandomNumberClient::RandomVector results;
+                        
+                        if (stuff->getRandomNumbers(count, results))
+                        {
+                            cout << "result = ( ";
+                            for (ExampleRandomNumberClient::RandomVectorIterator it(results.begin());
+                                 it != results.end(); ++it)
+                            {
+                                cout << " " << *it;
+                            }
+                            cout << " )" << endl;
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (stuff->getRandomNumbers(count, results))");//####
+                            cerr << "Problem getting random numbers from service." << endl;
+                        }
                     }
                 }
             }
             else
             {
-                cerr << "Problem connecting to the service." << endl;
+                OD_SYSLOG("! (stuff->findService(\"keyword random\"))");//####
+                cerr << "Problem finding the service." << endl;
             }
+            delete stuff;
         }
-        delete stuff;
+        else
+        {
+            OD_SYSLOG("! (stuff)");//####
+        }
     }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+    }
+    yarp::os::Network::fini();
     OD_SYSLOG_EXIT_L(0);//####
     return 0;
 } // main

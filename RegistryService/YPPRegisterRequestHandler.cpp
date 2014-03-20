@@ -46,6 +46,7 @@
 #include "YPPEndpoint.h"
 #include "YPPRegistryService.h"
 #include "YPPRequests.h"
+#include <yarp/os/Time.h>
 
 using namespace YarpPlusPlus;
 
@@ -89,17 +90,25 @@ RegisterRequestHandler::~RegisterRequestHandler(void)
 void RegisterRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
-    info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_REGISTER_REQUEST);
-    info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_STRING);
-    info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_STRING);
-    info.put(YPP_REQREP_DICT_VERSION_KEY, REGISTER_REQUEST_VERSION_NUMBER);
-    info.put(YPP_REQREP_DICT_DETAILS_KEY, "Register the service and its requests");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(YPP_REGISTER_REQUEST);
-    asList->addString("add");
-    info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    try
+    {
+        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_REGISTER_REQUEST);
+        info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_STRING);
+        info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_STRING);
+        info.put(YPP_REQREP_DICT_VERSION_KEY, REGISTER_REQUEST_VERSION_NUMBER);
+        info.put(YPP_REQREP_DICT_DETAILS_KEY, "Register the service and its requests");
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
+        
+        asList->addString(YPP_REGISTER_REQUEST);
+        asList->addString("add");
+        info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // RegisterRequestHandler::fillInDescription
 
@@ -115,101 +124,128 @@ bool RegisterRequestHandler::operator() (const yarp::os::Bottle &      restOfInp
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
-    if (replyMechanism)
+    try
     {
-        yarp::os::Bottle reply;
-        
-        // Validate the name as a port name
-        if (1 == restOfInput.size())
+        if (replyMechanism)
         {
-            yarp::os::Value argument(restOfInput.get(0));
+            yarp::os::Bottle reply;
             
-            if (argument.isString())
+            // Validate the name as a port name
+            if (1 == restOfInput.size())
             {
-                yarp::os::ConstString argAsString(argument.toString());
+                yarp::os::Value argument(restOfInput.get(0));
                 
-                if (Endpoint::CheckEndpointName(argAsString))
+                if (argument.isString())
                 {
-                    // Send a 'list' request to the port
-                    yarp::os::Port        outPort;
-                    yarp::os::ConstString aName(Endpoint::GetRandomPortName());
-
-                    if (outPort.open(aName))
+                    yarp::os::ConstString argAsString(argument.toString());
+                    
+                    if (Endpoint::CheckEndpointName(argAsString))
                     {
-                        if (outPort.addOutput(argAsString))
+                        // Send a 'list' request to the port
+                        yarp::os::ConstString aName(GetRandomPortName("register/port_"));
+                        yarp::os::Port *      outPort = new yarp::os::Port();
+                        
+                        if (outPort)
                         {
-                            yarp::os::Bottle message1(YPP_NAME_REQUEST);
-                            yarp::os::Bottle response;
-                            
-                            if (outPort.write(message1, response))
+                            if (outPort->open(aName))
                             {
-                                if (processNameResponse(argAsString, response))
+                                if (outPort->addOutput(argAsString))
                                 {
-                                    yarp::os::Bottle message2(YPP_LIST_REQUEST);
-
-                                    if (outPort.write(message2, response))
+                                    yarp::os::Bottle message1(YPP_NAME_REQUEST);
+                                    yarp::os::Bottle response;
+                                    
+                                    if (outPort->write(message1, response))
                                     {
-                                        if (processListResponse(argAsString, response))
+                                        if (processNameResponse(argAsString, response))
                                         {
-                                            // Remember the response
-                                            reply.addString(YPP_OK_RESPONSE);
+                                            yarp::os::Bottle message2(YPP_LIST_REQUEST);
+                                            
+                                            if (outPort->write(message2, response))
+                                            {
+                                                if (processListResponse(argAsString, response))
+                                                {
+                                                    // Remember the response
+                                                    reply.addString(YPP_OK_RESPONSE);
+                                                }
+                                                else
+                                                {
+                                                    OD_SYSLOG("! (processListResponse(argAsString, response))");//####
+                                                    reply.addString(YPP_FAILED_RESPONSE);
+                                                    reply.addString("Invalid response to 'list' request");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                OD_SYSLOG("! (outPort->write(message2, response))");//####
+                                                reply.addString(YPP_FAILED_RESPONSE);
+                                                reply.addString("Could not write to port");
+                                            }
                                         }
                                         else
                                         {
+                                            OD_SYSLOG("! (processNameResponse(argAsString, response))");//####
                                             reply.addString(YPP_FAILED_RESPONSE);
-                                            reply.addString("Invalid response to 'list' request");
+                                            reply.addString("Invalid response to 'name' request");
                                         }
                                     }
                                     else
                                     {
+                                        OD_SYSLOG("! (outPort->write(message1, response))");//####
                                         reply.addString(YPP_FAILED_RESPONSE);
                                         reply.addString("Could not write to port");
                                     }
                                 }
                                 else
                                 {
+                                    OD_SYSLOG("! (outPort->addOutput(argAsString))");//####
                                     reply.addString(YPP_FAILED_RESPONSE);
-                                    reply.addString("Invalid response to 'name' request");
+                                    reply.addString("Could not connect to port");
                                 }
+                                OD_SYSLOG_S1("about to close, port = ", aName.c_str());//####
+                                outPort->close();
+                                OD_SYSLOG("close completed.");//####
                             }
                             else
                             {
+                                OD_SYSLOG("! (outPort->open(aName))");//####
                                 reply.addString(YPP_FAILED_RESPONSE);
-                                reply.addString("Could not write to port");
+                                reply.addString("Port could not be opened");
                             }
+                            delete outPort;
                         }
                         else
                         {
-                            reply.addString(YPP_FAILED_RESPONSE);
-                            reply.addString("Could not connect to port");
+                            OD_SYSLOG("! (outPort)");
                         }
-                        outPort.close();
                     }
                     else
                     {
+                        OD_SYSLOG("! (Endpoint::CheckEndpointName(argAsString))");//####
                         reply.addString(YPP_FAILED_RESPONSE);
-                        reply.addString("Port could not be opened");
+                        reply.addString("Invalid port name");
                     }
                 }
                 else
                 {
+                    OD_SYSLOG("! (argument.isString())");//####
                     reply.addString(YPP_FAILED_RESPONSE);
                     reply.addString("Invalid port name");
                 }
             }
             else
             {
+                OD_SYSLOG("! (1 == restOfInput.size())");//####
                 reply.addString(YPP_FAILED_RESPONSE);
-                reply.addString("Invalid port name");
+                reply.addString("Missing port name or extra arguments to request");
             }
+            OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
+            reply.write(*replyMechanism);
         }
-        else
-        {
-            reply.addString(YPP_FAILED_RESPONSE);
-            reply.addString("Missing port name or extra arguments to request");
-        }
-        OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
-        reply.write(*replyMechanism);
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
@@ -220,130 +256,150 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S2("portName = ", portName.c_str(), "response = ", response.asString().c_str());//####
-    bool result;
-    
-    if (0 < response.count())
+    bool result = false;
+
+    try
     {
-        result = true;
-        for (int ii = 0; result && (ii < response.count()); ++ii)
+        int  count = response.count();
+        
+        if (0 < count)
         {
-            yarp::os::Value anElement(response.element(ii));
-            
-            if (anElement.isDict())
+            result = true;
+            for (int ii = 0; result && (ii < count); ++ii)
             {
-                yarp::os::Property * asDict = anElement.asDict();
+                yarp::os::Value anElement(response.element(ii));
                 
-                if (asDict->check(YPP_REQREP_DICT_REQUEST_KEY))
+                if (anElement.isDict())
                 {
-                    yarp::os::ConstString theRequest(asDict->find(YPP_REQREP_DICT_REQUEST_KEY).asString());
-                    yarp::os::Bottle      keywordList;
-                    RequestDescription    requestDescriptor;
+                    yarp::os::Property * asDict = anElement.asDict();
                     
-                    OD_SYSLOG_S1("theRequest <- ", theRequest.c_str());//####
-                    if (asDict->check(YPP_REQREP_DICT_DETAILS_KEY))
+                    if (asDict->check(YPP_REQREP_DICT_REQUEST_KEY))
                     {
-                        yarp::os::Value theDetails = asDict->find(YPP_REQREP_DICT_DETAILS_KEY);
+                        yarp::os::ConstString theRequest(asDict->find(YPP_REQREP_DICT_REQUEST_KEY).asString());
+                        yarp::os::Bottle      keywordList;
+                        RequestDescription    requestDescriptor;
                         
-                        OD_SYSLOG_S1("theDetails <- ", theDetails.toString().c_str());//####
-                        if (theDetails.isString())
+                        OD_SYSLOG_S1("theRequest <- ", theRequest.c_str());//####
+                        if (asDict->check(YPP_REQREP_DICT_DETAILS_KEY))
                         {
-                            requestDescriptor._details = theDetails.toString();
+                            yarp::os::Value theDetails = asDict->find(YPP_REQREP_DICT_DETAILS_KEY);
+                            
+                            OD_SYSLOG_S1("theDetails <- ", theDetails.toString().c_str());//####
+                            if (theDetails.isString())
+                            {
+                                requestDescriptor._details = theDetails.toString();
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (theDetails.isString())");//####
+                                // The details field is present, but it's not a string.
+                                result = false;
+                            }
                         }
-                        else
+                        if (asDict->check(YPP_REQREP_DICT_INPUT_KEY))
                         {
-                            // The details field is present, but it's not a string.
-                            result = false;
+                            yarp::os::Value theInputs = asDict->find(YPP_REQREP_DICT_INPUT_KEY);
+                            
+                            OD_SYSLOG_S1("theInputs <- ", theInputs.toString().c_str());//####
+                            if (theInputs.isString())
+                            {
+                                requestDescriptor._inputs = theInputs.toString();
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (theInputs.isString())");//####
+                                // The inputs descriptor is present, but it's not a string
+                                result = false;
+                            }
+                        }
+                        if (asDict->check(YPP_REQREP_DICT_KEYWORDS_KEY))
+                        {
+                            yarp::os::Value theKeywords = asDict->find(YPP_REQREP_DICT_KEYWORDS_KEY);
+                            
+                            OD_SYSLOG_S1("theKeywords <- ", theKeywords.toString().c_str());//####
+                            if (theKeywords.isList())
+                            {
+                                keywordList = *theKeywords.asList();
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (theKeywords.isList())");//####
+                                // The keywords entry is present, but it's not a list
+                                result = false;
+                            }
+                        }
+                        if (asDict->check(YPP_REQREP_DICT_OUTPUT_KEY))
+                        {
+                            yarp::os::Value theOutputs = asDict->find(YPP_REQREP_DICT_OUTPUT_KEY);
+                            
+                            OD_SYSLOG_S1("theOutputs <- ", theOutputs.toString().c_str());//####
+                            if (theOutputs.isString())
+                            {
+                                requestDescriptor._outputs = theOutputs.toString();
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (theOutputs.isString())");//####
+                                                                       // The outputs descriptor is present, but it's not a string
+                                result = false;
+                            }
+                        }
+                        if (asDict->check(YPP_REQREP_DICT_VERSION_KEY))
+                        {
+                            yarp::os::Value theVersion = asDict->find(YPP_REQREP_DICT_VERSION_KEY);
+                            
+                            OD_SYSLOG_S1("theVersion <- ", theVersion.toString().c_str());//####
+                            if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
+                            {
+                                requestDescriptor._version = theVersion.toString();
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (theVersion.isString() || theVersion.isInt() || "//####
+                                          "theVersion.isDouble())");//####
+                                // The version entry is present, but it's not a simple value
+                                result = false;
+                            }
+                        }
+                        if (result)
+                        {
+                            requestDescriptor._port = portName;
+                            requestDescriptor._request = theRequest;
+                            result = _service.addRequestRecord(keywordList, requestDescriptor);
+                            OD_SYSLOG_B1("result <- ", result);//####
                         }
                     }
-                    if (asDict->check(YPP_REQREP_DICT_INPUT_KEY))
+                    else
                     {
-                        yarp::os::Value theInputs = asDict->find(YPP_REQREP_DICT_INPUT_KEY);
-                        
-                        OD_SYSLOG_S1("theInputs <- ", theInputs.toString().c_str());//####
-                        if (theInputs.isString())
-                        {
-                            requestDescriptor._inputs = theInputs.toString();
-                        }
-                        else
-                        {
-                            // The inputs descriptor is present, but it's not a string
-                            result = false;
-                        }
-                    }
-                    if (asDict->check(YPP_REQREP_DICT_KEYWORDS_KEY))
-                    {
-                        yarp::os::Value theKeywords = asDict->find(YPP_REQREP_DICT_KEYWORDS_KEY);
-                        
-                        OD_SYSLOG_S1("theKeywords <- ", theKeywords.toString().c_str());//####
-                        if (theKeywords.isList())
-                        {
-                            keywordList = *theKeywords.asList();
-                        }
-                        else
-                        {
-                            // The keywords entry is present, but it's not a list
-                            result = false;
-                        }
-                    }
-                    if (asDict->check(YPP_REQREP_DICT_OUTPUT_KEY))
-                    {
-                        yarp::os::Value theOutputs = asDict->find(YPP_REQREP_DICT_OUTPUT_KEY);
-                        
-                        OD_SYSLOG_S1("theOutputs <- ", theOutputs.toString().c_str());//####
-                        if (theOutputs.isString())
-                        {
-                            requestDescriptor._outputs = theOutputs.toString();
-                        }
-                        else
-                        {
-                            // The outputs descriptor is present, but it's not a string
-                            result = false;
-                        }
-                    }
-                    if (asDict->check(YPP_REQREP_DICT_VERSION_KEY))
-                    {
-                        yarp::os::Value theVersion = asDict->find(YPP_REQREP_DICT_VERSION_KEY);
-                        
-                        OD_SYSLOG_S1("theVersion <- ", theVersion.toString().c_str());//####
-                        if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
-                        {
-                            requestDescriptor._version = theVersion.toString();
-                        }
-                        else
-                        {
-                            // The version entry is present, but it's not a simple value
-                            result = false;
-                        }
-                    }
-                    if (result)
-                    {
-                        requestDescriptor._port = portName;
-                        requestDescriptor._request = theRequest;
-                        result = _service.addRequestRecord(keywordList, requestDescriptor);
+                        OD_SYSLOG("! (asDict->check(YPP_REQREP_DICT_REQUEST_KEY))");//####
+                        // There is no 'name' entry in this dictionary
+                        result = false;
                     }
                 }
                 else
                 {
-                    // There is no 'name' entry in this dictionary
+                    OD_SYSLOG("! (anElement.isDict())");//####
+                    // One of the values is not a dictionary
                     result = false;
                 }
             }
-            else
-            {
-                // One of the values is not a dictionary
-                result = false;
-            }
+        }
+        else
+        {
+            OD_SYSLOG("! (0 < count)");//####
+            // Wrong number of values in the response.
+            result = false;
+        }
+        if (! result)
+        {
+            // We need to remove any values that we've recorded for this port!
+            _service.removeServiceRecord(portName);
         }
     }
-    else
+    catch (...)
     {
-        // Wrong number of values in the response.
-        result = false;
-    }
-    if (! result)
-    {
-        // We need to remove any values that we've recorded for this port!
-        _service.removeServiceRecord(portName);
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;
@@ -354,32 +410,42 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & p
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S2("portName = ", portName.c_str(), "response = ", response.asString().c_str());//####
-    bool result;
+    bool result = false;
     
-    if (2 == response.count())
+    try
     {
-        yarp::os::Value theCanonicalName(response.element(0));
-        yarp::os::Value theDescription(response.element(1));
-        
-        if (theCanonicalName.isString() && theDescription.isString())
+        if (2 == response.count())
         {
-            result = _service.addServiceRecord(portName, theCanonicalName.toString(), theDescription.toString());
+            yarp::os::Value theCanonicalName(response.element(0));
+            yarp::os::Value theDescription(response.element(1));
+            
+            if (theCanonicalName.isString() && theDescription.isString())
+            {
+                result = _service.addServiceRecord(portName, theCanonicalName.toString(), theDescription.toString());
+            }
+            else
+            {
+                OD_SYSLOG("! (theCanonicalName.isString() && theDescription.isString())");//####
+                // The canonical name and description are present, but at least one of them is not a string
+                result = false;
+            }
         }
         else
         {
-            // The canonical name and description are present, but at least one of them is not a string
+            OD_SYSLOG("! (2 == response.count())");//####
+            // Wrong number of values in the response.
             result = false;
         }
+        if (! result)
+        {
+            // We need to remove any values that we've recorded for this port!
+            _service.removeServiceRecord(portName);
+        }
     }
-    else
+    catch (...)
     {
-        // Wrong number of values in the response.
-        result = false;
-    }
-    if (! result)
-    {
-        // We need to remove any values that we've recorded for this port!
-        _service.removeServiceRecord(portName);
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

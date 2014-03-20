@@ -54,6 +54,7 @@ add_library(YPPCommon
             YPPBaseService.cpp
             YPPBaseServiceInputHandler.cpp
             YPPBaseServiceInputHandlerCreator.cpp
+            YPPCommon.cpp
             YPPEndpoint.cpp
             YPPException.cpp
             YPPInfoRequestHandler.cpp

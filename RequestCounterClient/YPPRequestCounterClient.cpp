@@ -87,23 +87,43 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
     OD_SYSLOG_P2("counter = ", &counter, "elapsedTime = ", &elapsedTime);//####
     bool okSoFar = false;
     
-    yarp::os::Bottle              parameters;
-    YarpPlusPlus::ServiceResponse response;
-    
-    if (send(YPP_STATS_REQUEST, parameters, NULL, &response))
+    try
     {
-        if (2 == response.count())
+        yarp::os::Bottle              parameters;
+        YarpPlusPlus::ServiceResponse response;
+        
+        if (send(YPP_STATS_REQUEST, parameters, NULL, &response))
         {
-            yarp::os::Value retrievedCounter(response.element(0));
-            yarp::os::Value retrievedElapsed(response.element(1));
-            
-            if (retrievedCounter.isInt() && retrievedElapsed.isDouble())
+            if (2 == response.count())
             {
-                counter = retrievedCounter.asInt();
-                elapsedTime = retrievedElapsed.asDouble();
-                okSoFar = true;
+                yarp::os::Value retrievedCounter(response.element(0));
+                yarp::os::Value retrievedElapsed(response.element(1));
+                
+                if (retrievedCounter.isInt() && retrievedElapsed.isDouble())
+                {
+                    counter = retrievedCounter.asInt();
+                    elapsedTime = retrievedElapsed.asDouble();
+                    okSoFar = true;
+                }
+                else
+                {
+                    OD_SYSLOG("! (retrievedCounter.isInt() && retrievedElapsed.isDouble())");//####
+                }
+            }
+            else
+            {
+                OD_SYSLOG("! (2 == response.count())");//####
             }
         }
+        else
+        {
+            OD_SYSLOG("! (send(YPP_STATS_REQUEST, parameters, NULL, &response))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(okSoFar);
     return okSoFar;
@@ -112,12 +132,25 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
 bool RequestCounterClient::pokeService(void)
 {
     OD_SYSLOG_ENTER();
-    bool             okSoFar = false;
-    yarp::os::Bottle parameters;
+    bool okSoFar = false;
     
-    if (send("blort", parameters))
+    try
     {
-        okSoFar = true;
+        yarp::os::Bottle parameters;
+        
+        if (send("blarg_blerg_blirg_blorg_blurg", parameters))
+        {
+            okSoFar = true;
+        }
+        else
+        {
+            OD_SYSLOG("! (send(\"blarg_blerg_blirg_blorg_blurg\", parameters))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(okSoFar);
     return okSoFar;
@@ -126,12 +159,25 @@ bool RequestCounterClient::pokeService(void)
 bool RequestCounterClient::resetServiceCounters(void)
 {
     OD_SYSLOG_ENTER();
-    bool             okSoFar = false;
-    yarp::os::Bottle parameters;
+    bool okSoFar = false;
     
-    if (send(YPP_RESET_REQUEST, parameters))
+    try
     {
-        okSoFar = true;
+        yarp::os::Bottle parameters;
+        
+        if (send(YPP_RESET_REQUEST, parameters))
+        {
+            okSoFar = true;
+        }
+        else
+        {
+            OD_SYSLOG("! (send(YPP_RESET_REQUEST, parameters))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(okSoFar);
     return okSoFar;

@@ -94,6 +94,7 @@
 		DF2092EB18D8F62B0093D3DC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../ExampleRunningSumClient/main.cpp; sourceTree = SOURCE_ROOT; };
 		DF2092EC18D8F62B0093D3DC /* YPPExampleRunningSumClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPExampleRunningSumClient.cpp; path = ../ExampleRunningSumClient/YPPExampleRunningSumClient.cpp; sourceTree = SOURCE_ROOT; };
 		DF2092ED18D8F62B0093D3DC /* YPPExampleRunningSumClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPExampleRunningSumClient.h; path = ../ExampleRunningSumClient/YPPExampleRunningSumClient.h; sourceTree = SOURCE_ROOT; };
+		DF2092EE18DA03160093D3DC /* YPPCommon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPCommon.cpp; path = ../Common/YPPCommon.cpp; sourceTree = "<group>"; };
 		DF27F42818CA358C00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = ../Parser/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF27F42918CA36C200E93C95 /* YPPMatchValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPMatchValue.cpp; path = ../Parser/YPPMatchValue.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF27F42A18CA36C200E93C95 /* YPPMatchValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = YPPMatchValue.h; path = ../Parser/YPPMatchValue.h; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -400,6 +401,7 @@
 				DFA3432D18C91C5A0053B87C /* YPPBaseServiceInputHandler.h */,
 				DFA3432E18C91C5A0053B87C /* YPPBaseServiceInputHandlerCreator.cpp */,
 				DFA3432F18C91C5A0053B87C /* YPPBaseServiceInputHandlerCreator.h */,
+				DF2092EE18DA03160093D3DC /* YPPCommon.cpp */,
 				DFA3433018C91C5A0053B87C /* YPPCommon.h */,
 				DFA3433118C91C5A0053B87C /* YPPCommonTest.cpp */,
 				DFA3433218C91C5A0053B87C /* YPPConfig.h */,

@@ -50,9 +50,7 @@
 #include "YPPRegistryService.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
-#include <ace/Version.h>
 #include <iostream>
-#include <yarp/conf/version.h>
 #include <yarp/os/all.h>
 
 using namespace YarpPlusPlus;
@@ -79,41 +77,59 @@ using std::endl;
 static int doCase13(const int argc,
                     char **   argv) // send 'register' request
 {
-    int               result;
-    RegistryService * registry = NULL;
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
     
-    if (0 <= argc)
+    try
     {
-        switch (argc)
+        RegistryService * registry = NULL;
+        
+        if (0 <= argc)
         {
-                // Argument order for tests = endpoint name [, IP address / name [, port]]
-            case 0:
-                registry = new RegistryService(TEST_INMEMORY);
-                break;
-                
-            case 1:
-                registry = new RegistryService(TEST_INMEMORY, *argv);
-                break;
-                
-            case 2:
-                registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
-                break;
-                
-            default:
-                break;
-                
+            switch (argc)
+            {
+                    // Argument order for tests = endpoint name [, IP address / name [, port]]
+                case 0:
+                    registry = new RegistryService(TEST_INMEMORY);
+                    break;
+                    
+                case 1:
+                    registry = new RegistryService(TEST_INMEMORY, *argv);
+                    break;
+                    
+                case 2:
+                    registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
+                    break;
+                    
+                default:
+                    break;
+                    
+            }
+        }
+        if (registry)
+        {
+            if (registry->start())
+            {
+                result = (registry->isActive() ? 0 : 1);
+                registry->stop();
+            }
+            else
+            {
+                OD_SYSLOG("! (registry->start())");//####
+            }
+            delete registry;
+        }
+        else
+        {
+            OD_SYSLOG("! (registry)");//####
         }
     }
-    if (registry && registry->start())
+    catch (...)
     {
-        result = (registry->isActive() ? 0 : 1);
-        registry->stop();
-        delete registry;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
-    else
-    {
-        result = 1;
-    }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase13
 
@@ -124,73 +140,98 @@ static int doCase13(const int argc,
 static int doCase14(const int argc,
                     char **   argv) // send 'register' request
 {
-    const char *      secondServicePort;
-    int               result;
-    RegistryService * registry = NULL;
+    OD_SYSLOG_ENTER();//####
+    int result = false;
     
-    if (0 <= argc)
+    try
     {
-        switch (argc)
+        const char *      secondServicePort;
+        RegistryService * registry = NULL;
+        
+        if (0 <= argc)
         {
-            // Argument order for tests = endpoint name [, IP address / name [, port]]
-            case 0:
-                registry = new RegistryService(TEST_INMEMORY);
-                secondServicePort = "/service/test14_1";
-                break;
-                
-            case 1:
-                registry = new RegistryService(TEST_INMEMORY, *argv);
-                secondServicePort = "/service/test14_2";
-                break;
-                
-            case 2:
-                registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
-                secondServicePort = "/service/test14_3";
-                break;
-                
-            default:
-                break;
-                
-        }
-    }
-    if (registry && registry->start())
-    {
-        if (registry->isActive())
-        {
-            // Now we start up another service (Test14Service) and register it
-            Test14Service * stuff = new Test14Service(1, const_cast<char **>(&secondServicePort));
-            
-            if (stuff && stuff->start())
+            switch (argc)
             {
-                yarp::os::ConstString portName(stuff->getEndpoint().getName());
-
-                if (YarpPlusPlus::RegisterLocalService(portName))
+                    // Argument order for tests = endpoint name [, IP address / name [, port]]
+                case 0:
+                    registry = new RegistryService(TEST_INMEMORY);
+                    secondServicePort = "/service/test14_1";
+                    break;
+                    
+                case 1:
+                    registry = new RegistryService(TEST_INMEMORY, *argv);
+                    secondServicePort = "/service/test14_2";
+                    break;
+                    
+                case 2:
+                    registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
+                    secondServicePort = "/service/test14_3";
+                    break;
+                    
+                default:
+                    break;
+                    
+            }
+        }
+        if (registry)
+        {
+            if (registry->start())
+            {
+                if (registry->isActive())
                 {
-                    result = 0;
+                    // Now we start up another service (Test14Service) and register it
+                    Test14Service * stuff = new Test14Service(1, const_cast<char **>(&secondServicePort));
+                    
+                    if (stuff)
+                    {
+                        if (stuff->start())
+                        {
+                            yarp::os::ConstString portName(stuff->getEndpoint().getName());
+                            
+                            if (YarpPlusPlus::RegisterLocalService(portName))
+                            {
+                                result = 0;
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
+                            }
+                            stuff->stop();
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (stuff->start())");//####
+                        }
+                        delete stuff;
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (stuff)");//####
+                    }
                 }
                 else
                 {
-                    result = 1;
+                    OD_SYSLOG("! (registry->isActive())");//####
                 }
-                stuff->stop();
-                delete stuff;
+                registry->stop();
             }
             else
             {
-                result = 1;
+                OD_SYSLOG("! (registry->start())");//####
             }
+            delete registry;
         }
         else
         {
-            result = 1;
+            OD_SYSLOG("! (registry)");//####
         }
-        registry->stop();
-        delete registry;
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase14
 
@@ -201,80 +242,105 @@ static int doCase14(const int argc,
 static int doCase15(const int argc,
                     char **   argv) // send 'register' request
 {
-    const char *      secondServicePort;
-    int               result;
-    RegistryService * registry = NULL;
-    
-    if (0 <= argc)
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
+
+    try
     {
-        switch (argc)
+        const char *      secondServicePort;
+        RegistryService * registry = NULL;
+        
+        if (0 <= argc)
         {
-            // Argument order for tests = endpoint name [, IP address / name [, port]]
-            case 0:
-                registry = new RegistryService(TEST_INMEMORY);
-                secondServicePort = "/service/test15_1";
-                break;
-                
-            case 1:
-                registry = new RegistryService(TEST_INMEMORY, *argv);
-                secondServicePort = "/service/test15_2";
-                break;
-                
-            case 2:
-                registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
-                secondServicePort = "/service/test15_3";
-                break;
-                
-            default:
-                break;
-                
-        }
-    }
-    if (registry && registry->start())
-    {
-        if (registry->isActive())
-        {
-            // Now we start up another service (Test15Service) and register it
-            Test15Service * stuff = new Test15Service(1, const_cast<char **>(&secondServicePort));
-            
-            if (stuff && stuff->start())
+            switch (argc)
             {
-                yarp::os::ConstString portName(stuff->getEndpoint().getName());
-                
-                if (YarpPlusPlus::RegisterLocalService(portName))
+                    // Argument order for tests = endpoint name [, IP address / name [, port]]
+                case 0:
+                    registry = new RegistryService(TEST_INMEMORY);
+                    secondServicePort = "/service/test15_1";
+                    break;
+                    
+                case 1:
+                    registry = new RegistryService(TEST_INMEMORY, *argv);
+                    secondServicePort = "/service/test15_2";
+                    break;
+                    
+                case 2:
+                    registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
+                    secondServicePort = "/service/test15_3";
+                    break;
+                    
+                default:
+                    break;
+                    
+            }
+        }
+        if (registry)
+        {
+            if (registry->start())
+            {
+                if (registry->isActive())
                 {
-                    if (YarpPlusPlus::UnregisterLocalService(portName))
+                    // Now we start up another service (Test15Service) and register it
+                    Test15Service * stuff = new Test15Service(1, const_cast<char **>(&secondServicePort));
+                    
+                    if (stuff)
                     {
-                        result = 0;
+                        if (stuff->start())
+                        {
+                            yarp::os::ConstString portName(stuff->getEndpoint().getName());
+                            
+                            if (YarpPlusPlus::RegisterLocalService(portName))
+                            {
+                                if (YarpPlusPlus::UnregisterLocalService(portName))
+                                {
+                                    result = 0;
+                                }
+                                else
+                                {
+                                    OD_SYSLOG("! (YarpPlusPlus::UnregisterLocalService(portName))");//####
+                                }
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
+                            }
+                            stuff->stop();
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (stuff->start())");//####
+                        }
+                        delete stuff;
                     }
                     else
                     {
-                        result = 1;
+                        OD_SYSLOG("! (stuff)");//####
                     }
                 }
                 else
                 {
-                    result = 1;
+                    OD_SYSLOG("! (registry->isActive())");//####
                 }
-                stuff->stop();
-                delete stuff;
+                registry->stop();
             }
             else
             {
-                result = 1;
+                OD_SYSLOG("! (registry->start())");//####
             }
+            delete registry;
         }
         else
         {
-            result = 1;
+            OD_SYSLOG("! (registry)");//####
         }
-        registry->stop();
-        delete registry;
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase15
 
@@ -285,152 +351,186 @@ static int doCase15(const int argc,
 static int doCase16(const int argc,
                     char **   argv) // send 'register' request
 {
-    int result;
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
 
-    if (1 < argc)
+    try
     {
-        const char *      secondServicePort = "/service/test16";
-        RegistryService * registry = new RegistryService(TEST_INMEMORY);
-        
-        if (registry && registry->start())
+        if (1 < argc)
         {
-            if (registry->isActive())
+            const char *      secondServicePort = "/service/test16";
+            RegistryService * registry = new RegistryService(TEST_INMEMORY);
+            
+            if (registry)
             {
-                // Now we start up another service (Test16Service) and register it
-                Test16Service * stuff = new Test16Service(1, const_cast<char **>(&secondServicePort));
-                
-                if (stuff && stuff->start())
+                if (registry->start())
                 {
-                    yarp::os::ConstString portName(stuff->getEndpoint().getName());
-                    
-                    if (YarpPlusPlus::RegisterLocalService(portName))
+                    if (registry->isActive())
                     {
-                        // Search for the service that we just registered.
-                        yarp::os::Bottle matches(YarpPlusPlus::FindMatchingServices(*argv));
-                        yarp::os::Bottle expected(argv[1]);
+                        // Now we start up another service (Test16Service) and register it
+                        Test16Service * stuff = new Test16Service(1, const_cast<char **>(&secondServicePort));
                         
-                        OD_SYSLOG_S3("criteria <- ", *argv, "expected <- ", expected.toString().c_str(),//####
-                                     "matches <- ", matches.toString().c_str());//####
-                        if ((expected.size() == matches.size()) && (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size()))
+                        if (stuff)
                         {
-                            bool            wasASuccess = false;
-                            yarp::os::Value matchesFirst(matches.get(0));
-                            yarp::os::Value expectedFirst(expected.get(0));
-
-                            if (expectedFirst.isString())
+                            if (stuff->start())
                             {
-                                yarp::os::ConstString matchesFirstAsString(matchesFirst.toString());
-                                yarp::os::ConstString expectedFirstAsString(expectedFirst.toString());
+                                yarp::os::ConstString portName(stuff->getEndpoint().getName());
                                 
-                                if (matchesFirstAsString == expectedFirstAsString)
+                                if (YarpPlusPlus::RegisterLocalService(portName))
                                 {
-                                    result = 0;
-                                    if (! strcmp(YPP_OK_RESPONSE, matchesFirstAsString.c_str()))
-                                    {
-                                        wasASuccess = true;
-                                    }
-                                }
-                                else
-                                {
-                                    result = 1;
-                                }
-                            }
-                            else
-                            {
-                                result = 1;
-                            }
-                            if ((! result) && wasASuccess)
-                            {
-                                yarp::os::Value matchesSecond(matches.get(1));
-                                yarp::os::Value expectedSecond(expected.get(1));
-                                
-                                if (expectedSecond.isList())
-                                {
-                                    yarp::os::Bottle * matchesSecondAsList = matchesSecond.asList();
-                                    yarp::os::Bottle * expectedSecondAsList = expectedSecond.asList();
-                                    int                matchesSecondCount = matchesSecondAsList->size();
-                                    int                expectedSecondCount = expectedSecondAsList->size();
+                                    // Search for the service that we just registered.
+                                    yarp::os::Bottle matches(YarpPlusPlus::FindMatchingServices(*argv));
+                                    yarp::os::Bottle expected(argv[1]);
                                     
-                                    OD_SYSLOG_LL2("matchesSecondCount <- ", matchesSecondCount,//####
-                                                  "expectedSecondCount <- ", expectedSecondCount);//####
-                                    if (matchesSecondCount == expectedSecondCount)
+                                    OD_SYSLOG_S3("criteria <- ", *argv, "expected <- ",//####
+                                                 expected.toString().c_str(), "matches <- ",//####
+                                                 matches.toString().c_str());//####
+                                    if ((expected.size() == matches.size()) &&
+                                        (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size()))
                                     {
-                                        // Since the lists are the same length, we can just look for the expected values
-                                        // in the matched values.
-                                        for (int ii = 0; ii < expectedSecondCount; ++ii)
+                                        bool            wasASuccess = false;
+                                        yarp::os::Value matchesFirst(matches.get(0));
+                                        yarp::os::Value expectedFirst(expected.get(0));
+                                        
+                                        if (expectedFirst.isString())
                                         {
-                                            bool                  didFind = false;
-                                            yarp::os::Value       expectedSecondValue(expectedSecondAsList->get(ii));
-                                            yarp::os::ConstString expectedString(expectedSecondValue.toString());
+                                            yarp::os::ConstString matchesFirstAsString(matchesFirst.toString());
+                                            yarp::os::ConstString expectedFirstAsString(expectedFirst.toString());
                                             
-                                            for (int jj = 0; jj < expectedSecondCount; ++jj)
+                                            if (matchesFirstAsString == expectedFirstAsString)
                                             {
-                                                yarp::os::Value       matchesSecondValue(matchesSecondAsList->get(jj));
-                                                yarp::os::ConstString matchesString(matchesSecondValue.toString());
-                                                
-                                                if (expectedString == matchesString)
+                                                result = 0;
+                                                if (! strcmp(YPP_OK_RESPONSE, matchesFirstAsString.c_str()))
                                                 {
-                                                    didFind = true;
-                                                    break;
+                                                    wasASuccess = true;
                                                 }
-                                                
                                             }
-                                            if (! didFind)
+                                            else
                                             {
-                                                result = 1;
-                                                break;
+                                                OD_SYSLOG("! (matchesFirstAsString == expectedFirstAsString)");//####
                                             }
+                                        }
+                                        else
+                                        {
+                                            OD_SYSLOG("! (expectedFirst.isString())");//####
+                                        }
+                                        if ((! result) && wasASuccess)
+                                        {
+                                            yarp::os::Value matchesSecond(matches.get(1));
+                                            yarp::os::Value expectedSecond(expected.get(1));
                                             
+                                            if (expectedSecond.isList())
+                                            {
+                                                yarp::os::Bottle * matchesSecondAsList = matchesSecond.asList();
+                                                yarp::os::Bottle * expectedSecondAsList = expectedSecond.asList();
+                                                int                matchesSecondCount = matchesSecondAsList->size();
+                                                int                expectedSecondCount = expectedSecondAsList->size();
+                                                
+                                                OD_SYSLOG_LL2("matchesSecondCount <- ", matchesSecondCount,//####
+                                                              "expectedSecondCount <- ", expectedSecondCount);//####
+                                                if (matchesSecondCount == expectedSecondCount)
+                                                {
+                                                    // Since the lists are the same length, we can just look for the
+                                                    // expected values in the matched values.
+                                                    for (int ii = 0; ii < expectedSecondCount; ++ii)
+                                                    {
+                                                        bool                  didFind = false;
+                                                        yarp::os::Value       expectedSecondValue =
+                                                        expectedSecondAsList->get(ii);
+                                                        yarp::os::ConstString expectedString =
+                                                        expectedSecondValue.toString();
+                                                        
+                                                        for (int jj = 0; jj < expectedSecondCount; ++jj)
+                                                        {
+                                                            yarp::os::Value       matchesSecondValue =
+                                                            matchesSecondAsList->get(jj);
+                                                            yarp::os::ConstString matchesString =
+                                                            matchesSecondValue.toString();
+                                                            
+                                                            if (expectedString == matchesString)
+                                                            {
+                                                                didFind = true;
+                                                                break;
+                                                            }
+                                                            
+                                                        }
+                                                        if (! didFind)
+                                                        {
+                                                            OD_SYSLOG("(! didFind)");//####
+                                                            result = 1;
+                                                            break;
+                                                        }
+                                                        
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    OD_SYSLOG("! (matchesSecondCount == expectedSecondCount)");//####
+                                                    result = 1;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                OD_SYSLOG("! (expectedSecond.isList())");//####
+                                                result = 1;
+                                            }
                                         }
                                     }
                                     else
                                     {
-                                        result = 1;
+                                        OD_SYSLOG("! ((expected.size() == matches.size()) && "//####
+                                                  "(YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size()))");//####
+                                    }
+                                    if (! YarpPlusPlus::UnregisterLocalService(portName))
+                                    {
+                                        OD_SYSLOG("(! YarpPlusPlus::UnregisterLocalService(portName))");//####
                                     }
                                 }
                                 else
                                 {
-                                    result = 1;
+                                    OD_SYSLOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
                                 }
+                                stuff->stop();
+                                delete stuff;
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (stuff->start())");//####
                             }
                         }
                         else
                         {
-                            result = 1;
-                        }
-                        if (! YarpPlusPlus::UnregisterLocalService(portName))
-                        {
-                            result = 1;
+                            OD_SYSLOG("! (stuff)");//####
                         }
                     }
                     else
                     {
-                        result = 1;
+                        OD_SYSLOG("! (registry->isActive())");//####
                     }
-                    stuff->stop();
-                    delete stuff;
+                    registry->stop();
                 }
                 else
                 {
-                    result = 1;
+                    OD_SYSLOG("! (registry->start())");//####
                 }
+                delete registry;
             }
             else
             {
-                result = 1;
+                OD_SYSLOG("! (registry)");//####
             }
-            registry->stop();
-            delete registry;
         }
         else
         {
-            result = 1;
+            OD_SYSLOG("! (1 < argc)");//####
         }
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase16
 
@@ -446,46 +546,58 @@ int main(int     argc,
          char ** argv)
 {
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionEnableThreadSupport);//####
+                   kODSyslogOptionEnableThreadSupport | kODSyslogOptionWriteToStderr);//####
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S3("YARP Version = ", YARP_VERSION_STRING, "YARP++ Version = ", YPP_VERSION, "ACE Version = ",//####
-                 ACE_VERSION);//####
-    yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-    int               result;
+    int result = 1;
     
-    if (0 < --argc)
+    try
     {
-        int selector = atoi(argv[1]);
-        
-        OD_SYSLOG_LL1("selector <- ", selector);//####
-        switch (selector)
-        {               
-            case 13:
-                result = doCase13(argc - 1, argv + 2);
-                break;
-                
-            case 14:
-                result = doCase14(argc - 1, argv + 2);
-                break;
-                
-            case 15:
-                result = doCase15(argc - 1, argv + 2);
-                break;
+#if defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network::setVerbosity(1);
+#else // ! defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network::setVerbosity(-1);
+#endif // ! defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
 
-            case 16:
-                result = doCase16(argc - 1, argv + 2);
-                break;
-                
-            default:
-                result = 1;
-                break;
-                
+        YarpPlusPlus::Initialize();
+        if (0 < --argc)
+        {
+            int selector = atoi(argv[1]);
+            
+            OD_SYSLOG_LL1("selector <- ", selector);//####
+            switch (selector)
+            {
+                case 13:
+                    result = doCase13(argc - 1, argv + 2);
+                    break;
+                    
+                case 14:
+                    result = doCase14(argc - 1, argv + 2);
+                    break;
+                    
+                case 15:
+                    result = doCase15(argc - 1, argv + 2);
+                    break;
+                    
+                case 16:
+                    result = doCase16(argc - 1, argv + 2);
+                    break;
+                    
+                default:
+                    break;
+                    
+            }
+        }
+        else
+        {
+            OD_SYSLOG("! (0 < --argc)");//####
         }
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
     }
+    yarp::os::Network::fini();
     OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // main

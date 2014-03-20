@@ -56,6 +56,15 @@ namespace YarpPlusPlus
     void DumpContact(const char *              tag,
                      const yarp::os::Contact & aContact);
     
+    /*! @brief Generate a random port name.
+     @returns A randomly-generated port name. */
+    yarp::os::ConstString GetRandomPortName(const char * portRoot = "port_");
+    
+    /*! @brief Perform initialization of internal resources.
+     
+     Should be called in the main() function of each application or service. */
+    void Initialize(void);
+    
 } // YarpPlusPlus
 
 #endif // ! defined(YPPCOMMON_H_)

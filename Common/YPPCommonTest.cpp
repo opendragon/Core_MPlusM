@@ -55,9 +55,7 @@
 #include "YPPEndpoint.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
-#include <ace/Version.h>
 #include <iostream>
-#include <yarp/conf/version.h>
 #include <yarp/os/all.h>
 
 using namespace YarpPlusPlus;
@@ -81,30 +79,40 @@ using std::endl;
 static Endpoint * doCreateEndpointForTest(const int argc,
                                           char **   argv)
 {
+    OD_SYSLOG_ENTER();//####
     Endpoint * stuff = NULL;
     
-    if (0 < argc)
+    try
     {
-        switch (argc)
+        if (0 < argc)
         {
+            switch (argc)
+            {
                 // Argument order for tests = endpoint name [, IP address / name [, port]]
-            case 1:
-                stuff = new Endpoint(*argv);
-                break;
-                
-            case 2:
-                stuff = new Endpoint(*argv, argv[1]);
-                break;
-                
-            case 3:
-                stuff = new Endpoint(*argv, argv[1], argv[2]);
-                break;
-                
-            default:
-                break;
-                
+                case 1:
+                    stuff = new Endpoint(*argv);
+                    break;
+                    
+                case 2:
+                    stuff = new Endpoint(*argv, argv[1]);
+                    break;
+                    
+                case 3:
+                    stuff = new Endpoint(*argv, argv[1], argv[2]);
+                    break;
+                    
+                default:
+                    break;
+                    
+            }
         }
     }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_P(stuff);//####
     return stuff;
 } // doCreateEndpointForTest
 
@@ -119,26 +127,37 @@ static Endpoint * doCreateEndpointForTest(const int argc,
 static int doCase01(const int argc,
                     char **   argv) // create endpoint
 {
-    int        result;
-    Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
     
-    if (stuff)
+    try
     {
-        if (stuff->open())
+        Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+        
+        if (stuff)
         {
-            OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
-            result = 0;
+            if (stuff->open())
+            {
+                OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                result = 0;
+            }
+            else
+            {
+                OD_SYSLOG("! (stuff->open())");//####
+            }
+            delete stuff;
         }
         else
         {
-            result = 1;
+            OD_SYSLOG("! (stuff)");//####
         }
-        delete stuff;
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase01
 
@@ -153,53 +172,72 @@ static int doCase01(const int argc,
 static int doCase02(const int argc,
                     char **   argv) // connect to endpoint
 {
-    int        result;
-    Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
     
-    if (stuff)
+    try
     {
-        EndpointStatusReporter reporter;
+        Endpoint * stuff = doCreateEndpointForTest(argc, argv);
         
-        if (stuff->open() && stuff->setReporter(reporter, true))
+        if (stuff)
         {
-            OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
-            // Now we try to connect!
-            yarp::os::Port        outPort;
-            yarp::os::ConstString aName(Endpoint::GetRandomPortName());
+            EndpointStatusReporter reporter;
             
-            OD_SYSLOG_S1("opening ", aName.c_str());//####
-            if (outPort.open(aName))
+            if (stuff->open() && stuff->setReporter(reporter, true))
             {
-                OD_SYSLOG("(outPort.open(aName))");//####
-                outPort.getReport(reporter);
-                if (outPort.addOutput(stuff->getName()))
+                OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                // Now we try to connect!
+                yarp::os::ConstString aName(GetRandomPortName("test/case02_"));
+                yarp::os::Port *      outPort = new yarp::os::Port();
+                
+                if (outPort)
                 {
-                    OD_SYSLOG("(outPort.addOutput(stuff->getName()))");//####
-                    result = 0;
+                    OD_SYSLOG_S1("opening ", aName.c_str());//####
+                    if (outPort->open(aName))
+                    {
+                        OD_SYSLOG("(outPort->open(aName))");//####
+                        outPort->getReport(reporter);
+                        if (outPort->addOutput(stuff->getName()))
+                        {
+                            OD_SYSLOG("(outPort->addOutput(stuff->getName()))");//####
+                            result = 0;
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (outPort->addOutput(stuff->getName()))");//####
+                        }
+                        OD_SYSLOG_S1("about to close, port = ", aName.c_str());//####
+                        outPort->close();
+                        OD_SYSLOG("close completed.");//####
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (outPort->open(aName))");//####
+                    }
+                    delete outPort;
                 }
                 else
                 {
-                    OD_SYSLOG("! (outPort.addOutput(stuff->getName()))");//####
-                    result = 1;
+                    OD_SYSLOG("! (outPort)");
                 }
-                outPort.close();
             }
             else
             {
-                OD_SYSLOG("! (outPort.open(aName))");//####
-                result = 1;
+                OD_SYSLOG("! (stuff->open() && stuff->setReporter(reporter, true))");//####
             }
+            delete stuff;
         }
         else
         {
-            result = 1;
+            OD_SYSLOG("! (stuff)");//####
         }
-        delete stuff;
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase02
 
@@ -214,67 +252,86 @@ static int doCase02(const int argc,
 static int doCase03(const int argc,
                     char **   argv) // send to endpoint
 {
-    int        result;
-    Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
     
-    if (stuff)
+    try
     {
-        EndpointStatusReporter reporter;
-        Test03Handler          handler;
+        Endpoint * stuff = doCreateEndpointForTest(argc, argv);
         
-        if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
+        if (stuff)
         {
-            OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
-            // Now we try to connect!
-            yarp::os::Port        outPort;
-            yarp::os::ConstString aName(Endpoint::GetRandomPortName());
+            EndpointStatusReporter reporter;
+            Test03Handler          handler;
             
-            OD_SYSLOG_S1("opening ", aName.c_str());//####
-            if (outPort.open(aName))
+            if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
             {
-                OD_SYSLOG("(outPort.open(aName))");//####
-                outPort.getReport(reporter);
-                if (outPort.addOutput(stuff->getName()))
+                OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                // Now we try to connect!
+                yarp::os::ConstString aName(GetRandomPortName("test/case03_"));
+                yarp::os::Port *      outPort = new yarp::os::Port();
+                
+                if (outPort)
                 {
-                    OD_SYSLOG("(outPort.addOutput(stuff->getName()))");//####
-                    yarp::os::Bottle message;
-                    
-                    message.addString(aName);
-                    message.addString("howdi");
-                    if (outPort.write(message))
+                    OD_SYSLOG_S1("opening ", aName.c_str());//####
+                    if (outPort->open(aName))
                     {
-                        OD_SYSLOG("(outPort.write(message))");//####
-                        result = 0;
+                        OD_SYSLOG("(outPort->open(aName))");//####
+                        outPort->getReport(reporter);
+                        if (outPort->addOutput(stuff->getName()))
+                        {
+                            OD_SYSLOG("(outPort->addOutput(stuff->getName()))");//####
+                            yarp::os::Bottle message;
+                            
+                            message.addString(aName);
+                            message.addString("howdi");
+                            if (outPort->write(message))
+                            {
+                                OD_SYSLOG("(outPort->write(message))");//####
+                                result = 0;
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (outPort->write(message))");//####
+                            }
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (outPort->addOutput(stuff->getName()))");//####
+                        }
+                        OD_SYSLOG_S1("about to close, port = ", aName.c_str());//####
+                        outPort->close();
+                        OD_SYSLOG("close completed.");//####
                     }
                     else
                     {
-                        OD_SYSLOG("! (outPort.write(message))");//####
-                        result = 1;
+                        OD_SYSLOG("! (outPort->open(aName))");//####
                     }
+                    delete outPort;
                 }
                 else
                 {
-                    OD_SYSLOG("! (outPort.addOutput(stuff->getName()))");//####
-                    result = 1;
+                    OD_SYSLOG("! (outPort)");
                 }
-                outPort.close();
             }
             else
             {
-                OD_SYSLOG("! (outPort.open(aName))");//####
-                result = 1;
+                OD_SYSLOG("! (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, "//####
+                          "true))");//####
             }
+            delete stuff;
         }
         else
         {
-            result = 1;
+            OD_SYSLOG("! (stuff)");//####
         }
-        delete stuff;
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase03
 
@@ -289,69 +346,88 @@ static int doCase03(const int argc,
 static int doCase04(const int argc,
                     char **   argv) // send to endpoint
 {
-    int        result;
-    Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
     
-    if (stuff)
+    try
     {
-        EndpointStatusReporter reporter;
-        Test04Handler          handler;
-        
-        if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
+        Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+
+        if (stuff)
         {
-            OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
-            // Now we try to connect!
-            yarp::os::Port        outPort;
-            yarp::os::ConstString aName(Endpoint::GetRandomPortName());
+            EndpointStatusReporter reporter;
+            Test04Handler          handler;
             
-            OD_SYSLOG_S1("opening ", aName.c_str());//####
-            if (outPort.open(aName))
+            if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
             {
-                OD_SYSLOG("(outPort.open(aName))");//####
-                outPort.getReport(reporter);
-                if (outPort.addOutput(stuff->getName()))
+                OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                // Now we try to connect!
+                yarp::os::ConstString aName(GetRandomPortName("test/case04_"));
+                yarp::os::Port *      outPort = new yarp::os::Port();
+                
+                if (outPort)
                 {
-                    OD_SYSLOG("(outPort.addOutput(stuff->getName()))");//####
-                    yarp::os::Bottle message;
-                    yarp::os::Bottle response;
-                    
-                    message.addString(aName);
-                    message.addString("howdi");
-                    if (outPort.write(message, response))
+                    OD_SYSLOG_S1("opening ", aName.c_str());//####
+                    if (outPort->open(aName))
                     {
-                        OD_SYSLOG("(outPort.write(message, response))");//####
-                        OD_SYSLOG_S1("got ", response.toString().c_str());//####
-                        result = 0;
+                        OD_SYSLOG("(outPort->open(aName))");//####
+                        outPort->getReport(reporter);
+                        if (outPort->addOutput(stuff->getName()))
+                        {
+                            OD_SYSLOG("(outPort->addOutput(stuff->getName()))");//####
+                            yarp::os::Bottle message;
+                            yarp::os::Bottle response;
+                            
+                            message.addString(aName);
+                            message.addString("howdi");
+                            if (outPort->write(message, response))
+                            {
+                                OD_SYSLOG("(outPort->write(message, response))");//####
+                                OD_SYSLOG_S1("got ", response.toString().c_str());//####
+                                result = 0;
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (outPort->write(message, response))");//####
+                            }
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (outPort->addOutput(stuff->getName()))");//####
+                        }
+                        OD_SYSLOG_S1("about to close, port = ", aName.c_str());//####
+                        outPort->close();
+                        OD_SYSLOG("close completed.");//####
                     }
                     else
                     {
-                        OD_SYSLOG("! (outPort.write(message, response))");//####
-                        result = 1;
+                        OD_SYSLOG("! (outPort->open(aName))");//####
                     }
+                    delete outPort;
                 }
                 else
                 {
-                    OD_SYSLOG("! (outPort.addOutput(stuff->getName()))");//####
-                    result = 1;
+                    OD_SYSLOG("! (outPort)");
                 }
-                outPort.close();
             }
             else
             {
-                OD_SYSLOG("! (outPort.open(aName))");//####
-                result = 1;
+                OD_SYSLOG("! (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, "//####
+                          "true))");//####
             }
+            delete stuff;
         }
         else
         {
-            result = 1;
+            OD_SYSLOG("! (stuff)");//####
         }
-        delete stuff;
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase04
 
@@ -366,69 +442,88 @@ static int doCase04(const int argc,
 static int doCase05(const int argc,
                     char **   argv) // send to endpoint
 {
-    int        result;
-    Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
     
-    if (stuff)
+    try
     {
-        EndpointStatusReporter reporter;
-        Test05HandlerCreator   handlerCreator;
-        
-        if (stuff->setInputHandlerCreator(handlerCreator) && stuff->open() && stuff->setReporter(reporter, true))
+        Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+
+        if (stuff)
         {
-            OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
-            // Now we try to connect!
-            yarp::os::Port        outPort;
-            yarp::os::ConstString aName(Endpoint::GetRandomPortName());
+            EndpointStatusReporter reporter;
+            Test05HandlerCreator   handlerCreator;
             
-            OD_SYSLOG_S1("opening ", aName.c_str());//####
-            if (outPort.open(aName))
+            if (stuff->setInputHandlerCreator(handlerCreator) && stuff->open() && stuff->setReporter(reporter, true))
             {
-                OD_SYSLOG("(outPort.open(aName))");//####
-                outPort.getReport(reporter);
-                if (outPort.addOutput(stuff->getName()))
+                OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                // Now we try to connect!
+                yarp::os::ConstString aName(GetRandomPortName("test/case05_"));
+                yarp::os::Port *      outPort = new yarp::os::Port();
+                
+                if (outPort)
                 {
-                    OD_SYSLOG("(outPort.addOutput(stuff->getName()))");//####
-                    yarp::os::Bottle message;
-                    yarp::os::Bottle response;
-                    
-                    message.addString(aName);
-                    message.addString("howdi");
-                    if (outPort.write(message, response))
+                    OD_SYSLOG_S1("opening ", aName.c_str());//####
+                    if (outPort->open(aName))
                     {
-                        OD_SYSLOG("(outPort.write(message, response))");//####
-                        OD_SYSLOG_S1("got ", response.toString().c_str());//####
-                        result = 0;
+                        OD_SYSLOG("(outPort->open(aName))");//####
+                        outPort->getReport(reporter);
+                        if (outPort->addOutput(stuff->getName()))
+                        {
+                            OD_SYSLOG("(outPort->addOutput(stuff->getName()))");//####
+                            yarp::os::Bottle message;
+                            yarp::os::Bottle response;
+                            
+                            message.addString(aName);
+                            message.addString("howdi");
+                            if (outPort->write(message, response))
+                            {
+                                OD_SYSLOG("(outPort->write(message, response))");//####
+                                OD_SYSLOG_S1("got ", response.toString().c_str());//####
+                                result = 0;
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (outPort->write(message, response))");//####
+                            }
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (outPort->addOutput(stuff->getName()))");//####
+                        }
+                        OD_SYSLOG_S1("about to close, port = ", aName.c_str());//####
+                        outPort->close();
+                        OD_SYSLOG("close completed.");//####
                     }
                     else
                     {
-                        OD_SYSLOG("! (outPort.write(message, response))");//####
-                        result = 1;
+                        OD_SYSLOG("! (outPort->open(aName))");//####
                     }
+                    delete outPort;
                 }
                 else
                 {
-                    OD_SYSLOG("! (outPort.addOutput(stuff->getName()))");//####
-                    result = 1;
+                    OD_SYSLOG("! (outPort)");
                 }
-                outPort.close();
             }
             else
             {
-                OD_SYSLOG("! (outPort.open(aName))");//####
-                result = 1;
+                OD_SYSLOG("! (stuff->setInputHandlerCreator(handlerCreator) && stuff->open() && "//####
+                          "stuff->setReporter(reporter, true))");//####
             }
+            delete stuff;
         }
         else
         {
-            result = 1;
+            OD_SYSLOG("! (stuff)");//####
         }
-        delete stuff;
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase05
 
@@ -443,25 +538,35 @@ static int doCase05(const int argc,
 static int doCase06(const int argc,
                     char **   argv) // create request
 {
-    int result;
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
     
-    if (0 == argc)
+    try
     {
-        result = 1;
-    }
-    else
-    {
-        yarp::os::Bottle parameters;
-        
-        for (int ii = 1; ii < argc; ++ii)
+        if (0 == argc)
         {
-            parameters.addString(argv[ii]);
+            OD_SYSLOG("0 == argc");//####
         }
-        ServiceRequest * stuff = new ServiceRequest(*argv, parameters);
-        
-        delete stuff;
-        result = 0;
+        else
+        {
+            yarp::os::Bottle parameters;
+            
+            for (int ii = 1; ii < argc; ++ii)
+            {
+                parameters.addString(argv[ii]);
+            }
+            ServiceRequest * stuff = new ServiceRequest(*argv, parameters);
+            
+            delete stuff;
+            result = 0;
+        }
     }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase06
 
@@ -476,17 +581,28 @@ static int doCase06(const int argc,
 static int doCase07(const int argc,
                     char **   argv) // create request
 {
-    int              result;
-    yarp::os::Bottle parameters;
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
     
-    for (int ii = 0; ii < argc; ++ii)
+    try
     {
-        parameters.addString(argv[ii]);
+        yarp::os::Bottle parameters;
+        
+        for (int ii = 0; ii < argc; ++ii)
+        {
+            parameters.addString(argv[ii]);
+        }
+        ServiceResponse * stuff = new ServiceResponse(parameters);
+        
+        delete stuff;
+        result = 0;
     }
-    ServiceResponse * stuff = new ServiceResponse(parameters);
-    
-    delete stuff;
-    result = 0;
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase07
 
@@ -501,45 +617,57 @@ static int doCase07(const int argc,
 static int doCase08(const int argc,
                     char **   argv) // create request
 {
-    int        result;
-    Endpoint * stuff = doCreateEndpointForTest(argc, argv);
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
     
-    if (stuff)
+    try
     {
-        EndpointStatusReporter reporter;
-        Test08Handler          handler;
+        Endpoint * stuff = doCreateEndpointForTest(argc, argv);
         
-        if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
+        if (stuff)
         {
-            OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
-            yarp::os::Bottle parameters("some to send");
-            ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
-            ServiceResponse  response;
+            EndpointStatusReporter reporter;
+            Test08Handler          handler;
             
-            if (request.send(*stuff, NULL, &response))
+            if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
             {
-                OD_SYSLOG_LL1("response size = ", response.count());//####
-                for (int ii = 0; ii < response.count(); ++ii)
+                OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                yarp::os::Bottle parameters("some to send");
+                ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
+                ServiceResponse  response;
+                
+                if (request.send(*stuff, NULL, &response))
                 {
-                    OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                    OD_SYSLOG_LL1("response size = ", response.count());//####
+                    for (int ii = 0; ii < response.count(); ++ii)
+                    {
+                        OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                    }
+                    result = 0;
                 }
-                result = 0;
+                else
+                {
+                    OD_SYSLOG("! (request.send(*stuff, NULL, &response))");//####
+                }
             }
             else
             {
-                result = 1;
+                OD_SYSLOG("! (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, "//####
+                          "true))");//####
             }
+            delete stuff;
         }
         else
         {
-            result = 1;
+            OD_SYSLOG("! (stuff)");//####
         }
-        delete stuff;
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase08
 
@@ -554,35 +682,53 @@ static int doCase08(const int argc,
 static int doCase09(const int argc,
                     char **   argv) // send 'echo' request
 {
-    int             result;
-    Test09Service * stuff = new Test09Service(argc, argv);
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
     
-    if (stuff && stuff->start())
+    try
     {
-        yarp::os::Bottle parameters("some to send");
-        ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
-        ServiceResponse  response;
+        Test09Service * stuff = new Test09Service(argc, argv);
         
-        if (request.send(stuff->getEndpoint(), NULL, &response))
+        if (stuff)
         {
-            OD_SYSLOG_LL1("response size = ", response.count());//####
-            for (int ii = 0; ii < response.count(); ++ii)
+            if (stuff->start())
             {
-                OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                yarp::os::Bottle parameters("some to send");
+                ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
+                ServiceResponse  response;
+                
+                if (request.send(stuff->getEndpoint(), NULL, &response))
+                {
+                    OD_SYSLOG_LL1("response size = ", response.count());//####
+                    for (int ii = 0; ii < response.count(); ++ii)
+                    {
+                        OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                    }
+                    result = 0;
+                }
+                else
+                {
+                    OD_SYSLOG("! (request.send(stuff->getEndpoint(), NULL, &response))");//####
+                }
+                stuff->stop();
             }
-            result = 0;
+            else
+            {
+                OD_SYSLOG("! (stuff->start())");//####
+            }
+            delete stuff;
         }
         else
         {
-            result = 1;
+            OD_SYSLOG("! (stuff)");//####
         }
-        stuff->stop();
-        delete stuff;
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase09
 
@@ -597,35 +743,53 @@ static int doCase09(const int argc,
 static int doCase10(const int argc,
                     char **   argv) // send 'echo' request
 {
-    int             result;
-    Test10Service * stuff = new Test10Service(argc, argv);
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
     
-    if (stuff && stuff->start())
+    try
     {
-        yarp::os::Bottle parameters("some to send");
-        ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
-        ServiceResponse  response;
+        Test10Service * stuff = new Test10Service(argc, argv);
         
-        if (request.send(stuff->getEndpoint(), NULL, &response))
+        if (stuff)
         {
-            OD_SYSLOG_LL1("response size = ", response.count());//####
-            for (int ii = 0; ii < response.count(); ++ii)
+            if (stuff->start())
             {
-                OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                yarp::os::Bottle parameters("some to send");
+                ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
+                ServiceResponse  response;
+                
+                if (request.send(stuff->getEndpoint(), NULL, &response))
+                {
+                    OD_SYSLOG_LL1("response size = ", response.count());//####
+                    for (int ii = 0; ii < response.count(); ++ii)
+                    {
+                        OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                    }
+                    result = 0;
+                }
+                else
+                {
+                    OD_SYSLOG("! (request.send(stuff->getEndpoint(), NULL, &response))");//####
+                }
+                stuff->stop();
             }
-            result = 0;
+            else
+            {
+                OD_SYSLOG("! (stuff->start())");//####
+            }
+            delete stuff;
         }
         else
         {
-            result = 1;
+            OD_SYSLOG("! (stuff)");//####
         }
-        stuff->stop();
-        delete stuff;
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase10
 
@@ -640,49 +804,67 @@ static int doCase10(const int argc,
 static int doCase11(const int argc,
                     char **   argv) // create 'echo' request
 {
-    int             result;
-    Test11Service * stuff = new Test11Service(argc, argv);
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
     
-    if (stuff && stuff->start())
+    try
     {
-        yarp::os::Bottle parameters("some to send");
-        ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
-        ServiceResponse  response;
+        Test11Service * stuff = new Test11Service(argc, argv);
         
-        if (request.send(stuff->getEndpoint(), NULL, &response))
+        if (stuff)
         {
-            if (3 == response.count())
+            if (stuff->start())
             {
-                yarp::os::ConstString expected[] = { "some", "to", "send" };
+                yarp::os::Bottle parameters("some to send");
+                ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
+                ServiceResponse  response;
                 
-                result = 0;
-                for (int ii = 0; (! result) && (ii < response.count()); ++ii)
+                if (request.send(stuff->getEndpoint(), NULL, &response))
                 {
-                    if (expected[ii] != response.element(ii).toString())
+                    if (3 == response.count())
                     {
-                        OD_SYSLOG_S2("expected[ii] = ", expected[ii].c_str(),//####
-                                     "response.element(ii).toString() = ",//####
-                                     response.element(ii).toString().c_str());//####
-                        result = 1;
+                        yarp::os::ConstString expected[] = { "some", "to", "send" };
+                        
+                        result = 0;
+                        for (int ii = 0; (! result) && (ii < response.count()); ++ii)
+                        {
+                            if (expected[ii] != response.element(ii).toString())
+                            {
+                                OD_SYSLOG_S2("expected[ii] = ", expected[ii].c_str(),//####
+                                             "response.element(ii).toString() = ",//####
+                                             response.element(ii).toString().c_str());//####
+                                result = 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (3 == response.count())");//####
                     }
                 }
+                else
+                {
+                    OD_SYSLOG("! (request.send(stuff->getEndpoint(), NULL, &response))");//####
+                }
+                stuff->stop();
             }
             else
             {
-                result = 1;
+                OD_SYSLOG("! (stuff->start())");//####
             }
+            delete stuff;
         }
         else
         {
-            result = 1;
+            OD_SYSLOG("! (stuff)");//####
         }
-        stuff->stop();
-        delete stuff;
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase11
 
@@ -695,69 +877,77 @@ static int doCase11(const int argc,
  @returns @c true if the expected values are all present and @c false if they are not or if unexpected values appear. */
 static bool checkList12Response(const ServiceResponse & response)
 {
-    bool result;
+    OD_SYSLOG_ENTER();//####
+    bool result = false;
     
-    if (3 <= response.count())
+    try
     {
-        bool sawEcho = false;
-        bool sawInfo = false;
-        bool sawList = false;
-
-        result = true;
-        for (int ii = 0; result && (ii < response.count()); ++ii)
+        if (3 <= response.count())
         {
-            yarp::os::Value anElement(response.element(ii));
+            bool sawEcho = false;
+            bool sawInfo = false;
+            bool sawList = false;
             
-            if (anElement.isDict())
+            result = true;
+            for (int ii = 0; result && (ii < response.count()); ++ii)
             {
-                yarp::os::Property * asDict = anElement.asDict();
-                bool                 hasInput = asDict->check(YPP_REQREP_DICT_INPUT_KEY);
-                bool                 hasOutput = asDict->check(YPP_REQREP_DICT_OUTPUT_KEY);
+                yarp::os::Value anElement(response.element(ii));
                 
-                if (asDict->check(YPP_REQREP_DICT_REQUEST_KEY))
+                if (anElement.isDict())
                 {
-                    yarp::os::ConstString aName(asDict->find(YPP_REQREP_DICT_REQUEST_KEY).asString());
+                    yarp::os::Property * asDict = anElement.asDict();
+                    bool                 hasInput = asDict->check(YPP_REQREP_DICT_INPUT_KEY);
+                    bool                 hasOutput = asDict->check(YPP_REQREP_DICT_OUTPUT_KEY);
                     
-                    if (aName == YPP_LIST_REQUEST)
+                    if (asDict->check(YPP_REQREP_DICT_REQUEST_KEY))
                     {
-                        if (sawList)
+                        yarp::os::ConstString aName(asDict->find(YPP_REQREP_DICT_REQUEST_KEY).asString());
+                        
+                        if (aName == YPP_LIST_REQUEST)
                         {
-                            result = false;
+                            if (sawList)
+                            {
+                                result = false;
+                            }
+                            else if ((! hasInput) && hasOutput)
+                            {
+                                yarp::os::ConstString itsOutput(asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString());
+                                
+                                sawList = (itsOutput == "([]+)");
+                            }
                         }
-                        else if ((! hasInput) && hasOutput)
+                        else if (aName == YPP_INFO_REQUEST)
                         {
-                            yarp::os::ConstString itsOutput(asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString());
-                            
-                            sawList = (itsOutput == "([]+)");
+                            if (sawInfo)
+                            {
+                                result = false;
+                            }
+                            else if (hasInput && hasOutput)
+                            {
+                                yarp::os::ConstString itsOutput(asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString());
+                                yarp::os::ConstString itsInput(asDict->find(YPP_REQREP_DICT_INPUT_KEY).asString());
+                                
+                                sawInfo = ((itsInput == ".+") && (itsOutput == "([]?)"));
+                            }
+                        }
+                        else if (aName == YPP_ECHO_REQUEST)
+                        {
+                            if (sawEcho)
+                            {
+                                result = false;
+                            }
+                            else if (hasInput && hasOutput)
+                            {
+                                yarp::os::ConstString itsOutput(asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString());
+                                yarp::os::ConstString itsInput(asDict->find(YPP_REQREP_DICT_INPUT_KEY).asString());
+                                
+                                sawEcho = ((itsInput == ".*") && (itsOutput == ".*"));
+                            }
                         }
                     }
-                    else if (aName == YPP_INFO_REQUEST)
+                    else
                     {
-                        if (sawInfo)
-                        {
-                            result = false;
-                        }
-                        else if (hasInput && hasOutput)
-                        {
-                            yarp::os::ConstString itsOutput(asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString());
-                            yarp::os::ConstString itsInput(asDict->find(YPP_REQREP_DICT_INPUT_KEY).asString());
-                            
-                            sawInfo = ((itsInput == ".+") && (itsOutput == "([]?)"));
-                        }
-                    }
-                    else if (aName == YPP_ECHO_REQUEST)
-                    {
-                        if (sawEcho)
-                        {
-                            result = false;
-                        }
-                        else if (hasInput && hasOutput)
-                        {
-                            yarp::os::ConstString itsOutput(asDict->find(YPP_REQREP_DICT_OUTPUT_KEY).asString());
-                            yarp::os::ConstString itsInput(asDict->find(YPP_REQREP_DICT_INPUT_KEY).asString());
-                            
-                            sawEcho = ((itsInput == ".*") && (itsOutput == ".*"));
-                        }
+                        result = false;
                     }
                 }
                 else
@@ -765,18 +955,20 @@ static bool checkList12Response(const ServiceResponse & response)
                     result = false;
                 }
             }
-            else
-            {
-                result = false;
-            }
+            result &= (sawInfo && sawEcho && sawList);
         }
-        result &= (sawInfo && sawEcho && sawList);
+        else
+        {
+            // Wrong number of values in the response.
+            OD_SYSLOG("! (3 <= response.count())");//####
+        }
     }
-    else
+    catch (...)
     {
-        // Wrong number of values in the response.
-        result = false;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_B(result);//####
     return result;
 } // checkList12Response
 
@@ -787,34 +979,59 @@ static bool checkList12Response(const ServiceResponse & response)
 static int doCase12(const int argc,
                     char **   argv) // send 'list' request
 {
-    int             result;
-    Test12Service * stuff = new Test12Service(argc, argv);
+    OD_SYSLOG_ENTER();//####
+    int result = 1;
     
-    if (stuff && stuff->start())
+    try
     {
-        ServiceRequest  request(YPP_LIST_REQUEST);
-        ServiceResponse response;
+        Test12Service * stuff = new Test12Service(argc, argv);
         
-        if (request.send(stuff->getEndpoint(), NULL, &response))
+        if (stuff)
         {
-            OD_SYSLOG_LL1("response size = ", response.count());//####
-            for (int ii = 0; ii < response.count(); ++ii)
+            if (stuff->start())
             {
-                OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                ServiceRequest  request(YPP_LIST_REQUEST);
+                ServiceResponse response;
+                
+                if (request.send(stuff->getEndpoint(), NULL, &response))
+                {
+                    OD_SYSLOG_LL1("response size = ", response.count());//####
+                    for (int ii = 0; ii < response.count(); ++ii)
+                    {
+                        OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                    }
+                    if (checkList12Response(response))
+                    {
+                        result = 0;
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (checkList12Response(response))");//####
+                    }
+                }
+                else
+                {
+                    OD_SYSLOG("! (request.send(stuff->getEndpoint(), NULL, &response))");//####
+                }
+                stuff->stop();
             }
-            result = (checkList12Response(response) ? 0 : 1);
+            else
+            {
+                OD_SYSLOG("! (stuff->start())");//####
+            }
+            delete stuff;
         }
         else
         {
-            result = 1;
+            OD_SYSLOG("! (stuff)");//####
         }
-        stuff->stop();
-        delete stuff;
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
+    OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // doCase12
 
@@ -830,78 +1047,94 @@ int main(int     argc,
          char ** argv)
 {
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionEnableThreadSupport);//####
+                   kODSyslogOptionEnableThreadSupport | kODSyslogOptionWriteToStderr);//####
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S3("YARP Version = ", YARP_VERSION_STRING, "YARP++ Version = ", YPP_VERSION, "ACE Version = ",//####
-                 ACE_VERSION);//####
-    yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-    int               result;
-    
-    if (0 < --argc)
+    int result = 1;
+
+    try
     {
-        int selector = atoi(argv[1]);
-        
-        OD_SYSLOG_LL1("selector <- ", selector);//####
-        switch (selector)
+#if defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network::setVerbosity(1);
+#else // ! defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network::setVerbosity(-1);
+#endif // ! defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+
+        YarpPlusPlus::Initialize();
+        if (0 < --argc)
         {
-            case 1:
-                result = doCase01(argc - 1, argv + 2);
-                break;
-                
-            case 2:
-                result = doCase02(argc - 1, argv + 2);
-                break;
-                
-            case 3:
-                result = doCase03(argc - 1, argv + 2);
-                break;
-                
-            case 4:
-                result = doCase04(argc - 1, argv + 2);
-                break;
-                
-            case 5:
-                result = doCase05(argc - 1, argv + 2);
-                break;
-                
-            case 6:
-                result = doCase06(argc - 1, argv + 2);
-                break;
-                
-            case 7:
-                result = doCase07(argc - 1, argv + 2);
-                break;
-                
-            case 8:
-                result = doCase08(argc - 1, argv + 2);
-                break;
-                
-            case 9:
-                result = doCase09(argc - 1, argv + 2);
-                break;
-                
-            case 10:
-                result = doCase10(argc - 1, argv + 2);
-                break;
-                
-            case 11:
-                result = doCase11(argc - 1, argv + 2);
-                break;
-                
-            case 12:
-                result = doCase12(argc - 1, argv + 2);
-                break;
+            int selector = atoi(argv[1]);
             
-            default:
-                result = 1;
-                break;
-                
+            switch (selector)
+            {
+                case 0:
+                    // Just used to validate the random number seed.
+                    result = 0;
+                    break;
+                    
+                case 1:
+                    result = doCase01(argc - 1, argv + 2);
+                    break;
+                    
+                case 2:
+                    result = doCase02(argc - 1, argv + 2);
+                    break;
+                    
+                case 3:
+                    result = doCase03(argc - 1, argv + 2);
+                    break;
+                    
+                case 4:
+                    result = doCase04(argc - 1, argv + 2);
+                    break;
+                    
+                case 5:
+                    result = doCase05(argc - 1, argv + 2);
+                    break;
+                    
+                case 6:
+                    result = doCase06(argc - 1, argv + 2);
+                    break;
+                    
+                case 7:
+                    result = doCase07(argc - 1, argv + 2);
+                    break;
+                    
+                case 8:
+                    result = doCase08(argc - 1, argv + 2);
+                    break;
+                    
+                case 9:
+                    result = doCase09(argc - 1, argv + 2);
+                    break;
+                    
+                case 10:
+                    result = doCase10(argc - 1, argv + 2);
+                    break;
+                    
+                case 11:
+                    result = doCase11(argc - 1, argv + 2);
+                    break;
+                    
+                case 12:
+                    result = doCase12(argc - 1, argv + 2);
+                    break;
+                    
+                default:
+                    break;
+                    
+            }
+        }
+        else
+        {
+            OD_SYSLOG("! (0 < --argc)");//####
         }
     }
-    else
+    catch (...)
     {
-        result = 1;
+        OD_SYSLOG("Exception caught");//####
     }
+    yarp::os::Network::fini();
     OD_SYSLOG_EXIT_L(result);//####
     return result;
 } // main

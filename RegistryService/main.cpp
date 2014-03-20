@@ -43,13 +43,11 @@
 #include "ODSyslog.h"
 #include "YPPRegistryService.h"
 #include "YPPRequests.h"
-#include <ace/Version.h>
 #include <iostream>
 #include <string.h>
 #if (defined(__APPLE__) || defined(__linux__))
 # include <unistd.h>
 #endif // defined(__APPLE__) || defined(__linux__)
-#include <yarp/conf/version.h>
 #include <yarp/os/all.h>
 
 using namespace YarpPlusPlus;
@@ -93,55 +91,77 @@ int main(int     argc,
          char ** argv)
 {
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionEnableThreadSupport);//####
+                   kODSyslogOptionEnableThreadSupport | kODSyslogOptionEchoToStandardError);//####
     OD_SYSLOG_ENTER();//####
-    cout << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << ", ACE Version = " <<
-            ACE_VERSION << endl;
-    yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-    RegistryService * stuff = NULL;
-    
-    if (1 <= argc)
+    try
     {
-        switch (argc)
+#if defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network::setVerbosity(1);
+#else // ! defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network::setVerbosity(-1);
+#endif // ! defined(ENABLE_OD_SYSLOG)
+        yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure        
+        RegistryService * stuff = NULL;
+
+        YarpPlusPlus::Initialize();
+        if (1 <= argc)
         {
-                // Argument order for tests = endpoint name [, IP address / name [, port]]
-            case 1:
-                stuff = new RegistryService(USE_INMEMORY);
-                break;
-                
-            case 2:
-                stuff = new RegistryService(USE_INMEMORY, argv[1]);
-                break;
-                
-            case 3:
-                stuff = new RegistryService(USE_INMEMORY, argv[1], argv[2]);
-                break;
-                
-            default:
-                break;
-                
-        }
-    }
-    if (stuff)
-    {
-        if (stuff->start())
-        {
-            // Note that the Registry Service is self-registering... so we don't need to call RegisterLocalService().
-            lKeepRunning = true;
-#if (defined(__APPLE__) || defined(__linux__))
-            signal(SIGHUP, stopRunning);
-            signal(SIGINT, stopRunning);
-            signal(SIGINT, stopRunning);
-            signal(SIGUSR1, stopRunning);
-#endif // defined(__APPLE__) || defined(__linux__)
-            for ( ; lKeepRunning; )
+            switch (argc)
             {
-                yarp::os::Time::delay(1.0);
+                    // Argument order for tests = endpoint name [, IP address / name [, port]]
+                case 1:
+                    stuff = new RegistryService(USE_INMEMORY);
+                    break;
+                    
+                case 2:
+                    stuff = new RegistryService(USE_INMEMORY, argv[1]);
+                    break;
+                    
+                case 3:
+                    stuff = new RegistryService(USE_INMEMORY, argv[1], argv[2]);
+                    break;
+                    
+                default:
+                    break;
+                    
             }
-            stuff->stop();
         }
-        delete stuff;
+        if (stuff)
+        {
+            if (stuff->start())
+            {
+                // Note that the Registry Service is self-registering... so we don't need to call
+                // RegisterLocalService().
+                lKeepRunning = true;
+#if (defined(__APPLE__) || defined(__linux__))
+                signal(SIGHUP, stopRunning);
+                signal(SIGINT, stopRunning);
+                signal(SIGINT, stopRunning);
+                signal(SIGUSR1, stopRunning);
+#endif // defined(__APPLE__) || defined(__linux__)
+                for ( ; lKeepRunning; )
+                {
+                    yarp::os::Time::yield();
+//                    yarp::os::Time::delay(1.0);
+                }
+                stuff->stop();
+            }
+            else
+            {
+                OD_SYSLOG("! (stuff->start())");//####
+            }
+            delete stuff;
+        }
+        else
+        {
+            OD_SYSLOG("! (stuff)");//####
+        }
     }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+    }
+    yarp::os::Network::fini();
     OD_SYSLOG_EXIT_L(0);//####
     return 0;
 } // main

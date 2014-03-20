@@ -83,14 +83,22 @@ RequestMap::~RequestMap(void)
 void RequestMap::fillInListReply(yarp::os::Bottle & reply)
 {
     OD_SYSLOG_ENTER();//####
-    RequestHandlerMap::const_iterator walker(_handlers.cbegin());
-    
-    for ( ; walker != _handlers.cend(); ++walker)
+    try
     {
-        yarp::os::Property & aDict = reply.addDict();
-        BaseRequestHandler * aHandler = walker->second;
+        RequestHandlerMap::const_iterator walker(_handlers.cbegin());
         
-        aHandler->fillInDescription(aDict);
+        for ( ; walker != _handlers.cend(); ++walker)
+        {
+            yarp::os::Property & aDict = reply.addDict();
+            BaseRequestHandler * aHandler = walker->second;
+            
+            aHandler->fillInDescription(aDict);
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT();//####
 } // RequestMap::fillInListReply
@@ -99,14 +107,26 @@ void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
                                    const yarp::os::ConstString & requestName)
 {
     OD_SYSLOG_ENTER();//####
-    RequestHandlerMap::const_iterator match(_handlers.find(std::string(requestName)));
-    
-    if (_handlers.cend() != match)
+    try
     {
-        yarp::os::Property & aDict = reply.addDict();
-        BaseRequestHandler * aHandler = match->second;
+        RequestHandlerMap::const_iterator match(_handlers.find(std::string(requestName)));
         
-        aHandler->fillInDescription(aDict);
+        if (_handlers.cend() == match)
+        {
+            OD_SYSLOG("(_handlers.cend() == match)");//####
+        }
+        else
+        {
+            yarp::os::Property & aDict = reply.addDict();
+            BaseRequestHandler * aHandler = match->second;
+            
+            aHandler->fillInDescription(aDict);
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT();//####
 } // RequestMap::fillInRequestInfo
@@ -115,18 +135,27 @@ BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstStrin
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("request = ", request.c_str());//####
-    RequestHandlerMap::const_iterator match(_handlers.find(std::string(request)));
-    BaseRequestHandler *              result;
+    BaseRequestHandler * result = NULL;
     
-    if (_handlers.cend() == match)
+    try
     {
-        OD_SYSLOG("(_handlers.cend() == match)");//####
-        result = _defaultHandler;
+        RequestHandlerMap::const_iterator match(_handlers.find(std::string(request)));
+
+        if (_handlers.cend() == match)
+        {
+            OD_SYSLOG("(_handlers.cend() == match)");//####
+            result = _defaultHandler;
+        }
+        else
+        {
+            OD_SYSLOG("! (_handlers.cend() == match)");//####
+            result = match->second;
+        }
     }
-    else
+    catch (...)
     {
-        OD_SYSLOG("! (_handlers.cend() == match)");//####
-        result = match->second;
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_P(result);//####
     return result;
@@ -136,13 +165,20 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("handler = ", handler);//####
-
-    if (handler)
+    try
     {
-        _handlers.insert(RequestHandlerMapValue(std::string(handler->name()), handler));
-        handler->setOwner(*this);
+        if (handler)
+        {
+            _handlers.insert(RequestHandlerMapValue(std::string(handler->name()), handler));
+            handler->setOwner(*this);
+        }
+        OD_SYSLOG_LL1("_handlers.size = ", _handlers.size());//####
     }
-    OD_SYSLOG_LL1("_handlers.size = ", _handlers.size());//####
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // RequestMap::registerRequestHandler
 
@@ -158,12 +194,19 @@ void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("handler = ", handler);//####
-    
-    if (handler)
+    try
     {
-        _handlers.erase(std::string(handler->name()));
+        if (handler)
+        {
+            _handlers.erase(std::string(handler->name()));
+        }
+        OD_SYSLOG_LL1("_handlers.size = ", _handlers.size());//####
     }
-    OD_SYSLOG_LL1("_handlers.size = ", _handlers.size());//####
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
+    }
     OD_SYSLOG_EXIT();//####
 } // RequestMap::unregisterRequestHandler
 

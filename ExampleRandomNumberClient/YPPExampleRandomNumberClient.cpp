@@ -84,22 +84,43 @@ bool ExampleRandomNumberClient::getOneRandomNumber(double & result)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("result = ", &result);//####
-    bool                          okSoFar = false;
-    yarp::os::Bottle              parameters;
-    YarpPlusPlus::ServiceResponse response;
-    
-    if (send(YPP_RANDOM_REQUEST, parameters, NULL, &response))
+    bool okSoFar = false;
+
+    try
     {
-        if (1 == response.count())
+        yarp::os::Bottle              parameters;
+        YarpPlusPlus::ServiceResponse response;
+        
+        if (send(YPP_RANDOM_REQUEST, parameters, NULL, &response))
         {
-            yarp::os::Value retrieved(response.element(0));
-            
-            if (retrieved.isDouble())
+            if (1 == response.count())
             {
-                result = retrieved.asDouble();
-                okSoFar = true;
+                yarp::os::Value retrieved(response.element(0));
+                
+                if (retrieved.isDouble())
+                {
+                    result = retrieved.asDouble();
+                    okSoFar = true;
+                }
+                else
+                {
+                    OD_SYSLOG("! (retrieved.isDouble())");//####
+                }
             }
-        }        
+            else
+            {
+                OD_SYSLOG("! (1 == response.count())");//####
+            }
+        }
+        else
+        {
+            OD_SYSLOG("! (send(YPP_RANDOM_REQUEST, parameters, NULL, &response))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(okSoFar);//####
     return okSoFar;
@@ -113,35 +134,56 @@ bool ExampleRandomNumberClient::getRandomNumbers(const int      howMany,
     OD_SYSLOG_P1("result = ", &result);//####
     bool okSoFar = false;
     
-    if (0 < howMany)
+    try
     {
-        yarp::os::Bottle              parameters;
-        YarpPlusPlus::ServiceResponse response;
-        
-        parameters.addInt(howMany);
-        if (send(YPP_RANDOM_REQUEST, parameters, NULL, &response))
+        if (0 < howMany)
         {
-            if (howMany == response.count())
+            yarp::os::Bottle              parameters;
+            YarpPlusPlus::ServiceResponse response;
+            
+            parameters.addInt(howMany);
+            if (send(YPP_RANDOM_REQUEST, parameters, NULL, &response))
             {
-                result.clear();
-                okSoFar = true;
-                for (int ii = 0; ii < howMany; ++ii)
+                if (howMany == response.count())
                 {
-                    yarp::os::Value retrieved(response.element(ii));
-                    
-                    if (retrieved.isDouble())
+                    result.clear();
+                    okSoFar = true;
+                    for (int ii = 0; ii < howMany; ++ii)
                     {
-                        result.push_back(retrieved.asDouble());
+                        yarp::os::Value retrieved(response.element(ii));
+                        
+                        if (retrieved.isDouble())
+                        {
+                            result.push_back(retrieved.asDouble());
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (retrieved.isDouble())");//####
+                            okSoFar = false;
+                            break;
+                        }
+                        
                     }
-                    else
-                    {
-                        okSoFar = false;
-                        break;
-                    }
-                    
+                }
+                else
+                {
+                    OD_SYSLOG("! (howMany == response.count())");//####
                 }
             }
+            else
+            {
+                OD_SYSLOG("! (send(YPP_RANDOM_REQUEST, parameters, NULL, &response))");//####
+            }
         }
+        else
+        {
+            OD_SYSLOG("! (0 < howMany)");//####
+        }
+    }
+    catch (...)
+    {
+        OD_SYSLOG("Exception caught");//####
+        throw;
     }
     OD_SYSLOG_EXIT_B(okSoFar);//####
     return okSoFar;
