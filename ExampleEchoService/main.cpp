@@ -91,74 +91,85 @@ int main(int     argc,
     OD_SYSLOG_ENTER();//####
     try
     {
+        if (yarp::os::Network::checkNetwork())
+        {
 #if defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(1);
+            yarp::os::Network::setVerbosity(1);
 #else // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(-1);
+            yarp::os::Network::setVerbosity(-1);
 #endif // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-        
-        yarp::os::ConstString serviceEndpointName;
-        yarp::os::ConstString serviceHostName;
-        yarp::os::ConstString servicePortNumber;
-
-        YarpPlusPlus::Initialize();
-        if (1 < argc)
-        {
-            serviceEndpointName = argv[1];
-            if (2 < argc)
+            yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
+            yarp::os::ConstString serviceEndpointName;
+            yarp::os::ConstString serviceHostName;
+            yarp::os::ConstString servicePortNumber;
+            
+            YarpPlusPlus::Initialize();
+            if (1 < argc)
             {
-                serviceHostName = argv[2];
-                if (3 < argc)
+                serviceEndpointName = argv[1];
+                if (2 < argc)
                 {
-                    servicePortNumber = argv[3];
-                }
-            }
-        }
-        else
-        {
-            serviceEndpointName = DEFAULT_ECHO_SERVICE_NAME;
-        }
-        ExampleEchoService * stuff = new ExampleEchoService(serviceEndpointName, serviceHostName, servicePortNumber);
-        
-        if (stuff)
-        {
-            if (stuff->start())
-            {
-                yarp::os::ConstString portName(stuff->getEndpoint().getName());
-                
-                OD_SYSLOG_S1("portName = ", portName.c_str());//####
-                if (YarpPlusPlus::RegisterLocalService(portName))
-                {
-                    lKeepRunning = true;
-#if (defined(__APPLE__) || defined(__linux__))
-                    signal(SIGHUP, stopRunning);
-                    signal(SIGINT, stopRunning);
-                    signal(SIGINT, stopRunning);
-                    signal(SIGUSR1, stopRunning);
-#endif // defined(__APPLE__) || defined(__linux__)
-                    for ( ; lKeepRunning; )
+                    serviceHostName = argv[2];
+                    if (3 < argc)
                     {
-                        yarp::os::Time::yield();
-//                    yarp::os::Time::delay(1.0);
+                        servicePortNumber = argv[3];
                     }
-                    YarpPlusPlus::UnregisterLocalService(portName);
-                    stuff->stop();
-                }
-                else
-                {
-                    OD_SYSLOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
                 }
             }
             else
             {
-                OD_SYSLOG("! (stuff->start())");//####
+                serviceEndpointName = DEFAULT_ECHO_SERVICE_NAME;
             }
-            delete stuff;
+            ExampleEchoService * stuff = new ExampleEchoService(serviceEndpointName, serviceHostName,
+                                                                servicePortNumber);
+            
+            if (stuff)
+            {
+                if (stuff->start())
+                {
+                    yarp::os::ConstString portName(stuff->getEndpoint().getName());
+                    
+                    OD_SYSLOG_S1("portName = ", portName.c_str());//####
+                    if (YarpPlusPlus::RegisterLocalService(portName))
+                    {
+                        lKeepRunning = true;
+#if (defined(__APPLE__) || defined(__linux__))
+                        signal(SIGHUP, stopRunning);
+                        signal(SIGINT, stopRunning);
+                        signal(SIGINT, stopRunning);
+                        signal(SIGUSR1, stopRunning);
+#endif // defined(__APPLE__) || defined(__linux__)
+                        for ( ; lKeepRunning; )
+                        {
+#if defined(MAIN_DOES_DELAY_NOT_YIELD)
+                            yarp::os::Time::delay(1.0);
+#else // ! defined(MAIN_DOES_DELAY_NOT_YIELD)
+                            yarp::os::Time::yield();
+#endif // ! defined(MAIN_DOES_DELAY_NOT_YIELD)
+                        }
+                        YarpPlusPlus::UnregisterLocalService(portName);
+                        stuff->stop();
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
+                    }
+                }
+                else
+                {
+                    OD_SYSLOG("! (stuff->start())");//####
+                }
+                delete stuff;
+            }
+            else
+            {
+                OD_SYSLOG("! (stuff)");//####
+            }
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            cerr << "YARP network not running." << endl;
         }
     }
     catch (...)

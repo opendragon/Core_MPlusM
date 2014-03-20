@@ -114,6 +114,11 @@ namespace YarpPlusPlusExample
         /*! @brief Set up the standard request handlers. */
         void setUpRequestHandlers(void);
         
+#if (! defined(SERVICES_HAVE_CONTEXTS))
+        /*! @brief The current running sum. */
+        double _runningSum;
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
+        
     }; // ExampleRunningSumService
     
 } // YarpPlusPlusExample

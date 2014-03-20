@@ -130,75 +130,83 @@ int main(int     argc,
     OD_SYSLOG_ENTER();//####
     try
     {
-#if defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(1);
-#else // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(-1);
-#endif // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-        
-        YarpPlusPlus::Initialize();
-        yarp::os::Bottle matches(YarpPlusPlus::FindMatchingServices("request:*"));
-
-        if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+        if (yarp::os::Network::checkNetwork())
         {
-            // First, check if the search succeeded.
-            yarp::os::ConstString matchesFirstString(matches.get(0).toString());
+#if defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network::setVerbosity(1);
+#else // ! defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network::setVerbosity(-1);
+#endif // ! defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            if (strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))
+            YarpPlusPlus::Initialize();
+            yarp::os::Bottle matches(YarpPlusPlus::FindMatchingServices("request:*"));
+            
+            if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
-                OD_SYSLOG("(strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))");//####
-                yarp::os::ConstString reason(matches.get(1).toString());
+                // First, check if the search succeeded.
+                yarp::os::ConstString matchesFirstString(matches.get(0).toString());
                 
-                cerr << "Failed: " << reason.c_str() << "." << endl;
-            }
-            else
-            {
-                // Now, process the second element.
-                yarp::os::Bottle * matchesList = matches.get(1).asList();
-                
-                if (matchesList)
+                if (strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))
                 {
-                    bool reported = false;
-                    int  matchesCount = matchesList->size();
+                    OD_SYSLOG("(strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))");//####
+                    yarp::os::ConstString reason(matches.get(1).toString());
                     
-                    if (matchesCount)
-                    {
-                        for (int ii = 0; ii < matchesCount; ++ii)
-                        {
-                            yarp::os::ConstString aMatch(matchesList->get(ii).toString());
-                            yarp::os::ConstString canonicalName;
-                            yarp::os::ConstString description;
-                            
-                            if (getNameAndDescriptionForService(aMatch, canonicalName, description))
-                            {
-                                if (! reported)
-                                {
-                                    cout << "Services: " << endl << endl;
-                                }
-                                reported = true;
-                                cout << "Service port: " << aMatch.c_str() << endl;
-                                cout << "Service name: " << canonicalName.c_str() << endl;
-                                cout << "Description:  " << description.c_str() << endl;
-                            }
-                        }
-                        cout << endl;
-                    }
-                    if (! reported)
-                    {
-                        cout << "No services found." << endl;
-                    }
+                    cerr << "Failed: " << reason.c_str() << "." << endl;
                 }
                 else
                 {
-                    OD_SYSLOG("! (matchesList)");//####
+                    // Now, process the second element.
+                    yarp::os::Bottle * matchesList = matches.get(1).asList();
+                    
+                    if (matchesList)
+                    {
+                        bool reported = false;
+                        int  matchesCount = matchesList->size();
+                        
+                        if (matchesCount)
+                        {
+                            for (int ii = 0; ii < matchesCount; ++ii)
+                            {
+                                yarp::os::ConstString aMatch(matchesList->get(ii).toString());
+                                yarp::os::ConstString canonicalName;
+                                yarp::os::ConstString description;
+                                
+                                if (getNameAndDescriptionForService(aMatch, canonicalName, description))
+                                {
+                                    if (! reported)
+                                    {
+                                        cout << "Services: " << endl << endl;
+                                    }
+                                    reported = true;
+                                    cout << "Service port: " << aMatch.c_str() << endl;
+                                    cout << "Service name: " << canonicalName.c_str() << endl;
+                                    cout << "Description:  " << description.c_str() << endl;
+                                }
+                            }
+                            cout << endl;
+                        }
+                        if (! reported)
+                        {
+                            cout << "No services found." << endl;
+                        }
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (matchesList)");//####
+                    }
                 }
+            }
+            else
+            {
+                OD_SYSLOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
+                cerr << "Problem getting information from the Service Registry." << endl;
             }
         }
         else
         {
-            OD_SYSLOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
-            cout << "Problem getting information from the Service Registry." << endl;
+            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            cerr << "YARP network not running." << endl;
         }
     }
     catch (...)

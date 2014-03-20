@@ -1053,81 +1053,89 @@ int main(int     argc,
 
     try
     {
-#if defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(1);
-#else // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(-1);
-#endif // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-
-        YarpPlusPlus::Initialize();
-        if (0 < --argc)
+        if (yarp::os::Network::checkNetwork())
         {
-            int selector = atoi(argv[1]);
+#if defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network::setVerbosity(1);
+#else // ! defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network::setVerbosity(-1);
+#endif // ! defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            switch (selector)
+            YarpPlusPlus::Initialize();
+            if (0 < --argc)
             {
-                case 0:
-                    // Just used to validate the random number seed.
-                    result = 0;
-                    break;
-                    
-                case 1:
-                    result = doCase01(argc - 1, argv + 2);
-                    break;
-                    
-                case 2:
-                    result = doCase02(argc - 1, argv + 2);
-                    break;
-                    
-                case 3:
-                    result = doCase03(argc - 1, argv + 2);
-                    break;
-                    
-                case 4:
-                    result = doCase04(argc - 1, argv + 2);
-                    break;
-                    
-                case 5:
-                    result = doCase05(argc - 1, argv + 2);
-                    break;
-                    
-                case 6:
-                    result = doCase06(argc - 1, argv + 2);
-                    break;
-                    
-                case 7:
-                    result = doCase07(argc - 1, argv + 2);
-                    break;
-                    
-                case 8:
-                    result = doCase08(argc - 1, argv + 2);
-                    break;
-                    
-                case 9:
-                    result = doCase09(argc - 1, argv + 2);
-                    break;
-                    
-                case 10:
-                    result = doCase10(argc - 1, argv + 2);
-                    break;
-                    
-                case 11:
-                    result = doCase11(argc - 1, argv + 2);
-                    break;
-                    
-                case 12:
-                    result = doCase12(argc - 1, argv + 2);
-                    break;
-                    
-                default:
-                    break;
-                    
+                int selector = atoi(argv[1]);
+                
+                switch (selector)
+                {
+                    case 0:
+                        // Just used to validate the random number seed.
+                        result = 0;
+                        break;
+                        
+                    case 1:
+                        result = doCase01(argc - 1, argv + 2);
+                        break;
+                        
+                    case 2:
+                        result = doCase02(argc - 1, argv + 2);
+                        break;
+                        
+                    case 3:
+                        result = doCase03(argc - 1, argv + 2);
+                        break;
+                        
+                    case 4:
+                        result = doCase04(argc - 1, argv + 2);
+                        break;
+                        
+                    case 5:
+                        result = doCase05(argc - 1, argv + 2);
+                        break;
+                        
+                    case 6:
+                        result = doCase06(argc - 1, argv + 2);
+                        break;
+                        
+                    case 7:
+                        result = doCase07(argc - 1, argv + 2);
+                        break;
+                        
+                    case 8:
+                        result = doCase08(argc - 1, argv + 2);
+                        break;
+                        
+                    case 9:
+                        result = doCase09(argc - 1, argv + 2);
+                        break;
+                        
+                    case 10:
+                        result = doCase10(argc - 1, argv + 2);
+                        break;
+                        
+                    case 11:
+                        result = doCase11(argc - 1, argv + 2);
+                        break;
+                        
+                    case 12:
+                        result = doCase12(argc - 1, argv + 2);
+                        break;
+                        
+                    default:
+                        break;
+                        
+                }
+            }
+            else
+            {
+                OD_SYSLOG("! (0 < --argc)");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (0 < --argc)");//####
+            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            cerr << "YARP network not running." << endl;
         }
     }
     catch (...)

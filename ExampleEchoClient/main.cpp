@@ -94,64 +94,72 @@ int main(int     argc,
     OD_SYSLOG_ENTER();//####
     try
     {
-#if defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(1);
-#else // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(-1);
-#endif // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-        
-        YarpPlusPlus::Initialize();
-        ExampleEchoClient * stuff = new ExampleEchoClient;
-        
-        if (stuff)
+        if (yarp::os::Network::checkNetwork())
         {
-            lKeepRunning = true;
-#if (defined(__APPLE__) || defined(__linux__))
-            signal(SIGHUP, stopRunning);
-            signal(SIGINT, stopRunning);
-            signal(SIGINT, stopRunning);
-            signal(SIGUSR1, stopRunning);
-#endif // defined(__APPLE__) || defined(__linux__)
-            if (stuff->findService("details Echo*"))
+#if defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network::setVerbosity(1);
+#else // ! defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network::setVerbosity(-1);
+#endif // ! defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+            
+            YarpPlusPlus::Initialize();
+            ExampleEchoClient * stuff = new ExampleEchoClient;
+            
+            if (stuff)
             {
-                for ( ; lKeepRunning; )
+                lKeepRunning = true;
+#if (defined(__APPLE__) || defined(__linux__))
+                signal(SIGHUP, stopRunning);
+                signal(SIGINT, stopRunning);
+                signal(SIGINT, stopRunning);
+                signal(SIGUSR1, stopRunning);
+#endif // defined(__APPLE__) || defined(__linux__)
+                if (stuff->findService("details Echo*"))
                 {
-                    yarp::os::ConstString incoming;
-                    std::string           inputLine;
-                    
-                    cout << "Type something to be echoed: ";
-                    if (getline(cin, inputLine))
+                    for ( ; lKeepRunning; )
                     {
-                        yarp::os::ConstString outgoing(inputLine.c_str());
+                        yarp::os::ConstString incoming;
+                        std::string           inputLine;
                         
-                        if (stuff->sendAndReceive(outgoing, incoming))
+                        cout << "Type something to be echoed: ";
+                        if (getline(cin, inputLine))
                         {
-                            cout << "Received: '" << incoming.c_str() << "'." << endl;
+                            yarp::os::ConstString outgoing(inputLine.c_str());
+                            
+                            if (stuff->sendAndReceive(outgoing, incoming))
+                            {
+                                cout << "Received: '" << incoming.c_str() << "'." << endl;
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (stuff->sendAndReceive(outgoing, incoming))");//####
+                                cerr << "Problem communicating with the service." << endl;
+                            }
                         }
                         else
                         {
-                            OD_SYSLOG("! (stuff->sendAndReceive(outgoing, incoming))");//####
-                            cerr << "Problem communicating with the service." << endl;
+                            break;
                         }
+                        
                     }
-                    else
-                    {
-                        break;
-                    }
-                    
                 }
+                else
+                {
+                    OD_SYSLOG("! (stuff->findService(\"details Echo*\"))");//####
+                    cerr << "Problem finding the service." << endl;
+                }
+                delete stuff;
             }
             else
             {
-                OD_SYSLOG("! (stuff->findService(\"details Echo*\"))");//####
-                cerr << "Problem finding the service." << endl;
+                OD_SYSLOG("! (stuff)");//####
             }
-            delete stuff;
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            cerr << "YARP network not running." << endl;
         }
     }
     catch (...)

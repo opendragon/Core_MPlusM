@@ -93,87 +93,95 @@ int main(int     argc,
     OD_SYSLOG_ENTER();//####
     try
     {
-#if defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(1);
-#else // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(-1);
-#endif // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-        
-        YarpPlusPlus::Initialize();
-        RequestCounterClient * stuff = new RequestCounterClient;
-
-        if (stuff)
+        if (yarp::os::Network::checkNetwork())
         {
-            lKeepRunning = true;
-#if (defined(__APPLE__) || defined(__linux__))
-            signal(SIGHUP, stopRunning);
-            signal(SIGINT, stopRunning);
-            signal(SIGINT, stopRunning);
-            signal(SIGUSR1, stopRunning);
-#endif // defined(__APPLE__) || defined(__linux__)
-            for ( ; lKeepRunning; )
+#if defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network::setVerbosity(1);
+#else // ! defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network::setVerbosity(-1);
+#endif // ! defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+            
+            YarpPlusPlus::Initialize();
+            RequestCounterClient * stuff = new RequestCounterClient;
+            
+            if (stuff)
             {
-                int count;
-                
-                cout << "How many requests? ";
-                cin >> count;
-                if (0 >= count)
+                lKeepRunning = true;
+#if (defined(__APPLE__) || defined(__linux__))
+                signal(SIGHUP, stopRunning);
+                signal(SIGINT, stopRunning);
+                signal(SIGINT, stopRunning);
+                signal(SIGUSR1, stopRunning);
+#endif // defined(__APPLE__) || defined(__linux__)
+                for ( ; lKeepRunning; )
                 {
-                    break;
-                }
-                
-                if (stuff->findService("name:RequestCounter"))
-                {
-                    if (stuff->resetServiceCounters())
+                    int count;
+                    
+                    cout << "How many requests? ";
+                    cin >> count;
+                    if (0 >= count)
                     {
-                        for (int ii = 0; ii < count; ++ii)
+                        break;
+                    }
+                    
+                    if (stuff->findService("name:RequestCounter"))
+                    {
+                        if (stuff->resetServiceCounters())
                         {
-                            if (! stuff->pokeService())
+                            for (int ii = 0; ii < count; ++ii)
                             {
-                                cerr << "Problem poking the service." << endl;
-                                break;
+                                if (! stuff->pokeService())
+                                {
+                                    cerr << "Problem poking the service." << endl;
+                                    break;
+                                }
+                                
                             }
+                            long   counter;
+                            double elapsedTime;
                             
-                        }
-                        long   counter;
-                        double elapsedTime;
-                        
-                        if (stuff->getServiceStatistics(counter, elapsedTime))
-                        {
-                            if (0 < counter)
+                            if (stuff->getServiceStatistics(counter, elapsedTime))
                             {
-                                cout << "count = " << counter << ", elapsed time = " << elapsedTime <<
-                                        ", average time = " << (elapsedTime / counter) << "." << endl;
+                                if (0 < counter)
+                                {
+                                    cout << "count = " << counter << ", elapsed time = " << elapsedTime <<
+                                            ", average time = " << (elapsedTime / counter) << "." << endl;
+                                }
+                                else
+                                {
+                                    cout << "Service reports zero requests." << endl;
+                                }
                             }
                             else
                             {
-                                cout << "Service reports zero requests." << endl;
+                                OD_SYSLOG("! (stuff->getServiceStatistics(counter, elapsedTime))");//####
+                                cerr << "Problem getting statistics from the service." << endl;
                             }
                         }
                         else
                         {
-                            OD_SYSLOG("! (stuff->getServiceStatistics(counter, elapsedTime))");//####
-                            cerr << "Problem getting statistics from the service." << endl;
+                            OD_SYSLOG("! (stuff->resetServiceCounters())");//####
+                            cerr << "Problem resetting the service counters." << endl;
                         }
                     }
                     else
                     {
-                        OD_SYSLOG("! (stuff->resetServiceCounters())");//####
-                        cerr << "Problem resetting the service counters." << endl;
+                        OD_SYSLOG("! (stuff->findService(\"name:RequestCounter\"))");//####
+                        cerr << "Problem locating the service." << endl;
                     }
                 }
-                else
-                {
-                    OD_SYSLOG("! (stuff->findService(\"name:RequestCounter\"))");//####
-                    cerr << "Problem locating the service." << endl;
-                }
+                delete stuff;
             }
-            delete stuff;
+            else
+            {
+                OD_SYSLOG("! (stuff)");//####
+            }
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            cerr << "YARP network not running." << endl;
         }
     }
     catch (...)

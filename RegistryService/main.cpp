@@ -95,66 +95,77 @@ int main(int     argc,
     OD_SYSLOG_ENTER();//####
     try
     {
+        if (yarp::os::Network::checkNetwork())
+        {
 #if defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(1);
+            yarp::os::Network::setVerbosity(1);
 #else // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(-1);
+            yarp::os::Network::setVerbosity(-1);
 #endif // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure        
-        RegistryService * stuff = NULL;
-
-        YarpPlusPlus::Initialize();
-        if (1 <= argc)
-        {
-            switch (argc)
+            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+            RegistryService * stuff = NULL;
+            
+            YarpPlusPlus::Initialize();
+            if (1 <= argc)
             {
-                    // Argument order for tests = endpoint name [, IP address / name [, port]]
-                case 1:
-                    stuff = new RegistryService(USE_INMEMORY);
-                    break;
-                    
-                case 2:
-                    stuff = new RegistryService(USE_INMEMORY, argv[1]);
-                    break;
-                    
-                case 3:
-                    stuff = new RegistryService(USE_INMEMORY, argv[1], argv[2]);
-                    break;
-                    
-                default:
-                    break;
-                    
-            }
-        }
-        if (stuff)
-        {
-            if (stuff->start())
-            {
-                // Note that the Registry Service is self-registering... so we don't need to call
-                // RegisterLocalService().
-                lKeepRunning = true;
-#if (defined(__APPLE__) || defined(__linux__))
-                signal(SIGHUP, stopRunning);
-                signal(SIGINT, stopRunning);
-                signal(SIGINT, stopRunning);
-                signal(SIGUSR1, stopRunning);
-#endif // defined(__APPLE__) || defined(__linux__)
-                for ( ; lKeepRunning; )
+                switch (argc)
                 {
-                    yarp::os::Time::yield();
-//                    yarp::os::Time::delay(1.0);
+                        // Argument order for tests = endpoint name [, IP address / name [, port]]
+                    case 1:
+                        stuff = new RegistryService(USE_INMEMORY);
+                        break;
+                        
+                    case 2:
+                        stuff = new RegistryService(USE_INMEMORY, argv[1]);
+                        break;
+                        
+                    case 3:
+                        stuff = new RegistryService(USE_INMEMORY, argv[1], argv[2]);
+                        break;
+                        
+                    default:
+                        break;
+                        
                 }
-                stuff->stop();
+            }
+            if (stuff)
+            {
+                if (stuff->start())
+                {
+                    // Note that the Registry Service is self-registering... so we don't need to call
+                    // RegisterLocalService().
+                    lKeepRunning = true;
+#if (defined(__APPLE__) || defined(__linux__))
+                    signal(SIGHUP, stopRunning);
+                    signal(SIGINT, stopRunning);
+                    signal(SIGINT, stopRunning);
+                    signal(SIGUSR1, stopRunning);
+#endif // defined(__APPLE__) || defined(__linux__)
+                    for ( ; lKeepRunning; )
+                    {
+#if defined(MAIN_DOES_DELAY_NOT_YIELD)
+                        yarp::os::Time::delay(1.0);
+#else // ! defined(MAIN_DOES_DELAY_NOT_YIELD)
+                        yarp::os::Time::yield();
+#endif // ! defined(MAIN_DOES_DELAY_NOT_YIELD)
+                    }
+                    stuff->stop();
+                }
+                else
+                {
+                    OD_SYSLOG("! (stuff->start())");//####
+                }
+                delete stuff;
             }
             else
             {
-                OD_SYSLOG("! (stuff->start())");//####
+                OD_SYSLOG("! (stuff)");//####
             }
-            delete stuff;
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            cerr << "YARP network not running." << endl;
         }
     }
     catch (...)

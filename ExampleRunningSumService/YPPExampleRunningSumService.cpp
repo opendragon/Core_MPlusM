@@ -75,6 +75,9 @@ ExampleRunningSumService::ExampleRunningSumService(const yarp::os::ConstString &
                                                    const yarp::os::ConstString & servicePortNumber) :
         inherited(true, YPP_RUNNINGSUM_CANONICAL_NAME, "An example running sum service", serviceEndpointName,
                   serviceHostName, servicePortNumber)
+#if (! defined(SERVICES_HAVE_CONTEXTS))
+        , _runningSum(0.0)
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
@@ -96,6 +99,9 @@ ExampleRunningSumService::~ExampleRunningSumService(void)
 double ExampleRunningSumService::addToSum(const yarp::os::ConstString & key,
                                           const double                  value)
 {
+#if (! defined(SERVICES_HAVE_CONTEXTS))
+# pragma unused(key)
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     OD_SYSLOG_D1("value = ", value);//####
@@ -103,8 +109,11 @@ double ExampleRunningSumService::addToSum(const yarp::os::ConstString & key,
     
     try
     {
+#if defined(SERVICES_HAVE_CONTEXTS)
         RunningSumContext * context = (RunningSumContext *) findContext(key);
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
         
+#if defined(SERVICES_HAVE_CONTEXTS)
         if (! context)
         {
             context = new RunningSumContext;
@@ -112,6 +121,10 @@ double ExampleRunningSumService::addToSum(const yarp::os::ConstString & key,
         }
         context->sum() += value;
         result = context->sum();
+#else // ! defined(SERVICES_HAVE_CONTEXTS)
+        _runningSum += value;
+        result = _runningSum;
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     }
     catch (...)
     {
@@ -124,18 +137,27 @@ double ExampleRunningSumService::addToSum(const yarp::os::ConstString & key,
 
 void ExampleRunningSumService::resetSum(const yarp::os::ConstString & key)
 {
+#if (! defined(SERVICES_HAVE_CONTEXTS))
+# pragma unused(key)
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     try
     {
+#if defined(SERVICES_HAVE_CONTEXTS)
         RunningSumContext * context = (RunningSumContext *) findContext(key);
-        
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
+
+#if defined(SERVICES_HAVE_CONTEXTS)
         if (! context)
         {
             context = new RunningSumContext;
             addContext(key, context);
         }
-        context->sum() = 0;
+        context->sum() = 0.0;
+#else // ! defined(SERVICES_HAVE_CONTEXTS)
+        _runningSum = 0.0;
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     }
     catch (...)
     {
@@ -196,18 +218,27 @@ bool ExampleRunningSumService::start(void)
 
 void ExampleRunningSumService::startSum(const yarp::os::ConstString & key)
 {
+#if (! defined(SERVICES_HAVE_CONTEXTS))
+# pragma unused(key)
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     try
     {
+#if defined(SERVICES_HAVE_CONTEXTS)
         RunningSumContext * context = (RunningSumContext *) findContext(key);
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
         
+#if defined(SERVICES_HAVE_CONTEXTS)
         if (! context)
         {
             context = new RunningSumContext;
             addContext(key, context);
         }
-        context->sum() = 0;
+        context->sum() = 0.0;
+#else // ! defined(SERVICES_HAVE_CONTEXTS)
+        _runningSum = 0.0;
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     }
     catch (...)
     {
@@ -237,11 +268,16 @@ bool ExampleRunningSumService::stop(void)
 
 void ExampleRunningSumService::stopSum(const yarp::os::ConstString & key)
 {
+#if (! defined(SERVICES_HAVE_CONTEXTS))
+# pragma unused(key)
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     try
     {
+#if defined(SERVICES_HAVE_CONTEXTS)
         removeContext(key);
+#endif // defined(SERVICES_HAVE_CONTEXTS)
     }
     catch (...)
     {

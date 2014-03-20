@@ -78,7 +78,11 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & serviceHostName,
                          const yarp::os::ConstString & servicePortNumber) :
-        _requestHandlers(*this), _contexts(), _canonicalName(canonicalName), _description(description),
+        _requestHandlers(*this),
+#if defined(SERVICES_HAVE_CONTEXTS)
+        _contexts(),
+#endif // defined(SERVICES_HAVE_CONTEXTS)
+        _canonicalName(canonicalName), _description(description),
         _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
         _useMultipleHandlers(useMultipleHandlers)
 {
@@ -98,7 +102,11 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & description,
                          const int                     argc,
                          char **                       argv) :
-        _requestHandlers(*this), _contexts(), _canonicalName(canonicalName), _description(description),
+        _requestHandlers(*this),
+#if defined(SERVICES_HAVE_CONTEXTS)
+        _contexts(),
+#endif // defined(SERVICES_HAVE_CONTEXTS)
+        _canonicalName(canonicalName), _description(description),
         _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
         _useMultipleHandlers(useMultipleHandlers)
 {
@@ -135,7 +143,9 @@ BaseService::~BaseService(void)
     delete _endpoint;
     delete _handler;
     delete _handlerCreator;
+#if defined(SERVICES_HAVE_CONTEXTS)
     clearContexts();
+#endif // defined(SERVICES_HAVE_CONTEXTS)
     OD_SYSLOG_EXIT();//####
 } // BaseService::~BaseService
 
@@ -143,6 +153,7 @@ BaseService::~BaseService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
+#if defined(SERVICES_HAVE_CONTEXTS)
 void BaseService::addContext(const yarp::os::ConstString & key,
                              BaseContext *                 context)
 {
@@ -163,7 +174,9 @@ void BaseService::addContext(const yarp::os::ConstString & key,
     }
     OD_SYSLOG_EXIT();//####
 } // BaseService::addContext
+#endif // defined(SERVICES_HAVE_CONTEXTS)
 
+#if defined(SERVICES_HAVE_CONTEXTS)
 void BaseService::clearContexts(void)
 {
     OD_SYSLOG_ENTER();//####
@@ -179,7 +192,9 @@ void BaseService::clearContexts(void)
     _contexts.clear();
     OD_SYSLOG_EXIT();//####
 } // BaseService::clearContexts
+#endif // defined(SERVICES_HAVE_CONTEXTS)
 
+#if defined(SERVICES_HAVE_CONTEXTS)
 BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
 {
     OD_SYSLOG_ENTER();//####
@@ -203,6 +218,7 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
     OD_SYSLOG_EXIT_P(result);//####
     return result;
 } // BaseService::findContext
+#endif // defined(SERVICES_HAVE_CONTEXTS)
 
 bool BaseService::processRequest(const yarp::os::ConstString & request,
                                  const yarp::os::Bottle &      restOfInput,
@@ -245,6 +261,7 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
     return result;
 } // BaseService::processRequest
 
+#if defined(SERVICES_HAVE_CONTEXTS)
 void BaseService::removeContext(const yarp::os::ConstString & key)
 {
     OD_SYSLOG_ENTER();//####
@@ -271,6 +288,7 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
     }
     OD_SYSLOG_EXIT();//####
 } // BaseService::removeContext
+#endif // defined(SERVICES_HAVE_CONTEXTS)
 
 bool BaseService::setTimeout(const float timeout)
 {

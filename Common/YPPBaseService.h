@@ -45,6 +45,8 @@
 
 # include "YPPRequestMap.h"
 
+# define SERVICES_HAVE_CONTEXTS /* */
+
 namespace YarpPlusPlus
 {
     class BaseContext;
@@ -140,23 +142,31 @@ namespace YarpPlusPlus
         
     protected:
         
+#if defined(SERVICES_HAVE_CONTEXTS)
         /*! @brief Add a context for a persistent connection.
          @param key The name for the context.
          @param context The context to be remembered. */
         void addContext(const yarp::os::ConstString & key,
                         BaseContext *                 context);
+#endif // defined(SERVICES_HAVE_CONTEXTS)
         
+#if defined(SERVICES_HAVE_CONTEXTS)
         /*! @brief Remove all contexts. */
         void clearContexts(void);
+#endif // defined(SERVICES_HAVE_CONTEXTS)
         
+#if defined(SERVICES_HAVE_CONTEXTS)
         /*! @brief Locate the context corresponding to a name.
          @param key The name of the context.
          @returns @c NULL if the named context could not be found or a pointer to the context if found. */
         BaseContext * findContext(const yarp::os::ConstString & key);
+#endif // defined(SERVICES_HAVE_CONTEXTS)
         
+#if defined(SERVICES_HAVE_CONTEXTS)
         /*! @brief Remove a context.
          @param key The name of the context. */
         void removeContext(const yarp::os::ConstString & key);
+#endif // defined(SERVICES_HAVE_CONTEXTS)
         
         /*! @brief Set the endpoint timeout; must be called between creating an endpoint and opening it.
          @param timeout The number of seconds to wait; if negative, wait forever.
@@ -168,11 +178,15 @@ namespace YarpPlusPlus
         
     private:
         
+#if defined(SERVICES_HAVE_CONTEXTS)
         /*! @brief A mapping from strings to contexts. */
         typedef std::map<std::string, BaseContext *> ContextMap;
+#endif // defined(SERVICES_HAVE_CONTEXTS)
         
+#if defined(SERVICES_HAVE_CONTEXTS)
         /*! @brief The entry-type for the mapping. */
         typedef ContextMap::value_type               ContextMapValue;
+#endif // defined(SERVICES_HAVE_CONTEXTS)
         
         /*! @brief Copy constructor.
 
@@ -188,9 +202,11 @@ namespace YarpPlusPlus
         
         /*! @brief Set up the standard request handlers. */
         void setUpRequestHandlers(void);
-        
+
+#if defined(SERVICES_HAVE_CONTEXTS)
         /*! @brief The map between requests and request handlers. */
         ContextMap                       _contexts;
+#endif // defined(SERVICES_HAVE_CONTEXTS)
         
         /*! @brief The port-independent name of the service. */
         yarp::os::ConstString            _canonicalName;

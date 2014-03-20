@@ -552,45 +552,53 @@ int main(int     argc,
     
     try
     {
-#if defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(1);
-#else // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(-1);
-#endif // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-
-        YarpPlusPlus::Initialize();
-        if (0 < --argc)
+        if (yarp::os::Network::checkNetwork())
         {
-            int selector = atoi(argv[1]);
+#if defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network::setVerbosity(1);
+#else // ! defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network::setVerbosity(-1);
+#endif // ! defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            OD_SYSLOG_LL1("selector <- ", selector);//####
-            switch (selector)
+            YarpPlusPlus::Initialize();
+            if (0 < --argc)
             {
-                case 13:
-                    result = doCase13(argc - 1, argv + 2);
-                    break;
-                    
-                case 14:
-                    result = doCase14(argc - 1, argv + 2);
-                    break;
-                    
-                case 15:
-                    result = doCase15(argc - 1, argv + 2);
-                    break;
-                    
-                case 16:
-                    result = doCase16(argc - 1, argv + 2);
-                    break;
-                    
-                default:
-                    break;
-                    
+                int selector = atoi(argv[1]);
+                
+                OD_SYSLOG_LL1("selector <- ", selector);//####
+                switch (selector)
+                {
+                    case 13:
+                        result = doCase13(argc - 1, argv + 2);
+                        break;
+                        
+                    case 14:
+                        result = doCase14(argc - 1, argv + 2);
+                        break;
+                        
+                    case 15:
+                        result = doCase15(argc - 1, argv + 2);
+                        break;
+                        
+                    case 16:
+                        result = doCase16(argc - 1, argv + 2);
+                        break;
+                        
+                    default:
+                        break;
+                        
+                }
+            }
+            else
+            {
+                OD_SYSLOG("! (0 < --argc)");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (0 < --argc)");//####
+            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            cerr << "YARP network not running." << endl;
         }
     }
     catch (...)

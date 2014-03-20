@@ -93,84 +93,92 @@ int main(int     argc,
     OD_SYSLOG_ENTER();//####
     try
     {
-#if defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(1);
-#else // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(-1);
-#endif // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-        
-        YarpPlusPlus::Initialize();
-        ExampleRandomNumberClient * stuff = new ExampleRandomNumberClient;
-
-        if (stuff)
+        if (yarp::os::Network::checkNetwork())
         {
-            lKeepRunning = true;
-#if (defined(__APPLE__) || defined(__linux__))
-            signal(SIGHUP, stopRunning);
-            signal(SIGINT, stopRunning);
-            signal(SIGINT, stopRunning);
-            signal(SIGUSR1, stopRunning);
-#endif // defined(__APPLE__) || defined(__linux__)
-            if (stuff->findService("keyword random"))
+#if defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network::setVerbosity(1);
+#else // ! defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network::setVerbosity(-1);
+#endif // ! defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+            
+            YarpPlusPlus::Initialize();
+            ExampleRandomNumberClient * stuff = new ExampleRandomNumberClient;
+            
+            if (stuff)
             {
-                for ( ; lKeepRunning; )
+                lKeepRunning = true;
+#if (defined(__APPLE__) || defined(__linux__))
+                signal(SIGHUP, stopRunning);
+                signal(SIGINT, stopRunning);
+                signal(SIGINT, stopRunning);
+                signal(SIGUSR1, stopRunning);
+#endif // defined(__APPLE__) || defined(__linux__)
+                if (stuff->findService("keyword random"))
                 {
-                    int count;
-                    
-                    cout << "How many random numbers? ";
-                    cin >> count;
-                    if (0 >= count)
+                    for ( ; lKeepRunning; )
                     {
-                        break;
-                    }
-                    
-                    if (1 == count)
-                    {
-                        double result;
+                        int count;
                         
-                        if (stuff->getOneRandomNumber(result))
+                        cout << "How many random numbers? ";
+                        cin >> count;
+                        if (0 >= count)
                         {
-                            cout << "result = " << result << endl;
+                            break;
                         }
-                        else
-                        {
-                            OD_SYSLOG("! (stuff->getOneRandomNumber(result))");//####
-                            cerr << "Problem getting random number from service." << endl;
-                        }
-                    }
-                    else
-                    {
-                        ExampleRandomNumberClient::RandomVector results;
                         
-                        if (stuff->getRandomNumbers(count, results))
+                        if (1 == count)
                         {
-                            cout << "result = ( ";
-                            for (ExampleRandomNumberClient::RandomVectorIterator it(results.begin());
-                                 it != results.end(); ++it)
+                            double result;
+                            
+                            if (stuff->getOneRandomNumber(result))
                             {
-                                cout << " " << *it;
+                                cout << "result = " << result << endl;
                             }
-                            cout << " )" << endl;
+                            else
+                            {
+                                OD_SYSLOG("! (stuff->getOneRandomNumber(result))");//####
+                                cerr << "Problem getting random number from service." << endl;
+                            }
                         }
                         else
                         {
-                            OD_SYSLOG("! (stuff->getRandomNumbers(count, results))");//####
-                            cerr << "Problem getting random numbers from service." << endl;
+                            ExampleRandomNumberClient::RandomVector results;
+                            
+                            if (stuff->getRandomNumbers(count, results))
+                            {
+                                cout << "result = ( ";
+                                for (ExampleRandomNumberClient::RandomVectorIterator it(results.begin());
+                                     it != results.end(); ++it)
+                                {
+                                    cout << " " << *it;
+                                }
+                                cout << " )" << endl;
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (stuff->getRandomNumbers(count, results))");//####
+                                cerr << "Problem getting random numbers from service." << endl;
+                            }
                         }
                     }
                 }
+                else
+                {
+                    OD_SYSLOG("! (stuff->findService(\"keyword random\"))");//####
+                    cerr << "Problem finding the service." << endl;
+                }
+                delete stuff;
             }
             else
             {
-                OD_SYSLOG("! (stuff->findService(\"keyword random\"))");//####
-                cerr << "Problem finding the service." << endl;
+                OD_SYSLOG("! (stuff)");//####
             }
-            delete stuff;
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            cerr << "YARP network not running." << endl;
         }
     }
     catch (...)

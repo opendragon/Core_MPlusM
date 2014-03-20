@@ -93,101 +93,109 @@ int main(int     argc,
     OD_SYSLOG_ENTER();//####
     try
     {
-#if defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(1);
-#else // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network::setVerbosity(-1);
-#endif // ! defined(ENABLE_OD_SYSLOG)
-        yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-        
-        YarpPlusPlus::Initialize();
-        ExampleRunningSumClient * stuff = new ExampleRunningSumClient;
-        
-        if (stuff)
+        if (yarp::os::Network::checkNetwork())
         {
-            lKeepRunning = true;
-#if (defined(__APPLE__) || defined(__linux__))
-            signal(SIGHUP, stopRunning);
-            signal(SIGINT, stopRunning);
-            signal(SIGINT, stopRunning);
-            signal(SIGUSR1, stopRunning);
-#endif // defined(__APPLE__) || defined(__linux__)
-            if (stuff->findService("Name RunningSum"))
+#if defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network::setVerbosity(1);
+#else // ! defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network::setVerbosity(-1);
+#endif // ! defined(ENABLE_OD_SYSLOG)
+            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+            
+            YarpPlusPlus::Initialize();
+            ExampleRunningSumClient * stuff = new ExampleRunningSumClient;
+            
+            if (stuff)
             {
-                OD_SYSLOG("(stuff->findService(\"Name RunningSum\"))");//####
-                for ( ; lKeepRunning; )
+                lKeepRunning = true;
+#if (defined(__APPLE__) || defined(__linux__))
+                signal(SIGHUP, stopRunning);
+                signal(SIGINT, stopRunning);
+                signal(SIGINT, stopRunning);
+                signal(SIGUSR1, stopRunning);
+#endif // defined(__APPLE__) || defined(__linux__)
+                if (stuff->findService("Name RunningSum"))
                 {
-                    char   inChar;
-                    double newSum;
-                    double value;
-                    
-                    cout << "Operation: [+ r x s]? ";
-                    cin >> inChar;
-                    switch (inChar)
+                    OD_SYSLOG("(stuff->findService(\"Name RunningSum\"))");//####
+                    for ( ; lKeepRunning; )
                     {
-                        case '+':
-                            cout << "add: ";
-                            cin >> value;
-                            cout << "adding " << value << endl;
-                            if (stuff->addToSum(value, newSum))
-                            {
-                                cout << "running sum = " << newSum << endl;
-                            }
-                            else
-                            {
-                                OD_SYSLOG("! (stuff->addToSum(value, newSum))");//####
-                                cerr << "Problem adding to the sum." << endl;
-                            }
-                            break;
-                            
-                        case 'r':
-                        case 'R':
-                            cout << "Resetting" << endl;
-                            if (! stuff->resetSum())
-                            {
-                                OD_SYSLOG("(! stuff->resetSum())");//####
-                                cerr << "Problem resetting the sum." << endl;
-                            }
-                            break;
-                            
-                        case 's':
-                        case 'S':
-                            cout << "Starting" << endl;
-                            if (! stuff->startSum())
-                            {
-                                OD_SYSLOG("(! stuff->startSum())");//####
-                                cerr << "Problem starting the sum." << endl;
-                            }
-                            break;
-                            
-                        case 'x':
-                        case 'X':
-                            cout << "Exiting" << endl;
-                            if (! stuff->stopSum())
-                            {
-                                OD_SYSLOG("(! stuff->stopSum())");//####
-                                cerr << "Problem stopping the sum." << endl;
-                            }
-                            lKeepRunning = false;
-                            break;
-                            
-                        default:
-                            cout << "Unrecognized request '" << inChar << "'." << endl;
-                            break;
-                            
+                        char   inChar;
+                        double newSum;
+                        double value;
+                        
+                        cout << "Operation: [+ r x s]? ";
+                        cin >> inChar;
+                        switch (inChar)
+                        {
+                            case '+':
+                                cout << "add: ";
+                                cin >> value;
+                                cout << "adding " << value << endl;
+                                if (stuff->addToSum(value, newSum))
+                                {
+                                    cout << "running sum = " << newSum << endl;
+                                }
+                                else
+                                {
+                                    OD_SYSLOG("! (stuff->addToSum(value, newSum))");//####
+                                    cerr << "Problem adding to the sum." << endl;
+                                }
+                                break;
+                                
+                            case 'r':
+                            case 'R':
+                                cout << "Resetting" << endl;
+                                if (! stuff->resetSum())
+                                {
+                                    OD_SYSLOG("(! stuff->resetSum())");//####
+                                    cerr << "Problem resetting the sum." << endl;
+                                }
+                                break;
+                                
+                            case 's':
+                            case 'S':
+                                cout << "Starting" << endl;
+                                if (! stuff->startSum())
+                                {
+                                    OD_SYSLOG("(! stuff->startSum())");//####
+                                    cerr << "Problem starting the sum." << endl;
+                                }
+                                break;
+                                
+                            case 'x':
+                            case 'X':
+                                cout << "Exiting" << endl;
+                                if (! stuff->stopSum())
+                                {
+                                    OD_SYSLOG("(! stuff->stopSum())");//####
+                                    cerr << "Problem stopping the sum." << endl;
+                                }
+                                lKeepRunning = false;
+                                break;
+                                
+                            default:
+                                cout << "Unrecognized request '" << inChar << "'." << endl;
+                                break;
+                                
+                        }
                     }
                 }
+                else
+                {
+                    OD_SYSLOG("! (stuff->findService(\"Name RunningSum\"))");//####
+                    cerr << "Problem locating the service." << endl;
+                }
+                delete stuff;
             }
             else
             {
-                OD_SYSLOG("! (stuff->findService(\"Name RunningSum\"))");//####
-                cerr << "Problem locating the service." << endl;
+                OD_SYSLOG("! (stuff)");//####
             }
-            delete stuff;
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            cerr << "YARP network not running." << endl;
         }
     }
     catch (...)
