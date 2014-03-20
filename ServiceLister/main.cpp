@@ -132,11 +132,11 @@ int main(int     argc,
     {
         if (yarp::os::Network::checkNetwork())
         {
-#if defined(ENABLE_OD_SYSLOG)
+#if (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(1);
-#else // ! defined(ENABLE_OD_SYSLOG)
+#else // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(-1);
-#endif // ! defined(ENABLE_OD_SYSLOG)
+#endif // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
             YarpPlusPlus::Initialize();
@@ -176,9 +176,10 @@ int main(int     argc,
                                 {
                                     if (! reported)
                                     {
-                                        cout << "Services: " << endl << endl;
+                                        cout << "Services: " << endl;
                                     }
                                     reported = true;
+                                    cout << endl;
                                     cout << "Service port: " << aMatch.c_str() << endl;
                                     cout << "Service name: " << canonicalName.c_str() << endl;
                                     cout << "Description:  " << description.c_str() << endl;

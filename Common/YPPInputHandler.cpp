@@ -75,6 +75,7 @@ InputHandler::InputHandler(void) :
 InputHandler::~InputHandler(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     stopProcessing();
     OD_SYSLOG_EXIT();//####
 } // InputHandler::~InputHandler
@@ -86,6 +87,7 @@ InputHandler::~InputHandler(void)
 bool InputHandler::read(yarp::os::ConnectionReader & connection)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_P1("connection = ", &connection);//####
     bool result = false;
     
@@ -118,6 +120,7 @@ bool InputHandler::read(yarp::os::ConnectionReader & connection)
 void InputHandler::stopProcessing(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     _canProcessInput = false;
     OD_SYSLOG_EXIT();//####
 } // InputHandler::stopProcessing

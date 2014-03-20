@@ -90,18 +90,23 @@ static void stopRunning(int signal)
 int main(int     argc,
          char ** argv)
 {
+#if defined(SERVICES_DEBUG_TO_STDERR)
     OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionEnableThreadSupport | kODSyslogOptionEchoToStandardError);//####
+                   kODSyslogOptionWriteToStderr | kODSyslogOptionEnableThreadSupport);//####
+#else // ! defined(SERVICES_DEBUG_TO_STDERR)
+    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
+                   kODSyslogOptionEnableThreadSupport);//####
+#endif // ! defined(SERVICES_DEBUG_TO_STDERR)
     OD_SYSLOG_ENTER();//####
     try
     {
         if (yarp::os::Network::checkNetwork())
         {
-#if defined(ENABLE_OD_SYSLOG)
+#if (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(1);
-#else // ! defined(ENABLE_OD_SYSLOG)
+#else // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(-1);
-#endif // ! defined(ENABLE_OD_SYSLOG)
+#endif // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             RegistryService * stuff = NULL;
             

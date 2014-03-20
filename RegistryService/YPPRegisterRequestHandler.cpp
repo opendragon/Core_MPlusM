@@ -80,6 +80,7 @@ RegisterRequestHandler::RegisterRequestHandler(RegistryService & service) :
 RegisterRequestHandler::~RegisterRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // RegisterRequestHandler::~RegisterRequestHandler
 
@@ -90,6 +91,7 @@ RegisterRequestHandler::~RegisterRequestHandler(void)
 void RegisterRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_REGISTER_REQUEST);
@@ -120,6 +122,7 @@ bool RegisterRequestHandler::operator() (const yarp::os::Bottle &      restOfInp
 # pragma unused(senderPort)
 #endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
@@ -255,6 +258,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                                                  const ServiceResponse &       response)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("portName = ", portName.c_str(), "response = ", response.asString().c_str());//####
     bool result = false;
 
@@ -409,6 +413,7 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & p
                                                  const ServiceResponse &       response)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("portName = ", portName.c_str(), "response = ", response.asString().c_str());//####
     bool result = false;
     

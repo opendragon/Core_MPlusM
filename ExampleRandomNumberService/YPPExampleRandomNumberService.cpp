@@ -82,6 +82,7 @@ ExampleRandomNumberService::ExampleRandomNumberService(const yarp::os::ConstStri
 ExampleRandomNumberService::~ExampleRandomNumberService(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // ExampleRandomNumberService::~ExampleRandomNumberService
 
@@ -92,6 +93,7 @@ ExampleRandomNumberService::~ExampleRandomNumberService(void)
 void ExampleRandomNumberService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         _requestHandlers.registerRequestHandler(new RandomRequestHandler());
@@ -107,6 +109,7 @@ void ExampleRandomNumberService::setUpRequestHandlers(void)
 bool ExampleRandomNumberService::start(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         if (! isStarted())
@@ -135,6 +138,7 @@ bool ExampleRandomNumberService::start(void)
 bool ExampleRandomNumberService::stop(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result;
     
     try

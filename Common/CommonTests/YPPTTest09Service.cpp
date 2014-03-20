@@ -77,6 +77,7 @@ Test09Service::Test09Service(const int argc,
 Test09Service::~Test09Service(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // Test09Service::~Test09Service
 
@@ -87,6 +88,7 @@ Test09Service::~Test09Service(void)
 void Test09Service::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         _requestHandlers.setDefaultRequestHandler(new YarpPlusPlusTest::Test09DefaultRequestHandler());
@@ -102,6 +104,7 @@ void Test09Service::setUpRequestHandlers(void)
 bool Test09Service::start(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try
@@ -133,6 +136,7 @@ bool Test09Service::start(void)
 bool Test09Service::stop(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try

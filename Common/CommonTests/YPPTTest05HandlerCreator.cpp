@@ -72,6 +72,7 @@ Test05HandlerCreator::Test05HandlerCreator(void) :
 Test05HandlerCreator::~Test05HandlerCreator(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // Test05HandlerCreator::~Test05HandlerCreator
 

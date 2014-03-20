@@ -99,6 +99,8 @@ namespace YarpPlusPlus
         
         /*! @brief The request name. */
         yarp::os::ConstString _name;
+        /*! @brief The response holding area. */
+        yarp::os::Bottle      _holder;
         /*! @brief The request parameters. */
         yarp::os::Bottle      _parameters;
         

@@ -71,6 +71,7 @@ Test05Handler::Test05Handler(void) :
 Test05Handler::~Test05Handler(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // Test05Handler::~Test05Handler
 
@@ -86,6 +87,7 @@ bool Test05Handler::handleInput(const yarp::os::Bottle &      input,
 # pragma unused(senderPort)
 #endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     if (replyMechanism)

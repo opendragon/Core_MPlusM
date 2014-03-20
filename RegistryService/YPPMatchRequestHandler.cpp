@@ -82,6 +82,7 @@ MatchRequestHandler::MatchRequestHandler(RegistryService &  service,
 MatchRequestHandler::~MatchRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // MatchRequestHandler::~MatchRequestHandler
 
@@ -92,6 +93,7 @@ MatchRequestHandler::~MatchRequestHandler(void)
 void MatchRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_MATCH_REQUEST);
@@ -123,6 +125,7 @@ bool MatchRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
 # pragma unused(senderPort)
 #endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
@@ -156,7 +159,7 @@ bool MatchRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
                         if (! _service.processMatchRequest(matcher, reply))
                         {
                             OD_SYSLOG("(! _service.processMatchRequest(matcher, reply))");//####
-                            reply = yarp::os::Bottle::getNullBottle();
+                            reply.clear();
                             reply.addString(YPP_FAILED_RESPONSE);
                             reply.addString("Invalid criteria");
                         }

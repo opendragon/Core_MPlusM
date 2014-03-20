@@ -74,7 +74,8 @@ BaseServiceInputHandlerCreator::BaseServiceInputHandlerCreator(BaseService & ser
 BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator(void)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_EXIT();//####
 } // BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator
 
 #if defined(__APPLE__)
@@ -84,6 +85,7 @@ BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator(void)
 InputHandler * BaseServiceInputHandlerCreator::create(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     InputHandler * result = new BaseServiceInputHandler(_service);
     
     OD_SYSLOG_EXIT_P(result);//####

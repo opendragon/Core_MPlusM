@@ -75,6 +75,7 @@ Test12EchoRequestHandler::Test12EchoRequestHandler(void) :
 Test12EchoRequestHandler::~Test12EchoRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // Test12EchoRequestHandler::~Test12EchoRequestHandler
 
@@ -85,6 +86,7 @@ Test12EchoRequestHandler::~Test12EchoRequestHandler(void)
 void Test12EchoRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_ECHO_REQUEST);
     info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
     info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
@@ -106,6 +108,7 @@ bool Test12EchoRequestHandler::operator() (const yarp::os::Bottle &      restOfI
 # pragma unused(senderPort)
 #endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;

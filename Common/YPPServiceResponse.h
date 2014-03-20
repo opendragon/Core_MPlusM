@@ -84,7 +84,7 @@ namespace YarpPlusPlus
         
         /*! @brief Return the full set of values.
          @returns All the values in the response. */
-        const yarp::os::Bottle & values(void)
+        yarp::os::Bottle values(void)
         const
         {
             return _values;

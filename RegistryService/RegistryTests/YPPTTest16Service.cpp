@@ -78,6 +78,7 @@ Test16Service::Test16Service(const int argc,
 Test16Service::~Test16Service(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // Test16Service::~Test16Service
 
@@ -88,6 +89,7 @@ Test16Service::~Test16Service(void)
 void Test16Service::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         _requestHandlers.registerRequestHandler(new Test16EchoRequestHandler());
@@ -103,6 +105,7 @@ void Test16Service::setUpRequestHandlers(void)
 bool Test16Service::start(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try
@@ -134,6 +137,7 @@ bool Test16Service::start(void)
 bool Test16Service::stop(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try

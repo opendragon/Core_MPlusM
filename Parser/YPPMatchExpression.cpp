@@ -167,6 +167,7 @@ MatchExpression::MatchExpression(void) :
 MatchExpression::~MatchExpression(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     empty();
     OD_SYSLOG_EXIT();//####
 } // MatchExpression::~MatchExpression
@@ -179,6 +180,7 @@ yarp::os::ConstString MatchExpression::asSQLString(const char * prefixString)
 const
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     yarp::os::ConstString result;
     
     try
@@ -268,6 +270,7 @@ const
 void MatchExpression::empty(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)

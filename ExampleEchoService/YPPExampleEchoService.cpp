@@ -82,6 +82,7 @@ ExampleEchoService::ExampleEchoService(const yarp::os::ConstString & serviceEndp
 ExampleEchoService::~ExampleEchoService(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // ExampleEchoService::~ExampleEchoService
 
@@ -92,6 +93,7 @@ ExampleEchoService::~ExampleEchoService(void)
 void ExampleEchoService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         _requestHandlers.registerRequestHandler(new EchoRequestHandler());
@@ -107,6 +109,7 @@ void ExampleEchoService::setUpRequestHandlers(void)
 bool ExampleEchoService::start(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         if (! isStarted())
@@ -135,6 +138,7 @@ bool ExampleEchoService::start(void)
 bool ExampleEchoService::stop(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try

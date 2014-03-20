@@ -140,6 +140,7 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
 BaseService::~BaseService(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     delete _endpoint;
     delete _handler;
     delete _handlerCreator;
@@ -158,6 +159,7 @@ void BaseService::addContext(const yarp::os::ConstString & key,
                              BaseContext *                 context)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     OD_SYSLOG_P1("context = ", context);//####
     try
@@ -180,6 +182,7 @@ void BaseService::addContext(const yarp::os::ConstString & key,
 void BaseService::clearContexts(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     for (ContextMap::iterator walker(_contexts.begin()); _contexts.end() != walker; ++walker)
     {
         BaseContext * value = walker->second;
@@ -198,6 +201,7 @@ void BaseService::clearContexts(void)
 BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     BaseContext * result = NULL;
     
@@ -226,6 +230,7 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
                                  yarp::os::ConnectionWriter *  replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
                  "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
@@ -265,6 +270,7 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
 void BaseService::removeContext(const yarp::os::ConstString & key)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     try
     {
@@ -293,6 +299,7 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
 bool BaseService::setTimeout(const float timeout)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_D1("timeout = ", timeout);//####
     bool result = false;
     
@@ -319,6 +326,7 @@ bool BaseService::setTimeout(const float timeout)
 void BaseService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         _requestHandlers.registerRequestHandler(new InfoRequestHandler());
@@ -336,6 +344,7 @@ void BaseService::setUpRequestHandlers(void)
 bool BaseService::start(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         if (! _started)
@@ -396,6 +405,7 @@ bool BaseService::start(void)
 bool BaseService::stop(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     _started = false;
     OD_SYSLOG_EXIT_B(! _started);//####
     return (! _started);

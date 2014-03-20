@@ -72,6 +72,7 @@ BaseRequestHandler::BaseRequestHandler(const yarp::os::ConstString & request) :
 BaseRequestHandler::~BaseRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // BaseRequestHandler::~BaseRequestHandler
 
@@ -82,6 +83,7 @@ BaseRequestHandler::~BaseRequestHandler(void)
 void BaseRequestHandler::setOwner(RequestMap & owner)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_P1("owner = ", &owner);//####
     _owner = &owner;
     OD_SYSLOG_EXIT();//####

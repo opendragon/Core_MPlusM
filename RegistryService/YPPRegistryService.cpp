@@ -879,6 +879,7 @@ RegistryService::RegistryService(const bool                    useInMemoryDb,
 RegistryService::~RegistryService(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     if (_db)
     {
         sqlite3_close(_db);
@@ -894,6 +895,7 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
                                        const RequestDescription & description)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool okSoFar = false;
     
     try
@@ -964,6 +966,7 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & portName,
                                        const yarp::os::ConstString & description)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("portName = ", portName.c_str(), "name = ", name.c_str());//####
     bool okSoFar = false;
     
@@ -1003,6 +1006,7 @@ bool RegistryService::processMatchRequest(YarpPlusPlusParser::MatchExpression * 
                                           yarp::os::Bottle &                    reply)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_P1("matcher = ", matcher);//####
     bool okSoFar = false;
     
@@ -1043,6 +1047,7 @@ bool RegistryService::processMatchRequest(YarpPlusPlusParser::MatchExpression * 
 bool RegistryService::removeServiceRecord(const yarp::os::ConstString & servicePortName)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("servicePortName = ", servicePortName.c_str());//####
     bool okSoFar = false;
     
@@ -1090,6 +1095,7 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceP
 bool RegistryService::setUpDatabase(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool okSoFar = true;
 
     try
@@ -1144,6 +1150,7 @@ bool RegistryService::setUpDatabase(void)
 void RegistryService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         _requestHandlers.registerRequestHandler(new MatchRequestHandler(*this, columnNameValidator));
@@ -1161,6 +1168,7 @@ void RegistryService::setUpRequestHandlers(void)
 bool RegistryService::start(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try
@@ -1223,6 +1231,7 @@ bool RegistryService::start(void)
 bool RegistryService::stop(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try

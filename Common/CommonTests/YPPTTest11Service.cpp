@@ -78,6 +78,7 @@ Test11Service::Test11Service(const int argc,
 Test11Service::~Test11Service(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // Test11Service::~Test11Service
 
@@ -88,6 +89,7 @@ Test11Service::~Test11Service(void)
 void Test11Service::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         _requestHandlers.registerRequestHandler(new Test11EchoRequestHandler());
@@ -103,6 +105,7 @@ void Test11Service::setUpRequestHandlers(void)
 bool Test11Service::start(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try
@@ -134,6 +137,7 @@ bool Test11Service::start(void)
 bool Test11Service::stop(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try

@@ -47,8 +47,6 @@
 # include <yarp/os/ConstString.h>
 # include <yarp/os/Contact.h>
 
-# define MAIN_DOES_DELAY_NOT_YIELD /* */
-
 namespace YarpPlusPlus
 {
 

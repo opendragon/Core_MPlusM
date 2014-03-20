@@ -73,6 +73,7 @@ RequestCounterClient::RequestCounterClient(void) :
 RequestCounterClient::~RequestCounterClient(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // RequestCounterClient::~RequestCounterClient
 
@@ -83,7 +84,8 @@ RequestCounterClient::~RequestCounterClient(void)
 bool RequestCounterClient::getServiceStatistics(long &   counter,
                                                 double & elapsedTime)
 {
-    OD_SYSLOG_ENTER();
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_P2("counter = ", &counter, "elapsedTime = ", &elapsedTime);//####
     bool okSoFar = false;
     
@@ -125,13 +127,14 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);
+    OD_SYSLOG_EXIT_B(okSoFar);//####
     return okSoFar;
 } // RequestCounterClient::getServiceStatistics
 
 bool RequestCounterClient::pokeService(void)
 {
-    OD_SYSLOG_ENTER();
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool okSoFar = false;
     
     try
@@ -152,13 +155,14 @@ bool RequestCounterClient::pokeService(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);
+    OD_SYSLOG_EXIT_B(okSoFar);//####
     return okSoFar;
 } // RequestCounterClient::pokeService
 
 bool RequestCounterClient::resetServiceCounters(void)
 {
-    OD_SYSLOG_ENTER();
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool okSoFar = false;
     
     try
@@ -179,7 +183,7 @@ bool RequestCounterClient::resetServiceCounters(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);
+    OD_SYSLOG_EXIT_B(okSoFar);//####
     return okSoFar;
 } // RequestCounterClient::resetServiceCounters
 

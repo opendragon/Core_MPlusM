@@ -77,6 +77,7 @@ StopRequestHandler::StopRequestHandler(ExampleRunningSumService & service) :
 StopRequestHandler::~StopRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // StopRequestHandler::~StopRequestHandler
 
@@ -87,6 +88,7 @@ StopRequestHandler::~StopRequestHandler(void)
 void StopRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_STOP_REQUEST);
@@ -114,6 +116,7 @@ bool StopRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
 # pragma unused(restOfInput)
 #endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;

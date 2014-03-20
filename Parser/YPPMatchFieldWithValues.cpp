@@ -165,6 +165,7 @@ MatchFieldWithValues::MatchFieldWithValues(FieldNameValidator validator,
 MatchFieldWithValues::~MatchFieldWithValues(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     delete _fieldName;
     delete _singleValue;
     delete _values;
@@ -179,6 +180,7 @@ yarp::os::ConstString MatchFieldWithValues::asSQLString(void)
 const
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     yarp::os::ConstString converted;
 
     try

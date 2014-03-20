@@ -65,20 +65,24 @@ ServiceResponse::ServiceResponse(const yarp::os::Bottle & values) :
         _values(values)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_LL1("input size = ", values.size());//####
+    OD_SYSLOG_LL1("values size = ", values.size());//####
+    OD_SYSLOG_S1("values = ", values.toString().c_str());//####
     OD_SYSLOG_EXIT_P(this);//####
 } // ServiceResponse::ServiceResponse
 
 ServiceResponse::~ServiceResponse(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // ServiceResponse::~ServiceResponse
 
 ServiceResponse & ServiceResponse::operator=(const yarp::os::Bottle & values)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_LL1("input size = ", values.size());//####
+    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_LL1("values size = ", values.size());//####
+    OD_SYSLOG_S1("values = ", values.toString().c_str());//####
     _values = values;
     OD_SYSLOG_EXIT_P(this);//####
     return *this;
@@ -94,6 +98,7 @@ yarp::os::ConstString ServiceResponse::asString(void)
 const
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     yarp::os::ConstString result(_values.toString());
     
     OD_SYSLOG_EXIT_S(result.c_str());//####
@@ -104,6 +109,7 @@ yarp::os::Value ServiceResponse::element(const int index)
 const
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     yarp::os::Value result;
     
     try

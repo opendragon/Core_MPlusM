@@ -90,6 +90,7 @@ ExampleRunningSumClient::ExampleRunningSumClient(void) :
 ExampleRunningSumClient::~ExampleRunningSumClient(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     if (_port)
     {
         OD_SYSLOG("about to close");//####
@@ -107,6 +108,7 @@ bool ExampleRunningSumClient::addToSum(const double value,
                                        double &     newSum)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool okSoFar = false;
     
     try
@@ -117,7 +119,7 @@ bool ExampleRunningSumClient::addToSum(const double value,
         parameters.addDouble(value);
         if (send(YPP_ADD_REQUEST, parameters, _port, &response))
         {
-            OD_SYSLOG("(send(YPP_ADD_REQUEST, parameters, _port))");//####
+            OD_SYSLOG("(send(YPP_ADD_REQUEST, parameters, _port, &response))");//####
             if (1 == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
@@ -159,6 +161,7 @@ bool ExampleRunningSumClient::addToSum(const double value,
 bool ExampleRunningSumClient::resetSum(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool okSoFar = false;
 
     try
@@ -186,6 +189,7 @@ bool ExampleRunningSumClient::resetSum(void)
 bool ExampleRunningSumClient::startSum(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool okSoFar = false;
 
     try
@@ -213,6 +217,7 @@ bool ExampleRunningSumClient::startSum(void)
 bool ExampleRunningSumClient::stopSum(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool okSoFar = false;
     
     try

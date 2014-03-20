@@ -73,6 +73,7 @@ ExampleRandomNumberClient::ExampleRandomNumberClient(void) :
 ExampleRandomNumberClient::~ExampleRandomNumberClient(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // ExampleRandomNumberClient::~ExampleRandomNumberClient
 
@@ -83,6 +84,7 @@ ExampleRandomNumberClient::~ExampleRandomNumberClient(void)
 bool ExampleRandomNumberClient::getOneRandomNumber(double & result)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_P1("result = ", &result);//####
     bool okSoFar = false;
 
@@ -130,6 +132,7 @@ bool ExampleRandomNumberClient::getRandomNumbers(const int      howMany,
                                                  RandomVector & result)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_LL1("howMany = ", howMany);//####
     OD_SYSLOG_P1("result = ", &result);//####
     bool okSoFar = false;

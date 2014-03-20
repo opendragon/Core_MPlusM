@@ -77,6 +77,7 @@ Test10Service::Test10Service(const int argc,
 Test10Service::~Test10Service(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // Test10Service::~Test10Service
 
@@ -87,6 +88,7 @@ Test10Service::~Test10Service(void)
 void Test10Service::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         _requestHandlers.setDefaultRequestHandler(new Test10DefaultRequestHandler());
@@ -102,6 +104,7 @@ void Test10Service::setUpRequestHandlers(void)
 bool Test10Service::start(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try
@@ -133,6 +136,7 @@ bool Test10Service::start(void)
 bool Test10Service::stop(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try

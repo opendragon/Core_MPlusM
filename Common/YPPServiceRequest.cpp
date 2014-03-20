@@ -65,7 +65,7 @@ using namespace YarpPlusPlus;
 
 ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName,
                                const yarp::os::Bottle &      parameters) :
-        _name(requestName), _parameters(parameters)
+        _name(requestName), _holder(), _parameters(parameters)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("requestName = ", requestName.c_str());//####
@@ -81,7 +81,8 @@ ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName,
 ServiceRequest::~ServiceRequest(void)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT();//####    
+    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_EXIT();//####
 } // ServiceRequest::~ServiceRequest
 
 #if defined(__APPLE__)
@@ -93,6 +94,7 @@ bool ServiceRequest::send(Endpoint &        destinationPort,
                           ServiceResponse * response)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_P3("destinationPort = ", &destinationPort, "usingPort = ", usingPort, "response = ", response);//####
     bool result = false;
 
@@ -108,8 +110,12 @@ bool ServiceRequest::send(Endpoint &        destinationPort,
         }
         message.addString(_name);
         message.append(_parameters);
+        OD_SYSLOG_S1("message <- ", message.toString().c_str());//####
         if (usingPort)
         {
+            usingPort->addOutput(destinationPort.getName());
+            result = true;
+#if 0
             if (usingPort->getOutputCount())
             {
                 result = true;
@@ -122,21 +128,21 @@ bool ServiceRequest::send(Endpoint &        destinationPort,
             {
                 OD_SYSLOG("! (usingPort->addOutput(destinationPort.getName()))");//####
             }
+#endif//0
             if (result)
             {
                 if (response)
                 {
-                    yarp::os::Bottle holder;
-                    
-                    if (usingPort->write(message, holder))
+                    _holder.clear();
+                    if (usingPort->write(message, _holder))
                     {
-                        OD_SYSLOG("(usingPort->write(message, holder))");//####
-                        OD_SYSLOG_S1("got ", holder.toString().c_str());//####
-                        *response = holder;
+                        OD_SYSLOG("(usingPort->write(message, _holder))");//####
+                        OD_SYSLOG_S1("got ", _holder.toString().c_str());//####
+                        *response = _holder;
                     }
                     else
                     {
-                        OD_SYSLOG("! (usingPort->write(message, holder))");//####
+                        OD_SYSLOG("! (usingPort->write(message, _holder))");//####
                         result = false;
                     }
                 }
@@ -160,18 +166,17 @@ bool ServiceRequest::send(Endpoint &        destinationPort,
                     {
                         if (response)
                         {
-                            yarp::os::Bottle holder;
-                            
-                            if (outPort->write(message, holder))
+                            _holder.clear();
+                            if (outPort->write(message, _holder))
                             {
-                                OD_SYSLOG("(outPort->write(message, holder))");//####
-                                OD_SYSLOG_S1("got ", holder.toString().c_str());//####
-                                *response = holder;
+                                OD_SYSLOG("(outPort->write(message, _holder))");//####
+                                OD_SYSLOG_S1("got ", _holder.toString().c_str());//####
+                                *response = _holder;
                                 result = true;
                             }
                             else
                             {
-                                OD_SYSLOG("! (outPort->write(message, holder))");//####
+                                OD_SYSLOG("! (outPort->write(message, _holder))");//####
                             }
                         }
                         else if (outPort->write(message))
@@ -218,6 +223,7 @@ bool ServiceRequest::send(const yarp::os::ConstString & destinationPortName,
                           ServiceResponse *             response)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("destinationPortName = ", destinationPortName.c_str());//####
     OD_SYSLOG_P2("usingPort = ", usingPort, "response = ", response);//####
     bool result = false;
@@ -234,8 +240,12 @@ bool ServiceRequest::send(const yarp::os::ConstString & destinationPortName,
         }
         message.addString(_name);
         message.append(_parameters);
+        OD_SYSLOG_S1("message <- ", message.toString().c_str());//####
         if (usingPort)
         {
+            usingPort->addOutput(destinationPortName);
+            result = true;
+#if 0
             if (usingPort->getOutputCount())
             {
                 result = true;
@@ -248,21 +258,21 @@ bool ServiceRequest::send(const yarp::os::ConstString & destinationPortName,
             {
                 OD_SYSLOG("! (usingPort->addOutput(destinationPortName))");//####
             }
+#endif//0
             if (result)
             {
                 if (response)
                 {
-                    yarp::os::Bottle holder;
-                    
-                    if (usingPort->write(message, holder))
+                    _holder.clear();
+                    if (usingPort->write(message, _holder))
                     {
-                        OD_SYSLOG("(usingPort->write(message, holder))");//####
-                        OD_SYSLOG_S1("got ", holder.toString().c_str());//####
-                        *response = holder;
+                        OD_SYSLOG("(usingPort->write(message, _holder))");//####
+                        OD_SYSLOG_S1("got ", _holder.toString().c_str());//####
+                        *response = _holder;
                     }
                     else
                     {
-                        OD_SYSLOG("! (usingPort->write(message, holder))");//####
+                        OD_SYSLOG("! (usingPort->write(message, _holder))");//####
                         result = false;
                     }
                 }
@@ -286,18 +296,17 @@ bool ServiceRequest::send(const yarp::os::ConstString & destinationPortName,
                     {
                         if (response)
                         {
-                            yarp::os::Bottle holder;
-                            
-                            if (outPort->write(message, holder))
+                            _holder.clear();
+                            if (outPort->write(message, _holder))
                             {
-                                OD_SYSLOG("(outPort->write(message, holder))");//####
-                                OD_SYSLOG_S1("got ", holder.toString().c_str());//####
-                                *response = holder;
+                                OD_SYSLOG("(outPort->write(message, _holder))");//####
+                                OD_SYSLOG_S1("got ", _holder.toString().c_str());//####
+                                *response = _holder;
                                 result = true;
                             }
                             else
                             {
-                                OD_SYSLOG("! (outPort->write(message, holder))");//####
+                                OD_SYSLOG("! (outPort->write(message, _holder))");//####
                             }
                         }
                         else if (outPort->write(message))

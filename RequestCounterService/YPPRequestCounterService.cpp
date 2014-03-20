@@ -85,6 +85,7 @@ RequestCounterService::RequestCounterService(const yarp::os::ConstString & servi
 RequestCounterService::~RequestCounterService(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // RequestCounterService::~RequestCounterService
 
@@ -95,6 +96,7 @@ RequestCounterService::~RequestCounterService(void)
 void RequestCounterService::countRequest(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         ++_counter;
@@ -111,6 +113,7 @@ void RequestCounterService::getStatistics(long &   counter,
                                           double & elapsedTime)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         counter = _counter;
@@ -127,6 +130,7 @@ void RequestCounterService::getStatistics(long &   counter,
 void RequestCounterService::resetCounters(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         _counter = 0;
@@ -143,6 +147,7 @@ void RequestCounterService::resetCounters(void)
 void RequestCounterService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         _requestHandlers.registerRequestHandler(new ResetRequestHandler(*this));
@@ -160,6 +165,7 @@ void RequestCounterService::setUpRequestHandlers(void)
 bool RequestCounterService::start(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try
@@ -191,6 +197,7 @@ bool RequestCounterService::start(void)
 bool RequestCounterService::stop(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try

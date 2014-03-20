@@ -258,6 +258,7 @@ MatchValue::MatchValue(const yarp::os::ConstString & inString) :
 MatchValue::~MatchValue(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // MatchValue::~MatchValue
 
@@ -269,6 +270,7 @@ yarp::os::ConstString MatchValue::asSQLString(void)
 const
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     yarp::os::ConstString converted;
     
     try

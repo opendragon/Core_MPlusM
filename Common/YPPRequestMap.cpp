@@ -73,6 +73,7 @@ RequestMap::RequestMap(BaseService & owner) :
 RequestMap::~RequestMap(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // RequestMap::~RequestMap
 
@@ -83,6 +84,7 @@ RequestMap::~RequestMap(void)
 void RequestMap::fillInListReply(yarp::os::Bottle & reply)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         RequestHandlerMap::const_iterator walker(_handlers.cbegin());
@@ -107,6 +109,7 @@ void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
                                    const yarp::os::ConstString & requestName)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         RequestHandlerMap::const_iterator match(_handlers.find(std::string(requestName)));
@@ -134,6 +137,7 @@ void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
 BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstString & request)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("request = ", request.c_str());//####
     BaseRequestHandler * result = NULL;
     
@@ -164,6 +168,7 @@ BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstStrin
 void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_P1("handler = ", handler);//####
     try
     {
@@ -185,6 +190,7 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
 void RequestMap::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_P1("handler = ", handler);//####
     _defaultHandler = handler;
     OD_SYSLOG_EXIT();//####
@@ -193,6 +199,7 @@ void RequestMap::setDefaultRequestHandler(BaseRequestHandler * handler)
 void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_P1("handler = ", handler);//####
     try
     {

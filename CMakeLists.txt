@@ -46,7 +46,13 @@ project(YARPPlusPlus)
 
 set(YPP_VERSION_MAJOR 1)
 set(YPP_VERSION_MINOR 1)
-set(YPP_VERSION_PATCH 1)
+set(YPP_VERSION_PATCH 2)
+
+option(MAIN_DOES_DELAY_NOT_YIELD "Use Delay in main() loop")
+
+option(DEBUG_INCLUDES_YARP_TRACE "Include YARP trace when debugging")
+
+option(SERVICES_DEBUG_TO_STDERR "Services send output to stderr")
 
 # find YARP
 find_package(YARP REQUIRED)

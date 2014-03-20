@@ -149,6 +149,7 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
 bool Endpoint::CheckEndpointName(const yarp::os::ConstString & portName)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("portName = ", portName.c_str());//####
     bool result = false;
 
@@ -233,6 +234,7 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
 Endpoint::~Endpoint(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     close();
     OD_SYSLOG_EXIT();//####
 } // Endpoint::~Endpoint
@@ -244,6 +246,7 @@ Endpoint::~Endpoint(void)
 void Endpoint::close(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         if (isOpen())
@@ -285,6 +288,7 @@ void Endpoint::close(void)
 bool Endpoint::open(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try
@@ -345,6 +349,7 @@ bool Endpoint::open(void)
 bool Endpoint::setInputHandler(InputHandler & handler)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_P1("handler = ", &handler);//####
     bool result = false;
     
@@ -385,6 +390,7 @@ bool Endpoint::setInputHandler(InputHandler & handler)
 bool Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_P1("handlerCreator = ", &handlerCreator);//####
     bool result = false;
     
@@ -425,6 +431,7 @@ bool Endpoint::setReporter(yarp::os::PortReport & reporter,
                            const bool             andReportNow)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_P1("reporter = ", &reporter);//####
     OD_SYSLOG_B1("andReportNow = ", andReportNow);//####
     bool result = false;
@@ -457,6 +464,7 @@ bool Endpoint::setReporter(yarp::os::PortReport & reporter,
 bool Endpoint::setTimeout(const float timeout)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_D1("timeout = ", timeout);//####
     bool result = false;
     

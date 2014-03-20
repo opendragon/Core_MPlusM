@@ -71,6 +71,7 @@ Test09DefaultRequestHandler::Test09DefaultRequestHandler(void) :
 Test09DefaultRequestHandler::~Test09DefaultRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // Test09DefaultRequestHandler::~Test09DefaultRequestHandler
 
@@ -82,6 +83,7 @@ void Test09DefaultRequestHandler::fillInDescription(yarp::os::Property & info)
 {
 #pragma unused(info)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // Test09DefaultRequestHandler::fillInDescription
 
@@ -93,6 +95,7 @@ bool Test09DefaultRequestHandler::operator() (const yarp::os::Bottle &      rest
 # pragma unused(senderPort)
 #endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;

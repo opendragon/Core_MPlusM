@@ -78,6 +78,7 @@ Test15Service::Test15Service(const int argc,
 Test15Service::~Test15Service(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // Test15Service::~Test15Service
 
@@ -88,6 +89,7 @@ Test15Service::~Test15Service(void)
 void Test15Service::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         _requestHandlers.registerRequestHandler(new Test15EchoRequestHandler());
@@ -103,6 +105,7 @@ void Test15Service::setUpRequestHandlers(void)
 bool Test15Service::start(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try
@@ -134,6 +137,7 @@ bool Test15Service::start(void)
 bool Test15Service::stop(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try

@@ -77,6 +77,7 @@ AddRequestHandler::AddRequestHandler(ExampleRunningSumService & service) :
 AddRequestHandler::~AddRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // AddRequestHandler::~AddRequestHandler
 
@@ -87,6 +88,7 @@ AddRequestHandler::~AddRequestHandler(void)
 void AddRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_ADD_REQUEST);
@@ -113,6 +115,7 @@ bool AddRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
                                     yarp::os::ConnectionWriter *  replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool  result = true;

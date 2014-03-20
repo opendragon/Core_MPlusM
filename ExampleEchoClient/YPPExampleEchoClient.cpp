@@ -73,6 +73,7 @@ ExampleEchoClient::ExampleEchoClient(void) :
 ExampleEchoClient::~ExampleEchoClient(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // ExampleEchoClient::~ExampleEchoClient
 
@@ -84,6 +85,7 @@ bool ExampleEchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
                                        yarp::os::ConstString &       incoming)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("outgoing = ", outgoing.c_str());//####
     OD_SYSLOG_P1("incoming = ", &incoming);//####
     bool okSoFar = false;

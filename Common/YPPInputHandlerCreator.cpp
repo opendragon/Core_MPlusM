@@ -72,6 +72,7 @@ InputHandlerCreator::InputHandlerCreator(void) :
 InputHandlerCreator::~InputHandlerCreator(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // InputHandlerCreator::~InputHandlerCreator
 

@@ -70,6 +70,7 @@ BaseContext::BaseContext(void)
 BaseContext::~BaseContext(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // BaseContext::~BaseContext
 

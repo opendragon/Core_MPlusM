@@ -175,6 +175,7 @@ MatchConstraint::MatchConstraint(void) :
 MatchConstraint::~MatchConstraint(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     empty();
     OD_SYSLOG_EXIT();//####
 } // MatchConstraint::~MatchConstraint
@@ -187,6 +188,7 @@ yarp::os::ConstString MatchConstraint::asSQLString(void)
 const
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     yarp::os::ConstString result;
     
     try
@@ -273,6 +275,7 @@ const
 void MatchConstraint::empty(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)

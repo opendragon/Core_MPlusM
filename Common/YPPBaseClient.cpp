@@ -138,6 +138,7 @@ BaseClient::BaseClient(void) :
 BaseClient::~BaseClient(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // BaseClient::~BaseClient
 
@@ -149,6 +150,7 @@ bool BaseClient::findService(const char * criteria,
                              const bool   allowOnlyOneMatch)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("criteria = ", criteria);//####
     OD_SYSLOG_B1("allowOnlyOneMatch = ", allowOnlyOneMatch);//####
     bool result = false;
@@ -218,8 +220,9 @@ bool BaseClient::send(const char *             request,
                       ServiceResponse *        response)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("request = ", request, "parameters = ", parameters.toString().c_str());//####
-    OD_SYSLOG_P1("response = ", response);//####
+    OD_SYSLOG_P2("usingPort = ", usingPort, "response = ", response);//####
     bool result = false;
 
     try
@@ -266,13 +269,14 @@ yarp::os::Bottle YarpPlusPlus::FindMatchingServices(const char * criteria)
     {
         yarp::os::Bottle parameters;
 
-        parameters.addString(criteria); // Note that we can't simply initialize the Bottle with the criteria, as it will be
-                                        // parsed by YARP.
+        parameters.addString(criteria); // Note that we can't simply initialize the Bottle with the criteria, as it will
+                                        // be parsed by YARP.
         ServiceRequest   request(YPP_MATCH_REQUEST, parameters);
         ServiceResponse  response;
         
         if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
         {
+            OD_SYSLOG_S1("response <- ", response.asString().c_str());//####
             result = ValidateMatchResponse(response.values());
         }
         else

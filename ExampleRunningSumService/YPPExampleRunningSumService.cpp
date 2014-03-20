@@ -89,6 +89,7 @@ ExampleRunningSumService::ExampleRunningSumService(const yarp::os::ConstString &
 ExampleRunningSumService::~ExampleRunningSumService(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // ExampleRunningSumService::~ExampleRunningSumService
 
@@ -103,6 +104,7 @@ double ExampleRunningSumService::addToSum(const yarp::os::ConstString & key,
 # pragma unused(key)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     OD_SYSLOG_D1("value = ", value);//####
     double result = 0.0;
@@ -141,6 +143,7 @@ void ExampleRunningSumService::resetSum(const yarp::os::ConstString & key)
 # pragma unused(key)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     try
     {
@@ -170,6 +173,7 @@ void ExampleRunningSumService::resetSum(const yarp::os::ConstString & key)
 void ExampleRunningSumService::setUpRequestHandlers(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         _requestHandlers.registerRequestHandler(new AddRequestHandler(*this));
@@ -188,6 +192,7 @@ void ExampleRunningSumService::setUpRequestHandlers(void)
 bool ExampleRunningSumService::start(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try
@@ -222,6 +227,7 @@ void ExampleRunningSumService::startSum(const yarp::os::ConstString & key)
 # pragma unused(key)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     try
     {
@@ -251,6 +257,7 @@ void ExampleRunningSumService::startSum(const yarp::os::ConstString & key)
 bool ExampleRunningSumService::stop(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     bool result = false;
     
     try
@@ -272,6 +279,7 @@ void ExampleRunningSumService::stopSum(const yarp::os::ConstString & key)
 # pragma unused(key)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     try
     {

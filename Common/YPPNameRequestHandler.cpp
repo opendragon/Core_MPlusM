@@ -77,6 +77,7 @@ NameRequestHandler::NameRequestHandler(BaseService & service) :
 NameRequestHandler::~NameRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // NameRequestHandler::~NameRequestHandler
 
@@ -87,6 +88,7 @@ NameRequestHandler::~NameRequestHandler(void)
 void NameRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_NAME_REQUEST);
@@ -117,6 +119,7 @@ bool NameRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
 # pragma unused(restOfInput,senderPort)
 #endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;

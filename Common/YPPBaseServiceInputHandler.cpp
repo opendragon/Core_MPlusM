@@ -74,6 +74,7 @@ BaseServiceInputHandler::BaseServiceInputHandler(BaseService & service) :
 BaseServiceInputHandler::~BaseServiceInputHandler(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // BaseServiceInputHandler::~BaseServiceInputHandler
 
@@ -86,6 +87,7 @@ bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &      input,
                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = false;

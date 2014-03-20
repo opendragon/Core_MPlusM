@@ -77,6 +77,7 @@ ListRequestHandler::ListRequestHandler(void) :
 ListRequestHandler::~ListRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // ListRequestHandler::~ListRequestHandler
 
@@ -87,6 +88,7 @@ ListRequestHandler::~ListRequestHandler(void)
 void ListRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_LIST_REQUEST);
@@ -119,6 +121,7 @@ bool ListRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
 # pragma unused(restOfInput,senderPort)
 #endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;

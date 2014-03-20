@@ -162,6 +162,7 @@ MatchFieldName::MatchFieldName(const yarp::os::ConstString & inString) :
 MatchFieldName::~MatchFieldName(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // MatchFieldName::~MatchFieldName
 

@@ -194,6 +194,7 @@ MatchValueList::MatchValueList(void) :
 MatchValueList::~MatchValueList(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     empty();
     OD_SYSLOG_EXIT();//####
 } // MatchValueList::~MatchValueList
@@ -206,6 +207,7 @@ yarp::os::ConstString MatchValueList::asSQLString(const char * fieldName)
 const
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("fieldName = ", fieldName);//####
     yarp::os::ConstString result;
     
@@ -400,6 +402,7 @@ const
 void MatchValueList::empty(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)

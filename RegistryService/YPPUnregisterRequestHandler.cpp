@@ -79,6 +79,7 @@ UnregisterRequestHandler::UnregisterRequestHandler(RegistryService & service) :
 UnregisterRequestHandler::~UnregisterRequestHandler(void)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_EXIT();//####
 } // UnregisterRequestHandler::~UnregisterRequestHandler
 
@@ -89,6 +90,7 @@ UnregisterRequestHandler::~UnregisterRequestHandler(void)
 void UnregisterRequestHandler::fillInDescription(yarp::os::Property & info)
 {
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_UNREGISTER_REQUEST);
@@ -119,6 +121,7 @@ bool UnregisterRequestHandler::operator() (const yarp::os::Bottle &      restOfI
 # pragma unused(senderPort)
 #endif // ! defined(ENABLE_OD_SYSLOG)
     OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
