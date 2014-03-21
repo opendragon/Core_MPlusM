@@ -124,7 +124,11 @@ bool ServiceRequest::send(yarp::os::Port &  usingPort,
                 OD_SYSLOG("! (usingPort.write(message, _holder))");//####
             }
         }
-        else if (! usingPort.write(message))
+        else if (usingPort.write(message))
+        {
+            result = true;
+        }
+        else
         {
             OD_SYSLOG("(! usingPort.write(message))");//####
         }
