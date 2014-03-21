@@ -70,40 +70,70 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("aServicePort = ", aServicePort.c_str());//####
-    bool                          result = false;
-    yarp::os::Bottle              parameters;
-    YarpPlusPlus::ServiceRequest  request(YPP_NAME_REQUEST, parameters);
-    YarpPlusPlus::ServiceResponse response;
+    bool                  result = false;
+    yarp::os::ConstString aName(YarpPlusPlus::GetRandomPortName("/servicelister/port_"));
+    yarp::os::Port *      newPort = new yarp::os::Port();
     
-    if (request.send(aServicePort, NULL, &response))
+    if (newPort)
     {
-        OD_SYSLOG_S1("response <- ", response.asString().c_str());//####
-        if (YPP_EXPECTED_NAME_RESPONSE_SIZE == response.count())
+        if (newPort->open(aName))
         {
-            yarp::os::Value theCanonicalName(response.element(0));
-            yarp::os::Value theDescription(response.element(1));
-            
-            OD_SYSLOG_S2("theCanonicalName <- ", theCanonicalName.toString().c_str(), "theDescription <- ",//####
-                         theDescription.toString().c_str());//####
-            if (theCanonicalName.isString() && theDescription.isString())
+            if (yarp::os::Network::connect(aName, aServicePort))
             {
-                canonicalName = theCanonicalName.toString();
-                description = theDescription.toString();
-                result = true;
+                yarp::os::Bottle              parameters;
+                YarpPlusPlus::ServiceRequest  request(YPP_NAME_REQUEST, parameters);
+                YarpPlusPlus::ServiceResponse response;
+                
+                if (request.send(*newPort, &response))
+                {
+                    OD_SYSLOG_S1("response <- ", response.asString().c_str());//####
+                    if (YPP_EXPECTED_NAME_RESPONSE_SIZE == response.count())
+                    {
+                        yarp::os::Value theCanonicalName(response.element(0));
+                        yarp::os::Value theDescription(response.element(1));
+                        
+                        OD_SYSLOG_S2("theCanonicalName <- ", theCanonicalName.toString().c_str(),//####
+                                     "theDescription <- ", theDescription.toString().c_str());//####
+                        if (theCanonicalName.isString() && theDescription.isString())
+                        {
+                            canonicalName = theCanonicalName.toString();
+                            description = theDescription.toString();
+                            result = true;
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (theCanonicalName.isString() && theDescription.isString())");//####
+                        }
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (YPP_EXPECTED_NAME_RESPONSE_SIZE == response.count())");//####
+                    }
+                }
+                else
+                {
+                    OD_SYSLOG("! (request.send(*newPort, &response))");//####
+                }
+                if (! yarp::os::Network::disconnect(aName, aServicePort))
+                {
+                    OD_SYSLOG("(! yarp::os::Network::disconnect(aName, destinationName))");//####
+                }
             }
             else
             {
-                OD_SYSLOG("! (theCanonicalName.isString() && theDescription.isString())");//####
+                OD_SYSLOG("! (yarp::os::Network::connect(aName, destinationName))");//####
             }
+            newPort->close();
         }
         else
         {
-            OD_SYSLOG("! (YPP_EXPECTED_NAME_RESPONSE_SIZE == response.count())");//####
+            OD_SYSLOG("! (newPort->open(portPath))");//####
         }
+        delete newPort;
     }
     else
     {
-        OD_SYSLOG("! (request.send(aServicePort, NULL, &response))");//####
+        OD_SYSLOG("! (newPort)");//####
     }
     OD_SYSLOG_EXIT_B(result);//####
     return result;

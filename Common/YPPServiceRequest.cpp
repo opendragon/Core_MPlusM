@@ -89,16 +89,14 @@ ServiceRequest::~ServiceRequest(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool ServiceRequest::send(Endpoint &        destinationPort,
-                          yarp::os::Port *  usingPort,
+bool ServiceRequest::send(yarp::os::Port &  usingPort,
                           ServiceResponse * response)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_P3("destinationPort = ", &destinationPort, "usingPort = ", usingPort, "response = ", response);//####
+    OD_SYSLOG_P2("usingPort = ", &usingPort, "response = ", response);//####
     bool result = false;
-
-    // Now we try to connect!
+    
     try
     {
         yarp::os::Bottle message;
@@ -111,232 +109,24 @@ bool ServiceRequest::send(Endpoint &        destinationPort,
         message.addString(_name);
         message.append(_parameters);
         OD_SYSLOG_S1("message <- ", message.toString().c_str());//####
-        if (usingPort)
+        if (response)
         {
-            usingPort->addOutput(destinationPort.getName());
-            result = true;
-#if 0
-            if (usingPort->getOutputCount())
+            _holder.clear();
+            if (usingPort.write(message, _holder))
             {
-                result = true;
-            }
-            else if (usingPort->addOutput(destinationPort.getName()))
-            {
+                OD_SYSLOG("(usingPort.write(message, _holder))");//####
+                OD_SYSLOG_S1("got ", _holder.toString().c_str());//####
+                *response = _holder;
                 result = true;
             }
             else
             {
-                OD_SYSLOG("! (usingPort->addOutput(destinationPort.getName()))");//####
-            }
-#endif//0
-            if (result)
-            {
-                if (response)
-                {
-                    _holder.clear();
-                    if (usingPort->write(message, _holder))
-                    {
-                        OD_SYSLOG("(usingPort->write(message, _holder))");//####
-                        OD_SYSLOG_S1("got ", _holder.toString().c_str());//####
-                        *response = _holder;
-                    }
-                    else
-                    {
-                        OD_SYSLOG("! (usingPort->write(message, _holder))");//####
-                        result = false;
-                    }
-                }
-                else if (! usingPort->write(message))
-                {
-                    OD_SYSLOG("(! usingPort->write(message))");//####
-                    result = false;
-                }
+                OD_SYSLOG("! (usingPort.write(message, _holder))");//####
             }
         }
-        else
+        else if (! usingPort.write(message))
         {
-            yarp::os::ConstString aName(GetRandomPortName("request/byendpoint_"));
-            yarp::os::Port *      outPort = new yarp::os::Port();
-            
-            if (outPort)
-            {
-                if (outPort->open(aName))
-                {
-                    if (outPort->addOutput(destinationPort.getName()))
-                    {
-                        if (response)
-                        {
-                            _holder.clear();
-                            if (outPort->write(message, _holder))
-                            {
-                                OD_SYSLOG("(outPort->write(message, _holder))");//####
-                                OD_SYSLOG_S1("got ", _holder.toString().c_str());//####
-                                *response = _holder;
-                                result = true;
-                            }
-                            else
-                            {
-                                OD_SYSLOG("! (outPort->write(message, _holder))");//####
-                            }
-                        }
-                        else if (outPort->write(message))
-                        {
-                            OD_SYSLOG("(outPort->write(message))");//####
-                            result = true;
-                        }
-                        else
-                        {
-                            OD_SYSLOG("! (outPort->write(message))");//####
-                        }
-                    }
-                    else
-                    {
-                        OD_SYSLOG("! (outPort->addOutput(destination.getName()))");//####
-                    }
-                    OD_SYSLOG_S1("about to close, port = ", aName.c_str());//####
-                    outPort->close();
-                    OD_SYSLOG("close completed.");//####
-                }
-                else
-                {
-                    OD_SYSLOG("! (outPort->open(aName))");//####
-                }
-                delete outPort;
-            }
-            else
-            {
-                OD_SYSLOG("! (outPort)");
-            }
-        }
-    }
-    catch (...)
-    {
-        OD_SYSLOG("Exception caught");//####
-        throw;
-    }
-    OD_SYSLOG_EXIT_B(result);//####
-    return result;
-} // ServiceRequest::send
-
-bool ServiceRequest::send(const yarp::os::ConstString & destinationPortName,
-                          yarp::os::Port *              usingPort,
-                          ServiceResponse *             response)
-{
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_S1("destinationPortName = ", destinationPortName.c_str());//####
-    OD_SYSLOG_P2("usingPort = ", usingPort, "response = ", response);//####
-    bool result = false;
-
-    // Now we try to connect!
-    try
-    {
-        yarp::os::Bottle message;
-        
-        OD_SYSLOG_LL1("parameter size = ", _parameters.size());//####
-        for (int ii = 0; ii < _parameters.size(); ++ii)
-        {
-            OD_SYSLOG_S1("parameter = ", _parameters.get(ii).asString().c_str());//####
-        }
-        message.addString(_name);
-        message.append(_parameters);
-        OD_SYSLOG_S1("message <- ", message.toString().c_str());//####
-        if (usingPort)
-        {
-            usingPort->addOutput(destinationPortName);
-            result = true;
-#if 0
-            if (usingPort->getOutputCount())
-            {
-                result = true;
-            }
-            else if (usingPort->addOutput(destinationPortName))
-            {
-                result = true;
-            }
-            else
-            {
-                OD_SYSLOG("! (usingPort->addOutput(destinationPortName))");//####
-            }
-#endif//0
-            if (result)
-            {
-                if (response)
-                {
-                    _holder.clear();
-                    if (usingPort->write(message, _holder))
-                    {
-                        OD_SYSLOG("(usingPort->write(message, _holder))");//####
-                        OD_SYSLOG_S1("got ", _holder.toString().c_str());//####
-                        *response = _holder;
-                    }
-                    else
-                    {
-                        OD_SYSLOG("! (usingPort->write(message, _holder))");//####
-                        result = false;
-                    }
-                }
-                else if (! usingPort->write(message))
-                {
-                    OD_SYSLOG("(! usingPort->write(message))");//####
-                    result = false;
-                }
-            }
-        }
-        else
-        {
-            yarp::os::ConstString aName(GetRandomPortName("request/byname_"));
-            yarp::os::Port *      outPort = new yarp::os::Port();
-            
-            if (outPort)
-            {
-                if (outPort->open(aName))
-                {
-                    if (outPort->addOutput(destinationPortName))
-                    {
-                        if (response)
-                        {
-                            _holder.clear();
-                            if (outPort->write(message, _holder))
-                            {
-                                OD_SYSLOG("(outPort->write(message, _holder))");//####
-                                OD_SYSLOG_S1("got ", _holder.toString().c_str());//####
-                                *response = _holder;
-                                result = true;
-                            }
-                            else
-                            {
-                                OD_SYSLOG("! (outPort->write(message, _holder))");//####
-                            }
-                        }
-                        else if (outPort->write(message))
-                        {
-                            OD_SYSLOG("(outPort->write(message))");//####
-                            result = true;
-                        }
-                        else
-                        {
-                            OD_SYSLOG("! (outPort->write(message))");//####
-                        }
-                    }
-                    else
-                    {
-                        OD_SYSLOG("! (outPort->addOutput(destinationPortName))");//####
-                    }
-                    OD_SYSLOG_S1("about to close, port = ", aName.c_str());//####
-                    outPort->close();
-                    OD_SYSLOG("close completed.");//####
-                }
-                else
-                {
-                    OD_SYSLOG("! (outPort->open(aName))");//####
-                }
-                delete outPort;
-            }
-            else
-            {
-                OD_SYSLOG("! (outPort)");
-            }
+            OD_SYSLOG("(! usingPort.write(message))");//####
         }
     }
     catch (...)

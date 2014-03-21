@@ -70,22 +70,6 @@ ExampleRunningSumClient::ExampleRunningSumClient(void) :
         inherited("example/runningsum_")
 {
     OD_SYSLOG_ENTER();//####
-#if 0
-    yarp::os::ConstString aName(YarpPlusPlus::GetRandomPortName("example/runningsum_"));
-    
-    _port = new yarp::os::Port();
-    if (! _port)
-    {
-        OD_SYSLOG_EXIT_THROW_S("Could not create port");//####
-        throw new YarpPlusPlus::Exception("Could not create port");
-    }
-    OD_SYSLOG_S1("opening ", aName.c_str());//####
-    if (! _port->open(aName))
-    {
-        OD_SYSLOG_EXIT_THROW_S("Could not open port");//####
-        throw new YarpPlusPlus::Exception("Could not open port");
-    }
-#endif//0
     OD_SYSLOG_EXIT_P(this);//####
 } // ExampleRunningSumClient::ExampleRunningSumClient
 
@@ -93,14 +77,6 @@ ExampleRunningSumClient::~ExampleRunningSumClient(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("this = ", this);//####
-#if 0
-    if (_port)
-    {
-        OD_SYSLOG("about to close");//####
-        _port->close();
-        OD_SYSLOG("close completed.");//####
-    }
-#endif//0
     OD_SYSLOG_EXIT();//####
 } // ExampleRunningSumClient::~ExampleRunningSumClient
 

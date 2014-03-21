@@ -55,6 +55,7 @@
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
+#include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
 
 using namespace YarpPlusPlus;
@@ -63,7 +64,7 @@ using namespace YarpPlusPlus;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-#define USE_TEST_DATABASE /* */
+//#define USE_TEST_DATABASE /* */
 
 /*! @brief The name of the 'keywords' table. */
 #define KEYWORDS_T_         "Keywords"
@@ -1180,36 +1181,62 @@ bool RegistryService::start(void)
             if (isStarted() && setUpDatabase())
             {
                 // Register ourselves!!!
-                yarp::os::Bottle parameters(YPP_SERVICE_REGISTRY_PORT_NAME);
-                ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
-                ServiceResponse  response;
+                yarp::os::ConstString aName(GetRandomPortName(YPP_SERVICE_REGISTRY_PORT_NAME "/temp_"));
+                yarp::os::Port *      newPort = new yarp::os::Port();
                 
-                if (request.send(getEndpoint(), NULL, &response))
+                if (newPort)
                 {
-                    // Check that we got a successful self-registration!
-                    if (1 == response.count())
+                    if (newPort->open(aName))
                     {
-                        yarp::os::Value theValue = response.element(0);
-                        
-                        OD_SYSLOG_S1("theValue <- ", theValue.toString().c_str());//####
-                        if (theValue.isString())
+                        if (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
                         {
-                            _isActive = (theValue.toString() == YPP_OK_RESPONSE);
-                            OD_SYSLOG_B1("_isActive <- ", _isActive);//####
+                            yarp::os::Bottle parameters(YPP_SERVICE_REGISTRY_PORT_NAME);
+                            ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
+                            ServiceResponse  response;
+                            
+                            if (request.send(*newPort, &response))
+                            {
+                                // Check that we got a successful self-registration!
+                                if (1 == response.count())
+                                {
+                                    yarp::os::Value theValue = response.element(0);
+                                    
+                                    OD_SYSLOG_S1("theValue <- ", theValue.toString().c_str());//####
+                                    if (theValue.isString())
+                                    {
+                                        _isActive = (theValue.toString() == YPP_OK_RESPONSE);
+                                        OD_SYSLOG_B1("_isActive <- ", _isActive);//####
+                                    }
+                                    else
+                                    {
+                                        OD_SYSLOG("! (theValue.isString())");//####
+                                    }
+                                }
+                                else
+                                {
+                                    OD_SYSLOG("! (1 == response.count())");//####
+                                }
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (request.send(*newPort, &response))");//####
+                            }
                         }
                         else
                         {
-                            OD_SYSLOG("! (theValue.isString())");//####
+                            OD_SYSLOG("! (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
                         }
+                        newPort->close();
                     }
                     else
                     {
-                        OD_SYSLOG("! (1 == response.count())");//####
+                        OD_SYSLOG("! (newPort->open(portPath))");//####
                     }
+                    delete newPort;
                 }
                 else
                 {
-                    OD_SYSLOG("! (request.send(getEndpoint(), NULL, &response))");//####
+                    OD_SYSLOG("! (newPort)");//####
                 }
             }
             else

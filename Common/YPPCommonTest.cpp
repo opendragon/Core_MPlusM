@@ -116,6 +116,83 @@ static Endpoint * doCreateEndpointForTest(const int argc,
     return stuff;
 } // doCreateEndpointForTest
 
+/*! @brief Create a temporary port for a test.
+ @param destinationName The name of the port to be connected to.
+ @param portPath The root path for the new temporary port.
+ @returns A pointer to a newly-allocated temporary port. */
+static yarp::os::Port * doCreateTestPort(const yarp::os::ConstString & destinationName,
+                                         const char *                  portPath)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_S2("destinationName = ", destinationName.c_str(), "portPath = ", portPath);//####
+    yarp::os::ConstString aName(GetRandomPortName(portPath));
+    yarp::os::Port *      newPort = new yarp::os::Port();
+    
+    if (newPort)
+    {
+        if (newPort->open(aName))
+        {
+            if (! yarp::os::Network::connect(aName, destinationName))
+            {
+                OD_SYSLOG("(! yarp::os::Network::connect(aName, destinationName))");//####
+                newPort->close();
+                delete newPort;
+                newPort = NULL;
+            }
+        }
+        else
+        {
+            OD_SYSLOG("! (newPort->open(portPath))");//####
+        }
+    }
+    else
+    {
+        OD_SYSLOG("! (newPort)");//####
+    }
+    OD_SYSLOG_EXIT_P(newPort);//####
+    return newPort;
+} // doCreateTestPort
+
+/*! @brief Create a temporary port for a test.
+ @param anEndpoint The endpoint to be connected to.
+ @param portPath The root path for the new temporary port.
+ @returns A pointer to a newly-allocated temporary port. */
+static yarp::os::Port * doCreateTestPort(Endpoint &   anEndpoint,
+                                         const char * portPath)
+{
+    return doCreateTestPort(anEndpoint.getName(), portPath);
+} // doCreateTestPort
+
+/*! @brief Destroy a temporary port that was used with a test.
+ @param destinationName The name of the port that the temporary port was connected to.
+ @param thePort A pointer to the temporary port. */
+static void doDestroyTestPort(const yarp::os::ConstString & destinationName,
+                              yarp::os::Port *              thePort)
+{
+    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_P1("thePort = ", thePort);//####
+    
+    if (thePort)
+    {
+        if (! yarp::os::Network::disconnect(thePort->getName(), destinationName))
+        {
+            OD_SYSLOG("(! yarp::os::Network::disconnect(thePort->getName(), destinationName))");//####
+        }
+        thePort->close();
+        delete thePort;
+    }
+    OD_SYSLOG_EXIT();//####
+} // doDestroyTestPort
+
+/*! @brief Destroy a temporary port that was used with a test.
+ @param anEndpoint The endpoint to be connected to.
+ @param thePort A pointer to the temporary port. */
+static void doDestroyTestPort(Endpoint &       anEndpoint,
+                              yarp::os::Port * thePort)
+{
+    doDestroyTestPort(anEndpoint.getName(), thePort);
+} // doDestroyTestPort
+
 #if defined(__APPLE__)
 # pragma mark *** Test Case 01 ***
 #endif // defined(__APPLE__)
@@ -631,29 +708,39 @@ static int doCase08(const int argc,
             
             if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
             {
-                OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
-                yarp::os::Bottle parameters("some to send");
-                ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
-                ServiceResponse  response;
+                yarp::os::Port * outPort = doCreateTestPort(stuff->getName(), "test/case08_");
                 
-                if (request.send(*stuff, NULL, &response))
+                if (outPort)
                 {
-                    OD_SYSLOG_LL1("response size = ", response.count());//####
-                    for (int ii = 0; ii < response.count(); ++ii)
+                    OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                    yarp::os::Bottle parameters("some to send");
+                    ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
+                    ServiceResponse  response;
+                    
+                    if (request.send(*outPort, &response))
                     {
-                        OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                        OD_SYSLOG_LL1("response size = ", response.count());//####
+                        for (int ii = 0; ii < response.count(); ++ii)
+                        {
+                            OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                        }
+                        result = 0;
                     }
-                    result = 0;
+                    else
+                    {
+                        OD_SYSLOG("! (request.send(*outPort, &response))");//####
+                    }
+                    doDestroyTestPort(stuff->getName(), outPort);
                 }
                 else
                 {
-                    OD_SYSLOG("! (request.send(*stuff, NULL, &response))");//####
+                    OD_SYSLOG("! (outPort)");//####
                 }
             }
             else
             {
-                OD_SYSLOG("! (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, "//####
-                          "true))");//####
+                OD_SYSLOG("! (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter("//####
+                          "reporter, true))");//####
             }
             delete stuff;
         }
@@ -693,22 +780,32 @@ static int doCase09(const int argc,
         {
             if (stuff->start())
             {
-                yarp::os::Bottle parameters("some to send");
-                ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
-                ServiceResponse  response;
+                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(), "test/case09_");
                 
-                if (request.send(stuff->getEndpoint(), NULL, &response))
+                if (outPort)
                 {
-                    OD_SYSLOG_LL1("response size = ", response.count());//####
-                    for (int ii = 0; ii < response.count(); ++ii)
+                    yarp::os::Bottle parameters("some to send");
+                    ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
+                    ServiceResponse  response;
+                    
+                    if (request.send(*outPort, &response))
                     {
-                        OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                        OD_SYSLOG_LL1("response size = ", response.count());//####
+                        for (int ii = 0; ii < response.count(); ++ii)
+                        {
+                            OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                        }
+                        result = 0;
                     }
-                    result = 0;
+                    else
+                    {
+                        OD_SYSLOG("! (request.send(*outPort, &response))");//####
+                    }
+                    doDestroyTestPort(stuff->getEndpoint(), outPort);
                 }
                 else
                 {
-                    OD_SYSLOG("! (request.send(stuff->getEndpoint(), NULL, &response))");//####
+                    OD_SYSLOG("! (outPort)");//####
                 }
                 stuff->stop();
             }
@@ -754,22 +851,32 @@ static int doCase10(const int argc,
         {
             if (stuff->start())
             {
-                yarp::os::Bottle parameters("some to send");
-                ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
-                ServiceResponse  response;
+                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(), "test/case10_");
                 
-                if (request.send(stuff->getEndpoint(), NULL, &response))
+                if (outPort)
                 {
-                    OD_SYSLOG_LL1("response size = ", response.count());//####
-                    for (int ii = 0; ii < response.count(); ++ii)
+                    yarp::os::Bottle parameters("some to send");
+                    ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
+                    ServiceResponse  response;
+                    
+                    if (request.send(*outPort, &response))
                     {
-                        OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                        OD_SYSLOG_LL1("response size = ", response.count());//####
+                        for (int ii = 0; ii < response.count(); ++ii)
+                        {
+                            OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                        }
+                        result = 0;
                     }
-                    result = 0;
+                    else
+                    {
+                        OD_SYSLOG("! (request.send(*outPort, &response))");//####
+                    }
+                    doDestroyTestPort(stuff->getEndpoint(), outPort);
                 }
                 else
                 {
-                    OD_SYSLOG("! (request.send(stuff->getEndpoint(), NULL, &response))");//####
+                    OD_SYSLOG("! (outPort)");//####
                 }
                 stuff->stop();
             }
@@ -815,36 +922,46 @@ static int doCase11(const int argc,
         {
             if (stuff->start())
             {
-                yarp::os::Bottle parameters("some to send");
-                ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
-                ServiceResponse  response;
+                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(), "test/case11_");
                 
-                if (request.send(stuff->getEndpoint(), NULL, &response))
+                if (outPort)
                 {
-                    if (3 == response.count())
+                    yarp::os::Bottle parameters("some to send");
+                    ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
+                    ServiceResponse  response;
+                    
+                    if (request.send(*outPort, &response))
                     {
-                        yarp::os::ConstString expected[] = { "some", "to", "send" };
-                        
-                        result = 0;
-                        for (int ii = 0; (! result) && (ii < response.count()); ++ii)
+                        if (3 == response.count())
                         {
-                            if (expected[ii] != response.element(ii).toString())
+                            yarp::os::ConstString expected[] = { "some", "to", "send" };
+                            
+                            result = 0;
+                            for (int ii = 0; (! result) && (ii < response.count()); ++ii)
                             {
-                                OD_SYSLOG_S2("expected[ii] = ", expected[ii].c_str(),//####
-                                             "response.element(ii).toString() = ",//####
-                                             response.element(ii).toString().c_str());//####
-                                result = 1;
+                                if (expected[ii] != response.element(ii).toString())
+                                {
+                                    OD_SYSLOG_S2("expected[ii] = ", expected[ii].c_str(),//####
+                                                 "response.element(ii).toString() = ",//####
+                                                 response.element(ii).toString().c_str());//####
+                                    result = 1;
+                                }
                             }
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (3 == response.count())");//####
                         }
                     }
                     else
                     {
-                        OD_SYSLOG("! (3 == response.count())");//####
+                        OD_SYSLOG("! (request.send(*outPort, &response))");//####
                     }
+                    doDestroyTestPort(stuff->getEndpoint(), outPort);
                 }
                 else
                 {
-                    OD_SYSLOG("! (request.send(stuff->getEndpoint(), NULL, &response))");//####
+                    OD_SYSLOG("! (outPort)");//####
                 }
                 stuff->stop();
             }
@@ -990,28 +1107,38 @@ static int doCase12(const int argc,
         {
             if (stuff->start())
             {
-                ServiceRequest  request(YPP_LIST_REQUEST);
-                ServiceResponse response;
+                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(), "test/case12_");
                 
-                if (request.send(stuff->getEndpoint(), NULL, &response))
+                if (outPort)
                 {
-                    OD_SYSLOG_LL1("response size = ", response.count());//####
-                    for (int ii = 0; ii < response.count(); ++ii)
+                    ServiceRequest  request(YPP_LIST_REQUEST);
+                    ServiceResponse response;
+                    
+                    if (request.send(*outPort, &response))
                     {
-                        OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
-                    }
-                    if (checkList12Response(response))
-                    {
-                        result = 0;
+                        OD_SYSLOG_LL1("response size = ", response.count());//####
+                        for (int ii = 0; ii < response.count(); ++ii)
+                        {
+                            OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                        }
+                        if (checkList12Response(response))
+                        {
+                            result = 0;
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (checkList12Response(response))");//####
+                        }
                     }
                     else
                     {
-                        OD_SYSLOG("! (checkList12Response(response))");//####
+                        OD_SYSLOG("! (request.send(*outPort, &response))");//####
                     }
+                        doDestroyTestPort(stuff->getEndpoint(), outPort);
                 }
                 else
                 {
-                    OD_SYSLOG("! (request.send(stuff->getEndpoint(), NULL, &response))");//####
+                    OD_SYSLOG("! (outPort)");//####
                 }
                 stuff->stop();
             }

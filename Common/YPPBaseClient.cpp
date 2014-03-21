@@ -41,7 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPBaseClient.h"
-#define ENABLE_OD_SYSLOG /* */
+//#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
@@ -299,7 +299,7 @@ bool BaseClient::send(const char *             request,
             {
                 ServiceRequest actualRequest(request, parameters);
                 
-                result = actualRequest.send(_servicePortName, _clientPort, response);
+                result = actualRequest.send(*_clientPort, response);
             }
             else
             {
@@ -339,21 +339,43 @@ yarp::os::Bottle YarpPlusPlus::FindMatchingServices(const char * criteria)
 
     try
     {
-        yarp::os::Bottle parameters;
-
-        parameters.addString(criteria); // Note that we can't simply initialize the Bottle with the criteria, as it will
-                                        // be parsed by YARP.
-        ServiceRequest  request(YPP_MATCH_REQUEST, parameters);
-        ServiceResponse response;
+        yarp::os::ConstString aName(GetRandomPortName("/findmatch/port_"));
+        yarp::os::Port *      newPort = new yarp::os::Port();
         
-        if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
+        if (newPort)
         {
-            OD_SYSLOG_S1("response <- ", response.asString().c_str());//####
-            result = validateMatchResponse(response.values());
-        }
-        else
-        {
-            OD_SYSLOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))");//####
+            if (newPort->open(aName))
+            {
+                if (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                {
+                    yarp::os::Bottle parameters;
+                    
+                    parameters.addString(criteria); // Note that we can't simply initialize the Bottle with the
+                                                    // criteria, as it will be parsed by YARP.
+                    ServiceRequest  request(YPP_MATCH_REQUEST, parameters);
+                    ServiceResponse response;
+                    
+                    if (request.send(*newPort, &response))
+                    {
+                        OD_SYSLOG_S1("response <- ", response.asString().c_str());//####
+                        result = validateMatchResponse(response.values());
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, *newPort, &response))");//####
+                    }
+                    if (! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                    {
+                        OD_SYSLOG("(! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                    }
+                }
+                else
+                {
+                    OD_SYSLOG("! (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                }
+                newPort->close();
+            }
+            delete newPort;
         }
     }
     catch (...)

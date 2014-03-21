@@ -53,6 +53,7 @@
 #include "YPPNameRequestHandler.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
+#include <yarp/os/Network.h>
 
 using namespace YarpPlusPlus;
 
@@ -427,34 +428,56 @@ bool YarpPlusPlus::RegisterLocalService(const yarp::os::ConstString & portName)
     
     try
     {
-        yarp::os::Bottle parameters(portName);
-        ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
-        ServiceResponse  response;
+        yarp::os::ConstString aName(GetRandomPortName("/registerlocal/port_"));
+        yarp::os::Port *      newPort = new yarp::os::Port();
         
-        if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
+        if (newPort)
         {
-            // Check that we got a successful self-registration!
-            if (1 == response.count())
+            if (newPort->open(aName))
             {
-                yarp::os::Value theValue = response.element(0);
-                
-                if (theValue.isString())
+                if (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
                 {
-                    result = (theValue.toString() == YPP_OK_RESPONSE);
+                    yarp::os::Bottle parameters(portName);
+                    ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
+                    ServiceResponse  response;
+                    
+                    if (request.send(*newPort, &response))
+                    {
+                        // Check that we got a successful self-registration!
+                        if (1 == response.count())
+                        {
+                            yarp::os::Value theValue = response.element(0);
+                            
+                            if (theValue.isString())
+                            {
+                                result = (theValue.toString() == YPP_OK_RESPONSE);
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (theValue.isString())");//####
+                            }
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (1 == response.count())");//####
+                        }
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, *newPort, &response))");//####
+                    }
+                    if (! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                    {
+                        OD_SYSLOG("(! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                    }
                 }
                 else
                 {
-                    OD_SYSLOG("! (theValue.isString())");//####
+                    OD_SYSLOG("! (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
                 }
+                newPort->close();
             }
-            else
-            {
-                OD_SYSLOG("! (1 == response.count())");//####
-            }
-        }
-        else
-        {
-            OD_SYSLOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))");//####
+            delete newPort;
         }
     }
     catch (...)
@@ -474,34 +497,56 @@ bool YarpPlusPlus::UnregisterLocalService(const yarp::os::ConstString & portName
     
     try
     {
-        yarp::os::Bottle parameters(portName);
-        ServiceRequest   request(YPP_UNREGISTER_REQUEST, parameters);
-        ServiceResponse  response;
+        yarp::os::ConstString aName(GetRandomPortName("/unregisterlocal/port_"));
+        yarp::os::Port *      newPort = new yarp::os::Port();
         
-        if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
+        if (newPort)
         {
-            // Check that we got a successful self-registration!
-            if (1 == response.count())
+            if (newPort->open(aName))
             {
-                yarp::os::Value theValue = response.element(0);
-                
-                if (theValue.isString())
+                if (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
                 {
-                    result = (theValue.toString() == YPP_OK_RESPONSE);
+                    yarp::os::Bottle parameters(portName);
+                    ServiceRequest   request(YPP_UNREGISTER_REQUEST, parameters);
+                    ServiceResponse  response;
+                    
+                    if (request.send(*newPort, &response))
+                    {
+                        // Check that we got a successful self-registration!
+                        if (1 == response.count())
+                        {
+                            yarp::os::Value theValue = response.element(0);
+                            
+                            if (theValue.isString())
+                            {
+                                result = (theValue.toString() == YPP_OK_RESPONSE);
+                            }
+                            else
+                            {
+                                OD_SYSLOG("! (theValue.isString())");//####
+                            }
+                        }
+                        else
+                        {
+                            OD_SYSLOG("! (1 == response.count())");//####
+                        }
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, *newPort, &response))");//####
+                    }
+                    if (! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                    {
+                        OD_SYSLOG("(! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                    }
                 }
                 else
                 {
-                    OD_SYSLOG("! (theValue.isString())");//####
+                    OD_SYSLOG("! (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
                 }
+                newPort->close();
             }
-            else
-            {
-                OD_SYSLOG("! (1 == response.count())");//####
-            }
-        }
-        else
-        {
-            OD_SYSLOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))");//####
+            delete newPort;
         }
     }
     catch (...)

@@ -239,64 +239,97 @@ int main(int     argc,
                         
                         if (matchesCount)
                         {
-                            bool             sawRequestResponse = false;
-                            yarp::os::Bottle parameters;
+                            yarp::os::ConstString aName(YarpPlusPlus::GetRandomPortName("/requestinfo/port_"));
+                            yarp::os::Port *      newPort = new yarp::os::Port();
                             
-                            if (requestName)
+                            if (newPort)
                             {
-                                parameters = requestName;
-                            }
-                            for (int ii = 0; ii < matchesCount; ++ii)
-                            {
-                                yarp::os::ConstString         aMatch(matchesList->get(ii).toString());
-                                YarpPlusPlus::ServiceResponse response;
-                                
-                                // If no request was identified, or a wildcard was specified, we use the 'list' request;
-                                // otherwise, do an 'info' request.
-                                if (requestName)
+                                if (newPort->open(aName))
                                 {
-                                    YarpPlusPlus::ServiceRequest request(YPP_INFO_REQUEST, parameters);
+                                    bool             sawRequestResponse = false;
+                                    yarp::os::Bottle parameters;
                                     
-                                    if (request.send(aMatch, NULL, &response))
+                                    if (requestName)
                                     {
-                                        if (0 < response.count())
+                                        parameters = requestName;
+                                    }
+                                    for (int ii = 0; ii < matchesCount; ++ii)
+                                    {
+                                        yarp::os::ConstString aMatch(matchesList->get(ii).toString());
+                                        
+                                        if (yarp::os::Network::connect(aName, aMatch))
                                         {
-                                            if (processResponse(aMatch, response))
+                                            YarpPlusPlus::ServiceResponse response;
+                                            
+                                            // If no request was identified, or a wildcard was specified, we use the
+                                            // 'list' request; otherwise, do an 'info' request.
+                                            if (requestName)
                                             {
-                                                sawRequestResponse = true;
+                                                YarpPlusPlus::ServiceRequest request(YPP_INFO_REQUEST, parameters);
+                                                
+                                                if (request.send(*newPort, &response))
+                                                {
+                                                    if (0 < response.count())
+                                                    {
+                                                        if (processResponse(aMatch, response))
+                                                        {
+                                                            sawRequestResponse = true;
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    OD_SYSLOG("! (request.send(*newPort, &response))");//####
+                                                    cerr << "Problem communicating with " << aMatch.c_str() << "." <<
+                                                            endl;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                YarpPlusPlus::ServiceRequest request(YPP_LIST_REQUEST, parameters);
+                                                
+                                                if (request.send(*newPort, &response))
+                                                {
+                                                    if (0 < response.count())
+                                                    {
+                                                        if (processResponse(aMatch, response))
+                                                        {
+                                                            sawRequestResponse = true;
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    OD_SYSLOG("! (request.send(*newPort, &response))");//####
+                                                    cerr << "Problem communicating with " << aMatch.c_str() << "." <<
+                                                            endl;
+                                                }
+                                            }
+                                            if (! yarp::os::Network::disconnect(aName, aMatch))
+                                            {
+                                                OD_SYSLOG("(! yarp::os::Network::disconnect(aName, aMatch))");//####
                                             }
                                         }
+                                        else
+                                        {
+                                            OD_SYSLOG("! (yarp::os::Network::connect(aName, aMatch))");//####
+                                        }
                                     }
-                                    else
+                                    if (! sawRequestResponse)
                                     {
-                                        OD_SYSLOG("! (request.send(aMatch, NULL, &response))");//####
-                                        cerr << "Problem communicating with " << aMatch.c_str() << "." << endl;
+                                        cout << "No matching request found." << endl;
                                     }
+                                    newPort->close();
                                 }
                                 else
                                 {
-                                    YarpPlusPlus::ServiceRequest request(YPP_LIST_REQUEST, parameters);
-                                    
-                                    if (request.send(aMatch, NULL, &response))
-                                    {
-                                        if (0 < response.count())
-                                        {
-                                            if (processResponse(aMatch, response))
-                                            {
-                                                sawRequestResponse = true;
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        OD_SYSLOG("! (request.send(aMatch, NULL, &response))");//####
-                                        cerr << "Problem communicating with " << aMatch.c_str() << "." << endl;
-                                    }
+                                    OD_SYSLOG("! (newPort->open(portPath))");//####
                                 }
+                                delete newPort;
                             }
-                            if (! sawRequestResponse)
+                            else
                             {
-                                cout << "No matching request found." << endl;
+                                OD_SYSLOG("! (newPort)");//####
                             }
                         }
                         else
