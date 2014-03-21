@@ -95,9 +95,6 @@ namespace YarpPlusPlusExample
          @param other Another object to construct from. */
         ExampleRunningSumClient & operator=(const ExampleRunningSumClient & other);
         
-        /*! @brief The YARP port to be used by the client. */
-        yarp::os::Port * _port;
-
     }; // ExampleRunningSumClient
     
 } // YarpPlusPlusExample

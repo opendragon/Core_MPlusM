@@ -64,7 +64,7 @@ using namespace YarpPlusPlusExample;
 #endif // defined(__APPLE__)
 
 ExampleEchoClient::ExampleEchoClient(void) :
-        inherited()
+        inherited("example/echo_")
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT_P(this);//####
@@ -95,14 +95,14 @@ bool ExampleEchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
         yarp::os::Bottle              parameters(outgoing);
         YarpPlusPlus::ServiceResponse response;
         
-        if (send(YPP_ECHO_REQUEST, parameters, NULL, &response))
+        if (send(YPP_ECHO_REQUEST, parameters, &response))
         {
             incoming = response.asString();
             okSoFar = true;
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_ECHO_REQUEST, parameters, NULL, &response))");//####
+            OD_SYSLOG("! (send(YPP_ECHO_REQUEST, parameters, &response))");//####
         }
     }
     catch (...)

@@ -56,11 +56,20 @@ namespace YarpPlusPlus
     {
     public:
         
-        /*! @brief The constructor. */
-        BaseClient(void);
+        /*! @brief The constructor.
+         @param basePortName The name to be used as the root for the client port. */
+        BaseClient(const char * basePortName = DEFAULT_PORT_ROOT);
         
         /*! @brief The destructor. */
         virtual ~BaseClient(void);
+        
+        /*! @brief Create a connection with the service.
+         @returns @c true if the client is connected to the service and @c false otherwise. */
+        bool connectToService(void);
+        
+        /*! @brief Disconnect from the service.
+         @returns @c true if the client is no longer connected to the service and @ false otherwise. */
+        bool disconnectFromService(void);
         
         /*! @brief Find a matching service and prepare to send requests to it.
          @param criteria The criteria to use to locate the service.
@@ -75,12 +84,10 @@ namespace YarpPlusPlus
         /*! @brief Send a request to the service associated with the client.
          @param request The name of the request.
          @param parameters The required parameters for the request.
-         @param usingPort The port that is to send the request, or @c NULL if an arbitrary port is to be used.
          @param response If non-@c NULL, where to store any response received.
          @returns @c true on a successful communication with the service and @c false otherwise. */
         bool send(const char *             request,
                   const yarp::os::Bottle & parameters,
-                  yarp::os::Port *         usingPort = NULL,
                   ServiceResponse *        response = NULL);
         
     private:
@@ -97,9 +104,30 @@ namespace YarpPlusPlus
          @param other Another object to construct from. */
         BaseClient & operator=(const BaseClient & other);
         
-        /*! @brief The name of the service port being used. */
-        yarp::os::ConstString _servicePort;
+        /*! @brief The port that the client uses for communication. */
+        yarp::os::Port *      _clientPort;
         
+        /*! @brief The name of the client port being used. */
+        yarp::os::ConstString _clientPortName;
+
+        /*! @brief The name of the service port being used. */
+        yarp::os::ConstString _servicePortName;
+        
+        /*! @brief The root name for the client port. */
+        char *                _basePortName;
+        
+        /*! @brief @c true if the client is connected to the service and @c false otherwise. */
+        bool                  _connected;
+        
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+        /*! @brief Filler to pad to alignment boundary */
+        char                  _filler[7];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
     }; // BaseClient
     
     /*! @brief Find one or more matching services that are registered with a running Service Registry service.

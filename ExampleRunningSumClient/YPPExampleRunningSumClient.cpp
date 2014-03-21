@@ -67,9 +67,10 @@ using namespace YarpPlusPlusExample;
 #endif // defined(__APPLE__)
 
 ExampleRunningSumClient::ExampleRunningSumClient(void) :
-        inherited(), _port(NULL)
+        inherited("example/runningsum_")
 {
     OD_SYSLOG_ENTER();//####
+#if 0
     yarp::os::ConstString aName(YarpPlusPlus::GetRandomPortName("example/runningsum_"));
     
     _port = new yarp::os::Port();
@@ -84,6 +85,7 @@ ExampleRunningSumClient::ExampleRunningSumClient(void) :
         OD_SYSLOG_EXIT_THROW_S("Could not open port");//####
         throw new YarpPlusPlus::Exception("Could not open port");
     }
+#endif//0
     OD_SYSLOG_EXIT_P(this);//####
 } // ExampleRunningSumClient::ExampleRunningSumClient
 
@@ -91,12 +93,14 @@ ExampleRunningSumClient::~ExampleRunningSumClient(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("this = ", this);//####
+#if 0
     if (_port)
     {
         OD_SYSLOG("about to close");//####
         _port->close();
         OD_SYSLOG("close completed.");//####
     }
+#endif//0
     OD_SYSLOG_EXIT();//####
 } // ExampleRunningSumClient::~ExampleRunningSumClient
 
@@ -117,9 +121,8 @@ bool ExampleRunningSumClient::addToSum(const double value,
         YarpPlusPlus::ServiceResponse response;
         
         parameters.addDouble(value);
-        if (send(YPP_ADD_REQUEST, parameters, _port, &response))
+        if (send(YPP_ADD_REQUEST, parameters, &response))
         {
-            OD_SYSLOG("(send(YPP_ADD_REQUEST, parameters, _port, &response))");//####
             if (1 == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
@@ -146,7 +149,7 @@ bool ExampleRunningSumClient::addToSum(const double value,
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_ADD_REQUEST, parameters, _port, &response))");//####
+            OD_SYSLOG("! (send(YPP_ADD_REQUEST, parameters, &response))");//####
         }
     }
     catch (...)
@@ -168,13 +171,13 @@ bool ExampleRunningSumClient::resetSum(void)
     {
         yarp::os::Bottle parameters;
         
-        if (send(YPP_RESET_REQUEST, parameters, _port))
+        if (send(YPP_RESET_REQUEST, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_RESET_REQUEST, parameters, _port))");//####
+            OD_SYSLOG("! (send(YPP_RESET_REQUEST, parameters))");//####
         }
     }
     catch (...)
@@ -196,13 +199,13 @@ bool ExampleRunningSumClient::startSum(void)
     {
         yarp::os::Bottle parameters;
         
-        if (send(YPP_START_REQUEST, parameters, _port))
+        if (send(YPP_START_REQUEST, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_START_REQUEST, parameters, _port))");//####
+            OD_SYSLOG("! (send(YPP_START_REQUEST, parameters))");//####
         }
     }
     catch (...)
@@ -224,13 +227,13 @@ bool ExampleRunningSumClient::stopSum(void)
     {
         yarp::os::Bottle parameters;
         
-        if (send(YPP_STOP_REQUEST, parameters, _port))
+        if (send(YPP_STOP_REQUEST, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_STOP_REQUEST, parameters, _port))");//####
+            OD_SYSLOG("! (send(YPP_STOP_REQUEST, parameters))");//####
         }
     }
     catch (...)

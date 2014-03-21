@@ -116,51 +116,64 @@ int main(int     argc,
 #endif // defined(__APPLE__) || defined(__linux__)
                 if (stuff->findService("keyword random"))
                 {
-                    for ( ; lKeepRunning; )
+                    if (stuff->connectToService())
                     {
-                        int count;
-                        
-                        cout << "How many random numbers? ";
-                        cin >> count;
-                        if (0 >= count)
+                        for ( ; lKeepRunning; )
                         {
-                            break;
-                        }
-                        
-                        if (1 == count)
-                        {
-                            double result;
+                            int count;
                             
-                            if (stuff->getOneRandomNumber(result))
+                            cout << "How many random numbers? ";
+                            cin >> count;
+                            if (0 >= count)
                             {
-                                cout << "result = " << result << endl;
+                                break;
                             }
-                            else
-                            {
-                                OD_SYSLOG("! (stuff->getOneRandomNumber(result))");//####
-                                cerr << "Problem getting random number from service." << endl;
-                            }
-                        }
-                        else
-                        {
-                            ExampleRandomNumberClient::RandomVector results;
                             
-                            if (stuff->getRandomNumbers(count, results))
+                            if (1 == count)
                             {
-                                cout << "result = ( ";
-                                for (ExampleRandomNumberClient::RandomVectorIterator it(results.begin());
-                                     it != results.end(); ++it)
+                                double result;
+                                
+                                if (stuff->getOneRandomNumber(result))
                                 {
-                                    cout << " " << *it;
+                                    cout << "result = " << result << endl;
                                 }
-                                cout << " )" << endl;
+                                else
+                                {
+                                    OD_SYSLOG("! (stuff->getOneRandomNumber(result))");//####
+                                    cerr << "Problem getting random number from service." << endl;
+                                }
                             }
                             else
                             {
-                                OD_SYSLOG("! (stuff->getRandomNumbers(count, results))");//####
-                                cerr << "Problem getting random numbers from service." << endl;
+                                ExampleRandomNumberClient::RandomVector results;
+                                
+                                if (stuff->getRandomNumbers(count, results))
+                                {
+                                    cout << "result = ( ";
+                                    for (ExampleRandomNumberClient::RandomVectorIterator it(results.begin());
+                                         it != results.end(); ++it)
+                                    {
+                                        cout << " " << *it;
+                                    }
+                                    cout << " )" << endl;
+                                }
+                                else
+                                {
+                                    OD_SYSLOG("! (stuff->getRandomNumbers(count, results))");//####
+                                    cerr << "Problem getting random numbers from service." << endl;
+                                }
                             }
                         }
+                        if (! stuff->disconnectFromService())
+                        {
+                            OD_SYSLOG("(! stuff->disconnectFromService())");//####
+                            cerr << "Problem discconnecting from the service." << endl;
+                        }
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (stuff->connectToService())");//####
+                        cerr << "Problem connecting to the service." << endl;
                     }
                 }
                 else

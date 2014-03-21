@@ -64,7 +64,7 @@ using namespace YarpPlusPlusExample;
 #endif // defined(__APPLE__)
 
 ExampleRandomNumberClient::ExampleRandomNumberClient(void) :
-        inherited()
+        inherited("example/randomnumber_")
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT_P(this);//####
@@ -93,7 +93,7 @@ bool ExampleRandomNumberClient::getOneRandomNumber(double & result)
         yarp::os::Bottle              parameters;
         YarpPlusPlus::ServiceResponse response;
         
-        if (send(YPP_RANDOM_REQUEST, parameters, NULL, &response))
+        if (send(YPP_RANDOM_REQUEST, parameters, &response))
         {
             if (1 == response.count())
             {
@@ -116,7 +116,7 @@ bool ExampleRandomNumberClient::getOneRandomNumber(double & result)
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_RANDOM_REQUEST, parameters, NULL, &response))");//####
+            OD_SYSLOG("! (send(YPP_RANDOM_REQUEST, parameters, &response))");//####
         }
     }
     catch (...)
@@ -145,7 +145,7 @@ bool ExampleRandomNumberClient::getRandomNumbers(const int      howMany,
             YarpPlusPlus::ServiceResponse response;
             
             parameters.addInt(howMany);
-            if (send(YPP_RANDOM_REQUEST, parameters, NULL, &response))
+            if (send(YPP_RANDOM_REQUEST, parameters, &response))
             {
                 if (howMany == response.count())
                 {
@@ -175,7 +175,7 @@ bool ExampleRandomNumberClient::getRandomNumbers(const int      howMany,
             }
             else
             {
-                OD_SYSLOG("! (send(YPP_RANDOM_REQUEST, parameters, NULL, &response))");//####
+                OD_SYSLOG("! (send(YPP_RANDOM_REQUEST, parameters, &response))");//####
             }
         }
         else

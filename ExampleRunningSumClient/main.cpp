@@ -116,68 +116,80 @@ int main(int     argc,
 #endif // defined(__APPLE__) || defined(__linux__)
                 if (stuff->findService("Name RunningSum"))
                 {
-                    OD_SYSLOG("(stuff->findService(\"Name RunningSum\"))");//####
-                    for ( ; lKeepRunning; )
+                    if (stuff->connectToService())
                     {
-                        char   inChar;
-                        double newSum;
-                        double value;
-                        
-                        cout << "Operation: [+ r x s]? ";
-                        cin >> inChar;
-                        switch (inChar)
+                        for ( ; lKeepRunning; )
                         {
-                            case '+':
-                                cout << "add: ";
-                                cin >> value;
-                                cout << "adding " << value << endl;
-                                if (stuff->addToSum(value, newSum))
-                                {
-                                    cout << "running sum = " << newSum << endl;
-                                }
-                                else
-                                {
-                                    OD_SYSLOG("! (stuff->addToSum(value, newSum))");//####
-                                    cerr << "Problem adding to the sum." << endl;
-                                }
-                                break;
-                                
-                            case 'r':
-                            case 'R':
-                                cout << "Resetting" << endl;
-                                if (! stuff->resetSum())
-                                {
-                                    OD_SYSLOG("(! stuff->resetSum())");//####
-                                    cerr << "Problem resetting the sum." << endl;
-                                }
-                                break;
-                                
-                            case 's':
-                            case 'S':
-                                cout << "Starting" << endl;
-                                if (! stuff->startSum())
-                                {
-                                    OD_SYSLOG("(! stuff->startSum())");//####
-                                    cerr << "Problem starting the sum." << endl;
-                                }
-                                break;
-                                
-                            case 'x':
-                            case 'X':
-                                cout << "Exiting" << endl;
-                                if (! stuff->stopSum())
-                                {
-                                    OD_SYSLOG("(! stuff->stopSum())");//####
-                                    cerr << "Problem stopping the sum." << endl;
-                                }
-                                lKeepRunning = false;
-                                break;
-                                
-                            default:
-                                cout << "Unrecognized request '" << inChar << "'." << endl;
-                                break;
-                                
+                            char   inChar;
+                            double newSum;
+                            double value;
+                            
+                            cout << "Operation: [+ r x s]? ";
+                            cin >> inChar;
+                            switch (inChar)
+                            {
+                                case '+':
+                                    cout << "add: ";
+                                    cin >> value;
+                                    cout << "adding " << value << endl;
+                                    if (stuff->addToSum(value, newSum))
+                                    {
+                                        cout << "running sum = " << newSum << endl;
+                                    }
+                                    else
+                                    {
+                                        OD_SYSLOG("! (stuff->addToSum(value, newSum))");//####
+                                        cerr << "Problem adding to the sum." << endl;
+                                    }
+                                    break;
+                                    
+                                case 'r':
+                                case 'R':
+                                    cout << "Resetting" << endl;
+                                    if (! stuff->resetSum())
+                                    {
+                                        OD_SYSLOG("(! stuff->resetSum())");//####
+                                        cerr << "Problem resetting the sum." << endl;
+                                    }
+                                    break;
+                                    
+                                case 's':
+                                case 'S':
+                                    cout << "Starting" << endl;
+                                    if (! stuff->startSum())
+                                    {
+                                        OD_SYSLOG("(! stuff->startSum())");//####
+                                        cerr << "Problem starting the sum." << endl;
+                                    }
+                                    break;
+                                    
+                                case 'x':
+                                case 'X':
+                                    cout << "Exiting" << endl;
+                                    if (! stuff->stopSum())
+                                    {
+                                        OD_SYSLOG("(! stuff->stopSum())");//####
+                                        cerr << "Problem stopping the sum." << endl;
+                                    }
+                                    lKeepRunning = false;
+                                    break;
+                                    
+                                default:
+                                    cout << "Unrecognized request '" << inChar << "'." << endl;
+                                    break;
+                                    
+                            }
                         }
+                        if (! stuff->disconnectFromService())
+                        {
+                            OD_SYSLOG("(! stuff->disconnectFromService())");//####
+                            cerr << "Problem discconnecting from the service." << endl;
+                        }
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (stuff->connectToService())");//####
+                        cerr << "Problem connecting to the service." << endl;
                     }
                 }
                 else

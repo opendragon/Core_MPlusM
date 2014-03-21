@@ -41,11 +41,12 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPBaseClient.h"
-//#define ENABLE_OD_SYSLOG /* */
+#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
 #include <cstring>
+#include <yarp/os/Network.h>
 
 using namespace YarpPlusPlus;
 
@@ -60,7 +61,7 @@ using namespace YarpPlusPlus;
 /*! @brief Check the response to the 'match' request for validity.
  @param response The response to be checked.
  @returns The original response, if it is valid, or an empty response if it is not. */
-static yarp::os::Bottle ValidateMatchResponse(const yarp::os::Bottle & response)
+static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_S1("response = ", response.toString().c_str());//####
@@ -70,8 +71,8 @@ static yarp::os::Bottle ValidateMatchResponse(const yarp::os::Bottle & response)
     {
         if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == response.size())
         {
-            // The first element of the response should be 'OK' or 'FAILED'; if 'OK', the second element should be a list of
-            // service names.
+            // The first element of the response should be 'OK' or 'FAILED'; if 'OK', the second element should be a
+            // list of service names.
             yarp::os::Value responseFirst(response.get(0));
             
             if (responseFirst.isString())
@@ -118,7 +119,7 @@ static yarp::os::Bottle ValidateMatchResponse(const yarp::os::Bottle & response)
     }
     OD_SYSLOG_EXIT();//####
     return result;
-} // ValidateMatchResponse
+} // validateMatchResponse
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -128,10 +129,14 @@ static yarp::os::Bottle ValidateMatchResponse(const yarp::os::Bottle & response)
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-BaseClient::BaseClient(void) :
-        _servicePort()
+BaseClient::BaseClient(const char * basePortName) :
+        _clientPort(NULL), _clientPortName(), _servicePortName(), _basePortName(NULL), _connected(false)
 {
     OD_SYSLOG_ENTER();//####
+    size_t len = strlen(basePortName);
+    
+    _basePortName = new char[len + 1];
+    memcpy(_basePortName, basePortName, len + 1);
     OD_SYSLOG_EXIT_P(this);//####
 } // BaseClient::BaseClient
 
@@ -139,12 +144,73 @@ BaseClient::~BaseClient(void)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("this = ", this);//####
+    disconnectFromService();
+    if (_clientPort)
+    {
+        delete _clientPort;
+    }
+    delete _basePortName;
     OD_SYSLOG_EXIT();//####
 } // BaseClient::~BaseClient
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
+
+bool BaseClient::connectToService(void)
+{
+    OD_SYSLOG_ENTER();//####
+    if (! _connected)
+    {
+        if (! _clientPort)
+        {
+            _clientPortName = GetRandomPortName(_basePortName);
+            _clientPort = new yarp::os::Port();
+        }
+        if (_clientPort)
+        {
+            if (_clientPort->open(_clientPortName))
+            {
+                if (yarp::os::Network::connect(_clientPortName, _servicePortName))
+                {
+                    _connected = true;
+                }
+                else
+                {
+                    OD_SYSLOG("! (yarp::os::Network::connect(_clientPortName, _servicePortName))");//####
+                }
+            }
+            else
+            {
+                OD_SYSLOG("! (_clientPort->open(aName))");//####
+            }
+        }
+        else
+        {
+            OD_SYSLOG("! (_clientPort)");//####
+        }
+    }
+    OD_SYSLOG_EXIT_B(_connected);//####
+    return _connected;
+} // BaseClient::connectToService
+
+bool BaseClient::disconnectFromService(void)
+{
+    OD_SYSLOG_ENTER();//####
+    if (_connected)
+    {
+        if (yarp::os::Network::disconnect(_clientPortName, _servicePortName))
+        {
+            _connected = false;
+        }
+        else
+        {
+            OD_SYSLOG("! (yarp::os::Network::disconnect(_clientPortName, _servicePortName))");//####
+        }
+    }
+    OD_SYSLOG_EXIT_B(! _connected);//####
+    return (! _connected);
+} // BaseClient::disconnectFromService
 
 bool BaseClient::findService(const char * criteria,
                              const bool   allowOnlyOneMatch)
@@ -177,8 +243,8 @@ bool BaseClient::findService(const char * criteria,
                     
                     if ((! allowOnlyOneMatch) || (1 == candidateCount))
                     {
-                        _servicePort = candidateList->get(0).toString();
-                        OD_SYSLOG_S1("_servicePort <- ", _servicePort.c_str());
+                        _servicePortName = candidateList->get(0).toString();
+                        OD_SYSLOG_S1("_servicePortName <- ", _servicePortName.c_str());
                         result = true;
                     }
                     else
@@ -202,7 +268,8 @@ bool BaseClient::findService(const char * criteria,
         }
         if (! result)
         {
-            _servicePort = "";
+            _servicePortName = "";
+            OD_SYSLOG_S1("_servicePortName <- ", _servicePortName.c_str());
         }
     }
     catch (...)
@@ -216,27 +283,32 @@ bool BaseClient::findService(const char * criteria,
 
 bool BaseClient::send(const char *             request,
                       const yarp::os::Bottle & parameters,
-                      yarp::os::Port *         usingPort,
                       ServiceResponse *        response)
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S2("request = ", request, "parameters = ", parameters.toString().c_str());//####
-    OD_SYSLOG_P2("usingPort = ", usingPort, "response = ", response);//####
+    OD_SYSLOG_P1("response = ", response);//####
     bool result = false;
 
     try
     {
-        if (0 < _servicePort.length())
+        if (_connected)
         {
-            ServiceRequest actualRequest(request, parameters);
-            
-            result = actualRequest.send(_servicePort, usingPort, response);
+            if (0 < _servicePortName.length())
+            {
+                ServiceRequest actualRequest(request, parameters);
+                
+                result = actualRequest.send(_servicePortName, _clientPort, response);
+            }
+            else
+            {
+                OD_SYSLOG("! (0 < _servicePortName.length())");//####
+            }
         }
         else
         {
-            OD_SYSLOG("! (0 < _servicePort.length())");//####
-            result = false;
+            OD_SYSLOG("! (_connected)");//####
         }
     }
     catch (...)
@@ -271,13 +343,13 @@ yarp::os::Bottle YarpPlusPlus::FindMatchingServices(const char * criteria)
 
         parameters.addString(criteria); // Note that we can't simply initialize the Bottle with the criteria, as it will
                                         // be parsed by YARP.
-        ServiceRequest   request(YPP_MATCH_REQUEST, parameters);
-        ServiceResponse  response;
+        ServiceRequest  request(YPP_MATCH_REQUEST, parameters);
+        ServiceResponse response;
         
         if (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, NULL, &response))
         {
             OD_SYSLOG_S1("response <- ", response.asString().c_str());//####
-            result = ValidateMatchResponse(response.values());
+            result = validateMatchResponse(response.values());
         }
         else
         {

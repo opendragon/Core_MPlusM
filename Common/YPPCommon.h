@@ -47,6 +47,8 @@
 # include <yarp/os/ConstString.h>
 # include <yarp/os/Contact.h>
 
+# define DEFAULT_PORT_ROOT "port_"
+
 namespace YarpPlusPlus
 {
 
@@ -58,7 +60,7 @@ namespace YarpPlusPlus
     
     /*! @brief Generate a random port name.
      @returns A randomly-generated port name. */
-    yarp::os::ConstString GetRandomPortName(const char * portRoot = "port_");
+    yarp::os::ConstString GetRandomPortName(const char * portRoot = DEFAULT_PORT_ROOT);
     
     /*! @brief Perform initialization of internal resources.
      

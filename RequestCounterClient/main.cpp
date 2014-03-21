@@ -39,7 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define ENABLE_OD_SYSLOG /* */
+#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPRequestCounterClient.h"
 #include <iostream>
@@ -127,42 +127,55 @@ int main(int     argc,
                     
                     if (stuff->findService("name:RequestCounter"))
                     {
-                        if (stuff->resetServiceCounters())
+                        if (stuff->connectToService())
                         {
-                            for (int ii = 0; ii < count; ++ii)
+                            if (stuff->resetServiceCounters())
                             {
-                                if (! stuff->pokeService())
+                                for (int ii = 0; ii < count; ++ii)
                                 {
-                                    cerr << "Problem poking the service." << endl;
-                                    break;
+                                    if (! stuff->pokeService())
+                                    {
+                                        cerr << "Problem poking the service." << endl;
+                                        break;
+                                    }
+                                    
                                 }
+                                long   counter;
+                                double elapsedTime;
                                 
-                            }
-                            long   counter;
-                            double elapsedTime;
-                            
-                            if (stuff->getServiceStatistics(counter, elapsedTime))
-                            {
-                                if (0 < counter)
+                                if (stuff->getServiceStatistics(counter, elapsedTime))
                                 {
-                                    cout << "count = " << counter << ", elapsed time = " << elapsedTime <<
-                                            ", average time = " << (elapsedTime / counter) << "." << endl;
+                                    if (0 < counter)
+                                    {
+                                        cout << "count = " << counter << ", elapsed time = " << elapsedTime <<
+                                                ", average time = " << (elapsedTime / counter) << "." << endl;
+                                    }
+                                    else
+                                    {
+                                        cout << "Service reports zero requests." << endl;
+                                    }
                                 }
                                 else
                                 {
-                                    cout << "Service reports zero requests." << endl;
+                                    OD_SYSLOG("! (stuff->getServiceStatistics(counter, elapsedTime))");//####
+                                    cerr << "Problem getting statistics from the service." << endl;
                                 }
                             }
                             else
                             {
-                                OD_SYSLOG("! (stuff->getServiceStatistics(counter, elapsedTime))");//####
-                                cerr << "Problem getting statistics from the service." << endl;
+                                OD_SYSLOG("! (stuff->resetServiceCounters())");//####
+                                cerr << "Problem resetting the service counters." << endl;
+                            }
+                            if (! stuff->disconnectFromService())
+                            {
+                                OD_SYSLOG("(! stuff->disconnectFromService())");//####
+                                cerr << "Problem discconnecting from the service." << endl;
                             }
                         }
                         else
                         {
-                            OD_SYSLOG("! (stuff->resetServiceCounters())");//####
-                            cerr << "Problem resetting the service counters." << endl;
+                            OD_SYSLOG("! (stuff->connectToService())");//####
+                            cerr << "Problem connecting to the service." << endl;
                         }
                     }
                     else

@@ -117,31 +117,44 @@ int main(int     argc,
 #endif // defined(__APPLE__) || defined(__linux__)
                 if (stuff->findService("details Echo*"))
                 {
-                    for ( ; lKeepRunning; )
+                    if (stuff->connectToService())
                     {
-                        yarp::os::ConstString incoming;
-                        std::string           inputLine;
-                        
-                        cout << "Type something to be echoed: ";
-                        if (getline(cin, inputLine))
+                        for ( ; lKeepRunning; )
                         {
-                            yarp::os::ConstString outgoing(inputLine.c_str());
+                            yarp::os::ConstString incoming;
+                            std::string           inputLine;
                             
-                            if (stuff->sendAndReceive(outgoing, incoming))
+                            cout << "Type something to be echoed: ";
+                            if (getline(cin, inputLine))
                             {
-                                cout << "Received: '" << incoming.c_str() << "'." << endl;
+                                yarp::os::ConstString outgoing(inputLine.c_str());
+                                
+                                if (stuff->sendAndReceive(outgoing, incoming))
+                                {
+                                    cout << "Received: '" << incoming.c_str() << "'." << endl;
+                                }
+                                else
+                                {
+                                    OD_SYSLOG("! (stuff->sendAndReceive(outgoing, incoming))");//####
+                                    cerr << "Problem communicating with the service." << endl;
+                                }
                             }
                             else
                             {
-                                OD_SYSLOG("! (stuff->sendAndReceive(outgoing, incoming))");//####
-                                cerr << "Problem communicating with the service." << endl;
+                                break;
                             }
+                            
                         }
-                        else
+                        if (! stuff->disconnectFromService())
                         {
-                            break;
+                            OD_SYSLOG("(! stuff->disconnectFromService())");//####
+                            cerr << "Problem discconnecting from the service." << endl;
                         }
-                        
+                    }
+                    else
+                    {
+                        OD_SYSLOG("! (stuff->connectToService())");//####
+                        cerr << "Problem connecting to the service." << endl;
                     }
                 }
                 else

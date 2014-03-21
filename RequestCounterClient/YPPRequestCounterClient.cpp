@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPRequestCounterClient.h"
-//#define ENABLE_OD_SYSLOG /* */
+#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPRequestCounterRequests.h"
 #include "YPPServiceResponse.h"
@@ -64,7 +64,7 @@ using namespace YarpPlusPlus;
 #endif // defined(__APPLE__)
 
 RequestCounterClient::RequestCounterClient(void) :
-        inherited()
+        inherited("requestcounter_")
 {
     OD_SYSLOG_ENTER();//####
     OD_SYSLOG_EXIT_P(this);//####
@@ -94,7 +94,7 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
         yarp::os::Bottle              parameters;
         YarpPlusPlus::ServiceResponse response;
         
-        if (send(YPP_STATS_REQUEST, parameters, NULL, &response))
+        if (send(YPP_STATS_REQUEST, parameters, &response))
         {
             if (2 == response.count())
             {
@@ -119,7 +119,7 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_STATS_REQUEST, parameters, NULL, &response))");//####
+            OD_SYSLOG("! (send(YPP_STATS_REQUEST, parameters, &response))");//####
         }
     }
     catch (...)
