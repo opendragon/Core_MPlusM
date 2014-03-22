@@ -77,9 +77,8 @@ Test16Service::Test16Service(const int argc,
 
 Test16Service::~Test16Service(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // Test16Service::~Test16Service
 
 #if defined(__APPLE__)
@@ -88,8 +87,7 @@ Test16Service::~Test16Service(void)
 
 void Test16Service::setUpRequestHandlers(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         _requestHandlers.registerRequestHandler(new Test16EchoRequestHandler());
@@ -99,13 +97,12 @@ void Test16Service::setUpRequestHandlers(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // Test16Service::setUpRequestHandlers
 
 bool Test16Service::start(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -130,14 +127,13 @@ bool Test16Service::start(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // Test16Service::start
 
 bool Test16Service::stop(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -149,7 +145,7 @@ bool Test16Service::stop(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // Test16Service::stop
 

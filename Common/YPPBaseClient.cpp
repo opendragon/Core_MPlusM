@@ -46,7 +46,20 @@
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
 #include <cstring>
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wc++11-extensions"
+# pragma clang diagnostic ignored "-Wdocumentation"
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# pragma clang diagnostic ignored "-Wpadded"
+# pragma clang diagnostic ignored "-Wshadow"
+# pragma clang diagnostic ignored "-Wunused-parameter"
+# pragma clang diagnostic ignored "-Wweak-vtables"
+#endif // defined(__APPLE__)
 #include <yarp/os/Network.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
 using namespace YarpPlusPlus;
 
@@ -142,15 +155,14 @@ BaseClient::BaseClient(const char * basePortName) :
 
 BaseClient::~BaseClient(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     disconnectFromService();
     if (_clientPort)
     {
         delete _clientPort;
     }
     delete _basePortName;
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // BaseClient::~BaseClient
 
 #if defined(__APPLE__)
@@ -159,7 +171,7 @@ BaseClient::~BaseClient(void)
 
 bool BaseClient::connectToService(void)
 {
-    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_OBJENTER();//####
     if (! _connected)
     {
         if (! _clientPort)
@@ -190,13 +202,13 @@ bool BaseClient::connectToService(void)
             OD_SYSLOG("! (_clientPort)");//####
         }
     }
-    OD_SYSLOG_EXIT_B(_connected);//####
+    OD_SYSLOG_OBJEXIT_B(_connected);//####
     return _connected;
 } // BaseClient::connectToService
 
 bool BaseClient::disconnectFromService(void)
 {
-    OD_SYSLOG_ENTER();//####
+    OD_SYSLOG_OBJENTER();//####
     if (_connected)
     {
         if (yarp::os::Network::disconnect(_clientPortName, _servicePortName))
@@ -208,15 +220,14 @@ bool BaseClient::disconnectFromService(void)
             OD_SYSLOG("! (yarp::os::Network::disconnect(_clientPortName, _servicePortName))");//####
         }
     }
-    OD_SYSLOG_EXIT_B(! _connected);//####
+    OD_SYSLOG_OBJEXIT_B(! _connected);//####
     return (! _connected);
 } // BaseClient::disconnectFromService
 
 bool BaseClient::findService(const char * criteria,
                              const bool   allowOnlyOneMatch)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S1("criteria = ", criteria);//####
     OD_SYSLOG_B1("allowOnlyOneMatch = ", allowOnlyOneMatch);//####
     bool result = false;
@@ -277,7 +288,7 @@ bool BaseClient::findService(const char * criteria,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // BaseClient::findService
 
@@ -285,8 +296,7 @@ bool BaseClient::send(const char *             request,
                       const yarp::os::Bottle & parameters,
                       ServiceResponse *        response)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S2("request = ", request, "parameters = ", parameters.toString().c_str());//####
     OD_SYSLOG_P1("response = ", response);//####
     bool result = false;
@@ -316,7 +326,7 @@ bool BaseClient::send(const char *             request,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // BaseClient::send
 

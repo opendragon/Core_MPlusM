@@ -72,9 +72,8 @@ ExampleEchoClient::ExampleEchoClient(void) :
 
 ExampleEchoClient::~ExampleEchoClient(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // ExampleEchoClient::~ExampleEchoClient
 
 #if defined(__APPLE__)
@@ -84,8 +83,7 @@ ExampleEchoClient::~ExampleEchoClient(void)
 bool ExampleEchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
                                        yarp::os::ConstString &       incoming)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S1("outgoing = ", outgoing.c_str());//####
     OD_SYSLOG_P1("incoming = ", &incoming);//####
     bool okSoFar = false;
@@ -110,7 +108,7 @@ bool ExampleEchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);//####
+    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // ExampleEchoClient::sendAndReceive
 

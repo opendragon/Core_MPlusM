@@ -45,8 +45,21 @@
 #include "YPPCommon.h"
 #include "YPPException.h"
 #include <iostream>
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wc++11-extensions"
+# pragma clang diagnostic ignored "-Wdocumentation"
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# pragma clang diagnostic ignored "-Wpadded"
+# pragma clang diagnostic ignored "-Wshadow"
+# pragma clang diagnostic ignored "-Wunused-parameter"
+# pragma clang diagnostic ignored "-Wweak-vtables"
+#endif // defined(__APPLE__)
 #include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
 using namespace YarpPlusPlus;
 using std::cout;
@@ -149,7 +162,6 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
 bool Endpoint::CheckEndpointName(const yarp::os::ConstString & portName)
 {
     OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
     OD_SYSLOG_S1("portName = ", portName.c_str());//####
     bool result = false;
 
@@ -233,10 +245,9 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
 
 Endpoint::~Endpoint(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     close();
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // Endpoint::~Endpoint
 
 #if defined(__APPLE__)
@@ -245,8 +256,7 @@ Endpoint::~Endpoint(void)
 
 void Endpoint::close(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         if (isOpen())
@@ -282,13 +292,12 @@ void Endpoint::close(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // Endpoint::close
 
 bool Endpoint::open(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -342,14 +351,13 @@ bool Endpoint::open(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // Endpoint::open
 
 bool Endpoint::setInputHandler(InputHandler & handler)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_P1("handler = ", &handler);//####
     bool result = false;
     
@@ -383,14 +391,13 @@ bool Endpoint::setInputHandler(InputHandler & handler)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // Endpoint::setInputHandler
 
 bool Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_P1("handlerCreator = ", &handlerCreator);//####
     bool result = false;
     
@@ -423,15 +430,14 @@ bool Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // Endpoint::setInputHandlerCreator
 
 bool Endpoint::setReporter(yarp::os::PortReport & reporter,
                            const bool             andReportNow)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_P1("reporter = ", &reporter);//####
     OD_SYSLOG_B1("andReportNow = ", andReportNow);//####
     bool result = false;
@@ -457,14 +463,13 @@ bool Endpoint::setReporter(yarp::os::PortReport & reporter,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // Endpoint::setReporter
 
 bool Endpoint::setTimeout(const float timeout)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_D1("timeout = ", timeout);//####
     bool result = false;
     
@@ -484,7 +489,7 @@ bool Endpoint::setTimeout(const float timeout)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // Endpoint::setTimeout
 

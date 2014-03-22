@@ -55,8 +55,21 @@
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wc++11-extensions"
+# pragma clang diagnostic ignored "-Wdocumentation"
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# pragma clang diagnostic ignored "-Wpadded"
+# pragma clang diagnostic ignored "-Wshadow"
+# pragma clang diagnostic ignored "-Wunused-parameter"
+# pragma clang diagnostic ignored "-Wweak-vtables"
+#endif // defined(__APPLE__)
 #include <yarp/os/Network.h>
 #include <yarp/os/Time.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
 using namespace YarpPlusPlus;
 
@@ -879,13 +892,12 @@ RegistryService::RegistryService(const bool                    useInMemoryDb,
 
 RegistryService::~RegistryService(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     if (_db)
     {
         sqlite3_close(_db);
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // RegistryService::~RegistryService
 
 #if defined(__APPLE__)
@@ -895,8 +907,7 @@ RegistryService::~RegistryService(void)
 bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
                                        const RequestDescription & description)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     bool okSoFar = false;
     
     try
@@ -958,7 +969,7 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);//####
+    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RegistryService::addRequestRecord
 
@@ -966,8 +977,7 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & portName,
                                        const yarp::os::ConstString & name,
                                        const yarp::os::ConstString & description)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S2("portName = ", portName.c_str(), "name = ", name.c_str());//####
     bool okSoFar = false;
     
@@ -999,15 +1009,14 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & portName,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);//####
+    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RegistryService::addServiceRecord
 
 bool RegistryService::processMatchRequest(YarpPlusPlusParser::MatchExpression * matcher,
                                           yarp::os::Bottle &                    reply)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_P1("matcher = ", matcher);//####
     bool okSoFar = false;
     
@@ -1041,14 +1050,13 @@ bool RegistryService::processMatchRequest(YarpPlusPlusParser::MatchExpression * 
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);//####
+    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RegistryService::processMatchRequest
 
 bool RegistryService::removeServiceRecord(const yarp::os::ConstString & servicePortName)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S1("servicePortName = ", servicePortName.c_str());//####
     bool okSoFar = false;
     
@@ -1089,14 +1097,13 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceP
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);//####
+    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RegistryService::removeServiceRecord
 
 bool RegistryService::setUpDatabase(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     bool okSoFar = true;
 
     try
@@ -1144,14 +1151,13 @@ bool RegistryService::setUpDatabase(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);//####
+    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RegistryService::setUpDatabase
 
 void RegistryService::setUpRequestHandlers(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         _requestHandlers.registerRequestHandler(new MatchRequestHandler(*this, columnNameValidator));
@@ -1163,13 +1169,12 @@ void RegistryService::setUpRequestHandlers(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // RegistryService::setUpRequestHandlers
 
 bool RegistryService::start(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -1251,14 +1256,13 @@ bool RegistryService::start(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // RegistryService::start
 
 bool RegistryService::stop(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -1272,7 +1276,7 @@ bool RegistryService::stop(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // RegistryService::stop
 

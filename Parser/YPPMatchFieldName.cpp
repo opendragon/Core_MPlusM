@@ -161,9 +161,8 @@ MatchFieldName::MatchFieldName(const yarp::os::ConstString & inString) :
 
 MatchFieldName::~MatchFieldName(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // MatchFieldName::~MatchFieldName
 
 #if defined(__APPLE__)

@@ -43,7 +43,20 @@
 //#define ENABLE_OD_SYSLOG /* */
 #include "ODSyslog.h"
 #include "YPPEndpoint.h"
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wc++11-extensions"
+# pragma clang diagnostic ignored "-Wdocumentation"
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# pragma clang diagnostic ignored "-Wpadded"
+# pragma clang diagnostic ignored "-Wshadow"
+# pragma clang diagnostic ignored "-Wunused-parameter"
+# pragma clang diagnostic ignored "-Wweak-vtables"
+#endif // defined(__APPLE__)
 #include <yarp/os/Time.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
 using namespace YarpPlusPlus;
 
@@ -80,9 +93,8 @@ ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName,
 
 ServiceRequest::~ServiceRequest(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // ServiceRequest::~ServiceRequest
 
 #if defined(__APPLE__)
@@ -92,8 +104,7 @@ ServiceRequest::~ServiceRequest(void)
 bool ServiceRequest::send(yarp::os::Port &  usingPort,
                           ServiceResponse * response)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_P2("usingPort = ", &usingPort, "response = ", response);//####
     bool result = false;
     
@@ -138,7 +149,7 @@ bool ServiceRequest::send(yarp::os::Port &  usingPort,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // ServiceRequest::send
 

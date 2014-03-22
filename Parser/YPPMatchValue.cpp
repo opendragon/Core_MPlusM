@@ -257,9 +257,8 @@ MatchValue::MatchValue(const yarp::os::ConstString & inString) :
 
 MatchValue::~MatchValue(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // MatchValue::~MatchValue
 
 #if defined(__APPLE__)
@@ -269,8 +268,7 @@ MatchValue::~MatchValue(void)
 yarp::os::ConstString MatchValue::asSQLString(void)
 const
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     yarp::os::ConstString converted;
     
     try
@@ -350,7 +348,7 @@ const
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_S(converted.c_str());//####
+    OD_SYSLOG_OBJEXIT_S(converted.c_str());//####
     return converted;
 } // MatchValue::asSQLString
 

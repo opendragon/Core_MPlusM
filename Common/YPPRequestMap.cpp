@@ -72,9 +72,8 @@ RequestMap::RequestMap(BaseService & owner) :
 
 RequestMap::~RequestMap(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // RequestMap::~RequestMap
 
 #if defined(__APPLE__)
@@ -83,8 +82,7 @@ RequestMap::~RequestMap(void)
 
 void RequestMap::fillInListReply(yarp::os::Bottle & reply)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         RequestHandlerMap::const_iterator walker(_handlers.cbegin());
@@ -102,14 +100,13 @@ void RequestMap::fillInListReply(yarp::os::Bottle & reply)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // RequestMap::fillInListReply
 
 void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
                                    const yarp::os::ConstString & requestName)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         RequestHandlerMap::const_iterator match(_handlers.find(std::string(requestName)));
@@ -131,13 +128,12 @@ void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // RequestMap::fillInRequestInfo
 
 BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstString & request)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S1("request = ", request.c_str());//####
     BaseRequestHandler * result = NULL;
     
@@ -161,14 +157,13 @@ BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstStrin
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_P(result);//####
+    OD_SYSLOG_OBJEXIT_P(result);//####
     return result;
 } // RequestMap::lookupRequestHandler
 
 void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_P1("handler = ", handler);//####
     try
     {
@@ -184,22 +179,20 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // RequestMap::registerRequestHandler
 
 void RequestMap::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_P1("handler = ", handler);//####
     _defaultHandler = handler;
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // RequestMap::setDefaultRequestHandler
 
 void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_P1("handler = ", handler);//####
     try
     {
@@ -214,7 +207,7 @@ void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // RequestMap::unregisterRequestHandler
 
 #if defined(__APPLE__)

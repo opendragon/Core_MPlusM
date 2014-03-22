@@ -81,9 +81,8 @@ ExampleRandomNumberService::ExampleRandomNumberService(const yarp::os::ConstStri
 
 ExampleRandomNumberService::~ExampleRandomNumberService(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // ExampleRandomNumberService::~ExampleRandomNumberService
 
 #if defined(__APPLE__)
@@ -92,8 +91,7 @@ ExampleRandomNumberService::~ExampleRandomNumberService(void)
 
 void ExampleRandomNumberService::setUpRequestHandlers(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         _requestHandlers.registerRequestHandler(new RandomRequestHandler());
@@ -103,13 +101,12 @@ void ExampleRandomNumberService::setUpRequestHandlers(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // ExampleRandomNumberService::setUpRequestHandlers
 
 bool ExampleRandomNumberService::start(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         if (! isStarted())
@@ -131,14 +128,13 @@ bool ExampleRandomNumberService::start(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(isStarted());//####
+    OD_SYSLOG_OBJEXIT_B(isStarted());//####
     return isStarted();
 } // ExampleRandomNumberService::start
 
 bool ExampleRandomNumberService::stop(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     bool result;
     
     try
@@ -150,6 +146,6 @@ bool ExampleRandomNumberService::stop(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // ExampleRandomNumberService::stop

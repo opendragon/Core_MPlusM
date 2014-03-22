@@ -72,9 +72,8 @@ ExampleRandomNumberClient::ExampleRandomNumberClient(void) :
 
 ExampleRandomNumberClient::~ExampleRandomNumberClient(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // ExampleRandomNumberClient::~ExampleRandomNumberClient
 
 #if defined(__APPLE__)
@@ -83,8 +82,7 @@ ExampleRandomNumberClient::~ExampleRandomNumberClient(void)
 
 bool ExampleRandomNumberClient::getOneRandomNumber(double & result)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_P1("result = ", &result);//####
     bool okSoFar = false;
 
@@ -124,15 +122,14 @@ bool ExampleRandomNumberClient::getOneRandomNumber(double & result)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);//####
+    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // ExampleRandomNumberClient::getOneRandomNumber
 
 bool ExampleRandomNumberClient::getRandomNumbers(const int      howMany,
                                                  RandomVector & result)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_LL1("howMany = ", howMany);//####
     OD_SYSLOG_P1("result = ", &result);//####
     bool okSoFar = false;
@@ -188,7 +185,7 @@ bool ExampleRandomNumberClient::getRandomNumbers(const int      howMany,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);//####
+    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // ExampleRandomNumberClient::getRandomNumbers
 

@@ -71,9 +71,8 @@ Test05HandlerCreator::Test05HandlerCreator(void) :
 
 Test05HandlerCreator::~Test05HandlerCreator(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // Test05HandlerCreator::~Test05HandlerCreator
 
 #if defined(__APPLE__)
@@ -82,7 +81,11 @@ Test05HandlerCreator::~Test05HandlerCreator(void)
 
 YarpPlusPlus::InputHandler * Test05HandlerCreator::create(void)
 {
-    return new Test05Handler;
+    OD_SYSLOG_OBJENTER();//####
+    Test05Handler * result = new Test05Handler;
+
+    OD_SYSLOG_OBJEXIT_P(result);//####
+    return result;
 } // Test05HandlerCreator::create
 
 #if defined(__APPLE__)

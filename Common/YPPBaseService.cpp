@@ -53,7 +53,20 @@
 #include "YPPNameRequestHandler.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wc++11-extensions"
+# pragma clang diagnostic ignored "-Wdocumentation"
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# pragma clang diagnostic ignored "-Wpadded"
+# pragma clang diagnostic ignored "-Wshadow"
+# pragma clang diagnostic ignored "-Wunused-parameter"
+# pragma clang diagnostic ignored "-Wweak-vtables"
+#endif // defined(__APPLE__)
 #include <yarp/os/Network.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
 using namespace YarpPlusPlus;
 
@@ -140,15 +153,14 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
 
 BaseService::~BaseService(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     delete _endpoint;
     delete _handler;
     delete _handlerCreator;
 #if defined(SERVICES_HAVE_CONTEXTS)
     clearContexts();
 #endif // defined(SERVICES_HAVE_CONTEXTS)
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // BaseService::~BaseService
 
 #if defined(__APPLE__)
@@ -159,8 +171,7 @@ BaseService::~BaseService(void)
 void BaseService::addContext(const yarp::os::ConstString & key,
                              BaseContext *                 context)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     OD_SYSLOG_P1("context = ", context);//####
     try
@@ -175,15 +186,14 @@ void BaseService::addContext(const yarp::os::ConstString & key,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // BaseService::addContext
 #endif // defined(SERVICES_HAVE_CONTEXTS)
 
 #if defined(SERVICES_HAVE_CONTEXTS)
 void BaseService::clearContexts(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     for (ContextMap::iterator walker(_contexts.begin()); _contexts.end() != walker; ++walker)
     {
         BaseContext * value = walker->second;
@@ -194,15 +204,14 @@ void BaseService::clearContexts(void)
         }
     }
     _contexts.clear();
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // BaseService::clearContexts
 #endif // defined(SERVICES_HAVE_CONTEXTS)
 
 #if defined(SERVICES_HAVE_CONTEXTS)
 BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     BaseContext * result = NULL;
     
@@ -220,7 +229,7 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_P(result);//####
+    OD_SYSLOG_OBJEXIT_P(result);//####
     return result;
 } // BaseService::findContext
 #endif // defined(SERVICES_HAVE_CONTEXTS)
@@ -230,8 +239,7 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
                                  const yarp::os::ConstString & senderPort,
                                  yarp::os::ConnectionWriter *  replyMechanism)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
                  "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
@@ -263,15 +271,14 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // BaseService::processRequest
 
 #if defined(SERVICES_HAVE_CONTEXTS)
 void BaseService::removeContext(const yarp::os::ConstString & key)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     try
     {
@@ -293,14 +300,13 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // BaseService::removeContext
 #endif // defined(SERVICES_HAVE_CONTEXTS)
 
 bool BaseService::setTimeout(const float timeout)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_D1("timeout = ", timeout);//####
     bool result = false;
     
@@ -320,14 +326,13 @@ bool BaseService::setTimeout(const float timeout)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // BaseService::setTimeout
 
 void BaseService::setUpRequestHandlers(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         _requestHandlers.registerRequestHandler(new InfoRequestHandler());
@@ -339,13 +344,12 @@ void BaseService::setUpRequestHandlers(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // BaseService::setUpRequestHandlers
 
 bool BaseService::start(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         if (! _started)
@@ -399,16 +403,15 @@ bool BaseService::start(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(_started);//####
+    OD_SYSLOG_OBJEXIT_B(_started);//####
     return _started;
 } // BaseService::start
 
 bool BaseService::stop(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     _started = false;
-    OD_SYSLOG_EXIT_B(! _started);//####
+    OD_SYSLOG_OBJEXIT_B(! _started);//####
     return (! _started);
 } // BaseService::stop
 

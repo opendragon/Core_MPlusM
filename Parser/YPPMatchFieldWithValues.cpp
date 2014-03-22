@@ -164,12 +164,11 @@ MatchFieldWithValues::MatchFieldWithValues(FieldNameValidator validator,
 
 MatchFieldWithValues::~MatchFieldWithValues(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     delete _fieldName;
     delete _singleValue;
     delete _values;
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // MatchFieldWithValues::~MatchFieldWithValues
 
 #if defined(__APPLE__)
@@ -179,8 +178,7 @@ MatchFieldWithValues::~MatchFieldWithValues(void)
 yarp::os::ConstString MatchFieldWithValues::asSQLString(void)
 const
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     yarp::os::ConstString converted;
 
     try
@@ -238,7 +236,7 @@ const
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_S(converted.c_str());//####
+    OD_SYSLOG_OBJEXIT_S(converted.c_str());//####
     return converted;
 } // MatchFieldWithValues::asSQLString
 

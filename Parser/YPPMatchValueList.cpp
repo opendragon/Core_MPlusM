@@ -193,10 +193,9 @@ MatchValueList::MatchValueList(void) :
 
 MatchValueList::~MatchValueList(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     empty();
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // MatchValueList::~MatchValueList
 
 #if defined(__APPLE__)
@@ -206,8 +205,7 @@ MatchValueList::~MatchValueList(void)
 yarp::os::ConstString MatchValueList::asSQLString(const char * fieldName)
 const
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S1("fieldName = ", fieldName);//####
     yarp::os::ConstString result;
     
@@ -335,7 +333,7 @@ const
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_S(result.c_str());//####
+    OD_SYSLOG_OBJEXIT_S(result.c_str());//####
     return result;
 } // MatchValueList::asSQLString
 
@@ -401,8 +399,7 @@ const
 
 void MatchValueList::empty(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
@@ -418,7 +415,7 @@ void MatchValueList::empty(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // MatchValueList::empty
 
 #if defined(__APPLE__)

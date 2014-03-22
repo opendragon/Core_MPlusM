@@ -174,10 +174,9 @@ MatchConstraint::MatchConstraint(void) :
 
 MatchConstraint::~MatchConstraint(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     empty();
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // MatchConstraint::~MatchConstraint
 
 #if defined(__APPLE__)
@@ -187,8 +186,7 @@ MatchConstraint::~MatchConstraint(void)
 yarp::os::ConstString MatchConstraint::asSQLString(void)
 const
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     yarp::os::ConstString result;
     
     try
@@ -209,7 +207,7 @@ const
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_S(result.c_str());//####
+    OD_SYSLOG_OBJEXIT_S(result.c_str());//####
     return result;
 } // MatchConstraint::asSQLString
 
@@ -274,8 +272,7 @@ const
 
 void MatchConstraint::empty(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         for (MatchConstraintListSize ii = 0, maxI = _fieldsWithValues.size(); ii < maxI; ++ii)
@@ -291,7 +288,7 @@ void MatchConstraint::empty(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // MatchConstraint::empty
 
 #if defined(__APPLE__)

@@ -78,6 +78,13 @@
 #  define OD_WHERE_FORMAT_ \
         "%s{%s@%04d}"
 
+#  define OD_OBJFUNC_FORMAT_ \
+        "%s%s" OD_OBJWHERE_FORMAT_
+#  define OD_OBJFUNC_PREFIX_(file_) \
+        prefixString_, indentString_, funcName, file_, lineNumber, objPtr
+#  define OD_OBJWHERE_FORMAT_ \
+        "%s{%s@%04d}[%p]"
+
 #  define OD_CREATE_INDENT_() \
         char * indentString_ = odBuildIndent_()
 #  define OD_CREATE_PREFIX_() \
@@ -2131,6 +2138,509 @@ EXTERN_C void ODSysLogO4_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODSysLogO4_
 #  endif // defined(__OBJC__)
+
+EXTERN_C void ODSysLogObjEnter_(const char * fileName,
+                                const char * funcName,
+                                const int    lineNumber,
+                                const void * objPtr)
+{
+    const char * rootName = odFileNameRoot_(fileName);
+    
+    OD_CREATE_INDENT_();
+    OD_CREATE_PREFIX_();
+    if (lOdLogFile_)
+    {
+        odWriteTime_(lOdLogFile_);
+        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_ENTER_ "\n", OD_OBJFUNC_PREFIX_(rootName));
+        fflush(lOdLogFile_);
+    }
+    else
+    {
+#  if defined(WIN32)
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_ENTER_ "\n", OD_OBJFUNC_PREFIX_(rootName));
+        fflush(OD_LOG_STREAM_);
+#  else // ! defined(WIN32)
+#   if defined(__OBJC__)
+        NSLog(@OD_OBJFUNC_FORMAT_ OD_OBJFORMAT_ENTER_, OD_OBJFUNC_PREFIX_(rootName));
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_ENTER_, OD_OBJFUNC_PREFIX_(rootName));
+#   endif // ! defined(__OBJC__)
+#  endif // ! defined(WIN32)
+    }
+    OD_FREE_PREFIX_();
+    OD_FREE_INDENT_();
+    odIncreaseIndent_();
+} // ODSysLogObjEnter_
+
+EXTERN_C void ODSysLogObjExit_(const char * fileName,
+                               const char * funcName,
+                               const int    lineNumber,
+                               const void * objPtr)
+{
+    const char * rootName = odFileNameRoot_(fileName);
+    
+    odDecreaseIndent_();
+    OD_CREATE_INDENT_();
+    OD_CREATE_PREFIX_();
+    if (lOdLogFile_)
+    {
+        odWriteTime_(lOdLogFile_);
+        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_ "\n", OD_OBJFUNC_PREFIX_(rootName));
+        fflush(lOdLogFile_);
+    }
+    else
+    {
+#  if defined(WIN32)
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_ "\n", OD_OBJFUNC_PREFIX_(rootName));
+        fflush(OD_LOG_STREAM_);
+#  else // ! defined(WIN32)
+#   if defined(__OBJC__)
+        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_, OD_OBJFUNC_PREFIX_(rootName));
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_, OD_OBJFUNC_PREFIX_(rootName));
+#   endif // ! defined(__OBJC__)
+#  endif // ! defined(WIN32)
+    }
+    OD_FREE_PREFIX_();
+    OD_FREE_INDENT_();
+} // ODSysLogObjExit_
+
+EXTERN_C void ODSysLogObjExitB_(const char * fileName,
+                                const char * funcName,
+                                const int    lineNumber,
+                                const void * objPtr,
+                                const bool   val)
+{
+    const char * rootName = odFileNameRoot_(fileName);
+    
+    odDecreaseIndent_();
+    OD_CREATE_INDENT_();
+    OD_CREATE_PREFIX_();
+    if (lOdLogFile_)
+    {
+        odWriteTime_(lOdLogFile_);
+        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                odBoolToString_(val));
+        fflush(lOdLogFile_);
+    }
+    else
+    {
+#  if defined(WIN32)
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                odBoolToString_(val));
+        fflush(OD_LOG_STREAM_);
+#  else // ! defined(WIN32)
+#   if defined(__OBJC__)
+        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_B1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, odBoolToString_(val));
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_B1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+               odBoolToString_(val));
+#   endif // ! defined(__OBJC__)
+#  endif // ! defined(WIN32)
+    }
+    OD_FREE_PREFIX_();
+    OD_FREE_INDENT_();
+} // ODSysLogObjExitB_
+
+EXTERN_C void ODSysLogObjExitC_(const char * fileName,
+                                const char * funcName,
+                                const int    lineNumber,
+                                const void * objPtr,
+                                const char   val)
+{
+    const char * rootName = odFileNameRoot_(fileName);
+    
+    odDecreaseIndent_();
+    OD_CREATE_INDENT_();
+    OD_CREATE_PREFIX_();
+    if (lOdLogFile_)
+    {
+        odWriteTime_(lOdLogFile_);
+        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
+                val);
+        fflush(lOdLogFile_);
+    }
+    else
+    {
+#  if defined(WIN32)
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                val, val);
+        fflush(OD_LOG_STREAM_);
+#  else // ! defined(WIN32)
+#   if defined(__OBJC__)
+        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_C1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_C1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+               val, val);
+#   endif // ! defined(__OBJC__)
+#  endif // ! defined(WIN32)
+    }
+    OD_FREE_PREFIX_();
+    OD_FREE_INDENT_();
+} // ODSysLogObjExitC_
+
+EXTERN_C void ODSysLogObjExitD_(const char * fileName,
+                                const char * funcName,
+                                const int    lineNumber,
+                                const void * objPtr,
+                                const double val)
+{
+    const char * rootName = odFileNameRoot_(fileName);
+    
+    odDecreaseIndent_();
+    OD_CREATE_INDENT_();
+    OD_CREATE_PREFIX_();
+    if (lOdLogFile_)
+    {
+        odWriteTime_(lOdLogFile_);
+        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
+        fflush(lOdLogFile_);
+    }
+    else
+    {
+#  if defined(WIN32)
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                val);
+        fflush(OD_LOG_STREAM_);
+#  else // ! defined(WIN32)
+#   if defined(__OBJC__)
+        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_D1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_D1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+               val);
+#   endif // ! defined(__OBJC__)
+#  endif // ! defined(WIN32)
+    }
+    OD_FREE_PREFIX_();
+    OD_FREE_INDENT_();
+} // ODSysLogObjExitD_
+
+EXTERN_C void ODSysLogObjExitExit_(const char * fileName,
+                                   const char * funcName,
+                                   const int    lineNumber,
+                                   const void * objPtr,
+                                   const long   val)
+{
+    const char * rootName = odFileNameRoot_(fileName);
+    
+    odDecreaseIndent_();
+    OD_CREATE_INDENT_();
+    OD_CREATE_PREFIX_();
+    if (lOdLogFile_)
+    {
+        odWriteTime_(lOdLogFile_);
+        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_CALL_ "\n", OD_OBJFUNC_PREFIX_(rootName), val, val);
+        fflush(lOdLogFile_);
+    }
+    else
+    {
+#  if defined(WIN32)
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_CALL_ "\n", OD_OBJFUNC_PREFIX_(rootName), val, val);
+        fflush(OD_LOG_STREAM_);
+#  else // ! defined(WIN32)
+#   if defined(__OBJC__)
+        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_CALL_, OD_OBJFUNC_PREFIX_(rootName), val, val);
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_CALL_, OD_OBJFUNC_PREFIX_(rootName), val, val);
+#   endif // ! defined(__OBJC__)
+#  endif // ! defined(WIN32)
+    }
+    OD_FREE_PREFIX_();
+    OD_FREE_INDENT_();
+} // ODSysLogObjExitExit_
+
+EXTERN_C void ODSysLogObjExitL_(const char *  fileName,
+                                const char *  funcName,
+                                const int     lineNumber,
+                                const void *  objPtr,
+                                const int32_t val)
+{
+    const char * rootName = odFileNameRoot_(fileName);
+    
+    odDecreaseIndent_();
+    OD_CREATE_INDENT_();
+    OD_CREATE_PREFIX_();
+    if (lOdLogFile_)
+    {
+        odWriteTime_(lOdLogFile_);
+        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
+                val);
+        fflush(lOdLogFile_);
+    }
+    else
+    {
+#  if defined(WIN32)
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                val, val);
+        fflush(OD_LOG_STREAM_);
+#  else // ! defined(WIN32)
+#   if defined(__OBJC__)
+        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_L1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_L1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+               val, val);
+#   endif // ! defined(__OBJC__)
+#  endif // ! defined(WIN32)
+    }
+    OD_FREE_PREFIX_();
+    OD_FREE_INDENT_();
+} // ODSysLogObjExitL_
+
+EXTERN_C void ODSysLogObjExitLL_(const char *  fileName,
+                                 const char *  funcName,
+                                 const int     lineNumber,
+                                 const void *  objPtr,
+                                 const int64_t val)
+{
+    const char * rootName = odFileNameRoot_(fileName);
+    
+    odDecreaseIndent_();
+    OD_CREATE_INDENT_();
+    OD_CREATE_PREFIX_();
+    if (lOdLogFile_)
+    {
+        odWriteTime_(lOdLogFile_);
+        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
+                val);
+        fflush(lOdLogFile_);
+    }
+    else
+    {
+#  if defined(WIN32)
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                val, val);
+        fflush(OD_LOG_STREAM_);
+#  else // ! defined(WIN32)
+#   if defined(__OBJC__)
+        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_LL1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_LL1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+               val, val);
+#   endif // ! defined(__OBJC__)
+#  endif // ! defined(WIN32)
+    }
+    OD_FREE_PREFIX_();
+    OD_FREE_INDENT_();
+} // ODSysLogObjExitLL_
+
+#  if defined(__OBJC__)
+EXTERN_C void ODSysLogObjExitO_(const char * fileName,
+                                const char * funcName,
+                                const int    lineNumber,
+                                const void * objPtr,
+                                const id     val)
+{
+    const char * rootName = odFileNameRoot_(fileName);
+    const char * valString = odNullOrDescription(val);
+
+    odDecreaseIndent_();
+    OD_CREATE_INDENT_();
+    OD_CREATE_PREFIX_();
+    if (lOdLogFile_)
+    {
+        odWriteTime_(lOdLogFile_);
+        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_O1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                valString);
+        fflush(lOdLogFile_);
+    }
+    else
+    {
+        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_O1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, valString);
+    }
+    OD_FREE_PREFIX_();
+    OD_FREE_INDENT_();
+} // ODSysLogObjExitO_
+#  endif // defined(__OBJC__)
+
+EXTERN_C void ODSysLogObjExitP_(const char * fileName,
+                                const char * funcName,
+                                const int    lineNumber,
+                                const void * objPtr,
+                                const void * val)
+{
+    const char * rootName = odFileNameRoot_(fileName);
+    
+    odDecreaseIndent_();
+    OD_CREATE_INDENT_();
+    OD_CREATE_PREFIX_();
+    if (lOdLogFile_)
+    {
+        odWriteTime_(lOdLogFile_);
+        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
+        fflush(lOdLogFile_);
+    }
+    else
+    {
+#  if defined(WIN32)
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                val);
+        fflush(OD_LOG_STREAM_);
+#  else // ! defined(WIN32)
+#   if defined(__OBJC__)
+        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_P1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_P1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+               val);
+#   endif // ! defined(__OBJC__)
+#  endif // ! defined(WIN32)
+    }
+    OD_FREE_PREFIX_();
+    OD_FREE_INDENT_();
+} // ODSysLogObjExitP_
+
+#  if defined(__APPLE__)
+EXTERN_C void ODSysLogObjExitR_(const char * fileName,
+                                const char * funcName,
+                                const int    lineNumber,
+                                const void * objPtr,
+                                const CGRect val)
+{
+    const char * rootName = odFileNameRoot_(fileName);
+
+    odDecreaseIndent_();
+    OD_CREATE_INDENT_();
+    OD_CREATE_PREFIX_();
+    if (lOdLogFile_)
+    {
+        odWriteTime_(lOdLogFile_);
+        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_RECT_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                val.origin.x, val.origin.y, val.size.height, val.size.width);
+        fflush(lOdLogFile_);
+    }
+    else
+    {
+#   if defined(__OBJC__)
+        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_RECT_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val.origin.x,
+              val.origin.y, val.size.height, val.size.width);
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_RECT_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+               val.origin.x, val.origin.y, val.size.height, val.size.width);
+#   endif // ! defined(__OBJC__)
+    }
+    OD_FREE_PREFIX_();
+    OD_FREE_INDENT_();
+} // ODSysLogObjExitR_
+#  endif // defined(__APPLE__)
+
+EXTERN_C void ODSysLogObjExitS_(const char * fileName,
+                                const char * funcName,
+                                const int    lineNumber,
+                                const void * objPtr,
+                                const char * val)
+{
+    const char * rootName = odFileNameRoot_(fileName);
+    
+    odDecreaseIndent_();
+    OD_CREATE_INDENT_();
+    OD_CREATE_PREFIX_();
+    if (lOdLogFile_)
+    {
+        odWriteTime_(lOdLogFile_);
+        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                odNullOrString(val));
+        fflush(lOdLogFile_);
+    }
+    else
+    {
+#  if defined(WIN32)
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                odNullOrString(val));
+        fflush(OD_LOG_STREAM_);
+#  else // ! defined(WIN32)
+#   if defined(__OBJC__)
+        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_S1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, odNullOrString(val));
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_S1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+               odNullOrString(val));
+#   endif // ! defined(__OBJC__)
+#  endif // ! defined(WIN32)
+    }
+    OD_FREE_PREFIX_();
+    OD_FREE_INDENT_();
+} // ODSysLogObjExitS_
+
+EXTERN_C void ODSysLogObjExitThrowL_(const char *  fileName,
+                                     const char *  funcName,
+                                     const int     lineNumber,
+                                     const void *  objPtr,
+                                     const int32_t val)
+{
+    const char * rootName = odFileNameRoot_(fileName);
+    
+    odDecreaseIndent_();
+    OD_CREATE_INDENT_();
+    OD_CREATE_PREFIX_();
+    if (lOdLogFile_)
+    {
+        odWriteTime_(lOdLogFile_);
+        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_L_ "\n", OD_OBJFUNC_PREFIX_(rootName), val, val);
+        fflush(lOdLogFile_);
+    }
+    else
+    {
+#  if defined(WIN32)
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_L_ "\n", OD_OBJFUNC_PREFIX_(rootName), val, val);
+        fflush(OD_LOG_STREAM_);
+#  else // ! defined(WIN32)
+#   if defined(__OBJC__)
+        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_L_, OD_OBJFUNC_PREFIX_(rootName), val, val);
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_L_, OD_OBJFUNC_PREFIX_(rootName), val, val);
+#   endif // ! defined(__OBJC__)
+#  endif // ! defined(WIN32)
+    }
+    OD_FREE_PREFIX_();
+    OD_FREE_INDENT_();
+} // ODSysLogObjExitThrowL_
+
+EXTERN_C void ODSysLogObjExitThrowS_(const char * fileName,
+                                     const char * funcName,
+                                     const int    lineNumber,
+                                     const void * objPtr,
+                                     const char * val)
+{
+    const char * rootName = odFileNameRoot_(fileName);
+    
+    odDecreaseIndent_();
+    OD_CREATE_INDENT_();
+    OD_CREATE_PREFIX_();
+    if (lOdLogFile_)
+    {
+        odWriteTime_(lOdLogFile_);
+        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_S_ "\n", OD_OBJFUNC_PREFIX_(rootName),
+                odNullOrString(val));
+        fflush(lOdLogFile_);
+    }
+    else
+    {
+#  if defined(WIN32)
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_S_ "\n", OD_OBJFUNC_PREFIX_(rootName),
+                odNullOrString(val));
+        fflush(OD_LOG_STREAM_);
+#  else // ! defined(WIN32)
+#   if defined(__OBJC__)
+        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_S_, OD_OBJFUNC_PREFIX_(rootName), odNullOrString(val));
+#   else // ! defined(__OBJC__)
+        syslog(OD_SYSLOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_S_, OD_OBJFUNC_PREFIX_(rootName),
+               odNullOrString(val));
+#   endif // ! defined(__OBJC__)
+#  endif // ! defined(WIN32)
+    }
+    OD_FREE_PREFIX_();
+    OD_FREE_INDENT_();
+} // ODSysLogObjExitThrowS_
 
 EXTERN_C void ODSysLogP1_(const char * fileName,
                           const char * funcName,

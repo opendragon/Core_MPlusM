@@ -46,7 +46,20 @@
 #include "YPPEndpoint.h"
 #include "YPPRegistryService.h"
 #include "YPPRequests.h"
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wc++11-extensions"
+# pragma clang diagnostic ignored "-Wdocumentation"
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# pragma clang diagnostic ignored "-Wpadded"
+# pragma clang diagnostic ignored "-Wshadow"
+# pragma clang diagnostic ignored "-Wunused-parameter"
+# pragma clang diagnostic ignored "-Wweak-vtables"
+#endif // defined(__APPLE__)
 #include <yarp/os/Time.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
 using namespace YarpPlusPlus;
 
@@ -79,9 +92,8 @@ RegisterRequestHandler::RegisterRequestHandler(RegistryService & service) :
 
 RegisterRequestHandler::~RegisterRequestHandler(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // RegisterRequestHandler::~RegisterRequestHandler
 
 #if defined(__APPLE__)
@@ -90,8 +102,7 @@ RegisterRequestHandler::~RegisterRequestHandler(void)
 
 void RegisterRequestHandler::fillInDescription(yarp::os::Property & info)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_REGISTER_REQUEST);
@@ -111,7 +122,7 @@ void RegisterRequestHandler::fillInDescription(yarp::os::Property & info)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // RegisterRequestHandler::fillInDescription
 
 bool RegisterRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
@@ -121,8 +132,7 @@ bool RegisterRequestHandler::operator() (const yarp::os::Bottle &      restOfInp
 #if (! defined(ENABLE_OD_SYSLOG))
 # pragma unused(senderPort)
 #endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
@@ -250,15 +260,14 @@ bool RegisterRequestHandler::operator() (const yarp::os::Bottle &      restOfInp
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // RegisterRequestHandler::operator()
 
 bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & portName,
                                                  const ServiceResponse &       response)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S2("portName = ", portName.c_str(), "response = ", response.asString().c_str());//####
     bool result = false;
 
@@ -344,7 +353,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                             else
                             {
                                 OD_SYSLOG("! (theOutputs.isString())");//####
-                                                                       // The outputs descriptor is present, but it's not a string
+                                // The outputs descriptor is present, but it's not a string
                                 result = false;
                             }
                         }
@@ -405,15 +414,14 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // RegisterRequestHandler::processListResponse
 
 bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & portName,
                                                  const ServiceResponse &       response)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S2("portName = ", portName.c_str(), "response = ", response.asString().c_str());//####
     bool result = false;
     
@@ -452,7 +460,7 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & p
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // RegisterRequestHandler::processNameResponse
 

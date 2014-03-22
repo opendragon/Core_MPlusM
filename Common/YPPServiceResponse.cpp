@@ -72,19 +72,17 @@ ServiceResponse::ServiceResponse(const yarp::os::Bottle & values) :
 
 ServiceResponse::~ServiceResponse(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // ServiceResponse::~ServiceResponse
 
 ServiceResponse & ServiceResponse::operator=(const yarp::os::Bottle & values)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_LL1("values size = ", values.size());//####
     OD_SYSLOG_S1("values = ", values.toString().c_str());//####
     _values = values;
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_SYSLOG_OBJEXIT_P(this);//####
     return *this;
 } // ServiceResponse::operator=
 
@@ -97,19 +95,17 @@ ServiceResponse & ServiceResponse::operator=(const yarp::os::Bottle & values)
 yarp::os::ConstString ServiceResponse::asString(void)
 const
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     yarp::os::ConstString result(_values.toString());
     
-    OD_SYSLOG_EXIT_S(result.c_str());//####
+    OD_SYSLOG_OBJEXIT_S(result.c_str());//####
     return result;
 } // ServiceResponse::asString
 
 yarp::os::Value ServiceResponse::element(const int index)
 const
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     yarp::os::Value result;
     
     try
@@ -128,7 +124,7 @@ const
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_S(result.toString().c_str());//####
+    OD_SYSLOG_OBJEXIT_S(result.toString().c_str());//####
     return result;
 } // ServiceResponse::element
 

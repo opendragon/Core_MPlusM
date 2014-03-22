@@ -88,9 +88,8 @@ ExampleRunningSumService::ExampleRunningSumService(const yarp::os::ConstString &
 
 ExampleRunningSumService::~ExampleRunningSumService(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // ExampleRunningSumService::~ExampleRunningSumService
 
 #if defined(__APPLE__)
@@ -103,8 +102,7 @@ double ExampleRunningSumService::addToSum(const yarp::os::ConstString & key,
 #if (! defined(SERVICES_HAVE_CONTEXTS))
 # pragma unused(key)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     OD_SYSLOG_D1("value = ", value);//####
     double result = 0.0;
@@ -133,7 +131,7 @@ double ExampleRunningSumService::addToSum(const yarp::os::ConstString & key,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_D(result);//####
+    OD_SYSLOG_OBJEXIT_D(result);//####
     return result;
 } // ExampleRunningSumService::addToSum
 
@@ -142,8 +140,7 @@ void ExampleRunningSumService::resetSum(const yarp::os::ConstString & key)
 #if (! defined(SERVICES_HAVE_CONTEXTS))
 # pragma unused(key)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     try
     {
@@ -167,13 +164,12 @@ void ExampleRunningSumService::resetSum(const yarp::os::ConstString & key)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // ExampleRunningSumService::resetSum
 
 void ExampleRunningSumService::setUpRequestHandlers(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         _requestHandlers.registerRequestHandler(new AddRequestHandler(*this));
@@ -186,13 +182,12 @@ void ExampleRunningSumService::setUpRequestHandlers(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // ExampleRunningSumService::setUpRequestHandlers
 
 bool ExampleRunningSumService::start(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -217,7 +212,7 @@ bool ExampleRunningSumService::start(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // ExampleRunningSumService::start
 
@@ -226,8 +221,7 @@ void ExampleRunningSumService::startSum(const yarp::os::ConstString & key)
 #if (! defined(SERVICES_HAVE_CONTEXTS))
 # pragma unused(key)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     try
     {
@@ -251,13 +245,12 @@ void ExampleRunningSumService::startSum(const yarp::os::ConstString & key)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // ExampleRunningSumService::startSum
 
 bool ExampleRunningSumService::stop(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -269,7 +262,7 @@ bool ExampleRunningSumService::stop(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // ExampleRunningSumService::stop
 
@@ -278,8 +271,7 @@ void ExampleRunningSumService::stopSum(const yarp::os::ConstString & key)
 #if (! defined(SERVICES_HAVE_CONTEXTS))
 # pragma unused(key)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S1("key = ", key.c_str());//####
     try
     {
@@ -292,5 +284,5 @@ void ExampleRunningSumService::stopSum(const yarp::os::ConstString & key)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // ExampleRunningSumService::stopSum

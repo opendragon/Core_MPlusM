@@ -70,9 +70,8 @@ Test04Handler::Test04Handler(void) :
 
 Test04Handler::~Test04Handler(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // Test04Handler::~Test04Handler
 
 #if defined(__APPLE__)
@@ -86,8 +85,7 @@ bool Test04Handler::handleInput(const yarp::os::Bottle &      input,
 #if (! defined(ENABLE_OD_SYSLOG))
 # pragma unused(senderPort)
 #endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     if (replyMechanism)
@@ -96,7 +94,7 @@ bool Test04Handler::handleInput(const yarp::os::Bottle &      input,
         
         inputCopy.write(*replyMechanism);
     }
-    OD_SYSLOG_EXIT_B(true);//####
+    OD_SYSLOG_OBJEXIT_B(true);//####
     return true;
 } // Test04Handler::handleInput
 

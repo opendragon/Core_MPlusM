@@ -70,9 +70,8 @@ RunningSumContext::RunningSumContext(void) :
 
 RunningSumContext::~RunningSumContext(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // RunningSumContext::~RunningSumContext
 
 #if defined(__APPLE__)

@@ -78,9 +78,8 @@ UnregisterRequestHandler::UnregisterRequestHandler(RegistryService & service) :
 
 UnregisterRequestHandler::~UnregisterRequestHandler(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // UnregisterRequestHandler::~UnregisterRequestHandler
 
 #if defined(__APPLE__)
@@ -89,8 +88,7 @@ UnregisterRequestHandler::~UnregisterRequestHandler(void)
 
 void UnregisterRequestHandler::fillInDescription(yarp::os::Property & info)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_UNREGISTER_REQUEST);
@@ -110,7 +108,7 @@ void UnregisterRequestHandler::fillInDescription(yarp::os::Property & info)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // UnregisterRequestHandler::fillInDescription
 
 bool UnregisterRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
@@ -120,8 +118,7 @@ bool UnregisterRequestHandler::operator() (const yarp::os::Bottle &      restOfI
 #if (! defined(ENABLE_OD_SYSLOG))
 # pragma unused(senderPort)
 #endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
@@ -184,7 +181,7 @@ bool UnregisterRequestHandler::operator() (const yarp::os::Bottle &      restOfI
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // UnregisterRequestHandler::operator()
 

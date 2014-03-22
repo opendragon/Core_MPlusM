@@ -81,9 +81,8 @@ MatchRequestHandler::MatchRequestHandler(RegistryService &  service,
 
 MatchRequestHandler::~MatchRequestHandler(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // MatchRequestHandler::~MatchRequestHandler
 
 #if defined(__APPLE__)
@@ -92,8 +91,7 @@ MatchRequestHandler::~MatchRequestHandler(void)
 
 void MatchRequestHandler::fillInDescription(yarp::os::Property & info)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_MATCH_REQUEST);
@@ -114,7 +112,7 @@ void MatchRequestHandler::fillInDescription(yarp::os::Property & info)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // MatchRequestHandler::fillInDescription
 
 bool MatchRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
@@ -124,8 +122,7 @@ bool MatchRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
 #if (! defined(ENABLE_OD_SYSLOG))
 # pragma unused(senderPort)
 #endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
@@ -194,7 +191,7 @@ bool MatchRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // MatchRequestHandler::operator()
 

@@ -81,9 +81,8 @@ ExampleEchoService::ExampleEchoService(const yarp::os::ConstString & serviceEndp
 
 ExampleEchoService::~ExampleEchoService(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // ExampleEchoService::~ExampleEchoService
 
 #if defined(__APPLE__)
@@ -92,8 +91,7 @@ ExampleEchoService::~ExampleEchoService(void)
 
 void ExampleEchoService::setUpRequestHandlers(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         _requestHandlers.registerRequestHandler(new EchoRequestHandler());
@@ -103,13 +101,12 @@ void ExampleEchoService::setUpRequestHandlers(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // ExampleEchoService::setUpRequestHandlers
 
 bool ExampleEchoService::start(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     try
     {
         if (! isStarted())
@@ -131,14 +128,13 @@ bool ExampleEchoService::start(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(isStarted());//####
+    OD_SYSLOG_OBJEXIT_B(isStarted());//####
     return isStarted();
 } // ExampleEchoService::start
 
 bool ExampleEchoService::stop(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -150,6 +146,6 @@ bool ExampleEchoService::stop(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // ExampleEchoService::stop

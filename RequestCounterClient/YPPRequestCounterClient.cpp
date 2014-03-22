@@ -72,9 +72,8 @@ RequestCounterClient::RequestCounterClient(void) :
 
 RequestCounterClient::~RequestCounterClient(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // RequestCounterClient::~RequestCounterClient
 
 #if defined(__APPLE__)
@@ -84,8 +83,7 @@ RequestCounterClient::~RequestCounterClient(void)
 bool RequestCounterClient::getServiceStatistics(long &   counter,
                                                 double & elapsedTime)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_P2("counter = ", &counter, "elapsedTime = ", &elapsedTime);//####
     bool okSoFar = false;
     
@@ -127,14 +125,13 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);//####
+    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RequestCounterClient::getServiceStatistics
 
 bool RequestCounterClient::pokeService(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     bool okSoFar = false;
     
     try
@@ -155,14 +152,13 @@ bool RequestCounterClient::pokeService(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);//####
+    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RequestCounterClient::pokeService
 
 bool RequestCounterClient::resetServiceCounters(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     bool okSoFar = false;
     
     try
@@ -183,7 +179,7 @@ bool RequestCounterClient::resetServiceCounters(void)
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(okSoFar);//####
+    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RequestCounterClient::resetServiceCounters
 

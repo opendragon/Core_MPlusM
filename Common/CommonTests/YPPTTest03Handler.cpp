@@ -70,9 +70,8 @@ Test03Handler::Test03Handler(void) :
 
 Test03Handler::~Test03Handler(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // Test03Handler::~Test03Handler
 
 #if defined(__APPLE__)
@@ -86,11 +85,10 @@ bool Test03Handler::handleInput(const yarp::os::Bottle &      input,
 #if (! defined(ENABLE_OD_SYSLOG))
 # pragma unused(input,senderPort,replyMechanism)
 #endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
-    OD_SYSLOG_EXIT_B(true);//####
+    OD_SYSLOG_OBJEXIT_B(true);//####
     return true;
 } // Test03Handler::handleInput
 

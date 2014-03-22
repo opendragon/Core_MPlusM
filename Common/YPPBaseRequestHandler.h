@@ -43,10 +43,23 @@
 #if (! defined(YPPBASEREQUESTHANDLER_H_))
 # define YPPBASEREQUESTHANDLER_H_ /* */
 
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wc++11-extensions"
+#  pragma clang diagnostic ignored "-Wdocumentation"
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#  pragma clang diagnostic ignored "-Wpadded"
+#  pragma clang diagnostic ignored "-Wshadow"
+#  pragma clang diagnostic ignored "-Wunused-parameter"
+#  pragma clang diagnostic ignored "-Wweak-vtables"
+# endif // defined(__APPLE__)
 # include <yarp/os/Bottle.h>
 # include <yarp/os/ConnectionWriter.h>
 # include <yarp/os/ConstString.h>
 # include <yarp/os/Property.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 namespace YarpPlusPlus
 {

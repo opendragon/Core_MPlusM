@@ -73,9 +73,8 @@ BaseServiceInputHandler::BaseServiceInputHandler(BaseService & service) :
 
 BaseServiceInputHandler::~BaseServiceInputHandler(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
-    OD_SYSLOG_EXIT();//####
+    OD_SYSLOG_OBJENTER();//####
+    OD_SYSLOG_OBJEXIT();//####
 } // BaseServiceInputHandler::~BaseServiceInputHandler
 
 #if defined(__APPLE__)
@@ -86,8 +85,7 @@ bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &      input,
                                           const yarp::os::ConstString & senderPort,
                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("this = ", this);//####
+    OD_SYSLOG_OBJENTER();//####
     OD_SYSLOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
     OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = false;
@@ -108,7 +106,7 @@ bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &      input,
         OD_SYSLOG("Exception caught");//####
         throw;
     }
-        OD_SYSLOG_EXIT_B(result);//####
+    OD_SYSLOG_OBJEXIT_B(result);//####
     return result;
 } // BaseServiceInputHandler::handleInput
 

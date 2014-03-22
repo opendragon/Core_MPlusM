@@ -65,8 +65,13 @@ enum
 
 # if defined(ENABLE_OD_SYSLOG)
 #  if defined(__OBJC__)
-#   define OD_PRINTABLE_STRING(xx)   (xx ? [[xx description] UTF8String] : "<>")
-#  endif // defined(__OBJC__)
+#   define OD_OBJ_POINTER           self
+#   define OD_PRINTABLE_STRING(xx)  (xx ? [[xx description] UTF8String] : "<>")
+#  elif defined(__cplusplus)
+#   define OD_OBJ_POINTER           this
+#  else // ! defined(__cplusplus)
+#   define OD_OBJ_POINTER           NULL
+#  endif // defined(__cplusplus)
 #  define OD_SYSLOG(text) \
         ODSysLog_(__FILE__, __func__,  __LINE__, text)
 #  define OD_SYSLOG_B1(text1, val1)  \
@@ -162,6 +167,38 @@ enum
 #   define OD_SYSLOG_O4(text1, obj1, text2, obj2, text3, obj3, text4, obj4)  \
         ODSysLogO4_(__FILE__, __func__, __LINE__, text1, obj1, text2, obj2, text3, obj3, text4, obj4)
 #  endif // defined(__OBJC__)
+#  define OD_SYSLOG_OBJENTER()  \
+        ODSysLogObjEnter_(__FILE__, __func__, __LINE__, OD_OBJ_POINTER)
+#  define OD_SYSLOG_OBJEXIT()  \
+        ODSysLogObjExit_(__FILE__, __func__, __LINE__, OD_OBJ_POINTER)
+#  define OD_SYSLOG_OBJEXIT_B(val) \
+        ODSysLogObjExitB_(__FILE__, __func__, __LINE__, OD_OBJ_POINTER, val)
+#  define OD_SYSLOG_OBJEXIT_C(val) \
+        ODSysLogObjExitC_(__FILE__, __func__, __LINE__, OD_OBJ_POINTER, val)
+#  define OD_SYSLOG_OBJEXIT_D(val) \
+        ODSysLogObjExitD_(__FILE__, __func__, __LINE__, OD_OBJ_POINTER, val)
+#  define OD_SYSLOG_OBJEXIT_EXIT(val) \
+        ODSysLogObjExitExit_(__FILE__, __func__, __LINE__, OD_OBJ_POINTER, val)
+#  define OD_SYSLOG_OBJEXIT_L(val) \
+        ODSysLogObjExitL_(__FILE__, __func__, __LINE__, OD_OBJ_POINTER, val)
+#  define OD_SYSLOG_OBJEXIT_LL(val) \
+        ODSysLogObjExitLL_(__FILE__, __func__, __LINE__, OD_OBJ_POINTER, val)
+#  if defined(__OBJC__)
+#   define OD_SYSLOG_OBJEXIT_O(val) \
+        ODSysLogObjExitO_(__FILE__, __func__, __LINE__, OD_OBJ_POINTER, val)
+#  endif // defined(__OBJC__)
+#  define OD_SYSLOG_OBJEXIT_P(val) \
+        ODSysLogObjExitP_(__FILE__, __func__, __LINE__, OD_OBJ_POINTER, val)
+#  if defined(__APPLE__)
+#   define OD_SYSLOG_OBJEXIT_R(val) \
+        ODSysLogObjExitR_(__FILE__, __func__, __LINE__, OD_OBJ_POINTER, val)
+#  endif // defined(__APPLE__)
+#  define OD_SYSLOG_OBJEXIT_S(val) \
+        ODSysLogObjExitS_(__FILE__, __func__, __LINE__, OD_OBJ_POINTER, val)
+#  define OD_SYSLOG_OBJEXIT_THROW_L(val) \
+        ODSysLogObjExitThrowL_(__FILE__, __func__, __LINE__, OD_OBJ_POINTER, val)
+#  define OD_SYSLOG_OBJEXIT_THROW_S(val) \
+        ODSysLogObjExitThrowS_(__FILE__, __func__, __LINE__, OD_OBJ_POINTER, val)
 #  define OD_SYSLOG_P1(text1, ptr1)  \
         ODSysLogP1_(__FILE__, __func__, __LINE__, text1, (const void *) (ptr1))
 #  define OD_SYSLOG_P2(text1, ptr1, text2, ptr2)  \
@@ -510,6 +547,92 @@ extern "C"
                      const id     obj4);
 #  endif // defined(__OBJC__)
 
+    void ODSysLogObjEnter_(const char * fileName,
+                           const char * funcName,
+                           const int    lineNumber,
+                           const void * objPtr);
+
+    void ODSysLogObjExit_(const char * fileName,
+                          const char * funcName,
+                          const int    lineNumber,
+                          const void * objPtr);
+
+    void ODSysLogObjExitB_(const char * fileName,
+                           const char * funcName,
+                           const int    lineNumber,
+                           const void * objPtr,
+                           const bool   val);
+
+    void ODSysLogObjExitC_(const char * fileName,
+                           const char * funcName,
+                           const int    lineNumber,
+                           const void * objPtr,
+                           const char   val);
+
+    void ODSysLogObjExitD_(const char * fileName,
+                           const char * funcName,
+                           const int    lineNumber,
+                           const void * objPtr,
+                           const double val);
+
+    void ODSysLogObjExitExit_(const char * fileName,
+                              const char * funcName,
+                              const int    lineNumber,
+                              const void * objPtr,
+                              const long   val);
+
+    void ODSysLogObjExitL_(const char *  fileName,
+                           const char *  funcName,
+                           const int     lineNumber,
+                           const void *  objPtr,
+                           const int32_t val);
+
+    void ODSysLogObjExitLL_(const char *  fileName,
+                            const char *  funcName,
+                            const int     lineNumber,
+                            const void *  objPtr,
+                            const int64_t val);
+
+#  if defined(__OBJC__)
+    void ODSysLogObjExitO_(const char * fileName,
+                           const char * funcName,
+                           const int    lineNumber,
+                           const void * objPtr,
+                           const id     val);
+#  endif // defined(__OBJC__)
+
+    void ODSysLogObjExitP_(const char * fileName,
+                           const char * funcName,
+                           const int    lineNumber,
+                           const void * objPtr,
+                           const void * val);
+
+#  if defined(__APPLE__)
+    void ODSysLogObjExitR_(const char * fileName,
+                           const char * funcName,
+                           const int    lineNumber,
+                           const void * objPtr,
+                           const CGRect val);
+#  endif // defined(__APPLE__)
+
+    void ODSysLogObjExitS_(const char * fileName,
+                           const char * funcName,
+                           const int    lineNumber,
+                           const void * objPtr,
+                           const char * val);
+
+    void ODSysLogObjExitThrowL_(const char *  fileName,
+                                const char *  funcName,
+                                const int     lineNumber,
+                                const void *  objPtr,
+                                const int32_t val);
+
+    void ODSysLogObjExitThrowS_(const char * fileName,
+                                const char * funcName,
+                                const int    lineNumber,
+                                const void * objPtr,
+                                const char * val);
+    
     void ODSysLogP1_(const char * fileName,
                      const char * funcName,
                      const int    lineNumber,
@@ -665,6 +788,24 @@ extern "C"
 #   define OD_SYSLOG_O3(text1, obj1, text2, obj2, text3, obj3)  /* */
 #   define OD_SYSLOG_O4(text1, obj1, text2, obj2, text3, obj3, text4, obj4)  /* */
 #  endif // defined(__OBJC__)
+#  define OD_SYSLOG_OBJENTER()  /* */
+#  define OD_SYSLOG_OBJEXIT()  /* */
+#  define OD_SYSLOG_OBJEXIT_B(val) /* */
+#  define OD_SYSLOG_OBJEXIT_C(val) /* */
+#  define OD_SYSLOG_OBJEXIT_D(val) /* */
+#  define OD_SYSLOG_OBJEXIT_EXIT(val) /* */
+#  define OD_SYSLOG_OBJEXIT_L(val) /* */
+#  define OD_SYSLOG_OBJEXIT_LL(val) /* */
+#  if defined(__OBJC__)
+#   define OD_SYSLOG_OBJEXIT_O(val) /* */
+#  endif // defined(__OBJC__)
+#  define OD_SYSLOG_OBJEXIT_P(val) /* */
+#  if defined(__APPLE__)
+#   define OD_SYSLOG_OBJEXIT_R(val) /* */
+#  endif // defined(__APPLE__)
+#  define OD_SYSLOG_OBJEXIT_S(val) /* */
+#  define OD_SYSLOG_OBJEXIT_THROW_L(val) /* */
+#  define OD_SYSLOG_OBJEXIT_THROW_S(val) /* */
 #  define OD_SYSLOG_P1(text1, ptr1)  /* */
 #  define OD_SYSLOG_P2(text1, ptr1, text2, ptr2)  /* */
 #  define OD_SYSLOG_P3(text1, ptr1, text2, ptr2, text3, ptr3)  /* */
