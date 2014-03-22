@@ -29,3 +29,12 @@ RegistryService/CTestTestfile.cmake
 RegistryService/RegistryService
 ExampleRunningSumService
 ExampleRunningSumClient
+RequestCounterClient/RequestCounterClient
+RequestInfo/RequestInfo
+ServiceLister/ServiceLister
+YarpPlusPlus/YarpPlusPlus.xcodeproj/project.xcworkspace/xcuserdata/njaffe.xcuserdatad/UserInterfaceState.xcuserstate
+YarpPlusPlus/YarpPlusPlus.xcodeproj/xcuserdata/njaffe.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist
+YarpPlusPlus/YarpPlusPlus.xcodeproj/xcuserdata/njaffe.xcuserdatad/xcschemes/YarpPlusPlus.xcscheme
+YarpPlusPlus/YarpPlusPlus.xcodeproj/xcuserdata/njaffe.xcuserdatad/xcschemes/xcschememanagement.plist
+ports.db
+subs.db
