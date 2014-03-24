@@ -39,6 +39,6 @@
 //
 //--------------------------------------------------------------------------------------
 
-#define ENABLE_OD_SYSLOG /* */
+#define OD_ENABLE_LOGGING /* */
 
-#include "ODSyslog.inc"
+#include "ODLogging.inc"

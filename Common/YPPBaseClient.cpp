@@ -41,8 +41,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPBaseClient.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
 #include <cstring>
@@ -76,8 +76,8 @@ using namespace YarpPlusPlus;
  @returns The original response, if it is valid, or an empty response if it is not. */
 static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("response = ", response.toString().c_str());//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("response = ", response.toString().c_str());//####
     yarp::os::Bottle result;
     
     try
@@ -103,7 +103,7 @@ static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
                     }
                     else
                     {
-                        OD_SYSLOG("! (responseSecond.isList())");//####
+                        OD_LOG("! (responseSecond.isList())");//####
                     }
                 }
                 else if (! strcmp(YPP_FAILED_RESPONSE, responseFirstAsString.c_str()))
@@ -112,25 +112,25 @@ static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
                 }
                 else
                 {
-                    OD_SYSLOG("! (! strcmp(YPP_FAILED_RESPONSE, responseFirstAsString.c_str()))");//####
+                    OD_LOG("! (! strcmp(YPP_FAILED_RESPONSE, responseFirstAsString.c_str()))");//####
                 }
             }
             else
             {
-                OD_SYSLOG("! (responseFirst.isString())");//####
+                OD_LOG("! (responseFirst.isString())");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == response.size())");//####
+            OD_LOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == response.size())");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_LOG_EXIT();//####
     return result;
 } // validateMatchResponse
 
@@ -145,24 +145,24 @@ static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
 BaseClient::BaseClient(const char * basePortName) :
         _clientPort(NULL), _clientPortName(), _servicePortName(), _basePortName(NULL), _connected(false)
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     size_t len = strlen(basePortName);
     
     _basePortName = new char[len + 1];
     memcpy(_basePortName, basePortName, len + 1);
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this);//####
 } // BaseClient::BaseClient
 
 BaseClient::~BaseClient(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     disconnectFromService();
     if (_clientPort)
     {
         delete _clientPort;
     }
     delete _basePortName;
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // BaseClient::~BaseClient
 
 #if defined(__APPLE__)
@@ -171,7 +171,7 @@ BaseClient::~BaseClient(void)
 
 bool BaseClient::connectToService(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     if (! _connected)
     {
         if (! _clientPort)
@@ -189,26 +189,26 @@ bool BaseClient::connectToService(void)
                 }
                 else
                 {
-                    OD_SYSLOG("! (yarp::os::Network::connect(_clientPortName, _servicePortName))");//####
+                    OD_LOG("! (yarp::os::Network::connect(_clientPortName, _servicePortName))");//####
                 }
             }
             else
             {
-                OD_SYSLOG("! (_clientPort->open(aName))");//####
+                OD_LOG("! (_clientPort->open(aName))");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (_clientPort)");//####
+            OD_LOG("! (_clientPort)");//####
         }
     }
-    OD_SYSLOG_OBJEXIT_B(_connected);//####
+    OD_LOG_OBJEXIT_B(_connected);//####
     return _connected;
 } // BaseClient::connectToService
 
 bool BaseClient::disconnectFromService(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     if (_connected)
     {
         if (yarp::os::Network::disconnect(_clientPortName, _servicePortName))
@@ -217,26 +217,26 @@ bool BaseClient::disconnectFromService(void)
         }
         else
         {
-            OD_SYSLOG("! (yarp::os::Network::disconnect(_clientPortName, _servicePortName))");//####
+            OD_LOG("! (yarp::os::Network::disconnect(_clientPortName, _servicePortName))");//####
         }
     }
-    OD_SYSLOG_OBJEXIT_B(! _connected);//####
+    OD_LOG_OBJEXIT_B(! _connected);//####
     return (! _connected);
 } // BaseClient::disconnectFromService
 
 bool BaseClient::findService(const char * criteria,
                              const bool   allowOnlyOneMatch)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S1("criteria = ", criteria);//####
-    OD_SYSLOG_B1("allowOnlyOneMatch = ", allowOnlyOneMatch);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("criteria = ", criteria);//####
+    OD_LOG_B1("allowOnlyOneMatch = ", allowOnlyOneMatch);//####
     bool result = false;
     
     try
     {
         yarp::os::Bottle candidates(FindMatchingServices(criteria));
 
-        OD_SYSLOG_S1("candidates <- ", candidates.toString().c_str());//####
+        OD_LOG_S1("candidates <- ", candidates.toString().c_str());//####
         if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())
         {
             // First, check if the search succeeded.
@@ -255,40 +255,40 @@ bool BaseClient::findService(const char * criteria,
                     if ((! allowOnlyOneMatch) || (1 == candidateCount))
                     {
                         _servicePortName = candidateList->get(0).toString();
-                        OD_SYSLOG_S1("_servicePortName <- ", _servicePortName.c_str());
+                        OD_LOG_S1("_servicePortName <- ", _servicePortName.c_str());
                         result = true;
                     }
                     else
                     {
-                        OD_SYSLOG("! ((! allowOnlyOneMatch) || (1 == candidateCount))");//####
+                        OD_LOG("! ((! allowOnlyOneMatch) || (1 == candidateCount))");//####
                     }
                 }
                 else
                 {
-                    OD_SYSLOG("! (candidateList)");//####
+                    OD_LOG("! (candidateList)");//####
                 }
             }
             else
             {
-                OD_SYSLOG("! (! strcmp(YPP_OK_RESPONSE, candidatesFirstString.c_str()))");//####
+                OD_LOG("! (! strcmp(YPP_OK_RESPONSE, candidatesFirstString.c_str()))");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())");//####
+            OD_LOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())");//####
         }
         if (! result)
         {
             _servicePortName = "";
-            OD_SYSLOG_S1("_servicePortName <- ", _servicePortName.c_str());
+            OD_LOG_S1("_servicePortName <- ", _servicePortName.c_str());
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // BaseClient::findService
 
@@ -296,9 +296,9 @@ bool BaseClient::send(const char *             request,
                       const yarp::os::Bottle & parameters,
                       ServiceResponse *        response)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S2("request = ", request, "parameters = ", parameters.toString().c_str());//####
-    OD_SYSLOG_P1("response = ", response);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S2("request = ", request, "parameters = ", parameters.toString().c_str());//####
+    OD_LOG_P1("response = ", response);//####
     bool result = false;
 
     try
@@ -313,20 +313,20 @@ bool BaseClient::send(const char *             request,
             }
             else
             {
-                OD_SYSLOG("! (0 < _servicePortName.length())");//####
+                OD_LOG("! (0 < _servicePortName.length())");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (_connected)");//####
+            OD_LOG("! (_connected)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // BaseClient::send
 
@@ -343,8 +343,8 @@ bool BaseClient::send(const char *             request,
  @returns A (possibly empty) list of matching services, preceded by the request status. */
 yarp::os::Bottle YarpPlusPlus::FindMatchingServices(const char * criteria)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("criteria = ", criteria);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("criteria = ", criteria);//####
     yarp::os::Bottle result;
 
     try
@@ -367,21 +367,21 @@ yarp::os::Bottle YarpPlusPlus::FindMatchingServices(const char * criteria)
                     
                     if (request.send(*newPort, &response))
                     {
-                        OD_SYSLOG_S1("response <- ", response.asString().c_str());//####
+                        OD_LOG_S1("response <- ", response.asString().c_str());//####
                         result = validateMatchResponse(response.values());
                     }
                     else
                     {
-                        OD_SYSLOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, *newPort, &response))");//####
+                        OD_LOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, *newPort, &response))");//####
                     }
                     if (! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
                     {
-                        OD_SYSLOG("(! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                        OD_LOG("(! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
                     }
                 }
                 else
                 {
-                    OD_SYSLOG("! (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                    OD_LOG("! (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
                 }
                 newPort->close();
             }
@@ -390,9 +390,9 @@ yarp::os::Bottle YarpPlusPlus::FindMatchingServices(const char * criteria)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_LOG_EXIT();//####
     return result;
 } // YarpPlusPlus::FindMatchingServices

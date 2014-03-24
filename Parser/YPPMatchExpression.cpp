@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPMatchExpression.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPMatchConstraint.h"
 
 using namespace YarpPlusPlusParser;
@@ -67,9 +67,9 @@ MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & i
                                                  int &                         endPos,
                                                  FieldNameValidator            validator)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("inString = ", inString.c_str());//####
-    OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("inString = ", inString.c_str());//####
+    OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos);
     MatchExpression * result = NULL;
     
     try
@@ -105,7 +105,7 @@ MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & i
                         }
                         else
                         {
-                            OD_SYSLOG("! (kComma == scanChar)");//####
+                            OD_LOG("! (kComma == scanChar)");//####
                             // Something unexpected has appeared.
                             okSoFar = false;
                         }
@@ -119,7 +119,7 @@ MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & i
                 }
                 else
                 {
-                    OD_SYSLOG("! (element)");//####
+                    OD_LOG("! (element)");//####
                     // We have a malformed constraint list.
                     okSoFar = false;
                 }
@@ -136,15 +136,15 @@ MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & i
         }
         else
         {
-            OD_SYSLOG("! (workPos < inLength)");//####
+            OD_LOG("! (workPos < inLength)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_P(result);//####
+    OD_LOG_EXIT_P(result);//####
     return result;
 } // MatchExpression::CreateMatcher
 
@@ -160,15 +160,15 @@ char MatchExpression::ExpressionSeparatorCharacter(void)
 MatchExpression::MatchExpression(void) :
         inherited(), _constraints()
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // MatchExpression::MatchExpression
 
 MatchExpression::~MatchExpression(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     empty();
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // MatchExpression::~MatchExpression
 
 #if defined(__APPLE__)
@@ -178,7 +178,7 @@ MatchExpression::~MatchExpression(void)
 yarp::os::ConstString MatchExpression::asSQLString(const char * prefixString)
 const
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     yarp::os::ConstString result;
     
     try
@@ -200,10 +200,10 @@ const
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_S(result.c_str());//####
+    OD_LOG_OBJEXIT_S(result.c_str());//####
     return result;
 } // MatchExpression::asSQLString
 
@@ -228,7 +228,7 @@ const
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
     return result;
@@ -253,13 +253,13 @@ const
         }
         else
         {
-            OD_SYSLOG("! ((index >= 0) && (index < static_cast<int>(_constraints.size())))");//####
+            OD_LOG("! ((index >= 0) && (index < static_cast<int>(_constraints.size())))");//####
             result = NULL;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
     return result;
@@ -267,7 +267,7 @@ const
 
 void MatchExpression::empty(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
@@ -280,10 +280,10 @@ void MatchExpression::empty(void)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // MatchExpression::empty
 
 #if defined(__APPLE__)

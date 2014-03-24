@@ -51,10 +51,10 @@
 /*! @brief The version number as a string. */
 # define YPP_VERSION "@YPP_VERSION_MAJOR@.@YPP_VERSION_MINOR@.@YPP_VERSION_PATCH@"
 
-#cmakedefine MAIN_DOES_DELAY_NOT_YIELD /* */
+#cmakedefine YPP_MAIN_DOES_DELAY_NOT_YIELD /* */
 
-#cmakedefine DEBUG_INCLUDES_YARP_TRACE /* */
+#cmakedefine YPP_DEBUG_INCLUDES_YARP_TRACE /* */
 
-#cmakedefine SERVICES_DEBUG_TO_STDERR /* */
+#cmakedefine YPP_SERVICES_DEBUG_TO_STDERR /* */
 
 #endif // ! defined(YPPCONFIG_H_)

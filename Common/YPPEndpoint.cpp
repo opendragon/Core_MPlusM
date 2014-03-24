@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPEndpoint.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPCommon.h"
 #include "YPPException.h"
 #include <iostream>
@@ -107,7 +107,7 @@ static bool checkHostPort(int &                         realPort,
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
     return result;
@@ -134,7 +134,7 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
             // Non-empty hostname - check it...
             yarp::os::ConstString ipAddress(yarp::os::Contact::convertHostToIp(hostName));
             
-            OD_SYSLOG_S1("ipAddress = ", ipAddress.c_str());//####
+            OD_LOG_S1("ipAddress = ", ipAddress.c_str());//####
             workingContact = workingContact.addSocket("tcp", ipAddress, portNumber);
 #if defined(REPORT_CONTACT_DETAILS)
             DumpContact("after addSocket", workingContact);//####
@@ -149,7 +149,7 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
     return result;
@@ -161,8 +161,8 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
 
 bool Endpoint::CheckEndpointName(const yarp::os::ConstString & portName)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("portName = ", portName.c_str());//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("portName = ", portName.c_str());//####
     bool result = false;
 
     try
@@ -181,16 +181,16 @@ bool Endpoint::CheckEndpointName(const yarp::os::ConstString & portName)
         }
         else
         {
-            OD_SYSLOG("! (0 < nameLength)");//####
+            OD_LOG("! (0 < nameLength)");//####
             result = false;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_LOG_EXIT_B(result);//####
     return result;
 } // Endpoint::CheckEndpointName
 
@@ -203,9 +203,9 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
                    const yarp::os::ConstString & portNumber) :
         _contact(), _handler(NULL), _handlerCreator(NULL), _port(NULL), _isOpen(false)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S3("endpointName = ", endpointName.c_str(), "hostName = ", hostName.c_str(),//####
-                 "portNumber = ", portNumber.c_str());//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S3("endpointName = ", endpointName.c_str(), "hostName = ", hostName.c_str(),//####
+              "portNumber = ", portNumber.c_str());//####
     if (CheckEndpointName(endpointName))
     {
         int realPort;
@@ -219,35 +219,35 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
                 _port = new yarp::os::Port();
                 if (! _port)
                 {
-                    OD_SYSLOG_EXIT_THROW_S("Could not create port");//####
+                    OD_LOG_EXIT_THROW_S("Could not create port");//####
                     throw new Exception("Could not create port");
                 }
             }
             else
             {
-                OD_SYSLOG_EXIT_THROW_S("Bad host name");//####
+                OD_LOG_EXIT_THROW_S("Bad host name");//####
                 throw new Exception("Bad host name");
             }
         }
         else
         {
-            OD_SYSLOG_EXIT_THROW_S("Bad port number");//####
+            OD_LOG_EXIT_THROW_S("Bad port number");//####
             throw new Exception("Bad port number");
         }
     }
     else
     {
-        OD_SYSLOG_EXIT_THROW_S("Bad endpoint name");//####
+        OD_LOG_EXIT_THROW_S("Bad endpoint name");//####
         throw new Exception("Bad endpoint name");
     }
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this);//####
 } // Endpoint::Endpoint
 
 Endpoint::~Endpoint(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     close();
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // Endpoint::~Endpoint
 
 #if defined(__APPLE__)
@@ -256,7 +256,7 @@ Endpoint::~Endpoint(void)
 
 void Endpoint::close(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         if (isOpen())
@@ -267,10 +267,10 @@ void Endpoint::close(void)
             }
             if (_port)
             {
-                OD_SYSLOG_S1("about to close, port = ", getName().c_str());//####
+                OD_LOG_S1("about to close, port = ", getName().c_str());//####
                 _port->close();
-                OD_SYSLOG("close completed.");//####
-                OD_SYSLOG("about to unregister port");//####
+                OD_LOG("close completed.");//####
+                OD_LOG("about to unregister port");//####
                 if (0 < _contact.getHost().length())
                 {
                     yarp::os::Network::unregisterContact(_contact);
@@ -289,15 +289,15 @@ void Endpoint::close(void)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // Endpoint::close
 
 bool Endpoint::open(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -308,7 +308,7 @@ bool Endpoint::open(void)
             {
                 if (0 < _contact.getHost().length())
                 {
-                    OD_SYSLOG("(0 < _contact.getHost().length())");//####
+                    OD_LOG("(0 < _contact.getHost().length())");//####
                     _contact = yarp::os::Network::registerContact(_contact);
 #if defined(REPORT_CONTACT_DETAILS)
                     DumpContact("after registerContact", _contact);//####
@@ -322,12 +322,12 @@ bool Endpoint::open(void)
                     }
                     else
                     {
-                        OD_SYSLOG("Port could not be opened");//####
+                        OD_LOG("Port could not be opened");//####
                     }
                 }
                 else if (_port->open(_contact.getName()))
                 {
-                    OD_SYSLOG("(_port->open(_contact.getName()))");//####
+                    OD_LOG("(_port->open(_contact.getName()))");//####
                     _isOpen = true;
 #if defined(REPORT_CONTACT_DETAILS)
                     DumpContact("after open", _port->where());//####
@@ -335,44 +335,44 @@ bool Endpoint::open(void)
                 }
                 else
                 {
-                    OD_SYSLOG("Port could not be opened");//####
+                    OD_LOG("Port could not be opened");//####
                 }
-                OD_SYSLOG_S1("_port->getName = ", _port->getName().c_str());//####
+                OD_LOG_S1("_port->getName = ", _port->getName().c_str());//####
             }
             else
             {
-                OD_SYSLOG("! (_port)");//####
+                OD_LOG("! (_port)");//####
             }
         }
         result = isOpen();
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Endpoint::open
 
 bool Endpoint::setInputHandler(InputHandler & handler)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_P1("handler = ", &handler);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("handler = ", &handler);//####
     bool result = false;
     
     try
     {
         if (_handlerCreator)
         {
-            OD_SYSLOG("(_handlerCreator)");//####
+            OD_LOG("(_handlerCreator)");//####
         }
         else if (_port)
         {
-            OD_SYSLOG("(_port)");//####
+            OD_LOG("(_port)");//####
             if (isOpen())
             {
-                OD_SYSLOG("(isOpen())");//####
+                OD_LOG("(isOpen())");//####
             }
             else
             {
@@ -383,35 +383,35 @@ bool Endpoint::setInputHandler(InputHandler & handler)
         }
         else
         {
-            OD_SYSLOG("! (_port)");//####
+            OD_LOG("! (_port)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Endpoint::setInputHandler
 
 bool Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_P1("handlerCreator = ", &handlerCreator);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("handlerCreator = ", &handlerCreator);//####
     bool result = false;
     
     try
     {
         if (_handler)
         {
-            OD_SYSLOG("(_handler)");//####
+            OD_LOG("(_handler)");//####
         }
         else if (_port)
         {
             if (isOpen())
             {
-                OD_SYSLOG("(isOpen())");//####
+                OD_LOG("(isOpen())");//####
             }
             else
             {
@@ -422,24 +422,24 @@ bool Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
         }
         else
         {
-            OD_SYSLOG("! (_port)");//####
+            OD_LOG("! (_port)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Endpoint::setInputHandlerCreator
 
 bool Endpoint::setReporter(yarp::os::PortReport & reporter,
                            const bool             andReportNow)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_P1("reporter = ", &reporter);//####
-    OD_SYSLOG_B1("andReportNow = ", andReportNow);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("reporter = ", &reporter);//####
+    OD_LOG_B1("andReportNow = ", andReportNow);//####
     bool result = false;
     
     try
@@ -455,22 +455,22 @@ bool Endpoint::setReporter(yarp::os::PortReport & reporter,
         }
         else
         {
-            OD_SYSLOG("! (_port)");//####
+            OD_LOG("! (_port)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Endpoint::setReporter
 
 bool Endpoint::setTimeout(const float timeout)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_D1("timeout = ", timeout);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_D1("timeout = ", timeout);//####
     bool result = false;
     
     try
@@ -481,15 +481,15 @@ bool Endpoint::setTimeout(const float timeout)
         }
         else
         {
-            OD_SYSLOG("! (_port)");//####
+            OD_LOG("! (_port)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Endpoint::setTimeout
 
@@ -515,7 +515,7 @@ const
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
     return result;

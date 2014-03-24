@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPExampleRunningSumClient.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPEndpoint.h"
 #include "YPPException.h"
 #include "YPPExampleRunningSumRequests.h"
@@ -82,14 +82,14 @@ using namespace YarpPlusPlusExample;
 ExampleRunningSumClient::ExampleRunningSumClient(void) :
         inherited("example/runningsum_")
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // ExampleRunningSumClient::ExampleRunningSumClient
 
 ExampleRunningSumClient::~ExampleRunningSumClient(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // ExampleRunningSumClient::~ExampleRunningSumClient
 
 #if defined(__APPLE__)
@@ -99,7 +99,7 @@ ExampleRunningSumClient::~ExampleRunningSumClient(void)
 bool ExampleRunningSumClient::addToSum(const double value,
                                        double &     newSum)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool okSoFar = false;
     
     try
@@ -126,31 +126,31 @@ bool ExampleRunningSumClient::addToSum(const double value,
                 }
                 else
                 {
-                    OD_SYSLOG("! (retrieved.isInt())");//####
+                    OD_LOG("! (retrieved.isInt())");//####
                 }
             }
             else
             {
-                OD_SYSLOG("! (1 == response.count())");//####
+                OD_LOG("! (1 == response.count())");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_ADD_REQUEST, parameters, &response))");//####
+            OD_LOG("! (send(YPP_ADD_REQUEST, parameters, &response))");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(okSoFar);
+    OD_LOG_OBJEXIT_B(okSoFar);
     return okSoFar;
 } // ExampleRunningSumClient::addToSum
 
 bool ExampleRunningSumClient::resetSum(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool okSoFar = false;
 
     try
@@ -163,21 +163,21 @@ bool ExampleRunningSumClient::resetSum(void)
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_RESET_REQUEST, parameters))");//####
+            OD_LOG("! (send(YPP_RESET_REQUEST, parameters))");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(okSoFar);
+    OD_LOG_OBJEXIT_B(okSoFar);
     return okSoFar;
 } // ExampleRunningSumClient::resetSum
 
 bool ExampleRunningSumClient::startSum(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool okSoFar = false;
 
     try
@@ -190,21 +190,21 @@ bool ExampleRunningSumClient::startSum(void)
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_START_REQUEST, parameters))");//####
+            OD_LOG("! (send(YPP_START_REQUEST, parameters))");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(okSoFar);
+    OD_LOG_OBJEXIT_B(okSoFar);
     return okSoFar;
 } // ExampleRunningSumClient::startSum
 
 bool ExampleRunningSumClient::stopSum(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool okSoFar = false;
     
     try
@@ -217,15 +217,15 @@ bool ExampleRunningSumClient::stopSum(void)
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_STOP_REQUEST, parameters))");//####
+            OD_LOG("! (send(YPP_STOP_REQUEST, parameters))");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(okSoFar);
+    OD_LOG_OBJEXIT_B(okSoFar);
     return okSoFar;
 } // ExampleRunningSumClient::stopSum
 

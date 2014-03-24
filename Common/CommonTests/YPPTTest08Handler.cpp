@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPTTest08Handler.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 
 using namespace YarpPlusPlusTest;
 
@@ -64,14 +64,14 @@ using namespace YarpPlusPlusTest;
 Test08Handler::Test08Handler(void) :
         inherited()
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // Test08Handler::Test08Handler
 
 Test08Handler::~Test08Handler(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // Test08Handler::~Test08Handler
 
 #if defined(__APPLE__)
@@ -82,19 +82,19 @@ bool Test08Handler::handleInput(const yarp::os::Bottle &      input,
                                 const yarp::os::ConstString & senderPort,
                                 yarp::os::ConnectionWriter *  replyMechanism)
 {
-#if (! defined(ENABLE_OD_SYSLOG))
+#if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(senderPort)
-#endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
-    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
+    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     if (replyMechanism)
     {
         yarp::os::Bottle inputCopy(input);
         
         inputCopy.write(*replyMechanism);
     }
-    OD_SYSLOG_OBJEXIT_B(true);//####
+    OD_LOG_OBJEXIT_B(true);//####
     return true;
 } // Test08Handler::handleInput
 

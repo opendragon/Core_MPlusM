@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPExampleEchoClient.h"
 #include <iostream>
 #include <string>
@@ -97,23 +97,23 @@ static void stopRunning(int signal)
 int main(int     argc,
          char ** argv)
 {
-#if defined(ENABLE_OD_SYSLOG)
+#if defined(OD_ENABLE_LOGGING)
 # pragma unused(argc)
-#else // ! defined(ENABLE_OD_SYSLOG)
+#else // ! defined(OD_ENABLE_LOGGING)
 # pragma unused(argc,argv)
-#endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionEnableThreadSupport | kODSyslogOptionWriteToStderr);//####
-    OD_SYSLOG_ENTER();//####
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
+                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
+    OD_LOG_ENTER();//####
     try
     {
         if (yarp::os::Network::checkNetwork())
         {
-#if (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(1);
-#else // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
             YarpPlusPlus::Initialize();
@@ -148,7 +148,7 @@ int main(int     argc,
                                 }
                                 else
                                 {
-                                    OD_SYSLOG("! (stuff->sendAndReceive(outgoing, incoming))");//####
+                                    OD_LOG("! (stuff->sendAndReceive(outgoing, incoming))");//####
                                     cerr << "Problem communicating with the service." << endl;
                                 }
                             }
@@ -160,39 +160,39 @@ int main(int     argc,
                         }
                         if (! stuff->disconnectFromService())
                         {
-                            OD_SYSLOG("(! stuff->disconnectFromService())");//####
+                            OD_LOG("(! stuff->disconnectFromService())");//####
                             cerr << "Problem discconnecting from the service." << endl;
                         }
                     }
                     else
                     {
-                        OD_SYSLOG("! (stuff->connectToService())");//####
+                        OD_LOG("! (stuff->connectToService())");//####
                         cerr << "Problem connecting to the service." << endl;
                     }
                 }
                 else
                 {
-                    OD_SYSLOG("! (stuff->findService(\"details Echo*\"))");//####
+                    OD_LOG("! (stuff->findService(\"details Echo*\"))");//####
                     cerr << "Problem finding the service." << endl;
                 }
                 delete stuff;
             }
             else
             {
-                OD_SYSLOG("! (stuff)");//####
+                OD_LOG("! (stuff)");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            OD_LOG("! (yarp::os::Network::checkNetwork())");//####
             cerr << "YARP network not running." << endl;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
     }
     yarp::os::Network::fini();
-    OD_SYSLOG_EXIT_L(0);//####
+    OD_LOG_EXIT_L(0);//####
     return 0;
 } // main

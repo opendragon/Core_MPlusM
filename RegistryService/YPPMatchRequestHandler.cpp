@@ -41,8 +41,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPMatchRequestHandler.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPEndpoint.h"
 #include "YPPRegistryService.h"
 #include "YPPRequests.h"
@@ -74,15 +74,15 @@ MatchRequestHandler::MatchRequestHandler(RegistryService &  service,
                                          FieldNameValidator validator) :
         inherited(YPP_MATCH_REQUEST), _service(service), _validator(validator)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("service = ", &service);//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("service = ", &service);//####
+    OD_LOG_EXIT_P(this);//####
 } // MatchRequestHandler::MatchRequestHandler
 
 MatchRequestHandler::~MatchRequestHandler(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // MatchRequestHandler::~MatchRequestHandler
 
 #if defined(__APPLE__)
@@ -91,7 +91,7 @@ MatchRequestHandler::~MatchRequestHandler(void)
 
 void MatchRequestHandler::fillInDescription(yarp::os::Property & info)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_MATCH_REQUEST);
@@ -109,22 +109,22 @@ void MatchRequestHandler::fillInDescription(yarp::os::Property & info)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // MatchRequestHandler::fillInDescription
 
 bool MatchRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
                                       const yarp::os::ConstString & senderPort,
                                       yarp::os::ConnectionWriter *  replyMechanism)
 {
-#if (! defined(ENABLE_OD_SYSLOG))
+#if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(senderPort)
-#endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
-    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
+    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
     try
@@ -142,20 +142,20 @@ bool MatchRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
                 {
                     yarp::os::ConstString argAsString(argument.toString());
                     
-                    OD_SYSLOG_S1("argAsString <- ", argAsString.c_str());//####
+                    OD_LOG_S1("argAsString <- ", argAsString.c_str());//####
                     int               endPos;
                     MatchExpression * matcher = MatchExpression::CreateMatcher(argAsString, argAsString.length(), 0,
                                                                                endPos, _validator);
                     
                     if (matcher)
                     {
-                        OD_SYSLOG("(matcher)");//####
+                        OD_LOG("(matcher)");//####
                         // Hand off the processing to the registry service. First, put the 'OK' response in the output
                         // buffer, as we have successfully parsed the request.
                         reply.addString(YPP_OK_RESPONSE);
                         if (! _service.processMatchRequest(matcher, reply))
                         {
-                            OD_SYSLOG("(! _service.processMatchRequest(matcher, reply))");//####
+                            OD_LOG("(! _service.processMatchRequest(matcher, reply))");//####
                             reply.clear();
                             reply.addString(YPP_FAILED_RESPONSE);
                             reply.addString("Invalid criteria");
@@ -164,34 +164,34 @@ bool MatchRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
                     }
                     else
                     {
-                        OD_SYSLOG("! (matcher)");//####
+                        OD_LOG("! (matcher)");//####
                         reply.addString(YPP_FAILED_RESPONSE);
                         reply.addString("Invalid criteria");
                     }
                 }
                 else
                 {
-                    OD_SYSLOG("! (argument.isString())");//####
+                    OD_LOG("! (argument.isString())");//####
                     reply.addString(YPP_FAILED_RESPONSE);
                     reply.addString("Invalid criteria");
                 }
             }
             else
             {
-                OD_SYSLOG("! (1 == restOfInput.size())");//####
+                OD_LOG("! (1 == restOfInput.size())");//####
                 reply.addString(YPP_FAILED_RESPONSE);
                 reply.addString("Missing criteria or extra arguments to request");
             }
-            OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
+            OD_LOG_S1("reply <- ", reply.toString().c_str());
             reply.write(*replyMechanism);
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // MatchRequestHandler::operator()
 

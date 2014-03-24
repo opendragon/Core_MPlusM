@@ -41,8 +41,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPBaseMatcher.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include <cctype>
 
 using namespace YarpPlusPlusParser;
@@ -80,7 +80,7 @@ int BaseMatcher::SkipWhitespace(const yarp::os::ConstString & inString,
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
     return result;
@@ -92,14 +92,14 @@ int BaseMatcher::SkipWhitespace(const yarp::os::ConstString & inString,
 
 BaseMatcher::BaseMatcher(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // BaseMatcher::BaseMatcher
 
 BaseMatcher::~BaseMatcher(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // BaseMatcher::~BaseMatcher
 
 #if defined(__APPLE__)

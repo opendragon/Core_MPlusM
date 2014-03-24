@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPExampleEchoClient.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPExampleEchoRequests.h"
 #include "YPPServiceResponse.h"
 
@@ -66,14 +66,14 @@ using namespace YarpPlusPlusExample;
 ExampleEchoClient::ExampleEchoClient(void) :
         inherited("example/echo_")
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // ExampleEchoClient::ExampleEchoClient
 
 ExampleEchoClient::~ExampleEchoClient(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // ExampleEchoClient::~ExampleEchoClient
 
 #if defined(__APPLE__)
@@ -83,9 +83,9 @@ ExampleEchoClient::~ExampleEchoClient(void)
 bool ExampleEchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
                                        yarp::os::ConstString &       incoming)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S1("outgoing = ", outgoing.c_str());//####
-    OD_SYSLOG_P1("incoming = ", &incoming);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("outgoing = ", outgoing.c_str());//####
+    OD_LOG_P1("incoming = ", &incoming);//####
     bool okSoFar = false;
 
     try
@@ -100,15 +100,15 @@ bool ExampleEchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_ECHO_REQUEST, parameters, &response))");//####
+            OD_LOG("! (send(YPP_ECHO_REQUEST, parameters, &response))");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
+    OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // ExampleEchoClient::sendAndReceive
 

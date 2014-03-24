@@ -41,8 +41,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPNameRequestHandler.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPBaseService.h"
 #include "YPPRequests.h"
 
@@ -70,14 +70,14 @@ using namespace YarpPlusPlus;
 NameRequestHandler::NameRequestHandler(BaseService & service) :
         inherited(YPP_NAME_REQUEST), _service(service)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // NameRequestHandler::NameRequestHandler
 
 NameRequestHandler::~NameRequestHandler(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // NameRequestHandler::~NameRequestHandler
 
 #if defined(__APPLE__)
@@ -86,7 +86,7 @@ NameRequestHandler::~NameRequestHandler(void)
 
 void NameRequestHandler::fillInDescription(yarp::os::Property & info)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_NAME_REQUEST);
@@ -103,22 +103,22 @@ void NameRequestHandler::fillInDescription(yarp::os::Property & info)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // NameRequestHandler::fillInDescription
 
 bool NameRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
                                      const yarp::os::ConstString & senderPort,
                                      yarp::os::ConnectionWriter *  replyMechanism)
 {
-#if (! defined(ENABLE_OD_SYSLOG))
+#if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(restOfInput,senderPort)
-#endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
-    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
+    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
     try
@@ -129,16 +129,16 @@ bool NameRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
             
             reply.addString(_service.canonicalName());
             reply.addString(_service.description());
-            OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
+            OD_LOG_S1("reply <- ", reply.toString().c_str());
             reply.write(*replyMechanism);
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // NameRequestHandler::operator()
 

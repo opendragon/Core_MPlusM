@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPAddRequestHandler.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPExampleRunningSumRequests.h"
 #include "YPPExampleRunningSumService.h"
 
@@ -69,15 +69,15 @@ using namespace YarpPlusPlusExample;
 AddRequestHandler::AddRequestHandler(ExampleRunningSumService & service) :
         inherited(YPP_ADD_REQUEST), _service(service)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("service = ", &service);//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("service = ", &service);//####
+    OD_LOG_EXIT_P(this);//####
 } // AddRequestHandler::AddRequestHandler
 
 AddRequestHandler::~AddRequestHandler(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // AddRequestHandler::~AddRequestHandler
 
 #if defined(__APPLE__)
@@ -86,7 +86,7 @@ AddRequestHandler::~AddRequestHandler(void)
 
 void AddRequestHandler::fillInDescription(yarp::os::Property & info)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_ADD_REQUEST);
@@ -102,19 +102,19 @@ void AddRequestHandler::fillInDescription(yarp::os::Property & info)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // AddRequestHandler::fillInDescription
 
 bool AddRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
                                     const yarp::os::ConstString & senderPort,
                                     yarp::os::ConnectionWriter *  replyMechanism)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
-    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
+    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool  result = true;
 
     try
@@ -135,13 +135,13 @@ bool AddRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
             }
             else
             {
-                OD_SYSLOG("! (incoming.isDouble())");//####
+                OD_LOG("! (incoming.isDouble())");//####
                 response.addString(YPP_FAILED_RESPONSE);
             }
         }
         else
         {
-            OD_SYSLOG("! (1 == restOfInput.size())");//####
+            OD_LOG("! (1 == restOfInput.size())");//####
             response.addString(YPP_FAILED_RESPONSE);
         }
         if (replyMechanism)
@@ -151,10 +151,10 @@ bool AddRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // AddRequestHandler::operator()
 

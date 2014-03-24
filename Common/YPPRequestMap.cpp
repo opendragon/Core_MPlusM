@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPRequestMap.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPBaseRequestHandler.h"
 
 using namespace YarpPlusPlus;
@@ -65,15 +65,15 @@ using namespace YarpPlusPlus;
 RequestMap::RequestMap(BaseService & owner) :
         _defaultHandler(NULL), _handlers(), _owner(owner)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("owner = ", &owner);//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("owner = ", &owner);//####
+    OD_LOG_EXIT_P(this);//####
 } // RequestMap::RequestMap
 
 RequestMap::~RequestMap(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // RequestMap::~RequestMap
 
 #if defined(__APPLE__)
@@ -82,7 +82,7 @@ RequestMap::~RequestMap(void)
 
 void RequestMap::fillInListReply(yarp::os::Bottle & reply)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         RequestHandlerMap::const_iterator walker(_handlers.cbegin());
@@ -97,23 +97,23 @@ void RequestMap::fillInListReply(yarp::os::Bottle & reply)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // RequestMap::fillInListReply
 
 void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
                                    const yarp::os::ConstString & requestName)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         RequestHandlerMap::const_iterator match(_handlers.find(std::string(requestName)));
         
         if (_handlers.cend() == match)
         {
-            OD_SYSLOG("(_handlers.cend() == match)");//####
+            OD_LOG("(_handlers.cend() == match)");//####
         }
         else
         {
@@ -125,16 +125,16 @@ void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // RequestMap::fillInRequestInfo
 
 BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstString & request)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S1("request = ", request.c_str());//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("request = ", request.c_str());//####
     BaseRequestHandler * result = NULL;
     
     try
@@ -143,28 +143,28 @@ BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstStrin
 
         if (_handlers.cend() == match)
         {
-            OD_SYSLOG("(_handlers.cend() == match)");//####
+            OD_LOG("(_handlers.cend() == match)");//####
             result = _defaultHandler;
         }
         else
         {
-            OD_SYSLOG("! (_handlers.cend() == match)");//####
+            OD_LOG("! (_handlers.cend() == match)");//####
             result = match->second;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_P(result);//####
+    OD_LOG_OBJEXIT_P(result);//####
     return result;
 } // RequestMap::lookupRequestHandler
 
 void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_P1("handler = ", handler);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("handler = ", handler);//####
     try
     {
         if (handler)
@@ -172,42 +172,42 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
             _handlers.insert(RequestHandlerMapValue(std::string(handler->name()), handler));
             handler->setOwner(*this);
         }
-        OD_SYSLOG_LL1("_handlers.size = ", _handlers.size());//####
+        OD_LOG_LL1("_handlers.size = ", _handlers.size());//####
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // RequestMap::registerRequestHandler
 
 void RequestMap::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_P1("handler = ", handler);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("handler = ", handler);//####
     _defaultHandler = handler;
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // RequestMap::setDefaultRequestHandler
 
 void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_P1("handler = ", handler);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("handler = ", handler);//####
     try
     {
         if (handler)
         {
             _handlers.erase(std::string(handler->name()));
         }
-        OD_SYSLOG_LL1("_handlers.size = ", _handlers.size());//####
+        OD_LOG_LL1("_handlers.size = ", _handlers.size());//####
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // RequestMap::unregisterRequestHandler
 
 #if defined(__APPLE__)

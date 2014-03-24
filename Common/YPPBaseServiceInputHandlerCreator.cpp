@@ -41,8 +41,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPBaseServiceInputHandlerCreator.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPBaseServiceInputHandler.h"
 
 using namespace YarpPlusPlus;
@@ -66,15 +66,15 @@ using namespace YarpPlusPlus;
 BaseServiceInputHandlerCreator::BaseServiceInputHandlerCreator(BaseService & service) :
         inherited(), _service(service)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("service = ", &service);
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("service = ", &service);
+    OD_LOG_EXIT_P(this);//####
 } // BaseServiceInputHandlerCreator::BaseServiceInputHandlerCreator
 
 BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator
 
 #if defined(__APPLE__)
@@ -83,10 +83,10 @@ BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator(void)
 
 InputHandler * BaseServiceInputHandlerCreator::create(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     InputHandler * result = new BaseServiceInputHandler(_service);
     
-    OD_SYSLOG_OBJEXIT_P(result);//####
+    OD_LOG_OBJEXIT_P(result);//####
     return result;
 } // BaseServiceInputHandlerCreator::create
 

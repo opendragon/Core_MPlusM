@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPTTest10Service.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPTTest10DefaultRequestHandler.h"
 
 using namespace YarpPlusPlusTest;
@@ -69,15 +69,15 @@ Test10Service::Test10Service(const int argc,
                              char **   argv) :
         inherited(true, "Test10", "Simple service for unit tests", argc, argv)
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     setUpRequestHandlers();
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this);//####
 } // Test10Service::Test10Service
 
 Test10Service::~Test10Service(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // Test10Service::~Test10Service
 
 #if defined(__APPLE__)
@@ -86,22 +86,22 @@ Test10Service::~Test10Service(void)
 
 void Test10Service::setUpRequestHandlers(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         _requestHandlers.setDefaultRequestHandler(new Test10DefaultRequestHandler());
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // Test10Service::setUpRequestHandlers
 
 bool Test10Service::start(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -116,23 +116,23 @@ bool Test10Service::start(void)
             }
             else
             {
-                OD_SYSLOG("! (isStarted())");//####
+                OD_LOG("! (isStarted())");//####
             }
         }
         result = isStarted();
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Test10Service::start
 
 bool Test10Service::stop(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -141,10 +141,10 @@ bool Test10Service::stop(void)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Test10Service::stop
 

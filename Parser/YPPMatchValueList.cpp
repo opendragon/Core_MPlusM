@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPMatchValueList.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPMatchValue.h"
 #include <cctype>
 
@@ -71,9 +71,9 @@ MatchValueList * MatchValueList::CreateMatcher(const yarp::os::ConstString & inS
                                                const int                     startPos,
                                                int &                         endPos)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("inString = ", inString.c_str());//####
-    OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("inString = ", inString.c_str());//####
+    OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos);
     MatchValueList * result = NULL;
     
     try
@@ -117,21 +117,21 @@ MatchValueList * MatchValueList::CreateMatcher(const yarp::os::ConstString & inS
                             }
                             else
                             {
-                                OD_SYSLOG("! (kComma == scanChar)");//####
+                                OD_LOG("! (kComma == scanChar)");//####
                                 // Something unexpected has appeared.
                                 okSoFar = false;
                             }
                         }
                         else
                         {
-                            OD_SYSLOG("! (workPos < inLength)");//####
+                            OD_LOG("! (workPos < inLength)");//####
                             // We've gone past the end of the string without seeing a terminator or a separator.
                             okSoFar = false;
                         }
                     }
                     else
                     {
-                        OD_SYSLOG("! (element)");//####
+                        OD_LOG("! (element)");//####
                                                  // We have a malformed value list.
                         okSoFar = false;
                     }
@@ -148,20 +148,20 @@ MatchValueList * MatchValueList::CreateMatcher(const yarp::os::ConstString & inS
             }
             else
             {
-                OD_SYSLOG("! (kRoundOpenBracket == inString[workPos])");//####
+                OD_LOG("! (kRoundOpenBracket == inString[workPos])");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (0 < (workPos < inLength))");//####
+            OD_LOG("! (0 < (workPos < inLength))");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_P(result);//####
+    OD_LOG_EXIT_P(result);//####
     return result;
 } // MatchValueList::CreateMatcher
 
@@ -187,15 +187,15 @@ char MatchValueList::ListTerminatorCharacter(void)
 MatchValueList::MatchValueList(void) :
         inherited(), _values()
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // MatchValueList::MatchValueList
 
 MatchValueList::~MatchValueList(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     empty();
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // MatchValueList::~MatchValueList
 
 #if defined(__APPLE__)
@@ -205,8 +205,8 @@ MatchValueList::~MatchValueList(void)
 yarp::os::ConstString MatchValueList::asSQLString(const char * fieldName)
 const
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S1("fieldName = ", fieldName);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("fieldName = ", fieldName);//####
     yarp::os::ConstString result;
     
     try
@@ -330,10 +330,10 @@ const
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_S(result.c_str());//####
+    OD_LOG_OBJEXIT_S(result.c_str());//####
     return result;
 } // MatchValueList::asSQLString
 
@@ -360,7 +360,7 @@ const
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
     return result;
@@ -385,13 +385,13 @@ const
         }
         else
         {
-            OD_SYSLOG("! ((index >= 0) && (index < static_cast<int>(_values.size())))");//####
+            OD_LOG("! ((index >= 0) && (index < static_cast<int>(_values.size())))");//####
             result = NULL;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
     return result;
@@ -399,7 +399,7 @@ const
 
 void MatchValueList::empty(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
@@ -412,10 +412,10 @@ void MatchValueList::empty(void)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // MatchValueList::empty
 
 #if defined(__APPLE__)

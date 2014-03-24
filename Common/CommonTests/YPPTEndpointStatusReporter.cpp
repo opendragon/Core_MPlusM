@@ -41,8 +41,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPTEndpointStatusReporter.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -91,14 +91,14 @@ EndpointStatusReporter::~EndpointStatusReporter(void)
 
 void EndpointStatusReporter::report(const yarp::os::PortInfo & info)
 {
-#if (! defined(ENABLE_OD_SYSLOG))
+#if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(info)
-#endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_LL1("tag = ", info.tag);
-    OD_SYSLOG_B2("incoming = ", info.incoming, "created = ", info.created);
-    OD_SYSLOG_S4("portName = ", info.portName.c_str(), "sourceName = ", info.sourceName.c_str(),
-                 "targetName = ", info.targetName.c_str(), "carrierName = ", info.carrierName.c_str());
-    OD_SYSLOG_S1("message = ", info.message.c_str());
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_LL1("tag = ", info.tag);//####
+    OD_LOG_B2("incoming = ", info.incoming, "created = ", info.created);//####
+    OD_LOG_S4("portName = ", info.portName.c_str(), "sourceName = ", info.sourceName.c_str(), "targetName = ",//####
+              info.targetName.c_str(), "carrierName = ", info.carrierName.c_str());//####
+    OD_LOG_S1("message = ", info.message.c_str());//####
 } // EndpointStatusReporter::report
 
 #if defined(__APPLE__)

@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPExampleRandomNumberClient.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPExampleRandomNumberRequests.h"
 #include "YPPServiceResponse.h"
 
@@ -66,14 +66,14 @@ using namespace YarpPlusPlusExample;
 ExampleRandomNumberClient::ExampleRandomNumberClient(void) :
         inherited("example/randomnumber_")
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // ExampleRandomNumberClient::ExampleRandomNumberClient
 
 ExampleRandomNumberClient::~ExampleRandomNumberClient(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // ExampleRandomNumberClient::~ExampleRandomNumberClient
 
 #if defined(__APPLE__)
@@ -82,8 +82,8 @@ ExampleRandomNumberClient::~ExampleRandomNumberClient(void)
 
 bool ExampleRandomNumberClient::getOneRandomNumber(double & result)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_P1("result = ", &result);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("result = ", &result);//####
     bool okSoFar = false;
 
     try
@@ -104,34 +104,34 @@ bool ExampleRandomNumberClient::getOneRandomNumber(double & result)
                 }
                 else
                 {
-                    OD_SYSLOG("! (retrieved.isDouble())");//####
+                    OD_LOG("! (retrieved.isDouble())");//####
                 }
             }
             else
             {
-                OD_SYSLOG("! (1 == response.count())");//####
+                OD_LOG("! (1 == response.count())");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_RANDOM_REQUEST, parameters, &response))");//####
+            OD_LOG("! (send(YPP_RANDOM_REQUEST, parameters, &response))");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
+    OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // ExampleRandomNumberClient::getOneRandomNumber
 
 bool ExampleRandomNumberClient::getRandomNumbers(const int      howMany,
                                                  RandomVector & result)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_LL1("howMany = ", howMany);//####
-    OD_SYSLOG_P1("result = ", &result);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_LL1("howMany = ", howMany);//####
+    OD_LOG_P1("result = ", &result);//####
     bool okSoFar = false;
     
     try
@@ -158,7 +158,7 @@ bool ExampleRandomNumberClient::getRandomNumbers(const int      howMany,
                         }
                         else
                         {
-                            OD_SYSLOG("! (retrieved.isDouble())");//####
+                            OD_LOG("! (retrieved.isDouble())");//####
                             okSoFar = false;
                             break;
                         }
@@ -167,25 +167,25 @@ bool ExampleRandomNumberClient::getRandomNumbers(const int      howMany,
                 }
                 else
                 {
-                    OD_SYSLOG("! (howMany == response.count())");//####
+                    OD_LOG("! (howMany == response.count())");//####
                 }
             }
             else
             {
-                OD_SYSLOG("! (send(YPP_RANDOM_REQUEST, parameters, &response))");//####
+                OD_LOG("! (send(YPP_RANDOM_REQUEST, parameters, &response))");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (0 < howMany)");//####
+            OD_LOG("! (0 < howMany)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
+    OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // ExampleRandomNumberClient::getRandomNumbers
 

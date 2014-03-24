@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPExampleEchoService.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPEchoRequestHandler.h"
 #include "YPPExampleEchoRequests.h"
 
@@ -72,17 +72,17 @@ ExampleEchoService::ExampleEchoService(const yarp::os::ConstString & serviceEndp
         inherited(true, YPP_ECHO_CANONICAL_NAME, "An example echo service", serviceEndpointName, serviceHostName,
                   servicePortNumber)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
-                 serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
+              serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     setUpRequestHandlers();
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this);//####
 } // ExampleEchoService::ExampleEchoService
 
 ExampleEchoService::~ExampleEchoService(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // ExampleEchoService::~ExampleEchoService
 
 #if defined(__APPLE__)
@@ -91,22 +91,22 @@ ExampleEchoService::~ExampleEchoService(void)
 
 void ExampleEchoService::setUpRequestHandlers(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         _requestHandlers.registerRequestHandler(new EchoRequestHandler());
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // ExampleEchoService::setUpRequestHandlers
 
 bool ExampleEchoService::start(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         if (! isStarted())
@@ -119,22 +119,22 @@ bool ExampleEchoService::start(void)
             }
             else
             {
-                OD_SYSLOG("! (isStarted())");//####
+                OD_LOG("! (isStarted())");//####
             }
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(isStarted());//####
+    OD_LOG_OBJEXIT_B(isStarted());//####
     return isStarted();
 } // ExampleEchoService::start
 
 bool ExampleEchoService::stop(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -143,9 +143,9 @@ bool ExampleEchoService::stop(void)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // ExampleEchoService::stop

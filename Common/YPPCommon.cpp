@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPCommon.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include <ace/Version.h>
 #include <cmath>
 #include <cstdlib>
@@ -107,12 +107,11 @@ static const char * nullOrString(const char * aString)
 void YarpPlusPlus::DumpContact(const char *              tag,
                                const yarp::os::Contact & aContact)
 {
-    OD_SYSLOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
-                 "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ",//####
-                 aContact.getCarrier().c_str());//####
-    OD_SYSLOG_LL1("contact.port = ", aContact.getPort());//####
-    OD_SYSLOG_S1("contact.toString = ", aContact.toString().c_str());//####
-    OD_SYSLOG_B1("contact.isValid = ", aContact.isValid());//####
+    OD_LOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
+              "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ", aContact.getCarrier().c_str());//####
+    OD_LOG_LL1("contact.port = ", aContact.getPort());//####
+    OD_LOG_S1("contact.toString = ", aContact.toString().c_str());//####
+    OD_LOG_B1("contact.isValid = ", aContact.isValid());//####
     cout << "tag = '" << nullOrString(tag) << "', contact.name = '" << nullOrString(aContact.getName().c_str()) <<
             "'" << endl;
     cout << "contact.host = '" << nullOrString(aContact.getHost().c_str()) << "', contact.carrier = '" <<
@@ -125,22 +124,25 @@ void YarpPlusPlus::DumpContact(const char *              tag,
 
 yarp::os::ConstString YarpPlusPlus::GetRandomPortName(const char * portRoot)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("portRoot = ", portRoot);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("portRoot = ", portRoot);//####
     yarp::os::ConstString result;
 
     try
     {
+        bool         hasLeadingSlash;
         const char * stringToUse;
         size_t       buffLen;
         
         if (portRoot)
         {
+            hasLeadingSlash = ('/' == *portRoot);
             stringToUse = portRoot;
             buffLen = strlen(portRoot);
         }
         else
         {
+            hasLeadingSlash = false;
             stringToUse = "_";
             buffLen = 1;
         }
@@ -148,22 +150,29 @@ yarp::os::ConstString YarpPlusPlus::GetRandomPortName(const char * portRoot)
         char * buff = new char[buffLen];
         int    randNumb = yarp::os::Random::uniform(0, kMaxRandom);
         
-        snprintf(buff, buffLen, "/%s%x", stringToUse, randNumb);
+        if (hasLeadingSlash)
+        {
+            snprintf(buff, buffLen, "%s%x", stringToUse, randNumb);            
+        }
+        else
+        {
+            snprintf(buff, buffLen, "/%s%x", stringToUse, randNumb);
+        }
         result = buff;
         delete[] buff;
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_S(result.c_str());//####
+    OD_LOG_EXIT_S(result.c_str());//####
     return result;
 } // Endpoint::GetRandomPortName
 
 void YarpPlusPlus::Initialize(void)
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     try
     {
         double intPart;
@@ -175,14 +184,14 @@ void YarpPlusPlus::Initialize(void)
         cerr << "YARP++ Version " << YPP_VERSION << ", YARP Version " << YARP_VERSION_STRING << ", ACE Version = " <<
                 ACE_VERSION << endl;
 #endif // defined(CHATTY_START_)
-        OD_SYSLOG_D2("time = ", now, "fraction = ", fraction);//####
-        OD_SYSLOG_LL1("seed = ", seed);//####
+        OD_LOG_D2("time = ", now, "fraction = ", fraction);//####
+        OD_LOG_LL1("seed = ", seed);//####
         yarp::os::Random::seed(seed);
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_LOG_EXIT();//####
 } // YarpPlusPlus::Initialized

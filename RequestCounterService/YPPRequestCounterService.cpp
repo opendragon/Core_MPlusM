@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPRequestCounterService.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPRequestCounterDefaultRequestHandler.h"
 #include "YPPRequestCounterRequests.h"
 #include "YPPResetRequestHandler.h"
@@ -88,17 +88,17 @@ RequestCounterService::RequestCounterService(const yarp::os::ConstString & servi
         inherited(true, YPP_REQUESTCOUNTER_CANONICAL_NAME, "The request counter service", serviceEndpointName,
                   serviceHostName, servicePortNumber), _counter(0), _lastReset(yarp::os::Time::now())
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
-                 serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
+              serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     setUpRequestHandlers();
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this);//####
 } // RequestCounterService::RequestCounterService
 
 RequestCounterService::~RequestCounterService(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // RequestCounterService::~RequestCounterService
 
 #if defined(__APPLE__)
@@ -107,23 +107,23 @@ RequestCounterService::~RequestCounterService(void)
 
 void RequestCounterService::countRequest(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         ++_counter;
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // RequestCounterService::countRequest
 
 void RequestCounterService::getStatistics(long &   counter,
                                           double & elapsedTime)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         counter = _counter;
@@ -131,15 +131,15 @@ void RequestCounterService::getStatistics(long &   counter,
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // RequestCounterService::getStatistics
 
 void RequestCounterService::resetCounters(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         _counter = 0;
@@ -147,15 +147,15 @@ void RequestCounterService::resetCounters(void)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // RequestCounterService::resetCounters
 
 void RequestCounterService::setUpRequestHandlers(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         _requestHandlers.registerRequestHandler(new ResetRequestHandler(*this));
@@ -164,15 +164,15 @@ void RequestCounterService::setUpRequestHandlers(void)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // RequestCounterService::setUpRequestHandlers
 
 bool RequestCounterService::start(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -187,23 +187,23 @@ bool RequestCounterService::start(void)
             }
             else
             {
-                OD_SYSLOG("! (isStarted())");//####
+                OD_LOG("! (isStarted())");//####
             }
         }
         result = isStarted();
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // RequestCounterService::start
 
 bool RequestCounterService::stop(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -212,9 +212,9 @@ bool RequestCounterService::stop(void)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // RequestCounterService::stop

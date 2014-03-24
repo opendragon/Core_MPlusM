@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPRandomRequestHandler.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPExampleRandomNumberRequests.h"
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -82,14 +82,14 @@ using namespace YarpPlusPlusExample;
 RandomRequestHandler::RandomRequestHandler(void) :
         inherited(YPP_RANDOM_REQUEST)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // RandomRequestHandler::RandomRequestHandler
 
 RandomRequestHandler::~RandomRequestHandler(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // RandomRequestHandler::~RandomRequestHandler
 
 #if defined(__APPLE__)
@@ -98,7 +98,7 @@ RandomRequestHandler::~RandomRequestHandler(void)
 
 void RandomRequestHandler::fillInDescription(yarp::os::Property & info)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_RANDOM_REQUEST);
@@ -114,22 +114,22 @@ void RandomRequestHandler::fillInDescription(yarp::os::Property & info)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // RandomRequestHandler::fillInDescription
 
 bool RandomRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
                                        const yarp::os::ConstString & senderPort,
                                        yarp::os::ConnectionWriter *  replyMechanism)
 {
-#if (! defined(ENABLE_OD_SYSLOG))
+#if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(senderPort)
-#endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
-    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
+    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
     try
@@ -165,17 +165,17 @@ bool RandomRequestHandler::operator() (const yarp::os::Bottle &      restOfInput
             }
             else
             {
-                OD_SYSLOG("! (count > 0)");//####
+                OD_LOG("! (count > 0)");//####
             }
             response.write(*replyMechanism);
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // RandomRequestHandler::operator()
 

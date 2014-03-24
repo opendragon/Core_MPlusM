@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPException.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 
 using namespace YarpPlusPlus;
 
@@ -63,18 +63,18 @@ using namespace YarpPlusPlus;
 
 Exception::Exception(const yarp::os::ConstString & reason)
 {
-#if (! defined(ENABLE_OD_SYSLOG))
+#if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(reason)
-#endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("reason = ", reason.c_str());//####
-    OD_SYSLOG_EXIT_P(this);//####
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("reason = ", reason.c_str());//####
+    OD_LOG_EXIT_P(this);//####
 } // Exception::Exception
 
 Exception::~Exception(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // Exception::~Exception
 
 #if defined(__APPLE__)

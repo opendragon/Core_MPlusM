@@ -39,16 +39,16 @@
 #
 #--------------------------------------------------------------------------------------
 
-option(USE_OBJECTIVE_C_DEBUG "Use Objective C Debug" FALSE)
-mark_as_advanced(USE_OBJECTIVE_C_DEBUG)
+option(YPP_USE_OBJECTIVE_C_DEBUG "Use Objective C Debug" FALSE)
+mark_as_advanced(YPP_USE_OBJECTIVE_C_DEBUG)
 
-if(USE_OBJECTIVE_C_DEBUG)
+if(YPP_USE_OBJECTIVE_C_DEBUG)
     add_library(YPPDebugging
-                ODSyslog.m)
-else(USE_OBJECTIVE_C_DEBUG)
+                ODLogging.m)
+else(YPP_USE_OBJECTIVE_C_DEBUG)
     add_library(YPPDebugging
-                ODSyslog.cpp)
-endif(USE_OBJECTIVE_C_DEBUG)
+                ODLogging.cpp)
+endif(YPP_USE_OBJECTIVE_C_DEBUG)
 
 install(TARGETS YPPDebugging DESTINATION bin)
 install(FILES YPPDebugging DESTINATION include)

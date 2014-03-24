@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPServiceResponse.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 
 using namespace YarpPlusPlus;
 
@@ -64,25 +64,25 @@ using namespace YarpPlusPlus;
 ServiceResponse::ServiceResponse(const yarp::os::Bottle & values) :
         _values(values)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_LL1("values size = ", values.size());//####
-    OD_SYSLOG_S1("values = ", values.toString().c_str());//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_LL1("values size = ", values.size());//####
+    OD_LOG_S1("values = ", values.toString().c_str());//####
+    OD_LOG_EXIT_P(this);//####
 } // ServiceResponse::ServiceResponse
 
 ServiceResponse::~ServiceResponse(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // ServiceResponse::~ServiceResponse
 
 ServiceResponse & ServiceResponse::operator=(const yarp::os::Bottle & values)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_LL1("values size = ", values.size());//####
-    OD_SYSLOG_S1("values = ", values.toString().c_str());//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_LL1("values size = ", values.size());//####
+    OD_LOG_S1("values = ", values.toString().c_str());//####
     _values = values;
-    OD_SYSLOG_OBJEXIT_P(this);//####
+    OD_LOG_OBJEXIT_P(this);//####
     return *this;
 } // ServiceResponse::operator=
 
@@ -95,17 +95,17 @@ ServiceResponse & ServiceResponse::operator=(const yarp::os::Bottle & values)
 yarp::os::ConstString ServiceResponse::asString(void)
 const
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     yarp::os::ConstString result(_values.toString());
     
-    OD_SYSLOG_OBJEXIT_S(result.c_str());//####
+    OD_LOG_OBJEXIT_S(result.c_str());//####
     return result;
 } // ServiceResponse::asString
 
 yarp::os::Value ServiceResponse::element(const int index)
 const
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     yarp::os::Value result;
     
     try
@@ -116,15 +116,15 @@ const
         }
         else
         {
-            OD_SYSLOG("! ((index >= 0) && (index < _values.size()))");//####
+            OD_LOG("! ((index >= 0) && (index < _values.size()))");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_S(result.toString().c_str());//####
+    OD_LOG_OBJEXIT_S(result.toString().c_str());//####
     return result;
 } // ServiceResponse::element
 

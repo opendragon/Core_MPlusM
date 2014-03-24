@@ -79,13 +79,13 @@ target_link_libraries(RegistryTest
                       ${YARP_LIBRARIES})
 
 # Test register request
-add_test(NAME TestRequestRegisterService1 COMMAND RegistryTest 13)
-add_test(NAME TestRequestRegisterService2 COMMAND RegistryTest 13 "localhost")
-add_test(NAME TestRequestRegisterService3 COMMAND RegistryTest 13 "localhost" "12340")
+add_test(NAME TestCreateRegisterService1 COMMAND RegistryTest 13)
+add_test(NAME TestCreateRegisterService2 COMMAND RegistryTest 13 "localhost")
+add_test(NAME TestCreateRegisterService3 COMMAND RegistryTest 13 "localhost" "12340")
 # Test register request, second service
-add_test(NAME TestRequestRegisterService4 COMMAND RegistryTest 14)
-add_test(NAME TestRequestRegisterService5 COMMAND RegistryTest 14 "localhost")
-add_test(NAME TestRequestRegisterService6 COMMAND RegistryTest 14 "localhost" "12340")
+add_test(NAME TestRequestRegisterService1 COMMAND RegistryTest 14)
+add_test(NAME TestRequestRegisterService2 COMMAND RegistryTest 14 "localhost")
+add_test(NAME TestRequestRegisterService3 COMMAND RegistryTest 14 "localhost" "12340")
 # Test unregister request, second service
 add_test(NAME TestRequestUnregisterService1 COMMAND RegistryTest 15)
 add_test(NAME TestRequestUnregisterService2 COMMAND RegistryTest 15 "localhost")
@@ -93,6 +93,6 @@ add_test(NAME TestRequestUnregisterService3 COMMAND RegistryTest 15 "localhost" 
 # Test search for request / service - note the change in arguments
 add_test(NAME TestRequestSearchService1 COMMAND RegistryTest 16 "" "FAILED \"An error message\"")
 add_test(NAME TestRequestSearchService2 COMMAND RegistryTest 16 "Version 42" "OK ()")
-add_test(NAME TestRequestSearchService3 COMMAND RegistryTest 16 "Details:Echo*" "OK (/service/test16)")
-add_test(NAME TestRequestSearchService4 COMMAND RegistryTest 16 "Details:Echo*,Keyword(requests)" "OK (/service/test16 /$ervice)")
-add_test(NAME TestRequestSearchService5 COMMAND RegistryTest 16 "Description:*unit\\ tests" "OK (/service/test16)")
+add_test(NAME TestRequestSearchService3 COMMAND RegistryTest 16 "Details:Echo*" "OK (/service/test/requestsearchservice)")
+add_test(NAME TestRequestSearchService4 COMMAND RegistryTest 16 "Details:Echo*,Keyword(requests)" "OK (/service/test/requestsearchservice /$ervice)")
+add_test(NAME TestRequestSearchService5 COMMAND RegistryTest 16 "Description:*unit\\ tests" "OK (/service/test/requestsearchservice)")

@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPMatchConstraint.h"
 #include "YPPMatchExpression.h"
 #include "YPPMatchFieldName.h"
@@ -102,8 +102,8 @@ static const char * fieldNameValidator(const char *  aString,
                                        const char ** prefixString,
                                        const char ** suffixString)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("aString = ", aString);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("aString = ", aString);//####
     const char * result = NULL;
     
     try
@@ -128,10 +128,10 @@ static const char * fieldNameValidator(const char *  aString,
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_P(result);//####
+    OD_LOG_EXIT_P(result);//####
     return result;
 } // fieldNameValidator
 
@@ -146,9 +146,9 @@ static const char * fieldNameValidator(const char *  aString,
 static int doCase01(const bool expected,
                     char *     inString) // create value matcher
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_B1("expected = ", expected);//####
-    OD_SYSLOG_S1("inString = ", inString);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_B1("expected = ", expected);//####
+    OD_LOG_S1("inString = ", inString);//####
     int result = 1;
     
     try
@@ -163,18 +163,18 @@ static int doCase01(const bool expected,
         }
         if (didMatch)
         {
-            OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString(), "didMatch->asSQLString = ",//####
-                         didMatch->asSQLString().c_str());//####
+            OD_LOG_S2("didMatch->asString = ", didMatch->asString(), "didMatch->asSQLString = ",//####
+                      didMatch->asSQLString().c_str());//####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
 } // doCase01
 
@@ -185,9 +185,9 @@ static int doCase01(const bool expected,
 static int doCase02(const bool expected,
                     char *     inString) // create value matcher
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_B1("expected = ", expected);//####
-    OD_SYSLOG_S1("inString = ", inString);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_B1("expected = ", expected);//####
+    OD_LOG_S1("inString = ", inString);//####
     int result = 1;
     
     try
@@ -202,18 +202,18 @@ static int doCase02(const bool expected,
         }
         if (didMatch)
         {
-            OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                         didMatch->asSQLString("field"));//####
+            OD_LOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
+                      didMatch->asSQLString("field"));//####
             cout << didMatch->asSQLString("field").c_str() << endl;
             delete didMatch;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
 } // doCase02
 
@@ -224,9 +224,9 @@ static int doCase02(const bool expected,
 static int doCase03(const bool expected,
                     char *     inString) // create value matcher
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_B1("expected = ", expected);//####
-    OD_SYSLOG_S1("inString = ", inString);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_B1("expected = ", expected);//####
+    OD_LOG_S1("inString = ", inString);//####
     int result = 1;
     
     try
@@ -241,18 +241,18 @@ static int doCase03(const bool expected,
         }
         if (didMatch)
         {
-            OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                         didMatch->asSQLString());//####
+            OD_LOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
+                      didMatch->asSQLString());//####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
 } // doCase03
 
@@ -263,9 +263,9 @@ static int doCase03(const bool expected,
 static int doCase04(const bool expected,
                     char *     inString) // create value matcher
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_B1("expected = ", expected);//####
-    OD_SYSLOG_S1("inString = ", inString);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_B1("expected = ", expected);//####
+    OD_LOG_S1("inString = ", inString);//####
     int result = 1;
     
     try
@@ -281,18 +281,18 @@ static int doCase04(const bool expected,
         }
         if (didMatch)
         {
-            OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString(), "didMatch->asSQLString = ",//####
-                         didMatch->asSQLString().c_str());//####
+            OD_LOG_S2("didMatch->asString = ", didMatch->asString(), "didMatch->asSQLString = ",//####
+                      didMatch->asSQLString().c_str());//####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
 } // doCase04
 
@@ -303,9 +303,9 @@ static int doCase04(const bool expected,
 static int doCase05(const bool expected,
                     char *     inString) // create value matcher
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_B1("expected = ", expected);//####
-    OD_SYSLOG_S1("inString = ", inString);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_B1("expected = ", expected);//####
+    OD_LOG_S1("inString = ", inString);//####
     int result = 1;
     
     try
@@ -320,18 +320,18 @@ static int doCase05(const bool expected,
         }
         if (didMatch)
         {
-            OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                         didMatch->asSQLString());//####
+            OD_LOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
+                      didMatch->asSQLString());//####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
 } // doCase05
 
@@ -342,9 +342,9 @@ static int doCase05(const bool expected,
 static int doCase06(const bool expected,
                     char *     inString) // create value matcher
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_B1("expected = ", expected);//####
-    OD_SYSLOG_S1("inString = ", inString);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_B1("expected = ", expected);//####
+    OD_LOG_S1("inString = ", inString);//####
     int result = 1;
     
     try
@@ -359,18 +359,18 @@ static int doCase06(const bool expected,
         }
         if (didMatch)
         {
-            OD_SYSLOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                         didMatch->asSQLString("SELECT "));//####
+            OD_LOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
+                      didMatch->asSQLString("SELECT "));//####
             cout << didMatch->asSQLString("SELECT ").c_str() << endl;
             delete didMatch;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
 } // doCase06
 
@@ -385,9 +385,9 @@ static int doCase06(const bool expected,
 int main(int     argc,
          char ** argv)
 {
-    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionEnableThreadSupport | kODSyslogOptionWriteToStderr);//####
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
+                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
@@ -397,8 +397,8 @@ int main(int     argc,
             int  selector = atoi(argv[1]);
             bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));
             
-            OD_SYSLOG_LL1("selector <- ", selector);//####
-            OD_SYSLOG_B1("expected <- ", expected);//####
+            OD_LOG_LL1("selector <- ", selector);//####
+            OD_LOG_B1("expected <- ", expected);//####
             switch (selector)
             {
                 case 1:
@@ -432,14 +432,14 @@ int main(int     argc,
         }
         else
         {
-            OD_SYSLOG("! (2 < --argc)");//####
+            OD_LOG("! (2 < --argc)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
 } // main

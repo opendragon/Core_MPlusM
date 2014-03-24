@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPExampleRandomNumberService.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPExampleRandomNumberRequests.h"
 #include "YPPRandomRequestHandler.h"
 
@@ -72,17 +72,17 @@ ExampleRandomNumberService::ExampleRandomNumberService(const yarp::os::ConstStri
         inherited(true, YPP_RANDOM_CANONICAL_NAME, "An example random number service", serviceEndpointName,
                   serviceHostName, servicePortNumber)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
-                 serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
+              serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     setUpRequestHandlers();
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this);//####
 } // ExampleRandomNumberService::ExampleRandomNumberService
 
 ExampleRandomNumberService::~ExampleRandomNumberService(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // ExampleRandomNumberService::~ExampleRandomNumberService
 
 #if defined(__APPLE__)
@@ -91,22 +91,22 @@ ExampleRandomNumberService::~ExampleRandomNumberService(void)
 
 void ExampleRandomNumberService::setUpRequestHandlers(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         _requestHandlers.registerRequestHandler(new RandomRequestHandler());
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // ExampleRandomNumberService::setUpRequestHandlers
 
 bool ExampleRandomNumberService::start(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         if (! isStarted())
@@ -119,22 +119,22 @@ bool ExampleRandomNumberService::start(void)
             }
             else
             {
-                OD_SYSLOG("! (isStarted())");//####
+                OD_LOG("! (isStarted())");//####
             }
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(isStarted());//####
+    OD_LOG_OBJEXIT_B(isStarted());//####
     return isStarted();
 } // ExampleRandomNumberService::start
 
 bool ExampleRandomNumberService::stop(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool result;
     
     try
@@ -143,9 +143,9 @@ bool ExampleRandomNumberService::stop(void)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // ExampleRandomNumberService::stop

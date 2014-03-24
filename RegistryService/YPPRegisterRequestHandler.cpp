@@ -41,8 +41,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPRegisterRequestHandler.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPEndpoint.h"
 #include "YPPRegistryService.h"
 #include "YPPRequests.h"
@@ -85,15 +85,15 @@ using namespace YarpPlusPlus;
 RegisterRequestHandler::RegisterRequestHandler(RegistryService & service) :
         inherited(YPP_REGISTER_REQUEST), _service(service)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("service = ", &service);//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("service = ", &service);//####
+    OD_LOG_EXIT_P(this);//####
 } // RegisterRequestHandler::RegisterRequestHandler
 
 RegisterRequestHandler::~RegisterRequestHandler(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // RegisterRequestHandler::~RegisterRequestHandler
 
 #if defined(__APPLE__)
@@ -102,7 +102,7 @@ RegisterRequestHandler::~RegisterRequestHandler(void)
 
 void RegisterRequestHandler::fillInDescription(yarp::os::Property & info)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_REGISTER_REQUEST);
@@ -119,22 +119,22 @@ void RegisterRequestHandler::fillInDescription(yarp::os::Property & info)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // RegisterRequestHandler::fillInDescription
 
 bool RegisterRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
                                          const yarp::os::ConstString & senderPort,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
-#if (! defined(ENABLE_OD_SYSLOG))
+#if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(senderPort)
-#endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
-    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
+    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
     try
@@ -182,45 +182,45 @@ bool RegisterRequestHandler::operator() (const yarp::os::Bottle &      restOfInp
                                                 }
                                                 else
                                                 {
-                                                    OD_SYSLOG("! (processListResponse(argAsString, response))");//####
+                                                    OD_LOG("! (processListResponse(argAsString, response))");//####
                                                     reply.addString(YPP_FAILED_RESPONSE);
                                                     reply.addString("Invalid response to 'list' request");
                                                 }
                                             }
                                             else
                                             {
-                                                OD_SYSLOG("! (outPort->write(message2, response))");//####
+                                                OD_LOG("! (outPort->write(message2, response))");//####
                                                 reply.addString(YPP_FAILED_RESPONSE);
                                                 reply.addString("Could not write to port");
                                             }
                                         }
                                         else
                                         {
-                                            OD_SYSLOG("! (processNameResponse(argAsString, response))");//####
+                                            OD_LOG("! (processNameResponse(argAsString, response))");//####
                                             reply.addString(YPP_FAILED_RESPONSE);
                                             reply.addString("Invalid response to 'name' request");
                                         }
                                     }
                                     else
                                     {
-                                        OD_SYSLOG("! (outPort->write(message1, response))");//####
+                                        OD_LOG("! (outPort->write(message1, response))");//####
                                         reply.addString(YPP_FAILED_RESPONSE);
                                         reply.addString("Could not write to port");
                                     }
                                 }
                                 else
                                 {
-                                    OD_SYSLOG("! (outPort->addOutput(argAsString))");//####
+                                    OD_LOG("! (outPort->addOutput(argAsString))");//####
                                     reply.addString(YPP_FAILED_RESPONSE);
                                     reply.addString("Could not connect to port");
                                 }
-                                OD_SYSLOG_S1("about to close, port = ", aName.c_str());//####
+                                OD_LOG_S1("about to close, port = ", aName.c_str());//####
                                 outPort->close();
-                                OD_SYSLOG("close completed.");//####
+                                OD_LOG("close completed.");//####
                             }
                             else
                             {
-                                OD_SYSLOG("! (outPort->open(aName))");//####
+                                OD_LOG("! (outPort->open(aName))");//####
                                 reply.addString(YPP_FAILED_RESPONSE);
                                 reply.addString("Port could not be opened");
                             }
@@ -228,47 +228,47 @@ bool RegisterRequestHandler::operator() (const yarp::os::Bottle &      restOfInp
                         }
                         else
                         {
-                            OD_SYSLOG("! (outPort)");
+                            OD_LOG("! (outPort)");
                         }
                     }
                     else
                     {
-                        OD_SYSLOG("! (Endpoint::CheckEndpointName(argAsString))");//####
+                        OD_LOG("! (Endpoint::CheckEndpointName(argAsString))");//####
                         reply.addString(YPP_FAILED_RESPONSE);
                         reply.addString("Invalid port name");
                     }
                 }
                 else
                 {
-                    OD_SYSLOG("! (argument.isString())");//####
+                    OD_LOG("! (argument.isString())");//####
                     reply.addString(YPP_FAILED_RESPONSE);
                     reply.addString("Invalid port name");
                 }
             }
             else
             {
-                OD_SYSLOG("! (1 == restOfInput.size())");//####
+                OD_LOG("! (1 == restOfInput.size())");//####
                 reply.addString(YPP_FAILED_RESPONSE);
                 reply.addString("Missing port name or extra arguments to request");
             }
-            OD_SYSLOG_S1("reply <- ", reply.toString().c_str());
+            OD_LOG_S1("reply <- ", reply.toString().c_str());
             reply.write(*replyMechanism);
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // RegisterRequestHandler::operator()
 
 bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & portName,
                                                  const ServiceResponse &       response)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S2("portName = ", portName.c_str(), "response = ", response.asString().c_str());//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S2("portName = ", portName.c_str(), "response = ", response.asString().c_str());//####
     bool result = false;
 
     try
@@ -292,19 +292,19 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                         yarp::os::Bottle      keywordList;
                         RequestDescription    requestDescriptor;
                         
-                        OD_SYSLOG_S1("theRequest <- ", theRequest.c_str());//####
+                        OD_LOG_S1("theRequest <- ", theRequest.c_str());//####
                         if (asDict->check(YPP_REQREP_DICT_DETAILS_KEY))
                         {
                             yarp::os::Value theDetails = asDict->find(YPP_REQREP_DICT_DETAILS_KEY);
                             
-                            OD_SYSLOG_S1("theDetails <- ", theDetails.toString().c_str());//####
+                            OD_LOG_S1("theDetails <- ", theDetails.toString().c_str());//####
                             if (theDetails.isString())
                             {
                                 requestDescriptor._details = theDetails.toString();
                             }
                             else
                             {
-                                OD_SYSLOG("! (theDetails.isString())");//####
+                                OD_LOG("! (theDetails.isString())");//####
                                 // The details field is present, but it's not a string.
                                 result = false;
                             }
@@ -313,14 +313,14 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                         {
                             yarp::os::Value theInputs = asDict->find(YPP_REQREP_DICT_INPUT_KEY);
                             
-                            OD_SYSLOG_S1("theInputs <- ", theInputs.toString().c_str());//####
+                            OD_LOG_S1("theInputs <- ", theInputs.toString().c_str());//####
                             if (theInputs.isString())
                             {
                                 requestDescriptor._inputs = theInputs.toString();
                             }
                             else
                             {
-                                OD_SYSLOG("! (theInputs.isString())");//####
+                                OD_LOG("! (theInputs.isString())");//####
                                 // The inputs descriptor is present, but it's not a string
                                 result = false;
                             }
@@ -329,14 +329,14 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                         {
                             yarp::os::Value theKeywords = asDict->find(YPP_REQREP_DICT_KEYWORDS_KEY);
                             
-                            OD_SYSLOG_S1("theKeywords <- ", theKeywords.toString().c_str());//####
+                            OD_LOG_S1("theKeywords <- ", theKeywords.toString().c_str());//####
                             if (theKeywords.isList())
                             {
                                 keywordList = *theKeywords.asList();
                             }
                             else
                             {
-                                OD_SYSLOG("! (theKeywords.isList())");//####
+                                OD_LOG("! (theKeywords.isList())");//####
                                 // The keywords entry is present, but it's not a list
                                 result = false;
                             }
@@ -345,14 +345,14 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                         {
                             yarp::os::Value theOutputs = asDict->find(YPP_REQREP_DICT_OUTPUT_KEY);
                             
-                            OD_SYSLOG_S1("theOutputs <- ", theOutputs.toString().c_str());//####
+                            OD_LOG_S1("theOutputs <- ", theOutputs.toString().c_str());//####
                             if (theOutputs.isString())
                             {
                                 requestDescriptor._outputs = theOutputs.toString();
                             }
                             else
                             {
-                                OD_SYSLOG("! (theOutputs.isString())");//####
+                                OD_LOG("! (theOutputs.isString())");//####
                                 // The outputs descriptor is present, but it's not a string
                                 result = false;
                             }
@@ -361,14 +361,14 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                         {
                             yarp::os::Value theVersion = asDict->find(YPP_REQREP_DICT_VERSION_KEY);
                             
-                            OD_SYSLOG_S1("theVersion <- ", theVersion.toString().c_str());//####
+                            OD_LOG_S1("theVersion <- ", theVersion.toString().c_str());//####
                             if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
                             {
                                 requestDescriptor._version = theVersion.toString();
                             }
                             else
                             {
-                                OD_SYSLOG("! (theVersion.isString() || theVersion.isInt() || "//####
+                                OD_LOG("! (theVersion.isString() || theVersion.isInt() || "//####
                                           "theVersion.isDouble())");//####
                                 // The version entry is present, but it's not a simple value
                                 result = false;
@@ -379,19 +379,19 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                             requestDescriptor._port = portName;
                             requestDescriptor._request = theRequest;
                             result = _service.addRequestRecord(keywordList, requestDescriptor);
-                            OD_SYSLOG_B1("result <- ", result);//####
+                            OD_LOG_B1("result <- ", result);//####
                         }
                     }
                     else
                     {
-                        OD_SYSLOG("! (asDict->check(YPP_REQREP_DICT_REQUEST_KEY))");//####
+                        OD_LOG("! (asDict->check(YPP_REQREP_DICT_REQUEST_KEY))");//####
                         // There is no 'name' entry in this dictionary
                         result = false;
                     }
                 }
                 else
                 {
-                    OD_SYSLOG("! (anElement.isDict())");//####
+                    OD_LOG("! (anElement.isDict())");//####
                     // One of the values is not a dictionary
                     result = false;
                 }
@@ -399,7 +399,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
         }
         else
         {
-            OD_SYSLOG("! (0 < count)");//####
+            OD_LOG("! (0 < count)");//####
             // Wrong number of values in the response.
             result = false;
         }
@@ -411,18 +411,18 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // RegisterRequestHandler::processListResponse
 
 bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & portName,
                                                  const ServiceResponse &       response)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S2("portName = ", portName.c_str(), "response = ", response.asString().c_str());//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S2("portName = ", portName.c_str(), "response = ", response.asString().c_str());//####
     bool result = false;
     
     try
@@ -438,14 +438,14 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & p
             }
             else
             {
-                OD_SYSLOG("! (theCanonicalName.isString() && theDescription.isString())");//####
+                OD_LOG("! (theCanonicalName.isString() && theDescription.isString())");//####
                 // The canonical name and description are present, but at least one of them is not a string
                 result = false;
             }
         }
         else
         {
-            OD_SYSLOG("! (2 == response.count())");//####
+            OD_LOG("! (2 == response.count())");//####
             // Wrong number of values in the response.
             result = false;
         }
@@ -457,10 +457,10 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & p
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // RegisterRequestHandler::processNameResponse
 

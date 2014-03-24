@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPMatchValue.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPMatchConstraint.h"
 #include "YPPMatchExpression.h"
 #include "YPPMatchValueList.h"
@@ -81,9 +81,9 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
                                        const int                     startPos,
                                        int &                         endPos)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("inString = ", inString.c_str());//####
-    OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("inString = ", inString.c_str());//####
+    OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
     MatchValue * result = NULL;
     
     try
@@ -165,7 +165,7 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
                 
                 assembled += scanChar;
             }
-            OD_SYSLOG_S1("assembled = ", assembled.c_str());//####
+            OD_LOG_S1("assembled = ", assembled.c_str());//####
             // If we have a delimiter, then we must match before the end of the input string. If we don't have a
             // delimiter, we can match the rest of the input string.
             if (workPos < (inLength + (delimiter ? 0 : 1)))
@@ -179,12 +179,12 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
                 }
                 else
                 {
-                    OD_SYSLOG("! (0 < (workPos - startSubPos))");//####
+                    OD_LOG("! (0 < (workPos - startSubPos))");//####
                 }
             }
             else
             {
-                OD_SYSLOG("! (workPos < (inLength + (delimiter ? 0 : 1)))");//####
+                OD_LOG("! (workPos < (inLength + (delimiter ? 0 : 1)))");//####
             }
             if (result)
             {
@@ -193,15 +193,15 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
         }
         else
         {
-            OD_SYSLOG("! (workPos < inLength)");//####
+            OD_LOG("! (workPos < inLength)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_P(result);//####
+    OD_LOG_EXIT_P(result);//####
     return result;
 } // MatchValue::CreateMatcher
 
@@ -212,8 +212,8 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
 MatchValue::MatchValue(const yarp::os::ConstString & inString) :
         inherited(), _matchingString(inString), _hasSingleQuotes(false), _hasWildcards(false), _needsEscaping(false)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("inString = ", inString.c_str());//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("inString = ", inString.c_str());//####
     bool escapeNextChar = false;
     
     // Mark if the string will need escaping or has unescaped wildcards.
@@ -252,13 +252,13 @@ MatchValue::MatchValue(const yarp::os::ConstString & inString) :
             }
         }
     }
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this);//####
 } // MatchValue::MatchValue
 
 MatchValue::~MatchValue(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // MatchValue::~MatchValue
 
 #if defined(__APPLE__)
@@ -268,7 +268,7 @@ MatchValue::~MatchValue(void)
 yarp::os::ConstString MatchValue::asSQLString(void)
 const
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     yarp::os::ConstString converted;
     
     try
@@ -278,7 +278,7 @@ const
         converted += kSingleQuote;
         if (_hasSingleQuotes || _hasWildcards || _needsEscaping)
         {
-            OD_SYSLOG("(_hasWildcards || _needsEscaping)");//####
+            OD_LOG("(_hasWildcards || _needsEscaping)");//####
             bool wasEscaped = false;
             
             for (int ii = 0, len = _matchingString.length(); ii < len; ++ii)
@@ -345,10 +345,10 @@ const
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_S(converted.c_str());//####
+    OD_LOG_OBJEXIT_S(converted.c_str());//####
     return converted;
 } // MatchValue::asSQLString
 
@@ -430,7 +430,7 @@ const
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
     return converted;

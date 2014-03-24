@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPEndpoint.h"
 #include "YPPExampleEchoService.h"
 #include <iostream>
@@ -99,23 +99,23 @@ static void stopRunning(int signal)
 int main(int     argc,
          char ** argv)
 {
-#if defined(SERVICES_DEBUG_TO_STDERR)
-    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionWriteToStderr | kODSyslogOptionEnableThreadSupport);//####
-#else // ! defined(SERVICES_DEBUG_TO_STDERR)
-    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionEnableThreadSupport);//####
-#endif // ! defined(SERVICES_DEBUG_TO_STDERR)
-    OD_SYSLOG_ENTER();//####
+#if defined(YPP_SERVICES_DEBUG_TO_STDERR)
+    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
+                kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport);//####
+#else // ! defined(YPP_SERVICES_DEBUG_TO_STDERR)
+    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
+                kODLoggingOptionEnableThreadSupport);//####
+#endif // ! defined(YPP_SERVICES_DEBUG_TO_STDERR)
+    OD_LOG_ENTER();//####
     try
     {
         if (yarp::os::Network::checkNetwork())
         {
-#if (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(1);
-#else // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
             yarp::os::ConstString serviceEndpointName;
             yarp::os::ConstString serviceHostName;
@@ -147,7 +147,7 @@ int main(int     argc,
                 {
                     yarp::os::ConstString portName(stuff->getEndpoint().getName());
                     
-                    OD_SYSLOG_S1("portName = ", portName.c_str());//####
+                    OD_LOG_S1("portName = ", portName.c_str());//####
                     if (YarpPlusPlus::RegisterLocalService(portName))
                     {
                         lKeepRunning = true;
@@ -159,43 +159,43 @@ int main(int     argc,
 #endif // defined(__APPLE__) || defined(__linux__)
                         for ( ; lKeepRunning; )
                         {
-#if defined(MAIN_DOES_DELAY_NOT_YIELD)
+#if defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
                             yarp::os::Time::delay(1.0);
-#else // ! defined(MAIN_DOES_DELAY_NOT_YIELD)
+#else // ! defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
                             yarp::os::Time::yield();
-#endif // ! defined(MAIN_DOES_DELAY_NOT_YIELD)
+#endif // ! defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
                         }
                         YarpPlusPlus::UnregisterLocalService(portName);
                         stuff->stop();
                     }
                     else
                     {
-                        OD_SYSLOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
+                        OD_LOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
                     }
                 }
                 else
                 {
-                    OD_SYSLOG("! (stuff->start())");//####
+                    OD_LOG("! (stuff->start())");//####
                 }
                 delete stuff;
             }
             else
             {
-                OD_SYSLOG("! (stuff)");//####
+                OD_LOG("! (stuff)");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            OD_LOG("! (yarp::os::Network::checkNetwork())");//####
             cerr << "YARP network not running." << endl;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
     }
     yarp::os::Network::fini();
-    OD_SYSLOG_EXIT_L(0);//####
+    OD_LOG_EXIT_L(0);//####
     return 0;
 } // main
 

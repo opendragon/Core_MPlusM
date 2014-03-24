@@ -41,8 +41,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPBaseServiceInputHandler.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPBaseService.h"
 
 using namespace YarpPlusPlus;
@@ -66,15 +66,15 @@ using namespace YarpPlusPlus;
 BaseServiceInputHandler::BaseServiceInputHandler(BaseService & service) :
         inherited(), _service(service)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("service = ", &service);
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("service = ", &service);
+    OD_LOG_EXIT_P(this);//####
 } // BaseServiceInputHandler::BaseServiceInputHandler
 
 BaseServiceInputHandler::~BaseServiceInputHandler(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // BaseServiceInputHandler::~BaseServiceInputHandler
 
 #if defined(__APPLE__)
@@ -85,9 +85,9 @@ bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &      input,
                                           const yarp::os::ConstString & senderPort,
                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
-    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
+    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = false;
     
     try
@@ -103,10 +103,10 @@ bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &      input,
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // BaseServiceInputHandler::handleInput
 

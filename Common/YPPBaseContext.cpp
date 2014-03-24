@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPBaseContext.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 
 using namespace YarpPlusPlus;
 
@@ -63,14 +63,14 @@ using namespace YarpPlusPlus;
 
 BaseContext::BaseContext(void)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // BaseContext::BaseContext
 
 BaseContext::~BaseContext(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // BaseContext::~BaseContext
 
 #if defined(__APPLE__)

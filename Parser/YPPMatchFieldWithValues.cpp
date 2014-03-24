@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPMatchFieldWithValues.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPMatchFieldName.h"
 #include "YPPMatchValue.h"
 #include "YPPMatchValueList.h"
@@ -66,9 +66,9 @@ MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const yarp::os::Const
                                                            int &                         endPos,
                                                            FieldNameValidator            validator)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("inString = ", inString.c_str());//####
-    OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("inString = ", inString.c_str());//####
+    OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
     MatchFieldWithValues * result = NULL;
 
     try
@@ -93,7 +93,7 @@ MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const yarp::os::Const
                     }
                     else
                     {
-                        OD_SYSLOG("! (asList)");//####
+                        OD_LOG("! (asList)");//####
                     }
                 }
                 else
@@ -106,7 +106,7 @@ MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const yarp::os::Const
                     }
                     else
                     {
-                        OD_SYSLOG("! (asSingle)");//####
+                        OD_LOG("! (asSingle)");//####
                     }
                 }
                 if (result)
@@ -120,21 +120,21 @@ MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const yarp::os::Const
             }
             else
             {
-                OD_SYSLOG("! (workPos < inLength)");//####
+                OD_LOG("! (workPos < inLength)");//####
                 delete fieldName;
             }
         }
         else
         {
-            OD_SYSLOG("! (fieldName)");//####
+            OD_LOG("! (fieldName)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_P(result);//####
+    OD_LOG_EXIT_P(result);//####
     return result;
 } // MatchFieldWithValues::CreateMatcher
 
@@ -147,9 +147,9 @@ MatchFieldWithValues::MatchFieldWithValues(FieldNameValidator validator,
                                            MatchValue *       asSingle) :
         inherited(), _validator(validator), _fieldName(fieldName), _singleValue(asSingle), _values(NULL)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P2("fieldName = ", fieldName, "asSingle = ", asSingle);//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_P2("fieldName = ", fieldName, "asSingle = ", asSingle);//####
+    OD_LOG_EXIT_P(this);//####
 } // MatchFieldWithValues::MatchFieldWithValues
 
 MatchFieldWithValues::MatchFieldWithValues(FieldNameValidator validator,
@@ -157,18 +157,18 @@ MatchFieldWithValues::MatchFieldWithValues(FieldNameValidator validator,
                                            MatchValueList *   asList) :
         inherited(), _validator(validator), _fieldName(fieldName), _singleValue(NULL), _values(asList)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P2("fieldName = ", fieldName, "asList = ", asList);//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_P2("fieldName = ", fieldName, "asList = ", asList);//####
+    OD_LOG_EXIT_P(this);//####
 } // MatchFieldWithValues::MatchFieldWithValues
 
 MatchFieldWithValues::~MatchFieldWithValues(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     delete _fieldName;
     delete _singleValue;
     delete _values;
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // MatchFieldWithValues::~MatchFieldWithValues
 
 #if defined(__APPLE__)
@@ -178,7 +178,7 @@ MatchFieldWithValues::~MatchFieldWithValues(void)
 yarp::os::ConstString MatchFieldWithValues::asSQLString(void)
 const
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     yarp::os::ConstString converted;
 
     try
@@ -196,7 +196,7 @@ const
         {
             trueName = field.c_str();
         }
-        OD_SYSLOG_S1("trueName <- ", trueName);//####
+        OD_LOG_S1("trueName <- ", trueName);//####
         if (_singleValue)
         {
             if (prefixString)
@@ -233,10 +233,10 @@ const
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_S(converted.c_str());//####
+    OD_LOG_OBJEXIT_S(converted.c_str());//####
     return converted;
 } // MatchFieldWithValues::asSQLString
 
@@ -260,7 +260,7 @@ const
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
     return result;

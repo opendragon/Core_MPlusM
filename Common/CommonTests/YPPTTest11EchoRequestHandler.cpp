@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPTTest11EchoRequestHandler.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPRequests.h"
 
 using namespace YarpPlusPlusTest;
@@ -65,14 +65,14 @@ using namespace YarpPlusPlusTest;
 Test11EchoRequestHandler::Test11EchoRequestHandler(void) :
         inherited(YPP_ECHO_REQUEST)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // Test11EchoRequestHandler::Test11EchoRequestHandler
 
 Test11EchoRequestHandler::~Test11EchoRequestHandler(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // Test11EchoRequestHandler::~Test11EchoRequestHandler
 
 #if defined(__APPLE__)
@@ -82,20 +82,20 @@ Test11EchoRequestHandler::~Test11EchoRequestHandler(void)
 void Test11EchoRequestHandler::fillInDescription(yarp::os::Property & info)
 {
 #pragma unused(info)
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // Test11EchoRequestHandler::fillInDescription
 
 bool Test11EchoRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
                                            const yarp::os::ConstString & senderPort,
                                            yarp::os::ConnectionWriter *  replyMechanism)
 {
-#if (! defined(ENABLE_OD_SYSLOG))
+#if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(senderPort)
-#endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
-    OD_SYSLOG_P1("replyMechanism = ", replyMechanism);//####
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
+    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
     if (replyMechanism)
@@ -104,7 +104,7 @@ bool Test11EchoRequestHandler::operator() (const yarp::os::Bottle &      restOfI
         
         argsCopy.write(*replyMechanism);
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Test11EchoRequestHandler::operator()
 

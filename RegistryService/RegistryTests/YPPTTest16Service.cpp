@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPTTest16Service.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPRequests.h"
 #include "YPPTTest16EchoRequestHandler.h"
 
@@ -70,15 +70,15 @@ Test16Service::Test16Service(const int argc,
                              char **   argv) :
         inherited(true, "Test16", "Simple service for unit tests", argc, argv)
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     setUpRequestHandlers();
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this);//####
 } // Test16Service::Test16Service
 
 Test16Service::~Test16Service(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // Test16Service::~Test16Service
 
 #if defined(__APPLE__)
@@ -87,22 +87,22 @@ Test16Service::~Test16Service(void)
 
 void Test16Service::setUpRequestHandlers(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         _requestHandlers.registerRequestHandler(new Test16EchoRequestHandler());
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // Test16Service::setUpRequestHandlers
 
 bool Test16Service::start(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -117,23 +117,23 @@ bool Test16Service::start(void)
             }
             else
             {
-                OD_SYSLOG("! (isStarted())");//####
+                OD_LOG("! (isStarted())");//####
             }
         }
         result = isStarted();
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Test16Service::start
 
 bool Test16Service::stop(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -142,10 +142,10 @@ bool Test16Service::stop(void)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Test16Service::stop
 

@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "CommonTests/YPPTEndpointStatusReporter.h"
 #include "CommonTests/YPPTTest03Handler.h"
 #include "CommonTests/YPPTTest04Handler.h"
@@ -92,7 +92,7 @@ using std::endl;
 static Endpoint * doCreateEndpointForTest(const int argc,
                                           char **   argv)
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     Endpoint * stuff = NULL;
     
     try
@@ -122,10 +122,10 @@ static Endpoint * doCreateEndpointForTest(const int argc,
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_P(stuff);//####
+    OD_LOG_EXIT_P(stuff);//####
     return stuff;
 } // doCreateEndpointForTest
 
@@ -136,8 +136,8 @@ static Endpoint * doCreateEndpointForTest(const int argc,
 static yarp::os::Port * doCreateTestPort(const yarp::os::ConstString & destinationName,
                                          const char *                  portPath)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S2("destinationName = ", destinationName.c_str(), "portPath = ", portPath);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S2("destinationName = ", destinationName.c_str(), "portPath = ", portPath);//####
     yarp::os::ConstString aName(GetRandomPortName(portPath));
     yarp::os::Port *      newPort = new yarp::os::Port();
     
@@ -147,7 +147,7 @@ static yarp::os::Port * doCreateTestPort(const yarp::os::ConstString & destinati
         {
             if (! yarp::os::Network::connect(aName, destinationName))
             {
-                OD_SYSLOG("(! yarp::os::Network::connect(aName, destinationName))");//####
+                OD_LOG("(! yarp::os::Network::connect(aName, destinationName))");//####
                 newPort->close();
                 delete newPort;
                 newPort = NULL;
@@ -155,14 +155,14 @@ static yarp::os::Port * doCreateTestPort(const yarp::os::ConstString & destinati
         }
         else
         {
-            OD_SYSLOG("! (newPort->open(portPath))");//####
+            OD_LOG("! (newPort->open(portPath))");//####
         }
     }
     else
     {
-        OD_SYSLOG("! (newPort)");//####
+        OD_LOG("! (newPort)");//####
     }
-    OD_SYSLOG_EXIT_P(newPort);//####
+    OD_LOG_EXIT_P(newPort);//####
     return newPort;
 } // doCreateTestPort
 
@@ -182,19 +182,19 @@ static yarp::os::Port * doCreateTestPort(Endpoint &   anEndpoint,
 static void doDestroyTestPort(const yarp::os::ConstString & destinationName,
                               yarp::os::Port *              thePort)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("thePort = ", thePort);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("thePort = ", thePort);//####
     
     if (thePort)
     {
         if (! yarp::os::Network::disconnect(thePort->getName(), destinationName))
         {
-            OD_SYSLOG("(! yarp::os::Network::disconnect(thePort->getName(), destinationName))");//####
+            OD_LOG("(! yarp::os::Network::disconnect(thePort->getName(), destinationName))");//####
         }
         thePort->close();
         delete thePort;
     }
-    OD_SYSLOG_EXIT();//####
+    OD_LOG_EXIT();//####
 } // doDestroyTestPort
 
 /*! @brief Destroy a temporary port that was used with a test.
@@ -214,10 +214,10 @@ static void doDestroyTestPort(Endpoint &       anEndpoint,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase01(const int argc,
-                    char **   argv) // create endpoint
+static int doTestCreateEndpoint(const int argc,
+                                char **   argv) // create endpoint
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
@@ -228,28 +228,28 @@ static int doCase01(const int argc,
         {
             if (stuff->open())
             {
-                OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 result = 0;
             }
             else
             {
-                OD_SYSLOG("! (stuff->open())");//####
+                OD_LOG("! (stuff->open())");//####
             }
             delete stuff;
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_LOG("! (stuff)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase01
+} // doTestCreateEndpoint
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 02 ***
@@ -259,10 +259,10 @@ static int doCase01(const int argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase02(const int argc,
-                    char **   argv) // connect to endpoint
+static int doTestConnectToEndpoint(const int argc,
+                                   char **   argv) // connect to endpoint
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
@@ -275,61 +275,61 @@ static int doCase02(const int argc,
             
             if (stuff->open() && stuff->setReporter(reporter, true))
             {
-                OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomPortName("test/case02_"));
+                yarp::os::ConstString aName(GetRandomPortName("test/connecttoendpoint_"));
                 yarp::os::Port *      outPort = new yarp::os::Port();
                 
                 if (outPort)
                 {
-                    OD_SYSLOG_S1("opening ", aName.c_str());//####
+                    OD_LOG_S1("opening ", aName.c_str());//####
                     if (outPort->open(aName))
                     {
-                        OD_SYSLOG("(outPort->open(aName))");//####
+                        OD_LOG("(outPort->open(aName))");//####
                         outPort->getReport(reporter);
                         if (outPort->addOutput(stuff->getName()))
                         {
-                            OD_SYSLOG("(outPort->addOutput(stuff->getName()))");//####
+                            OD_LOG("(outPort->addOutput(stuff->getName()))");//####
                             result = 0;
                         }
                         else
                         {
-                            OD_SYSLOG("! (outPort->addOutput(stuff->getName()))");//####
+                            OD_LOG("! (outPort->addOutput(stuff->getName()))");//####
                         }
-                        OD_SYSLOG_S1("about to close, port = ", aName.c_str());//####
+                        OD_LOG_S1("about to close, port = ", aName.c_str());//####
                         outPort->close();
-                        OD_SYSLOG("close completed.");//####
+                        OD_LOG("close completed.");//####
                     }
                     else
                     {
-                        OD_SYSLOG("! (outPort->open(aName))");//####
+                        OD_LOG("! (outPort->open(aName))");//####
                     }
                     delete outPort;
                 }
                 else
                 {
-                    OD_SYSLOG("! (outPort)");
+                    OD_LOG("! (outPort)");
                 }
             }
             else
             {
-                OD_SYSLOG("! (stuff->open() && stuff->setReporter(reporter, true))");//####
+                OD_LOG("! (stuff->open() && stuff->setReporter(reporter, true))");//####
             }
             delete stuff;
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_LOG("! (stuff)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase02
+} // doTestConnectToEndpoint
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 03 ***
@@ -339,10 +339,10 @@ static int doCase02(const int argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase03(const int argc,
-                    char **   argv) // send to endpoint
+static int doTestWriteToEndpoint(const int argc,
+                                 char **   argv) // send to endpoint
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
@@ -356,74 +356,74 @@ static int doCase03(const int argc,
             
             if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
             {
-                OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomPortName("test/case03_"));
+                yarp::os::ConstString aName(GetRandomPortName("test/writetoendpoint_"));
                 yarp::os::Port *      outPort = new yarp::os::Port();
                 
                 if (outPort)
                 {
-                    OD_SYSLOG_S1("opening ", aName.c_str());//####
+                    OD_LOG_S1("opening ", aName.c_str());//####
                     if (outPort->open(aName))
                     {
-                        OD_SYSLOG("(outPort->open(aName))");//####
+                        OD_LOG("(outPort->open(aName))");//####
                         outPort->getReport(reporter);
                         if (outPort->addOutput(stuff->getName()))
                         {
-                            OD_SYSLOG("(outPort->addOutput(stuff->getName()))");//####
+                            OD_LOG("(outPort->addOutput(stuff->getName()))");//####
                             yarp::os::Bottle message;
                             
                             message.addString(aName);
                             message.addString("howdi");
                             if (outPort->write(message))
                             {
-                                OD_SYSLOG("(outPort->write(message))");//####
+                                OD_LOG("(outPort->write(message))");//####
                                 result = 0;
                             }
                             else
                             {
-                                OD_SYSLOG("! (outPort->write(message))");//####
+                                OD_LOG("! (outPort->write(message))");//####
                             }
                         }
                         else
                         {
-                            OD_SYSLOG("! (outPort->addOutput(stuff->getName()))");//####
+                            OD_LOG("! (outPort->addOutput(stuff->getName()))");//####
                         }
-                        OD_SYSLOG_S1("about to close, port = ", aName.c_str());//####
+                        OD_LOG_S1("about to close, port = ", aName.c_str());//####
                         outPort->close();
-                        OD_SYSLOG("close completed.");//####
+                        OD_LOG("close completed.");//####
                     }
                     else
                     {
-                        OD_SYSLOG("! (outPort->open(aName))");//####
+                        OD_LOG("! (outPort->open(aName))");//####
                     }
                     delete outPort;
                 }
                 else
                 {
-                    OD_SYSLOG("! (outPort)");
+                    OD_LOG("! (outPort)");
                 }
             }
             else
             {
-                OD_SYSLOG("! (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, "//####
+                OD_LOG("! (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, "//####
                           "true))");//####
             }
             delete stuff;
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_LOG("! (stuff)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase03
+} // doTestWriteToEndpoint
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 04 ***
@@ -433,10 +433,10 @@ static int doCase03(const int argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase04(const int argc,
-                    char **   argv) // send to endpoint
+static int doTestEchoFromEndpointWithReader(const int argc,
+                                            char **   argv) // send to endpoint
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
@@ -450,21 +450,21 @@ static int doCase04(const int argc,
             
             if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
             {
-                OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomPortName("test/case04_"));
+                yarp::os::ConstString aName(GetRandomPortName("test/echofromendpointwithreader_"));
                 yarp::os::Port *      outPort = new yarp::os::Port();
                 
                 if (outPort)
                 {
-                    OD_SYSLOG_S1("opening ", aName.c_str());//####
+                    OD_LOG_S1("opening ", aName.c_str());//####
                     if (outPort->open(aName))
                     {
-                        OD_SYSLOG("(outPort->open(aName))");//####
+                        OD_LOG("(outPort->open(aName))");//####
                         outPort->getReport(reporter);
                         if (outPort->addOutput(stuff->getName()))
                         {
-                            OD_SYSLOG("(outPort->addOutput(stuff->getName()))");//####
+                            OD_LOG("(outPort->addOutput(stuff->getName()))");//####
                             yarp::os::Bottle message;
                             yarp::os::Bottle response;
                             
@@ -472,54 +472,54 @@ static int doCase04(const int argc,
                             message.addString("howdi");
                             if (outPort->write(message, response))
                             {
-                                OD_SYSLOG("(outPort->write(message, response))");//####
-                                OD_SYSLOG_S1("got ", response.toString().c_str());//####
+                                OD_LOG("(outPort->write(message, response))");//####
+                                OD_LOG_S1("got ", response.toString().c_str());//####
                                 result = 0;
                             }
                             else
                             {
-                                OD_SYSLOG("! (outPort->write(message, response))");//####
+                                OD_LOG("! (outPort->write(message, response))");//####
                             }
                         }
                         else
                         {
-                            OD_SYSLOG("! (outPort->addOutput(stuff->getName()))");//####
+                            OD_LOG("! (outPort->addOutput(stuff->getName()))");//####
                         }
-                        OD_SYSLOG_S1("about to close, port = ", aName.c_str());//####
+                        OD_LOG_S1("about to close, port = ", aName.c_str());//####
                         outPort->close();
-                        OD_SYSLOG("close completed.");//####
+                        OD_LOG("close completed.");//####
                     }
                     else
                     {
-                        OD_SYSLOG("! (outPort->open(aName))");//####
+                        OD_LOG("! (outPort->open(aName))");//####
                     }
                     delete outPort;
                 }
                 else
                 {
-                    OD_SYSLOG("! (outPort)");
+                    OD_LOG("! (outPort)");
                 }
             }
             else
             {
-                OD_SYSLOG("! (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, "//####
+                OD_LOG("! (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, "//####
                           "true))");//####
             }
             delete stuff;
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_LOG("! (stuff)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase04
+} // doTestEchoFromEndpointWithReader
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 05 ***
@@ -529,10 +529,10 @@ static int doCase04(const int argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase05(const int argc,
-                    char **   argv) // send to endpoint
+static int doTestEchoFromEndpointWithReaderCreator(const int argc,
+                                                   char **   argv) // send to endpoint
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
@@ -546,21 +546,21 @@ static int doCase05(const int argc,
             
             if (stuff->setInputHandlerCreator(handlerCreator) && stuff->open() && stuff->setReporter(reporter, true))
             {
-                OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomPortName("test/case05_"));
+                yarp::os::ConstString aName(GetRandomPortName("test/echofromendpointwithreadercreator_"));
                 yarp::os::Port *      outPort = new yarp::os::Port();
                 
                 if (outPort)
                 {
-                    OD_SYSLOG_S1("opening ", aName.c_str());//####
+                    OD_LOG_S1("opening ", aName.c_str());//####
                     if (outPort->open(aName))
                     {
-                        OD_SYSLOG("(outPort->open(aName))");//####
+                        OD_LOG("(outPort->open(aName))");//####
                         outPort->getReport(reporter);
                         if (outPort->addOutput(stuff->getName()))
                         {
-                            OD_SYSLOG("(outPort->addOutput(stuff->getName()))");//####
+                            OD_LOG("(outPort->addOutput(stuff->getName()))");//####
                             yarp::os::Bottle message;
                             yarp::os::Bottle response;
                             
@@ -568,54 +568,54 @@ static int doCase05(const int argc,
                             message.addString("howdi");
                             if (outPort->write(message, response))
                             {
-                                OD_SYSLOG("(outPort->write(message, response))");//####
-                                OD_SYSLOG_S1("got ", response.toString().c_str());//####
+                                OD_LOG("(outPort->write(message, response))");//####
+                                OD_LOG_S1("got ", response.toString().c_str());//####
                                 result = 0;
                             }
                             else
                             {
-                                OD_SYSLOG("! (outPort->write(message, response))");//####
+                                OD_LOG("! (outPort->write(message, response))");//####
                             }
                         }
                         else
                         {
-                            OD_SYSLOG("! (outPort->addOutput(stuff->getName()))");//####
+                            OD_LOG("! (outPort->addOutput(stuff->getName()))");//####
                         }
-                        OD_SYSLOG_S1("about to close, port = ", aName.c_str());//####
+                        OD_LOG_S1("about to close, port = ", aName.c_str());//####
                         outPort->close();
-                        OD_SYSLOG("close completed.");//####
+                        OD_LOG("close completed.");//####
                     }
                     else
                     {
-                        OD_SYSLOG("! (outPort->open(aName))");//####
+                        OD_LOG("! (outPort->open(aName))");//####
                     }
                     delete outPort;
                 }
                 else
                 {
-                    OD_SYSLOG("! (outPort)");
+                    OD_LOG("! (outPort)");
                 }
             }
             else
             {
-                OD_SYSLOG("! (stuff->setInputHandlerCreator(handlerCreator) && stuff->open() && "//####
+                OD_LOG("! (stuff->setInputHandlerCreator(handlerCreator) && stuff->open() && "//####
                           "stuff->setReporter(reporter, true))");//####
             }
             delete stuff;
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_LOG("! (stuff)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase05
+} // doTestEchoFromEndpointWithReaderCreator
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 06 ***
@@ -625,17 +625,17 @@ static int doCase05(const int argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase06(const int argc,
-                    char **   argv) // create request
+static int doTestCreateRequest(const int argc,
+                               char **   argv) // create request
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
     {
         if (0 == argc)
         {
-            OD_SYSLOG("0 == argc");//####
+            OD_LOG("0 == argc");//####
         }
         else
         {
@@ -653,12 +653,12 @@ static int doCase06(const int argc,
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase06
+} // doTestCreateRequest
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 07 ***
@@ -668,10 +668,10 @@ static int doCase06(const int argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase07(const int argc,
-                    char **   argv) // create request
+static int doTestCreateResponse(const int argc,
+                                char **   argv) // create request
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
@@ -689,12 +689,12 @@ static int doCase07(const int argc,
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase07
+} // doTestCreateResponse
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 08 ***
@@ -704,10 +704,10 @@ static int doCase07(const int argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase08(const int argc,
-                    char **   argv) // create request
+static int doTestRequestEchoFromEndpoint(const int argc,
+                                         char **   argv) // create request
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
@@ -721,55 +721,55 @@ static int doCase08(const int argc,
             
             if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
             {
-                yarp::os::Port * outPort = doCreateTestPort(stuff->getName(), "test/case08_");
+                yarp::os::Port * outPort = doCreateTestPort(stuff->getName(), "test/requestechofromendpoint_");
                 
                 if (outPort)
                 {
-                    OD_SYSLOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                    OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                     yarp::os::Bottle parameters("some to send");
                     ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
                     ServiceResponse  response;
                     
                     if (request.send(*outPort, &response))
                     {
-                        OD_SYSLOG_LL1("response size = ", response.count());//####
+                        OD_LOG_LL1("response size = ", response.count());//####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
-                            OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                            OD_LOG_S1("response value = ", response.element(ii).toString().c_str());//####
                         }
                         result = 0;
                     }
                     else
                     {
-                        OD_SYSLOG("! (request.send(*outPort, &response))");//####
+                        OD_LOG("! (request.send(*outPort, &response))");//####
                     }
                     doDestroyTestPort(stuff->getName(), outPort);
                 }
                 else
                 {
-                    OD_SYSLOG("! (outPort)");//####
+                    OD_LOG("! (outPort)");//####
                 }
             }
             else
             {
-                OD_SYSLOG("! (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter("//####
+                OD_LOG("! (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter("//####
                           "reporter, true))");//####
             }
             delete stuff;
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_LOG("! (stuff)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase08
+} // doTestRequestEchoFromEndpoint
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 09 ***
@@ -779,10 +779,10 @@ static int doCase08(const int argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase09(const int argc,
-                    char **   argv) // send 'echo' request
+static int doTestRequestEchoFromServiceUsingDefaultWithReader(const int argc,
+                                                              char **   argv) // send 'echo' request
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
@@ -793,7 +793,8 @@ static int doCase09(const int argc,
         {
             if (stuff->start())
             {
-                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(), "test/case09_");
+                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(),
+                                                            "test/requestechofromserviceusingdefaultwithreader");
                 
                 if (outPort)
                 {
@@ -803,44 +804,44 @@ static int doCase09(const int argc,
                     
                     if (request.send(*outPort, &response))
                     {
-                        OD_SYSLOG_LL1("response size = ", response.count());//####
+                        OD_LOG_LL1("response size = ", response.count());//####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
-                            OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                            OD_LOG_S1("response value = ", response.element(ii).toString().c_str());//####
                         }
                         result = 0;
                     }
                     else
                     {
-                        OD_SYSLOG("! (request.send(*outPort, &response))");//####
+                        OD_LOG("! (request.send(*outPort, &response))");//####
                     }
                     doDestroyTestPort(stuff->getEndpoint(), outPort);
                 }
                 else
                 {
-                    OD_SYSLOG("! (outPort)");//####
+                    OD_LOG("! (outPort)");//####
                 }
                 stuff->stop();
             }
             else
             {
-                OD_SYSLOG("! (stuff->start())");//####
+                OD_LOG("! (stuff->start())");//####
             }
             delete stuff;
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_LOG("! (stuff)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase09
+} // doTestRequestEchoFromServiceUsingDefaultWithReader
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 10 ***
@@ -850,10 +851,10 @@ static int doCase09(const int argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase10(const int argc,
-                    char **   argv) // send 'echo' request
+static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const int argc,
+                                                                     char **   argv) // send 'echo' request
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
@@ -864,7 +865,8 @@ static int doCase10(const int argc,
         {
             if (stuff->start())
             {
-                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(), "test/case10_");
+                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(),
+                                                        "test/requestechofromserviceusingdefaultwithreadercreator_");
                 
                 if (outPort)
                 {
@@ -874,44 +876,44 @@ static int doCase10(const int argc,
                     
                     if (request.send(*outPort, &response))
                     {
-                        OD_SYSLOG_LL1("response size = ", response.count());//####
+                        OD_LOG_LL1("response size = ", response.count());//####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
-                            OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                            OD_LOG_S1("response value = ", response.element(ii).toString().c_str());//####
                         }
                         result = 0;
                     }
                     else
                     {
-                        OD_SYSLOG("! (request.send(*outPort, &response))");//####
+                        OD_LOG("! (request.send(*outPort, &response))");//####
                     }
                     doDestroyTestPort(stuff->getEndpoint(), outPort);
                 }
                 else
                 {
-                    OD_SYSLOG("! (outPort)");//####
+                    OD_LOG("! (outPort)");//####
                 }
                 stuff->stop();
             }
             else
             {
-                OD_SYSLOG("! (stuff->start())");//####
+                OD_LOG("! (stuff->start())");//####
             }
             delete stuff;
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_LOG("! (stuff)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase10
+} // doTestRequestEchoFromServiceUsingDefaultWithReaderCreator
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 11 ***
@@ -921,10 +923,10 @@ static int doCase10(const int argc,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase11(const int argc,
-                    char **   argv) // create 'echo' request
+static int doTestRequestEchoFromServiceWithRequestHandler(const int argc,
+                                                          char **   argv) // create 'echo' request
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
@@ -935,7 +937,8 @@ static int doCase11(const int argc,
         {
             if (stuff->start())
             {
-                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(), "test/case11_");
+                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(),
+                                                            "test/requestechofromservicewithrequesthandler_");
                 
                 if (outPort)
                 {
@@ -954,49 +957,49 @@ static int doCase11(const int argc,
                             {
                                 if (expected[ii] != response.element(ii).toString())
                                 {
-                                    OD_SYSLOG_S2("expected[ii] = ", expected[ii].c_str(),//####
-                                                 "response.element(ii).toString() = ",//####
-                                                 response.element(ii).toString().c_str());//####
+                                    OD_LOG_S2("expected[ii] = ", expected[ii].c_str(),//####
+                                              "response.element(ii).toString() = ",//####
+                                              response.element(ii).toString().c_str());//####
                                     result = 1;
                                 }
                             }
                         }
                         else
                         {
-                            OD_SYSLOG("! (3 == response.count())");//####
+                            OD_LOG("! (3 == response.count())");//####
                         }
                     }
                     else
                     {
-                        OD_SYSLOG("! (request.send(*outPort, &response))");//####
+                        OD_LOG("! (request.send(*outPort, &response))");//####
                     }
                     doDestroyTestPort(stuff->getEndpoint(), outPort);
                 }
                 else
                 {
-                    OD_SYSLOG("! (outPort)");//####
+                    OD_LOG("! (outPort)");//####
                 }
                 stuff->stop();
             }
             else
             {
-                OD_SYSLOG("! (stuff->start())");//####
+                OD_LOG("! (stuff->start())");//####
             }
             delete stuff;
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_LOG("! (stuff)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase11
+} // doTestRequestEchoFromServiceWithRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 12 ***
@@ -1005,9 +1008,9 @@ static int doCase11(const int argc,
 /*! @brief Check the response from the 'list' request for this test.
  @param response The response to be analyzed.
  @returns @c true if the expected values are all present and @c false if they are not or if unexpected values appear. */
-static bool checkList12Response(const ServiceResponse & response)
+static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const ServiceResponse & response)
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     bool result = false;
     
     try
@@ -1090,26 +1093,26 @@ static bool checkList12Response(const ServiceResponse & response)
         else
         {
             // Wrong number of values in the response.
-            OD_SYSLOG("! (3 <= response.count())");//####
+            OD_LOG("! (3 <= response.count())");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_LOG_EXIT_B(result);//####
     return result;
-} // checkList12Response
+} // checkResponseFromEchoFromServiceWithRequestHandlerAndInfo
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase12(const int argc,
-                    char **   argv) // send 'list' request
+static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const int argc,
+                                                                 char **   argv) // send 'list' request
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
@@ -1120,7 +1123,8 @@ static int doCase12(const int argc,
         {
             if (stuff->start())
             {
-                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(), "test/case12_");
+                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(),
+                                                            "test/requestechofromservicewithrequesthandlerandinfo_");
                 
                 if (outPort)
                 {
@@ -1129,51 +1133,51 @@ static int doCase12(const int argc,
                     
                     if (request.send(*outPort, &response))
                     {
-                        OD_SYSLOG_LL1("response size = ", response.count());//####
+                        OD_LOG_LL1("response size = ", response.count());//####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
-                            OD_SYSLOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                            OD_LOG_S1("response value = ", response.element(ii).toString().c_str());//####
                         }
-                        if (checkList12Response(response))
+                        if (checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(response))
                         {
                             result = 0;
                         }
                         else
                         {
-                            OD_SYSLOG("! (checkList12Response(response))");//####
+                            OD_LOG("! (checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(response))");//####
                         }
                     }
                     else
                     {
-                        OD_SYSLOG("! (request.send(*outPort, &response))");//####
+                        OD_LOG("! (request.send(*outPort, &response))");//####
                     }
                         doDestroyTestPort(stuff->getEndpoint(), outPort);
                 }
                 else
                 {
-                    OD_SYSLOG("! (outPort)");//####
+                    OD_LOG("! (outPort)");//####
                 }
                 stuff->stop();
             }
             else
             {
-                OD_SYSLOG("! (stuff->start())");//####
+                OD_LOG("! (stuff->start())");//####
             }
             delete stuff;
         }
         else
         {
-            OD_SYSLOG("! (stuff)");//####
+            OD_LOG("! (stuff)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase12
+} // doTestRequestEchoFromServiceWithRequestHandlerAndInfo
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -1186,20 +1190,20 @@ static int doCase12(const int argc,
 int main(int     argc,
          char ** argv)
 {
-    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionEnableThreadSupport | kODSyslogOptionWriteToStderr);//####
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
+                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
+    OD_LOG_ENTER();//####
     int result = 1;
 
     try
     {
         if (yarp::os::Network::checkNetwork())
         {
-#if (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(1);
-#else // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
             YarpPlusPlus::Initialize();
@@ -1215,51 +1219,51 @@ int main(int     argc,
                         break;
                         
                     case 1:
-                        result = doCase01(argc - 1, argv + 2);
+                        result = doTestCreateEndpoint(argc - 1, argv + 2);
                         break;
                         
                     case 2:
-                        result = doCase02(argc - 1, argv + 2);
+                        result = doTestConnectToEndpoint(argc - 1, argv + 2);
                         break;
                         
                     case 3:
-                        result = doCase03(argc - 1, argv + 2);
+                        result = doTestWriteToEndpoint(argc - 1, argv + 2);
                         break;
                         
                     case 4:
-                        result = doCase04(argc - 1, argv + 2);
+                        result = doTestEchoFromEndpointWithReader(argc - 1, argv + 2);
                         break;
                         
                     case 5:
-                        result = doCase05(argc - 1, argv + 2);
+                        result = doTestEchoFromEndpointWithReaderCreator(argc - 1, argv + 2);
                         break;
                         
                     case 6:
-                        result = doCase06(argc - 1, argv + 2);
+                        result = doTestCreateRequest(argc - 1, argv + 2);
                         break;
                         
                     case 7:
-                        result = doCase07(argc - 1, argv + 2);
+                        result = doTestCreateResponse(argc - 1, argv + 2);
                         break;
                         
                     case 8:
-                        result = doCase08(argc - 1, argv + 2);
+                        result = doTestRequestEchoFromEndpoint(argc - 1, argv + 2);
                         break;
                         
                     case 9:
-                        result = doCase09(argc - 1, argv + 2);
+                        result = doTestRequestEchoFromServiceUsingDefaultWithReader(argc - 1, argv + 2);
                         break;
                         
                     case 10:
-                        result = doCase10(argc - 1, argv + 2);
+                        result = doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(argc - 1, argv + 2);
                         break;
                         
                     case 11:
-                        result = doCase11(argc - 1, argv + 2);
+                        result = doTestRequestEchoFromServiceWithRequestHandler(argc - 1, argv + 2);
                         break;
                         
                     case 12:
-                        result = doCase12(argc - 1, argv + 2);
+                        result = doTestRequestEchoFromServiceWithRequestHandlerAndInfo(argc - 1, argv + 2);
                         break;
                         
                     default:
@@ -1269,20 +1273,20 @@ int main(int     argc,
             }
             else
             {
-                OD_SYSLOG("! (0 < --argc)");//####
+                OD_LOG("! (0 < --argc)");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            OD_LOG("! (yarp::os::Network::checkNetwork())");//####
             cerr << "YARP network not running." << endl;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
     }
     yarp::os::Network::fini();
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
 } // main

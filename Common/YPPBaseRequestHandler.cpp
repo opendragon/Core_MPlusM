@@ -41,8 +41,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPBaseRequestHandler.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 
 using namespace YarpPlusPlus;
 
@@ -65,14 +65,14 @@ using namespace YarpPlusPlus;
 BaseRequestHandler::BaseRequestHandler(const yarp::os::ConstString & request) :
         _owner(NULL), _name(request)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // BaseRequestHandler::BaseRequestHandler
 
 BaseRequestHandler::~BaseRequestHandler(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // BaseRequestHandler::~BaseRequestHandler
 
 #if defined(__APPLE__)
@@ -81,10 +81,10 @@ BaseRequestHandler::~BaseRequestHandler(void)
 
 void BaseRequestHandler::setOwner(RequestMap & owner)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_P1("owner = ", &owner);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("owner = ", &owner);//####
     _owner = &owner;
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // BaseRequestHandler::setOwner
 
 #if defined(__APPLE__)

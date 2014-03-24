@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "RegistryTests/YPPTTest14Service.h"
 #include "RegistryTests/YPPTTest15Service.h"
 #include "RegistryTests/YPPTTest16Service.h"
@@ -87,10 +87,10 @@ using std::endl;
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase13(const int argc,
-                    char **   argv) // send 'register' request
+static int doTestCreateRegisterService(const int argc,
+                                       char **   argv) // create 'register' service
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
@@ -128,32 +128,32 @@ static int doCase13(const int argc,
             }
             else
             {
-                OD_SYSLOG("! (registry->start())");//####
+                OD_LOG("! (registry->start())");//####
             }
             delete registry;
         }
         else
         {
-            OD_SYSLOG("! (registry)");//####
+            OD_LOG("! (registry)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase13
+} // doTestCreateRegisterService
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase14(const int argc,
-                    char **   argv) // send 'register' request
+static int doTestRequestRegisterService(const int argc,
+                                        char **   argv) // send 'register' request
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = false;
     
     try
@@ -168,17 +168,17 @@ static int doCase14(const int argc,
                     // Argument order for tests = endpoint name [, IP address / name [, port]]
                 case 0:
                     registry = new RegistryService(TEST_INMEMORY);
-                    secondServicePort = "/service/test14_1";
+                    secondServicePort = "/service/test/requestregisterservice_1";
                     break;
                     
                 case 1:
                     registry = new RegistryService(TEST_INMEMORY, *argv);
-                    secondServicePort = "/service/test14_2";
+                    secondServicePort = "/service/test/requestregisterservice_2";
                     break;
                     
                 case 2:
                     registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
-                    secondServicePort = "/service/test14_3";
+                    secondServicePort = "/service/test/requestregisterservice_3";
                     break;
                     
                 default:
@@ -207,55 +207,55 @@ static int doCase14(const int argc,
                             }
                             else
                             {
-                                OD_SYSLOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
+                                OD_LOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
                             }
                             stuff->stop();
                         }
                         else
                         {
-                            OD_SYSLOG("! (stuff->start())");//####
+                            OD_LOG("! (stuff->start())");//####
                         }
                         delete stuff;
                     }
                     else
                     {
-                        OD_SYSLOG("! (stuff)");//####
+                        OD_LOG("! (stuff)");//####
                     }
                 }
                 else
                 {
-                    OD_SYSLOG("! (registry->isActive())");//####
+                    OD_LOG("! (registry->isActive())");//####
                 }
                 registry->stop();
             }
             else
             {
-                OD_SYSLOG("! (registry->start())");//####
+                OD_LOG("! (registry->start())");//####
             }
             delete registry;
         }
         else
         {
-            OD_SYSLOG("! (registry)");//####
+            OD_LOG("! (registry)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase14
+} // doTestRequestRegisterService
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase15(const int argc,
-                    char **   argv) // send 'register' request
+static int doTestRequestUnregisterService(const int argc,
+                                          char **   argv) // send 'register' request
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
 
     try
@@ -270,17 +270,17 @@ static int doCase15(const int argc,
                     // Argument order for tests = endpoint name [, IP address / name [, port]]
                 case 0:
                     registry = new RegistryService(TEST_INMEMORY);
-                    secondServicePort = "/service/test15_1";
+                    secondServicePort = "/service/test/requestunregisterservice_1";
                     break;
                     
                 case 1:
                     registry = new RegistryService(TEST_INMEMORY, *argv);
-                    secondServicePort = "/service/test15_2";
+                    secondServicePort = "/service/test/requestunregisterservice_2";
                     break;
                     
                 case 2:
                     registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
-                    secondServicePort = "/service/test15_3";
+                    secondServicePort = "/service/test/requestunregisterservice_3";
                     break;
                     
                 default:
@@ -305,73 +305,74 @@ static int doCase15(const int argc,
                             
                             if (YarpPlusPlus::RegisterLocalService(portName))
                             {
+                                yarp::os::Time::delay(0.2);
                                 if (YarpPlusPlus::UnregisterLocalService(portName))
                                 {
                                     result = 0;
                                 }
                                 else
                                 {
-                                    OD_SYSLOG("! (YarpPlusPlus::UnregisterLocalService(portName))");//####
+                                    OD_LOG("! (YarpPlusPlus::UnregisterLocalService(portName))");//####
                                 }
                             }
                             else
                             {
-                                OD_SYSLOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
+                                OD_LOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
                             }
                             stuff->stop();
                         }
                         else
                         {
-                            OD_SYSLOG("! (stuff->start())");//####
+                            OD_LOG("! (stuff->start())");//####
                         }
                         delete stuff;
                     }
                     else
                     {
-                        OD_SYSLOG("! (stuff)");//####
+                        OD_LOG("! (stuff)");//####
                     }
                 }
                 else
                 {
-                    OD_SYSLOG("! (registry->isActive())");//####
+                    OD_LOG("! (registry->isActive())");//####
                 }
                 registry->stop();
             }
             else
             {
-                OD_SYSLOG("! (registry->start())");//####
+                OD_LOG("! (registry->start())");//####
             }
             delete registry;
         }
         else
         {
-            OD_SYSLOG("! (registry)");//####
+            OD_LOG("! (registry)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase15
+} // doTestRequestUnregisterService
 
 /*! @brief Perform a test case.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase16(const int argc,
-                    char **   argv) // send 'register' request
+static int doTestRequestSearchService(const int argc,
+                                      char **   argv) // send 'match' request
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     int result = 1;
 
     try
     {
         if (1 < argc)
         {
-            const char *      secondServicePort = "/service/test16";
+            const char *      secondServicePort = "/service/test/requestsearchservice";
             RegistryService * registry = new RegistryService(TEST_INMEMORY);
             
             if (registry)
@@ -395,9 +396,8 @@ static int doCase16(const int argc,
                                     yarp::os::Bottle matches(YarpPlusPlus::FindMatchingServices(*argv));
                                     yarp::os::Bottle expected(argv[1]);
                                     
-                                    OD_SYSLOG_S3("criteria <- ", *argv, "expected <- ",//####
-                                                 expected.toString().c_str(), "matches <- ",//####
-                                                 matches.toString().c_str());//####
+                                    OD_LOG_S3("criteria <- ", *argv, "expected <- ", expected.toString().c_str(),//####
+                                              "matches <- ", matches.toString().c_str());//####
                                     if ((expected.size() == matches.size()) &&
                                         (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size()))
                                     {
@@ -420,12 +420,12 @@ static int doCase16(const int argc,
                                             }
                                             else
                                             {
-                                                OD_SYSLOG("! (matchesFirstAsString == expectedFirstAsString)");//####
+                                                OD_LOG("! (matchesFirstAsString == expectedFirstAsString)");//####
                                             }
                                         }
                                         else
                                         {
-                                            OD_SYSLOG("! (expectedFirst.isString())");//####
+                                            OD_LOG("! (expectedFirst.isString())");//####
                                         }
                                         if ((! result) && wasASuccess)
                                         {
@@ -439,8 +439,8 @@ static int doCase16(const int argc,
                                                 int                matchesSecondCount = matchesSecondAsList->size();
                                                 int                expectedSecondCount = expectedSecondAsList->size();
                                                 
-                                                OD_SYSLOG_LL2("matchesSecondCount <- ", matchesSecondCount,//####
-                                                              "expectedSecondCount <- ", expectedSecondCount);//####
+                                                OD_LOG_LL2("matchesSecondCount <- ", matchesSecondCount,//####
+                                                           "expectedSecondCount <- ", expectedSecondCount);//####
                                                 if (matchesSecondCount == expectedSecondCount)
                                                 {
                                                     // Since the lists are the same length, we can just look for the
@@ -469,7 +469,7 @@ static int doCase16(const int argc,
                                                         }
                                                         if (! didFind)
                                                         {
-                                                            OD_SYSLOG("(! didFind)");//####
+                                                            OD_LOG("(! didFind)");//####
                                                             result = 1;
                                                             break;
                                                         }
@@ -478,74 +478,74 @@ static int doCase16(const int argc,
                                                 }
                                                 else
                                                 {
-                                                    OD_SYSLOG("! (matchesSecondCount == expectedSecondCount)");//####
+                                                    OD_LOG("! (matchesSecondCount == expectedSecondCount)");//####
                                                     result = 1;
                                                 }
                                             }
                                             else
                                             {
-                                                OD_SYSLOG("! (expectedSecond.isList())");//####
+                                                OD_LOG("! (expectedSecond.isList())");//####
                                                 result = 1;
                                             }
                                         }
                                     }
                                     else
                                     {
-                                        OD_SYSLOG("! ((expected.size() == matches.size()) && "//####
+                                        OD_LOG("! ((expected.size() == matches.size()) && "//####
                                                   "(YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size()))");//####
                                     }
                                     if (! YarpPlusPlus::UnregisterLocalService(portName))
                                     {
-                                        OD_SYSLOG("(! YarpPlusPlus::UnregisterLocalService(portName))");//####
+                                        OD_LOG("(! YarpPlusPlus::UnregisterLocalService(portName))");//####
                                     }
                                 }
                                 else
                                 {
-                                    OD_SYSLOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
+                                    OD_LOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
                                 }
                                 stuff->stop();
                                 delete stuff;
                             }
                             else
                             {
-                                OD_SYSLOG("! (stuff->start())");//####
+                                OD_LOG("! (stuff->start())");//####
                             }
                         }
                         else
                         {
-                            OD_SYSLOG("! (stuff)");//####
+                            OD_LOG("! (stuff)");//####
                         }
                     }
                     else
                     {
-                        OD_SYSLOG("! (registry->isActive())");//####
+                        OD_LOG("! (registry->isActive())");//####
                     }
                     registry->stop();
                 }
                 else
                 {
-                    OD_SYSLOG("! (registry->start())");//####
+                    OD_LOG("! (registry->start())");//####
                 }
                 delete registry;
             }
             else
             {
-                OD_SYSLOG("! (registry)");//####
+                OD_LOG("! (registry)");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (1 < argc)");//####
+            OD_LOG("! (1 < argc)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase16
+} // doTestRequestSearchService
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -558,20 +558,20 @@ static int doCase16(const int argc,
 int main(int     argc,
          char ** argv)
 {
-    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionEnableThreadSupport | kODSyslogOptionWriteToStderr);//####
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
+                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
+    OD_LOG_ENTER();//####
     int result = 1;
     
     try
     {
         if (yarp::os::Network::checkNetwork())
         {
-#if (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(1);
-#else // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
             YarpPlusPlus::Initialize();
@@ -579,23 +579,23 @@ int main(int     argc,
             {
                 int selector = atoi(argv[1]);
                 
-                OD_SYSLOG_LL1("selector <- ", selector);//####
+                OD_LOG_LL1("selector <- ", selector);//####
                 switch (selector)
                 {
                     case 13:
-                        result = doCase13(argc - 1, argv + 2);
+                        result = doTestCreateRegisterService(argc - 1, argv + 2);
                         break;
                         
                     case 14:
-                        result = doCase14(argc - 1, argv + 2);
+                        result = doTestRequestRegisterService(argc - 1, argv + 2);
                         break;
                         
                     case 15:
-                        result = doCase15(argc - 1, argv + 2);
+                        result = doTestRequestUnregisterService(argc - 1, argv + 2);
                         break;
                         
                     case 16:
-                        result = doCase16(argc - 1, argv + 2);
+                        result = doTestRequestSearchService(argc - 1, argv + 2);
                         break;
                         
                     default:
@@ -605,20 +605,20 @@ int main(int     argc,
             }
             else
             {
-                OD_SYSLOG("! (0 < --argc)");//####
+                OD_LOG("! (0 < --argc)");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            OD_LOG("! (yarp::os::Network::checkNetwork())");//####
             cerr << "YARP network not running." << endl;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
     }
     yarp::os::Network::fini();
-    OD_SYSLOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result);//####
     return result;
 } // main

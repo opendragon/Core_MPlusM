@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPMatchFieldName.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPMatchValueList.h"
 #include <cctype>
 #include <cstdlib>
@@ -70,9 +70,9 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
                                                int &                         endPos,
                                                FieldNameValidator            validator)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("inString = ", inString.c_str());//####
-    OD_SYSLOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("inString = ", inString.c_str());//####
+    OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
     MatchFieldName * result = NULL;
     
     try
@@ -126,7 +126,7 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
             }
             else
             {
-                OD_SYSLOG("! (workPos < inLength)");//####
+                OD_LOG("! (workPos < inLength)");//####
             }
             if (result)
             {
@@ -135,15 +135,15 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
         }
         else
         {
-            OD_SYSLOG("! (workPos < inLength)");//####
+            OD_LOG("! (workPos < inLength)");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }    
-    OD_SYSLOG_EXIT_P(result);//####
+    OD_LOG_EXIT_P(result);//####
     return result;
 } // MatchFieldName::CreateMatcher
 
@@ -154,15 +154,15 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
 MatchFieldName::MatchFieldName(const yarp::os::ConstString & inString) :
         inherited(), _matchingString(inString)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("inString = ", inString.c_str());//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("inString = ", inString.c_str());//####
+    OD_LOG_EXIT_P(this);//####
 } // MatchFieldName::MatchFieldName
 
 MatchFieldName::~MatchFieldName(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // MatchFieldName::~MatchFieldName
 
 #if defined(__APPLE__)

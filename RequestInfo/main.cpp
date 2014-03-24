@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPBaseClient.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
@@ -75,8 +75,8 @@ using std::endl;
 static bool processResponse(const yarp::os::ConstString &         serviceName,
                             const YarpPlusPlus::ServiceResponse & response)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_P1("response = ", &response);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("response = ", &response);//####
     bool result = false;
     
     for (int ii = 0, howMany = response.count(); ii < howMany; ++ii)
@@ -171,7 +171,7 @@ static bool processResponse(const yarp::os::ConstString &         serviceName,
             }
         }
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_LOG_EXIT_B(result);//####
     return result;
 } // processResponse
 
@@ -186,18 +186,18 @@ static bool processResponse(const yarp::os::ConstString &         serviceName,
 int main(int     argc,
          char ** argv)
 {
-    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionEnableThreadSupport | kODSyslogOptionWriteToStderr);//####
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
+                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
+    OD_LOG_ENTER();//####
     try
     {
         if (yarp::os::Network::checkNetwork())
         {
-#if (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(1);
-#else // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
             yarp::os::ConstString portNameRequest("portname:");
             const char *          requestName;
@@ -236,7 +236,7 @@ int main(int     argc,
                 
                 if (strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))
                 {
-                    OD_SYSLOG("(strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))");//####
+                    OD_LOG("(strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))");//####
                     yarp::os::ConstString reason(matches.get(1).toString());
                     
                     cerr << "Failed: " << reason.c_str() << "." << endl;
@@ -292,7 +292,7 @@ int main(int     argc,
                                                 }
                                                 else
                                                 {
-                                                    OD_SYSLOG("! (request.send(*newPort, &response))");//####
+                                                    OD_LOG("! (request.send(*newPort, &response))");//####
                                                     cerr << "Problem communicating with " << aMatch.c_str() << "." <<
                                                             endl;
                                                 }
@@ -313,19 +313,19 @@ int main(int     argc,
                                                 }
                                                 else
                                                 {
-                                                    OD_SYSLOG("! (request.send(*newPort, &response))");//####
+                                                    OD_LOG("! (request.send(*newPort, &response))");//####
                                                     cerr << "Problem communicating with " << aMatch.c_str() << "." <<
                                                             endl;
                                                 }
                                             }
                                             if (! yarp::os::Network::disconnect(aName, aMatch))
                                             {
-                                                OD_SYSLOG("(! yarp::os::Network::disconnect(aName, aMatch))");//####
+                                                OD_LOG("(! yarp::os::Network::disconnect(aName, aMatch))");//####
                                             }
                                         }
                                         else
                                         {
-                                            OD_SYSLOG("! (yarp::os::Network::connect(aName, aMatch))");//####
+                                            OD_LOG("! (yarp::os::Network::connect(aName, aMatch))");//####
                                         }
                                     }
                                     if (! sawRequestResponse)
@@ -336,13 +336,13 @@ int main(int     argc,
                                 }
                                 else
                                 {
-                                    OD_SYSLOG("! (newPort->open(portPath))");//####
+                                    OD_LOG("! (newPort->open(portPath))");//####
                                 }
                                 delete newPort;
                             }
                             else
                             {
-                                OD_SYSLOG("! (newPort)");//####
+                                OD_LOG("! (newPort)");//####
                             }
                         }
                         else
@@ -352,27 +352,27 @@ int main(int     argc,
                     }
                     else
                     {
-                        OD_SYSLOG("! (matchesList)");//####
+                        OD_LOG("! (matchesList)");//####
                     }
                 }
             }
             else
             {
-                OD_SYSLOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
+                OD_LOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
                 cerr << "Problem getting information from the Service Registry." << endl;
             }
         }
         else
         {
-            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            OD_LOG("! (yarp::os::Network::checkNetwork())");//####
             cerr << "YARP network not running." << endl;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
     }
     yarp::os::Network::fini();
-    OD_SYSLOG_EXIT_L(0);//####
+    OD_LOG_EXIT_L(0);//####
     return 0;
 } // main

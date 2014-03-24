@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPExampleRunningSumService.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPAddRequestHandler.h"
 #include "YPPExampleRunningSumRequests.h"
 #include "YPPResetRequestHandler.h"
@@ -79,17 +79,17 @@ ExampleRunningSumService::ExampleRunningSumService(const yarp::os::ConstString &
         , _runningSum(0.0)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
-                 serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
+              serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     setUpRequestHandlers();
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this);//####
 } // ExampleRunningSumService::ExampleRunningSumService
 
 ExampleRunningSumService::~ExampleRunningSumService(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // ExampleRunningSumService::~ExampleRunningSumService
 
 #if defined(__APPLE__)
@@ -102,9 +102,9 @@ double ExampleRunningSumService::addToSum(const yarp::os::ConstString & key,
 #if (! defined(SERVICES_HAVE_CONTEXTS))
 # pragma unused(key)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S1("key = ", key.c_str());//####
-    OD_SYSLOG_D1("value = ", value);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("key = ", key.c_str());//####
+    OD_LOG_D1("value = ", value);//####
     double result = 0.0;
     
     try
@@ -128,10 +128,10 @@ double ExampleRunningSumService::addToSum(const yarp::os::ConstString & key,
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_D(result);//####
+    OD_LOG_OBJEXIT_D(result);//####
     return result;
 } // ExampleRunningSumService::addToSum
 
@@ -140,8 +140,8 @@ void ExampleRunningSumService::resetSum(const yarp::os::ConstString & key)
 #if (! defined(SERVICES_HAVE_CONTEXTS))
 # pragma unused(key)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S1("key = ", key.c_str());//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("key = ", key.c_str());//####
     try
     {
 #if defined(SERVICES_HAVE_CONTEXTS)
@@ -161,15 +161,15 @@ void ExampleRunningSumService::resetSum(const yarp::os::ConstString & key)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // ExampleRunningSumService::resetSum
 
 void ExampleRunningSumService::setUpRequestHandlers(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         _requestHandlers.registerRequestHandler(new AddRequestHandler(*this));
@@ -179,15 +179,15 @@ void ExampleRunningSumService::setUpRequestHandlers(void)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // ExampleRunningSumService::setUpRequestHandlers
 
 bool ExampleRunningSumService::start(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -202,17 +202,17 @@ bool ExampleRunningSumService::start(void)
             }
             else
             {
-                OD_SYSLOG("! (isStarted())");//####
+                OD_LOG("! (isStarted())");//####
             }
         }
         result = isStarted();
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // ExampleRunningSumService::start
 
@@ -221,8 +221,8 @@ void ExampleRunningSumService::startSum(const yarp::os::ConstString & key)
 #if (! defined(SERVICES_HAVE_CONTEXTS))
 # pragma unused(key)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S1("key = ", key.c_str());//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("key = ", key.c_str());//####
     try
     {
 #if defined(SERVICES_HAVE_CONTEXTS)
@@ -242,15 +242,15 @@ void ExampleRunningSumService::startSum(const yarp::os::ConstString & key)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // ExampleRunningSumService::startSum
 
 bool ExampleRunningSumService::stop(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -259,10 +259,10 @@ bool ExampleRunningSumService::stop(void)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // ExampleRunningSumService::stop
 
@@ -271,8 +271,8 @@ void ExampleRunningSumService::stopSum(const yarp::os::ConstString & key)
 #if (! defined(SERVICES_HAVE_CONTEXTS))
 # pragma unused(key)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_S1("key = ", key.c_str());//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("key = ", key.c_str());//####
     try
     {
 #if defined(SERVICES_HAVE_CONTEXTS)
@@ -281,8 +281,8 @@ void ExampleRunningSumService::stopSum(const yarp::os::ConstString & key)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // ExampleRunningSumService::stopSum

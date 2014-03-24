@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPRunningSumContext.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 
 using namespace YarpPlusPlusExample;
 
@@ -64,14 +64,14 @@ using namespace YarpPlusPlusExample;
 RunningSumContext::RunningSumContext(void) :
         inherited(), _sum(0.0)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // RunningSumContext::RunningSumContext
 
 RunningSumContext::~RunningSumContext(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // RunningSumContext::~RunningSumContext
 
 #if defined(__APPLE__)

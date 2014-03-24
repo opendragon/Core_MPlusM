@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPTTest12Service.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPRequests.h"
 #include "YPPTTest12EchoRequestHandler.h"
 
@@ -70,15 +70,15 @@ Test12Service::Test12Service(const int argc,
                              char **   argv) :
         inherited(true, "Test12", "Simple service for unit tests", argc, argv)
 {
-    OD_SYSLOG_ENTER();//####
+    OD_LOG_ENTER();//####
     setUpRequestHandlers();
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this);//####
 } // Test12Service::Test12Service
 
 Test12Service::~Test12Service(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // Test12Service::~Test12Service
 
 #if defined(__APPLE__)
@@ -87,22 +87,22 @@ Test12Service::~Test12Service(void)
 
 void Test12Service::setUpRequestHandlers(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     try
     {
         _requestHandlers.registerRequestHandler(new Test12EchoRequestHandler());
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // Test12Service::setUpRequestHandlers
 
 bool Test12Service::start(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -117,23 +117,23 @@ bool Test12Service::start(void)
             }
             else
             {
-                OD_SYSLOG("! (isStarted())");//####
+                OD_LOG("! (isStarted())");//####
             }
         }
         result = isStarted();
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Test12Service::start
 
 bool Test12Service::stop(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool result = false;
     
     try
@@ -142,10 +142,10 @@ bool Test12Service::stop(void)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Test12Service::stop
 

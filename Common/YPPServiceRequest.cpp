@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPServiceRequest.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPEndpoint.h"
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -80,21 +80,21 @@ ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName,
                                const yarp::os::Bottle &      parameters) :
         _name(requestName), _holder(), _parameters(parameters)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("requestName = ", requestName.c_str());//####
-    OD_SYSLOG_P1("parameters = ", parameters.toString().c_str());//####
-    OD_SYSLOG_LL1("parameter size = ", parameters.size());//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("requestName = ", requestName.c_str());//####
+    OD_LOG_P1("parameters = ", parameters.toString().c_str());//####
+    OD_LOG_LL1("parameter size = ", parameters.size());//####
     for (int ii = 0; ii < parameters.size(); ++ii)
     {
-        OD_SYSLOG_S1("parameter = ", parameters.get(ii).asString().c_str());//####
+        OD_LOG_S1("parameter = ", parameters.get(ii).asString().c_str());//####
     }
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this);//####
 } // ServiceRequest::ServiceRequest
 
 ServiceRequest::~ServiceRequest(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // ServiceRequest::~ServiceRequest
 
 #if defined(__APPLE__)
@@ -104,35 +104,35 @@ ServiceRequest::~ServiceRequest(void)
 bool ServiceRequest::send(yarp::os::Port &  usingPort,
                           ServiceResponse * response)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_P2("usingPort = ", &usingPort, "response = ", response);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P2("usingPort = ", &usingPort, "response = ", response);//####
     bool result = false;
     
     try
     {
         yarp::os::Bottle message;
         
-        OD_SYSLOG_LL1("parameter size = ", _parameters.size());//####
+        OD_LOG_LL1("parameter size = ", _parameters.size());//####
         for (int ii = 0; ii < _parameters.size(); ++ii)
         {
-            OD_SYSLOG_S1("parameter = ", _parameters.get(ii).asString().c_str());//####
+            OD_LOG_S1("parameter = ", _parameters.get(ii).asString().c_str());//####
         }
         message.addString(_name);
         message.append(_parameters);
-        OD_SYSLOG_S1("message <- ", message.toString().c_str());//####
+        OD_LOG_S1("message <- ", message.toString().c_str());//####
         if (response)
         {
             _holder.clear();
             if (usingPort.write(message, _holder))
             {
-                OD_SYSLOG("(usingPort.write(message, _holder))");//####
-                OD_SYSLOG_S1("got ", _holder.toString().c_str());//####
+                OD_LOG("(usingPort.write(message, _holder))");//####
+                OD_LOG_S1("got ", _holder.toString().c_str());//####
                 *response = _holder;
                 result = true;
             }
             else
             {
-                OD_SYSLOG("! (usingPort.write(message, _holder))");//####
+                OD_LOG("! (usingPort.write(message, _holder))");//####
             }
         }
         else if (usingPort.write(message))
@@ -141,15 +141,15 @@ bool ServiceRequest::send(yarp::os::Port &  usingPort,
         }
         else
         {
-            OD_SYSLOG("(! usingPort.write(message))");//####
+            OD_LOG("(! usingPort.write(message))");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // ServiceRequest::send
 

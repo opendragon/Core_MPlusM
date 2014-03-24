@@ -41,8 +41,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPInputHandler.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPCommon.h"
 
 using namespace YarpPlusPlus;
@@ -68,15 +68,15 @@ using namespace YarpPlusPlus;
 InputHandler::InputHandler(void) :
         inherited(), _canProcessInput(true)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // InputHandler::InputHandler
 
 InputHandler::~InputHandler(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     stopProcessing();
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // InputHandler::~InputHandler
 
 #if defined(__APPLE__)
@@ -85,8 +85,8 @@ InputHandler::~InputHandler(void)
 
 bool InputHandler::read(yarp::os::ConnectionReader & connection)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_P1("connection = ", &connection);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("connection = ", &connection);//####
     bool result = false;
     
     try
@@ -108,18 +108,18 @@ bool InputHandler::read(yarp::os::ConnectionReader & connection)
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // InputHandler::read
 
 void InputHandler::stopProcessing(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     _canProcessInput = false;
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT();//####
 } // InputHandler::stopProcessing
 
 #if defined(__APPLE__)

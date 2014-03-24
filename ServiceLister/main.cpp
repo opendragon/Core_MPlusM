@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPBaseClient.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
@@ -81,8 +81,8 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
                                             yarp::os::ConstString &       canonicalName,
                                             yarp::os::ConstString &       description)
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_S1("aServicePort = ", aServicePort.c_str());//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("aServicePort = ", aServicePort.c_str());//####
     bool                  result = false;
     yarp::os::ConstString aName(YarpPlusPlus::GetRandomPortName("/servicelister/port_"));
     yarp::os::Port *      newPort = new yarp::os::Port();
@@ -99,14 +99,14 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
                 
                 if (request.send(*newPort, &response))
                 {
-                    OD_SYSLOG_S1("response <- ", response.asString().c_str());//####
+                    OD_LOG_S1("response <- ", response.asString().c_str());//####
                     if (YPP_EXPECTED_NAME_RESPONSE_SIZE == response.count())
                     {
                         yarp::os::Value theCanonicalName(response.element(0));
                         yarp::os::Value theDescription(response.element(1));
                         
-                        OD_SYSLOG_S2("theCanonicalName <- ", theCanonicalName.toString().c_str(),//####
-                                     "theDescription <- ", theDescription.toString().c_str());//####
+                        OD_LOG_S2("theCanonicalName <- ", theCanonicalName.toString().c_str(),//####
+                                  "theDescription <- ", theDescription.toString().c_str());//####
                         if (theCanonicalName.isString() && theDescription.isString())
                         {
                             canonicalName = theCanonicalName.toString();
@@ -115,40 +115,40 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
                         }
                         else
                         {
-                            OD_SYSLOG("! (theCanonicalName.isString() && theDescription.isString())");//####
+                            OD_LOG("! (theCanonicalName.isString() && theDescription.isString())");//####
                         }
                     }
                     else
                     {
-                        OD_SYSLOG("! (YPP_EXPECTED_NAME_RESPONSE_SIZE == response.count())");//####
+                        OD_LOG("! (YPP_EXPECTED_NAME_RESPONSE_SIZE == response.count())");//####
                     }
                 }
                 else
                 {
-                    OD_SYSLOG("! (request.send(*newPort, &response))");//####
+                    OD_LOG("! (request.send(*newPort, &response))");//####
                 }
                 if (! yarp::os::Network::disconnect(aName, aServicePort))
                 {
-                    OD_SYSLOG("(! yarp::os::Network::disconnect(aName, destinationName))");//####
+                    OD_LOG("(! yarp::os::Network::disconnect(aName, destinationName))");//####
                 }
             }
             else
             {
-                OD_SYSLOG("! (yarp::os::Network::connect(aName, destinationName))");//####
+                OD_LOG("! (yarp::os::Network::connect(aName, destinationName))");//####
             }
             newPort->close();
         }
         else
         {
-            OD_SYSLOG("! (newPort->open(portPath))");//####
+            OD_LOG("! (newPort->open(portPath))");//####
         }
         delete newPort;
     }
     else
     {
-        OD_SYSLOG("! (newPort)");//####
+        OD_LOG("! (newPort)");//####
     }
-    OD_SYSLOG_EXIT_B(result);//####
+    OD_LOG_EXIT_B(result);//####
     return result;
 } // getNameAndDescriptionForService
 
@@ -163,23 +163,23 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
 int main(int     argc,
          char ** argv)
 {
-#if defined(ENABLE_OD_SYSLOG)
+#if defined(OD_ENABLE_LOGGING)
 # pragma unused(argc)
-#else // ! defined(ENABLE_OD_SYSLOG)
+#else // ! defined(OD_ENABLE_LOGGING)
 # pragma unused(argc,argv)
-#endif // ! defined(ENABLE_OD_SYSLOG)
-    OD_SYSLOG_INIT(*argv, kODSyslogOptionIncludeProcessID | kODSyslogOptionIncludeThreadID |//####
-                   kODSyslogOptionEnableThreadSupport | kODSyslogOptionWriteToStderr);//####
-    OD_SYSLOG_ENTER();//####
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
+                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
+    OD_LOG_ENTER();//####
     try
     {
         if (yarp::os::Network::checkNetwork())
         {
-#if (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(1);
-#else // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(ENABLE_OD_SYSLOG) && defined(DEBUG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
             YarpPlusPlus::Initialize();
@@ -192,7 +192,7 @@ int main(int     argc,
                 
                 if (strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))
                 {
-                    OD_SYSLOG("(strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))");//####
+                    OD_LOG("(strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))");//####
                     yarp::os::ConstString reason(matches.get(1).toString());
                     
                     cerr << "Failed: " << reason.c_str() << "." << endl;
@@ -237,27 +237,27 @@ int main(int     argc,
                     }
                     else
                     {
-                        OD_SYSLOG("! (matchesList)");//####
+                        OD_LOG("! (matchesList)");//####
                     }
                 }
             }
             else
             {
-                OD_SYSLOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
+                OD_LOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
                 cerr << "Problem getting information from the Service Registry." << endl;
             }
         }
         else
         {
-            OD_SYSLOG("! (yarp::os::Network::checkNetwork())");//####
+            OD_LOG("! (yarp::os::Network::checkNetwork())");//####
             cerr << "YARP network not running." << endl;
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
     }
     yarp::os::Network::fini();
-    OD_SYSLOG_EXIT_L(0);//####
+    OD_LOG_EXIT_L(0);//####
     return 0;
 } // main

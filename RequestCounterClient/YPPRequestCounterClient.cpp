@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPRequestCounterClient.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPRequestCounterRequests.h"
 #include "YPPServiceResponse.h"
 
@@ -66,14 +66,14 @@ using namespace YarpPlusPlus;
 RequestCounterClient::RequestCounterClient(void) :
         inherited("requestcounter_")
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // RequestCounterClient::RequestCounterClient
 
 RequestCounterClient::~RequestCounterClient(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // RequestCounterClient::~RequestCounterClient
 
 #if defined(__APPLE__)
@@ -83,8 +83,8 @@ RequestCounterClient::~RequestCounterClient(void)
 bool RequestCounterClient::getServiceStatistics(long &   counter,
                                                 double & elapsedTime)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_P2("counter = ", &counter, "elapsedTime = ", &elapsedTime);//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P2("counter = ", &counter, "elapsedTime = ", &elapsedTime);//####
     bool okSoFar = false;
     
     try
@@ -107,31 +107,31 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
                 }
                 else
                 {
-                    OD_SYSLOG("! (retrievedCounter.isInt() && retrievedElapsed.isDouble())");//####
+                    OD_LOG("! (retrievedCounter.isInt() && retrievedElapsed.isDouble())");//####
                 }
             }
             else
             {
-                OD_SYSLOG("! (2 == response.count())");//####
+                OD_LOG("! (2 == response.count())");//####
             }
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_STATS_REQUEST, parameters, &response))");//####
+            OD_LOG("! (send(YPP_STATS_REQUEST, parameters, &response))");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
+    OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RequestCounterClient::getServiceStatistics
 
 bool RequestCounterClient::pokeService(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool okSoFar = false;
     
     try
@@ -144,21 +144,21 @@ bool RequestCounterClient::pokeService(void)
         }
         else
         {
-            OD_SYSLOG("! (send(\"blarg_blerg_blirg_blorg_blurg\", parameters))");//####
+            OD_LOG("! (send(\"blarg_blerg_blirg_blorg_blurg\", parameters))");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
+    OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RequestCounterClient::pokeService
 
 bool RequestCounterClient::resetServiceCounters(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     bool okSoFar = false;
     
     try
@@ -171,15 +171,15 @@ bool RequestCounterClient::resetServiceCounters(void)
         }
         else
         {
-            OD_SYSLOG("! (send(YPP_RESET_REQUEST, parameters))");//####
+            OD_LOG("! (send(YPP_RESET_REQUEST, parameters))");//####
         }
     }
     catch (...)
     {
-        OD_SYSLOG("Exception caught");//####
+        OD_LOG("Exception caught");//####
         throw;
     }
-    OD_SYSLOG_OBJEXIT_B(okSoFar);//####
+    OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RequestCounterClient::resetServiceCounters
 

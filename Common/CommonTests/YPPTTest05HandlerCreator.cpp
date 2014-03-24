@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPTTest05HandlerCreator.h"
-//#define ENABLE_OD_SYSLOG /* */
-#include "ODSyslog.h"
+//#define OD_ENABLE_LOGGING /* */
+#include "ODLogging.h"
 #include "YPPTTest05Handler.h"
 
 using namespace YarpPlusPlusTest;
@@ -65,14 +65,14 @@ using namespace YarpPlusPlusTest;
 Test05HandlerCreator::Test05HandlerCreator(void) :
         inherited()
 {
-    OD_SYSLOG_ENTER();//####
-    OD_SYSLOG_EXIT_P(this);//####
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
 } // Test05HandlerCreator::Test05HandlerCreator
 
 Test05HandlerCreator::~Test05HandlerCreator(void)
 {
-    OD_SYSLOG_OBJENTER();//####
-    OD_SYSLOG_OBJEXIT();//####
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
 } // Test05HandlerCreator::~Test05HandlerCreator
 
 #if defined(__APPLE__)
@@ -81,10 +81,10 @@ Test05HandlerCreator::~Test05HandlerCreator(void)
 
 YarpPlusPlus::InputHandler * Test05HandlerCreator::create(void)
 {
-    OD_SYSLOG_OBJENTER();//####
+    OD_LOG_OBJENTER();//####
     Test05Handler * result = new Test05Handler;
 
-    OD_SYSLOG_OBJEXIT_P(result);//####
+    OD_LOG_OBJEXIT_P(result);//####
     return result;
 } // Test05HandlerCreator::create
 
