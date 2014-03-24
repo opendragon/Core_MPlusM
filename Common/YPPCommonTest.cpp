@@ -139,7 +139,7 @@ static yarp::os::Port * doCreateTestPort(const yarp::os::ConstString & destinati
     OD_LOG_ENTER();//####
     OD_LOG_S2("destinationName = ", destinationName.c_str(), "portPath = ", portPath);//####
     yarp::os::ConstString aName(GetRandomPortName(portPath));
-    yarp::os::Port *      newPort = new yarp::os::Port();
+    yarp::os::Port *      newPort = new yarp::os::Port;
     
     if (newPort)
     {
@@ -278,7 +278,7 @@ static int doTestConnectToEndpoint(const int argc,
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
                 yarp::os::ConstString aName(GetRandomPortName("test/connecttoendpoint_"));
-                yarp::os::Port *      outPort = new yarp::os::Port();
+                yarp::os::Port *      outPort = new yarp::os::Port;
                 
                 if (outPort)
                 {
@@ -359,7 +359,7 @@ static int doTestWriteToEndpoint(const int argc,
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
                 yarp::os::ConstString aName(GetRandomPortName("test/writetoendpoint_"));
-                yarp::os::Port *      outPort = new yarp::os::Port();
+                yarp::os::Port *      outPort = new yarp::os::Port;
                 
                 if (outPort)
                 {
@@ -453,7 +453,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
                 yarp::os::ConstString aName(GetRandomPortName("test/echofromendpointwithreader_"));
-                yarp::os::Port *      outPort = new yarp::os::Port();
+                yarp::os::Port *      outPort = new yarp::os::Port;
                 
                 if (outPort)
                 {
@@ -549,7 +549,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
                 yarp::os::ConstString aName(GetRandomPortName("test/echofromendpointwithreadercreator_"));
-                yarp::os::Port *      outPort = new yarp::os::Port();
+                yarp::os::Port *      outPort = new yarp::os::Port;
                 
                 if (outPort)
                 {

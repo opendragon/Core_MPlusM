@@ -253,7 +253,7 @@ int main(int     argc,
                         if (matchesCount)
                         {
                             yarp::os::ConstString aName(YarpPlusPlus::GetRandomPortName("/requestinfo/port_"));
-                            yarp::os::Port *      newPort = new yarp::os::Port();
+                            yarp::os::Port *      newPort = new yarp::os::Port;
                             
                             if (newPort)
                             {

@@ -156,7 +156,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::Bottle &      restOf
                     {
                         // Send a 'list' request to the port
                         yarp::os::ConstString aName(GetRandomPortName("register/port_"));
-                        yarp::os::Port *      outPort = new yarp::os::Port();
+                        yarp::os::Port *      outPort = new yarp::os::Port;
                         
                         if (outPort)
                         {

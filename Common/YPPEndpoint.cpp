@@ -216,7 +216,7 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
             if (checkHostName(_contact, hostName, realPort))
             {
                 // Ready to be set up... we have a valid port, and either a blank URI or a valid one.
-                _port = new yarp::os::Port();
+                _port = new yarp::os::Port;
                 if (! _port)
                 {
                     OD_LOG_EXIT_THROW_S("Could not create port");//####

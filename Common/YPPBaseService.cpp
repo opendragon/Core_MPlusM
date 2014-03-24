@@ -432,7 +432,7 @@ bool YarpPlusPlus::RegisterLocalService(const yarp::os::ConstString & portName)
     try
     {
         yarp::os::ConstString aName(GetRandomPortName("/registerlocal/port_"));
-        yarp::os::Port *      newPort = new yarp::os::Port();
+        yarp::os::Port *      newPort = new yarp::os::Port;
         
         if (newPort)
         {

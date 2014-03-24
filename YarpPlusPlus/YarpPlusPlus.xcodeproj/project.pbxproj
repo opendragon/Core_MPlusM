@@ -183,6 +183,12 @@
 		DFA3438418C91E220053B87C /* YPPRandomRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRandomRequestHandler.h; path = ../ExampleRandomNumberService/YPPRandomRequestHandler.h; sourceTree = SOURCE_ROOT; };
 		DFA86D1C18E0D3AE00A22941 /* YPPColumnNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPColumnNameValidator.cpp; path = ../RegistryService/YPPColumnNameValidator.cpp; sourceTree = SOURCE_ROOT; };
 		DFA86D1D18E0D3AE00A22941 /* YPPColumnNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPColumnNameValidator.h; path = ../RegistryService/YPPColumnNameValidator.h; sourceTree = SOURCE_ROOT; };
+		DFA86D1F18E0E0C300A22941 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ExampleRunningSumAdapter/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFA86D2018E0E0C300A22941 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../ExampleRunningSumAdapter/main.cpp; sourceTree = SOURCE_ROOT; };
+		DFA86D2118E0E5FD00A22941 /* YPPExampleRunningSumControlInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPExampleRunningSumControlInputHandler.cpp; path = ../ExampleRunningSumAdapter/YPPExampleRunningSumControlInputHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DFA86D2218E0E5FD00A22941 /* YPPExampleRunningSumControlInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPExampleRunningSumControlInputHandler.h; path = ../ExampleRunningSumAdapter/YPPExampleRunningSumControlInputHandler.h; sourceTree = SOURCE_ROOT; };
+		DFA86D2318E0E8E700A22941 /* YPPExampleRunningSumDataInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPExampleRunningSumDataInputHandler.cpp; path = ../ExampleRunningSumAdapter/YPPExampleRunningSumDataInputHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DFA86D2418E0E8E700A22941 /* YPPExampleRunningSumDataInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPExampleRunningSumDataInputHandler.h; path = ../ExampleRunningSumAdapter/YPPExampleRunningSumDataInputHandler.h; sourceTree = SOURCE_ROOT; };
 		DFF9E67218E0C66C008EC0DD /* YPPBaseNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPBaseNameValidator.cpp; path = ../Parser/YPPBaseNameValidator.cpp; sourceTree = SOURCE_ROOT; };
 		DFF9E67318E0C66C008EC0DD /* YPPBaseNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseNameValidator.h; path = ../Parser/YPPBaseNameValidator.h; sourceTree = SOURCE_ROOT; };
 		DFF9E67418E0CBDE008EC0DD /* YPPTestNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTestNameValidator.cpp; path = ../Parser/YPPTestNameValidator.cpp; sourceTree = SOURCE_ROOT; };
@@ -327,6 +333,7 @@
 				DFA3431B18C91BD10053B87C /* ExampleEchoService */,
 				DFA3437E18C91E040053B87C /* ExampleRandomNumberClient */,
 				DFA3438518C91E2C0053B87C /* ExampleRandomNumberService */,
+				DFA86D1E18E0E09E00A22941 /* ExampleRunningSumAdapter */,
 				DF2092E918D8F6110093D3DC /* ExampleRunningSumClient */,
 				DF2092D918D8DFE60093D3DC /* ExampleRunningSumService */,
 				DF27F42718CA357400E93C95 /* Parser */,
@@ -502,6 +509,19 @@
 				DFA3438418C91E220053B87C /* YPPRandomRequestHandler.h */,
 			);
 			name = ExampleRandomNumberService;
+			sourceTree = "<group>";
+		};
+		DFA86D1E18E0E09E00A22941 /* ExampleRunningSumAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				DFA86D1F18E0E0C300A22941 /* CMakeLists.txt */,
+				DFA86D2018E0E0C300A22941 /* main.cpp */,
+				DFA86D2118E0E5FD00A22941 /* YPPExampleRunningSumControlInputHandler.cpp */,
+				DFA86D2218E0E5FD00A22941 /* YPPExampleRunningSumControlInputHandler.h */,
+				DFA86D2318E0E8E700A22941 /* YPPExampleRunningSumDataInputHandler.cpp */,
+				DFA86D2418E0E8E700A22941 /* YPPExampleRunningSumDataInputHandler.h */,
+			);
+			name = ExampleRunningSumAdapter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

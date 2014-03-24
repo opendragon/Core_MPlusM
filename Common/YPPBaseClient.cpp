@@ -177,7 +177,7 @@ bool BaseClient::connectToService(void)
         if (! _clientPort)
         {
             _clientPortName = GetRandomPortName(_basePortName);
-            _clientPort = new yarp::os::Port();
+            _clientPort = new yarp::os::Port;
         }
         if (_clientPort)
         {
@@ -350,7 +350,7 @@ yarp::os::Bottle YarpPlusPlus::FindMatchingServices(const char * criteria)
     try
     {
         yarp::os::ConstString aName(GetRandomPortName("/findmatch/port_"));
-        yarp::os::Port *      newPort = new yarp::os::Port();
+        yarp::os::Port *      newPort = new yarp::os::Port;
         
         if (newPort)
         {

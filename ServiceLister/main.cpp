@@ -85,7 +85,7 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
     OD_LOG_S1("aServicePort = ", aServicePort.c_str());//####
     bool                  result = false;
     yarp::os::ConstString aName(YarpPlusPlus::GetRandomPortName("/servicelister/port_"));
-    yarp::os::Port *      newPort = new yarp::os::Port();
+    yarp::os::Port *      newPort = new yarp::os::Port;
     
     if (newPort)
     {

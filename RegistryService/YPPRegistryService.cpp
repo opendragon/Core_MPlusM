@@ -1084,7 +1084,7 @@ bool RegistryService::start(void)
             {
                 // Register ourselves!!!
                 yarp::os::ConstString aName(GetRandomPortName(YPP_SERVICE_REGISTRY_PORT_NAME "/temp_"));
-                yarp::os::Port *      newPort = new yarp::os::Port();
+                yarp::os::Port *      newPort = new yarp::os::Port;
                 
                 if (newPort)
                 {
