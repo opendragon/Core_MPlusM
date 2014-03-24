@@ -108,9 +108,9 @@ void AddRequestHandler::fillInDescription(yarp::os::Property & info)
     OD_LOG_OBJEXIT();//####
 } // AddRequestHandler::fillInDescription
 
-bool AddRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
-                                    const yarp::os::ConstString & senderPort,
-                                    yarp::os::ConnectionWriter *  replyMechanism)
+bool AddRequestHandler::processRequest(const yarp::os::Bottle &      restOfInput,
+                                       const yarp::os::ConstString & senderPort,
+                                       yarp::os::ConnectionWriter *  replyMechanism)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
@@ -156,7 +156,7 @@ bool AddRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // AddRequestHandler::operator()
+} // AddRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors

@@ -46,6 +46,8 @@
 
 namespace YarpPlusPlusParser
 {
+    class BaseNameValidator;
+    
     /*! @brief A pattern matcher for field names. */
     class MatchFieldName : public BaseMatcher
     {
@@ -81,7 +83,7 @@ namespace YarpPlusPlusParser
                                               const int                     inLength,
                                               const int                     startPos,
                                               int &                         endPos,
-                                              FieldNameValidator            validator = NULL);
+                                              BaseNameValidator *           validator = NULL);
         
     protected:
         

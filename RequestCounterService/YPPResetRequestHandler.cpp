@@ -106,9 +106,9 @@ void ResetRequestHandler::fillInDescription(yarp::os::Property & info)
     OD_LOG_OBJEXIT();//####
 } // ResetRequestHandler::fillInDescription
 
-bool ResetRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
-                                      const yarp::os::ConstString & senderPort,
-                                      yarp::os::ConnectionWriter *  replyMechanism)
+bool ResetRequestHandler::processRequest(const yarp::os::Bottle &      restOfInput,
+                                         const yarp::os::ConstString & senderPort,
+                                         yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(restOfInput,senderPort)
@@ -135,7 +135,7 @@ bool ResetRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // ResetRequestHandler::operator()
+} // ResetRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors

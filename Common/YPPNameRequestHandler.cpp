@@ -109,9 +109,9 @@ void NameRequestHandler::fillInDescription(yarp::os::Property & info)
     OD_LOG_OBJEXIT();//####
 } // NameRequestHandler::fillInDescription
 
-bool NameRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
-                                     const yarp::os::ConstString & senderPort,
-                                     yarp::os::ConnectionWriter *  replyMechanism)
+bool NameRequestHandler::processRequest(const yarp::os::Bottle &      restOfInput,
+                                        const yarp::os::ConstString & senderPort,
+                                        yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(restOfInput,senderPort)
@@ -140,7 +140,7 @@ bool NameRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // NameRequestHandler::operator()
+} // NameRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors

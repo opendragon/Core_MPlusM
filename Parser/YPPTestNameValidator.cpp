@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPStopRequestHandler.cpp
+//  File:       YPPTestNameValidator.cpp
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class definition for the request handler for a 'stop' request.
+//  Contains:   The class definition for the minimal functionality required for a Yarp++
+//              field name matcher.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,24 +36,37 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-18
+//  Created:    2014-03-24
 //
 //--------------------------------------------------------------------------------------
 
-#include "YPPStopRequestHandler.h"
+#include "YPPTestNameValidator.h"
 //#define OD_ENABLE_LOGGING /* */
 #include "ODLogging.h"
-#include "YPPExampleRunningSumRequests.h"
-#include "YPPExampleRunningSumService.h"
+#include <cstring>
 
-using namespace YarpPlusPlusExample;
+using namespace YarpPlusPlusTest;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'stop' request. */
-#define STOP_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief the valid field names that may be used. Note that the strings are all lower-case for comparison purposes. */
+static const char * kFieldNames[] =
+{
+    "description",
+    "details",
+    "input",
+    "keyword",
+    "name",
+    "output",
+    "portname",
+    "request",
+    "version"
+}; // kFieldNames
+
+/*! @brief The number of valid field names. */
+static const size_t kFieldNamesCount = (sizeof(kFieldNames) / sizeof(*kFieldNames));
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -66,66 +80,39 @@ using namespace YarpPlusPlusExample;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-StopRequestHandler::StopRequestHandler(ExampleRunningSumService & service) :
-        inherited(YPP_STOP_REQUEST), _service(service)
+TestNameValidator::TestNameValidator(void) :
+        inherited()
 {
     OD_LOG_ENTER();//####
-    OD_LOG_P1("service = ", &service);//####
     OD_LOG_EXIT_P(this);//####
-} // StopRequestHandler::StopRequestHandler
+} // TestNameValidator::TestNameValidator
 
-StopRequestHandler::~StopRequestHandler(void)
+TestNameValidator::~TestNameValidator(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // StopRequestHandler::~StopRequestHandler
+} // TestNameValidator::~TestNameValidator
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void StopRequestHandler::fillInDescription(yarp::os::Property & info)
+bool TestNameValidator::checkName(const char * aString)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("aString = ", aString);//####
+    bool result = false;
+    
     try
     {
-        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_STOP_REQUEST);
-        info.put(YPP_REQREP_DICT_VERSION_KEY, STOP_REQUEST_VERSION_NUMBER);
-        info.put(YPP_REQREP_DICT_DETAILS_KEY, "Stop the running sum");
-        yarp::os::Value    keywords;
-        yarp::os::Bottle * asList = keywords.asList();
-        
-        asList->addString(YPP_STOP_REQUEST);
-        info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // StopRequestHandler::fillInDescription
-
-bool StopRequestHandler::processRequest(const yarp::os::Bottle &      restOfInput,
-                                        const yarp::os::ConstString & senderPort,
-                                        yarp::os::ConnectionWriter *  replyMechanism)
-{
-#if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(restOfInput)
-#endif // ! defined(OD_ENABLE_LOGGING)
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
-    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
-    bool result = true;
-
-    try
-    {
-        _service.stopSum(senderPort);
-        if (replyMechanism)
+        for (size_t ii = 0; ii < kFieldNamesCount; ++ii)
         {
-            yarp::os::Bottle response(YPP_OK_RESPONSE);
+            if (! strcmp(aString, kFieldNames[ii]))
+            {
+                result = true;
+                break;
+            }
             
-            response.write(*replyMechanism);
         }
     }
     catch (...)
@@ -133,9 +120,41 @@ bool StopRequestHandler::processRequest(const yarp::os::Bottle &      restOfInpu
         OD_LOG("Exception caught");//####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_EXIT_B(result);//####
     return result;
-} // StopRequestHandler::processRequest
+} // TestNameValidator::checkName
+
+const char * TestNameValidator::getPrefixAndSuffix(const char *  aString,
+                                                   const char *& prefixString,
+                                                   const char *& suffixString)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("aString = ", aString);//####
+    OD_LOG_P2("prefixString = ", &prefixString, "suffixString = ", &suffixString);//####
+    const char * result = NULL;
+    
+    try
+    {
+        for (size_t ii = 0; ii < kFieldNamesCount; ++ii)
+        {
+            if (! strcmp(aString, kFieldNames[ii]))
+            {
+                result = kFieldNames[ii];
+                break;
+            }
+            
+        }
+        prefixString = NULL;
+        suffixString = NULL;
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_EXIT_P(result);//####
+    return result;
+} // TestNameValidator::getPrefixAndSuffix
 
 #if defined(__APPLE__)
 # pragma mark Accessors

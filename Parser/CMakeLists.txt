@@ -48,6 +48,7 @@ include_directories("${YPP_COMMON_DIR}"
 
 add_library(YPPParser
             YPPBaseMatcher.cpp
+            YPPBaseNameValidator.cpp
             YPPMatchConstraint.cpp
             YPPMatchExpression.cpp
             YPPMatchFieldName.cpp
@@ -61,7 +62,8 @@ install(FILES YPPParser DESTINATION include)
 enable_testing()
 
 add_executable(ParserTest
-               YPPParserTest.cpp)
+               YPPParserTest.cpp
+               YPPTestNameValidator.cpp)
 
 target_link_libraries(ParserTest
                       YPPDebugging

@@ -46,6 +46,7 @@
 
 namespace YarpPlusPlusParser
 {
+    class BaseNameValidator;
     class MatchFieldName;
     class MatchValue;
     class MatchValueList;
@@ -79,7 +80,7 @@ namespace YarpPlusPlusParser
                                                     const int                     inLength,
                                                     const int                     startPos,
                                                     int &                         endPos,
-                                                    FieldNameValidator            validator = NULL);
+                                                    BaseNameValidator *           validator = NULL);
         
     protected:
         
@@ -92,17 +93,17 @@ namespace YarpPlusPlusParser
          @param validator A function that returns @c true if the field name is valid and @c false otherwise.
          @param fieldName The name of the field.
          @param asSingle The value for the field. */
-        MatchFieldWithValues(FieldNameValidator validator,
-                             MatchFieldName *   fieldName,
-                             MatchValue *       asSingle);
+        MatchFieldWithValues(BaseNameValidator * validator,
+                             MatchFieldName *    fieldName,
+                             MatchValue *        asSingle);
         
         /*! @brief The constructor.
          @param validator A function that returns @c true if the field name is valid and @c false otherwise.
          @param fieldName The name of the field.
          @param asList The list of values for the field. */
-        MatchFieldWithValues(FieldNameValidator validator,
-                             MatchFieldName *   fieldName,
-                             MatchValueList *   asList);
+        MatchFieldWithValues(BaseNameValidator * validator,
+                             MatchFieldName *    fieldName,
+                             MatchValueList *    asList);
 
         /*! @brief Copy constructor.
          
@@ -116,14 +117,14 @@ namespace YarpPlusPlusParser
          @param other Another object to construct from. */
         MatchFieldWithValues & operator=(const MatchFieldWithValues & other);
         
-        /*! @brief The validator function that was used for this field. */
-        FieldNameValidator _validator;
+        /*! @brief The validator function object that was used for this field. */
+        BaseNameValidator * _validator;
         /*! @brief The field name. */
-        MatchFieldName *   _fieldName;
+        MatchFieldName *    _fieldName;
         /*! @brief The value, if a single value is present. */
-        MatchValue *       _singleValue;
+        MatchValue *        _singleValue;
         /*! @brief The list of values, if more than one value is present. */
-        MatchValueList *   _values;
+        MatchValueList *    _values;
         
     }; // MatchFieldWithValues
     

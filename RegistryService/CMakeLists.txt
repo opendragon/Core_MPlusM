@@ -50,6 +50,7 @@ include_directories("${YPP_DEBUGGING_DIR}"
 # set up our program
 add_executable(RegistryService
                main.cpp
+               YPPColumnNameValidator.cpp
                YPPMatchRequestHandler.cpp
                YPPRegisterRequestHandler.cpp
                YPPRegistryService.cpp
@@ -66,6 +67,7 @@ enable_testing()
 
 add_executable(RegistryTest
                YPPRegistryTest.cpp
+               YPPColumnNameValidator.cpp
                YPPMatchRequestHandler.cpp
                YPPRegisterRequestHandler.cpp
                YPPRegistryService.cpp
@@ -78,7 +80,7 @@ target_link_libraries(RegistryTest
                       YPPRegistryTestSupport
                       ${YARP_LIBRARIES})
 
-# Test register request
+# Test create register service
 add_test(NAME TestCreateRegisterService1 COMMAND RegistryTest 13)
 add_test(NAME TestCreateRegisterService2 COMMAND RegistryTest 13 "localhost")
 add_test(NAME TestCreateRegisterService3 COMMAND RegistryTest 13 "localhost" "12340")

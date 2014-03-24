@@ -125,9 +125,9 @@ void RegisterRequestHandler::fillInDescription(yarp::os::Property & info)
     OD_LOG_OBJEXIT();//####
 } // RegisterRequestHandler::fillInDescription
 
-bool RegisterRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
-                                         const yarp::os::ConstString & senderPort,
-                                         yarp::os::ConnectionWriter *  replyMechanism)
+bool RegisterRequestHandler::processRequest(const yarp::os::Bottle &      restOfInput,
+                                            const yarp::os::ConstString & senderPort,
+                                            yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(senderPort)
@@ -262,7 +262,7 @@ bool RegisterRequestHandler::operator() (const yarp::os::Bottle &      restOfInp
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RegisterRequestHandler::operator()
+} // RegisterRequestHandler::processRequest
 
 bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & portName,
                                                  const ServiceResponse &       response)

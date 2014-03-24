@@ -47,6 +47,7 @@
 
 namespace YarpPlusPlusParser
 {
+    class BaseNameValidator;
     class MatchConstraint;
     
     /*! @brief A pattern matcher for expressions. */
@@ -91,7 +92,7 @@ namespace YarpPlusPlusParser
                                                const int                     inLength,
                                                const int                     startPos,
                                                int &                         endPos,
-                                               FieldNameValidator            validator = NULL);
+                                               BaseNameValidator *           validator = NULL);
         
         /*! @brief The character used between expression list elements.
          @returns The character that separates expression list elements. */

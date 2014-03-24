@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPStopRequestHandler.cpp
+//  File:       YPPBaseNameValidator.cpp
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class definition for the request handler for a 'stop' request.
+//  Contains:   The class definition for the minimal functionality required for a Yarp++
+//              field name matcher.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,24 +36,20 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-18
+//  Created:    2014-03-24
 //
 //--------------------------------------------------------------------------------------
 
-#include "YPPStopRequestHandler.h"
+#include "YPPBaseNameValidator.h"
 //#define OD_ENABLE_LOGGING /* */
 #include "ODLogging.h"
-#include "YPPExampleRunningSumRequests.h"
-#include "YPPExampleRunningSumService.h"
+#include <cctype>
 
-using namespace YarpPlusPlusExample;
+using namespace YarpPlusPlusParser;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-/*! @brief The protocol version number for the 'stop' request. */
-#define STOP_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -66,76 +63,21 @@ using namespace YarpPlusPlusExample;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-StopRequestHandler::StopRequestHandler(ExampleRunningSumService & service) :
-        inherited(YPP_STOP_REQUEST), _service(service)
+BaseNameValidator::BaseNameValidator(void)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_P1("service = ", &service);//####
     OD_LOG_EXIT_P(this);//####
-} // StopRequestHandler::StopRequestHandler
+} // BaseNameValidator::BaseNameValidator
 
-StopRequestHandler::~StopRequestHandler(void)
+BaseNameValidator::~BaseNameValidator(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // StopRequestHandler::~StopRequestHandler
+} // BaseNameValidator::~BaseNameValidator
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
-
-void StopRequestHandler::fillInDescription(yarp::os::Property & info)
-{
-    OD_LOG_OBJENTER();//####
-    try
-    {
-        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_STOP_REQUEST);
-        info.put(YPP_REQREP_DICT_VERSION_KEY, STOP_REQUEST_VERSION_NUMBER);
-        info.put(YPP_REQREP_DICT_DETAILS_KEY, "Stop the running sum");
-        yarp::os::Value    keywords;
-        yarp::os::Bottle * asList = keywords.asList();
-        
-        asList->addString(YPP_STOP_REQUEST);
-        info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // StopRequestHandler::fillInDescription
-
-bool StopRequestHandler::processRequest(const yarp::os::Bottle &      restOfInput,
-                                        const yarp::os::ConstString & senderPort,
-                                        yarp::os::ConnectionWriter *  replyMechanism)
-{
-#if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(restOfInput)
-#endif // ! defined(OD_ENABLE_LOGGING)
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
-    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
-    bool result = true;
-
-    try
-    {
-        _service.stopSum(senderPort);
-        if (replyMechanism)
-        {
-            yarp::os::Bottle response(YPP_OK_RESPONSE);
-            
-            response.write(*replyMechanism);
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(result);//####
-    return result;
-} // StopRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors

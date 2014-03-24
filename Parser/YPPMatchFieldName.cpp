@@ -42,6 +42,7 @@
 #include "YPPMatchFieldName.h"
 //#define OD_ENABLE_LOGGING /* */
 #include "ODLogging.h"
+#include "YPPBaseNameValidator.h"
 #include "YPPMatchValueList.h"
 #include <cctype>
 #include <cstdlib>
@@ -68,7 +69,7 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
                                                const int                     inLength,
                                                const int                     startPos,
                                                int &                         endPos,
-                                               FieldNameValidator            validator)
+                                               BaseNameValidator *           validator)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("inString = ", inString.c_str());//####
@@ -112,7 +113,7 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
                         {
                             tempAsChars[ii] = static_cast<char>(tolower(tempAsChars[ii]));
                         }
-                        if (validator(tempAsChars, NULL, NULL))
+                        if (validator->checkName(tempAsChars))
                         {
                             result = new MatchFieldName(tempAsChars);
                         }

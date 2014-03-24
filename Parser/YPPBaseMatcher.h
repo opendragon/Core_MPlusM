@@ -47,16 +47,6 @@
 
 namespace YarpPlusPlusParser
 {
-    /*! @brief A function that checks field names for validity.
-     @param aString The string to be checked.
-     @param prefixString If non-@c NULL, a pointer to the string to be used in the SQL prefix for this field.
-     @param suffixString If non-@c NULL, a pointer to the string to be used in the SQL suffix for this field.
-     @returns The actual field name to be used or @c NULL if the field name was unmatched. */
-    typedef const char * (*FieldNameValidator)
-        (const char *   aString,
-         const char **  prefixString,
-         const char **  suffixString);
-    
     /*! @brief The common functionality for pattern matchers. */
     class BaseMatcher
     {

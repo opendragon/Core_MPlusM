@@ -65,7 +65,7 @@ MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & i
                                                  const int                     inLength,
                                                  const int                     startPos,
                                                  int &                         endPos,
-                                                 FieldNameValidator            validator)
+                                                 BaseNameValidator *           validator)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("inString = ", inString.c_str());//####

@@ -252,7 +252,7 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
         if (handler)
         {
             OD_LOG("(handler)");//####
-            result = (*handler) (restOfInput, senderPort, replyMechanism);
+            result = handler->processRequest(restOfInput, senderPort, replyMechanism);
         }
         else
         {

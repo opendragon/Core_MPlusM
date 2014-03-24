@@ -106,9 +106,9 @@ void StatsRequestHandler::fillInDescription(yarp::os::Property & info)
     OD_LOG_OBJEXIT();//####
 } // StatsRequestHandler::fillInDescription
 
-bool StatsRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
-                                      const yarp::os::ConstString & senderPort,
-                                      yarp::os::ConnectionWriter *  replyMechanism)
+bool StatsRequestHandler::processRequest(const yarp::os::Bottle &      restOfInput,
+                                         const yarp::os::ConstString & senderPort,
+                                         yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(restOfInput,senderPort)
@@ -139,7 +139,7 @@ bool StatsRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // StatsRequestHandler::operator()
+} // StatsRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors

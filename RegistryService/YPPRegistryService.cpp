@@ -42,6 +42,7 @@
 #include "YPPRegistryService.h"
 //#define OD_ENABLE_LOGGING /* */
 #include "ODLogging.h"
+#include "YPPColumnNameValidator.h"
 #include "YPPMatchRequestHandler.h"
 #include "YPPRegisterRequestHandler.h"
 #include "YPPRequests.h"
@@ -79,15 +80,6 @@ using namespace YarpPlusPlus;
 
 //#define USE_TEST_DATABASE /* */
 
-/*! @brief The name of the 'keywords' table. */
-#define KEYWORDS_T_         "Keywords"
-/*! @brief The name of the 'requests' table. */
-#define REQUESTS_T_         "Requests"
-/*! @brief The name of the 'requests-keywords' table. */
-#define REQUESTSKEYWORDS_T_ "RequestsKeywords"
-/*! @brief The name of the 'services' table. */
-#define SERVICES_T_         "Services"
-
 /*! @brief The name of the index for the 'portName' column of the 'requests' table. */
 #define REQUESTS_PORTNAME_I_            "Requests_portname_idx"
 /*! @brief The name of the index for the 'requests' column of the 'requests' table. */
@@ -98,31 +90,6 @@ using namespace YarpPlusPlus;
 #define REQUESTSKEYWORDS_REQUESTS_ID_I_ "RequestsKeywords_Requests_id_idx"
 /*! @brief The name of the index for the 'name' column of the 'services' table. */
 #define SERVICES_NAME_I_                "Services_name_idx"
-
-/*! @brief The named parameter for the 'details' column. */
-#define DESCRIPTION_C_ "description"
-/*! @brief The named parameter for the 'details' column. */
-#define DETAILS_C_     "details"
-/*! @brief The named parameter for the 'input' column. */
-#define INPUT_C_       "input"
-/*! @brief The named parameter for the 'key' column. */
-#define KEY_C_         "key"
-/*! @brief The named parameter for the 'keyword' column. */
-#define KEYWORD_C_     "keyword"
-/*! @brief The named parameter for the 'Keywords_id' column. */
-#define KEYWORDS_ID_C_ "keywords_id"
-/*! @brief The named parameter for the 'name' column. */
-#define NAME_C_        "name"
-/*! @brief The named parameter for the 'output' column. */
-#define OUTPUT_C_      "output"
-/*! @brief The named parameter for the 'portName' column. */
-#define PORTNAME_C_    "portname"
-/*! @brief The named parameter for the 'request' column. */
-#define REQUEST_C_     "request"
-/*! @brief The named parameter for the 'Keywords_id' column. */
-#define REQUESTS_ID_C_ "requests_id"
-/*! @brief The named parameter for the 'version' column. */
-#define VERSION_C_     "version"
 
 /*! @brief The command to initiate an SQL transaction. */
 static const char * kBeginTransaction = "BEGIN TRANSACTION";
@@ -170,84 +137,9 @@ namespace YarpPlusPlus
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief The prefix to be used when generating SQL for a 'description' request. */
-#define DESCRIPTION_PREFIX_ PORTNAME_C_ " IN (SELECT DISTINCT " PORTNAME_C_ " FROM " SERVICES_T_ " WHERE "
-/*! @brief The suffix to be used when generating SQL for a 'description' request. */
-#define DESCRIPTION_SUFFIX_ ")"
-/*! @brief The prefix to be used when generating SQL for a 'keyword' request. */
-#define KEYWORD_PREFIX_     "KEY IN (SELECT DISTINCT " REQUESTS_ID_C_ " FROM " REQUESTSKEYWORDS_T_ " WHERE "
-/*! @brief The suffix to be used when generating SQL for a 'keyword' request. */
-#define KEYWORD_SUFFIX_     ")"
-/*! @brief The prefix to be used when generating SQL for a 'name' request. */
-#define NAME_PREFIX_        PORTNAME_C_ " IN (SELECT DISTINCT " PORTNAME_C_ " FROM " SERVICES_T_ " WHERE "
-/*! @brief The suffix to be used when generating SQL for a 'name' request. */
-#define NAME_SUFFIX_        ")"
-
-/*! @brief the valid field names that may be used. Note that the strings are all lower-case for comparison purposes. */
-static const char * kColumnNames[] =
-{
-    // Name to match   Name to use     Prefix to be used    Suffix to be used
-    DESCRIPTION_C_, DESCRIPTION_C_, DESCRIPTION_PREFIX_, DESCRIPTION_SUFFIX_,
-    DETAILS_C_,     DETAILS_C_,     NULL,                NULL,
-    INPUT_C_,       INPUT_C_,       NULL,                NULL,
-    KEYWORD_C_,     KEYWORDS_ID_C_, KEYWORD_PREFIX_,     KEYWORD_SUFFIX_,
-    NAME_C_,        NAME_C_,        NAME_PREFIX_,        NAME_SUFFIX_,
-    OUTPUT_C_,      OUTPUT_C_,      NULL,                NULL,
-    PORTNAME_C_,    PORTNAME_C_,    NULL,                NULL,
-    REQUEST_C_,     REQUEST_C_,     NULL,                NULL,
-    VERSION_C_,     VERSION_C_,     NULL,                NULL
-}; // kColumnNames
-
-/*! @brief The number of valid field names. */
-static const size_t kColumnNamesCount = (sizeof(kColumnNames) / sizeof(*kColumnNames));
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
-
-/*! @brief Check a candidate field name against the list of legal field names.
- @param aString The string to be checked.
- @param prefixString If non-@c NULL, a pointer to the string to be used in the SQL prefix for this field.
- @param suffixString If non-@c NULL, a pointer to the string to be used in the SQL suffix for this field.
- @returns The actual field name to be used or @c NULL if the field name was unmatched. */
-static const char * columnNameValidator(const char *  aString,
-                                        const char ** prefixString,
-                                        const char ** suffixString)
-{
-    const char * result = NULL;
-    
-    try
-    {
-        const char * resultPrefix = NULL;
-        const char * resultSuffix = NULL;
-
-        for (size_t ii = 0; ii < kColumnNamesCount; ii += 4)
-        {
-            if (! strcmp(aString, kColumnNames[ii]))
-            {
-                result = kColumnNames[ii + 1];
-                resultPrefix = kColumnNames[ii + 2];
-                resultSuffix = kColumnNames[ii + 3];
-                break;
-            }
-            
-        }
-        if (prefixString)
-        {
-            *prefixString = resultPrefix;
-        }
-        if (suffixString)
-        {
-            *suffixString = resultSuffix;
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    return result;
-} // columnNameValidator
 
 /*! @brief Perform a simple operation on the database.
  @param database The database to be modified.
@@ -880,7 +772,8 @@ RegistryService::RegistryService(const bool                    useInMemoryDb,
                                  const yarp::os::ConstString & serviceHostName,
                                  const yarp::os::ConstString & servicePortNumber) :
         inherited(true, YPP_REGISTRY_CANONICAL_NAME, "The Service Registry service", YPP_SERVICE_REGISTRY_PORT_NAME,
-                  serviceHostName, servicePortNumber), _db(NULL), _inMemory(useInMemoryDb), _isActive(false)
+                  serviceHostName, servicePortNumber), _db(NULL), _validator(NULL), _inMemory(useInMemoryDb),
+        _isActive(false)
 {
     OD_LOG_ENTER();//####
     OD_LOG_B1("useInMemoryDb = ", useInMemoryDb);//####
@@ -896,6 +789,7 @@ RegistryService::~RegistryService(void)
     {
         sqlite3_close(_db);
     }
+    delete _validator;
     OD_LOG_OBJEXIT();//####
 } // RegistryService::~RegistryService
 
@@ -1159,7 +1053,11 @@ void RegistryService::setUpRequestHandlers(void)
     OD_LOG_OBJENTER();//####
     try
     {
-        _requestHandlers.registerRequestHandler(new MatchRequestHandler(*this, columnNameValidator));
+        if (! _validator)
+        {
+            _validator = new ColumnNameValidator;
+        }
+        _requestHandlers.registerRequestHandler(new MatchRequestHandler(*this, _validator));
         _requestHandlers.registerRequestHandler(new RegisterRequestHandler(*this));
         _requestHandlers.registerRequestHandler(new UnregisterRequestHandler(*this));
     }

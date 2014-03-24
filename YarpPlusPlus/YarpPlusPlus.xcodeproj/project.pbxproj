@@ -181,6 +181,12 @@
 		DFA3438218C91E220053B87C /* YPPExampleRandomNumberService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPExampleRandomNumberService.h; path = ../ExampleRandomNumberService/YPPExampleRandomNumberService.h; sourceTree = SOURCE_ROOT; };
 		DFA3438318C91E220053B87C /* YPPRandomRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRandomRequestHandler.cpp; path = ../ExampleRandomNumberService/YPPRandomRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
 		DFA3438418C91E220053B87C /* YPPRandomRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRandomRequestHandler.h; path = ../ExampleRandomNumberService/YPPRandomRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DFA86D1C18E0D3AE00A22941 /* YPPColumnNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPColumnNameValidator.cpp; path = ../RegistryService/YPPColumnNameValidator.cpp; sourceTree = SOURCE_ROOT; };
+		DFA86D1D18E0D3AE00A22941 /* YPPColumnNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPColumnNameValidator.h; path = ../RegistryService/YPPColumnNameValidator.h; sourceTree = SOURCE_ROOT; };
+		DFF9E67218E0C66C008EC0DD /* YPPBaseNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPBaseNameValidator.cpp; path = ../Parser/YPPBaseNameValidator.cpp; sourceTree = SOURCE_ROOT; };
+		DFF9E67318E0C66C008EC0DD /* YPPBaseNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseNameValidator.h; path = ../Parser/YPPBaseNameValidator.h; sourceTree = SOURCE_ROOT; };
+		DFF9E67418E0CBDE008EC0DD /* YPPTestNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPTestNameValidator.cpp; path = ../Parser/YPPTestNameValidator.cpp; sourceTree = SOURCE_ROOT; };
+		DFF9E67518E0CBDE008EC0DD /* YPPTestNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPTestNameValidator.h; path = ../Parser/YPPTestNameValidator.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -290,6 +296,8 @@
 				DF27F42818CA358C00E93C95 /* CMakeLists.txt */,
 				DF27F42D18CA3BBA00E93C95 /* YPPBaseMatcher.cpp */,
 				DF27F42E18CA3BBA00E93C95 /* YPPBaseMatcher.h */,
+				DFF9E67218E0C66C008EC0DD /* YPPBaseNameValidator.cpp */,
+				DFF9E67318E0C66C008EC0DD /* YPPBaseNameValidator.h */,
 				DF27F43618CE2A7B00E93C95 /* YPPMatchConstraint.cpp */,
 				DF27F43718CE2A7B00E93C95 /* YPPMatchConstraint.h */,
 				DF27F43818CE39BC00E93C95 /* YPPMatchExpression.cpp */,
@@ -303,6 +311,8 @@
 				DF27F43018CA593500E93C95 /* YPPMatchValueList.cpp */,
 				DF27F43118CA593500E93C95 /* YPPMatchValueList.h */,
 				DF27F42F18CA3DCC00E93C95 /* YPPParserTest.cpp */,
+				DFF9E67418E0CBDE008EC0DD /* YPPTestNameValidator.cpp */,
+				DFF9E67518E0CBDE008EC0DD /* YPPTestNameValidator.h */,
 			);
 			name = Parser;
 			sourceTree = "<group>";
@@ -334,6 +344,8 @@
 				DF27F42C18CA37E000E93C95 /* CMakeLists.txt */,
 				DFA3431318C91B7E0053B87C /* main.cpp */,
 				DF2092A118D360DE0093D3DC /* RegistryTests */,
+				DFA86D1C18E0D3AE00A22941 /* YPPColumnNameValidator.cpp */,
+				DFA86D1D18E0D3AE00A22941 /* YPPColumnNameValidator.h */,
 				DF27F43A18CE48E000E93C95 /* YPPMatchRequestHandler.cpp */,
 				DF27F43B18CE48E000E93C95 /* YPPMatchRequestHandler.h */,
 				DFA3434018C91C5A0053B87C /* YPPRegisterRequestHandler.cpp */,

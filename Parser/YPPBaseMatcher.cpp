@@ -43,6 +43,7 @@
 #include "YPPBaseMatcher.h"
 //#define OD_ENABLE_LOGGING /* */
 #include "ODLogging.h"
+#include "YPPBaseNameValidator.h"
 #include <cctype>
 
 using namespace YarpPlusPlusParser;

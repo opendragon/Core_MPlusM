@@ -42,6 +42,7 @@
 #include "YPPMatchFieldWithValues.h"
 //#define OD_ENABLE_LOGGING /* */
 #include "ODLogging.h"
+#include "YPPBaseNameValidator.h"
 #include "YPPMatchFieldName.h"
 #include "YPPMatchValue.h"
 #include "YPPMatchValueList.h"
@@ -64,7 +65,7 @@ MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const yarp::os::Const
                                                            const int                     inLength,
                                                            const int                     startPos,
                                                            int &                         endPos,
-                                                           FieldNameValidator            validator)
+                                                           BaseNameValidator *           validator)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("inString = ", inString.c_str());//####
@@ -142,23 +143,23 @@ MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const yarp::os::Const
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-MatchFieldWithValues::MatchFieldWithValues(FieldNameValidator validator,
-                                           MatchFieldName *   fieldName,
-                                           MatchValue *       asSingle) :
+MatchFieldWithValues::MatchFieldWithValues(BaseNameValidator * validator,
+                                           MatchFieldName *    fieldName,
+                                           MatchValue *        asSingle) :
         inherited(), _validator(validator), _fieldName(fieldName), _singleValue(asSingle), _values(NULL)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_P2("fieldName = ", fieldName, "asSingle = ", asSingle);//####
+    OD_LOG_P3("validator = ", validator, "fieldName = ", fieldName, "asSingle = ", asSingle);//####
     OD_LOG_EXIT_P(this);//####
 } // MatchFieldWithValues::MatchFieldWithValues
 
-MatchFieldWithValues::MatchFieldWithValues(FieldNameValidator validator,
-                                           MatchFieldName *   fieldName,
-                                           MatchValueList *   asList) :
+MatchFieldWithValues::MatchFieldWithValues(BaseNameValidator * validator,
+                                           MatchFieldName *    fieldName,
+                                           MatchValueList *    asList) :
         inherited(), _validator(validator), _fieldName(fieldName), _singleValue(NULL), _values(asList)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_P2("fieldName = ", fieldName, "asList = ", asList);//####
+    OD_LOG_P3("validator = ", validator, "fieldName = ", fieldName, "asList = ", asList);//####
     OD_LOG_EXIT_P(this);//####
 } // MatchFieldWithValues::MatchFieldWithValues
 
@@ -190,7 +191,7 @@ const
         
         if (_validator)
         {
-            trueName = _validator(field.c_str(), &prefixString, &suffixString);
+            trueName = _validator->getPrefixAndSuffix(field.c_str(), prefixString, suffixString);
         }
         else
         {

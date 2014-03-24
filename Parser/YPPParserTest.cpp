@@ -47,6 +47,7 @@
 #include "YPPMatchFieldWithValues.h"
 #include "YPPMatchValue.h"
 #include "YPPMatchValueList.h"
+#include "YPPTestNameValidator.h"
 #include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -64,6 +65,7 @@
 #endif // defined(__APPLE__)
 
 using namespace YarpPlusPlusParser;
+using namespace YarpPlusPlusTest;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -72,68 +74,9 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief the valid field names that may be used. Note that the strings are all lower-case for comparison purposes. */
-static const char * kFieldNames[] =
-{
-    "description",
-    "details",
-    "input",
-    "keyword",
-    "name",
-    "output",
-    "portname",
-    "request",
-    "version"
-};
-
-/*! @brief The number of valid field names. */
-static const size_t kFieldNamesCount = (sizeof(kFieldNames) / sizeof(*kFieldNames));
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
-
-/*! @brief Check a candidate field name against the list of legal field names.
- @param aString The string to be checked.
- @param prefixString If non-@c NULL, a pointer to the string to be used in the SQL prefix for this field.
- @param suffixString If non-@c NULL, a pointer to the string to be used in the SQL suffix for this field.
- @returns The actual field name to be used or @c NULL if the field name was unmatched. */
-static const char * fieldNameValidator(const char *  aString,
-                                       const char ** prefixString,
-                                       const char ** suffixString)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("aString = ", aString);//####
-    const char * result = NULL;
-    
-    try
-    {
-        for (size_t ii = 0; ii < kFieldNamesCount; ++ii)
-        {
-            if (! strcmp(aString, kFieldNames[ii]))
-            {
-                result = kFieldNames[ii];
-                break;
-            }
-            
-        }
-        if (prefixString)
-        {
-            *prefixString = NULL;
-        }
-        if (suffixString)
-        {
-            *suffixString = NULL;
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_EXIT_P(result);//####
-    return result;
-} // fieldNameValidator
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 01 ***
@@ -231,9 +174,10 @@ static int doCase03(const bool expected,
     
     try
     {
-        int              endPos;
-        int              len = static_cast<int>(strlen(inString));
-        MatchFieldName * didMatch = MatchFieldName::CreateMatcher(inString, len, 0, endPos, fieldNameValidator);
+        int                 endPos;
+        int                 len = static_cast<int>(strlen(inString));
+        TestNameValidator * validator = new TestNameValidator;
+        MatchFieldName *    didMatch = MatchFieldName::CreateMatcher(inString, len, 0, endPos, validator);
 
         if ((NULL != didMatch) == expected)
         {
@@ -246,6 +190,7 @@ static int doCase03(const bool expected,
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
+        delete validator;
     }
     catch (...)
     {
@@ -272,8 +217,8 @@ static int doCase04(const bool expected,
     {
         int                    endPos;
         int                    len = static_cast<int>(strlen(inString));
-        MatchFieldWithValues * didMatch = MatchFieldWithValues::CreateMatcher(inString, len, 0, endPos,
-                                                                              fieldNameValidator);
+        TestNameValidator *    validator = new TestNameValidator;
+        MatchFieldWithValues * didMatch = MatchFieldWithValues::CreateMatcher(inString, len, 0, endPos, validator);
 
         if ((NULL != didMatch) == expected)
         {
@@ -286,6 +231,7 @@ static int doCase04(const bool expected,
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
+        delete validator;
     }
     catch (...)
     {
@@ -310,9 +256,10 @@ static int doCase05(const bool expected,
     
     try
     {
-        int               endPos;
-        int               len = static_cast<int>(strlen(inString));
-        MatchConstraint * didMatch = MatchConstraint::CreateMatcher(inString, len, 0, endPos, fieldNameValidator);
+        int                 endPos;
+        int                 len = static_cast<int>(strlen(inString));
+        TestNameValidator * validator = new TestNameValidator;
+        MatchConstraint *   didMatch = MatchConstraint::CreateMatcher(inString, len, 0, endPos, validator);
 
         if ((NULL != didMatch) == expected)
         {
@@ -325,6 +272,7 @@ static int doCase05(const bool expected,
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
+        delete validator;
     }
     catch (...)
     {
@@ -349,9 +297,10 @@ static int doCase06(const bool expected,
     
     try
     {
-        int               endPos;
-        int               len = static_cast<int>(strlen(inString));
-        MatchExpression * didMatch = MatchExpression::CreateMatcher(inString, len, 0, endPos, fieldNameValidator);
+        int                 endPos;
+        int                 len = static_cast<int>(strlen(inString));
+        TestNameValidator * validator = new TestNameValidator;
+        MatchExpression *   didMatch = MatchExpression::CreateMatcher(inString, len, 0, endPos, validator);
 
         if ((NULL != didMatch) == expected)
         {
@@ -364,6 +313,7 @@ static int doCase06(const bool expected,
             cout << didMatch->asSQLString("SELECT ").c_str() << endl;
             delete didMatch;
         }
+        delete validator;
     }
     catch (...)
     {

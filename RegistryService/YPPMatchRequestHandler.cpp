@@ -70,12 +70,12 @@ using namespace YarpPlusPlusParser;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-MatchRequestHandler::MatchRequestHandler(RegistryService &  service,
-                                         FieldNameValidator validator) :
+MatchRequestHandler::MatchRequestHandler(RegistryService &   service,
+                                         BaseNameValidator * validator) :
         inherited(YPP_MATCH_REQUEST), _service(service), _validator(validator)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_P1("service = ", &service);//####
+    OD_LOG_P2("service = ", &service, "validator = ", validator);//####
     OD_LOG_EXIT_P(this);//####
 } // MatchRequestHandler::MatchRequestHandler
 
@@ -115,9 +115,9 @@ void MatchRequestHandler::fillInDescription(yarp::os::Property & info)
     OD_LOG_OBJEXIT();//####
 } // MatchRequestHandler::fillInDescription
 
-bool MatchRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
-                                      const yarp::os::ConstString & senderPort,
-                                      yarp::os::ConnectionWriter *  replyMechanism)
+bool MatchRequestHandler::processRequest(const yarp::os::Bottle &      restOfInput,
+                                         const yarp::os::ConstString & senderPort,
+                                         yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(senderPort)
@@ -193,7 +193,7 @@ bool MatchRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // MatchRequestHandler::operator()
+} // MatchRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors

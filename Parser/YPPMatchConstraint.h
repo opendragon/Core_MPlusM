@@ -47,6 +47,7 @@
 
 namespace YarpPlusPlusParser
 {
+    class BaseNameValidator;
     class MatchFieldWithValues;
     
     /*! @brief A pattern matcher for AND clauses. */
@@ -94,7 +95,7 @@ namespace YarpPlusPlusParser
                                                const int                     inLength,
                                                const int                     startPos,
                                                int &                         endPos,
-                                               FieldNameValidator            validator = NULL);
+                                               BaseNameValidator *           validator = NULL);
         
     protected:
         

@@ -49,6 +49,8 @@ struct sqlite3;
 
 namespace YarpPlusPlus
 {
+    class ColumnNameValidator;
+
     /*! @brief The characteristics of a request. */
     struct RequestDescription
     {
@@ -159,13 +161,16 @@ namespace YarpPlusPlus
         void setUpRequestHandlers(void);
         
         /*! @brief The service registry database. */
-        sqlite3 * _db;
+        sqlite3 *             _db;
+        
+        /*! @brief The validator function object that the Service Registry will use. */
+        ColumnNameValidator * _validator;
         
         /*! @brief @c true if the database is in-memory and @c false if it is disk-based. */
-        bool      _inMemory;
+        bool                  _inMemory;
         
         /*! @brief @c true if the registry service is fully operational and @c false if it could not be set up. */
-        bool      _isActive;
+        bool                  _isActive;
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

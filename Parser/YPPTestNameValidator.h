@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPNameRequestHandler.h
+//  File:       YPPTestNameValidator.h
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for the request handler for the standard 'name'
-//              request.
+//  Contains:   The class declaration for the minimal functionality required for a Yarp++
+//              field name matcher.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,69 +36,63 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2014-03-24
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(YPPNAMEREQUESTHANDLER_H_))
-# define YPPNAMEREQUESTHANDLER_H_ /* */
+#if (! defined(YPPTESTNAMEVALIDATOR_H_))
+# define YPPTESTNAMEVALIDATOR_H_ /* */
 
-# include "YPPBaseRequestHandler.h"
+# include "YPPBaseNameValidator.h"
 
-namespace YarpPlusPlus
-{
-    class BaseService;
-    
-    /*! @brief The standard 'name' request handler.
-     
-     There is no input for the request and the output is the canonical name of the service. */
-    class NameRequestHandler : public BaseRequestHandler
+namespace YarpPlusPlusTest
+{    
+    /*! @brief A convenience class to provide function objects for field name handling. */
+    class TestNameValidator : public YarpPlusPlusParser::BaseNameValidator
     {
     public:
         
-        /*! @brief The constructor.
-         @param service The service that has registered this request. */
-        NameRequestHandler(BaseService & service);
+        /*! @brief The constructor. */
+        TestNameValidator(void);
         
         /*! @brief The destructor. */
-        virtual ~NameRequestHandler(void);
+        virtual ~TestNameValidator(void);
         
-        /*! @brief Fill in a description dictionary for the request.
-         @param info The dictionary to be filled in. */
-        virtual void fillInDescription(yarp::os::Property & info);
+        /*! @brief Check a field name for validity.
+         @param aString The string to be checked.
+         @returns @c true if the field name was valid or @c false if the field name was invalid. */
+        virtual bool checkName(const char * aString);
         
-        /*! @brief Process a request.
-         @param restOfInput The arguments to the operation.
-         @param senderPort The name of the port used to send the input data.
-         @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-        virtual bool processRequest(const yarp::os::Bottle &      restOfInput,
-                                    const yarp::os::ConstString & senderPort,
-                                    yarp::os::ConnectionWriter *  replyMechanism);
-        
+        /*! @brief Get the 'true name' matching the name and its prefix and suffix strings.
+         @param aString The string to be checked.
+         @param prefixString The string to be used in the SQL prefix for this field.
+         @param suffixString The string to be used in the SQL suffix for this field.
+         @returns The actual field name to be used or @c NULL if the field name was unmatched. */
+        virtual const char * getPrefixAndSuffix(const char *  aString,
+                                                const char * & prefixString,
+                                                const char * & suffixString);
+
     protected:
         
     private:
         
         /*! @brief The class that this class is derived from. */
-        typedef BaseRequestHandler inherited;
+        typedef BaseNameValidator inherited;
         
         /*! @brief Copy constructor.
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        NameRequestHandler(const NameRequestHandler & other);
+        TestNameValidator(const TestNameValidator & other);
         
         /*! @brief Assignment operator.
-         
+
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        NameRequestHandler & operator=(const NameRequestHandler & other);
+        TestNameValidator & operator=(const TestNameValidator & other);
         
-        /*! @brief The service that will handle the name operation. */
-        BaseService & _service;
-        
-    }; // NameRequestHandler
+    }; // TestNameValidator
     
-} // YarpPlusPlus
+} // YarpPlusPlusParser
 
-#endif // ! defined(YPPNAMEREQUESTHANDLER_H_)
+#endif // ! defined(YPPTESTNAMEVALIDATOR_H_)

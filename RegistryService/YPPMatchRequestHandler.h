@@ -44,6 +44,7 @@
 # define YPPMATCHREQUESTHANDLER_H_ /* */
 
 # include "YPPBaseMatcher.h"
+# include "YPPBaseNameValidator.h"
 # include "YPPBaseRequestHandler.h"
 # include "YPPServiceResponse.h"
 
@@ -90,8 +91,8 @@ namespace YarpPlusPlus
         /*! @brief The constructor.
          @param service The service that has registered this request.
          @param validator The field validator to use. */
-        MatchRequestHandler(RegistryService &  service,
-                            FieldNameValidator validator = NULL);
+        MatchRequestHandler(RegistryService &   service,
+                            BaseNameValidator * validator = NULL);
         
         /*! @brief The destructor. */
         virtual ~MatchRequestHandler(void);
@@ -104,9 +105,9 @@ namespace YarpPlusPlus
          @param restOfInput The arguments to the operation.
          @param senderPort The name of the port used to send the input data.
          @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-        virtual bool operator() (const yarp::os::Bottle &      restOfInput,
-                                 const yarp::os::ConstString & senderPort,
-                                 yarp::os::ConnectionWriter *  replyMechanism);
+        virtual bool processRequest(const yarp::os::Bottle &      restOfInput,
+                                    const yarp::os::ConstString & senderPort,
+                                    yarp::os::ConnectionWriter *  replyMechanism);
         
     protected:
         
@@ -131,7 +132,7 @@ namespace YarpPlusPlus
         RegistryService &  _service;
         
         /*! @brief The field name validator to be used. */
-        FieldNameValidator _validator;
+        BaseNameValidator * _validator;
         
     }; // MatchRequestHandler
     

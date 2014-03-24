@@ -85,9 +85,9 @@ void Test10DefaultRequestHandler::fillInDescription(yarp::os::Property & info)
     OD_LOG_OBJEXIT();//####
 } // Test10DefaultRequestHandler::fillInDescription
 
-bool Test10DefaultRequestHandler::operator() (const yarp::os::Bottle &      restOfInput,
-                                              const yarp::os::ConstString & senderPort,
-                                              yarp::os::ConnectionWriter *  replyMechanism)
+bool Test10DefaultRequestHandler::processRequest(const yarp::os::Bottle &      restOfInput,
+                                                 const yarp::os::ConstString & senderPort,
+                                                 yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(senderPort)
@@ -106,7 +106,7 @@ bool Test10DefaultRequestHandler::operator() (const yarp::os::Bottle &      rest
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // Test10DefaultRequestHandler::operator()
+} // Test10DefaultRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors
