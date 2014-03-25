@@ -39,3 +39,10 @@ YarpPlusPlus/YarpPlusPlus.xcodeproj/xcuserdata/njaffe.xcuserdatad/xcschemes/xcsc
 ports.db
 subs.db
 ExampleRunningSumAdapter
+examples/EchoClient/EchoClient
+examples/EchoService/EchoService
+examples/RandomNumberClient/RandomNumberClient
+examples/RandomNumberService/RandomNumberService
+examples/RunningSumAdapter/RunningSumAdapter
+examples/RunningSumClient/RunningSumClient
+examples/RunningSumService/RunningSumService
