@@ -41,6 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPINPUTHANDLERCREATOR_H_))
+/*! @brief Header guard. */
 # define YPPINPUTHANDLERCREATOR_H_ /* */
 
 # include "YPPInputHandler.h"
@@ -55,6 +56,17 @@
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
 # include <yarp/os/PortReaderCreator.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the interface between Yarp++ input handler factories and YARP. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

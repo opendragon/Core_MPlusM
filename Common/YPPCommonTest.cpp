@@ -71,6 +71,17 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The test driver for the unit tests of the Yarp++ common library. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
 using namespace YarpPlusPlus;
 using namespace YarpPlusPlusTest;
 using std::cout;
@@ -1199,11 +1210,11 @@ int main(int     argc,
     {
         if (yarp::os::Network::checkNetwork())
         {
-#if (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
             YarpPlusPlus::Initialize();

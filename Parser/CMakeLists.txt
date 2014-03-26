@@ -44,7 +44,7 @@ set(ESCAPE_CHAR1 "\\")
 set(ESCAPE_CHAR2 "\\\\")
 
 include_directories("${YPP_COMMON_DIR}"
-                    "${YPP_DEBUGGING_DIR}")
+                    "${YPP_LOGGING_DIR}")
 
 add_library(YPPParser
             YPPBaseMatcher.cpp
@@ -66,7 +66,7 @@ add_executable(ParserTest
                YPPTestNameValidator.cpp)
 
 target_link_libraries(ParserTest
-                      YPPDebugging
+                      YPPLogging
                       YPPParser
                       ${YARP_LIBRARIES})
 

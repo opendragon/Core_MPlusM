@@ -39,7 +39,7 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${YPP_DEBUGGING_DIR}"
+include_directories("${YPP_LOGGING_DIR}"
                     "${YPP_COMMON_DIR}"
                     "${YPP_EXAMPLES_DIR}/EchoService")
 
@@ -51,7 +51,7 @@ add_executable(EchoClient
 # link with YARP libraries and our interface classes
 target_link_libraries(EchoClient
                       YPPCommon
-                      YPPDebugging
+                      YPPLogging
                       ${YARP_LIBRARIES})
 
 enable_testing()

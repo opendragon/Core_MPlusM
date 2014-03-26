@@ -41,9 +41,21 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPREQUESTCOUNTERREQUESTS_H_))
+/*! @brief Header guard. */
 # define YPPREQUESTCOUNTERREQUESTS_H_ /* */
 
 # include "YPPRequests.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The common macro definitions for requests and responses for the request counter service. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 /*! @brief The port-independent name of the example echo service. */
 # define YPP_REQUESTCOUNTER_CANONICAL_NAME "RequestCounter"

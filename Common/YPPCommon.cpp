@@ -64,6 +64,17 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The function and variable definitions for common entities for Yarp++ clients and services. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
 using namespace YarpPlusPlus;
 using std::cerr;
 using std::cout;
@@ -73,6 +84,7 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief Report the version numbers when launching an executable. */
 #define CHATTY_START_ /* Report the version numbers. */
 
 /*! @brief The maximum integer that we wish to use for generated random values. */

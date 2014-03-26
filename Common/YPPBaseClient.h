@@ -41,6 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPBASECLIENT_H_))
+/*! @brief Header guard. */
 # define YPPBASECLIENT_H_ /* */
 
 # include "YPPCommon.h"
@@ -56,6 +57,17 @@
 # endif // defined(__APPLE__)
 # include <yarp/os/Bottle.h>
 # include <yarp/os/Port.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the minimal functionality required for a Yarp++ client. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

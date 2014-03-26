@@ -40,10 +40,22 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPMATCHVALUELIST_H_))
+/*! @brief Header guard. */
 # define YPPMATCHVALUELIST_H_ /* */
 
 # include "YPPBaseMatcher.h"
 # include <vector>
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for a pattern matcher for lists of simple values. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 namespace YarpPlusPlusParser
 {

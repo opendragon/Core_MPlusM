@@ -41,9 +41,21 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPRUNNINGSUMCONTROLINPUTHANDLER_H_))
+/*! @brief Header guard. */
 # define YPPRUNNINGSUMCONTROLINPUTHANDLER_H_ /* */
 
 # include "YPPInputHandler.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the custom control channel input handler used by the example running sum adapter. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 namespace YarpPlusPlusExample
 {

@@ -41,6 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPINPUTHANDLER_H_))
+/*! @brief Header guard. */
 # define YPPINPUTHANDLER_H_ /* */
 
 # include "YPPConfig.h"
@@ -56,6 +57,17 @@
 # endif // defined(__APPLE__)
 # include <yarp/os/Bottle.h>
 # include <yarp/os/PortReader.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the interface between Yarp++ input handlers and YARP. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

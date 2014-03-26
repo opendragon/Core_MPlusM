@@ -40,10 +40,22 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPREGISTRYSERVICE_H_))
+/*! @brief Header guard. */
 # define YPPREGISTRYSERVICE_H_ /* */
 
 # include "YPPBaseService.h"
 # include "YPPMatchExpression.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the Service Registry Yarp++ service. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 struct sqlite3;
 

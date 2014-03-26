@@ -39,7 +39,7 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${YPP_DEBUGGING_DIR}"
+include_directories("${YPP_LOGGING_DIR}"
                     "${YPP_COMMON_DIR}")
 
 # set up our program
@@ -49,7 +49,7 @@ add_executable(RequestInfo
 # link with YARP libraries and our interface classes
 target_link_libraries(RequestInfo
                       YPPCommon
-                      YPPDebugging
+                      YPPLogging
                       YPPParser
                       ${YARP_LIBRARIES})
 

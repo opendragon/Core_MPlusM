@@ -41,12 +41,24 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPMATCHREQUESTHANDLER_H_))
+/*! @brief Header guard. */
 # define YPPMATCHREQUESTHANDLER_H_ /* */
 
 # include "YPPBaseMatcher.h"
 # include "YPPBaseNameValidator.h"
 # include "YPPBaseRequestHandler.h"
 # include "YPPServiceResponse.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the request handler for the standard 'match' request. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 namespace YarpPlusPlus
 {

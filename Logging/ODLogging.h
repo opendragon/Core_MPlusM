@@ -4,7 +4,7 @@
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The function declarations and macro definitions for the debugging facility.
+//  Contains:   The function declarations and macro definitions for the logging facility.
 //
 //  Written by: Norman Jaffe
 //
@@ -40,6 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(ODSYSLOG_H_))
+/*! @brief Header guard. */
 # define ODSYSLOG_H_ /* */
 
 # if defined(__OBJC__)
@@ -49,7 +50,19 @@
 #  include <CoreGraphics/CGGeometry.h>
 # endif // defined(__APPLE__)
 
-enum
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The function declarations and macro definitions for the logging facility. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+/*! @brief The options supported by the logging functions. */
+typedef enum ODLoggingOptions_
 {
     /*! @brief No special options. */
     kODLoggingOptionNone = 0,
@@ -63,7 +76,7 @@ enum
     kODLoggingOptionEnableThreadSupport = 8,
     /*! @brief Write the logging output to 'stderr' as well, if not logging to a file. */
     kODLoggingOptionWriteToStderr = 16
-};
+} ODLoggingOptions; // ODLoggingOptions
 
 # if defined(OD_DISABLE_LOGGING)
 #  undef OD_ENABLE_LOGGING

@@ -41,9 +41,25 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPBASEMATCHER_H_))
+/*! @brief Header guard. */
 # define YPPBASEMATCHER_H_ /* */
 
 # include "YPPCommon.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the minimal functionality required for a Yarp++ pattern matcher. */
+
+/*! @namespace YarpPlusPlusParser
+ @brief The classes that support parsing of search requests and the generation of SQL @c SELECT strings from the search
+ requests. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 namespace YarpPlusPlusParser
 {

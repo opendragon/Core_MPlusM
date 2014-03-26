@@ -40,6 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPSERVICERESPONSE_H_))
+/*! @brief Header guard. */
 # define YPPSERVICERESPONSE_H_ /* */
 
 # include "YPPCommon.h"
@@ -54,6 +55,17 @@
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
 # include <yarp/os/Bottle.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the response to a Yarp++ request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

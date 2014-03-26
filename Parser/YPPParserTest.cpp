@@ -64,6 +64,17 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The test driver for the unit tests of the Yarp++ parser. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
 using namespace YarpPlusPlusParser;
 using namespace YarpPlusPlusTest;
 using std::cout;

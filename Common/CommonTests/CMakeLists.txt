@@ -39,7 +39,7 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${YPP_DEBUGGING_DIR}"
+include_directories("${YPP_LOGGING_DIR}"
                     "${YPP_COMMON_DIR}"
                     “${YPP_PARSER_DIR}”)
 

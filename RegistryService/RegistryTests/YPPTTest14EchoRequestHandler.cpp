@@ -44,6 +44,20 @@
 #include "ODLogging.h"
 #include "YPPRequests.h"
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class definition for a simple request handler used by the unit tests. */
+
+/*! @dir RegistryTests
+ @brief The set of files used for unit testing of the Yarp++ Service Registry service. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
 using namespace YarpPlusPlusTest;
 
 #if defined(__APPLE__)

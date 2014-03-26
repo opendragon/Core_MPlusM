@@ -46,6 +46,20 @@
 #include "YPPBaseNameValidator.h"
 #include <cctype>
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class definition for the minimal functionality required for a Yarp++ pattern matcher. */
+
+/*! @dir Parser
+ @brief The set of files that support parsing of search requests. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
 using namespace YarpPlusPlusParser;
 
 #if defined(__APPLE__)

@@ -40,6 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPENDPOINT_H_))
+/*! @brief Header guard. */
 # define YPPENDPOINT_H_ /* */
 
 # include "YPPInputHandlerCreator.h"
@@ -54,6 +55,17 @@
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
 # include <yarp/os/Port.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the connection endpoint for a Yarp++ service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

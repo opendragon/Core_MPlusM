@@ -40,9 +40,21 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPTECHOREQUESTHANDLER_H_))
+/*! @brief Header guard. */
 # define YPPTECHOREQUESTHANDLER_H_ /* */
 
 # include "YPPBaseRequestHandler.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the request handler for an 'echo' request. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 namespace YarpPlusPlusExample
 {

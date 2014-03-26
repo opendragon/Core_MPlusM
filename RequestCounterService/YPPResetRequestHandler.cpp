@@ -45,6 +45,17 @@
 #include "YPPRequestCounterRequests.h"
 #include "YPPRequestCounterService.h"
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class definition for the request handler for a 'reset' request. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
 using namespace YarpPlusPlus;
 
 #if defined(__APPLE__)

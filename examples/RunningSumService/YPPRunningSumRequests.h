@@ -4,8 +4,8 @@
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The common macro definitions for requests and responses for the random
-//              number service.
+//  Contains:   The common macro definitions for requests and responses for the running
+//              sum service.
 //
 //  Written by: Norman Jaffe
 //
@@ -41,11 +41,23 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPRUNNINGSUMREQUESTS_H_))
+/*! @brief Header guard. */
 # define YPPRUNNINGSUMREQUESTS_H_ /* */
 
 # include "YPPRequests.h"
 
-/*! @brief The port-independent name of the example echo service. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The common macro definitions for requests and responses for the running sum service. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+/*! @brief The port-independent name of the running sum service. */
 # define YPP_RUNNINGSUM_CANONICAL_NAME "RunningSum"
 
 /*! @brief The name for the 'add' request. */

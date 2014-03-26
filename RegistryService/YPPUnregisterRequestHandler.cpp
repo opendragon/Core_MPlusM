@@ -47,6 +47,17 @@
 #include "YPPRegistryService.h"
 #include "YPPRequests.h"
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class definition for the request handler for the standard 'unregister' request. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
 using namespace YarpPlusPlus;
 
 #if defined(__APPLE__)

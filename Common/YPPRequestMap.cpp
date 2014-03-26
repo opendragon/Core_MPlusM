@@ -44,6 +44,17 @@
 #include "ODLogging.h"
 #include "YPPBaseRequestHandler.h"
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class definition for the mapping between requests and request handlers. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
 using namespace YarpPlusPlus;
 
 #if defined(__APPLE__)

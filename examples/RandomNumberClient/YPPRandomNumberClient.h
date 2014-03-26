@@ -40,10 +40,22 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPRANDOMNUMBERCLIENT_H_))
+/*! @brief Header guard. */
 # define YPPRANDOMNUMBERCLIENT_H_ /* */
 
 # include "YPPBaseClient.h"
 # include <vector>
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the client of a simple Yarp++ service. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 namespace YarpPlusPlusExample
 {

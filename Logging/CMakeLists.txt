@@ -43,12 +43,12 @@ option(YPP_USE_OBJECTIVE_C_DEBUG "Use Objective C Debug" FALSE)
 mark_as_advanced(YPP_USE_OBJECTIVE_C_DEBUG)
 
 if(YPP_USE_OBJECTIVE_C_DEBUG)
-    add_library(YPPDebugging
+    add_library(YPPLogging
                 ODLogging.m)
 else(YPP_USE_OBJECTIVE_C_DEBUG)
-    add_library(YPPDebugging
+    add_library(YPPLogging
                 ODLogging.cpp)
 endif(YPP_USE_OBJECTIVE_C_DEBUG)
 
-install(TARGETS YPPDebugging DESTINATION bin)
-install(FILES YPPDebugging DESTINATION include)
+install(TARGETS YPPLogging DESTINATION bin)
+install(FILES YPPLogging DESTINATION include)

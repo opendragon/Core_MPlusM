@@ -40,9 +40,27 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPECHOCLIENT_H_))
+/*! @brief Header guard. */
 # define YPPECHOCLIENT_H_ /* */
 
 # include "YPPBaseClient.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the client of a simple Yarp++ service. */
+
+/*! @dir examples
+ @brief The set of files that demonstrate features of the Yarp++ framework. */
+
+/*! @namespace YarpPlusPlusExample
+ @brief A set of example classes using features from Yarp++. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 namespace YarpPlusPlusExample
 {

@@ -41,9 +41,22 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPCOLUMNNAMEVALIDATOR_H_))
+/*! @brief Header guard. */
 # define YPPCOLUMNNAMEVALIDATOR_H_ /* */
 
 # include "YPPBaseNameValidator.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the functionality required for a Yarp++ field name matcher for the service
+ registry. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 /*! @brief The named parameter for the 'details' column. */
 # define DESCRIPTION_C_ "description"

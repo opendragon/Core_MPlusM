@@ -39,6 +39,18 @@
 //
 //--------------------------------------------------------------------------------------
 
+/*! @brief Compile with logging enabled. */
 #define OD_ENABLE_LOGGING /* */
 
-#include "ODLogging.inc"
+#include "ODLogging.inc.c"
+
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The Objective C variation of the debugging facility. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)

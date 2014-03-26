@@ -40,7 +40,19 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPREQUESTS_H_))
+/*! @brief Header guard. */
 # define YPPREQUESTS_H_ /* */
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The common macro definitions for requests and responses. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 /*! @brief The port-independent name of the service registry service. */
 # define YPP_REGISTRY_CANONICAL_NAME "Registry"

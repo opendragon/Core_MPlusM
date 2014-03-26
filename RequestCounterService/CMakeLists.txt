@@ -39,7 +39,7 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${YPP_DEBUGGING_DIR}"
+include_directories("${YPP_LOGGING_DIR}"
                     "${YPP_COMMON_DIR}")
 
 # set up our program
@@ -53,7 +53,7 @@ add_executable(RequestCounterService
 # link with YARP libraries and our interface classes
 target_link_libraries(RequestCounterService
                       YPPCommon
-                      YPPDebugging
+                      YPPLogging
                       ${YARP_LIBRARIES})
 
 enable_testing()

@@ -4,7 +4,7 @@
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for a contexts used with a simple Yarp++ service.
+//  Contains:   The class declaration for a context used with a simple Yarp++ service.
 //
 //  Written by: Norman Jaffe
 //
@@ -40,9 +40,21 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPRUNNINGSUMCONTEXT_H_))
+/*! @brief Header guard. */
 # define YPPRUNNINGSUMCONTEXT_H_ /* */
 
 # include "YPPBaseContext.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for a context used with a simple Yarp++ service. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 namespace YarpPlusPlusExample
 {

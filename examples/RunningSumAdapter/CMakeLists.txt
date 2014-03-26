@@ -39,7 +39,7 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${YPP_DEBUGGING_DIR}"
+include_directories("${YPP_LOGGING_DIR}"
                     "${YPP_COMMON_DIR}"
                     "${YPP_EXAMPLES_DIR}/RunningSumService"
                     "${YPP_EXAMPLES_DIR}/RunningSumClient")
@@ -54,7 +54,7 @@ add_executable(RunningSumAdapter
 # link with YARP libraries and our interface classes
 target_link_libraries(RunningSumAdapter
                       YPPCommon
-                      YPPDebugging
+                      YPPLogging
                       ${YARP_LIBRARIES})
 
 enable_testing()

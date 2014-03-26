@@ -58,6 +58,20 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class definition for the endpoint status reporter for the Yarp++ unit tests. */
+
+/*! @dir CommonTests
+ @brief The set of files used for unit testing of the Yarp++ classes. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
 using namespace YarpPlusPlusTest;
 
 #if defined(__APPLE__)

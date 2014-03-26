@@ -40,9 +40,21 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPRUNNINGSUMSERVICE_H_))
+/*! @brief Header guard. */
 # define YPPRUNNINGSUMSERVICE_H_ /* */
 
 # include "YPPBaseService.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for a simple Yarp++ service. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 /*! @brief The port name to use for the service if not provided. */
 # define DEFAULT_RUNNINGSUM_SERVICE_NAME "/service/example/runningSum"

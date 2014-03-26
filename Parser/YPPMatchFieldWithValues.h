@@ -40,9 +40,21 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPMATCHFIELDWITHVALUES_H_))
+/*! @brief Header guard. */
 # define YPPMATCHFIELDWITHVALUES_H_ /* */
 
 # include "YPPBaseMatcher.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for a pattern matcher for field/value pairs. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 namespace YarpPlusPlusParser
 {

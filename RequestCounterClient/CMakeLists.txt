@@ -39,7 +39,7 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${YPP_DEBUGGING_DIR}"
+include_directories("${YPP_LOGGING_DIR}"
                     "${YPP_COMMON_DIR}"
                     "../RequestCounterService")
 
@@ -51,7 +51,7 @@ add_executable(RequestCounterClient
 # link with YARP libraries and our interface classes
 target_link_libraries(RequestCounterClient
                       YPPCommon
-                      YPPDebugging
+                      YPPLogging
                       ${YARP_LIBRARIES})
 
 enable_testing()

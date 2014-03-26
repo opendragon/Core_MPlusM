@@ -40,9 +40,21 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPTTEST03HANDLER_H_))
+/*! @brief Header guard. */
 # define YPPTTEST03HANDLER_H_ /* */
 
 # include "YPPInputHandler.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for an input handler used by the unit tests. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 namespace YarpPlusPlusTest
 {

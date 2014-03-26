@@ -41,6 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPTENDPOINTSTATUSREPORTER_H_))
+/*! @brief Header guard. */
 # define YPPTENDPOINTSTATUSREPORTER_H_ /* */
 
 # if defined(__APPLE__)
@@ -54,6 +55,20 @@
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
 # include <yarp/os/Port.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the endpoint status reporter for the Yarp++ unit tests. */
+
+/*! @namespace YarpPlusPlusTest
+ @brief The classes used for unit testing of the Yarp++ classes. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

@@ -4,7 +4,7 @@
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The function definitions for the debugging facility.
+//  Contains:   The function definitions for the logging facility.
 //
 //  Written by: Norman Jaffe
 //
@@ -40,6 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(ODSYSLOG_INC_))
+/*! @brief Header guard. */
 # define ODSYSLOG_INC_ /* */
 
 # include "ODLogging.h"
@@ -58,72 +59,116 @@
 #  include <syslog.h>
 # endif // defined(__APPLE__) || defined(__linux)
 
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The function definitions for the logging facility. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
 # if defined(__cplusplus)
+/*! @brief Make sure that the function will have a 'C'-style external name. */
 #  define EXTERN_C extern "C"
 # else // ! defined(__cpluplus)
+/*! @brief Make sure that the function will have a 'C'-style external name. */
 #  define EXTERN_C /* */
 # endif // ! defined(__cplusplus)
 
 # if defined(OD_ENABLE_LOGGING)
+/*! @brief The number of bytes to be displayed per line when logging a memory region. */
 #  define OD_MAX_BYTES_IN_LINE_ 16
+/*! @brief The maximum size of the output displayed per line when logging a memory region. */
 #  define OD_MAX_CHARS_IN_LINE_ (OD_MAX_BYTES_IN_LINE_ * 4)
+/*! @brief The initial indentation level. */
 #  define OD_LOG_INIT_VALUE_ 1
+/*! @brief The @c syslog facility to be used for logging. */
 #  define OD_LOG_LOG_TARGET_ LOG_LOCAL7
+/*! @brief The @c syslog level to be used for logging. */
 #  define OD_LOG_LOG_LEVEL_  LOG_NOTICE
 
+/*! @brief The format to be used to log the prefix and indentation strings with functions. */
 #  define OD_FUNC_FORMAT_ \
-            "%s%s" OD_WHERE_FORMAT_
+            "%s%s" OD_FUNC_WHERE_
+/*! @brief The standard parameters to be used with each logged message for functions. */
 #  define OD_FUNC_PREFIX_(file_) \
             prefixString_, indentString_, funcName, file_, lineNumber
-#  define OD_WHERE_FORMAT_ \
+/*! @brief The format to be used to log the function name, file name and line number. */
+#  define OD_FUNC_WHERE_ \
             "%s{%s@%04d}"
 
-#  define OD_OBJFUNC_FORMAT_ \
-            "%s%s" OD_OBJWHERE_FORMAT_
-#  define OD_OBJFUNC_PREFIX_(file_) \
+/*! @brief The format to be used to log the prefix and indentation strings with methods. */
+#  define OD_METHOD_FORMAT_ \
+            "%s%s" OD_METHOD_WHERE_
+/*! @brief The standard parameters to be used with each logged message for methods. */
+#  define OD_METHOD_PREFIX_(file_) \
             prefixString_, indentString_, funcName, file_, lineNumber, objPtr
-#  define OD_OBJWHERE_FORMAT_ \
+/*! @brief The format to be used to log the method name, file name and line number. */
+#  define OD_METHOD_WHERE_ \
             "%s{%s@%04d}[%p]"
 
+/*! @brief The standard variable used to hold the indentation string. */
 #  define OD_CREATE_INDENT_() \
             char * indentString_ = odBuildIndent_()
+/*! @brief The standard variable used to hold the prefix string. */
 #  define OD_CREATE_PREFIX_() \
             char * prefixString_ = odBuildPrefix_()
+/*! @brief The standard code to release the memory associated with the indentation string. */
 #  define OD_FREE_INDENT_() \
             free(indentString_)
+/*! @brief The standard code to release the memory associated with the prefix string. */
 #  define OD_FREE_PREFIX_() \
             free(prefixString_)
 
 #  if defined(WIN32)
+/*! @brief The output stream to use for logging with Windows. */
 #   define OD_LOG_STREAM_ stderr
 #  endif // defined(WIN32)
 
+/*! @brief The data associated with each thread for logging. */
 typedef struct tOdThreadData_
 {
+    /*! @brief The thread indentation level. */
     int _indentLevel;
 } tOdThreadData;
 
 #  if (! defined(WIN32))
+/*! @brief @c true if thread support is enabled and @c false if all threads share data. */
 static bool lOdEnableThreadSupport_ = false;
+/*! @brief @c true if the process identifier is to be logged and @c false otherwise. */
 static bool lOdIncludeProcessID_ = false;
+/*! @brief @c true if the thread identifier is to be logged and @c false otherwise. */
 static bool lOdIncludeThreadID_ = false;
 #  endif // ! defined(WIN32)
 
+/*! @brief The stream to be used when logging to a file. */
 static FILE * lOdLogFile_ = NULL;
 
 #  if (! defined(WIN32))
+/*! @brief The thread key to be used. */
 static pthread_key_t  lOdThreadSpecificKey_;
+/*! @brief The once-only variable to be used with threading. */
 static pthread_once_t lOdThreadSpecificKeyOnce_ = PTHREAD_ONCE_INIT;
 #  endif // ! defined(WIN32)
 
+/*! @brief The thread data to be used when thread support is not enabled. */
 static tOdThreadData lOdThreadData_ = { OD_LOG_INIT_VALUE_ };
 
+/*! @brief Return a string corresponding to each @c bool value.
+ @param val The input value.
+ @returns Either "true" or "false", depending on the input value. */
 inline static const char * odBoolToString_(const bool val)
 {
     return (val ? "true" : "false");
 } // odBoolToString_
 
 #  if defined(__OBJC__)
+/*! @brief Return either the @c description string for an object or a fixed string.
+ @param value The input object.
+ @returns The description of the object or "<>". */
 static const char * odNullOrDescription(id value)
 {
     const char * result;
@@ -140,6 +185,9 @@ static const char * odNullOrDescription(id value)
 } // odNullOrDescription
 #  endif // defined(__OBJC__)
 
+/*! @brief Return either the input string or a fixed string, if the input is @c NULL.
+ @param aString The input string.
+ @returns The input string or "<>". */
 static const char * odNullOrString(const char * aString)
 {
     const char * result;
@@ -156,6 +204,8 @@ static const char * odNullOrString(const char * aString)
 } // odNullOrString
 
 #  if (! defined(WIN32))
+/*! @brief Release the data associated with a thread.
+ @param data A pointer to the data to be released. */
 static void odReleaseThreadSpecificData_(void * data)
 {
     tOdThreadData * stuff = (tOdThreadData *) data;
@@ -166,6 +216,7 @@ static void odReleaseThreadSpecificData_(void * data)
 #  endif // ! defined(WIN32)
 
 #  if (! defined(WIN32))
+/*! @brief Create the thread key and record the 'release' function for thread-specific data. */
 static void odSetUpThreadKey_(void)
 {
     if (pthread_key_create(&lOdThreadSpecificKey_, odReleaseThreadSpecificData_))
@@ -179,6 +230,11 @@ static void odSetUpThreadKey_(void)
 } // odSetUpThreadKey_
 #  endif // ! defined(WIN32)
 
+/*! @brief Get a pointer to the thread-specific data.
+ 
+ If this is the first call for a thread, create the data. If threading is not supported, return the address of the
+ shared thread data.
+ @returns A pointer to the thread-specific data. */
 inline static tOdThreadData * odGetThreadData_(void)
 {
     tOdThreadData * stuff;
@@ -203,6 +259,9 @@ inline static tOdThreadData * odGetThreadData_(void)
     return stuff;
 } // odGetThreadData_
 
+/*! @brief Return the portion of a file name that does not include the path to the file.
+ @param fileName The input file path.
+ @returns The file name part of a file path. */
 static const char * odFileNameRoot_(const char * fileName)
 {
     char * result = strrchr(fileName, '/');
@@ -210,6 +269,8 @@ static const char * odFileNameRoot_(const char * fileName)
     return (result ? (result + 1) : fileName);
 } // odFileNameRoot_
 
+/*! @brief Return the current indentation level for the active thread.
+ @returns The current indentation level for the active thread. */
 inline static int odGetIndent_(void)
 {
     tOdThreadData * stuff = odGetThreadData_();
@@ -217,6 +278,8 @@ inline static int odGetIndent_(void)
     return stuff->_indentLevel;
 } // odGetIndent_
 
+/*! @brief Set the current indentation level for the active thread.
+ @param value The new indentation level. */
 inline static void odSetIndent_(const int value)
 {
     tOdThreadData * stuff = odGetThreadData_();
@@ -224,6 +287,9 @@ inline static void odSetIndent_(const int value)
     stuff->_indentLevel = value;
 } // odSetIndent_
 
+/*! @brief Generate an indentation string.
+ @returns A string of alternating spaces and periods that whose length matches the current indentation level for the
+ active thread. */
 static char * odBuildIndent_(void)
 {
     int    level = odGetIndent_();
@@ -238,6 +304,8 @@ static char * odBuildIndent_(void)
     return result;
 } // odBuildIndent_
 
+/*! @brief Generate a prefix string.
+ @returns A string containing the process identifier and / or the thread identifier, if they are enabled for logging. */
 static char * odBuildPrefix_(void)
 {
     char *              result;
@@ -278,16 +346,19 @@ static char * odBuildPrefix_(void)
     return result;
 } // odBuildPrefix_
 
+/*! @brief Reduce the current indentation level for the active thread. */
 inline static void odDecreaseIndent_(void)
 {
     odSetIndent_(odGetIndent_() - 1);
 } // odDecreaseIndent_
 
+/*! @brief Increase the current indentation level for the active thread. */
 inline static void odIncreaseIndent_(void)
 {
     odSetIndent_(odGetIndent_() + 1);
 } // odIncreaseIndent_
 
+/*! @brief Write the date and time to a file stream. */
 static void odWriteTime_(FILE * outFile)
 {
     char   buffer[80];
@@ -298,36 +369,68 @@ static void odWriteTime_(FILE * outFile)
     fputs(buffer, outFile);
 } // odWriteTime_
 
+/*! @brief The value prefix string to be used when exiting a function or method. */
 #  define OD_EXIT_VALUE_       "exit -> "
+/*! @brief The format string to be used with a single boolean value. */
 #  define OD_FORMAT_B1_        " %s%s"
+/*! @brief The format string to be used with a pair of boolean values. */
 #  define OD_FORMAT_B2_        " %s%s, %s%s"
+/*! @brief The format string to be used with a single character value. */
 #  define OD_FORMAT_C1_        " %s'%c'(%#02X)"
+/*! @brief The format string to be used with a pair of character values. */
 #  define OD_FORMAT_C2_        " %s'%c'(%#02X), %s'%c'(%#02X)"
+/*! @brief The format string to be used with a single double value. */
 #  define OD_FORMAT_D1_        " %s%g"
+/*! @brief The format string to be used with a pair of double values. */
 #  define OD_FORMAT_D2_        " %s%g, %s%g"
+/*! @brief The message string to be used when entering a function or method. */
 #  define OD_FORMAT_ENTER_     " enter"
+/*! @brief The message string to be used when exiting a function or method. */
 #  define OD_FORMAT_EXIT_      " exit"
+/*! @brief The format string to be used when exiting a function or method via @c exit. */
 #  define OD_FORMAT_EXIT_CALL_ " call exit(%ld(%#lx))"
+/*! @brief The format string to be used when exiting a function or method via @c throw of an integer. */
 #  define OD_FORMAT_EXIT_T_L_  " throw(%d(%#x))"
+/*! @brief The format string to be used when exiting a function or method via @c throw of a string. */
 #  define OD_FORMAT_EXIT_T_S_  " throw(%s)"
+/*! @brief The format string to be used with an IP address and port value. */
 #  define OD_FORMAT_IP_        " %s%d.%d.%d.%d:%d"
+/*! @brief The format string to be used with a single long value. */
 #  define OD_FORMAT_L1_        " %s%d(%#x)"
+/*! @brief The format string to be used with a pair of long values. */
 #  define OD_FORMAT_L2_        " %s%d(%#x), %s%d(%#x)"
+/*! @brief The format string to be used with a single long long value. */
 #  define OD_FORMAT_LL1_       " %s%lld(%#llx)"
+/*! @brief The format string to be used with a pair of long long values. */
 #  define OD_FORMAT_LL2_       " %s%lld(%#llx), %s%lld(%#llx)"
+/*! @brief The format string to be used with a message. */
 #  define OD_FORMAT_LOG_       " %s"
+/*! @brief The format string to be used with a long string value. */
 #  define OD_FORMAT_LS         " %s | %s |"
+/*! @brief The format string to be used with a single object value. */
 #  define OD_FORMAT_O1_        " %s%s"
+/*! @brief The format string to be used with a pair of object values. */
 #  define OD_FORMAT_O2_        " %s%s, %s%s"
+/*! @brief The format string to be used with a single pointer value. */
 #  define OD_FORMAT_P1_        " %s%p"
+/*! @brief The format string to be used with a pair of pointer values. */
 #  define OD_FORMAT_P2_        " %s%p, %s%p"
+/*! @brief The format string to be used for the heading when logging a memory region. */
 #  define OD_FORMAT_PACKET_1_  " address = %p, size = %d"
+/*! @brief The format string to be used when logging a section of a memory region. */
 #  define OD_FORMAT_PACKET_2_  " %s | %04X : %s| %s"
+/*! @brief The format string to be used with a rectangle value. */
 #  define OD_FORMAT_RECT_      " %s[l: %g, t: %g, h: %g, w: %g]"
+/*! @brief The format string to be used with a single string value. */
 #  define OD_FORMAT_S1_        " %s'%s'"
+/*! @brief The format string to be used with a pair of string values. */
 #  define OD_FORMAT_S2_        " %s'%s', %s'%s'"
+/*! @brief The format string to be used with a (possibly unterminated) string value. */
 #  define OD_FORMAT_SP_        " %s'%.*s'"
+/*! @brief The format string to be used with a time value. */
 #  define OD_FORMAT_TI_        " %s%ld:%ld"
+/*! @brief The message string to be used when setting up logging for the first time. */
+#  define OD_INIT_FORMAT_      "* %s%s" OD_FUNC_WHERE_ " started *"
 
 EXTERN_C void ODLog_(const char * fileName,
                      const char * funcName,
@@ -1363,8 +1466,6 @@ EXTERN_C void ODLogExitThrowS_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogExitThrowS_
 
-#  define OD_INIT_FORMAT_ "* %s%s" OD_WHERE_FORMAT_ " started *"
-
 EXTERN_C void ODLogInit_(const char * prefix,
                          const int    options,
                          const char * fileName,
@@ -2151,20 +2252,20 @@ EXTERN_C void ODLogObjEnter_(const char * fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_ENTER_ "\n", OD_OBJFUNC_PREFIX_(rootName));
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_ENTER_ "\n", OD_METHOD_PREFIX_(rootName));
         fflush(lOdLogFile_);
     }
     else
     {
 #  if defined(WIN32)
         odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_ENTER_ "\n", OD_OBJFUNC_PREFIX_(rootName));
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_ENTER_ "\n", OD_METHOD_PREFIX_(rootName));
         fflush(OD_LOG_STREAM_);
 #  else // ! defined(WIN32)
 #   if defined(__OBJC__)
-        NSLog(@OD_OBJFUNC_FORMAT_ OD_OBJFORMAT_ENTER_, OD_OBJFUNC_PREFIX_(rootName));
+        NSLog(@OD_METHOD_FORMAT_ OD_OBJFORMAT_ENTER_, OD_METHOD_PREFIX_(rootName));
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_ENTER_, OD_OBJFUNC_PREFIX_(rootName));
+        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_ENTER_, OD_METHOD_PREFIX_(rootName));
 #   endif // ! defined(__OBJC__)
 #  endif // ! defined(WIN32)
     }
@@ -2186,20 +2287,20 @@ EXTERN_C void ODLogObjExit_(const char * fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_ "\n", OD_OBJFUNC_PREFIX_(rootName));
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_ "\n", OD_METHOD_PREFIX_(rootName));
         fflush(lOdLogFile_);
     }
     else
     {
 #  if defined(WIN32)
         odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_ "\n", OD_OBJFUNC_PREFIX_(rootName));
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_ "\n", OD_METHOD_PREFIX_(rootName));
         fflush(OD_LOG_STREAM_);
 #  else // ! defined(WIN32)
 #   if defined(__OBJC__)
-        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_, OD_OBJFUNC_PREFIX_(rootName));
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_EXIT_, OD_METHOD_PREFIX_(rootName));
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_, OD_OBJFUNC_PREFIX_(rootName));
+        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_, OD_METHOD_PREFIX_(rootName));
 #   endif // ! defined(__OBJC__)
 #  endif // ! defined(WIN32)
     }
@@ -2221,7 +2322,7 @@ EXTERN_C void ODLogObjExitB_(const char * fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_B1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                 odBoolToString_(val));
         fflush(lOdLogFile_);
     }
@@ -2229,14 +2330,14 @@ EXTERN_C void ODLogObjExitB_(const char * fileName,
     {
 #  if defined(WIN32)
         odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_B1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                 odBoolToString_(val));
         fflush(OD_LOG_STREAM_);
 #  else // ! defined(WIN32)
 #   if defined(__OBJC__)
-        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_B1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, odBoolToString_(val));
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_B1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, odBoolToString_(val));
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_B1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_B1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                odBoolToString_(val));
 #   endif // ! defined(__OBJC__)
 #  endif // ! defined(WIN32)
@@ -2259,7 +2360,7 @@ EXTERN_C void ODLogObjExitC_(const char * fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_C1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val,
                 val);
         fflush(lOdLogFile_);
     }
@@ -2267,14 +2368,14 @@ EXTERN_C void ODLogObjExitC_(const char * fileName,
     {
 #  if defined(WIN32)
         odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_C1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                 val, val);
         fflush(OD_LOG_STREAM_);
 #  else // ! defined(WIN32)
 #   if defined(__OBJC__)
-        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_C1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_C1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_C1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_C1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                val, val);
 #   endif // ! defined(__OBJC__)
 #  endif // ! defined(WIN32)
@@ -2297,21 +2398,21 @@ EXTERN_C void ODLogObjExitD_(const char * fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_D1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val);
         fflush(lOdLogFile_);
     }
     else
     {
 #  if defined(WIN32)
         odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_D1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                 val);
         fflush(OD_LOG_STREAM_);
 #  else // ! defined(WIN32)
 #   if defined(__OBJC__)
-        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_D1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_D1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val);
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_D1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_D1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                val);
 #   endif // ! defined(__OBJC__)
 #  endif // ! defined(WIN32)
@@ -2334,20 +2435,20 @@ EXTERN_C void ODLogObjExitExit_(const char * fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_CALL_ "\n", OD_OBJFUNC_PREFIX_(rootName), val, val);
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_CALL_ "\n", OD_METHOD_PREFIX_(rootName), val, val);
         fflush(lOdLogFile_);
     }
     else
     {
 #  if defined(WIN32)
         odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_CALL_ "\n", OD_OBJFUNC_PREFIX_(rootName), val, val);
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_CALL_ "\n", OD_METHOD_PREFIX_(rootName), val, val);
         fflush(OD_LOG_STREAM_);
 #  else // ! defined(WIN32)
 #   if defined(__OBJC__)
-        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_CALL_, OD_OBJFUNC_PREFIX_(rootName), val, val);
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_EXIT_CALL_, OD_METHOD_PREFIX_(rootName), val, val);
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_CALL_, OD_OBJFUNC_PREFIX_(rootName), val, val);
+        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_CALL_, OD_METHOD_PREFIX_(rootName), val, val);
 #   endif // ! defined(__OBJC__)
 #  endif // ! defined(WIN32)
     }
@@ -2369,7 +2470,7 @@ EXTERN_C void ODLogObjExitL_(const char *  fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_L1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val,
                 val);
         fflush(lOdLogFile_);
     }
@@ -2377,14 +2478,14 @@ EXTERN_C void ODLogObjExitL_(const char *  fileName,
     {
 #  if defined(WIN32)
         odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_L1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                 val, val);
         fflush(OD_LOG_STREAM_);
 #  else // ! defined(WIN32)
 #   if defined(__OBJC__)
-        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_L1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_L1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_L1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_L1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                val, val);
 #   endif // ! defined(__OBJC__)
 #  endif // ! defined(WIN32)
@@ -2407,7 +2508,7 @@ EXTERN_C void ODLogObjExitLL_(const char *  fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_LL1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val,
                 val);
         fflush(lOdLogFile_);
     }
@@ -2415,14 +2516,14 @@ EXTERN_C void ODLogObjExitLL_(const char *  fileName,
     {
 #  if defined(WIN32)
         odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_LL1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                 val, val);
         fflush(OD_LOG_STREAM_);
 #  else // ! defined(WIN32)
 #   if defined(__OBJC__)
-        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_LL1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_LL1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_LL1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_LL1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                val, val);
 #   endif // ! defined(__OBJC__)
 #  endif // ! defined(WIN32)
@@ -2447,13 +2548,13 @@ EXTERN_C void ODLogObjExitO_(const char * fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_O1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_O1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                 valString);
         fflush(lOdLogFile_);
     }
     else
     {
-        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_O1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, valString);
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_O1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, valString);
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2474,21 +2575,21 @@ EXTERN_C void ODLogObjExitP_(const char * fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_P1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val);
         fflush(lOdLogFile_);
     }
     else
     {
 #  if defined(WIN32)
         odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_P1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                 val);
         fflush(OD_LOG_STREAM_);
 #  else // ! defined(WIN32)
 #   if defined(__OBJC__)
-        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_P1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_P1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val);
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_P1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_P1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                val);
 #   endif // ! defined(__OBJC__)
 #  endif // ! defined(WIN32)
@@ -2512,17 +2613,17 @@ EXTERN_C void ODLogObjExitR_(const char * fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_RECT_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_RECT_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                 val.origin.x, val.origin.y, val.size.height, val.size.width);
         fflush(lOdLogFile_);
     }
     else
     {
 #   if defined(__OBJC__)
-        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_RECT_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val.origin.x,
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_RECT_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val.origin.x,
               val.origin.y, val.size.height, val.size.width);
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_RECT_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_RECT_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                val.origin.x, val.origin.y, val.size.height, val.size.width);
 #   endif // ! defined(__OBJC__)
     }
@@ -2545,7 +2646,7 @@ EXTERN_C void ODLogObjExitS_(const char * fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_S1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                 odNullOrString(val));
         fflush(lOdLogFile_);
     }
@@ -2553,14 +2654,14 @@ EXTERN_C void ODLogObjExitS_(const char * fileName,
     {
 #  if defined(WIN32)
         odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_S1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                 odNullOrString(val));
         fflush(OD_LOG_STREAM_);
 #  else // ! defined(WIN32)
 #   if defined(__OBJC__)
-        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_S1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_, odNullOrString(val));
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_S1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, odNullOrString(val));
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_S1_, OD_OBJFUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_S1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                odNullOrString(val));
 #   endif // ! defined(__OBJC__)
 #  endif // ! defined(WIN32)
@@ -2583,20 +2684,20 @@ EXTERN_C void ODLogObjExitThrowL_(const char *  fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_L_ "\n", OD_OBJFUNC_PREFIX_(rootName), val, val);
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_L_ "\n", OD_METHOD_PREFIX_(rootName), val, val);
         fflush(lOdLogFile_);
     }
     else
     {
 #  if defined(WIN32)
         odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_L_ "\n", OD_OBJFUNC_PREFIX_(rootName), val, val);
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_L_ "\n", OD_METHOD_PREFIX_(rootName), val, val);
         fflush(OD_LOG_STREAM_);
 #  else // ! defined(WIN32)
 #   if defined(__OBJC__)
-        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_L_, OD_OBJFUNC_PREFIX_(rootName), val, val);
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_L_, OD_METHOD_PREFIX_(rootName), val, val);
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_L_, OD_OBJFUNC_PREFIX_(rootName), val, val);
+        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_L_, OD_METHOD_PREFIX_(rootName), val, val);
 #   endif // ! defined(__OBJC__)
 #  endif // ! defined(WIN32)
     }
@@ -2618,7 +2719,7 @@ EXTERN_C void ODLogObjExitThrowS_(const char * fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_S_ "\n", OD_OBJFUNC_PREFIX_(rootName),
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_S_ "\n", OD_METHOD_PREFIX_(rootName),
                 odNullOrString(val));
         fflush(lOdLogFile_);
     }
@@ -2626,14 +2727,14 @@ EXTERN_C void ODLogObjExitThrowS_(const char * fileName,
     {
 #  if defined(WIN32)
         odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_S_ "\n", OD_OBJFUNC_PREFIX_(rootName),
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_S_ "\n", OD_METHOD_PREFIX_(rootName),
                 odNullOrString(val));
         fflush(OD_LOG_STREAM_);
 #  else // ! defined(WIN32)
 #   if defined(__OBJC__)
-        NSLog(@OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_S_, OD_OBJFUNC_PREFIX_(rootName), odNullOrString(val));
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_S_, OD_METHOD_PREFIX_(rootName), odNullOrString(val));
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_OBJFUNC_FORMAT_ OD_FORMAT_EXIT_T_S_, OD_OBJFUNC_PREFIX_(rootName),
+        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_S_, OD_METHOD_PREFIX_(rootName),
                odNullOrString(val));
 #   endif // ! defined(__OBJC__)
 #  endif // ! defined(WIN32)

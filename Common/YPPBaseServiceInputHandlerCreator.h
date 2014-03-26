@@ -41,9 +41,21 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPBASESERVICEINPUTHANDLERCREATOR_H_))
+/*! @brief Header guard. */
 # define YPPBASESERVICEINPUTHANDLERCREATOR_H_ /* */
 
 # include "YPPInputHandlerCreator.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the minimal functionality required for a Yarp++ input handler factory object. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 namespace YarpPlusPlus
 {

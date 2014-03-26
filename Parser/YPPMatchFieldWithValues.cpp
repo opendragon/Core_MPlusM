@@ -47,6 +47,17 @@
 #include "YPPMatchValue.h"
 #include "YPPMatchValueList.h"
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class definition for a pattern matcher for field/value pairs. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
 using namespace YarpPlusPlusParser;
 
 #if defined(__APPLE__)

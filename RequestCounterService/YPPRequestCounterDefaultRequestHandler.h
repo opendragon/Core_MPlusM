@@ -41,9 +41,21 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPREQUESTCOUNTERDEFAULTREQUESTHANDLER_H_))
+/*! @brief Header guard. */
 # define YPPREQUESTCOUNTERDEFAULTREQUESTHANDLER_H_ /* */
 
 # include "YPPBaseRequestHandler.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for a default request handler used by the request counter service. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 namespace YarpPlusPlus
 {

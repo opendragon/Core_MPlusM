@@ -40,9 +40,21 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPREQUESTCOUNTERSERVICE_H_))
+/*! @brief Header guard. */
 # define YPPREQUESTCOUNTERSERVICE_H_ /* */
 
 # include "YPPBaseService.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for a service that collects statistic on requests. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 /*! @brief The port name to use for the service if not provided. */
 # define DEFAULT_REQUESTCOUNTER_SERVICE_NAME "/service/requestCounter"

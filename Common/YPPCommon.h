@@ -41,6 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPCOMMON_H_))
+/*! @brief Header guard. */
 # define YPPCOMMON_H_ /* */
 
 # include "YPPConfig.h"
@@ -60,6 +61,24 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The function and variable declarations for common entities for Yarp++ clients and services. */
+
+/*! @dir Common
+ @brief The set of files that implement the Yarp++ framework. */
+
+/*! @namespace YarpPlusPlus
+ @brief The classes that implement the Yarp++ framework. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+/*! @brief The default name for the root part of a port name. */
 # define DEFAULT_PORT_ROOT "port_"
 
 namespace YarpPlusPlus

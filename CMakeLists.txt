@@ -50,9 +50,9 @@ set(YPP_VERSION_PATCH 4)
 
 option(YPP_MAIN_DOES_DELAY_NOT_YIELD "Use Delay in main() loop")
 
-option(YPP_DEBUG_INCLUDES_YARP_TRACE "Include YARP trace when debugging")
+option(YPP_LOG_INCLUDES_YARP_TRACE "Include YARP trace when logging")
 
-option(YPP_SERVICES_DEBUG_TO_STDERR "Services send output to stderr")
+option(YPP_SERVICES_LOG_TO_STDERR "Services send logging output to stderr")
 
 # find YARP
 find_package(YARP REQUIRED)
@@ -82,19 +82,19 @@ list(APPEND CMAKE_MODULE_PATH ${SQLite_MODULE_PATH})
 include_directories(${SQLite_INCLUDE_DIRS})
 
 set(YPP_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
-set(YPP_DEBUGGING_DIR "${PROJECT_SOURCE_DIR}/Debugging")
+set(YPP_LOGGING_DIR "${PROJECT_SOURCE_DIR}/Logging")
 set(YPP_PARSER_DIR "${PROJECT_SOURCE_DIR}/Parser")
 
 configure_file("${YPP_COMMON_DIR}/YPPConfig.h.in"
                 "${YPP_COMMON_DIR}/YPPConfig.h")
 
 include_directories("${YPP_COMMON_DIR}"
-                    "${YPP_DEBUGGING_DIR}"
+                    "${YPP_LOGGING_DIR}"
                     "${YPP_PARSER_DIR}")
 
 add_subdirectory(Common)
-add_subdirectory(Debugging)
 add_subdirectory(examples)
+add_subdirectory(Logging)
 add_subdirectory(Parser)
 add_subdirectory(RegistryService)
 add_subdirectory(RequestCounterClient)

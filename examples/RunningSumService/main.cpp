@@ -62,6 +62,20 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The main application for a simple Yarp++ service with context. */
+
+/*! @dir RunningSumService
+ @brief The set of files that implement a simple Yarp++ service with context. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
 using namespace YarpPlusPlusExample;
 using std::cout;
 using std::cerr;
@@ -99,23 +113,23 @@ static void stopRunning(int signal)
 int main(int     argc,
          char ** argv)
 {
-#if defined(YPP_SERVICES_DEBUG_TO_STDERR)
+#if defined(YPP_SERVICES_LOG_TO_STDERR)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport);//####
-#else // ! defined(YPP_SERVICES_DEBUG_TO_STDERR)
+#else // ! defined(YPP_SERVICES_LOG_TO_STDERR)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport);//####
-#endif // ! defined(YPP_SERVICES_DEBUG_TO_STDERR)
+#endif // ! defined(YPP_SERVICES_LOG_TO_STDERR)
     OD_LOG_ENTER();//####
     try
     {
         if (yarp::os::Network::checkNetwork())
         {
-#if (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_DEBUG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
             yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
             yarp::os::ConstString serviceEndpointName;
             yarp::os::ConstString serviceHostName;

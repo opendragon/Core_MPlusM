@@ -4,8 +4,7 @@
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for the minimal functionality required for a Yarp++
-//              field name matcher.
+//  Contains:   The class declaration for a field name validator used by the unit tests.
 //
 //  Written by: Norman Jaffe
 //
@@ -41,9 +40,21 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPTESTNAMEVALIDATOR_H_))
+/*! @brief Header guard. */
 # define YPPTESTNAMEVALIDATOR_H_ /* */
 
 # include "YPPBaseNameValidator.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for a field name validator used by the unit tests. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 namespace YarpPlusPlusTest
 {    

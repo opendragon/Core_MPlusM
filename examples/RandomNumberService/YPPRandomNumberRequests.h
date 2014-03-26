@@ -41,11 +41,23 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPRANDOMNUMBERREQUESTS_H_))
+/*! @brief Header guard. */
 # define YPPRANDOMNUMBERREQUESTS_H_ /* */
 
 # include "YPPRequests.h"
 
-/*! @brief The port-independent name of the example echo service. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The common macro definitions for requests and responses for the random number service. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+/*! @brief The port-independent name of the random number service. */
 # define YPP_RANDOM_CANONICAL_NAME "Random"
 
 /*! @brief The name for the 'random' request. */

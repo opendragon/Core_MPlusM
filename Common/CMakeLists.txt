@@ -43,7 +43,7 @@ set(YPP_COMMONTESTSUPPORT_DIR "${YPP_COMMON_DIR}/CommonTests")
 
 add_subdirectory(CommonTests)
 
-include_directories("${YPP_DEBUGGING_DIR}"
+include_directories("${YPP_LOGGING_DIR}"
                     “${YPP_PARSER_DIR}”
                     "${YPP_COMMONTESTSUPPORT_DIR}")
 
@@ -76,7 +76,7 @@ add_executable(CommonTest
 
 target_link_libraries(CommonTest
                       YPPCommon
-                      YPPDebugging
+                      YPPLogging
                       YPPParser
                       YPPCommonTestSupport
                       ${YARP_LIBRARIES})

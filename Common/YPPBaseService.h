@@ -41,10 +41,23 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPBASESERVICE_H_))
+/*! @brief Header guard. */
 # define YPPBASESERVICE_H_ /* */
 
 # include "YPPRequestMap.h"
 
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the minimal functionality required for a Yarp++ service. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+/*! @brief All Yarp++ services maintain contexts for each incoming port connection. */
 # define SERVICES_HAVE_CONTEXTS /* */
 
 namespace YarpPlusPlus

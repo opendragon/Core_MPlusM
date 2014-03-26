@@ -45,12 +45,24 @@
 #include "ODLogging.h"
 #include "YPPCommon.h"
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class definition for the interface between Yarp++ input handlers and YARP. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
 using namespace YarpPlusPlus;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief Report details of the contacts during operations that might change them. */
 //#define REPORT_CONTACT_DETAILS /* Report details of the open() method. */
 
 #if defined(__APPLE__)

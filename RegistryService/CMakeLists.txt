@@ -43,7 +43,7 @@ set(YPP_REGISTRYTESTSUPPORT_DIR "${YPP_COMMON_DIR}/RegistryTests")
 
 add_subdirectory(RegistryTests)
 
-include_directories("${YPP_DEBUGGING_DIR}"
+include_directories("${YPP_LOGGING_DIR}"
                     “${YPP_COMMON_DIR}”
                     "${YPP_REGISTRYTESTSUPPORT_DIR}")
 
@@ -59,7 +59,7 @@ add_executable(RegistryService
 # link with YARP libraries and our interface classes
 target_link_libraries(RegistryService
                       YPPCommon
-                      YPPDebugging
+                      YPPLogging
                       YPPParser
                       ${YARP_LIBRARIES})
 
@@ -75,7 +75,7 @@ add_executable(RegistryTest
 
 target_link_libraries(RegistryTest
                       YPPCommon
-                      YPPDebugging
+                      YPPLogging
                       YPPParser
                       YPPRegistryTestSupport
                       ${YARP_LIBRARIES})

@@ -41,6 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(YPPBASEREQUESTHANDLER_H_))
+/*! @brief Header guard. */
 # define YPPBASEREQUESTHANDLER_H_ /* */
 
 # if defined(__APPLE__)
@@ -57,6 +58,17 @@
 # include <yarp/os/ConnectionWriter.h>
 # include <yarp/os/ConstString.h>
 # include <yarp/os/Property.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# endif // defined(__APPLE__)
+/*! @file
+ 
+ @brief The class declaration for the minimal functionality required for a Yarp++ request handler. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
