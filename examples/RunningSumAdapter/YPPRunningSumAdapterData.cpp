@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPRunningSumDataInputHandler.cpp
+//  File:       YPPRunningSumAdapterData.cpp
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class definition for the custom data channel input handler used by the running sum adapter.
+//  Contains:   The class declaration for the data shared between the input handlers and
+//              main thread of the running sum adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,14 +36,13 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-24
+//  Created:    2014-03-26
 //
 //--------------------------------------------------------------------------------------
 
-#include "YPPRunningSumDataInputHandler.h"
+#include "YPPRunningSumAdapterData.h"
 //#define OD_ENABLE_LOGGING /* */
 #include "ODLogging.h"
-#include "YPPRunningSumAdapterData.h"
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -50,7 +50,8 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the custom data channel input handler used by the running sum adapter. */
+ @brief The class definition for the data shared between the input handlers and main thread of the running sum
+ adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -73,54 +74,49 @@ using namespace YarpPlusPlusExample;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RunningSumDataInputHandler::RunningSumDataInputHandler(RunningSumAdapterData & shared) :
-        inherited(), _shared(shared)
+RunningSumAdapterData::RunningSumAdapterData(RunningSumClient * client,
+                                             yarp::os::Port *   output) :
+        _lock(), _output(output), _client(client), _active(false)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_P1("shared = ", &shared);//####
     OD_LOG_EXIT_P(this);//####
-} // RunningSumDataInputHandler::RunningSumDataInputHandler
+} // RunningSumAdapterData::RunningSumAdapterData
 
-RunningSumDataInputHandler::~RunningSumDataInputHandler(void)
+RunningSumAdapterData::~RunningSumAdapterData(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // RunningSumDataInputHandler::~RunningSumDataInputHandler
+} // RunningSumAdapterData::~RunningSumAdapterData
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RunningSumDataInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                             const yarp::os::ConstString & senderPort,
-                                             yarp::os::ConnectionWriter *  replyMechanism)
+bool RunningSumAdapterData::activate(void)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
-    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
-    bool result = false;
+    bool previous;
     
-    try
-    {
-        if (0 < input.size())
-        {
-#if 0
-            result = _service.processRequest(input.get(0).toString(), input.tail(), senderPort, replyMechanism);
-#endif//0
-        }
-        else
-        {
-            result = true;
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(result);//####
-    return result;
-} // RunningSumDataInputHandler::handleInput
+    _lock.wait();
+    previous = _active;
+    _active = true;
+    _lock.post();
+    OD_LOG_OBJEXIT_B(previous);//####
+    return previous;
+} // RunningSumAdapterData::activate
+
+bool RunningSumAdapterData::deactivate(void)
+{
+    OD_LOG_OBJENTER();//####
+    bool previous;
+    
+    _lock.wait();
+    previous = _active;
+    _active = false;
+    _lock.post();
+    OD_LOG_OBJEXIT_B(previous);//####
+    return previous;
+} // RunningSumAdapterData::deactivate
 
 #if defined(__APPLE__)
 # pragma mark Accessors

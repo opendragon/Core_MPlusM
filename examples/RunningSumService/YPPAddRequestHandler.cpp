@@ -63,7 +63,7 @@ using namespace YarpPlusPlusExample;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'reset' request. */
-#define ADD_REQUEST_VERSION_NUMBER "1.0"
+#define ADD_REQUEST_VERSION_NUMBER "1.1"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -101,7 +101,7 @@ void AddRequestHandler::fillInDescription(yarp::os::Property & info)
     try
     {
         info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_ADD_REQUEST);
-        info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_NUMBER);
+        info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_NUMBER YPP_REQREP_1_OR_MORE);
         info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_DOUBLE);
         info.put(YPP_REQREP_DICT_VERSION_KEY, ADD_REQUEST_VERSION_NUMBER);
         info.put(YPP_REQREP_DICT_DETAILS_KEY, "Add to the running sum");
@@ -126,27 +126,40 @@ bool AddRequestHandler::processRequest(const yarp::os::Bottle &      restOfInput
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
-    bool  result = true;
+    bool result = true;
 
     try
     {
+        double           total = 0.0;
+        int              count = restOfInput.size();
         yarp::os::Bottle response;
         
-        if (1 == restOfInput.size())
+        if (1 < count)
         {
-            yarp::os::Value incoming(restOfInput.get(0));
+            int tally = 0;
             
-            if (incoming.isInt())
+            for (int ii = 0; ii < count; ++ii)
             {
-                response.addDouble(_service.addToSum(senderPort, incoming.asInt()));
+                yarp::os::Value incoming(restOfInput.get(ii));
+                
+                if (incoming.isInt())
+                {
+                    ++tally;
+                    total = _service.addToSum(senderPort, incoming.asInt());
+                }
+                else if (incoming.isDouble())
+                {
+                    ++tally;
+                    total = _service.addToSum(senderPort, incoming.asDouble());
+                }
             }
-            else if (incoming.isDouble())
+            if (tally)
             {
-                response.addDouble(_service.addToSum(senderPort, incoming.asDouble()));
+                response.addDouble(total);
             }
             else
             {
-                OD_LOG("! (incoming.isDouble())");//####
+                OD_LOG("! (tally)");//####
                 response.addString(YPP_FAILED_RESPONSE);
             }
         }

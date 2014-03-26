@@ -99,6 +99,8 @@
 		DF30062518E35E0C00B51C22 /* ODLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODLogging.h; path = ../Logging/ODLogging.h; sourceTree = SOURCE_ROOT; };
 		DF30062618E35E0C00B51C22 /* ODLogging.inc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ODLogging.inc.c; path = ../Logging/ODLogging.inc.c; sourceTree = SOURCE_ROOT; };
 		DF30062718E35E0C00B51C22 /* ODLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODLogging.m; path = ../Logging/ODLogging.m; sourceTree = SOURCE_ROOT; };
+		DF30062818E3788600B51C22 /* YPPRunningSumAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRunningSumAdapterData.h; path = ../examples/RunningSumAdapter/YPPRunningSumAdapterData.h; sourceTree = SOURCE_ROOT; };
+		DF30062918E37D5500B51C22 /* YPPRunningSumAdapterData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPRunningSumAdapterData.cpp; path = ../examples/RunningSumAdapter/YPPRunningSumAdapterData.cpp; sourceTree = "<group>"; };
 		DFA3431318C91B7E0053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = main.cpp; path = ../RegistryService/main.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DFA3432718C91C5A0053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = ../Common/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFA3432818C91C5A0053B87C /* YPPBaseClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPBaseClient.cpp; path = ../Common/YPPBaseClient.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -511,6 +513,8 @@
 			children = (
 				DFA86D4418E1D9EB00A22941 /* CMakeLists.txt */,
 				DFA86D4518E1D9EB00A22941 /* main.cpp */,
+				DF30062918E37D5500B51C22 /* YPPRunningSumAdapterData.cpp */,
+				DF30062818E3788600B51C22 /* YPPRunningSumAdapterData.h */,
 				DFA86D4618E1D9EB00A22941 /* YPPRunningSumControlInputHandler.cpp */,
 				DFA86D4718E1D9EB00A22941 /* YPPRunningSumControlInputHandler.h */,
 				DFA86D4818E1D9EB00A22941 /* YPPRunningSumDataInputHandler.cpp */,

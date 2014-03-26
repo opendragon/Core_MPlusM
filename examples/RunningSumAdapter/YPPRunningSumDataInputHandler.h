@@ -4,7 +4,7 @@
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for the custom data channel input handler used by the example running sum adapter.
+//  Contains:   The class declaration for the custom data channel input handler used by the running sum adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,22 +51,23 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the custom data channel input handler used by the example running sum adapter. */
+ @brief The class declaration for the custom data channel input handler used by the running sum adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace YarpPlusPlusExample
 {
-    class RunningSumClient;
+    class RunningSumAdapterData;
     
     /*! @brief A handler for partially-structured input data. */
     class RunningSumDataInputHandler : public YarpPlusPlus::InputHandler
     {
     public:
         
-        /*! @brief The constructor. */
-        RunningSumDataInputHandler(RunningSumClient * client);
+        /*! @brief The constructor.
+         @param shared The data shared between the input handlers and the main thread. */
+        RunningSumDataInputHandler(RunningSumAdapterData & shared);
         
         /*! @brief The destructor. */
         virtual ~RunningSumDataInputHandler(void);
@@ -99,11 +100,11 @@ namespace YarpPlusPlusExample
          @param other Another object to construct from. */
         RunningSumDataInputHandler & operator=(const RunningSumDataInputHandler & other);
         
-        /*! @brief The client object that interfaces to the service that we are using. */
-        RunningSumClient * _client;
+        /*! @brief The shared data that describes the connection to the service that we are using. */
+        RunningSumAdapterData & _shared;
         
     }; // RunningSumDataInputHandler
     
-} // YarpPlusPlus
+} // YarpPlusPlusExample
 
 #endif // ! defined(YPPRUNNINGSUMDATAINPUTHANDLER_H_)

@@ -99,6 +99,6 @@ namespace YarpPlusPlusExample
         
     }; // RunningSumContext
     
-} // YarpPlusPlus
+} // YarpPlusPlusExample
 
 #endif // ! defined(YPPRUNNINGSUMCONTEXT_H_)

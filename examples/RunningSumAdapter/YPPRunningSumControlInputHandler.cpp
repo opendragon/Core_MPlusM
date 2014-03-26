@@ -4,8 +4,7 @@
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class definition for the custom control channel input handler used by the example running sum
-//              adapter.
+//  Contains:   The class definition for the custom control channel input handler used by the running sum adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -43,7 +42,7 @@
 #include "YPPRunningSumControlInputHandler.h"
 //#define OD_ENABLE_LOGGING /* */
 #include "ODLogging.h"
-//#include "YPPCommon.h"
+#include "YPPRunningSumAdapterData.h"
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -51,7 +50,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the custom control channel input handler used by the example running sum adapter. */
+ @brief The class definition for the custom control channel input handler used by the running sum adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -61,8 +60,6 @@ using namespace YarpPlusPlusExample;
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-//#define REPORT_CONTACT_DETAILS /* Report details of the open() method. */
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -76,10 +73,11 @@ using namespace YarpPlusPlusExample;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RunningSumControlInputHandler::RunningSumControlInputHandler(RunningSumClient * client) :
-        inherited(), _client(client)
+RunningSumControlInputHandler::RunningSumControlInputHandler(RunningSumAdapterData & shared) :
+        inherited(), _shared(shared)
 {
     OD_LOG_ENTER();//####
+    OD_LOG_P1("shared = ", &shared);//####
     OD_LOG_EXIT_P(this);//####
 } // RunningSumControlInputHandler::RunningSumControlInputHandler
 

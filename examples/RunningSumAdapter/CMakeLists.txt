@@ -47,6 +47,7 @@ include_directories("${YPP_LOGGING_DIR}"
 # set up our program
 add_executable(RunningSumAdapter
                main.cpp
+               YPPRunningSumAdapterData.cpp
                YPPRunningSumControlInputHandler.cpp
                YPPRunningSumDataInputHandler.cpp
                ${YPP_EXAMPLES_DIR}/RunningSumClient/YPPRunningSumClient.cpp)

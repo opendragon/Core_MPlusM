@@ -41,6 +41,7 @@
 
 //#define OD_ENABLE_LOGGING /* */
 #include "ODLogging.h"
+#include "YPPRunningSumAdapterData.h"
 #include "YPPRunningSumClient.h"
 #include "YPPRunningSumControlInputHandler.h"
 #include "YPPRunningSumDataInputHandler.h"
@@ -142,13 +143,12 @@ int main(int     argc,
                 {
                     if (stuff->connectToService())
                     {
-                        yarp::os::Port *                       controlChannel = new yarp::os::Port;
-                        yarp::os::Port *                       dataChannel = new yarp::os::Port;
-                        yarp::os::Port *                       outputChannel = new yarp::os::Port;
-                        RunningSumControlInputHandler * controlHandler =
-                                                                        new RunningSumControlInputHandler(stuff);
-                        RunningSumDataInputHandler *    dataHandler =
-                                                                        new RunningSumDataInputHandler(stuff);
+                        yarp::os::Port *                controlChannel = new yarp::os::Port;
+                        yarp::os::Port *                dataChannel = new yarp::os::Port;
+                        yarp::os::Port *                outputChannel = new yarp::os::Port;
+                        RunningSumAdapterData           sharedData(stuff, outputChannel);
+                        RunningSumControlInputHandler * controlHandler = new RunningSumControlInputHandler(sharedData);
+                        RunningSumDataInputHandler *    dataHandler = new RunningSumDataInputHandler(sharedData);
                         
                         if (controlChannel && dataChannel && outputChannel && controlHandler && dataHandler)
                         {
@@ -171,9 +171,26 @@ int main(int     argc,
                             if (controlChannel->open(controlName) && dataChannel->open(dataName) &&
                                 outputChannel->open(outputName))
                             {
+                                sharedData.activate();
                                 controlChannel->setReader(*controlHandler);
                                 dataChannel->setReader(*dataHandler);
                                 
+                                
+                                for ( ; lKeepRunning && sharedData.isActive(); )
+                                {
+                                    
+                                    
+                                    
+#if defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
+                                    yarp::os::Time::delay(1.0);
+#else // ! defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
+                                    yarp::os::Time::yield();
+#endif // ! defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
+                                    if (! lKeepRunning)
+                                    {
+                                        sharedData.deactivate();
+                                    }
+                                }
                                 
                                 
                                 
@@ -199,74 +216,10 @@ int main(int     argc,
                         delete controlChannel;
                         delete dataChannel;
                         delete outputChannel;
+                     
                         
                         
                         
-                        
-#if 0
-                        for ( ; lKeepRunning; )
-                        {
-                            char   inChar;
-                            double newSum;
-                            double value;
-                            
-                            cout << "Operation: [+ r x s]? ";
-                            cin >> inChar;
-                            switch (inChar)
-                            {
-                                case '+':
-                                    cout << "add: ";
-                                    cin >> value;
-                                    cout << "adding " << value << endl;
-                                    if (stuff->addToSum(value, newSum))
-                                    {
-                                        cout << "running sum = " << newSum << endl;
-                                    }
-                                    else
-                                    {
-                                        OD_LOG("! (stuff->addToSum(value, newSum))");//####
-                                        cerr << "Problem adding to the sum." << endl;
-                                    }
-                                    break;
-                                    
-                                case 'r':
-                                case 'R':
-                                    cout << "Resetting" << endl;
-                                    if (! stuff->resetSum())
-                                    {
-                                        OD_LOG("(! stuff->resetSum())");//####
-                                        cerr << "Problem resetting the sum." << endl;
-                                    }
-                                    break;
-                                    
-                                case 's':
-                                case 'S':
-                                    cout << "Starting" << endl;
-                                    if (! stuff->startSum())
-                                    {
-                                        OD_LOG("(! stuff->startSum())");//####
-                                        cerr << "Problem starting the sum." << endl;
-                                    }
-                                    break;
-                                    
-                                case 'x':
-                                case 'X':
-                                    cout << "Exiting" << endl;
-                                    if (! stuff->stopSum())
-                                    {
-                                        OD_LOG("(! stuff->stopSum())");//####
-                                        cerr << "Problem stopping the sum." << endl;
-                                    }
-                                    lKeepRunning = false;
-                                    break;
-                                    
-                                default:
-                                    cout << "Unrecognized request '" << inChar << "'." << endl;
-                                    break;
-                                    
-                            }
-                        }
-#endif//0
                         if (! stuff->disconnectFromService())
                         {
                             OD_LOG("(! stuff->disconnectFromService())");//####
