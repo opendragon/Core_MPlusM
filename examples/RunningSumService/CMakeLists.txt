@@ -4,7 +4,7 @@
 #
 #  Project:    YarpPlusPlus
 #
-#  Contains:   The CMAKE definitions for the example random number service application.
+#  Contains:   The CMAKE definitions for the example running sum service application.
 #
 #  Written by: Norman Jaffe
 #

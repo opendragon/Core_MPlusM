@@ -78,16 +78,17 @@ static const float kTest09ServiceTimeout = 5.0;
 
 Test09Service::Test09Service(const int argc,
                              char **   argv) :
-        inherited(false, "Test09", "Simple service for unit tests", argc, argv)
+        inherited(false, "Test09", "Simple service for unit tests", argc, argv), _defaultHandler(NULL)
 {
     OD_LOG_ENTER();//####
-    setUpRequestHandlers();
+    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // Test09Service::Test09Service
 
 Test09Service::~Test09Service(void)
 {
     OD_LOG_OBJENTER();//####
+    detachRequestHandlers();
     OD_LOG_OBJEXIT();//####
 } // Test09Service::~Test09Service
 
@@ -95,12 +96,20 @@ Test09Service::~Test09Service(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test09Service::setUpRequestHandlers(void)
+void Test09Service::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER();//####
     try
     {
-        _requestHandlers.setDefaultRequestHandler(new Test09DefaultRequestHandler());
+        _defaultHandler = new Test09DefaultRequestHandler;
+        if (_defaultHandler)
+        {
+            setDefaultRequestHandler(_defaultHandler);
+        }
+        else
+        {
+            OD_LOG("! (_defaultHandler)");//####
+        }
     }
     catch (...)
     {
@@ -108,7 +117,27 @@ void Test09Service::setUpRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // Test09Service::setUpRequestHandlers
+} // Test09Service::attachRequestHandlers
+
+void Test09Service::detachRequestHandlers(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        if (_defaultHandler)
+        {
+            setDefaultRequestHandler(NULL);
+            delete _defaultHandler;
+            _defaultHandler = NULL;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // Test09Service::detachRequestHandlers
 
 bool Test09Service::start(void)
 {

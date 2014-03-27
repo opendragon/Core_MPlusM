@@ -58,6 +58,8 @@
 
 namespace YarpPlusPlusTest
 {
+    class Test14EchoRequestHandler;
+    
     /*! @brief A test service. */
     class Test14Service : public YarpPlusPlus::BaseService
     {
@@ -87,8 +89,14 @@ namespace YarpPlusPlusTest
         /*! @brief The class that this class is derived from. */
         typedef BaseService inherited;
         
-        /*! @brief Set up the standard request handlers. */
-        void setUpRequestHandlers(void);
+        /*! @brief Enable the standard request handlers. */
+        void attachRequestHandlers(void);
+        
+        /*! @brief Disable the standard request handlers. */
+        void detachRequestHandlers(void);
+        
+        /*! @brief The request handler for the 'echo' request. */
+        Test14EchoRequestHandler * _echoHandler;
         
     }; // Test14Service
     

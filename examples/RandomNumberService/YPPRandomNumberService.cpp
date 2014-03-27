@@ -81,18 +81,19 @@ RandomNumberService::RandomNumberService(const yarp::os::ConstString & serviceEn
                                          const yarp::os::ConstString & serviceHostName,
                                          const yarp::os::ConstString & servicePortNumber) :
         inherited(true, YPP_RANDOM_CANONICAL_NAME, "An example random number service", serviceEndpointName,
-                  serviceHostName, servicePortNumber)
+                  serviceHostName, servicePortNumber), _randomHandler(NULL)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
               serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
-    setUpRequestHandlers();
+    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RandomNumberService::RandomNumberService
 
 RandomNumberService::~RandomNumberService(void)
 {
     OD_LOG_OBJENTER();//####
+    detachRequestHandlers();
     OD_LOG_OBJEXIT();//####
 } // RandomNumberService::~RandomNumberService
 
@@ -100,12 +101,20 @@ RandomNumberService::~RandomNumberService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RandomNumberService::setUpRequestHandlers(void)
+void RandomNumberService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER();//####
     try
     {
-        _requestHandlers.registerRequestHandler(new RandomRequestHandler());
+        _randomHandler = new RandomRequestHandler;
+        if (_randomHandler)
+        {
+            registerRequestHandler(_randomHandler);
+        }
+        else
+        {
+            OD_LOG("! (_randomHandler)");//####
+        }
     }
     catch (...)
     {
@@ -113,7 +122,27 @@ void RandomNumberService::setUpRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // RandomNumberService::setUpRequestHandlers
+} // RandomNumberService::attachRequestHandlers
+
+void RandomNumberService::detachRequestHandlers(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        if (_randomHandler)
+        {
+            unregisterRequestHandler(_randomHandler);
+            delete _randomHandler;
+            _randomHandler = NULL;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // RandomNumberService::detachRequestHandlers
 
 bool RandomNumberService::start(void)
 {

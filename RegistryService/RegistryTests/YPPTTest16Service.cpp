@@ -79,16 +79,17 @@ static const float kTest16ServiceTimeout = 5.0;
 
 Test16Service::Test16Service(const int argc,
                              char **   argv) :
-        inherited(true, "Test16", "Simple service for unit tests", argc, argv)
+        inherited(true, "Test16", "Simple service for unit tests", argc, argv), _echoHandler(NULL)
 {
     OD_LOG_ENTER();//####
-    setUpRequestHandlers();
+    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // Test16Service::Test16Service
 
 Test16Service::~Test16Service(void)
 {
     OD_LOG_OBJENTER();//####
+    detachRequestHandlers();
     OD_LOG_OBJEXIT();//####
 } // Test16Service::~Test16Service
 
@@ -96,12 +97,20 @@ Test16Service::~Test16Service(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test16Service::setUpRequestHandlers(void)
+void Test16Service::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER();//####
     try
     {
-        _requestHandlers.registerRequestHandler(new Test16EchoRequestHandler());
+        _echoHandler = new Test16EchoRequestHandler;
+        if (_echoHandler)
+        {
+            registerRequestHandler(_echoHandler);
+        }
+        else
+        {
+            OD_LOG("! (_echoHandler)");//####
+        }
     }
     catch (...)
     {
@@ -109,7 +118,27 @@ void Test16Service::setUpRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // Test16Service::setUpRequestHandlers
+} // Test16Service::attachRequestHandlers
+
+void Test16Service::detachRequestHandlers(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        if (_echoHandler)
+        {
+            unregisterRequestHandler(_echoHandler);
+            delete _echoHandler;
+            _echoHandler = NULL;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // Test16Service::detachRequestHandlers
 
 bool Test16Service::start(void)
 {

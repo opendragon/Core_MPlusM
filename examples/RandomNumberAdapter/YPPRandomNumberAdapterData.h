@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPRunningSumAdapterData.h
+//  File:       YPPRandomNumberAdapterData.h
 //
 //  Project:    YarpPlusPlus
 //
 //  Contains:   The class declaration for the data shared between the input handlers and
-//              main thread of the running sum adapter.
+//              main thread of the random number adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,13 +36,13 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-26
+//  Created:    2014-03-27
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(YPPRUNNINGSUMADAPTERDATA_H_))
+#if (! defined(YPPRANDOMNUMBERADAPTERDATA_H_))
 /*! @brief Header guard. */
-# define YPPRUNNINGSUMADAPTERDATA_H_ /* */
+# define YPPRANDOMNUMBERADAPTERDATA_H_ /* */
 
 # include "YPPBaseAdapterData.h"
 # if defined(__APPLE__)
@@ -68,28 +68,28 @@
 /*! @file
  
  @brief The class declaration for the data shared between the input handlers and main
- thread of the running sum adapter. */
+ thread of the random number adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace YarpPlusPlusExample
 {
-    class RunningSumClient;
+    class RandomNumberClient;
     
     /*! @brief A handler for partially-structured input data. */
-    class RunningSumAdapterData : public YarpPlusPlus::BaseAdapterData
+    class RandomNumberAdapterData : public YarpPlusPlus::BaseAdapterData
     {
     public:
         
         /*! @brief The constructor.
          @param client The client connection that is used to communicate with the service.
          @param output The output port that will receive the service responses. */
-        RunningSumAdapterData(RunningSumClient * client,
-                              yarp::os::Port *   output);
+        RandomNumberAdapterData(RandomNumberClient * client,
+                                yarp::os::Port *     output);
         
         /*! @brief The destructor. */
-        virtual ~RunningSumAdapterData(void);
+        virtual ~RandomNumberAdapterData(void);
         
     protected:
         
@@ -102,19 +102,19 @@ namespace YarpPlusPlusExample
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        RunningSumAdapterData(const RunningSumAdapterData & other);
+        RandomNumberAdapterData(const RandomNumberAdapterData & other);
         
         /*! @brief Assignment operator.
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        RunningSumAdapterData & operator=(const RunningSumAdapterData & other);
+        RandomNumberAdapterData & operator=(const RandomNumberAdapterData & other);
         
         /*! @brief The output port for the adapter. */
         yarp::os::Port * _output;
         
-    }; // RunningSumDataInputHandler
+    }; // RandomNumberDataInputHandler
     
 } // YarpPlusPlusExample
 
-#endif // ! defined(YPPRUNNINGSUMADAPTERDATA_H_)
+#endif // ! defined(YPPRANDOMNUMBERADAPTERDATA_H_)

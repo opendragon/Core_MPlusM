@@ -61,6 +61,8 @@
 
 namespace YarpPlusPlusExample
 {
+    class EchoRequestHandler;
+    
     /*! @brief An example Yarp++ service, handling 'echo' requests. */
     class EchoService : public YarpPlusPlus::BaseService
     {
@@ -104,8 +106,14 @@ namespace YarpPlusPlusExample
          @param other Another object to construct from. */
         EchoService & operator=(const EchoService & other);
         
-        /*! @brief Set up the standard request handlers. */
-        void setUpRequestHandlers(void);
+        /*! @brief Enable the standard request handlers. */
+        void attachRequestHandlers(void);
+        
+        /*! @brief Disable the standard request handlers. */
+        void detachRequestHandlers(void);
+        
+        /*! @brief The request handler for the 'echo' request. */
+        EchoRequestHandler * _echoHandler;
         
     }; // EchoService
     

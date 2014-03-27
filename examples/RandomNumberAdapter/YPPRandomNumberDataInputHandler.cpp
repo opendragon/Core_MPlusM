@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPTTest12Service.cpp
+//  File:       YPPRandomNumberDataInputHandler.cpp
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class definition for a simple service used by the unit tests.
+//  Contains:   The class definition for the custom data channel input handler used by
+//              the random number adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,15 +36,14 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-28
+//  Created:    2014-03-27
 //
 //--------------------------------------------------------------------------------------
 
-#include "YPPTTest12Service.h"
+#include "YPPRandomNumberDataInputHandler.h"
 //#define OD_ENABLE_LOGGING /* */
 #include "ODLogging.h"
-#include "YPPRequests.h"
-#include "YPPTTest12EchoRequestHandler.h"
+#include "YPPRandomNumberAdapterData.h"
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -51,19 +51,17 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for a simple service used by the unit tests. */
+ @brief The class definition for the custom data channel input handler used by the
+ random number adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace YarpPlusPlusTest;
+using namespace YarpPlusPlusExample;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-/*! @brief The operation timeout to use with YARP. */
-static const float kTest12ServiceTimeout = 5.0;
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -77,90 +75,45 @@ static const float kTest12ServiceTimeout = 5.0;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-Test12Service::Test12Service(const int argc,
-                             char **   argv) :
-        inherited(true, "Test12", "Simple service for unit tests", argc, argv), _echoHandler(NULL)
+RandomNumberDataInputHandler::RandomNumberDataInputHandler(RandomNumberAdapterData & shared) :
+        inherited(), _shared(shared)
 {
     OD_LOG_ENTER();//####
-    attachRequestHandlers();
+    OD_LOG_P1("shared = ", &shared);//####
     OD_LOG_EXIT_P(this);//####
-} // Test12Service::Test12Service
+} // RandomNumberDataInputHandler::RandomNumberDataInputHandler
 
-Test12Service::~Test12Service(void)
+RandomNumberDataInputHandler::~RandomNumberDataInputHandler(void)
 {
     OD_LOG_OBJENTER();//####
-    detachRequestHandlers();
     OD_LOG_OBJEXIT();//####
-} // Test12Service::~Test12Service
+} // RandomNumberDataInputHandler::~RandomNumberDataInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test12Service::attachRequestHandlers(void)
+bool RandomNumberDataInputHandler::handleInput(const yarp::os::Bottle &      input,
+                                               const yarp::os::ConstString & senderPort,
+                                               yarp::os::ConnectionWriter *  replyMechanism)
 {
     OD_LOG_OBJENTER();//####
+    OD_LOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
+    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
+    bool result = false;
+    
     try
     {
-        _echoHandler = new Test12EchoRequestHandler;
-        if (_echoHandler)
+        if (0 < input.size())
         {
-            registerRequestHandler(_echoHandler);
+#if 0
+            result = _service.processRequest(input.get(0).toString(), input.tail(), senderPort, replyMechanism);
+#endif//0
         }
         else
         {
-            OD_LOG("! (_echoHandler)");//####
+            result = true;
         }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // Test12Service::attachRequestHandlers
-
-void Test12Service::detachRequestHandlers(void)
-{
-    OD_LOG_OBJENTER();//####
-    try
-    {
-        if (_echoHandler)
-        {
-            unregisterRequestHandler(_echoHandler);
-            delete _echoHandler;
-            _echoHandler = NULL;
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // Test12Service::detachRequestHandlers
-
-bool Test12Service::start(void)
-{
-    OD_LOG_OBJENTER();//####
-    bool result = false;
-    
-    try
-    {
-        if (! isStarted())
-        {
-            setTimeout(kTest12ServiceTimeout);
-            inherited::start();
-            if (isStarted())
-            {
-                
-            }
-            else
-            {
-                OD_LOG("! (isStarted())");//####
-            }
-        }
-        result = isStarted();
     }
     catch (...)
     {
@@ -169,25 +122,7 @@ bool Test12Service::start(void)
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // Test12Service::start
-
-bool Test12Service::stop(void)
-{
-    OD_LOG_OBJENTER();//####
-    bool result = false;
-    
-    try
-    {
-        result = inherited::stop();
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(result);//####
-    return result;
-} // Test12Service::stop
+} // RandomNumberDataInputHandler::handleInput
 
 #if defined(__APPLE__)
 # pragma mark Accessors

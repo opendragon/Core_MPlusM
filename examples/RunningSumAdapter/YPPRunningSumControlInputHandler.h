@@ -4,7 +4,8 @@
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for the custom control channel input handler used by the running sum adapter.
+//  Contains:   The class declaration for the custom control channel input handler used
+//              by the running sum adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,7 +52,8 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the custom control channel input handler used by the running sum adapter. */
+ @brief The class declaration for the custom control channel input handler used by the
+ running sum adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

@@ -67,6 +67,9 @@ namespace YarpPlusPlus
     class BaseServiceInputHandler;
     class BaseServiceInputHandlerCreator;
     class Endpoint;
+    class InfoRequestHandler;
+    class ListRequestHandler;
+    class NameRequestHandler;
     
     /*! @brief The minimal functionality required for a Yarp++ service. */
     class BaseService
@@ -175,19 +178,28 @@ namespace YarpPlusPlus
         BaseContext * findContext(const yarp::os::ConstString & key);
 #endif // defined(SERVICES_HAVE_CONTEXTS)
         
+        /*! @brief Remember the function to be used to handle a particular request.
+         @param handler The function to be called for the request. */
+        void registerRequestHandler(BaseRequestHandler * handler);
+        
 #if defined(SERVICES_HAVE_CONTEXTS)
         /*! @brief Remove a context.
          @param key The name of the context. */
         void removeContext(const yarp::os::ConstString & key);
 #endif // defined(SERVICES_HAVE_CONTEXTS)
         
+        /*! @brief Remember the function to be used to handle unrecognized requests.
+         @param handler The function to be called by default. */
+        void setDefaultRequestHandler(BaseRequestHandler * handler);
+        
         /*! @brief Set the endpoint timeout; must be called between creating an endpoint and opening it.
          @param timeout The number of seconds to wait; if negative, wait forever.
          @returns @c true if the timeou was set and @c false otherwise. */
         bool setTimeout(const float timeout);
         
-        /*! @brief The map between requests and request handlers. */
-        RequestMap _requestHandlers;
+        /*! @brief Forget the function to be used to handle a particular request.
+         @param handler The function that was called for the request. */
+        void unregisterRequestHandler(BaseRequestHandler * handler);
         
     private:
         
@@ -213,9 +225,15 @@ namespace YarpPlusPlus
          @param other Another object to construct from. */
         BaseService & operator=(const BaseService & other);
         
-        /*! @brief Set up the standard request handlers. */
-        void setUpRequestHandlers(void);
+        /*! @brief Enable the standard request handlers. */
+        void attachRequestHandlers(void);
 
+        /*! @brief Disable the standard request handlers. */
+        void detachRequestHandlers(void);
+        
+        /*! @brief The map between requests and request handlers. */
+        RequestMap                       _requestHandlers;
+        
 #if defined(SERVICES_HAVE_CONTEXTS)
         /*! @brief The map between requests and request handlers. */
         ContextMap                       _contexts;
@@ -226,6 +244,15 @@ namespace YarpPlusPlus
         
         /*! @brief The description of the service. */
         yarp::os::ConstString            _description;
+        
+        /*! @brief The request handler for the 'info' request. */
+        InfoRequestHandler *             _infoHandler;
+
+        /*! @brief The request handler for the 'list' request. */
+        ListRequestHandler *             _listHandler;
+
+        /*! @brief The request handler for the 'name' request. */
+        NameRequestHandler *             _nameHandler;
         
         /*! @brief The connection point for the service. */
         Endpoint *                       _endpoint;

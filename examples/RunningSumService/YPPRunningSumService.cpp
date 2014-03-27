@@ -85,7 +85,8 @@ RunningSumService::RunningSumService(const yarp::os::ConstString & serviceEndpoi
                                      const yarp::os::ConstString & serviceHostName,
                                      const yarp::os::ConstString & servicePortNumber) :
         inherited(true, YPP_RUNNINGSUM_CANONICAL_NAME, "An example running sum service", serviceEndpointName,
-                  serviceHostName, servicePortNumber)
+                  serviceHostName, servicePortNumber), _addHandler(NULL), _resetHandler(NULL), _startHandler(NULL),
+        _stopHandler(NULL)
 #if (! defined(SERVICES_HAVE_CONTEXTS))
         , _runningSum(0.0)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
@@ -93,13 +94,14 @@ RunningSumService::RunningSumService(const yarp::os::ConstString & serviceEndpoi
     OD_LOG_ENTER();//####
     OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
               serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
-    setUpRequestHandlers();
+    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RunningSumService::RunningSumService
 
 RunningSumService::~RunningSumService(void)
 {
     OD_LOG_OBJENTER();//####
+    detachRequestHandlers();
     OD_LOG_OBJEXIT();//####
 } // RunningSumService::~RunningSumService
 
@@ -146,6 +148,73 @@ double RunningSumService::addToSum(const yarp::os::ConstString & key,
     return result;
 } // RunningSumService::addToSum
 
+void RunningSumService::attachRequestHandlers(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        _addHandler = new AddRequestHandler(*this);
+        _resetHandler = new ResetRequestHandler(*this);
+        _startHandler = new StartRequestHandler(*this);
+        _stopHandler = new StopRequestHandler(*this);
+        if (_addHandler && _resetHandler && _startHandler && _stopHandler)
+        {
+            registerRequestHandler(_addHandler);
+            registerRequestHandler(_resetHandler);
+            registerRequestHandler(_startHandler);
+            registerRequestHandler(_stopHandler);
+        }
+        else
+        {
+            OD_LOG("! (_addHandler && _resetHandler && _startHandler && _stopHandler)");//####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // RunningSumService::attachRequestHandlers
+
+void RunningSumService::detachRequestHandlers(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        if (_addHandler)
+        {
+            unregisterRequestHandler(_addHandler);
+            delete _addHandler;
+            _addHandler = NULL;
+        }
+        if (_resetHandler)
+        {
+            unregisterRequestHandler(_resetHandler);
+            delete _resetHandler;
+            _resetHandler = NULL;
+        }
+        if (_startHandler)
+        {
+            unregisterRequestHandler(_startHandler);
+            delete _startHandler;
+            _startHandler = NULL;
+        }
+        if (_stopHandler)
+        {
+            unregisterRequestHandler(_stopHandler);
+            delete _stopHandler;
+            _stopHandler = NULL;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // RunningSumService::detachRequestHandlers
+
 void RunningSumService::resetSum(const yarp::os::ConstString & key)
 {
 #if (! defined(SERVICES_HAVE_CONTEXTS))
@@ -177,24 +246,6 @@ void RunningSumService::resetSum(const yarp::os::ConstString & key)
     }
     OD_LOG_OBJEXIT();//####
 } // RunningSumService::resetSum
-
-void RunningSumService::setUpRequestHandlers(void)
-{
-    OD_LOG_OBJENTER();//####
-    try
-    {
-        _requestHandlers.registerRequestHandler(new AddRequestHandler(*this));
-        _requestHandlers.registerRequestHandler(new ResetRequestHandler(*this));
-        _requestHandlers.registerRequestHandler(new StartRequestHandler(*this));
-        _requestHandlers.registerRequestHandler(new StopRequestHandler(*this));
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // RunningSumService::setUpRequestHandlers
 
 bool RunningSumService::start(void)
 {

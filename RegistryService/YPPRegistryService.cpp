@@ -783,19 +783,21 @@ RegistryService::RegistryService(const bool                    useInMemoryDb,
                                  const yarp::os::ConstString & serviceHostName,
                                  const yarp::os::ConstString & servicePortNumber) :
         inherited(true, YPP_REGISTRY_CANONICAL_NAME, "The Service Registry service", YPP_SERVICE_REGISTRY_PORT_NAME,
-                  serviceHostName, servicePortNumber), _db(NULL), _validator(NULL), _inMemory(useInMemoryDb),
+                  serviceHostName, servicePortNumber), _db(NULL), _validator(new ColumnNameValidator),
+        _matchHandler(NULL), _registerHandler(NULL), _unregisterHandler(NULL), _inMemory(useInMemoryDb),
         _isActive(false)
 {
     OD_LOG_ENTER();//####
     OD_LOG_B1("useInMemoryDb = ", useInMemoryDb);//####
     OD_LOG_S2("serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
-    setUpRequestHandlers();
+    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RegistryService::RegistryService
 
 RegistryService::~RegistryService(void)
 {
     OD_LOG_OBJENTER();//####
+    detachRequestHandlers();
     if (_db)
     {
         sqlite3_close(_db);
@@ -916,6 +918,65 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & portName,
     OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RegistryService::addServiceRecord
+
+void RegistryService::attachRequestHandlers(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        _matchHandler = new MatchRequestHandler(*this, _validator);
+        _registerHandler = new RegisterRequestHandler(*this);
+        _unregisterHandler = new UnregisterRequestHandler(*this);
+        if (_matchHandler && _registerHandler && _unregisterHandler)
+        {
+            registerRequestHandler(_matchHandler);
+            registerRequestHandler(_registerHandler);
+            registerRequestHandler(_unregisterHandler);
+        }
+        else
+        {
+            OD_LOG("! (_matchHandler && _registerHandler && _unregisterHandler)");//####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // RegistryService::attachRequestHandlers
+
+void RegistryService::detachRequestHandlers(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        if (_matchHandler)
+        {
+            unregisterRequestHandler(_matchHandler);
+            delete _matchHandler;
+            _matchHandler = NULL;
+        }
+        if (_registerHandler)
+        {
+            unregisterRequestHandler(_registerHandler);
+            delete _registerHandler;
+            _registerHandler = NULL;
+        }
+        if (_unregisterHandler)
+        {
+            unregisterRequestHandler(_unregisterHandler);
+            delete _unregisterHandler;
+            _unregisterHandler = NULL;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // RegistryService::detachRequestHandlers
 
 bool RegistryService::processMatchRequest(YarpPlusPlusParser::MatchExpression * matcher,
                                           yarp::os::Bottle &                    reply)
@@ -1058,27 +1119,6 @@ bool RegistryService::setUpDatabase(void)
     OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RegistryService::setUpDatabase
-
-void RegistryService::setUpRequestHandlers(void)
-{
-    OD_LOG_OBJENTER();//####
-    try
-    {
-        if (! _validator)
-        {
-            _validator = new ColumnNameValidator;
-        }
-        _requestHandlers.registerRequestHandler(new MatchRequestHandler(*this, _validator));
-        _requestHandlers.registerRequestHandler(new RegisterRequestHandler(*this));
-        _requestHandlers.registerRequestHandler(new UnregisterRequestHandler(*this));
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // RegistryService::setUpRequestHandlers
 
 bool RegistryService::start(void)
 {

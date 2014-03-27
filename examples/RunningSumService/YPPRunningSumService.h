@@ -61,6 +61,11 @@
 
 namespace YarpPlusPlusExample
 {
+    class AddRequestHandler;
+    class ResetRequestHandler;
+    class StartRequestHandler;
+    class StopRequestHandler;
+
     /*! @brief An example Yarp++ service, handling 'random' requests. */
     class RunningSumService : public YarpPlusPlus::BaseService
     {
@@ -105,7 +110,7 @@ namespace YarpPlusPlusExample
         void stopSum(const yarp::os::ConstString & key);
         
     protected:
-        
+
     private:
         
         /*! @brief The class that this class is derived from. */
@@ -123,12 +128,27 @@ namespace YarpPlusPlusExample
          @param other Another object to construct from. */
         RunningSumService & operator=(const RunningSumService & other);
         
-        /*! @brief Set up the standard request handlers. */
-        void setUpRequestHandlers(void);
+        /*! @brief Enable the standard request handlers. */
+        void attachRequestHandlers(void);
+        
+        /*! @brief Disable the standard request handlers. */
+        void detachRequestHandlers(void);
+        
+        /*! @brief The request handler for the 'add' request. */
+        AddRequestHandler *   _addHandler;
+        
+        /*! @brief The request handler for the 'reset' request. */
+        ResetRequestHandler * _resetHandler;
+        
+        /*! @brief The request handler for the 'start' request. */
+        StartRequestHandler * _startHandler;
+        
+        /*! @brief The request handler for the 'stop' request. */
+        StopRequestHandler *  _stopHandler;
         
 #if (! defined(SERVICES_HAVE_CONTEXTS))
         /*! @brief The current running sum. */
-        double _runningSum;
+        double                _runningSum;
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
         
     }; // RunningSumService

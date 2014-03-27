@@ -97,24 +97,53 @@ RequestCounterService::RequestCounterService(const yarp::os::ConstString & servi
                                              const yarp::os::ConstString & serviceHostName,
                                              const yarp::os::ConstString & servicePortNumber) :
         inherited(true, YPP_REQUESTCOUNTER_CANONICAL_NAME, "The request counter service", serviceEndpointName,
-                  serviceHostName, servicePortNumber), _counter(0), _lastReset(yarp::os::Time::now())
+                  serviceHostName, servicePortNumber), _defaultHandler(NULL), _resetHandler(NULL), _statsHandler(NULL),
+        _counter(0), _lastReset(yarp::os::Time::now())
 {
     OD_LOG_ENTER();//####
     OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
               serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
-    setUpRequestHandlers();
+    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RequestCounterService::RequestCounterService
 
 RequestCounterService::~RequestCounterService(void)
 {
     OD_LOG_OBJENTER();//####
+    detachRequestHandlers();
     OD_LOG_OBJEXIT();//####
 } // RequestCounterService::~RequestCounterService
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
+
+void RequestCounterService::attachRequestHandlers(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        _defaultHandler = new RequestCounterDefaultRequestHandler(*this);
+        _resetHandler = new ResetRequestHandler(*this);
+        _statsHandler = new StatsRequestHandler(*this);
+        if (_defaultHandler && _resetHandler && _statsHandler)
+        {
+            registerRequestHandler(_resetHandler);
+            registerRequestHandler(_statsHandler);
+            setDefaultRequestHandler(_defaultHandler);
+        }
+        else
+        {
+            OD_LOG("! (_defaultHandler && _resetHandler && _statsHandler)");//####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // RequestCounterService::attachRequestHandlers
 
 void RequestCounterService::countRequest(void)
 {
@@ -130,6 +159,38 @@ void RequestCounterService::countRequest(void)
     }
     OD_LOG_OBJEXIT();//####
 } // RequestCounterService::countRequest
+
+void RequestCounterService::detachRequestHandlers(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        if (_defaultHandler)
+        {
+            setDefaultRequestHandler(NULL);
+            delete _defaultHandler;
+            _defaultHandler = NULL;
+        }
+        if (_resetHandler)
+        {
+            unregisterRequestHandler(_resetHandler);
+            delete _resetHandler;
+            _resetHandler = NULL;
+        }
+        if (_statsHandler)
+        {
+            unregisterRequestHandler(_statsHandler);
+            delete _statsHandler;
+            _statsHandler = NULL;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // RequestCounterService::detachRequestHandlers
 
 void RequestCounterService::getStatistics(long &   counter,
                                           double & elapsedTime)
@@ -163,23 +224,6 @@ void RequestCounterService::resetCounters(void)
     }
     OD_LOG_OBJEXIT();//####
 } // RequestCounterService::resetCounters
-
-void RequestCounterService::setUpRequestHandlers(void)
-{
-    OD_LOG_OBJENTER();//####
-    try
-    {
-        _requestHandlers.registerRequestHandler(new ResetRequestHandler(*this));
-        _requestHandlers.registerRequestHandler(new StatsRequestHandler(*this));
-        _requestHandlers.setDefaultRequestHandler(new RequestCounterDefaultRequestHandler(*this));
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // RequestCounterService::setUpRequestHandlers
 
 bool RequestCounterService::start(void)
 {

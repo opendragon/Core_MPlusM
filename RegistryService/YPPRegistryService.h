@@ -62,6 +62,9 @@ struct sqlite3;
 namespace YarpPlusPlus
 {
     class ColumnNameValidator;
+    class MatchRequestHandler;
+    class RegisterRequestHandler;
+    class UnregisterRequestHandler;
 
     /*! @brief The characteristics of a request. */
     struct RequestDescription
@@ -165,24 +168,36 @@ namespace YarpPlusPlus
          @param other Another object to construct from. */
         RegistryService & operator=(const RegistryService & other);
         
+        /*! @brief Enable the standard request handlers. */
+        void attachRequestHandlers(void);
+        
+        /*! @brief Disable the standard request handlers. */
+        void detachRequestHandlers(void);
+        
         /*! @brief Set up the service registry database.
          @returns @c true if the database was set up and @c false otherwise. */
         bool setUpDatabase(void);
         
-        /*! @brief Set up the standard request handlers. */
-        void setUpRequestHandlers(void);
-        
         /*! @brief The service registry database. */
-        sqlite3 *             _db;
+        sqlite3 *                  _db;
         
         /*! @brief The validator function object that the Service Registry will use. */
-        ColumnNameValidator * _validator;
+        ColumnNameValidator *      _validator;
+        
+        /*! @brief The request handler for the 'match' request. */
+        MatchRequestHandler *      _matchHandler;
+        
+        /*! @brief The request handler for the 'register' request. */
+        RegisterRequestHandler *   _registerHandler;
+        
+        /*! @brief The request handler for the 'unregister' request. */
+        UnregisterRequestHandler * _unregisterHandler;
         
         /*! @brief @c true if the database is in-memory and @c false if it is disk-based. */
-        bool                  _inMemory;
+        bool                       _inMemory;
         
         /*! @brief @c true if the registry service is fully operational and @c false if it could not be set up. */
-        bool                  _isActive;
+        bool                       _isActive;
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

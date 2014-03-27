@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPTTest12Service.cpp
+//  File:       YPPBaseAdapterData.cpp
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class definition for a simple service used by the unit tests.
+//  Contains:   The class definition for the minimal functionality required for the data
+//              shared between the input handlers and main thread of a Yarp++ adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,15 +36,13 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-28
+//  Created:    2014-03-27
 //
 //--------------------------------------------------------------------------------------
 
-#include "YPPTTest12Service.h"
+#include "YPPBaseAdapterData.h"
 //#define OD_ENABLE_LOGGING /* */
 #include "ODLogging.h"
-#include "YPPRequests.h"
-#include "YPPTTest12EchoRequestHandler.h"
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -51,19 +50,17 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for a simple service used by the unit tests. */
+ @brief The class definition for the minimal functionality required for the data shared
+ between the input handlers and main thread of a Yarp++ adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace YarpPlusPlusTest;
+using namespace YarpPlusPlus;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-/*! @brief The operation timeout to use with YARP. */
-static const float kTest12ServiceTimeout = 5.0;
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -77,117 +74,71 @@ static const float kTest12ServiceTimeout = 5.0;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-Test12Service::Test12Service(const int argc,
-                             char **   argv) :
-        inherited(true, "Test12", "Simple service for unit tests", argc, argv), _echoHandler(NULL)
+BaseAdapterData::BaseAdapterData(BaseClient * client) :
+        _lock(), _client(client), _active(false)
 {
     OD_LOG_ENTER();//####
-    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
-} // Test12Service::Test12Service
+} // BaseAdapterData::BaseAdapterData
 
-Test12Service::~Test12Service(void)
+BaseAdapterData::~BaseAdapterData(void)
 {
     OD_LOG_OBJENTER();//####
-    detachRequestHandlers();
     OD_LOG_OBJEXIT();//####
-} // Test12Service::~Test12Service
+} // BaseAdapterData::~BaseAdapterData
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test12Service::attachRequestHandlers(void)
+bool BaseAdapterData::activate(void)
 {
     OD_LOG_OBJENTER();//####
-    try
-    {
-        _echoHandler = new Test12EchoRequestHandler;
-        if (_echoHandler)
-        {
-            registerRequestHandler(_echoHandler);
-        }
-        else
-        {
-            OD_LOG("! (_echoHandler)");//####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // Test12Service::attachRequestHandlers
-
-void Test12Service::detachRequestHandlers(void)
-{
-    OD_LOG_OBJENTER();//####
-    try
-    {
-        if (_echoHandler)
-        {
-            unregisterRequestHandler(_echoHandler);
-            delete _echoHandler;
-            _echoHandler = NULL;
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // Test12Service::detachRequestHandlers
-
-bool Test12Service::start(void)
-{
-    OD_LOG_OBJENTER();//####
-    bool result = false;
+    bool previous;
     
-    try
-    {
-        if (! isStarted())
-        {
-            setTimeout(kTest12ServiceTimeout);
-            inherited::start();
-            if (isStarted())
-            {
-                
-            }
-            else
-            {
-                OD_LOG("! (isStarted())");//####
-            }
-        }
-        result = isStarted();
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
+    _lock.wait();
+    previous = _active;
+    _active = true;
+    _lock.post();
+    OD_LOG_OBJEXIT_B(previous);//####
+    return previous;
+} // BaseAdapterData::activate
+
+bool BaseAdapterData::conditionallyLock(void)
+{
+    OD_LOG_OBJENTER();//####
+    bool result = _lock.check();
+
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // Test12Service::start
+} // BaseAdapterData::conditionallyLock
 
-bool Test12Service::stop(void)
+bool BaseAdapterData::deactivate(void)
 {
     OD_LOG_OBJENTER();//####
-    bool result = false;
+    bool previous;
     
-    try
-    {
-        result = inherited::stop();
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(result);//####
-    return result;
-} // Test12Service::stop
+    _lock.wait();
+    previous = _active;
+    _active = false;
+    _lock.post();
+    OD_LOG_OBJEXIT_B(previous);//####
+    return previous;
+} // BaseAdapterData::deactivate
+
+void BaseAdapterData::lock(void)
+{
+    OD_LOG_OBJENTER();//####
+    _lock.wait();
+    OD_LOG_OBJEXIT();//####
+} // BaseAdapterData::lock
+
+void BaseAdapterData::unlock(void)
+{
+    OD_LOG_OBJENTER();//####
+    _lock.post();
+    OD_LOG_OBJEXIT();//####
+} // BaseAdapterData::unlock
 
 #if defined(__APPLE__)
 # pragma mark Accessors

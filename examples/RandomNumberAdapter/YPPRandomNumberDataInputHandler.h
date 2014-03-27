@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPRunningSumAdapterData.h
+//  File:       YPPRandomNumberDataInputHandler.h
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for the data shared between the input handlers and
-//              main thread of the running sum adapter.
+//  Contains:   The class declaration for the custom data channel input handler used by
+//              the random number adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,30 +36,15 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-26
+//  Created:    2014-03-27
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(YPPRUNNINGSUMADAPTERDATA_H_))
+#if (! defined(YPPRANDOMNUMBERDATAINPUTHANDLER_H_))
 /*! @brief Header guard. */
-# define YPPRUNNINGSUMADAPTERDATA_H_ /* */
+# define YPPRANDOMNUMBERDATAINPUTHANDLER_H_ /* */
 
-# include "YPPBaseAdapterData.h"
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wc++11-extensions"
-#  pragma clang diagnostic ignored "-Wdocumentation"
-#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-#  pragma clang diagnostic ignored "-Wpadded"
-#  pragma clang diagnostic ignored "-Wshadow"
-#  pragma clang diagnostic ignored "-Wunused-parameter"
-#  pragma clang diagnostic ignored "-Wweak-vtables"
-# endif // defined(__APPLE__)
-# include <yarp/os/Port.h>
-# include <yarp/os/Semaphore.h>
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
+# include "YPPInputHandler.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -67,54 +52,61 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the data shared between the input handlers and main
- thread of the running sum adapter. */
+ @brief The class declaration for the custom data channel input handler used by the
+ random number adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace YarpPlusPlusExample
 {
-    class RunningSumClient;
+    class RandomNumberAdapterData;
     
     /*! @brief A handler for partially-structured input data. */
-    class RunningSumAdapterData : public YarpPlusPlus::BaseAdapterData
+    class RandomNumberDataInputHandler : public YarpPlusPlus::InputHandler
     {
     public:
         
         /*! @brief The constructor.
-         @param client The client connection that is used to communicate with the service.
-         @param output The output port that will receive the service responses. */
-        RunningSumAdapterData(RunningSumClient * client,
-                              yarp::os::Port *   output);
+         @param shared The data shared between the input handlers and the main thread. */
+        RandomNumberDataInputHandler(RandomNumberAdapterData & shared);
         
         /*! @brief The destructor. */
-        virtual ~RunningSumAdapterData(void);
+        virtual ~RandomNumberDataInputHandler(void);
+        
+        /*! @brief Process partially-structured input data.
+         @param input The partially-structured input data.
+         @param senderPort The name of the port used to send the input data.
+         @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+         @returns @c true if the input was correctly structured and successfully processed. */
+        virtual bool handleInput(const yarp::os::Bottle &      input,
+                                 const yarp::os::ConstString & senderPort,
+                                 yarp::os::ConnectionWriter *  replyMechanism);
         
     protected:
         
     private:
         
         /*! @brief The class that this class is derived from. */
-        typedef YarpPlusPlus::BaseAdapterData inherited;
-        
+        typedef InputHandler inherited;
+
         /*! @brief Copy constructor.
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        RunningSumAdapterData(const RunningSumAdapterData & other);
+        RandomNumberDataInputHandler(const RandomNumberDataInputHandler & other);
         
         /*! @brief Assignment operator.
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        RunningSumAdapterData & operator=(const RunningSumAdapterData & other);
+        RandomNumberDataInputHandler & operator=(const RandomNumberDataInputHandler & other);
         
-        /*! @brief The output port for the adapter. */
-        yarp::os::Port * _output;
+        /*! @brief The shared data that describes the connection to the service that we are using. */
+        RandomNumberAdapterData & _shared;
         
-    }; // RunningSumDataInputHandler
+    }; // RandomNumberDataInputHandler
     
 } // YarpPlusPlusExample
 
-#endif // ! defined(YPPRUNNINGSUMADAPTERDATA_H_)
+#endif // ! defined(YPPRANDOMNUMBERDATAINPUTHANDLER_H_)

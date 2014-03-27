@@ -81,18 +81,19 @@ EchoService::EchoService(const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & serviceHostName,
                          const yarp::os::ConstString & servicePortNumber) :
         inherited(true, YPP_ECHO_CANONICAL_NAME, "An example echo service", serviceEndpointName, serviceHostName,
-                  servicePortNumber)
+                  servicePortNumber), _echoHandler(NULL)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
               serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
-    setUpRequestHandlers();
+    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // EchoService::EchoService
 
 EchoService::~EchoService(void)
 {
     OD_LOG_OBJENTER();//####
+    detachRequestHandlers();
     OD_LOG_OBJEXIT();//####
 } // EchoService::~EchoService
 
@@ -100,12 +101,20 @@ EchoService::~EchoService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void EchoService::setUpRequestHandlers(void)
+void EchoService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER();//####
     try
     {
-        _requestHandlers.registerRequestHandler(new EchoRequestHandler());
+        _echoHandler = new EchoRequestHandler;
+        if (_echoHandler)
+        {
+            registerRequestHandler(_echoHandler);
+        }
+        else
+        {
+            OD_LOG("! (_echoHandler)");//####
+        }
     }
     catch (...)
     {
@@ -113,7 +122,27 @@ void EchoService::setUpRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // EchoService::setUpRequestHandlers
+} // EchoService::attachRequestHandlers
+
+void EchoService::detachRequestHandlers(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        if (_echoHandler)
+        {
+            unregisterRequestHandler(_echoHandler);
+            delete _echoHandler;
+            _echoHandler = NULL;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // EchoService::detachRequestHandlers
 
 bool EchoService::start(void)
 {

@@ -43,6 +43,7 @@
 #include "YPPRunningSumAdapterData.h"
 //#define OD_ENABLE_LOGGING /* */
 #include "ODLogging.h"
+#include "YPPRunningSumClient.h"
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -50,8 +51,8 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the data shared between the input handlers and main thread of the running sum
- adapter. */
+ @brief The class definition for the data shared between the input handlers and main
+ thread of the running sum adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -76,7 +77,7 @@ using namespace YarpPlusPlusExample;
 
 RunningSumAdapterData::RunningSumAdapterData(RunningSumClient * client,
                                              yarp::os::Port *   output) :
-        _lock(), _output(output), _client(client), _active(false)
+        inherited(client), _output(output)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
@@ -91,32 +92,6 @@ RunningSumAdapterData::~RunningSumAdapterData(void)
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
-
-bool RunningSumAdapterData::activate(void)
-{
-    OD_LOG_OBJENTER();//####
-    bool previous;
-    
-    _lock.wait();
-    previous = _active;
-    _active = true;
-    _lock.post();
-    OD_LOG_OBJEXIT_B(previous);//####
-    return previous;
-} // RunningSumAdapterData::activate
-
-bool RunningSumAdapterData::deactivate(void)
-{
-    OD_LOG_OBJENTER();//####
-    bool previous;
-    
-    _lock.wait();
-    previous = _active;
-    _active = false;
-    _lock.post();
-    OD_LOG_OBJEXIT_B(previous);//####
-    return previous;
-} // RunningSumAdapterData::deactivate
 
 #if defined(__APPLE__)
 # pragma mark Accessors

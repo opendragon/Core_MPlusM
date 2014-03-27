@@ -4,7 +4,7 @@
 #
 #  Project:    YarpPlusPlus
 #
-#  Contains:   The CMAKE definitions for the example random number client application.
+#  Contains:   The CMAKE definitions for the example running sum client application.
 #
 #  Written by: Norman Jaffe
 #

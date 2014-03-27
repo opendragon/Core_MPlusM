@@ -58,6 +58,8 @@
 
 namespace YarpPlusPlusTest
 {
+    class Test09DefaultRequestHandler;
+    
     /*! @brief A test service. */
     class Test09Service : public YarpPlusPlus::BaseService
     {
@@ -87,8 +89,14 @@ namespace YarpPlusPlusTest
         /*! @brief The class that this class is derived from. */
         typedef BaseService inherited;
         
-        /*! @brief Set up the standard request handlers. */
-        void setUpRequestHandlers(void);
+        /*! @brief Enable the standard request handlers. */
+        void attachRequestHandlers(void);
+        
+        /*! @brief Disable the standard request handlers. */
+        void detachRequestHandlers(void);
+        
+        /*! @brief The request handler for unrecognized requests. */
+        Test09DefaultRequestHandler * _defaultHandler;
         
     }; // Test09Service
     

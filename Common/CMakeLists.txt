@@ -48,6 +48,7 @@ include_directories("${YPP_LOGGING_DIR}"
                     "${YPP_COMMONTESTSUPPORT_DIR}")
 
 add_library(YPPCommon
+            YPPBaseAdapterData.cpp
             YPPBaseClient.cpp
             YPPBaseContext.cpp
             YPPBaseRequestHandler.cpp

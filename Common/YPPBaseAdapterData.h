@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPRunningSumAdapterData.h
+//  File:       YPPBaseAdapterData.h
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class declaration for the data shared between the input handlers and
-//              main thread of the running sum adapter.
+//  Contains:   The class declaration for the minimal functionality required for the data
+//              shared between the input handlers and main thread of a Yarp++ adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,15 +36,14 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-26
+//  Created:    2014-03-27
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(YPPRUNNINGSUMADAPTERDATA_H_))
+#if (! defined(YPPBASEADAPTERDATA_H_))
 /*! @brief Header guard. */
-# define YPPRUNNINGSUMADAPTERDATA_H_ /* */
+# define YPPBASEADAPTERDATA_H_ /* */
 
-# include "YPPBaseAdapterData.h"
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -67,54 +66,90 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the data shared between the input handlers and main
- thread of the running sum adapter. */
+ @brief The class declaration for the minimal functionality required for the data shared
+ between the input handlers and main thread of a Yarp++ adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace YarpPlusPlusExample
+namespace YarpPlusPlus
 {
-    class RunningSumClient;
+    class BaseClient;
     
     /*! @brief A handler for partially-structured input data. */
-    class RunningSumAdapterData : public YarpPlusPlus::BaseAdapterData
+    class BaseAdapterData
     {
     public:
         
         /*! @brief The constructor.
-         @param client The client connection that is used to communicate with the service.
-         @param output The output port that will receive the service responses. */
-        RunningSumAdapterData(RunningSumClient * client,
-                              yarp::os::Port *   output);
+         @param client The client connection that is used to communicate with the service. */
+        BaseAdapterData(BaseClient * client);
         
         /*! @brief The destructor. */
-        virtual ~RunningSumAdapterData(void);
+        virtual ~BaseAdapterData(void);
         
+        /*! @brief Mark the adapter as active.
+         @returns @c true if the adapter was already active and @c false otherwise. */
+        bool activate(void);
+        
+        /*! @brief Mark the adapter as inactive.
+         @returns @c true if the adapter was active and @c false otherwise. */
+        bool deactivate(void);
+        
+        /*! @brief Return the adapter state. */
+        inline bool isActive(void)
+        const
+        {
+            return _active;
+        } // isActive
+
     protected:
         
-    private:
+        /*! @brief Lock the data unless the lock would block.
+         @returns @c true if the data was locked and @c false otherwise. */
+        bool conditionallyLock(void);
+
+        /*! @brief Lock the data. */
+        void lock(void);
         
-        /*! @brief The class that this class is derived from. */
-        typedef YarpPlusPlus::BaseAdapterData inherited;
+        /*! @brief Unlock the data. */
+        void unlock(void);
+        
+    private:
         
         /*! @brief Copy constructor.
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        RunningSumAdapterData(const RunningSumAdapterData & other);
+        BaseAdapterData(const BaseAdapterData & other);
         
         /*! @brief Assignment operator.
          
          Note - not implemented and private, to prevent unexpected copying.
          @param other Another object to construct from. */
-        RunningSumAdapterData & operator=(const RunningSumAdapterData & other);
+        BaseAdapterData & operator=(const BaseAdapterData & other);
         
-        /*! @brief The output port for the adapter. */
-        yarp::os::Port * _output;
+        /*! @brief The contention lock used to avoid intermixing of outputs. */
+        yarp::os::Semaphore _lock;
+        
+        /*! @brief The connection to the service. */
+        BaseClient *        _client;
+        
+        /*! @brief @c true if the adapter is active and @c false otherwise. */
+        bool                _active;
+        
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+        /*! @brief Filler to pad to alignment boundary */
+        char                _filler[7];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
         
     }; // RunningSumDataInputHandler
     
 } // YarpPlusPlusExample
 
-#endif // ! defined(YPPRUNNINGSUMADAPTERDATA_H_)
+#endif // ! defined(YPPBASEADAPTERDATA_H_)

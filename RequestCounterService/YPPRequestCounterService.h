@@ -61,6 +61,10 @@
 
 namespace YarpPlusPlus
 {
+    class RequestCounterDefaultRequestHandler;
+    class ResetRequestHandler;
+    class StatsRequestHandler;
+    
     /*! @brief An example Yarp++ service, handling 'random' requests. */
     class RequestCounterService : public YarpPlusPlus::BaseService
     {
@@ -116,14 +120,26 @@ namespace YarpPlusPlus
          @param other Another object to construct from. */
         RequestCounterService & operator=(const RequestCounterService & other);
         
-        /*! @brief Set up the standard request handlers. */
-        void setUpRequestHandlers(void);
+        /*! @brief Enable the standard request handlers. */
+        void attachRequestHandlers(void);
+        
+        /*! @brief Disable the standard request handlers. */
+        void detachRequestHandlers(void);
+        
+        /*! @brief The request handler for unrecognized requests. */
+        RequestCounterDefaultRequestHandler * _defaultHandler;
+        
+        /*! @brief The request handler for the 'reset' request. */
+        ResetRequestHandler *                 _resetHandler;
+        
+        /*! @brief The request handler for the 'stats' request. */
+        StatsRequestHandler *                 _statsHandler;
         
         /*! @brief The number of requests since the most recent reset. */
-        long _counter;
+        long                                  _counter;
         
         /*! @brief The time of the last reset. */
-        double _lastReset;
+        double                                _lastReset;
         
     }; // RequestCounterService
     

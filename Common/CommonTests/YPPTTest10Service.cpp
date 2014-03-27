@@ -81,13 +81,14 @@ Test10Service::Test10Service(const int argc,
         inherited(true, "Test10", "Simple service for unit tests", argc, argv)
 {
     OD_LOG_ENTER();//####
-    setUpRequestHandlers();
+    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // Test10Service::Test10Service
 
 Test10Service::~Test10Service(void)
 {
     OD_LOG_OBJENTER();//####
+    detachRequestHandlers();
     OD_LOG_OBJEXIT();//####
 } // Test10Service::~Test10Service
 
@@ -95,12 +96,20 @@ Test10Service::~Test10Service(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test10Service::setUpRequestHandlers(void)
+void Test10Service::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER();//####
     try
     {
-        _requestHandlers.setDefaultRequestHandler(new Test10DefaultRequestHandler());
+        _defaultHandler = new Test10DefaultRequestHandler;
+        if (_defaultHandler)
+        {
+            setDefaultRequestHandler(_defaultHandler);
+        }
+        else
+        {
+            OD_LOG("! (_defaultHandler)");//####
+        }
     }
     catch (...)
     {
@@ -108,7 +117,27 @@ void Test10Service::setUpRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // Test10Service::setUpRequestHandlers
+} // Test10Service::attachRequestHandlers
+
+void Test10Service::detachRequestHandlers(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        if (_defaultHandler)
+        {
+            setDefaultRequestHandler(NULL);
+            delete _defaultHandler;
+            _defaultHandler = NULL;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // Test10Service::detachRequestHandlers
 
 bool Test10Service::start(void)
 {

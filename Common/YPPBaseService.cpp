@@ -108,6 +108,7 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
         _contexts(),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
         _canonicalName(canonicalName), _description(description),
+        _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
         _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
         _useMultipleHandlers(useMultipleHandlers)
 {
@@ -118,7 +119,7 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
               serviceHostName.c_str());//####
     OD_LOG_S1("servicePortNumber = ", servicePortNumber.c_str());//####
     _endpoint = new Endpoint(serviceEndpointName, serviceHostName, servicePortNumber);
-    setUpRequestHandlers();
+    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // BaseService::BaseService
 
@@ -132,6 +133,7 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
         _contexts(),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
         _canonicalName(canonicalName), _description(description),
+        _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
         _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
         _useMultipleHandlers(useMultipleHandlers)
 {
@@ -158,13 +160,14 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
             throw new Exception("Invalid parameters for service endpoint");
             
     }
-    setUpRequestHandlers();
+    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // BaseService::BaseService
 
 BaseService::~BaseService(void)
 {
     OD_LOG_OBJENTER();//####
+    detachRequestHandlers();
     delete _endpoint;
     delete _handler;
     delete _handlerCreator;
@@ -201,6 +204,33 @@ void BaseService::addContext(const yarp::os::ConstString & key,
 } // BaseService::addContext
 #endif // defined(SERVICES_HAVE_CONTEXTS)
 
+void BaseService::attachRequestHandlers(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        _infoHandler = new InfoRequestHandler;
+        _listHandler = new ListRequestHandler;
+        _nameHandler = new NameRequestHandler(*this);
+        if (_infoHandler && _listHandler && _nameHandler)
+        {
+            _requestHandlers.registerRequestHandler(_infoHandler);
+            _requestHandlers.registerRequestHandler(_listHandler);
+            _requestHandlers.registerRequestHandler(_nameHandler);
+        }
+        else
+        {
+            OD_LOG("! (_infoHandler && _listHandler && _nameHandler)");//####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // BaseService::attachRequestHandlers
+
 #if defined(SERVICES_HAVE_CONTEXTS)
 void BaseService::clearContexts(void)
 {
@@ -218,6 +248,38 @@ void BaseService::clearContexts(void)
     OD_LOG_OBJEXIT();//####
 } // BaseService::clearContexts
 #endif // defined(SERVICES_HAVE_CONTEXTS)
+
+void BaseService::detachRequestHandlers(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        if (_infoHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_infoHandler);
+            delete _infoHandler;
+            _infoHandler = NULL;
+        }
+        if (_listHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_listHandler);
+            delete _listHandler;
+            _listHandler = NULL;
+        }
+        if (_nameHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_nameHandler);
+            delete _nameHandler;
+            _nameHandler = NULL;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // BaseService::detachRequestHandlers
 
 #if defined(SERVICES_HAVE_CONTEXTS)
 BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
@@ -286,6 +348,14 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
     return result;
 } // BaseService::processRequest
 
+void BaseService::registerRequestHandler(BaseRequestHandler * handler)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("handler = ", handler);//####
+    _requestHandlers.registerRequestHandler(handler);
+    OD_LOG_OBJEXIT();//####
+} // BaseService::registerRequestHandler
+
 #if defined(SERVICES_HAVE_CONTEXTS)
 void BaseService::removeContext(const yarp::os::ConstString & key)
 {
@@ -315,6 +385,14 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
 } // BaseService::removeContext
 #endif // defined(SERVICES_HAVE_CONTEXTS)
 
+void BaseService::setDefaultRequestHandler(BaseRequestHandler * handler)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("handler = ", handler);//####
+    _requestHandlers.setDefaultRequestHandler(handler);
+    OD_LOG_OBJEXIT();//####
+} // BaseService::setDefaultRequestHandler
+
 bool BaseService::setTimeout(const float timeout)
 {
     OD_LOG_OBJENTER();//####
@@ -340,23 +418,6 @@ bool BaseService::setTimeout(const float timeout)
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // BaseService::setTimeout
-
-void BaseService::setUpRequestHandlers(void)
-{
-    OD_LOG_OBJENTER();//####
-    try
-    {
-        _requestHandlers.registerRequestHandler(new InfoRequestHandler());
-        _requestHandlers.registerRequestHandler(new ListRequestHandler());
-        _requestHandlers.registerRequestHandler(new NameRequestHandler(*this));
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // BaseService::setUpRequestHandlers
 
 bool BaseService::start(void)
 {
@@ -425,6 +486,14 @@ bool BaseService::stop(void)
     OD_LOG_OBJEXIT_B(! _started);//####
     return (! _started);
 } // BaseService::stop
+
+void BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("handler = ", handler);//####
+    _requestHandlers.unregisterRequestHandler(handler);
+    OD_LOG_OBJEXIT();//####
+} // BaseService::unregisterRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Accessors
