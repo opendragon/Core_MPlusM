@@ -4,3 +4,5 @@
 * the running sum service should handle sets of numbers and return the final (running) sum, rather than return intermediate sums
 * the running sum client should construct a sequence of numbers to send to the service, rather than sending the numbers one at a time
 * the running sum adapter command set should include start / stop / quit / reset
+* if a unit test fails, it should tag the log with a special line so that it can be found when logging is enabled
+* figure out a way to ‘kill’ the YARP close operation when it hangs
