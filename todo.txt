@@ -1,7 +1,6 @@
 * add alternative names for requests - this is why ownership must be with services
 * make sure that the requests are given the name they were invoked with
 
-* the running sum service should handle sets of numbers and return the final (running) sum, rather than return intermediate sums
 * the running sum client should construct a sequence of numbers to send to the service, rather than sending the numbers one at a time
 * the running sum adapter command set should include start / stop / quit / reset
 

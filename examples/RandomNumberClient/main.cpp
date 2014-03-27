@@ -172,13 +172,13 @@ int main(int     argc,
                             }
                             else
                             {
-                                RandomNumberClient::RandomVector results;
+                                YarpPlusPlus::DoubleVector results;
                                 
                                 if (stuff->getRandomNumbers(count, results))
                                 {
                                     cout << "result = ( ";
-                                    for (RandomNumberClient::RandomVectorIterator it(results.begin());
-                                         it != results.end(); ++it)
+                                    for (YarpPlusPlus::DoubleVectorIterator it(results.begin()); it != results.end();
+                                         ++it)
                                     {
                                         cout << " " << *it;
                                     }

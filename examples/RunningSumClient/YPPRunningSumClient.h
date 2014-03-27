@@ -44,6 +44,7 @@
 # define YPPRUNNINGSUMCLIENT_H_ /* */
 
 # include "YPPBaseClient.h"
+# include <vector>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -69,12 +70,19 @@ namespace YarpPlusPlusExample
         /*! @brief The destructor. */
         virtual ~RunningSumClient(void);
         
-        /*! @brief Reset the running sum for this client.
+        /*! @brief Update the running sum for this client.
          @param value The value to add to the running sum.
          @param newSum The new running sum.
          @returns @c true if the service handled the request and @c false otherwise. */
         bool addToSum(const double value,
                       double &     newSum);
+        
+        /*! @brief Update the running sum for this client.
+         @param values The set of values to add to the running sum.
+         @param newSum The new running sum.
+         @returns @c true if the service handled the request and @c false otherwise. */
+        bool addToSum(YarpPlusPlus::DoubleVector & values,
+                      double &                     newSum);
         
         /*! @brief Reset the running sum for this client.
          @returns @c true if the service handled the request and @c false otherwise. */

@@ -137,8 +137,8 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
     return okSoFar;
 } // RandomNumberClient::getOneRandomNumber
 
-bool RandomNumberClient::getRandomNumbers(const int      howMany,
-                                          RandomVector & result)
+bool RandomNumberClient::getRandomNumbers(const int                    howMany,
+                                          YarpPlusPlus::DoubleVector & result)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_LL1("howMany = ", howMany);//####

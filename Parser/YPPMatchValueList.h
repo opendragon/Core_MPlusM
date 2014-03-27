@@ -44,7 +44,6 @@
 # define YPPMATCHVALUELIST_H_ /* */
 
 # include "YPPBaseMatcher.h"
-# include <vector>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

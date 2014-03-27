@@ -44,7 +44,6 @@
 # define YPPEXAMPLERANDOMNUMBERCLIENT_H_ /* */
 
 # include "YPPBaseClient.h"
-# include <vector>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

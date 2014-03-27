@@ -44,7 +44,6 @@
 # define YPPRANDOMNUMBERCLIENT_H_ /* */
 
 # include "YPPBaseClient.h"
-# include <vector>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -64,12 +63,6 @@ namespace YarpPlusPlusExample
     {
     public:
         
-        /*! @brief A sequence of random numbers. */
-        typedef std::vector<double>    RandomVector;
-        
-        /*! @brief An iterator for a sequence of random numbers. */
-        typedef RandomVector::iterator RandomVectorIterator;
-        
         /*! @brief The constructor. */
         RandomNumberClient(void);
         
@@ -85,8 +78,8 @@ namespace YarpPlusPlusExample
          @param howMany The number of random numbers to retrieve.
          @param result Where to return the numbers.
          @returns @c true if the numbere were retrieved successfully and @c false otherwise. */
-        bool getRandomNumbers(const int      howMany,
-                              RandomVector & result);
+        bool getRandomNumbers(const int                    howMany,
+                              YarpPlusPlus::DoubleVector & result);
         
     protected:
         

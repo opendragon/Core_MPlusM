@@ -111,6 +111,7 @@ bool RunningSumClient::addToSum(const double value,
                                 double &     newSum)
 {
     OD_LOG_OBJENTER();//####
+    OD_LOG_P1("newSum = ", &newSum);//####
     bool okSoFar = false;
     
     try
@@ -148,6 +149,69 @@ bool RunningSumClient::addToSum(const double value,
         else
         {
             OD_LOG("! (send(YPP_ADD_REQUEST, parameters, &response))");//####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(okSoFar);
+    return okSoFar;
+} // RunningSumClient::addToSum
+
+bool RunningSumClient::addToSum(YarpPlusPlus::DoubleVector & values,
+                                double &                     newSum)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P2("values = ", &values, "newSum = ", &newSum);//####
+    bool okSoFar = false;
+    
+    try
+    {
+        yarp::os::Bottle              parameters;
+        YarpPlusPlus::ServiceResponse response;
+        
+        for (YarpPlusPlus::DoubleVectorIterator it(values.begin()); it != values.end(); ++it)
+        {
+            parameters.addDouble(*it);
+        }
+        if (1 <= parameters.size())
+        {
+            if (send(YPP_ADD_REQUEST, parameters, &response))
+            {
+                if (1 == response.count())
+                {
+                    yarp::os::Value retrieved(response.element(0));
+                    
+                    if (retrieved.isDouble())
+                    {
+                        newSum = retrieved.asDouble();
+                        okSoFar = true;
+                    }
+                    else if (retrieved.isInt())
+                    {
+                        newSum = retrieved.asInt();
+                        okSoFar = true;
+                    }
+                    else
+                    {
+                        OD_LOG("! (retrieved.isInt())");//####
+                    }
+                }
+                else
+                {
+                    OD_LOG("! (1 == response.count())");//####
+                }
+            }
+            else
+            {
+                OD_LOG("! (send(YPP_ADD_REQUEST, parameters, &response))");//####
+            }
+        }
+        else
+        {
+            OD_LOG("! (1 <= parameters.size())");//####
         }
     }
     catch (...)
