@@ -95,18 +95,31 @@ StartRequestHandler::~StartRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void StartRequestHandler::fillInDescription(yarp::os::Property & info)
+void StartRequestHandler::fillInAliases(YarpPlusPlus::StringVector & alternateNames)
+{
+#if (! defined(OD_ENABLE_LOGGING))
+# pragma unused(alternateNames)
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("alternateNames = ", &alternateNames);//####
+    OD_LOG_OBJEXIT();//####
+} // StartRequestHandler::fillInAliases
+
+void StartRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                            yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
+    OD_LOG_S1("request = ", request.toString().c_str());//####
+    OD_LOG_P1("info = ", &info);//####
     try
     {
-        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_START_REQUEST);
+        info.put(YPP_REQREP_DICT_REQUEST_KEY, request);
         info.put(YPP_REQREP_DICT_VERSION_KEY, START_REQUEST_VERSION_NUMBER);
         info.put(YPP_REQREP_DICT_DETAILS_KEY, "Start the running sum");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
-        asList->addString(YPP_START_REQUEST);
+        asList->addString(request);
         info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
@@ -117,15 +130,17 @@ void StartRequestHandler::fillInDescription(yarp::os::Property & info)
     OD_LOG_OBJEXIT();//####
 } // StartRequestHandler::fillInDescription
 
-bool StartRequestHandler::processRequest(const yarp::os::Bottle &      restOfInput,
+bool StartRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                         const yarp::os::Bottle &      restOfInput,
                                          const yarp::os::ConstString & senderPort,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(restOfInput)
+# pragma unused(request,restOfInput)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.toString().c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
+              "senderPort = ", senderPort.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
 

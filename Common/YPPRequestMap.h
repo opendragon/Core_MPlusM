@@ -45,7 +45,6 @@
 
 # include "YPPCommon.h"
 # include <map>
-# include <string>
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -138,13 +137,13 @@ namespace YarpPlusPlus
         RequestMap & operator=(const RequestMap & other);
         
         /*! @brief The default handler to use for unrecognized requests. */
-        BaseRequestHandler *  _defaultHandler;
+        BaseRequestHandler * _defaultHandler;
         
         /*! @brief The map between requests and request handlers. */
-        RequestHandlerMap     _handlers;
+        RequestHandlerMap    _handlers;
         
         /*! @brief The service that owns this map. */
-        BaseService &         _owner;
+        BaseService &        _owner;
         
     }; // RequestMap
     

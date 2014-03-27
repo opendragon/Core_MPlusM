@@ -103,7 +103,7 @@ void RequestMap::fillInListReply(yarp::os::Bottle & reply)
             yarp::os::Property & aDict = reply.addDict();
             BaseRequestHandler * aHandler = walker->second;
             
-            aHandler->fillInDescription(aDict);
+            aHandler->fillInDescription(walker->first.c_str(), aDict);
         }
     }
     catch (...)
@@ -131,7 +131,7 @@ void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
             yarp::os::Property & aDict = reply.addDict();
             BaseRequestHandler * aHandler = match->second;
             
-            aHandler->fillInDescription(aDict);
+            aHandler->fillInDescription(match->first.c_str(), aDict);
         }
     }
     catch (...)
@@ -180,7 +180,14 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
     {
         if (handler)
         {
+            StringVector aliases;
+            
+            handler->fillInAliases(aliases);
             _handlers.insert(RequestHandlerMapValue(std::string(handler->name()), handler));
+            for (StringVector::const_iterator it(aliases.cbegin()); it != aliases.cend(); ++it)
+            {
+                _handlers.insert(RequestHandlerMapValue(*it, handler));
+            }
             handler->setOwner(*this);
         }
         OD_LOG_LL1("_handlers.size = ", _handlers.size());//####
@@ -209,7 +216,14 @@ void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
     {
         if (handler)
         {
+            StringVector aliases;
+            
+            handler->fillInAliases(aliases);
             _handlers.erase(std::string(handler->name()));
+            for (StringVector::const_iterator it(aliases.cbegin()); it != aliases.cend(); ++it)
+            {
+                _handlers.erase(*it);
+            }
         }
         OD_LOG_LL1("_handlers.size = ", _handlers.size());//####
     }

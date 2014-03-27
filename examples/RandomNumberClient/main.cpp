@@ -177,8 +177,8 @@ int main(int     argc,
                                 if (stuff->getRandomNumbers(count, results))
                                 {
                                     cout << "result = ( ";
-                                    for (YarpPlusPlus::DoubleVectorIterator it(results.begin()); it != results.end();
-                                         ++it)
+                                    for (YarpPlusPlus::DoubleVector::const_iterator it(results.cbegin());
+                                         it != results.cend(); ++it)
                                     {
                                         cout << " " << *it;
                                     }

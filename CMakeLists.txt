@@ -46,7 +46,7 @@ project(YARPPlusPlus)
 
 set(YPP_VERSION_MAJOR 1)
 set(YPP_VERSION_MINOR 1)
-set(YPP_VERSION_PATCH 4)
+set(YPP_VERSION_PATCH 5)
 
 option(YPP_MAIN_DOES_DELAY_NOT_YIELD "Use Delay in main() loop")
 

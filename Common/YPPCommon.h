@@ -55,6 +55,7 @@
 #  pragma clang diagnostic ignored "-Wunused-parameter"
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
+# include <string>
 # include <vector>
 # include <yarp/os/ConstString.h>
 # include <yarp/os/Contact.h>
@@ -84,13 +85,12 @@
 
 namespace YarpPlusPlus
 {
-
     /*! @brief A sequence of random numbers. */
-    typedef std::vector<double>    DoubleVector;
+    typedef std::vector<double>      DoubleVector;
     
-    /*! @brief An iterator for a sequence of random numbers. */
-    typedef DoubleVector::iterator DoubleVectorIterator;
-    
+    /*! @brief A sequence of strings. */
+    typedef std::vector<std::string> StringVector;
+
     /*! @brief Dump out a description of the provided connection information to the log.
      @param tag A unique string used to identify the call point for the output.
      @param aContact The connection information to be reported. */

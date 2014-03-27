@@ -160,8 +160,8 @@ bool RunningSumClient::addToSum(const double value,
     return okSoFar;
 } // RunningSumClient::addToSum
 
-bool RunningSumClient::addToSum(YarpPlusPlus::DoubleVector & values,
-                                double &                     newSum)
+bool RunningSumClient::addToSum(const YarpPlusPlus::DoubleVector & values,
+                                double &                           newSum)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P2("values = ", &values, "newSum = ", &newSum);//####
@@ -172,7 +172,7 @@ bool RunningSumClient::addToSum(YarpPlusPlus::DoubleVector & values,
         yarp::os::Bottle              parameters;
         YarpPlusPlus::ServiceResponse response;
         
-        for (YarpPlusPlus::DoubleVectorIterator it(values.begin()); it != values.end(); ++it)
+        for (YarpPlusPlus::DoubleVector::const_iterator it(values.cbegin()); it != values.cend(); ++it)
         {
             parameters.addDouble(*it);
         }

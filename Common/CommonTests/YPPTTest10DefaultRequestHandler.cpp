@@ -89,22 +89,39 @@ Test10DefaultRequestHandler::~Test10DefaultRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test10DefaultRequestHandler::fillInDescription(yarp::os::Property & info)
+void Test10DefaultRequestHandler::fillInAliases(YarpPlusPlus::StringVector & alternateNames)
 {
-#pragma unused(info)
+#if (! defined(OD_ENABLE_LOGGING))
+# pragma unused(alternateNames)
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
+    OD_LOG_P1("alternateNames = ", &alternateNames);//####
+    OD_LOG_OBJEXIT();//####
+} // Test10DefaultRequestHandler::fillInAliases
+
+void Test10DefaultRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                                    yarp::os::Property &          info)
+{
+#if (! defined(OD_ENABLE_LOGGING))
+# pragma unused(request,info)
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("request = ", request.toString().c_str());//####
+    OD_LOG_P1("info = ", &info);//####
     OD_LOG_OBJEXIT();//####
 } // Test10DefaultRequestHandler::fillInDescription
 
-bool Test10DefaultRequestHandler::processRequest(const yarp::os::Bottle &      restOfInput,
+bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                                 const yarp::os::Bottle &      restOfInput,
                                                  const yarp::os::ConstString & senderPort,
                                                  yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(senderPort)
+# pragma unused(request,senderPort)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.toString().c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
+              "senderPort = ", senderPort.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     

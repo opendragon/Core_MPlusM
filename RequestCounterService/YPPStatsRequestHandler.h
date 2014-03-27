@@ -74,15 +74,23 @@ namespace YarpPlusPlus
         /*! @brief The destructor. */
         virtual ~StatsRequestHandler(void);
         
+        /*! @brief Fill in a set of aliases for the request.
+         @param alternateNames Aliases for the request. */
+        virtual void fillInAliases(StringVector & alternateNames);
+        
         /*! @brief Fill in a description dictionary for the request.
+         @param request The actual request name.
          @param info The dictionary to be filled in. */
-        virtual void fillInDescription(yarp::os::Property & info);
+        virtual void fillInDescription(const yarp::os::ConstString & request,
+                                       yarp::os::Property &          info);
         
         /*! @brief Process a request.
+         @param request The actual request name.
          @param restOfInput The arguments to the operation.
          @param senderPort The name of the port used to send the input data.
          @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-        virtual bool processRequest(const yarp::os::Bottle &      restOfInput,
+        virtual bool processRequest(const yarp::os::ConstString & request,
+                                    const yarp::os::Bottle &      restOfInput,
                                     const yarp::os::ConstString & senderPort,
                                     yarp::os::ConnectionWriter *  replyMechanism);
         

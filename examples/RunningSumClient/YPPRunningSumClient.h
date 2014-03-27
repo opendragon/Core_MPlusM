@@ -81,8 +81,8 @@ namespace YarpPlusPlusExample
          @param values The set of values to add to the running sum.
          @param newSum The new running sum.
          @returns @c true if the service handled the request and @c false otherwise. */
-        bool addToSum(YarpPlusPlus::DoubleVector & values,
-                      double &                     newSum);
+        bool addToSum(const YarpPlusPlus::DoubleVector & values,
+                      double &                           newSum);
         
         /*! @brief Reset the running sum for this client.
          @returns @c true if the service handled the request and @c false otherwise. */

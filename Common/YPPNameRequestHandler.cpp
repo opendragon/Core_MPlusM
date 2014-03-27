@@ -95,19 +95,30 @@ NameRequestHandler::~NameRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void NameRequestHandler::fillInDescription(yarp::os::Property & info)
+void NameRequestHandler::fillInAliases(StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
+    OD_LOG_P1("alternateNames = ", &alternateNames);//####
+    alternateNames.push_back("n");
+    OD_LOG_OBJEXIT();//####
+} // NameRequestHandler::fillInAliases
+
+void NameRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                           yarp::os::Property &          info)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("request = ", request.toString().c_str());//####
+    OD_LOG_P1("info = ", &info);//####
     try
     {
-        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_NAME_REQUEST);
+        info.put(YPP_REQREP_DICT_REQUEST_KEY, request);
         info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_STRING YPP_REQREP_STRING);
         info.put(YPP_REQREP_DICT_VERSION_KEY, NAME_REQUEST_VERSION_NUMBER);
         info.put(YPP_REQREP_DICT_DETAILS_KEY, "Return the canonical name and description of the service");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
-        asList->addString(YPP_NAME_REQUEST);
+        asList->addString(request);
         asList->addString("canonical");
         asList->addString("description");
         info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -120,15 +131,17 @@ void NameRequestHandler::fillInDescription(yarp::os::Property & info)
     OD_LOG_OBJEXIT();//####
 } // NameRequestHandler::fillInDescription
 
-bool NameRequestHandler::processRequest(const yarp::os::Bottle &      restOfInput,
+bool NameRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                        const yarp::os::Bottle &      restOfInput,
                                         const yarp::os::ConstString & senderPort,
                                         yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(restOfInput,senderPort)
+# pragma unused(request,restOfInput,senderPort)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.toString().c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
+              "senderPort = ", senderPort.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     

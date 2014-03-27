@@ -44,6 +44,7 @@
 /*! @brief Header guard. */
 # define YPPBASEREQUESTHANDLER_H_ /* */
 
+# include "YPPCommon.h"
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -89,9 +90,15 @@ namespace YarpPlusPlus
         /*! @brief The destructor. */
         virtual ~BaseRequestHandler(void);
         
+        /*! @brief Fill in a set of aliases for the request.
+         @param alternateNames Aliases for the request. */
+        virtual void fillInAliases(StringVector & alternateNames) = 0;
+        
         /*! @brief Fill in a description dictionary for the request.
+         @param request The actual request name.
          @param info The dictionary to be filled in. */
-        virtual void fillInDescription(yarp::os::Property & info) = 0;
+        virtual void fillInDescription(const yarp::os::ConstString & request,
+                                       yarp::os::Property &          info) = 0;
         
         /*! @brief Return the name of the request.
          @returns The name of the request. */
@@ -102,10 +109,12 @@ namespace YarpPlusPlus
         } // name
         
         /*! @brief Process a request.
+         @param request The actual request name.
          @param restOfInput The arguments to the operation.
          @param senderPort The name of the port used to send the input data.
          @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-        virtual bool processRequest(const yarp::os::Bottle &      restOfInput,
+        virtual bool processRequest(const yarp::os::ConstString & request,
+                                    const yarp::os::Bottle &      restOfInput,
                                     const yarp::os::ConstString & senderPort,
                                     yarp::os::ConnectionWriter *  replyMechanism) = 0;
         

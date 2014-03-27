@@ -93,12 +93,25 @@ EchoRequestHandler::~EchoRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void EchoRequestHandler::fillInDescription(yarp::os::Property & info)
+void EchoRequestHandler::fillInAliases(YarpPlusPlus::StringVector & alternateNames)
+{
+#if (! defined(OD_ENABLE_LOGGING))
+# pragma unused(alternateNames)
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("alternateNames = ", &alternateNames);//####
+    OD_LOG_OBJEXIT();//####
+} // EchoRequestHandler::fillInAliases
+
+void EchoRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                           yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
+    OD_LOG_S1("request = ", request.toString().c_str());//####
+    OD_LOG_P1("info = ", &info);//####
     try
     {
-        info.put(YPP_REQREP_DICT_REQUEST_KEY, YPP_ECHO_REQUEST);
+        info.put(YPP_REQREP_DICT_REQUEST_KEY, request);
         info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
         info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
         info.put(YPP_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
@@ -106,7 +119,7 @@ void EchoRequestHandler::fillInDescription(yarp::os::Property & info)
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
-        asList->addString(YPP_ECHO_REQUEST);
+        asList->addString(request);
         info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
@@ -117,15 +130,17 @@ void EchoRequestHandler::fillInDescription(yarp::os::Property & info)
     OD_LOG_OBJEXIT();//####
 } // EchoRequestHandler::fillInDescription
 
-bool EchoRequestHandler::processRequest(const yarp::os::Bottle &      restOfInput,
+bool EchoRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                        const yarp::os::Bottle &      restOfInput,
                                         const yarp::os::ConstString & senderPort,
                                         yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(senderPort)
+# pragma unused(request,senderPort)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S2("restOfInput = ", restOfInput.toString().c_str(), "senderPort = ", senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.toString().c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
+              "senderPort = ", senderPort.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
