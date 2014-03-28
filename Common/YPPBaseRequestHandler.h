@@ -57,7 +57,6 @@
 # endif // defined(__APPLE__)
 # include <yarp/os/Bottle.h>
 # include <yarp/os/ConnectionWriter.h>
-# include <yarp/os/ConstString.h>
 # include <yarp/os/Property.h>
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop

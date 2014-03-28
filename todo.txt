@@ -1,6 +1,5 @@
 * the running sum adapter command set should include start / stop / quit / reset
 
-* if a unit test fails, it should tag the log with a special line so that it can be found when logging is enabled
 * figure out a way to ‘kill’ the YARP close operation when it hangs
 
 * PortLister tool

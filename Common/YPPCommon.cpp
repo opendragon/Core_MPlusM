@@ -93,7 +93,7 @@ static const double kRetryMultiplier = 1.2;
 static const int kMaxRetries = 5;
 
 /*! @brief Report the version numbers when launching an executable. */
-#define CHATTY_START_ /* Report the version numbers. */
+#define CHATTY_START_ /* */
 
 /*! @brief The maximum integer that we wish to use for generated random values. */
 static const int kMaxRandom = 123456789;
