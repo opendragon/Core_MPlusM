@@ -201,7 +201,7 @@ int main(int     argc,
                 else
                 {
                     OD_LOG("! (1 == response.size())");//####
-                    OD_LOG_S1("response = ", response.c_str());//####
+                    OD_LOG_S1("response = ", response.toString().c_str());//####
                 }
             }
             else
