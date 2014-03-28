@@ -2,3 +2,9 @@
 
 * figure out a way to ‘kill’ the YARP close operation when it hangs or to clean up the port some other way, like ‘port clean —timeout n’ does
 — Note that calling ‘interrupt’ before ‘close’, as indicated in the YARP documentation, does not help
+
+* add YPPCommon/ClosePort() and replace port->close() with calls to this, so that we can explore ways to fix the hang-on-close problem
+
+* try BufferedPort and/or interrupting the port
+
+* use a typedef (in YPPCommon.h) to specify what a port is ^^^
