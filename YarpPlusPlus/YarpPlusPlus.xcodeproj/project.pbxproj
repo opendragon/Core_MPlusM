@@ -111,6 +111,8 @@
 		DF30063218E47D9E00B51C22 /* YPPBaseAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseAdapterData.h; path = ../Common/YPPBaseAdapterData.h; sourceTree = SOURCE_ROOT; };
 		DF30063318E4C94D00B51C22 /* ODEnableLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODEnableLogging.h; path = ../Logging/ODEnableLogging.h; sourceTree = "<group>"; };
 		DF30063418E5C62500B51C22 /* ODDisableLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODDisableLogging.h; path = ../Logging/ODDisableLogging.h; sourceTree = "<group>"; };
+		DF30063518E605CA00B51C22 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../PortLister/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF30063618E605CA00B51C22 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../PortLister/main.cpp; sourceTree = SOURCE_ROOT; };
 		DFA3431318C91B7E0053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = main.cpp; path = ../RegistryService/main.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DFA3432718C91C5A0053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = ../Common/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFA3432818C91C5A0053B87C /* YPPBaseClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPBaseClient.cpp; path = ../Common/YPPBaseClient.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -349,6 +351,15 @@
 			name = RandomNumberAdapter;
 			sourceTree = "<group>";
 		};
+		DF30063718E605D400B51C22 /* PortLister */ = {
+			isa = PBXGroup;
+			children = (
+				DF30063518E605CA00B51C22 /* CMakeLists.txt */,
+				DF30063618E605CA00B51C22 /* main.cpp */,
+			);
+			name = PortLister;
+			sourceTree = "<group>";
+		};
 		DFA3430618C91B4F0053B87C = {
 			isa = PBXGroup;
 			children = (
@@ -357,6 +368,7 @@
 				DFA86D2518E1D13300A22941 /* examples */,
 				DFA3432618C91C1C0053B87C /* Logging */,
 				DF27F42718CA357400E93C95 /* Parser */,
+				DF30063718E605D400B51C22 /* PortLister */,
 				DFA3431418C91B8B0053B87C /* RegistryService */,
 				DF2092CD18D371CB0093D3DC /* RequestCounterClient */,
 				DF20929518D3577D0093D3DC /* RequestCounterService */,

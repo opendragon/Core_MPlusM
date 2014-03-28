@@ -1,5 +1,3 @@
 * the running sum adapter command set should include start / stop / quit / reset
 
-* figure out a way to ‘kill’ the YARP close operation when it hangs
-
-* PortLister tool
+* figure out a way to ‘kill’ the YARP close operation when it hangs or to clean up the port some other way, like ‘port clean —timeout n’ does
