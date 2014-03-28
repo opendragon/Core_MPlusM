@@ -41,7 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPBaseClient.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPRequests.h"
 #include "YPPServiceRequest.h"
@@ -192,20 +192,21 @@ bool BaseClient::connectToService(void)
         }
         if (_clientPort)
         {
-            if (_clientPort->open(_clientPortName))
+            if (OpenPortWithRetries(*_clientPort, _clientPortName))
             {
-                if (yarp::os::Network::connect(_clientPortName, _servicePortName))
+                if (NetworkConnectWithRetries(_clientPortName, _servicePortName))
                 {
                     _connected = true;
+                    _clientPort->setOutputMode(false);
                 }
                 else
                 {
-                    OD_LOG("! (yarp::os::Network::connect(_clientPortName, _servicePortName))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(_clientPortName, _servicePortName))");//####
                 }
             }
             else
             {
-                OD_LOG("! (_clientPort->open(aName))");//####
+                OD_LOG("! (OpenPortWithRetries(*_clientPort, _clientPortName))");//####
             }
         }
         else
@@ -222,13 +223,13 @@ bool BaseClient::disconnectFromService(void)
     OD_LOG_OBJENTER();//####
     if (_connected)
     {
-        if (yarp::os::Network::disconnect(_clientPortName, _servicePortName))
+        if (NetworkDisconnectWithRetries(_clientPortName, _servicePortName))
         {
             _connected = false;
         }
         else
         {
-            OD_LOG("! (yarp::os::Network::disconnect(_clientPortName, _servicePortName))");//####
+            OD_LOG("! (NetworkDisconnectWithRetries(_clientPortName, _servicePortName))");//####
         }
     }
     OD_LOG_OBJEXIT_B(! _connected);//####
@@ -365,9 +366,9 @@ yarp::os::Bottle YarpPlusPlus::FindMatchingServices(const char * criteria)
         
         if (newPort)
         {
-            if (newPort->open(aName))
+            if (OpenPortWithRetries(*newPort, aName))
             {
-                if (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                if (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
                 {
                     yarp::os::Bottle parameters;
                     
@@ -385,16 +386,20 @@ yarp::os::Bottle YarpPlusPlus::FindMatchingServices(const char * criteria)
                     {
                         OD_LOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, *newPort, &response))");//####
                     }
-                    if (! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                    if (! NetworkDisconnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
                     {
-                        OD_LOG("(! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
                 }
                 newPort->close();
+            }
+            else
+            {
+                OD_LOG("! (OpenPortWithRetries(*newPort, aName))");//####
             }
             delete newPort;
         }

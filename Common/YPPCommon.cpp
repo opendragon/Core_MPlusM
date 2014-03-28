@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPCommon.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include <ace/Version.h>
 #include <cmath>
@@ -58,6 +58,7 @@
 # pragma clang diagnostic ignored "-Wweak-vtables"
 #endif // defined(__APPLE__)
 #include <yarp/conf/version.h>
+#include <yarp/os/Network.h>
 #include <yarp/os/Random.h>
 #include <yarp/os/Time.h>
 #if defined(__APPLE__)
@@ -83,6 +84,13 @@ using std::endl;
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
+
+/*! @brief The basic time interval for retries. */
+static const double kInitialRetryInterval = 0.1;
+/*! @brief The retry interval multiplier. */
+static const double kRetryMultiplier = 1.2;
+/*! @brief The maximum number of retries before declaring failure. */
+static const int kMaxRetries = 5;
 
 /*! @brief Report the version numbers when launching an executable. */
 #define CHATTY_START_ /* Report the version numbers. */
@@ -207,3 +215,125 @@ void YarpPlusPlus::Initialize(void)
     }
     OD_LOG_EXIT();//####
 } // YarpPlusPlus::Initialized
+
+bool YarpPlusPlus::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
+                                             const yarp::os::ConstString & destinationName)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
+    bool result = yarp::os::Network::connect(sourceName, destinationName);
+    
+    if (! result)
+    {
+        double retryTime = kInitialRetryInterval;
+        
+        for (int retriesLeft = kMaxRetries; (! result) && (0 < retriesLeft); --retriesLeft)
+        {
+            OD_LOG("%%retry%%");//####
+            yarp::os::Time::delay(retryTime);
+            result = yarp::os::Network::connect(sourceName, destinationName);
+            retryTime *= kRetryMultiplier;
+        }
+    }
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // YarpPlusPlus::NetworkConnectWithRetries
+
+/*! @brief Disconnect two YARP ports, using a backoff strategy with retries.
+ @param sourceName The name of the source port.
+ @param destinationName The name of the destination port.
+ @returns @c true if the connection was removed and @ false otherwise. */
+bool YarpPlusPlus::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
+                                                const yarp::os::ConstString & destinationName)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
+    bool result = yarp::os::Network::disconnect(sourceName, destinationName);
+    
+    if (! result)
+    {
+        double retryTime = kInitialRetryInterval;
+        
+        for (int retriesLeft = kMaxRetries; (! result) && (0 < retriesLeft); --retriesLeft)
+        {
+            OD_LOG("%%retry%%");//####
+            yarp::os::Time::delay(retryTime);
+            result = yarp::os::Network::disconnect(sourceName, destinationName);
+            retryTime *= kRetryMultiplier;
+        }
+    }
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // YarpPlusPlus::NetworkDisconnectWithRetries
+
+bool YarpPlusPlus::AddOutputToPortWithRetries(yarp::os::Port &              thePort,
+                                              const yarp::os::ConstString & thePortName)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("thePort = ", &thePort);//####
+    OD_LOG_S1("thePortName = ", thePortName.c_str());//####
+    bool result = thePort.addOutput(thePortName);
+    
+    if (! result)
+    {
+        double retryTime = kInitialRetryInterval;
+        
+        for (int retriesLeft = kMaxRetries; (! result) && (0 < retriesLeft); --retriesLeft)
+        {
+            OD_LOG("%%retry%%");//####
+            yarp::os::Time::delay(retryTime);
+            result = thePort.addOutput(thePortName);
+            retryTime *= kRetryMultiplier;
+        }
+    }
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // YarpPlusPlus::AddOutputToPortWithRetries
+
+bool YarpPlusPlus::OpenPortWithRetries(yarp::os::Port &              thePort,
+                                       const yarp::os::ConstString & thePortName)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("thePort = ", &thePort);//####
+    OD_LOG_S1("thePortName = ", thePortName.c_str());//####
+    bool result = thePort.open(thePortName);
+    
+    if (! result)
+    {
+        double retryTime = kInitialRetryInterval;
+        
+        for (int retriesLeft = kMaxRetries; (! result) && (0 < retriesLeft); --retriesLeft)
+        {
+            OD_LOG("%%retry%%");//####
+            yarp::os::Time::delay(retryTime);
+            result = thePort.open(thePortName);
+            retryTime *= kRetryMultiplier;
+        }
+    }
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // YarpPlusPlus::OpenPortWithRetries
+
+bool YarpPlusPlus::OpenPortWithRetries(yarp::os::Port &    thePort,
+                                       yarp::os::Contact & theContactInfo)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_P2("thePort = ", &thePort, "theContactInfo = ", &theContactInfo);//####
+    bool result = thePort.open(theContactInfo);
+    
+    if (! result)
+    {
+        double retryTime = kInitialRetryInterval;
+        
+        for (int retriesLeft = kMaxRetries; (! result) && (0 < retriesLeft); --retriesLeft)
+        {
+            OD_LOG("%%retry%%");//####
+            yarp::os::Time::delay(retryTime);
+            result = thePort.open(theContactInfo);
+            retryTime *= kRetryMultiplier;
+        }
+    }
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // YarpPlusPlus::OpenPortWithRetries
+

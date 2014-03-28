@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPRequestCounterClient.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPRequestCounterRequests.h"
 #include "YPPServiceResponse.h"
@@ -124,6 +124,7 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
             else
             {
                 OD_LOG("! (2 == response.count())");//####
+                OD_LOG_S1("response = ", response.asString().c_str());//####
             }
         }
         else

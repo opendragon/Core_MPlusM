@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPTTest11EchoRequestHandler.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPRequests.h"
 
@@ -107,7 +107,7 @@ void Test11EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
 # pragma unused(request,info)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S1("request = ", request.toString().c_str());//####
+    OD_LOG_S1("request = ", request.c_str());//####
     OD_LOG_P1("info = ", &info);//####
     OD_LOG_OBJEXIT();//####
 } // Test11EchoRequestHandler::fillInDescription
@@ -121,8 +121,8 @@ bool Test11EchoRequestHandler::processRequest(const yarp::os::ConstString & requ
 # pragma unused(request,senderPort)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.toString().c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
-              "senderPort = ", senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
+              senderPort.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     

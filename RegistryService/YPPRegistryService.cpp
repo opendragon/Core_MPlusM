@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPRegistryService.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPColumnNameValidator.h"
 #include "YPPMatchRequestHandler.h"
@@ -1139,9 +1139,9 @@ bool RegistryService::start(void)
                 
                 if (newPort)
                 {
-                    if (newPort->open(aName))
+                    if (OpenPortWithRetries(*newPort, aName))
                     {
-                        if (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                        if (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
                         {
                             yarp::os::Bottle parameters(YPP_SERVICE_REGISTRY_PORT_NAME);
                             ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
@@ -1168,6 +1168,7 @@ bool RegistryService::start(void)
                                 else
                                 {
                                     OD_LOG("! (1 == response.count())");//####
+                                    OD_LOG_S1("response = ", response.asString().c_str());//####
                                 }
                             }
                             else
@@ -1177,13 +1178,13 @@ bool RegistryService::start(void)
                         }
                         else
                         {
-                            OD_LOG("! (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                            OD_LOG("! (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
                         }
                         newPort->close();
                     }
                     else
                     {
-                        OD_LOG("! (newPort->open(portPath))");//####
+                        OD_LOG("! (OpenPortWithRetries(*newPort, aName))");//####
                     }
                     delete newPort;
                 }

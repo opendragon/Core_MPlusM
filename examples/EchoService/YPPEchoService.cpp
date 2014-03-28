@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPEchoService.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPEchoRequestHandler.h"
 #include "YPPEchoRequests.h"

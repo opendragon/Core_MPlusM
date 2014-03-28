@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPTTest03Handler.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -99,8 +99,10 @@ bool Test03Handler::handleInput(const yarp::os::Bottle &      input,
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
-    OD_LOG_OBJEXIT_B(true);//####
-    return true;
+    bool result = true;
+    
+    OD_LOG_OBJEXIT_B(result);//####
+    return result;
 } // Test03Handler::handleInput
 
 #if defined(__APPLE__)

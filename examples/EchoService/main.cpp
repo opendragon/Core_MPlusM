@@ -39,7 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPEchoService.h"
 #include "YPPEndpoint.h"

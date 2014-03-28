@@ -107,13 +107,22 @@ namespace YarpPlusPlus
         
         /*! @brief Lock the data unless the lock would block.
          @returns @c true if the data was locked and @c false otherwise. */
-        bool conditionallyLock(void);
+        inline bool conditionallyLock(void)
+        {
+            return _lock.check();
+        } // conditionallyLock
 
         /*! @brief Lock the data. */
-        void lock(void);
+        inline void lock(void)
+        {
+            _lock.wait();
+        } // lock
         
         /*! @brief Unlock the data. */
-        void unlock(void);
+        inline void unlock(void)
+        {
+            _lock.post();
+        } // unlock
         
     private:
         

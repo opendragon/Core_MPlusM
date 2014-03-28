@@ -41,7 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPRegisterRequestHandler.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPEndpoint.h"
 #include "YPPRegistryService.h"
@@ -123,7 +123,7 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
                                                yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S1("request = ", request.toString().c_str());//####
+    OD_LOG_S1("request = ", request.c_str());//####
     OD_LOG_P1("info = ", &info);//####
     try
     {
@@ -156,8 +156,8 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
 # pragma unused(request,senderPort)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.toString().c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
-              "senderPort = ", senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
+              senderPort.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
@@ -184,9 +184,9 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                         
                         if (outPort)
                         {
-                            if (outPort->open(aName))
+                            if (OpenPortWithRetries(*outPort, aName))
                             {
-                                if (outPort->addOutput(argAsString))
+                                if (AddOutputToPortWithRetries(*outPort, argAsString))
                                 {
                                     yarp::os::Bottle message1(YPP_NAME_REQUEST);
                                     yarp::os::Bottle response;
@@ -234,9 +234,10 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                 }
                                 else
                                 {
-                                    OD_LOG("! (outPort->addOutput(argAsString))");//####
+                                    OD_LOG("! (AddOutputToPortWithRetries(*outPort, argAsString))");//####
                                     reply.addString(YPP_FAILED_RESPONSE);
                                     reply.addString("Could not connect to port");
+                                    reply.addString(argAsString);
                                 }
                                 OD_LOG_S1("about to close, port = ", aName.c_str());//####
                                 outPort->close();
@@ -244,7 +245,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                             }
                             else
                             {
-                                OD_LOG("! (outPort->open(aName))");//####
+                                OD_LOG("! (OpenPortWithRetries(*outPort, aName))");//####
                                 reply.addString(YPP_FAILED_RESPONSE);
                                 reply.addString("Port could not be opened");
                             }
@@ -470,6 +471,7 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & p
         else
         {
             OD_LOG("! (2 == response.count())");//####
+            OD_LOG_S1("response = ", response.asString().c_str());//####
             // Wrong number of values in the response.
             result = false;
         }

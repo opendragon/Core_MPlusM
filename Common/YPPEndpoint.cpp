@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPEndpoint.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPCommon.h"
 #include "YPPException.h"
@@ -80,7 +80,10 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-//#define REPORT_CONTACT_DETAILS /* Report details of the open() method. */
+/*! @brief Report the details from operations that affect the contact information. */
+#if defined(OD_ENABLE_LOGGING)
+# define REPORT_CONTACT_DETAILS /* */
+#endif // defined(OD_ENABLE_LOGGING)
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -224,6 +227,9 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
         if (checkHostPort(realPort, portNumber))
         {
             _contact = yarp::os::Contact::byName(endpointName);
+#if defined(REPORT_CONTACT_DETAILS)
+            DumpContact("after byName", _contact);//####
+#endif // defined(REPORT_CONTACT_DETAILS)
             if (checkHostName(_contact, hostName, realPort))
             {
                 // Ready to be set up... we have a valid port, and either a blank URI or a valid one.
@@ -278,10 +284,6 @@ void Endpoint::close(void)
             }
             if (_port)
             {
-                OD_LOG_S1("about to close, port = ", getName().c_str());//####
-                _port->close();
-                OD_LOG("close completed.");//####
-                OD_LOG("about to unregister port");//####
                 if (0 < _contact.getHost().length())
                 {
                     yarp::os::Network::unregisterContact(_contact);
@@ -290,6 +292,9 @@ void Endpoint::close(void)
                 {
                     yarp::os::Network::unregisterName(_contact.getName());
                 }
+                OD_LOG_S1("about to close, port = ", getName().c_str());//####
+                _port->close();
+                OD_LOG("close completed.");//####
                 delete _port;
                 _port = NULL;
             }
@@ -324,9 +329,10 @@ bool Endpoint::open(void)
 #if defined(REPORT_CONTACT_DETAILS)
                     DumpContact("after registerContact", _contact);//####
 #endif // defined(REPORT_CONTACT_DETAILS)
-                    if (_port->open(_contact))
+                    if (OpenPortWithRetries(*_port, _contact))
                     {
                         _isOpen = true;
+                        _port->setOutputMode(false);
 #if defined(REPORT_CONTACT_DETAILS)
                         DumpContact("after open", _port->where());//####
 #endif // defined(REPORT_CONTACT_DETAILS)
@@ -336,9 +342,10 @@ bool Endpoint::open(void)
                         OD_LOG("Port could not be opened");//####
                     }
                 }
-                else if (_port->open(_contact.getName()))
+                else if (OpenPortWithRetries(*_port, _contact.getName()))
                 {
                     OD_LOG("(_port->open(_contact.getName()))");//####
+                    _port->setOutputMode(false);
                     _isOpen = true;
 #if defined(REPORT_CONTACT_DETAILS)
                     DumpContact("after open", _port->where());//####

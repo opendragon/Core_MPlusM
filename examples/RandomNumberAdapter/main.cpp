@@ -39,7 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPRandomNumberAdapterData.h"
 #include "YPPRandomNumberClient.h"
@@ -160,9 +160,12 @@ int main(int     argc,
                                     outputName = argv[2];
                                 }
                             }
-                            if (dataChannel->open(dataName) && outputChannel->open(outputName))
+                            if (YarpPlusPlus::OpenPortWithRetries(*dataChannel, dataName) &&
+                                YarpPlusPlus::OpenPortWithRetries(*outputChannel, outputName))
                             {
                                 sharedData.activate();
+                                dataChannel->setOutputMode(false);
+                                outputChannel->setInputMode(false);
                                 dataChannel->setReader(*dataHandler);
                                 
                                 
@@ -189,8 +192,8 @@ int main(int     argc,
                             }
                             else
                             {
-                                OD_LOG("! (controlChannel->open(controlName) && dataChannel->open(dataName) && "//####
-                                       "outputChannel->open(outputName))");//####
+                                OD_LOG("! (YarpPlusPlus::OpenPortWithRetries(*dataChannel, dataName) && "
+                                       "YarpPlusPlus::OpenPortWithRetries(*outputChannel, outputName))");//####
                                 cerr << "Problem opening a port." << endl;
                             }
                             dataChannel->close();

@@ -39,7 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPMatchConstraint.h"
 #include "YPPMatchExpression.h"
@@ -97,8 +97,8 @@ using std::endl;
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase01(const bool expected,
-                    char *     inString) // create value matcher
+static int doTestParseValue(const bool   expected,
+                            const char * inString) // create value matcher
 {
     OD_LOG_ENTER();//####
     OD_LOG_B1("expected = ", expected);//####
@@ -115,6 +115,10 @@ static int doCase01(const bool expected,
         {
             result = 0;
         }
+        else
+        {
+            OD_LOG("! ((NULL != didMatch) == expected)");//####
+        }
         if (didMatch)
         {
             OD_LOG_S2("didMatch->asString = ", didMatch->asString(), "didMatch->asSQLString = ",//####
@@ -130,14 +134,14 @@ static int doCase01(const bool expected,
     }
     OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase01
+} // doTestParseValue
 
 /*! @brief Perform a test case.
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase02(const bool expected,
-                    char *     inString) // create value matcher
+static int doTestParseValueList(const bool   expected,
+                                const char * inString) // create value matcher
 {
     OD_LOG_ENTER();//####
     OD_LOG_B1("expected = ", expected);//####
@@ -154,6 +158,10 @@ static int doCase02(const bool expected,
         {
             result = 0;
         }
+        else
+        {
+            OD_LOG("! ((NULL != didMatch) == expected)");//####
+        }
         if (didMatch)
         {
             OD_LOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
@@ -169,14 +177,14 @@ static int doCase02(const bool expected,
     }
     OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase02
+} // doTestParseValueList
 
 /*! @brief Perform a test case.
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase03(const bool expected,
-                    char *     inString) // create value matcher
+static int doTestParseFieldName(const bool   expected,
+                                const char * inString) // create value matcher
 {
     OD_LOG_ENTER();//####
     OD_LOG_B1("expected = ", expected);//####
@@ -194,6 +202,10 @@ static int doCase03(const bool expected,
         {
             result = 0;
         }
+        else
+        {
+            OD_LOG("! ((NULL != didMatch) == expected)");//####
+        }
         if (didMatch)
         {
             OD_LOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
@@ -210,14 +222,14 @@ static int doCase03(const bool expected,
     }
     OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase03
+} // doTestParseFieldName
 
 /*! @brief Perform a test case.
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase04(const bool expected,
-                    char *     inString) // create value matcher
+static int doTestParseFieldWithValues(const bool   expected,
+                                      const char * inString) // create value matcher
 {
     OD_LOG_ENTER();//####
     OD_LOG_B1("expected = ", expected);//####
@@ -235,6 +247,10 @@ static int doCase04(const bool expected,
         {
             result = 0;
         }
+        else
+        {
+            OD_LOG("! ((NULL != didMatch) == expected)");//####
+        }
         if (didMatch)
         {
             OD_LOG_S2("didMatch->asString = ", didMatch->asString(), "didMatch->asSQLString = ",//####
@@ -251,14 +267,14 @@ static int doCase04(const bool expected,
     }
     OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase04
+} // doTestParseFieldWithValues
 
 /*! @brief Perform a test case.
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase05(const bool expected,
-                    char *     inString) // create value matcher
+static int doTestParseConstraintList(const bool   expected,
+                                     const char * inString) // create value matcher
 {
     OD_LOG_ENTER();//####
     OD_LOG_B1("expected = ", expected);//####
@@ -276,6 +292,10 @@ static int doCase05(const bool expected,
         {
             result = 0;
         }
+        else
+        {
+            OD_LOG("! ((NULL != didMatch) == expected)");//####
+        }
         if (didMatch)
         {
             OD_LOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
@@ -292,14 +312,14 @@ static int doCase05(const bool expected,
     }
     OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase05
+} // doTestParseConstraintList
 
 /*! @brief Perform a test case.
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doCase06(const bool expected,
-                    char *     inString) // create value matcher
+static int doTestParseExpression(const bool   expected,
+                                 const char * inString) // create value matcher
 {
     OD_LOG_ENTER();//####
     OD_LOG_B1("expected = ", expected);//####
@@ -317,6 +337,10 @@ static int doCase06(const bool expected,
         {
             result = 0;
         }
+        else
+        {
+            OD_LOG("! ((NULL != didMatch) == expected)");//####
+        }
         if (didMatch)
         {
             OD_LOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
@@ -333,7 +357,7 @@ static int doCase06(const bool expected,
     }
     OD_LOG_EXIT_L(result);//####
     return result;
-} // doCase06
+} // doTestParseExpression
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -363,32 +387,36 @@ int main(int     argc,
             switch (selector)
             {
                 case 1:
-                    result = doCase01(expected, *(argv + 3));
+                    result = doTestParseValue(expected, *(argv + 3));
                     break;
                     
                 case 2:
-                    result = doCase02(expected, *(argv + 3));
+                    result = doTestParseValueList(expected, *(argv + 3));
                     break;
                     
                 case 3:
-                    result = doCase03(expected, *(argv + 3));
+                    result = doTestParseFieldName(expected, *(argv + 3));
                     break;
                     
                 case 4:
-                    result = doCase04(expected, *(argv + 3));
+                    result = doTestParseFieldWithValues(expected, *(argv + 3));
                     break;
                     
                 case 5:
-                    result = doCase05(expected, *(argv + 3));
+                    result = doTestParseConstraintList(expected, *(argv + 3));
                     break;
                     
                 case 6:
-                    result = doCase06(expected, *(argv + 3));
+                    result = doTestParseExpression(expected, *(argv + 3));
                     break;
                     
                 default:
                     break;
                     
+            }
+            if (result)
+            {
+                OD_LOG_LL1("%%%%%%% unit test failure = ", result);//####
             }
         }
         else

@@ -45,6 +45,8 @@
 # define YPPCOMMON_H_ /* */
 
 # include "YPPConfig.h"
+# include <string>
+# include <vector>
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -55,10 +57,9 @@
 #  pragma clang diagnostic ignored "-Wunused-parameter"
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
-# include <string>
-# include <vector>
 # include <yarp/os/ConstString.h>
 # include <yarp/os/Contact.h>
+# include <yarp/os/Port.h>
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -91,6 +92,13 @@ namespace YarpPlusPlus
     /*! @brief A sequence of strings. */
     typedef std::vector<std::string> StringVector;
 
+    /*! @brief Add an output to a YARP port, using a backoff strategy with retries.
+     @param thePort The port to be modified.
+     @param thePortName The name to be associated with the port.
+     @returns @c true if the port was opened and @c false if it could not be opened. */
+    bool AddOutputToPortWithRetries(yarp::os::Port &              thePort,
+                                    const yarp::os::ConstString & thePortName);
+    
     /*! @brief Dump out a description of the provided connection information to the log.
      @param tag A unique string used to identify the call point for the output.
      @param aContact The connection information to be reported. */
@@ -106,6 +114,34 @@ namespace YarpPlusPlus
      Should be called in the main() function of each application or service. */
     void Initialize(void);
     
+    /*! @brief Connect two YARP ports, using a backoff strategy with retries.
+     @param sourceName The name of the source port.
+     @param destinationName The name of the destination port.
+     @returns @c true if the connection was established and @ false otherwise. */
+    bool NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
+                                   const yarp::os::ConstString & destinationName);
+    
+    /*! @brief Disconnect two YARP ports, using a backoff strategy with retries.
+     @param sourceName The name of the source port.
+     @param destinationName The name of the destination port.
+     @returns @c true if the connection was removed and @ false otherwise. */
+    bool NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
+                                      const yarp::os::ConstString & destinationName);
+    
+    /*! @brief Open a YARP port, using a backoff strategy with retries.
+     @param thePort The port to be opened.
+     @param thePortName The name to be associated with the port.
+     @returns @c true if the port was opened and @c false if it could not be opened. */
+    bool OpenPortWithRetries(yarp::os::Port &              thePort,
+                             const yarp::os::ConstString & thePortName);
+    
+    /*! @brief Open a YARP port, using a backoff strategy with retries.
+     @param thePort The port to be opened.
+     @param theContactInfo The connection information to be associated with the port.
+     @returns @c true if the port was opened and @c false if it could not be opened. */
+    bool OpenPortWithRetries(yarp::os::Port &    thePort,
+                             yarp::os::Contact & theContactInfo);
+
 } // YarpPlusPlus
 
 #endif // ! defined(YPPCOMMON_H_)

@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPMatchFieldWithValues.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPBaseNameValidator.h"
 #include "YPPMatchFieldName.h"

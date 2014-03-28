@@ -41,7 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPMatchRequestHandler.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPEndpoint.h"
 #include "YPPRegistryService.h"
@@ -102,11 +102,9 @@ MatchRequestHandler::~MatchRequestHandler(void)
 
 void MatchRequestHandler::fillInAliases(StringVector & alternateNames)
 {
-#if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(alternateNames)
-#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
+    alternateNames.push_back("find");
     OD_LOG_OBJEXIT();//####
 } // MatchRequestHandler::fillInAliases
 
@@ -114,7 +112,7 @@ void MatchRequestHandler::fillInDescription(const yarp::os::ConstString & reques
                                             yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S1("request = ", request.toString().c_str());//####
+    OD_LOG_S1("request = ", request.c_str());//####
     OD_LOG_P1("info = ", &info);//####
     try
     {
@@ -148,8 +146,8 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
 # pragma unused(request,senderPort)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.toString().c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
-              "senderPort = ", senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
+              senderPort.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     

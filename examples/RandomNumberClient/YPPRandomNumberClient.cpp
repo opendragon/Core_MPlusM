@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPRandomNumberClient.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPRandomNumberRequests.h"
 #include "YPPServiceResponse.h"
@@ -121,6 +121,7 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
             else
             {
                 OD_LOG("! (1 == response.count())");//####
+                OD_LOG_S1("response = ", response.asString().c_str());//####
             }
         }
         else
@@ -179,6 +180,7 @@ bool RandomNumberClient::getRandomNumbers(const int                    howMany,
                 else
                 {
                     OD_LOG("! (howMany == response.count())");//####
+                    OD_LOG_S1("response = ", response.asString().c_str());//####
                 }
             }
             else

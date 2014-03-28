@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPRunningSumClient.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPEndpoint.h"
 #include "YPPException.h"
@@ -144,6 +144,7 @@ bool RunningSumClient::addToSum(const double value,
             else
             {
                 OD_LOG("! (1 == response.count())");//####
+                OD_LOG_S1("response = ", response.asString().c_str());//####
             }
         }
         else
@@ -202,6 +203,7 @@ bool RunningSumClient::addToSum(const YarpPlusPlus::DoubleVector & values,
                 else
                 {
                     OD_LOG("! (1 == response.count())");//####
+                    OD_LOG_S1("response = ", response.asString().c_str());//####
                 }
             }
             else

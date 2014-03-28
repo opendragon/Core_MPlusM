@@ -39,7 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPBaseClient.h"
 #include "YPPRequests.h"
@@ -103,9 +103,9 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
     
     if (newPort)
     {
-        if (newPort->open(aName))
+        if (YarpPlusPlus::OpenPortWithRetries(*newPort, aName))
         {
-            if (yarp::os::Network::connect(aName, aServicePort))
+            if (YarpPlusPlus::NetworkConnectWithRetries(aName, aServicePort))
             {
                 yarp::os::Bottle              parameters;
                 YarpPlusPlus::ServiceRequest  request(YPP_NAME_REQUEST, parameters);
@@ -135,26 +135,27 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
                     else
                     {
                         OD_LOG("! (YPP_EXPECTED_NAME_RESPONSE_SIZE == response.count())");//####
+                        OD_LOG_S1("response = ", response.asString().c_str());//####
                     }
                 }
                 else
                 {
                     OD_LOG("! (request.send(*newPort, &response))");//####
                 }
-                if (! yarp::os::Network::disconnect(aName, aServicePort))
+                if (! YarpPlusPlus::NetworkDisconnectWithRetries(aName, aServicePort))
                 {
-                    OD_LOG("(! yarp::os::Network::disconnect(aName, destinationName))");//####
+                    OD_LOG("(! YarpPlusPlus::NetworkDisconnectWithRetries(aName, destinationName))");//####
                 }
             }
             else
             {
-                OD_LOG("! (yarp::os::Network::connect(aName, destinationName))");//####
+                OD_LOG("! (YarpPlusPlus::NetworkConnectWithRetries(aName, aServicePort))");//####
             }
             newPort->close();
         }
         else
         {
-            OD_LOG("! (newPort->open(portPath))");//####
+            OD_LOG("! (YarpPlusPlus::OpenPortWithRetries(*newPort, aName))");//####
         }
         delete newPort;
     }

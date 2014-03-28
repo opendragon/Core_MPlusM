@@ -39,7 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "CommonTests/YPPTEndpointStatusReporter.h"
 #include "CommonTests/YPPTTest03Handler.h"
@@ -154,11 +154,11 @@ static yarp::os::Port * doCreateTestPort(const yarp::os::ConstString & destinati
     
     if (newPort)
     {
-        if (newPort->open(aName))
+        if (OpenPortWithRetries(*newPort, aName))
         {
-            if (! yarp::os::Network::connect(aName, destinationName))
+            if (! NetworkConnectWithRetries(aName, destinationName))
             {
-                OD_LOG("(! yarp::os::Network::connect(aName, destinationName))");//####
+                OD_LOG("(! NetworkConnectWithRetries(aName, destinationName))");//####
                 newPort->close();
                 delete newPort;
                 newPort = NULL;
@@ -166,7 +166,7 @@ static yarp::os::Port * doCreateTestPort(const yarp::os::ConstString & destinati
         }
         else
         {
-            OD_LOG("! (newPort->open(portPath))");//####
+            OD_LOG("! (OpenPortWithRetries(*newPort, aName))");//####
         }
     }
     else
@@ -198,9 +198,9 @@ static void doDestroyTestPort(const yarp::os::ConstString & destinationName,
     
     if (thePort)
     {
-        if (! yarp::os::Network::disconnect(thePort->getName(), destinationName))
+        if (! NetworkDisconnectWithRetries(thePort->getName(), destinationName))
         {
-            OD_LOG("(! yarp::os::Network::disconnect(thePort->getName(), destinationName))");//####
+            OD_LOG("(! NetworkDisconnectWithRetries(thePort->getName(), destinationName))");//####
         }
         thePort->close();
         delete thePort;
@@ -294,18 +294,16 @@ static int doTestConnectToEndpoint(const int argc,
                 if (outPort)
                 {
                     OD_LOG_S1("opening ", aName.c_str());//####
-                    if (outPort->open(aName))
+                    if (OpenPortWithRetries(*outPort, aName))
                     {
-                        OD_LOG("(outPort->open(aName))");//####
                         outPort->getReport(reporter);
-                        if (outPort->addOutput(stuff->getName()))
+                        if (AddOutputToPortWithRetries(*outPort, stuff->getName()))
                         {
-                            OD_LOG("(outPort->addOutput(stuff->getName()))");//####
                             result = 0;
                         }
                         else
                         {
-                            OD_LOG("! (outPort->addOutput(stuff->getName()))");//####
+                            OD_LOG("! (AddOutputToPortWithRetries(*outPort, stuff->getName()))");//####
                         }
                         OD_LOG_S1("about to close, port = ", aName.c_str());//####
                         outPort->close();
@@ -313,7 +311,7 @@ static int doTestConnectToEndpoint(const int argc,
                     }
                     else
                     {
-                        OD_LOG("! (outPort->open(aName))");//####
+                        OD_LOG("! (OpenPortWithRetries(*outPort, aName))");//####
                     }
                     delete outPort;
                 }
@@ -375,20 +373,17 @@ static int doTestWriteToEndpoint(const int argc,
                 if (outPort)
                 {
                     OD_LOG_S1("opening ", aName.c_str());//####
-                    if (outPort->open(aName))
+                    if (OpenPortWithRetries(*outPort, aName))
                     {
-                        OD_LOG("(outPort->open(aName))");//####
                         outPort->getReport(reporter);
-                        if (outPort->addOutput(stuff->getName()))
+                        if (AddOutputToPortWithRetries(*outPort, stuff->getName()))
                         {
-                            OD_LOG("(outPort->addOutput(stuff->getName()))");//####
                             yarp::os::Bottle message;
                             
                             message.addString(aName);
                             message.addString("howdi");
                             if (outPort->write(message))
                             {
-                                OD_LOG("(outPort->write(message))");//####
                                 result = 0;
                             }
                             else
@@ -398,7 +393,7 @@ static int doTestWriteToEndpoint(const int argc,
                         }
                         else
                         {
-                            OD_LOG("! (outPort->addOutput(stuff->getName()))");//####
+                            OD_LOG("! (AddOutputToPortWithRetries(*outPort, stuff->getName()))");//####
                         }
                         OD_LOG_S1("about to close, port = ", aName.c_str());//####
                         outPort->close();
@@ -406,7 +401,7 @@ static int doTestWriteToEndpoint(const int argc,
                     }
                     else
                     {
-                        OD_LOG("! (outPort->open(aName))");//####
+                        OD_LOG("! (OpenPortWithRetries(*outPort, aName))");//####
                     }
                     delete outPort;
                 }
@@ -469,13 +464,11 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                 if (outPort)
                 {
                     OD_LOG_S1("opening ", aName.c_str());//####
-                    if (outPort->open(aName))
+                    if (OpenPortWithRetries(*outPort, aName))
                     {
-                        OD_LOG("(outPort->open(aName))");//####
                         outPort->getReport(reporter);
-                        if (outPort->addOutput(stuff->getName()))
+                        if (AddOutputToPortWithRetries(*outPort, stuff->getName()))
                         {
-                            OD_LOG("(outPort->addOutput(stuff->getName()))");//####
                             yarp::os::Bottle message;
                             yarp::os::Bottle response;
                             
@@ -483,8 +476,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                             message.addString("howdi");
                             if (outPort->write(message, response))
                             {
-                                OD_LOG("(outPort->write(message, response))");//####
-                                OD_LOG_S1("got ", response.toString().c_str());//####
+//                                OD_LOG_S1("got ", response.toString().c_str());//####
                                 result = 0;
                             }
                             else
@@ -494,7 +486,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                         }
                         else
                         {
-                            OD_LOG("! (outPort->addOutput(stuff->getName()))");//####
+                            OD_LOG("! (AddOutputToPortWithRetries(*outPort, stuff->getName()))");//####
                         }
                         OD_LOG_S1("about to close, port = ", aName.c_str());//####
                         outPort->close();
@@ -502,7 +494,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                     }
                     else
                     {
-                        OD_LOG("! (outPort->open(aName))");//####
+                        OD_LOG("! (OpenPortWithRetries(*outPort, aName))");//####
                     }
                     delete outPort;
                 }
@@ -565,13 +557,11 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                 if (outPort)
                 {
                     OD_LOG_S1("opening ", aName.c_str());//####
-                    if (outPort->open(aName))
+                    if (OpenPortWithRetries(*outPort, aName))
                     {
-                        OD_LOG("(outPort->open(aName))");//####
                         outPort->getReport(reporter);
-                        if (outPort->addOutput(stuff->getName()))
+                        if (AddOutputToPortWithRetries(*outPort, stuff->getName()))
                         {
-                            OD_LOG("(outPort->addOutput(stuff->getName()))");//####
                             yarp::os::Bottle message;
                             yarp::os::Bottle response;
                             
@@ -579,8 +569,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                             message.addString("howdi");
                             if (outPort->write(message, response))
                             {
-                                OD_LOG("(outPort->write(message, response))");//####
-                                OD_LOG_S1("got ", response.toString().c_str());//####
+//                                OD_LOG_S1("got ", response.toString().c_str());//####
                                 result = 0;
                             }
                             else
@@ -590,7 +579,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                         }
                         else
                         {
-                            OD_LOG("! (outPort->addOutput(stuff->getName()))");//####
+                            OD_LOG("! (AddOutputToPortWithRetries(*outPort, stuff->getName()))");//####
                         }
                         OD_LOG_S1("about to close, port = ", aName.c_str());//####
                         outPort->close();
@@ -598,7 +587,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                     }
                     else
                     {
-                        OD_LOG("! (outPort->open(aName))");//####
+                        OD_LOG("! (OpenPortWithRetries(*outPort, aName))");//####
                     }
                     delete outPort;
                 }
@@ -1280,6 +1269,10 @@ int main(int     argc,
                     default:
                         break;
                         
+                }
+                if (result)
+                {
+                    OD_LOG_LL1("%%%%%%% unit test failure = ", result);//####
                 }
             }
             else

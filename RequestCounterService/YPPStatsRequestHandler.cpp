@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPStatsRequestHandler.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPRequestCounterRequests.h"
 #include "YPPRequestCounterService.h"
@@ -108,7 +108,7 @@ void StatsRequestHandler::fillInDescription(const yarp::os::ConstString & reques
                                             yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S1("request = ", request.toString().c_str());//####
+    OD_LOG_S1("request = ", request.c_str());//####
     OD_LOG_P1("info = ", &info);//####
     try
     {
@@ -139,8 +139,8 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
 # pragma unused(request,restOfInput,senderPort)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.toString().c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
-              "senderPort = ", senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
+              senderPort.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     

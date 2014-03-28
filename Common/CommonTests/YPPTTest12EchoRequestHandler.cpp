@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPTTest12EchoRequestHandler.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPRequests.h"
 
@@ -107,7 +107,7 @@ void Test12EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
                                                  yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S1("request = ", request.toString().c_str());//####
+    OD_LOG_S1("request = ", request.c_str());//####
     OD_LOG_P1("info = ", &info);//####
     info.put(YPP_REQREP_DICT_REQUEST_KEY, request);
     info.put(YPP_REQREP_DICT_INPUT_KEY, YPP_REQREP_ANYTHING YPP_REQREP_0_OR_MORE);
@@ -131,8 +131,8 @@ bool Test12EchoRequestHandler::processRequest(const yarp::os::ConstString & requ
 # pragma unused(request,senderPort)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.toString().c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
-              "senderPort = ", senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
+              senderPort.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     

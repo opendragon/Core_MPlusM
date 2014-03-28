@@ -39,7 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPBaseClient.h"
 #include "YPPRequests.h"
@@ -275,7 +275,7 @@ int main(int     argc,
                             
                             if (newPort)
                             {
-                                if (newPort->open(aName))
+                                if (YarpPlusPlus::OpenPortWithRetries(*newPort, aName))
                                 {
                                     bool             sawRequestResponse = false;
                                     yarp::os::Bottle parameters;
@@ -288,7 +288,7 @@ int main(int     argc,
                                     {
                                         yarp::os::ConstString aMatch(matchesList->get(ii).toString());
                                         
-                                        if (yarp::os::Network::connect(aName, aMatch))
+                                        if (YarpPlusPlus::NetworkConnectWithRetries(aName, aMatch))
                                         {
                                             YarpPlusPlus::ServiceResponse response;
                                             
@@ -336,14 +336,15 @@ int main(int     argc,
                                                             endl;
                                                 }
                                             }
-                                            if (! yarp::os::Network::disconnect(aName, aMatch))
+                                            if (! YarpPlusPlus::NetworkDisconnectWithRetries(aName, aMatch))
                                             {
-                                                OD_LOG("(! yarp::os::Network::disconnect(aName, aMatch))");//####
+                                                OD_LOG("(! YarpPlusPlus::NetworkDisconnectWithRetries(aName, "//####
+                                                       "aMatch))");//####
                                             }
                                         }
                                         else
                                         {
-                                            OD_LOG("! (yarp::os::Network::connect(aName, aMatch))");//####
+                                            OD_LOG("! (YarpPlusPlus::NetworkConnectWithRetries(aName, aMatch))");//####
                                         }
                                     }
                                     if (! sawRequestResponse)
@@ -354,7 +355,7 @@ int main(int     argc,
                                 }
                                 else
                                 {
-                                    OD_LOG("! (newPort->open(portPath))");//####
+                                    OD_LOG("! (YarpPlusPlus::OpenPortWithRetries(*newPort, aName))");//####
                                 }
                                 delete newPort;
                             }

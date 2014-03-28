@@ -109,6 +109,8 @@
 		DF30063018E4745E00B51C22 /* YPPRandomNumberDataInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPRandomNumberDataInputHandler.h; path = ../examples/RandomNumberAdapter/YPPRandomNumberDataInputHandler.h; sourceTree = SOURCE_ROOT; };
 		DF30063118E47D9E00B51C22 /* YPPBaseAdapterData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = YPPBaseAdapterData.cpp; path = ../Common/YPPBaseAdapterData.cpp; sourceTree = SOURCE_ROOT; };
 		DF30063218E47D9E00B51C22 /* YPPBaseAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YPPBaseAdapterData.h; path = ../Common/YPPBaseAdapterData.h; sourceTree = SOURCE_ROOT; };
+		DF30063318E4C94D00B51C22 /* ODEnableLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODEnableLogging.h; path = ../Logging/ODEnableLogging.h; sourceTree = "<group>"; };
+		DF30063418E5C62500B51C22 /* ODDisableLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODDisableLogging.h; path = ../Logging/ODDisableLogging.h; sourceTree = "<group>"; };
 		DFA3431318C91B7E0053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = main.cpp; path = ../RegistryService/main.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DFA3432718C91C5A0053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = ../Common/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFA3432818C91C5A0053B87C /* YPPBaseClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = YPPBaseClient.cpp; path = ../Common/YPPBaseClient.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -413,6 +415,8 @@
 			isa = PBXGroup;
 			children = (
 				DF30062318E35E0C00B51C22 /* CMakeLists.txt */,
+				DF30063418E5C62500B51C22 /* ODDisableLogging.h */,
+				DF30063318E4C94D00B51C22 /* ODEnableLogging.h */,
 				DF30062418E35E0C00B51C22 /* ODLogging.cpp */,
 				DF30062518E35E0C00B51C22 /* ODLogging.h */,
 				DF30062618E35E0C00B51C22 /* ODLogging.inc.c */,

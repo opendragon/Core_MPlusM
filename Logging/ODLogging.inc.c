@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       ODSyslog.inc
+//  File:       ODLogging.inc.c
 //
 //  Project:    YarpPlusPlus
 //
@@ -39,9 +39,9 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(ODSYSLOG_INC_))
+#if (! defined(ODLOGGING_INC_C_))
 /*! @brief Header guard. */
-# define ODSYSLOG_INC_ /* */
+# define ODLOGGING_INC_C_ /* */
 
 # include "ODLogging.h"
 # if (defined(__APPLE__) || defined(__linux))
@@ -3293,4 +3293,4 @@ EXTERN_C void ODLogTi_(const char *           fileName,
 } // ODLogTi_
 
 # endif // defined(OD_ENABLE_LOGGING)
-#endif // ! defined(ODSYSLOG_INC_)
+#endif // ! defined(ODLOGGING_INC_C_)

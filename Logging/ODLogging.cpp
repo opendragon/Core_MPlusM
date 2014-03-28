@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       ODSyslog.cpp
+//  File:       ODLogging.cpp
 //
 //  Project:    YarpPlusPlus
 //
@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 /*! @brief Compile with logging enabled. */
-#define OD_ENABLE_LOGGING /* */
-
+#include "ODEnableLogging.h"
 #include "ODLogging.inc.c"
 
 #if defined(__APPLE__)

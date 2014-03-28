@@ -41,7 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPRequestCounterDefaultRequestHandler.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPRequestCounterRequests.h"
 #include "YPPRequestCounterService.h"
@@ -109,7 +109,7 @@ void RequestCounterDefaultRequestHandler::fillInDescription(const yarp::os::Cons
 # pragma unused(request,info)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S1("request = ", request.toString().c_str());//####
+    OD_LOG_S1("request = ", request.c_str());//####
     OD_LOG_P1("info = ", &info);//####
     OD_LOG_OBJEXIT();//####
 } // RequestCounterDefaultRequestHandler::fillInDescription
@@ -123,8 +123,8 @@ bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstSt
 # pragma unused(request,restOfInput,senderPort)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.toString().c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
-              "senderPort = ", senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
+              senderPort.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     

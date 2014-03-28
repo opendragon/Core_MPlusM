@@ -41,7 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPBaseService.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPBaseContext.h"
 #include "YPPBaseServiceInputHandler.h"
@@ -167,6 +167,7 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
 BaseService::~BaseService(void)
 {
     OD_LOG_OBJENTER();//####
+    stop();
     detachRequestHandlers();
     delete _endpoint;
     delete _handler;
@@ -313,8 +314,8 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
                                  yarp::os::ConnectionWriter *  replyMechanism)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(),//####
-              "senderPort = ", senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
+              senderPort.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result;
     
@@ -516,9 +517,9 @@ bool YarpPlusPlus::RegisterLocalService(const yarp::os::ConstString & portName)
         
         if (newPort)
         {
-            if (newPort->open(aName))
+            if (OpenPortWithRetries(*newPort, aName))
             {
-                if (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                if (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
                 {
                     yarp::os::Bottle parameters(portName);
                     ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
@@ -543,24 +544,33 @@ bool YarpPlusPlus::RegisterLocalService(const yarp::os::ConstString & portName)
                         else
                         {
                             OD_LOG("! (1 == response.count())");//####
+                            OD_LOG_S1("response = ", response.asString().c_str());//####
                         }
                     }
                     else
                     {
                         OD_LOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, *newPort, &response))");//####
                     }
-                    if (! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                    if (! NetworkDisconnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
                     {
-                        OD_LOG("(! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
                 }
                 newPort->close();
             }
+            else
+            {
+                OD_LOG("! (OpenPortWithRetries(*newPort, aName))");//####
+            }
             delete newPort;
+        }
+        else
+        {
+            OD_LOG("! (newPort)");//####
         }
     }
     catch (...)
@@ -585,9 +595,9 @@ bool YarpPlusPlus::UnregisterLocalService(const yarp::os::ConstString & portName
         
         if (newPort)
         {
-            if (newPort->open(aName))
+            if (OpenPortWithRetries(*newPort, aName))
             {
-                if (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                if (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
                 {
                     yarp::os::Bottle parameters(portName);
                     ServiceRequest   request(YPP_UNREGISTER_REQUEST, parameters);
@@ -612,24 +622,33 @@ bool YarpPlusPlus::UnregisterLocalService(const yarp::os::ConstString & portName
                         else
                         {
                             OD_LOG("! (1 == response.count())");//####
-                        }
+                            OD_LOG_S1("response = ", response.asString().c_str());//####
+                       }
                     }
                     else
                     {
                         OD_LOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, *newPort, &response))");//####
                     }
-                    if (! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                    if (! NetworkDisconnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
                     {
-                        OD_LOG("(! yarp::os::Network::disconnect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (yarp::os::Network::connect(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
                 }
                 newPort->close();
             }
+            else
+            {
+                OD_LOG("! (OpenPortWithRetries(*newPort, aName))");//####
+            }
             delete newPort;
+        }
+        else
+        {
+            OD_LOG("! (newPort)");//####
         }
     }
     catch (...)

@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPServiceRequest.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPEndpoint.h"
 #if defined(__APPLE__)

@@ -39,7 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "RegistryTests/YPPTTest14Service.h"
 #include "RegistryTests/YPPTTest15Service.h"
@@ -515,12 +515,12 @@ static int doTestRequestSearchService(const int argc,
                                     OD_LOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
                                 }
                                 stuff->stop();
-                                delete stuff;
                             }
                             else
                             {
                                 OD_LOG("! (stuff->start())");//####
                             }
+                            delete stuff;
                         }
                         else
                         {
@@ -612,6 +612,10 @@ int main(int     argc,
                     default:
                         break;
                         
+                }
+                if (result)
+                {
+                    OD_LOG_LL1("%%%%%%% unit test failure = ", result);//####
                 }
             }
             else

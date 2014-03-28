@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPTTest12Service.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPRequests.h"
 #include "YPPTTest12EchoRequestHandler.h"

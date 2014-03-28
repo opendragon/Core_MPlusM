@@ -41,7 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPBaseAdapterData.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -96,49 +96,26 @@ bool BaseAdapterData::activate(void)
     OD_LOG_OBJENTER();//####
     bool previous;
     
-    _lock.wait();
+    lock();
     previous = _active;
     _active = true;
-    _lock.post();
+    unlock();
     OD_LOG_OBJEXIT_B(previous);//####
     return previous;
 } // BaseAdapterData::activate
-
-bool BaseAdapterData::conditionallyLock(void)
-{
-    OD_LOG_OBJENTER();//####
-    bool result = _lock.check();
-
-    OD_LOG_OBJEXIT_B(result);//####
-    return result;
-} // BaseAdapterData::conditionallyLock
 
 bool BaseAdapterData::deactivate(void)
 {
     OD_LOG_OBJENTER();//####
     bool previous;
     
-    _lock.wait();
+    lock();
     previous = _active;
     _active = false;
-    _lock.post();
+    unlock();
     OD_LOG_OBJEXIT_B(previous);//####
     return previous;
 } // BaseAdapterData::deactivate
-
-void BaseAdapterData::lock(void)
-{
-    OD_LOG_OBJENTER();//####
-    _lock.wait();
-    OD_LOG_OBJEXIT();//####
-} // BaseAdapterData::lock
-
-void BaseAdapterData::unlock(void)
-{
-    OD_LOG_OBJENTER();//####
-    _lock.post();
-    OD_LOG_OBJEXIT();//####
-} // BaseAdapterData::unlock
 
 #if defined(__APPLE__)
 # pragma mark Accessors

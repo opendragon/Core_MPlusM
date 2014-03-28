@@ -83,15 +83,15 @@ target_link_libraries(RegistryTest
 # Test create register service
 add_test(NAME TestCreateRegisterService1 COMMAND RegistryTest 13)
 add_test(NAME TestCreateRegisterService2 COMMAND RegistryTest 13 "localhost")
-add_test(NAME TestCreateRegisterService3 COMMAND RegistryTest 13 "localhost" "12340")
+add_test(NAME TestCreateRegisterService3 COMMAND RegistryTest 13 "localhost" "12350")
 # Test register request, second service
 add_test(NAME TestRequestRegisterService1 COMMAND RegistryTest 14)
 add_test(NAME TestRequestRegisterService2 COMMAND RegistryTest 14 "localhost")
-add_test(NAME TestRequestRegisterService3 COMMAND RegistryTest 14 "localhost" "12340")
+add_test(NAME TestRequestRegisterService3 COMMAND RegistryTest 14 "localhost" "12351")
 # Test unregister request, second service
 add_test(NAME TestRequestUnregisterService1 COMMAND RegistryTest 15)
 add_test(NAME TestRequestUnregisterService2 COMMAND RegistryTest 15 "localhost")
-add_test(NAME TestRequestUnregisterService3 COMMAND RegistryTest 15 "localhost" "12340")
+add_test(NAME TestRequestUnregisterService3 COMMAND RegistryTest 15 "localhost" "12352")
 # Test search for request / service - note the change in arguments
 add_test(NAME TestRequestSearchService1 COMMAND RegistryTest 16 "" "FAILED \"An error message\"")
 add_test(NAME TestRequestSearchService2 COMMAND RegistryTest 16 "Version 42" "OK ()")

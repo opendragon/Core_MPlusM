@@ -1,14 +1,14 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       YPPRunningSumContext.cpp
+//  File:       ODDisableLogging.h
 //
 //  Project:    YarpPlusPlus
 //
-//  Contains:   The class definition for a contexts used with a simple Yarp++ service.
+//  Contains:   The macro definitions to disable the logging facility.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2014 by OpenDragon.
 //
 //              All rights reserved. Redistribution and use in source and binary forms,
 //              with or without modification, are permitted provided that the following
@@ -35,64 +35,17 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-18
+//  Created:    2014-03-28
 //
 //--------------------------------------------------------------------------------------
 
-#include "YPPRunningSumContext.h"
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+#if (! defined(ODDISABLELOGGING_H_))
+/*! @brief Header guard. */
+# define ODDISABLELOGGING_H_ /* */
 
-#if defined(__APPLE__)
-# pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-#endif // defined(__APPLE__)
-/*! @file
- 
- @brief The class definition for a context used with a simple Yarp++ service. */
-#if defined(__APPLE__)
-# pragma clang diagnostic pop
-#endif // defined(__APPLE__)
+# undef OD_ENABLE_LOGGING
 
-using namespace YarpPlusPlusExample;
+// Allow a reload of the logging macros.
+# undef ODLOGGING_H_
 
-#if defined(__APPLE__)
-# pragma mark Private structures, constants and variables
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma mark Local functions
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma mark Class methods
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma mark Constructors and destructors
-#endif // defined(__APPLE__)
-
-RunningSumContext::RunningSumContext(void) :
-        inherited(), _sum(0.0)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_EXIT_P(this);//####
-} // RunningSumContext::RunningSumContext
-
-RunningSumContext::~RunningSumContext(void)
-{
-    OD_LOG_OBJENTER();//####
-    OD_LOG_OBJEXIT();//####
-} // RunningSumContext::~RunningSumContext
-
-#if defined(__APPLE__)
-# pragma mark Actions
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma mark Global functions
-#endif // defined(__APPLE__)
+#endif // ! defined(ODDISABLELOGGING_H_)

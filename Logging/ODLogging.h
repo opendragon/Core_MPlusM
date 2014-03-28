@@ -39,9 +39,9 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(ODSYSLOG_H_))
+#if (! defined(ODLOGGING_H_))
 /*! @brief Header guard. */
-# define ODSYSLOG_H_ /* */
+# define ODLOGGING_H_ /* */
 
 # if defined(__OBJC__)
 #  import <Foundation/Foundation.h>
@@ -61,26 +61,105 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The options supported by the logging functions. */
-typedef enum ODLoggingOptions_
-{
-    /*! @brief No special options. */
-    kODLoggingOptionNone = 0,
-    /*! @brief Write the logging output to a file. */
-    kODLoggingOptionWriteToFile = 1,
-    /*! @brief Include the process identifier in the logging output. */
-    kODLoggingOptionIncludeProcessID = 2,
-    /*! @brief Include the thread identifier in the logging output. */
-    kODLoggingOptionIncludeThreadID = 4,
-    /*! @brief Enable threading support for logging. */
-    kODLoggingOptionEnableThreadSupport = 8,
-    /*! @brief Write the logging output to 'stderr' as well, if not logging to a file. */
-    kODLoggingOptionWriteToStderr = 16
-} ODLoggingOptions; // ODLoggingOptions
+// Note that the following values could be in an enumeration, but C/C++ is not happy
+// seeing the same type declared multiple times, which will occur if this header file
+// is included more than once...
+
+# undef kODLoggingOptionNone
+# undef kODLoggingOptionWriteToFile
+# undef kODLoggingOptionIncludeProcessID
+# undef kODLoggingOptionIncludeThreadID
+# undef kODLoggingOptionEnableThreadSupport
+# undef kODLoggingOptionWriteToStderr
+
+/*! @brief No special logging options. */
+# define kODLoggingOptionNone                0
+/*! @brief Write the logging output to a file. */
+# define kODLoggingOptionWriteToFile         1
+/*! @brief Include the process identifier in the logging output. */
+# define kODLoggingOptionIncludeProcessID    2
+/*! @brief Include the thread identifier in the logging output. */
+# define kODLoggingOptionIncludeThreadID     4
+/*! @brief Enable threading support for logging. */
+# define kODLoggingOptionEnableThreadSupport 8
+/*! @brief Write the logging output to 'stderr' as well, if not logging to a file. */
+# define kODLoggingOptionWriteToStderr       16
 
 # if defined(OD_DISABLE_LOGGING)
 #  undef OD_ENABLE_LOGGING
 # endif // defined(OD_DISABLE_LOGGING)
+
+# undef OD_OBJPOINTER
+# undef OD_OBJPRINTABLE_STRING
+
+# undef OD_LOG
+# undef OD_LOG_B1
+# undef OD_LOG_B2
+# undef OD_LOG_B3
+# undef OD_LOG_B4
+# undef OD_LOG_C1
+# undef OD_LOG_C2
+# undef OD_LOG_C3
+# undef OD_LOG_C4
+# undef OD_LOG_D1
+# undef OD_LOG_D2
+# undef OD_LOG_D3
+# undef OD_LOG_D4
+# undef OD_LOG_ENTER
+# undef OD_LOG_EXIT
+# undef OD_LOG_EXIT_B
+# undef OD_LOG_EXIT_C
+# undef OD_LOG_EXIT_D
+# undef OD_LOG_EXIT_EXIT
+# undef OD_LOG_EXIT_L
+# undef OD_LOG_EXIT_LL
+# undef OD_LOG_EXIT_O
+# undef OD_LOG_EXIT_P
+# undef OD_LOG_EXIT_R
+# undef OD_LOG_EXIT_S
+# undef OD_LOG_EXIT_THROW_L
+# undef OD_LOG_EXIT_THROW_S
+# undef OD_LOG_INIT
+# undef OD_LOG_IP
+# undef OD_LOG_L1
+# undef OD_LOG_L2
+# undef OD_LOG_L3
+# undef OD_LOG_L4
+# undef OD_LOG_LL1
+# undef OD_LOG_LL2
+# undef OD_LOG_LL3
+# undef OD_LOG_LL4
+# undef OD_LOG_LS
+# undef OD_LOG_O1
+# undef OD_LOG_O2
+# undef OD_LOG_O3
+# undef OD_LOG_O4
+# undef OD_LOG_OBJENTER
+# undef OD_LOG_OBJEXIT
+# undef OD_LOG_OBJEXIT_B
+# undef OD_LOG_OBJEXIT_C
+# undef OD_LOG_OBJEXIT_D
+# undef OD_LOG_OBJEXIT_EXIT
+# undef OD_LOG_OBJEXIT_L
+# undef OD_LOG_OBJEXIT_LL
+# undef OD_LOG_OBJEXIT_O
+# undef OD_LOG_OBJEXIT_P
+# undef OD_LOG_OBJEXIT_R
+# undef OD_LOG_OBJEXIT_S
+# undef OD_LOG_OBJEXIT_THROW_L
+# undef OD_LOG_OBJEXIT_THROW_S
+# undef OD_LOG_P1
+# undef OD_LOG_P2
+# undef OD_LOG_P3
+# undef OD_LOG_P4
+# undef OD_LOG_PACKET
+# undef OD_LOG_RECT
+# undef OD_LOG_S1
+# undef OD_LOG_S2
+# undef OD_LOG_S3
+# undef OD_LOG_S4
+# undef OD_LOG_Sp
+# undef OD_LOG_Ti
 
 # if defined(OD_ENABLE_LOGGING)
 #  if defined(__OBJC__)
@@ -95,6 +174,7 @@ typedef enum ODLoggingOptions_
 /*! @brief The pointer to the calling object for a method. */
 #   define OD_OBJPOINTER               NULL
 #  endif // defined(__cplusplus)
+
 /*! @brief Write a string to the log.
  @param text The string to be written. */
 #  define OD_LOG(text) \
@@ -1521,6 +1601,7 @@ extern "C"
 #  if defined(__OBJC__)
 #   define OD_OBJPRINTABLE_STRING(xx) ""
 #  endif // defined(__OBJC__)
+
 /*! @brief Write a string to the log.
  @param text The string to be written. */
 #  define OD_LOG(text) /* */
@@ -1873,4 +1954,4 @@ extern "C"
 #  define OD_LOG_Ti(text1, val1)  /* */
 # endif // ! defined(OD_ENABLE_LOGGING)
 
-#endif // ! defined(ODSYSLOG_H_)
+#endif // ! defined(ODLOGGING_H_)

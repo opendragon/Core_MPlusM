@@ -41,7 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPTestNameValidator.h"
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include <cstring>
 

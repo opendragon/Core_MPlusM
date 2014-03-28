@@ -39,7 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#define OD_ENABLE_LOGGING /* */
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "YPPRunningSumAdapterData.h"
 #include "YPPRunningSumClient.h"
@@ -168,10 +168,14 @@ int main(int     argc,
                                     }
                                 }
                             }
-                            if (controlChannel->open(controlName) && dataChannel->open(dataName) &&
-                                outputChannel->open(outputName))
+                            if (YarpPlusPlus::OpenPortWithRetries(*controlChannel, controlName) &&
+                                YarpPlusPlus::OpenPortWithRetries(*dataChannel, dataName) &&
+                                YarpPlusPlus::OpenPortWithRetries(*outputChannel, outputName))
                             {
                                 sharedData.activate();
+                                controlChannel->setOutputMode(false);
+                                dataChannel->setOutputMode(false);
+                                outputChannel->setInputMode(false);
                                 controlChannel->setReader(*controlHandler);
                                 dataChannel->setReader(*dataHandler);
                                 
@@ -199,8 +203,9 @@ int main(int     argc,
                             }
                             else
                             {
-                                OD_LOG("! (controlChannel->open(controlName) && dataChannel->open(dataName) && "//####
-                                       "outputChannel->open(outputName))");//####
+                                OD_LOG("! (YarpPlusPlus::OpenPortWithRetries(*controlChannel, controlName) && "
+                                       "YarpPlusPlus::OpenPortWithRetries(*dataChannel, dataName) && "
+                                       "YarpPlusPlus::OpenPortWithRetries(*outputChannel, outputName))");//####
                                 cerr << "Problem opening a port." << endl;
                             }
                             controlChannel->close();
