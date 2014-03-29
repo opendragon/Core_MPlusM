@@ -8,3 +8,5 @@
 * try BufferedPort and/or interrupting the port
 
 * use a typedef (in YPPCommon.h) to specify what a port is ^^^
+
+* use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged

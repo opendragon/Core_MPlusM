@@ -175,7 +175,7 @@ static const char * odNullOrDescription(id value)
     
     if (value)
     {
-        result = [[val description] UTF8String];
+        result = [[value description] UTF8String];
     }
     else
     {
@@ -2263,7 +2263,7 @@ EXTERN_C void ODLogObjEnter_(const char * fileName,
         fflush(OD_LOG_STREAM_);
 #  else // ! defined(WIN32)
 #   if defined(__OBJC__)
-        NSLog(@OD_METHOD_FORMAT_ OD_OBJFORMAT_ENTER_, OD_METHOD_PREFIX_(rootName));
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_ENTER_, OD_METHOD_PREFIX_(rootName));
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_ENTER_, OD_METHOD_PREFIX_(rootName));
 #   endif // ! defined(__OBJC__)
