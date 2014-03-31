@@ -57,6 +57,7 @@
 #  pragma clang diagnostic ignored "-Wunused-parameter"
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
+# include <yarp/os/Bottle.h>
 # include <yarp/os/ConstString.h>
 # include <yarp/os/Contact.h>
 # include <yarp/os/Port.h>
@@ -81,23 +82,35 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The default name for the root part of a port name. */
-# define DEFAULT_PORT_ROOT "port_"
+/*! @brief The default name for the root part of a channel name. */
+# define DEFAULT_CHANNEL_ROOT "channel_"
 
 namespace YarpPlusPlus
 {
+    /*! @brief The logical connection between a client and a service. */
+    typedef yarp::os::Bottle         Package;
+
+    /*! @brief The logical connection between a client and a service. */
+    typedef yarp::os::Port           Channel;
+    
     /*! @brief A sequence of random numbers. */
     typedef std::vector<double>      DoubleVector;
     
     /*! @brief A sequence of strings. */
     typedef std::vector<std::string> StringVector;
 
-    /*! @brief Add an output to a YARP port, using a backoff strategy with retries.
-     @param thePort The port to be modified.
-     @param thePortName The name to be associated with the port.
-     @returns @c true if the port was opened and @c false if it could not be opened. */
-    bool AddOutputToPortWithRetries(yarp::os::Port &              thePort,
-                                    const yarp::os::ConstString & thePortName);
+    /*! @brief Add an output to a channel, using a backoff strategy with retries.
+     @param theChannel The channel to be modified.
+     @param theChannelName The name to be associated with the channel.
+     @returns @c true if the channel was opened and @c false if it could not be opened. */
+    bool AddOutputToChannelWithRetries(Channel &                     theChannel,
+                                       const yarp::os::ConstString & theChannelName);
+    
+    /*! @brief Close a channel.
+     @param theChannel The channel to be closed.
+     @param theChannelName The name of the channel being closed. */
+    void CloseChannel(Channel &                     theChannel,
+                      const yarp::os::ConstString & theChannelName);
     
     /*! @brief Dump out a description of the provided connection information to the log.
      @param tag A unique string used to identify the call point for the output.
@@ -105,42 +118,42 @@ namespace YarpPlusPlus
     void DumpContact(const char *              tag,
                      const yarp::os::Contact & aContact);
     
-    /*! @brief Generate a random port name.
-     @returns A randomly-generated port name. */
-    yarp::os::ConstString GetRandomPortName(const char * portRoot = DEFAULT_PORT_ROOT);
+    /*! @brief Generate a random channel name.
+     @returns A randomly-generated channel name. */
+    yarp::os::ConstString GetRandomChannelName(const char * channelRoot = DEFAULT_CHANNEL_ROOT);
     
     /*! @brief Perform initialization of internal resources.
      
      Should be called in the main() function of each application or service. */
     void Initialize(void);
     
-    /*! @brief Connect two YARP ports, using a backoff strategy with retries.
-     @param sourceName The name of the source port.
-     @param destinationName The name of the destination port.
+    /*! @brief Connect two channels, using a backoff strategy with retries.
+     @param sourceName The name of the source channel.
+     @param destinationName The name of the destination channel.
      @returns @c true if the connection was established and @ false otherwise. */
     bool NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
                                    const yarp::os::ConstString & destinationName);
     
-    /*! @brief Disconnect two YARP ports, using a backoff strategy with retries.
-     @param sourceName The name of the source port.
-     @param destinationName The name of the destination port.
+    /*! @brief Disconnect two channels, using a backoff strategy with retries.
+     @param sourceName The name of the source channel.
+     @param destinationName The name of the destination channel.
      @returns @c true if the connection was removed and @ false otherwise. */
     bool NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
                                       const yarp::os::ConstString & destinationName);
     
-    /*! @brief Open a YARP port, using a backoff strategy with retries.
-     @param thePort The port to be opened.
-     @param thePortName The name to be associated with the port.
-     @returns @c true if the port was opened and @c false if it could not be opened. */
-    bool OpenPortWithRetries(yarp::os::Port &              thePort,
-                             const yarp::os::ConstString & thePortName);
+    /*! @brief Open a channel, using a backoff strategy with retries.
+     @param theChannel The channel to be opened.
+     @param theChannelName The name to be associated with the channel.
+     @returns @c true if the channel was opened and @c false if it could not be opened. */
+    bool OpenChannelWithRetries(Channel &                     theChannel,
+                                const yarp::os::ConstString & theChannelName);
     
-    /*! @brief Open a YARP port, using a backoff strategy with retries.
-     @param thePort The port to be opened.
-     @param theContactInfo The connection information to be associated with the port.
-     @returns @c true if the port was opened and @c false if it could not be opened. */
-    bool OpenPortWithRetries(yarp::os::Port &    thePort,
-                             yarp::os::Contact & theContactInfo);
+    /*! @brief Open a channel, using a backoff strategy with retries.
+     @param theChannel The channel to be opened.
+     @param theContactInfo The connection information to be associated with the channel.
+     @returns @c true if the channel was opened and @c false if it could not be opened. */
+    bool OpenChannelWithRetries(Channel &           theChannel,
+                                yarp::os::Contact & theContactInfo);
 
 } // YarpPlusPlus
 

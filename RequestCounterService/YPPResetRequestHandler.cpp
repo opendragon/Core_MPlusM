@@ -116,8 +116,8 @@ void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         info.put(YPP_REQREP_DICT_REQUEST_KEY, request);
         info.put(YPP_REQREP_DICT_VERSION_KEY, RESET_REQUEST_VERSION_NUMBER);
         info.put(YPP_REQREP_DICT_DETAILS_KEY, "Reset the request statistics");
-        yarp::os::Value    keywords;
-        yarp::os::Bottle * asList = keywords.asList();
+        yarp::os::Value keywords;
+        Package *       asList = keywords.asList();
         
         asList->addString(request);
         info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -131,16 +131,16 @@ void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & reques
 } // ResetRequestHandler::fillInDescription
 
 bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const yarp::os::Bottle &      restOfInput,
-                                         const yarp::os::ConstString & senderPort,
+                                         const Package &               restOfInput,
+                                         const yarp::os::ConstString & senderChannel,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,restOfInput,senderPort)
+# pragma unused(request,restOfInput,senderChannel)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
-              senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
+              senderChannel.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
@@ -149,7 +149,7 @@ bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
         _service.resetCounters();
         if (replyMechanism)
         {
-            yarp::os::Bottle response(YPP_OK_RESPONSE);
+            Package response(YPP_OK_RESPONSE);
             
             response.write(*replyMechanism);
         }

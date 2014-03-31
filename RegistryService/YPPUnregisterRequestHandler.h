@@ -63,7 +63,7 @@ namespace YarpPlusPlus
 
     /*! @brief The standard 'unregister' request handler.
      
-     The input is the name of a service port and the output is either 'OK', which indicates success, or 'FAILED'
+     The input is the name of a service channel and the output is either 'OK', which indicates success, or 'FAILED'
      followed with a description of the reason for failure. */
     class UnregisterRequestHandler : public BaseRequestHandler
     {
@@ -89,11 +89,11 @@ namespace YarpPlusPlus
         /*! @brief Process a request.
          @param request The actual request name.
          @param restOfInput The arguments to the operation.
-         @param senderPort The name of the port used to send the input data.
+         @param senderChannel The name of the channel used to send the input data.
          @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
         virtual bool processRequest(const yarp::os::ConstString & request,
-                                    const yarp::os::Bottle &      restOfInput,
-                                    const yarp::os::ConstString & senderPort,
+                                    const Package &               restOfInput,
+                                    const yarp::os::ConstString & senderChannel,
                                     yarp::os::ConnectionWriter *  replyMechanism);
         
     protected:

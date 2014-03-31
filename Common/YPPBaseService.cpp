@@ -309,13 +309,13 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
 #endif // defined(SERVICES_HAVE_CONTEXTS)
 
 bool BaseService::processRequest(const yarp::os::ConstString & request,
-                                 const yarp::os::Bottle &      restOfInput,
-                                 const yarp::os::ConstString & senderPort,
+                                 const Package &               restOfInput,
+                                 const yarp::os::ConstString & senderChannel,
                                  yarp::os::ConnectionWriter *  replyMechanism)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
-              senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
+              senderChannel.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result;
     
@@ -326,14 +326,14 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
         if (handler)
         {
             OD_LOG("(handler)");//####
-            result = handler->processRequest(request, restOfInput, senderPort, replyMechanism);
+            result = handler->processRequest(request, restOfInput, senderChannel, replyMechanism);
         }
         else
         {
             OD_LOG("! (handler)");//####
             if (replyMechanism)
             {
-                yarp::os::Bottle errorMessage("unrecognized request");
+                Package errorMessage("unrecognized request");
                 
                 errorMessage.write(*replyMechanism);
             }
@@ -504,28 +504,28 @@ void BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-bool YarpPlusPlus::RegisterLocalService(const yarp::os::ConstString & portName)
+bool YarpPlusPlus::RegisterLocalService(const yarp::os::ConstString & channelName)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S1("portName = ", portName.c_str());//####
+    OD_LOG_S1("channelName = ", channelName.c_str());//####
     bool result = false;
     
     try
     {
-        yarp::os::ConstString aName(GetRandomPortName("/registerlocal/port_"));
-        yarp::os::Port *      newPort = new yarp::os::Port;
+        yarp::os::ConstString aName(GetRandomChannelName("/registerlocal/channel_"));
+        Channel *             newChannel = new Channel;
         
-        if (newPort)
+        if (newChannel)
         {
-            if (OpenPortWithRetries(*newPort, aName))
+            if (OpenChannelWithRetries(*newChannel, aName))
             {
-                if (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                if (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_CHANNEL_NAME))
                 {
-                    yarp::os::Bottle parameters(portName);
-                    ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
-                    ServiceResponse  response;
+                    Package         parameters(channelName);
+                    ServiceRequest  request(YPP_REGISTER_REQUEST, parameters);
+                    ServiceResponse response;
                     
-                    if (request.send(*newPort, &response))
+                    if (request.send(*newChannel, &response))
                     {
                         // Check that we got a successful self-registration!
                         if (1 == response.count())
@@ -549,28 +549,28 @@ bool YarpPlusPlus::RegisterLocalService(const yarp::os::ConstString & portName)
                     }
                     else
                     {
-                        OD_LOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, *newPort, &response))");//####
+                        OD_LOG("! (request.send(YPP_SERVICE_REGISTRY_CHANNEL_NAME, *newChannel, &response))");//####
                     }
-                    if (! NetworkDisconnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                    if (! NetworkDisconnectWithRetries(aName, YPP_SERVICE_REGISTRY_CHANNEL_NAME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, YPP_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                 }
-                newPort->close();
+                CloseChannel(*newChannel, aName);
             }
             else
             {
-                OD_LOG("! (OpenPortWithRetries(*newPort, aName))");//####
+                OD_LOG("! (OpenChannelWithRetries(*newChannel, aName))");//####
             }
-            delete newPort;
+            delete newChannel;
         }
         else
         {
-            OD_LOG("! (newPort)");//####
+            OD_LOG("! (newChannel)");//####
         }
     }
     catch (...)
@@ -582,28 +582,28 @@ bool YarpPlusPlus::RegisterLocalService(const yarp::os::ConstString & portName)
     return result;
 } // RegisterLocalService
 
-bool YarpPlusPlus::UnregisterLocalService(const yarp::os::ConstString & portName)
+bool YarpPlusPlus::UnregisterLocalService(const yarp::os::ConstString & channelName)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S1("portName = ", portName.c_str());//####
+    OD_LOG_S1("channelName = ", channelName.c_str());//####
     bool result = false;
     
     try
     {
-        yarp::os::ConstString aName(GetRandomPortName("/unregisterlocal/port_"));
-        yarp::os::Port *      newPort = new yarp::os::Port();
+        yarp::os::ConstString aName(GetRandomChannelName("/unregisterlocal/channel_"));
+        Channel *             newChannel = new Channel();
         
-        if (newPort)
+        if (newChannel)
         {
-            if (OpenPortWithRetries(*newPort, aName))
+            if (OpenChannelWithRetries(*newChannel, aName))
             {
-                if (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                if (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_CHANNEL_NAME))
                 {
-                    yarp::os::Bottle parameters(portName);
-                    ServiceRequest   request(YPP_UNREGISTER_REQUEST, parameters);
-                    ServiceResponse  response;
+                    Package         parameters(channelName);
+                    ServiceRequest  request(YPP_UNREGISTER_REQUEST, parameters);
+                    ServiceResponse response;
                     
-                    if (request.send(*newPort, &response))
+                    if (request.send(*newChannel, &response))
                     {
                         // Check that we got a successful self-registration!
                         if (1 == response.count())
@@ -627,28 +627,28 @@ bool YarpPlusPlus::UnregisterLocalService(const yarp::os::ConstString & portName
                     }
                     else
                     {
-                        OD_LOG("! (request.send(YPP_SERVICE_REGISTRY_PORT_NAME, *newPort, &response))");//####
+                        OD_LOG("! (request.send(YPP_SERVICE_REGISTRY_CHANNEL_NAME, *newChannel, &response))");//####
                     }
-                    if (! NetworkDisconnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                    if (! NetworkDisconnectWithRetries(aName, YPP_SERVICE_REGISTRY_CHANNEL_NAME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, YPP_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                 }
-                newPort->close();
+                CloseChannel(*newChannel, aName);
             }
             else
             {
-                OD_LOG("! (OpenPortWithRetries(*newPort, aName))");//####
+                OD_LOG("! (OpenChannelWithRetries(*newChannel, aName))");//####
             }
-            delete newPort;
+            delete newChannel;
         }
         else
         {
-            OD_LOG("! (newPort)");//####
+            OD_LOG("! (newChannel)");//####
         }
     }
     catch (...)

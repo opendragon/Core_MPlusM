@@ -89,21 +89,21 @@ Test08Handler::~Test08Handler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool Test08Handler::handleInput(const yarp::os::Bottle &      input,
-                                const yarp::os::ConstString & senderPort,
+bool Test08Handler::handleInput(const YarpPlusPlus::Package & input,
+                                const yarp::os::ConstString & senderChannel,
                                 yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(senderPort)
+# pragma unused(senderChannel)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
+    OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
     if (replyMechanism)
     {
-        yarp::os::Bottle inputCopy(input);
+        YarpPlusPlus::Package inputCopy(input);
         
         inputCopy.write(*replyMechanism);
     }

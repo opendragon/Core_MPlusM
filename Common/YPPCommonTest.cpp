@@ -140,82 +140,82 @@ static Endpoint * doCreateEndpointForTest(const int argc,
     return stuff;
 } // doCreateEndpointForTest
 
-/*! @brief Create a temporary port for a test.
- @param destinationName The name of the port to be connected to.
- @param portPath The root path for the new temporary port.
- @returns A pointer to a newly-allocated temporary port. */
-static yarp::os::Port * doCreateTestPort(const yarp::os::ConstString & destinationName,
-                                         const char *                  portPath)
+/*! @brief Create a temporary channel for a test.
+ @param destinationName The name of the channel to be connected to.
+ @param channelPath The root path for the new temporary channel.
+ @returns A pointer to a newly-allocated temporary channel. */
+static Channel * doCreateTestChannel(const yarp::os::ConstString & destinationName,
+                                     const char *                  channelPath)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S2("destinationName = ", destinationName.c_str(), "portPath = ", portPath);//####
-    yarp::os::ConstString aName(GetRandomPortName(portPath));
-    yarp::os::Port *      newPort = new yarp::os::Port;
+    OD_LOG_S2("destinationName = ", destinationName.c_str(), "channelPath = ", channelPath);//####
+    yarp::os::ConstString aName(GetRandomChannelName(channelPath));
+    Channel *             newChannel = new Channel;
     
-    if (newPort)
+    if (newChannel)
     {
-        if (OpenPortWithRetries(*newPort, aName))
+        if (OpenChannelWithRetries(*newChannel, aName))
         {
             if (! NetworkConnectWithRetries(aName, destinationName))
             {
                 OD_LOG("(! NetworkConnectWithRetries(aName, destinationName))");//####
-                newPort->close();
-                delete newPort;
-                newPort = NULL;
+                CloseChannel(*newChannel, aName);
+                delete newChannel;
+                newChannel = NULL;
             }
         }
         else
         {
-            OD_LOG("! (OpenPortWithRetries(*newPort, aName))");//####
+            OD_LOG("! (OpenChannelWithRetries(*newChannel, aName))");//####
         }
     }
     else
     {
-        OD_LOG("! (newPort)");//####
+        OD_LOG("! (newChannel)");//####
     }
-    OD_LOG_EXIT_P(newPort);//####
-    return newPort;
-} // doCreateTestPort
+    OD_LOG_EXIT_P(newChannel);//####
+    return newChannel;
+} // doCreateTestChannel
 
-/*! @brief Create a temporary port for a test.
+/*! @brief Create a temporary channel for a test.
  @param anEndpoint The endpoint to be connected to.
- @param portPath The root path for the new temporary port.
- @returns A pointer to a newly-allocated temporary port. */
-static yarp::os::Port * doCreateTestPort(Endpoint &   anEndpoint,
-                                         const char * portPath)
+ @param channelPath The root path for the new temporary channel.
+ @returns A pointer to a newly-allocated temporary channel. */
+static Channel * doCreateTestChannel(Endpoint &   anEndpoint,
+                                     const char * channelPath)
 {
-    return doCreateTestPort(anEndpoint.getName(), portPath);
-} // doCreateTestPort
+    return doCreateTestChannel(anEndpoint.getName(), channelPath);
+} // doCreateTestChannel
 
-/*! @brief Destroy a temporary port that was used with a test.
- @param destinationName The name of the port that the temporary port was connected to.
- @param thePort A pointer to the temporary port. */
-static void doDestroyTestPort(const yarp::os::ConstString & destinationName,
-                              yarp::os::Port *              thePort)
+/*! @brief Destroy a temporary channel that was used with a test.
+ @param destinationName The name of the channel that the temporary channel was connected to.
+ @param theChannel A pointer to the temporary channel. */
+static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
+                                 Channel *                     theChannel)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_P1("thePort = ", thePort);//####
+    OD_LOG_P1("theChannel = ", theChannel);//####
     
-    if (thePort)
+    if (theChannel)
     {
-        if (! NetworkDisconnectWithRetries(thePort->getName(), destinationName))
+        if (! NetworkDisconnectWithRetries(theChannel->getName(), destinationName))
         {
-            OD_LOG("(! NetworkDisconnectWithRetries(thePort->getName(), destinationName))");//####
+            OD_LOG("(! NetworkDisconnectWithRetries(theChannel->getName(), destinationName))");//####
         }
-        thePort->close();
-        delete thePort;
+        CloseChannel(*theChannel, theChannel->getName());
+        delete theChannel;
     }
     OD_LOG_EXIT();//####
-} // doDestroyTestPort
+} // doDestroyTestChannel
 
-/*! @brief Destroy a temporary port that was used with a test.
+/*! @brief Destroy a temporary channel that was used with a test.
  @param anEndpoint The endpoint to be connected to.
- @param thePort A pointer to the temporary port. */
-static void doDestroyTestPort(Endpoint &       anEndpoint,
-                              yarp::os::Port * thePort)
+ @param theChannel A pointer to the temporary channel. */
+static void doDestroyTestChannel(Endpoint & anEndpoint,
+                                 Channel *  theChannel)
 {
-    doDestroyTestPort(anEndpoint.getName(), thePort);
-} // doDestroyTestPort
+    doDestroyTestChannel(anEndpoint.getName(), theChannel);
+} // doDestroyTestChannel
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 01 ***
@@ -288,36 +288,34 @@ static int doTestConnectToEndpoint(const int argc,
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomPortName("test/connecttoendpoint_"));
-                yarp::os::Port *      outPort = new yarp::os::Port;
+                yarp::os::ConstString aName(GetRandomChannelName("test/connecttoendpoint_"));
+                Channel *             outChannel = new Channel;
                 
-                if (outPort)
+                if (outChannel)
                 {
                     OD_LOG_S1("opening ", aName.c_str());//####
-                    if (OpenPortWithRetries(*outPort, aName))
+                    if (OpenChannelWithRetries(*outChannel, aName))
                     {
-                        outPort->getReport(reporter);
-                        if (AddOutputToPortWithRetries(*outPort, stuff->getName()))
+                        outChannel->getReport(reporter);
+                        if (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))
                         {
                             result = 0;
                         }
                         else
                         {
-                            OD_LOG("! (AddOutputToPortWithRetries(*outPort, stuff->getName()))");//####
+                            OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
                         }
-                        OD_LOG_S1("about to close, port = ", aName.c_str());//####
-                        outPort->close();
-                        OD_LOG("close completed.");//####
+                        CloseChannel(*outChannel, aName);
                     }
                     else
                     {
-                        OD_LOG("! (OpenPortWithRetries(*outPort, aName))");//####
+                        OD_LOG("! (OpenChannelWithRetries(*outChannel, aName))");//####
                     }
-                    delete outPort;
+                    delete outChannel;
                 }
                 else
                 {
-                    OD_LOG("! (outPort)");
+                    OD_LOG("! (outChannel)");
                 }
             }
             else
@@ -367,47 +365,45 @@ static int doTestWriteToEndpoint(const int argc,
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomPortName("test/writetoendpoint_"));
-                yarp::os::Port *      outPort = new yarp::os::Port;
+                yarp::os::ConstString aName(GetRandomChannelName("test/writetoendpoint_"));
+                Channel *             outChannel = new Channel;
                 
-                if (outPort)
+                if (outChannel)
                 {
                     OD_LOG_S1("opening ", aName.c_str());//####
-                    if (OpenPortWithRetries(*outPort, aName))
+                    if (OpenChannelWithRetries(*outChannel, aName))
                     {
-                        outPort->getReport(reporter);
-                        if (AddOutputToPortWithRetries(*outPort, stuff->getName()))
+                        outChannel->getReport(reporter);
+                        if (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))
                         {
-                            yarp::os::Bottle message;
+                            Package message;
                             
                             message.addString(aName);
                             message.addString("howdi");
-                            if (outPort->write(message))
+                            if (outChannel->write(message))
                             {
                                 result = 0;
                             }
                             else
                             {
-                                OD_LOG("! (outPort->write(message))");//####
+                                OD_LOG("! (outChannel->write(message))");//####
                             }
                         }
                         else
                         {
-                            OD_LOG("! (AddOutputToPortWithRetries(*outPort, stuff->getName()))");//####
+                            OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
                         }
-                        OD_LOG_S1("about to close, port = ", aName.c_str());//####
-                        outPort->close();
-                        OD_LOG("close completed.");//####
+                        CloseChannel(*outChannel, aName);
                     }
                     else
                     {
-                        OD_LOG("! (OpenPortWithRetries(*outPort, aName))");//####
+                        OD_LOG("! (OpenChannelWithRetries(*outChannel, aName))");//####
                     }
-                    delete outPort;
+                    delete outChannel;
                 }
                 else
                 {
-                    OD_LOG("! (outPort)");
+                    OD_LOG("! (outChannel)");
                 }
             }
             else
@@ -458,49 +454,47 @@ static int doTestEchoFromEndpointWithReader(const int argc,
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomPortName("test/echofromendpointwithreader_"));
-                yarp::os::Port *      outPort = new yarp::os::Port;
+                yarp::os::ConstString aName(GetRandomChannelName("test/echofromendpointwithreader_"));
+                Channel *             outChannel = new Channel;
                 
-                if (outPort)
+                if (outChannel)
                 {
                     OD_LOG_S1("opening ", aName.c_str());//####
-                    if (OpenPortWithRetries(*outPort, aName))
+                    if (OpenChannelWithRetries(*outChannel, aName))
                     {
-                        outPort->getReport(reporter);
-                        if (AddOutputToPortWithRetries(*outPort, stuff->getName()))
+                        outChannel->getReport(reporter);
+                        if (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))
                         {
-                            yarp::os::Bottle message;
-                            yarp::os::Bottle response;
+                            Package message;
+                            Package response;
                             
                             message.addString(aName);
                             message.addString("howdi");
-                            if (outPort->write(message, response))
+                            if (outChannel->write(message, response))
                             {
 //                                OD_LOG_S1("got ", response.toString().c_str());//####
                                 result = 0;
                             }
                             else
                             {
-                                OD_LOG("! (outPort->write(message, response))");//####
+                                OD_LOG("! (outChannel->write(message, response))");//####
                             }
                         }
                         else
                         {
-                            OD_LOG("! (AddOutputToPortWithRetries(*outPort, stuff->getName()))");//####
+                            OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
                         }
-                        OD_LOG_S1("about to close, port = ", aName.c_str());//####
-                        outPort->close();
-                        OD_LOG("close completed.");//####
+                        CloseChannel(*outChannel, aName);
                     }
                     else
                     {
-                        OD_LOG("! (OpenPortWithRetries(*outPort, aName))");//####
+                        OD_LOG("! (OpenChannelWithRetries(*outChannel, aName))");//####
                     }
-                    delete outPort;
+                    delete outChannel;
                 }
                 else
                 {
-                    OD_LOG("! (outPort)");
+                    OD_LOG("! (outChannel)");
                 }
             }
             else
@@ -551,49 +545,47 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomPortName("test/echofromendpointwithreadercreator_"));
-                yarp::os::Port *      outPort = new yarp::os::Port;
+                yarp::os::ConstString aName(GetRandomChannelName("test/echofromendpointwithreadercreator_"));
+                Channel *             outChannel = new Channel;
                 
-                if (outPort)
+                if (outChannel)
                 {
                     OD_LOG_S1("opening ", aName.c_str());//####
-                    if (OpenPortWithRetries(*outPort, aName))
+                    if (OpenChannelWithRetries(*outChannel, aName))
                     {
-                        outPort->getReport(reporter);
-                        if (AddOutputToPortWithRetries(*outPort, stuff->getName()))
+                        outChannel->getReport(reporter);
+                        if (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))
                         {
-                            yarp::os::Bottle message;
-                            yarp::os::Bottle response;
+                            Package message;
+                            Package response;
                             
                             message.addString(aName);
                             message.addString("howdi");
-                            if (outPort->write(message, response))
+                            if (outChannel->write(message, response))
                             {
 //                                OD_LOG_S1("got ", response.toString().c_str());//####
                                 result = 0;
                             }
                             else
                             {
-                                OD_LOG("! (outPort->write(message, response))");//####
+                                OD_LOG("! (outChannel->write(message, response))");//####
                             }
                         }
                         else
                         {
-                            OD_LOG("! (AddOutputToPortWithRetries(*outPort, stuff->getName()))");//####
+                            OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
                         }
-                        OD_LOG_S1("about to close, port = ", aName.c_str());//####
-                        outPort->close();
-                        OD_LOG("close completed.");//####
+                        CloseChannel(*outChannel, aName);
                     }
                     else
                     {
-                        OD_LOG("! (OpenPortWithRetries(*outPort, aName))");//####
+                        OD_LOG("! (OpenChannelWithRetries(*outChannel, aName))");//####
                     }
-                    delete outPort;
+                    delete outChannel;
                 }
                 else
                 {
-                    OD_LOG("! (outPort)");
+                    OD_LOG("! (outChannel)");
                 }
             }
             else
@@ -639,7 +631,7 @@ static int doTestCreateRequest(const int argc,
         }
         else
         {
-            yarp::os::Bottle parameters;
+            Package parameters;
             
             for (int ii = 1; ii < argc; ++ii)
             {
@@ -676,7 +668,7 @@ static int doTestCreateResponse(const int argc,
     
     try
     {
-        yarp::os::Bottle parameters;
+        Package parameters;
         
         for (int ii = 0; ii < argc; ++ii)
         {
@@ -721,16 +713,16 @@ static int doTestRequestEchoFromEndpoint(const int argc,
             
             if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
             {
-                yarp::os::Port * outPort = doCreateTestPort(stuff->getName(), "test/requestechofromendpoint_");
+                Channel * outChannel = doCreateTestChannel(stuff->getName(), "test/requestechofromendpoint_");
                 
-                if (outPort)
+                if (outChannel)
                 {
                     OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
-                    yarp::os::Bottle parameters("some to send");
-                    ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
-                    ServiceResponse  response;
+                    Package         parameters("some to send");
+                    ServiceRequest  request(YPP_ECHO_REQUEST, parameters);
+                    ServiceResponse response;
                     
-                    if (request.send(*outPort, &response))
+                    if (request.send(*outChannel, &response))
                     {
                         OD_LOG_LL1("response size = ", response.count());//####
                         for (int ii = 0; ii < response.count(); ++ii)
@@ -741,13 +733,13 @@ static int doTestRequestEchoFromEndpoint(const int argc,
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outPort, &response))");//####
+                        OD_LOG("! (request.send(*outChannel, &response))");//####
                     }
-                    doDestroyTestPort(stuff->getName(), outPort);
+                    doDestroyTestChannel(stuff->getName(), outChannel);
                 }
                 else
                 {
-                    OD_LOG("! (outPort)");//####
+                    OD_LOG("! (outChannel)");//####
                 }
             }
             else
@@ -793,16 +785,16 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const int argc,
         {
             if (stuff->start())
             {
-                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(),
-                                                            "test/requestechofromserviceusingdefaultwithreader");
+                Channel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
+                                                           "test/requestechofromserviceusingdefaultwithreader");
                 
-                if (outPort)
+                if (outChannel)
                 {
-                    yarp::os::Bottle parameters("some to send");
-                    ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
-                    ServiceResponse  response;
+                    Package         parameters("some to send");
+                    ServiceRequest  request(YPP_ECHO_REQUEST, parameters);
+                    ServiceResponse response;
                     
-                    if (request.send(*outPort, &response))
+                    if (request.send(*outChannel, &response))
                     {
                         OD_LOG_LL1("response size = ", response.count());//####
                         for (int ii = 0; ii < response.count(); ++ii)
@@ -813,13 +805,13 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const int argc,
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outPort, &response))");//####
+                        OD_LOG("! (request.send(*outChannel, &response))");//####
                     }
-                    doDestroyTestPort(stuff->getEndpoint(), outPort);
+                    doDestroyTestChannel(stuff->getEndpoint(), outChannel);
                 }
                 else
                 {
-                    OD_LOG("! (outPort)");//####
+                    OD_LOG("! (outChannel)");//####
                 }
                 stuff->stop();
             }
@@ -865,16 +857,16 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const int a
         {
             if (stuff->start())
             {
-                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(),
-                                                        "test/requestechofromserviceusingdefaultwithreadercreator_");
+                Channel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
+                                                           "test/requestechofromserviceusingdefaultwithreadercreator_");
                 
-                if (outPort)
+                if (outChannel)
                 {
-                    yarp::os::Bottle parameters("some to send");
-                    ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
-                    ServiceResponse  response;
+                    Package         parameters("some to send");
+                    ServiceRequest  request(YPP_ECHO_REQUEST, parameters);
+                    ServiceResponse response;
                     
-                    if (request.send(*outPort, &response))
+                    if (request.send(*outChannel, &response))
                     {
                         OD_LOG_LL1("response size = ", response.count());//####
                         for (int ii = 0; ii < response.count(); ++ii)
@@ -885,13 +877,13 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const int a
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outPort, &response))");//####
+                        OD_LOG("! (request.send(*outChannel, &response))");//####
                     }
-                    doDestroyTestPort(stuff->getEndpoint(), outPort);
+                    doDestroyTestChannel(stuff->getEndpoint(), outChannel);
                 }
                 else
                 {
-                    OD_LOG("! (outPort)");//####
+                    OD_LOG("! (outChannel)");//####
                 }
                 stuff->stop();
             }
@@ -937,16 +929,16 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const int argc,
         {
             if (stuff->start())
             {
-                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(),
-                                                            "test/requestechofromservicewithrequesthandler_");
+                Channel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
+                                                           "test/requestechofromservicewithrequesthandler_");
                 
-                if (outPort)
+                if (outChannel)
                 {
-                    yarp::os::Bottle parameters("some to send");
-                    ServiceRequest   request(YPP_ECHO_REQUEST, parameters);
-                    ServiceResponse  response;
+                    Package         parameters("some to send");
+                    ServiceRequest  request(YPP_ECHO_REQUEST, parameters);
+                    ServiceResponse response;
                     
-                    if (request.send(*outPort, &response))
+                    if (request.send(*outChannel, &response))
                     {
                         if (3 == response.count())
                         {
@@ -971,13 +963,13 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const int argc,
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outPort, &response))");//####
+                        OD_LOG("! (request.send(*outChannel, &response))");//####
                     }
-                    doDestroyTestPort(stuff->getEndpoint(), outPort);
+                    doDestroyTestChannel(stuff->getEndpoint(), outChannel);
                 }
                 else
                 {
-                    OD_LOG("! (outPort)");//####
+                    OD_LOG("! (outChannel)");//####
                 }
                 stuff->stop();
             }
@@ -1123,15 +1115,15 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const int argc,
         {
             if (stuff->start())
             {
-                yarp::os::Port * outPort = doCreateTestPort(stuff->getEndpoint(),
-                                                            "test/requestechofromservicewithrequesthandlerandinfo_");
+                Channel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
+                                                           "test/requestechofromservicewithrequesthandlerandinfo_");
                 
-                if (outPort)
+                if (outChannel)
                 {
                     ServiceRequest  request(YPP_LIST_REQUEST);
                     ServiceResponse response;
                     
-                    if (request.send(*outPort, &response))
+                    if (request.send(*outChannel, &response))
                     {
                         OD_LOG_LL1("response size = ", response.count());//####
                         for (int ii = 0; ii < response.count(); ++ii)
@@ -1149,13 +1141,13 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const int argc,
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outPort, &response))");//####
+                        OD_LOG("! (request.send(*outChannel, &response))");//####
                     }
-                        doDestroyTestPort(stuff->getEndpoint(), outPort);
+                        doDestroyTestChannel(stuff->getEndpoint(), outChannel);
                 }
                 else
                 {
-                    OD_LOG("! (outPort)");//####
+                    OD_LOG("! (outChannel)");//####
                 }
                 stuff->stop();
             }

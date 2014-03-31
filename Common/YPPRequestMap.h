@@ -45,20 +45,6 @@
 
 # include "YPPCommon.h"
 # include <map>
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wc++11-extensions"
-#  pragma clang diagnostic ignored "-Wdocumentation"
-#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-#  pragma clang diagnostic ignored "-Wpadded"
-#  pragma clang diagnostic ignored "-Wshadow"
-#  pragma clang diagnostic ignored "-Wunused-parameter"
-#  pragma clang diagnostic ignored "-Wweak-vtables"
-# endif // defined(__APPLE__)
-# include <yarp/os/Bottle.h>
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -88,13 +74,13 @@ namespace YarpPlusPlus
         virtual ~RequestMap(void);
         
         /*! @brief Construct the response to a 'list' request.
-         @param reply The Bottle to hold the reply. */
-        void fillInListReply(yarp::os::Bottle & reply);
+         @param reply The package to hold the reply. */
+        void fillInListReply(Package & reply);
         
         /*! @brief Construct the response to an 'info' request.
-         @param reply The Bottle to hold the reply.
+         @param reply The package to hold the reply.
          @param requestName The name of the request that is being looked at. */
-        void fillInRequestInfo(yarp::os::Bottle &            reply,
+        void fillInRequestInfo(Package &                     reply,
                                const yarp::os::ConstString & requestName);
 
         /*! @brief Return the function corresponding to a particular request.

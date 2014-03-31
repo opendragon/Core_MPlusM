@@ -132,8 +132,8 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
         info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_STRING);
         info.put(YPP_REQREP_DICT_VERSION_KEY, REGISTER_REQUEST_VERSION_NUMBER);
         info.put(YPP_REQREP_DICT_DETAILS_KEY, "Register the service and its requests");
-        yarp::os::Value    keywords;
-        yarp::os::Bottle * asList = keywords.asList();
+        yarp::os::Value keywords;
+        Package *       asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("add");
@@ -148,16 +148,16 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
 } // RegisterRequestHandler::fillInDescription
 
 bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                            const yarp::os::Bottle &      restOfInput,
-                                            const yarp::os::ConstString & senderPort,
+                                            const Package &               restOfInput,
+                                            const yarp::os::ConstString & senderChannel,
                                             yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,senderPort)
+# pragma unused(request,senderChannel)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
-              senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
+              senderChannel.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
@@ -165,9 +165,9 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
     {
         if (replyMechanism)
         {
-            yarp::os::Bottle reply;
+            Package reply;
             
-            // Validate the name as a port name
+            // Validate the name as a channel name
             if (1 == restOfInput.size())
             {
                 yarp::os::Value argument(restOfInput.get(0));
@@ -178,26 +178,26 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                     
                     if (Endpoint::CheckEndpointName(argAsString))
                     {
-                        // Send a 'list' request to the port
-                        yarp::os::ConstString aName(GetRandomPortName("register/port_"));
-                        yarp::os::Port *      outPort = new yarp::os::Port;
+                        // Send a 'list' request to the channel
+                        yarp::os::ConstString aName(GetRandomChannelName("register/channel_"));
+                        Channel *             outChannel = new Channel;
                         
-                        if (outPort)
+                        if (outChannel)
                         {
-                            if (OpenPortWithRetries(*outPort, aName))
+                            if (OpenChannelWithRetries(*outChannel, aName))
                             {
-                                if (AddOutputToPortWithRetries(*outPort, argAsString))
+                                if (AddOutputToChannelWithRetries(*outChannel, argAsString))
                                 {
-                                    yarp::os::Bottle message1(YPP_NAME_REQUEST);
-                                    yarp::os::Bottle response;
+                                    Package message1(YPP_NAME_REQUEST);
+                                    Package response;
                                     
-                                    if (outPort->write(message1, response))
+                                    if (outChannel->write(message1, response))
                                     {
                                         if (processNameResponse(argAsString, response))
                                         {
-                                            yarp::os::Bottle message2(YPP_LIST_REQUEST);
+                                            Package message2(YPP_LIST_REQUEST);
                                             
-                                            if (outPort->write(message2, response))
+                                            if (outChannel->write(message2, response))
                                             {
                                                 if (processListResponse(argAsString, response))
                                                 {
@@ -213,9 +213,9 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                             }
                                             else
                                             {
-                                                OD_LOG("! (outPort->write(message2, response))");//####
+                                                OD_LOG("! (outChannel->write(message2, response))");//####
                                                 reply.addString(YPP_FAILED_RESPONSE);
-                                                reply.addString("Could not write to port");
+                                                reply.addString("Could not write to channel");
                                             }
                                         }
                                         else
@@ -227,54 +227,52 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                     }
                                     else
                                     {
-                                        OD_LOG("! (outPort->write(message1, response))");//####
+                                        OD_LOG("! (outChannel->write(message1, response))");//####
                                         reply.addString(YPP_FAILED_RESPONSE);
-                                        reply.addString("Could not write to port");
+                                        reply.addString("Could not write to channel");
                                     }
                                 }
                                 else
                                 {
-                                    OD_LOG("! (AddOutputToPortWithRetries(*outPort, argAsString))");//####
+                                    OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, argAsString))");//####
                                     reply.addString(YPP_FAILED_RESPONSE);
-                                    reply.addString("Could not connect to port");
+                                    reply.addString("Could not connect to channel");
                                     reply.addString(argAsString);
                                 }
-                                OD_LOG_S1("about to close, port = ", aName.c_str());//####
-                                outPort->close();
-                                OD_LOG("close completed.");//####
+                                CloseChannel(*outChannel, aName);
                             }
                             else
                             {
-                                OD_LOG("! (OpenPortWithRetries(*outPort, aName))");//####
+                                OD_LOG("! (OpenChannelWithRetries(*outChannel, aName))");//####
                                 reply.addString(YPP_FAILED_RESPONSE);
-                                reply.addString("Port could not be opened");
+                                reply.addString("Channel could not be opened");
                             }
-                            delete outPort;
+                            delete outChannel;
                         }
                         else
                         {
-                            OD_LOG("! (outPort)");
+                            OD_LOG("! (outChannel)");
                         }
                     }
                     else
                     {
                         OD_LOG("! (Endpoint::CheckEndpointName(argAsString))");//####
                         reply.addString(YPP_FAILED_RESPONSE);
-                        reply.addString("Invalid port name");
+                        reply.addString("Invalid channel name");
                     }
                 }
                 else
                 {
                     OD_LOG("! (argument.isString())");//####
                     reply.addString(YPP_FAILED_RESPONSE);
-                    reply.addString("Invalid port name");
+                    reply.addString("Invalid channel name");
                 }
             }
             else
             {
                 OD_LOG("! (1 == restOfInput.size())");//####
                 reply.addString(YPP_FAILED_RESPONSE);
-                reply.addString("Missing port name or extra arguments to request");
+                reply.addString("Missing channel name or extra arguments to request");
             }
             OD_LOG_S1("reply <- ", reply.toString().c_str());
             reply.write(*replyMechanism);
@@ -289,11 +287,11 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
     return result;
 } // RegisterRequestHandler::processRequest
 
-bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & portName,
+bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & channelName,
                                                  const ServiceResponse &       response)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S2("portName = ", portName.c_str(), "response = ", response.asString().c_str());//####
+    OD_LOG_S2("channelName = ", channelName.c_str(), "response = ", response.asString().c_str());//####
     bool result = false;
 
     try
@@ -314,7 +312,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                     if (asDict->check(YPP_REQREP_DICT_REQUEST_KEY))
                     {
                         yarp::os::ConstString theRequest(asDict->find(YPP_REQREP_DICT_REQUEST_KEY).asString());
-                        yarp::os::Bottle      keywordList;
+                        Package               keywordList;
                         RequestDescription    requestDescriptor;
                         
                         OD_LOG_S1("theRequest <- ", theRequest.c_str());//####
@@ -401,7 +399,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
                         }
                         if (result)
                         {
-                            requestDescriptor._port = portName;
+                            requestDescriptor._channel = channelName;
                             requestDescriptor._request = theRequest;
                             result = _service.addRequestRecord(keywordList, requestDescriptor);
                             OD_LOG_B1("result <- ", result);//####
@@ -430,8 +428,8 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
         }
         if (! result)
         {
-            // We need to remove any values that we've recorded for this port!
-            _service.removeServiceRecord(portName);
+            // We need to remove any values that we've recorded for this channel!
+            _service.removeServiceRecord(channelName);
         }
     }
     catch (...)
@@ -443,11 +441,11 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & p
     return result;
 } // RegisterRequestHandler::processListResponse
 
-bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & portName,
+bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & channelName,
                                                  const ServiceResponse &       response)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S2("portName = ", portName.c_str(), "response = ", response.asString().c_str());//####
+    OD_LOG_S2("channelName = ", channelName.c_str(), "response = ", response.asString().c_str());//####
     bool result = false;
     
     try
@@ -459,7 +457,7 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & p
             
             if (theCanonicalName.isString() && theDescription.isString())
             {
-                result = _service.addServiceRecord(portName, theCanonicalName.toString(), theDescription.toString());
+                result = _service.addServiceRecord(channelName, theCanonicalName.toString(), theDescription.toString());
             }
             else
             {
@@ -477,8 +475,8 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & p
         }
         if (! result)
         {
-            // We need to remove any values that we've recorded for this port!
-            _service.removeServiceRecord(portName);
+            // We need to remove any values that we've recorded for this channel!
+            _service.removeServiceRecord(channelName);
         }
     }
     catch (...)

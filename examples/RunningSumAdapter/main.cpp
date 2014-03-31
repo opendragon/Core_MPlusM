@@ -143,9 +143,9 @@ int main(int     argc,
                 {
                     if (stuff->connectToService())
                     {
-                        yarp::os::Port *                controlChannel = new yarp::os::Port;
-                        yarp::os::Port *                dataChannel = new yarp::os::Port;
-                        yarp::os::Port *                outputChannel = new yarp::os::Port;
+                        YarpPlusPlus::Channel *         controlChannel = new YarpPlusPlus::Channel;
+                        YarpPlusPlus::Channel *         dataChannel = new YarpPlusPlus::Channel;
+                        YarpPlusPlus::Channel *         outputChannel = new YarpPlusPlus::Channel;
                         RunningSumAdapterData           sharedData(stuff, outputChannel);
                         RunningSumControlInputHandler * controlHandler = new RunningSumControlInputHandler(sharedData);
                         RunningSumDataInputHandler *    dataHandler = new RunningSumDataInputHandler(sharedData);
@@ -168,9 +168,9 @@ int main(int     argc,
                                     }
                                 }
                             }
-                            if (YarpPlusPlus::OpenPortWithRetries(*controlChannel, controlName) &&
-                                YarpPlusPlus::OpenPortWithRetries(*dataChannel, dataName) &&
-                                YarpPlusPlus::OpenPortWithRetries(*outputChannel, outputName))
+                            if (YarpPlusPlus::OpenChannelWithRetries(*controlChannel, controlName) &&
+                                YarpPlusPlus::OpenChannelWithRetries(*dataChannel, dataName) &&
+                                YarpPlusPlus::OpenChannelWithRetries(*outputChannel, outputName))
                             {
                                 sharedData.activate();
                                 controlChannel->setOutputMode(false);
@@ -203,20 +203,20 @@ int main(int     argc,
                             }
                             else
                             {
-                                OD_LOG("! (YarpPlusPlus::OpenPortWithRetries(*controlChannel, controlName) && "
-                                       "YarpPlusPlus::OpenPortWithRetries(*dataChannel, dataName) && "
-                                       "YarpPlusPlus::OpenPortWithRetries(*outputChannel, outputName))");//####
-                                cerr << "Problem opening a port." << endl;
+                                OD_LOG("! (YarpPlusPlus::OpenChannelWithRetries(*controlChannel, controlName) && "
+                                       "YarpPlusPlus::OpenChannelWithRetries(*dataChannel, dataName) && "
+                                       "YarpPlusPlus::OpenChannelWithRetries(*outputChannel, outputName))");//####
+                                cerr << "Problem opening a channel." << endl;
                             }
-                            controlChannel->close();
-                            dataChannel->close();
-                            outputChannel->close();
+                            YarpPlusPlus::CloseChannel(*controlChannel, controlName);
+                            YarpPlusPlus::CloseChannel(*dataChannel, dataName);
+                            YarpPlusPlus::CloseChannel(*outputChannel, outputName);
                         }
                         else
                         {
                             OD_LOG("! (controlChannel && dataChannel && outputChannel && controlHandler && "//####
                                    "dataHandler)");//####
-                            cerr << "Problem creating a port." << endl;
+                            cerr << "Problem creating a channel." << endl;
                         }
                         delete controlChannel;
                         delete dataChannel;

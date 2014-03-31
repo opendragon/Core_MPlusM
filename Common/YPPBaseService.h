@@ -57,7 +57,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief All Yarp++ services maintain contexts for each incoming port connection. */
+/*! @brief All Yarp++ services maintain contexts for each incoming channel connection. */
 # define SERVICES_HAVE_CONTEXTS /* */
 
 namespace YarpPlusPlus
@@ -78,11 +78,11 @@ namespace YarpPlusPlus
         
         /*! @brief The constructor.
          @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if one handler is used.
-         @param canonicalName The port-independent name of the service.
+         @param canonicalName The channel-independent name of the service.
          @param description The description of the service.
          @param serviceEndpointName The YARP name to be assigned to the new service.
          @param serviceHostName The name or IP address of the machine running the service.
-         @param servicePortNumber The port being used by the service. */
+         @param servicePortNumber The channel being used by the service. */
         BaseService(const bool                    useMultipleHandlers,
                     const yarp::os::ConstString & canonicalName,
                     const yarp::os::ConstString & description,
@@ -92,7 +92,7 @@ namespace YarpPlusPlus
         
         /*! @brief The constructor.
          @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if one handler is used.
-         @param canonicalName The port-independent name of the service.
+         @param canonicalName The channel-independent name of the service.
          @param description The description of the service.
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used to specify the new service. */
@@ -140,12 +140,12 @@ namespace YarpPlusPlus
         /*! @brief Process partially-structured input data.
          @param request The requested operation.
          @param restOfInput The arguments for the operation.
-         @param senderPort The name of the port used to send the input data.
+         @param senderChannel The name of the channel used to send the input data.
          @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
          @returns @c true if the input was correctly structured and successfully processed. */
         bool processRequest(const yarp::os::ConstString & request,
-                            const yarp::os::Bottle &      restOfInput,
-                            const yarp::os::ConstString & senderPort,
+                            const Package &               restOfInput,
+                            const yarp::os::ConstString & senderChannel,
                             yarp::os::ConnectionWriter *  replyMechanism);
         
         /*! @brief Start processing requests.
@@ -239,7 +239,7 @@ namespace YarpPlusPlus
         ContextMap                       _contexts;
 #endif // defined(SERVICES_HAVE_CONTEXTS)
         
-        /*! @brief The port-independent name of the service. */
+        /*! @brief The channel-independent name of the service. */
         yarp::os::ConstString            _canonicalName;
         
         /*! @brief The description of the service. */
@@ -282,14 +282,14 @@ namespace YarpPlusPlus
     }; // BaseService
     
     /*! @brief Register a local service with a running Service Registry service.
-     @param portName The port provided by the service.
+     @param channelName The channel provided by the service.
      @returns @c true if the service was successfully registered and @c false otherwise. */
-    bool RegisterLocalService(const yarp::os::ConstString & portName);
+    bool RegisterLocalService(const yarp::os::ConstString & channelName);
     
     /*! @brief Unregister a local service with a running Service Registry service.
-     @param portName The port provided by the service.
+     @param channelName The channel provided by the service.
      @returns @c true if the service was successfully unregistered and @c false otherwise. */
-    bool UnregisterLocalService(const yarp::os::ConstString & portName);
+    bool UnregisterLocalService(const yarp::os::ConstString & channelName);
     
 } // YarpPlusPlus
 

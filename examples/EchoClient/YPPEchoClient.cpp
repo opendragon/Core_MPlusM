@@ -101,7 +101,7 @@ bool EchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
 
     try
     {
-        yarp::os::Bottle              parameters(outgoing);
+        YarpPlusPlus::Package         parameters(outgoing);
         YarpPlusPlus::ServiceResponse response;
         
         if (send(YPP_ECHO_REQUEST, parameters, &response))

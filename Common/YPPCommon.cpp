@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "YPPCommon.h"
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include <ace/Version.h>
 #include <cmath>
@@ -124,6 +124,44 @@ static const char * nullOrString(const char * aString)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
+bool YarpPlusPlus::AddOutputToChannelWithRetries(Channel &                     theChannel,
+                                                 const yarp::os::ConstString & theChannelName)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("theChannel = ", &theChannel);//####
+    OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
+    bool result = theChannel.addOutput(theChannelName);
+    
+    if (! result)
+    {
+        double retryTime = kInitialRetryInterval;
+        
+        for (int retriesLeft = kMaxRetries; (! result) && (0 < retriesLeft); --retriesLeft)
+        {
+            OD_LOG("%%retry%%");//####
+            yarp::os::Time::delay(retryTime);
+            result = theChannel.addOutput(theChannelName);
+            retryTime *= kRetryMultiplier;
+        }
+    }
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // YarpPlusPlus::AddOutputToChannelWithRetries
+
+void YarpPlusPlus::CloseChannel(Channel &                     theChannel,
+                                const yarp::os::ConstString & theChannelName)
+{
+#if (! defined(OD_ENABLE_LOGGING))
+# pragma unused(theChannelName)
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("theChannel = ", &theChannel);//####
+    OD_LOG_S1("about to close, channel = ", theChannelName.c_str());//####
+    theChannel.close();
+    OD_LOG("close completed.");//####
+    OD_LOG_EXIT();//####
+} // YarpPlusPlus::CloseChannel
+
 void YarpPlusPlus::DumpContact(const char *              tag,
                                const yarp::os::Contact & aContact)
 {
@@ -142,10 +180,10 @@ void YarpPlusPlus::DumpContact(const char *              tag,
     cout.flush();
 } // DumpContact
 
-yarp::os::ConstString YarpPlusPlus::GetRandomPortName(const char * portRoot)
+yarp::os::ConstString YarpPlusPlus::GetRandomChannelName(const char * channelRoot)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S1("portRoot = ", portRoot);//####
+    OD_LOG_S1("channelRoot = ", channelRoot);//####
     yarp::os::ConstString result;
 
     try
@@ -154,11 +192,11 @@ yarp::os::ConstString YarpPlusPlus::GetRandomPortName(const char * portRoot)
         const char * stringToUse;
         size_t       buffLen;
         
-        if (portRoot)
+        if (channelRoot)
         {
-            hasLeadingSlash = ('/' == *portRoot);
-            stringToUse = portRoot;
-            buffLen = strlen(portRoot);
+            hasLeadingSlash = ('/' == *channelRoot);
+            stringToUse = channelRoot;
+            buffLen = strlen(channelRoot);
         }
         else
         {
@@ -188,7 +226,7 @@ yarp::os::ConstString YarpPlusPlus::GetRandomPortName(const char * portRoot)
     }
     OD_LOG_EXIT_S(result.c_str());//####
     return result;
-} // Endpoint::GetRandomPortName
+} // Endpoint::GetRandomChannelName
 
 void YarpPlusPlus::Initialize(void)
 {
@@ -239,10 +277,6 @@ bool YarpPlusPlus::NetworkConnectWithRetries(const yarp::os::ConstString & sourc
     return result;
 } // YarpPlusPlus::NetworkConnectWithRetries
 
-/*! @brief Disconnect two YARP ports, using a backoff strategy with retries.
- @param sourceName The name of the source port.
- @param destinationName The name of the destination port.
- @returns @c true if the connection was removed and @ false otherwise. */
 bool YarpPlusPlus::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
                                                 const yarp::os::ConstString & destinationName)
 {
@@ -266,13 +300,13 @@ bool YarpPlusPlus::NetworkDisconnectWithRetries(const yarp::os::ConstString & so
     return result;
 } // YarpPlusPlus::NetworkDisconnectWithRetries
 
-bool YarpPlusPlus::AddOutputToPortWithRetries(yarp::os::Port &              thePort,
-                                              const yarp::os::ConstString & thePortName)
+bool YarpPlusPlus::OpenChannelWithRetries(Channel &                     theChannel,
+                                          const yarp::os::ConstString & theChannelName)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_P1("thePort = ", &thePort);//####
-    OD_LOG_S1("thePortName = ", thePortName.c_str());//####
-    bool result = thePort.addOutput(thePortName);
+    OD_LOG_P1("theChannel = ", &theChannel);//####
+    OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
+    bool result = theChannel.open(theChannelName);
     
     if (! result)
     {
@@ -282,21 +316,20 @@ bool YarpPlusPlus::AddOutputToPortWithRetries(yarp::os::Port &              theP
         {
             OD_LOG("%%retry%%");//####
             yarp::os::Time::delay(retryTime);
-            result = thePort.addOutput(thePortName);
+            result = theChannel.open(theChannelName);
             retryTime *= kRetryMultiplier;
         }
     }
     OD_LOG_EXIT_B(result);//####
     return result;
-} // YarpPlusPlus::AddOutputToPortWithRetries
+} // YarpPlusPlus::OpenChannelWithRetries
 
-bool YarpPlusPlus::OpenPortWithRetries(yarp::os::Port &              thePort,
-                                       const yarp::os::ConstString & thePortName)
+bool YarpPlusPlus::OpenChannelWithRetries(Channel &           theChannel,
+                                          yarp::os::Contact & theContactInfo)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_P1("thePort = ", &thePort);//####
-    OD_LOG_S1("thePortName = ", thePortName.c_str());//####
-    bool result = thePort.open(thePortName);
+    OD_LOG_P2("theChannel = ", &theChannel, "theContactInfo = ", &theContactInfo);//####
+    bool result = theChannel.open(theContactInfo);
     
     if (! result)
     {
@@ -306,34 +339,11 @@ bool YarpPlusPlus::OpenPortWithRetries(yarp::os::Port &              thePort,
         {
             OD_LOG("%%retry%%");//####
             yarp::os::Time::delay(retryTime);
-            result = thePort.open(thePortName);
+            result = theChannel.open(theContactInfo);
             retryTime *= kRetryMultiplier;
         }
     }
     OD_LOG_EXIT_B(result);//####
     return result;
-} // YarpPlusPlus::OpenPortWithRetries
-
-bool YarpPlusPlus::OpenPortWithRetries(yarp::os::Port &    thePort,
-                                       yarp::os::Contact & theContactInfo)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P2("thePort = ", &thePort, "theContactInfo = ", &theContactInfo);//####
-    bool result = thePort.open(theContactInfo);
-    
-    if (! result)
-    {
-        double retryTime = kInitialRetryInterval;
-        
-        for (int retriesLeft = kMaxRetries; (! result) && (0 < retriesLeft); --retriesLeft)
-        {
-            OD_LOG("%%retry%%");//####
-            yarp::os::Time::delay(retryTime);
-            result = thePort.open(theContactInfo);
-            retryTime *= kRetryMultiplier;
-        }
-    }
-    OD_LOG_EXIT_B(result);//####
-    return result;
-} // YarpPlusPlus::OpenPortWithRetries
+} // YarpPlusPlus::OpenChannelWithRetries
 

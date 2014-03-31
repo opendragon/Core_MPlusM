@@ -56,7 +56,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The port name to use for the service if not provided. */
+/*! @brief The channel name to use for the service if not provided. */
 # define DEFAULT_REQUESTCOUNTER_SERVICE_NAME "/service/requestCounter"
 
 namespace YarpPlusPlus

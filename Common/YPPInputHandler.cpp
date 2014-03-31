@@ -43,7 +43,6 @@
 #include "YPPInputHandler.h"
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "YPPCommon.h"
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -108,10 +107,10 @@ bool InputHandler::read(yarp::os::ConnectionReader & connection)
 #if defined(REPORT_CONTACT_DETAILS)
             DumpContact("input read", connection.getRemoteContact());//####
 #endif // defined(REPORT_CONTACT_DETAILS)
-            yarp::os::Bottle aBottle;
+            Package aPackage;
             
-            aBottle.read(connection);
-            result = handleInput(aBottle, connection.getRemoteContact().getName(), connection.getWriter());
+            aPackage.read(connection);
+            result = handleInput(aPackage, connection.getRemoteContact().getName(), connection.getWriter());
         }
         else
         {

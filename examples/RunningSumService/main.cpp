@@ -158,10 +158,10 @@ int main(int     argc,
             {
                 if (stuff->start())
                 {
-                    yarp::os::ConstString portName(stuff->getEndpoint().getName());
+                    yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
-                    OD_LOG_S1("portName = ", portName.c_str());//####
-                    if (YarpPlusPlus::RegisterLocalService(portName))
+                    OD_LOG_S1("channelName = ", channelName.c_str());//####
+                    if (YarpPlusPlus::RegisterLocalService(channelName))
                     {
                         lKeepRunning = true;
 #if (defined(__APPLE__) || defined(__linux__))
@@ -178,12 +178,12 @@ int main(int     argc,
                             yarp::os::Time::yield();
 #endif // ! defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
                         }
-                        YarpPlusPlus::UnregisterLocalService(portName);
+                        YarpPlusPlus::UnregisterLocalService(channelName);
                         stuff->stop();
                     }
                     else
                     {
-                        OD_LOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
+                        OD_LOG("! (YarpPlusPlus::RegisterLocalService(channelName))");//####
                     }
                 }
                 else

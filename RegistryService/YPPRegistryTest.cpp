@@ -169,7 +169,7 @@ static int doTestRequestRegisterService(const int argc,
     
     try
     {
-        const char *      secondServicePort;
+        const char *      secondServiceChannel;
         RegistryService * registry = NULL;
         
         if (0 <= argc)
@@ -179,17 +179,17 @@ static int doTestRequestRegisterService(const int argc,
                     // Argument order for tests = endpoint name [, IP address / name [, port]]
                 case 0:
                     registry = new RegistryService(TEST_INMEMORY);
-                    secondServicePort = "/service/test/requestregisterservice_1";
+                    secondServiceChannel = "/service/test/requestregisterservice_1";
                     break;
                     
                 case 1:
                     registry = new RegistryService(TEST_INMEMORY, *argv);
-                    secondServicePort = "/service/test/requestregisterservice_2";
+                    secondServiceChannel = "/service/test/requestregisterservice_2";
                     break;
                     
                 case 2:
                     registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
-                    secondServicePort = "/service/test/requestregisterservice_3";
+                    secondServiceChannel = "/service/test/requestregisterservice_3";
                     break;
                     
                 default:
@@ -204,21 +204,21 @@ static int doTestRequestRegisterService(const int argc,
                 if (registry->isActive())
                 {
                     // Now we start up another service (Test14Service) and register it
-                    Test14Service * stuff = new Test14Service(1, const_cast<char **>(&secondServicePort));
+                    Test14Service * stuff = new Test14Service(1, const_cast<char **>(&secondServiceChannel));
                     
                     if (stuff)
                     {
                         if (stuff->start())
                         {
-                            yarp::os::ConstString portName(stuff->getEndpoint().getName());
+                            yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (YarpPlusPlus::RegisterLocalService(portName))
+                            if (YarpPlusPlus::RegisterLocalService(channelName))
                             {
                                 result = 0;
                             }
                             else
                             {
-                                OD_LOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
+                                OD_LOG("! (YarpPlusPlus::RegisterLocalService(channelName))");//####
                             }
                             stuff->stop();
                         }
@@ -271,7 +271,7 @@ static int doTestRequestUnregisterService(const int argc,
 
     try
     {
-        const char *      secondServicePort;
+        const char *      secondServiceChannel;
         RegistryService * registry = NULL;
         
         if (0 <= argc)
@@ -281,17 +281,17 @@ static int doTestRequestUnregisterService(const int argc,
                     // Argument order for tests = endpoint name [, IP address / name [, port]]
                 case 0:
                     registry = new RegistryService(TEST_INMEMORY);
-                    secondServicePort = "/service/test/requestunregisterservice_1";
+                    secondServiceChannel = "/service/test/requestunregisterservice_1";
                     break;
                     
                 case 1:
                     registry = new RegistryService(TEST_INMEMORY, *argv);
-                    secondServicePort = "/service/test/requestunregisterservice_2";
+                    secondServiceChannel = "/service/test/requestunregisterservice_2";
                     break;
                     
                 case 2:
                     registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
-                    secondServicePort = "/service/test/requestunregisterservice_3";
+                    secondServiceChannel = "/service/test/requestunregisterservice_3";
                     break;
                     
                 default:
@@ -306,29 +306,29 @@ static int doTestRequestUnregisterService(const int argc,
                 if (registry->isActive())
                 {
                     // Now we start up another service (Test15Service) and register it
-                    Test15Service * stuff = new Test15Service(1, const_cast<char **>(&secondServicePort));
+                    Test15Service * stuff = new Test15Service(1, const_cast<char **>(&secondServiceChannel));
                     
                     if (stuff)
                     {
                         if (stuff->start())
                         {
-                            yarp::os::ConstString portName(stuff->getEndpoint().getName());
+                            yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (YarpPlusPlus::RegisterLocalService(portName))
+                            if (YarpPlusPlus::RegisterLocalService(channelName))
                             {
                                 yarp::os::Time::delay(0.2);
-                                if (YarpPlusPlus::UnregisterLocalService(portName))
+                                if (YarpPlusPlus::UnregisterLocalService(channelName))
                                 {
                                     result = 0;
                                 }
                                 else
                                 {
-                                    OD_LOG("! (YarpPlusPlus::UnregisterLocalService(portName))");//####
+                                    OD_LOG("! (YarpPlusPlus::UnregisterLocalService(channelName))");//####
                                 }
                             }
                             else
                             {
-                                OD_LOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
+                                OD_LOG("! (YarpPlusPlus::RegisterLocalService(channelName))");//####
                             }
                             stuff->stop();
                         }
@@ -383,7 +383,7 @@ static int doTestRequestSearchService(const int argc,
     {
         if (1 < argc)
         {
-            const char *      secondServicePort = "/service/test/requestsearchservice";
+            const char *      secondServiceChannel = "/service/test/requestsearchservice";
             RegistryService * registry = new RegistryService(TEST_INMEMORY);
             
             if (registry)
@@ -393,19 +393,19 @@ static int doTestRequestSearchService(const int argc,
                     if (registry->isActive())
                     {
                         // Now we start up another service (Test16Service) and register it
-                        Test16Service * stuff = new Test16Service(1, const_cast<char **>(&secondServicePort));
+                        Test16Service * stuff = new Test16Service(1, const_cast<char **>(&secondServiceChannel));
                         
                         if (stuff)
                         {
                             if (stuff->start())
                             {
-                                yarp::os::ConstString portName(stuff->getEndpoint().getName());
+                                yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                                 
-                                if (YarpPlusPlus::RegisterLocalService(portName))
+                                if (YarpPlusPlus::RegisterLocalService(channelName))
                                 {
                                     // Search for the service that we just registered.
-                                    yarp::os::Bottle matches(YarpPlusPlus::FindMatchingServices(*argv));
-                                    yarp::os::Bottle expected(argv[1]);
+                                    Package matches(YarpPlusPlus::FindMatchingServices(*argv));
+                                    Package expected(argv[1]);
                                     
                                     OD_LOG_S3("criteria <- ", *argv, "expected <- ", expected.toString().c_str(),//####
                                               "matches <- ", matches.toString().c_str());//####
@@ -445,10 +445,10 @@ static int doTestRequestSearchService(const int argc,
                                             
                                             if (expectedSecond.isList())
                                             {
-                                                yarp::os::Bottle * matchesSecondAsList = matchesSecond.asList();
-                                                yarp::os::Bottle * expectedSecondAsList = expectedSecond.asList();
-                                                int                matchesSecondCount = matchesSecondAsList->size();
-                                                int                expectedSecondCount = expectedSecondAsList->size();
+                                                Package * matchesSecondAsList = matchesSecond.asList();
+                                                Package * expectedSecondAsList = expectedSecond.asList();
+                                                int       matchesSecondCount = matchesSecondAsList->size();
+                                                int       expectedSecondCount = expectedSecondAsList->size();
                                                 
                                                 OD_LOG_LL2("matchesSecondCount <- ", matchesSecondCount,//####
                                                            "expectedSecondCount <- ", expectedSecondCount);//####
@@ -505,14 +505,14 @@ static int doTestRequestSearchService(const int argc,
                                         OD_LOG("! ((expected.size() == matches.size()) && "//####
                                                   "(YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size()))");//####
                                     }
-                                    if (! YarpPlusPlus::UnregisterLocalService(portName))
+                                    if (! YarpPlusPlus::UnregisterLocalService(channelName))
                                     {
-                                        OD_LOG("(! YarpPlusPlus::UnregisterLocalService(portName))");//####
+                                        OD_LOG("(! YarpPlusPlus::UnregisterLocalService(channelName))");//####
                                     }
                                 }
                                 else
                                 {
-                                    OD_LOG("! (YarpPlusPlus::RegisterLocalService(portName))");//####
+                                    OD_LOG("! (YarpPlusPlus::RegisterLocalService(channelName))");//####
                                 }
                                 stuff->stop();
                             }

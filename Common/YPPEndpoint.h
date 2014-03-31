@@ -44,20 +44,6 @@
 # define YPPENDPOINT_H_ /* */
 
 # include "YPPInputHandlerCreator.h"
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wc++11-extensions"
-#  pragma clang diagnostic ignored "-Wdocumentation"
-#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-#  pragma clang diagnostic ignored "-Wpadded"
-#  pragma clang diagnostic ignored "-Wshadow"
-#  pragma clang diagnostic ignored "-Wunused-parameter"
-#  pragma clang diagnostic ignored "-Wweak-vtables"
-# endif // defined(__APPLE__)
-# include <yarp/os/Port.h>
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -138,9 +124,9 @@ namespace YarpPlusPlus
         bool setTimeout(const float timeout);
         
         /*! @brief Check the format of an endpoint name.
-         @param portName The name to be checked.
+         @param channelName The name to be checked.
          @returns @c true if the name is a valid endpoint name and @c false otherwise. */
-        static bool CheckEndpointName(const yarp::os::ConstString & portName);
+        static bool CheckEndpointName(const yarp::os::ConstString & channelName);
 
     protected:
         
@@ -158,6 +144,9 @@ namespace YarpPlusPlus
          @param other Another object to construct from. */
         Endpoint & operator=(const Endpoint & other);
         
+        /*! @brief The YARP channel to be used by the endpoint. */
+        Channel *             _channel;
+        
         /*! @brief The connection details for the endpoint. */
         yarp::os::Contact     _contact;
         
@@ -166,9 +155,6 @@ namespace YarpPlusPlus
         
         /*! @brief The input handler creator for the endpoint. */
         InputHandlerCreator * _handlerCreator;
-        
-        /*! @brief The YARP port to be used by the endpoint. */
-        yarp::os::Port *      _port;
         
         /*! @brief @c true if the endpoint is open and @c false otherwise. */
         bool                  _isOpen;

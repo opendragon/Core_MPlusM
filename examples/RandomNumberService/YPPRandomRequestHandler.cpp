@@ -128,8 +128,8 @@ void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & reque
         info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_DOUBLE YPP_REQREP_1_OR_MORE);
         info.put(YPP_REQREP_DICT_VERSION_KEY, RANDOM_REQUEST_VERSION_NUMBER);
         info.put(YPP_REQREP_DICT_DETAILS_KEY, "Generate one or more random numbers");
-        yarp::os::Value    keywords;
-        yarp::os::Bottle * asList = keywords.asList();
+        yarp::os::Value         keywords;
+        YarpPlusPlus::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -143,16 +143,16 @@ void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & reque
 } // RandomRequestHandler::fillInDescription
 
 bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                          const yarp::os::Bottle &      restOfInput,
-                                          const yarp::os::ConstString & senderPort,
+                                          const YarpPlusPlus::Package & restOfInput,
+                                          const yarp::os::ConstString & senderChannel,
                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,senderPort)
+# pragma unused(request,senderChannel)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
-              senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
+              senderChannel.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
@@ -160,8 +160,8 @@ bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
-            yarp::os::Bottle response;
-            int               count;
+            YarpPlusPlus::Package response;
+            int                   count;
             
             if (0 < restOfInput.size())
             {

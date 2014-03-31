@@ -69,8 +69,8 @@ namespace YarpPlusPlus
     /*! @brief The standard 'match' request handler.
      
      The input is in the form of a pattern to be matched and the output is either 'OK', followed by a list of matching
-     service ports, which indicates success, or 'FAILED' followed with a description of the reason for failure.
-     Note that it is possible to have a successful request with no matching service ports.
+     service channels, which indicates success, or 'FAILED' followed with a description of the reason for failure.
+     Note that it is possible to have a successful request with no matching service channels.
      
      The matching pattern consists of a sequence of AND clauses, separated with commas.
      
@@ -122,11 +122,11 @@ namespace YarpPlusPlus
         /*! @brief Process a request.
          @param request The actual request name.
          @param restOfInput The arguments to the operation.
-         @param senderPort The name of the port used to send the input data.
+         @param senderChannel The name of the channel used to send the input data.
          @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
         virtual bool processRequest(const yarp::os::ConstString & request,
-                                    const yarp::os::Bottle &      restOfInput,
-                                    const yarp::os::ConstString & senderPort,
+                                    const Package &               restOfInput,
+                                    const yarp::os::ConstString & senderChannel,
                                     yarp::os::ConnectionWriter *  replyMechanism);
         
     protected:

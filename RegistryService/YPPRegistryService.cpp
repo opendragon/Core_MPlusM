@@ -91,8 +91,8 @@ using namespace YarpPlusPlus;
 
 //#define USE_TEST_DATABASE /* */
 
-/*! @brief The name of the index for the 'portName' column of the 'requests' table. */
-#define REQUESTS_PORTNAME_I_            "Requests_portname_idx"
+/*! @brief The name of the index for the 'channelName' column of the 'requests' table. */
+#define REQUESTS_CHANNELNAME_I_         "Requests_channelname_idx"
 /*! @brief The name of the index for the 'requests' column of the 'requests' table. */
 #define REQUESTS_REQUEST_I_             "Requests_request_idx"
 /*! @brief The name of the index for the 'keywords_id' column of the 'requests-keywords' table. */
@@ -125,8 +125,8 @@ namespace YarpPlusPlus
     {
         /*! @brief The name of the request. */
         yarp::os::ConstString _request;
-        /*! @brief The service port for the request. */
-        yarp::os::ConstString _port;
+        /*! @brief The service channel for the request. */
+        yarp::os::ConstString _channel;
         /*! @brief A keyword for the request. */
         yarp::os::ConstString _key;
     }; // RequestKeywordData
@@ -134,8 +134,8 @@ namespace YarpPlusPlus
     /*! @brief The data needed to add a service entry into the database. */
     struct ServiceData
     {
-        /*! @brief The service port for the service. */
-        yarp::os::ConstString _port;
+        /*! @brief The service channel for the service. */
+        yarp::os::ConstString _channel;
         /*! @brief The name for the service. */
         yarp::os::ConstString _name;
         /*! @brief The description of the service. */
@@ -232,12 +232,12 @@ static bool performSQLstatementWithNoResults(sqlite3 *    database,
  @param doBinds A function that will fill in any parameters in the statement.
  @param data The custom information used with the binding function.
  @returns @c true if the operation was successfully performed and @c false otherwise. */
-static bool performSQLstatementWithResults(sqlite3 *          database,
-                                           yarp::os::Bottle & resultList,
-                                           const char *       sqlStatement,
-                                           const int          columnOfInterest = 0,
-                                           BindFunction       doBinds = NULL,
-                                           const void *       data = NULL)
+static bool performSQLstatementWithResults(sqlite3 *    database,
+                                           Package &    resultList,
+                                           const char * sqlStatement,
+                                           const int    columnOfInterest = 0,
+                                           BindFunction doBinds = NULL,
+                                           const void * data = NULL)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P3("database = ", database, "resultList = ", &resultList, "data = ", data);//####
@@ -340,7 +340,7 @@ static bool constructTables(sqlite3 * database)
             {
 #if defined(USE_TEST_DATABASE)
                 "DROP INDEX IF EXISTS " REQUESTS_REQUEST_I_,
-                "DROP INDEX IF EXISTS " REQUESTS_PORTNAME_I_,
+                "DROP INDEX IF EXISTS " REQUESTS_CHANNELNAME_I_,
                 "DROP INDEX IF EXISTS " REQUESTSKEYWORDS_KEYWORDS_ID_I_,
                 "DROP INDEX IF EXISTS " REQUESTSKEYWORDS_REQUESTS_ID_I_,
                 "DROP INDEX IF EXISTS " SERVICES_NAME_I_,
@@ -350,14 +350,14 @@ static bool constructTables(sqlite3 * database)
                 "DROP TABLE IF EXISTS " SERVICES_T_,
 #endif // defined(USE_TEST_DATABASE)
                 "CREATE TABLE IF NOT EXISTS " SERVICES_T_ "("
-                " " PORTNAME_C_ "    Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT REPLACE,"
+                " " CHANNELNAME_C_ "    Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT REPLACE,"
                 " " NAME_C_ "        Text NOT NULL DEFAULT _,"
                 " " DESCRIPTION_C_ " Text NOT NULL DEFAULT _)",
                 "CREATE INDEX IF NOT EXISTS " SERVICES_NAME_I_ " ON " SERVICES_T_ "(" NAME_C_ ")",
                 "CREATE TABLE IF NOT EXISTS " KEYWORDS_T_ "("
                 " " KEYWORD_C_ " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT IGNORE)",
                 "CREATE TABLE IF NOT EXISTS " REQUESTS_T_ "("
-                " " PORTNAME_C_ " Text NOT NULL DEFAULT _ REFERENCES " SERVICES_T_ "(" PORTNAME_C_ "),"
+                " " CHANNELNAME_C_ " Text NOT NULL DEFAULT _ REFERENCES " SERVICES_T_ "(" CHANNELNAME_C_ "),"
                 " " REQUEST_C_ "  Text NOT NULL DEFAULT _,"
                 " " INPUT_C_ "    Text,"
                 " " OUTPUT_C_ "   Text,"
@@ -365,7 +365,7 @@ static bool constructTables(sqlite3 * database)
                 " " DETAILS_C_ "  Text,"
                 " " KEY_C_ "      Integer PRIMARY KEY)",
                 "CREATE INDEX IF NOT EXISTS " REQUESTS_REQUEST_I_ " ON " REQUESTS_T_ "(" REQUEST_C_ ")",
-                "CREATE INDEX IF NOT EXISTS " REQUESTS_PORTNAME_I_ " ON " REQUESTS_T_ "(" PORTNAME_C_ ")",
+                "CREATE INDEX IF NOT EXISTS " REQUESTS_CHANNELNAME_I_ " ON " REQUESTS_T_ "(" CHANNELNAME_C_ ")",
                 "CREATE TABLE " REQUESTSKEYWORDS_T_ "("
                 " " KEYWORDS_ID_C_ " Text REFERENCES " KEYWORDS_T_ "(" KEYWORD_C_ "),"
                 " " REQUESTS_ID_C_ " Integer REFERENCES " REQUESTS_T_ "(" KEY_C_ "))",
@@ -455,21 +455,21 @@ static int setupInsertForRequests(sqlite3_stmt * statement,
 
     try
     {
+        int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
         int detailsIndex = sqlite3_bind_parameter_index(statement, "@" DETAILS_C_);
         int inputIndex = sqlite3_bind_parameter_index(statement, "@" INPUT_C_);
         int outputIndex = sqlite3_bind_parameter_index(statement, "@" OUTPUT_C_);
-        int portNameIndex = sqlite3_bind_parameter_index(statement, "@" PORTNAME_C_);
         int requestIndex = sqlite3_bind_parameter_index(statement, "@" REQUEST_C_);
         int versionIndex = sqlite3_bind_parameter_index(statement, "@" VERSION_C_);
         
-        if ((0 < detailsIndex) && (0 < inputIndex) && (0 < outputIndex) && (0 < portNameIndex) && (0 < requestIndex) &&
-            (0 < versionIndex))
+        if ((0 < channelNameIndex) && (0 < detailsIndex) && (0 < inputIndex) && (0 < outputIndex) &&
+            (0 < requestIndex) && (0 < versionIndex))
         {
             const RequestDescription * descriptor = static_cast<const RequestDescription *>(stuff);
-            const char *               portName = descriptor->_port.c_str();
+            const char *               channelName = descriptor->_channel.c_str();
             
-            OD_LOG_S1("portName <- ", portName);//####
-            result = sqlite3_bind_text(statement, portNameIndex, portName, static_cast<int>(strlen(portName)),
+            OD_LOG_S1("channelName <- ", channelName);//####
+            result = sqlite3_bind_text(statement, channelNameIndex, channelName, static_cast<int>(strlen(channelName)),
                                        SQLITE_TRANSIENT);
             if (SQLITE_OK == result)
             {
@@ -518,7 +518,7 @@ static int setupInsertForRequests(sqlite3_stmt * statement,
         }
         else
         {
-            OD_LOG("! ((0 < detailsIndex) && (0 < inputIndex) && (0 < outputIndex) && (0 < portNameIndex) && "//####
+            OD_LOG("! ((0 < channelNameIndex) && (0 < detailsIndex) && (0 < inputIndex) && (0 < outputIndex) && "//####
                       "(0 < requestIndex) && (0 < versionIndex))");//####
         }
     }
@@ -544,11 +544,11 @@ static int setupInsertForRequestsKeywords(sqlite3_stmt * statement,
 
     try
     {
+        int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
         int keywordIndex = sqlite3_bind_parameter_index(statement, "@" KEYWORD_C_);
-        int portNameIndex = sqlite3_bind_parameter_index(statement, "@" PORTNAME_C_);
         int requestIndex = sqlite3_bind_parameter_index(statement, "@" REQUEST_C_);
         
-        if ((0 < keywordIndex) && (0 < portNameIndex) && (0 < requestIndex))
+        if ((0 < channelNameIndex) && (0 < keywordIndex) && (0 < requestIndex))
         {
             const RequestKeywordData * descriptor = static_cast<const RequestKeywordData *>(stuff);
             const char *               keyword = descriptor->_key.c_str();
@@ -566,11 +566,11 @@ static int setupInsertForRequestsKeywords(sqlite3_stmt * statement,
             }
             if (SQLITE_OK == result)
             {
-                const char * portName = descriptor->_port.c_str();
+                const char * channelName = descriptor->_channel.c_str();
                 
-                OD_LOG_S1("portName <- ", portName);//####
-                result = sqlite3_bind_text(statement, portNameIndex, portName, static_cast<int>(strlen(portName)),
-                                           SQLITE_TRANSIENT);
+                OD_LOG_S1("channelName <- ", channelName);//####
+                result = sqlite3_bind_text(statement, channelNameIndex, channelName,
+                                           static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             }
             if (SQLITE_OK != result)
             {
@@ -579,7 +579,7 @@ static int setupInsertForRequestsKeywords(sqlite3_stmt * statement,
         }
         else
         {
-            OD_LOG("! ((0 < keywordIndex) && (0 < portNameIndex) && (0 < requestIndex))");//####
+            OD_LOG("! ((0 < channelNameIndex) && (0 < keywordIndex) && (0 < requestIndex))");//####
         }
     }
     catch (...)
@@ -604,17 +604,17 @@ static int setupInsertForServices(sqlite3_stmt * statement,
 
     try
     {
+        int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
         int descriptionIndex = sqlite3_bind_parameter_index(statement, "@" DESCRIPTION_C_);
         int nameIndex = sqlite3_bind_parameter_index(statement, "@" NAME_C_);
-        int portNameIndex = sqlite3_bind_parameter_index(statement, "@" PORTNAME_C_);
         
-        if ((0 < descriptionIndex) && (0 < nameIndex) && (0 < portNameIndex))
+        if ((0 < channelNameIndex) && (0 < descriptionIndex) && (0 < nameIndex))
         {
             const ServiceData * descriptor = static_cast<const ServiceData *>(stuff);
-            const char *        portName = descriptor->_port.c_str();
+            const char *        channelName = descriptor->_channel.c_str();
             
-            OD_LOG_S1("portName <- ", portName);//####
-            result = sqlite3_bind_text(statement, portNameIndex, portName, static_cast<int>(strlen(portName)),
+            OD_LOG_S1("channelName <- ", channelName);//####
+            result = sqlite3_bind_text(statement, channelNameIndex, channelName, static_cast<int>(strlen(channelName)),
                                        SQLITE_TRANSIENT);
             if (SQLITE_OK == result)
             {
@@ -639,7 +639,7 @@ static int setupInsertForServices(sqlite3_stmt * statement,
         }
         else
         {
-            OD_LOG("! ((0 < descriptionIndex) && (0 < nameIndex) && (0 < portNameIndex))");//####
+            OD_LOG("! ((0 < channelNameIndex) && (0 < descriptionIndex) && (0 < nameIndex))");//####
         }
     }
     catch (...)
@@ -664,13 +664,13 @@ static int setupRemoveForRequests(sqlite3_stmt * statement,
 
     try
     {
-        int portNameIndex = sqlite3_bind_parameter_index(statement, "@" PORTNAME_C_);
+        int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
         
-        if (0 < portNameIndex)
+        if (0 < channelNameIndex)
         {
-            const char * portName = static_cast<const char *>(stuff);
+            const char * channelName = static_cast<const char *>(stuff);
             
-            result = sqlite3_bind_text(statement, portNameIndex, portName, static_cast<int>(strlen(portName)),
+            result = sqlite3_bind_text(statement, channelNameIndex, channelName, static_cast<int>(strlen(channelName)),
                                        SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
@@ -679,7 +679,7 @@ static int setupRemoveForRequests(sqlite3_stmt * statement,
         }
         else
         {
-            OD_LOG("! (0 < portNameIndex)");//####
+            OD_LOG("! (0 < channelNameIndex)");//####
         }
     }
     catch (...)
@@ -704,13 +704,13 @@ static int setupRemoveForRequestsKeywords(sqlite3_stmt * statement,
 
     try
     {
-        int portNameIndex = sqlite3_bind_parameter_index(statement, "@" PORTNAME_C_);
+        int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
         
-        if (0 < portNameIndex)
+        if (0 < channelNameIndex)
         {
-            const char * portName = static_cast<const char *>(stuff);
+            const char * channelName = static_cast<const char *>(stuff);
             
-            result = sqlite3_bind_text(statement, portNameIndex, portName, static_cast<int>(strlen(portName)),
+            result = sqlite3_bind_text(statement, channelNameIndex, channelName, static_cast<int>(strlen(channelName)),
                                        SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
@@ -719,7 +719,7 @@ static int setupRemoveForRequestsKeywords(sqlite3_stmt * statement,
         }
         else
         {
-            OD_LOG("! (0 < portNameIndex)");//####
+            OD_LOG("! (0 < channelNameIndex)");//####
         }
     }
     catch (...)
@@ -744,13 +744,13 @@ static int setupRemoveForServices(sqlite3_stmt * statement,
 
     try
     {
-        int portNameIndex = sqlite3_bind_parameter_index(statement, "@" PORTNAME_C_);
+        int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
         
-        if (0 < portNameIndex)
+        if (0 < channelNameIndex)
         {
-            const char * portName = static_cast<const char *>(stuff);
+            const char * channelName = static_cast<const char *>(stuff);
             
-            result = sqlite3_bind_text(statement, portNameIndex, portName, static_cast<int>(strlen(portName)),
+            result = sqlite3_bind_text(statement, channelNameIndex, channelName, static_cast<int>(strlen(channelName)),
                                        SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
@@ -759,7 +759,7 @@ static int setupRemoveForServices(sqlite3_stmt * statement,
         }
         else
         {
-            OD_LOG("! (0 < portNameIndex)");//####
+            OD_LOG("! (0 < channelNameIndex)");//####
         }
     }
     catch (...)
@@ -782,7 +782,7 @@ static int setupRemoveForServices(sqlite3_stmt * statement,
 RegistryService::RegistryService(const bool                    useInMemoryDb,
                                  const yarp::os::ConstString & serviceHostName,
                                  const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, YPP_REGISTRY_CANONICAL_NAME, "The Service Registry service", YPP_SERVICE_REGISTRY_PORT_NAME,
+        inherited(true, YPP_REGISTRY_CANONICAL_NAME, "The Service Registry service", YPP_SERVICE_REGISTRY_CHANNEL_NAME,
                   serviceHostName, servicePortNumber), _db(NULL), _validator(new ColumnNameValidator),
         _matchHandler(NULL), _registerHandler(NULL), _unregisterHandler(NULL), _inMemory(useInMemoryDb),
         _isActive(false)
@@ -810,7 +810,7 @@ RegistryService::~RegistryService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
+bool RegistryService::addRequestRecord(const Package &            keywordList,
                                        const RequestDescription & description)
 {
     OD_LOG_OBJENTER();//####
@@ -819,14 +819,14 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
     try
     {
         static const char * insertIntoKeywords = "INSERT INTO " KEYWORDS_T_ "(" KEYWORD_C_ ") VALUES(@" KEYWORD_C_ ")";
-        static const char * insertIntoRequests = "INSERT INTO " REQUESTS_T_ "(" PORTNAME_C_ "," REQUEST_C_ "," INPUT_C_
-                                                    "," OUTPUT_C_ "," VERSION_C_ "," DETAILS_C_ ") VALUES(@"
-                                                    PORTNAME_C_ ",@" REQUEST_C_ ",@" INPUT_C_ ",@" OUTPUT_C_ ",@"
+        static const char * insertIntoRequests = "INSERT INTO " REQUESTS_T_ "(" CHANNELNAME_C_ "," REQUEST_C_ ","
+                                                    INPUT_C_ "," OUTPUT_C_ "," VERSION_C_ "," DETAILS_C_ ") VALUES(@"
+                                                    CHANNELNAME_C_ ",@" REQUEST_C_ ",@" INPUT_C_ ",@" OUTPUT_C_ ",@"
                                                     VERSION_C_ ",@" DETAILS_C_ ")";
         static const char * insertIntoRequestsKeywords = "INSERT INTO " REQUESTSKEYWORDS_T_ "(" KEYWORDS_ID_C_ ","
                                                             REQUESTS_ID_C_ ") SELECT @" KEYWORD_C_ ", " KEY_C_ " FROM "
                                                             REQUESTS_T_ " WHERE " REQUEST_C_ " = @" REQUEST_C_ " AND "
-                                                            PORTNAME_C_ " = @" PORTNAME_C_;
+                                                            CHANNELNAME_C_ " = @" CHANNELNAME_C_;
         
         okSoFar = performSQLstatementWithNoResults(_db, kBeginTransaction);
         if (okSoFar)
@@ -842,7 +842,7 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
             RequestKeywordData reqKeyData;
             
             reqKeyData._request = description._request;
-            reqKeyData._port = description._port;
+            reqKeyData._channel = description._channel;
             for (int ii = 0; okSoFar && (ii < numKeywords); ++ii)
             {
                 yarp::os::Value & aKeyword(keywordList.get(ii));
@@ -879,27 +879,27 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
     return okSoFar;
 } // RegistryService::addRequestRecord
 
-bool RegistryService::addServiceRecord(const yarp::os::ConstString & portName,
+bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName,
                                        const yarp::os::ConstString & name,
                                        const yarp::os::ConstString & description)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S2("portName = ", portName.c_str(), "name = ", name.c_str());//####
+    OD_LOG_S2("channelName = ", channelName.c_str(), "name = ", name.c_str());//####
     bool okSoFar = false;
     
     try
     {
-        static const char * insertIntoServices = "INSERT INTO " SERVICES_T_ "(" PORTNAME_C_ "," NAME_C_ ","
-                                                    DESCRIPTION_C_ ") VALUES(@" PORTNAME_C_ ",@" NAME_C_ ",@"
+        static const char * insertIntoServices = "INSERT INTO " SERVICES_T_ "(" CHANNELNAME_C_ "," NAME_C_ ","
+                                                    DESCRIPTION_C_ ") VALUES(@" CHANNELNAME_C_ ",@" NAME_C_ ",@"
                                                     DESCRIPTION_C_ ")";
         
         okSoFar = performSQLstatementWithNoResults(_db, kBeginTransaction);
         if (okSoFar)
         {
-            // Add the service port name.
+            // Add the service channel name.
             ServiceData servData;
             
-            servData._port = portName;
+            servData._channel = channelName;
             servData._name = name;
             servData._description = description;
             okSoFar = performSQLstatementWithNoResults(_db, insertIntoServices, setupInsertForServices,
@@ -979,7 +979,7 @@ void RegistryService::detachRequestHandlers(void)
 } // RegistryService::detachRequestHandlers
 
 bool RegistryService::processMatchRequest(YarpPlusPlusParser::MatchExpression * matcher,
-                                          yarp::os::Bottle &                    reply)
+                                          Package &                             reply)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("matcher = ", matcher);//####
@@ -989,14 +989,14 @@ bool RegistryService::processMatchRequest(YarpPlusPlusParser::MatchExpression * 
     {
         if (matcher)
         {
-            yarp::os::ConstString requestAsSQL(matcher->asSQLString("SELECT DISTINCT " PORTNAME_C_ " FROM " REQUESTS_T_
-                                                                    " WHERE "));
+            yarp::os::ConstString requestAsSQL(matcher->asSQLString("SELECT DISTINCT " CHANNELNAME_C_ " FROM "
+                                                                    REQUESTS_T_ " WHERE "));
             
             OD_LOG_S1("requestAsSQL <- ", requestAsSQL.c_str());//####
             okSoFar = performSQLstatementWithNoResults(_db, kBeginTransaction);
             if (okSoFar)
             {
-                yarp::os::Bottle & subList = reply.addList();
+                Package & subList = reply.addList();
                 
                 okSoFar = performSQLstatementWithResults(_db, subList, requestAsSQL.c_str());
             }
@@ -1019,38 +1019,40 @@ bool RegistryService::processMatchRequest(YarpPlusPlusParser::MatchExpression * 
     return okSoFar;
 } // RegistryService::processMatchRequest
 
-bool RegistryService::removeServiceRecord(const yarp::os::ConstString & servicePortName)
+bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceChannelName)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S1("servicePortName = ", servicePortName.c_str());//####
+    OD_LOG_S1("serviceChannelName = ", serviceChannelName.c_str());//####
     bool okSoFar = false;
     
     try
     {
-        static const char * removeFromRequests = "DELETE FROM " REQUESTS_T_ " WHERE " PORTNAME_C_ " = @" PORTNAME_C_;
+        static const char * removeFromRequests = "DELETE FROM " REQUESTS_T_ " WHERE " CHANNELNAME_C_ " = @"
+                                                    CHANNELNAME_C_;
         static const char * removeFromRequestsKeywords = "DELETE FROM " REQUESTSKEYWORDS_T_ " WHERE " REQUESTS_ID_C_
                                                             " IN (SELECT " KEY_C_ " FROM " REQUESTS_T_ " WHERE "
-                                                            PORTNAME_C_ " = @" PORTNAME_C_ ")";
-        static const char * removeFromServices = "DELETE FROM " SERVICES_T_ " WHERE " PORTNAME_C_ " = @" PORTNAME_C_;
+                                                            CHANNELNAME_C_ " = @" CHANNELNAME_C_ ")";
+        static const char * removeFromServices = "DELETE FROM " SERVICES_T_ " WHERE " CHANNELNAME_C_ " = @"
+                                                    CHANNELNAME_C_;
         
         okSoFar = performSQLstatementWithNoResults(_db, kBeginTransaction);
         if (okSoFar)
         {
-            // Remove the service port requests.
+            // Remove the service channel requests.
             okSoFar = performSQLstatementWithNoResults(_db, removeFromRequestsKeywords, setupRemoveForRequestsKeywords,
-                                                       static_cast<const void *>(servicePortName.c_str()));
+                                                       static_cast<const void *>(serviceChannelName.c_str()));
         }
         if (okSoFar)
         {
-            // Remove the service port requests.
+            // Remove the service channel requests.
             okSoFar = performSQLstatementWithNoResults(_db, removeFromRequests, setupRemoveForRequests,
-                                                       static_cast<const void *>(servicePortName.c_str()));
+                                                       static_cast<const void *>(serviceChannelName.c_str()));
         }
         if (okSoFar)
         {
-            // Remove the service port name.
+            // Remove the service channel name.
             okSoFar = performSQLstatementWithNoResults(_db, removeFromServices, setupRemoveForServices,
-                                                       static_cast<const void *>(servicePortName.c_str()));
+                                                       static_cast<const void *>(serviceChannelName.c_str()));
         }
         if (okSoFar)
         {
@@ -1134,20 +1136,20 @@ bool RegistryService::start(void)
             if (isStarted() && setUpDatabase())
             {
                 // Register ourselves!!!
-                yarp::os::ConstString aName(GetRandomPortName(YPP_SERVICE_REGISTRY_PORT_NAME "/temp_"));
-                yarp::os::Port *      newPort = new yarp::os::Port;
+                yarp::os::ConstString aName(GetRandomChannelName(YPP_SERVICE_REGISTRY_CHANNEL_NAME "/temp_"));
+                Channel *             newChannel = new Channel;
                 
-                if (newPort)
+                if (newChannel)
                 {
-                    if (OpenPortWithRetries(*newPort, aName))
+                    if (OpenChannelWithRetries(*newChannel, aName))
                     {
-                        if (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))
+                        if (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_CHANNEL_NAME))
                         {
-                            yarp::os::Bottle parameters(YPP_SERVICE_REGISTRY_PORT_NAME);
-                            ServiceRequest   request(YPP_REGISTER_REQUEST, parameters);
-                            ServiceResponse  response;
+                            Package         parameters(YPP_SERVICE_REGISTRY_CHANNEL_NAME);
+                            ServiceRequest  request(YPP_REGISTER_REQUEST, parameters);
+                            ServiceResponse response;
                             
-                            if (request.send(*newPort, &response))
+                            if (request.send(*newChannel, &response))
                             {
                                 // Check that we got a successful self-registration!
                                 if (1 == response.count())
@@ -1173,24 +1175,24 @@ bool RegistryService::start(void)
                             }
                             else
                             {
-                                OD_LOG("! (request.send(*newPort, &response))");//####
+                                OD_LOG("! (request.send(*newChannel, &response))");//####
                             }
                         }
                         else
                         {
-                            OD_LOG("! (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_PORT_NAME))");//####
+                            OD_LOG("! (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                         }
-                        newPort->close();
+                        CloseChannel(*newChannel, aName);
                     }
                     else
                     {
-                        OD_LOG("! (OpenPortWithRetries(*newPort, aName))");//####
+                        OD_LOG("! (OpenChannelWithRetries(*newChannel, aName))");//####
                     }
-                    delete newPort;
+                    delete newChannel;
                 }
                 else
                 {
-                    OD_LOG("! (newPort)");//####
+                    OD_LOG("! (newChannel)");//####
                 }
             }
             else

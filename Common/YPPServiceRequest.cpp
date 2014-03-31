@@ -88,7 +88,7 @@ using namespace YarpPlusPlus;
 #endif // defined(__APPLE__)
 
 ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName,
-                               const yarp::os::Bottle &      parameters) :
+                               const Package &               parameters) :
         _name(requestName), _holder(), _parameters(parameters)
 {
     OD_LOG_ENTER();//####
@@ -112,16 +112,16 @@ ServiceRequest::~ServiceRequest(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool ServiceRequest::send(yarp::os::Port &  usingPort,
+bool ServiceRequest::send(Channel &         usingChannel,
                           ServiceResponse * response)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_P2("usingPort = ", &usingPort, "response = ", response);//####
+    OD_LOG_P2("usingChannel = ", &usingChannel, "response = ", response);//####
     bool result = false;
     
     try
     {
-        yarp::os::Bottle message;
+        Package message;
         
         OD_LOG_LL1("parameter size = ", _parameters.size());//####
         for (int ii = 0; ii < _parameters.size(); ++ii)
@@ -134,25 +134,25 @@ bool ServiceRequest::send(yarp::os::Port &  usingPort,
         if (response)
         {
             _holder.clear();
-            if (usingPort.write(message, _holder))
+            if (usingChannel.write(message, _holder))
             {
-                OD_LOG("(usingPort.write(message, _holder))");//####
+                OD_LOG("(usingChannel.write(message, _holder))");//####
                 OD_LOG_S1("got ", _holder.toString().c_str());//####
                 *response = _holder;
                 result = true;
             }
             else
             {
-                OD_LOG("! (usingPort.write(message, _holder))");//####
+                OD_LOG("! (usingChannel.write(message, _holder))");//####
             }
         }
-        else if (usingPort.write(message))
+        else if (usingChannel.write(message))
         {
             result = true;
         }
         else
         {
-            OD_LOG("(! usingPort.write(message))");//####
+            OD_LOG("(! usingChannel.write(message))");//####
         }
     }
     catch (...)

@@ -116,7 +116,7 @@ bool RunningSumClient::addToSum(const double value,
     
     try
     {
-        yarp::os::Bottle              parameters;
+        YarpPlusPlus::Package         parameters;
         YarpPlusPlus::ServiceResponse response;
         
         parameters.addDouble(value);
@@ -170,7 +170,7 @@ bool RunningSumClient::addToSum(const YarpPlusPlus::DoubleVector & values,
     
     try
     {
-        yarp::os::Bottle              parameters;
+        YarpPlusPlus::Package         parameters;
         YarpPlusPlus::ServiceResponse response;
         
         for (YarpPlusPlus::DoubleVector::const_iterator it(values.cbegin()); it != values.cend(); ++it)
@@ -232,7 +232,7 @@ bool RunningSumClient::resetSum(void)
 
     try
     {
-        yarp::os::Bottle parameters;
+        YarpPlusPlus::Package parameters;
         
         if (send(YPP_RESET_REQUEST, parameters))
         {
@@ -259,7 +259,7 @@ bool RunningSumClient::startSum(void)
 
     try
     {
-        yarp::os::Bottle parameters;
+        YarpPlusPlus::Package parameters;
         
         if (send(YPP_START_REQUEST, parameters))
         {
@@ -286,7 +286,7 @@ bool RunningSumClient::stopSum(void)
     
     try
     {
-        yarp::os::Bottle parameters;
+        YarpPlusPlus::Package parameters;
         
         if (send(YPP_STOP_REQUEST, parameters))
         {

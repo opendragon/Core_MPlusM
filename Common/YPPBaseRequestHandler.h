@@ -55,7 +55,6 @@
 #  pragma clang diagnostic ignored "-Wunused-parameter"
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
-# include <yarp/os/Bottle.h>
 # include <yarp/os/ConnectionWriter.h>
 # include <yarp/os/Property.h>
 # if defined(__APPLE__)
@@ -110,11 +109,11 @@ namespace YarpPlusPlus
         /*! @brief Process a request.
          @param request The actual request name.
          @param restOfInput The arguments to the operation.
-         @param senderPort The name of the port used to send the input data.
+         @param senderChannel The name of the channel used to send the input data.
          @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
         virtual bool processRequest(const yarp::os::ConstString & request,
-                                    const yarp::os::Bottle &      restOfInput,
-                                    const yarp::os::ConstString & senderPort,
+                                    const Package &               restOfInput,
+                                    const yarp::os::ConstString & senderChannel,
                                     yarp::os::ConnectionWriter *  replyMechanism) = 0;
         
         /*! @brief Connect the handler to a map.

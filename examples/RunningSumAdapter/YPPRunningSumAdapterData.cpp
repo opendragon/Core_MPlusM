@@ -75,8 +75,8 @@ using namespace YarpPlusPlusExample;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RunningSumAdapterData::RunningSumAdapterData(RunningSumClient * client,
-                                             yarp::os::Port *   output) :
+RunningSumAdapterData::RunningSumAdapterData(RunningSumClient *      client,
+                                             YarpPlusPlus::Channel * output) :
         inherited(client), _output(output)
 {
     OD_LOG_ENTER();//####

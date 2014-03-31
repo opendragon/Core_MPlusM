@@ -118,8 +118,8 @@ void UnregisterRequestHandler::fillInDescription(const yarp::os::ConstString & r
         info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_STRING);
         info.put(YPP_REQREP_DICT_VERSION_KEY, UNREGISTER_REQUEST_VERSION_NUMBER);
         info.put(YPP_REQREP_DICT_DETAILS_KEY, "Unregister the service and its requests");
-        yarp::os::Value    keywords;
-        yarp::os::Bottle * asList = keywords.asList();
+        yarp::os::Value keywords;
+        Package *       asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("remove");
@@ -134,16 +134,16 @@ void UnregisterRequestHandler::fillInDescription(const yarp::os::ConstString & r
 } // UnregisterRequestHandler::fillInDescription
 
 bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                              const yarp::os::Bottle &      restOfInput,
-                                              const yarp::os::ConstString & senderPort,
+                                              const Package &               restOfInput,
+                                              const yarp::os::ConstString & senderChannel,
                                               yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,senderPort)
+# pragma unused(request,senderChannel)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
-              senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
+              senderChannel.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
@@ -151,9 +151,9 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
     {
         if (replyMechanism)
         {
-            yarp::os::Bottle reply;
+            Package reply;
             
-            // Validate the name as a port name
+            // Validate the name as a channel name
             if (1 == restOfInput.size())
             {
                 yarp::os::Value argument(restOfInput.get(0));
@@ -164,7 +164,7 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                     
                     if (Endpoint::CheckEndpointName(argAsString))
                     {
-                        // Forget the information associated with the port name
+                        // Forget the information associated with the channel name
                         if (_service.removeServiceRecord(argAsString))
                         {
                             reply.addString(YPP_OK_RESPONSE);
@@ -180,21 +180,21 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                     {
                         OD_LOG("! (Endpoint::CheckEndpointName(argAsString))");//####
                         reply.addString(YPP_FAILED_RESPONSE);
-                        reply.addString("Invalid port name");
+                        reply.addString("Invalid channel name");
                     }
                 }
                 else
                 {
                     OD_LOG("! (argument.isString())");//####
                     reply.addString(YPP_FAILED_RESPONSE);
-                    reply.addString("Invalid port name");
+                    reply.addString("Invalid channel name");
                 }
             }
             else
             {
                 OD_LOG("! (1 == restOfInput.size())");//####
                 reply.addString(YPP_FAILED_RESPONSE);
-                reply.addString("Missing port name or extra arguments to request");
+                reply.addString("Missing channel name or extra arguments to request");
             }
             OD_LOG_S1("reply <- ", reply.toString().c_str());
             reply.write(*replyMechanism);

@@ -122,8 +122,8 @@ void MatchRequestHandler::fillInDescription(const yarp::os::ConstString & reques
                  YPP_REQREP_LIST_END);
         info.put(YPP_REQREP_DICT_VERSION_KEY, MATCH_REQUEST_VERSION_NUMBER);
         info.put(YPP_REQREP_DICT_DETAILS_KEY, "Find a matching service");
-        yarp::os::Value    keywords;
-        yarp::os::Bottle * asList = keywords.asList();
+        yarp::os::Value keywords;
+        Package *       asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("find");
@@ -138,16 +138,16 @@ void MatchRequestHandler::fillInDescription(const yarp::os::ConstString & reques
 } // MatchRequestHandler::fillInDescription
 
 bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const yarp::os::Bottle &      restOfInput,
-                                         const yarp::os::ConstString & senderPort,
+                                         const Package &               restOfInput,
+                                         const yarp::os::ConstString & senderChannel,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,senderPort)
+# pragma unused(request,senderChannel)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
-              senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
+              senderChannel.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
@@ -155,7 +155,7 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
-            yarp::os::Bottle reply;
+            Package reply;
             
             // We are expecting just one string as the parameter
             if (1 == restOfInput.size())

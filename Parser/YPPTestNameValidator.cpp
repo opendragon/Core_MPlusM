@@ -65,13 +65,13 @@ using namespace YarpPlusPlusTest;
 /*! @brief the valid field names that may be used. Note that the strings are all lower-case for comparison purposes. */
 static const char * kFieldNames[] =
 {
+    "channelname",
     "description",
     "details",
     "input",
     "keyword",
     "name",
     "output",
-    "portname",
     "request",
     "version"
 }; // kFieldNames

@@ -116,13 +116,13 @@ static void processResponse(const yarp::os::ConstString & received,
             }
             else
             {
-                yarp::os::ConstString portName(workingCopy.substr(0, endPos));
+                yarp::os::ConstString channelName(workingCopy.substr(0, endPos));
                 
-                if ('/' == portName[0])
+                if ('/' == channelName[0])
                 {
-                    if (portName != nameServerName)
+                    if (channelName != nameServerName)
                     {
-                        ports.push_back(portName.c_str());
+                        ports.push_back(channelName.c_str());
                     }
                 }
             }
@@ -160,8 +160,8 @@ int main(int     argc,
             yarp::os::Network::setVerbosity(-1);
 #endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
             yarp::os::Network          yarp; // This is necessary to establish any connection to the YARP infrastructure
-            yarp::os::Bottle           request;
-            yarp::os::Bottle           response;
+            YarpPlusPlus::Package      request;
+            YarpPlusPlus::Package      response;
             yarp::os::ContactStyle     contactInfo;
             YarpPlusPlus::StringVector ports;
             

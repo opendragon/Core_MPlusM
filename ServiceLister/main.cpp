@@ -87,31 +87,31 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Retrieve the details for a service.
- @param aServicePort The port for the service.
+ @param aServiceChannel The channel for the service.
  @param canonicalName The canonical name for the service.
  @param description The description of the service.
  @returns @c true if the service returned the desired information and @c false otherwise. */
-static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServicePort,
+static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServiceChannel,
                                             yarp::os::ConstString &       canonicalName,
                                             yarp::os::ConstString &       description)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S1("aServicePort = ", aServicePort.c_str());//####
-    bool                  result = false;
-    yarp::os::ConstString aName(YarpPlusPlus::GetRandomPortName("/servicelister/port_"));
-    yarp::os::Port *      newPort = new yarp::os::Port;
+    OD_LOG_S1("aServiceChannel = ", aServiceChannel.c_str());//####
+    bool                    result = false;
+    yarp::os::ConstString   aName(YarpPlusPlus::GetRandomChannelName("/servicelister/channel_"));
+    YarpPlusPlus::Channel * newChannel = new YarpPlusPlus::Channel;
     
-    if (newPort)
+    if (newChannel)
     {
-        if (YarpPlusPlus::OpenPortWithRetries(*newPort, aName))
+        if (YarpPlusPlus::OpenChannelWithRetries(*newChannel, aName))
         {
-            if (YarpPlusPlus::NetworkConnectWithRetries(aName, aServicePort))
+            if (YarpPlusPlus::NetworkConnectWithRetries(aName, aServiceChannel))
             {
-                yarp::os::Bottle              parameters;
+                YarpPlusPlus::Package         parameters;
                 YarpPlusPlus::ServiceRequest  request(YPP_NAME_REQUEST, parameters);
                 YarpPlusPlus::ServiceResponse response;
                 
-                if (request.send(*newPort, &response))
+                if (request.send(*newChannel, &response))
                 {
                     OD_LOG_S1("response <- ", response.asString().c_str());//####
                     if (YPP_EXPECTED_NAME_RESPONSE_SIZE == response.count())
@@ -140,28 +140,28 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
                 }
                 else
                 {
-                    OD_LOG("! (request.send(*newPort, &response))");//####
+                    OD_LOG("! (request.send(*newChannel, &response))");//####
                 }
-                if (! YarpPlusPlus::NetworkDisconnectWithRetries(aName, aServicePort))
+                if (! YarpPlusPlus::NetworkDisconnectWithRetries(aName, aServiceChannel))
                 {
                     OD_LOG("(! YarpPlusPlus::NetworkDisconnectWithRetries(aName, destinationName))");//####
                 }
             }
             else
             {
-                OD_LOG("! (YarpPlusPlus::NetworkConnectWithRetries(aName, aServicePort))");//####
+                OD_LOG("! (YarpPlusPlus::NetworkConnectWithRetries(aName, aServiceChannel))");//####
             }
-            newPort->close();
+            YarpPlusPlus::CloseChannel(*newChannel, aName);
         }
         else
         {
-            OD_LOG("! (YarpPlusPlus::OpenPortWithRetries(*newPort, aName))");//####
+            OD_LOG("! (YarpPlusPlus::OpenChannelWithRetries(*newChannel, aName))");//####
         }
-        delete newPort;
+        delete newChannel;
     }
     else
     {
-        OD_LOG("! (newPort)");//####
+        OD_LOG("! (newChannel)");//####
     }
     OD_LOG_EXIT_B(result);//####
     return result;
@@ -198,7 +198,7 @@ int main(int     argc,
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
             YarpPlusPlus::Initialize();
-            yarp::os::Bottle matches(YarpPlusPlus::FindMatchingServices("request:*"));
+            YarpPlusPlus::Package matches(YarpPlusPlus::FindMatchingServices("request:*"));
             
             if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
@@ -215,7 +215,7 @@ int main(int     argc,
                 else
                 {
                     // Now, process the second element.
-                    yarp::os::Bottle * matchesList = matches.get(1).asList();
+                    YarpPlusPlus::Package * matchesList = matches.get(1).asList();
                     
                     if (matchesList)
                     {

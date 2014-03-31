@@ -64,7 +64,7 @@ namespace YarpPlusPlus
     
     /*! @brief The standard 'register' request handler.
      
-     The input is the name of a service port and the output is either 'OK', which indicates success, or 'FAILED'
+     The input is the name of a service channel and the output is either 'OK', which indicates success, or 'FAILED'
      followed with a description of the reason for failure. */
     class RegisterRequestHandler : public BaseRequestHandler
     {
@@ -90,11 +90,11 @@ namespace YarpPlusPlus
         /*! @brief Process a request.
          @param request The actual request name.
          @param restOfInput The arguments to the operation.
-         @param senderPort The name of the port used to send the input data.
+         @param senderChannel The name of the channel used to send the input data.
          @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
         virtual bool processRequest(const yarp::os::ConstString & request,
-                                    const yarp::os::Bottle &      restOfInput,
-                                    const yarp::os::ConstString & senderPort,
+                                    const Package &               restOfInput,
+                                    const yarp::os::ConstString & senderChannel,
                                     yarp::os::ConnectionWriter *  replyMechanism);
         
     protected:
@@ -117,19 +117,19 @@ namespace YarpPlusPlus
         RegisterRequestHandler & operator=(const RegisterRequestHandler & other);
         
         /*! @brief Check the response from the 'list' request.
-         @param portName The port that sent the response.
+         @param channelName The channel that sent the response.
          @param response The response to be analyzed.
          @returns @c true if the expected values are all present and @c false if they are not or if unexpected values
          appear. */
-        bool processListResponse(const yarp::os::ConstString & portName,
+        bool processListResponse(const yarp::os::ConstString & channelName,
                                  const ServiceResponse &       response);
 
         /*! @brief Check the response from the 'name' request.
-         @param portName The port that sent the response.
+         @param channelName The channel that sent the response.
          @param response The response to be analyzed.
          @returns @c true if the expected values are all present and @c false if they are not or if unexpected values
          appear. */
-        bool processNameResponse(const yarp::os::ConstString & portName,
+        bool processNameResponse(const yarp::os::ConstString & channelName,
                                  const ServiceResponse &       response);
         
         /*! @brief The service that will handle the registration operation. */

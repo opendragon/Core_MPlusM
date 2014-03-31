@@ -93,12 +93,12 @@ RunningSumControlInputHandler::~RunningSumControlInputHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                                const yarp::os::ConstString & senderPort,
+bool RunningSumControlInputHandler::handleInput(const YarpPlusPlus::Package & input,
+                                                const yarp::os::ConstString & senderChannel,
                                                 yarp::os::ConnectionWriter *  replyMechanism)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
+    OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = false;
     
@@ -107,7 +107,7 @@ bool RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &      in
         if (0 < input.size())
         {
 #if 0
-            result = _service.processRequest(input.get(0).toString(), input.tail(), senderPort, replyMechanism);
+            result = _service.processRequest(input.get(0).toString(), input.tail(), senderChannel, replyMechanism);
 #endif//0
         }
         else

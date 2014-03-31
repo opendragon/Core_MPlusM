@@ -112,22 +112,22 @@ void Test10DefaultRequestHandler::fillInDescription(const yarp::os::ConstString 
 } // Test10DefaultRequestHandler::fillInDescription
 
 bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                                 const yarp::os::Bottle &      restOfInput,
-                                                 const yarp::os::ConstString & senderPort,
+                                                 const YarpPlusPlus::Package & restOfInput,
+                                                 const yarp::os::ConstString & senderChannel,
                                                  yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,senderPort)
+# pragma unused(request,senderChannel)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
-              senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
+              senderChannel.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
     if (replyMechanism)
     {
-        yarp::os::Bottle argsCopy(name());
+        YarpPlusPlus::Package argsCopy(name());
         
         argsCopy.append(restOfInput);
         argsCopy.write(*replyMechanism);

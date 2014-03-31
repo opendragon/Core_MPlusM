@@ -72,7 +72,7 @@ using namespace YarpPlusPlus;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-ServiceResponse::ServiceResponse(const yarp::os::Bottle & values) :
+ServiceResponse::ServiceResponse(const Package & values) :
         _values(values)
 {
     OD_LOG_ENTER();//####
@@ -87,7 +87,7 @@ ServiceResponse::~ServiceResponse(void)
     OD_LOG_OBJEXIT();//####
 } // ServiceResponse::~ServiceResponse
 
-ServiceResponse & ServiceResponse::operator=(const yarp::os::Bottle & values)
+ServiceResponse & ServiceResponse::operator=(const Package & values)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_LL1("values size = ", values.size());//####

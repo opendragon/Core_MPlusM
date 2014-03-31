@@ -114,7 +114,7 @@ static bool processResponse(const yarp::os::ConstString &         serviceName,
                     yarp::os::ConstString theOutputsString;
                     yarp::os::ConstString theVersionString;
                     yarp::os::ConstString theRequest(propList->find(YPP_REQREP_DICT_REQUEST_KEY).asString());
-                    yarp::os::Bottle      keywordList;
+                    YarpPlusPlus::Package keywordList;
                     
                     result = true;
                     if (propList->check(YPP_REQREP_DICT_DETAILS_KEY))
@@ -217,13 +217,13 @@ int main(int     argc,
             yarp::os::Network::setVerbosity(-1);
 #endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
             yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
-            yarp::os::ConstString portNameRequest("portname:");
+            yarp::os::ConstString channelNameRequest("channelname:");
             const char *          requestName;
             
             YarpPlusPlus::Initialize();
             if (1 < argc)
             {
-                portNameRequest += argv[1];
+                channelNameRequest += argv[1];
                 if (2 < argc)
                 {
                     if (strcmp(argv[2], "*"))
@@ -242,10 +242,10 @@ int main(int     argc,
             }
             else
             {
-                portNameRequest += "*";
+                channelNameRequest += "*";
                 requestName = NULL;
             }
-            yarp::os::Bottle matches(YarpPlusPlus::FindMatchingServices(portNameRequest));
+            YarpPlusPlus::Package matches(YarpPlusPlus::FindMatchingServices(channelNameRequest));
             
             if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
@@ -262,7 +262,7 @@ int main(int     argc,
                 else
                 {
                     // Now, process the second element.
-                    yarp::os::Bottle * matchesList = matches.get(1).asList();
+                    YarpPlusPlus::Package * matchesList = matches.get(1).asList();
                     
                     if (matchesList)
                     {
@@ -270,15 +270,15 @@ int main(int     argc,
                         
                         if (matchesCount)
                         {
-                            yarp::os::ConstString aName(YarpPlusPlus::GetRandomPortName("/requestinfo/port_"));
-                            yarp::os::Port *      newPort = new yarp::os::Port;
+                            yarp::os::ConstString   aName(YarpPlusPlus::GetRandomChannelName("/requestinfo/channel_"));
+                            YarpPlusPlus::Channel * newChannel = new YarpPlusPlus::Channel;
                             
-                            if (newPort)
+                            if (newChannel)
                             {
-                                if (YarpPlusPlus::OpenPortWithRetries(*newPort, aName))
+                                if (YarpPlusPlus::OpenChannelWithRetries(*newChannel, aName))
                                 {
-                                    bool             sawRequestResponse = false;
-                                    yarp::os::Bottle parameters;
+                                    bool                  sawRequestResponse = false;
+                                    YarpPlusPlus::Package parameters;
                                     
                                     if (requestName)
                                     {
@@ -298,7 +298,7 @@ int main(int     argc,
                                             {
                                                 YarpPlusPlus::ServiceRequest request(YPP_INFO_REQUEST, parameters);
                                                 
-                                                if (request.send(*newPort, &response))
+                                                if (request.send(*newChannel, &response))
                                                 {
                                                     if (0 < response.count())
                                                     {
@@ -310,7 +310,7 @@ int main(int     argc,
                                                 }
                                                 else
                                                 {
-                                                    OD_LOG("! (request.send(*newPort, &response))");//####
+                                                    OD_LOG("! (request.send(*newChannel, &response))");//####
                                                     cerr << "Problem communicating with " << aMatch.c_str() << "." <<
                                                             endl;
                                                 }
@@ -319,7 +319,7 @@ int main(int     argc,
                                             {
                                                 YarpPlusPlus::ServiceRequest request(YPP_LIST_REQUEST, parameters);
                                                 
-                                                if (request.send(*newPort, &response))
+                                                if (request.send(*newChannel, &response))
                                                 {
                                                     if (0 < response.count())
                                                     {
@@ -331,7 +331,7 @@ int main(int     argc,
                                                 }
                                                 else
                                                 {
-                                                    OD_LOG("! (request.send(*newPort, &response))");//####
+                                                    OD_LOG("! (request.send(*newChannel, &response))");//####
                                                     cerr << "Problem communicating with " << aMatch.c_str() << "." <<
                                                             endl;
                                                 }
@@ -351,17 +351,17 @@ int main(int     argc,
                                     {
                                         cout << "No matching request found." << endl;
                                     }
-                                    newPort->close();
+                                    YarpPlusPlus::CloseChannel(*newChannel, aName);
                                 }
                                 else
                                 {
-                                    OD_LOG("! (YarpPlusPlus::OpenPortWithRetries(*newPort, aName))");//####
+                                    OD_LOG("! (YarpPlusPlus::OpenChannelWithRetries(*newChannel, aName))");//####
                                 }
-                                delete newPort;
+                                delete newChannel;
                             }
                             else
                             {
-                                OD_LOG("! (newPort)");//####
+                                OD_LOG("! (newChannel)");//####
                             }
                         }
                         else

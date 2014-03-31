@@ -45,20 +45,6 @@
 # define YPPBASECLIENT_H_ /* */
 
 # include "YPPCommon.h"
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wc++11-extensions"
-#  pragma clang diagnostic ignored "-Wdocumentation"
-#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-#  pragma clang diagnostic ignored "-Wpadded"
-#  pragma clang diagnostic ignored "-Wshadow"
-#  pragma clang diagnostic ignored "-Wunused-parameter"
-#  pragma clang diagnostic ignored "-Wweak-vtables"
-# endif // defined(__APPLE__)
-# include <yarp/os/Bottle.h>
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -81,8 +67,8 @@ namespace YarpPlusPlus
     public:
         
         /*! @brief The constructor.
-         @param basePortName The name to be used as the root for the client port. */
-        BaseClient(const char * basePortName = DEFAULT_PORT_ROOT);
+         @param baseChannelName The name to be used as the root for the client channel. */
+        BaseClient(const char * baseChannelName = DEFAULT_CHANNEL_ROOT);
         
         /*! @brief The destructor. */
         virtual ~BaseClient(void);
@@ -110,9 +96,9 @@ namespace YarpPlusPlus
          @param parameters The required parameters for the request.
          @param response If non-@c NULL, where to store any response received.
          @returns @c true on a successful communication with the service and @c false otherwise. */
-        bool send(const char *             request,
-                  const yarp::os::Bottle & parameters,
-                  ServiceResponse *        response = NULL);
+        bool send(const char *      request,
+                  const Package &   parameters,
+                  ServiceResponse * response = NULL);
         
     private:
         
@@ -128,17 +114,17 @@ namespace YarpPlusPlus
          @param other Another object to construct from. */
         BaseClient & operator=(const BaseClient & other);
         
-        /*! @brief The port that the client uses for communication. */
-        yarp::os::Port *      _clientPort;
+        /*! @brief The channel that the client uses for communication. */
+        Channel *             _clientChannel;
         
-        /*! @brief The name of the client port being used. */
-        yarp::os::ConstString _clientPortName;
+        /*! @brief The name of the client channel being used. */
+        yarp::os::ConstString _clientChannelName;
 
-        /*! @brief The name of the service port being used. */
-        yarp::os::ConstString _servicePortName;
+        /*! @brief The name of the service channel being used. */
+        yarp::os::ConstString _serviceChannelName;
         
-        /*! @brief The root name for the client port. */
-        char *                _basePortName;
+        /*! @brief The root name for the client channel. */
+        char *                _baseChannelName;
         
         /*! @brief @c true if the client is connected to the service and @c false otherwise. */
         bool                  _connected;
@@ -157,7 +143,7 @@ namespace YarpPlusPlus
     /*! @brief Find one or more matching services that are registered with a running Service Registry service.
      @param criteria The matching conditions.
      @returns A (possibly empty) list of matching services. */
-    yarp::os::Bottle FindMatchingServices(const char * criteria);
+    Package FindMatchingServices(const char * criteria);
     
 } // YarpPlusPlus
 

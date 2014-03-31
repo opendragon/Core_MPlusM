@@ -116,8 +116,8 @@ void StatsRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_INT YPP_REQREP_DOUBLE);
         info.put(YPP_REQREP_DICT_VERSION_KEY, STATS_REQUEST_VERSION_NUMBER);
         info.put(YPP_REQREP_DICT_DETAILS_KEY, "Return the number of requests and the time since last reset");
-        yarp::os::Value    keywords;
-        yarp::os::Bottle * asList = keywords.asList();
+        yarp::os::Value keywords;
+        Package *       asList = keywords.asList();
         
         asList->addString(request);
         info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -131,16 +131,16 @@ void StatsRequestHandler::fillInDescription(const yarp::os::ConstString & reques
 } // StatsRequestHandler::fillInDescription
 
 bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const yarp::os::Bottle &      restOfInput,
-                                         const yarp::os::ConstString & senderPort,
+                                         const Package &               restOfInput,
+                                         const yarp::os::ConstString & senderChannel,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,restOfInput,senderPort)
+# pragma unused(request,restOfInput,senderChannel)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
-              senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
+              senderChannel.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
@@ -148,9 +148,9 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
-            yarp::os::Bottle response;
-            double           elapsedTime;
-            long             counter;
+            Package response;
+            double  elapsedTime;
+            long    counter;
             
             _service.getStatistics(counter, elapsedTime);
             response.addInt(static_cast<int>(counter));

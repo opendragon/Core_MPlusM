@@ -57,7 +57,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The port-independent name of the running sum service. */
+/*! @brief The channel-independent name of the running sum service. */
 # define YPP_RUNNINGSUM_CANONICAL_NAME "RunningSum"
 
 /*! @brief The name for the 'add' request. */

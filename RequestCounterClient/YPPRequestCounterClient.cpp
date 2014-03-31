@@ -100,8 +100,8 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
     
     try
     {
-        yarp::os::Bottle              parameters;
-        YarpPlusPlus::ServiceResponse response;
+        Package         parameters;
+        ServiceResponse response;
         
         if (send(YPP_STATS_REQUEST, parameters, &response))
         {
@@ -148,7 +148,7 @@ bool RequestCounterClient::pokeService(void)
     
     try
     {
-        yarp::os::Bottle parameters;
+        Package parameters;
         
         if (send("blarg_blerg_blirg_blorg_blurg", parameters))
         {
@@ -175,7 +175,7 @@ bool RequestCounterClient::resetServiceCounters(void)
     
     try
     {
-        yarp::os::Bottle parameters;
+        Package parameters;
         
         if (send(YPP_RESET_REQUEST, parameters))
         {

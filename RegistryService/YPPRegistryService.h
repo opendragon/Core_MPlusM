@@ -75,8 +75,8 @@ namespace YarpPlusPlus
         yarp::os::ConstString _inputs;
         /*! @brief The outputs descriptor for the request. */
         yarp::os::ConstString _outputs;
-        /*! @brief The service port for the request. */
-        yarp::os::ConstString _port;
+        /*! @brief The service channel for the request. */
+        yarp::os::ConstString _channel;
         /*! @brief The name of the request. */
         yarp::os::ConstString _request;
         /*! @brief The version of the request. */
@@ -103,15 +103,15 @@ namespace YarpPlusPlus
          @param keywordList The list of keywords associated with the request.
          @param description The attributes of the request.
          @returns @c true if the request was successfully added and @c false otherwise. */
-        bool addRequestRecord(const yarp::os::Bottle &   keywordList,
+        bool addRequestRecord(const Package &            keywordList,
                               const RequestDescription & description);
         
         /*! @brief Add a service to the registry.
-         @param portName The service port for the service.
+         @param channelName The service channel for the service.
          @param name The canonical name for the service.
          @param description The description of the service.
          @returns @c true if the request was successfully added and @c false otherwise. */
-        bool addServiceRecord(const yarp::os::ConstString & portName,
+        bool addServiceRecord(const yarp::os::ConstString & channelName,
                               const yarp::os::ConstString & name,
                               const yarp::os::ConstString & description);
         
@@ -128,12 +128,12 @@ namespace YarpPlusPlus
          @param reply The result from performing a SELECT with the converted match expression.
          @returns @c true if the match request was successfully performed and @c false otherwise. */
         bool processMatchRequest(YarpPlusPlusParser::MatchExpression * matcher,
-                                 yarp::os::Bottle &                    reply);
+                                 Package &                             reply);
         
         /*! @brief Remove a service entry from the registry.
-         @param servicePortName The service port that is being removed.
+         @param serviceChannelName The service channel that is being removed.
          @returns @c true if the service was successfully removed and @c false otherwise. */
-        bool removeServiceRecord(const yarp::os::ConstString & servicePortName);
+        bool removeServiceRecord(const yarp::os::ConstString & serviceChannelName);
         
         /*! @brief Start processing requests.
          @returns @c true if the service was started and @c false if it was not. */

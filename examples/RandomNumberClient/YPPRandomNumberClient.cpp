@@ -99,7 +99,7 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
 
     try
     {
-        yarp::os::Bottle              parameters;
+        YarpPlusPlus::Package         parameters;
         YarpPlusPlus::ServiceResponse response;
         
         if (send(YPP_RANDOM_REQUEST, parameters, &response))
@@ -150,7 +150,7 @@ bool RandomNumberClient::getRandomNumbers(const int                    howMany,
     {
         if (0 < howMany)
         {
-            yarp::os::Bottle              parameters;
+            YarpPlusPlus::Package         parameters;
             YarpPlusPlus::ServiceResponse response;
             
             parameters.addInt(howMany);

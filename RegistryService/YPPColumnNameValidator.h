@@ -58,6 +58,8 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief The named parameter for the 'channelName' column. */
+# define CHANNELNAME_C_ "channelname"
 /*! @brief The named parameter for the 'details' column. */
 # define DESCRIPTION_C_ "description"
 /*! @brief The named parameter for the 'details' column. */
@@ -74,8 +76,6 @@
 # define NAME_C_        "name"
 /*! @brief The named parameter for the 'output' column. */
 # define OUTPUT_C_      "output"
-/*! @brief The named parameter for the 'portName' column. */
-# define PORTNAME_C_    "portname"
 /*! @brief The named parameter for the 'request' column. */
 # define REQUEST_C_     "request"
 /*! @brief The named parameter for the 'Keywords_id' column. */

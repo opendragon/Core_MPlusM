@@ -44,6 +44,7 @@
 /*! @brief Header guard. */
 # define YPPBASEADAPTERDATA_H_ /* */
 
+# include "YPPCommon.h"
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -54,7 +55,6 @@
 #  pragma clang diagnostic ignored "-Wunused-parameter"
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
-# include <yarp/os/Port.h>
 # include <yarp/os/Semaphore.h>
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop

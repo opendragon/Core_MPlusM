@@ -44,7 +44,7 @@
 /*! @brief Header guard. */
 # define YPPINPUTHANDLER_H_ /* */
 
-# include "YPPConfig.h"
+# include "YPPCommon.h"
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -55,7 +55,6 @@
 #  pragma clang diagnostic ignored "-Wunused-parameter"
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
-# include <yarp/os/Bottle.h>
 # include <yarp/os/PortReader.h>
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
@@ -87,11 +86,11 @@ namespace YarpPlusPlus
         
         /*! @brief Process partially-structured input data.
          @param input The partially-structured input data.
-         @param senderPort The name of the port used to send the input data.
+         @param senderChannel The name of the channel used to send the input data.
          @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
          @returns @c true if the input was correctly structured and successfully processed. */
-        virtual bool handleInput(const yarp::os::Bottle &      input,
-                                 const yarp::os::ConstString & senderPort,
+        virtual bool handleInput(const Package &               input,
+                                 const yarp::os::ConstString & senderChannel,
                                  yarp::os::ConnectionWriter *  replyMechanism) = 0;
         
         /*! @brief Terminate processing of the input data stream. */

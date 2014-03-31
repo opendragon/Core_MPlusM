@@ -63,7 +63,7 @@ using namespace YarpPlusPlus;
 #endif // defined(__APPLE__)
 
 /*! @brief The prefix to be used when generating SQL for a 'description' request. */
-#define DESCRIPTION_PREFIX_ PORTNAME_C_ " IN (SELECT DISTINCT " PORTNAME_C_ " FROM " SERVICES_T_ " WHERE "
+#define DESCRIPTION_PREFIX_ CHANNELNAME_C_ " IN (SELECT DISTINCT " CHANNELNAME_C_ " FROM " SERVICES_T_ " WHERE "
 /*! @brief The suffix to be used when generating SQL for a 'description' request. */
 #define DESCRIPTION_SUFFIX_ ")"
 /*! @brief The prefix to be used when generating SQL for a 'keyword' request. */
@@ -71,7 +71,7 @@ using namespace YarpPlusPlus;
 /*! @brief The suffix to be used when generating SQL for a 'keyword' request. */
 #define KEYWORD_SUFFIX_     ")"
 /*! @brief The prefix to be used when generating SQL for a 'name' request. */
-#define NAME_PREFIX_        PORTNAME_C_ " IN (SELECT DISTINCT " PORTNAME_C_ " FROM " SERVICES_T_ " WHERE "
+#define NAME_PREFIX_        CHANNELNAME_C_ " IN (SELECT DISTINCT " CHANNELNAME_C_ " FROM " SERVICES_T_ " WHERE "
 /*! @brief The suffix to be used when generating SQL for a 'name' request. */
 #define NAME_SUFFIX_        ")"
 
@@ -85,7 +85,7 @@ static const char * kColumnNames[] =
     KEYWORD_C_,     KEYWORDS_ID_C_, KEYWORD_PREFIX_,     KEYWORD_SUFFIX_,
     NAME_C_,        NAME_C_,        NAME_PREFIX_,        NAME_SUFFIX_,
     OUTPUT_C_,      OUTPUT_C_,      NULL,                NULL,
-    PORTNAME_C_,    PORTNAME_C_,    NULL,                NULL,
+    CHANNELNAME_C_,    CHANNELNAME_C_,    NULL,                NULL,
     REQUEST_C_,     REQUEST_C_,     NULL,                NULL,
     VERSION_C_,     VERSION_C_,     NULL,                NULL
 }; // kColumnNames

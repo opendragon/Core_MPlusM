@@ -116,8 +116,8 @@ void StartRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         info.put(YPP_REQREP_DICT_REQUEST_KEY, request);
         info.put(YPP_REQREP_DICT_VERSION_KEY, START_REQUEST_VERSION_NUMBER);
         info.put(YPP_REQREP_DICT_DETAILS_KEY, "Start the running sum");
-        yarp::os::Value    keywords;
-        yarp::os::Bottle * asList = keywords.asList();
+        yarp::os::Value         keywords;
+        YarpPlusPlus::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -131,25 +131,25 @@ void StartRequestHandler::fillInDescription(const yarp::os::ConstString & reques
 } // StartRequestHandler::fillInDescription
 
 bool StartRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const yarp::os::Bottle &      restOfInput,
-                                         const yarp::os::ConstString & senderPort,
+                                         const YarpPlusPlus::Package & restOfInput,
+                                         const yarp::os::ConstString & senderChannel,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(request,restOfInput)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
-              senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
+              senderChannel.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
 
     try
     {
-        _service.startSum(senderPort);
+        _service.startSum(senderChannel);
         if (replyMechanism)
         {
-            yarp::os::Bottle response(YPP_OK_RESPONSE);
+            YarpPlusPlus::Package response(YPP_OK_RESPONSE);
             
             response.write(*replyMechanism);
         }

@@ -69,9 +69,9 @@ namespace YarpPlusPlusExample
         
         /*! @brief The constructor.
          @param client The client connection that is used to communicate with the service.
-         @param output The output port that will receive the service responses. */
-        RandomNumberAdapterData(RandomNumberClient * client,
-                                yarp::os::Port *     output);
+         @param output The output channel that will receive the service responses. */
+        RandomNumberAdapterData(RandomNumberClient *    client,
+                                YarpPlusPlus::Channel * output);
         
         /*! @brief The destructor. */
         virtual ~RandomNumberAdapterData(void);
@@ -95,8 +95,8 @@ namespace YarpPlusPlusExample
          @param other Another object to construct from. */
         RandomNumberAdapterData & operator=(const RandomNumberAdapterData & other);
         
-        /*! @brief The output port for the adapter. */
-        yarp::os::Port * _output;
+        /*! @brief The output channel for the adapter. */
+        YarpPlusPlus::Channel * _output;
         
     }; // RandomNumberDataInputHandler
     

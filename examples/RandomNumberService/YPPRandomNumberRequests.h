@@ -57,7 +57,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The port-independent name of the random number service. */
+/*! @brief The channel-independent name of the random number service. */
 # define YPP_RANDOM_CANONICAL_NAME "Random"
 
 /*! @brief The name for the 'random' request. */

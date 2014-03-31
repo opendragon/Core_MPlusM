@@ -69,16 +69,16 @@ namespace YarpPlusPlus
          @param requestName The request to be processed.
          @param parameters The (optional) parameters for the request. */
         ServiceRequest(const yarp::os::ConstString & requestName,
-                       const yarp::os::Bottle &      parameters = "");
+                       const Package &               parameters = "");
         
         /*! @brief The destructor. */
         virtual ~ServiceRequest(void);
         
         /*! @brief Send the request to an endpoint for processing.
-         @param usingPort The port that is to send the request, or @c NULL if an arbitrary port is to be used.
+         @param usingChannel The channel that is to send the request, or @c NULL if an arbitrary channel is to be used.
          @param response The response from the request, @c NULL if none is expected.
          @returns @c true if the request was successfully transmitted. */
-        bool send(yarp::os::Port &  usingPort,
+        bool send(Channel &         usingChannel,
                   ServiceResponse * response = NULL);
 
     protected:
@@ -100,9 +100,9 @@ namespace YarpPlusPlus
         /*! @brief The request name. */
         yarp::os::ConstString _name;
         /*! @brief The response holding area. */
-        yarp::os::Bottle      _holder;
+        Package               _holder;
         /*! @brief The request parameters. */
-        yarp::os::Bottle      _parameters;
+        Package               _parameters;
         
     }; // ServiceRequest
     

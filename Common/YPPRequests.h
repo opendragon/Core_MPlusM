@@ -54,7 +54,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The port-independent name of the service registry service. */
+/*! @brief The channel-independent name of the service registry service. */
 # define YPP_REGISTRY_CANONICAL_NAME "Registry"
 
 /*! @brief The name for the 'echo' request. */
@@ -122,7 +122,7 @@
 /*! @brief Request/response dictionary key - version. */
 # define YPP_REQREP_DICT_VERSION_KEY  "version"
 
-/*! @brief THe standard name for the service registry port. */
-# define YPP_SERVICE_REGISTRY_PORT_NAME "/$ervice"
+/*! @brief The standard name for the service registry channel. */
+# define YPP_SERVICE_REGISTRY_CHANNEL_NAME "/$ervice"
 
 #endif // ! defined(YPPREQUESTS_H_)

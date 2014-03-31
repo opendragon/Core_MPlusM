@@ -42,7 +42,6 @@
 #include "YPPEndpoint.h"
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "YPPCommon.h"
 #include "YPPException.h"
 #include <iostream>
 #if defined(__APPLE__)
@@ -173,24 +172,24 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-bool Endpoint::CheckEndpointName(const yarp::os::ConstString & portName)
+bool Endpoint::CheckEndpointName(const yarp::os::ConstString & channelName)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S1("portName = ", portName.c_str());//####
+    OD_LOG_S1("channelName = ", channelName.c_str());//####
     bool result = false;
 
     try
     {
-        int  nameLength = portName.length();
+        int  nameLength = channelName.length();
         
         if (0 < nameLength)
         {
-            char firstChar = portName[0];
+            char firstChar = channelName[0];
             
             result = ('/' == firstChar);
             for (int ii = 1; result && (ii < nameLength); ++ii)
             {
-                result = isprint(portName[ii]);
+                result = isprint(channelName[ii]);
             }
         }
         else
@@ -215,7 +214,7 @@ bool Endpoint::CheckEndpointName(const yarp::os::ConstString & portName)
 Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
                    const yarp::os::ConstString & hostName,
                    const yarp::os::ConstString & portNumber) :
-        _contact(), _handler(NULL), _handlerCreator(NULL), _port(NULL), _isOpen(false)
+        _channel(NULL), _contact(), _handler(NULL), _handlerCreator(NULL), _isOpen(false)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S3("endpointName = ", endpointName.c_str(), "hostName = ", hostName.c_str(),//####
@@ -233,11 +232,11 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
             if (checkHostName(_contact, hostName, realPort))
             {
                 // Ready to be set up... we have a valid port, and either a blank URI or a valid one.
-                _port = new yarp::os::Port;
-                if (! _port)
+                _channel = new Channel;
+                if (! _channel)
                 {
-                    OD_LOG_EXIT_THROW_S("Could not create port");//####
-                    throw new Exception("Could not create port");
+                    OD_LOG_EXIT_THROW_S("Could not create channel");//####
+                    throw new Exception("Could not create channel");
                 }
             }
             else
@@ -282,7 +281,7 @@ void Endpoint::close(void)
             {
                 _handler->stopProcessing();
             }
-            if (_port)
+            if (_channel)
             {
                 if (0 < _contact.getHost().length())
                 {
@@ -292,11 +291,9 @@ void Endpoint::close(void)
                 {
                     yarp::os::Network::unregisterName(_contact.getName());
                 }
-                OD_LOG_S1("about to close, port = ", getName().c_str());//####
-                _port->close();
-                OD_LOG("close completed.");//####
-                delete _port;
-                _port = NULL;
+                CloseChannel(*_channel, _channel->getName());
+                delete _channel;
+                _channel = NULL;
             }
             _handler = NULL;
             _handlerCreator = NULL;
@@ -320,7 +317,7 @@ bool Endpoint::open(void)
     {
         if (! isOpen())
         {
-            if (_port)
+            if (_channel)
             {
                 if (0 < _contact.getHost().length())
                 {
@@ -329,37 +326,37 @@ bool Endpoint::open(void)
 #if defined(REPORT_CONTACT_DETAILS)
                     DumpContact("after registerContact", _contact);//####
 #endif // defined(REPORT_CONTACT_DETAILS)
-                    if (OpenPortWithRetries(*_port, _contact))
+                    if (OpenChannelWithRetries(*_channel, _contact))
                     {
                         _isOpen = true;
-                        _port->setOutputMode(false);
+                        _channel->setOutputMode(false);
 #if defined(REPORT_CONTACT_DETAILS)
-                        DumpContact("after open", _port->where());//####
+                        DumpContact("after open", _channel->where());//####
 #endif // defined(REPORT_CONTACT_DETAILS)
                     }
                     else
                     {
-                        OD_LOG("Port could not be opened");//####
+                        OD_LOG("Channel could not be opened");//####
                     }
                 }
-                else if (OpenPortWithRetries(*_port, _contact.getName()))
+                else if (OpenChannelWithRetries(*_channel, _contact.getName()))
                 {
-                    OD_LOG("(_port->open(_contact.getName()))");//####
-                    _port->setOutputMode(false);
+                    OD_LOG("(_channel->open(_contact.getName()))");//####
+                    _channel->setOutputMode(false);
                     _isOpen = true;
 #if defined(REPORT_CONTACT_DETAILS)
-                    DumpContact("after open", _port->where());//####
+                    DumpContact("after open", _channel->where());//####
 #endif // defined(REPORT_CONTACT_DETAILS)
                 }
                 else
                 {
-                    OD_LOG("Port could not be opened");//####
+                    OD_LOG("Channel could not be opened");//####
                 }
-                OD_LOG_S1("_port->getName = ", _port->getName().c_str());//####
+                OD_LOG_S1("_channel->getName = ", _channel->getName().c_str());//####
             }
             else
             {
-                OD_LOG("! (_port)");//####
+                OD_LOG("! (_channel)");//####
             }
         }
         result = isOpen();
@@ -385,9 +382,9 @@ bool Endpoint::setInputHandler(InputHandler & handler)
         {
             OD_LOG("(_handlerCreator)");//####
         }
-        else if (_port)
+        else if (_channel)
         {
-            OD_LOG("(_port)");//####
+            OD_LOG("(_channel)");//####
             if (isOpen())
             {
                 OD_LOG("(isOpen())");//####
@@ -395,13 +392,13 @@ bool Endpoint::setInputHandler(InputHandler & handler)
             else
             {
                 _handler = &handler;
-                _port->setReader(handler);
+                _channel->setReader(handler);
                 result = true;
             }
         }
         else
         {
-            OD_LOG("! (_port)");//####
+            OD_LOG("! (_channel)");//####
         }
     }
     catch (...)
@@ -425,7 +422,7 @@ bool Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
         {
             OD_LOG("(_handler)");//####
         }
-        else if (_port)
+        else if (_channel)
         {
             if (isOpen())
             {
@@ -434,13 +431,13 @@ bool Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
             else
             {
                 _handlerCreator = &handlerCreator;
-                _port->setReaderCreator(handlerCreator);
+                _channel->setReaderCreator(handlerCreator);
                 result = true;
             }
         }
         else
         {
-            OD_LOG("! (_port)");//####
+            OD_LOG("! (_channel)");//####
         }
     }
     catch (...)
@@ -462,18 +459,18 @@ bool Endpoint::setReporter(yarp::os::PortReport & reporter,
     
     try
     {
-        if (_port)
+        if (_channel)
         {
-            _port->setReporter(reporter);
+            _channel->setReporter(reporter);
             if (andReportNow)
             {
-                _port->getReport(reporter);
+                _channel->getReport(reporter);
             }
             result = true;
         }
         else
         {
-            OD_LOG("! (_port)");//####
+            OD_LOG("! (_channel)");//####
         }
     }
     catch (...)
@@ -493,13 +490,13 @@ bool Endpoint::setTimeout(const float timeout)
     
     try
     {
-        if (_port)
+        if (_channel)
         {
-            result = _port->setTimeout(timeout);
+            result = _channel->setTimeout(timeout);
         }
         else
         {
-            OD_LOG("! (_port)");//####
+            OD_LOG("! (_channel)");//####
         }
     }
     catch (...)
@@ -522,9 +519,9 @@ const
 
     try
     {
-        if (_port)
+        if (_channel)
         {
-            result = _port->getName();
+            result = _channel->getName();
         }
         else
         {

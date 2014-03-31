@@ -57,7 +57,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The port-independent name of the example echo service. */
+/*! @brief The channel-independent name of the example echo service. */
 # define YPP_ECHO_CANONICAL_NAME "Echo"
 
 #endif // ! defined(YPPECHOREQUESTS_H_)

@@ -91,7 +91,7 @@ RequestMap::~RequestMap(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RequestMap::fillInListReply(yarp::os::Bottle & reply)
+void RequestMap::fillInListReply(Package & reply)
 {
     OD_LOG_OBJENTER();//####
     try
@@ -114,7 +114,7 @@ void RequestMap::fillInListReply(yarp::os::Bottle & reply)
     OD_LOG_OBJEXIT();//####
 } // RequestMap::fillInListReply
 
-void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
+void RequestMap::fillInRequestInfo(Package &                     reply,
                                    const yarp::os::ConstString & requestName)
 {
     OD_LOG_OBJENTER();//####

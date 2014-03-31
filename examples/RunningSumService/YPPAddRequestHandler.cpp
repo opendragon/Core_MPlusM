@@ -116,8 +116,8 @@ void AddRequestHandler::fillInDescription(const yarp::os::ConstString & request,
         info.put(YPP_REQREP_DICT_OUTPUT_KEY, YPP_REQREP_DOUBLE);
         info.put(YPP_REQREP_DICT_VERSION_KEY, ADD_REQUEST_VERSION_NUMBER);
         info.put(YPP_REQREP_DICT_DETAILS_KEY, "Add to the running sum");
-        yarp::os::Value    keywords;
-        yarp::os::Bottle * asList = keywords.asList();
+        yarp::os::Value         keywords;
+        YarpPlusPlus::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(YPP_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -131,24 +131,24 @@ void AddRequestHandler::fillInDescription(const yarp::os::ConstString & request,
 } // AddRequestHandler::fillInDescription
 
 bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                       const yarp::os::Bottle &      restOfInput,
-                                       const yarp::os::ConstString & senderPort,
+                                       const YarpPlusPlus::Package & restOfInput,
+                                       const yarp::os::ConstString & senderChannel,
                                        yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(request)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
-              senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
+              senderChannel.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
 
     try
     {
-        double           total = 0.0;
-        int              count = restOfInput.size();
-        yarp::os::Bottle response;
+        double                total = 0.0;
+        int                   count = restOfInput.size();
+        YarpPlusPlus::Package response;
         
         if (1 < count)
         {
@@ -161,12 +161,12 @@ bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
                 if (incoming.isInt())
                 {
                     ++tally;
-                    total = _service.addToSum(senderPort, incoming.asInt());
+                    total = _service.addToSum(senderChannel, incoming.asInt());
                 }
                 else if (incoming.isDouble())
                 {
                     ++tally;
-                    total = _service.addToSum(senderPort, incoming.asDouble());
+                    total = _service.addToSum(senderChannel, incoming.asDouble());
                 }
             }
             if (tally)

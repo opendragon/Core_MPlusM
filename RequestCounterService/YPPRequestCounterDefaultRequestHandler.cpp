@@ -115,16 +115,16 @@ void RequestCounterDefaultRequestHandler::fillInDescription(const yarp::os::Cons
 } // RequestCounterDefaultRequestHandler::fillInDescription
 
 bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                                         const yarp::os::Bottle &      restOfInput,
-                                                         const yarp::os::ConstString & senderPort,
+                                                         const Package &               restOfInput,
+                                                         const yarp::os::ConstString & senderChannel,
                                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,restOfInput,senderPort)
+# pragma unused(request,restOfInput,senderChannel)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderPort = ",//####
-              senderPort.c_str());//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
+              senderChannel.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
@@ -133,7 +133,7 @@ bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstSt
         _service.countRequest();
         if (replyMechanism)
         {
-            yarp::os::Bottle response(YPP_OK_RESPONSE);
+            Package response(YPP_OK_RESPONSE);
             
             response.write(*replyMechanism);
         }

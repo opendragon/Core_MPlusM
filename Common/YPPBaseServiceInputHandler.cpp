@@ -92,12 +92,12 @@ BaseServiceInputHandler::~BaseServiceInputHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                          const yarp::os::ConstString & senderPort,
+bool BaseServiceInputHandler::handleInput(const Package &               input,
+                                          const yarp::os::ConstString & senderChannel,
                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S2("senderPort = ", senderPort.c_str(), "got ", input.toString().c_str());//####
+    OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = false;
     
@@ -105,7 +105,7 @@ bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &      input,
     {
         if (0 < input.size())
         {
-            result = _service.processRequest(input.get(0).toString(), input.tail(), senderPort, replyMechanism);
+            result = _service.processRequest(input.get(0).toString(), input.tail(), senderChannel, replyMechanism);
         }
         else
         {
