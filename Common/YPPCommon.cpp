@@ -85,15 +85,21 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief Report the version numbers when launching an executable. */
+#define CHATTY_START_ /* */
+
+/*! @brief Delay the start of execution to allow channels to clear. */
+//#define DELAY_ON_START_ /* */
+
 /*! @brief The basic time interval for retries. */
 static const double kInitialRetryInterval = 0.1;
 /*! @brief The retry interval multiplier. */
 static const double kRetryMultiplier = 1.2;
+#if defined(DELAY_ON_START_)
+static const double kInitialDelay = 0.5;
+#endif // defined(DELAY_ON_START_)
 /*! @brief The maximum number of retries before declaring failure. */
 static const int kMaxRetries = 5;
-
-/*! @brief Report the version numbers when launching an executable. */
-#define CHATTY_START_ /* */
 
 /*! @brief The maximum integer that we wish to use for generated random values. */
 static const int kMaxRandom = 123456789;
@@ -245,6 +251,9 @@ void YarpPlusPlus::Initialize(void)
         OD_LOG_D2("time = ", now, "fraction = ", fraction);//####
         OD_LOG_LL1("seed = ", seed);//####
         yarp::os::Random::seed(seed);
+#if defined(DELAY_ON_START_)
+        yarp::os::Time::delay(kInitialDelay);
+#endif // defined(DELAY_ON_START_)
     }
     catch (...)
     {
