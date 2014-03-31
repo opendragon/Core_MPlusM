@@ -107,10 +107,8 @@ namespace YarpPlusPlus
                                        const yarp::os::ConstString & theChannelName);
     
     /*! @brief Close a channel.
-     @param theChannel The channel to be closed.
-     @param theChannelName The name of the channel being closed. */
-    void CloseChannel(Channel &                     theChannel,
-                      const yarp::os::ConstString & theChannelName);
+     @param theChannel The channel to be closed. */
+    void CloseChannel(Channel & theChannel);
     
     /*! @brief Dump out a description of the provided connection information to the log.
      @param tag A unique string used to identify the call point for the output.

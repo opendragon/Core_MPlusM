@@ -291,7 +291,7 @@ void Endpoint::close(void)
                 {
                     yarp::os::Network::unregisterName(_contact.getName());
                 }
-                CloseChannel(*_channel, _channel->getName());
+                CloseChannel(*_channel);
                 delete _channel;
                 _channel = NULL;
             }

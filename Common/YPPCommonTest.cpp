@@ -159,7 +159,7 @@ static Channel * doCreateTestChannel(const yarp::os::ConstString & destinationNa
             if (! NetworkConnectWithRetries(aName, destinationName))
             {
                 OD_LOG("(! NetworkConnectWithRetries(aName, destinationName))");//####
-                CloseChannel(*newChannel, aName);
+                CloseChannel(*newChannel);
                 delete newChannel;
                 newChannel = NULL;
             }
@@ -202,7 +202,7 @@ static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
         {
             OD_LOG("(! NetworkDisconnectWithRetries(theChannel->getName(), destinationName))");//####
         }
-        CloseChannel(*theChannel, theChannel->getName());
+        CloseChannel(*theChannel);
         delete theChannel;
     }
     OD_LOG_EXIT();//####
@@ -305,7 +305,7 @@ static int doTestConnectToEndpoint(const int argc,
                         {
                             OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
                         }
-                        CloseChannel(*outChannel, aName);
+                        CloseChannel(*outChannel);
                     }
                     else
                     {
@@ -393,7 +393,7 @@ static int doTestWriteToEndpoint(const int argc,
                         {
                             OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
                         }
-                        CloseChannel(*outChannel, aName);
+                        CloseChannel(*outChannel);
                     }
                     else
                     {
@@ -484,7 +484,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                         {
                             OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
                         }
-                        CloseChannel(*outChannel, aName);
+                        CloseChannel(*outChannel);
                     }
                     else
                     {
@@ -575,7 +575,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                         {
                             OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
                         }
-                        CloseChannel(*outChannel, aName);
+                        CloseChannel(*outChannel);
                     }
                     else
                     {
@@ -1191,11 +1191,6 @@ int main(int     argc,
     {
         if (yarp::os::Network::checkNetwork())
         {
-#if (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
-            yarp::os::Network::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
-            yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
             YarpPlusPlus::Initialize();

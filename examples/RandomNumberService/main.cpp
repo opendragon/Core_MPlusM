@@ -125,11 +125,6 @@ int main(int     argc,
     {
         if (yarp::os::Network::checkNetwork())
         {
-#if (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
-            yarp::os::Network::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
-            yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
             yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
             yarp::os::ConstString serviceEndpointName;
             yarp::os::ConstString serviceHostName;

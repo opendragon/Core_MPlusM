@@ -560,7 +560,7 @@ bool YarpPlusPlus::RegisterLocalService(const yarp::os::ConstString & channelNam
                 {
                     OD_LOG("! (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                 }
-                CloseChannel(*newChannel, aName);
+                CloseChannel(*newChannel);
             }
             else
             {
@@ -638,7 +638,7 @@ bool YarpPlusPlus::UnregisterLocalService(const yarp::os::ConstString & channelN
                 {
                     OD_LOG("! (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                 }
-                CloseChannel(*newChannel, aName);
+                CloseChannel(*newChannel);
             }
             else
             {

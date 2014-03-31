@@ -211,11 +211,6 @@ int main(int     argc,
     {
         if (yarp::os::Network::checkNetwork())
         {
-#if (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
-            yarp::os::Network::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
-            yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
             yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
             yarp::os::ConstString channelNameRequest("channelname:");
             const char *          requestName;
@@ -351,7 +346,7 @@ int main(int     argc,
                                     {
                                         cout << "No matching request found." << endl;
                                     }
-                                    YarpPlusPlus::CloseChannel(*newChannel, aName);
+                                    YarpPlusPlus::CloseChannel(*newChannel);
                                 }
                                 else
                                 {

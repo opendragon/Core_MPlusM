@@ -395,7 +395,7 @@ Package YarpPlusPlus::FindMatchingServices(const char * criteria)
                 {
                     OD_LOG("! (NetworkConnectWithRetries(aName, YPP_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                 }
-                CloseChannel(*newChannel, aName);
+                CloseChannel(*newChannel);
             }
             else
             {

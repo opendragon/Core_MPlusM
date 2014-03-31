@@ -154,15 +154,12 @@ bool YarpPlusPlus::AddOutputToChannelWithRetries(Channel &                     t
     return result;
 } // YarpPlusPlus::AddOutputToChannelWithRetries
 
-void YarpPlusPlus::CloseChannel(Channel &                     theChannel,
-                                const yarp::os::ConstString & theChannelName)
+void YarpPlusPlus::CloseChannel(Channel & theChannel)
 {
-#if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(theChannelName)
-#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
     OD_LOG_P1("theChannel = ", &theChannel);//####
-    OD_LOG_S1("about to close, channel = ", theChannelName.c_str());//####
+    OD_LOG_S1("about to close, channel = ", theChannel.getName().c_str());//####
+    theChannel.interrupt();
     theChannel.close();
     OD_LOG("close completed.");//####
     OD_LOG_EXIT();//####
@@ -239,6 +236,11 @@ void YarpPlusPlus::Initialize(void)
     OD_LOG_ENTER();//####
     try
     {
+#if (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
+        yarp::os::Network::setVerbosity(1);
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
+        yarp::os::Network::setVerbosity(-1);
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(YPP_LOG_INCLUDES_YARP_TRACE))
         double intPart;
         double now = yarp::os::Time::now();
         double fraction = modf(now, &intPart);
@@ -261,7 +263,7 @@ void YarpPlusPlus::Initialize(void)
         throw;
     }
     OD_LOG_EXIT();//####
-} // YarpPlusPlus::Initialized
+} // YarpPlusPlus::Initialize
 
 bool YarpPlusPlus::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
                                              const yarp::os::ConstString & destinationName)

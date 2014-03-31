@@ -239,7 +239,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                     reply.addString("Could not connect to channel");
                                     reply.addString(argAsString);
                                 }
-                                CloseChannel(*outChannel, aName);
+                                CloseChannel(*outChannel);
                             }
                             else
                             {
