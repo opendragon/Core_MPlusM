@@ -2,9 +2,9 @@
 //
 //  File:       EchoService/main.cpp
 //
-//  Project:    YarpPlusPlus
+//  Project:    MoAndMe
 //
-//  Contains:   The main application for a simple Yarp++ service.
+//  Contains:   The main application for a simple MoAndMe service.
 //
 //  Written by: Norman Jaffe
 //
@@ -41,8 +41,8 @@
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "YPPEchoService.h"
-#include "YPPEndpoint.h"
+#include "MoMeEchoService.h"
+#include "MoMeEndpoint.h"
 #include <iostream>
 #if (defined(__APPLE__) || defined(__linux__))
 # include <unistd.h>
@@ -68,15 +68,15 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for a simple Yarp++ service. */
+ @brief The main application for a simple MoAndMe service. */
 
 /*! @dir EchoService
- @brief The set of files that implement a simple Yarp++ service. */
+ @brief The set of files that implement a simple MoAndMe service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace YarpPlusPlusExample;
+using namespace MoAndMeExample;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -113,13 +113,13 @@ static void stopRunning(int signal)
 int main(int     argc,
          char ** argv)
 {
-#if defined(YPP_SERVICES_LOG_TO_STDERR)
+#if defined(MAM_SERVICES_LOG_TO_STDERR)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport);//####
-#else // ! defined(YPP_SERVICES_LOG_TO_STDERR)
+#else // ! defined(MAM_SERVICES_LOG_TO_STDERR)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport);//####
-#endif // ! defined(YPP_SERVICES_LOG_TO_STDERR)
+#endif // ! defined(MAM_SERVICES_LOG_TO_STDERR)
     OD_LOG_ENTER();//####
     try
     {
@@ -130,7 +130,7 @@ int main(int     argc,
             yarp::os::ConstString serviceHostName;
             yarp::os::ConstString servicePortNumber;
             
-            YarpPlusPlus::Initialize();
+            MoAndMe::Initialize();
             if (1 < argc)
             {
                 serviceEndpointName = argv[1];
@@ -156,7 +156,7 @@ int main(int     argc,
                     yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
                     OD_LOG_S1("channelName = ", channelName.c_str());//####
-                    if (YarpPlusPlus::RegisterLocalService(channelName))
+                    if (MoAndMe::RegisterLocalService(channelName))
                     {
                         lKeepRunning = true;
 #if (defined(__APPLE__) || defined(__linux__))
@@ -167,18 +167,18 @@ int main(int     argc,
 #endif // defined(__APPLE__) || defined(__linux__)
                         for ( ; lKeepRunning; )
                         {
-#if defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
+#if defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                             yarp::os::Time::delay(1.0);
-#else // ! defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
+#else // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                             yarp::os::Time::yield();
-#endif // ! defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
+#endif // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                         }
-                        YarpPlusPlus::UnregisterLocalService(channelName);
+                        MoAndMe::UnregisterLocalService(channelName);
                         stuff->stop();
                     }
                     else
                     {
-                        OD_LOG("! (YarpPlusPlus::RegisterLocalService(channelName))");//####
+                        OD_LOG("! (MoAndMe::RegisterLocalService(channelName))");//####
                     }
                 }
                 else

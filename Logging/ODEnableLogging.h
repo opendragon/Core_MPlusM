@@ -2,7 +2,7 @@
 //
 //  File:       ODEnableLogging.h
 //
-//  Project:    YarpPlusPlus
+//  Project:    MoAndMe
 //
 //  Contains:   The macro definitions to enable the logging facility.
 //

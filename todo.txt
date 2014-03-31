@@ -5,6 +5,6 @@
 
 * add YPPCommon/ClosePort() and replace port->close() with calls to this, so that we can explore ways to fix the hang-on-close problem
 
-* try BufferedPort and/or interrupting the port
+* try BufferedPort and/or interrupting the port —> note that BufferedPorts have a very different model for reading/writing, and expect to work with a fixed datatype, but the type could be Bottle; note that BufferedPorts used Ports internally
 
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged

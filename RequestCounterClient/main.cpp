@@ -2,7 +2,7 @@
 //
 //  File:       RequestCounterClient/main.cpp
 //
-//  Project:    YarpPlusPlus
+//  Project:    MoAndMe
 //
 //  Contains:   The main application for the client of the request counter service.
 //
@@ -41,7 +41,7 @@
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "YPPRequestCounterClient.h"
+#include "MoMeRequestCounterClient.h"
 #include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -72,7 +72,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace YarpPlusPlus;
+using namespace MoAndMe;
 using std::cin;
 using std::cout;
 using std::cerr;
@@ -124,7 +124,7 @@ int main(int     argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            YarpPlusPlus::Initialize();
+            MoAndMe::Initialize();
             RequestCounterClient * stuff = new RequestCounterClient;
             
             if (stuff)

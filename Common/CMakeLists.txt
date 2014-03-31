@@ -2,9 +2,9 @@
 #
 #  File:       Common/CMakeLists.txt
 #
-#  Project:    YarpPlusPlus
+#  Project:    MoAndMe
 #
-#  Contains:   The CMAKE definitions for the Yarp++ common libraries.
+#  Contains:   The CMAKE definitions for the MoAndMe common libraries.
 #
 #  Written by: Norman Jaffe
 #
@@ -39,47 +39,48 @@
 #
 #--------------------------------------------------------------------------------------
 
-set(YPP_COMMONTESTSUPPORT_DIR "${YPP_COMMON_DIR}/CommonTests")
+set(MAM_COMMONTESTSUPPORT_DIR "${MAM_COMMON_DIR}/CommonTests")
 
 add_subdirectory(CommonTests)
 
-include_directories("${YPP_LOGGING_DIR}"
-                    “${YPP_PARSER_DIR}”
-                    "${YPP_COMMONTESTSUPPORT_DIR}")
+include_directories("${MAM_LOGGING_DIR}"
+                    “${MAM_PARSER_DIR}”
+                    "${MAM_COMMONTESTSUPPORT_DIR}")
 
-add_library(YPPCommon
-            YPPBaseAdapterData.cpp
-            YPPBaseClient.cpp
-            YPPBaseContext.cpp
-            YPPBaseRequestHandler.cpp
-            YPPBaseService.cpp
-            YPPBaseServiceInputHandler.cpp
-            YPPBaseServiceInputHandlerCreator.cpp
-            YPPCommon.cpp
-            YPPEndpoint.cpp
-            YPPException.cpp
-            YPPInfoRequestHandler.cpp
-            YPPInputHandler.cpp
-            YPPInputHandlerCreator.cpp
-            YPPListRequestHandler.cpp
-            YPPNameRequestHandler.cpp
-            YPPRequestMap.cpp
-            YPPServiceRequest.cpp
-            YPPServiceResponse.cpp)
+add_library(MoMeCommon
+            MoMeBaseAdapterData.cpp
+            MoMeBaseClient.cpp
+            MoMeBaseContext.cpp
+            MoMeBaseRequestHandler.cpp
+            MoMeBaseService.cpp
+            MoMeBaseServiceInputHandler.cpp
+            MoMeBaseServiceInputHandlerCreator.cpp
+            MoMeCommon.cpp
+            MoMeEndpoint.cpp
+            MoMeEndpointStatusReporter.cpp
+            MoMeException.cpp
+            MoMeInfoRequestHandler.cpp
+            MoMeInputHandler.cpp
+            MoMeInputHandlerCreator.cpp
+            MoMeListRequestHandler.cpp
+            MoMeNameRequestHandler.cpp
+            MoMeRequestMap.cpp
+            MoMeServiceRequest.cpp
+            MoMeServiceResponse.cpp)
 
-install(TARGETS YPPCommon DESTINATION bin)
-install(FILES YPPCommon DESTINATION include)
+install(TARGETS MoMeCommon DESTINATION bin)
+install(FILES MoMeCommon DESTINATION include)
 
 enable_testing()
 
 add_executable(CommonTest
-               YPPCommonTest.cpp)
+               MoMeCommonTest.cpp)
 
 target_link_libraries(CommonTest
-                      YPPCommon
-                      YPPLogging
-                      YPPParser
-                      YPPCommonTestSupport
+                      MoMeCommon
+                      MoMeLogging
+                      MoMeParser
+                      MoMeCommonTestSupport
                       ${YARP_LIBRARIES})
 
 # Argument order for test 1 = endpoint name [, IP address / name [, port]]

@@ -2,9 +2,9 @@
 //
 //  File:       RandomNumberClient/main.cpp
 //
-//  Project:    YarpPlusPlus
+//  Project:    MoAndMe
 //
-//  Contains:   The main application for the client of a simple Yarp++ service.
+//  Contains:   The main application for the client of a simple MoAndMe service.
 //
 //  Written by: Norman Jaffe
 //
@@ -41,7 +41,7 @@
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "YPPRandomNumberClient.h"
+#include "MoMeRandomNumberClient.h"
 #include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -64,15 +64,15 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for the client of a simple Yarp++ service. */
+ @brief The main application for the client of a simple MoAndMe service. */
 
 /*! @dir RandomNumberClient
- @brief The set of files that implement the client for a simple Yarp++ service. */
+ @brief The set of files that implement the client for a simple MoAndMe service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace YarpPlusPlusExample;
+using namespace MoAndMeExample;
 using std::cin;
 using std::cout;
 using std::cerr;
@@ -124,7 +124,7 @@ int main(int     argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            YarpPlusPlus::Initialize();
+            MoAndMe::Initialize();
             RandomNumberClient * stuff = new RandomNumberClient;
             
             if (stuff)
@@ -167,12 +167,12 @@ int main(int     argc,
                             }
                             else
                             {
-                                YarpPlusPlus::DoubleVector results;
+                                MoAndMe::DoubleVector results;
                                 
                                 if (stuff->getRandomNumbers(count, results))
                                 {
                                     cout << "result = ( ";
-                                    for (YarpPlusPlus::DoubleVector::const_iterator it(results.cbegin());
+                                    for (MoAndMe::DoubleVector::const_iterator it(results.cbegin());
                                          it != results.cend(); ++it)
                                     {
                                         cout << " " << *it;

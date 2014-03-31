@@ -2,7 +2,7 @@
 //
 //  File:       ODLogging.inc.c
 //
-//  Project:    YarpPlusPlus
+//  Project:    MoAndMe
 //
 //  Contains:   The function definitions for the logging facility.
 //

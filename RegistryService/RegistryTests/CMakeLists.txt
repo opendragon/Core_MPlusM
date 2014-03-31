@@ -2,7 +2,7 @@
 #
 #  File:       RegistryTests/CMakeLists.txt
 #
-#  Project:    YarpPlusPlus
+#  Project:    MoAndMe
 #
 #  Contains:   The CMAKE definitions for the registry unit test application.
 #
@@ -39,17 +39,17 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${YPP_LOGGING_DIR}"
-                    "${YPP_COMMON_DIR}"
-                    “${YPP_PARSER_DIR}”)
+include_directories("${MAM_LOGGING_DIR}"
+                    "${MAM_COMMON_DIR}"
+                    “${MAM_PARSER_DIR}”)
 
-add_library(YPPRegistryTestSupport
-            YPPTTest14EchoRequestHandler.cpp
-            YPPTTest14Service.cpp
-            YPPTTest15EchoRequestHandler.cpp
-            YPPTTest15Service.cpp
-            YPPTTest16EchoRequestHandler.cpp
-            YPPTTest16Service.cpp)
+add_library(MoMeRegistryTestSupport
+            MoMeTest14EchoRequestHandler.cpp
+            MoMeTest14Service.cpp
+            MoMeTest15EchoRequestHandler.cpp
+            MoMeTest15Service.cpp
+            MoMeTest16EchoRequestHandler.cpp
+            MoMeTest16Service.cpp)
 
-install(TARGETS YPPRegistryTestSupport DESTINATION bin)
-install(FILES YPPRegistryTestSupport DESTINATION include)
+install(TARGETS MoMeRegistryTestSupport DESTINATION bin)
+install(FILES MoMeRegistryTestSupport DESTINATION include)

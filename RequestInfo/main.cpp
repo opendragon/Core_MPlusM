@@ -2,7 +2,7 @@
 //
 //  File:       RequestInfo/main.cpp
 //
-//  Project:    YarpPlusPlus
+//  Project:    MoAndMe
 //
 //  Contains:   A utility application to list the available requests.
 //
@@ -41,9 +41,9 @@
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "YPPBaseClient.h"
-#include "YPPRequests.h"
-#include "YPPServiceRequest.h"
+#include "MoMeBaseClient.h"
+#include "MoMeRequests.h"
+#include "MoMeServiceRequest.h"
 #include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -91,7 +91,7 @@ using std::endl;
  @param response The response to be processed.
  @returns @c true if some output was generated and @c false otherwise. */
 static bool processResponse(const yarp::os::ConstString &         serviceName,
-                            const YarpPlusPlus::ServiceResponse & response)
+                            const MoAndMe::ServiceResponse & response)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("response = ", &response);//####
@@ -107,55 +107,55 @@ static bool processResponse(const yarp::os::ConstString &         serviceName,
             
             if (propList)
             {
-                if (propList->check(YPP_REQREP_DICT_REQUEST_KEY))
+                if (propList->check(MAM_REQREP_DICT_REQUEST_KEY))
                 {
                     yarp::os::ConstString theDetailsString;
                     yarp::os::ConstString theInputsString;
                     yarp::os::ConstString theOutputsString;
                     yarp::os::ConstString theVersionString;
-                    yarp::os::ConstString theRequest(propList->find(YPP_REQREP_DICT_REQUEST_KEY).asString());
-                    YarpPlusPlus::Package keywordList;
+                    yarp::os::ConstString theRequest(propList->find(MAM_REQREP_DICT_REQUEST_KEY).asString());
+                    MoAndMe::Package keywordList;
                     
                     result = true;
-                    if (propList->check(YPP_REQREP_DICT_DETAILS_KEY))
+                    if (propList->check(MAM_REQREP_DICT_DETAILS_KEY))
                     {
-                        yarp::os::Value theDetails = propList->find(YPP_REQREP_DICT_DETAILS_KEY);
+                        yarp::os::Value theDetails = propList->find(MAM_REQREP_DICT_DETAILS_KEY);
                         
                         if (theDetails.isString())
                         {
                             theDetailsString = theDetails.toString();
                         }
                     }
-                    if (propList->check(YPP_REQREP_DICT_INPUT_KEY))
+                    if (propList->check(MAM_REQREP_DICT_INPUT_KEY))
                     {
-                        yarp::os::Value theInputs = propList->find(YPP_REQREP_DICT_INPUT_KEY);
+                        yarp::os::Value theInputs = propList->find(MAM_REQREP_DICT_INPUT_KEY);
                         
                         if (theInputs.isString())
                         {
                             theInputsString = theInputs.toString();
                         }
                     }
-                    if (propList->check(YPP_REQREP_DICT_KEYWORDS_KEY))
+                    if (propList->check(MAM_REQREP_DICT_KEYWORDS_KEY))
                     {
-                        yarp::os::Value theKeywords = propList->find(YPP_REQREP_DICT_KEYWORDS_KEY);
+                        yarp::os::Value theKeywords = propList->find(MAM_REQREP_DICT_KEYWORDS_KEY);
                         
                         if (theKeywords.isList())
                         {
                             keywordList = *theKeywords.asList();
                         }
                     }
-                    if (propList->check(YPP_REQREP_DICT_OUTPUT_KEY))
+                    if (propList->check(MAM_REQREP_DICT_OUTPUT_KEY))
                     {
-                        yarp::os::Value theOutputs = propList->find(YPP_REQREP_DICT_OUTPUT_KEY);
+                        yarp::os::Value theOutputs = propList->find(MAM_REQREP_DICT_OUTPUT_KEY);
                         
                         if (theOutputs.isString())
                         {
                             theOutputsString = theOutputs.toString();
                         }
                     }
-                    if (propList->check(YPP_REQREP_DICT_VERSION_KEY))
+                    if (propList->check(MAM_REQREP_DICT_VERSION_KEY))
                     {
-                        yarp::os::Value theVersion = propList->find(YPP_REQREP_DICT_VERSION_KEY);
+                        yarp::os::Value theVersion = propList->find(MAM_REQREP_DICT_VERSION_KEY);
                         
                         if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
                         {
@@ -215,7 +215,7 @@ int main(int     argc,
             yarp::os::ConstString channelNameRequest("channelname:");
             const char *          requestName;
             
-            YarpPlusPlus::Initialize();
+            MoAndMe::Initialize();
             if (1 < argc)
             {
                 channelNameRequest += argv[1];
@@ -240,16 +240,16 @@ int main(int     argc,
                 channelNameRequest += "*";
                 requestName = NULL;
             }
-            YarpPlusPlus::Package matches(YarpPlusPlus::FindMatchingServices(channelNameRequest));
+            MoAndMe::Package matches(MoAndMe::FindMatchingServices(channelNameRequest));
             
-            if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+            if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
                 // First, check if the search succeeded.
                 yarp::os::ConstString matchesFirstString(matches.get(0).toString());
                 
-                if (strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))
+                if (strcmp(MAM_OK_RESPONSE, matchesFirstString.c_str()))
                 {
-                    OD_LOG("(strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))");//####
+                    OD_LOG("(strcmp(MAM_OK_RESPONSE, matchesFirstString.c_str()))");//####
                     yarp::os::ConstString reason(matches.get(1).toString());
                     
                     cerr << "Failed: " << reason.c_str() << "." << endl;
@@ -257,7 +257,7 @@ int main(int     argc,
                 else
                 {
                     // Now, process the second element.
-                    YarpPlusPlus::Package * matchesList = matches.get(1).asList();
+                    MoAndMe::Package * matchesList = matches.get(1).asList();
                     
                     if (matchesList)
                     {
@@ -265,15 +265,15 @@ int main(int     argc,
                         
                         if (matchesCount)
                         {
-                            yarp::os::ConstString   aName(YarpPlusPlus::GetRandomChannelName("/requestinfo/channel_"));
-                            YarpPlusPlus::Channel * newChannel = new YarpPlusPlus::Channel;
+                            yarp::os::ConstString   aName(MoAndMe::GetRandomChannelName("/requestinfo/channel_"));
+                            MoAndMe::Channel * newChannel = new MoAndMe::Channel;
                             
                             if (newChannel)
                             {
-                                if (YarpPlusPlus::OpenChannelWithRetries(*newChannel, aName))
+                                if (MoAndMe::OpenChannelWithRetries(*newChannel, aName))
                                 {
                                     bool                  sawRequestResponse = false;
-                                    YarpPlusPlus::Package parameters;
+                                    MoAndMe::Package parameters;
                                     
                                     if (requestName)
                                     {
@@ -283,15 +283,15 @@ int main(int     argc,
                                     {
                                         yarp::os::ConstString aMatch(matchesList->get(ii).toString());
                                         
-                                        if (YarpPlusPlus::NetworkConnectWithRetries(aName, aMatch))
+                                        if (MoAndMe::NetworkConnectWithRetries(aName, aMatch))
                                         {
-                                            YarpPlusPlus::ServiceResponse response;
+                                            MoAndMe::ServiceResponse response;
                                             
                                             // If no request was identified, or a wildcard was specified, we use the
                                             // 'list' request; otherwise, do an 'info' request.
                                             if (requestName)
                                             {
-                                                YarpPlusPlus::ServiceRequest request(YPP_INFO_REQUEST, parameters);
+                                                MoAndMe::ServiceRequest request(MAM_INFO_REQUEST, parameters);
                                                 
                                                 if (request.send(*newChannel, &response))
                                                 {
@@ -312,7 +312,7 @@ int main(int     argc,
                                             }
                                             else
                                             {
-                                                YarpPlusPlus::ServiceRequest request(YPP_LIST_REQUEST, parameters);
+                                                MoAndMe::ServiceRequest request(MAM_LIST_REQUEST, parameters);
                                                 
                                                 if (request.send(*newChannel, &response))
                                                 {
@@ -331,26 +331,26 @@ int main(int     argc,
                                                             endl;
                                                 }
                                             }
-                                            if (! YarpPlusPlus::NetworkDisconnectWithRetries(aName, aMatch))
+                                            if (! MoAndMe::NetworkDisconnectWithRetries(aName, aMatch))
                                             {
-                                                OD_LOG("(! YarpPlusPlus::NetworkDisconnectWithRetries(aName, "//####
+                                                OD_LOG("(! MoAndMe::NetworkDisconnectWithRetries(aName, "//####
                                                        "aMatch))");//####
                                             }
                                         }
                                         else
                                         {
-                                            OD_LOG("! (YarpPlusPlus::NetworkConnectWithRetries(aName, aMatch))");//####
+                                            OD_LOG("! (MoAndMe::NetworkConnectWithRetries(aName, aMatch))");//####
                                         }
                                     }
                                     if (! sawRequestResponse)
                                     {
                                         cout << "No matching request found." << endl;
                                     }
-                                    YarpPlusPlus::CloseChannel(*newChannel);
+                                    MoAndMe::CloseChannel(*newChannel);
                                 }
                                 else
                                 {
-                                    OD_LOG("! (YarpPlusPlus::OpenChannelWithRetries(*newChannel, aName))");//####
+                                    OD_LOG("! (MoAndMe::OpenChannelWithRetries(*newChannel, aName))");//####
                                 }
                                 delete newChannel;
                             }
@@ -372,7 +372,7 @@ int main(int     argc,
             }
             else
             {
-                OD_LOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
+                OD_LOG("! (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
                 cerr << "Problem getting information from the Service Registry." << endl;
             }
         }

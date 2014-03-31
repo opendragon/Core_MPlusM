@@ -2,7 +2,7 @@
 #
 #  File:       CommonTests/CMakeLists.txt
 #
-#  Project:    YarpPlusPlus
+#  Project:    MoAndMe
 #
 #  Contains:   The CMAKE definitions for the common unit test application.
 #
@@ -39,25 +39,24 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${YPP_LOGGING_DIR}"
-                    "${YPP_COMMON_DIR}"
-                    “${YPP_PARSER_DIR}”)
+include_directories("${MAM_LOGGING_DIR}"
+                    "${MAM_COMMON_DIR}"
+                    “${MAM_PARSER_DIR}”)
 
-add_library(YPPCommonTestSupport
-            YPPTEndpointStatusReporter.cpp
-            YPPTTest03Handler.cpp
-            YPPTTest04Handler.cpp
-            YPPTTest05Handler.cpp
-            YPPTTest05HandlerCreator.cpp
-            YPPTTest08Handler.cpp
-            YPPTTest09DefaultRequestHandler.cpp
-            YPPTTest09Service.cpp
-            YPPTTest10DefaultRequestHandler.cpp
-            YPPTTest10Service.cpp
-            YPPTTest11EchoRequestHandler.cpp
-            YPPTTest11Service.cpp
-            YPPTTest12EchoRequestHandler.cpp
-            YPPTTest12Service.cpp)
+add_library(MoMeCommonTestSupport
+            MoMeTest03Handler.cpp
+            MoMeTest04Handler.cpp
+            MoMeTest05Handler.cpp
+            MoMeTest05HandlerCreator.cpp
+            MoMeTest08Handler.cpp
+            MoMeTest09DefaultRequestHandler.cpp
+            MoMeTest09Service.cpp
+            MoMeTest10DefaultRequestHandler.cpp
+            MoMeTest10Service.cpp
+            MoMeTest11EchoRequestHandler.cpp
+            MoMeTest11Service.cpp
+            MoMeTest12EchoRequestHandler.cpp
+            MoMeTest12Service.cpp)
 
-install(TARGETS YPPCommonTestSupport DESTINATION bin)
-install(FILES YPPCommonTestSupport DESTINATION include)
+install(TARGETS MoMeCommonTestSupport DESTINATION bin)
+install(FILES MoMeCommonTestSupport DESTINATION include)

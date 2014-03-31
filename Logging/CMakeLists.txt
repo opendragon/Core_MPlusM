@@ -2,7 +2,7 @@
 #
 #  File:       Debugging/CMakeLists.txt
 #
-#  Project:    YarpPlusPlus
+#  Project:    MoAndMe
 #
 #  Contains:   The CMAKE definitions for the debugging library.
 #
@@ -39,16 +39,16 @@
 #
 #--------------------------------------------------------------------------------------
 
-option(YPP_USE_OBJECTIVE_C_DEBUG "Use Objective C Debug" FALSE)
-mark_as_advanced(YPP_USE_OBJECTIVE_C_DEBUG)
+option(MAM_USE_OBJECTIVE_C_DEBUG "Use Objective C Debug" FALSE)
+mark_as_advanced(MAM_USE_OBJECTIVE_C_DEBUG)
 
-if(YPP_USE_OBJECTIVE_C_DEBUG)
-    add_library(YPPLogging
+if(MAM_USE_OBJECTIVE_C_DEBUG)
+    add_library(MoMeLogging
                 ODLogging.m)
-else(YPP_USE_OBJECTIVE_C_DEBUG)
-    add_library(YPPLogging
+else(MAM_USE_OBJECTIVE_C_DEBUG)
+    add_library(MoMeLogging
                 ODLogging.cpp)
-endif(YPP_USE_OBJECTIVE_C_DEBUG)
+endif(MAM_USE_OBJECTIVE_C_DEBUG)
 
-install(TARGETS YPPLogging DESTINATION bin)
-install(FILES YPPLogging DESTINATION include)
+install(TARGETS MoMeLogging DESTINATION bin)
+install(FILES MoMeLogging DESTINATION include)

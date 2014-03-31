@@ -2,9 +2,9 @@
 #
 #  File:       examples/CMakeLists.txt
 #
-#  Project:    YarpPlusPlus
+#  Project:    MoAndMe
 #
-#  Contains:   The common CMAKE definitions for the Yarp++ examples.
+#  Contains:   The common CMAKE definitions for the MoAndMe examples.
 #
 #  Written by: Norman Jaffe
 #
@@ -39,7 +39,7 @@
 #
 #--------------------------------------------------------------------------------------
 
-set(YPP_EXAMPLES_DIR "${PROJECT_SOURCE_DIR}/examples")
+set(MAM_EXAMPLES_DIR "${PROJECT_SOURCE_DIR}/examples")
 
 add_subdirectory(EchoClient)
 add_subdirectory(EchoService)

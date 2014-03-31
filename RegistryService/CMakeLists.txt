@@ -2,7 +2,7 @@
 #
 #  File:       RegistryService/CMakeLists.txt
 #
-#  Project:    YarpPlusPlus
+#  Project:    MoAndMe
 #
 #  Contains:   The CMAKE definitions for the RegistryService application.
 #
@@ -39,45 +39,45 @@
 #
 #--------------------------------------------------------------------------------------
 
-set(YPP_REGISTRYTESTSUPPORT_DIR "${YPP_COMMON_DIR}/RegistryTests")
+set(MAM_REGISTRYTESTSUPPORT_DIR "${MAM_COMMON_DIR}/RegistryTests")
 
 add_subdirectory(RegistryTests)
 
-include_directories("${YPP_LOGGING_DIR}"
-                    “${YPP_COMMON_DIR}”
-                    "${YPP_REGISTRYTESTSUPPORT_DIR}")
+include_directories("${MAM_LOGGING_DIR}"
+                    “${MAM_COMMON_DIR}”
+                    "${MAM_REGISTRYTESTSUPPORT_DIR}")
 
 # set up our program
 add_executable(RegistryService
                main.cpp
-               YPPColumnNameValidator.cpp
-               YPPMatchRequestHandler.cpp
-               YPPRegisterRequestHandler.cpp
-               YPPRegistryService.cpp
-               YPPUnregisterRequestHandler.cpp)
+               MoMeColumnNameValidator.cpp
+               MoMeMatchRequestHandler.cpp
+               MoMeRegisterRequestHandler.cpp
+               MoMeRegistryService.cpp
+               MoMeUnregisterRequestHandler.cpp)
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RegistryService
-                      YPPCommon
-                      YPPLogging
-                      YPPParser
+                      MoMeCommon
+                      MoMeLogging
+                      MoMeParser
                       ${YARP_LIBRARIES})
 
 enable_testing()
 
 add_executable(RegistryTest
-               YPPRegistryTest.cpp
-               YPPColumnNameValidator.cpp
-               YPPMatchRequestHandler.cpp
-               YPPRegisterRequestHandler.cpp
-               YPPRegistryService.cpp
-               YPPUnregisterRequestHandler.cpp)
+               MoMeRegistryTest.cpp
+               MoMeColumnNameValidator.cpp
+               MoMeMatchRequestHandler.cpp
+               MoMeRegisterRequestHandler.cpp
+               MoMeRegistryService.cpp
+               MoMeUnregisterRequestHandler.cpp)
 
 target_link_libraries(RegistryTest
-                      YPPCommon
-                      YPPLogging
-                      YPPParser
-                      YPPRegistryTestSupport
+                      MoMeCommon
+                      MoMeLogging
+                      MoMeParser
+                      MoMeRegistryTestSupport
                       ${YARP_LIBRARIES})
 
 # Test create register service

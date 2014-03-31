@@ -2,7 +2,7 @@
 //
 //  File:       ODDisableLogging.h
 //
-//  Project:    YarpPlusPlus
+//  Project:    MoAndMe
 //
 //  Contains:   The macro definitions to disable the logging facility.
 //

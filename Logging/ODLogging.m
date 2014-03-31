@@ -2,7 +2,7 @@
 //
 //  File:       ODLogging.m
 //
-//  Project:    YarpPlusPlus
+//  Project:    MoAndMe
 //
 //  Contains:   The Objective C variation of the debugging facility.
 //

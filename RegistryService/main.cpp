@@ -2,9 +2,9 @@
 //
 //  File:       RegistryService/main.cpp
 //
-//  Project:    YarpPlusPlus
+//  Project:    MoAndMe
 //
-//  Contains:   The main application for the Service Registry Yarp++ service.
+//  Contains:   The main application for the Service Registry MoAndMe service.
 //
 //  Written by: Norman Jaffe
 //
@@ -41,8 +41,8 @@
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "YPPRegistryService.h"
-#include "YPPRequests.h"
+#include "MoMeRegistryService.h"
+#include "MoMeRequests.h"
 #include <iostream>
 #include <string.h>
 #if (defined(__APPLE__) || defined(__linux__))
@@ -69,7 +69,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for the Service Registry Yarp++ service. */
+ @brief The main application for the Service Registry MoAndMe service. */
 
 /*! @dir RegistryService
  @brief The RegistryService application. */
@@ -77,7 +77,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace YarpPlusPlus;
+using namespace MoAndMe;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -117,13 +117,13 @@ static void stopRunning(int signal)
 int main(int     argc,
          char ** argv)
 {
-#if defined(YPP_SERVICES_LOG_TO_STDERR)
+#if defined(MAM_SERVICES_LOG_TO_STDERR)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport);//####
-#else // ! defined(YPP_SERVICES_LOG_TO_STDERR)
+#else // ! defined(MAM_SERVICES_LOG_TO_STDERR)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport);//####
-#endif // ! defined(YPP_SERVICES_LOG_TO_STDERR)
+#endif // ! defined(MAM_SERVICES_LOG_TO_STDERR)
     OD_LOG_ENTER();//####
     try
     {
@@ -132,7 +132,7 @@ int main(int     argc,
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             RegistryService * stuff = NULL;
             
-            YarpPlusPlus::Initialize();
+            MoAndMe::Initialize();
             if (1 <= argc)
             {
                 switch (argc)
@@ -170,11 +170,11 @@ int main(int     argc,
 #endif // defined(__APPLE__) || defined(__linux__)
                     for ( ; lKeepRunning; )
                     {
-#if defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
+#if defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                         yarp::os::Time::delay(1.0);
-#else // ! defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
+#else // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                         yarp::os::Time::yield();
-#endif // ! defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
+#endif // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                     }
                     stuff->stop();
                 }

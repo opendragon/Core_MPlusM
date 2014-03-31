@@ -2,9 +2,9 @@
 //
 //  File:       RandomNumberClient/main.cpp
 //
-//  Project:    YarpPlusPlus
+//  Project:    MoAndMe
 //
-//  Contains:   The main application for an adapter of a simple Yarp++ service.
+//  Contains:   The main application for an adapter of a simple MoAndMe service.
 //
 //  Written by: Norman Jaffe
 //
@@ -41,9 +41,9 @@
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "YPPRandomNumberAdapterData.h"
-#include "YPPRandomNumberClient.h"
-#include "YPPRandomNumberDataInputHandler.h"
+#include "MoMeRandomNumberAdapterData.h"
+#include "MoMeRandomNumberClient.h"
+#include "MoMeRandomNumberDataInputHandler.h"
 #include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -66,15 +66,15 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for an adapter of a simple Yarp++ service. */
+ @brief The main application for an adapter of a simple MoAndMe service. */
 
 /*! @dir RandomNumberAdapter
- @brief The set of files that implement an adapter for a simple Yarp++ service. */
+ @brief The set of files that implement an adapter for a simple MoAndMe service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace YarpPlusPlusExample;
+using namespace MoAndMeExample;
 using std::cin;
 using std::cout;
 using std::cerr;
@@ -121,7 +121,7 @@ int main(int     argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            YarpPlusPlus::Initialize();
+            MoAndMe::Initialize();
             RandomNumberClient * stuff = new RandomNumberClient;
             
             if (stuff)
@@ -137,8 +137,8 @@ int main(int     argc,
                 {
                     if (stuff->connectToService())
                     {
-                        YarpPlusPlus::Channel *        dataChannel = new YarpPlusPlus::Channel;
-                        YarpPlusPlus::Channel *        outputChannel = new YarpPlusPlus::Channel;
+                        MoAndMe::Channel *        dataChannel = new MoAndMe::Channel;
+                        MoAndMe::Channel *        outputChannel = new MoAndMe::Channel;
                         RandomNumberAdapterData        sharedData(stuff, outputChannel);
                         RandomNumberDataInputHandler * dataHandler = new RandomNumberDataInputHandler(sharedData);
                         
@@ -155,8 +155,8 @@ int main(int     argc,
                                     outputName = argv[2];
                                 }
                             }
-                            if (YarpPlusPlus::OpenChannelWithRetries(*dataChannel, dataName) &&
-                                YarpPlusPlus::OpenChannelWithRetries(*outputChannel, outputName))
+                            if (MoAndMe::OpenChannelWithRetries(*dataChannel, dataName) &&
+                                MoAndMe::OpenChannelWithRetries(*outputChannel, outputName))
                             {
                                 sharedData.activate();
                                 dataChannel->setOutputMode(false);
@@ -169,11 +169,11 @@ int main(int     argc,
                                     
                                     
                                     
-#if defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
+#if defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                                     yarp::os::Time::delay(1.0);
-#else // ! defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
+#else // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                                     yarp::os::Time::yield();
-#endif // ! defined(YPP_MAIN_DOES_DELAY_NOT_YIELD)
+#endif // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                                     if (! lKeepRunning)
                                     {
                                         sharedData.deactivate();
@@ -187,12 +187,12 @@ int main(int     argc,
                             }
                             else
                             {
-                                OD_LOG("! (YarpPlusPlus::OpenChannelWithRetries(*dataChannel, dataName) && "
-                                       "YarpPlusPlus::OpenChannelWithRetries(*outputChannel, outputName))");//####
+                                OD_LOG("! (MoAndMe::OpenChannelWithRetries(*dataChannel, dataName) && "
+                                       "MoAndMe::OpenChannelWithRetries(*outputChannel, outputName))");//####
                                 cerr << "Problem opening a channel." << endl;
                             }
-                            YarpPlusPlus::CloseChannel(*dataChannel);
-                            YarpPlusPlus::CloseChannel(*outputChannel);
+                            MoAndMe::CloseChannel(*dataChannel);
+                            MoAndMe::CloseChannel(*outputChannel);
                         }
                         else
                         {

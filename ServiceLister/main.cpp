@@ -2,7 +2,7 @@
 //
 //  File:       ServiceLister/main.cpp
 //
-//  Project:    YarpPlusPlus
+//  Project:    MoAndMe
 //
 //  Contains:   A utility application to list the available services.
 //
@@ -41,9 +41,9 @@
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "YPPBaseClient.h"
-#include "YPPRequests.h"
-#include "YPPServiceRequest.h"
+#include "MoMeBaseClient.h"
+#include "MoMeRequests.h"
+#include "MoMeServiceRequest.h"
 #include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -98,23 +98,23 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
     OD_LOG_ENTER();//####
     OD_LOG_S1("aServiceChannel = ", aServiceChannel.c_str());//####
     bool                    result = false;
-    yarp::os::ConstString   aName(YarpPlusPlus::GetRandomChannelName("/servicelister/channel_"));
-    YarpPlusPlus::Channel * newChannel = new YarpPlusPlus::Channel;
+    yarp::os::ConstString   aName(MoAndMe::GetRandomChannelName("/servicelister/channel_"));
+    MoAndMe::Channel * newChannel = new MoAndMe::Channel;
     
     if (newChannel)
     {
-        if (YarpPlusPlus::OpenChannelWithRetries(*newChannel, aName))
+        if (MoAndMe::OpenChannelWithRetries(*newChannel, aName))
         {
-            if (YarpPlusPlus::NetworkConnectWithRetries(aName, aServiceChannel))
+            if (MoAndMe::NetworkConnectWithRetries(aName, aServiceChannel))
             {
-                YarpPlusPlus::Package         parameters;
-                YarpPlusPlus::ServiceRequest  request(YPP_NAME_REQUEST, parameters);
-                YarpPlusPlus::ServiceResponse response;
+                MoAndMe::Package         parameters;
+                MoAndMe::ServiceRequest  request(MAM_NAME_REQUEST, parameters);
+                MoAndMe::ServiceResponse response;
                 
                 if (request.send(*newChannel, &response))
                 {
                     OD_LOG_S1("response <- ", response.asString().c_str());//####
-                    if (YPP_EXPECTED_NAME_RESPONSE_SIZE == response.count())
+                    if (MAM_EXPECTED_NAME_RESPONSE_SIZE == response.count())
                     {
                         yarp::os::Value theCanonicalName(response.element(0));
                         yarp::os::Value theDescription(response.element(1));
@@ -134,7 +134,7 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
                     }
                     else
                     {
-                        OD_LOG("! (YPP_EXPECTED_NAME_RESPONSE_SIZE == response.count())");//####
+                        OD_LOG("! (MAM_EXPECTED_NAME_RESPONSE_SIZE == response.count())");//####
                         OD_LOG_S1("response = ", response.asString().c_str());//####
                     }
                 }
@@ -142,20 +142,20 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
                 {
                     OD_LOG("! (request.send(*newChannel, &response))");//####
                 }
-                if (! YarpPlusPlus::NetworkDisconnectWithRetries(aName, aServiceChannel))
+                if (! MoAndMe::NetworkDisconnectWithRetries(aName, aServiceChannel))
                 {
-                    OD_LOG("(! YarpPlusPlus::NetworkDisconnectWithRetries(aName, destinationName))");//####
+                    OD_LOG("(! MoAndMe::NetworkDisconnectWithRetries(aName, destinationName))");//####
                 }
             }
             else
             {
-                OD_LOG("! (YarpPlusPlus::NetworkConnectWithRetries(aName, aServiceChannel))");//####
+                OD_LOG("! (MoAndMe::NetworkConnectWithRetries(aName, aServiceChannel))");//####
             }
-            YarpPlusPlus::CloseChannel(*newChannel);
+            MoAndMe::CloseChannel(*newChannel);
         }
         else
         {
-            OD_LOG("! (YarpPlusPlus::OpenChannelWithRetries(*newChannel, aName))");//####
+            OD_LOG("! (MoAndMe::OpenChannelWithRetries(*newChannel, aName))");//####
         }
         delete newChannel;
     }
@@ -192,17 +192,17 @@ int main(int     argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            YarpPlusPlus::Initialize();
-            YarpPlusPlus::Package matches(YarpPlusPlus::FindMatchingServices("request:*"));
+            MoAndMe::Initialize();
+            MoAndMe::Package matches(MoAndMe::FindMatchingServices("request:*"));
             
-            if (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+            if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
                 // First, check if the search succeeded.
                 yarp::os::ConstString matchesFirstString(matches.get(0).toString());
                 
-                if (strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))
+                if (strcmp(MAM_OK_RESPONSE, matchesFirstString.c_str()))
                 {
-                    OD_LOG("(strcmp(YPP_OK_RESPONSE, matchesFirstString.c_str()))");//####
+                    OD_LOG("(strcmp(MAM_OK_RESPONSE, matchesFirstString.c_str()))");//####
                     yarp::os::ConstString reason(matches.get(1).toString());
                     
                     cerr << "Failed: " << reason.c_str() << "." << endl;
@@ -210,7 +210,7 @@ int main(int     argc,
                 else
                 {
                     // Now, process the second element.
-                    YarpPlusPlus::Package * matchesList = matches.get(1).asList();
+                    MoAndMe::Package * matchesList = matches.get(1).asList();
                     
                     if (matchesList)
                     {
@@ -253,7 +253,7 @@ int main(int     argc,
             }
             else
             {
-                OD_LOG("! (YPP_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
+                OD_LOG("! (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
                 cerr << "Problem getting information from the Service Registry." << endl;
             }
         }

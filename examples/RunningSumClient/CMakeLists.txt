@@ -2,7 +2,7 @@
 #
 #  File:       RunningSumClient/CMakeLists.txt
 #
-#  Project:    YarpPlusPlus
+#  Project:    MoAndMe
 #
 #  Contains:   The CMAKE definitions for the example running sum client application.
 #
@@ -39,19 +39,19 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${YPP_LOGGING_DIR}"
-                    "${YPP_COMMON_DIR}"
-                    "${YPP_EXAMPLES_DIR}/RunningSumService")
+include_directories("${MAM_LOGGING_DIR}"
+                    "${MAM_COMMON_DIR}"
+                    "${MAM_EXAMPLES_DIR}/RunningSumService")
 
 # set up our program
 add_executable(RunningSumClient
                main.cpp
-               YPPRunningSumClient.cpp)
+               MoMeRunningSumClient.cpp)
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RunningSumClient
-                      YPPCommon
-                      YPPLogging
+                      MoMeCommon
+                      MoMeLogging
                       ${YARP_LIBRARIES})
 
 enable_testing()

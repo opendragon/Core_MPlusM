@@ -2,7 +2,7 @@
 #
 #  File:       RandomNumberAdapter/CMakeLists.txt
 #
-#  Project:    YarpPlusPlus
+#  Project:    MoAndMe
 #
 #  Contains:   The CMAKE definitions for the example random number adapter application.
 #
@@ -39,22 +39,22 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${YPP_LOGGING_DIR}"
-                    "${YPP_COMMON_DIR}"
-                    "${YPP_EXAMPLES_DIR}/RandomNumberService"
-                    "${YPP_EXAMPLES_DIR}/RandomNumberClient")
+include_directories("${MAM_LOGGING_DIR}"
+                    "${MAM_COMMON_DIR}"
+                    "${MAM_EXAMPLES_DIR}/RandomNumberService"
+                    "${MAM_EXAMPLES_DIR}/RandomNumberClient")
 
 # set up our program
 add_executable(RandomNumberAdapter
                main.cpp
-               YPPRandomNumberAdapterData.cpp
-               YPPRandomNumberDataInputHandler.cpp
-               ${YPP_EXAMPLES_DIR}/RandomNumberClient/YPPRandomNumberClient.cpp)
+               MoMeRandomNumberAdapterData.cpp
+               MoMeRandomNumberDataInputHandler.cpp
+               ${MAM_EXAMPLES_DIR}/RandomNumberClient/MoMeRandomNumberClient.cpp)
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RandomNumberAdapter
-                      YPPCommon
-                      YPPLogging
+                      MoMeCommon
+                      MoMeLogging
                       ${YARP_LIBRARIES})
 
 enable_testing()

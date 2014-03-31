@@ -2,9 +2,9 @@
 #
 #  File:       Parser/CMakeLists.txt
 #
-#  Project:    YarpPlusPlus
+#  Project:    MoAndMe
 #
-#  Contains:   The CMAKE definitions for the Yarp++ parser library.
+#  Contains:   The CMAKE definitions for the MoAndMe parser library.
 #
 #  Written by: Norman Jaffe
 #
@@ -43,31 +43,31 @@
 set(ESCAPE_CHAR1 "\\")
 set(ESCAPE_CHAR2 "\\\\")
 
-include_directories("${YPP_COMMON_DIR}"
-                    "${YPP_LOGGING_DIR}")
+include_directories("${MAM_COMMON_DIR}"
+                    "${MAM_LOGGING_DIR}")
 
-add_library(YPPParser
-            YPPBaseMatcher.cpp
-            YPPBaseNameValidator.cpp
-            YPPMatchConstraint.cpp
-            YPPMatchExpression.cpp
-            YPPMatchFieldName.cpp
-            YPPMatchFieldWithValues.cpp
-            YPPMatchValue.cpp
-            YPPMatchValueList.cpp)
+add_library(MoMeParser
+            MoMeBaseMatcher.cpp
+            MoMeBaseNameValidator.cpp
+            MoMeMatchConstraint.cpp
+            MoMeMatchExpression.cpp
+            MoMeMatchFieldName.cpp
+            MoMeMatchFieldWithValues.cpp
+            MoMeMatchValue.cpp
+            MoMeMatchValueList.cpp)
 
-install(TARGETS YPPParser DESTINATION bin)
-install(FILES YPPParser DESTINATION include)
+install(TARGETS MoMeParser DESTINATION bin)
+install(FILES MoMeParser DESTINATION include)
 
 enable_testing()
 
 add_executable(ParserTest
-               YPPParserTest.cpp
-               YPPTestNameValidator.cpp)
+               MoMeParserTest.cpp
+               MoMeTestNameValidator.cpp)
 
 target_link_libraries(ParserTest
-                      YPPLogging
-                      YPPParser
+                      MoMeLogging
+                      MoMeParser
                       ${YARP_LIBRARIES})
 
 # Argument order for test 1 = expected result (t/f), string to match

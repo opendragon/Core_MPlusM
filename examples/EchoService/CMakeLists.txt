@@ -2,7 +2,7 @@
 #
 #  File:       EchoService/CMakeLists.txt
 #
-#  Project:    YarpPlusPlus
+#  Project:    MoAndMe
 #
 #  Contains:   The CMAKE definitions for the example echo service application.
 #
@@ -39,19 +39,19 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${YPP_LOGGING_DIR}"
-                    "${YPP_COMMON_DIR}")
+include_directories("${MAM_LOGGING_DIR}"
+                    "${MAM_COMMON_DIR}")
 
 # set up our program
 add_executable(EchoService
                main.cpp
-               YPPEchoService.cpp
-               YPPEchoRequestHandler.cpp)
+               MoMeEchoService.cpp
+               MoMeEchoRequestHandler.cpp)
 
 # link with YARP libraries and our interface classes
 target_link_libraries(EchoService
-                      YPPCommon
-                      YPPLogging
+                      MoMeCommon
+                      MoMeLogging
                       ${YARP_LIBRARIES})
 
 enable_testing()

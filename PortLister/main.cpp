@@ -2,7 +2,7 @@
 //
 //  File:       PortLister/main.cpp
 //
-//  Project:    YarpPlusPlus
+//  Project:    MoAndMe
 //
 //  Contains:   A utility application to list the available ports.
 //
@@ -41,7 +41,7 @@
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "YPPCommon.h"
+#include "MoMeCommon.h"
 #include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -93,7 +93,7 @@ static const char * kLineMarker = "registration name ";
  @param received The response to be processed.
  @param ports The list of non-default ports found. */
 static void processResponse(const yarp::os::ConstString & received,
-                            YarpPlusPlus::StringVector &  ports)
+                            MoAndMe::StringVector &  ports)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("received = ", received.c_str());//####
@@ -155,10 +155,10 @@ int main(int     argc,
         if (yarp::os::Network::checkNetwork())
         {
             yarp::os::Network          yarp; // This is necessary to establish any connection to the YARP infrastructure
-            YarpPlusPlus::Package      request;
-            YarpPlusPlus::Package      response;
+            MoAndMe::Package      request;
+            MoAndMe::Package      response;
             yarp::os::ContactStyle     contactInfo;
-            YarpPlusPlus::StringVector ports;
+            MoAndMe::StringVector ports;
             
             request.addString("list");
             contactInfo.timeout = 5.0;
@@ -173,7 +173,7 @@ int main(int     argc,
                         bool found = false;
                         
                         processResponse(responseValue.asString(), ports);
-                        for (YarpPlusPlus::StringVector::const_iterator it(ports.cbegin()); ports.cend() != it;
+                        for (MoAndMe::StringVector::const_iterator it(ports.cbegin()); ports.cend() != it;
                              ++it)
                         {
                             if (! found)

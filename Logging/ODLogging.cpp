@@ -2,7 +2,7 @@
 //
 //  File:       ODLogging.cpp
 //
-//  Project:    YarpPlusPlus
+//  Project:    MoAndMe
 //
 //  Contains:   The C++ variation of the debugging facility.
 //

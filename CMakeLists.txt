@@ -2,9 +2,9 @@
 #
 #  File:       CMakeLists.txt
 #
-#  Project:    YarpPlusPlus
+#  Project:    MoAndMe
 #
-#  Contains:   The common CMAKE definitions for the Yarp++ project.
+#  Contains:   The common CMAKE definitions for the MoAndMe project.
 #
 #  Written by: Norman Jaffe
 #
@@ -42,17 +42,17 @@
 # YARP needs CMake 2.6 or greater
 cmake_minimum_required(VERSION 2.6)
 
-project(YARPPlusPlus)
+project(MovementAndMeaning)
 
-set(YPP_VERSION_MAJOR 1)
-set(YPP_VERSION_MINOR 1)
-set(YPP_VERSION_PATCH 5)
+set(MAM_VERSION_MAJOR 1)
+set(MAM_VERSION_MINOR 1)
+set(MAM_VERSION_PATCH 6)
 
-option(YPP_MAIN_DOES_DELAY_NOT_YIELD "Use Delay in main() loop")
+option(MAM_MAIN_DOES_DELAY_NOT_YIELD "Use Delay in main() loop")
 
-option(YPP_LOG_INCLUDES_YARP_TRACE "Include YARP trace when logging")
+option(MAM_LOG_INCLUDES_YARP_TRACE "Include YARP trace when logging")
 
-option(YPP_SERVICES_LOG_TO_STDERR "Services send logging output to stderr")
+option(MAM_SERVICES_LOG_TO_STDERR "Services send logging output to stderr")
 
 # find YARP
 find_package(YARP REQUIRED)
@@ -81,16 +81,16 @@ list(APPEND CMAKE_MODULE_PATH ${SQLite_MODULE_PATH})
 # add SQLite include directories
 include_directories(${SQLite_INCLUDE_DIRS})
 
-set(YPP_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
-set(YPP_LOGGING_DIR "${PROJECT_SOURCE_DIR}/Logging")
-set(YPP_PARSER_DIR "${PROJECT_SOURCE_DIR}/Parser")
+set(MAM_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
+set(MAM_LOGGING_DIR "${PROJECT_SOURCE_DIR}/Logging")
+set(MAM_PARSER_DIR "${PROJECT_SOURCE_DIR}/Parser")
 
-configure_file("${YPP_COMMON_DIR}/YPPConfig.h.in"
-                "${YPP_COMMON_DIR}/YPPConfig.h")
+configure_file("${MAM_COMMON_DIR}/MoMeConfig.h.in"
+                "${MAM_COMMON_DIR}/MoMeConfig.h")
 
-include_directories("${YPP_COMMON_DIR}"
-                    "${YPP_LOGGING_DIR}"
-                    "${YPP_PARSER_DIR}")
+include_directories("${MAM_COMMON_DIR}"
+                    "${MAM_LOGGING_DIR}"
+                    "${MAM_PARSER_DIR}")
 
 add_subdirectory(Common)
 add_subdirectory(examples)

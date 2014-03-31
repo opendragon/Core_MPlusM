@@ -2,7 +2,7 @@
 #
 #  File:       PortLister/CMakeLists.txt
 #
-#  Project:    YarpPlusPlus
+#  Project:    MoAndMe
 #
 #  Contains:   The CMAKE definitions for the PortLister application.
 #
@@ -39,8 +39,8 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${YPP_LOGGING_DIR}"
-                    "${YPP_COMMON_DIR}")
+include_directories("${MAM_LOGGING_DIR}"
+                    "${MAM_COMMON_DIR}")
 
 # set up our program
 add_executable(PortLister
@@ -48,7 +48,7 @@ add_executable(PortLister
 
 # link with YARP libraries and our interface classes
 target_link_libraries(PortLister
-                      YPPLogging
+                      MoMeLogging
                       ${YARP_LIBRARIES})
 
 enable_testing()
