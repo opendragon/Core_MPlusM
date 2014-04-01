@@ -180,7 +180,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                     {
                         // Send a 'list' request to the channel
                         yarp::os::ConstString aName(GetRandomChannelName("register/channel_"));
-                        Channel *             outChannel = new Channel;
+                        Channel *             outChannel = AcquireChannel();
                         
                         if (outChannel)
                         {
@@ -231,11 +231,13 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                         reply.addString(MAM_FAILED_RESPONSE);
                                         reply.addString("Could not write to channel");
                                     }
+#if defined(MAM_DO_EXPLICIT_DISCONNECT)
                                     if (! NetworkDisconnectWithRetries(outChannel->getName(), argAsString))
                                     {
                                         OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                                "argAsString))");//####
                                     }
+#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
                                 }
                                 else
                                 {
@@ -244,7 +246,9 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                     reply.addString("Could not connect to channel");
                                     reply.addString(argAsString);
                                 }
+#if defined(MAM_DO_EXPLICIT_CLOSE)
                                 CloseChannel(*outChannel);
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
                             }
                             else
                             {
@@ -252,7 +256,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                 reply.addString(MAM_FAILED_RESPONSE);
                                 reply.addString("Channel could not be opened");
                             }
-                            delete outChannel;
+                            RelinquishChannel(outChannel);
                         }
                         else
                         {

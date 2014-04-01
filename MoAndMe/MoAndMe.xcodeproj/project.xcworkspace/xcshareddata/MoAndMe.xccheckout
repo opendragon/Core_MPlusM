@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>2B867B4A-C2A6-4F21-A5DD-58521D20E81C</string>
+	<string>ED90342D-7F65-4D57-99CE-D54EC31AC5F0</string>
 	<key>IDESourceControlProjectName</key>
 	<string>MoAndMe</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>ADC20558-62F6-456C-B545-44CE94F632E4</key>
-		<string>https://github.com/MovementAndMeaning/YarpPlusPlus.git</string>
+		<key>744CE36B-6656-43B2-B8D4-64B60C7F1560</key>
+		<string>https://github.com/MovementAndMeaning/MoAndMe.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>MoAndMe/MoAndMe.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>ADC20558-62F6-456C-B545-44CE94F632E4</key>
+		<key>744CE36B-6656-43B2-B8D4-64B60C7F1560</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/MovementAndMeaning/YarpPlusPlus.git</string>
+	<string>https://github.com/MovementAndMeaning/MoAndMe.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>ADC20558-62F6-456C-B545-44CE94F632E4</string>
+	<string>744CE36B-6656-43B2-B8D4-64B60C7F1560</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>ADC20558-62F6-456C-B545-44CE94F632E4</string>
+			<string>744CE36B-6656-43B2-B8D4-64B60C7F1560</string>
 			<key>IDESourceControlWCCName</key>
 			<string>MoAndMe</string>
 		</dict>

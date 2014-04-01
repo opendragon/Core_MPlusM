@@ -136,6 +136,10 @@ static int doTestParseValue(const bool   expected,
     return result;
 } // doTestParseValue
 
+#if defined(__APPLE__)
+# pragma mark *** Test Case 02 ***
+#endif // defined(__APPLE__)
+
 /*! @brief Perform a test case.
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
@@ -178,6 +182,10 @@ static int doTestParseValueList(const bool   expected,
     OD_LOG_EXIT_L(result);//####
     return result;
 } // doTestParseValueList
+
+#if defined(__APPLE__)
+# pragma mark *** Test Case 03 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
@@ -224,6 +232,10 @@ static int doTestParseFieldName(const bool   expected,
     return result;
 } // doTestParseFieldName
 
+#if defined(__APPLE__)
+# pragma mark *** Test Case 04 ***
+#endif // defined(__APPLE__)
+
 /*! @brief Perform a test case.
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
@@ -268,6 +280,10 @@ static int doTestParseFieldWithValues(const bool   expected,
     OD_LOG_EXIT_L(result);//####
     return result;
 } // doTestParseFieldWithValues
+
+#if defined(__APPLE__)
+# pragma mark *** Test Case 05 ***
+#endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
@@ -314,6 +330,10 @@ static int doTestParseConstraintList(const bool   expected,
     return result;
 } // doTestParseConstraintList
 
+#if defined(__APPLE__)
+# pragma mark *** Test Case 06 ***
+#endif // defined(__APPLE__)
+
 /*! @brief Perform a test case.
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
@@ -359,6 +379,21 @@ static int doTestParseExpression(const bool   expected,
     return result;
 } // doTestParseExpression
 
+#if (defined(__APPLE__) || defined(__linux__))
+/*! @brief The signal handler to catch requests to stop the service.
+ @param signal The signal being handled. */
+static void catchSignal(int signal)
+{
+# if (! defined(OD_ENABLE_LOGGING))
+#  pragma unused(signal)
+# endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_ENTER();//####
+    OD_LOG_LL1("signal = ", signal);//####
+    yarp::os::exit(1);
+    OD_LOG_EXIT();//####
+} // catchSignal
+#endif // defined(__APPLE__) || defined(__linux__)
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -382,6 +417,12 @@ int main(int     argc,
             int  selector = atoi(argv[1]);
             bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));
             
+#if (defined(__APPLE__) || defined(__linux__))
+            signal(SIGHUP, catchSignal);
+            signal(SIGINT, catchSignal);
+            signal(SIGINT, catchSignal);
+            signal(SIGUSR1, catchSignal);
+#endif // defined(__APPLE__) || defined(__linux__)
             OD_LOG_LL1("selector <- ", selector);//####
             OD_LOG_B1("expected <- ", expected);//####
             switch (selector)

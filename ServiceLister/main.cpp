@@ -142,16 +142,20 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
                 {
                     OD_LOG("! (request.send(*newChannel, &response))");//####
                 }
+#if defined(MAM_DO_EXPLICIT_DISCONNECT)
                 if (! MoAndMe::NetworkDisconnectWithRetries(aName, aServiceChannel))
                 {
                     OD_LOG("(! MoAndMe::NetworkDisconnectWithRetries(aName, destinationName))");//####
                 }
+#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
             }
             else
             {
                 OD_LOG("! (MoAndMe::NetworkConnectWithRetries(aName, aServiceChannel))");//####
             }
+#if defined(MAM_DO_EXPLICIT_CLOSE)
             MoAndMe::CloseChannel(*newChannel);
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
         }
         else
         {

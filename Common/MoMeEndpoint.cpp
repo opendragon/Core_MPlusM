@@ -232,7 +232,7 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
             if (checkHostName(_contact, hostName, realPort))
             {
                 // Ready to be set up... we have a valid port, and either a blank URI or a valid one.
-                _channel = new Channel;
+                _channel = AcquireChannel();
                 if (! _channel)
                 {
                     OD_LOG_EXIT_THROW_S("Could not create channel");//####
@@ -291,9 +291,10 @@ void Endpoint::close(void)
                 {
                     yarp::os::Network::unregisterName(_contact.getName());
                 }
+#if defined(MAM_DO_EXPLICIT_CLOSE)
                 CloseChannel(*_channel);
-                delete _channel;
-                _channel = NULL;
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+                RelinquishChannel(_channel);
             }
             _handler = NULL;
             _handlerCreator = NULL;

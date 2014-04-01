@@ -168,10 +168,7 @@ BaseClient::~BaseClient(void)
 {
     OD_LOG_OBJENTER();//####
     disconnectFromService();
-    if (_clientChannel)
-    {
-        delete _clientChannel;
-    }
+    RelinquishChannel(_clientChannel);
     delete _baseChannelName;
     OD_LOG_OBJEXIT();//####
 } // BaseClient::~BaseClient
@@ -188,7 +185,7 @@ bool BaseClient::connectToService(void)
         if (! _clientChannel)
         {
             _clientChannelName = GetRandomChannelName(_baseChannelName);
-            _clientChannel = new Channel;
+            _clientChannel = AcquireChannel();
         }
         if (_clientChannel)
         {
@@ -362,7 +359,7 @@ Package MoAndMe::FindMatchingServices(const char * criteria)
     try
     {
         yarp::os::ConstString aName(GetRandomChannelName("/findmatch/channel_"));
-        Channel *             newChannel = new Channel;
+        Channel *             newChannel = AcquireChannel();
         
         if (newChannel)
         {
@@ -386,16 +383,20 @@ Package MoAndMe::FindMatchingServices(const char * criteria)
                     {
                         OD_LOG("! (request.send(MAM_SERVICE_REGISTRY_CHANNEL_NAME, *newChannel, &response))");//####
                     }
+#if defined(MAM_DO_EXPLICIT_DISCONNECT)
                     if (! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
                     {
                         OD_LOG("(! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                     }
+#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
                     OD_LOG("! (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                 }
+#if defined(MAM_DO_EXPLICIT_CLOSE)
                 CloseChannel(*newChannel);
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
             }
             else
             {

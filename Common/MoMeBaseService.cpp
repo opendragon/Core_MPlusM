@@ -513,7 +513,7 @@ bool MoAndMe::RegisterLocalService(const yarp::os::ConstString & channelName)
     try
     {
         yarp::os::ConstString aName(GetRandomChannelName("/registerlocal/channel_"));
-        Channel *             newChannel = new Channel;
+        Channel *             newChannel = AcquireChannel();
         
         if (newChannel)
         {
@@ -551,22 +551,26 @@ bool MoAndMe::RegisterLocalService(const yarp::os::ConstString & channelName)
                     {
                         OD_LOG("! (request.send(MAM_SERVICE_REGISTRY_CHANNEL_NAME, *newChannel, &response))");//####
                     }
+#if defined(MAM_DO_EXPLICIT_DISCONNECT)
                     if (! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
                     {
                         OD_LOG("(! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                     }
+#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
                     OD_LOG("! (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                 }
+#if defined(MAM_DO_EXPLICIT_CLOSE)
                 CloseChannel(*newChannel);
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
             }
             else
             {
                 OD_LOG("! (OpenChannelWithRetries(*newChannel, aName))");//####
             }
-            delete newChannel;
+            RelinquishChannel(newChannel);
         }
         else
         {
@@ -591,7 +595,7 @@ bool MoAndMe::UnregisterLocalService(const yarp::os::ConstString & channelName)
     try
     {
         yarp::os::ConstString aName(GetRandomChannelName("/unregisterlocal/channel_"));
-        Channel *             newChannel = new Channel();
+        Channel *             newChannel = AcquireChannel();
         
         if (newChannel)
         {
@@ -629,22 +633,26 @@ bool MoAndMe::UnregisterLocalService(const yarp::os::ConstString & channelName)
                     {
                         OD_LOG("! (request.send(MAM_SERVICE_REGISTRY_CHANNEL_NAME, *newChannel, &response))");//####
                     }
+#if defined(MAM_DO_EXPLICIT_DISCONNECT)
                     if (! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
                     {
                         OD_LOG("(! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                     }
+#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
                     OD_LOG("! (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                 }
+#if defined(MAM_DO_EXPLICIT_CLOSE)
                 CloseChannel(*newChannel);
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
             }
             else
             {
                 OD_LOG("! (OpenChannelWithRetries(*newChannel, aName))");//####
             }
-            delete newChannel;
+            RelinquishChannel(newChannel);
         }
         else
         {

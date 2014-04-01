@@ -39,7 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "CommonTests/MoMeTest03Handler.h"
 #include "CommonTests/MoMeTest04Handler.h"
@@ -150,7 +150,7 @@ static Channel * doCreateTestChannel(const yarp::os::ConstString & destinationNa
     OD_LOG_ENTER();//####
     OD_LOG_S2("destinationName = ", destinationName.c_str(), "channelPath = ", channelPath);//####
     yarp::os::ConstString aName(GetRandomChannelName(channelPath));
-    Channel *             newChannel = new Channel;
+    Channel *             newChannel = AcquireChannel();
     
     if (newChannel)
     {
@@ -159,9 +159,10 @@ static Channel * doCreateTestChannel(const yarp::os::ConstString & destinationNa
             if (! NetworkConnectWithRetries(aName, destinationName))
             {
                 OD_LOG("(! NetworkConnectWithRetries(aName, destinationName))");//####
+#if defined(MAM_DO_EXPLICIT_CLOSE)
                 CloseChannel(*newChannel);
-                delete newChannel;
-                newChannel = NULL;
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+                RelinquishChannel(newChannel);
             }
         }
         else
@@ -193,17 +194,24 @@ static Channel * doCreateTestChannel(Endpoint &   anEndpoint,
 static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
                                  Channel *                     theChannel)
 {
+#if (! defined(MAM_DO_EXPLICIT_DISCONNECT))
+# pragma unused(destinationName)
+#endif // ! defined(MAM_DO_EXPLICIT_DISCONNECT)
     OD_LOG_ENTER();//####
     OD_LOG_P1("theChannel = ", theChannel);//####
     
     if (theChannel)
     {
+#if defined(MAM_DO_EXPLICIT_DISCONNECT)
         if (! NetworkDisconnectWithRetries(theChannel->getName(), destinationName))
         {
             OD_LOG("(! NetworkDisconnectWithRetries(theChannel->getName(), destinationName))");//####
         }
+#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+#if defined(MAM_DO_EXPLICIT_CLOSE)
         CloseChannel(*theChannel);
-        delete theChannel;
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+        RelinquishChannel(theChannel);
     }
     OD_LOG_EXIT();//####
 } // doDestroyTestChannel
@@ -289,7 +297,7 @@ static int doTestConnectToEndpoint(const int argc,
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
                 yarp::os::ConstString aName(GetRandomChannelName("test/connecttoendpoint_"));
-                Channel *             outChannel = new Channel;
+                Channel *             outChannel = AcquireChannel();
                 
                 if (outChannel)
                 {
@@ -300,23 +308,27 @@ static int doTestConnectToEndpoint(const int argc,
                         if (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))
                         {
                             result = 0;
+#if defined(MAM_DO_EXPLICIT_DISCONNECT)
                             if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName()))
                             {
                                 OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                        "stuff->getName()))");//####
                             }
+#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
                         }
                         else
                         {
                             OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
                         }
+#if defined(MAM_DO_EXPLICIT_CLOSE)
                         CloseChannel(*outChannel);
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
                     }
                     else
                     {
                         OD_LOG("! (OpenChannelWithRetries(*outChannel, aName))");//####
                     }
-                    delete outChannel;
+                    RelinquishChannel(outChannel);
                 }
                 else
                 {
@@ -371,7 +383,7 @@ static int doTestWriteToEndpoint(const int argc,
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
                 yarp::os::ConstString aName(GetRandomChannelName("test/writetoendpoint_"));
-                Channel *             outChannel = new Channel;
+                Channel *             outChannel = AcquireChannel();
                 
                 if (outChannel)
                 {
@@ -388,11 +400,13 @@ static int doTestWriteToEndpoint(const int argc,
                             if (outChannel->write(message))
                             {
                                 result = 0;
+#if defined(MAM_DO_EXPLICIT_DISCONNECT)
                                 if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName()))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                            "stuff->getName()))");//####
                                 }
+#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
                             }
                             else
                             {
@@ -403,13 +417,15 @@ static int doTestWriteToEndpoint(const int argc,
                         {
                             OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
                         }
+#if defined(MAM_DO_EXPLICIT_CLOSE)
                         CloseChannel(*outChannel);
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
                     }
                     else
                     {
                         OD_LOG("! (OpenChannelWithRetries(*outChannel, aName))");//####
                     }
-                    delete outChannel;
+                    RelinquishChannel(outChannel);
                 }
                 else
                 {
@@ -465,7 +481,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
                 yarp::os::ConstString aName(GetRandomChannelName("test/echofromendpointwithreader_"));
-                Channel *             outChannel = new Channel;
+                Channel *             outChannel = AcquireChannel();
                 
                 if (outChannel)
                 {
@@ -484,11 +500,13 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                             {
 //                                OD_LOG_S1("got ", response.toString().c_str());//####
                                 result = 0;
+#if defined(MAM_DO_EXPLICIT_DISCONNECT)
                                 if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName()))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                            "stuff->getName()))");//####
                                 }
+#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
                             }
                             else
                             {
@@ -499,13 +517,15 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                         {
                             OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
                         }
+#if defined(MAM_DO_EXPLICIT_CLOSE)
                         CloseChannel(*outChannel);
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
                     }
                     else
                     {
                         OD_LOG("! (OpenChannelWithRetries(*outChannel, aName))");//####
                     }
-                    delete outChannel;
+                    RelinquishChannel(outChannel);
                 }
                 else
                 {
@@ -561,7 +581,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
                 yarp::os::ConstString aName(GetRandomChannelName("test/echofromendpointwithreadercreator_"));
-                Channel *             outChannel = new Channel;
+                Channel *             outChannel = AcquireChannel();
                 
                 if (outChannel)
                 {
@@ -580,11 +600,13 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                             {
 //                                OD_LOG_S1("got ", response.toString().c_str());//####
                                 result = 0;
+#if defined(MAM_DO_EXPLICIT_DISCONNECT)
                                 if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName()))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                            "stuff->getName()))");//####
                                 }
+#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
                             }
                             else
                             {
@@ -595,13 +617,15 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                         {
                             OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
                         }
+#if defined(MAM_DO_EXPLICIT_CLOSE)
                         CloseChannel(*outChannel);
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
                     }
                     else
                     {
                         OD_LOG("! (OpenChannelWithRetries(*outChannel, aName))");//####
                     }
-                    delete outChannel;
+                    RelinquishChannel(outChannel);
                 }
                 else
                 {
@@ -1191,6 +1215,21 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const int argc,
     return result;
 } // doTestRequestEchoFromServiceWithRequestHandlerAndInfo
 
+#if (defined(__APPLE__) || defined(__linux__))
+/*! @brief The signal handler to catch requests to stop the service.
+ @param signal The signal being handled. */
+static void catchSignal(int signal)
+{
+# if (! defined(OD_ENABLE_LOGGING))
+#  pragma unused(signal)
+# endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_ENTER();//####
+    OD_LOG_LL1("signal = ", signal);//####
+    yarp::os::exit(1);
+    OD_LOG_EXIT();//####
+} // catchSignal
+#endif // defined(__APPLE__) || defined(__linux__)
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -1218,6 +1257,12 @@ int main(int     argc,
             {
                 int selector = atoi(argv[1]);
                 
+#if (defined(__APPLE__) || defined(__linux__))
+                signal(SIGHUP, catchSignal);
+                signal(SIGINT, catchSignal);
+                signal(SIGINT, catchSignal);
+                signal(SIGUSR1, catchSignal);
+#endif // defined(__APPLE__) || defined(__linux__)
                 switch (selector)
                 {
                     case 0:

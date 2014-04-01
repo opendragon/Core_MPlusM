@@ -40,6 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeCommon.h"
+#include "MoMeBailOut.h"
 #include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include <ace/Version.h>
@@ -133,14 +134,24 @@ static const char * nullOrString(const char * aString)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
+Channel * MoAndMe::AcquireChannel(void)
+{
+    OD_LOG_ENTER();//####
+    Channel * result = new Channel;
+    
+    OD_LOG_EXIT_P(result);//####
+    return result;
+} // MoAndMe::AcquireChannel
+
 bool MoAndMe::AddOutputToChannelWithRetries(Channel &                     theChannel,
-                                                 const yarp::os::ConstString & theChannelToBeAdded)
+                                            const yarp::os::ConstString & theChannelToBeAdded)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("theChannel = ", &theChannel);//####
     OD_LOG_S2("theChannelName = ", theChannel.getName().c_str(), "theChannelToBeAdded = ",//####
               theChannelToBeAdded.c_str());//####
-    bool result = theChannel.addOutput(theChannelToBeAdded);
+    BailOut * outerBailer = new BailOut;
+    bool      result = theChannel.addOutput(theChannelToBeAdded);
     
     if (! result)
     {
@@ -148,12 +159,15 @@ bool MoAndMe::AddOutputToChannelWithRetries(Channel &                     theCha
         
         for (int retriesLeft = kMaxRetries; (! result) && (0 < retriesLeft); --retriesLeft)
         {
+            BailOut innerBailer;
+            
             OD_LOG("%%retry%%");//####
             yarp::os::Time::delay(retryTime);
             result = theChannel.addOutput(theChannelToBeAdded);
             retryTime *= kRetryMultiplier;
         }
     }
+    delete outerBailer;
     OD_LOG_EXIT_B(result);//####
     return result;
 } // MoAndMe::AddOutputToChannelWithRetries
@@ -162,15 +176,17 @@ void MoAndMe::CloseChannel(Channel & theChannel)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("theChannel = ", &theChannel);//####
-    OD_LOG_S1("about to close, channel = ", theChannel.getName().c_str());//####
+    BailOut bailer;
+    
     theChannel.interrupt();
+    OD_LOG_S1("about to close, channel = ", theChannel.getName().c_str());//####
     theChannel.close();
     OD_LOG("close completed.");//####
     OD_LOG_EXIT();//####
 } // MoAndMe::CloseChannel
 
 void MoAndMe::DumpContact(const char *              tag,
-                               const yarp::os::Contact & aContact)
+                          const yarp::os::Contact & aContact)
 {
     OD_LOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
               "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ", aContact.getCarrier().c_str());//####
@@ -270,12 +286,13 @@ void MoAndMe::Initialize(void)
 } // MoAndMe::Initialize
 
 bool MoAndMe::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
-                                             const yarp::os::ConstString & destinationName)
+                                        const yarp::os::ConstString & destinationName)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
     OD_LOG("about to connect");//####
-    bool result = yarp::os::Network::connect(sourceName, destinationName);
+    BailOut * outerBailer = new BailOut;
+    bool      result = yarp::os::Network::connect(sourceName, destinationName);
     
     if (! result)
     {
@@ -283,6 +300,8 @@ bool MoAndMe::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName
         
         for (int retriesLeft = kMaxRetries; (! result) && (0 < retriesLeft); --retriesLeft)
         {
+            BailOut innerBailer;
+            
             OD_LOG("%%retry%%");//####
             yarp::os::Time::delay(retryTime);
             OD_LOG("about to connect");//####
@@ -290,17 +309,19 @@ bool MoAndMe::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName
             retryTime *= kRetryMultiplier;
         }
     }
+    delete outerBailer;
     OD_LOG_EXIT_B(result);//####
     return result;
 } // MoAndMe::NetworkConnectWithRetries
 
 bool MoAndMe::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
-                                                const yarp::os::ConstString & destinationName)
+                                           const yarp::os::ConstString & destinationName)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
     OD_LOG("about to disconnect");//####
-    bool result = yarp::os::Network::disconnect(sourceName, destinationName);
+    BailOut * outerBailer = new BailOut;
+    bool      result = yarp::os::Network::disconnect(sourceName, destinationName);
     
     if (! result)
     {
@@ -308,6 +329,8 @@ bool MoAndMe::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceN
         
         for (int retriesLeft = kMaxRetries; (! result) && (0 < retriesLeft); --retriesLeft)
         {
+            BailOut innerBailer;
+            
             OD_LOG("%%retry%%");//####
             yarp::os::Time::delay(retryTime);
             OD_LOG("about to disconnect");//####
@@ -315,18 +338,25 @@ bool MoAndMe::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceN
             retryTime *= kRetryMultiplier;
         }
     }
+    delete outerBailer;
     OD_LOG_EXIT_B(result);//####
     return result;
 } // MoAndMe::NetworkDisconnectWithRetries
 
 bool MoAndMe::OpenChannelWithRetries(Channel &                     theChannel,
-                                          const yarp::os::ConstString & theChannelName)
+                                     const yarp::os::ConstString & theChannelName)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("theChannel = ", &theChannel);//####
     OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
+#if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+    theChannel.setVerbosity(1);
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+    theChannel.setVerbosity(-1);
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
     OD_LOG("about to open");//####
-    bool result = theChannel.open(theChannelName);
+    BailOut * outerBailer = new BailOut;
+    bool      result = theChannel.open(theChannelName);
     
     if (! result)
     {
@@ -334,6 +364,8 @@ bool MoAndMe::OpenChannelWithRetries(Channel &                     theChannel,
         
         for (int retriesLeft = kMaxRetries; (! result) && (0 < retriesLeft); --retriesLeft)
         {
+            BailOut innerBailer;
+            
             OD_LOG("%%retry%%");//####
             yarp::os::Time::delay(retryTime);
             OD_LOG("about to open");//####
@@ -341,19 +373,26 @@ bool MoAndMe::OpenChannelWithRetries(Channel &                     theChannel,
             retryTime *= kRetryMultiplier;
         }
     }
+    delete outerBailer;
     OD_LOG_EXIT_B(result);//####
     return result;
 } // MoAndMe::OpenChannelWithRetries
 
 bool MoAndMe::OpenChannelWithRetries(Channel &           theChannel,
-                                          yarp::os::Contact & theContactInfo)
+                                     yarp::os::Contact & theContactInfo)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P2("theChannel = ", &theChannel, "theContactInfo = ", &theContactInfo);//####
 #if defined(REPORT_CONTACT_DETAILS)
     DumpContact("before open", theContactInfo);//####
 #endif // defined(REPORT_CONTACT_DETAILS)
-    bool result = theChannel.open(theContactInfo);
+#if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+    theChannel.setVerbosity(1);
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+    theChannel.setVerbosity(-1);
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+    BailOut * outerBailer = new BailOut;
+    bool      result = theChannel.open(theContactInfo);
     
     if (! result)
     {
@@ -361,13 +400,26 @@ bool MoAndMe::OpenChannelWithRetries(Channel &           theChannel,
         
         for (int retriesLeft = kMaxRetries; (! result) && (0 < retriesLeft); --retriesLeft)
         {
+            BailOut innerBailer;
+            
             OD_LOG("%%retry%%");//####
             yarp::os::Time::delay(retryTime);
             result = theChannel.open(theContactInfo);
             retryTime *= kRetryMultiplier;
         }
     }
+    delete outerBailer;
     OD_LOG_EXIT_B(result);//####
     return result;
 } // MoAndMe::OpenChannelWithRetries
 
+void MoAndMe::RelinquishChannel(Channel * & theChannel)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("theChannel = ", theChannel);//####
+    BailOut bailer;
+    
+    delete theChannel;
+    theChannel = NULL;
+    OD_LOG_EXIT();//####
+} // MoAndMe::RelinquishChannel

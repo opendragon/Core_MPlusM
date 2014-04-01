@@ -99,6 +99,10 @@ namespace MoAndMe
     /*! @brief A sequence of strings. */
     typedef std::vector<std::string> StringVector;
 
+    /*! @brief Obtain a new channel.
+     @returns A freshly allocated channel. */
+    Channel * AcquireChannel(void);
+    
     /*! @brief Add an output to a channel, using a backoff strategy with retries.
      @param theChannel The channel to be modified.
      @param theChannelToBeAdded The output to be added to the channel.
@@ -153,6 +157,10 @@ namespace MoAndMe
     bool OpenChannelWithRetries(Channel &           theChannel,
                                 yarp::os::Contact & theContactInfo);
 
+    /*! @brief Release an allocated channel.
+     @param theChannel A pointer to the channel to be released. */
+    void RelinquishChannel(Channel * & theChannel);
+    
 } // MoAndMe
 
 #endif // ! defined(MOMECOMMON_H_)

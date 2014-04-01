@@ -46,12 +46,12 @@ project(MovementAndMeaning)
 
 set(MAM_VERSION_MAJOR 1)
 set(MAM_VERSION_MINOR 1)
-set(MAM_VERSION_PATCH 6)
+set(MAM_VERSION_PATCH 7)
 
-option(MAM_MAIN_DOES_DELAY_NOT_YIELD "Use Delay in main() loop")
-
+option(MAM_DO_EXPLICIT_CLOSE "Perform an explicit CloseChannel() prior to freeing a channel")
+option(MAM_DO_EXPLICIT_DISCONNECT "Perform an explicit disconnect prior to closing a channel")
 option(MAM_LOG_INCLUDES_YARP_TRACE "Include YARP trace when logging")
-
+option(MAM_MAIN_DOES_DELAY_NOT_YIELD "Use Delay() in main() loop")
 option(MAM_SERVICES_LOG_TO_STDERR "Services send logging output to stderr")
 
 # find YARP

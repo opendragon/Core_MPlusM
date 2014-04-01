@@ -331,11 +331,13 @@ int main(int     argc,
                                                             endl;
                                                 }
                                             }
+#if defined(MAM_DO_EXPLICIT_DISCONNECT)
                                             if (! MoAndMe::NetworkDisconnectWithRetries(aName, aMatch))
                                             {
                                                 OD_LOG("(! MoAndMe::NetworkDisconnectWithRetries(aName, "//####
                                                        "aMatch))");//####
                                             }
+#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
                                         }
                                         else
                                         {
@@ -346,7 +348,9 @@ int main(int     argc,
                                     {
                                         cout << "No matching request found." << endl;
                                     }
+#if defined(MAM_DO_EXPLICIT_CLOSE)
                                     MoAndMe::CloseChannel(*newChannel);
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
                                 }
                                 else
                                 {

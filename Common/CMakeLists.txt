@@ -48,6 +48,8 @@ include_directories("${MAM_LOGGING_DIR}"
                     "${MAM_COMMONTESTSUPPORT_DIR}")
 
 add_library(MoMeCommon
+            MoMeBailOut.cpp
+            MoMeBailOutThread.cpp
             MoMeBaseAdapterData.cpp
             MoMeBaseClient.cpp
             MoMeBaseContext.cpp

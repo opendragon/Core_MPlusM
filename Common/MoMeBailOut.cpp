@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeConfig.h
+//  File:       MoMeBailOut.cpp
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The common macro definitions for MoAndMe clients and services.
+//  Contains:   The class definition for a timeout mechanism for MoAndMe.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,47 +35,78 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-06
+//  Created:    2014-04-01
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MOMECONFIG_H_))
-/*! @brief Header guard. */
-# define MOMECONFIG_H_ /* */
+#include "MoMeBailOut.h"
+#include "ODEnableLogging.h"
+#include "ODLogging.h"
+#include "MoMeBailOutThread.h"
 
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-# endif // defined(__APPLE__)
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
 /*! @file
  
- @brief The common macro definitions for MoAndMe clients and services. */
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
+ @brief The class definition for a timeout mechanism for MoAndMe. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
-/*! @brief The major part of the version number. */
-# define MAM_VERSION_MAJOR @MAM_VERSION_MAJOR@
-/*! @brief The minor part of the version number. */
-# define MAM_VERSION_MINOR @MAM_VERSION_MINOR@
-/*! @brief The patch part of the version number. */
-# define MAM_VERSION_PATCH @MAM_VERSION_PATCH@
-/*! @brief The version number as a string. */
-# define MAM_VERSION "@MAM_VERSION_MAJOR@.@MAM_VERSION_MINOR@.@MAM_VERSION_PATCH@"
+using namespace MoAndMe;
 
-/*! @brief Perform a CloseChannel() prior to freeing a dynamically-allocated channel. */
-#cmakedefine MAM_DO_EXPLICIT_CLOSE /* */
+#if defined(__APPLE__)
+# pragma mark Private structures, constants and variables
+#endif // defined(__APPLE__)
 
-/*! @brief Perform a disconnect() prior to closing a channel. */
-#cmakedefine MAM_DO_EXPLICIT_DISCONNECT /* */
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
 
-/*! @brief Enable YARP tracing. */
-#cmakedefine MAM_LOG_INCLUDES_YARP_TRACE /* */
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
 
-/*! @brief Use delay() instead of yield() in the background loop in main(). */
-#cmakedefine MAM_MAIN_DOES_DELAY_NOT_YIELD /* */
+#if defined(__APPLE__)
+# pragma mark Constructors and destructors
+#endif // defined(__APPLE__)
 
-/*! @brief Enable logging to stderr as well as the system log. */
-#cmakedefine MAM_SERVICES_LOG_TO_STDERR /* */
+BailOut::BailOut(const int    signalToUse,
+                 const double timeToWait) :
+        _bailer(NULL)
+{
+#if (! defined(OD_ENABLE_LOGGING))
+# pragma unused(signalToUse)
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_ENTER();//####
+    OD_LOG_LL1("signalToUse = ", signalToUse);//####
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
+    _bailer = new BailOutThread(signalToUse, timeToWait);
+    _bailer->start();    
+    OD_LOG_EXIT_P(this);//####
+} // BailOut::BailOut
 
-#endif // ! defined(MOMECONFIG_H_)
+BailOut::~BailOut(void)
+{
+    OD_LOG_OBJENTER();//####
+    if (_bailer)
+    {
+        _bailer->stop();
+        delete _bailer;
+    }
+    OD_LOG_OBJEXIT();//####
+} // BailOut::~BailOut
+
+#if defined(__APPLE__)
+# pragma mark Actions
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Accessors
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

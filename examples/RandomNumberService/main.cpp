@@ -97,8 +97,13 @@ static bool lKeepRunning;
  @param signal The signal being handled. */
 static void stopRunning(int signal)
 {
-# pragma unused(signal)
+# if (! defined(OD_ENABLE_LOGGING))
+#  pragma unused(signal)
+# endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_ENTER();//####
+    OD_LOG_LL1("signal = ", signal);//####
     lKeepRunning = false;
+    OD_LOG_EXIT();//####
 } // stopRunning
 #endif // defined(__APPLE__) || defined(__linux__)
 

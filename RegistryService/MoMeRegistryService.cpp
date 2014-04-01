@@ -1137,7 +1137,7 @@ bool RegistryService::start(void)
             {
                 // Register ourselves!!!
                 yarp::os::ConstString aName(GetRandomChannelName(MAM_SERVICE_REGISTRY_CHANNEL_NAME "/temp_"));
-                Channel *             newChannel = new Channel;
+                Channel *             newChannel = AcquireChannel();
                 
                 if (newChannel)
                 {
@@ -1182,13 +1182,15 @@ bool RegistryService::start(void)
                         {
                             OD_LOG("! (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                         }
+#if defined(MAM_DO_EXPLICIT_CLOSE)
                         CloseChannel(*newChannel);
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
                     }
                     else
                     {
                         OD_LOG("! (OpenChannelWithRetries(*newChannel, aName))");//####
                     }
-                    delete newChannel;
+                    RelinquishChannel(newChannel);
                 }
                 else
                 {

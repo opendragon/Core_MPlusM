@@ -1,12 +1,3 @@
 * the running sum adapter command set should include start / stop / quit / reset
 
-* figure out a way to ‘kill’ the YARP close operation when it hangs or to clean up the port some other way, like ‘port clean —timeout n’ does
-— Note that calling ‘interrupt’ before ‘close’, as indicated in the YARP documentation, does not help; also the ‘LOG’ YARP facility doesn’t appear to write anywhere…
-
-* add YPPCommon/ClosePort() and replace port->close() with calls to this, so that we can explore ways to fix the hang-on-close problem
-
-* try BufferedPort and/or interrupting the port —> note that BufferedPorts have a very different model for reading/writing, and expect to work with a fixed datatype, but the type could be Bottle; note that BufferedPorts used Ports internally
-
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
-
-* maybe we should not use a HandlerCreator with services? find out why extra threads are being created, see if we can destroy them ourselves or reset ‘needsJoin’

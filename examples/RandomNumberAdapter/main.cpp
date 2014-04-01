@@ -96,8 +96,13 @@ static bool lKeepRunning;
  @param signal The signal being handled. */
 static void stopRunning(int signal)
 {
-# pragma unused(signal)
+# if (! defined(OD_ENABLE_LOGGING))
+#  pragma unused(signal)
+# endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_ENTER();//####
+    OD_LOG_LL1("signal = ", signal);//####
     lKeepRunning = false;
+    OD_LOG_EXIT();//####
 } // stopRunning
 #endif // defined(__APPLE__) || defined(__linux__)
 
@@ -191,8 +196,10 @@ int main(int     argc,
                                        "MoAndMe::OpenChannelWithRetries(*outputChannel, outputName))");//####
                                 cerr << "Problem opening a channel." << endl;
                             }
+#if defined(MAM_DO_EXPLICIT_CLOSE)
                             MoAndMe::CloseChannel(*dataChannel);
                             MoAndMe::CloseChannel(*outputChannel);
+#endif // defined(MAM_DO_EXPLICIT_CLOSE)
                         }
                         else
                         {

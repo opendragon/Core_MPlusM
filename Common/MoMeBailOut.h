@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeConfig.h
+//  File:       MoMeBailOut.h
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The common macro definitions for MoAndMe clients and services.
+//  Contains:   The class declaration for a timeout mechanism for MoAndMe.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,13 +35,18 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-06
+//  Created:    2014-04-01
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MOMECONFIG_H_))
+#if (! defined(MOMEBAILOUT_H_))
 /*! @brief Header guard. */
-# define MOMECONFIG_H_ /* */
+# define MOMEBAILOUT_H_ /* */
+
+# include "MoMeConfig.h"
+# if (defined(__APPLE__) || defined(__linux__))
+#  include <csignal>
+# endif // defined(__APPLE__) || defined(__linux__)
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -49,33 +54,52 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The common macro definitions for MoAndMe clients and services. */
+ @brief The class declaration for a timeout mechanism for MoAndMe. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The major part of the version number. */
-# define MAM_VERSION_MAJOR @MAM_VERSION_MAJOR@
-/*! @brief The minor part of the version number. */
-# define MAM_VERSION_MINOR @MAM_VERSION_MINOR@
-/*! @brief The patch part of the version number. */
-# define MAM_VERSION_PATCH @MAM_VERSION_PATCH@
-/*! @brief The version number as a string. */
-# define MAM_VERSION "@MAM_VERSION_MAJOR@.@MAM_VERSION_MINOR@.@MAM_VERSION_PATCH@"
+/*! @brief The default timeout duration in seconds. */
+# define STANDARD_WAIT_TIME 5.0
 
-/*! @brief Perform a CloseChannel() prior to freeing a dynamically-allocated channel. */
-#cmakedefine MAM_DO_EXPLICIT_CLOSE /* */
+namespace MoAndMe
+{
+    class BailOutThread;
+    
+    /*! @brief A convenience class to timeout objects. */
+    class BailOut
+    {
+    public:
+        
+        /*! @brief The constructor.
+         @param signalToUse The system signal to trigger on timeout. */
+        BailOut(const int    signalToUse = SIGHUP,
+                const double timeToWait = STANDARD_WAIT_TIME);
+        
+        /*! @brief The destructor. */
+        virtual ~BailOut(void);
+        
+    protected:
+        
+    private:
+        
+        /*! @brief Copy constructor.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        BailOut(const BailOut & other);
+        
+        /*! @brief Assignment operator.
+         
+         Note - not implemented and private, to prevent unexpected copying.
+         @param other Another object to construct from. */
+        BailOut & operator=(const BailOut & other);
+        
+        /*! @brief The bailout thread to use. */
+        BailOutThread * _bailer;
+        
+    }; // BailOut
+    
+} // MoAndMe
 
-/*! @brief Perform a disconnect() prior to closing a channel. */
-#cmakedefine MAM_DO_EXPLICIT_DISCONNECT /* */
-
-/*! @brief Enable YARP tracing. */
-#cmakedefine MAM_LOG_INCLUDES_YARP_TRACE /* */
-
-/*! @brief Use delay() instead of yield() in the background loop in main(). */
-#cmakedefine MAM_MAIN_DOES_DELAY_NOT_YIELD /* */
-
-/*! @brief Enable logging to stderr as well as the system log. */
-#cmakedefine MAM_SERVICES_LOG_TO_STDERR /* */
-
-#endif // ! defined(MOMECONFIG_H_)
+#endif // ! defined(MOMEBAILOUT_H_)

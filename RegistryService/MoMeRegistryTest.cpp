@@ -39,7 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 #include "MoMeBaseClient.h"
 #include "MoMeBaseRequestHandler.h"
@@ -558,6 +558,21 @@ static int doTestRequestSearchService(const int argc,
     return result;
 } // doTestRequestSearchService
 
+#if (defined(__APPLE__) || defined(__linux__))
+/*! @brief The signal handler to catch requests to stop the service.
+ @param signal The signal being handled. */
+static void catchSignal(int signal)
+{
+# if (! defined(OD_ENABLE_LOGGING))
+#  pragma unused(signal)
+# endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_ENTER();//####
+    OD_LOG_LL1("signal = ", signal);//####
+    yarp::os::exit(1);
+    OD_LOG_EXIT();//####
+} // catchSignal
+#endif // defined(__APPLE__) || defined(__linux__)
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -585,6 +600,12 @@ int main(int     argc,
             {
                 int selector = atoi(argv[1]);
                 
+#if (defined(__APPLE__) || defined(__linux__))
+                signal(SIGHUP, catchSignal);
+                signal(SIGINT, catchSignal);
+                signal(SIGINT, catchSignal);
+                signal(SIGUSR1, catchSignal);
+#endif // defined(__APPLE__) || defined(__linux__)
                 OD_LOG_LL1("selector <- ", selector);//####
                 switch (selector)
                 {
