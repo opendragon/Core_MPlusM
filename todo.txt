@@ -8,3 +8,5 @@
 * try BufferedPort and/or interrupting the port —> note that BufferedPorts have a very different model for reading/writing, and expect to work with a fixed datatype, but the type could be Bottle; note that BufferedPorts used Ports internally
 
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
+
+* maybe we should not use a HandlerCreator with services? find out why extra threads are being created, see if we can destroy them ourselves or reset ‘needsJoin’
