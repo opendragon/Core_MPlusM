@@ -43,11 +43,12 @@
 /*! @brief Header guard. */
 # define MOMEBAILOUT_H_ /* */
 
-# include "MoMeConfig.h"
+# include "MoMeCommon.h"
+
 # if (defined(__APPLE__) || defined(__linux__))
 #  include <csignal>
 # endif // defined(__APPLE__) || defined(__linux__)
-
+        //# include <cstdlib>
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -62,6 +63,12 @@
 /*! @brief The default timeout duration in seconds. */
 # define STANDARD_WAIT_TIME 5.0
 
+# if (defined(__APPLE__) || defined(__linux__))
+#  define STANDARD_SIGNAL_TO_USE SIGUSR2
+# else // (! defined(__APPLE__)) && (! defined(__linux__))
+#  define STANDARD_SIGNAL_TO_USE 42
+# endif // (! defined(__APPLE__)) && (! defined(__linux__))
+
 namespace MoAndMe
 {
     class BailOutThread;
@@ -72,8 +79,9 @@ namespace MoAndMe
     public:
         
         /*! @brief The constructor.
-         @param signalToUse The system signal to trigger on timeout. */
-        BailOut(const int    signalToUse = SIGHUP,
+         @param channelOfInterest The channel that we are waiting for.
+         @param timeToWait The number of seconds to delay before triggering. */
+        BailOut(Channel *    channelOfInterest = NULL,
                 const double timeToWait = STANDARD_WAIT_TIME);
         
         /*! @brief The destructor. */

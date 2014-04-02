@@ -40,9 +40,10 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeBailOut.h"
-#include "ODEnableLogging.h"
-#include "ODLogging.h"
 #include "MoMeBailOutThread.h"
+
+//#include "ODEnableLogging.h"
+#include "ODLogging.h"
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -73,17 +74,14 @@ using namespace MoAndMe;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-BailOut::BailOut(const int    signalToUse,
+BailOut::BailOut(Channel *    channelOfInterest,
                  const double timeToWait) :
         _bailer(NULL)
 {
-#if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(signalToUse)
-#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
-    OD_LOG_LL1("signalToUse = ", signalToUse);//####
+    OD_LOG_P1("channelOfInterest = ", channelOfInterest);//####
     OD_LOG_D1("timeToWait = ", timeToWait);//####
-    _bailer = new BailOutThread(signalToUse, timeToWait);
+    _bailer = new BailOutThread(channelOfInterest, timeToWait);
     _bailer->start();    
     OD_LOG_EXIT_P(this);//####
 } // BailOut::BailOut

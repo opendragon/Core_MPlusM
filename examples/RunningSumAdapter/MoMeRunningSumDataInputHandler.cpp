@@ -41,9 +41,10 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeRunningSumDataInputHandler.h"
+#include "MoMeRunningSumAdapterData.h"
+
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "MoMeRunningSumAdapterData.h"
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

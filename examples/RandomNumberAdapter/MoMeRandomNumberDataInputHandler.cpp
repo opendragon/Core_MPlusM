@@ -41,9 +41,10 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeRandomNumberDataInputHandler.h"
+#include "MoMeRandomNumberAdapterData.h"
+
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "MoMeRandomNumberAdapterData.h"
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

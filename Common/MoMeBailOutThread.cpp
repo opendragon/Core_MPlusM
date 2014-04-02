@@ -40,8 +40,11 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeBailOutThread.h"
+#include "MoMeException.h"
+
 #include "ODEnableLogging.h"
 #include "ODLogging.h"
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -86,15 +89,15 @@ using namespace MoAndMe;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-BailOutThread::BailOutThread(const int    signalToUse,
+BailOutThread::BailOutThread(Channel *    channelOfInterest,
                              const double timeToWait) :
-        inherited(), _timeToWait(timeToWait), _signalToUse(signalToUse)
+        inherited(), _channel(channelOfInterest), _timeToWait(timeToWait)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(signalToUse)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
-    OD_LOG_LL1("signalToUse = ", signalToUse);//####
+    OD_LOG_P1("channelOfInterest = ", channelOfInterest);//####
     OD_LOG_D1("timeToWait = ", timeToWait);//####
     OD_LOG_EXIT_P(this);//####
 } // BailOutThread::BailOutThread
@@ -116,10 +119,22 @@ void BailOutThread::run(void)
     {
         if (_endTime <= yarp::os::Time::now())
         {
+            OD_LOG("(_endTime <= yarp::os::Time::now())");//####
+            if (_channel)
+            {
+                _channel->interrupt();
+            }
 #if (defined(__APPLE__) || defined(__linux__))
-            raise(_signalToUse);
+            raise(STANDARD_SIGNAL_TO_USE);
 #endif // defined(__APPLE__) || defined(__linux__)
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wunreachable-code"
+#endif // defined(__APPLE__)
             break;
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
         }
         yarp::os::Time::yield();
     }

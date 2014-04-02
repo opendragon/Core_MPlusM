@@ -39,10 +39,12 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
 #include "MoMeEndpoint.h"
 #include "MoMeRequestCounterService.h"
+
+//#include "ODEnableLogging.h"
+#include "ODLogging.h"
+
 #include <iostream>
 #if (defined(__APPLE__) || defined(__linux__))
 # include <unistd.h>
@@ -135,7 +137,7 @@ int main(int     argc,
             yarp::os::ConstString serviceHostName;
             yarp::os::ConstString servicePortNumber;
             
-            MoAndMe::Initialize();
+            Initialize();
             if (1 < argc)
             {
                 serviceEndpointName = argv[1];
@@ -162,29 +164,26 @@ int main(int     argc,
                     yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
                     OD_LOG_S1("channelName = ", channelName.c_str());//####
-                    if (MoAndMe::RegisterLocalService(channelName))
+                    if (RegisterLocalService(channelName))
                     {
                         lKeepRunning = true;
 #if (defined(__APPLE__) || defined(__linux__))
-                        signal(SIGHUP, stopRunning);
-                        signal(SIGINT, stopRunning);
-                        signal(SIGINT, stopRunning);
-                        signal(SIGUSR1, stopRunning);
+                        SetSignalHandlers(stopRunning);
 #endif // defined(__APPLE__) || defined(__linux__)
                         for ( ; lKeepRunning; )
                         {
 #if defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
-                            yarp::os::Time::delay(1.0);
+                            yarp::os::Time::delay(ONE_SECOND_DELAY);
 #else // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                             yarp::os::Time::yield();
 #endif // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                         }
-                        MoAndMe::UnregisterLocalService(channelName);
+                        UnregisterLocalService(channelName);
                         stuff->stop();
                     }
                     else
                     {
-                        OD_LOG("! (MoAndMe::RegisterLocalService(channelName))");//####
+                        OD_LOG("! (RegisterLocalService(channelName))");//####
                     }
                 }
                 else

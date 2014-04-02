@@ -45,7 +45,6 @@
 # define MOMEREGISTERREQUESTHANDLER_H_ /* */
 
 # include "MoMeBaseRequestHandler.h"
-# include "MoMeServiceResponse.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -61,6 +60,7 @@
 namespace MoAndMe
 {
     class RegistryService;
+    class ServiceResponse;
     
     /*! @brief The standard 'register' request handler.
      

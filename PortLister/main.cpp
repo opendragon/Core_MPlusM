@@ -39,9 +39,11 @@
 //
 //--------------------------------------------------------------------------------------
 
+#include "MoMeCommon.h"
+
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "MoMeCommon.h"
+
 #include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push

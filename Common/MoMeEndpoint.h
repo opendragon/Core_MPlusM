@@ -43,7 +43,7 @@
 /*! @brief Header guard. */
 # define MOMEENDPOINT_H_ /* */
 
-# include "MoMeInputHandlerCreator.h"
+# include "MoMeCommon.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -58,6 +58,9 @@
 
 namespace MoAndMe
 {
+    class InputHandler;
+    class InputHandlerCreator;
+    
     /*! @brief An object that represents an endpoint that provides a bidirectional connection for services and clients.
      */
     class Endpoint

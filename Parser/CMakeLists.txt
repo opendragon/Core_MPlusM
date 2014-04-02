@@ -66,6 +66,7 @@ add_executable(ParserTest
                MoMeTestNameValidator.cpp)
 
 target_link_libraries(ParserTest
+                      MoMeCommon
                       MoMeLogging
                       MoMeParser
                       ${YARP_LIBRARIES})

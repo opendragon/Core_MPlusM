@@ -44,7 +44,6 @@
 # define MOMEREGISTRYSERVICE_H_ /* */
 
 # include "MoMeBaseService.h"
-# include "MoMeMatchExpression.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -58,6 +57,11 @@
 # endif // defined(__APPLE__)
 
 struct sqlite3;
+
+namespace MoAndMeParser
+{
+    class MatchExpression;
+}
 
 namespace MoAndMe
 {
@@ -128,7 +132,7 @@ namespace MoAndMe
          @param reply The result from performing a SELECT with the converted match expression.
          @returns @c true if the match request was successfully performed and @c false otherwise. */
         bool processMatchRequest(MoAndMeParser::MatchExpression * matcher,
-                                 Package &                             reply);
+                                 Package &                        reply);
         
         /*! @brief Remove a service entry from the registry.
          @param serviceChannelName The service channel that is being removed.

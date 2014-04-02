@@ -39,10 +39,12 @@
 //
 //--------------------------------------------------------------------------------------
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
 #include "MoMeRegistryService.h"
 #include "MoMeRequests.h"
+
+//#include "ODEnableLogging.h"
+#include "ODLogging.h"
+
 #include <iostream>
 #include <string.h>
 #if (defined(__APPLE__) || defined(__linux__))
@@ -137,7 +139,7 @@ int main(int     argc,
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             RegistryService * stuff = NULL;
             
-            MoAndMe::Initialize();
+            Initialize();
             if (1 <= argc)
             {
                 switch (argc)
@@ -168,15 +170,12 @@ int main(int     argc,
                     // RegisterLocalService().
                     lKeepRunning = true;
 #if (defined(__APPLE__) || defined(__linux__))
-                    signal(SIGHUP, stopRunning);
-                    signal(SIGINT, stopRunning);
-                    signal(SIGINT, stopRunning);
-                    signal(SIGUSR1, stopRunning);
+                    SetSignalHandlers(stopRunning);
 #endif // defined(__APPLE__) || defined(__linux__)
                     for ( ; lKeepRunning; )
                     {
 #if defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
-                        yarp::os::Time::delay(1.0);
+                        yarp::os::Time::delay(ONE_SECOND_DELAY);
 #else // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                         yarp::os::Time::yield();
 #endif // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)

@@ -43,10 +43,8 @@
 /*! @brief Header guard. */
 # define MOMEBAILOUTTHREAD_H_ /* */
 
-# include "MoMeConfig.h"
-# if (defined(__APPLE__) || defined(__linux__))
-#  include <csignal>
-# endif // defined(__APPLE__) || defined(__linux__)
+# include "MoMeBailOut.h"
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -73,9 +71,6 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The default timeout duration in seconds. */
-# define STANDARD_WAIT_TIME 5.0
-
 namespace MoAndMe
 {
     /*! @brief A convenience class to timeout objects. */
@@ -84,9 +79,9 @@ namespace MoAndMe
     public:
         
         /*! @brief The constructor.
-         @param signalToUse The system signal to trigger on timeout.
+         @param channelOfInterest The channel that we are waiting for.
          @param timeToWait The number of seconds to delay before triggering. */
-        BailOutThread(const int    signalToUse = SIGHUP,
+        BailOutThread(Channel *    channelOfInterest = NULL,
                       const double timeToWait = STANDARD_WAIT_TIME);
         
         /*! @brief The destructor. */
@@ -131,24 +126,15 @@ namespace MoAndMe
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+        /*! @brief The channel that we are waiting on. */
+        Channel * _channel;
+        
         /*! @brief The time at which the thread will stop running. */
-        double _endTime;
+        double    _endTime;
         
         /*! @brief The number of seconds to delay before triggering. */
-        double _timeToWait;
+        double    _timeToWait;
         
-        /*! @brief The system signal to trigger on timeout. */
-        int    _signalToUse;
-        
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-        /*! @brief Filler to pad to alignment boundary */
-        char   _filler2[4];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
     }; // BailOutThread
     
 } // MoAndMe

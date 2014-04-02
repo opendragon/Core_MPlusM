@@ -40,14 +40,18 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeRegistryService.h"
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
 #include "MoMeColumnNameValidator.h"
+#include "MoMeMatchExpression.h"
 #include "MoMeMatchRequestHandler.h"
 #include "MoMeRegisterRequestHandler.h"
 #include "MoMeRequests.h"
 #include "MoMeServiceRequest.h"
+#include "MoMeServiceResponse.h"
 #include "MoMeUnregisterRequestHandler.h"
+
+//#include "ODEnableLogging.h"
+#include "ODLogging.h"
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-long-long"
@@ -191,7 +195,7 @@ static bool performSQLstatementWithNoResults(sqlite3 *    database,
                     OD_LOG_LL1("sqlRes <- ", sqlRes);//####
                     while (SQLITE_BUSY == sqlRes)
                     {
-                        yarp::os::Time::delay(1.0);
+                        yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
                         sqlRes = sqlite3_step(prepared);
                         OD_LOG_LL1("sqlRes <- ", sqlRes);//####
                     }
@@ -270,7 +274,7 @@ static bool performSQLstatementWithResults(sqlite3 *    database,
                         OD_LOG_LL1("sqlRes <- ", sqlRes);//####
                         while (SQLITE_BUSY == sqlRes)
                         {
-                            yarp::os::Time::delay(1.0);
+                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
                             sqlRes = sqlite3_step(prepared);
                             OD_LOG_LL1("sqlRes <- ", sqlRes);//####
                         }

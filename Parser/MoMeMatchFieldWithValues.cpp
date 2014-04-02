@@ -40,12 +40,13 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeMatchFieldWithValues.h"
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
 #include "MoMeBaseNameValidator.h"
 #include "MoMeMatchFieldName.h"
 #include "MoMeMatchValue.h"
 #include "MoMeMatchValueList.h"
+
+//#include "ODEnableLogging.h"
+#include "ODLogging.h"
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

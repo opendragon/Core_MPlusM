@@ -39,9 +39,11 @@
 //
 //--------------------------------------------------------------------------------------
 
+#include "MoMeEchoClient.h"
+
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "MoMeEchoClient.h"
+
 #include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -136,10 +138,7 @@ int main(int     argc,
             {
                 lKeepRunning = true;
 #if (defined(__APPLE__) || defined(__linux__))
-                signal(SIGHUP, stopRunning);
-                signal(SIGINT, stopRunning);
-                signal(SIGINT, stopRunning);
-                signal(SIGUSR1, stopRunning);
+                MoAndMe::SetSignalHandlers(stopRunning);
 #endif // defined(__APPLE__) || defined(__linux__)
                 if (stuff->findService("details Echo*"))
                 {

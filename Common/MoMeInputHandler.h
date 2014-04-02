@@ -45,6 +45,7 @@
 # define MOMEINPUTHANDLER_H_ /* */
 
 # include "MoMeCommon.h"
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wc++11-extensions"

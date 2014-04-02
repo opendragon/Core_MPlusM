@@ -40,12 +40,14 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeRequestCounterService.h"
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
 #include "MoMeRequestCounterDefaultRequestHandler.h"
 #include "MoMeRequestCounterRequests.h"
 #include "MoMeResetRequestHandler.h"
 #include "MoMeStatsRequestHandler.h"
+
+//#include "ODEnableLogging.h"
+#include "ODLogging.h"
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"

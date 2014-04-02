@@ -41,9 +41,10 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeBaseServiceInputHandlerCreator.h"
+#include "MoMeBaseServiceInputHandler.h"
+
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "MoMeBaseServiceInputHandler.h"
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

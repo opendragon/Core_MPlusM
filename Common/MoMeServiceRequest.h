@@ -43,7 +43,7 @@
 /*! @brief Header guard. */
 # define MOMESERVICEREQUEST_H_ /* */
 
-# include "MoMeServiceResponse.h"
+# include "MoMeCommon.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -59,6 +59,7 @@
 namespace MoAndMe
 {
     class Endpoint;
+    class ServiceResponse;
     
     /*! @brief The data constituting a service request. */
     class ServiceRequest

@@ -41,8 +41,10 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeColumnNameValidator.h"
+
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
+
 #include <cstring>
 
 #if defined(__APPLE__)

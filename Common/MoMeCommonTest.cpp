@@ -39,8 +39,6 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "ODEnableLogging.h"
-#include "ODLogging.h"
 #include "CommonTests/MoMeTest03Handler.h"
 #include "CommonTests/MoMeTest04Handler.h"
 #include "CommonTests/MoMeTest05HandlerCreator.h"
@@ -55,6 +53,11 @@
 #include "MoMeEndpointStatusReporter.h"
 #include "MoMeRequests.h"
 #include "MoMeServiceRequest.h"
+#include "MoMeServiceResponse.h"
+
+#include "ODEnableLogging.h"
+#include "ODLogging.h"
+
 #include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -1225,8 +1228,8 @@ static void catchSignal(int signal)
 # endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
+    OD_LOG_EXIT_EXIT(1);//####
     yarp::os::exit(1);
-    OD_LOG_EXIT();//####
 } // catchSignal
 #endif // defined(__APPLE__) || defined(__linux__)
 
@@ -1258,10 +1261,7 @@ int main(int     argc,
                 int selector = atoi(argv[1]);
                 
 #if (defined(__APPLE__) || defined(__linux__))
-                signal(SIGHUP, catchSignal);
-                signal(SIGINT, catchSignal);
-                signal(SIGINT, catchSignal);
-                signal(SIGUSR1, catchSignal);
+                MoAndMe::SetSignalHandlers(catchSignal);
 #endif // defined(__APPLE__) || defined(__linux__)
                 switch (selector)
                 {

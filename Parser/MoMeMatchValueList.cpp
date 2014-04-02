@@ -40,9 +40,11 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeMatchValueList.h"
+#include "MoMeMatchValue.h"
+
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "MoMeMatchValue.h"
+
 #include <cctype>
 
 #if defined(__APPLE__)

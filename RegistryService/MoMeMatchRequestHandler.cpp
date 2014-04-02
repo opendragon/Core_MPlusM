@@ -41,11 +41,15 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeMatchRequestHandler.h"
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+#include "MoMeBaseNameValidator.h"
 #include "MoMeEndpoint.h"
+#include "MoMeMatchExpression.h"
 #include "MoMeRegistryService.h"
 #include "MoMeRequests.h"
+
+//#include "ODEnableLogging.h"
+#include "ODLogging.h"
+
 #include <cstdlib>
 
 #if defined(__APPLE__)

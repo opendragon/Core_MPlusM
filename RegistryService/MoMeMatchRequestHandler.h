@@ -44,10 +44,7 @@
 /*! @brief Header guard. */
 # define MOMEMATCHREQUESTHANDLER_H_ /* */
 
-# include "MoMeBaseMatcher.h"
-# include "MoMeBaseNameValidator.h"
 # include "MoMeBaseRequestHandler.h"
-# include "MoMeServiceResponse.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -59,6 +56,11 @@
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
+
+namespace MoAndMeParser
+{
+    class BaseNameValidator;
+}
 
 namespace MoAndMe
 {

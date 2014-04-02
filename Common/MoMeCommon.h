@@ -45,6 +45,7 @@
 # define MOMECOMMON_H_ /* */
 
 # include "MoMeConfig.h"
+
 # include <string>
 # include <vector>
 # if defined(__APPLE__)
@@ -85,6 +86,9 @@
 /*! @brief The default name for the root part of a channel name. */
 # define DEFAULT_CHANNEL_ROOT "channel_"
 
+/*! @brief The delay value corresponding to one second of delay. */
+# define ONE_SECOND_DELAY 1.0
+
 namespace MoAndMe
 {
     /*! @brief The logical connection between a client and a service. */
@@ -98,6 +102,11 @@ namespace MoAndMe
     
     /*! @brief A sequence of strings. */
     typedef std::vector<std::string> StringVector;
+
+#if (defined(__APPLE__) || defined(__linux__))
+    /*! @brief A signal handler. */
+    typedef void (*SignalHandler) (int signal);
+#endif // defined(__APPLE__) || defined(__linux__)
 
     /*! @brief Obtain a new channel.
      @returns A freshly allocated channel. */
@@ -161,6 +170,12 @@ namespace MoAndMe
      @param theChannel A pointer to the channel to be released. */
     void RelinquishChannel(Channel * & theChannel);
     
+#if (defined(__APPLE__) || defined(__linux__))
+    /*! @brief Connect the standard signals to a handler.
+     @param theHandler The new handler for the signals. */
+    void SetSignalHandlers(SignalHandler theHandler);
+#endif // defined(__APPLE__) || defined(__linux__)
+
 } // MoAndMe
 
 #endif // ! defined(MOMECOMMON_H_)

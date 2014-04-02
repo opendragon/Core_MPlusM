@@ -39,9 +39,11 @@
 //
 //--------------------------------------------------------------------------------------
 
+#include "MoMeRequestCounterClient.h"
+
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "MoMeRequestCounterClient.h"
+
 #include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -129,17 +131,14 @@ int main(int     argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MoAndMe::Initialize();
+            Initialize();
             RequestCounterClient * stuff = new RequestCounterClient;
             
             if (stuff)
             {
                 lKeepRunning = true;
 #if (defined(__APPLE__) || defined(__linux__))
-                signal(SIGHUP, stopRunning);
-                signal(SIGINT, stopRunning);
-                signal(SIGINT, stopRunning);
-                signal(SIGUSR1, stopRunning);
+                SetSignalHandlers(stopRunning);
 #endif // defined(__APPLE__) || defined(__linux__)
                 for ( ; lKeepRunning; )
                 {

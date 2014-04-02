@@ -40,9 +40,12 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeServiceRequest.h"
+#include "MoMeEndpoint.h"
+#include "MoMeServiceResponse.h"
+
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "MoMeEndpoint.h"
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"

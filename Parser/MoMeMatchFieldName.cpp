@@ -40,10 +40,12 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeMatchFieldName.h"
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
 #include "MoMeBaseNameValidator.h"
 #include "MoMeMatchValueList.h"
+
+//#include "ODEnableLogging.h"
+#include "ODLogging.h"
+
 #include <cctype>
 #include <cstdlib>
 #include <cstring>

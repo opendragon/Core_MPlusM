@@ -41,10 +41,11 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeListRequestHandler.h"
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
 #include "MoMeRequestMap.h"
 #include "MoMeRequests.h"
+
+//#include "ODEnableLogging.h"
+#include "ODLogging.h"
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

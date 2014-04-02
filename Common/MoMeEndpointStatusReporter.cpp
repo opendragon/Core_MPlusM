@@ -41,8 +41,10 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeEndpointStatusReporter.h"
-#include "ODEnableLogging.h"
+
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"

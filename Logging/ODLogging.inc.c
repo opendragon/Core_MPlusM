@@ -44,6 +44,7 @@
 # define ODLOGGING_INC_C_ /* */
 
 # include "ODLogging.h"
+
 # if (defined(__APPLE__) || defined(__linux))
 #  include <pthread.h>
 #  include <unistd.h>

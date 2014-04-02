@@ -41,9 +41,11 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeBaseMatcher.h"
+#include "MoMeBaseNameValidator.h"
+
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "MoMeBaseNameValidator.h"
+
 #include <cctype>
 
 #if defined(__APPLE__)

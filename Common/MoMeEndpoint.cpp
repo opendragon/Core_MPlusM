@@ -40,9 +40,12 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeEndpoint.h"
+#include "MoMeException.h"
+#include "MoMeInputHandlerCreator.h"
+
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#include "MoMeException.h"
+
 #include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
