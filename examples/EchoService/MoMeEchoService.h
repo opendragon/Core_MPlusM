@@ -59,64 +59,68 @@
 /*! @brief The channel name to use for the service if not provided. */
 # define DEFAULT_ECHO_SERVICE_NAME "/service/example/echo"
 
-namespace MoAndMeExample
+namespace MoAndMe
 {
-    class EchoRequestHandler;
-    
-    /*! @brief An example MoAndMe service, handling 'echo' requests. */
-    class EchoService : public MoAndMe::BaseService
+    namespace Example
     {
-    public:
+        class EchoRequestHandler;
         
-        /*! @brief The constructor.
-         @param serviceEndpointName The YARP name to be assigned to the new service.
-         @param serviceHostName The name or IP address of the machine running the service.
-         @param servicePortNumber The port being used by the service. */
-        EchoService(const yarp::os::ConstString & serviceEndpointName,
-                    const yarp::os::ConstString & serviceHostName = "",
-                    const yarp::os::ConstString & servicePortNumber = "");
+        /*! @brief An example MoAndMe service, handling 'echo' requests. */
+        class EchoService : public Common::BaseService
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param serviceEndpointName The YARP name to be assigned to the new service.
+             @param serviceHostName The name or IP address of the machine running the service.
+             @param servicePortNumber The port being used by the service. */
+            EchoService(const yarp::os::ConstString & serviceEndpointName,
+                        const yarp::os::ConstString & serviceHostName = "",
+                        const yarp::os::ConstString & servicePortNumber = "");
+            
+            /*! @brief The destructor. */
+            virtual ~EchoService(void);
+            
+            /*! @brief Start processing requests.
+             @returns @c true if the service was started and @c false if it was not. */
+            virtual bool start(void);
+            
+            /*! @brief Stop processing requests.
+             @returns @c true if the service was stopped and @c false it if was not. */
+            virtual bool stop(void);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            EchoService(const EchoService & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            EchoService & operator=(const EchoService & other);
+            
+            /*! @brief Enable the standard request handlers. */
+            void attachRequestHandlers(void);
+            
+            /*! @brief Disable the standard request handlers. */
+            void detachRequestHandlers(void);
+            
+            /*! @brief The request handler for the 'echo' request. */
+            EchoRequestHandler * _echoHandler;
+            
+        }; // EchoService
         
-        /*! @brief The destructor. */
-        virtual ~EchoService(void);
-        
-        /*! @brief Start processing requests.
-         @returns @c true if the service was started and @c false if it was not. */
-        virtual bool start(void);
-        
-        /*! @brief Stop processing requests.
-         @returns @c true if the service was stopped and @c false it if was not. */
-        virtual bool stop(void);
-
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseService inherited;
-
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        EchoService(const EchoService & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        EchoService & operator=(const EchoService & other);
-        
-        /*! @brief Enable the standard request handlers. */
-        void attachRequestHandlers(void);
-        
-        /*! @brief Disable the standard request handlers. */
-        void detachRequestHandlers(void);
-        
-        /*! @brief The request handler for the 'echo' request. */
-        EchoRequestHandler * _echoHandler;
-        
-    }; // EchoService
+    } // Example
     
-} // MoAndMeExample
+} // MoAndMe
 
 #endif // ! defined(MOMEECHOSERVICE_H_)

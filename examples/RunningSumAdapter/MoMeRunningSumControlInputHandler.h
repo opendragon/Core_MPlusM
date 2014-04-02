@@ -58,55 +58,59 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMeExample
+namespace MoAndMe
 {
-    class RunningSumAdapterData;
-    
-    /*! @brief A handler for partially-structured input data. */
-    class RunningSumControlInputHandler : public MoAndMe::InputHandler
+    namespace Example
     {
-    public:
+        class RunningSumAdapterData;
         
-        /*! @brief The constructor.
-         @param shared The data shared between the input handlers and the main thread. */
-        RunningSumControlInputHandler(RunningSumAdapterData & shared);
+        /*! @brief A handler for partially-structured input data. */
+        class RunningSumControlInputHandler : public Common::InputHandler
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param shared The data shared between the input handlers and the main thread. */
+            RunningSumControlInputHandler(RunningSumAdapterData & shared);
+            
+            /*! @brief The destructor. */
+            virtual ~RunningSumControlInputHandler(void);
+            
+            /*! @brief Process partially-structured input data.
+             @param input The partially-structured input data.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @returns @c true if the input was correctly structured and successfully processed. */
+            virtual bool handleInput(const MoAndMe::Package &      input,
+                                     const yarp::os::ConstString & senderChannel,
+                                     yarp::os::ConnectionWriter *  replyMechanism);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef InputHandler inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RunningSumControlInputHandler(const RunningSumControlInputHandler & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RunningSumControlInputHandler & operator=(const RunningSumControlInputHandler & other);
+            
+            /*! @brief The shared data that describes the connection to the service that we are using. */
+            RunningSumAdapterData & _shared;
+            
+        }; // RunningSumControlInputHandler
         
-        /*! @brief The destructor. */
-        virtual ~RunningSumControlInputHandler(void);
-        
-        /*! @brief Process partially-structured input data.
-         @param input The partially-structured input data.
-         @param senderChannel The name of the channel used to send the input data.
-         @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-         @returns @c true if the input was correctly structured and successfully processed. */
-        virtual bool handleInput(const MoAndMe::Package & input,
-                                 const yarp::os::ConstString & senderChannel,
-                                 yarp::os::ConnectionWriter *  replyMechanism);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef InputHandler inherited;
-
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RunningSumControlInputHandler(const RunningSumControlInputHandler & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RunningSumControlInputHandler & operator=(const RunningSumControlInputHandler & other);
-        
-        /*! @brief The shared data that describes the connection to the service that we are using. */
-        RunningSumAdapterData & _shared;
-        
-    }; // RunningSumControlInputHandler
+    } // Example
     
-} // MoAndMeExample
+} // MoAndMe
 
 #endif // ! defined(MOMERUNNINGSUMCONTROLINPUTHANDLER_H_)

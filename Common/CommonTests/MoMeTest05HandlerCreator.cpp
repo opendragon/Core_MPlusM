@@ -56,7 +56,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeTest;
+using namespace MoAndMe::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -91,7 +91,7 @@ Test05HandlerCreator::~Test05HandlerCreator(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-MoAndMe::InputHandler * Test05HandlerCreator::create(void)
+MoAndMe::Common::InputHandler * Test05HandlerCreator::create(void)
 {
     OD_LOG_OBJENTER();//####
     Test05Handler * result = new Test05Handler;

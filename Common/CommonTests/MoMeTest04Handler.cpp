@@ -55,7 +55,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeTest;
+using namespace MoAndMe::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -90,7 +90,7 @@ Test04Handler::~Test04Handler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool Test04Handler::handleInput(const MoAndMe::Package & input,
+bool Test04Handler::handleInput(const MoAndMe::Package &      input,
                                 const yarp::os::ConstString & senderChannel,
                                 yarp::os::ConnectionWriter *  replyMechanism)
 {

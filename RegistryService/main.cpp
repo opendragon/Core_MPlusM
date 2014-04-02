@@ -79,7 +79,6 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -121,8 +120,8 @@ static void stopRunning(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Service Registry service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
 #if defined(MAM_SERVICES_LOG_TO_STDERR)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
@@ -137,24 +136,24 @@ int main(int     argc,
         if (yarp::os::Network::checkNetwork())
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-            RegistryService * stuff = NULL;
+            MoAndMe::Registry::RegistryService * stuff = NULL;
             
-            Initialize();
+            MoAndMe::Initialize();
             if (1 <= argc)
             {
                 switch (argc)
                 {
                         // Argument order for tests = endpoint name [, IP address / name [, port]]
                     case 1:
-                        stuff = new RegistryService(USE_INMEMORY);
+                        stuff = new MoAndMe::Registry::RegistryService(USE_INMEMORY);
                         break;
                         
                     case 2:
-                        stuff = new RegistryService(USE_INMEMORY, argv[1]);
+                        stuff = new MoAndMe::Registry::RegistryService(USE_INMEMORY, argv[1]);
                         break;
                         
                     case 3:
-                        stuff = new RegistryService(USE_INMEMORY, argv[1], argv[2]);
+                        stuff = new MoAndMe::Registry::RegistryService(USE_INMEMORY, argv[1], argv[2]);
                         break;
                         
                     default:
@@ -170,7 +169,7 @@ int main(int     argc,
                     // RegisterLocalService().
                     lKeepRunning = true;
 #if (defined(__APPLE__) || defined(__linux__))
-                    SetSignalHandlers(stopRunning);
+                    MoAndMe::SetSignalHandlers(stopRunning);
 #endif // defined(__APPLE__) || defined(__linux__)
                     for ( ; lKeepRunning; )
                     {

@@ -55,7 +55,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeTest;
+using namespace MoAndMe::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -113,7 +113,7 @@ void Test09DefaultRequestHandler::fillInDescription(const yarp::os::ConstString 
 } // Test09DefaultRequestHandler::fillInDescription
 
 bool Test09DefaultRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                                 const MoAndMe::Package & restOfInput,
+                                                 const MoAndMe::Package &      restOfInput,
                                                  const yarp::os::ConstString & senderChannel,
                                                  yarp::os::ConnectionWriter *  replyMechanism)
 {

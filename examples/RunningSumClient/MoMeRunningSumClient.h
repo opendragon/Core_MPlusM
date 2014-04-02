@@ -56,66 +56,70 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMeExample
+namespace MoAndMe
 {
-    /*! @brief An example MoAndMe client, for the 'random' service. */
-    class RunningSumClient : public MoAndMe::BaseClient
+    namespace Example
     {
-    public:
+        /*! @brief An example MoAndMe client, for the 'random' service. */
+        class RunningSumClient : public Common::BaseClient
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            RunningSumClient(void);
+            
+            /*! @brief The destructor. */
+            virtual ~RunningSumClient(void);
+            
+            /*! @brief Update the running sum for this client.
+             @param value The value to add to the running sum.
+             @param newSum The new running sum.
+             @returns @c true if the service handled the request and @c false otherwise. */
+            bool addToSum(const double value,
+                          double &     newSum);
+            
+            /*! @brief Update the running sum for this client.
+             @param values The set of values to add to the running sum.
+             @param newSum The new running sum.
+             @returns @c true if the service handled the request and @c false otherwise. */
+            bool addToSum(const MoAndMe::DoubleVector & values,
+                          double &                      newSum);
+            
+            /*! @brief Reset the running sum for this client.
+             @returns @c true if the service handled the request and @c false otherwise. */
+            bool resetSum(void);
+            
+            /*! @brief Start the running sum for this client.
+             @returns @c true if the service handled the request and @c false otherwise. */
+            bool startSum(void);
+            
+            /*! @brief Stop the running sum for this client.
+             @returns @c true if the service handled the request and @c false otherwise. */
+            bool stopSum(void);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseClient inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RunningSumClient(const RunningSumClient & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RunningSumClient & operator=(const RunningSumClient & other);
+            
+        }; // RunningSumClient
         
-        /*! @brief The constructor. */
-        RunningSumClient(void);
-        
-        /*! @brief The destructor. */
-        virtual ~RunningSumClient(void);
-        
-        /*! @brief Update the running sum for this client.
-         @param value The value to add to the running sum.
-         @param newSum The new running sum.
-         @returns @c true if the service handled the request and @c false otherwise. */
-        bool addToSum(const double value,
-                      double &     newSum);
-        
-        /*! @brief Update the running sum for this client.
-         @param values The set of values to add to the running sum.
-         @param newSum The new running sum.
-         @returns @c true if the service handled the request and @c false otherwise. */
-        bool addToSum(const MoAndMe::DoubleVector & values,
-                      double &                           newSum);
-        
-        /*! @brief Reset the running sum for this client.
-         @returns @c true if the service handled the request and @c false otherwise. */
-        bool resetSum(void);
-        
-        /*! @brief Start the running sum for this client.
-         @returns @c true if the service handled the request and @c false otherwise. */
-        bool startSum(void);
-        
-        /*! @brief Stop the running sum for this client.
-         @returns @c true if the service handled the request and @c false otherwise. */
-        bool stopSum(void);
-
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseClient inherited;
-
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RunningSumClient(const RunningSumClient & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RunningSumClient & operator=(const RunningSumClient & other);
-        
-    }; // RunningSumClient
+    } // Example
     
-} // MoAndMeExample
+} // MoAndMe
 
 #endif // ! defined(MOMERUNNINGSUMCLIENT_H_)

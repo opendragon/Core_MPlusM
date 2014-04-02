@@ -79,6 +79,25 @@
 
 /*! @namespace MoAndMe
  @brief The classes that implement the MoAndMe framework. */
+
+/*! @namespace MoAndMe::Common
+ @brief The classes that support the basic functionality of the MoAndMe framework. */
+
+/*! @namespace MoAndMe::Example
+ @brief A set of example classes using features from MoAndMe. */
+
+/*! @namespace MoAndMe::Parser
+ @brief The classes that support parsing of search requests and the generation of SQL @c SELECT strings from the search
+ requests. */
+
+/*! @namespace MoAndMe::Registry
+ @brief The classes that support registering and unregistering services. */
+
+/*! @namespace MoAndMe::RequestCounter
+ @brief The classes that support measuring the time for service requests. */
+
+/*! @namespace MoAndMe::Test
+ @brief The classes used for unit testing of the MoAndMe classes. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -88,6 +107,15 @@
 
 /*! @brief The delay value corresponding to one second of delay. */
 # define ONE_SECOND_DELAY 1.0
+
+/*! @brief The default timeout duration in seconds. */
+# define STANDARD_WAIT_TIME 5.0
+
+# if (defined(__APPLE__) || defined(__linux__))
+#  define STANDARD_SIGNAL_TO_USE SIGUSR2
+# else // (! defined(__APPLE__)) && (! defined(__linux__))
+#  define STANDARD_SIGNAL_TO_USE 42
+# endif // (! defined(__APPLE__)) && (! defined(__linux__))
 
 namespace MoAndMe
 {

@@ -93,8 +93,8 @@ using std::endl;
  @param serviceName The name of the service that generated the response.
  @param response The response to be processed.
  @returns @c true if some output was generated and @c false otherwise. */
-static bool processResponse(const yarp::os::ConstString &         serviceName,
-                            const MoAndMe::ServiceResponse & response)
+static bool processResponse(const yarp::os::ConstString &            serviceName,
+                            const MoAndMe::Common::ServiceResponse & response)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("response = ", &response);//####
@@ -204,8 +204,8 @@ static bool processResponse(const yarp::os::ConstString &         serviceName,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
@@ -243,7 +243,7 @@ int main(int     argc,
                 channelNameRequest += "*";
                 requestName = NULL;
             }
-            MoAndMe::Package matches(MoAndMe::FindMatchingServices(channelNameRequest));
+            MoAndMe::Package matches(MoAndMe::Common::FindMatchingServices(channelNameRequest));
             
             if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
@@ -268,14 +268,14 @@ int main(int     argc,
                         
                         if (matchesCount)
                         {
-                            yarp::os::ConstString   aName(MoAndMe::GetRandomChannelName("/requestinfo/channel_"));
-                            MoAndMe::Channel * newChannel = new MoAndMe::Channel;
+                            yarp::os::ConstString aName(MoAndMe::GetRandomChannelName("/requestinfo/channel_"));
+                            MoAndMe::Channel *    newChannel = new MoAndMe::Channel;
                             
                             if (newChannel)
                             {
                                 if (MoAndMe::OpenChannelWithRetries(*newChannel, aName))
                                 {
-                                    bool                  sawRequestResponse = false;
+                                    bool             sawRequestResponse = false;
                                     MoAndMe::Package parameters;
                                     
                                     if (requestName)
@@ -288,13 +288,13 @@ int main(int     argc,
                                         
                                         if (MoAndMe::NetworkConnectWithRetries(aName, aMatch))
                                         {
-                                            MoAndMe::ServiceResponse response;
+                                            MoAndMe::Common::ServiceResponse response;
                                             
                                             // If no request was identified, or a wildcard was specified, we use the
                                             // 'list' request; otherwise, do an 'info' request.
                                             if (requestName)
                                             {
-                                                MoAndMe::ServiceRequest request(MAM_INFO_REQUEST, parameters);
+                                                MoAndMe::Common::ServiceRequest request(MAM_INFO_REQUEST, parameters);
                                                 
                                                 if (request.send(*newChannel, &response))
                                                 {
@@ -315,7 +315,7 @@ int main(int     argc,
                                             }
                                             else
                                             {
-                                                MoAndMe::ServiceRequest request(MAM_LIST_REQUEST, parameters);
+                                                MoAndMe::Common::ServiceRequest request(MAM_LIST_REQUEST, parameters);
                                                 
                                                 if (request.send(*newChannel, &response))
                                                 {

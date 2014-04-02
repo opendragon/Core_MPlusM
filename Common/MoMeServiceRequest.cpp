@@ -72,7 +72,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe;
+using namespace MoAndMe::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

@@ -59,51 +59,55 @@
 
 namespace MoAndMe
 {
-    class BaseService;
-    
-    /*! @brief The minimal functionality required for a MoAndMe service. */
-    class BaseServiceInputHandler : public InputHandler
+    namespace Common
     {
-    public:
+        class BaseService;
         
-        /*! @brief The constructor. */
-        BaseServiceInputHandler(BaseService & service);
+        /*! @brief The minimal functionality required for a MoAndMe service. */
+        class BaseServiceInputHandler : public InputHandler
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            BaseServiceInputHandler(BaseService & service);
+            
+            /*! @brief The destructor. */
+            virtual ~BaseServiceInputHandler(void);
+            
+            /*! @brief Process partially-structured input data.
+             @param input The partially-structured input data.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @returns @c true if the input was correctly structured and successfully processed. */
+            virtual bool handleInput(const Package &               input,
+                                     const yarp::os::ConstString & senderChannel,
+                                     yarp::os::ConnectionWriter *  replyMechanism);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef InputHandler inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseServiceInputHandler(const BaseServiceInputHandler & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseServiceInputHandler & operator=(const BaseServiceInputHandler & other);
+            
+            /*! @brief The service that 'owns' this handler. */
+            BaseService & _service;
+            
+        }; // BaseServiceInputHandler
         
-        /*! @brief The destructor. */
-        virtual ~BaseServiceInputHandler(void);
-        
-        /*! @brief Process partially-structured input data.
-         @param input The partially-structured input data.
-         @param senderChannel The name of the channel used to send the input data.
-         @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-         @returns @c true if the input was correctly structured and successfully processed. */
-        virtual bool handleInput(const Package &               input,
-                                 const yarp::os::ConstString & senderChannel,
-                                 yarp::os::ConnectionWriter *  replyMechanism);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef InputHandler inherited;
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseServiceInputHandler(const BaseServiceInputHandler & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseServiceInputHandler & operator=(const BaseServiceInputHandler & other);
-
-        /*! @brief The service that 'owns' this handler. */
-        BaseService & _service;
-
-    }; // BaseServiceInputHandler
+    } // Common
     
 } // MoAndMe
 

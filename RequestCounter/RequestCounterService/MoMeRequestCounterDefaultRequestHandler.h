@@ -59,52 +59,56 @@
 
 namespace MoAndMe
 {
-    class RequestCounterService;
-
-    /*! @brief A test request handler. */
-    class RequestCounterDefaultRequestHandler : public MoAndMe::BaseRequestHandler
+    namespace RequestCounter
     {
-    public:
+        class RequestCounterService;
         
-        /*! @brief The constructor.
-         @param service The service that has registered this request. */
-        RequestCounterDefaultRequestHandler(RequestCounterService & service);
+        /*! @brief A test request handler. */
+        class RequestCounterDefaultRequestHandler : public Common::BaseRequestHandler
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param service The service that has registered this request. */
+            RequestCounterDefaultRequestHandler(RequestCounterService & service);
+            
+            /*! @brief The destructor. */
+            virtual ~RequestCounterDefaultRequestHandler(void);
+            
+            /*! @brief Fill in a set of aliases for the request.
+             @param alternateNames Aliases for the request. */
+            virtual void fillInAliases(StringVector & alternateNames);
+            
+            /*! @brief Fill in a description dictionary for the request.
+             @param request The actual request name.
+             @param info The dictionary to be filled in. */
+            virtual void fillInDescription(const yarp::os::ConstString & request,
+                                           yarp::os::Property &          info);
+            
+            /*! @brief Process a request.
+             @param request The actual request name.
+             @param restOfInput The arguments to the operation.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+            virtual bool processRequest(const yarp::os::ConstString & request,
+                                        const Package &               restOfInput,
+                                        const yarp::os::ConstString & senderChannel,
+                                        yarp::os::ConnectionWriter *  replyMechanism);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+            /*! @brief The service that will manages the statistics. */
+            RequestCounterService & _service;
+            
+        }; // RequestCounterDefaultRequestHandler
         
-        /*! @brief The destructor. */
-        virtual ~RequestCounterDefaultRequestHandler(void);
-        
-        /*! @brief Fill in a set of aliases for the request.
-         @param alternateNames Aliases for the request. */
-        virtual void fillInAliases(StringVector & alternateNames);
-        
-        /*! @brief Fill in a description dictionary for the request.
-         @param request The actual request name.
-         @param info The dictionary to be filled in. */
-        virtual void fillInDescription(const yarp::os::ConstString & request,
-                                       yarp::os::Property &          info);
-        
-        /*! @brief Process a request.
-         @param request The actual request name.
-         @param restOfInput The arguments to the operation.
-         @param senderChannel The name of the channel used to send the input data.
-         @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-        virtual bool processRequest(const yarp::os::ConstString & request,
-                                    const Package &               restOfInput,
-                                    const yarp::os::ConstString & senderChannel,
-                                    yarp::os::ConnectionWriter *  replyMechanism);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseRequestHandler inherited;
-        
-        /*! @brief The service that will manages the statistics. */
-        RequestCounterService & _service;
-        
-    }; // RequestCounterDefaultRequestHandler
+    } // RequestCounter
     
-} // MoAndMeTest
+} // MoAndMe
 
 #endif // ! defined(MOMEREQUESTCOUNTERDEFAULTREQUESTHANDLER_H_)

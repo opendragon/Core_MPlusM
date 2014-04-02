@@ -78,7 +78,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeExample;
+using namespace MoAndMe::Example;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -117,8 +117,8 @@ static void stopRunning(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
 #if defined(MAM_SERVICES_LOG_TO_STDERR)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
@@ -163,7 +163,7 @@ int main(int     argc,
                     yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
                     OD_LOG_S1("channelName = ", channelName.c_str());//####
-                    if (MoAndMe::RegisterLocalService(channelName))
+                    if (MoAndMe::Common::RegisterLocalService(channelName))
                     {
                         lKeepRunning = true;
 #if (defined(__APPLE__) || defined(__linux__))
@@ -177,12 +177,12 @@ int main(int     argc,
                             yarp::os::Time::yield();
 #endif // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                         }
-                        MoAndMe::UnregisterLocalService(channelName);
+                        MoAndMe::Common::UnregisterLocalService(channelName);
                         stuff->stop();
                     }
                     else
                     {
-                        OD_LOG("! (MoAndMe::RegisterLocalService(channelName))");//####
+                        OD_LOG("! (MoAndMe::Common::RegisterLocalService(channelName))");//####
                     }
                 }
                 else

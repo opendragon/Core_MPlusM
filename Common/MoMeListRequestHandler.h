@@ -59,61 +59,65 @@
 
 namespace MoAndMe
 {
-    /*! @brief The standard 'list' request handler.
-     
-     There is no input for the request and the output is a list of dictionaries of fields, describing all the known
-     requests. The fields 'details', 'input', 'keywords', 'output', and 'version' are optional in each dictionary, while
-     the field 'request' is always present. */
-    class ListRequestHandler : public BaseRequestHandler
+    namespace Common
     {
-    public:
-        
-        /*! @brief The constructor. */
-        ListRequestHandler(void);
-        
-        /*! @brief The destructor. */
-        virtual ~ListRequestHandler(void);
-        
-        /*! @brief Fill in a set of aliases for the request.
-         @param alternateNames Aliases for the request. */
-        virtual void fillInAliases(StringVector & alternateNames);
-        
-        /*! @brief Fill in a description dictionary for the request.
-         @param request The actual request name.
-         @param info The dictionary to be filled in. */
-        virtual void fillInDescription(const yarp::os::ConstString & request,
-                                       yarp::os::Property &          info);
-        
-        /*! @brief Process a request.
-         @param request The actual request name.
-         @param restOfInput The arguments to the operation.
-         @param senderChannel The name of the channel used to send the input data.
-         @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-        virtual bool processRequest(const yarp::os::ConstString & request,
-                                    const Package &               restOfInput,
-                                    const yarp::os::ConstString & senderChannel,
-                                    yarp::os::ConnectionWriter *  replyMechanism);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseRequestHandler inherited;
-        
-        /*! @brief Copy constructor.
+        /*! @brief The standard 'list' request handler.
          
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        ListRequestHandler(const ListRequestHandler & other);
+         There is no input for the request and the output is a list of dictionaries of fields, describing all the known
+         requests. The fields 'details', 'input', 'keywords', 'output', and 'version' are optional in each dictionary,
+         while the field 'request' is always present. */
+        class ListRequestHandler : public BaseRequestHandler
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            ListRequestHandler(void);
+            
+            /*! @brief The destructor. */
+            virtual ~ListRequestHandler(void);
+            
+            /*! @brief Fill in a set of aliases for the request.
+             @param alternateNames Aliases for the request. */
+            virtual void fillInAliases(StringVector & alternateNames);
+            
+            /*! @brief Fill in a description dictionary for the request.
+             @param request The actual request name.
+             @param info The dictionary to be filled in. */
+            virtual void fillInDescription(const yarp::os::ConstString & request,
+                                           yarp::os::Property &          info);
+            
+            /*! @brief Process a request.
+             @param request The actual request name.
+             @param restOfInput The arguments to the operation.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+            virtual bool processRequest(const yarp::os::ConstString & request,
+                                        const Package &               restOfInput,
+                                        const yarp::os::ConstString & senderChannel,
+                                        yarp::os::ConnectionWriter *  replyMechanism);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ListRequestHandler(const ListRequestHandler & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ListRequestHandler & operator=(const ListRequestHandler & other);
+            
+        }; // ListRequestHandler
         
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        ListRequestHandler & operator=(const ListRequestHandler & other);
-        
-    }; // ListRequestHandler
+    } // Common
     
 } // MoAndMe
 

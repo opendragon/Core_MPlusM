@@ -39,9 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeCommon.h"
+//#include "MoMeCommon.h"
 #include "MoMeBailOut.h"
-#  include "MoMeException.h"
 
 #include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -82,6 +81,7 @@
 #endif // defined(__APPLE__)
 
 using namespace MoAndMe;
+using namespace MoAndMe::Common;
 using std::cerr;
 using std::cout;
 using std::endl;

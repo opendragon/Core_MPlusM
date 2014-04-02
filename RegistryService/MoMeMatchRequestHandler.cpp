@@ -63,8 +63,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe;
-using namespace MoAndMeParser;
+using namespace MoAndMe::Registry;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -85,8 +84,8 @@ using namespace MoAndMeParser;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-MatchRequestHandler::MatchRequestHandler(RegistryService &   service,
-                                         BaseNameValidator * validator) :
+MatchRequestHandler::MatchRequestHandler(RegistryService &           service,
+                                         Parser::BaseNameValidator * validator) :
         inherited(MAM_MATCH_REQUEST), _service(service), _validator(validator)
 {
     OD_LOG_ENTER();//####
@@ -171,9 +170,10 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
                     yarp::os::ConstString argAsString(argument.toString());
                     
                     OD_LOG_S1("argAsString <- ", argAsString.c_str());//####
-                    int               endPos;
-                    MatchExpression * matcher = MatchExpression::CreateMatcher(argAsString, argAsString.length(), 0,
-                                                                               endPos, _validator);
+                    int                       endPos;
+                    Parser::MatchExpression * matcher = Parser::MatchExpression::CreateMatcher(argAsString,
+                                                                                               argAsString.length(), 0,
+                                                                                               endPos, _validator);
                     
                     if (matcher)
                     {

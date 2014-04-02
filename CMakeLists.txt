@@ -46,7 +46,7 @@ project(MovementAndMeaning)
 
 set(MAM_VERSION_MAJOR 1)
 set(MAM_VERSION_MINOR 1)
-set(MAM_VERSION_PATCH 7)
+set(MAM_VERSION_PATCH 8)
 
 option(MAM_DO_EXPLICIT_CLOSE "Perform an explicit CloseChannel() prior to freeing a channel")
 option(MAM_DO_EXPLICIT_DISCONNECT "Perform an explicit disconnect prior to closing a channel")
@@ -98,8 +98,7 @@ add_subdirectory(Logging)
 add_subdirectory(Parser)
 add_subdirectory(PortLister)
 add_subdirectory(RegistryService)
-add_subdirectory(RequestCounterClient)
-add_subdirectory(RequestCounterService)
+add_subdirectory(RequestCounter)
 add_subdirectory(RequestInfo)
 add_subdirectory(ServiceLister)
 

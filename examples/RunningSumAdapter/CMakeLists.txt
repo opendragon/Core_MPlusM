@@ -41,8 +41,8 @@
 
 include_directories("${MAM_LOGGING_DIR}"
                     "${MAM_COMMON_DIR}"
-                    "${MAM_EXAMPLES_DIR}/RunningSumService"
-                    "${MAM_EXAMPLES_DIR}/RunningSumClient")
+                    "${MAM_EXAMPLES_DIR}/RunningSumClient"
+                    "${MAM_EXAMPLES_DIR}/RunningSumCommon")
 
 # set up our program
 add_executable(RunningSumAdapter

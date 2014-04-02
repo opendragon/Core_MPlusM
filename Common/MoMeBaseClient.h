@@ -59,91 +59,95 @@
 
 namespace MoAndMe
 {
-    class ServiceResponse;
-    
-    /*! @brief The minimal functionality required for a MoAndMe client. */
-    class BaseClient
+    namespace Common
     {
-    public:
+        class ServiceResponse;
         
-        /*! @brief The constructor.
-         @param baseChannelName The name to be used as the root for the client channel. */
-        BaseClient(const char * baseChannelName = DEFAULT_CHANNEL_ROOT);
-        
-        /*! @brief The destructor. */
-        virtual ~BaseClient(void);
-        
-        /*! @brief Create a connection with the service.
-         @returns @c true if the client is connected to the service and @c false otherwise. */
-        bool connectToService(void);
-        
-        /*! @brief Disconnect from the service.
-         @returns @c true if the client is no longer connected to the service and @ false otherwise. */
-        bool disconnectFromService(void);
-        
-        /*! @brief Find a matching service and prepare to send requests to it.
-         @param criteria The criteria to use to locate the service.
-         @param allowOnlyOneMatch @c true if only one match is allowed and @c false if the first match will be used.
-         @returns @c true if a matching service was found and @c false if no matching service or too many services were
-         found. */
-        bool findService(const char * criteria,
-                         const bool   allowOnlyOneMatch = false);
-        
-    protected:
-        
-        /*! @brief Send a request to the service associated with the client.
-         @param request The name of the request.
-         @param parameters The required parameters for the request.
-         @param response If non-@c NULL, where to store any response received.
-         @returns @c true on a successful communication with the service and @c false otherwise. */
-        bool send(const char *      request,
-                  const Package &   parameters,
-                  ServiceResponse * response = NULL);
-        
-    private:
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseClient(const BaseClient & other);
-        
-        /*! @brief Assignment operator.
-
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseClient & operator=(const BaseClient & other);
-        
-        /*! @brief The channel that the client uses for communication. */
-        Channel *             _clientChannel;
-        
-        /*! @brief The name of the client channel being used. */
-        yarp::os::ConstString _clientChannelName;
-
-        /*! @brief The name of the service channel being used. */
-        yarp::os::ConstString _serviceChannelName;
-        
-        /*! @brief The root name for the client channel. */
-        char *                _baseChannelName;
-        
-        /*! @brief @c true if the client is connected to the service and @c false otherwise. */
-        bool                  _connected;
-        
+        /*! @brief The minimal functionality required for a MoAndMe client. */
+        class BaseClient
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param baseChannelName The name to be used as the root for the client channel. */
+            BaseClient(const char * baseChannelName = DEFAULT_CHANNEL_ROOT);
+            
+            /*! @brief The destructor. */
+            virtual ~BaseClient(void);
+            
+            /*! @brief Create a connection with the service.
+             @returns @c true if the client is connected to the service and @c false otherwise. */
+            bool connectToService(void);
+            
+            /*! @brief Disconnect from the service.
+             @returns @c true if the client is no longer connected to the service and @ false otherwise. */
+            bool disconnectFromService(void);
+            
+            /*! @brief Find a matching service and prepare to send requests to it.
+             @param criteria The criteria to use to locate the service.
+             @param allowOnlyOneMatch @c true if only one match is allowed and @c false if the first match will be used.
+             @returns @c true if a matching service was found and @c false if no matching service or too many services
+             were found. */
+            bool findService(const char * criteria,
+                             const bool   allowOnlyOneMatch = false);
+            
+        protected:
+            
+            /*! @brief Send a request to the service associated with the client.
+             @param request The name of the request.
+             @param parameters The required parameters for the request.
+             @param response If non-@c NULL, where to store any response received.
+             @returns @c true on a successful communication with the service and @c false otherwise. */
+            bool send(const char *      request,
+                      const Package &   parameters,
+                      ServiceResponse * response = NULL);
+            
+        private:
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseClient(const BaseClient & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseClient & operator=(const BaseClient & other);
+            
+            /*! @brief The channel that the client uses for communication. */
+            Channel *             _clientChannel;
+            
+            /*! @brief The name of the client channel being used. */
+            yarp::os::ConstString _clientChannelName;
+            
+            /*! @brief The name of the service channel being used. */
+            yarp::os::ConstString _serviceChannelName;
+            
+            /*! @brief The root name for the client channel. */
+            char *                _baseChannelName;
+            
+            /*! @brief @c true if the client is connected to the service and @c false otherwise. */
+            bool                  _connected;
+            
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
-        /*! @brief Filler to pad to alignment boundary */
-        char                  _filler[7];
+            /*! @brief Filler to pad to alignment boundary */
+            char                  _filler[7];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-    }; // BaseClient
-    
-    /*! @brief Find one or more matching services that are registered with a running Service Registry service.
-     @param criteria The matching conditions.
-     @returns A (possibly empty) list of matching services. */
-    Package FindMatchingServices(const char * criteria);
+        }; // BaseClient
+        
+        /*! @brief Find one or more matching services that are registered with a running Service Registry service.
+         @param criteria The matching conditions.
+         @returns A (possibly empty) list of matching services. */
+        Package FindMatchingServices(const char * criteria);
+        
+    } // Common
     
 } // MoAndMe
 

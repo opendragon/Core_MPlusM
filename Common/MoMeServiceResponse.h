@@ -58,69 +58,73 @@
 
 namespace MoAndMe
 {
-    /*! @brief The data returned from a service request. */
-    class ServiceResponse
+    namespace Common
     {
-    public:
-        
-        /*! @brief The constructor.
-         @param values The (optional) values for the response. */
-        ServiceResponse(const Package & values = "");
-
-        /*! @brief The destructor. */
-        virtual ~ServiceResponse(void);
-        
-        /*! @brief The assignment operator.
-         @param values The (optional) values for the response. */
-        ServiceResponse & operator=(const Package & values);
-        
-        /*! @brief Return a printable version of the response.
-         @returns A printable version of the response. */
-        yarp::os::ConstString asString(void)
-        const;
-        
-        /*! @brief The number of values in the response.
-         @returns The number of values in the response. */
-        inline int count(void)
-        const
+        /*! @brief The data returned from a service request. */
+        class ServiceResponse
         {
-            return _values.size();
-        } // count
+        public:
+            
+            /*! @brief The constructor.
+             @param values The (optional) values for the response. */
+            ServiceResponse(const Package & values = "");
+            
+            /*! @brief The destructor. */
+            virtual ~ServiceResponse(void);
+            
+            /*! @brief The assignment operator.
+             @param values The (optional) values for the response. */
+            ServiceResponse & operator=(const Package & values);
+            
+            /*! @brief Return a printable version of the response.
+             @returns A printable version of the response. */
+            yarp::os::ConstString asString(void)
+            const;
+            
+            /*! @brief The number of values in the response.
+             @returns The number of values in the response. */
+            inline int count(void)
+            const
+            {
+                return _values.size();
+            } // count
+            
+            /*! @brief Fetch an element from the values.
+             @param index The @c 0-based index of the desired element.
+             @returns The element corresponding to the provided index. */
+            yarp::os::Value element(const int index)
+            const;
+            
+            /*! @brief Return the full set of values.
+             @returns All the values in the response. */
+            Package values(void)
+            const
+            {
+                return _values;
+            } // values
+            
+        protected:
+            
+        private:
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ServiceResponse(const ServiceResponse & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ServiceResponse & operator=(const ServiceResponse & other);
+            
+            /*! @brief The response values. */
+            Package _values;
+            
+        }; // ServiceResponse
         
-        /*! @brief Fetch an element from the values.
-         @param index The @c 0-based index of the desired element.
-         @returns The element corresponding to the provided index. */
-        yarp::os::Value element(const int index)
-        const;
-        
-        /*! @brief Return the full set of values.
-         @returns All the values in the response. */
-        Package values(void)
-        const
-        {
-            return _values;
-        } // values
-        
-    protected:
-        
-    private:
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        ServiceResponse(const ServiceResponse & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        ServiceResponse & operator=(const ServiceResponse & other);
-        
-        /*! @brief The response values. */
-        Package _values;
-
-    }; // ServiceResponse
+    } // Common
     
 } // MoAndMe
 

@@ -58,48 +58,52 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMeExample
+namespace MoAndMe
 {
-    class RandomNumberClient;
-    
-    /*! @brief A handler for partially-structured input data. */
-    class RandomNumberAdapterData : public MoAndMe::BaseAdapterData
+    namespace Example
     {
-    public:
+        class RandomNumberClient;
         
-        /*! @brief The constructor.
-         @param client The client connection that is used to communicate with the service.
-         @param output The output channel that will receive the service responses. */
-        RandomNumberAdapterData(RandomNumberClient *    client,
-                                MoAndMe::Channel * output);
+        /*! @brief A handler for partially-structured input data. */
+        class RandomNumberAdapterData : public Common::BaseAdapterData
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param client The client connection that is used to communicate with the service.
+             @param output The output channel that will receive the service responses. */
+            RandomNumberAdapterData(RandomNumberClient * client,
+                                    MoAndMe::Channel *   output);
+            
+            /*! @brief The destructor. */
+            virtual ~RandomNumberAdapterData(void);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseAdapterData inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RandomNumberAdapterData(const RandomNumberAdapterData & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RandomNumberAdapterData & operator=(const RandomNumberAdapterData & other);
+            
+            /*! @brief The output channel for the adapter. */
+            MoAndMe::Channel * _output;
+            
+        }; // RandomNumberDataInputHandler
         
-        /*! @brief The destructor. */
-        virtual ~RandomNumberAdapterData(void);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef MoAndMe::BaseAdapterData inherited;
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RandomNumberAdapterData(const RandomNumberAdapterData & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RandomNumberAdapterData & operator=(const RandomNumberAdapterData & other);
-        
-        /*! @brief The output channel for the adapter. */
-        MoAndMe::Channel * _output;
-        
-    }; // RandomNumberDataInputHandler
+    } // Example
     
-} // MoAndMeExample
+} // MoAndMe
 
 #endif // ! defined(MOMERANDOMNUMBERADAPTERDATA_H_)

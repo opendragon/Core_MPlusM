@@ -74,67 +74,71 @@
 
 namespace MoAndMe
 {
-    /*! @brief A handler for partially-structured input data. */
-    class InputHandler : public yarp::os::PortReader
+    namespace Common
     {
-    public:
-        
-        /*! @brief The constructor. */
-        InputHandler(void);
-        
-        /*! @brief The destructor. */
-        virtual ~InputHandler(void);
-        
-        /*! @brief Process partially-structured input data.
-         @param input The partially-structured input data.
-         @param senderChannel The name of the channel used to send the input data.
-         @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-         @returns @c true if the input was correctly structured and successfully processed. */
-        virtual bool handleInput(const Package &               input,
-                                 const yarp::os::ConstString & senderChannel,
-                                 yarp::os::ConnectionWriter *  replyMechanism) = 0;
-        
-        /*! @brief Terminate processing of the input data stream. */
-        void stopProcessing(void);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef yarp::os::PortReader inherited;
-
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        InputHandler(const InputHandler & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        InputHandler & operator=(const InputHandler & other);
-        
-        /*! @brief Read an object from the input stream.
-         @param connection The input stream that is to be read from.
-         @returns @c true if the object was successfully read and @c false otherwise. */
-        virtual bool read(yarp::os::ConnectionReader & connection);
-        
-        /*! @brief @c true if input stream processing is enabled. */
-        bool _canProcessInput;
-        
+        /*! @brief A handler for partially-structured input data. */
+        class InputHandler : public yarp::os::PortReader
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            InputHandler(void);
+            
+            /*! @brief The destructor. */
+            virtual ~InputHandler(void);
+            
+            /*! @brief Process partially-structured input data.
+             @param input The partially-structured input data.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @returns @c true if the input was correctly structured and successfully processed. */
+            virtual bool handleInput(const Package &               input,
+                                     const yarp::os::ConstString & senderChannel,
+                                     yarp::os::ConnectionWriter *  replyMechanism) = 0;
+            
+            /*! @brief Terminate processing of the input data stream. */
+            void stopProcessing(void);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef yarp::os::PortReader inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            InputHandler(const InputHandler & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            InputHandler & operator=(const InputHandler & other);
+            
+            /*! @brief Read an object from the input stream.
+             @param connection The input stream that is to be read from.
+             @returns @c true if the object was successfully read and @c false otherwise. */
+            virtual bool read(yarp::os::ConnectionReader & connection);
+            
+            /*! @brief @c true if input stream processing is enabled. */
+            bool _canProcessInput;
+            
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
-        /*! @brief Filler to pad to alignment boundary */
-        char _filler[7];
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler[7];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-
-    }; // InputHandler
+            
+        }; // InputHandler
+        
+    } // Common
     
 } // MoAndMe
 

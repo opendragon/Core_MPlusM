@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeStatsRequestHandler.cpp
+//  File:       MoMeRequestCounterDefaultRequestHandler.cpp
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class definition for the request handler for a 'stats' request.
+//  Contains:   The class definition for a default request handler used by the request
+//              counter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -39,7 +40,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeStatsRequestHandler.h"
+#include "MoMeRequestCounterDefaultRequestHandler.h"
 #include "MoMeRequestCounterRequests.h"
 #include "MoMeRequestCounterService.h"
 
@@ -52,19 +53,16 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a 'stats' request. */
+ @brief The class definition for a default request handler used by the request counter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe;
+using namespace MoAndMe::RequestCounter;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-/*! @brief The protocol version number for the 'stats' request. */
-#define STATS_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -78,24 +76,24 @@ using namespace MoAndMe;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-StatsRequestHandler::StatsRequestHandler(RequestCounterService & service) :
-        inherited(MAM_STATS_REQUEST), _service(service)
+RequestCounterDefaultRequestHandler::RequestCounterDefaultRequestHandler(RequestCounterService & service) :
+        inherited(""), _service(service)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
-} // StatsRequestHandler::StatsRequestHandler
+} // RequestCounterDefaultRequestHandler::RequestCounterDefaultRequestHandler
 
-StatsRequestHandler::~StatsRequestHandler(void)
+RequestCounterDefaultRequestHandler::~RequestCounterDefaultRequestHandler(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // StatsRequestHandler::~StatsRequestHandler
+} // RequestCounterDefaultRequestHandler::~RequestCounterDefaultRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void StatsRequestHandler::fillInAliases(StringVector & alternateNames)
+void RequestCounterDefaultRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -103,38 +101,24 @@ void StatsRequestHandler::fillInAliases(StringVector & alternateNames)
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
     OD_LOG_OBJEXIT();//####
-} // StatsRequestHandler::fillInAliases
+} // RequestCounterDefaultRequestHandler::fillInAliases
 
-void StatsRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                            yarp::os::Property &          info)
+void RequestCounterDefaultRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                                            yarp::os::Property &          info)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# pragma unused(request,info)
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("request = ", request.c_str());//####
     OD_LOG_P1("info = ", &info);//####
-    try
-    {
-        info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_INT MAM_REQREP_DOUBLE);
-        info.put(MAM_REQREP_DICT_VERSION_KEY, STATS_REQUEST_VERSION_NUMBER);
-        info.put(MAM_REQREP_DICT_DETAILS_KEY, "Return the number of requests and the time since last reset");
-        yarp::os::Value keywords;
-        Package *       asList = keywords.asList();
-        
-        asList->addString(request);
-        info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
     OD_LOG_OBJEXIT();//####
-} // StatsRequestHandler::fillInDescription
+} // RequestCounterDefaultRequestHandler::fillInDescription
 
-bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const Package &               restOfInput,
-                                         const yarp::os::ConstString & senderChannel,
-                                         yarp::os::ConnectionWriter *  replyMechanism)
+bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                                         const Package &               restOfInput,
+                                                         const yarp::os::ConstString & senderChannel,
+                                                         yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(request,restOfInput,senderChannel)
@@ -147,15 +131,11 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
     
     try
     {
+        _service.countRequest();
         if (replyMechanism)
         {
-            Package response;
-            double  elapsedTime;
-            long    counter;
+            Package response(MAM_OK_RESPONSE);
             
-            _service.getStatistics(counter, elapsedTime);
-            response.addInt(static_cast<int>(counter));
-            response.addDouble(elapsedTime);
             response.write(*replyMechanism);
         }
     }
@@ -166,7 +146,7 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // StatsRequestHandler::processRequest
+} // RequestCounterDefaultRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors

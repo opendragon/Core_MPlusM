@@ -59,100 +59,104 @@
 /*! @brief The channel name to use for the service if not provided. */
 # define DEFAULT_RUNNINGSUM_SERVICE_NAME "/service/example/runningSum"
 
-namespace MoAndMeExample
+namespace MoAndMe
 {
-    class AddRequestHandler;
-    class ResetRequestHandler;
-    class StartRequestHandler;
-    class StopRequestHandler;
-
-    /*! @brief An example MoAndMe service, handling 'random' requests. */
-    class RunningSumService : public MoAndMe::BaseService
+    namespace Example
     {
-    public:
+        class AddRequestHandler;
+        class ResetRequestHandler;
+        class StartRequestHandler;
+        class StopRequestHandler;
         
-        /*! @brief The constructor.
-         @param serviceEndpointName The YARP name to be assigned to the new service.
-         @param serviceHostName The name or IP address of the machine running the service.
-         @param servicePortNumber The port being used by the service. */
-        RunningSumService(const yarp::os::ConstString & serviceEndpointName,
-                          const yarp::os::ConstString & serviceHostName = "",
-                          const yarp::os::ConstString & servicePortNumber = "");
-        
-        /*! @brief The destructor. */
-        virtual ~RunningSumService(void);
-        
-        /*! @brief Start processing requests.
-         @returns @c true if the service was started and @c false if it was not. */
-        virtual bool start(void);
-        
-        /*! @brief Stop processing requests.
-         @returns @c true if the service was stopped and @c false it if was not. */
-        virtual bool stop(void);
-
-        /*! @brief Add to the running sum for the given client.
-         @param key The client-provided key.
-         @param value The value to be added to the running sum.
-         @returns The running sum, including the newly added value. */
-        double addToSum(const yarp::os::ConstString & key,
-                        const double                  value);
-
-        /*! @brief Reset the running sum for the given client.
-         @param key The client-provided key. */
-        void resetSum(const yarp::os::ConstString & key);
-        
-        /*! @brief Start a running sum for the given client.
-         @param key The client-provided key. */
-        void startSum(const yarp::os::ConstString & key);
-        
-        /*! @brief Stop a running sum for the given client.
-         @param key The client-provided key. */
-        void stopSum(const yarp::os::ConstString & key);
-        
-    protected:
-
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseService inherited;
-
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RunningSumService(const RunningSumService & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RunningSumService & operator=(const RunningSumService & other);
-        
-        /*! @brief Enable the standard request handlers. */
-        void attachRequestHandlers(void);
-        
-        /*! @brief Disable the standard request handlers. */
-        void detachRequestHandlers(void);
-        
-        /*! @brief The request handler for the 'add' request. */
-        AddRequestHandler *   _addHandler;
-        
-        /*! @brief The request handler for the 'reset' request. */
-        ResetRequestHandler * _resetHandler;
-        
-        /*! @brief The request handler for the 'start' request. */
-        StartRequestHandler * _startHandler;
-        
-        /*! @brief The request handler for the 'stop' request. */
-        StopRequestHandler *  _stopHandler;
-        
+        /*! @brief An example MoAndMe service, handling 'random' requests. */
+        class RunningSumService : public Common::BaseService
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param serviceEndpointName The YARP name to be assigned to the new service.
+             @param serviceHostName The name or IP address of the machine running the service.
+             @param servicePortNumber The port being used by the service. */
+            RunningSumService(const yarp::os::ConstString & serviceEndpointName,
+                              const yarp::os::ConstString & serviceHostName = "",
+                              const yarp::os::ConstString & servicePortNumber = "");
+            
+            /*! @brief The destructor. */
+            virtual ~RunningSumService(void);
+            
+            /*! @brief Start processing requests.
+             @returns @c true if the service was started and @c false if it was not. */
+            virtual bool start(void);
+            
+            /*! @brief Stop processing requests.
+             @returns @c true if the service was stopped and @c false it if was not. */
+            virtual bool stop(void);
+            
+            /*! @brief Add to the running sum for the given client.
+             @param key The client-provided key.
+             @param value The value to be added to the running sum.
+             @returns The running sum, including the newly added value. */
+            double addToSum(const yarp::os::ConstString & key,
+                            const double                  value);
+            
+            /*! @brief Reset the running sum for the given client.
+             @param key The client-provided key. */
+            void resetSum(const yarp::os::ConstString & key);
+            
+            /*! @brief Start a running sum for the given client.
+             @param key The client-provided key. */
+            void startSum(const yarp::os::ConstString & key);
+            
+            /*! @brief Stop a running sum for the given client.
+             @param key The client-provided key. */
+            void stopSum(const yarp::os::ConstString & key);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RunningSumService(const RunningSumService & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RunningSumService & operator=(const RunningSumService & other);
+            
+            /*! @brief Enable the standard request handlers. */
+            void attachRequestHandlers(void);
+            
+            /*! @brief Disable the standard request handlers. */
+            void detachRequestHandlers(void);
+            
+            /*! @brief The request handler for the 'add' request. */
+            AddRequestHandler *   _addHandler;
+            
+            /*! @brief The request handler for the 'reset' request. */
+            ResetRequestHandler * _resetHandler;
+            
+            /*! @brief The request handler for the 'start' request. */
+            StartRequestHandler * _startHandler;
+            
+            /*! @brief The request handler for the 'stop' request. */
+            StopRequestHandler *  _stopHandler;
+            
 #if (! defined(SERVICES_HAVE_CONTEXTS))
-        /*! @brief The current running sum. */
-        double                _runningSum;
+            /*! @brief The current running sum. */
+            double                _runningSum;
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
+            
+        }; // RunningSumService
         
-    }; // RunningSumService
+    } // Example
     
-} // MoAndMeExample
+} // MoAndMe
 
 #endif // ! defined(MOMERUNNINGSUMSERVICE_H_)

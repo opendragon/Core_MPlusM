@@ -58,34 +58,38 @@
 
 namespace MoAndMe
 {
-    /*! @brief A convenience class to provide distinct context objects. */
-    class BaseContext
+    namespace Common
     {
-    public:
+        /*! @brief A convenience class to provide distinct context objects. */
+        class BaseContext
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            BaseContext(void);
+            
+            /*! @brief The destructor. */
+            virtual ~BaseContext(void);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseContext(const BaseContext & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseContext & operator=(const BaseContext & other);
+            
+        }; // BaseContext
         
-        /*! @brief The constructor. */
-        BaseContext(void);
-        
-        /*! @brief The destructor. */
-        virtual ~BaseContext(void);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseContext(const BaseContext & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseContext & operator=(const BaseContext & other);
-        
-    }; // BaseContext
+    } // Common
     
 } // MoAndMe
 

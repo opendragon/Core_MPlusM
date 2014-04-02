@@ -56,52 +56,56 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMeExample
+namespace MoAndMe
 {
-    /*! @brief An example MoAndMe client, for the 'random' service. */
-    class RandomNumberClient : public MoAndMe::BaseClient
+    namespace Example
     {
-    public:
+        /*! @brief An example MoAndMe client, for the 'random' service. */
+        class RandomNumberClient : public Common::BaseClient
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            RandomNumberClient(void);
+            
+            /*! @brief The destructor. */
+            virtual ~RandomNumberClient(void);
+            
+            /*! @brief Get one random number from the service.
+             @param result Where to return the number.
+             @returns @c true if the number was retrieved successfully and @c false otherwise. */
+            bool getOneRandomNumber(double & result);
+            
+            /*! @brief Get a sequence of random numbers from the service.
+             @param howMany The number of random numbers to retrieve.
+             @param result Where to return the numbers.
+             @returns @c true if the numbere were retrieved successfully and @c false otherwise. */
+            bool getRandomNumbers(const int               howMany,
+                                  MoAndMe::DoubleVector & result);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseClient inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RandomNumberClient(const RandomNumberClient & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RandomNumberClient & operator=(const RandomNumberClient & other);
+            
+        }; // RandomNumberClient
         
-        /*! @brief The constructor. */
-        RandomNumberClient(void);
-        
-        /*! @brief The destructor. */
-        virtual ~RandomNumberClient(void);
-        
-        /*! @brief Get one random number from the service.
-         @param result Where to return the number.
-         @returns @c true if the number was retrieved successfully and @c false otherwise. */
-        bool getOneRandomNumber(double & result);
-        
-        /*! @brief Get a sequence of random numbers from the service.
-         @param howMany The number of random numbers to retrieve.
-         @param result Where to return the numbers.
-         @returns @c true if the numbere were retrieved successfully and @c false otherwise. */
-        bool getRandomNumbers(const int                    howMany,
-                              MoAndMe::DoubleVector & result);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseClient inherited;
-
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RandomNumberClient(const RandomNumberClient & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RandomNumberClient & operator=(const RandomNumberClient & other);
-        
-    }; // RandomNumberClient
+    } // Example
     
-} // MoAndMeExample
+} // MoAndMe
 
 #endif // ! defined(MOMERANDOMNUMBERCLIENT_H_)

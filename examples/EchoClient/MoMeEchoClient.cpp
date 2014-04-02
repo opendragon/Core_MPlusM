@@ -57,7 +57,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeExample;
+using namespace MoAndMe::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -102,8 +102,8 @@ bool EchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
 
     try
     {
-        MoAndMe::Package         parameters(outgoing);
-        MoAndMe::ServiceResponse response;
+        MoAndMe::Package        parameters(outgoing);
+        Common::ServiceResponse response;
         
         if (send(MAM_ECHO_REQUEST, parameters, &response))
         {

@@ -76,6 +76,7 @@
 #endif // defined(__APPLE__)
 
 using namespace MoAndMe;
+using namespace MoAndMe::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -353,7 +354,7 @@ bool BaseClient::send(const char *      request,
 /*! @brief Find one or more matching local services that are registered with a running Service Registry service.
  @param criteria The matching conditions.
  @returns A (possibly empty) list of matching services, preceded by the request status. */
-Package MoAndMe::FindMatchingServices(const char * criteria)
+Package Common::FindMatchingServices(const char * criteria)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("criteria = ", criteria);//####

@@ -59,7 +59,8 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe;
+//using namespace MoAndMe::Common;
+using namespace MoAndMe::Registry;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -163,7 +164,7 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                 {
                     yarp::os::ConstString argAsString(argument.toString());
                     
-                    if (Endpoint::CheckEndpointName(argAsString))
+                    if (Common::Endpoint::CheckEndpointName(argAsString))
                     {
                         // Forget the information associated with the channel name
                         if (_service.removeServiceRecord(argAsString))
@@ -179,7 +180,7 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                     }
                     else
                     {
-                        OD_LOG("! (Endpoint::CheckEndpointName(argAsString))");//####
+                        OD_LOG("! (Common::Endpoint::CheckEndpointName(argAsString))");//####
                         reply.addString(MAM_FAILED_RESPONSE);
                         reply.addString("Invalid channel name");
                     }

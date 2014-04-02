@@ -95,7 +95,7 @@ static const char * kLineMarker = "registration name ";
  @param received The response to be processed.
  @param ports The list of non-default ports found. */
 static void processResponse(const yarp::os::ConstString & received,
-                            MoAndMe::StringVector &  ports)
+                            MoAndMe::StringVector &       ports)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("received = ", received.c_str());//####
@@ -141,8 +141,8 @@ static void processResponse(const yarp::os::ConstString & received,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
 #if defined(OD_ENABLE_LOGGING)
 # pragma unused(argc)
@@ -156,11 +156,11 @@ int main(int     argc,
     {
         if (yarp::os::Network::checkNetwork())
         {
-            yarp::os::Network          yarp; // This is necessary to establish any connection to the YARP infrastructure
-            MoAndMe::Package      request;
-            MoAndMe::Package      response;
-            yarp::os::ContactStyle     contactInfo;
-            MoAndMe::StringVector ports;
+            yarp::os::Network      yarp; // This is necessary to establish any connection to the YARP infrastructure
+            MoAndMe::Package       request;
+            MoAndMe::Package       response;
+            yarp::os::ContactStyle contactInfo;
+            MoAndMe::StringVector  ports;
             
             request.addString("list");
             contactInfo.timeout = 5.0;
@@ -175,8 +175,7 @@ int main(int     argc,
                         bool found = false;
                         
                         processResponse(responseValue.asString(), ports);
-                        for (MoAndMe::StringVector::const_iterator it(ports.cbegin()); ports.cend() != it;
-                             ++it)
+                        for (MoAndMe::StringVector::const_iterator it(ports.cbegin()); ports.cend() != it; ++it)
                         {
                             if (! found)
                             {

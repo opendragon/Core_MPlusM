@@ -57,7 +57,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeExample;
+using namespace MoAndMe::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -100,8 +100,8 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
 
     try
     {
-        MoAndMe::Package         parameters;
-        MoAndMe::ServiceResponse response;
+        MoAndMe::Package        parameters;
+        Common::ServiceResponse response;
         
         if (send(MAM_RANDOM_REQUEST, parameters, &response))
         {
@@ -139,7 +139,7 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
     return okSoFar;
 } // RandomNumberClient::getOneRandomNumber
 
-bool RandomNumberClient::getRandomNumbers(const int                    howMany,
+bool RandomNumberClient::getRandomNumbers(const int               howMany,
                                           MoAndMe::DoubleVector & result)
 {
     OD_LOG_OBJENTER();//####
@@ -151,8 +151,8 @@ bool RandomNumberClient::getRandomNumbers(const int                    howMany,
     {
         if (0 < howMany)
         {
-            MoAndMe::Package         parameters;
-            MoAndMe::ServiceResponse response;
+            MoAndMe::Package        parameters;
+            Common::ServiceResponse response;
             
             parameters.addInt(howMany);
             if (send(MAM_RANDOM_REQUEST, parameters, &response))

@@ -71,7 +71,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeExample;
+using namespace MoAndMe::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -130,7 +130,7 @@ void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & reque
         info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_DOUBLE MAM_REQREP_1_OR_MORE);
         info.put(MAM_REQREP_DICT_VERSION_KEY, RANDOM_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Generate one or more random numbers");
-        yarp::os::Value         keywords;
+        yarp::os::Value    keywords;
         MoAndMe::Package * asList = keywords.asList();
         
         asList->addString(request);
@@ -145,7 +145,7 @@ void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & reque
 } // RandomRequestHandler::fillInDescription
 
 bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                          const MoAndMe::Package & restOfInput,
+                                          const MoAndMe::Package &      restOfInput,
                                           const yarp::os::ConstString & senderChannel,
                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -163,7 +163,7 @@ bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
         if (replyMechanism)
         {
             MoAndMe::Package response;
-            int                   count;
+            int              count;
             
             if (0 < restOfInput.size())
             {

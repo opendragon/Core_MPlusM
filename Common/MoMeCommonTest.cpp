@@ -55,7 +55,7 @@
 #include "MoMeServiceRequest.h"
 #include "MoMeServiceResponse.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <iostream>
@@ -86,7 +86,8 @@
 #endif // defined(__APPLE__)
 
 using namespace MoAndMe;
-using namespace MoAndMeTest;
+using namespace MoAndMe::Common;
+using namespace MoAndMe::Test;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -104,7 +105,7 @@ using std::endl;
  @param argv The arguments to be used with the endpoint constructor.
  @returns A newly created endpoint, or @c NULL if one could not be created. */
 static Endpoint * doCreateEndpointForTest(const int argc,
-                                          char **   argv)
+                                          char * *  argv)
 {
     OD_LOG_ENTER();//####
     Endpoint * stuff = NULL;
@@ -237,7 +238,7 @@ static void doDestroyTestChannel(Endpoint & anEndpoint,
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestCreateEndpoint(const int argc,
-                                char **   argv) // create endpoint
+                                char * *  argv) // create endpoint
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -282,7 +283,7 @@ static int doTestCreateEndpoint(const int argc,
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestConnectToEndpoint(const int argc,
-                                   char **   argv) // connect to endpoint
+                                   char * *  argv) // connect to endpoint
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -367,7 +368,7 @@ static int doTestConnectToEndpoint(const int argc,
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestWriteToEndpoint(const int argc,
-                                 char **   argv) // send to endpoint
+                                 char * *  argv) // send to endpoint
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -465,7 +466,7 @@ static int doTestWriteToEndpoint(const int argc,
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestEchoFromEndpointWithReader(const int argc,
-                                            char **   argv) // send to endpoint
+                                            char * *  argv) // send to endpoint
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -565,7 +566,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestEchoFromEndpointWithReaderCreator(const int argc,
-                                                   char **   argv) // send to endpoint
+                                                   char * *  argv) // send to endpoint
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -665,7 +666,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestCreateRequest(const int argc,
-                               char **   argv) // create request
+                               char * *  argv) // create request
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -708,7 +709,7 @@ static int doTestCreateRequest(const int argc,
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestCreateResponse(const int argc,
-                                char **   argv) // create request
+                                char * *  argv) // create request
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -744,7 +745,7 @@ static int doTestCreateResponse(const int argc,
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromEndpoint(const int argc,
-                                         char **   argv) // create request
+                                         char * *  argv) // create request
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -819,7 +820,7 @@ static int doTestRequestEchoFromEndpoint(const int argc,
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromServiceUsingDefaultWithReader(const int argc,
-                                                              char **   argv) // send 'echo' request
+                                                              char * *  argv) // send 'echo' request
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -891,7 +892,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const int argc,
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const int argc,
-                                                                     char **   argv) // send 'echo' request
+                                                                     char * *  argv) // send 'echo' request
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -963,7 +964,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const int a
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromServiceWithRequestHandler(const int argc,
-                                                          char **   argv) // create 'echo' request
+                                                          char * *  argv) // create 'echo' request
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -1149,7 +1150,7 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const int argc,
-                                                                 char **   argv) // send 'list' request
+                                                                 char * *  argv) // send 'list' request
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -1241,8 +1242,8 @@ static void catchSignal(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####

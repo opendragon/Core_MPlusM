@@ -87,7 +87,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe;
+using namespace MoAndMe::Registry;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -116,35 +116,39 @@ static const float kRegistryServiceTimeout = 5.0;
 
 namespace MoAndMe
 {
-    /*! @brief A function that provides bindings for parameters in an SQL statement.
-     @param statement The prepared statement that is to be updated.
-     @param stuff The source of data that is to be bound.
-     @returns The SQLite error from the bind operation. */
-    typedef int (*BindFunction)
+    namespace Registry
+    {
+        /*! @brief A function that provides bindings for parameters in an SQL statement.
+         @param statement The prepared statement that is to be updated.
+         @param stuff The source of data that is to be bound.
+         @returns The SQLite error from the bind operation. */
+        typedef int (*BindFunction)
         (sqlite3_stmt * statement,
-         const void *   stuff);
-    
-    /*! @brief The data needed to add a request-keyword entry into the database. */
-    struct RequestKeywordData
-    {
-        /*! @brief The name of the request. */
-        yarp::os::ConstString _request;
-        /*! @brief The service channel for the request. */
-        yarp::os::ConstString _channel;
-        /*! @brief A keyword for the request. */
-        yarp::os::ConstString _key;
-    }; // RequestKeywordData
-    
-    /*! @brief The data needed to add a service entry into the database. */
-    struct ServiceData
-    {
-        /*! @brief The service channel for the service. */
-        yarp::os::ConstString _channel;
-        /*! @brief The name for the service. */
-        yarp::os::ConstString _name;
-        /*! @brief The description of the service. */
-        yarp::os::ConstString _description;
-    }; // ServiceData
+        const void *   stuff);
+        
+        /*! @brief The data needed to add a request-keyword entry into the database. */
+        struct RequestKeywordData
+        {
+            /*! @brief The name of the request. */
+            yarp::os::ConstString _request;
+            /*! @brief The service channel for the request. */
+            yarp::os::ConstString _channel;
+            /*! @brief A keyword for the request. */
+            yarp::os::ConstString _key;
+        }; // RequestKeywordData
+        
+        /*! @brief The data needed to add a service entry into the database. */
+        struct ServiceData
+        {
+            /*! @brief The service channel for the service. */
+            yarp::os::ConstString _channel;
+            /*! @brief The name for the service. */
+            yarp::os::ConstString _name;
+            /*! @brief The description of the service. */
+            yarp::os::ConstString _description;
+        }; // ServiceData
+        
+    } // Registry
     
 } // MoAndMe
 
@@ -236,12 +240,12 @@ static bool performSQLstatementWithNoResults(sqlite3 *    database,
  @param doBinds A function that will fill in any parameters in the statement.
  @param data The custom information used with the binding function.
  @returns @c true if the operation was successfully performed and @c false otherwise. */
-static bool performSQLstatementWithResults(sqlite3 *    database,
-                                           Package &    resultList,
-                                           const char * sqlStatement,
-                                           const int    columnOfInterest = 0,
-                                           BindFunction doBinds = NULL,
-                                           const void * data = NULL)
+static bool performSQLstatementWithResults(sqlite3 *          database,
+                                           MoAndMe::Package & resultList,
+                                           const char *       sqlStatement,
+                                           const int          columnOfInterest = 0,
+                                           BindFunction       doBinds = NULL,
+                                           const void *       data = NULL)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P3("database = ", database, "resultList = ", &resultList, "data = ", data);//####
@@ -982,7 +986,7 @@ void RegistryService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // RegistryService::detachRequestHandlers
 
-bool RegistryService::processMatchRequest(MoAndMeParser::MatchExpression * matcher,
+bool RegistryService::processMatchRequest(MoAndMe::Parser::MatchExpression * matcher,
                                           Package &                             reply)
 {
     OD_LOG_OBJENTER();//####
@@ -1149,9 +1153,9 @@ bool RegistryService::start(void)
                     {
                         if (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
                         {
-                            Package         parameters(MAM_SERVICE_REGISTRY_CHANNEL_NAME);
-                            ServiceRequest  request(MAM_REGISTER_REQUEST, parameters);
-                            ServiceResponse response;
+                            Package                 parameters(MAM_SERVICE_REGISTRY_CHANNEL_NAME);
+                            Common::ServiceRequest  request(MAM_REGISTER_REQUEST, parameters);
+                            Common::ServiceResponse response;
                             
                             if (request.send(*newChannel, &response))
                             {

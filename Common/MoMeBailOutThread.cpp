@@ -40,11 +40,13 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeBailOutThread.h"
-#include "MoMeException.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
+# if (defined(__APPLE__) || defined(__linux__))
+#  include <csignal>
+# endif // defined(__APPLE__) || defined(__linux__)
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -71,7 +73,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe;
+using namespace MoAndMe::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -93,9 +95,6 @@ BailOutThread::BailOutThread(Channel *    channelOfInterest,
                              const double timeToWait) :
         inherited(), _channel(channelOfInterest), _timeToWait(timeToWait)
 {
-#if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(signalToUse)
-#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
     OD_LOG_P1("channelOfInterest = ", channelOfInterest);//####
     OD_LOG_D1("timeToWait = ", timeToWait);//####

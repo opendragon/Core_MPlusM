@@ -53,39 +53,40 @@
 /*! @file
  
  @brief The class declaration for the endpoint status reporter for the MoAndMe unit tests. */
-
-/*! @namespace MoAndMeTest
- @brief The classes used for unit testing of the MoAndMe classes. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MoAndMe
 {
-    /*! @brief An endpoint status reporter. */
-    class EndpointStatusReporter : public yarp::os::PortReport
+    namespace Common
     {
-    public:
+        /*! @brief An endpoint status reporter. */
+        class EndpointStatusReporter : public yarp::os::PortReport
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            EndpointStatusReporter(void);
+            
+            /*! @brief The destructor. */
+            virtual ~EndpointStatusReporter(void);
+            
+            /*! @brief Write out the endpoint event / state information.
+             @param info The event / state information from the endpoint. */
+            virtual void report(const yarp::os::PortInfo & info);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef yarp::os::PortReport inherited;
+            
+        }; // EndpointStatusReporter
         
-        /*! @brief The constructor. */
-        EndpointStatusReporter(void);
-        
-        /*! @brief The destructor. */
-        virtual ~EndpointStatusReporter(void);
-        
-        /*! @brief Write out the endpoint event / state information.
-         @param info The event / state information from the endpoint. */
-        virtual void report(const yarp::os::PortInfo & info);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef yarp::os::PortReport inherited;
-        
-    }; // EndpointStatusReporter
+    } // Common
     
-} // MoAndMeTest
+} // MoAndMe
 
 #endif // ! defined(MOMEENDPOINTSTATUSREPORTER_H_)

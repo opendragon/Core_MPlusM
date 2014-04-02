@@ -41,8 +41,8 @@
 
 include_directories("${MAM_LOGGING_DIR}"
                     "${MAM_COMMON_DIR}"
-                    "${MAM_EXAMPLES_DIR}/RandomNumberService"
-                    "${MAM_EXAMPLES_DIR}/RandomNumberClient")
+                    "${MAM_EXAMPLES_DIR}/RandomNumberClient"
+                    "${MAM_EXAMPLES_DIR}/RandomNumberCommon")
 
 # set up our program
 add_executable(RandomNumberAdapter

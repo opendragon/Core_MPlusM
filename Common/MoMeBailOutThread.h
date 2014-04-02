@@ -43,7 +43,7 @@
 /*! @brief Header guard. */
 # define MOMEBAILOUTTHREAD_H_ /* */
 
-# include "MoMeBailOut.h"
+# include "MoMeCommon.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -73,69 +73,73 @@
 
 namespace MoAndMe
 {
-    /*! @brief A convenience class to timeout objects. */
-    class BailOutThread : public yarp::os::Thread
+    namespace Common
     {
-    public:
-        
-        /*! @brief The constructor.
-         @param channelOfInterest The channel that we are waiting for.
-         @param timeToWait The number of seconds to delay before triggering. */
-        BailOutThread(Channel *    channelOfInterest = NULL,
-                      const double timeToWait = STANDARD_WAIT_TIME);
-        
-        /*! @brief The destructor. */
-        virtual ~BailOutThread(void);
-        
-        /*! @brief The thread main body. */
-        virtual void run(void);
-        
-        /*! @brief The thread initialization method.
-         @returns @c true if the thread is ready to run. */
-        virtual bool threadInit(void);
-        
-        /*! @brief The thread termination method. */
-        virtual void threadRelease(void);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef yarp::os::Thread inherited;
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BailOutThread(const BailOutThread & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BailOutThread & operator=(const BailOutThread & other);
-        
+        /*! @brief A convenience class to timeout objects. */
+        class BailOutThread : public yarp::os::Thread
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param channelOfInterest The channel that we are waiting for.
+             @param timeToWait The number of seconds to delay before triggering. */
+            BailOutThread(Channel *    channelOfInterest = NULL,
+                          const double timeToWait = STANDARD_WAIT_TIME);
+            
+            /*! @brief The destructor. */
+            virtual ~BailOutThread(void);
+            
+            /*! @brief The thread main body. */
+            virtual void run(void);
+            
+            /*! @brief The thread initialization method.
+             @returns @c true if the thread is ready to run. */
+            virtual bool threadInit(void);
+            
+            /*! @brief The thread termination method. */
+            virtual void threadRelease(void);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef yarp::os::Thread inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BailOutThread(const BailOutThread & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BailOutThread & operator=(const BailOutThread & other);
+            
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
-        /*! @brief Filler to pad to alignment boundary */
-        char   _filler1[7];
+            /*! @brief Filler to pad to alignment boundary */
+            char   _filler1[7];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-
-        /*! @brief The channel that we are waiting on. */
-        Channel * _channel;
+            
+            /*! @brief The channel that we are waiting on. */
+            Channel * _channel;
+            
+            /*! @brief The time at which the thread will stop running. */
+            double    _endTime;
+            
+            /*! @brief The number of seconds to delay before triggering. */
+            double    _timeToWait;
+            
+        }; // BailOutThread
         
-        /*! @brief The time at which the thread will stop running. */
-        double    _endTime;
-        
-        /*! @brief The number of seconds to delay before triggering. */
-        double    _timeToWait;
-        
-    }; // BailOutThread
+    } // Common
     
 } // MoAndMe
 

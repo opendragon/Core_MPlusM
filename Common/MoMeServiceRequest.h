@@ -58,54 +58,59 @@
 
 namespace MoAndMe
 {
-    class Endpoint;
-    class ServiceResponse;
-    
-    /*! @brief The data constituting a service request. */
-    class ServiceRequest
+    namespace Common
     {
-    public:
+        class Endpoint;
+        class ServiceResponse;
         
-        /*! @brief The constructor.
-         @param requestName The request to be processed.
-         @param parameters The (optional) parameters for the request. */
-        ServiceRequest(const yarp::os::ConstString & requestName,
-                       const Package &               parameters = "");
+        /*! @brief The data constituting a service request. */
+        class ServiceRequest
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param requestName The request to be processed.
+             @param parameters The (optional) parameters for the request. */
+            ServiceRequest(const yarp::os::ConstString & requestName,
+                           const Package &               parameters = "");
+            
+            /*! @brief The destructor. */
+            virtual ~ServiceRequest(void);
+            
+            /*! @brief Send the request to an endpoint for processing.
+             @param usingChannel The channel that is to send the request, or @c NULL if an arbitrary channel is to be
+             used.
+             @param response The response from the request, @c NULL if none is expected.
+             @returns @c true if the request was successfully transmitted. */
+            bool send(Channel &         usingChannel,
+                      ServiceResponse * response = NULL);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ServiceRequest(const ServiceRequest & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ServiceRequest & operator=(const ServiceRequest & other);
+            
+            /*! @brief The request name. */
+            yarp::os::ConstString _name;
+            /*! @brief The response holding area. */
+            Package               _holder;
+            /*! @brief The request parameters. */
+            Package               _parameters;
+            
+        }; // ServiceRequest
         
-        /*! @brief The destructor. */
-        virtual ~ServiceRequest(void);
-        
-        /*! @brief Send the request to an endpoint for processing.
-         @param usingChannel The channel that is to send the request, or @c NULL if an arbitrary channel is to be used.
-         @param response The response from the request, @c NULL if none is expected.
-         @returns @c true if the request was successfully transmitted. */
-        bool send(Channel &         usingChannel,
-                  ServiceResponse * response = NULL);
-
-    protected:
-        
-    private:
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        ServiceRequest(const ServiceRequest & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        ServiceRequest & operator=(const ServiceRequest & other);
-        
-        /*! @brief The request name. */
-        yarp::os::ConstString _name;
-        /*! @brief The response holding area. */
-        Package               _holder;
-        /*! @brief The request parameters. */
-        Package               _parameters;
-        
-    }; // ServiceRequest
+    } // Common
     
 } // MoAndMe
 

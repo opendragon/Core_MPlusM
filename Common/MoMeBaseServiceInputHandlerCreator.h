@@ -59,47 +59,52 @@
 
 namespace MoAndMe
 {
-    class BaseService;
-    
-    /*! @brief The minimal functionality required for a MoAndMe service. */
-    class BaseServiceInputHandlerCreator : public InputHandlerCreator
+    namespace Common
     {
-    public:
+        class BaseService;
         
-        /*! @brief The constructor. */
-        BaseServiceInputHandlerCreator(BaseService & service);
+        /*! @brief The minimal functionality required for a MoAndMe service. */
+        class BaseServiceInputHandlerCreator : public InputHandlerCreator
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            BaseServiceInputHandlerCreator(BaseService & service);
+            
+            /*! @brief The destructor. */
+            virtual ~BaseServiceInputHandlerCreator(void);
+            
+            /*! @brief Create a new InputHandler object to process input data.
+             @returns A new InputHandler or @c NULL if one cannot be created. */
+            virtual InputHandler * create(void);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef InputHandlerCreator inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseServiceInputHandlerCreator(const BaseServiceInputHandlerCreator & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseServiceInputHandlerCreator & operator=(const BaseServiceInputHandlerCreator & other);
+            
+            /*! @brief The service that 'owns' this handler. */
+            BaseService & _service;
+            
+        }; // BaseServiceInputHandlerCreator
         
-        /*! @brief The destructor. */
-        virtual ~BaseServiceInputHandlerCreator(void);
-        
-        /*! @brief Create a new InputHandler object to process input data.
-         @returns A new InputHandler or @c NULL if one cannot be created. */
-        virtual InputHandler * create(void);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef InputHandlerCreator inherited;
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseServiceInputHandlerCreator(const BaseServiceInputHandlerCreator & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseServiceInputHandlerCreator & operator=(const BaseServiceInputHandlerCreator & other);
-
-        /*! @brief The service that 'owns' this handler. */
-        BaseService & _service;
-        
-    }; // BaseServiceInputHandlerCreator
+    } // Common
     
 } // MoAndMe
+
 
 #endif // ! defined(MOMEBASESERVICEINPUTHANDLERCREATOR_H_)

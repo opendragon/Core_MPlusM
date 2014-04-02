@@ -83,6 +83,7 @@
 #endif // defined(__APPLE__)
 
 using namespace MoAndMe;
+using namespace MoAndMe::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -130,7 +131,7 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
                          const yarp::os::ConstString & description,
                          const int                     argc,
-                         char **                       argv) :
+                         char * *                      argv) :
         _requestHandlers(*this),
 #if defined(SERVICES_HAVE_CONTEXTS)
         _contexts(),
@@ -507,7 +508,7 @@ void BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-bool MoAndMe::RegisterLocalService(const yarp::os::ConstString & channelName)
+bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("channelName = ", channelName.c_str());//####
@@ -589,7 +590,7 @@ bool MoAndMe::RegisterLocalService(const yarp::os::ConstString & channelName)
     return result;
 } // RegisterLocalService
 
-bool MoAndMe::UnregisterLocalService(const yarp::os::ConstString & channelName)
+bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("channelName = ", channelName.c_str());//####

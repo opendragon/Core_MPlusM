@@ -56,7 +56,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeTest;
+using namespace MoAndMe::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -115,7 +115,7 @@ void Test12EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
     info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_ANYTHING MAM_REQREP_0_OR_MORE);
     info.put(MAM_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
     info.put(MAM_REQREP_DICT_DETAILS_KEY, "Echo back any input");
-    yarp::os::Value         keywords;
+    yarp::os::Value    keywords;
     MoAndMe::Package * asList = keywords.asList();
     
     asList->addString(request);
@@ -124,7 +124,7 @@ void Test12EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
 } // Test12EchoRequestHandler::fillInDescription
 
 bool Test12EchoRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                              const MoAndMe::Package & restOfInput,
+                                              const MoAndMe::Package &      restOfInput,
                                               const yarp::os::ConstString & senderChannel,
                                               yarp::os::ConnectionWriter *  replyMechanism)
 {

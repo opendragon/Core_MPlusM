@@ -60,79 +60,83 @@
 
 namespace MoAndMe
 {
-    class BaseRequestHandler;
-    class BaseService;
-    
-    /*! @brief A class to manage the mapping from requests to request handlers. */
-    class RequestMap
+    namespace Common
     {
-    public:
+        class BaseRequestHandler;
+        class BaseService;
         
-        /*! @brief The constructor. */
-        RequestMap(BaseService & owner);
+        /*! @brief A class to manage the mapping from requests to request handlers. */
+        class RequestMap
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            RequestMap(BaseService & owner);
+            
+            /*! @brief The destructor. */
+            virtual ~RequestMap(void);
+            
+            /*! @brief Construct the response to a 'list' request.
+             @param reply The package to hold the reply. */
+            void fillInListReply(Package & reply);
+            
+            /*! @brief Construct the response to an 'info' request.
+             @param reply The package to hold the reply.
+             @param requestName The name of the request that is being looked at. */
+            void fillInRequestInfo(Package &                     reply,
+                                   const yarp::os::ConstString & requestName);
+            
+            /*! @brief Return the function corresponding to a particular request.
+             @param request The requested operation.
+             @returns A pointer to the function to be invoked for the request, or @c NULL if it is not recognized. */
+            BaseRequestHandler * lookupRequestHandler(const yarp::os::ConstString & request);
+            
+            /*! @brief Remember the function to be used to handle a particular request.
+             @param handler The function to be called for the request. */
+            void registerRequestHandler(BaseRequestHandler * handler);
+            
+            /*! @brief Remember the function to be used to handle unrecognized requests.
+             @param handler The function to be called by default. */
+            void setDefaultRequestHandler(BaseRequestHandler * handler);
+            
+            /*! @brief Forget the function to be used to handle a particular request.
+             @param handler The function that was called for the request. */
+            void unregisterRequestHandler(BaseRequestHandler * handler);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief A mapping from strings to requests. */
+            typedef std::map<std::string, BaseRequestHandler *> RequestHandlerMap;
+            
+            /*! @brief The entry-type for the mapping. */
+            typedef RequestHandlerMap::value_type               RequestHandlerMapValue;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RequestMap(const RequestMap & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RequestMap & operator=(const RequestMap & other);
+            
+            /*! @brief The default handler to use for unrecognized requests. */
+            BaseRequestHandler * _defaultHandler;
+            
+            /*! @brief The map between requests and request handlers. */
+            RequestHandlerMap    _handlers;
+            
+            /*! @brief The service that owns this map. */
+            BaseService &        _owner;
+            
+        }; // RequestMap
         
-        /*! @brief The destructor. */
-        virtual ~RequestMap(void);
-        
-        /*! @brief Construct the response to a 'list' request.
-         @param reply The package to hold the reply. */
-        void fillInListReply(Package & reply);
-        
-        /*! @brief Construct the response to an 'info' request.
-         @param reply The package to hold the reply.
-         @param requestName The name of the request that is being looked at. */
-        void fillInRequestInfo(Package &                     reply,
-                               const yarp::os::ConstString & requestName);
-
-        /*! @brief Return the function corresponding to a particular request.
-         @param request The requested operation.
-         @returns A pointer to the function to be invoked for the request, or @c NULL if it is not recognized. */
-        BaseRequestHandler * lookupRequestHandler(const yarp::os::ConstString & request);
-
-        /*! @brief Remember the function to be used to handle a particular request.
-         @param handler The function to be called for the request. */
-        void registerRequestHandler(BaseRequestHandler * handler);
-        
-        /*! @brief Remember the function to be used to handle unrecognized requests.
-         @param handler The function to be called by default. */
-        void setDefaultRequestHandler(BaseRequestHandler * handler);
-
-        /*! @brief Forget the function to be used to handle a particular request.
-         @param handler The function that was called for the request. */
-        void unregisterRequestHandler(BaseRequestHandler * handler);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief A mapping from strings to requests. */
-        typedef std::map<std::string, BaseRequestHandler *> RequestHandlerMap;
-        
-        /*! @brief The entry-type for the mapping. */
-        typedef RequestHandlerMap::value_type               RequestHandlerMapValue;
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RequestMap(const RequestMap & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RequestMap & operator=(const RequestMap & other);
-        
-        /*! @brief The default handler to use for unrecognized requests. */
-        BaseRequestHandler * _defaultHandler;
-        
-        /*! @brief The map between requests and request handlers. */
-        RequestHandlerMap    _handlers;
-        
-        /*! @brief The service that owns this map. */
-        BaseService &        _owner;
-        
-    }; // RequestMap
+    } // Common
     
 } // MoAndMe
 

@@ -56,54 +56,58 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMeTest
-{    
-    /*! @brief A convenience class to provide function objects for field name handling. */
-    class TestNameValidator : public MoAndMeParser::BaseNameValidator
+namespace MoAndMe
+{
+    namespace Test
     {
-    public:
+        /*! @brief A convenience class to provide function objects for field name handling. */
+        class TestNameValidator : public MoAndMe::Parser::BaseNameValidator
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            TestNameValidator(void);
+            
+            /*! @brief The destructor. */
+            virtual ~TestNameValidator(void);
+            
+            /*! @brief Check a field name for validity.
+             @param aString The string to be checked.
+             @returns @c true if the field name was valid or @c false if the field name was invalid. */
+            virtual bool checkName(const char * aString);
+            
+            /*! @brief Get the 'true name' matching the name and its prefix and suffix strings.
+             @param aString The string to be checked.
+             @param prefixString The string to be used in the SQL prefix for this field.
+             @param suffixString The string to be used in the SQL suffix for this field.
+             @returns The actual field name to be used or @c NULL if the field name was unmatched. */
+            virtual const char * getPrefixAndSuffix(const char *   aString,
+                                                    const char * & prefixString,
+                                                    const char * & suffixString);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseNameValidator inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            TestNameValidator(const TestNameValidator & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            TestNameValidator & operator=(const TestNameValidator & other);
+            
+        }; // TestNameValidator
         
-        /*! @brief The constructor. */
-        TestNameValidator(void);
-        
-        /*! @brief The destructor. */
-        virtual ~TestNameValidator(void);
-        
-        /*! @brief Check a field name for validity.
-         @param aString The string to be checked.
-         @returns @c true if the field name was valid or @c false if the field name was invalid. */
-        virtual bool checkName(const char * aString);
-        
-        /*! @brief Get the 'true name' matching the name and its prefix and suffix strings.
-         @param aString The string to be checked.
-         @param prefixString The string to be used in the SQL prefix for this field.
-         @param suffixString The string to be used in the SQL suffix for this field.
-         @returns The actual field name to be used or @c NULL if the field name was unmatched. */
-        virtual const char * getPrefixAndSuffix(const char *   aString,
-                                                const char * & prefixString,
-                                                const char * & suffixString);
-
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseNameValidator inherited;
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        TestNameValidator(const TestNameValidator & other);
-        
-        /*! @brief Assignment operator.
-
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        TestNameValidator & operator=(const TestNameValidator & other);
-        
-    }; // TestNameValidator
+    } // Test
     
-} // MoAndMeParser
+} // MoAndMe
 
 #endif // ! defined(MOMETESTNAMEVALIDATOR_H_)

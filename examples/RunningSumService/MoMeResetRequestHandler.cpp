@@ -57,7 +57,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeExample;
+using namespace MoAndMe::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -117,7 +117,7 @@ void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MAM_REQREP_DICT_VERSION_KEY, RESET_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Reset the running sum");
-        yarp::os::Value         keywords;
+        yarp::os::Value    keywords;
         MoAndMe::Package * asList = keywords.asList();
         
         asList->addString(request);
@@ -132,7 +132,7 @@ void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & reques
 } // ResetRequestHandler::fillInDescription
 
 bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const MoAndMe::Package & restOfInput,
+                                         const MoAndMe::Package &      restOfInput,
                                          const yarp::os::ConstString & senderChannel,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {

@@ -56,32 +56,36 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMeTest
+namespace MoAndMe
 {
-    /*! @brief A test input handler factory. */
-    class Test05HandlerCreator : public MoAndMe::InputHandlerCreator
+    namespace Test
     {
-    public:
+        /*! @brief A test input handler factory. */
+        class Test05HandlerCreator : public Common::InputHandlerCreator
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            Test05HandlerCreator(void);
+            
+            /*! @brief The destructor. */
+            virtual ~Test05HandlerCreator(void);
+            
+            /*! @brief Create a new InputHandler object to process input data.
+             @returns A new InputHandler or @c NULL if one cannot be created. */
+            virtual Common::InputHandler * create(void);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef InputHandlerCreator inherited;
+            
+        }; // Test05HandlerCreator
         
-        /*! @brief The constructor. */
-        Test05HandlerCreator(void);
-        
-        /*! @brief The destructor. */
-        virtual ~Test05HandlerCreator(void);
-        
-        /*! @brief Create a new InputHandler object to process input data.
-         @returns A new InputHandler or @c NULL if one cannot be created. */
-        virtual MoAndMe::InputHandler * create(void);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef InputHandlerCreator inherited;
-        
-    }; // Test05HandlerCreator
+    } // Test
     
-} // MoAndMeTest
+} // MoAndMe
 
 #endif // ! defined(MOMETEST05HANDLERCREATOR_H_)

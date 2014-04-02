@@ -59,83 +59,91 @@
 
 namespace MoAndMe
 {
-    class RegistryService;
-    class ServiceResponse;
-    
-    /*! @brief The standard 'register' request handler.
-     
-     The input is the name of a service channel and the output is either 'OK', which indicates success, or 'FAILED'
-     followed with a description of the reason for failure. */
-    class RegisterRequestHandler : public BaseRequestHandler
+    namespace Common
     {
-    public:
+        class ServiceResponse;
+    } // Common
+    
+    namespace Registry
+    {
+        class RegistryService;
         
-        /*! @brief The constructor.
-         @param service The service that has registered this request. */
-        RegisterRequestHandler(RegistryService & service);
-        
-        /*! @brief The destructor. */
-        virtual ~RegisterRequestHandler(void);
-        
-        /*! @brief Fill in a set of aliases for the request.
-         @param alternateNames Aliases for the request. */
-        virtual void fillInAliases(StringVector & alternateNames);
-        
-        /*! @brief Fill in a description dictionary for the request.
-         @param request The actual request name.
-         @param info The dictionary to be filled in. */
-        virtual void fillInDescription(const yarp::os::ConstString & request,
-                                       yarp::os::Property &          info);
-        
-        /*! @brief Process a request.
-         @param request The actual request name.
-         @param restOfInput The arguments to the operation.
-         @param senderChannel The name of the channel used to send the input data.
-         @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-        virtual bool processRequest(const yarp::os::ConstString & request,
-                                    const Package &               restOfInput,
-                                    const yarp::os::ConstString & senderChannel,
-                                    yarp::os::ConnectionWriter *  replyMechanism);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseRequestHandler inherited;
-        
-        /*! @brief Copy constructor.
+        /*! @brief The standard 'register' request handler.
          
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RegisterRequestHandler(const RegisterRequestHandler & other);
+         The input is the name of a service channel and the output is either 'OK', which indicates success, or 'FAILED'
+         followed with a description of the reason for failure. */
+        class RegisterRequestHandler : public Common::BaseRequestHandler
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param service The service that has registered this request. */
+            RegisterRequestHandler(RegistryService & service);
+            
+            /*! @brief The destructor. */
+            virtual ~RegisterRequestHandler(void);
+            
+            /*! @brief Fill in a set of aliases for the request.
+             @param alternateNames Aliases for the request. */
+            virtual void fillInAliases(StringVector & alternateNames);
+            
+            /*! @brief Fill in a description dictionary for the request.
+             @param request The actual request name.
+             @param info The dictionary to be filled in. */
+            virtual void fillInDescription(const yarp::os::ConstString & request,
+                                           yarp::os::Property &          info);
+            
+            /*! @brief Process a request.
+             @param request The actual request name.
+             @param restOfInput The arguments to the operation.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+            virtual bool processRequest(const yarp::os::ConstString & request,
+                                        const Package &               restOfInput,
+                                        const yarp::os::ConstString & senderChannel,
+                                        yarp::os::ConnectionWriter *  replyMechanism);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RegisterRequestHandler(const RegisterRequestHandler & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RegisterRequestHandler & operator=(const RegisterRequestHandler & other);
+            
+            /*! @brief Check the response from the 'list' request.
+             @param channelName The channel that sent the response.
+             @param response The response to be analyzed.
+             @returns @c true if the expected values are all present and @c false if they are not or if unexpected
+             values appear. */
+            bool processListResponse(const yarp::os::ConstString &   channelName,
+                                     const Common::ServiceResponse & response);
+            
+            /*! @brief Check the response from the 'name' request.
+             @param channelName The channel that sent the response.
+             @param response The response to be analyzed.
+             @returns @c true if the expected values are all present and @c false if they are not or if unexpected
+             values appear. */
+            bool processNameResponse(const yarp::os::ConstString &   channelName,
+                                     const Common::ServiceResponse & response);
+            
+            /*! @brief The service that will handle the registration operation. */
+            RegistryService & _service;
+            
+        }; // RegisterRequestHandler
         
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RegisterRequestHandler & operator=(const RegisterRequestHandler & other);
-        
-        /*! @brief Check the response from the 'list' request.
-         @param channelName The channel that sent the response.
-         @param response The response to be analyzed.
-         @returns @c true if the expected values are all present and @c false if they are not or if unexpected values
-         appear. */
-        bool processListResponse(const yarp::os::ConstString & channelName,
-                                 const ServiceResponse &       response);
-
-        /*! @brief Check the response from the 'name' request.
-         @param channelName The channel that sent the response.
-         @param response The response to be analyzed.
-         @returns @c true if the expected values are all present and @c false if they are not or if unexpected values
-         appear. */
-        bool processNameResponse(const yarp::os::ConstString & channelName,
-                                 const ServiceResponse &       response);
-        
-        /*! @brief The service that will handle the registration operation. */
-        RegistryService & _service;
-        
-    }; // RegisterRequestHandler
+    } // Registry
     
 } // MoAndMe
 

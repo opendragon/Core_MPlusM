@@ -58,7 +58,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeExample;
+using namespace MoAndMe::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -76,7 +76,7 @@ using namespace MoAndMeExample;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RunningSumAdapterData::RunningSumAdapterData(RunningSumClient *      client,
+RunningSumAdapterData::RunningSumAdapterData(RunningSumClient * client,
                                              MoAndMe::Channel * output) :
         inherited(client), _output(output)
 {

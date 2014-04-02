@@ -57,7 +57,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeExample;
+using namespace MoAndMe::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -117,7 +117,7 @@ void AddRequestHandler::fillInDescription(const yarp::os::ConstString & request,
         info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_DOUBLE);
         info.put(MAM_REQREP_DICT_VERSION_KEY, ADD_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Add to the running sum");
-        yarp::os::Value         keywords;
+        yarp::os::Value    keywords;
         MoAndMe::Package * asList = keywords.asList();
         
         asList->addString(request);
@@ -132,7 +132,7 @@ void AddRequestHandler::fillInDescription(const yarp::os::ConstString & request,
 } // AddRequestHandler::fillInDescription
 
 bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                       const MoAndMe::Package & restOfInput,
+                                       const MoAndMe::Package &      restOfInput,
                                        const yarp::os::ConstString & senderChannel,
                                        yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -147,8 +147,8 @@ bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
 
     try
     {
-        double                total = 0.0;
-        int                   count = restOfInput.size();
+        double           total = 0.0;
+        int              count = restOfInput.size();
         MoAndMe::Package response;
         
         if (1 < count)

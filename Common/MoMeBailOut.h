@@ -48,7 +48,7 @@
 # if (defined(__APPLE__) || defined(__linux__))
 #  include <csignal>
 # endif // defined(__APPLE__) || defined(__linux__)
-        //# include <cstdlib>
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -60,53 +60,48 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The default timeout duration in seconds. */
-# define STANDARD_WAIT_TIME 5.0
-
-# if (defined(__APPLE__) || defined(__linux__))
-#  define STANDARD_SIGNAL_TO_USE SIGUSR2
-# else // (! defined(__APPLE__)) && (! defined(__linux__))
-#  define STANDARD_SIGNAL_TO_USE 42
-# endif // (! defined(__APPLE__)) && (! defined(__linux__))
-
 namespace MoAndMe
 {
-    class BailOutThread;
-    
-    /*! @brief A convenience class to timeout objects. */
-    class BailOut
+    namespace Common
     {
-    public:
+        class BailOutThread;
         
-        /*! @brief The constructor.
-         @param channelOfInterest The channel that we are waiting for.
-         @param timeToWait The number of seconds to delay before triggering. */
-        BailOut(Channel *    channelOfInterest = NULL,
-                const double timeToWait = STANDARD_WAIT_TIME);
+        /*! @brief A convenience class to timeout objects. */
+        class BailOut
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param channelOfInterest The channel that we are waiting for.
+             @param timeToWait The number of seconds to delay before triggering. */
+            BailOut(Channel *    channelOfInterest = NULL,
+                    const double timeToWait = STANDARD_WAIT_TIME);
+            
+            /*! @brief The destructor. */
+            virtual ~BailOut(void);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BailOut(const BailOut & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BailOut & operator=(const BailOut & other);
+            
+            /*! @brief The bailout thread to use. */
+            BailOutThread * _bailer;
+            
+        }; // BailOut
         
-        /*! @brief The destructor. */
-        virtual ~BailOut(void);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BailOut(const BailOut & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BailOut & operator=(const BailOut & other);
-        
-        /*! @brief The bailout thread to use. */
-        BailOutThread * _bailer;
-        
-    }; // BailOut
+    } // Common
     
 } // MoAndMe
 

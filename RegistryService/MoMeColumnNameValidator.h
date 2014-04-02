@@ -93,53 +93,57 @@
 # define SERVICES_T_         "Services"
 
 namespace MoAndMe
-{    
-    /*! @brief A convenience class to provide function objects for field name handling. */
-    class ColumnNameValidator : public MoAndMeParser::BaseNameValidator
+{
+    namespace Registry
     {
-    public:
+        /*! @brief A convenience class to provide function objects for field name handling. */
+        class ColumnNameValidator : public MoAndMe::Parser::BaseNameValidator
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            ColumnNameValidator(void);
+            
+            /*! @brief The destructor. */
+            virtual ~ColumnNameValidator(void);
+            
+            /*! @brief Check a field name for validity.
+             @param aString The string to be checked.
+             @returns @c true if the field name was valid or @c false if the field name was invalid. */
+            virtual bool checkName(const char * aString);
+            
+            /*! @brief Get the 'true name' matching the name and its prefix and suffix strings.
+             @param aString The string to be checked.
+             @param prefixString The string to be used in the SQL prefix for this field.
+             @param suffixString The string to be used in the SQL suffix for this field.
+             @returns The actual field name to be used or @c NULL if the field name was unmatched. */
+            virtual const char * getPrefixAndSuffix(const char *  aString,
+                                                    const char * & prefixString,
+                                                    const char * & suffixString);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseNameValidator inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ColumnNameValidator(const ColumnNameValidator & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ColumnNameValidator & operator=(const ColumnNameValidator & other);
+            
+        }; // ColumnNameValidator
         
-        /*! @brief The constructor. */
-        ColumnNameValidator(void);
-        
-        /*! @brief The destructor. */
-        virtual ~ColumnNameValidator(void);
-        
-        /*! @brief Check a field name for validity.
-         @param aString The string to be checked.
-         @returns @c true if the field name was valid or @c false if the field name was invalid. */
-        virtual bool checkName(const char * aString);
-        
-        /*! @brief Get the 'true name' matching the name and its prefix and suffix strings.
-         @param aString The string to be checked.
-         @param prefixString The string to be used in the SQL prefix for this field.
-         @param suffixString The string to be used in the SQL suffix for this field.
-         @returns The actual field name to be used or @c NULL if the field name was unmatched. */
-        virtual const char * getPrefixAndSuffix(const char *  aString,
-                                                const char * & prefixString,
-                                                const char * & suffixString);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseNameValidator inherited;
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        ColumnNameValidator(const ColumnNameValidator & other);
-        
-        /*! @brief Assignment operator.
-
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        ColumnNameValidator & operator=(const ColumnNameValidator & other);
-        
-    }; // ColumnNameValidator
+    } // Registry
     
-} // MoAndMeParser
+} // MoAndMe::Parser
 
 #endif // ! defined(MOMECOLUMNNAMEVALIDATOR_H_)

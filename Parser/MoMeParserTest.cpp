@@ -77,8 +77,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeParser;
-using namespace MoAndMeTest;
+using namespace MoAndMe::Test;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -109,9 +108,9 @@ static int doTestParseValue(const bool   expected,
     
     try
     {
-        int          endPos;
-        int          len = static_cast<int>(strlen(inString));
-        MatchValue * didMatch = MatchValue::CreateMatcher(inString, len, 0, endPos);
+        int                           endPos;
+        int                           len = static_cast<int>(strlen(inString));
+        MoAndMe::Parser::MatchValue * didMatch = MoAndMe::Parser::MatchValue::CreateMatcher(inString, len, 0, endPos);
         
         if ((NULL != didMatch) == expected)
         {
@@ -156,9 +155,10 @@ static int doTestParseValueList(const bool   expected,
     
     try
     {
-        int              endPos;
-        int              len = static_cast<int>(strlen(inString));
-        MatchValueList * didMatch = MatchValueList::CreateMatcher(inString, len, 0, endPos);
+        int                               endPos;
+        int                               len = static_cast<int>(strlen(inString));
+        MoAndMe::Parser::MatchValueList * didMatch = MoAndMe::Parser::MatchValueList::CreateMatcher(inString, len, 0,
+                                                                                                    endPos);
 
         if ((NULL != didMatch) == expected)
         {
@@ -203,10 +203,11 @@ static int doTestParseFieldName(const bool   expected,
     
     try
     {
-        int                 endPos;
-        int                 len = static_cast<int>(strlen(inString));
-        TestNameValidator * validator = new TestNameValidator;
-        MatchFieldName *    didMatch = MatchFieldName::CreateMatcher(inString, len, 0, endPos, validator);
+        int                               endPos;
+        int                               len = static_cast<int>(strlen(inString));
+        TestNameValidator *               validator = new TestNameValidator;
+        MoAndMe::Parser::MatchFieldName * didMatch = MoAndMe::Parser::MatchFieldName::CreateMatcher(inString, len, 0,
+                                                                                                    endPos, validator);
 
         if ((NULL != didMatch) == expected)
         {
@@ -252,10 +253,13 @@ static int doTestParseFieldWithValues(const bool   expected,
     
     try
     {
-        int                    endPos;
-        int                    len = static_cast<int>(strlen(inString));
-        TestNameValidator *    validator = new TestNameValidator;
-        MatchFieldWithValues * didMatch = MatchFieldWithValues::CreateMatcher(inString, len, 0, endPos, validator);
+        int                                     endPos;
+        int                                     len = static_cast<int>(strlen(inString));
+        TestNameValidator *                     validator = new TestNameValidator;
+        MoAndMe::Parser::MatchFieldWithValues * didMatch =
+                                                    MoAndMe::Parser::MatchFieldWithValues::CreateMatcher(inString, len,
+                                                                                                         0, endPos,
+                                                                                                         validator);
 
         if ((NULL != didMatch) == expected)
         {
@@ -301,10 +305,11 @@ static int doTestParseConstraintList(const bool   expected,
     
     try
     {
-        int                 endPos;
-        int                 len = static_cast<int>(strlen(inString));
-        TestNameValidator * validator = new TestNameValidator;
-        MatchConstraint *   didMatch = MatchConstraint::CreateMatcher(inString, len, 0, endPos, validator);
+        int                                endPos;
+        int                                len = static_cast<int>(strlen(inString));
+        TestNameValidator *                validator = new TestNameValidator;
+        MoAndMe::Parser::MatchConstraint * didMatch = MoAndMe::Parser::MatchConstraint::CreateMatcher(inString, len, 0,
+                                                                                                      endPos, validator);
 
         if ((NULL != didMatch) == expected)
         {
@@ -350,10 +355,12 @@ static int doTestParseExpression(const bool   expected,
     
     try
     {
-        int                 endPos;
-        int                 len = static_cast<int>(strlen(inString));
-        TestNameValidator * validator = new TestNameValidator;
-        MatchExpression *   didMatch = MatchExpression::CreateMatcher(inString, len, 0, endPos, validator);
+        int                                endPos;
+        int                                len = static_cast<int>(strlen(inString));
+        TestNameValidator *                validator = new TestNameValidator;
+        MoAndMe::Parser::MatchExpression * didMatch = MoAndMe::Parser::MatchExpression::CreateMatcher(inString, len, 0,
+                                                                                                      endPos,
+                                                                                                      validator);
 
         if ((NULL != didMatch) == expected)
         {
@@ -404,8 +411,8 @@ static void catchSignal(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####

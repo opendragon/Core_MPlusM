@@ -59,61 +59,65 @@
 
 namespace MoAndMe
 {
-    /*! @brief The standard 'info' request handler.
-     
-     The input is the name of a request and the output is a dictionary of fields describing the request. The fields
-     'detail', 'input', 'keywords', 'output', and 'version' are optional, while the field 'request' is always
-     present. */
-    class InfoRequestHandler : public BaseRequestHandler
+    namespace Common
     {
-    public:
-        
-        /*! @brief The constructor. */
-        InfoRequestHandler(void);
-        
-        /*! @brief The destructor. */
-        virtual ~InfoRequestHandler(void);
-        
-        /*! @brief Fill in a set of aliases for the request.
-         @param alternateNames Aliases for the request. */
-        virtual void fillInAliases(StringVector & alternateNames);
-        
-        /*! @brief Fill in a description dictionary for the request.
-         @param request The actual request name.
-         @param info The dictionary to be filled in. */
-        virtual void fillInDescription(const yarp::os::ConstString & request,
-                                       yarp::os::Property &          info);
-        
-        /*! @brief Process a request.
-         @param request The actual request name.
-         @param restOfInput The arguments to the operation.
-         @param senderChannel The name of the channel used to send the input data.
-         @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-        virtual bool processRequest(const yarp::os::ConstString & request,
-                                    const Package &               restOfInput,
-                                    const yarp::os::ConstString & senderChannel,
-                                    yarp::os::ConnectionWriter *  replyMechanism);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseRequestHandler inherited;
-        
-        /*! @brief Copy constructor.
+        /*! @brief The standard 'info' request handler.
          
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        InfoRequestHandler(const InfoRequestHandler & other);
+         The input is the name of a request and the output is a dictionary of fields describing the request. The fields
+         'detail', 'input', 'keywords', 'output', and 'version' are optional, while the field 'request' is always
+         present. */
+        class InfoRequestHandler : public BaseRequestHandler
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            InfoRequestHandler(void);
+            
+            /*! @brief The destructor. */
+            virtual ~InfoRequestHandler(void);
+            
+            /*! @brief Fill in a set of aliases for the request.
+             @param alternateNames Aliases for the request. */
+            virtual void fillInAliases(StringVector & alternateNames);
+            
+            /*! @brief Fill in a description dictionary for the request.
+             @param request The actual request name.
+             @param info The dictionary to be filled in. */
+            virtual void fillInDescription(const yarp::os::ConstString & request,
+                                           yarp::os::Property &          info);
+            
+            /*! @brief Process a request.
+             @param request The actual request name.
+             @param restOfInput The arguments to the operation.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+            virtual bool processRequest(const yarp::os::ConstString & request,
+                                        const Package &               restOfInput,
+                                        const yarp::os::ConstString & senderChannel,
+                                        yarp::os::ConnectionWriter *  replyMechanism);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            InfoRequestHandler(const InfoRequestHandler & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            InfoRequestHandler & operator=(const InfoRequestHandler & other);
+            
+        }; // InfoRequestHandler
         
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        InfoRequestHandler & operator=(const InfoRequestHandler & other);
-        
-    }; // InfoRequestHandler
+    } // Common
     
 } // MoAndMe
 

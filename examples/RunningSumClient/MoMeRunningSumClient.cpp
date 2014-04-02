@@ -41,7 +41,6 @@
 
 #include "MoMeRunningSumClient.h"
 #include "MoMeEndpoint.h"
-#include "MoMeException.h"
 #include "MoMeRunningSumRequests.h"
 #include "MoMeServiceResponse.h"
 
@@ -74,7 +73,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeExample;
+using namespace MoAndMe::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -118,8 +117,8 @@ bool RunningSumClient::addToSum(const double value,
     
     try
     {
-        MoAndMe::Package         parameters;
-        MoAndMe::ServiceResponse response;
+        MoAndMe::Package        parameters;
+        Common::ServiceResponse response;
         
         parameters.addDouble(value);
         if (send(MAM_ADD_REQUEST, parameters, &response))
@@ -164,7 +163,7 @@ bool RunningSumClient::addToSum(const double value,
 } // RunningSumClient::addToSum
 
 bool RunningSumClient::addToSum(const MoAndMe::DoubleVector & values,
-                                double &                           newSum)
+                                double &                      newSum)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P2("values = ", &values, "newSum = ", &newSum);//####
@@ -172,8 +171,8 @@ bool RunningSumClient::addToSum(const MoAndMe::DoubleVector & values,
     
     try
     {
-        MoAndMe::Package         parameters;
-        MoAndMe::ServiceResponse response;
+        MoAndMe::Package        parameters;
+        Common::ServiceResponse response;
         
         for (MoAndMe::DoubleVector::const_iterator it(values.cbegin()); it != values.cend(); ++it)
         {

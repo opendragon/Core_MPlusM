@@ -100,9 +100,9 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("aServiceChannel = ", aServiceChannel.c_str());//####
-    bool                    result = false;
-    yarp::os::ConstString   aName(MoAndMe::GetRandomChannelName("/servicelister/channel_"));
-    MoAndMe::Channel * newChannel = new MoAndMe::Channel;
+    bool                  result = false;
+    yarp::os::ConstString aName(MoAndMe::GetRandomChannelName("/servicelister/channel_"));
+    MoAndMe::Channel *    newChannel = new MoAndMe::Channel;
     
     if (newChannel)
     {
@@ -110,9 +110,9 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
         {
             if (MoAndMe::NetworkConnectWithRetries(aName, aServiceChannel))
             {
-                MoAndMe::Package         parameters;
-                MoAndMe::ServiceRequest  request(MAM_NAME_REQUEST, parameters);
-                MoAndMe::ServiceResponse response;
+                MoAndMe::Package                 parameters;
+                MoAndMe::Common::ServiceRequest  request(MAM_NAME_REQUEST, parameters);
+                MoAndMe::Common::ServiceResponse response;
                 
                 if (request.send(*newChannel, &response))
                 {
@@ -182,8 +182,8 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
 #if defined(OD_ENABLE_LOGGING)
 # pragma unused(argc)
@@ -200,7 +200,7 @@ int main(int     argc,
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
             MoAndMe::Initialize();
-            MoAndMe::Package matches(MoAndMe::FindMatchingServices("request:*"));
+            MoAndMe::Package matches(MoAndMe::Common::FindMatchingServices("request:*"));
             
             if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {

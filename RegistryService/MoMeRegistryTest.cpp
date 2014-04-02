@@ -49,7 +49,7 @@
 #include "RegistryTests/MoMeTest15Service.h"
 #include "RegistryTests/MoMeTest16Service.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <iostream>
@@ -79,8 +79,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe;
-using namespace MoAndMeTest;
+using namespace MoAndMe::Test;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -101,14 +100,14 @@ using std::endl;
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestCreateRegisterService(const int argc,
-                                       char **   argv) // create 'register' service
+                                       char * *  argv) // create 'register' service
 {
     OD_LOG_ENTER();//####
     int result = 1;
     
     try
     {
-        RegistryService * registry = NULL;
+        MoAndMe::Registry::RegistryService * registry = NULL;
         
         if (0 <= argc)
         {
@@ -116,15 +115,15 @@ static int doTestCreateRegisterService(const int argc,
             {
                     // Argument order for tests = endpoint name [, IP address / name [, port]]
                 case 0:
-                    registry = new RegistryService(TEST_INMEMORY);
+                    registry = new MoAndMe::Registry::RegistryService(TEST_INMEMORY);
                     break;
                     
                 case 1:
-                    registry = new RegistryService(TEST_INMEMORY, *argv);
+                    registry = new MoAndMe::Registry::RegistryService(TEST_INMEMORY, *argv);
                     break;
                     
                 case 2:
-                    registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
+                    registry = new MoAndMe::Registry::RegistryService(TEST_INMEMORY, *argv, argv[1]);
                     break;
                     
                 default:
@@ -164,15 +163,15 @@ static int doTestCreateRegisterService(const int argc,
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestRegisterService(const int argc,
-                                        char **   argv) // send 'register' request
+                                        char * *  argv) // send 'register' request
 {
     OD_LOG_ENTER();//####
     int result = false;
     
     try
     {
-        const char *      secondServiceChannel;
-        RegistryService * registry = NULL;
+        const char *                         secondServiceChannel;
+        MoAndMe::Registry::RegistryService * registry = NULL;
         
         if (0 <= argc)
         {
@@ -180,17 +179,17 @@ static int doTestRequestRegisterService(const int argc,
             {
                     // Argument order for tests = endpoint name [, IP address / name [, port]]
                 case 0:
-                    registry = new RegistryService(TEST_INMEMORY);
+                    registry = new MoAndMe::Registry::RegistryService(TEST_INMEMORY);
                     secondServiceChannel = "/service/test/requestregisterservice_1";
                     break;
                     
                 case 1:
-                    registry = new RegistryService(TEST_INMEMORY, *argv);
+                    registry = new MoAndMe::Registry::RegistryService(TEST_INMEMORY, *argv);
                     secondServiceChannel = "/service/test/requestregisterservice_2";
                     break;
                     
                 case 2:
-                    registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
+                    registry = new MoAndMe::Registry::RegistryService(TEST_INMEMORY, *argv, argv[1]);
                     secondServiceChannel = "/service/test/requestregisterservice_3";
                     break;
                     
@@ -214,13 +213,13 @@ static int doTestRequestRegisterService(const int argc,
                         {
                             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (MoAndMe::RegisterLocalService(channelName))
+                            if (MoAndMe::Common::RegisterLocalService(channelName))
                             {
                                 result = 0;
                             }
                             else
                             {
-                                OD_LOG("! (MoAndMe::RegisterLocalService(channelName))");//####
+                                OD_LOG("! (MoAndMe::Common::RegisterLocalService(channelName))");//####
                             }
                             stuff->stop();
                         }
@@ -266,15 +265,15 @@ static int doTestRequestRegisterService(const int argc,
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestUnregisterService(const int argc,
-                                          char **   argv) // send 'register' request
+                                          char * *  argv) // send 'register' request
 {
     OD_LOG_ENTER();//####
     int result = 1;
 
     try
     {
-        const char *      secondServiceChannel;
-        RegistryService * registry = NULL;
+        const char *                         secondServiceChannel;
+        MoAndMe::Registry::RegistryService * registry = NULL;
         
         if (0 <= argc)
         {
@@ -282,17 +281,17 @@ static int doTestRequestUnregisterService(const int argc,
             {
                     // Argument order for tests = endpoint name [, IP address / name [, port]]
                 case 0:
-                    registry = new RegistryService(TEST_INMEMORY);
+                    registry = new MoAndMe::Registry::RegistryService(TEST_INMEMORY);
                     secondServiceChannel = "/service/test/requestunregisterservice_1";
                     break;
                     
                 case 1:
-                    registry = new RegistryService(TEST_INMEMORY, *argv);
+                    registry = new MoAndMe::Registry::RegistryService(TEST_INMEMORY, *argv);
                     secondServiceChannel = "/service/test/requestunregisterservice_2";
                     break;
                     
                 case 2:
-                    registry = new RegistryService(TEST_INMEMORY, *argv, argv[1]);
+                    registry = new MoAndMe::Registry::RegistryService(TEST_INMEMORY, *argv, argv[1]);
                     secondServiceChannel = "/service/test/requestunregisterservice_3";
                     break;
                     
@@ -316,21 +315,21 @@ static int doTestRequestUnregisterService(const int argc,
                         {
                             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (MoAndMe::RegisterLocalService(channelName))
+                            if (MoAndMe::Common::RegisterLocalService(channelName))
                             {
                                 yarp::os::Time::delay(0.2);
-                                if (MoAndMe::UnregisterLocalService(channelName))
+                                if (MoAndMe::Common::UnregisterLocalService(channelName))
                                 {
                                     result = 0;
                                 }
                                 else
                                 {
-                                    OD_LOG("! (MoAndMe::UnregisterLocalService(channelName))");//####
+                                    OD_LOG("! (MoAndMe::Common::UnregisterLocalService(channelName))");//####
                                 }
                             }
                             else
                             {
-                                OD_LOG("! (MoAndMe::RegisterLocalService(channelName))");//####
+                                OD_LOG("! (MoAndMe::Common::RegisterLocalService(channelName))");//####
                             }
                             stuff->stop();
                         }
@@ -376,7 +375,7 @@ static int doTestRequestUnregisterService(const int argc,
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestSearchService(const int argc,
-                                      char **   argv) // send 'match' request
+                                      char * *  argv) // send 'match' request
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -385,8 +384,8 @@ static int doTestRequestSearchService(const int argc,
     {
         if (1 < argc)
         {
-            const char *      secondServiceChannel = "/service/test/requestsearchservice";
-            RegistryService * registry = new RegistryService(TEST_INMEMORY);
+            const char *                         secondServiceChannel = "/service/test/requestsearchservice";
+            MoAndMe::Registry::RegistryService * registry = new MoAndMe::Registry::RegistryService(TEST_INMEMORY);
             
             if (registry)
             {
@@ -403,11 +402,11 @@ static int doTestRequestSearchService(const int argc,
                             {
                                 yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                                 
-                                if (MoAndMe::RegisterLocalService(channelName))
+                                if (MoAndMe::Common::RegisterLocalService(channelName))
                                 {
                                     // Search for the service that we just registered.
-                                    Package matches(MoAndMe::FindMatchingServices(*argv));
-                                    Package expected(argv[1]);
+                                    MoAndMe::Package matches(MoAndMe::Common::FindMatchingServices(*argv));
+                                    MoAndMe::Package expected(argv[1]);
                                     
                                     OD_LOG_S3("criteria <- ", *argv, "expected <- ", expected.toString().c_str(),//####
                                               "matches <- ", matches.toString().c_str());//####
@@ -447,10 +446,10 @@ static int doTestRequestSearchService(const int argc,
                                             
                                             if (expectedSecond.isList())
                                             {
-                                                Package * matchesSecondAsList = matchesSecond.asList();
-                                                Package * expectedSecondAsList = expectedSecond.asList();
-                                                int       matchesSecondCount = matchesSecondAsList->size();
-                                                int       expectedSecondCount = expectedSecondAsList->size();
+                                                MoAndMe::Package * matchesSecondAsList = matchesSecond.asList();
+                                                MoAndMe::Package * expectedSecondAsList = expectedSecond.asList();
+                                                int                matchesSecondCount = matchesSecondAsList->size();
+                                                int                expectedSecondCount = expectedSecondAsList->size();
                                                 
                                                 OD_LOG_LL2("matchesSecondCount <- ", matchesSecondCount,//####
                                                            "expectedSecondCount <- ", expectedSecondCount);//####
@@ -462,16 +461,16 @@ static int doTestRequestSearchService(const int argc,
                                                     {
                                                         bool                  didFind = false;
                                                         yarp::os::Value       expectedSecondValue =
-                                                        expectedSecondAsList->get(ii);
+                                                                                        expectedSecondAsList->get(ii);
                                                         yarp::os::ConstString expectedString =
-                                                        expectedSecondValue.toString();
+                                                                                        expectedSecondValue.toString();
                                                         
                                                         for (int jj = 0; jj < expectedSecondCount; ++jj)
                                                         {
                                                             yarp::os::Value       matchesSecondValue =
-                                                            matchesSecondAsList->get(jj);
+                                                                                        matchesSecondAsList->get(jj);
                                                             yarp::os::ConstString matchesString =
-                                                            matchesSecondValue.toString();
+                                                                                        matchesSecondValue.toString();
                                                             
                                                             if (expectedString == matchesString)
                                                             {
@@ -507,14 +506,14 @@ static int doTestRequestSearchService(const int argc,
                                         OD_LOG("! ((expected.size() == matches.size()) && "//####
                                                   "(MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size()))");//####
                                     }
-                                    if (! MoAndMe::UnregisterLocalService(channelName))
+                                    if (! MoAndMe::Common::UnregisterLocalService(channelName))
                                     {
-                                        OD_LOG("(! MoAndMe::UnregisterLocalService(channelName))");//####
+                                        OD_LOG("(! MoAndMe::Common::UnregisterLocalService(channelName))");//####
                                     }
                                 }
                                 else
                                 {
-                                    OD_LOG("! (MoAndMe::RegisterLocalService(channelName))");//####
+                                    OD_LOG("! (MoAndMe::Common::RegisterLocalService(channelName))");//####
                                 }
                                 stuff->stop();
                             }
@@ -583,8 +582,8 @@ static void catchSignal(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####

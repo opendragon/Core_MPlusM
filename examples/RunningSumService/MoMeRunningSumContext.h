@@ -56,49 +56,53 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMeExample
+namespace MoAndMe
 {
-    /*! @brief A convenience class to provide context objects for the running sum service. */
-    class RunningSumContext : public MoAndMe::BaseContext
+    namespace Example
     {
-    public:
-        
-        /*! @brief The constructor. */
-        RunningSumContext(void);
-        
-        /*! @brief The destructor. */
-        virtual ~RunningSumContext(void);
-        
-        /*! @brief An accessor for the running sum. */
-        inline double & sum(void)
+        /*! @brief A convenience class to provide context objects for the running sum service. */
+        class RunningSumContext : public Common::BaseContext
         {
-            return _sum;
-        } // sum
+        public:
+            
+            /*! @brief The constructor. */
+            RunningSumContext(void);
+            
+            /*! @brief The destructor. */
+            virtual ~RunningSumContext(void);
+            
+            /*! @brief An accessor for the running sum. */
+            inline double & sum(void)
+            {
+                return _sum;
+            } // sum
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseContext inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RunningSumContext(const RunningSumContext & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RunningSumContext & operator=(const RunningSumContext & other);
+            
+            /*! @brief The running sum. */
+            double _sum;
+            
+        }; // RunningSumContext
         
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseContext inherited;
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RunningSumContext(const RunningSumContext & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RunningSumContext & operator=(const RunningSumContext & other);
-        
-        /*! @brief The running sum. */
-        double _sum;
-        
-    }; // RunningSumContext
+    } // Example
     
-} // MoAndMeExample
+} // MoAndMe
 
 #endif // ! defined(MOMERUNNINGSUMCONTEXT_H_)

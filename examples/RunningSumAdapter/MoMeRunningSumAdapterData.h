@@ -58,48 +58,52 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMeExample
+namespace MoAndMe
 {
-    class RunningSumClient;
-    
-    /*! @brief A handler for partially-structured input data. */
-    class RunningSumAdapterData : public MoAndMe::BaseAdapterData
+    namespace Example
     {
-    public:
+        class RunningSumClient;
         
-        /*! @brief The constructor.
-         @param client The client connection that is used to communicate with the service.
-         @param output The output channel that will receive the service responses. */
-        RunningSumAdapterData(RunningSumClient *      client,
-                              MoAndMe::Channel * output);
+        /*! @brief A handler for partially-structured input data. */
+        class RunningSumAdapterData : public Common::BaseAdapterData
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param client The client connection that is used to communicate with the service.
+             @param output The output channel that will receive the service responses. */
+            RunningSumAdapterData(RunningSumClient * client,
+                                  MoAndMe::Channel * output);
+            
+            /*! @brief The destructor. */
+            virtual ~RunningSumAdapterData(void);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseAdapterData inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RunningSumAdapterData(const RunningSumAdapterData & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RunningSumAdapterData & operator=(const RunningSumAdapterData & other);
+            
+            /*! @brief The output channel for the adapter. */
+            MoAndMe::Channel * _output;
+            
+        }; // RunningSumDataInputHandler
         
-        /*! @brief The destructor. */
-        virtual ~RunningSumAdapterData(void);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef MoAndMe::BaseAdapterData inherited;
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RunningSumAdapterData(const RunningSumAdapterData & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        RunningSumAdapterData & operator=(const RunningSumAdapterData & other);
-        
-        /*! @brief The output channel for the adapter. */
-        MoAndMe::Channel * _output;
-        
-    }; // RunningSumDataInputHandler
+    } // Example
     
-} // MoAndMeExample
+} // MoAndMe
 
 #endif // ! defined(MOMERUNNINGSUMADAPTERDATA_H_)

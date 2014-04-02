@@ -63,19 +63,14 @@
 /*! @brief The version number as a string. */
 # define MAM_VERSION "@MAM_VERSION_MAJOR@.@MAM_VERSION_MINOR@.@MAM_VERSION_PATCH@"
 
-/*! @brief Perform a CloseChannel() prior to freeing a dynamically-allocated channel. */
-#cmakedefine MAM_DO_EXPLICIT_CLOSE /* */
+#cmakedefine MAM_DO_EXPLICIT_CLOSE /* Perform a CloseChannel() prior to freeing a dynamically-allocated channel. */
 
-/*! @brief Perform a disconnect() prior to closing a channel. */
-#cmakedefine MAM_DO_EXPLICIT_DISCONNECT /* */
+#cmakedefine MAM_DO_EXPLICIT_DISCONNECT /* Perform a disconnect() prior to closing a channel. */
 
-/*! @brief Enable YARP tracing. */
-#cmakedefine MAM_LOG_INCLUDES_YARP_TRACE /* */
+#cmakedefine MAM_LOG_INCLUDES_YARP_TRACE /* Enable YARP tracing. */
 
-/*! @brief Use delay() instead of yield() in the background loop in main(). */
-#cmakedefine MAM_MAIN_DOES_DELAY_NOT_YIELD /* */
+#cmakedefine MAM_MAIN_DOES_DELAY_NOT_YIELD /* Use delay() instead of yield() in the background loop in main(). */
 
-/*! @brief Enable logging to stderr as well as the system log. */
-#cmakedefine MAM_SERVICES_LOG_TO_STDERR /* */
+#cmakedefine MAM_SERVICES_LOG_TO_STDERR /* Enable logging to stderr as well as the system log. */
 
 #endif // ! defined(MOMECONFIG_H_)

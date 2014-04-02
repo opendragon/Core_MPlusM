@@ -52,41 +52,48 @@
 /*! @file
  
  @brief The class declaration for an input handler used by the unit tests. */
+
+/*! @dir CommonTests
+ @brief The set of files used for unit testing of the MoAndMe classes. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMeTest
+namespace MoAndMe
 {
-    /*! @brief A test input handler. */
-    class Test03Handler : public MoAndMe::InputHandler
+    namespace Test
     {
-    public:
+        /*! @brief A test input handler. */
+        class Test03Handler : public Common::InputHandler
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            Test03Handler(void);
+            
+            /*! @brief The destructor. */
+            virtual ~Test03Handler(void);
+            
+            /*! @brief Process partially-structured input data.
+             @param input The partially-structured input data.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @returns @c true if the input was correctly structured and successfully processed. */
+            virtual bool handleInput(const MoAndMe::Package &      input,
+                                     const yarp::os::ConstString & senderChannel,
+                                     yarp::os::ConnectionWriter *  replyMechanism);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef InputHandler inherited;
+            
+        }; // Test03Handler
         
-        /*! @brief The constructor. */
-        Test03Handler(void);
-        
-        /*! @brief The destructor. */
-        virtual ~Test03Handler(void);
-        
-        /*! @brief Process partially-structured input data.
-         @param input The partially-structured input data.
-         @param senderChannel The name of the channel used to send the input data.
-         @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-         @returns @c true if the input was correctly structured and successfully processed. */
-        virtual bool handleInput(const MoAndMe::Package & input,
-                                 const yarp::os::ConstString & senderChannel,
-                                 yarp::os::ConnectionWriter *  replyMechanism);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef InputHandler inherited;
-        
-    }; // Test03Handler
+    } // Test
     
-} // MoAndMeTest
+} // MoAndMe
 
 #endif // ! defined(MOMETEST03HANDLER_H_)

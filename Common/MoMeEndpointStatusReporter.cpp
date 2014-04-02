@@ -67,14 +67,11 @@
 /*! @file
  
  @brief The class definition for the endpoint status reporter for the MoAndMe unit tests. */
-
-/*! @dir CommonTests
- @brief The set of files used for unit testing of the MoAndMe classes. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe;
+using namespace MoAndMe::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

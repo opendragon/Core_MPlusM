@@ -75,7 +75,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe;
+using namespace MoAndMe::Registry;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -179,7 +179,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                 {
                     yarp::os::ConstString argAsString(argument.toString());
                     
-                    if (Endpoint::CheckEndpointName(argAsString))
+                    if (Common::Endpoint::CheckEndpointName(argAsString))
                     {
                         // Send a 'list' request to the channel
                         yarp::os::ConstString aName(GetRandomChannelName("register/channel_"));
@@ -268,7 +268,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                     }
                     else
                     {
-                        OD_LOG("! (Endpoint::CheckEndpointName(argAsString))");//####
+                        OD_LOG("! (Common::Endpoint::CheckEndpointName(argAsString))");//####
                         reply.addString(MAM_FAILED_RESPONSE);
                         reply.addString("Invalid channel name");
                     }
@@ -299,8 +299,8 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
     return result;
 } // RegisterRequestHandler::processRequest
 
-bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & channelName,
-                                                 const ServiceResponse &       response)
+bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &   channelName,
+                                                 const Common::ServiceResponse & response)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("channelName = ", channelName.c_str(), "response = ", response.asString().c_str());//####
@@ -453,8 +453,8 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString & c
     return result;
 } // RegisterRequestHandler::processListResponse
 
-bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString & channelName,
-                                                 const ServiceResponse &       response)
+bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString &   channelName,
+                                                 const Common::ServiceResponse & response)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("channelName = ", channelName.c_str(), "response = ", response.asString().c_str());//####

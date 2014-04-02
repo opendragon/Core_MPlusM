@@ -73,35 +73,39 @@
 
 namespace MoAndMe
 {
-    /*! @brief A convenience class to provide distinct exception objects. */
-    class Exception
+    namespace Common
     {
-    public:
+        /*! @brief A convenience class to provide distinct exception objects. */
+        class Exception
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param reason A description of the exception being reported. */
+            Exception(const yarp::os::ConstString & reason);
+            
+            /*! @brief The destructor. */
+            virtual ~Exception(void);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Exception(const Exception & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Exception & operator=(const Exception & other);
+            
+        }; // Exception
         
-        /*! @brief The constructor.
-         @param reason A description of the exception being reported. */
-        Exception(const yarp::os::ConstString & reason);
-        
-        /*! @brief The destructor. */
-        virtual ~Exception(void);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        Exception(const Exception & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        Exception & operator=(const Exception & other);
-        
-    }; // Exception
+    } // Common
     
 } // MoAndMe
 

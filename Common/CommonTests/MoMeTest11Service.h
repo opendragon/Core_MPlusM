@@ -56,50 +56,54 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMeTest
+namespace MoAndMe
 {
-    class Test11EchoRequestHandler;
-    
-    /*! @brief A test service. */
-    class Test11Service : public MoAndMe::BaseService
+    namespace Test
     {
-    public:
+        class Test11EchoRequestHandler;
         
-        /*! @brief The constructor.
-         @param argc The number of arguments in 'argv'.
-         @param argv The arguments to be used to specify the new service. */
-        Test11Service(const int argc,
-                      char **   argv);
+        /*! @brief A test service. */
+        class Test11Service : public Common::BaseService
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param argc The number of arguments in 'argv'.
+             @param argv The arguments to be used to specify the new service. */
+            Test11Service(const int argc,
+                          char * *  argv);
+            
+            /*! @brief The destructor. */
+            virtual ~Test11Service(void);
+            
+            /*! @brief Start processing requests.
+             @returns @c true if the service was started and @c false if it was not. */
+            virtual bool start(void);
+            
+            /*! @brief Stop processing requests.
+             @returns @c true if the service was stopped and @c false it if was not. */
+            virtual bool stop(void);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
+            
+            /*! @brief Enable the standard request handlers. */
+            void attachRequestHandlers(void);
+            
+            /*! @brief Disable the standard request handlers. */
+            void detachRequestHandlers(void);
+            
+            /*! @brief The request handler for the 'echo' request. */
+            Test11EchoRequestHandler * _echoHandler;
+            
+        }; // Test11Service
         
-        /*! @brief The destructor. */
-        virtual ~Test11Service(void);
-        
-        /*! @brief Start processing requests.
-         @returns @c true if the service was started and @c false if it was not. */
-        virtual bool start(void);
-        
-        /*! @brief Stop processing requests.
-         @returns @c true if the service was stopped and @c false it if was not. */
-        virtual bool stop(void);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseService inherited;
-        
-        /*! @brief Enable the standard request handlers. */
-        void attachRequestHandlers(void);
-        
-        /*! @brief Disable the standard request handlers. */
-        void detachRequestHandlers(void);
-        
-        /*! @brief The request handler for the 'echo' request. */
-        Test11EchoRequestHandler * _echoHandler;
-
-    }; // Test11Service
+    } // Test
     
-} // MoAndMeTest
+} // MoAndMe
 
 #endif // ! defined(MOMETEST11SERVICE_H_)

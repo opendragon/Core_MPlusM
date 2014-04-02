@@ -56,56 +56,60 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMeExample
+namespace MoAndMe
 {
-    class RunningSumService;
-
-    /*! @brief The example 'reset' request handler.
-     
-     There is no input for the request and there is no output. */
-    class ResetRequestHandler : public MoAndMe::BaseRequestHandler
+    namespace Example
     {
-    public:
+        class RunningSumService;
         
-        /*! @brief The constructor.
-         @param service The service that has registered this request. */
-        ResetRequestHandler(RunningSumService & service);
+        /*! @brief The example 'reset' request handler.
+         
+         There is no input for the request and there is no output. */
+        class ResetRequestHandler : public Common::BaseRequestHandler
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param service The service that has registered this request. */
+            ResetRequestHandler(RunningSumService & service);
+            
+            /*! @brief The destructor. */
+            virtual ~ResetRequestHandler(void);
+            
+            /*! @brief Fill in a set of aliases for the request.
+             @param alternateNames Aliases for the request. */
+            virtual void fillInAliases(MoAndMe::StringVector & alternateNames);
+            
+            /*! @brief Fill in a description dictionary for the request.
+             @param request The actual request name.
+             @param info The dictionary to be filled in. */
+            virtual void fillInDescription(const yarp::os::ConstString & request,
+                                           yarp::os::Property &          info);
+            
+            /*! @brief Process a request.
+             @param request The actual request name.
+             @param restOfInput The arguments to the operation.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+            virtual bool processRequest(const yarp::os::ConstString & request,
+                                        const MoAndMe::Package &      restOfInput,
+                                        const yarp::os::ConstString & senderChannel,
+                                        yarp::os::ConnectionWriter *  replyMechanism);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+            /*! @brief The service that will manages the statistics. */
+            RunningSumService & _service;
+            
+        }; // ResetRequestHandler
         
-        /*! @brief The destructor. */
-        virtual ~ResetRequestHandler(void);
-        
-        /*! @brief Fill in a set of aliases for the request.
-         @param alternateNames Aliases for the request. */
-        virtual void fillInAliases(MoAndMe::StringVector & alternateNames);
-        
-        /*! @brief Fill in a description dictionary for the request.
-         @param request The actual request name.
-         @param info The dictionary to be filled in. */
-        virtual void fillInDescription(const yarp::os::ConstString & request,
-                                       yarp::os::Property &          info);
-        
-        /*! @brief Process a request.
-         @param request The actual request name.
-         @param restOfInput The arguments to the operation.
-         @param senderChannel The name of the channel used to send the input data.
-         @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-        virtual bool processRequest(const yarp::os::ConstString & request,
-                                    const MoAndMe::Package & restOfInput,
-                                    const yarp::os::ConstString & senderChannel,
-                                    yarp::os::ConnectionWriter *  replyMechanism);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseRequestHandler inherited;
-        
-        /*! @brief The service that will manages the statistics. */
-        RunningSumService & _service;
-        
-    }; // ResetRequestHandler
+    } // Example
     
-} // MoAndMeExample
+} // MoAndMe
 
 #endif // ! defined(MOMERESETREQUESTHANDLER_H_)

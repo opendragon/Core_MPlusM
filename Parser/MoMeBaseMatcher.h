@@ -53,55 +53,55 @@
 /*! @file
  
  @brief The class declaration for the minimal functionality required for a MoAndMe pattern matcher. */
-
-/*! @namespace MoAndMeParser
- @brief The classes that support parsing of search requests and the generation of SQL @c SELECT strings from the search
- requests. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMeParser
+namespace MoAndMe
 {
-    /*! @brief The common functionality for pattern matchers. */
-    class BaseMatcher
+    namespace Parser
     {
-    public:
+        /*! @brief The common functionality for pattern matchers. */
+        class BaseMatcher
+        {
+        public:
+            
+            /*! @brief The destructor. */
+            virtual ~BaseMatcher(void);
+            
+        protected:
+            
+            /*! @brief The constructor. */
+            BaseMatcher(void);
+            
+            /*! @brief Scan a string for the next non-whitespace character.
+             @param inString The string to be scanned.
+             @param inLength The length of the string being scanned.
+             @param startPos Where in the string to begin scanning.
+             @returns The position in the string where the next non-whitespace character appears, or the length of the
+             string - which is past the end of the string - if the remainder of the string is whitespace. */
+            static int SkipWhitespace(const yarp::os::ConstString & inString,
+                                      const int                     inLength,
+                                      const int                     startPos);
+            
+        private:
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseMatcher(const BaseMatcher & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseMatcher & operator=(const BaseMatcher & other);
+            
+        }; // BaseMatcher
         
-        /*! @brief The destructor. */
-        virtual ~BaseMatcher(void);
-        
-    protected:
-        
-        /*! @brief The constructor. */
-        BaseMatcher(void);
-        
-        /*! @brief Scan a string for the next non-whitespace character.
-         @param inString The string to be scanned.
-         @param inLength The length of the string being scanned.
-         @param startPos Where in the string to begin scanning.
-         @returns The position in the string where the next non-whitespace character appears, or the length of the
-         string - which is past the end of the string - if the remainder of the string is whitespace. */
-        static int SkipWhitespace(const yarp::os::ConstString & inString,
-                                  const int                     inLength,
-                                  const int                     startPos);
-        
-    private:
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseMatcher(const BaseMatcher & other);
-        
-        /*! @brief Assignment operator.
-
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseMatcher & operator=(const BaseMatcher & other);
-        
-    }; // BaseMatcher
+    } // Parser
     
-} // MoAndMeParser
+} // MoAndMe
 
 #endif // ! defined(MOMEBASEMATCHER_H_)

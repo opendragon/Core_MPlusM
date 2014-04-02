@@ -56,7 +56,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeTest;
+using namespace MoAndMe::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -78,7 +78,7 @@ static const float kTest09ServiceTimeout = 5.0;
 #endif // defined(__APPLE__)
 
 Test09Service::Test09Service(const int argc,
-                             char **   argv) :
+                             char * *  argv) :
         inherited(false, "Test09", "Simple service for unit tests", argc, argv), _defaultHandler(NULL)
 {
     OD_LOG_ENTER();//####

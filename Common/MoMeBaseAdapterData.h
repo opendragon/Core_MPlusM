@@ -75,91 +75,95 @@
 
 namespace MoAndMe
 {
-    class BaseClient;
-    
-    /*! @brief A handler for partially-structured input data. */
-    class BaseAdapterData
+    namespace Common
     {
-    public:
+        class BaseClient;
         
-        /*! @brief The constructor.
-         @param client The client connection that is used to communicate with the service. */
-        BaseAdapterData(BaseClient * client);
-        
-        /*! @brief The destructor. */
-        virtual ~BaseAdapterData(void);
-        
-        /*! @brief Mark the adapter as active.
-         @returns @c true if the adapter was already active and @c false otherwise. */
-        bool activate(void);
-        
-        /*! @brief Mark the adapter as inactive.
-         @returns @c true if the adapter was active and @c false otherwise. */
-        bool deactivate(void);
-        
-        /*! @brief Return the adapter state. */
-        inline bool isActive(void)
-        const
+        /*! @brief A handler for partially-structured input data. */
+        class BaseAdapterData
         {
-            return _active;
-        } // isActive
-
-    protected:
-        
-        /*! @brief Lock the data unless the lock would block.
-         @returns @c true if the data was locked and @c false otherwise. */
-        inline bool conditionallyLock(void)
-        {
-            return _lock.check();
-        } // conditionallyLock
-
-        /*! @brief Lock the data. */
-        inline void lock(void)
-        {
-            _lock.wait();
-        } // lock
-        
-        /*! @brief Unlock the data. */
-        inline void unlock(void)
-        {
-            _lock.post();
-        } // unlock
-        
-    private:
-        
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseAdapterData(const BaseAdapterData & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        BaseAdapterData & operator=(const BaseAdapterData & other);
-        
-        /*! @brief The contention lock used to avoid intermixing of outputs. */
-        yarp::os::Semaphore _lock;
-        
-        /*! @brief The connection to the service. */
-        BaseClient *        _client;
-        
-        /*! @brief @c true if the adapter is active and @c false otherwise. */
-        bool                _active;
-        
+        public:
+            
+            /*! @brief The constructor.
+             @param client The client connection that is used to communicate with the service. */
+            BaseAdapterData(BaseClient * client);
+            
+            /*! @brief The destructor. */
+            virtual ~BaseAdapterData(void);
+            
+            /*! @brief Mark the adapter as active.
+             @returns @c true if the adapter was already active and @c false otherwise. */
+            bool activate(void);
+            
+            /*! @brief Mark the adapter as inactive.
+             @returns @c true if the adapter was active and @c false otherwise. */
+            bool deactivate(void);
+            
+            /*! @brief Return the adapter state. */
+            inline bool isActive(void)
+            const
+            {
+                return _active;
+            } // isActive
+            
+        protected:
+            
+            /*! @brief Lock the data unless the lock would block.
+             @returns @c true if the data was locked and @c false otherwise. */
+            inline bool conditionallyLock(void)
+            {
+                return _lock.check();
+            } // conditionallyLock
+            
+            /*! @brief Lock the data. */
+            inline void lock(void)
+            {
+                _lock.wait();
+            } // lock
+            
+            /*! @brief Unlock the data. */
+            inline void unlock(void)
+            {
+                _lock.post();
+            } // unlock
+            
+        private:
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseAdapterData(const BaseAdapterData & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseAdapterData & operator=(const BaseAdapterData & other);
+            
+            /*! @brief The contention lock used to avoid intermixing of outputs. */
+            yarp::os::Semaphore _lock;
+            
+            /*! @brief The connection to the service. */
+            BaseClient *        _client;
+            
+            /*! @brief @c true if the adapter is active and @c false otherwise. */
+            bool                _active;
+            
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
-        /*! @brief Filler to pad to alignment boundary */
-        char                _filler[7];
+            /*! @brief Filler to pad to alignment boundary */
+            char                _filler[7];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
+            
+        }; // RunningSumDataInputHandler
         
-    }; // RunningSumDataInputHandler
+    } // Common
     
-} // MoAndMeExample
+} // MoAndMe
 
 #endif // ! defined(MOMEBASEADAPTERDATA_H_)

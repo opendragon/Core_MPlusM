@@ -56,51 +56,55 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMeExample
+namespace MoAndMe
 {
-    /*! @brief The example 'random' request handler.
-     
-     The input for the request is an optional count of the number of random numbers to generate and the output is
-     either a single floating point number, between 0 and 1 or a list of floating point numbers, between 0 and 1. */
-    class RandomRequestHandler : public MoAndMe::BaseRequestHandler
+    namespace Example
     {
-    public:
+        /*! @brief The example 'random' request handler.
+         
+         The input for the request is an optional count of the number of random numbers to generate and the output is
+         either a single floating point number, between 0 and 1 or a list of floating point numbers, between 0 and 1. */
+        class RandomRequestHandler : public Common::BaseRequestHandler
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            RandomRequestHandler(void);
+            
+            /*! @brief The destructor. */
+            virtual ~RandomRequestHandler(void);
+            
+            /*! @brief Fill in a set of aliases for the request.
+             @param alternateNames Aliases for the request. */
+            virtual void fillInAliases(MoAndMe::StringVector & alternateNames);
+            
+            /*! @brief Fill in a description dictionary for the request.
+             @param request The actual request name.
+             @param info The dictionary to be filled in. */
+            virtual void fillInDescription(const yarp::os::ConstString & request,
+                                           yarp::os::Property &          info);
+            
+            /*! @brief Process a request.
+             @param request The actual request name.
+             @param restOfInput The arguments to the operation.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+            virtual bool processRequest(const yarp::os::ConstString & request,
+                                        const MoAndMe::Package &      restOfInput,
+                                        const yarp::os::ConstString & senderChannel,
+                                        yarp::os::ConnectionWriter *  replyMechanism);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+        }; // RandomRequestHandler
         
-        /*! @brief The constructor. */
-        RandomRequestHandler(void);
-        
-        /*! @brief The destructor. */
-        virtual ~RandomRequestHandler(void);
-        
-        /*! @brief Fill in a set of aliases for the request.
-         @param alternateNames Aliases for the request. */
-        virtual void fillInAliases(MoAndMe::StringVector & alternateNames);
-        
-        /*! @brief Fill in a description dictionary for the request.
-         @param request The actual request name.
-         @param info The dictionary to be filled in. */
-        virtual void fillInDescription(const yarp::os::ConstString & request,
-                                       yarp::os::Property &          info);
-        
-        /*! @brief Process a request.
-         @param request The actual request name.
-         @param restOfInput The arguments to the operation.
-         @param senderChannel The name of the channel used to send the input data.
-         @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-        virtual bool processRequest(const yarp::os::ConstString & request,
-                                    const MoAndMe::Package & restOfInput,
-                                    const yarp::os::ConstString & senderChannel,
-                                    yarp::os::ConnectionWriter *  replyMechanism);
-        
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseRequestHandler inherited;
-        
-    }; // RandomRequestHandler
+    } // Example
     
-} // MoAndMeExample
+} // MoAndMe
 
 #endif // ! defined(MOMERANDOMREQUESTHANDLER_H_)

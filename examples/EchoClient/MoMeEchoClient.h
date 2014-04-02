@@ -55,54 +55,55 @@
 
 /*! @dir examples
  @brief The set of files that demonstrate features of the MoAndMe framework. */
-
-/*! @namespace MoAndMeExample
- @brief A set of example classes using features from MoAndMe. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMeExample
+namespace MoAndMe
 {
-    /*! @brief An example MoAndMe client, for the 'echo' service. */
-    class EchoClient : public MoAndMe::BaseClient
+    namespace Example
     {
-    public:
+        /*! @brief An example MoAndMe client, for the 'echo' service. */
+        class EchoClient : public Common::BaseClient
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            EchoClient(void);
+            
+            /*! @brief The destructor. */
+            virtual ~EchoClient(void);
+            
+            /*! @brief Send a string to the service and retrieve it back from the service.
+             @param outgoing The string to send to the service.
+             @param incoming The returned string from the service.
+             @returns @c true if the string was retrieved successfully and @c false otherwise. */
+            bool sendAndReceive(const yarp::os::ConstString & outgoing,
+                                yarp::os::ConstString &       incoming);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseClient inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            EchoClient(const EchoClient & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            EchoClient & operator=(const EchoClient & other);
+            
+        }; // EchoClient
         
-        /*! @brief The constructor. */
-        EchoClient(void);
-        
-        /*! @brief The destructor. */
-        virtual ~EchoClient(void);
-        
-        /*! @brief Send a string to the service and retrieve it back from the service.
-         @param outgoing The string to send to the service.
-         @param incoming The returned string from the service.
-         @returns @c true if the string was retrieved successfully and @c false otherwise. */
-        bool sendAndReceive(const yarp::os::ConstString & outgoing,
-                            yarp::os::ConstString &       incoming);
-
-    protected:
-        
-    private:
-        
-        /*! @brief The class that this class is derived from. */
-        typedef BaseClient inherited;
-
-        /*! @brief Copy constructor.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        EchoClient(const EchoClient & other);
-        
-        /*! @brief Assignment operator.
-         
-         Note - not implemented and private, to prevent unexpected copying.
-         @param other Another object to construct from. */
-        EchoClient & operator=(const EchoClient & other);
-        
-    }; // EchoClient
+    } // Example
     
-} // MoAndMeExample
+} // MoAndMe
 
 #endif // ! defined(MOMEECHOCLIENT_H_)

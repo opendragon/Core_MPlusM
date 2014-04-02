@@ -58,7 +58,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMeExample;
+using namespace MoAndMe::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -94,7 +94,7 @@ RunningSumControlInputHandler::~RunningSumControlInputHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RunningSumControlInputHandler::handleInput(const MoAndMe::Package & input,
+bool RunningSumControlInputHandler::handleInput(const MoAndMe::Package &      input,
                                                 const yarp::os::ConstString & senderChannel,
                                                 yarp::os::ConnectionWriter *  replyMechanism)
 {
