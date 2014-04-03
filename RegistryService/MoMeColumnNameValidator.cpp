@@ -53,7 +53,8 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the functionality required for a MoAndMe field name matcher for the service registry. */
+ @brief The class definition for the functionality required for a MoAndMe field name matcher for the service
+ registry. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -87,7 +88,7 @@ static const char * kColumnNames[] =
     KEYWORD_C_,     KEYWORDS_ID_C_, KEYWORD_PREFIX_,     KEYWORD_SUFFIX_,
     NAME_C_,        NAME_C_,        NAME_PREFIX_,        NAME_SUFFIX_,
     OUTPUT_C_,      OUTPUT_C_,      NULL,                NULL,
-    CHANNELNAME_C_,    CHANNELNAME_C_,    NULL,                NULL,
+    CHANNELNAME_C_, CHANNELNAME_C_, NULL,                NULL,
     REQUEST_C_,     REQUEST_C_,     NULL,                NULL,
     VERSION_C_,     VERSION_C_,     NULL,                NULL
 }; // kColumnNames
@@ -151,9 +152,9 @@ bool ColumnNameValidator::checkName(const char * aString)
     return result;
 } // ColumnNameValidator::checkName
 
-const char * ColumnNameValidator::getPrefixAndSuffix(const char *  aString,
-                                                     const char *& prefixString,
-                                                     const char *& suffixString)
+const char * ColumnNameValidator::getPrefixAndSuffix(const char *   aString,
+                                                     const char * & prefixString,
+                                                     const char * & suffixString)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("aString = ", aString);//####

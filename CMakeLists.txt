@@ -75,15 +75,16 @@ if(WIN32)
     set(PC_SQLITE_LIBRARIES "D:/dev/yarp-2.3.22/lib/Debug/YARP_sqlited.lib")
 endif(WIN32)
 
-find_package(SQLite REQUIRED)
-list(APPEND CMAKE_MODULE_PATH ${SQLite_MODULE_PATH})
+#find_package(SQLite REQUIRED)
+#list(APPEND CMAKE_MODULE_PATH ${SQLite_MODULE_PATH})
 
-# add SQLite include directories
-include_directories(${SQLite_INCLUDE_DIRS})
+## add SQLite include directories
+#include_directories(${SQLite_INCLUDE_DIRS})
 
 set(MAM_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
 set(MAM_LOGGING_DIR "${PROJECT_SOURCE_DIR}/Logging")
 set(MAM_PARSER_DIR "${PROJECT_SOURCE_DIR}/Parser")
+set(MAM_SQLITE_DIR "${PROJECT_SOURCE_DIR}/SQLite3")
 
 configure_file("${MAM_COMMON_DIR}/MoMeConfig.h.in"
                 "${MAM_COMMON_DIR}/MoMeConfig.h")

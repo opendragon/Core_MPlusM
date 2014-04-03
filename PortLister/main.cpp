@@ -39,9 +39,11 @@
 //
 //--------------------------------------------------------------------------------------
 
+#include "MoMeBaseClient.h"
 #include "MoMeCommon.h"
+#include "MoMeRequests.h"
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <iostream>
@@ -133,6 +135,57 @@ static void processResponse(const yarp::os::ConstString & received,
     OD_LOG_EXIT();//####
 } // processResponse
 
+/*! @brief Check if the Registry Service is active.
+ @param ports The set of detected ports.
+ @returns @c true if the Registry Service port is present and @c false otherwise. */
+static bool checkForRegistryService(const MoAndMe::StringVector & ports)
+{
+    OD_LOG_ENTER();//####
+    bool result = false;
+    
+    for (MoAndMe::StringVector::const_iterator it(ports.cbegin()); (! result) && (ports.cend() != it); ++it)
+    {
+        if (*it == MAM_SERVICE_REGISTRY_CHANNEL_NAME)
+        {
+            result = true;
+        }
+    }
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // checkForRegistryService
+
+/*! @brief Print out connection information for a port.
+ @param portName The name of the port of interest. */
+static void reportPortStatus(const std::string & portName,
+                             const bool          checkWithRegistry)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("portName = ", portName.c_str());//####
+    OD_LOG_B1("checkWithRegistry = ", checkWithRegistry);//####
+    if (checkWithRegistry)
+    {
+        std::string request("channelname:");
+        
+        request += portName;
+        MoAndMe::Package matches(MoAndMe::Common::FindMatchingServices(request.c_str()));
+        
+        OD_LOG_S1("matches <- ", matches.toString().c_str());//####
+        
+        if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+        {
+            yarp::os::ConstString matchesFirstString(matches.get(0).toString());
+            
+            if (! strcmp(MAM_OK_RESPONSE, matchesFirstString.c_str()))
+            {
+                cout << "   A service port." << endl;
+            }
+        }
+    }
+    
+    
+    OD_LOG_EXIT();//####
+} // reportPortStatus
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -175,6 +228,8 @@ int main(int      argc,
                         bool found = false;
                         
                         processResponse(responseValue.asString(), ports);
+                        bool serviceRegistryPresent = checkForRegistryService(ports);
+                        
                         for (MoAndMe::StringVector::const_iterator it(ports.cbegin()); ports.cend() != it; ++it)
                         {
                             if (! found)
@@ -183,6 +238,7 @@ int main(int      argc,
                                 found = true;
                             }
                             cout << it->c_str() << endl;
+                            reportPortStatus(*it, serviceRegistryPresent);
                         }
                         if (! found)
                         {

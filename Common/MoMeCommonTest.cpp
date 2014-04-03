@@ -305,7 +305,6 @@ static int doTestConnectToEndpoint(const int argc,
                 
                 if (outChannel)
                 {
-                    OD_LOG_S1("opening ", aName.c_str());//####
                     if (OpenChannelWithRetries(*outChannel, aName))
                     {
                         outChannel->getReport(reporter);
@@ -391,7 +390,6 @@ static int doTestWriteToEndpoint(const int argc,
                 
                 if (outChannel)
                 {
-                    OD_LOG_S1("opening ", aName.c_str());//####
                     if (OpenChannelWithRetries(*outChannel, aName))
                     {
                         outChannel->getReport(reporter);
@@ -489,7 +487,6 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                 
                 if (outChannel)
                 {
-                    OD_LOG_S1("opening ", aName.c_str());//####
                     if (OpenChannelWithRetries(*outChannel, aName))
                     {
                         outChannel->getReport(reporter);
@@ -589,7 +586,6 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                 
                 if (outChannel)
                 {
-                    OD_LOG_S1("opening ", aName.c_str());//####
                     if (OpenChannelWithRetries(*outChannel, aName))
                     {
                         outChannel->getReport(reporter);

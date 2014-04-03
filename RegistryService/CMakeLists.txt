@@ -45,6 +45,7 @@ add_subdirectory(RegistryTests)
 
 include_directories("${MAM_LOGGING_DIR}"
                     “${MAM_COMMON_DIR}”
+                    "${MAM_SQLITE_DIR}"
                     "${MAM_REGISTRYTESTSUPPORT_DIR}")
 
 # set up our program
@@ -54,7 +55,8 @@ add_executable(RegistryService
                MoMeMatchRequestHandler.cpp
                MoMeRegisterRequestHandler.cpp
                MoMeRegistryService.cpp
-               MoMeUnregisterRequestHandler.cpp)
+               MoMeUnregisterRequestHandler.cpp
+               ${MAM_SQLITE_DIR}/sqlite3.c)
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RegistryService
@@ -71,7 +73,8 @@ add_executable(RegistryTest
                MoMeMatchRequestHandler.cpp
                MoMeRegisterRequestHandler.cpp
                MoMeRegistryService.cpp
-               MoMeUnregisterRequestHandler.cpp)
+               MoMeUnregisterRequestHandler.cpp
+               ${MAM_SQLITE_DIR}/sqlite3.c)
 
 target_link_libraries(RegistryTest
                       MoMeCommon

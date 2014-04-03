@@ -42,7 +42,7 @@
 //#include "MoMeCommon.h"
 #include "MoMeBailOut.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <ace/Version.h>

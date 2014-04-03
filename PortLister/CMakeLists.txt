@@ -48,6 +48,7 @@ add_executable(PortLister
 
 # link with YARP libraries and our interface classes
 target_link_libraries(PortLister
+                      MoMeCommon
                       MoMeLogging
                       ${YARP_LIBRARIES})
 

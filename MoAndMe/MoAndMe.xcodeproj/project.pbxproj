@@ -23,6 +23,9 @@
 		DF06998B18ECC06500FF0E93 /* MoMeResetRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeResetRequestHandler.h; path = ../RequestCounter/RequestCounterService/MoMeResetRequestHandler.h; sourceTree = SOURCE_ROOT; };
 		DF06998C18ECC06500FF0E93 /* MoMeStatsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeStatsRequestHandler.cpp; path = ../RequestCounter/RequestCounterService/MoMeStatsRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
 		DF06998D18ECC06500FF0E93 /* MoMeStatsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeStatsRequestHandler.h; path = ../RequestCounter/RequestCounterService/MoMeStatsRequestHandler.h; sourceTree = SOURCE_ROOT; };
+		DF06998F18EDDB1C00FF0E93 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../SQLite3/sqlite3.c; sourceTree = SOURCE_ROOT; };
+		DF06999018EDDB1C00FF0E93 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3.h; path = ../SQLite3/sqlite3.h; sourceTree = SOURCE_ROOT; };
+		DF06999118EDDB1C00FF0E93 /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3ext.h; path = ../SQLite3/sqlite3ext.h; sourceTree = SOURCE_ROOT; };
 		DF0EC61D18EA0D8500B22857 /* MoMeEndpointStatusReporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeEndpointStatusReporter.cpp; path = ../Common/MoMeEndpointStatusReporter.cpp; sourceTree = SOURCE_ROOT; };
 		DF0EC61E18EA0D8500B22857 /* MoMeEndpointStatusReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeEndpointStatusReporter.h; path = ../Common/MoMeEndpointStatusReporter.h; sourceTree = SOURCE_ROOT; };
 		DF20929018D0DAFF0093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = ../ServiceLister/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -227,6 +230,16 @@
 			name = RequestCounter;
 			sourceTree = "<group>";
 		};
+		DF06998E18EDD9F100FF0E93 /* SQLite3 */ = {
+			isa = PBXGroup;
+			children = (
+				DF06998F18EDDB1C00FF0E93 /* sqlite3.c */,
+				DF06999018EDDB1C00FF0E93 /* sqlite3.h */,
+				DF06999118EDDB1C00FF0E93 /* sqlite3ext.h */,
+			);
+			name = SQLite3;
+			sourceTree = "<group>";
+		};
 		DF20928F18D0DAA50093D3DC /* ServiceLister */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,6 +432,7 @@
 				DF06997C18ECBFB900FF0E93 /* RequestCounter */,
 				DF20929218D241270093D3DC /* RequestInfo */,
 				DF20928F18D0DAA50093D3DC /* ServiceLister */,
+				DF06998E18EDD9F100FF0E93 /* SQLite3 */,
 			);
 			sourceTree = "<group>";
 		};

@@ -137,9 +137,9 @@ bool TestNameValidator::checkName(const char * aString)
     return result;
 } // TestNameValidator::checkName
 
-const char * TestNameValidator::getPrefixAndSuffix(const char *  aString,
-                                                   const char *& prefixString,
-                                                   const char *& suffixString)
+const char * TestNameValidator::getPrefixAndSuffix(const char *   aString,
+                                                   const char * & prefixString,
+                                                   const char * & suffixString)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("aString = ", aString);//####

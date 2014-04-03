@@ -406,7 +406,7 @@ Package Common::FindMatchingServices(const char * criteria)
             {
                 OD_LOG("! (OpenChannelWithRetries(*newChannel, aName))");//####
             }
-            delete newChannel;
+            RelinquishChannel(newChannel);
         }
     }
     catch (...)
