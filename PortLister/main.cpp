@@ -40,7 +40,6 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeBaseClient.h"
-#include "MoMeCommon.h"
 #include "MoMeRequests.h"
 
 //#include "ODEnableLogging.h"

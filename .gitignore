@@ -29,3 +29,4 @@ ports.db
 subs.db
 test.db
 system.log
+debug.txt
