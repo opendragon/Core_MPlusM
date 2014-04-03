@@ -5,5 +5,3 @@
 * make sure that the constructors for the BailOut are given the channel value
 
 * change the BailOut calls to use a single ‘do while’ loop so that only one BailOut object is needed, and don’t allocate it on the heap
-
-— — — RequestCounterClient is missing from RequestCounter!!!
