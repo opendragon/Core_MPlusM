@@ -71,6 +71,8 @@
 
 #cmakedefine MAM_MAIN_DOES_DELAY_NOT_YIELD /* Use delay() instead of yield() in the background loop in main(). */
 
+#cmakedefine MAM_MAKE_CHANNELS_UNIDIRECTIONAL /* Set channels to either input or output. */
+
 #cmakedefine MAM_SERVICES_LOG_TO_STDERR /* Enable logging to stderr as well as the system log. */
 
 #endif // ! defined(MOMECONFIG_H_)

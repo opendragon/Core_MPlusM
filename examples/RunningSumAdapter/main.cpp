@@ -172,9 +172,11 @@ int main(int      argc,
                                 MoAndMe::OpenChannelWithRetries(*outputChannel, outputName))
                             {
                                 sharedData.activate();
+#if defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
                                 controlChannel->setOutputMode(false);
                                 dataChannel->setOutputMode(false);
                                 outputChannel->setInputMode(false);
+#endif // defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
                                 controlChannel->setReader(*controlHandler);
                                 dataChannel->setReader(*dataHandler);
                                 

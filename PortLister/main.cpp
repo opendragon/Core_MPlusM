@@ -43,7 +43,7 @@
 #include "MoMeCommon.h"
 #include "MoMeRequests.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <iostream>
@@ -58,6 +58,9 @@
 # pragma clang diagnostic ignored "-Wweak-vtables"
 #endif // defined(__APPLE__)
 #include <yarp/os/all.h>
+#include <yarp/os/impl/BufferedConnectionWriter.h>
+#include <yarp/os/impl/PortCommand.h>
+#include <yarp/os/impl/Protocol.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -86,6 +89,9 @@ using std::endl;
 
 /*! @brief The indicator string for the beginning of new information received. */
 static const char * kLineMarker = "registration name ";
+
+/*! @brief The part name being used for probing connections. */
+static const char * kMagicName = "<!!!>";
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -154,6 +160,158 @@ static bool checkForRegistryService(const MoAndMe::StringVector & ports)
     return result;
 } // checkForRegistryService
 
+/*! @brief Check if the response is for an input connection.
+ @param response The response from the port that is being checked.
+ @returns @c true if the response was for an input connection and @c false otherwise. */
+static bool checkForInputConnection(const yarp::os::Bottle & response)
+{
+    OD_LOG_ENTER();//####
+    bool         sawConnection = false;
+    const char * matchString[] = { "There", "is", "an", "input", "connection", "from", NULL, "to", NULL };
+    int          respLen = response.size();
+    int          matchLen = (sizeof(matchString) / sizeof(*matchString));
+    
+    if (respLen > matchLen)
+    {
+        bool matched = true;
+        
+        for (int ii = 0; matched && (ii < matchLen); ++ii)
+        {
+            yarp::os::ConstString element(response.get(ii).asString());
+            
+            if (matchString[ii])
+            {
+                if (element != matchString[ii])
+                {
+                    matched = false;
+                }
+            }
+        }
+        if (matched)
+        {
+            yarp::os::ConstString destination(response.get(matchLen - 1).asString());
+            yarp::os::ConstString source(response.get(matchLen - 3).asString());
+            
+            if ((source != kMagicName) && (destination != kMagicName))
+            {
+                cout << "   Input from " << source.c_str() << endl;
+                sawConnection = true;
+            }
+        }
+    }
+    OD_LOG_EXIT_B(sawConnection);//####
+    return sawConnection;
+} // checkForInputConnection
+
+/*! @brief Check if the response is for an output connection.
+ @param response The response from the port that is being checked.
+ @returns @c true if the response was for an output connection and @c false otherwise. */
+static bool checkForOutputConnection(const yarp::os::Bottle & response)
+{
+    OD_LOG_ENTER();//####
+    bool         sawConnection = false;
+    const char * matchString[] = { "There", "is", "an", "input", "connection", "from", NULL, "to", NULL };
+    int          respLen = response.size();
+    int          matchLen = (sizeof(matchString) / sizeof(*matchString));
+
+    if (respLen > matchLen)
+    {
+        bool matched = true;
+        
+        for (int ii = 0; matched && (ii < matchLen); ++ii)
+        {
+            yarp::os::ConstString element(response.get(ii).asString());
+            
+            if (matchString[ii])
+            {
+                if (element != matchString[ii])
+                {
+                    matched = false;
+                }
+            }
+        }
+        if (matched)
+        {
+            yarp::os::ConstString destination(response.get(matchLen - 1).asString());
+            yarp::os::ConstString source(response.get(matchLen - 3).asString());
+            
+            if ((source != kMagicName) && (destination != kMagicName))
+            {
+                cout << "   Output to " << destination.c_str() << endl;
+                sawConnection = true;
+            }
+        }
+    }
+    OD_LOG_EXIT_B(sawConnection);//####
+    return sawConnection;
+} // checkForOutputConnection
+
+/*! @brief Report the connections for a given port.
+ @param portName The port to be inspected. */
+static void reportConnections(const std::string & portName)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("portName = ", portName.c_str());//####
+    yarp::os::Contact address = yarp::os::Network::queryName(portName.c_str());
+
+    if (address.isValid())
+    {
+        if (address.getCarrier() == "tcp")
+        {
+            yarp::os::impl::Address          fromAddress(yarp::os::impl::Address::fromContact(address));
+            yarp::os::impl::OutputProtocol * out = yarp::os::impl::Carriers::connect(fromAddress);
+            
+            if (out)
+            {
+                yarp::os::impl::Route rr(kMagicName, portName.c_str(), "text_ack");
+                
+                if (out->open(rr))
+                {
+                    bool                                     sawInput = false;
+                    bool                                     sawOutput = false;
+                    yarp::os::Bottle                         resp;
+                    yarp::os::impl::BufferedConnectionWriter bw(out->getConnection().isTextMode());
+                    yarp::os::InputStream &                  is = out->getInputStream();
+                    yarp::os::OutputStream &                 os = out->getOutputStream();
+                    yarp::os::impl::PortCommand              pc(0, "*");
+                    yarp::os::impl::StreamConnectionReader   reader;
+                    
+                    pc.write(bw);
+                    bw.write(os);
+                    reader.reset(is, NULL, rr, 0, true);
+                    for (bool done = false; ! done; )
+                    {
+                        resp.read(reader);
+                        yarp::os::ConstString checkString(resp.get(0).asString());
+                        
+                        if (checkString == "<ACK>")
+                        {
+                            done = true;
+                        }
+                        else if (checkString == "There")
+                        {
+                            if (checkForInputConnection(resp))
+                            {
+                                sawInput = true;
+                            }
+                            else if (checkForOutputConnection(resp))
+                            {
+                                sawOutput = true;
+                            }
+                        }
+                    }
+                    if ((! sawInput) && (! sawOutput))
+                    {
+                        cout << "   No active connections." << endl;
+                    }
+                }
+                delete out;
+            }
+        }
+    }
+    OD_LOG_EXIT();//####
+} // reportConnections
+
 /*! @brief Print out connection information for a port.
  @param portName The name of the port of interest. */
 static void reportPortStatus(const std::string & portName,
@@ -181,8 +339,7 @@ static void reportPortStatus(const std::string & portName,
             }
         }
     }
-    
-    
+    reportConnections(portName);
     OD_LOG_EXIT();//####
 } // reportPortStatus
 

@@ -52,6 +52,7 @@ option(MAM_DO_EXPLICIT_CLOSE "Perform an explicit CloseChannel() prior to freein
 option(MAM_DO_EXPLICIT_DISCONNECT "Perform an explicit disconnect prior to closing a channel")
 option(MAM_LOG_INCLUDES_YARP_TRACE "Include YARP trace when logging")
 option(MAM_MAIN_DOES_DELAY_NOT_YIELD "Use Delay() in main() loop")
+option(MAM_MAKE_CHANNELS_UNIDIRECTIONAL "Channels can only be used for either input or output")
 option(MAM_SERVICES_LOG_TO_STDERR "Services send logging output to stderr")
 
 # find YARP

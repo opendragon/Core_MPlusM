@@ -198,7 +198,9 @@ bool BaseClient::connectToService(void)
                 if (NetworkConnectWithRetries(_clientChannelName, _serviceChannelName))
                 {
                     _connected = true;
+#if defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
                     _clientChannel->setOutputMode(false);
+#endif // defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
                 }
                 else
                 {

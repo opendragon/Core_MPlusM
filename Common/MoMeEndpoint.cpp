@@ -333,7 +333,9 @@ bool Endpoint::open(void)
                     if (OpenChannelWithRetries(*_channel, _contact))
                     {
                         _isOpen = true;
+#if defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
                         _channel->setOutputMode(false);
+#endif // defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
 #if defined(REPORT_CONTACT_DETAILS)
                         DumpContact("after open", _channel->where());//####
 #endif // defined(REPORT_CONTACT_DETAILS)
@@ -346,7 +348,9 @@ bool Endpoint::open(void)
                 else if (OpenChannelWithRetries(*_channel, _contact.getName()))
                 {
                     OD_LOG("(_channel->open(_contact.getName()))");//####
+#if defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
                     _channel->setOutputMode(false);
+#endif // defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
                     _isOpen = true;
 #if defined(REPORT_CONTACT_DETAILS)
                     DumpContact("after open", _channel->where());//####

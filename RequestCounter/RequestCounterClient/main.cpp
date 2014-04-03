@@ -106,6 +106,52 @@ static void stopRunning(int signal)
 } // stopRunning
 #endif // defined(__APPLE__) || defined(__linux__)
 
+/*! @brief Write out a time value in a human-friendly form.
+ @param measurement The time value to write out. */
+static void reportTimeInReasonableUnits(const double measurement)
+{
+    double       newValue;
+    const char * tag;
+    
+    if (measurement < 1e-6)
+    {
+        // Less than a microsecond
+        newValue = (measurement * 1e6);
+        tag = " microseconds";
+    }
+    else if (measurement < 1e-3)
+    {
+        // Less than a millisecond
+        newValue = (measurement * 1e3);
+        tag = " milliseconds";
+    }
+    else if (measurement < 60.0)
+    {
+        // Less than a minute
+        newValue = measurement;
+        tag = " seconds";
+    }
+    else if (measurement < (60.0 * 60.0))
+    {
+        // Less than an hour
+        newValue = (measurement / 60.0);
+        tag = " minutes";
+    }
+    else if (measurement < (24.0 * 60.0 * 60.0))
+    {
+        // Less than a day
+        newValue = (measurement / (60.0 * 60.0));
+        tag = " hours";
+    }
+    else
+    {
+        // More than a day
+        newValue = (measurement / (24.0 * 60.0 * 60.0));
+        tag = " days";
+    }
+    cout << newValue << tag;
+} // reportTimeInReasonableUnits
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -173,8 +219,11 @@ int main(int      argc,
                                 {
                                     if (0 < counter)
                                     {
-                                        cout << "count = " << counter << ", elapsed time = " << elapsedTime <<
-                                                ", average time = " << (elapsedTime / counter) << "." << endl;
+                                        cout << "count = " << counter << ", elapsed time = ";
+                                        reportTimeInReasonableUnits(elapsedTime);
+                                        cout << ", average time = ";
+                                        reportTimeInReasonableUnits(elapsedTime / counter);
+                                        cout << "." << endl;
                                     }
                                     else
                                     {
