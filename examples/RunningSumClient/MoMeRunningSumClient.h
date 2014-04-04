@@ -60,7 +60,7 @@ namespace MoAndMe
 {
     namespace Example
     {
-        /*! @brief An example MoAndMe client, for the 'random' service. */
+        /*! @brief An example MoAndMe client, for the 'running sum' service. */
         class RunningSumClient : public Common::BaseClient
         {
         public:

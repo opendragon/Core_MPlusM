@@ -328,24 +328,3 @@ bool RunningSumService::stop(void)
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // RunningSumService::stop
-
-void RunningSumService::stopSum(const yarp::os::ConstString & key)
-{
-#if (! defined(SERVICES_HAVE_CONTEXTS))
-# pragma unused(key)
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S1("key = ", key.c_str());//####
-    try
-    {
-#if defined(SERVICES_HAVE_CONTEXTS)
-        removeContext(key);
-#endif // defined(SERVICES_HAVE_CONTEXTS)
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // RunningSumService::stopSum

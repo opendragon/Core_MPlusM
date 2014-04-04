@@ -156,7 +156,9 @@ bool ListRequestHandler::processRequest(const yarp::os::ConstString & request,
             
             if (_owner)
             {
+                _owner->lock();
                 _owner->fillInListReply(reply);
+                _owner->unlock();
             }
             else
             {

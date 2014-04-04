@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       RequestInfo/main.cpp
+//  File:       ClientList/main.cpp
 //
 //  Project:    MoAndMe
 //
-//  Contains:   A utility application to list the available requests.
+//  Contains:   A utility application to list the clients of a service or all services.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,7 +35,7 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-13
+//  Created:    2014-03-12
 //
 //--------------------------------------------------------------------------------------
 
@@ -69,10 +69,10 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief A utility application to list the available requests. */
+ @brief A utility application to list the clients of a service or all services. */
 
-/*! @dir RequestInfo
- @brief The RequestInfo application. */
+/*! @dir ClientList
+ @brief The ClientList application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -89,6 +89,7 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if defined(SERVICES_HAVE_CONTEXTS)
 /*! @brief Process the response to the 'list' request sent to a service.
  @param serviceName The name of the service that generated the response.
  @param response The response to be processed.
@@ -97,104 +98,31 @@ static bool processResponse(const yarp::os::ConstString &            serviceName
                             const MoAndMe::Common::ServiceResponse & response)
 {
     OD_LOG_ENTER();//####
+    OD_LOG_S1("serviceName = ", serviceName.c_str());//####
     OD_LOG_P1("response = ", &response);//####
     bool result = false;
     
+    OD_LOG_S1("response = ", response.asString().c_str());//####
     for (int ii = 0, howMany = response.count(); ii < howMany; ++ii)
     {
         yarp::os::Value element(response.element(ii));
         
-        if (element.isDict())
+        if (element.isString())
         {
-            yarp::os::Property * propList = element.asDict();
+            yarp::os::ConstString clientString(element.toString());
             
-            if (propList)
+            if (! result)
             {
-                if (propList->check(MAM_REQREP_DICT_REQUEST_KEY))
-                {
-                    yarp::os::ConstString theDetailsString;
-                    yarp::os::ConstString theInputsString;
-                    yarp::os::ConstString theOutputsString;
-                    yarp::os::ConstString theVersionString;
-                    yarp::os::ConstString theRequest(propList->find(MAM_REQREP_DICT_REQUEST_KEY).asString());
-                    MoAndMe::Package      keywordList;
-                    
-                    result = true;
-                    if (propList->check(MAM_REQREP_DICT_DETAILS_KEY))
-                    {
-                        yarp::os::Value theDetails = propList->find(MAM_REQREP_DICT_DETAILS_KEY);
-                        
-                        if (theDetails.isString())
-                        {
-                            theDetailsString = theDetails.toString();
-                        }
-                    }
-                    if (propList->check(MAM_REQREP_DICT_INPUT_KEY))
-                    {
-                        yarp::os::Value theInputs = propList->find(MAM_REQREP_DICT_INPUT_KEY);
-                        
-                        if (theInputs.isString())
-                        {
-                            theInputsString = theInputs.toString();
-                        }
-                    }
-                    if (propList->check(MAM_REQREP_DICT_KEYWORDS_KEY))
-                    {
-                        yarp::os::Value theKeywords = propList->find(MAM_REQREP_DICT_KEYWORDS_KEY);
-                        
-                        if (theKeywords.isList())
-                        {
-                            keywordList = *theKeywords.asList();
-                        }
-                    }
-                    if (propList->check(MAM_REQREP_DICT_OUTPUT_KEY))
-                    {
-                        yarp::os::Value theOutputs = propList->find(MAM_REQREP_DICT_OUTPUT_KEY);
-                        
-                        if (theOutputs.isString())
-                        {
-                            theOutputsString = theOutputs.toString();
-                        }
-                    }
-                    if (propList->check(MAM_REQREP_DICT_VERSION_KEY))
-                    {
-                        yarp::os::Value theVersion = propList->find(MAM_REQREP_DICT_VERSION_KEY);
-                        
-                        if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
-                        {
-                            theVersionString = theVersion.toString();
-                        }
-                    }
-                    cout <<     "Service Port: " << serviceName.c_str() << endl;
-                    cout <<     "Request:      " << theRequest.c_str() << endl;
-                    if (0 < theVersionString.length())
-                    {
-                        cout << "Version:      " << theVersionString.c_str() << endl;
-                    }
-                    if (0 < theDetailsString.length())
-                    {
-                        cout << "Details:      " << theDetailsString.c_str() << endl;
-                    }
-                    if (0 < keywordList.size())
-                    {
-                        cout << "Keywords:     " << keywordList.toString().c_str() << endl;
-                    }
-                    if (0 < theInputsString.length())
-                    {
-                        cout << "Inputs:       " << theInputsString.c_str() << endl;
-                    }
-                    if (0 < theInputsString.length())
-                    {
-                        cout << "Outputs:      " << theOutputsString.c_str() << endl;
-                    }
-                    cout << endl;
-                }
+                cout << "Service: " << serviceName.c_str() << endl << "Clients: " << endl;
             }
+            cout << "   " << clientString.c_str() << endl;
+            result = true;
         }
     }
     OD_LOG_EXIT_B(result);//####
     return result;
 } // processResponse
+#endif // defined(SERVICES_HAVE_CONTEXTS)
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -207,41 +135,28 @@ static bool processResponse(const yarp::os::ConstString &            serviceName
 int main(int      argc,
          char * * argv)
 {
+#if (! defined(SERVICES_HAVE_CONTEXTS))
+# pragma unused(argc)
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
+#if defined(SERVICES_HAVE_CONTEXTS)
     try
     {
         if (yarp::os::Network::checkNetwork())
         {
             yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
             yarp::os::ConstString channelNameRequest(MAM_REQREP_DICT_CHANNELNAME_KEY ":");
-            const char *          requestName;
             
             MoAndMe::Initialize();
             if (1 < argc)
             {
                 channelNameRequest += argv[1];
-                if (2 < argc)
-                {
-                    if (strcmp(argv[2], "*"))
-                    {
-                        requestName = argv[2];
-                    }
-                    else
-                    {
-                        requestName = NULL;
-                    }
-                }
-                else
-                {
-                    requestName = NULL;
-                }
             }
             else
             {
                 channelNameRequest += "*";
-                requestName = NULL;
             }
             MoAndMe::Package matches(MoAndMe::Common::FindMatchingServices(channelNameRequest));
             
@@ -268,7 +183,7 @@ int main(int      argc,
                         
                         if (matchesCount)
                         {
-                            yarp::os::ConstString aName(MoAndMe::GetRandomChannelName("/requestinfo/channel_"));
+                            yarp::os::ConstString aName(MoAndMe::GetRandomChannelName("/clientlist/channel_"));
                             MoAndMe::Channel *    newChannel = new MoAndMe::Channel;
                             
                             if (newChannel)
@@ -277,70 +192,41 @@ int main(int      argc,
                                 {
                                     bool             sawRequestResponse = false;
                                     MoAndMe::Package parameters;
-                                    
-                                    if (requestName)
-                                    {
-                                        parameters = requestName;
-                                    }
+
                                     for (int ii = 0; ii < matchesCount; ++ii)
                                     {
                                         yarp::os::ConstString aMatch(matchesList->get(ii).toString());
                                         
                                         if (MoAndMe::NetworkConnectWithRetries(aName, aMatch))
                                         {
+                                            MoAndMe::Common::ServiceRequest  request(MAM_CLIENTS_REQUEST, parameters);
                                             MoAndMe::Common::ServiceResponse response;
                                             
-                                            // If no request was identified, or a wildcard was specified, we use the
-                                            // 'list' request; otherwise, do an 'info' request.
-                                            if (requestName)
+                                            if (request.send(*newChannel, &response))
                                             {
-                                                MoAndMe::Common::ServiceRequest request(MAM_INFO_REQUEST, parameters);
-                                                
-                                                if (request.send(*newChannel, &response))
+                                                OD_LOG("(request.send(*newChannel, &response))");//####
+                                                if (0 < response.count())
                                                 {
-                                                    if (0 < response.count())
+                                                    OD_LOG("(0 < response.count())");//####
+                                                    if (processResponse(aMatch, response))
                                                     {
-                                                        if (processResponse(aMatch, response))
-                                                        {
-                                                            sawRequestResponse = true;
-                                                        }
+                                                        sawRequestResponse = true;
                                                     }
-                                                }
-                                                else
-                                                {
-                                                    OD_LOG("! (request.send(*newChannel, &response))");//####
-                                                    cerr << "Problem communicating with " << aMatch.c_str() << "." <<
-                                                            endl;
                                                 }
                                             }
                                             else
                                             {
-                                                MoAndMe::Common::ServiceRequest request(MAM_LIST_REQUEST, parameters);
-                                                
-                                                if (request.send(*newChannel, &response))
-                                                {
-                                                    if (0 < response.count())
-                                                    {
-                                                        if (processResponse(aMatch, response))
-                                                        {
-                                                            sawRequestResponse = true;
-                                                        }
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    OD_LOG("! (request.send(*newChannel, &response))");//####
-                                                    cerr << "Problem communicating with " << aMatch.c_str() << "." <<
-                                                            endl;
-                                                }
+                                                OD_LOG("! (request.send(*newChannel, &response))");//####
+                                                cerr << "Problem communicating with " << aMatch.c_str() << "." <<
+                                                endl;
                                             }
-#if defined(MAM_DO_EXPLICIT_DISCONNECT)
+# if defined(MAM_DO_EXPLICIT_DISCONNECT)
                                             if (! MoAndMe::NetworkDisconnectWithRetries(aName, aMatch))
                                             {
                                                 OD_LOG("(! MoAndMe::NetworkDisconnectWithRetries(aName, "//####
                                                        "aMatch))");//####
                                             }
-#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+# endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
                                         }
                                         else
                                         {
@@ -349,11 +235,11 @@ int main(int      argc,
                                     }
                                     if (! sawRequestResponse)
                                     {
-                                        cout << "No matching request found." << endl;
+                                        cout << "No client connections found." << endl;
                                     }
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+# if defined(MAM_DO_EXPLICIT_CLOSE)
                                     MoAndMe::CloseChannel(*newChannel);
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+# endif // defined(MAM_DO_EXPLICIT_CLOSE)
                                 }
                                 else
                                 {
@@ -394,6 +280,9 @@ int main(int      argc,
         OD_LOG("Exception caught");//####
     }
     yarp::os::Network::fini();
+#else // ! defined(SERVICES_HAVE_CONTEXTS)
+    cout << "Services do not have contexts, so the clients cannot be determined." << endl;
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_EXIT_L(0);//####
     return 0;
 } // main

@@ -46,6 +46,20 @@
 # include "MoMeCommon.h"
 
 # include <map>
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wc++11-extensions"
+#  pragma clang diagnostic ignored "-Wdocumentation"
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#  pragma clang diagnostic ignored "-Wpadded"
+#  pragma clang diagnostic ignored "-Wshadow"
+#  pragma clang diagnostic ignored "-Wunused-parameter"
+#  pragma clang diagnostic ignored "-Wweak-vtables"
+# endif // defined(__APPLE__)
+# include <yarp/os/Semaphore.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -76,6 +90,13 @@ namespace MoAndMe
             /*! @brief The destructor. */
             virtual ~RequestMap(void);
             
+            /*! @brief Lock the data unless the lock would block.
+             @returns @c true if the data was locked and @c false otherwise. */
+            inline bool conditionallyLock(void)
+            {
+                return _lock.check();
+            } // conditionallyLock
+            
             /*! @brief Construct the response to a 'list' request.
              @param reply The package to hold the reply. */
             void fillInListReply(Package & reply);
@@ -85,6 +106,12 @@ namespace MoAndMe
              @param requestName The name of the request that is being looked at. */
             void fillInRequestInfo(Package &                     reply,
                                    const yarp::os::ConstString & requestName);
+            
+            /*! @brief Lock the data. */
+            inline void lock(void)
+            {
+                _lock.wait();
+            } // lock
             
             /*! @brief Return the function corresponding to a particular request.
              @param request The requested operation.
@@ -98,6 +125,12 @@ namespace MoAndMe
             /*! @brief Remember the function to be used to handle unrecognized requests.
              @param handler The function to be called by default. */
             void setDefaultRequestHandler(BaseRequestHandler * handler);
+            
+            /*! @brief Unlock the data. */
+            inline void unlock(void)
+            {
+                _lock.post();
+            } // unlock
             
             /*! @brief Forget the function to be used to handle a particular request.
              @param handler The function that was called for the request. */
@@ -125,6 +158,9 @@ namespace MoAndMe
              @param other Another object to construct from. */
             RequestMap & operator=(const RequestMap & other);
             
+            /*! @brief The contention lock used to avoid inconsistencies. */
+            yarp::os::Semaphore  _lock;
+
             /*! @brief The default handler to use for unrecognized requests. */
             BaseRequestHandler * _defaultHandler;
             

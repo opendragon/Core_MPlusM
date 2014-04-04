@@ -3,13 +3,3 @@
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
 
 * check RegistryService for instability when ‘probed’
-
-* add ClientList utility, to probe all (or a specific) service(s) for non-transient connections - use the new ‘clients’ request to create a list of non-NULL contexts
-
-* make sure that the RequestCounterService uses contexts for testing the ClientList
-
-* the context map and request map should be protected against multiple simultaneous access
-
-* protect SQLite3 calls as well
-
-* re-enable tracing for RegistryService, to identify _why_ it begins to fail

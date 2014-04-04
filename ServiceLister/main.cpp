@@ -200,7 +200,7 @@ int main(int      argc,
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
             MoAndMe::Initialize();
-            MoAndMe::Package matches(MoAndMe::Common::FindMatchingServices("request:*"));
+            MoAndMe::Package matches(MoAndMe::Common::FindMatchingServices(MAM_REQREP_DICT_REQUEST_KEY ":*"));
             
             if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {

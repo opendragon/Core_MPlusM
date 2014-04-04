@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeNameRequestHandler.h
+//  File:       MoMeDetachRequestHandler.h
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class declaration for the request handler for the standard 'name'
-//              request.
+//  Contains:   The class declaration for the request handler for a 'reset' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -40,9 +39,9 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MOMENAMEREQUESTHANDLER_H_))
+#if (! defined(MOMERANDOMREQUESTHANDLER_H_))
 /*! @brief Header guard. */
-# define MOMENAMEREQUESTHANDLER_H_ /* */
+# define MOMERANDOMREQUESTHANDLER_H_ /* */
 
 # include "MoMeBaseRequestHandler.h"
 
@@ -52,30 +51,30 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for the standard 'name' request. */
+ @brief The class declaration for the request handler for a 'reset' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MoAndMe
 {
-    namespace Common
+    namespace RequestCounter
     {
-        class BaseService;
+        class RequestCounterService;
         
-        /*! @brief The standard 'name' request handler.
+        /*! @brief The example 'detach' request handler.
          
-         There is no input for the request and the output is the canonical name of the service. */
-        class NameRequestHandler : public BaseRequestHandler
+         There is no input for the request and the output is a single floating point number, between 0 and 1. */
+        class DetachRequestHandler : public Common::BaseRequestHandler
         {
         public:
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            NameRequestHandler(BaseService & service);
+            DetachRequestHandler(RequestCounterService & service);
             
             /*! @brief The destructor. */
-            virtual ~NameRequestHandler(void);
+            virtual ~DetachRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -104,25 +103,13 @@ namespace MoAndMe
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            NameRequestHandler(const NameRequestHandler & other);
+            /*! @brief The service that will manages the statistics. */
+            RequestCounterService & _service;
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            NameRequestHandler & operator=(const NameRequestHandler & other);
-            
-            /*! @brief The service that will handle the 'name' operation. */
-            BaseService & _service;
-            
-        }; // NameRequestHandler
+        }; // DetachRequestHandler
         
-    } // Common
+    } // RequestCounter
     
 } // MoAndMe
 
-#endif // ! defined(MOMENAMEREQUESTHANDLER_H_)
+#endif // ! defined(MOMERANDOMREQUESTHANDLER_H_)

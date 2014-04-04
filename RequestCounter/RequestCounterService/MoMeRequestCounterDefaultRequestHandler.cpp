@@ -121,7 +121,7 @@ bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstSt
                                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,restOfInput,senderChannel)
+# pragma unused(request,restOfInput)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
@@ -131,7 +131,7 @@ bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstSt
     
     try
     {
-        _service.countRequest();
+        _service.countRequest(senderChannel);
         if (replyMechanism)
         {
             Package response(MAM_OK_RESPONSE);

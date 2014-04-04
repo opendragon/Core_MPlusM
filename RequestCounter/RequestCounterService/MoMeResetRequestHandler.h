@@ -39,9 +39,9 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MOMERANDOMREQUESTHANDLER_H_))
+#if (! defined(MOMERESETREQUESTHANDLER_H_))
 /*! @brief Header guard. */
-# define MOMERANDOMREQUESTHANDLER_H_ /* */
+# define MOMERESETREQUESTHANDLER_H_ /* */
 
 # include "MoMeBaseRequestHandler.h"
 
@@ -62,9 +62,9 @@ namespace MoAndMe
     {
         class RequestCounterService;
         
-        /*! @brief The example 'random' request handler.
+        /*! @brief The 'reset' request handler for the request counter service.
          
-         There is no input for the request and the output is a single floating point number, between 0 and 1. */
+         There is no input or output for the request. */
         class ResetRequestHandler : public Common::BaseRequestHandler
         {
         public:
@@ -112,4 +112,4 @@ namespace MoAndMe
     
 } // MoAndMe
 
-#endif // ! defined(MOMERANDOMREQUESTHANDLER_H_)
+#endif // ! defined(MOMERESETREQUESTHANDLER_H_)

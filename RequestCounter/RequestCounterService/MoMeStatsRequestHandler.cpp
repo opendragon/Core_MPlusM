@@ -137,7 +137,7 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,restOfInput,senderChannel)
+# pragma unused(request,restOfInput)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
@@ -153,7 +153,7 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
             double  elapsedTime;
             long    counter;
             
-            _service.getStatistics(counter, elapsedTime);
+            _service.getStatistics(senderChannel, counter, elapsedTime);
             response.addInt(static_cast<int>(counter));
             response.addDouble(elapsedTime);
             response.write(*replyMechanism);

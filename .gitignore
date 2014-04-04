@@ -7,6 +7,7 @@ install_manifest.txt
 *.a
 Testing
 Doxygen_output
+ClientList/ClientList
 Common/MoMeConfig.h
 Common/CommonTest
 examples/EchoClient/EchoClient

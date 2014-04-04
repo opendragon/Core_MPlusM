@@ -241,10 +241,15 @@ int main(int      argc,
                                 OD_LOG("! (stuff->resetServiceCounters())");//####
                                 cerr << "Problem resetting the service counters." << endl;
                             }
+                            if (! stuff->detachFromService())
+                            {
+                                OD_LOG("(! stuff->detachFromService())");//####
+                                cerr << "Problem detaching from the service." << endl;
+                            }
                             if (! stuff->disconnectFromService())
                             {
                                 OD_LOG("(! stuff->disconnectFromService())");//####
-                                cerr << "Problem discconnecting from the service." << endl;
+                                cerr << "Problem disconnecting from the service." << endl;
                             }
                         }
                         else

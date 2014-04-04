@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeNameRequestHandler.h
+//  File:       MoMeRequestCounterContext.h
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class declaration for the request handler for the standard 'name'
-//              request.
+//  Contains:   The class declaration for a context used with the request counter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,15 +35,15 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2014-04-04
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MOMENAMEREQUESTHANDLER_H_))
+#if (! defined(MOMEREQUESTCOUNTERCONTEXT_H_))
 /*! @brief Header guard. */
-# define MOMENAMEREQUESTHANDLER_H_ /* */
+# define MOMEREQUESTCOUNTERCONTEXT_H_ /* */
 
-# include "MoMeBaseRequestHandler.h"
+# include "MoMeBaseContext.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -52,77 +51,67 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for the standard 'name' request. */
+ @brief The class declaration for a context used with the request counter service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MoAndMe
 {
-    namespace Common
+    namespace RequestCounter
     {
-        class BaseService;
-        
-        /*! @brief The standard 'name' request handler.
-         
-         There is no input for the request and the output is the canonical name of the service. */
-        class NameRequestHandler : public BaseRequestHandler
+        /*! @brief A convenience class to provide context objects for the request counter service. */
+        class RequestCounterContext : public Common::BaseContext
         {
         public:
             
-            /*! @brief The constructor.
-             @param service The service that has registered this request. */
-            NameRequestHandler(BaseService & service);
+            /*! @brief The constructor. */
+            RequestCounterContext(void);
             
             /*! @brief The destructor. */
-            virtual ~NameRequestHandler(void);
+            virtual ~RequestCounterContext(void);
             
-            /*! @brief Fill in a set of aliases for the request.
-             @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(StringVector & alternateNames);
+            /*! @brief An accessor for the number of requests since the most recent reset. */
+            inline long & counter(void)
+            {
+                return _counter;
+            } // counter
             
-            /*! @brief Fill in a description dictionary for the request.
-             @param request The actual request name.
-             @param info The dictionary to be filled in. */
-            virtual void fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info);
-            
-            /*! @brief Process a request.
-             @param request The actual request name.
-             @param restOfInput The arguments to the operation.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-            virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const Package &               restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism);
+            /*! @brief An accessor for the time of the most recent reset. */
+            inline double & lastReset(void)
+            {
+                return _lastReset;
+            } // lastReset
             
         protected:
             
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
+            typedef BaseContext inherited;
             
             /*! @brief Copy constructor.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            NameRequestHandler(const NameRequestHandler & other);
+            RequestCounterContext(const RequestCounterContext & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            NameRequestHandler & operator=(const NameRequestHandler & other);
+            RequestCounterContext & operator=(const RequestCounterContext & other);
             
-            /*! @brief The service that will handle the 'name' operation. */
-            BaseService & _service;
+            /*! @brief The number of requests since the most recent reset. */
+            long   _counter;
             
-        }; // NameRequestHandler
+            /*! @brief The time of the last reset. */
+            double _lastReset;
+            
+        }; // RequestCounterContext
         
-    } // Common
+    } // Example
     
 } // MoAndMe
 
-#endif // ! defined(MOMENAMEREQUESTHANDLER_H_)
+#endif // ! defined(MOMEREQUESTCOUNTERCONTEXT_H_)

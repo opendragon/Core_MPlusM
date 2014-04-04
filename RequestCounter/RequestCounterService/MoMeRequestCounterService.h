@@ -39,9 +39,9 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MoMeREQUESTCOUNTERSERVICE_H_))
+#if (! defined(MOMEREQUESTCOUNTERSERVICE_H_))
 /*! @brief Header guard. */
-# define MoMeREQUESTCOUNTERSERVICE_H_ /* */
+# define MOMEREQUESTCOUNTERSERVICE_H_ /* */
 
 # include "MoMeBaseService.h"
 
@@ -63,11 +63,12 @@ namespace MoAndMe
 {
     namespace RequestCounter
     {
+        class DetachRequestHandler;
         class RequestCounterDefaultRequestHandler;
         class ResetRequestHandler;
         class StatsRequestHandler;
         
-        /*! @brief An example MoAndMe service, handling 'random' requests. */
+        /*! @brief The request counter service. */
         class RequestCounterService : public Common::BaseService
         {
         public:
@@ -91,17 +92,21 @@ namespace MoAndMe
              @returns @c true if the service was stopped and @c false it if was not. */
             virtual bool stop(void);
             
-            /*! @brief Record a request. */
-            void countRequest(void);
+            /*! @brief Record a request.
+             @param key The client-provided key. */
+            void countRequest(const yarp::os::ConstString & key);
             
             /*! @brief Return the request statistics.
+             @param key The client-provided key. 
              @param counter The number of requests since the last reset.
              @param elapsedTime The number of seconds since the last reset. */
-            void getStatistics(long &   counter,
-                               double & elapsedTime);
+            void getStatistics(const yarp::os::ConstString & key,
+                               long &                        counter,
+                               double &                      elapsedTime);
             
-            /*! @brief Reset the request statistics counters. */
-            void resetCounters(void);
+            /*! @brief Reset the request statistics counters.
+             @param key The client-provided key. */
+            void resetCounters(const yarp::os::ConstString & key);
             
         protected:
             
@@ -131,22 +136,29 @@ namespace MoAndMe
             /*! @brief The request handler for unrecognized requests. */
             RequestCounterDefaultRequestHandler * _defaultHandler;
             
+            /*! @brief The request handler for the 'detach' request. */
+            DetachRequestHandler *                _detachHandler;
+            
             /*! @brief The request handler for the 'reset' request. */
             ResetRequestHandler *                 _resetHandler;
             
             /*! @brief The request handler for the 'stats' request. */
             StatsRequestHandler *                 _statsHandler;
             
+#if (! defined(SERVICES_HAVE_CONTEXTS))
             /*! @brief The number of requests since the most recent reset. */
             long                                  _counter;
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
             
+#if (! defined(SERVICES_HAVE_CONTEXTS))
             /*! @brief The time of the last reset. */
             double                                _lastReset;
-            
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
+
         }; // RequestCounterService
         
     } // RequestCounter
     
 } // MoAndMe
 
-#endif // ! defined(MoMeREQUESTCOUNTERSERVICE_H_)
+#endif // ! defined(MOMEREQUESTCOUNTERSERVICE_H_)

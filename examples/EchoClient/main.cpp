@@ -173,7 +173,7 @@ int main(int      argc,
                         if (! stuff->disconnectFromService())
                         {
                             OD_LOG("(! stuff->disconnectFromService())");//####
-                            cerr << "Problem discconnecting from the service." << endl;
+                            cerr << "Problem disconnecting from the service." << endl;
                         }
                     }
                     else

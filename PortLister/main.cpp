@@ -321,7 +321,7 @@ static void reportPortStatus(const std::string & portName,
     OD_LOG_B1("checkWithRegistry = ", checkWithRegistry);//####
     if (checkWithRegistry)
     {
-        std::string request("channelname:");
+        std::string request(MAM_REQREP_DICT_CHANNELNAME_KEY ":");
         
         request += portName;
         MoAndMe::Package matches(MoAndMe::Common::FindMatchingServices(request.c_str()));

@@ -63,7 +63,7 @@ using namespace MoAndMe::RequestCounter;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'random' request. */
+/*! @brief The protocol version number for the 'reset' request. */
 #define RESET_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
@@ -137,7 +137,7 @@ bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,restOfInput,senderChannel)
+# pragma unused(request,restOfInput)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
@@ -147,7 +147,7 @@ bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
     
     try
     {
-        _service.resetCounters();
+        _service.resetCounters(senderChannel);
         if (replyMechanism)
         {
             Package response(MAM_OK_RESPONSE);

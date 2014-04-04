@@ -42,7 +42,7 @@
 #include "MoMeRegistryService.h"
 #include "MoMeRequests.h"
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <iostream>

@@ -46,6 +46,7 @@
 #include "MoMeBaseServiceInputHandlerCreator.h"
 #include "MoMeEndpoint.h"
 #include "MoMeException.h"
+#include "MoMeClientsRequestHandler.h"
 #include "MoMeInfoRequestHandler.h"
 #include "MoMeListRequestHandler.h"
 #include "MoMeNameRequestHandler.h"
@@ -112,6 +113,9 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
         _contexts(),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
         _canonicalName(canonicalName), _description(description),
+#if defined(SERVICES_HAVE_CONTEXTS)
+        _clientsHandler(NULL),
+#endif // defined(SERVICES_HAVE_CONTEXTS)
         _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
         _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
         _useMultipleHandlers(useMultipleHandlers)
@@ -137,6 +141,9 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
         _contexts(),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
         _canonicalName(canonicalName), _description(description),
+#if defined(SERVICES_HAVE_CONTEXTS)
+        _clientsHandler(NULL),
+#endif // defined(SERVICES_HAVE_CONTEXTS)
         _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
         _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
         _useMultipleHandlers(useMultipleHandlers)
@@ -197,7 +204,9 @@ void BaseService::addContext(const yarp::os::ConstString & key,
     {
         if (context)
         {
+            lockContexts();
             _contexts.insert(ContextMapValue(std::string(key), context));
+            unlockContexts();
         }
     }
     catch (...)
@@ -214,14 +223,26 @@ void BaseService::attachRequestHandlers(void)
     OD_LOG_OBJENTER();//####
     try
     {
+#if defined(SERVICES_HAVE_CONTEXTS)
+        _clientsHandler = new ClientsRequestHandler(*this);
+#endif // defined(SERVICES_HAVE_CONTEXTS)
         _infoHandler = new InfoRequestHandler;
         _listHandler = new ListRequestHandler;
         _nameHandler = new NameRequestHandler(*this);
+#if defined(SERVICES_HAVE_CONTEXTS)
+        if (_clientsHandler && _infoHandler && _listHandler && _nameHandler)
+#else // ! defined(SERVICES_HAVE_CONTEXTS)
         if (_infoHandler && _listHandler && _nameHandler)
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
         {
+            _requestHandlers.lock();
+#if defined(SERVICES_HAVE_CONTEXTS)
+            _requestHandlers.registerRequestHandler(_clientsHandler);
+#endif // defined(SERVICES_HAVE_CONTEXTS)
             _requestHandlers.registerRequestHandler(_infoHandler);
             _requestHandlers.registerRequestHandler(_listHandler);
             _requestHandlers.registerRequestHandler(_nameHandler);
+            _requestHandlers.unlock();
         }
         else
         {
@@ -240,6 +261,7 @@ void BaseService::attachRequestHandlers(void)
 void BaseService::clearContexts(void)
 {
     OD_LOG_OBJENTER();//####
+    lockContexts();
     for (ContextMap::iterator walker(_contexts.begin()); _contexts.end() != walker; ++walker)
     {
         BaseContext * value = walker->second;
@@ -250,15 +272,46 @@ void BaseService::clearContexts(void)
         }
     }
     _contexts.clear();
+    unlockContexts();
     OD_LOG_OBJEXIT();//####
 } // BaseService::clearContexts
 #endif // defined(SERVICES_HAVE_CONTEXTS)
+
+void BaseService::detachClient(const yarp::os::ConstString & key)
+{
+#if (! defined(SERVICES_HAVE_CONTEXTS))
+# pragma unused(key)
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("key = ", key.c_str());//####
+    try
+    {
+#if defined(SERVICES_HAVE_CONTEXTS)
+        removeContext(key);
+#endif // defined(SERVICES_HAVE_CONTEXTS)
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // BaseService::detachClient
 
 void BaseService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER();//####
     try
     {
+        _requestHandlers.lock();
+#if defined(SERVICES_HAVE_CONTEXTS)
+        if (_clientsHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_clientsHandler);
+            delete _clientsHandler;
+            _clientsHandler = NULL;
+        }
+#endif // defined(SERVICES_HAVE_CONTEXTS)
         if (_infoHandler)
         {
             _requestHandlers.unregisterRequestHandler(_infoHandler);
@@ -277,6 +330,7 @@ void BaseService::detachRequestHandlers(void)
             delete _nameHandler;
             _nameHandler = NULL;
         }
+        _requestHandlers.unlock();
     }
     catch (...)
     {
@@ -287,6 +341,21 @@ void BaseService::detachRequestHandlers(void)
 } // BaseService::detachRequestHandlers
 
 #if defined(SERVICES_HAVE_CONTEXTS)
+void BaseService::fillInClientList(StringVector & clients)
+{
+    OD_LOG_OBJENTER();//####
+    lockContexts();
+    
+    for (ContextMap::const_iterator walker(_contexts.cbegin()); _contexts.cend() != walker; ++walker)
+    {
+        clients.push_back(walker->first.c_str());
+    }
+    unlockContexts();
+    OD_LOG_OBJEXIT();//####
+} // BaseService::fillInClientList
+#endif // defined(SERVICES_HAVE_CONTEXTS)
+
+#if defined(SERVICES_HAVE_CONTEXTS)
 BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
 {
     OD_LOG_OBJENTER();//####
@@ -295,12 +364,14 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
     
     try
     {
+        lockContexts();
         ContextMap::const_iterator match(_contexts.find(std::string(key)));
         
         if (_contexts.cend() != match)
         {
             result = match->second;
         }
+        unlockContexts();
     }
     catch (...)
     {
@@ -325,8 +396,10 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
     
     try
     {
+        _requestHandlers.lock();
         BaseRequestHandler * handler = _requestHandlers.lookupRequestHandler(request);
         
+        _requestHandlers.unlock();
         if (handler)
         {
             OD_LOG("(handler)");//####
@@ -357,7 +430,9 @@ void BaseService::registerRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("handler = ", handler);//####
+    _requestHandlers.lock();
     _requestHandlers.registerRequestHandler(handler);
+    _requestHandlers.unlock();
     OD_LOG_OBJEXIT();//####
 } // BaseService::registerRequestHandler
 
@@ -368,6 +443,7 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
     OD_LOG_S1("key = ", key.c_str());//####
     try
     {
+        lockContexts();
         ContextMap::iterator match(_contexts.find(std::string(key)));
         
         if (_contexts.end() != match)
@@ -380,6 +456,7 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
             }
             _contexts.erase(match);
         }
+        unlockContexts();
     }
     catch (...)
     {
@@ -394,7 +471,9 @@ void BaseService::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("handler = ", handler);//####
+    _requestHandlers.lock();
     _requestHandlers.setDefaultRequestHandler(handler);
+    _requestHandlers.unlock();
     OD_LOG_OBJEXIT();//####
 } // BaseService::setDefaultRequestHandler
 
@@ -496,7 +575,9 @@ void BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("handler = ", handler);//####
+    _requestHandlers.lock();
     _requestHandlers.unregisterRequestHandler(handler);
+    _requestHandlers.unlock();
     OD_LOG_OBJEXIT();//####
 } // BaseService::unregisterRequestHandler
 

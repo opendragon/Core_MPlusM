@@ -57,6 +57,8 @@
 /*! @brief The channel-independent name of the service registry service. */
 # define MAM_REGISTRY_CANONICAL_NAME "Registry"
 
+/*! @brief The name for the 'clients' request. */
+# define MAM_CLIENTS_REQUEST    "clients"
 /*! @brief The name for the 'echo' request. */
 # define MAM_ECHO_REQUEST       "echo"
 /*! @brief The standard name for an 'info' request. */
@@ -69,6 +71,8 @@
 # define MAM_NAME_REQUEST       "name"
 /*! @brief The standard name for a 'register' request. */
 # define MAM_REGISTER_REQUEST   "register"
+/*! @brief The standard name for a 'unclient' request. */
+# define MAM_UNCLIENT_REQUEST   "unclient"
 /*! @brief The standard name for a 'unregister' request. */
 # define MAM_UNREGISTER_REQUEST "unregister"
 
@@ -109,18 +113,20 @@
 /*! @brief Request/response specification character - string value. */
 # define MAM_REQREP_STRING     "s"
 
+/*! @brief Request/response dictionary key - channel name. */
+# define MAM_REQREP_DICT_CHANNELNAME_KEY "channelname"
 /*! @brief Request/response dictionary key - details. */
-# define MAM_REQREP_DICT_DETAILS_KEY  "details"
+# define MAM_REQREP_DICT_DETAILS_KEY     "details"
 /*! @brief Request/response dictionary key - input specification. */
-# define MAM_REQREP_DICT_INPUT_KEY    "input"
+# define MAM_REQREP_DICT_INPUT_KEY       "input"
 /*! @brief Request/response dictionary key - keywords. */
-# define MAM_REQREP_DICT_KEYWORDS_KEY "keywords"
+# define MAM_REQREP_DICT_KEYWORDS_KEY    "keywords"
 /*! @brief Request/response dictionary key - output specification. */
-# define MAM_REQREP_DICT_OUTPUT_KEY   "output"
+# define MAM_REQREP_DICT_OUTPUT_KEY      "output"
 /*! @brief Request/response dictionary key - request specification. */
-# define MAM_REQREP_DICT_REQUEST_KEY  "request"
+# define MAM_REQREP_DICT_REQUEST_KEY     "request"
 /*! @brief Request/response dictionary key - version. */
-# define MAM_REQREP_DICT_VERSION_KEY  "version"
+# define MAM_REQREP_DICT_VERSION_KEY     "version"
 
 /*! @brief The standard name for the service registry channel. */
 # define MAM_SERVICE_REGISTRY_CHANNEL_NAME "/$ervice"

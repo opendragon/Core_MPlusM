@@ -60,7 +60,7 @@ namespace MoAndMe
 {
     namespace RequestCounter
     {
-        /*! @brief An example MoAndMe client, for the 'random' service. */
+        /*! @brief A client for the request counter service. */
         class RequestCounterClient : public Common::BaseClient
         {
         public:
@@ -70,6 +70,10 @@ namespace MoAndMe
             
             /*! @brief The destructor. */
             virtual ~RequestCounterClient(void);
+            
+            /*! @brief Clear the service connection.
+             @returns @c true if the service handled the request and @c false otherwise. */
+            bool detachFromService(void);
             
             /*! @brief Get the statistics from the service.
              @param counter The number of requests since the last reset.

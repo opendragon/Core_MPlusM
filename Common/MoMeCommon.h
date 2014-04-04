@@ -108,6 +108,9 @@
 /*! @brief The delay value corresponding to one second of delay. */
 # define ONE_SECOND_DELAY 1.0
 
+/*! @brief All MoAndMe services maintain contexts for each incoming channel connection. */
+# define SERVICES_HAVE_CONTEXTS /* */
+
 /*! @brief The default timeout duration in seconds. */
 # define STANDARD_WAIT_TIME 5.0
 

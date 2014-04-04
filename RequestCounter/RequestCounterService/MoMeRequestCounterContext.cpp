@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeStopRequestHandler.cpp
+//  File:       MoMeRequestCounterContext.cpp
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class definition for the request handler for a 'stop' request.
+//  Contains:   The class definition for a context used with the request counter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,13 +35,11 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-18
+//  Created:    2014-04-04
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeStopRequestHandler.h"
-#include "MoMeRunningSumRequests.h"
-#include "MoMeRunningSumService.h"
+#include "MoMeRequestCounterContext.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -52,19 +50,16 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a 'start' request. */
+ @brief The class definition for a context used with the request counter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Example;
+using namespace MoAndMe::RequestCounter;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-/*! @brief The protocol version number for the 'stop' request. */
-#define STOP_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -78,91 +73,22 @@ using namespace MoAndMe::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-StopRequestHandler::StopRequestHandler(RunningSumService & service) :
-        inherited(MAM_STOP_REQUEST), _service(service)
+RequestCounterContext::RequestCounterContext(void) :
+        inherited(), _counter(0), _lastReset(0)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_P1("service = ", &service);//####
     OD_LOG_EXIT_P(this);//####
-} // StopRequestHandler::StopRequestHandler
+} // RequestCounterContext::RequestCounterContext
 
-StopRequestHandler::~StopRequestHandler(void)
+RequestCounterContext::~RequestCounterContext(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // StopRequestHandler::~StopRequestHandler
+} // RequestCounterContext::~RequestCounterContext
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
-
-void StopRequestHandler::fillInAliases(MoAndMe::StringVector & alternateNames)
-{
-#if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(alternateNames)
-#endif // ! defined(OD_ENABLE_LOGGING)
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("alternateNames = ", &alternateNames);//####
-    OD_LOG_OBJEXIT();//####
-} // StopRequestHandler::fillInAliases
-
-void StopRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info)
-{
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S1("request = ", request.c_str());//####
-    OD_LOG_P1("info = ", &info);//####
-    try
-    {
-        info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MAM_REQREP_DICT_VERSION_KEY, STOP_REQUEST_VERSION_NUMBER);
-        info.put(MAM_REQREP_DICT_DETAILS_KEY, "Stop the running sum");
-        yarp::os::Value    keywords;
-        MoAndMe::Package * asList = keywords.asList();
-        
-        asList->addString(request);
-        info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // StopRequestHandler::fillInDescription
-
-bool StopRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                        const MoAndMe::Package &      restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism)
-{
-#if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,restOfInput)
-#endif // ! defined(OD_ENABLE_LOGGING)
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
-              senderChannel.c_str());//####
-    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
-    bool result = true;
-
-    try
-    {
-        _service.detachClient(senderChannel);
-        if (replyMechanism)
-        {
-            MoAndMe::Package response(MAM_OK_RESPONSE);
-            
-            response.write(*replyMechanism);
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(result);//####
-    return result;
-} // StopRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors

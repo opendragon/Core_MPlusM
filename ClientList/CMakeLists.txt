@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------
 #
-#  File:       RequestCounterService/CMakeLists.txt
+#  File:       ClientList/CMakeLists.txt
 #
 #  Project:    MoAndMe
 #
-#  Contains:   The CMAKE definitions for the request counter service application.
+#  Contains:   The CMAKE definitions for the ClientList application.
 #
 #  Written by: Norman Jaffe
 #
@@ -35,28 +35,22 @@
 #              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-#  Created:    2014-03-14
+#  Created:    2014-04-04
 #
 #--------------------------------------------------------------------------------------
 
 include_directories("${MAM_LOGGING_DIR}"
-                    "${MAM_COMMON_DIR}"
-                    "../RequestCounterCommon")
+                    "${MAM_COMMON_DIR}")
 
 # set up our program
-add_executable(RequestCounterService
-               main.cpp
-               MoMeDetachRequestHandler.cpp
-               MoMeRequestCounterContext.cpp
-               MoMeRequestCounterDefaultRequestHandler.cpp
-               MoMeRequestCounterService.cpp
-               MoMeResetRequestHandler.cpp
-               MoMeStatsRequestHandler.cpp)
+add_executable(ClientList
+               main.cpp)
 
 # link with YARP libraries and our interface classes
-target_link_libraries(RequestCounterService
+target_link_libraries(ClientList
                       MoMeCommon
                       MoMeLogging
+                      MoMeParser
                       ${YARP_LIBRARIES})
 
 enable_testing()

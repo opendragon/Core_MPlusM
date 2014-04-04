@@ -46,7 +46,7 @@ project(MovementAndMeaning)
 
 set(MAM_VERSION_MAJOR 1)
 set(MAM_VERSION_MINOR 1)
-set(MAM_VERSION_PATCH 8)
+set(MAM_VERSION_PATCH 9)
 
 option(MAM_DO_EXPLICIT_CLOSE "Perform an explicit CloseChannel() prior to freeing a channel")
 option(MAM_DO_EXPLICIT_DISCONNECT "Perform an explicit disconnect prior to closing a channel")
@@ -94,6 +94,7 @@ include_directories("${MAM_COMMON_DIR}"
                     "${MAM_LOGGING_DIR}"
                     "${MAM_PARSER_DIR}")
 
+add_subdirectory(ClientList)
 add_subdirectory(Common)
 add_subdirectory(examples)
 add_subdirectory(Logging)

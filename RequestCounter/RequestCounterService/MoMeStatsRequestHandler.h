@@ -62,7 +62,7 @@ namespace MoAndMe
     {
         class RequestCounterService;
         
-        /*! @brief The example 'random' request handler.
+        /*! @brief The example 'stats' request handler.
          
          There is no input for the request and the output is a single floating point number, between 0 and 1. */
         class StatsRequestHandler : public Common::BaseRequestHandler

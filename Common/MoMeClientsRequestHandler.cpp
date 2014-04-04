@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeInfoRequestHandler.cpp
+//  File:       MoMeClientsRequestHandler.cpp
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class definition for the request handler for the standard 'info'
+//  Contains:   The class definition for the request handler for the standard 'clients'
 //              request.
 //
 //  Written by: Norman Jaffe
@@ -36,12 +36,12 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-27
+//  Created:    2014-04-04
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeInfoRequestHandler.h"
-#include "MoMeRequestMap.h"
+#include "MoMeClientsRequestHandler.h"
+#include "MoMeBaseService.h"
 #include "MoMeRequests.h"
 
 //#include "ODEnableLogging.h"
@@ -53,7 +53,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for the standard 'info' request. */
+ @brief The class definition for the request handler for the standard 'clients' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -64,8 +64,8 @@ using namespace MoAndMe::Common;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'info' request. */
-#define INFO_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'clients' request. */
+#define CLIENTS_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -79,33 +79,33 @@ using namespace MoAndMe::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-InfoRequestHandler::InfoRequestHandler(void) :
-        inherited(MAM_INFO_REQUEST)
+ClientsRequestHandler::ClientsRequestHandler(BaseService & service) :
+        inherited(MAM_CLIENTS_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
-} // InfoRequestHandler::InfoRequestHandler
+} // ClientsRequestHandler::ClientsRequestHandler
 
-InfoRequestHandler::~InfoRequestHandler(void)
+ClientsRequestHandler::~ClientsRequestHandler(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // InfoRequestHandler::~InfoRequestHandler
+} // ClientsRequestHandler::~ClientsRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void InfoRequestHandler::fillInAliases(StringVector & alternateNames)
+void ClientsRequestHandler::fillInAliases(StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
-    alternateNames.push_back("i");
+    alternateNames.push_back("c");
     OD_LOG_OBJEXIT();//####
-} // InfoRequestHandler::fillInAliases
+} // ClientsRequestHandler::fillInAliases
 
-void InfoRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info)
+void ClientsRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                              yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("request = ", request.c_str());//####
@@ -113,11 +113,10 @@ void InfoRequestHandler::fillInDescription(const yarp::os::ConstString & request
     try
     {
         info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MAM_REQREP_DICT_INPUT_KEY, MAM_REQREP_ANYTHING MAM_REQREP_1_OR_MORE);
-        info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_LIST_START MAM_REQREP_DICT_START MAM_REQREP_DICT_END
-                 MAM_REQREP_0_OR_1 MAM_REQREP_LIST_END);
-        info.put(MAM_REQREP_DICT_VERSION_KEY, INFO_REQUEST_VERSION_NUMBER);
-        info.put(MAM_REQREP_DICT_DETAILS_KEY, "Return information on a request");
+        info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_LIST_START MAM_REQREP_STRING MAM_REQREP_0_OR_MORE
+                 MAM_REQREP_LIST_END);
+        info.put(MAM_REQREP_DICT_VERSION_KEY, CLIENTS_REQUEST_VERSION_NUMBER);
+        info.put(MAM_REQREP_DICT_DETAILS_KEY, "List the clients of a service");
         yarp::os::Value keywords;
         Package *       asList = keywords.asList();
         
@@ -130,15 +129,15 @@ void InfoRequestHandler::fillInDescription(const yarp::os::ConstString & request
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // InfoRequestHandler::fillInDescription
+} // ClientsRequestHandler::fillInDescription
 
-bool InfoRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                        const Package &               restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism)
+bool ClientsRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                           const Package &               restOfInput,
+                                           const yarp::os::ConstString & senderChannel,
+                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,senderChannel)
+# pragma unused(request,restOfInput,senderChannel)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
@@ -150,18 +149,18 @@ bool InfoRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
-            Package reply;
+            Package      reply;
+#if defined(SERVICES_HAVE_CONTEXTS)
+            StringVector clients;
+#endif // defined(SERVICES_HAVE_CONTEXTS)
             
-            if (_owner && (1 == restOfInput.size()))
+#if defined(SERVICES_HAVE_CONTEXTS)
+            _service.fillInClientList(clients);
+            for (StringVector::const_iterator it(clients.cbegin()); it != clients.cend(); ++it)
             {
-                _owner->lock();
-                _owner->fillInRequestInfo(reply, restOfInput.get(0).toString());
-                _owner->unlock();
+                reply.addString(it->c_str());
             }
-            else
-            {
-                OD_LOG("! (_owner && (1 == restOfInput.size()))");//####
-            }
+#endif // defined(SERVICES_HAVE_CONTEXTS)
             OD_LOG_S1("reply <- ", reply.toString().c_str());
             reply.write(*replyMechanism);
         }
@@ -170,10 +169,10 @@ bool InfoRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         OD_LOG("Exception caught");//####
         throw;
-    }
+    }    
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // InfoRequestHandler::processRequest
+} // ClientsRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors

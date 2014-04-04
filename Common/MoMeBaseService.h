@@ -57,9 +57,6 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief All MoAndMe services maintain contexts for each incoming channel connection. */
-# define SERVICES_HAVE_CONTEXTS /* */
-
 namespace MoAndMe
 {
     namespace Common
@@ -68,6 +65,7 @@ namespace MoAndMe
         class BaseRequestHandler;
         class BaseServiceInputHandler;
         class BaseServiceInputHandlerCreator;
+        class ClientsRequestHandler;
         class Endpoint;
         class InfoRequestHandler;
         class ListRequestHandler;
@@ -123,6 +121,16 @@ namespace MoAndMe
                 return _description;
             } // description
             
+            /*! @brief Forget the specified client.
+             @param key The client-provided key. */
+            void detachClient(const yarp::os::ConstString & key);
+            
+# if defined(SERVICES_HAVE_CONTEXTS)
+            /*! @brief Fill in a list of clients for the service.
+             @param clients The list to be filled in. */
+            void fillInClientList(MoAndMe::StringVector & clients);
+# endif // defined(SERVICES_HAVE_CONTEXTS)
+
             /*! @brief Return the associated endpoint.
              @returns The associated endpoint. */
             inline Endpoint & getEndpoint(void)
@@ -160,35 +168,35 @@ namespace MoAndMe
             
         protected:
             
-#if defined(SERVICES_HAVE_CONTEXTS)
+# if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief Add a context for a persistent connection.
              @param key The name for the context.
              @param context The context to be remembered. */
             void addContext(const yarp::os::ConstString & key,
                             BaseContext *                 context);
-#endif // defined(SERVICES_HAVE_CONTEXTS)
+# endif // defined(SERVICES_HAVE_CONTEXTS)
             
-#if defined(SERVICES_HAVE_CONTEXTS)
+# if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief Remove all contexts. */
             void clearContexts(void);
-#endif // defined(SERVICES_HAVE_CONTEXTS)
+# endif // defined(SERVICES_HAVE_CONTEXTS)
             
-#if defined(SERVICES_HAVE_CONTEXTS)
+# if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief Locate the context corresponding to a name.
              @param key The name of the context.
              @returns @c NULL if the named context could not be found or a pointer to the context if found. */
             BaseContext * findContext(const yarp::os::ConstString & key);
-#endif // defined(SERVICES_HAVE_CONTEXTS)
+# endif // defined(SERVICES_HAVE_CONTEXTS)
             
             /*! @brief Remember the function to be used to handle a particular request.
              @param handler The function to be called for the request. */
             void registerRequestHandler(BaseRequestHandler * handler);
             
-#if defined(SERVICES_HAVE_CONTEXTS)
+# if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief Remove a context.
              @param key The name of the context. */
             void removeContext(const yarp::os::ConstString & key);
-#endif // defined(SERVICES_HAVE_CONTEXTS)
+# endif // defined(SERVICES_HAVE_CONTEXTS)
             
             /*! @brief Remember the function to be used to handle unrecognized requests.
              @param handler The function to be called by default. */
@@ -205,15 +213,15 @@ namespace MoAndMe
             
         private:
             
-#if defined(SERVICES_HAVE_CONTEXTS)
+# if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief A mapping from strings to contexts. */
             typedef std::map<std::string, BaseContext *> ContextMap;
-#endif // defined(SERVICES_HAVE_CONTEXTS)
+# endif // defined(SERVICES_HAVE_CONTEXTS)
             
-#if defined(SERVICES_HAVE_CONTEXTS)
+# if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief The entry-type for the mapping. */
             typedef ContextMap::value_type               ContextMapValue;
-#endif // defined(SERVICES_HAVE_CONTEXTS)
+# endif // defined(SERVICES_HAVE_CONTEXTS)
             
             /*! @brief Copy constructor.
              
@@ -230,22 +238,57 @@ namespace MoAndMe
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);
             
+# if defined(SERVICES_HAVE_CONTEXTS)
+            /*! @brief Lock the data unless the lock would block.
+             @returns @c true if the data was locked and @c false otherwise. */
+            inline bool conditionallyLockContexts(void)
+            {
+                return _contextsLock.check();
+            } // conditionallyLockContexts
+# endif // defined(SERVICES_HAVE_CONTEXTS)
+            
             /*! @brief Disable the standard request handlers. */
             void detachRequestHandlers(void);
+            
+# if defined(SERVICES_HAVE_CONTEXTS)
+            /*! @brief Lock the data. */
+            inline void lockContexts(void)
+            {
+                _contextsLock.wait();
+            } // lockContexts
+# endif // defined(SERVICES_HAVE_CONTEXTS)
+            
+# if defined(SERVICES_HAVE_CONTEXTS)
+            /*! @brief Unlock the data. */
+            inline void unlockContexts(void)
+            {
+                _contextsLock.post();
+            } // unlockContexts
+# endif // defined(SERVICES_HAVE_CONTEXTS)
+            
+# if defined(SERVICES_HAVE_CONTEXTS)
+            /*! @brief The contention lock used to avoid inconsistencies. */
+            yarp::os::Semaphore              _contextsLock;
+# endif // defined(SERVICES_HAVE_CONTEXTS)
             
             /*! @brief The map between requests and request handlers. */
             RequestMap                       _requestHandlers;
             
-#if defined(SERVICES_HAVE_CONTEXTS)
+# if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief The map between requests and request handlers. */
             ContextMap                       _contexts;
-#endif // defined(SERVICES_HAVE_CONTEXTS)
+# endif // defined(SERVICES_HAVE_CONTEXTS)
             
             /*! @brief The channel-independent name of the service. */
             yarp::os::ConstString            _canonicalName;
             
             /*! @brief The description of the service. */
             yarp::os::ConstString            _description;
+            
+# if defined(SERVICES_HAVE_CONTEXTS)
+            /*! @brief The request handler for the 'clients' request. */
+            ClientsRequestHandler *          _clientsHandler;
+# endif // defined(SERVICES_HAVE_CONTEXTS)
             
             /*! @brief The request handler for the 'info' request. */
             InfoRequestHandler *             _infoHandler;

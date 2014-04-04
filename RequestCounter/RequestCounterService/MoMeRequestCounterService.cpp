@@ -40,6 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeRequestCounterService.h"
+#include "MoMeDetachRequestHandler.h"
+#include "MoMeRequestCounterContext.h"
 #include "MoMeRequestCounterDefaultRequestHandler.h"
 #include "MoMeRequestCounterRequests.h"
 #include "MoMeResetRequestHandler.h"
@@ -99,8 +101,11 @@ RequestCounterService::RequestCounterService(const yarp::os::ConstString & servi
                                              const yarp::os::ConstString & serviceHostName,
                                              const yarp::os::ConstString & servicePortNumber) :
         inherited(true, MAM_REQUESTCOUNTER_CANONICAL_NAME, "The request counter service", serviceEndpointName,
-                  serviceHostName, servicePortNumber), _defaultHandler(NULL), _resetHandler(NULL), _statsHandler(NULL),
-        _counter(0), _lastReset(yarp::os::Time::now())
+                  serviceHostName, servicePortNumber), _defaultHandler(NULL), _detachHandler(NULL), _resetHandler(NULL),
+        _statsHandler(NULL)
+#if (! defined(SERVICES_HAVE_CONTEXTS))
+        , _counter(0), _lastReset(yarp::os::Time::now())
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
@@ -126,10 +131,12 @@ void RequestCounterService::attachRequestHandlers(void)
     try
     {
         _defaultHandler = new RequestCounterDefaultRequestHandler(*this);
+        _detachHandler = new DetachRequestHandler(*this);
         _resetHandler = new ResetRequestHandler(*this);
         _statsHandler = new StatsRequestHandler(*this);
-        if (_defaultHandler && _resetHandler && _statsHandler)
+        if (_defaultHandler && _detachHandler && _resetHandler && _statsHandler)
         {
+            registerRequestHandler(_detachHandler);
             registerRequestHandler(_resetHandler);
             registerRequestHandler(_statsHandler);
             setDefaultRequestHandler(_defaultHandler);
@@ -147,12 +154,28 @@ void RequestCounterService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // RequestCounterService::attachRequestHandlers
 
-void RequestCounterService::countRequest(void)
+void RequestCounterService::countRequest(const yarp::os::ConstString & key)
 {
+#if (! defined(SERVICES_HAVE_CONTEXTS))
+# pragma unused(key)
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     try
     {
+#if defined(SERVICES_HAVE_CONTEXTS)
+        RequestCounterContext * context = (RequestCounterContext *) findContext(key);
+#endif // defined(SERVICES_HAVE_CONTEXTS)
+
+#if defined(SERVICES_HAVE_CONTEXTS)
+        if (! context)
+        {
+            context = new RequestCounterContext;
+            addContext(key, context);
+        }
+        context->counter() += 1;
+#else // ! defined(SERVICES_HAVE_CONTEXTS)
         ++_counter;
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     }
     catch (...)
     {
@@ -172,6 +195,12 @@ void RequestCounterService::detachRequestHandlers(void)
             setDefaultRequestHandler(NULL);
             delete _defaultHandler;
             _defaultHandler = NULL;
+        }
+        if (_detachHandler)
+        {
+            unregisterRequestHandler(_detachHandler);
+            delete _detachHandler;
+            _detachHandler = NULL;
         }
         if (_resetHandler)
         {
@@ -194,14 +223,32 @@ void RequestCounterService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // RequestCounterService::detachRequestHandlers
 
-void RequestCounterService::getStatistics(long &   counter,
-                                          double & elapsedTime)
+void RequestCounterService::getStatistics(const yarp::os::ConstString & key,
+                                          long &                        counter,
+                                          double &                      elapsedTime)
 {
+#if (! defined(SERVICES_HAVE_CONTEXTS))
+# pragma unused(key)
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     try
     {
+#if defined(SERVICES_HAVE_CONTEXTS)
+        RequestCounterContext * context = (RequestCounterContext *) findContext(key);
+#endif // defined(SERVICES_HAVE_CONTEXTS)
+
+#if defined(SERVICES_HAVE_CONTEXTS)
+        if (! context)
+        {
+            context = new RequestCounterContext;
+            addContext(key, context);
+        }
+        counter = context->counter();
+        elapsedTime = yarp::os::Time::now() - context->lastReset();
+#else // ! defined(SERVICES_HAVE_CONTEXTS)
         counter = _counter;
         elapsedTime = yarp::os::Time::now() - _lastReset;
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     }
     catch (...)
     {
@@ -211,13 +258,30 @@ void RequestCounterService::getStatistics(long &   counter,
     OD_LOG_OBJEXIT();//####
 } // RequestCounterService::getStatistics
 
-void RequestCounterService::resetCounters(void)
+void RequestCounterService::resetCounters(const yarp::os::ConstString & key)
 {
+#if (! defined(SERVICES_HAVE_CONTEXTS))
+# pragma unused(key)
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     try
     {
+#if defined(SERVICES_HAVE_CONTEXTS)
+        RequestCounterContext * context = (RequestCounterContext *) findContext(key);
+#endif // defined(SERVICES_HAVE_CONTEXTS)
+
+#if defined(SERVICES_HAVE_CONTEXTS)
+        if (! context)
+        {
+            context = new RequestCounterContext;
+            addContext(key, context);
+        }
+        context->counter() = 0;
+        context->lastReset() = yarp::os::Time::now();
+#else // ! defined(SERVICES_HAVE_CONTEXTS)
         _counter = 0;
         _lastReset = yarp::os::Time::now();
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     }
     catch (...)
     {

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeNameRequestHandler.h
+//  File:       MoMeClientsRequestHandler.h
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class declaration for the request handler for the standard 'name'
+//  Contains:   The class declaration for the request handler for the standard 'clients'
 //              request.
 //
 //  Written by: Norman Jaffe
@@ -36,13 +36,13 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2014-04-04
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MOMENAMEREQUESTHANDLER_H_))
+#if (! defined(MOMECLIENTSREQUESTHANDLER_H_))
 /*! @brief Header guard. */
-# define MOMENAMEREQUESTHANDLER_H_ /* */
+# define MOMECLIENTSREQUESTHANDLER_H_ /* */
 
 # include "MoMeBaseRequestHandler.h"
 
@@ -52,7 +52,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for the standard 'name' request. */
+ @brief The class declaration for the request handler for the standard 'clients' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -63,19 +63,18 @@ namespace MoAndMe
     {
         class BaseService;
         
-        /*! @brief The standard 'name' request handler.
+        /*! @brief The standard 'clients' request handler.
          
-         There is no input for the request and the output is the canonical name of the service. */
-        class NameRequestHandler : public BaseRequestHandler
+         There is no input for the request and the output is a list of clients for the service. */
+        class ClientsRequestHandler : public BaseRequestHandler
         {
         public:
             
-            /*! @brief The constructor.
-             @param service The service that has registered this request. */
-            NameRequestHandler(BaseService & service);
+            /*! @brief The constructor. */
+            ClientsRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
-            virtual ~NameRequestHandler(void);
+            virtual ~ClientsRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -108,21 +107,21 @@ namespace MoAndMe
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            NameRequestHandler(const NameRequestHandler & other);
+            ClientsRequestHandler(const ClientsRequestHandler & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            NameRequestHandler & operator=(const NameRequestHandler & other);
+            ClientsRequestHandler & operator=(const ClientsRequestHandler & other);
             
-            /*! @brief The service that will handle the 'name' operation. */
+            /*! @brief The service that will handle the 'clients' operation. */
             BaseService & _service;
             
-        }; // NameRequestHandler
+        }; // ClientsRequestHandler
         
     } // Common
     
 } // MoAndMe
 
-#endif // ! defined(MOMENAMEREQUESTHANDLER_H_)
+#endif // ! defined(MOMECLIENTSREQUESTHANDLER_H_)

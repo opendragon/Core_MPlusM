@@ -68,7 +68,7 @@ namespace MoAndMe
         class StartRequestHandler;
         class StopRequestHandler;
         
-        /*! @brief An example MoAndMe service, handling 'random' requests. */
+        /*! @brief An example MoAndMe service. */
         class RunningSumService : public Common::BaseService
         {
         public:
@@ -106,10 +106,6 @@ namespace MoAndMe
             /*! @brief Start a running sum for the given client.
              @param key The client-provided key. */
             void startSum(const yarp::os::ConstString & key);
-            
-            /*! @brief Stop a running sum for the given client.
-             @param key The client-provided key. */
-            void stopSum(const yarp::os::ConstString & key);
             
         protected:
             
