@@ -3,3 +3,5 @@
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
 
 * check RegistryService for instability when ‘probed’
+
+* note that ‘end transaction’ should only be done if ‘begin transaction’ succeeded
