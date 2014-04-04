@@ -56,7 +56,7 @@
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-long-long"
 #endif // defined(__APPLE__)
-#include <sqlite3.h>
+#include "sqlite3.h"
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
