@@ -62,8 +62,7 @@ using namespace MoAndMe::Common;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief Report details of the contacts during operations that might change them. */
-//#define REPORT_CONTACT_DETAILS /* */
+//#define REPORT_CONTACT_DETAILS /* Report details of the contacts during operations that might change them. */
 
 #if defined(__APPLE__)
 # pragma mark Local functions

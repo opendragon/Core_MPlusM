@@ -93,7 +93,7 @@ using namespace MoAndMe::Registry;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-//#define USE_TEST_DATABASE /* */
+//#define USE_TEST_DATABASE /* Use an on-disk database rather than in-memory. */
 
 /*! @brief The name of the index for the 'channelName' column of the 'requests' table. */
 #define REQUESTS_CHANNELNAME_I_         "Requests_channelname_idx"

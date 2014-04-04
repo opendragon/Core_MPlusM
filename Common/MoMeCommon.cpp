@@ -90,14 +90,11 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief Report the version numbers when launching an executable. */
-#define CHATTY_START_ /* */
+#define CHATTY_START_ /* Report the version numbers when launching an executable. */
 
-/*! @brief Delay the start of execution to allow channels to clear. */
-//#define DELAY_ON_START_ /* */
+//#define DELAY_ON_START_ /* Delay the start of execution to allow channels to clear. */
 
-/*! @brief Report details of the contacts during operations that might change them. */
-#define REPORT_CONTACT_DETAILS /* */
+#define REPORT_CONTACT_DETAILS /* Report details of the contacts during operations that might change them. */
 
 /*! @brief The basic time interval for retries. */
 static const double kInitialRetryInterval = 0.1;
