@@ -160,6 +160,147 @@ namespace MoAndMe
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Provide a symbolic name for an SQL status value.
+ @param sqlRes The status value to be checked.
+ @returns A string representing the symbolic name for the status value. */
+static const char * mapStatusToStringForSQL(const int sqlRes)
+{
+    const char * result;
+    
+    switch (sqlRes)
+    {
+        case SQLITE_OK:
+            result = "SQLITE_OK";
+            break;
+            
+        case SQLITE_ERROR:
+            result = "SQLITE_ERROR";
+            break;
+            
+        case SQLITE_INTERNAL:
+            result = "SQLITE_INTERNAL";
+            break;
+            
+        case SQLITE_PERM:
+            result = "SQLITE_PERM";
+            break;
+            
+        case SQLITE_ABORT:
+            result = "SQLITE_ABORT";
+            break;
+            
+        case SQLITE_BUSY:
+            result = "SQLITE_BUSY";
+            break;
+            
+        case SQLITE_LOCKED:
+            result = "SQLITE_LOCKED";
+            break;
+            
+        case SQLITE_NOMEM:
+            result = "SQLITE_NOMEM";
+            break;
+            
+        case SQLITE_READONLY:
+            result = "SQLITE_READONLY";
+            break;
+            
+        case SQLITE_INTERRUPT:
+            result = "SQLITE_INTERRUPT";
+            break;
+            
+        case SQLITE_IOERR:
+            result = "SQLITE_IOERR";
+            break;
+            
+        case SQLITE_CORRUPT:
+            result = "SQLITE_CORRUPT";
+            break;
+            
+        case SQLITE_NOTFOUND:
+            result = "SQLITE_NOTFOUND";
+            break;
+            
+        case SQLITE_FULL:
+            result = "SQLITE_FULL";
+            break;
+            
+        case SQLITE_CANTOPEN:
+            result = "SQLITE_CANTOPEN";
+            break;
+            
+        case SQLITE_PROTOCOL:
+            result = "SQLITE_PROTOCOL";
+            break;
+            
+        case SQLITE_EMPTY:
+            result = "SQLITE_EMPTY";
+            break;
+            
+        case SQLITE_SCHEMA:
+            result = "SQLITE_SCHEMA";
+            break;
+            
+        case SQLITE_TOOBIG:
+            result = "SQLITE_TOOBIG";
+            break;
+            
+        case SQLITE_CONSTRAINT:
+            result = "SQLITE_CONSTRAINT";
+            break;
+            
+        case SQLITE_MISMATCH:
+            result = "SQLITE_MISMATCH";
+            break;
+            
+        case SQLITE_MISUSE:
+            result = "SQLITE_MISUSE";
+            break;
+            
+        case SQLITE_NOLFS:
+            result = "SQLITE_NOLFS";
+            break;
+            
+        case SQLITE_AUTH:
+            result = "SQLITE_AUTH";
+            break;
+            
+        case SQLITE_FORMAT:
+            result = "SQLITE_FORMAT";
+            break;
+            
+        case SQLITE_RANGE:
+            result = "SQLITE_RANGE";
+            break;
+            
+        case SQLITE_NOTADB:
+            result = "SQLITE_NOTADB";
+            break;
+            
+        case SQLITE_NOTICE:
+            result = "SQLITE_NOTICE";
+            break;
+            
+        case SQLITE_WARNING:
+            result = "SQLITE_WARNING";
+            break;
+            
+        case SQLITE_ROW:
+            result = "SQLITE_ROW";
+            break;
+            
+        case SQLITE_DONE:
+            result = "SQLITE_DONE";
+            break;
+            
+        default:
+            result = "<Unknown>";
+            break;
+            
+    }
+    return result;
+} // mapStatusToStringForSQL
+
 /*! @brief Perform a simple operation on the database.
  @param database The database to be modified.
  @param sqlStatement The operation to be performed.
@@ -185,24 +326,29 @@ static bool performSQLstatementWithNoResults(sqlite3 *    database,
                                                        &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes);//####
+            OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes));//####
             if ((SQLITE_OK == sqlRes) && prepared)
             {
                 if (doBinds)
                 {
                     sqlRes = doBinds(prepared, data);
                     OD_LOG_LL1("sqlRes <- ", sqlRes);//####
+                    OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes));//####
                     okSoFar = (SQLITE_OK == sqlRes);
                 }
                 if (okSoFar)
                 {
-                    sqlRes = sqlite3_step(prepared);
-                    OD_LOG_LL1("sqlRes <- ", sqlRes);//####
-                    while (SQLITE_BUSY == sqlRes)
+                    do
                     {
-                        yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
                         sqlRes = sqlite3_step(prepared);
                         OD_LOG_LL1("sqlRes <- ", sqlRes);//####
+                        OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes));//####
+                        if (SQLITE_BUSY == sqlRes)
+                        {
+                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                        }
                     }
+                    while (SQLITE_BUSY == sqlRes);
                     if (SQLITE_DONE != sqlRes)
                     {
                         OD_LOG("(SQLITE_DONE != sqlRes)");//####
@@ -262,26 +408,31 @@ static bool performSQLstatementWithResults(sqlite3 *          database,
                                                        &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes);//####
+            OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes));//####
             if ((SQLITE_OK == sqlRes) && prepared)
             {
                 if (doBinds)
                 {
                     sqlRes = doBinds(prepared, data);
                     OD_LOG_LL1("sqlRes <- ", sqlRes);//####
+                    OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes));//####
                     okSoFar = (SQLITE_OK == sqlRes);
                 }
                 if (okSoFar)
                 {
                     for (sqlRes = SQLITE_ROW; SQLITE_ROW == sqlRes; )
                     {
-                        sqlRes = sqlite3_step(prepared);
-                        OD_LOG_LL1("sqlRes <- ", sqlRes);//####
-                        while (SQLITE_BUSY == sqlRes)
+                        do
                         {
-                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
                             sqlRes = sqlite3_step(prepared);
                             OD_LOG_LL1("sqlRes <- ", sqlRes);//####
+                            OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes));//####
+                            if (SQLITE_BUSY == sqlRes)
+                            {
+                                yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                            }
                         }
+                        while (SQLITE_BUSY == sqlRes);
                         if (SQLITE_ROW == sqlRes)
                         {
                             // Gather the column data...
@@ -389,9 +540,9 @@ static bool constructTables(sqlite3 * database)
             {
                 okSoFar = performSQLstatementWithNoResults(database, tableSQL[ii]);
             }
-            if (okSoFar)
+            if (! performSQLstatementWithNoResults(database, kEndTransaction))
             {
-                okSoFar = performSQLstatementWithNoResults(database, kEndTransaction);
+                okSoFar = false;
             }
         }
         else
@@ -873,9 +1024,9 @@ bool RegistryService::addRequestRecord(const Package &            keywordList,
                 }
             }
         }
-        if (okSoFar)
+        if (! performSQLstatementWithNoResults(_db, kEndTransaction))
         {
-            okSoFar = performSQLstatementWithNoResults(_db, kEndTransaction);
+            okSoFar = false;
         }
     }
     catch (...)
@@ -913,9 +1064,9 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
             okSoFar = performSQLstatementWithNoResults(_db, insertIntoServices, setupInsertForServices,
                                                        static_cast<const void *>(&servData));
         }
-        if (okSoFar)
+        if (! performSQLstatementWithNoResults(_db, kEndTransaction))
         {
-            okSoFar = performSQLstatementWithNoResults(_db, kEndTransaction);
+            okSoFar = false;
         }
     }
     catch (...)
@@ -1008,9 +1159,9 @@ bool RegistryService::processMatchRequest(MoAndMe::Parser::MatchExpression * mat
                 
                 okSoFar = performSQLstatementWithResults(_db, subList, requestAsSQL.c_str());
             }
-            if (okSoFar)
+            if (! performSQLstatementWithNoResults(_db, kEndTransaction))
             {
-                okSoFar = performSQLstatementWithNoResults(_db, kEndTransaction);
+                okSoFar = false;
             }
         }
         else
@@ -1062,9 +1213,9 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceC
             okSoFar = performSQLstatementWithNoResults(_db, removeFromServices, setupRemoveForServices,
                                                        static_cast<const void *>(serviceChannelName.c_str()));
         }
-        if (okSoFar)
+        if (! performSQLstatementWithNoResults(_db, kEndTransaction))
         {
-            okSoFar = performSQLstatementWithNoResults(_db, kEndTransaction);
+            okSoFar = false;
         }
     }
     catch (...)

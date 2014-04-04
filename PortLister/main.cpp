@@ -165,6 +165,7 @@ static bool checkForRegistryService(const MoAndMe::StringVector & ports)
 static bool checkForInputConnection(const yarp::os::Bottle & response)
 {
     OD_LOG_ENTER();//####
+    OD_LOG_S1("response = ", response.toString().c_str());//####
     bool         sawConnection = false;
     const char * matchString[] = { "There", "is", "an", "input", "connection", "from", NULL, "to", NULL };
     int          respLen = response.size();
@@ -208,8 +209,9 @@ static bool checkForInputConnection(const yarp::os::Bottle & response)
 static bool checkForOutputConnection(const yarp::os::Bottle & response)
 {
     OD_LOG_ENTER();//####
+    OD_LOG_S1("response = ", response.toString().c_str());//####
     bool         sawConnection = false;
-    const char * matchString[] = { "There", "is", "an", "input", "connection", "from", NULL, "to", NULL };
+    const char * matchString[] = { "There", "is", "an", "output", "connection", "from", NULL, "to", NULL };
     int          respLen = response.size();
     int          matchLen = (sizeof(matchString) / sizeof(*matchString));
 
