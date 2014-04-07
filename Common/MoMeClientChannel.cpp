@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeBailOutThread.cpp
+//  File:       MoMeClientChannel.cpp
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class definition for a timeout thread for MoAndMe.
+//  Contains:   The class definition for channels for responses from a service to a client.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,21 +35,17 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-04-01
+//  Created:    2014-03-18
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeBailOutThread.h"
-#include "MoMeAdapterChannel.h"
 #include "MoMeClientChannel.h"
-#include "MoMeServiceChannel.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
-# if (defined(__APPLE__) || defined(__linux__))
-#  include <csignal>
-# endif // defined(__APPLE__) || defined(__linux__)
+#include "MoMeBailOut.h"
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -71,7 +67,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for a timeout thread for MoAndMe. */
+ @brief The class definition for channels for responses from a service to a client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -94,109 +90,151 @@ using namespace MoAndMe::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-BailOutThread::BailOutThread(const double timeToWait) :
-        inherited(), _adapterChannel(NULL), _clientChannel(NULL), _serviceChannel(NULL), _timeToWait(timeToWait)
+ClientChannel::ClientChannel(void)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
     OD_LOG_EXIT_P(this);//####
-} // BailOutThread::BailOutThread
+} // ClientChannel::ClientChannel
 
-BailOutThread::BailOutThread(AdapterChannel & channelOfInterest,
-                             const double     timeToWait) :
-        inherited(), _adapterChannel(&channelOfInterest), _clientChannel(NULL), _serviceChannel(NULL),
-        _timeToWait(timeToWait)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("channelOfInterest = ", &channelOfInterest);//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
-    OD_LOG_EXIT_P(this);//####
-} // BailOutThread::BailOutThread
-
-BailOutThread::BailOutThread(ClientChannel & channelOfInterest,
-                             const double    timeToWait) :
-        inherited(), _adapterChannel(NULL), _clientChannel(&channelOfInterest), _serviceChannel(NULL),
-        _timeToWait(timeToWait)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("channelOfInterest = ", &channelOfInterest);//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
-    OD_LOG_EXIT_P(this);//####
-} // BailOutThread::BailOutThread
-
-BailOutThread::BailOutThread(ServiceChannel & channelOfInterest,
-                             const double     timeToWait) :
-        inherited(), _adapterChannel(NULL), _clientChannel(NULL), _serviceChannel(&channelOfInterest),
-        _timeToWait(timeToWait)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("channelOfInterest = ", &channelOfInterest);//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
-    OD_LOG_EXIT_P(this);//####
-} // BailOutThread::BailOutThread
-
-BailOutThread::~BailOutThread(void)
+ClientChannel::~ClientChannel(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // BailOutThread::~BailOutThread
+} // ClientChannel::~ClientChannel
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void BailOutThread::run(void)
+/*! @brief Add an output to the channel, using a backoff strategy with retries.
+ @param theChannelToBeAdded The output to be added to the channel.
+ @returns @c true if the channel was opened and @c false if it could not be opened. */
+bool ClientChannel::addOutputWithRetries(const yarp::os::ConstString & theChannelToBeAdded)
 {
     OD_LOG_OBJENTER();//####
-    for ( ; ! isStopping(); )
-    {
-        if (_endTime <= yarp::os::Time::now())
-        {
-            OD_LOG("(_endTime <= yarp::os::Time::now())");//####
-            if (_adapterChannel)
-            {
-                _adapterChannel->interrupt();
-            }
-            else if (_clientChannel)
-            {
-                _clientChannel->interrupt();
-            }
-            else if (_serviceChannel)
-            {
-                _serviceChannel->interrupt();
-            }
-#if (defined(__APPLE__) || defined(__linux__))
-            raise(STANDARD_SIGNAL_TO_USE);
-#endif // defined(__APPLE__) || defined(__linux__)
-#if defined(__APPLE__)
-# pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Wunreachable-code"
-#endif // defined(__APPLE__)
-            break;
-#if defined(__APPLE__)
-# pragma clang diagnostic pop
-#endif // defined(__APPLE__)
-        }
-        yarp::os::Time::yield();
-    }
-    OD_LOG_OBJEXIT();//####
-} // BailOutThread::run
+    OD_LOG_S1("theChannelToBeAdded = ", theChannelToBeAdded.c_str());//####
+    bool   result = false;
 
-bool BailOutThread::threadInit(void)
-{
-    OD_LOG_OBJENTER();//####
-    bool result = true;
+    double retryTime = INITIAL_RETRY_INTERVAL;
+    int    retriesLeft = MAX_RETRIES;
     
-    _endTime = yarp::os::Time::now() + _timeToWait;
+    SetUpCatcher();
+    try
+    {
+        do
+        {
+            BailOut bailer(*this);
+            
+            OD_LOG("about to add an output");//####
+            result = inherited::addOutput(theChannelToBeAdded);
+            if (! result)
+            {
+                if (0 < --retriesLeft)
+                {
+                    OD_LOG("%%retry%%");//####
+                    yarp::os::Time::delay(retryTime);
+                    retryTime *= RETRY_MULTIPLIER;
+                }
+            }
+        }
+        while ((! result) && (0 < retriesLeft));
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    ShutDownCatcher();
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // BailOutThread::threadInit
+} // ClientChannel::addOutputWithRetries
 
-void BailOutThread::threadRelease(void)
+void ClientChannel::close(void)
 {
     OD_LOG_OBJENTER();//####
+    SetUpCatcher();
+    try
+    {
+        BailOut bailer(*this);
+        
+        inherited::interrupt();
+        OD_LOG("about to close");//####
+        inherited::close();
+        OD_LOG("close completed.");//####
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    ShutDownCatcher();
     OD_LOG_OBJEXIT();//####
-} // BailOutThread::threadRelease
+} // ClientChannel::close
+
+bool ClientChannel::openWithRetries(const yarp::os::ConstString & theChannelName)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
+    bool   result = false;
+    double retryTime = INITIAL_RETRY_INTERVAL;
+    int    retriesLeft = MAX_RETRIES;
+    
+#if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+    inherited::setVerbosity(1);
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+    inherited::setVerbosity(-1);
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+    SetUpCatcher();
+    try
+    {
+        do
+        {
+            BailOut bailer(*this);
+            
+            OD_LOG("about to open");//####
+            result = inherited::open(theChannelName);
+            if (! result)
+            {
+                if (0 < --retriesLeft)
+                {
+                    OD_LOG("%%retry%%");//####
+                    yarp::os::Time::delay(retryTime);
+                    retryTime *= RETRY_MULTIPLIER;
+                }
+            }
+        }
+        while ((! result) && (0 < retriesLeft));
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    ShutDownCatcher();
+    OD_LOG_OBJEXIT_B(result);//####
+    return result;
+} // ClientChannel::openWithRetries
+
+void ClientChannel::RelinquishChannel(ClientChannel * & theChannel)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("theChannel = ", theChannel);//####
+    SetUpCatcher();
+    try
+    {
+        BailOut bailer(*theChannel);
+        
+        delete theChannel;
+        theChannel = NULL;
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    ShutDownCatcher();
+    OD_LOG_EXIT();//####
+} // ClientChannel::RelinquishChannel
 
 #if defined(__APPLE__)
 # pragma mark Accessors

@@ -60,6 +60,7 @@ namespace MoAndMe
 {
     namespace Common
     {
+        class ClientChannel;
         class Endpoint;
         class ServiceResponse;
         
@@ -82,7 +83,7 @@ namespace MoAndMe
              used.
              @param response The response from the request, @c NULL if none is expected.
              @returns @c true if the request was successfully transmitted. */
-            bool send(Channel &         usingChannel,
+            bool send(ClientChannel &   usingChannel,
                       ServiceResponse * response = NULL);
             
         protected:

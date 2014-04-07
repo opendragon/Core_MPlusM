@@ -64,7 +64,10 @@ namespace MoAndMe
 {
     namespace Common
     {
+        class AdapterChannel;
         class BailOutThread;
+        class ClientChannel;
+        class ServiceChannel;
         
         /*! @brief A convenience class to timeout objects. */
         class BailOut
@@ -72,10 +75,26 @@ namespace MoAndMe
         public:
             
             /*! @brief The constructor.
+             @param timeToWait The number of seconds to delay before triggering. */
+            BailOut(const double timeToWait = STANDARD_WAIT_TIME);
+            
+            /*! @brief The constructor.
              @param channelOfInterest The channel that we are waiting for.
              @param timeToWait The number of seconds to delay before triggering. */
-            BailOut(Channel *    channelOfInterest = NULL,
-                    const double timeToWait = STANDARD_WAIT_TIME);
+            BailOut(AdapterChannel & channelOfInterest,
+                    const double     timeToWait = STANDARD_WAIT_TIME);
+            
+            /*! @brief The constructor.
+             @param channelOfInterest The channel that we are waiting for.
+             @param timeToWait The number of seconds to delay before triggering. */
+            BailOut(ClientChannel & channelOfInterest,
+                    const double    timeToWait = STANDARD_WAIT_TIME);
+            
+            /*! @brief The constructor.
+             @param channelOfInterest The channel that we are waiting for.
+             @param timeToWait The number of seconds to delay before triggering. */
+            BailOut(ServiceChannel & channelOfInterest,
+                    const double     timeToWait = STANDARD_WAIT_TIME);
             
             /*! @brief The destructor. */
             virtual ~BailOut(void);

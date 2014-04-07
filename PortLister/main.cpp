@@ -101,8 +101,8 @@ static const char * kMagicName = "<!!!>";
  Note that each line of the response, except the last, is started with 'registration name'.
  @param received The response to be processed.
  @param ports The list of non-default ports found. */
-static void processResponse(const yarp::os::ConstString & received,
-                            MoAndMe::StringVector &       ports)
+static void processResponse(const yarp::os::ConstString &   received,
+                            MoAndMe::Common::StringVector & ports)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("received = ", received.c_str());//####
@@ -143,12 +143,12 @@ static void processResponse(const yarp::os::ConstString & received,
 /*! @brief Check if the Registry Service is active.
  @param ports The set of detected ports.
  @returns @c true if the Registry Service port is present and @c false otherwise. */
-static bool checkForRegistryService(const MoAndMe::StringVector & ports)
+static bool checkForRegistryService(const MoAndMe::Common::StringVector & ports)
 {
     OD_LOG_ENTER();//####
     bool result = false;
     
-    for (MoAndMe::StringVector::const_iterator it(ports.cbegin()); (! result) && (ports.cend() != it); ++it)
+    for (MoAndMe::Common::StringVector::const_iterator it(ports.cbegin()); (! result) && (ports.cend() != it); ++it)
     {
         if (*it == MAM_SERVICE_REGISTRY_CHANNEL_NAME)
         {
@@ -326,7 +326,7 @@ static void reportPortStatus(const std::string & portName,
         std::string request(MAM_REQREP_DICT_CHANNELNAME_KEY ":");
         
         request += portName;
-        MoAndMe::Package matches(MoAndMe::Common::FindMatchingServices(request.c_str()));
+        MoAndMe::Common::Package matches(MoAndMe::Common::FindMatchingServices(request.c_str()));
         
         OD_LOG_S1("matches <- ", matches.toString().c_str());//####
         
@@ -367,11 +367,12 @@ int main(int      argc,
     {
         if (yarp::os::Network::checkNetwork())
         {
-            yarp::os::Network      yarp; // This is necessary to establish any connection to the YARP infrastructure
-            MoAndMe::Package       request;
-            MoAndMe::Package       response;
-            yarp::os::ContactStyle contactInfo;
-            MoAndMe::StringVector  ports;
+            yarp::os::Network              yarp; // This is necessary to establish any connection to the YARP
+                                                 // infrastructure
+            MoAndMe::Common::Package       request;
+            MoAndMe::Common::Package       response;
+            yarp::os::ContactStyle         contactInfo;
+            MoAndMe::Common::StringVector  ports;
             
             request.addString("list");
             contactInfo.timeout = 5.0;
@@ -388,7 +389,7 @@ int main(int      argc,
                         processResponse(responseValue.asString(), ports);
                         bool serviceRegistryPresent = checkForRegistryService(ports);
                         
-                        for (MoAndMe::StringVector::const_iterator it(ports.cbegin()); ports.cend() != it; ++it)
+                        for (MoAndMe::Common::StringVector::const_iterator it(ports.cbegin()); ports.cend() != it; ++it)
                         {
                             if (! found)
                             {

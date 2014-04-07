@@ -80,7 +80,6 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe;
 using namespace MoAndMe::Common;
 using std::cerr;
 using std::cout;
@@ -94,17 +93,9 @@ using std::endl;
 
 //#define DELAY_ON_START_ /* Delay the start of execution to allow channels to clear. */
 
-#define REPORT_CONTACT_DETAILS /* Report details of the contacts during operations that might change them. */
-
-/*! @brief The basic time interval for retries. */
-static const double kInitialRetryInterval = 0.1;
-/*! @brief The retry interval multiplier. */
-static const double kRetryMultiplier = 1.2;
 #if defined(DELAY_ON_START_)
 static const double kInitialDelay = 0.5;
 #endif // defined(DELAY_ON_START_)
-/*! @brief The maximum number of retries before declaring failure. */
-static const int kMaxRetries = 5;
 
 /*! @brief The maximum integer that we wish to use for generated random values. */
 static const int kMaxRandom = 123456789;
@@ -136,132 +127,20 @@ static const char * nullOrString(const char * aString)
  @param signal The signal being handled. */
 static void localCatcher(int signal)
 {
-# if (! defined(OD_ENABLE_LOGGING))
-#  pragma unused(signal)
-# endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
+    cerr << "Exiting due to signal " << signal << " = " << MoAndMe::NameOfSignal(signal) << endl;
     OD_LOG_EXIT_EXIT(1);//####
     yarp::os::exit(1);
 } // localCatcher
 #endif // defined(__APPLE__) || defined(__linux__)
 
-/*! @brief Set up the signal-handling behaviour so that this thread will catch our signal. */
-static void setUpCatcher(void)
-{
-#if (defined(__APPLE__) || defined(__linux__))
-    sigset_t unblocking;
-    
-    sigemptyset(&unblocking);
-    sigaddset(&unblocking, STANDARD_SIGNAL_TO_USE);
-    pthread_sigmask(SIG_UNBLOCK, &unblocking, NULL);
-    struct sigaction act;
-    
-    act.sa_handler = localCatcher;
-    sigemptyset(&act.sa_mask);
-    act.sa_flags = 0;
-    sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
-#endif // defined(__APPLE__) || defined(__linux__)
-} // setUpCatcher
-
-/*! @brief Restore the normal signal-handling behaviour. */
-static void shutDownCatcher(void)
-{
-#if (defined(__APPLE__) || defined(__linux__))
-    sigset_t blocking;
-    
-    sigemptyset(&blocking);
-    sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
-    pthread_sigmask(SIG_BLOCK, &blocking, NULL);
-    struct sigaction act;
-    
-    act.sa_handler = SIG_DFL;
-    sigemptyset(&act.sa_mask);
-    act.sa_flags = 0;
-    sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
-#endif // defined(__APPLE__) || defined(__linux__)
-} // shutDownCatcher
-
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-Channel * MoAndMe::AcquireChannel(void)
-{
-    OD_LOG_ENTER();//####
-    Channel * result = new Channel;
-    
-    OD_LOG_EXIT_P(result);//####
-    return result;
-} // MoAndMe::AcquireChannel
-
-bool MoAndMe::AddOutputToChannelWithRetries(Channel &                     theChannel,
-                                            const yarp::os::ConstString & theChannelToBeAdded)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("theChannel = ", &theChannel);//####
-    OD_LOG_S2("theChannelName = ", theChannel.getName().c_str(), "theChannelToBeAdded = ",//####
-              theChannelToBeAdded.c_str());//####
-    bool   result = false;
-    double retryTime = kInitialRetryInterval;
-    int    retriesLeft = kMaxRetries;
-    
-    setUpCatcher();
-    try
-    {
-        do
-        {
-            BailOut bailer(&theChannel);
-            
-            OD_LOG("about to add an output");//####
-            result = theChannel.addOutput(theChannelToBeAdded);
-            if (! result)
-            {
-                if (0 < --retriesLeft)
-                {
-                    OD_LOG("%%retry%%");//####
-                    yarp::os::Time::delay(retryTime);
-                    retryTime *= kRetryMultiplier;
-                }
-            }
-        }
-        while ((! result) && (0 < retriesLeft));
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    shutDownCatcher();
-    OD_LOG_EXIT_B(result);//####
-    return result;
-} // MoAndMe::AddOutputToChannelWithRetries
-
-void MoAndMe::CloseChannel(Channel & theChannel)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("theChannel = ", &theChannel);//####
-    setUpCatcher();
-    try
-    {
-        BailOut bailer(&theChannel);
-        
-        theChannel.interrupt();
-        OD_LOG_S1("about to close, channel = ", theChannel.getName().c_str());//####
-        theChannel.close();
-        OD_LOG("close completed.");//####
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    shutDownCatcher();
-    OD_LOG_EXIT();//####
-} // MoAndMe::CloseChannel
-
-void MoAndMe::DumpContact(const char *              tag,
-                          const yarp::os::Contact & aContact)
+void MoAndMe::Common::DumpContact(const char *              tag,
+                                  const yarp::os::Contact & aContact)
 {
     OD_LOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
               "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ", aContact.getCarrier().c_str());//####
@@ -276,9 +155,9 @@ void MoAndMe::DumpContact(const char *              tag,
     cout << "contact.toString = '" << nullOrString(aContact.toString().c_str()) << "'" << endl;
     cout << "contact.isValid = " << (aContact.isValid() ? "true" : "false") << endl;
     cout.flush();
-} // DumpContact
+} // MoAndMe::Common::DumpContact
 
-yarp::os::ConstString MoAndMe::GetRandomChannelName(const char * channelRoot)
+yarp::os::ConstString MoAndMe::Common::GetRandomChannelName(const char * channelRoot)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("channelRoot = ", channelRoot);//####
@@ -324,10 +203,13 @@ yarp::os::ConstString MoAndMe::GetRandomChannelName(const char * channelRoot)
     }
     OD_LOG_EXIT_S(result.c_str());//####
     return result;
-} // Endpoint::GetRandomChannelName
+} // MoAndMe::Common::GetRandomChannelName
 
-void MoAndMe::Initialize(void)
+void MoAndMe::Common::Initialize(const char * progName)
 {
+#if (! defined(CHATTY_START_))
+# pragma unused(progName)
+#endif // ! defined(CHATTY_START_)
     OD_LOG_ENTER();//####
     try
     {
@@ -342,6 +224,7 @@ void MoAndMe::Initialize(void)
         int    seed = static_cast<int>(ceil(fraction * kMaxRandom));
         
 #if defined(CHATTY_START_)
+        cerr << "Program " << progName << endl;
         cerr << "Movement And Meaning Version " << MAM_VERSION << ", YARP Version " << YARP_VERSION_STRING <<
                 ", ACE Version = " << ACE_VERSION << endl;
 #endif // defined(CHATTY_START_)
@@ -358,18 +241,18 @@ void MoAndMe::Initialize(void)
         throw;
     }
     OD_LOG_EXIT();//####
-} // MoAndMe::Initialize
+} // MoAndMe::Common::Initialize
 
-bool MoAndMe::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
-                                        const yarp::os::ConstString & destinationName)
+bool MoAndMe::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
+                                                const yarp::os::ConstString & destinationName)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
     bool   result = false;
-    double retryTime = kInitialRetryInterval;
-    int    retriesLeft = kMaxRetries;
+    double retryTime = INITIAL_RETRY_INTERVAL;
+    int    retriesLeft = MAX_RETRIES;
     
-    setUpCatcher();
+    SetUpCatcher();
     try
     {
         do
@@ -384,7 +267,7 @@ bool MoAndMe::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName
                 {
                     OD_LOG("%%retry%%");//####
                     yarp::os::Time::delay(retryTime);
-                    retryTime *= kRetryMultiplier;
+                    retryTime *= RETRY_MULTIPLIER;
                 }
             }
         }
@@ -395,21 +278,21 @@ bool MoAndMe::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName
         OD_LOG("Exception caught");//####
         throw;
     }
-    shutDownCatcher();
+    ShutDownCatcher();
     OD_LOG_EXIT_B(result);//####
     return result;
-} // MoAndMe::NetworkConnectWithRetries
+} // MoAndMe::Common::NetworkConnectWithRetries
 
-bool MoAndMe::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
-                                           const yarp::os::ConstString & destinationName)
+bool MoAndMe::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
+                                                   const yarp::os::ConstString & destinationName)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
     bool   result = false;
-    double retryTime = kInitialRetryInterval;
-    int    retriesLeft = kMaxRetries;
+    double retryTime = INITIAL_RETRY_INTERVAL;
+    int    retriesLeft = MAX_RETRIES;
     
-    setUpCatcher();
+    SetUpCatcher();
     try
     {
         do
@@ -424,7 +307,7 @@ bool MoAndMe::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceN
                 {
                     OD_LOG("%%retry%%");//####
                     yarp::os::Time::delay(retryTime);
-                    retryTime *= kRetryMultiplier;
+                    retryTime *= RETRY_MULTIPLIER;
                 }
             }
         }
@@ -435,132 +318,19 @@ bool MoAndMe::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceN
         OD_LOG("Exception caught");//####
         throw;
     }
-    shutDownCatcher();
+    ShutDownCatcher();
     OD_LOG_EXIT_B(result);//####
     return result;
-} // MoAndMe::NetworkDisconnectWithRetries
+} // MoAndMe::Common::NetworkDisconnectWithRetries
 
-bool MoAndMe::OpenChannelWithRetries(Channel &                     theChannel,
-                                     const yarp::os::ConstString & theChannelName)
+void MoAndMe::Common::SetSignalHandlers(SignalHandler theHandler)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_P1("theChannel = ", &theChannel);//####
-    OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
-    bool   result = false;
-    double retryTime = kInitialRetryInterval;
-    int    retriesLeft = kMaxRetries;
-    
-#if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
-    theChannel.setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
-    theChannel.setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
-    setUpCatcher();
-    try
-    {
-        do
-        {
-            BailOut bailer(&theChannel);
-            
-            OD_LOG("about to open");//####
-            result = theChannel.open(theChannelName);
-            if (! result)
-            {
-                if (0 < --retriesLeft)
-                {
-                    OD_LOG("%%retry%%");//####
-                    yarp::os::Time::delay(retryTime);
-                    retryTime *= kRetryMultiplier;
-                }
-            }
-        }
-        while ((! result) && (0 < retriesLeft));
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    shutDownCatcher();
-    OD_LOG_EXIT_B(result);//####
-    return result;
-} // MoAndMe::OpenChannelWithRetries
-
-bool MoAndMe::OpenChannelWithRetries(Channel &           theChannel,
-                                     yarp::os::Contact & theContactInfo)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P2("theChannel = ", &theChannel, "theContactInfo = ", &theContactInfo);//####
-    bool   result = false;
-    double retryTime = kInitialRetryInterval;
-    int    retriesLeft = kMaxRetries;
-    
-#if defined(REPORT_CONTACT_DETAILS)
-    DumpContact("before open", theContactInfo);//####
-#endif // defined(REPORT_CONTACT_DETAILS)
-#if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
-    theChannel.setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
-    theChannel.setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
-    setUpCatcher();
-    try
-    {
-        do
-        {
-            BailOut bailer(&theChannel);
-            
-            OD_LOG("about to open");//####
-            result = theChannel.open(theContactInfo);
-            if (! result)
-            {
-                if (0 < --retriesLeft)
-                {
-                    OD_LOG("%%retry%%");//####
-                    yarp::os::Time::delay(retryTime);
-                    retryTime *= kRetryMultiplier;
-                }
-            }
-        }
-        while ((! result) && (0 < retriesLeft));
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    shutDownCatcher();
-    OD_LOG_EXIT_B(result);//####
-    return result;
-} // MoAndMe::OpenChannelWithRetries
-
-void MoAndMe::RelinquishChannel(Channel * & theChannel)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("theChannel = ", theChannel);//####
-    setUpCatcher();
-    try
-    {
-        BailOut bailer(theChannel);
-        
-        delete theChannel;
-        theChannel = NULL;
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    shutDownCatcher();
-    OD_LOG_EXIT();//####
-} // MoAndMe::RelinquishChannel
+#if (defined(__APPLE__) || defined(__linux__))
+    struct sigaction act;
+#endif // defined(__APPLE__) || defined(__linux__)
 
 #if (defined(__APPLE__) || defined(__linux__))
-void MoAndMe::SetSignalHandlers(SignalHandler theHandler)
-{
-    OD_LOG_ENTER();//####
-    struct sigaction act;
-
     act.sa_handler = theHandler;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
@@ -580,10 +350,194 @@ void MoAndMe::SetSignalHandlers(SignalHandler theHandler)
     sigaction(SIGUSR2, &act, NULL);
 # endif // SIGUSR2 != STANDARD_SIGNAL_TO_USE
     sigset_t blocking;
+#endif // defined(__APPLE__) || defined(__linux__)
+    
+#if (defined(__APPLE__) || defined(__linux__))
+    sigemptyset(&blocking);
+    sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
+    pthread_sigmask(SIG_BLOCK, &blocking, NULL);
+#endif // defined(__APPLE__) || defined(__linux__)
+    OD_LOG_EXIT();//####
+} // MoAndMe::Common::SetSignalHandlers
+
+void MoAndMe::Common::SetUpCatcher(void)
+{
+#if (defined(__APPLE__) || defined(__linux__))
+    sigset_t unblocking;
+    
+    sigemptyset(&unblocking);
+    sigaddset(&unblocking, STANDARD_SIGNAL_TO_USE);
+    pthread_sigmask(SIG_UNBLOCK, &unblocking, NULL);
+    struct sigaction act;
+    
+    act.sa_handler = localCatcher;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = 0;
+    sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
+#endif // defined(__APPLE__) || defined(__linux__)
+} // MoAndMe::Common::SetUpCatcher
+
+void MoAndMe::Common::ShutDownCatcher(void)
+{
+#if (defined(__APPLE__) || defined(__linux__))
+    sigset_t blocking;
     
     sigemptyset(&blocking);
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
-    OD_LOG_EXIT();//####
-} // MoAndMe::SetSignalHandlers
+    struct sigaction act;
+    
+    act.sa_handler = SIG_DFL;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = 0;
+    sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
 #endif // defined(__APPLE__) || defined(__linux__)
+} // MoAndMe::Common::ShutDownCatcher
+
+const char * MoAndMe::NameOfSignal(const int theSignal)
+{
+    const char * result;
+
+    switch (theSignal)
+    {
+        case SIGHUP:
+            result = "SIGHUP[hangup]";
+            break;
+            
+        case SIGINT:
+            result = "SIGINT[interrupt]";
+            break;
+            
+        case SIGQUIT:
+            result = "SIGQUIT[quit]";
+            break;
+            
+        case SIGILL:
+            result = "SIGILL[illegal instruction]";
+            break;
+            
+        case SIGTRAP:
+            result = "SIGTRAP[trace trap]";
+            break;
+            
+        case SIGABRT:
+            result = "SIGABRT[abort()]";
+            break;
+            
+#if  (defined(_POSIX_C_SOURCE) && !defined(_DARWIN_C_SOURCE))
+        case SIGPOLL:
+            result = "SIGPOLL[pollable evebt]";
+            break;
+#else   /* (!_POSIX_C_SOURCE || _DARWIN_C_SOURCE) */
+        case SIGEMT:
+            result = "SIGEMT[EMT instruction]";
+            break;
+#endif  /* (!_POSIX_C_SOURCE || _DARWIN_C_SOURCE) */
+
+        case SIGFPE:
+            result = "SIGFPE[floating point exception]";
+            break;
+            
+        case SIGKILL:
+            result = "SIGKILL[kill]";
+            break;
+            
+        case SIGBUS:
+            result = "SIGBUS[bus error]";
+            break;
+            
+        case SIGSEGV:
+            result = "SIGSEGV[segmentation violation]";
+            break;
+            
+        case SIGSYS:
+            result = "SIGSYS[bad argument to system call]";
+            break;
+            
+        case SIGPIPE:
+            result = "SIGPIPE[write on a pipe with no one to read it]";
+            break;
+            
+        case SIGALRM:
+            result = "SIGALRM[alarm clock]";
+            break;
+            
+        case SIGTERM:
+            result = "SIGTERM[software termination signal from kill]";
+            break;
+            
+        case SIGURG:
+            result = "SIGURG[urgent condition on IO channel]";
+            break;
+            
+        case SIGSTOP:
+            result = "SIGSTOP[sendable stop signal not from tty]";
+            break;
+            
+        case SIGTSTP:
+            result = "SIGTSTP[stop signal from tty]";
+            break;
+            
+        case SIGCONT:
+            result = "SIGCONT[continue a stopped process]";
+            break;
+            
+        case SIGCHLD:
+            result = "SIGCHLD[to parent on child stop or exit]";
+            break;
+            
+        case SIGTTIN:
+            result = "SIGTTIN[to readers pgrp upon background tty read]";
+            break;
+            
+        case SIGTTOU:
+            result = "SIGTTOU[like TTIN for output if (tp->t_local&LTOSTOP)]";
+            break;
+            
+#if  (!defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE))
+        case SIGIO:
+            result = "SIGIO[input/output possible signal]";
+            break;
+#endif
+            
+        case SIGXCPU:
+            result = "SIGXCPU[exceeded CPU time limit]";
+            break;
+            
+        case SIGXFSZ:
+            result = "SIGXFSZ[exceeded file size limit]";
+            break;
+            
+        case SIGVTALRM:
+            result = "SIGVTALRM[virtual time alarm]";
+            break;
+            
+        case SIGPROF:
+            result = "SIGPROF[profiling time alarm]";
+            break;
+            
+#if  (!defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE))
+        case SIGWINCH:
+            result = "SIGWINCH[window size changes]";
+            break;
+            
+        case SIGINFO:
+            result = "SIGINFO[information request]";
+            break;
+#endif
+            
+        case SIGUSR1:
+            result = "SIGUSR1[user defined signal 1]";
+            break;
+            
+        case SIGUSR2:
+            result = "SIGUSR2[user defined signal 2]";
+            break;
+            
+        default:
+            result = "unknown";
+            break;
+            
+    }
+    return result;
+} // MoAndMe::NameOfSignal

@@ -40,6 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeBaseClient.h"
+#include "MoMeClientChannel.h"
 #include "MoMeRequests.h"
 #include "MoMeServiceRequest.h"
 #include "MoMeServiceResponse.h"
@@ -90,27 +91,27 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Retrieve the details for a service.
- @param aServiceChannel The channel for the service.
+ @param serviceChannelName The channel for the service.
  @param canonicalName The canonical name for the service.
  @param description The description of the service.
  @returns @c true if the service returned the desired information and @c false otherwise. */
-static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServiceChannel,
+static bool getNameAndDescriptionForService(const yarp::os::ConstString & serviceChannelName,
                                             yarp::os::ConstString &       canonicalName,
                                             yarp::os::ConstString &       description)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S1("aServiceChannel = ", aServiceChannel.c_str());//####
-    bool                  result = false;
-    yarp::os::ConstString aName(MoAndMe::GetRandomChannelName("/servicelister/channel_"));
-    MoAndMe::Channel *    newChannel = new MoAndMe::Channel;
+    OD_LOG_S1("serviceChannelName = ", serviceChannelName.c_str());//####
+    bool                             result = false;
+    yarp::os::ConstString            aName(MoAndMe::Common::GetRandomChannelName("/servicelister/channel_"));
+    MoAndMe::Common::ClientChannel * newChannel = new MoAndMe::Common::ClientChannel;
     
     if (newChannel)
     {
-        if (MoAndMe::OpenChannelWithRetries(*newChannel, aName))
+        if (newChannel->open(aName))
         {
-            if (MoAndMe::NetworkConnectWithRetries(aName, aServiceChannel))
+            if (MoAndMe::Common::NetworkConnectWithRetries(aName, serviceChannelName))
             {
-                MoAndMe::Package                 parameters;
+                MoAndMe::Common::Package         parameters;
                 MoAndMe::Common::ServiceRequest  request(MAM_NAME_REQUEST, parameters);
                 MoAndMe::Common::ServiceResponse response;
                 
@@ -146,23 +147,23 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
                     OD_LOG("! (request.send(*newChannel, &response))");//####
                 }
 #if defined(MAM_DO_EXPLICIT_DISCONNECT)
-                if (! MoAndMe::NetworkDisconnectWithRetries(aName, aServiceChannel))
+                if (! MoAndMe::Common::NetworkDisconnectWithRetries(aName, serviceChannelName))
                 {
-                    OD_LOG("(! MoAndMe::NetworkDisconnectWithRetries(aName, destinationName))");//####
+                    OD_LOG("(! MoAndMe::Common::NetworkDisconnectWithRetries(aName, destinationName))");//####
                 }
 #endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
             }
             else
             {
-                OD_LOG("! (MoAndMe::NetworkConnectWithRetries(aName, aServiceChannel))");//####
+                OD_LOG("! (MoAndMe::Common::NetworkConnectWithRetries(aName, serviceChannelName))");//####
             }
 #if defined(MAM_DO_EXPLICIT_CLOSE)
-            MoAndMe::CloseChannel(*newChannel);
+            newChannel->close();
 #endif // defined(MAM_DO_EXPLICIT_CLOSE)
         }
         else
         {
-            OD_LOG("! (MoAndMe::OpenChannelWithRetries(*newChannel, aName))");//####
+            OD_LOG("! (newChannel->open(aName))");//####
         }
         delete newChannel;
     }
@@ -185,11 +186,7 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & aServi
 int main(int      argc,
          char * * argv)
 {
-#if defined(OD_ENABLE_LOGGING)
-# pragma unused(argc)
-#else // ! defined(OD_ENABLE_LOGGING)
-# pragma unused(argc,argv)
-#endif // ! defined(OD_ENABLE_LOGGING)
+#pragma unused(argc)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
@@ -199,8 +196,8 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MoAndMe::Initialize();
-            MoAndMe::Package matches(MoAndMe::Common::FindMatchingServices(MAM_REQREP_DICT_REQUEST_KEY ":*"));
+            MoAndMe::Common::Initialize(*argv);
+            MoAndMe::Common::Package matches(MoAndMe::Common::FindMatchingServices(MAM_REQREP_DICT_REQUEST_KEY ":*"));
             
             if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
@@ -217,7 +214,7 @@ int main(int      argc,
                 else
                 {
                     // Now, process the second element.
-                    MoAndMe::Package * matchesList = matches.get(1).asList();
+                    MoAndMe::Common::Package * matchesList = matches.get(1).asList();
                     
                     if (matchesList)
                     {

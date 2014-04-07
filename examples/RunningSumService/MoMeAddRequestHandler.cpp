@@ -96,7 +96,7 @@ AddRequestHandler::~AddRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void AddRequestHandler::fillInAliases(MoAndMe::StringVector & alternateNames)
+void AddRequestHandler::fillInAliases(MoAndMe::Common::StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
@@ -117,8 +117,8 @@ void AddRequestHandler::fillInDescription(const yarp::os::ConstString & request,
         info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_DOUBLE);
         info.put(MAM_REQREP_DICT_VERSION_KEY, ADD_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Add to the running sum");
-        yarp::os::Value    keywords;
-        MoAndMe::Package * asList = keywords.asList();
+        yarp::os::Value            keywords;
+        MoAndMe::Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -131,10 +131,10 @@ void AddRequestHandler::fillInDescription(const yarp::os::ConstString & request,
     OD_LOG_OBJEXIT();//####
 } // AddRequestHandler::fillInDescription
 
-bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                       const MoAndMe::Package &      restOfInput,
-                                       const yarp::os::ConstString & senderChannel,
-                                       yarp::os::ConnectionWriter *  replyMechanism)
+bool AddRequestHandler::processRequest(const yarp::os::ConstString &    request,
+                                       const MoAndMe::Common::Package & restOfInput,
+                                       const yarp::os::ConstString &    senderChannel,
+                                       yarp::os::ConnectionWriter *     replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(request)
@@ -147,9 +147,9 @@ bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
 
     try
     {
-        double           total = 0.0;
-        int              count = restOfInput.size();
-        MoAndMe::Package response;
+        double                   total = 0.0;
+        int                      count = restOfInput.size();
+        MoAndMe::Common::Package response;
         
         if (1 < count)
         {

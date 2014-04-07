@@ -96,7 +96,7 @@ ResetRequestHandler::~ResetRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void ResetRequestHandler::fillInAliases(StringVector & alternateNames)
+void ResetRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -117,8 +117,8 @@ void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MAM_REQREP_DICT_VERSION_KEY, RESET_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Reset the request statistics");
-        yarp::os::Value keywords;
-        Package *       asList = keywords.asList();
+        yarp::os::Value   keywords;
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -132,7 +132,7 @@ void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & reques
 } // ResetRequestHandler::fillInDescription
 
 bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const Package &               restOfInput,
+                                         const Common::Package &       restOfInput,
                                          const yarp::os::ConstString & senderChannel,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -150,7 +150,7 @@ bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
         _service.resetCounters(senderChannel);
         if (replyMechanism)
         {
-            Package response(MAM_OK_RESPONSE);
+            Common::Package response(MAM_OK_RESPONSE);
             
             response.write(*replyMechanism);
         }

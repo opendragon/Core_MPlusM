@@ -90,9 +90,9 @@ Test05Handler::~Test05Handler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool Test05Handler::handleInput(const MoAndMe::Package &      input,
-                                const yarp::os::ConstString & senderChannel,
-                                yarp::os::ConnectionWriter *  replyMechanism)
+bool Test05Handler::handleInput(const MoAndMe::Common::Package & input,
+                                const yarp::os::ConstString &    senderChannel,
+                                yarp::os::ConnectionWriter *     replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(senderChannel)
@@ -104,7 +104,7 @@ bool Test05Handler::handleInput(const MoAndMe::Package &      input,
     
     if (replyMechanism)
     {
-        MoAndMe::Package inputCopy(input);
+        MoAndMe::Common::Package inputCopy(input);
         
         inputCopy.write(*replyMechanism);
     }

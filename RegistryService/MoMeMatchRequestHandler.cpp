@@ -103,7 +103,7 @@ MatchRequestHandler::~MatchRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void MatchRequestHandler::fillInAliases(StringVector & alternateNames)
+void MatchRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
@@ -125,8 +125,8 @@ void MatchRequestHandler::fillInDescription(const yarp::os::ConstString & reques
                  MAM_REQREP_LIST_END);
         info.put(MAM_REQREP_DICT_VERSION_KEY, MATCH_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Find a matching service");
-        yarp::os::Value keywords;
-        Package *       asList = keywords.asList();
+        yarp::os::Value   keywords;
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("find");
@@ -141,7 +141,7 @@ void MatchRequestHandler::fillInDescription(const yarp::os::ConstString & reques
 } // MatchRequestHandler::fillInDescription
 
 bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const Package &               restOfInput,
+                                         const Common::Package &       restOfInput,
                                          const yarp::os::ConstString & senderChannel,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -158,7 +158,7 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
-            Package reply;
+            Common::Package reply;
             
             // We are expecting just one string as the parameter
             if (1 == restOfInput.size())

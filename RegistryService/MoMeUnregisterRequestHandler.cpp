@@ -99,7 +99,7 @@ UnregisterRequestHandler::~UnregisterRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void UnregisterRequestHandler::fillInAliases(StringVector & alternateNames)
+void UnregisterRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
@@ -120,8 +120,8 @@ void UnregisterRequestHandler::fillInDescription(const yarp::os::ConstString & r
         info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_STRING);
         info.put(MAM_REQREP_DICT_VERSION_KEY, UNREGISTER_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Unregister the service and its requests");
-        yarp::os::Value keywords;
-        Package *       asList = keywords.asList();
+        yarp::os::Value   keywords;
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("remove");
@@ -136,7 +136,7 @@ void UnregisterRequestHandler::fillInDescription(const yarp::os::ConstString & r
 } // UnregisterRequestHandler::fillInDescription
 
 bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                              const Package &               restOfInput,
+                                              const Common::Package &       restOfInput,
                                               const yarp::os::ConstString & senderChannel,
                                               yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -153,7 +153,7 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
     {
         if (replyMechanism)
         {
-            Package reply;
+            Common::Package reply;
             
             // Validate the name as a channel name
             if (1 == restOfInput.size())

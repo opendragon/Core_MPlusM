@@ -47,6 +47,21 @@
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wc++11-extensions"
+#  pragma clang diagnostic ignored "-Wdocumentation"
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#  pragma clang diagnostic ignored "-Wpadded"
+#  pragma clang diagnostic ignored "-Wshadow"
+#  pragma clang diagnostic ignored "-Wunused-parameter"
+#  pragma clang diagnostic ignored "-Wweak-vtables"
+# endif // defined(__APPLE__)
+# include <yarp/os/Port.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
@@ -62,6 +77,7 @@ namespace MoAndMe
     {
         class InputHandler;
         class InputHandlerCreator;
+        class ServiceChannel;
         
         /*! @brief An object that represents an endpoint that provides a bidirectional connection for services and
          clients. */
@@ -150,7 +166,7 @@ namespace MoAndMe
             Endpoint & operator=(const Endpoint & other);
             
             /*! @brief The YARP channel to be used by the endpoint. */
-            Channel *             _channel;
+            ServiceChannel *      _channel;
             
             /*! @brief The connection details for the endpoint. */
             yarp::os::Contact     _contact;

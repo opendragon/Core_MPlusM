@@ -78,7 +78,7 @@ namespace MoAndMe
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(MoAndMe::StringVector & alternateNames);
+            virtual void fillInAliases(MoAndMe::Common::StringVector & alternateNames);
             
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
@@ -91,10 +91,10 @@ namespace MoAndMe
              @param restOfInput The arguments to the operation.
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-            virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const MoAndMe::Package &      restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism);
+            virtual bool processRequest(const yarp::os::ConstString &    request,
+                                        const MoAndMe::Common::Package & restOfInput,
+                                        const yarp::os::ConstString &    senderChannel,
+                                        yarp::os::ConnectionWriter *     replyMechanism);
             
         protected:
             

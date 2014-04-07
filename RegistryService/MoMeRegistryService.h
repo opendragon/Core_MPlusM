@@ -110,7 +110,7 @@ namespace MoAndMe
              @param keywordList The list of keywords associated with the request.
              @param description The attributes of the request.
              @returns @c true if the request was successfully added and @c false otherwise. */
-            bool addRequestRecord(const Package &            keywordList,
+            bool addRequestRecord(const Common::Package &    keywordList,
                                   const RequestDescription & description);
             
             /*! @brief Add a service to the registry.
@@ -135,7 +135,7 @@ namespace MoAndMe
              @param reply The result from performing a SELECT with the converted match expression.
              @returns @c true if the match request was successfully performed and @c false otherwise. */
             bool processMatchRequest(MoAndMe::Parser::MatchExpression * matcher,
-                                     Package &                        reply);
+                                     Common::Package &                  reply);
             
             /*! @brief Remove a service entry from the registry.
              @param serviceChannelName The service channel that is being removed.

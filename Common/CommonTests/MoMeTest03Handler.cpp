@@ -90,9 +90,9 @@ Test03Handler::~Test03Handler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool Test03Handler::handleInput(const MoAndMe::Package &      input,
-                                const yarp::os::ConstString & senderChannel,
-                                yarp::os::ConnectionWriter *  replyMechanism)
+bool Test03Handler::handleInput(const MoAndMe::Common::Package & input,
+                                const yarp::os::ConstString &    senderChannel,
+                                yarp::os::ConnectionWriter *     replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(input,senderChannel,replyMechanism)

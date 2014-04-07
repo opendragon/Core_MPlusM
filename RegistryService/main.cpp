@@ -42,7 +42,7 @@
 #include "MoMeRegistryService.h"
 #include "MoMeRequests.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <iostream>
@@ -97,20 +97,18 @@ static bool lKeepRunning;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-#if (defined(__APPLE__) || defined(__linux__))
 /*! @brief The signal handler to catch requests to stop the service.
  @param signal The signal being handled. */
 static void stopRunning(int signal)
 {
-# if (! defined(OD_ENABLE_LOGGING))
-#  pragma unused(signal)
-# endif // ! defined(OD_ENABLE_LOGGING)
+#if (! defined(OD_ENABLE_LOGGING))
+# pragma unused(signal)
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
     lKeepRunning = false;
     OD_LOG_EXIT();//####
 } // stopRunning
-#endif // defined(__APPLE__) || defined(__linux__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -138,7 +136,7 @@ int main(int      argc,
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             MoAndMe::Registry::RegistryService * stuff = NULL;
             
-            MoAndMe::Initialize();
+            MoAndMe::Common::Initialize(*argv);
             if (1 <= argc)
             {
                 switch (argc)
@@ -168,9 +166,7 @@ int main(int      argc,
                     // Note that the Registry Service is self-registering... so we don't need to call
                     // RegisterLocalService().
                     lKeepRunning = true;
-#if (defined(__APPLE__) || defined(__linux__))
-                    MoAndMe::SetSignalHandlers(stopRunning);
-#endif // defined(__APPLE__) || defined(__linux__)
+                    MoAndMe::Common::SetSignalHandlers(stopRunning);
                     for ( ; lKeepRunning; )
                     {
 #if defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)

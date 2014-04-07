@@ -39,6 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
+#include "MoMeAdapterChannel.h"
 #include "MoMeRandomNumberAdapterData.h"
 #include "MoMeRandomNumberClient.h"
 #include "MoMeRandomNumberDataInputHandler.h"
@@ -93,20 +94,18 @@ static bool lKeepRunning;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-#if (defined(__APPLE__) || defined(__linux__))
 /*! @brief The signal handler to catch requests to stop the service.
  @param signal The signal being handled. */
 static void stopRunning(int signal)
 {
-# if (! defined(OD_ENABLE_LOGGING))
-#  pragma unused(signal)
-# endif // ! defined(OD_ENABLE_LOGGING)
+#if (! defined(OD_ENABLE_LOGGING))
+# pragma unused(signal)
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
     lKeepRunning = false;
     OD_LOG_EXIT();//####
 } // stopRunning
-#endif // defined(__APPLE__) || defined(__linux__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -128,23 +127,21 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MoAndMe::Initialize();
+            MoAndMe::Common::Initialize(*argv);
             RandomNumberClient * stuff = new RandomNumberClient;
             
             if (stuff)
             {
                 lKeepRunning = true;
-#if (defined(__APPLE__) || defined(__linux__))
-                MoAndMe::SetSignalHandlers(stopRunning);
-#endif // defined(__APPLE__) || defined(__linux__)
+                MoAndMe::Common::SetSignalHandlers(stopRunning);
                 if (stuff->findService("Name RandomNumber"))
                 {
                     if (stuff->connectToService())
                     {
-                        MoAndMe::Channel *             dataChannel = new MoAndMe::Channel;
-                        MoAndMe::Channel *             outputChannel = new MoAndMe::Channel;
-                        RandomNumberAdapterData        sharedData(stuff, outputChannel);
-                        RandomNumberDataInputHandler * dataHandler = new RandomNumberDataInputHandler(sharedData);
+                        MoAndMe::Common::AdapterChannel * dataChannel = new MoAndMe::Common::AdapterChannel;
+                        MoAndMe::Common::AdapterChannel * outputChannel = new MoAndMe::Common::AdapterChannel;
+                        RandomNumberAdapterData           sharedData(stuff, outputChannel);
+                        RandomNumberDataInputHandler *    dataHandler = new RandomNumberDataInputHandler(sharedData);
                         
                         if (dataChannel && outputChannel && dataHandler)
                         {
@@ -159,8 +156,7 @@ int main(int      argc,
                                     outputName = argv[2];
                                 }
                             }
-                            if (MoAndMe::OpenChannelWithRetries(*dataChannel, dataName) &&
-                                MoAndMe::OpenChannelWithRetries(*outputChannel, outputName))
+                            if (dataChannel->openWithRetries(dataName) && outputChannel->openWithRetries(outputName))
                             {
                                 sharedData.activate();
 #if defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
@@ -193,13 +189,13 @@ int main(int      argc,
                             }
                             else
                             {
-                                OD_LOG("! (MoAndMe::OpenChannelWithRetries(*dataChannel, dataName) && "
-                                       "MoAndMe::OpenChannelWithRetries(*outputChannel, outputName))");//####
+                                OD_LOG("! (dataChannel->openWithRetries(dataName) && "
+                                       "outputChannel->openWithRetries(outputName))");//####
                                 cerr << "Problem opening a channel." << endl;
                             }
 #if defined(MAM_DO_EXPLICIT_CLOSE)
-                            MoAndMe::CloseChannel(*dataChannel);
-                            MoAndMe::CloseChannel(*outputChannel);
+                            dataChannel->close();
+                            outputChannel->close();
 #endif // defined(MAM_DO_EXPLICIT_CLOSE)
                         }
                         else
@@ -208,8 +204,8 @@ int main(int      argc,
                                    "dataHandler)");//####
                             cerr << "Problem creating a channel." << endl;
                         }
-                        delete dataChannel;
-                        delete outputChannel;
+                        MoAndMe::Common::AdapterChannel::RelinquishChannel(dataChannel);
+                        MoAndMe::Common::AdapterChannel::RelinquishChannel(outputChannel);
                      
                         
                         

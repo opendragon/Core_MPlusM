@@ -41,6 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeBaseClient.h"
+#include "MoMeClientChannel.h"
 #include "MoMeRequests.h"
 #include "MoMeServiceRequest.h"
 #include "MoMeServiceResponse.h"
@@ -158,7 +159,7 @@ static Package validateMatchResponse(const Package & response)
 #endif // defined(__APPLE__)
 
 BaseClient::BaseClient(const char * baseChannelName) :
-        _clientChannel(NULL), _clientChannelName(), _serviceChannelName(), _baseChannelName(NULL), _connected(false)
+        _channel(NULL), _channelName(), _serviceChannelName(), _baseChannelName(NULL), _connected(false)
 {
     OD_LOG_ENTER();//####
     size_t len = strlen(baseChannelName);
@@ -172,7 +173,7 @@ BaseClient::~BaseClient(void)
 {
     OD_LOG_OBJENTER();//####
     disconnectFromService();
-    RelinquishChannel(_clientChannel);
+    ClientChannel::RelinquishChannel(_channel);
     delete _baseChannelName;
     OD_LOG_OBJEXIT();//####
 } // BaseClient::~BaseClient
@@ -186,35 +187,35 @@ bool BaseClient::connectToService(void)
     OD_LOG_OBJENTER();//####
     if (! _connected)
     {
-        if (! _clientChannel)
+        if (! _channel)
         {
-            _clientChannelName = GetRandomChannelName(_baseChannelName);
-            _clientChannel = AcquireChannel();
+            _channelName = GetRandomChannelName(_baseChannelName);
+            _channel = new ClientChannel;
         }
-        if (_clientChannel)
+        if (_channel)
         {
-            if (OpenChannelWithRetries(*_clientChannel, _clientChannelName))
+            if (_channel->open(_channelName))
             {
-                if (NetworkConnectWithRetries(_clientChannelName, _serviceChannelName))
+                if (NetworkConnectWithRetries(_channelName, _serviceChannelName))
                 {
                     _connected = true;
 #if defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
-                    _clientChannel->setOutputMode(false);
+                    _channel->setOutputMode(false);
 #endif // defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(_clientChannelName, _serviceChannelName))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(_channelName, _serviceChannelName))");//####
                 }
             }
             else
             {
-                OD_LOG("! (OpenChannelWithRetries(*_clientChannel, _clientChannelName))");//####
+                OD_LOG("! (_channel->open(_channelName))");//####
             }
         }
         else
         {
-            OD_LOG("! (_clientChannel)");//####
+            OD_LOG("! (_channel)");//####
         }
     }
     OD_LOG_OBJEXIT_B(_connected);//####
@@ -226,13 +227,13 @@ bool BaseClient::disconnectFromService(void)
     OD_LOG_OBJENTER();//####
     if (_connected)
     {
-        if (NetworkDisconnectWithRetries(_clientChannelName, _serviceChannelName))
+        if (NetworkDisconnectWithRetries(_channelName, _serviceChannelName))
         {
             _connected = false;
         }
         else
         {
-            OD_LOG("! (NetworkDisconnectWithRetries(_clientChannelName, _serviceChannelName))");//####
+            OD_LOG("! (NetworkDisconnectWithRetries(_channelName, _serviceChannelName))");//####
         }
     }
     OD_LOG_OBJEXIT_B(! _connected);//####
@@ -324,7 +325,7 @@ bool BaseClient::send(const char *      request,
             {
                 ServiceRequest actualRequest(request, parameters);
                 
-                result = actualRequest.send(*_clientChannel, response);
+                result = actualRequest.send(*_channel, response);
             }
             else
             {
@@ -365,11 +366,11 @@ Package Common::FindMatchingServices(const char * criteria)
     try
     {
         yarp::os::ConstString aName(GetRandomChannelName("/findmatch/channel_"));
-        Channel *             newChannel = AcquireChannel();
+        ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
         {
-            if (OpenChannelWithRetries(*newChannel, aName))
+            if (newChannel->open(aName))
             {
                 if (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
                 {
@@ -401,14 +402,14 @@ Package Common::FindMatchingServices(const char * criteria)
                     OD_LOG("! (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                 }
 #if defined(MAM_DO_EXPLICIT_CLOSE)
-                CloseChannel(*newChannel);
+                newChannel->close();
 #endif // defined(MAM_DO_EXPLICIT_CLOSE)
             }
             else
             {
-                OD_LOG("! (OpenChannelWithRetries(*newChannel, aName))");//####
+                OD_LOG("! (newChannel->open(aName))");//####
             }
-            RelinquishChannel(newChannel);
+            ClientChannel::RelinquishChannel(newChannel);
         }
     }
     catch (...)

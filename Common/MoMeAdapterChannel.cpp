@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeBailOut.cpp
+//  File:       MoMeAdapterChannel.cpp
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class definition for a timeout mechanism for MoAndMe.
+//  Contains:   The class definition for channels to and from adapters.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,15 +35,31 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-04-01
+//  Created:    2014-03-18
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeBailOut.h"
-#include "MoMeBailOutThread.h"
+#include "MoMeAdapterChannel.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
+
+#include "MoMeBailOut.h"
+
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wc++11-extensions"
+# pragma clang diagnostic ignored "-Wdocumentation"
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# pragma clang diagnostic ignored "-Wpadded"
+# pragma clang diagnostic ignored "-Wshadow"
+# pragma clang diagnostic ignored "-Wunused-parameter"
+# pragma clang diagnostic ignored "-Wweak-vtables"
+#endif // defined(__APPLE__)
+#include <yarp/os/Time.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -51,7 +67,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for a timeout mechanism for MoAndMe. */
+ @brief The class definition for channels to and from adapters. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -74,66 +90,108 @@ using namespace MoAndMe::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-BailOut::BailOut(const double timeToWait) :
-        _bailer(NULL)
+AdapterChannel::AdapterChannel(void)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
-    _bailer = new BailOutThread(timeToWait);
-    _bailer->start();
     OD_LOG_EXIT_P(this);//####
-} // BailOut::BailOut
+} // AdapterChannel::AdapterChannel
 
-BailOut::BailOut(AdapterChannel & channelOfInterest,
-                 const double     timeToWait) :
-        _bailer(NULL)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("channelOfInterest = ", &channelOfInterest);//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
-    _bailer = new BailOutThread(channelOfInterest, timeToWait);
-    _bailer->start();    
-    OD_LOG_EXIT_P(this);//####
-} // BailOut::BailOut
-
-BailOut::BailOut(ClientChannel & channelOfInterest,
-                 const double    timeToWait) :
-_bailer(NULL)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("channelOfInterest = ", &channelOfInterest);//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
-    _bailer = new BailOutThread(channelOfInterest, timeToWait);
-    _bailer->start();
-    OD_LOG_EXIT_P(this);//####
-} // BailOut::BailOut
-
-BailOut::BailOut(ServiceChannel & channelOfInterest,
-                 const double     timeToWait) :
-        _bailer(NULL)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("channelOfInterest = ", &channelOfInterest);//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
-    _bailer = new BailOutThread(channelOfInterest, timeToWait);
-    _bailer->start();
-    OD_LOG_EXIT_P(this);//####
-} // BailOut::BailOut
-
-BailOut::~BailOut(void)
+AdapterChannel::~AdapterChannel(void)
 {
     OD_LOG_OBJENTER();//####
-    if (_bailer)
-    {
-        _bailer->stop();
-        delete _bailer;
-    }
     OD_LOG_OBJEXIT();//####
-} // BailOut::~BailOut
+} // AdapterChannel::~AdapterChannel
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
+
+void AdapterChannel::close(void)
+{
+    OD_LOG_OBJENTER();//####
+    SetUpCatcher();
+    try
+    {
+        BailOut bailer(*this);
+        
+        inherited::interrupt();
+        OD_LOG("about to close");//####
+        inherited::close();
+        OD_LOG("close completed.");//####
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    ShutDownCatcher();
+    OD_LOG_OBJEXIT();//####
+} // AdapterChannel::close
+
+bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelName)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
+    bool   result = false;
+    double retryTime = INITIAL_RETRY_INTERVAL;
+    int    retriesLeft = MAX_RETRIES;
+    
+#if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+    inherited::setVerbosity(1);
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+    inherited::setVerbosity(-1);
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+    SetUpCatcher();
+    try
+    {
+        do
+        {
+            BailOut bailer(*this);
+            
+            OD_LOG("about to open");//####
+            result = inherited::open(theChannelName);
+            if (! result)
+            {
+                if (0 < --retriesLeft)
+                {
+                    OD_LOG("%%retry%%");//####
+                    yarp::os::Time::delay(retryTime);
+                    retryTime *= RETRY_MULTIPLIER;
+                }
+            }
+        }
+        while ((! result) && (0 < retriesLeft));
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    ShutDownCatcher();
+    OD_LOG_OBJEXIT_B(result);//####
+    return result;
+} // AdapterChannel::openWithRetries
+
+void AdapterChannel::RelinquishChannel(AdapterChannel * & theChannel)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("theChannel = ", theChannel);//####
+    SetUpCatcher();
+    try
+    {
+        BailOut bailer(*theChannel);
+        
+        delete theChannel;
+        theChannel = NULL;
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    ShutDownCatcher();
+    OD_LOG_EXIT();//####
+} // AdapterChannel::RelinquishChannel
 
 #if defined(__APPLE__)
 # pragma mark Accessors

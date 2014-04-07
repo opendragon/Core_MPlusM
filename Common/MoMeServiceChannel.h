@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeRandomNumberAdapterData.h
+//  File:       MoMeServiceChannel.h
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class declaration for the data shared between the input handlers and
-//              main thread of the random number adapter.
+//  Contains:   The class declaration for channels for responses from a service to a client.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,15 +35,30 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-27
+//  Created:    2014-04-07
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MOMERANDOMNUMBERADAPTERDATA_H_))
+#if (! defined(MOMESERVICECHANNEL_H_))
 /*! @brief Header guard. */
-# define MOMERANDOMNUMBERADAPTERDATA_H_ /* */
+# define MOMESERVICECHANNEL_H_ /* */
 
-# include "MoMeBaseAdapterData.h"
+# include "MoMeCommon.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wc++11-extensions"
+#  pragma clang diagnostic ignored "-Wdocumentation"
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#  pragma clang diagnostic ignored "-Wpadded"
+#  pragma clang diagnostic ignored "-Wshadow"
+#  pragma clang diagnostic ignored "-Wunused-parameter"
+#  pragma clang diagnostic ignored "-Wweak-vtables"
+# endif // defined(__APPLE__)
+# include <yarp/os/Port.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -52,8 +66,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the data shared between the input handlers and main
- thread of the random number adapter. */
+ @brief The class declaration for channels for responses from a service to a client. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -62,53 +75,57 @@ namespace MoAndMe
 {
     namespace Common
     {
-        class AdapterChannel;
-    } // Common
-    
-    namespace Example
-    {
-        class RandomNumberClient;
-        
-        /*! @brief A handler for partially-structured input data. */
-        class RandomNumberAdapterData : public Common::BaseAdapterData
+        /*! @brief A convenience class to provide distinct channels for responses from a service to a client. */
+        class ServiceChannel : public yarp::os::Port
         {
         public:
             
-            /*! @brief The constructor.
-             @param client The client connection that is used to communicate with the service.
-             @param output The output channel that will receive the service responses. */
-            RandomNumberAdapterData(RandomNumberClient *              client,
-                                    MoAndMe::Common::AdapterChannel * output);
+            /*! @brief The constructor. */
+            ServiceChannel(void);
             
             /*! @brief The destructor. */
-            virtual ~RandomNumberAdapterData(void);
+            virtual ~ServiceChannel(void);
+           
+            /*! @brief Close the channel. */
+            void close(void);
+           
+            /*! @brief Open the channel, using a backoff strategy with retries.
+             @param theChannelName The name to be associated with the channel.
+             @returns @c true if the channel was opened and @c false if it could not be opened. */
+            bool openWithRetries(const yarp::os::ConstString & theChannelName);
+
+            /*! @brief Open the channel, using a backoff strategy with retries.
+             @param theContactInfo The connection information to be associated with the channel.
+             @returns @c true if the channel was opened and @c false if it could not be opened. */
+            bool openWithRetries(yarp::os::Contact & theContactInfo);
+
+            /*! @brief Release an allocated adapter channel.
+             @param theChannel A pointer to the channel to be released. */
+            static void RelinquishChannel(ServiceChannel * & theChannel);
             
         protected:
             
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseAdapterData inherited;
+            typedef yarp::os::Port inherited;
             
             /*! @brief Copy constructor.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RandomNumberAdapterData(const RandomNumberAdapterData & other);
+            ServiceChannel(const ServiceChannel & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RandomNumberAdapterData & operator=(const RandomNumberAdapterData & other);
+            ServiceChannel & operator=(const ServiceChannel & other);
             
-            /*! @brief The output channel for the adapter. */
-            MoAndMe::Common::AdapterChannel * _output;
-            
-        }; // RandomNumberDataInputHandler
+        }; // ServiceChannel
         
-    } // Example
+    } // Common
     
 } // MoAndMe
 
-#endif // ! defined(MOMERANDOMNUMBERADAPTERDATA_H_)
+#endif // ! defined(MOMESERVICECHANNEL_H_)

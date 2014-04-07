@@ -128,7 +128,7 @@ namespace MoAndMe
 # if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief Fill in a list of clients for the service.
              @param clients The list to be filled in. */
-            void fillInClientList(MoAndMe::StringVector & clients);
+            void fillInClientList(StringVector & clients);
 # endif // defined(SERVICES_HAVE_CONTEXTS)
 
             /*! @brief Return the associated endpoint.

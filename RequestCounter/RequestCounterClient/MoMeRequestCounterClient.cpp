@@ -99,7 +99,7 @@ bool RequestCounterClient::detachFromService(void)
     
     try
     {
-        Package parameters;
+        Common::Package parameters;
         
         if (send(MAM_DETACH_REQUEST, parameters))
         {
@@ -128,7 +128,7 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
     
     try
     {
-        Package                 parameters;
+        Common::Package         parameters;
         Common::ServiceResponse response;
         
         if (send(MAM_STATS_REQUEST, parameters, &response))
@@ -176,7 +176,7 @@ bool RequestCounterClient::pokeService(void)
     
     try
     {
-        Package parameters;
+        Common::Package parameters;
         
         if (send("blarg_blerg_blirg_blorg_blurg", parameters))
         {
@@ -203,7 +203,7 @@ bool RequestCounterClient::resetServiceCounters(void)
     
     try
     {
-        Package parameters;
+        Common::Package parameters;
         
         if (send(MAM_RESET_REQUEST, parameters))
         {

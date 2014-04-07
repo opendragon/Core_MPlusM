@@ -75,16 +75,36 @@ namespace MoAndMe
 {
     namespace Common
     {
+        class AdapterChannel;
+        class ClientChannel;
+        class ServiceChannel;
+        
         /*! @brief A convenience class to timeout objects. */
         class BailOutThread : public yarp::os::Thread
         {
         public:
             
             /*! @brief The constructor.
+             @param timeToWait The number of seconds to delay before triggering. */
+            BailOutThread(const double timeToWait);
+            
+            /*! @brief The constructor.
              @param channelOfInterest The channel that we are waiting for.
              @param timeToWait The number of seconds to delay before triggering. */
-            BailOutThread(Channel *    channelOfInterest = NULL,
-                          const double timeToWait = STANDARD_WAIT_TIME);
+            BailOutThread(AdapterChannel & channelOfInterest,
+                          const double     timeToWait);
+            
+            /*! @brief The constructor.
+             @param channelOfInterest The channel that we are waiting for.
+             @param timeToWait The number of seconds to delay before triggering. */
+            BailOutThread(ClientChannel & channelOfInterest,
+                          const double    timeToWait);
+            
+            /*! @brief The constructor.
+             @param channelOfInterest The channel that we are waiting for.
+             @param timeToWait The number of seconds to delay before triggering. */
+            BailOutThread(ServiceChannel & channelOfInterest,
+                          const double     timeToWait);
             
             /*! @brief The destructor. */
             virtual ~BailOutThread(void);
@@ -128,14 +148,20 @@ namespace MoAndMe
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-            /*! @brief The channel that we are waiting on. */
-            Channel * _channel;
+            /*! @brief The adapter channel that we are waiting on. */
+            AdapterChannel * _adapterChannel;
+            
+            /*! @brief The client channel that we are waiting on. */
+            ClientChannel *  _clientChannel;
+            
+            /*! @brief The service channel that we are waiting on. */
+            ServiceChannel * _serviceChannel;
             
             /*! @brief The time at which the thread will stop running. */
-            double    _endTime;
+            double           _endTime;
             
             /*! @brief The number of seconds to delay before triggering. */
-            double    _timeToWait;
+            double           _timeToWait;
             
         }; // BailOutThread
         

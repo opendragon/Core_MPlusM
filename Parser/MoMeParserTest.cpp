@@ -388,20 +388,16 @@ static int doTestParseExpression(const bool   expected,
     return result;
 } // doTestParseExpression
 
-#if (defined(__APPLE__) || defined(__linux__))
 /*! @brief The signal handler to catch requests to stop the service.
  @param signal The signal being handled. */
 static void catchSignal(int signal)
 {
-# if (! defined(OD_ENABLE_LOGGING))
-#  pragma unused(signal)
-# endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
+    cerr << "Exiting due to signal " << signal << " = " << MoAndMe::NameOfSignal(signal) << endl;
     OD_LOG_EXIT_EXIT(1);//####
     yarp::os::exit(1);
 } // catchSignal
-#endif // defined(__APPLE__) || defined(__linux__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -426,9 +422,7 @@ int main(int      argc,
             int  selector = atoi(argv[1]);
             bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));
             
-#if (defined(__APPLE__) || defined(__linux__))
-            MoAndMe::SetSignalHandlers(catchSignal);
-#endif // defined(__APPLE__) || defined(__linux__)
+            MoAndMe::Common::SetSignalHandlers(catchSignal);
             OD_LOG_LL1("selector <- ", selector);//####
             OD_LOG_B1("expected <- ", expected);//####
             switch (selector)

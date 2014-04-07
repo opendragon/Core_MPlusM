@@ -42,6 +42,7 @@
 #include "MoMeEndpoint.h"
 #include "MoMeException.h"
 #include "MoMeInputHandlerCreator.h"
+#include "MoMeServiceChannel.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -82,9 +83,8 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief Report the details from operations that affect the contact information. */
 #if defined(OD_ENABLE_LOGGING)
-# define REPORT_CONTACT_DETAILS /* */
+# define REPORT_CONTACT_DETAILS /* Report details of the contacts during operations that might change them. */
 #endif // defined(OD_ENABLE_LOGGING)
 
 #if defined(__APPLE__)
@@ -235,7 +235,7 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
             if (checkHostName(_contact, hostName, realPort))
             {
                 // Ready to be set up... we have a valid port, and either a blank URI or a valid one.
-                _channel = AcquireChannel();
+                _channel = new ServiceChannel;
                 if (! _channel)
                 {
                     OD_LOG_EXIT_THROW_S("Could not create channel");//####
@@ -295,9 +295,9 @@ void Endpoint::close(void)
                     yarp::os::Network::unregisterName(_contact.getName());
                 }
 #if defined(MAM_DO_EXPLICIT_CLOSE)
-                CloseChannel(*_channel);
+                _channel->close();
 #endif // defined(MAM_DO_EXPLICIT_CLOSE)
-                RelinquishChannel(_channel);
+                ServiceChannel::RelinquishChannel(_channel);
             }
             _handler = NULL;
             _handlerCreator = NULL;
@@ -330,7 +330,7 @@ bool Endpoint::open(void)
 #if defined(REPORT_CONTACT_DETAILS)
                     DumpContact("after registerContact", _contact);//####
 #endif // defined(REPORT_CONTACT_DETAILS)
-                    if (OpenChannelWithRetries(*_channel, _contact))
+                    if (_channel->openWithRetries(_contact))
                     {
                         _isOpen = true;
 #if defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
@@ -345,7 +345,7 @@ bool Endpoint::open(void)
                         OD_LOG("Channel could not be opened");//####
                     }
                 }
-                else if (OpenChannelWithRetries(*_channel, _contact.getName()))
+                else if (_channel->openWithRetries(_contact.getName()))
                 {
                     OD_LOG("(_channel->open(_contact.getName()))");//####
 #if defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)

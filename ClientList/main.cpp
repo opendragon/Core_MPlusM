@@ -40,6 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeBaseClient.h"
+#include "MoMeClientChannel.h"
 #include "MoMeRequests.h"
 #include "MoMeServiceRequest.h"
 #include "MoMeServiceResponse.h"
@@ -149,7 +150,7 @@ int main(int      argc,
             yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
             yarp::os::ConstString channelNameRequest(MAM_REQREP_DICT_CHANNELNAME_KEY ":");
             
-            MoAndMe::Initialize();
+            MoAndMe::Common::Initialize(*argv);
             if (1 < argc)
             {
                 channelNameRequest += argv[1];
@@ -158,7 +159,7 @@ int main(int      argc,
             {
                 channelNameRequest += "*";
             }
-            MoAndMe::Package matches(MoAndMe::Common::FindMatchingServices(channelNameRequest));
+            MoAndMe::Common::Package matches(MoAndMe::Common::FindMatchingServices(channelNameRequest));
             
             if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
@@ -175,7 +176,7 @@ int main(int      argc,
                 else
                 {
                     // Now, process the second element.
-                    MoAndMe::Package * matchesList = matches.get(1).asList();
+                    MoAndMe::Common::Package * matchesList = matches.get(1).asList();
                     
                     if (matchesList)
                     {
@@ -183,21 +184,22 @@ int main(int      argc,
                         
                         if (matchesCount)
                         {
-                            yarp::os::ConstString aName(MoAndMe::GetRandomChannelName("/clientlist/channel_"));
-                            MoAndMe::Channel *    newChannel = new MoAndMe::Channel;
+                            yarp::os::ConstString            aName =
+                                                        MoAndMe::Common::GetRandomChannelName("/clientlist/channel_");
+                            MoAndMe::Common::ClientChannel * newChannel = new MoAndMe::Common::ClientChannel;
                             
                             if (newChannel)
                             {
-                                if (MoAndMe::OpenChannelWithRetries(*newChannel, aName))
+                                if (newChannel->open(aName))
                                 {
-                                    bool             sawRequestResponse = false;
-                                    MoAndMe::Package parameters;
+                                    bool                     sawRequestResponse = false;
+                                    MoAndMe::Common::Package parameters;
 
                                     for (int ii = 0; ii < matchesCount; ++ii)
                                     {
                                         yarp::os::ConstString aMatch(matchesList->get(ii).toString());
                                         
-                                        if (MoAndMe::NetworkConnectWithRetries(aName, aMatch))
+                                        if (MoAndMe::Common::NetworkConnectWithRetries(aName, aMatch))
                                         {
                                             MoAndMe::Common::ServiceRequest  request(MAM_CLIENTS_REQUEST, parameters);
                                             MoAndMe::Common::ServiceResponse response;
@@ -221,16 +223,17 @@ int main(int      argc,
                                                 endl;
                                             }
 # if defined(MAM_DO_EXPLICIT_DISCONNECT)
-                                            if (! MoAndMe::NetworkDisconnectWithRetries(aName, aMatch))
+                                            if (! MoAndMe::Common::NetworkDisconnectWithRetries(aName, aMatch))
                                             {
-                                                OD_LOG("(! MoAndMe::NetworkDisconnectWithRetries(aName, "//####
+                                                OD_LOG("(! MoAndMe::Common::NetworkDisconnectWithRetries(aName, "//####
                                                        "aMatch))");//####
                                             }
 # endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
                                         }
                                         else
                                         {
-                                            OD_LOG("! (MoAndMe::NetworkConnectWithRetries(aName, aMatch))");//####
+                                            OD_LOG("! (MoAndMe::Common::NetworkConnectWithRetries(aName, "//####
+                                                   "aMatch))");//####
                                         }
                                     }
                                     if (! sawRequestResponse)
@@ -238,12 +241,12 @@ int main(int      argc,
                                         cout << "No client connections found." << endl;
                                     }
 # if defined(MAM_DO_EXPLICIT_CLOSE)
-                                    MoAndMe::CloseChannel(*newChannel);
+                                    newChannel->close();
 # endif // defined(MAM_DO_EXPLICIT_CLOSE)
                                 }
                                 else
                                 {
-                                    OD_LOG("! (MoAndMe::OpenChannelWithRetries(*newChannel, aName))");//####
+                                    OD_LOG("! (newChannel->open(aName))");//####
                                 }
                                 delete newChannel;
                             }

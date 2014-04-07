@@ -61,7 +61,6 @@
 # include <yarp/os/Bottle.h>
 # include <yarp/os/ConstString.h>
 # include <yarp/os/Contact.h>
-# include <yarp/os/Port.h>
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -120,93 +119,78 @@
 #  define STANDARD_SIGNAL_TO_USE 42
 # endif // (! defined(__APPLE__)) && (! defined(__linux__))
 
+/*! @brief The basic time interval for retries. */
+# define INITIAL_RETRY_INTERVAL 0.1
+/*! @brief The retry interval multiplier. */
+# define RETRY_MULTIPLIER       1.2
+/*! @brief The maximum number of retries before declaring failure. */
+# define MAX_RETRIES            5
+
 namespace MoAndMe
 {
-    /*! @brief The logical connection between a client and a service. */
-    typedef yarp::os::Bottle         Package;
-
-    /*! @brief The logical connection between a client and a service. */
-    typedef yarp::os::Port           Channel;
-    
-    /*! @brief A sequence of random numbers. */
-    typedef std::vector<double>      DoubleVector;
-    
-    /*! @brief A sequence of strings. */
-    typedef std::vector<std::string> StringVector;
-
+    namespace Common
+    {
+        /*! @brief The logical connection between a client and a service. */
+        typedef yarp::os::Bottle         Package;
+        
+        /*! @brief A sequence of random numbers. */
+        typedef std::vector<double>      DoubleVector;
+        
+        /*! @brief A sequence of strings. */
+        typedef std::vector<std::string> StringVector;
+        
 #if (defined(__APPLE__) || defined(__linux__))
-    /*! @brief A signal handler. */
-    typedef void (*SignalHandler) (int signal);
+        /*! @brief A signal handler. */
+        typedef void (*SignalHandler) (int signal);
 #endif // defined(__APPLE__) || defined(__linux__)
+        
+        /*! @brief Dump out a description of the provided connection information to the log.
+         @param tag A unique string used to identify the call point for the output.
+         @param aContact The connection information to be reported. */
+        void DumpContact(const char *              tag,
+                         const yarp::os::Contact & aContact);
+        
+        /*! @brief Generate a random channel name.
+         @returns A randomly-generated channel name. */
+        yarp::os::ConstString GetRandomChannelName(const char * channelRoot = DEFAULT_CHANNEL_ROOT);
+        
+        /*! @brief Perform initialization of internal resources.
+         @param progName The name of the executing program.
+         
+         Should be called in the main() function of each application or service. */
+        void Initialize(const char * progName);
+        
+        /*! @brief Connect two channels, using a backoff strategy with retries.
+         @param sourceName The name of the source channel.
+         @param destinationName The name of the destination channel.
+         @returns @c true if the connection was established and @ false otherwise. */
+        bool NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
+                                       const yarp::os::ConstString & destinationName);
+        
+        /*! @brief Disconnect two channels, using a backoff strategy with retries.
+         @param sourceName The name of the source channel.
+         @param destinationName The name of the destination channel.
+         @returns @c true if the connection was removed and @ false otherwise. */
+        bool NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
+                                          const yarp::os::ConstString & destinationName);
+        
+        /*! @brief Connect the standard signals to a handler.
+         @param theHandler The new handler for the signals. */
+        void SetSignalHandlers(SignalHandler theHandler);
+        
+        /*! @brief Set up the signal-handling behaviour so that this thread will catch our signal. */
+        void SetUpCatcher(void);
+        
+        /*! @brief Restore the normal signal-handling behaviour. */
+        void ShutDownCatcher(void);
+        
+    } // Common
 
-    /*! @brief Obtain a new channel.
-     @returns A freshly allocated channel. */
-    Channel * AcquireChannel(void);
+    /*! @brief Return the name of a signal.
+     @param theSignal The signal of interest.
+     @returns A string description of the signal. */
+    const char * NameOfSignal(const int theSignal);
     
-    /*! @brief Add an output to a channel, using a backoff strategy with retries.
-     @param theChannel The channel to be modified.
-     @param theChannelToBeAdded The output to be added to the channel.
-     @returns @c true if the channel was opened and @c false if it could not be opened. */
-    bool AddOutputToChannelWithRetries(Channel &                     theChannel,
-                                       const yarp::os::ConstString & theChannelToBeAdded);
-    
-    /*! @brief Close a channel.
-     @param theChannel The channel to be closed. */
-    void CloseChannel(Channel & theChannel);
-    
-    /*! @brief Dump out a description of the provided connection information to the log.
-     @param tag A unique string used to identify the call point for the output.
-     @param aContact The connection information to be reported. */
-    void DumpContact(const char *              tag,
-                     const yarp::os::Contact & aContact);
-    
-    /*! @brief Generate a random channel name.
-     @returns A randomly-generated channel name. */
-    yarp::os::ConstString GetRandomChannelName(const char * channelRoot = DEFAULT_CHANNEL_ROOT);
-    
-    /*! @brief Perform initialization of internal resources.
-     
-     Should be called in the main() function of each application or service. */
-    void Initialize(void);
-    
-    /*! @brief Connect two channels, using a backoff strategy with retries.
-     @param sourceName The name of the source channel.
-     @param destinationName The name of the destination channel.
-     @returns @c true if the connection was established and @ false otherwise. */
-    bool NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
-                                   const yarp::os::ConstString & destinationName);
-    
-    /*! @brief Disconnect two channels, using a backoff strategy with retries.
-     @param sourceName The name of the source channel.
-     @param destinationName The name of the destination channel.
-     @returns @c true if the connection was removed and @ false otherwise. */
-    bool NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
-                                      const yarp::os::ConstString & destinationName);
-    
-    /*! @brief Open a channel, using a backoff strategy with retries.
-     @param theChannel The channel to be opened.
-     @param theChannelName The name to be associated with the channel.
-     @returns @c true if the channel was opened and @c false if it could not be opened. */
-    bool OpenChannelWithRetries(Channel &                     theChannel,
-                                const yarp::os::ConstString & theChannelName);
-    
-    /*! @brief Open a channel, using a backoff strategy with retries.
-     @param theChannel The channel to be opened.
-     @param theContactInfo The connection information to be associated with the channel.
-     @returns @c true if the channel was opened and @c false if it could not be opened. */
-    bool OpenChannelWithRetries(Channel &           theChannel,
-                                yarp::os::Contact & theContactInfo);
-
-    /*! @brief Release an allocated channel.
-     @param theChannel A pointer to the channel to be released. */
-    void RelinquishChannel(Channel * & theChannel);
-    
-#if (defined(__APPLE__) || defined(__linux__))
-    /*! @brief Connect the standard signals to a handler.
-     @param theHandler The new handler for the signals. */
-    void SetSignalHandlers(SignalHandler theHandler);
-#endif // defined(__APPLE__) || defined(__linux__)
-
 } // MoAndMe
 
 #endif // ! defined(MOMECOMMON_H_)

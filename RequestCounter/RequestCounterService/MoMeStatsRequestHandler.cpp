@@ -95,7 +95,7 @@ StatsRequestHandler::~StatsRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void StatsRequestHandler::fillInAliases(StringVector & alternateNames)
+void StatsRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -117,8 +117,8 @@ void StatsRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_INT MAM_REQREP_DOUBLE);
         info.put(MAM_REQREP_DICT_VERSION_KEY, STATS_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Return the number of requests and the time since last reset");
-        yarp::os::Value keywords;
-        Package *       asList = keywords.asList();
+        yarp::os::Value   keywords;
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -132,7 +132,7 @@ void StatsRequestHandler::fillInDescription(const yarp::os::ConstString & reques
 } // StatsRequestHandler::fillInDescription
 
 bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const Package &               restOfInput,
+                                         const Common::Package &       restOfInput,
                                          const yarp::os::ConstString & senderChannel,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -149,9 +149,9 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
-            Package response;
-            double  elapsedTime;
-            long    counter;
+            Common::Package response;
+            double          elapsedTime;
+            long            counter;
             
             _service.getStatistics(senderChannel, counter, elapsedTime);
             response.addInt(static_cast<int>(counter));

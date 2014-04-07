@@ -91,20 +91,18 @@ static bool lKeepRunning;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-#if (defined(__APPLE__) || defined(__linux__))
 /*! @brief The signal handler to catch requests to stop the service.
  @param signal The signal being handled. */
 static void stopRunning(int signal)
 {
-# if (! defined(OD_ENABLE_LOGGING))
-#  pragma unused(signal)
-# endif // ! defined(OD_ENABLE_LOGGING)
+#if (! defined(OD_ENABLE_LOGGING))
+# pragma unused(signal)
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
     lKeepRunning = false;
     OD_LOG_EXIT();//####
 } // stopRunning
-#endif // defined(__APPLE__) || defined(__linux__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -117,11 +115,7 @@ static void stopRunning(int signal)
 int main(int      argc,
          char * * argv)
 {
-#if defined(OD_ENABLE_LOGGING)
-# pragma unused(argc)
-#else // ! defined(OD_ENABLE_LOGGING)
-# pragma unused(argc,argv)
-#endif // ! defined(OD_ENABLE_LOGGING)
+#pragma unused(argc)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
@@ -131,15 +125,13 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MoAndMe::Initialize();
+            MoAndMe::Common::Initialize(*argv);
             RandomNumberClient * stuff = new RandomNumberClient;
             
             if (stuff)
             {
                 lKeepRunning = true;
-#if (defined(__APPLE__) || defined(__linux__))
-                MoAndMe::SetSignalHandlers(stopRunning);
-#endif // defined(__APPLE__) || defined(__linux__)
+                MoAndMe::Common::SetSignalHandlers(stopRunning);
                 if (stuff->findService("keyword random"))
                 {
                     if (stuff->connectToService())
@@ -171,12 +163,12 @@ int main(int      argc,
                             }
                             else
                             {
-                                MoAndMe::DoubleVector results;
+                                MoAndMe::Common::DoubleVector results;
                                 
                                 if (stuff->getRandomNumbers(count, results))
                                 {
                                     cout << "result = ( ";
-                                    for (MoAndMe::DoubleVector::const_iterator it(results.cbegin());
+                                    for (MoAndMe::Common::DoubleVector::const_iterator it(results.cbegin());
                                          it != results.cend(); ++it)
                                     {
                                         cout << " " << *it;

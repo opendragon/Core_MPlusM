@@ -93,7 +93,7 @@ RequestCounterDefaultRequestHandler::~RequestCounterDefaultRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RequestCounterDefaultRequestHandler::fillInAliases(StringVector & alternateNames)
+void RequestCounterDefaultRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -116,7 +116,7 @@ void RequestCounterDefaultRequestHandler::fillInDescription(const yarp::os::Cons
 } // RequestCounterDefaultRequestHandler::fillInDescription
 
 bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                                         const Package &               restOfInput,
+                                                         const Common::Package &       restOfInput,
                                                          const yarp::os::ConstString & senderChannel,
                                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -134,7 +134,7 @@ bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstSt
         _service.countRequest(senderChannel);
         if (replyMechanism)
         {
-            Package response(MAM_OK_RESPONSE);
+            Common::Package response(MAM_OK_RESPONSE);
             
             response.write(*replyMechanism);
         }

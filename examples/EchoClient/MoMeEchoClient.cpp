@@ -102,8 +102,8 @@ bool EchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
 
     try
     {
-        MoAndMe::Package        parameters(outgoing);
-        Common::ServiceResponse response;
+        MoAndMe::Common::Package parameters(outgoing);
+        Common::ServiceResponse  response;
         
         if (send(MAM_ECHO_REQUEST, parameters, &response))
         {

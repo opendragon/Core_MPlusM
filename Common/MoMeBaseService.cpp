@@ -46,6 +46,7 @@
 #include "MoMeBaseServiceInputHandlerCreator.h"
 #include "MoMeEndpoint.h"
 #include "MoMeException.h"
+#include "MoMeClientChannel.h"
 #include "MoMeClientsRequestHandler.h"
 #include "MoMeInfoRequestHandler.h"
 #include "MoMeListRequestHandler.h"
@@ -598,11 +599,11 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
     try
     {
         yarp::os::ConstString aName(GetRandomChannelName("/registerlocal/channel_"));
-        Channel *             newChannel = AcquireChannel();
+        ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
         {
-            if (OpenChannelWithRetries(*newChannel, aName))
+            if (newChannel->open(aName))
             {
                 if (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
                 {
@@ -648,14 +649,14 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
                     OD_LOG("! (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                 }
 #if defined(MAM_DO_EXPLICIT_CLOSE)
-                CloseChannel(*newChannel);
+                newChannel->close();
 #endif // defined(MAM_DO_EXPLICIT_CLOSE)
             }
             else
             {
-                OD_LOG("! (OpenChannelWithRetries(*newChannel, aName))");//####
+                OD_LOG("! (newChannel->open(aName))");//####
             }
-            RelinquishChannel(newChannel);
+            ClientChannel::RelinquishChannel(newChannel);
         }
         else
         {
@@ -680,11 +681,11 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
     try
     {
         yarp::os::ConstString aName(GetRandomChannelName("/unregisterlocal/channel_"));
-        Channel *             newChannel = AcquireChannel();
+        ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
         {
-            if (OpenChannelWithRetries(*newChannel, aName))
+            if (newChannel->open(aName))
             {
                 if (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
                 {
@@ -730,14 +731,14 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
                     OD_LOG("! (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                 }
 #if defined(MAM_DO_EXPLICIT_CLOSE)
-                CloseChannel(*newChannel);
+                newChannel->close();
 #endif // defined(MAM_DO_EXPLICIT_CLOSE)
             }
             else
             {
-                OD_LOG("! (OpenChannelWithRetries(*newChannel, aName))");//####
+                OD_LOG("! (newChannel->open(aName))");//####
             }
-            RelinquishChannel(newChannel);
+            ClientChannel::RelinquishChannel(newChannel);
         }
         else
         {

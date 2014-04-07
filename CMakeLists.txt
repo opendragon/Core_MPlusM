@@ -45,8 +45,8 @@ cmake_minimum_required(VERSION 2.6)
 project(MovementAndMeaning)
 
 set(MAM_VERSION_MAJOR 1)
-set(MAM_VERSION_MINOR 1)
-set(MAM_VERSION_PATCH 9)
+set(MAM_VERSION_MINOR 2)
+set(MAM_VERSION_PATCH 0)
 
 option(MAM_DO_EXPLICIT_CLOSE "Perform an explicit CloseChannel() prior to freeing a channel")
 option(MAM_DO_EXPLICIT_DISCONNECT "Perform an explicit disconnect prior to closing a channel")

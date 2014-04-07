@@ -49,6 +49,7 @@
 #include "CommonTests/MoMeTest12Service.h"
 #include "MoMeBaseClient.h"
 #include "MoMeBaseRequestHandler.h"
+#include "MoMeClientChannel.h"
 #include "MoMeEndpoint.h"
 #include "MoMeEndpointStatusReporter.h"
 #include "MoMeRequests.h"
@@ -148,30 +149,30 @@ static Endpoint * doCreateEndpointForTest(const int argc,
  @param destinationName The name of the channel to be connected to.
  @param channelPath The root path for the new temporary channel.
  @returns A pointer to a newly-allocated temporary channel. */
-static Channel * doCreateTestChannel(const yarp::os::ConstString & destinationName,
-                                     const char *                  channelPath)
+static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destinationName,
+                                           const char *                  channelPath)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S2("destinationName = ", destinationName.c_str(), "channelPath = ", channelPath);//####
     yarp::os::ConstString aName(GetRandomChannelName(channelPath));
-    Channel *             newChannel = AcquireChannel();
+    ClientChannel *       newChannel = new ClientChannel;
     
     if (newChannel)
     {
-        if (OpenChannelWithRetries(*newChannel, aName))
+        if (newChannel->open(aName))
         {
             if (! NetworkConnectWithRetries(aName, destinationName))
             {
                 OD_LOG("(! NetworkConnectWithRetries(aName, destinationName))");//####
 #if defined(MAM_DO_EXPLICIT_CLOSE)
-                CloseChannel(*newChannel);
+                newChannel->close();
 #endif // defined(MAM_DO_EXPLICIT_CLOSE)
-                RelinquishChannel(newChannel);
+                ClientChannel::RelinquishChannel(newChannel);
             }
         }
         else
         {
-            OD_LOG("! (OpenChannelWithRetries(*newChannel, aName))");//####
+            OD_LOG("! (newChannel->open(aName))");//####
         }
     }
     else
@@ -186,8 +187,8 @@ static Channel * doCreateTestChannel(const yarp::os::ConstString & destinationNa
  @param anEndpoint The endpoint to be connected to.
  @param channelPath The root path for the new temporary channel.
  @returns A pointer to a newly-allocated temporary channel. */
-static Channel * doCreateTestChannel(Endpoint &   anEndpoint,
-                                     const char * channelPath)
+static ClientChannel * doCreateTestChannel(Endpoint &   anEndpoint,
+                                           const char * channelPath)
 {
     return doCreateTestChannel(anEndpoint.getName(), channelPath);
 } // doCreateTestChannel
@@ -196,7 +197,7 @@ static Channel * doCreateTestChannel(Endpoint &   anEndpoint,
  @param destinationName The name of the channel that the temporary channel was connected to.
  @param theChannel A pointer to the temporary channel. */
 static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
-                                 Channel *                     theChannel)
+                                 ClientChannel *               theChannel)
 {
 #if (! defined(MAM_DO_EXPLICIT_DISCONNECT))
 # pragma unused(destinationName)
@@ -213,9 +214,9 @@ static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
         }
 #endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
 #if defined(MAM_DO_EXPLICIT_CLOSE)
-        CloseChannel(*theChannel);
+        theChannel->close();
 #endif // defined(MAM_DO_EXPLICIT_CLOSE)
-        RelinquishChannel(theChannel);
+        ClientChannel::RelinquishChannel(theChannel);
     }
     OD_LOG_EXIT();//####
 } // doDestroyTestChannel
@@ -223,8 +224,8 @@ static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
 /*! @brief Destroy a temporary channel that was used with a test.
  @param anEndpoint The endpoint to be connected to.
  @param theChannel A pointer to the temporary channel. */
-static void doDestroyTestChannel(Endpoint & anEndpoint,
-                                 Channel *  theChannel)
+static void doDestroyTestChannel(Endpoint &      anEndpoint,
+                                 ClientChannel * theChannel)
 {
     doDestroyTestChannel(anEndpoint.getName(), theChannel);
 } // doDestroyTestChannel
@@ -301,14 +302,14 @@ static int doTestConnectToEndpoint(const int argc,
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
                 yarp::os::ConstString aName(GetRandomChannelName("test/connecttoendpoint_"));
-                Channel *             outChannel = AcquireChannel();
+                ClientChannel *       outChannel = new ClientChannel;
                 
                 if (outChannel)
                 {
-                    if (OpenChannelWithRetries(*outChannel, aName))
+                    if (outChannel->open(aName))
                     {
                         outChannel->getReport(reporter);
-                        if (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))
+                        if (outChannel->addOutputWithRetries(stuff->getName()))
                         {
                             result = 0;
 #if defined(MAM_DO_EXPLICIT_DISCONNECT)
@@ -321,17 +322,17 @@ static int doTestConnectToEndpoint(const int argc,
                         }
                         else
                         {
-                            OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
+                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName()))");//####
                         }
 #if defined(MAM_DO_EXPLICIT_CLOSE)
-                        CloseChannel(*outChannel);
+                        outChannel->close();
 #endif // defined(MAM_DO_EXPLICIT_CLOSE)
                     }
                     else
                     {
-                        OD_LOG("! (OpenChannelWithRetries(*outChannel, aName))");//####
+                        OD_LOG("! (outChannel->open(aName))");//####
                     }
-                    RelinquishChannel(outChannel);
+                    ClientChannel::RelinquishChannel(outChannel);
                 }
                 else
                 {
@@ -386,14 +387,14 @@ static int doTestWriteToEndpoint(const int argc,
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
                 yarp::os::ConstString aName(GetRandomChannelName("test/writetoendpoint_"));
-                Channel *             outChannel = AcquireChannel();
+                ClientChannel *       outChannel = new ClientChannel;
                 
                 if (outChannel)
                 {
-                    if (OpenChannelWithRetries(*outChannel, aName))
+                    if (outChannel->open(aName))
                     {
                         outChannel->getReport(reporter);
-                        if (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))
+                        if (outChannel->addOutputWithRetries(stuff->getName()))
                         {
                             Package message;
                             
@@ -417,17 +418,17 @@ static int doTestWriteToEndpoint(const int argc,
                         }
                         else
                         {
-                            OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
+                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName()))");//####
                         }
 #if defined(MAM_DO_EXPLICIT_CLOSE)
-                        CloseChannel(*outChannel);
+                        outChannel->close();
 #endif // defined(MAM_DO_EXPLICIT_CLOSE)
                     }
                     else
                     {
-                        OD_LOG("! (OpenChannelWithRetries(*outChannel, aName))");//####
+                        OD_LOG("! (outChannel->open(aName))");//####
                     }
-                    RelinquishChannel(outChannel);
+                    ClientChannel::RelinquishChannel(outChannel);
                 }
                 else
                 {
@@ -483,14 +484,14 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
                 yarp::os::ConstString aName(GetRandomChannelName("test/echofromendpointwithreader_"));
-                Channel *             outChannel = AcquireChannel();
+                ClientChannel *       outChannel = new ClientChannel;
                 
                 if (outChannel)
                 {
-                    if (OpenChannelWithRetries(*outChannel, aName))
+                    if (outChannel->open(aName))
                     {
                         outChannel->getReport(reporter);
-                        if (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))
+                        if (outChannel->addOutputWithRetries(stuff->getName()))
                         {
                             Package message;
                             Package response;
@@ -516,17 +517,17 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                         }
                         else
                         {
-                            OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
+                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName()))");//####
                         }
 #if defined(MAM_DO_EXPLICIT_CLOSE)
-                        CloseChannel(*outChannel);
+                        outChannel->close();
 #endif // defined(MAM_DO_EXPLICIT_CLOSE)
                     }
                     else
                     {
-                        OD_LOG("! (OpenChannelWithRetries(*outChannel, aName))");//####
+                        OD_LOG("! (outChannel->open(aName))");//####
                     }
-                    RelinquishChannel(outChannel);
+                    ClientChannel::RelinquishChannel(outChannel);
                 }
                 else
                 {
@@ -582,14 +583,14 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
                 yarp::os::ConstString aName(GetRandomChannelName("test/echofromendpointwithreadercreator_"));
-                Channel *             outChannel = AcquireChannel();
+                ClientChannel *       outChannel = new ClientChannel;
                 
                 if (outChannel)
                 {
-                    if (OpenChannelWithRetries(*outChannel, aName))
+                    if (outChannel->open(aName))
                     {
                         outChannel->getReport(reporter);
-                        if (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))
+                        if (outChannel->addOutputWithRetries(stuff->getName()))
                         {
                             Package message;
                             Package response;
@@ -615,17 +616,17 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                         }
                         else
                         {
-                            OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, stuff->getName()))");//####
+                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName()))");//####
                         }
 #if defined(MAM_DO_EXPLICIT_CLOSE)
-                        CloseChannel(*outChannel);
+                        outChannel->close();
 #endif // defined(MAM_DO_EXPLICIT_CLOSE)
                     }
                     else
                     {
-                        OD_LOG("! (OpenChannelWithRetries(*outChannel, aName))");//####
+                        OD_LOG("! (outChannel->open(aName))");//####
                     }
-                    RelinquishChannel(outChannel);
+                    ClientChannel::RelinquishChannel(outChannel);
                 }
                 else
                 {
@@ -757,7 +758,7 @@ static int doTestRequestEchoFromEndpoint(const int argc,
             
             if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
             {
-                Channel * outChannel = doCreateTestChannel(stuff->getName(), "test/requestechofromendpoint_");
+                ClientChannel * outChannel = doCreateTestChannel(stuff->getName(), "test/requestechofromendpoint_");
                 
                 if (outChannel)
                 {
@@ -829,8 +830,8 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const int argc,
         {
             if (stuff->start())
             {
-                Channel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
-                                                           "test/requestechofromserviceusingdefaultwithreader");
+                ClientChannel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
+                                                                 "test/requestechofromserviceusingdefaultwithreader");
                 
                 if (outChannel)
                 {
@@ -901,7 +902,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const int a
         {
             if (stuff->start())
             {
-                Channel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
+                ClientChannel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
                                                            "test/requestechofromserviceusingdefaultwithreadercreator_");
                 
                 if (outChannel)
@@ -973,7 +974,7 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const int argc,
         {
             if (stuff->start())
             {
-                Channel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
+                ClientChannel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
                                                            "test/requestechofromservicewithrequesthandler_");
                 
                 if (outChannel)
@@ -1159,7 +1160,7 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const int argc,
         {
             if (stuff->start())
             {
-                Channel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
+                ClientChannel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
                                                            "test/requestechofromservicewithrequesthandlerandinfo_");
                 
                 if (outChannel)
@@ -1215,20 +1216,16 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const int argc,
     return result;
 } // doTestRequestEchoFromServiceWithRequestHandlerAndInfo
 
-#if (defined(__APPLE__) || defined(__linux__))
 /*! @brief The signal handler to catch requests to stop the service.
  @param signal The signal being handled. */
 static void catchSignal(int signal)
 {
-# if (! defined(OD_ENABLE_LOGGING))
-#  pragma unused(signal)
-# endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
+    cerr << "Exiting due to signal " << signal << " = " << MoAndMe::NameOfSignal(signal) << endl;
     OD_LOG_EXIT_EXIT(1);//####
     yarp::os::exit(1);
 } // catchSignal
-#endif // defined(__APPLE__) || defined(__linux__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -1252,14 +1249,12 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MoAndMe::Initialize();
+            MoAndMe::Common::Initialize(*argv);
             if (0 < --argc)
             {
                 int selector = atoi(argv[1]);
                 
-#if (defined(__APPLE__) || defined(__linux__))
-                MoAndMe::SetSignalHandlers(catchSignal);
-#endif // defined(__APPLE__) || defined(__linux__)
+                MoAndMe::Common::SetSignalHandlers(catchSignal);
                 switch (selector)
                 {
                     case 0:

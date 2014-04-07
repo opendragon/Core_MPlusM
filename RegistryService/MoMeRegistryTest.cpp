@@ -405,8 +405,8 @@ static int doTestRequestSearchService(const int argc,
                                 if (MoAndMe::Common::RegisterLocalService(channelName))
                                 {
                                     // Search for the service that we just registered.
-                                    MoAndMe::Package matches(MoAndMe::Common::FindMatchingServices(*argv));
-                                    MoAndMe::Package expected(argv[1]);
+                                    MoAndMe::Common::Package matches(MoAndMe::Common::FindMatchingServices(*argv));
+                                    MoAndMe::Common::Package expected(argv[1]);
                                     
                                     OD_LOG_S3("criteria <- ", *argv, "expected <- ", expected.toString().c_str(),//####
                                               "matches <- ", matches.toString().c_str());//####
@@ -446,8 +446,8 @@ static int doTestRequestSearchService(const int argc,
                                             
                                             if (expectedSecond.isList())
                                             {
-                                                MoAndMe::Package * matchesSecondAsList = matchesSecond.asList();
-                                                MoAndMe::Package * expectedSecondAsList = expectedSecond.asList();
+                                                MoAndMe::Common::Package * matchesSecondAsList = matchesSecond.asList();
+                                                MoAndMe::Common::Package * expectedSecondAsList = expectedSecond.asList();
                                                 int                matchesSecondCount = matchesSecondAsList->size();
                                                 int                expectedSecondCount = expectedSecondAsList->size();
                                                 
@@ -559,20 +559,16 @@ static int doTestRequestSearchService(const int argc,
     return result;
 } // doTestRequestSearchService
 
-#if (defined(__APPLE__) || defined(__linux__))
 /*! @brief The signal handler to catch requests to stop the service.
  @param signal The signal being handled. */
 static void catchSignal(int signal)
 {
-# if (! defined(OD_ENABLE_LOGGING))
-#  pragma unused(signal)
-# endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
+    cerr << "Exiting due to signal " << signal << " = " << MoAndMe::NameOfSignal(signal) << endl;
     OD_LOG_EXIT_EXIT(1);//####
     yarp::os::exit(1);
 } // catchSignal
-#endif // defined(__APPLE__) || defined(__linux__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -596,14 +592,12 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MoAndMe::Initialize();
+            MoAndMe::Common::Initialize(*argv);
             if (0 < --argc)
             {
                 int selector = atoi(argv[1]);
                 
-#if (defined(__APPLE__) || defined(__linux__))
-                MoAndMe::SetSignalHandlers(catchSignal);
-#endif // defined(__APPLE__) || defined(__linux__)
+                MoAndMe::Common::SetSignalHandlers(catchSignal);
                 OD_LOG_LL1("selector <- ", selector);//####
                 switch (selector)
                 {

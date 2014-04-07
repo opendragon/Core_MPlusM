@@ -117,6 +117,12 @@
 		DF30063418E5C62500B51C22 /* ODDisableLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODDisableLogging.h; path = ../Logging/ODDisableLogging.h; sourceTree = "<group>"; };
 		DF30063518E605CA00B51C22 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../PortLister/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF30063618E605CA00B51C22 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../PortLister/main.cpp; sourceTree = SOURCE_ROOT; };
+		DF65B4F018F31B5900B5F2F1 /* MoMeAdapterChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeAdapterChannel.cpp; path = ../Common/MoMeAdapterChannel.cpp; sourceTree = SOURCE_ROOT; };
+		DF65B4F118F31B5900B5F2F1 /* MoMeAdapterChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeAdapterChannel.h; path = ../Common/MoMeAdapterChannel.h; sourceTree = SOURCE_ROOT; };
+		DF65B4F218F3219500B5F2F1 /* MoMeClientChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeClientChannel.cpp; path = ../Common/MoMeClientChannel.cpp; sourceTree = SOURCE_ROOT; };
+		DF65B4F318F3219500B5F2F1 /* MoMeClientChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeClientChannel.h; path = ../Common/MoMeClientChannel.h; sourceTree = SOURCE_ROOT; };
+		DF65B4F418F327FA00B5F2F1 /* MoMeServiceChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeServiceChannel.cpp; path = ../Common/MoMeServiceChannel.cpp; sourceTree = SOURCE_ROOT; };
+		DF65B4F518F327FA00B5F2F1 /* MoMeServiceChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeServiceChannel.h; path = ../Common/MoMeServiceChannel.h; sourceTree = SOURCE_ROOT; };
 		DF7784F518EB6D5700BDC5C1 /* MoMeBailOut.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeBailOut.cpp; path = ../Common/MoMeBailOut.cpp; sourceTree = SOURCE_ROOT; };
 		DF7784F618EB6D5700BDC5C1 /* MoMeBailOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeBailOut.h; path = ../Common/MoMeBailOut.h; sourceTree = SOURCE_ROOT; };
 		DF7784F718EB720800BDC5C1 /* MoMeBailOutThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeBailOutThread.cpp; path = ../Common/MoMeBailOutThread.cpp; sourceTree = SOURCE_ROOT; };
@@ -454,7 +460,6 @@
 			children = (
 				DF27F42C18CA37E000E93C95 /* CMakeLists.txt */,
 				DFA3431318C91B7E0053B87C /* main.cpp */,
-				DF2092A118D360DE0093D3DC /* RegistryTests */,
 				DFA86D1C18E0D3AE00A22941 /* MoMeColumnNameValidator.cpp */,
 				DFA86D1D18E0D3AE00A22941 /* MoMeColumnNameValidator.h */,
 				DF27F43A18CE48E000E93C95 /* MoMeMatchRequestHandler.cpp */,
@@ -466,6 +471,7 @@
 				DF2092A018D35D720093D3DC /* MoMeRegistryTest.cpp */,
 				DFA3434D18C91C5A0053B87C /* MoMeUnregisterRequestHandler.cpp */,
 				DFA3434E18C91C5A0053B87C /* MoMeUnregisterRequestHandler.h */,
+				DF2092A118D360DE0093D3DC /* RegistryTests */,
 			);
 			name = RegistryService;
 			sourceTree = "<group>";
@@ -513,6 +519,8 @@
 			children = (
 				DFA3432718C91C5A0053B87C /* CMakeLists.txt */,
 				DFA3437918C91C940053B87C /* CommonTests */,
+				DF65B4F018F31B5900B5F2F1 /* MoMeAdapterChannel.cpp */,
+				DF65B4F118F31B5900B5F2F1 /* MoMeAdapterChannel.h */,
 				DF7784F518EB6D5700BDC5C1 /* MoMeBailOut.cpp */,
 				DF7784F618EB6D5700BDC5C1 /* MoMeBailOut.h */,
 				DF7784F718EB720800BDC5C1 /* MoMeBailOutThread.cpp */,
@@ -531,6 +539,8 @@
 				DFA3432D18C91C5A0053B87C /* MoMeBaseServiceInputHandler.h */,
 				DFA3432E18C91C5A0053B87C /* MoMeBaseServiceInputHandlerCreator.cpp */,
 				DFA3432F18C91C5A0053B87C /* MoMeBaseServiceInputHandlerCreator.h */,
+				DF65B4F218F3219500B5F2F1 /* MoMeClientChannel.cpp */,
+				DF65B4F318F3219500B5F2F1 /* MoMeClientChannel.h */,
 				DFCB229518EF1BB900358EA5 /* MoMeClientsRequestHandler.cpp */,
 				DFCB229618EF1BB900358EA5 /* MoMeClientsRequestHandler.h */,
 				DF2092EE18DA03160093D3DC /* MoMeCommon.cpp */,
@@ -557,6 +567,8 @@
 				DFA3434618C91C5A0053B87C /* MoMeRequestMap.cpp */,
 				DFA3434718C91C5A0053B87C /* MoMeRequestMap.h */,
 				DFA3434818C91C5A0053B87C /* MoMeRequests.h */,
+				DF65B4F418F327FA00B5F2F1 /* MoMeServiceChannel.cpp */,
+				DF65B4F518F327FA00B5F2F1 /* MoMeServiceChannel.h */,
 				DFA3434918C91C5A0053B87C /* MoMeServiceRequest.cpp */,
 				DFA3434A18C91C5A0053B87C /* MoMeServiceRequest.h */,
 				DFA3434B18C91C5A0053B87C /* MoMeServiceResponse.cpp */,

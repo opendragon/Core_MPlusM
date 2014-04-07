@@ -41,6 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeRegisterRequestHandler.h"
+#include "MoMeClientChannel.h"
 #include "MoMeEndpoint.h"
 #include "MoMeRegistryService.h"
 #include "MoMeRequests.h"
@@ -114,7 +115,7 @@ RegisterRequestHandler::~RegisterRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RegisterRequestHandler::fillInAliases(StringVector & alternateNames)
+void RegisterRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
@@ -135,8 +136,8 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
         info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_STRING);
         info.put(MAM_REQREP_DICT_VERSION_KEY, REGISTER_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Register the service and its requests");
-        yarp::os::Value keywords;
-        Package *       asList = keywords.asList();
+        yarp::os::Value   keywords;
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("add");
@@ -151,7 +152,7 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
 } // RegisterRequestHandler::fillInDescription
 
 bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                            const Package &               restOfInput,
+                                            const Common::Package &       restOfInput,
                                             const yarp::os::ConstString & senderChannel,
                                             yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -168,7 +169,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
     {
         if (replyMechanism)
         {
-            Package reply;
+            Common::Package reply;
             
             // Validate the name as a channel name
             if (1 == restOfInput.size())
@@ -182,23 +183,23 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                     if (Common::Endpoint::CheckEndpointName(argAsString))
                     {
                         // Send a 'list' request to the channel
-                        yarp::os::ConstString aName(GetRandomChannelName("register/channel_"));
-                        Channel *             outChannel = AcquireChannel();
+                        yarp::os::ConstString   aName(Common::GetRandomChannelName("register/channel_"));
+                        Common::ClientChannel * outChannel = new Common::ClientChannel;
                         
                         if (outChannel)
                         {
-                            if (OpenChannelWithRetries(*outChannel, aName))
+                            if (outChannel->open(aName))
                             {
-                                if (AddOutputToChannelWithRetries(*outChannel, argAsString))
+                                if (outChannel->addOutputWithRetries(argAsString))
                                 {
-                                    Package message1(MAM_NAME_REQUEST);
-                                    Package response;
+                                    Common::Package message1(MAM_NAME_REQUEST);
+                                    Common::Package response;
                                     
                                     if (outChannel->write(message1, response))
                                     {
                                         if (processNameResponse(argAsString, response))
                                         {
-                                            Package message2(MAM_LIST_REQUEST);
+                                            Common::Package message2(MAM_LIST_REQUEST);
                                             
                                             if (outChannel->write(message2, response))
                                             {
@@ -235,31 +236,31 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                         reply.addString("Could not write to channel");
                                     }
 #if defined(MAM_DO_EXPLICIT_DISCONNECT)
-                                    if (! NetworkDisconnectWithRetries(outChannel->getName(), argAsString))
+                                    if (! Common::NetworkDisconnectWithRetries(outChannel->getName(), argAsString))
                                     {
-                                        OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
+                                        OD_LOG("(! Common::NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                                "argAsString))");//####
                                     }
 #endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
                                 }
                                 else
                                 {
-                                    OD_LOG("! (AddOutputToChannelWithRetries(*outChannel, argAsString))");//####
+                                    OD_LOG("! (outChannel->addOutputWithRetries(argAsString))");//####
                                     reply.addString(MAM_FAILED_RESPONSE);
                                     reply.addString("Could not connect to channel");
                                     reply.addString(argAsString);
                                 }
 #if defined(MAM_DO_EXPLICIT_CLOSE)
-                                CloseChannel(*outChannel);
+                                outChannel->close();
 #endif // defined(MAM_DO_EXPLICIT_CLOSE)
                             }
                             else
                             {
-                                OD_LOG("! (OpenChannelWithRetries(*outChannel, aName))");//####
+                                OD_LOG("! (outChannel->open(aName))");//####
                                 reply.addString(MAM_FAILED_RESPONSE);
                                 reply.addString("Channel could not be opened");
                             }
-                            RelinquishChannel(outChannel);
+                            Common::ClientChannel::RelinquishChannel(outChannel);
                         }
                         else
                         {
@@ -324,7 +325,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &  
                     if (asDict->check(MAM_REQREP_DICT_REQUEST_KEY))
                     {
                         yarp::os::ConstString theRequest(asDict->find(MAM_REQREP_DICT_REQUEST_KEY).asString());
-                        Package               keywordList;
+                        Common::Package       keywordList;
                         RequestDescription    requestDescriptor;
                         
                         OD_LOG_S1("theRequest <- ", theRequest.c_str());//####

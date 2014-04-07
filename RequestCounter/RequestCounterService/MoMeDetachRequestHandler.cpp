@@ -96,7 +96,7 @@ DetachRequestHandler::~DetachRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void DetachRequestHandler::fillInAliases(StringVector & alternateNames)
+void DetachRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -117,8 +117,8 @@ void DetachRequestHandler::fillInDescription(const yarp::os::ConstString & reque
         info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MAM_REQREP_DICT_VERSION_KEY, DETACH_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Disconnect the client from the service");
-        yarp::os::Value keywords;
-        Package *       asList = keywords.asList();
+        yarp::os::Value   keywords;
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -132,7 +132,7 @@ void DetachRequestHandler::fillInDescription(const yarp::os::ConstString & reque
 } // DetachRequestHandler::fillInDescription
 
 bool DetachRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                          const Package &               restOfInput,
+                                          const Common::Package &       restOfInput,
                                           const yarp::os::ConstString & senderChannel,
                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -150,7 +150,7 @@ bool DetachRequestHandler::processRequest(const yarp::os::ConstString & request,
         _service.detachClient(senderChannel);
         if (replyMechanism)
         {
-            Package response(MAM_OK_RESPONSE);
+            Common::Package response(MAM_OK_RESPONSE);
             
             response.write(*replyMechanism);
         }

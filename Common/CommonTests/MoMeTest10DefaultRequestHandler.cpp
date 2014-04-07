@@ -90,7 +90,7 @@ Test10DefaultRequestHandler::~Test10DefaultRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test10DefaultRequestHandler::fillInAliases(MoAndMe::StringVector & alternateNames)
+void Test10DefaultRequestHandler::fillInAliases(MoAndMe::Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -112,10 +112,10 @@ void Test10DefaultRequestHandler::fillInDescription(const yarp::os::ConstString 
     OD_LOG_OBJEXIT();//####
 } // Test10DefaultRequestHandler::fillInDescription
 
-bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                                 const MoAndMe::Package &      restOfInput,
-                                                 const yarp::os::ConstString & senderChannel,
-                                                 yarp::os::ConnectionWriter *  replyMechanism)
+bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString &    request,
+                                                 const MoAndMe::Common::Package & restOfInput,
+                                                 const yarp::os::ConstString &    senderChannel,
+                                                 yarp::os::ConnectionWriter *     replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(request,senderChannel)
@@ -128,7 +128,7 @@ bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString & r
     
     if (replyMechanism)
     {
-        MoAndMe::Package argsCopy(name());
+        MoAndMe::Common::Package argsCopy(name());
         
         argsCopy.append(restOfInput);
         argsCopy.write(*replyMechanism);

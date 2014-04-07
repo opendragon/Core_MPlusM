@@ -40,6 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeServiceRequest.h"
+#include "MoMeClientChannel.h"
 #include "MoMeEndpoint.h"
 #include "MoMeServiceResponse.h"
 
@@ -115,7 +116,7 @@ ServiceRequest::~ServiceRequest(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool ServiceRequest::send(Channel &         usingChannel,
+bool ServiceRequest::send(ClientChannel &   usingChannel,
                           ServiceResponse * response)
 {
     OD_LOG_OBJENTER();//####

@@ -80,8 +80,8 @@ namespace MoAndMe
              @param howMany The number of random numbers to retrieve.
              @param result Where to return the numbers.
              @returns @c true if the numbere were retrieved successfully and @c false otherwise. */
-            bool getRandomNumbers(const int               howMany,
-                                  MoAndMe::DoubleVector & result);
+            bool getRandomNumbers(const int                       howMany,
+                                  MoAndMe::Common::DoubleVector & result);
             
         protected:
             

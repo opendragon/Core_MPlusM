@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeResetRequestHandler.h
+//  File:       MoMeAdapterChannel.h
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class declaration for the request handler for a 'reset' request.
+//  Contains:   The class declaration for channels to and from adapters.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,15 +35,30 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2014-04-07
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MOMERESETREQUESTHANDLER_H_))
+#if (! defined(MOMEADAPTERCHANNEL_H_))
 /*! @brief Header guard. */
-# define MOMERESETREQUESTHANDLER_H_ /* */
+# define MOMEADAPTERCHANNEL_H_ /* */
 
-# include "MoMeBaseRequestHandler.h"
+# include "MoMeCommon.h"
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wc++11-extensions"
+#  pragma clang diagnostic ignored "-Wdocumentation"
+#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#  pragma clang diagnostic ignored "-Wpadded"
+#  pragma clang diagnostic ignored "-Wshadow"
+#  pragma clang diagnostic ignored "-Wunused-parameter"
+#  pragma clang diagnostic ignored "-Wweak-vtables"
+# endif // defined(__APPLE__)
+# include <yarp/os/Port.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -51,65 +66,61 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for a 'reset' request. */
+ @brief The class declaration for channels to and from adapters. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MoAndMe
 {
-    namespace RequestCounter
+    namespace Common
     {
-        class RequestCounterService;
-        
-        /*! @brief The 'reset' request handler for the request counter service.
-         
-         There is no input or output for the request. */
-        class ResetRequestHandler : public Common::BaseRequestHandler
+        /*! @brief A convenience class to provide distinct channels to and from adapters. */
+        class AdapterChannel : public yarp::os::Port
         {
         public:
             
-            /*! @brief The constructor.
-             @param service The service that has registered this request. */
-            ResetRequestHandler(RequestCounterService & service);
+            /*! @brief The constructor. */
+            AdapterChannel(void);
             
             /*! @brief The destructor. */
-            virtual ~ResetRequestHandler(void);
+            virtual ~AdapterChannel(void);
             
-            /*! @brief Fill in a set of aliases for the request.
-             @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(Common::StringVector & alternateNames);
+            /*! @brief Close the channel. */
+            void close(void);
             
-            /*! @brief Fill in a description dictionary for the request.
-             @param request The actual request name.
-             @param info The dictionary to be filled in. */
-            virtual void fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info);
+            /*! @brief Open the channel, using a backoff strategy with retries.
+             @param theChannelName The name to be associated with the channel.
+             @returns @c true if the channel was opened and @c false if it could not be opened. */
+            bool openWithRetries(const yarp::os::ConstString & theChannelName);
             
-            /*! @brief Process a request.
-             @param request The actual request name.
-             @param restOfInput The arguments to the operation.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-            virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const Common::Package &       restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism);
+            /*! @brief Release an allocated adapter channel.
+             @param theChannel A pointer to the channel to be released. */
+            static void RelinquishChannel(AdapterChannel * & theChannel);
             
         protected:
             
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
+            typedef yarp::os::Port inherited;
             
-            /*! @brief The service that will manages the statistics. */
-            RequestCounterService & _service;
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            AdapterChannel(const AdapterChannel & other);
             
-        }; // ResetRequestHandler
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            AdapterChannel & operator=(const AdapterChannel & other);
+            
+        }; // AdapterChannel
         
-    } // RequestCounter
+    } // Common
     
 } // MoAndMe
 
-#endif // ! defined(MOMERESETREQUESTHANDLER_H_)
+#endif // ! defined(MOMEADAPTERCHANNEL_H_)

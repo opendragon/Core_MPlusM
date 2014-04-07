@@ -48,6 +48,7 @@ include_directories("${MAM_LOGGING_DIR}"
                     "${MAM_COMMONTESTSUPPORT_DIR}")
 
 add_library(MoMeCommon
+            MoMeAdapterChannel.cpp
             MoMeBailOut.cpp
             MoMeBailOutThread.cpp
             MoMeBaseAdapterData.cpp
@@ -57,6 +58,7 @@ add_library(MoMeCommon
             MoMeBaseService.cpp
             MoMeBaseServiceInputHandler.cpp
             MoMeBaseServiceInputHandlerCreator.cpp
+            MoMeClientChannel.cpp
             MoMeClientsRequestHandler.cpp
             MoMeCommon.cpp
             MoMeEndpoint.cpp
@@ -68,6 +70,7 @@ add_library(MoMeCommon
             MoMeListRequestHandler.cpp
             MoMeNameRequestHandler.cpp
             MoMeRequestMap.cpp
+            MoMeServiceChannel.cpp
             MoMeServiceRequest.cpp
             MoMeServiceResponse.cpp)
 

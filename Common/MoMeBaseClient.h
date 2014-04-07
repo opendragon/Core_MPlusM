@@ -61,6 +61,7 @@ namespace MoAndMe
 {
     namespace Common
     {
+        class ClientChannel;
         class ServiceResponse;
         
         /*! @brief The minimal functionality required for a MoAndMe client. */
@@ -117,10 +118,10 @@ namespace MoAndMe
             BaseClient & operator=(const BaseClient & other);
             
             /*! @brief The channel that the client uses for communication. */
-            Channel *             _clientChannel;
+            ClientChannel *       _channel;
             
             /*! @brief The name of the client channel being used. */
-            yarp::os::ConstString _clientChannelName;
+            yarp::os::ConstString _channelName;
             
             /*! @brief The name of the service channel being used. */
             yarp::os::ConstString _serviceChannelName;
