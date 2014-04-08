@@ -165,7 +165,7 @@ int main(int      argc,
                     {
                         lKeepRunning = true;
                         MoAndMe::Common::SetSignalHandlers(stopRunning);
-                        for ( ; lKeepRunning; )
+                        for ( ; lKeepRunning && stuff; )
                         {
 #if defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                             yarp::os::Time::delay(ONE_SECOND_DELAY);
