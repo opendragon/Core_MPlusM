@@ -405,7 +405,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &  
                             else
                             {
                                 OD_LOG("! (theVersion.isString() || theVersion.isInt() || "//####
-                                          "theVersion.isDouble())");//####
+                                       "theVersion.isDouble())");//####
                                 // The version entry is present, but it's not a simple value
                                 result = false;
                             }

@@ -164,13 +164,8 @@ int main(int      argc,
                                 outputChannel->setInputMode(false);
 #endif // defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
                                 dataChannel->setReader(*dataHandler);
-                                
-                                
                                 for ( ; lKeepRunning && sharedData.isActive(); )
                                 {
-                                    
-                                    
-                                    
 #if defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
                                     yarp::os::Time::delay(ONE_SECOND_DELAY);
 #else // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
@@ -181,11 +176,6 @@ int main(int      argc,
                                         sharedData.deactivate();
                                     }
                                 }
-                                
-                                
-                                
-                                
-                                
                             }
                             else
                             {
@@ -206,10 +196,6 @@ int main(int      argc,
                         }
                         MoAndMe::Common::AdapterChannel::RelinquishChannel(dataChannel);
                         MoAndMe::Common::AdapterChannel::RelinquishChannel(outputChannel);
-                     
-                        
-                        
-                        
                         if (! stuff->disconnectFromService())
                         {
                             OD_LOG("(! stuff->disconnectFromService())");//####

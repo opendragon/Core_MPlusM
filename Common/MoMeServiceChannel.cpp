@@ -78,6 +78,10 @@ using namespace MoAndMe::Common;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+#if defined(OD_ENABLE_LOGGING)
+# define REPORT_CONTACT_DETAILS /* Report details of the contacts during operations that might change them. */
+#endif // defined(OD_ENABLE_LOGGING)
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -90,7 +94,8 @@ using namespace MoAndMe::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-ServiceChannel::ServiceChannel(void)
+ServiceChannel::ServiceChannel(void) :
+        inherited()
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
@@ -176,6 +181,9 @@ bool ServiceChannel::openWithRetries(yarp::os::Contact & theContactInfo)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("theContactInfo = ", theContactInfo);//####
+#if defined(REPORT_CONTACT_DETAILS)
+    DumpContact("theContactInfo = ", theContactInfo);//####
+#endif // defined(REPORT_CONTACT_DETAILS)
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
     int    retriesLeft = MAX_RETRIES;

@@ -96,7 +96,7 @@ StopRequestHandler::~StopRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void StopRequestHandler::fillInAliases(MoAndMe::Common::StringVector & alternateNames)
+void StopRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -117,8 +117,8 @@ void StopRequestHandler::fillInDescription(const yarp::os::ConstString & request
         info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MAM_REQREP_DICT_VERSION_KEY, STOP_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Stop the running sum");
-        yarp::os::Value            keywords;
-        MoAndMe::Common::Package * asList = keywords.asList();
+        yarp::os::Value   keywords;
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -131,10 +131,10 @@ void StopRequestHandler::fillInDescription(const yarp::os::ConstString & request
     OD_LOG_OBJEXIT();//####
 } // StopRequestHandler::fillInDescription
 
-bool StopRequestHandler::processRequest(const yarp::os::ConstString &    request,
-                                        const MoAndMe::Common::Package & restOfInput,
-                                        const yarp::os::ConstString &    senderChannel,
-                                        yarp::os::ConnectionWriter *     replyMechanism)
+bool StopRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                        const Common::Package &       restOfInput,
+                                        const yarp::os::ConstString & senderChannel,
+                                        yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(request,restOfInput)
@@ -150,7 +150,7 @@ bool StopRequestHandler::processRequest(const yarp::os::ConstString &    request
         _service.detachClient(senderChannel);
         if (replyMechanism)
         {
-            MoAndMe::Common::Package response(MAM_OK_RESPONSE);
+            Common::Package response(MAM_OK_RESPONSE);
             
             response.write(*replyMechanism);
         }

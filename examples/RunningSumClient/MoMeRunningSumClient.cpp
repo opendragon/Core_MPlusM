@@ -117,8 +117,8 @@ bool RunningSumClient::addToSum(const double value,
     
     try
     {
-        MoAndMe::Common::Package parameters;
-        Common::ServiceResponse  response;
+        Common::Package         parameters;
+        Common::ServiceResponse response;
         
         parameters.addDouble(value);
         if (send(MAM_ADD_REQUEST, parameters, &response))
@@ -162,8 +162,8 @@ bool RunningSumClient::addToSum(const double value,
     return okSoFar;
 } // RunningSumClient::addToSum
 
-bool RunningSumClient::addToSum(const MoAndMe::Common::DoubleVector & values,
-                                double &                              newSum)
+bool RunningSumClient::addToSum(const Common::DoubleVector & values,
+                                double &                     newSum)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P2("values = ", &values, "newSum = ", &newSum);//####
@@ -171,10 +171,10 @@ bool RunningSumClient::addToSum(const MoAndMe::Common::DoubleVector & values,
     
     try
     {
-        MoAndMe::Common::Package parameters;
-        Common::ServiceResponse  response;
+        Common::Package         parameters;
+        Common::ServiceResponse response;
         
-        for (MoAndMe::Common::DoubleVector::const_iterator it(values.cbegin()); it != values.cend(); ++it)
+        for (Common::DoubleVector::const_iterator it(values.cbegin()); it != values.cend(); ++it)
         {
             parameters.addDouble(*it);
         }
@@ -233,7 +233,7 @@ bool RunningSumClient::resetSum(void)
 
     try
     {
-        MoAndMe::Common::Package parameters;
+        Common::Package parameters;
         
         if (send(MAM_RESET_REQUEST, parameters))
         {
@@ -260,7 +260,7 @@ bool RunningSumClient::startSum(void)
 
     try
     {
-        MoAndMe::Common::Package parameters;
+        Common::Package parameters;
         
         if (send(MAM_START_REQUEST, parameters))
         {
@@ -287,7 +287,7 @@ bool RunningSumClient::stopSum(void)
     
     try
     {
-        MoAndMe::Common::Package parameters;
+        Common::Package parameters;
         
         if (send(MAM_STOP_REQUEST, parameters))
         {

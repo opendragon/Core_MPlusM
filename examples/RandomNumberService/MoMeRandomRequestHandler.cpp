@@ -109,7 +109,7 @@ RandomRequestHandler::~RandomRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RandomRequestHandler::fillInAliases(MoAndMe::Common::StringVector & alternateNames)
+void RandomRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
@@ -130,8 +130,8 @@ void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & reque
         info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_DOUBLE MAM_REQREP_1_OR_MORE);
         info.put(MAM_REQREP_DICT_VERSION_KEY, RANDOM_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Generate one or more random numbers");
-        yarp::os::Value            keywords;
-        MoAndMe::Common::Package * asList = keywords.asList();
+        yarp::os::Value   keywords;
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -144,10 +144,10 @@ void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & reque
     OD_LOG_OBJEXIT();//####
 } // RandomRequestHandler::fillInDescription
 
-bool RandomRequestHandler::processRequest(const yarp::os::ConstString &    request,
-                                          const MoAndMe::Common::Package & restOfInput,
-                                          const yarp::os::ConstString &    senderChannel,
-                                          yarp::os::ConnectionWriter *     replyMechanism)
+bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                          const Common::Package &       restOfInput,
+                                          const yarp::os::ConstString & senderChannel,
+                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(request,senderChannel)
@@ -162,8 +162,8 @@ bool RandomRequestHandler::processRequest(const yarp::os::ConstString &    reque
     {
         if (replyMechanism)
         {
-            MoAndMe::Common::Package response;
-            int                      count;
+            Common::Package response;
+            int             count;
             
             if (0 < restOfInput.size())
             {

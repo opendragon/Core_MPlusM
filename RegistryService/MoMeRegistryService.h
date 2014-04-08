@@ -134,8 +134,8 @@ namespace MoAndMe
              @param matcher The match expression to be processed.
              @param reply The result from performing a SELECT with the converted match expression.
              @returns @c true if the match request was successfully performed and @c false otherwise. */
-            bool processMatchRequest(MoAndMe::Parser::MatchExpression * matcher,
-                                     Common::Package &                  reply);
+            bool processMatchRequest(Parser::MatchExpression * matcher,
+                                     Common::Package &         reply);
             
             /*! @brief Remove a service entry from the registry.
              @param serviceChannelName The service channel that is being removed.
@@ -211,7 +211,7 @@ namespace MoAndMe
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char      _filler[6];
+            char                       _filler[6];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

@@ -87,6 +87,13 @@ using std::endl;
 # define REPORT_CONTACT_DETAILS /* Report details of the contacts during operations that might change them. */
 #endif // defined(OD_ENABLE_LOGGING)
 
+/*! @brief The carrier type to be used for service connections. */
+#if defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
+# define SERVICE_CHANNEL_CARRIER_ "xmlrpc"
+#else  // ! defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
+# define SERVICE_CHANNEL_CARRIER_ "tcp"
+#endif // ! defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -102,7 +109,7 @@ static bool checkHostPort(int &                         realPort,
 
     try
     {
-        int  portLength = portNumber.length();
+        int portLength = portNumber.length();
         
         if (0 < portLength)
         {
@@ -134,9 +141,9 @@ static bool checkHostPort(int &                         realPort,
  @param hostName The host name that is to be validated.
  @param portNumber The port number to be applied to the connection.
  @returns @c true if the connection information has been constructed and @c false otherwise. */
-static bool checkHostName(yarp::os::Contact &            workingContact,
-                          const yarp::os::ConstString &  hostName,
-                          const int                      portNumber)
+static bool checkHostName(yarp::os::Contact &           workingContact,
+                          const yarp::os::ConstString & hostName,
+                          const int                     portNumber)
 {
 #if defined(REPORT_CONTACT_DETAILS)
     DumpContact("enter checkHostName", workingContact);//####
@@ -151,7 +158,7 @@ static bool checkHostName(yarp::os::Contact &            workingContact,
             yarp::os::ConstString ipAddress(yarp::os::Contact::convertHostToIp(hostName));
             
             OD_LOG_S1("ipAddress = ", ipAddress.c_str());//####
-            workingContact = workingContact.addSocket("tcp", ipAddress, portNumber);
+            workingContact = workingContact.addSocket(SERVICE_CHANNEL_CARRIER_, ipAddress, portNumber);
 #if defined(REPORT_CONTACT_DETAILS)
             DumpContact("after addSocket", workingContact);//####
 #endif // defined(REPORT_CONTACT_DETAILS)
@@ -183,7 +190,7 @@ bool Endpoint::CheckEndpointName(const yarp::os::ConstString & channelName)
 
     try
     {
-        int  nameLength = channelName.length();
+        int nameLength = channelName.length();
         
         if (0 < nameLength)
         {

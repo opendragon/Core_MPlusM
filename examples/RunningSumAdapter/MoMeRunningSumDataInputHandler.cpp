@@ -94,9 +94,9 @@ RunningSumDataInputHandler::~RunningSumDataInputHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RunningSumDataInputHandler::handleInput(const MoAndMe::Common::Package & input,
-                                             const yarp::os::ConstString &    senderChannel,
-                                             yarp::os::ConnectionWriter *     replyMechanism)
+bool RunningSumDataInputHandler::handleInput(const Common::Package &       input,
+                                             const yarp::os::ConstString & senderChannel,
+                                             yarp::os::ConnectionWriter *  replyMechanism)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####

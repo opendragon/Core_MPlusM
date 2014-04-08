@@ -76,8 +76,8 @@ using namespace MoAndMe::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RunningSumAdapterData::RunningSumAdapterData(RunningSumClient *                client,
-                                             MoAndMe::Common::AdapterChannel * output) :
+RunningSumAdapterData::RunningSumAdapterData(RunningSumClient *       client,
+                                             Common::AdapterChannel * output) :
         inherited(client), _output(output)
 {
     OD_LOG_ENTER();//####

@@ -364,12 +364,16 @@ void MoAndMe::Common::SetUpCatcher(void)
 {
 #if (defined(__APPLE__) || defined(__linux__))
     sigset_t unblocking;
+#endif // defined(__APPLE__) || defined(__linux__)
     
+#if (defined(__APPLE__) || defined(__linux__))
     sigemptyset(&unblocking);
     sigaddset(&unblocking, STANDARD_SIGNAL_TO_USE);
     pthread_sigmask(SIG_UNBLOCK, &unblocking, NULL);
     struct sigaction act;
+#endif // defined(__APPLE__) || defined(__linux__)
     
+#if (defined(__APPLE__) || defined(__linux__))
     act.sa_handler = localCatcher;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
@@ -381,12 +385,16 @@ void MoAndMe::Common::ShutDownCatcher(void)
 {
 #if (defined(__APPLE__) || defined(__linux__))
     sigset_t blocking;
-    
+#endif // defined(__APPLE__) || defined(__linux__)
+
+#if (defined(__APPLE__) || defined(__linux__))
     sigemptyset(&blocking);
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
     struct sigaction act;
-    
+#endif // defined(__APPLE__) || defined(__linux__)
+
+#if (defined(__APPLE__) || defined(__linux__))
     act.sa_handler = SIG_DFL;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
@@ -398,6 +406,7 @@ const char * MoAndMe::NameOfSignal(const int theSignal)
 {
     const char * result;
 
+#if (defined(__APPLE__) || defined(__linux__))
     switch (theSignal)
     {
         case SIGHUP:
@@ -424,16 +433,16 @@ const char * MoAndMe::NameOfSignal(const int theSignal)
             result = "SIGABRT[abort()]";
             break;
             
-#if  (defined(_POSIX_C_SOURCE) && !defined(_DARWIN_C_SOURCE))
+# if (defined(_POSIX_C_SOURCE) && (! defined(_DARWIN_C_SOURCE)))
         case SIGPOLL:
             result = "SIGPOLL[pollable evebt]";
             break;
-#else   /* (!_POSIX_C_SOURCE || _DARWIN_C_SOURCE) */
+# else // (! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE)
         case SIGEMT:
             result = "SIGEMT[EMT instruction]";
             break;
-#endif  /* (!_POSIX_C_SOURCE || _DARWIN_C_SOURCE) */
-
+# endif // (! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE)
+            
         case SIGFPE:
             result = "SIGFPE[floating point exception]";
             break;
@@ -494,11 +503,11 @@ const char * MoAndMe::NameOfSignal(const int theSignal)
             result = "SIGTTOU[like TTIN for output if (tp->t_local&LTOSTOP)]";
             break;
             
-#if  (!defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE))
+# if ((! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE))
         case SIGIO:
             result = "SIGIO[input/output possible signal]";
             break;
-#endif
+# endif // (! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE)
             
         case SIGXCPU:
             result = "SIGXCPU[exceeded CPU time limit]";
@@ -516,15 +525,17 @@ const char * MoAndMe::NameOfSignal(const int theSignal)
             result = "SIGPROF[profiling time alarm]";
             break;
             
-#if  (!defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE))
+# if ((! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE))
         case SIGWINCH:
             result = "SIGWINCH[window size changes]";
             break;
+# endif // (! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE)
             
+# if ((! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE))
         case SIGINFO:
             result = "SIGINFO[information request]";
             break;
-#endif
+# endif // (! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE)
             
         case SIGUSR1:
             result = "SIGUSR1[user defined signal 1]";
@@ -539,5 +550,8 @@ const char * MoAndMe::NameOfSignal(const int theSignal)
             break;
             
     }
+#else // (! defined(__APPLE__)) && (! defined(__linux__))
+    result = "unknown";
+#endif // (! defined(__APPLE__)) && (! defined(__linux__))
     return result;
 } // MoAndMe::NameOfSignal

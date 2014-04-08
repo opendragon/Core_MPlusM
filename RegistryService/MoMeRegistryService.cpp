@@ -126,8 +126,8 @@ namespace MoAndMe
          @param stuff The source of data that is to be bound.
          @returns The SQLite error from the bind operation. */
         typedef int (*BindFunction)
-        (sqlite3_stmt * statement,
-        const void *   stuff);
+            (sqlite3_stmt * statement,
+             const void *   stuff);
         
         /*! @brief The data needed to add a request-keyword entry into the database. */
         struct RequestKeywordData
@@ -505,40 +505,34 @@ static bool constructTables(sqlite3 * database)
                 static const char * tableSQL[] =
                 {
 #if defined(USE_TEST_DATABASE)
-                    "DROP INDEX IF EXISTS " REQUESTS_REQUEST_I_,
-                    "DROP INDEX IF EXISTS " REQUESTS_CHANNELNAME_I_,
-                    "DROP INDEX IF EXISTS " REQUESTSKEYWORDS_KEYWORDS_ID_I_,
-                    "DROP INDEX IF EXISTS " REQUESTSKEYWORDS_REQUESTS_ID_I_,
-                    "DROP INDEX IF EXISTS " SERVICES_NAME_I_,
-                    "DROP TABLE IF EXISTS " REQUESTSKEYWORDS_T_,
-                    "DROP TABLE IF EXISTS " REQUESTS_T_,
-                    "DROP TABLE IF EXISTS " KEYWORDS_T_,
-                    "DROP TABLE IF EXISTS " SERVICES_T_,
+                    T_("DROP INDEX IF EXISTS " REQUESTS_REQUEST_I_),
+                    T_("DROP INDEX IF EXISTS " REQUESTS_CHANNELNAME_I_),
+                    T_("DROP INDEX IF EXISTS " REQUESTSKEYWORDS_KEYWORDS_ID_I_),
+                    T_("DROP INDEX IF EXISTS " REQUESTSKEYWORDS_REQUESTS_ID_I_),
+                    T_("DROP INDEX IF EXISTS " SERVICES_NAME_I_),
+                    T_("DROP TABLE IF EXISTS " REQUESTSKEYWORDS_T_),
+                    T_("DROP TABLE IF EXISTS " REQUESTS_T_),
+                    T_("DROP TABLE IF EXISTS " KEYWORDS_T_),
+                    T_("DROP TABLE IF EXISTS " SERVICES_T_),
 #endif // defined(USE_TEST_DATABASE)
-                    "CREATE TABLE IF NOT EXISTS " SERVICES_T_ "("
-                        " " CHANNELNAME_C_ " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT REPLACE,"
-                        " " NAME_C_ "        Text NOT NULL DEFAULT _,"
-                        " " DESCRIPTION_C_ " Text NOT NULL DEFAULT _)",
-                    "CREATE INDEX IF NOT EXISTS " SERVICES_NAME_I_ " ON " SERVICES_T_ "(" NAME_C_ ")",
-                    "CREATE TABLE IF NOT EXISTS " KEYWORDS_T_ "("
-                        " " KEYWORD_C_ " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT IGNORE)",
-                    "CREATE TABLE IF NOT EXISTS " REQUESTS_T_ "("
-                        " " CHANNELNAME_C_ " Text NOT NULL DEFAULT _ REFERENCES " SERVICES_T_ "(" CHANNELNAME_C_ "),"
-                        " " REQUEST_C_ "     Text NOT NULL DEFAULT _,"
-                        " " INPUT_C_ "       Text,"
-                        " " OUTPUT_C_ "      Text,"
-                        " " VERSION_C_ "     Text,"
-                        " " DETAILS_C_ "     Text,"
-                        " " KEY_C_ "         Integer PRIMARY KEY)",
-                    "CREATE INDEX IF NOT EXISTS " REQUESTS_REQUEST_I_ " ON " REQUESTS_T_ "(" REQUEST_C_ ")",
-                    "CREATE INDEX IF NOT EXISTS " REQUESTS_CHANNELNAME_I_ " ON " REQUESTS_T_ "(" CHANNELNAME_C_ ")",
-                    "CREATE TABLE " REQUESTSKEYWORDS_T_ "("
-                        " " KEYWORDS_ID_C_ " Text REFERENCES " KEYWORDS_T_ "(" KEYWORD_C_ "),"
-                        " " REQUESTS_ID_C_ " Integer REFERENCES " REQUESTS_T_ "(" KEY_C_ "))",
-                    "CREATE INDEX IF NOT EXISTS " REQUESTSKEYWORDS_KEYWORDS_ID_I_ " ON " REQUESTSKEYWORDS_T_ "("
-                        KEYWORDS_ID_C_ ")",
-                    "CREATE INDEX IF NOT EXISTS " REQUESTSKEYWORDS_REQUESTS_ID_I_ " ON " REQUESTSKEYWORDS_T_ "("
-                        REQUESTS_ID_C_ ")"
+                    T_("CREATE TABLE IF NOT EXISTS " SERVICES_T_ "( " CHANNELNAME_C_
+                       " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT REPLACE, " NAME_C_
+                       " Text NOT NULL DEFAULT _, " DESCRIPTION_C_ " Text NOT NULL DEFAULT _)"),
+                    T_("CREATE INDEX IF NOT EXISTS " SERVICES_NAME_I_ " ON " SERVICES_T_ "(" NAME_C_ ")"),
+                    T_("CREATE TABLE IF NOT EXISTS " KEYWORDS_T_ "( " KEYWORD_C_
+                       " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT IGNORE)"),
+                    T_("CREATE TABLE IF NOT EXISTS " REQUESTS_T_ "( " CHANNELNAME_C_
+                       " Text NOT NULL DEFAULT _ REFERENCES " SERVICES_T_ "(" CHANNELNAME_C_ "), " REQUEST_C_
+                       " Text NOT NULL DEFAULT _, " INPUT_C_ " Text, " OUTPUT_C_ " Text, " VERSION_C_ " Text, "
+                       DETAILS_C_ " Text, " KEY_C_ " Integer PRIMARY KEY)"),
+                    T_("CREATE INDEX IF NOT EXISTS " REQUESTS_REQUEST_I_ " ON " REQUESTS_T_ "(" REQUEST_C_ ")"),
+                    T_("CREATE INDEX IF NOT EXISTS " REQUESTS_CHANNELNAME_I_ " ON " REQUESTS_T_ "(" CHANNELNAME_C_ ")"),
+                    T_("CREATE TABLE " REQUESTSKEYWORDS_T_ "( " KEYWORDS_ID_C_ " Text REFERENCES " KEYWORDS_T_ "("
+                       KEYWORD_C_ "), " REQUESTS_ID_C_ " Integer REFERENCES " REQUESTS_T_ "(" KEY_C_ "))"),
+                    T_("CREATE INDEX IF NOT EXISTS " REQUESTSKEYWORDS_KEYWORDS_ID_I_ " ON " REQUESTSKEYWORDS_T_ "("
+                       KEYWORDS_ID_C_ ")"),
+                    T_("CREATE INDEX IF NOT EXISTS " REQUESTSKEYWORDS_REQUESTS_ID_I_ " ON " REQUESTSKEYWORDS_T_ "("
+                       REQUESTS_ID_C_ ")")
                 };
                 int numTables = (sizeof(tableSQL) / sizeof(*tableSQL));
                 
@@ -991,10 +985,10 @@ bool RegistryService::addRequestRecord(const Common::Package &    keywordList,
     {
         if (performSQLstatementWithNoResults(_db, kBeginTransaction))
         {
-            static const char * insertIntoRequests = "INSERT INTO " REQUESTS_T_ "(" CHANNELNAME_C_ "," REQUEST_C_ ","
+            static const char * insertIntoRequests = T_("INSERT INTO " REQUESTS_T_ "(" CHANNELNAME_C_ "," REQUEST_C_ ","
                                                         INPUT_C_ "," OUTPUT_C_ "," VERSION_C_ "," DETAILS_C_
                                                         ") VALUES(@" CHANNELNAME_C_ ",@" REQUEST_C_ ",@" INPUT_C_ ",@"
-                                                        OUTPUT_C_ ",@" VERSION_C_ ",@" DETAILS_C_ ")";
+                                                        OUTPUT_C_ ",@" VERSION_C_ ",@" DETAILS_C_ ")");
             
             // Add the request.
             okSoFar = performSQLstatementWithNoResults(_db, insertIntoRequests, setupInsertForRequests,
@@ -1013,14 +1007,14 @@ bool RegistryService::addRequestRecord(const Common::Package &    keywordList,
                     
                     if (aKeyword.isString())
                     {
-                        static const char * insertIntoKeywords = "INSERT INTO " KEYWORDS_T_ "(" KEYWORD_C_ ") VALUES(@"
-                                                                    KEYWORD_C_ ")";
-                        static const char * insertIntoRequestsKeywords = "INSERT INTO " REQUESTSKEYWORDS_T_ "("
+                        static const char * insertIntoKeywords = T_("INSERT INTO " KEYWORDS_T_ "(" KEYWORD_C_
+                                                                    ") VALUES(@" KEYWORD_C_ ")");
+                        static const char * insertIntoRequestsKeywords = T_("INSERT INTO " REQUESTSKEYWORDS_T_ "("
                                                                             KEYWORDS_ID_C_ "," REQUESTS_ID_C_
                                                                             ") SELECT @" KEYWORD_C_ ", " KEY_C_ " FROM "
                                                                             REQUESTS_T_ " WHERE " REQUEST_C_ " = @"
                                                                             REQUEST_C_ " AND " CHANNELNAME_C_ " = @"
-                                                                            CHANNELNAME_C_;
+                                                                            CHANNELNAME_C_);
                         
                         reqKeyData._key = aKeyword.toString();
                         okSoFar = performSQLstatementWithNoResults(_db, insertIntoKeywords, setupInsertForKeywords,
@@ -1070,9 +1064,9 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
         if (performSQLstatementWithNoResults(_db, kBeginTransaction))
         {
             // Add the service channel name.
-            static const char * insertIntoServices = "INSERT INTO " SERVICES_T_ "(" CHANNELNAME_C_ "," NAME_C_ ","
+            static const char * insertIntoServices = T_("INSERT INTO " SERVICES_T_ "(" CHANNELNAME_C_ "," NAME_C_ ","
                                                         DESCRIPTION_C_ ") VALUES(@" CHANNELNAME_C_ ",@" NAME_C_ ",@"
-                                                        DESCRIPTION_C_ ")";
+                                                        DESCRIPTION_C_ ")");
             ServiceData         servData;
             
             servData._channel = channelName;
@@ -1158,8 +1152,8 @@ void RegistryService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // RegistryService::detachRequestHandlers
 
-bool RegistryService::processMatchRequest(MoAndMe::Parser::MatchExpression * matcher,
-                                          Common::Package &                  reply)
+bool RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
+                                          Common::Package &         reply)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("matcher = ", matcher);//####
@@ -1177,9 +1171,13 @@ bool RegistryService::processMatchRequest(MoAndMe::Parser::MatchExpression * mat
                 
                 OD_LOG_S1("requestAsSQL <- ", requestAsSQL.c_str());//####
                 okSoFar = performSQLstatementWithResults(_db, subList, requestAsSQL.c_str());
-                if (! performSQLstatementWithNoResults(_db, kEndTransaction))
+                if (okSoFar)
                 {
-                    okSoFar = false;
+                    okSoFar = performSQLstatementWithNoResults(_db, kEndTransaction);
+                }
+                else
+                {
+                    performSQLstatementWithNoResults(_db, kRollbackTransaction);
                 }
             }
         }
@@ -1208,9 +1206,10 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceC
         if (performSQLstatementWithNoResults(_db, kBeginTransaction))
         {
             // Remove the service channel requests.
-            static const char * removeFromRequestsKeywords = "DELETE FROM " REQUESTSKEYWORDS_T_ " WHERE " REQUESTS_ID_C_
-                                                                " IN (SELECT " KEY_C_ " FROM " REQUESTS_T_ " WHERE "
-                                                                CHANNELNAME_C_ " = @" CHANNELNAME_C_ ")";
+            static const char * removeFromRequestsKeywords = T_("DELETE FROM " REQUESTSKEYWORDS_T_ " WHERE "
+                                                                REQUESTS_ID_C_ " IN (SELECT " KEY_C_ " FROM "
+                                                                REQUESTS_T_ " WHERE " CHANNELNAME_C_ " = @"
+                                                                CHANNELNAME_C_ ")");
 
             okSoFar = performSQLstatementWithNoResults(_db, removeFromRequestsKeywords, setupRemoveForRequestsKeywords,
                                                        static_cast<const void *>(serviceChannelName.c_str()));

@@ -257,7 +257,7 @@ static void reportConnections(const std::string & portName)
 
     if (address.isValid())
     {
-        if (address.getCarrier() == "tcp")
+        if ((address.getCarrier() == "tcp") || (address.getCarrier() == "xmlrpc"))
         {
             yarp::os::impl::Address          fromAddress(yarp::os::impl::Address::fromContact(address));
             yarp::os::impl::OutputProtocol * out = yarp::os::impl::Carriers::connect(fromAddress);

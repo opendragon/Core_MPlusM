@@ -94,7 +94,7 @@ EchoRequestHandler::~EchoRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void EchoRequestHandler::fillInAliases(MoAndMe::Common::StringVector & alternateNames)
+void EchoRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -117,8 +117,8 @@ void EchoRequestHandler::fillInDescription(const yarp::os::ConstString & request
         info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_ANYTHING MAM_REQREP_0_OR_MORE);
         info.put(MAM_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Echo back any input");
-        yarp::os::Value            keywords;
-        MoAndMe::Common::Package * asList = keywords.asList();
+        yarp::os::Value   keywords;
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -131,10 +131,10 @@ void EchoRequestHandler::fillInDescription(const yarp::os::ConstString & request
     OD_LOG_OBJEXIT();//####
 } // EchoRequestHandler::fillInDescription
 
-bool EchoRequestHandler::processRequest(const yarp::os::ConstString &    request,
-                                        const MoAndMe::Common::Package & restOfInput,
-                                        const yarp::os::ConstString &    senderChannel,
-                                        yarp::os::ConnectionWriter *     replyMechanism)
+bool EchoRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                        const Common::Package &       restOfInput,
+                                        const yarp::os::ConstString & senderChannel,
+                                        yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(request,senderChannel)
@@ -149,7 +149,7 @@ bool EchoRequestHandler::processRequest(const yarp::os::ConstString &    request
     {
         if (replyMechanism)
         {
-            MoAndMe::Common::Package argsCopy(restOfInput);
+            Common::Package argsCopy(restOfInput);
             
             argsCopy.write(*replyMechanism);
         }

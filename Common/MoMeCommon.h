@@ -126,6 +126,9 @@
 /*! @brief The maximum number of retries before declaring failure. */
 # define MAX_RETRIES            5
 
+/*! @brief A simple macro to hold the pieces of a string together. */
+# define T_(xx) xx
+
 namespace MoAndMe
 {
     namespace Common

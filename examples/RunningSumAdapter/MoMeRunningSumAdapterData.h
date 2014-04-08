@@ -77,8 +77,8 @@ namespace MoAndMe
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
-            RunningSumAdapterData(RunningSumClient *                client,
-                                  MoAndMe::Common::AdapterChannel * output);
+            RunningSumAdapterData(RunningSumClient *       client,
+                                  Common::AdapterChannel * output);
             
             /*! @brief The destructor. */
             virtual ~RunningSumAdapterData(void);
@@ -103,7 +103,7 @@ namespace MoAndMe
             RunningSumAdapterData & operator=(const RunningSumAdapterData & other);
             
             /*! @brief The output channel for the adapter. */
-            MoAndMe::Common::AdapterChannel * _output;
+            Common::AdapterChannel * _output;
             
         }; // RunningSumDataInputHandler
         

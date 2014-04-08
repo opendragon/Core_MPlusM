@@ -71,12 +71,15 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief The Port class to be used for client connections. */
+# define CLIENT_PORT_CLASS_ yarp::os::Port
+
 namespace MoAndMe
 {
     namespace Common
     {
         /*! @brief A convenience class to provide distinct channels for responses from a service to a client. */
-        class ClientChannel : public yarp::os::Port
+        class ClientChannel : public CLIENT_PORT_CLASS_
         {
         public:
             
@@ -108,7 +111,7 @@ namespace MoAndMe
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Port inherited;
+            typedef CLIENT_PORT_CLASS_ inherited;
             
             /*! @brief Copy constructor.
              

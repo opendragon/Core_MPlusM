@@ -96,7 +96,7 @@ ResetRequestHandler::~ResetRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void ResetRequestHandler::fillInAliases(MoAndMe::Common::StringVector & alternateNames)
+void ResetRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -117,8 +117,8 @@ void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MAM_REQREP_DICT_VERSION_KEY, RESET_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Reset the running sum");
-        yarp::os::Value            keywords;
-        MoAndMe::Common::Package * asList = keywords.asList();
+        yarp::os::Value   keywords;
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -131,10 +131,10 @@ void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & reques
     OD_LOG_OBJEXIT();//####
 } // ResetRequestHandler::fillInDescription
 
-bool ResetRequestHandler::processRequest(const yarp::os::ConstString &    request,
-                                         const MoAndMe::Common::Package & restOfInput,
-                                         const yarp::os::ConstString &    senderChannel,
-                                         yarp::os::ConnectionWriter *     replyMechanism)
+bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                         const Common::Package &       restOfInput,
+                                         const yarp::os::ConstString & senderChannel,
+                                         yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(request,restOfInput)
@@ -150,7 +150,7 @@ bool ResetRequestHandler::processRequest(const yarp::os::ConstString &    reques
         _service.resetSum(senderChannel);
         if (replyMechanism)
         {
-            MoAndMe::Common::Package response(MAM_OK_RESPONSE);
+            Common::Package response(MAM_OK_RESPONSE);
             
             response.write(*replyMechanism);
         }

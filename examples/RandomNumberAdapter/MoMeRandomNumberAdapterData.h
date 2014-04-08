@@ -77,8 +77,8 @@ namespace MoAndMe
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
-            RandomNumberAdapterData(RandomNumberClient *              client,
-                                    MoAndMe::Common::AdapterChannel * output);
+            RandomNumberAdapterData(RandomNumberClient *     client,
+                                    Common::AdapterChannel * output);
             
             /*! @brief The destructor. */
             virtual ~RandomNumberAdapterData(void);
@@ -103,7 +103,7 @@ namespace MoAndMe
             RandomNumberAdapterData & operator=(const RandomNumberAdapterData & other);
             
             /*! @brief The output channel for the adapter. */
-            MoAndMe::Common::AdapterChannel * _output;
+            Common::AdapterChannel * _output;
             
         }; // RandomNumberDataInputHandler
         

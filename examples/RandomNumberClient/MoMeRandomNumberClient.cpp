@@ -100,8 +100,8 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
 
     try
     {
-        MoAndMe::Common::Package parameters;
-        Common::ServiceResponse  response;
+        Common::Package         parameters;
+        Common::ServiceResponse response;
         
         if (send(MAM_RANDOM_REQUEST, parameters, &response))
         {
@@ -139,8 +139,8 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
     return okSoFar;
 } // RandomNumberClient::getOneRandomNumber
 
-bool RandomNumberClient::getRandomNumbers(const int                       howMany,
-                                          MoAndMe::Common::DoubleVector & result)
+bool RandomNumberClient::getRandomNumbers(const int              howMany,
+                                          Common::DoubleVector & result)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_LL1("howMany = ", howMany);//####
@@ -151,8 +151,8 @@ bool RandomNumberClient::getRandomNumbers(const int                       howMan
     {
         if (0 < howMany)
         {
-            MoAndMe::Common::Package parameters;
-            Common::ServiceResponse  response;
+            Common::Package         parameters;
+            Common::ServiceResponse response;
             
             parameters.addInt(howMany);
             if (send(MAM_RANDOM_REQUEST, parameters, &response))

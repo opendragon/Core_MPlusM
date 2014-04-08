@@ -90,7 +90,8 @@ using namespace MoAndMe::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-ClientChannel::ClientChannel(void)
+ClientChannel::ClientChannel(void) :
+        inherited()
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
