@@ -145,7 +145,6 @@ static Endpoint * doCreateEndpointForTest(const int argc,
     return stuff;
 } // doCreateEndpointForTest
 
-#if 0
 /*! @brief Create a temporary channel for a test.
  @param destinationName The name of the channel to be connected to.
  @param channelPath The root path for the new temporary channel.
@@ -160,7 +159,7 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
     
     if (newChannel)
     {
-        if (newChannel->open(aName))
+        if (newChannel->openWithRetries(aName))
         {
             if (! NetworkConnectWithRetries(aName, destinationName))
             {
@@ -173,7 +172,7 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
         }
         else
         {
-            OD_LOG("! (newChannel->open(aName))");//####
+            OD_LOG("! (newChannel->openWithRetries(aName))");//####
         }
     }
     else
@@ -230,7 +229,6 @@ static void doDestroyTestChannel(Endpoint &      anEndpoint,
 {
     doDestroyTestChannel(anEndpoint.getName(), theChannel);
 } // doDestroyTestChannel
-#endif//0
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 01 ***
@@ -277,7 +275,6 @@ static int doTestCreateEndpoint(const int argc,
     return result;
 } // doTestCreateEndpoint
 
-#if 0
 #if defined(__APPLE__)
 # pragma mark *** Test Case 02 ***
 #endif // defined(__APPLE__)
@@ -309,7 +306,7 @@ static int doTestConnectToEndpoint(const int argc,
                 
                 if (outChannel)
                 {
-                    if (outChannel->open(aName))
+                    if (outChannel->openWithRetries(aName))
                     {
                         outChannel->getReport(reporter);
                         if (outChannel->addOutputWithRetries(stuff->getName()))
@@ -333,7 +330,7 @@ static int doTestConnectToEndpoint(const int argc,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->open(aName))");//####
+                        OD_LOG("! (outChannel->openWithRetries(aName))");//####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
                 }
@@ -394,26 +391,44 @@ static int doTestWriteToEndpoint(const int argc,
                 
                 if (outChannel)
                 {
-                    if (outChannel->open(aName))
+                    if (outChannel->openWithRetries(aName))
                     {
                         outChannel->getReport(reporter);
                         if (outChannel->addOutputWithRetries(stuff->getName()))
                         {
                             Package message;
+#if defined(MAM_CHANNELS_USE_RPC)
+                            Package response;
+#endif // defined(MAM_CHANNELS_USE_RPC)
                             
                             message.addString(aName);
                             message.addString("howdi");
-                            if (outChannel->write(message))
+                            OD_LOG_LL1("outChannel->getOutputCount = ", outChannel->getOutputCount());//####
+#if defined(MAM_CHANNELS_USE_RPC)
+                            if (outChannel->write(message, response))
                             {
                                 result = 0;
-#if defined(MAM_DO_EXPLICIT_DISCONNECT)
+# if defined(MAM_DO_EXPLICIT_DISCONNECT)
                                 if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName()))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                            "stuff->getName()))");//####
                                 }
-#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+# endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
                             }
+#else // ! defined(MAM_CHANNELS_USE_RPC)
+                            if (outChannel->write(message))
+                            {
+                                result = 0;
+# if defined(MAM_DO_EXPLICIT_DISCONNECT)
+                                if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName()))
+                                {
+                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
+                                           "stuff->getName()))");//####
+                                }
+# endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+                            }
+#endif // ! defined(MAM_CHANNELS_USE_RPC)
                             else
                             {
                                 OD_LOG("! (outChannel->write(message))");//####
@@ -429,7 +444,7 @@ static int doTestWriteToEndpoint(const int argc,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->open(aName))");//####
+                        OD_LOG("! (outChannel->openWithRetries(aName))");//####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
                 }
@@ -491,7 +506,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                 
                 if (outChannel)
                 {
-                    if (outChannel->open(aName))
+                    if (outChannel->openWithRetries(aName))
                     {
                         outChannel->getReport(reporter);
                         if (outChannel->addOutputWithRetries(stuff->getName()))
@@ -501,6 +516,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                             
                             message.addString(aName);
                             message.addString("howdi");
+                            OD_LOG_LL1("outChannel->getOutputCount = ", outChannel->getOutputCount());//####
                             if (outChannel->write(message, response))
                             {
 //                                OD_LOG_S1("got ", response.toString().c_str());//####
@@ -528,7 +544,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->open(aName))");//####
+                        OD_LOG("! (outChannel->openWithRetries(aName))");//####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
                 }
@@ -590,7 +606,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                 
                 if (outChannel)
                 {
-                    if (outChannel->open(aName))
+                    if (outChannel->openWithRetries(aName))
                     {
                         outChannel->getReport(reporter);
                         if (outChannel->addOutputWithRetries(stuff->getName()))
@@ -600,6 +616,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                             
                             message.addString(aName);
                             message.addString("howdi");
+                            OD_LOG_LL1("outChannel->getOutputCount = ", outChannel->getOutputCount());//####
                             if (outChannel->write(message, response))
                             {
 //                                OD_LOG_S1("got ", response.toString().c_str());//####
@@ -627,7 +644,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->open(aName))");//####
+                        OD_LOG("! (outChannel->openWithRetries(aName))");//####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
                 }
@@ -1218,7 +1235,6 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const int argc,
     OD_LOG_EXIT_L(result);//####
     return result;
 } // doTestRequestEchoFromServiceWithRequestHandlerAndInfo
-#endif//0
 
 /*! @brief The signal handler to catch requests to stop the service.
  @param signal The signal being handled. */
@@ -1270,7 +1286,6 @@ int main(int      argc,
                         result = doTestCreateEndpoint(argc - 1, argv + 2);
                         break;
 
-#if 0
                     case 2:
                         result = doTestConnectToEndpoint(argc - 1, argv + 2);
                         break;
@@ -1314,7 +1329,6 @@ int main(int      argc,
                     case 12:
                         result = doTestRequestEchoFromServiceWithRequestHandlerAndInfo(argc - 1, argv + 2);
                         break;
-#endif//0
 
                     default:
                         break;

@@ -102,9 +102,6 @@ namespace MoAndMe
              @param other Another object to construct from. */
             RunningSumAdapterData & operator=(const RunningSumAdapterData & other);
             
-            /*! @brief The output channel for the adapter. */
-            Common::AdapterChannel * _output;
-            
         }; // RunningSumDataInputHandler
         
     } // Example

@@ -80,9 +80,9 @@ char MatchConstraint::ConstraintSeparatorCharacter(void)
 } // MatchConstraint::ConstraintSeparatorCharacter
 
 MatchConstraint * MatchConstraint::CreateMatcher(const yarp::os::ConstString & inString,
-                                                 const int                     inLength,
-                                                 const int                     startPos,
-                                                 int &                         endPos,
+                                                 const size_t                  inLength,
+                                                 const size_t                  startPos,
+                                                 size_t &                      endPos,
                                                  BaseNameValidator *           validator)
 {
     OD_LOG_ENTER();//####
@@ -92,7 +92,7 @@ MatchConstraint * MatchConstraint::CreateMatcher(const yarp::os::ConstString & i
     
     try
     {
-        int workPos = SkipWhitespace(inString, inLength, startPos);
+        size_t workPos = SkipWhitespace(inString, inLength, startPos);
 
         if (workPos < inLength)
         {
@@ -104,7 +104,7 @@ MatchConstraint * MatchConstraint::CreateMatcher(const yarp::os::ConstString & i
             result = new MatchConstraint();
             for ( ; okSoFar && (! done); )
             {
-                int                    nextElementPos;
+                size_t                 nextElementPos;
                 MatchFieldWithValues * element = MatchFieldWithValues::CreateMatcher(inString, inLength, workPos,
                                                                                      nextElementPos, validator);
                 

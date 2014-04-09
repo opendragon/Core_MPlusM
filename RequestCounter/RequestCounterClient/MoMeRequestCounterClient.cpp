@@ -101,6 +101,7 @@ bool RequestCounterClient::detachFromService(void)
     {
         Common::Package parameters;
         
+        reconnectIfDisconnected();
         if (send(MAM_DETACH_REQUEST, parameters))
         {
             okSoFar = true;
@@ -131,6 +132,7 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
         Common::Package         parameters;
         Common::ServiceResponse response;
         
+        reconnectIfDisconnected();
         if (send(MAM_STATS_REQUEST, parameters, &response))
         {
             if (2 == response.count())
@@ -205,6 +207,7 @@ bool RequestCounterClient::resetServiceCounters(void)
     {
         Common::Package parameters;
         
+        reconnectIfDisconnected();
         if (send(MAM_RESET_REQUEST, parameters))
         {
             okSoFar = true;

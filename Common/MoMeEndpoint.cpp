@@ -105,11 +105,11 @@ static bool checkHostPort(int &                         realPort,
 
     try
     {
-        int portLength = portNumber.length();
+        size_t portLength = portNumber.length();
         
         if (0 < portLength)
         {
-            for (int ii = 0; result && (ii < portLength); ++ii)
+            for (size_t ii = 0; result && (ii < portLength); ++ii)
             {
                 result = isdigit(portNumber[ii]);
             }
@@ -151,7 +151,7 @@ static bool checkHostName(yarp::os::Contact &           workingContact,
         if (0 < hostName.length())
         {
             // Non-empty hostname - check it...
-            yarp::os::ConstString ipAddress(yarp::os::Contact::convertHostToIp(hostName));
+            yarp::os::ConstString ipAddress(yarp::os::Contact::convertHostToIp(hostName.c_str()));
             
             OD_LOG_S1("ipAddress = ", ipAddress.c_str());//####
             workingContact = workingContact.addSocket(SERVICE_CHANNEL_CARRIER_, ipAddress, portNumber);
@@ -186,14 +186,14 @@ bool Endpoint::CheckEndpointName(const yarp::os::ConstString & channelName)
 
     try
     {
-        int nameLength = channelName.length();
+        size_t nameLength = channelName.length();
         
         if (0 < nameLength)
         {
             char firstChar = channelName[0];
             
             result = ('/' == firstChar);
-            for (int ii = 1; result && (ii < nameLength); ++ii)
+            for (size_t ii = 1; result && (ii < nameLength); ++ii)
             {
                 result = isprint(channelName[ii]);
             }
@@ -347,7 +347,7 @@ bool Endpoint::open(void)
                 }
                 else if (_channel->openWithRetries(_contact.getName()))
                 {
-                    OD_LOG("(_channel->open(_contact.getName()))");//####
+                    OD_LOG("(_channel->openWithRetries(_contact.getName()))");//####
                     _isOpen = true;
 #if defined(REPORT_CONTACT_DETAILS)
                     DumpContact("after open", _channel->where());//####
@@ -489,10 +489,16 @@ bool Endpoint::setReporter(yarp::os::PortReport & reporter,
 
 bool Endpoint::setTimeout(const float timeout)
 {
+#if (defined(MAM_CHANNELS_USE_RPC) && (! defined(OD_ENABLE_LOGGING)))
+# pragma unused(timeout)
+#endif // defined(MAM_CHANNELS_USE_RPC) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_OBJENTER();//####
     OD_LOG_D1("timeout = ", timeout);//####
     bool result = false;
     
+#if defined(MAM_CHANNELS_USE_RPC)
+    result = true;
+#else // ! defined(MAM_CHANNELS_USE_RPC)
     try
     {
         if (_channel)
@@ -509,6 +515,7 @@ bool Endpoint::setTimeout(const float timeout)
         OD_LOG("Exception caught");//####
         throw;
     }
+#endif // ! defined(MAM_CHANNELS_USE_RPC)
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Endpoint::setTimeout

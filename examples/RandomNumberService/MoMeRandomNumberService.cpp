@@ -43,7 +43,7 @@
 #include "MoMeRandomNumberRequests.h"
 #include "MoMeRandomRequestHandler.h"
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)

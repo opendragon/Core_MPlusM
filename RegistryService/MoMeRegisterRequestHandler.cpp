@@ -188,19 +188,22 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                         
                         if (outChannel)
                         {
-                            if (outChannel->open(aName))
+                            if (outChannel->openWithRetries(aName))
                             {
                                 if (outChannel->addOutputWithRetries(argAsString))
                                 {
                                     Common::Package message1(MAM_NAME_REQUEST);
                                     Common::Package response;
                                     
+                                    OD_LOG_LL1("outChannel->getOutputCount = ", outChannel->getOutputCount());//####
                                     if (outChannel->write(message1, response))
                                     {
                                         if (processNameResponse(argAsString, response))
                                         {
                                             Common::Package message2(MAM_LIST_REQUEST);
                                             
+                                            OD_LOG_LL1("outChannel->getOutputCount = ",//####
+                                                       outChannel->getOutputCount());//####
                                             if (outChannel->write(message2, response))
                                             {
                                                 if (processListResponse(argAsString, response))
@@ -256,7 +259,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                             }
                             else
                             {
-                                OD_LOG("! (outChannel->open(aName))");//####
+                                OD_LOG("! (outChannel->openWithRetries(aName))");//####
                                 reply.addString(MAM_FAILED_RESPONSE);
                                 reply.addString("Channel could not be opened");
                             }

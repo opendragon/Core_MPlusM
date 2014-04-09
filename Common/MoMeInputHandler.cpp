@@ -109,8 +109,10 @@ bool InputHandler::read(yarp::os::ConnectionReader & connection)
 #endif // defined(REPORT_CONTACT_DETAILS)
             Package aPackage;
             
-            aPackage.read(connection);
-            result = handleInput(aPackage, connection.getRemoteContact().getName(), connection.getWriter());
+            if (aPackage.read(connection))
+            {
+                result = handleInput(aPackage, connection.getRemoteContact().getName(), connection.getWriter());
+            }
         }
         else
         {

@@ -194,7 +194,7 @@ bool BaseClient::connectToService(void)
         }
         if (_channel)
         {
-            if (_channel->open(_channelName))
+            if (_channel->openWithRetries(_channelName))
             {
                 if (NetworkConnectWithRetries(_channelName, _serviceChannelName))
                 {
@@ -207,7 +207,7 @@ bool BaseClient::connectToService(void)
             }
             else
             {
-                OD_LOG("! (_channel->open(_channelName))");//####
+                OD_LOG("! (_channel->openWithRetries(_channelName))");//####
             }
         }
         else
@@ -305,6 +305,27 @@ bool BaseClient::findService(const char * criteria,
     return result;
 } // BaseClient::findService
 
+void BaseClient::reconnectIfDisconnected(void)
+{
+    OD_LOG_OBJENTER();//####
+    if (_channel)
+    {
+        OD_LOG_LL1("_channel->getOutputCount = ", _channel->getOutputCount());//####
+        if (0 >= _channel->getOutputCount())
+        {
+            if (! connectToService())
+            {
+                OD_LOG("(! connectToService())");//####
+            }
+        }
+    }
+    else if (! connectToService())
+    {
+        OD_LOG("(! connectToService())");//####
+    }
+    OD_LOG_OBJEXIT();//####
+} // BaseClient::reconnectIfDisconnected
+
 bool BaseClient::send(const char *      request,
                       const Package &   parameters,
                       ServiceResponse * response)
@@ -367,7 +388,7 @@ Package Common::FindMatchingServices(const char * criteria)
         
         if (newChannel)
         {
-            if (newChannel->open(aName))
+            if (newChannel->openWithRetries(aName))
             {
                 if (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
                 {
@@ -404,7 +425,7 @@ Package Common::FindMatchingServices(const char * criteria)
             }
             else
             {
-                OD_LOG("! (newChannel->open(aName))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }

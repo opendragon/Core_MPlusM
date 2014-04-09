@@ -170,7 +170,7 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
                     yarp::os::ConstString argAsString(argument.toString());
                     
                     OD_LOG_S1("argAsString <- ", argAsString.c_str());//####
-                    int                       endPos;
+                    size_t                    endPos;
                     Parser::MatchExpression * matcher = Parser::MatchExpression::CreateMatcher(argAsString,
                                                                                                argAsString.length(), 0,
                                                                                                endPos, _validator);

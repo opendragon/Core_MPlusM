@@ -244,7 +244,7 @@ int main(int      argc,
                 channelNameRequest += "*";
                 requestName = NULL;
             }
-            MoAndMe::Common::Package matches(MoAndMe::Common::FindMatchingServices(channelNameRequest));
+            MoAndMe::Common::Package matches(MoAndMe::Common::FindMatchingServices(channelNameRequest.c_str()));
             
             if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
@@ -275,14 +275,14 @@ int main(int      argc,
                             
                             if (newChannel)
                             {
-                                if (newChannel->open(aName))
+                                if (newChannel->openWithRetries(aName))
                                 {
                                     bool                     sawRequestResponse = false;
                                     MoAndMe::Common::Package parameters;
                                     
                                     if (requestName)
                                     {
-                                        parameters = requestName;
+                                        parameters.addString(requestName);
                                     }
                                     for (int ii = 0; ii < matchesCount; ++ii)
                                     {
@@ -360,7 +360,7 @@ int main(int      argc,
                                 }
                                 else
                                 {
-                                    OD_LOG("! (newChannel->open(aName))");//####
+                                    OD_LOG("! (newChannel->openWithRetries(aName))");//####
                                 }
                                 delete newChannel;
                             }

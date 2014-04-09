@@ -41,9 +41,11 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeRandomNumberDataInputHandler.h"
+#include "MoMeAdapterChannel.h"
 #include "MoMeRandomNumberAdapterData.h"
+#include "MoMeRandomNumberClient.h"
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -98,6 +100,9 @@ bool RandomNumberDataInputHandler::handleInput(const Common::Package &       inp
                                                const yarp::os::ConstString & senderChannel,
                                                yarp::os::ConnectionWriter *  replyMechanism)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# pragma unused(senderChannel,replyMechanism)
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
@@ -107,9 +112,87 @@ bool RandomNumberDataInputHandler::handleInput(const Common::Package &       inp
     {
         if (0 < input.size())
         {
-#if 0
-            result = _service.processRequest(input.get(0).toString(), input.tail(), senderChannel, replyMechanism);
-#endif//0
+            Common::AdapterChannel * theOutput = _shared.getOutput();
+            RandomNumberClient *     theClient = (RandomNumberClient *) _shared.getClient();
+            
+            if (theClient && theOutput)
+            {
+                int             count;
+                yarp::os::Value argValue(input.get(0));
+                
+                if (argValue.isInt())
+                {
+                    count = argValue.asInt();
+                }
+                else if (argValue.isDouble())
+                {
+                    count = static_cast<int>(argValue.asDouble());
+                }
+                else
+                {
+                    count = 1;
+                }
+                if (0 >= count)
+                {
+                    count = 1;
+                }
+                if (1 < count)
+                {
+                    Common::DoubleVector randResult;
+                    
+                    if (theClient->getRandomNumbers(count, randResult))
+                    {
+                        Common::Package message;
+                        
+                        for (Common::DoubleVector::const_iterator it(randResult.cbegin()); randResult.cend() != it;
+                             ++it)
+                        {
+                            message.addDouble(*it);
+                        }
+                        _shared.lock();
+                        OD_LOG_LL1("theOutput->getOutputCount = ", theOutput->getOutputCount());//####
+                        if (theOutput->write(message))
+                        {
+                            result = true;
+                        }
+                        else
+                        {
+                            OD_LOG("! (theOutput->write(message))");//####
+                        }
+                        _shared.unlock();
+                    }
+                    else
+                    {
+                        OD_LOG("! (theClient->getRandomNumbers(count, randResult))");//####
+                    }
+                }
+                else
+                {
+                    double randResult;
+                    
+                    if (theClient->getOneRandomNumber(randResult))
+                    {
+                        Common::Package message;
+                        
+                        message.addDouble(randResult);
+                        _shared.lock();
+                        OD_LOG_LL1("theOutput->getOutputCount = ", theOutput->getOutputCount());//####
+                        if (theOutput->write(message))
+                        {
+                            result = true;
+                        }
+                        else
+                        {
+                            OD_LOG("! (theOutput->write(message))");//####
+                        }
+                        _shared.unlock();
+                    }
+                    else
+                    {
+                        OD_LOG("! (theClient->getOneRandomNumber(randResult))");//####
+                    }
+                }
+            }
         }
         else
         {

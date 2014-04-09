@@ -76,11 +76,11 @@ using namespace MoAndMe::Parser;
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-int BaseMatcher::SkipWhitespace(const yarp::os::ConstString & inString,
-                                const int                     inLength,
-                                const int                     startPos)
+size_t BaseMatcher::SkipWhitespace(const yarp::os::ConstString & inString,
+                                   const size_t                  inLength,
+                                   const size_t                  startPos)
 {
-    int result = startPos;
+    size_t result = startPos;
     
     try
     {

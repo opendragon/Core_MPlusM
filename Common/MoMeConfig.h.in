@@ -63,9 +63,13 @@
 /*! @brief The version number as a string. */
 # define MAM_VERSION "@MAM_VERSION_MAJOR@.@MAM_VERSION_MINOR@.@MAM_VERSION_PATCH@"
 
+#cmakedefine MAM_CHANNELS_USE_RPC /* Use RpcClient and RpcService objects for communication. */
+
 #cmakedefine MAM_DO_EXPLICIT_CLOSE /* Perform a CloseChannel() prior to freeing a dynamically-allocated channel. */
 
 #cmakedefine MAM_DO_EXPLICIT_DISCONNECT /* Perform a disconnect() prior to closing a channel. */
+
+#cmakedefine MAM_DONT_USE_TIMEOUTS /* Allow operations to take arbitrary lengths of time. */
 
 #cmakedefine MAM_LOG_INCLUDES_YARP_TRACE /* Enable YARP tracing. */
 

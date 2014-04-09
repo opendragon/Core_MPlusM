@@ -95,13 +95,24 @@ bool Test03Handler::handleInput(const MoAndMe::Common::Package & input,
                                 yarp::os::ConnectionWriter *     replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(input,senderChannel,replyMechanism)
+# pragma unused(input,senderChannel)
 #endif // ! defined(OD_ENABLE_LOGGING)
+#if ((! defined(MAM_CHANNELS_USE_RPC)) && (! defined(OD_ENABLE_LOGGING)))
+# pragma unused(replyMechanism)
+#endif // (! defined(MAM_CHANNELS_USE_RPC)) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
+#if defined(MAM_CHANNELS_USE_RPC)
+    if (replyMechanism)
+    {
+        MoAndMe::Common::Package dummy;
+        
+        dummy.write(*replyMechanism);
+    }
+#endif // defined(MAM_CHANNELS_USE_RPC)
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Test03Handler::handleInput

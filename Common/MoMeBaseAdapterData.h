@@ -77,6 +77,7 @@ namespace MoAndMe
 {
     namespace Common
     {
+        class AdapterChannel;
         class BaseClient;
         
         /*! @brief A handler for partially-structured input data. */
@@ -85,8 +86,10 @@ namespace MoAndMe
         public:
             
             /*! @brief The constructor.
-             @param client The client connection that is used to communicate with the service. */
-            BaseAdapterData(BaseClient * client);
+             @param client The client connection that is used to communicate with the service.
+             @param output The output channel that will receive the service responses. */
+            BaseAdapterData(BaseClient *     client,
+                            AdapterChannel * output);
             
             /*! @brief The destructor. */
             virtual ~BaseAdapterData(void);
@@ -95,25 +98,41 @@ namespace MoAndMe
              @returns @c true if the adapter was already active and @c false otherwise. */
             bool activate(void);
             
-            /*! @brief Mark the adapter as inactive.
-             @returns @c true if the adapter was active and @c false otherwise. */
-            bool deactivate(void);
-            
-            /*! @brief Return the adapter state. */
-            inline bool isActive(void)
-            const
-            {
-                return _active;
-            } // isActive
-            
-        protected:
-            
             /*! @brief Lock the data unless the lock would block.
              @returns @c true if the data was locked and @c false otherwise. */
             inline bool conditionallyLock(void)
             {
                 return _lock.check();
             } // conditionallyLock
+            
+            /*! @brief Mark the adapter as inactive.
+             @returns @c true if the adapter was active and @c false otherwise. */
+            bool deactivate(void);
+            
+            /*! @brief Return the client.
+             @returns The client. */
+            inline BaseClient * getClient(void)
+            const
+            {
+                return _client;
+            } // getClient
+            
+            /*! @brief Return the output channel.
+             @returns The output channel. */
+            inline AdapterChannel * getOutput(void)
+            const
+            {
+                return _output;
+            } // getOutput
+            
+            /*! @brief Return the adapter state.
+             @returns @c true if the adapter is active and @c false otherwise. */
+            inline bool isActive(void)
+            const
+            {
+                return _active;
+            } // isActive
+            
             
             /*! @brief Lock the data. */
             inline void lock(void)
@@ -127,6 +146,8 @@ namespace MoAndMe
                 _lock.post();
             } // unlock
             
+        protected:
+
         private:
             
             /*! @brief Copy constructor.
@@ -146,6 +167,9 @@ namespace MoAndMe
             
             /*! @brief The connection to the service. */
             BaseClient *        _client;
+            
+            /*! @brief The output channel for the adapter. */
+            AdapterChannel *    _output;
             
             /*! @brief @c true if the adapter is active and @c false otherwise. */
             bool                _active;

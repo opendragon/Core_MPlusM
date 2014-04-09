@@ -75,10 +75,12 @@ using namespace MoAndMe::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-BaseAdapterData::BaseAdapterData(BaseClient * client) :
-        _lock(), _client(client), _active(false)
+BaseAdapterData::BaseAdapterData(BaseClient *     client,
+                                 AdapterChannel * output) :
+        _lock(), _client(client), _output(output), _active(false)
 {
     OD_LOG_ENTER();//####
+    OD_LOG_P2("client = ", client, "output = ", output);//####
     OD_LOG_EXIT_P(this);//####
 } // BaseAdapterData::BaseAdapterData
 

@@ -55,6 +55,9 @@
 #  pragma clang diagnostic ignored "-Wunused-parameter"
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
+# if defined(MAM_CHANNELS_USE_RPC)
+#  include <yarp/os/RpcServer.h>
+# endif // defined(MAM_CHANNELS_USE_RPC)
 # include <yarp/os/Port.h>
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
@@ -72,7 +75,11 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The Port class to be used for service connections. */
-# define SERVICE_PORT_CLASS_ yarp::os::Port
+# if defined(MAM_CHANNELS_USE_RPC)
+#  define SERVICE_PORT_CLASS_ yarp::os::RpcServer
+# else // ! defined(MAM_CHANNELS_USE_RPC)
+#  define SERVICE_PORT_CLASS_ yarp::os::Port
+# endif // ! defined(MAM_CHANNELS_USE_RPC)
 
 namespace MoAndMe
 {

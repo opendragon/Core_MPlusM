@@ -80,9 +80,9 @@ namespace MoAndMe
              @param startPos Where in the string to begin scanning.
              @returns The position in the string where the next non-whitespace character appears, or the length of the
              string - which is past the end of the string - if the remainder of the string is whitespace. */
-            static int SkipWhitespace(const yarp::os::ConstString & inString,
-                                      const int                     inLength,
-                                      const int                     startPos);
+            static size_t SkipWhitespace(const yarp::os::ConstString & inString,
+                                         const size_t                  inLength,
+                                         const size_t                  startPos);
             
         private:
             

@@ -106,18 +106,18 @@ static void processResponse(const yarp::os::ConstString &   received,
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("received = ", received.c_str());//####
-    int                   lineMakerLength = static_cast<int>(strlen(kLineMarker));
+    size_t                lineMakerLength = strlen(kLineMarker);
     yarp::os::ConstString nameServerName(yarp::os::Network::getNameServerName());
     yarp::os::ConstString workingCopy(received);
 
     OD_LOG_S1("nameServerName = ", nameServerName.c_str());//####
-    for (int nextPos = 0; yarp::os::ConstString::npos != nextPos; )
+    for (size_t nextPos = 0; yarp::os::ConstString::npos != nextPos; )
     {
         nextPos = workingCopy.find(kLineMarker);
         if (yarp::os::ConstString::npos != nextPos)
         {
             workingCopy = workingCopy.substr(nextPos + lineMakerLength);
-            int endPos = workingCopy.find(" ");
+            size_t endPos = workingCopy.find(" ");
             
             if (yarp::os::ConstString::npos == endPos)
             {
@@ -259,12 +259,14 @@ static void reportConnections(const std::string & portName)
     {
         if ((address.getCarrier() == "tcp") || (address.getCarrier() == "xmlrpc"))
         {
-            yarp::os::impl::Address          fromAddress(yarp::os::impl::Address::fromContact(address));
-            yarp::os::impl::OutputProtocol * out = yarp::os::impl::Carriers::connect(fromAddress);
+//            yarp::os::impl::Address          fromAddress(yarp::os::impl::Address::fromContact(address));
+//            yarp::os::impl::OutputProtocol * out = yarp::os::impl::Carriers::connect(fromAddress);
+            yarp::os::OutputProtocol * out = yarp::os::impl::Carriers::connect(address);
             
             if (out)
             {
-                yarp::os::impl::Route rr(kMagicName, portName.c_str(), "text_ack");
+//                yarp::os::impl::Route rr(kMagicName, portName.c_str(), "text_ack");
+                yarp::os::Route rr(kMagicName, portName.c_str(), "text_ack");
                 
                 if (out->open(rr))
                 {
@@ -306,9 +308,25 @@ static void reportConnections(const std::string & portName)
                         cout << "   No active connections." << endl;
                     }
                 }
+                else
+                {
+                    cout << "   Could not open route to port." << endl;
+                }
                 delete out;
             }
+            else
+            {
+                cout << "   Could not connect to port." << endl;
+            }
         }
+        else
+        {
+            cout << "   Port not using recognized connection type." << endl;
+        }
+    }
+    else
+    {
+        cout << "   Port name not recognized." << endl;
     }
     OD_LOG_EXIT();//####
 } // reportConnections
@@ -329,14 +347,23 @@ static void reportPortStatus(const std::string & portName,
         MoAndMe::Common::Package matches(MoAndMe::Common::FindMatchingServices(request.c_str()));
         
         OD_LOG_S1("matches <- ", matches.toString().c_str());//####
-        
         if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
         {
             yarp::os::ConstString matchesFirstString(matches.get(0).toString());
             
             if (! strcmp(MAM_OK_RESPONSE, matchesFirstString.c_str()))
             {
-                cout << "   A service port." << endl;
+                yarp::os::Value secondValue(matches.get(1));
+                
+                if (secondValue.isList())
+                {
+                    MoAndMe::Common::Package * secondList = secondValue.asList();
+                    
+                    if (secondList && secondList->size())
+                    {
+                        cout << "   A service port." << endl;
+                    }
+                }
             }
         }
     }
@@ -367,13 +394,18 @@ int main(int      argc,
     {
         if (yarp::os::Network::checkNetwork())
         {
-            yarp::os::Network              yarp; // This is necessary to establish any connection to the YARP
-                                                 // infrastructure
-            MoAndMe::Common::Package       request;
-            MoAndMe::Common::Package       response;
-            yarp::os::ContactStyle         contactInfo;
-            MoAndMe::Common::StringVector  ports;
+            yarp::os::Network             yarp; // This is necessary to establish any connection to the YARP
+                                                // infrastructure
+            MoAndMe::Common::Package      request;
+            MoAndMe::Common::Package      response;
+            yarp::os::ContactStyle        contactInfo;
+            MoAndMe::Common::StringVector ports;
             
+#if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+            yarp::os::Network::setVerbosity(1);
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+            yarp::os::Network::setVerbosity(-1);
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
             request.addString("list");
             contactInfo.timeout = 5.0;
             if (yarp::os::Network::writeToNameServer(request, response, contactInfo))

@@ -102,9 +102,9 @@ namespace MoAndMe
              @param endPos Where the scan terminated, if successful.
              @returns A non-null matcher if the string would be a valid value and @c NULL otherwise. */
             static MatchValue * CreateMatcher(const yarp::os::ConstString & inString,
-                                              const int                     inLength,
-                                              const int                     startPos,
-                                              int &                         endPos);
+                                              const size_t                  inLength,
+                                              const size_t                  startPos,
+                                              size_t &                      endPos);
             
         protected:
             

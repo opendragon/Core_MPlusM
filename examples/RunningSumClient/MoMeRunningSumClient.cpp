@@ -121,6 +121,7 @@ bool RunningSumClient::addToSum(const double value,
         Common::ServiceResponse response;
         
         parameters.addDouble(value);
+        reconnectIfDisconnected();
         if (send(MAM_ADD_REQUEST, parameters, &response))
         {
             if (1 == response.count())
@@ -180,6 +181,7 @@ bool RunningSumClient::addToSum(const Common::DoubleVector & values,
         }
         if (1 <= parameters.size())
         {
+            reconnectIfDisconnected();
             if (send(MAM_ADD_REQUEST, parameters, &response))
             {
                 if (1 == response.count())
@@ -235,6 +237,7 @@ bool RunningSumClient::resetSum(void)
     {
         Common::Package parameters;
         
+        reconnectIfDisconnected();
         if (send(MAM_RESET_REQUEST, parameters))
         {
             okSoFar = true;
@@ -262,6 +265,7 @@ bool RunningSumClient::startSum(void)
     {
         Common::Package parameters;
         
+        reconnectIfDisconnected();
         if (send(MAM_START_REQUEST, parameters))
         {
             okSoFar = true;
@@ -289,6 +293,7 @@ bool RunningSumClient::stopSum(void)
     {
         Common::Package parameters;
         
+        reconnectIfDisconnected();
         if (send(MAM_STOP_REQUEST, parameters))
         {
             okSoFar = true;

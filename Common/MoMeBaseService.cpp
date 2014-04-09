@@ -603,7 +603,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
         
         if (newChannel)
         {
-            if (newChannel->open(aName))
+            if (newChannel->openWithRetries(aName))
             {
                 if (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
                 {
@@ -635,7 +635,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
                     }
                     else
                     {
-                        OD_LOG("! (request.send(MAM_SERVICE_REGISTRY_CHANNEL_NAME, *newChannel, &response))");//####
+                        OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
 #if defined(MAM_DO_EXPLICIT_DISCONNECT)
                     if (! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
@@ -654,7 +654,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
             }
             else
             {
-                OD_LOG("! (newChannel->open(aName))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }
@@ -685,7 +685,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
         
         if (newChannel)
         {
-            if (newChannel->open(aName))
+            if (newChannel->openWithRetries(aName))
             {
                 if (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
                 {
@@ -736,7 +736,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
             }
             else
             {
-                OD_LOG("! (newChannel->open(aName))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }

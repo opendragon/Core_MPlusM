@@ -108,8 +108,8 @@ static int doTestParseValue(const bool   expected,
     
     try
     {
-        int                           endPos;
-        int                           len = static_cast<int>(strlen(inString));
+        size_t                        endPos;
+        size_t                        len = strlen(inString);
         MoAndMe::Parser::MatchValue * didMatch = MoAndMe::Parser::MatchValue::CreateMatcher(inString, len, 0, endPos);
         
         if ((NULL != didMatch) == expected)
@@ -155,8 +155,8 @@ static int doTestParseValueList(const bool   expected,
     
     try
     {
-        int                               endPos;
-        int                               len = static_cast<int>(strlen(inString));
+        size_t                            endPos;
+        size_t                            len = strlen(inString);
         MoAndMe::Parser::MatchValueList * didMatch = MoAndMe::Parser::MatchValueList::CreateMatcher(inString, len, 0,
                                                                                                     endPos);
 
@@ -203,8 +203,8 @@ static int doTestParseFieldName(const bool   expected,
     
     try
     {
-        int                               endPos;
-        int                               len = static_cast<int>(strlen(inString));
+        size_t                            endPos;
+        size_t                            len = strlen(inString);
         TestNameValidator *               validator = new TestNameValidator;
         MoAndMe::Parser::MatchFieldName * didMatch = MoAndMe::Parser::MatchFieldName::CreateMatcher(inString, len, 0,
                                                                                                     endPos, validator);
@@ -253,8 +253,8 @@ static int doTestParseFieldWithValues(const bool   expected,
     
     try
     {
-        int                                     endPos;
-        int                                     len = static_cast<int>(strlen(inString));
+        size_t                                  endPos;
+        size_t                                  len = strlen(inString);
         TestNameValidator *                     validator = new TestNameValidator;
         MoAndMe::Parser::MatchFieldWithValues * didMatch =
                                                     MoAndMe::Parser::MatchFieldWithValues::CreateMatcher(inString, len,
@@ -305,8 +305,8 @@ static int doTestParseConstraintList(const bool   expected,
     
     try
     {
-        int                                endPos;
-        int                                len = static_cast<int>(strlen(inString));
+        size_t                             endPos;
+        size_t                             len = strlen(inString);
         TestNameValidator *                validator = new TestNameValidator;
         MoAndMe::Parser::MatchConstraint * didMatch = MoAndMe::Parser::MatchConstraint::CreateMatcher(inString, len, 0,
                                                                                                       endPos, validator);
@@ -355,8 +355,8 @@ static int doTestParseExpression(const bool   expected,
     
     try
     {
-        int                                endPos;
-        int                                len = static_cast<int>(strlen(inString));
+        size_t                             endPos;
+        size_t                             len = strlen(inString);
         TestNameValidator *                validator = new TestNameValidator;
         MoAndMe::Parser::MatchExpression * didMatch = MoAndMe::Parser::MatchExpression::CreateMatcher(inString, len, 0,
                                                                                                       endPos,

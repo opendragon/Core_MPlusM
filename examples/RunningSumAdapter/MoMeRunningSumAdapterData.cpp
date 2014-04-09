@@ -43,7 +43,7 @@
 #include "MoMeRunningSumAdapterData.h"
 #include "MoMeRunningSumClient.h"
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -78,9 +78,10 @@ using namespace MoAndMe::Example;
 
 RunningSumAdapterData::RunningSumAdapterData(RunningSumClient *       client,
                                              Common::AdapterChannel * output) :
-        inherited(client), _output(output)
+        inherited(client, output)
 {
     OD_LOG_ENTER();//####
+    OD_LOG_P2("client = ", client, "output = ", output);//####
     OD_LOG_EXIT_P(this);//####
 } // RunningSumAdapterData::RunningSumAdapterData
 

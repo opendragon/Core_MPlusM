@@ -43,7 +43,7 @@
 #include "MoMeRandomNumberRequests.h"
 #include "MoMeServiceResponse.h"
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -103,6 +103,7 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
         Common::Package         parameters;
         Common::ServiceResponse response;
         
+        reconnectIfDisconnected();
         if (send(MAM_RANDOM_REQUEST, parameters, &response))
         {
             if (1 == response.count())
@@ -155,6 +156,7 @@ bool RandomNumberClient::getRandomNumbers(const int              howMany,
             Common::ServiceResponse response;
             
             parameters.addInt(howMany);
+            reconnectIfDisconnected();
             if (send(MAM_RANDOM_REQUEST, parameters, &response))
             {
                 if (howMany == response.count())

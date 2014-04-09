@@ -42,8 +42,10 @@
 
 #include "MoMeRunningSumControlInputHandler.h"
 #include "MoMeRunningSumAdapterData.h"
+#include "MoMeRunningSumClient.h"
+#include "MoMeRunningSumRequests.h"
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -107,9 +109,59 @@ bool RunningSumControlInputHandler::handleInput(const Common::Package &       in
     {
         if (0 < input.size())
         {
-#if 0
-            result = _service.processRequest(input.get(0).toString(), input.tail(), senderChannel, replyMechanism);
-#endif//0
+            Common::AdapterChannel * theOutput = _shared.getOutput();
+            RunningSumClient *       theClient = (RunningSumClient *) _shared.getClient();
+            
+            if (theClient && theOutput)
+            {
+                yarp::os::Value argValue(input.get(0));
+                
+                if (argValue.isString())
+                {
+                    yarp::os::ConstString argString(argValue.asString());
+                    
+                    if (argString == MAM_RESET_REQUEST)
+                    {
+                        _shared.lock();
+                        if (theClient->resetSum())
+                        {
+                            
+                        }
+                        else
+                        {
+                            OD_LOG("! (theClient->resetSum())");//####
+                        }
+                        _shared.unlock();
+                    }
+                    else if (argString == MAM_START_REQUEST)
+                    {
+                        _shared.lock();
+                        if (theClient->startSum())
+                        {
+                            
+                        }
+                        else
+                        {
+                            OD_LOG("! (theClient->startSum())");//####
+                        }
+                        _shared.unlock();
+                    }
+                    else if (argString == MAM_STOP_REQUEST)
+                    {
+                        _shared.lock();
+                        if (theClient->stopSum())
+                        {
+                            
+                        }
+                        else
+                        {
+                            OD_LOG("! (theClient->startSum())");//####
+                        }
+                        _shared.deactivate();
+                        _shared.unlock();
+                    }
+                }
+            }
         }
         else
         {

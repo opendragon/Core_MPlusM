@@ -90,9 +90,9 @@ static const char kUnderscore = '_';
 #endif // defined(__APPLE__)
 
 MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
-                                       const int                     inLength,
-                                       const int                     startPos,
-                                       int &                         endPos)
+                                       const size_t                  inLength,
+                                       const size_t                  startPos,
+                                       size_t &                      endPos)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("inString = ", inString.c_str());//####
@@ -101,7 +101,7 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
     
     try
     {
-        int workPos = SkipWhitespace(inString, inLength, startPos);
+        size_t workPos = SkipWhitespace(inString, inLength, startPos);
 
         if (workPos < inLength)
         {
@@ -115,7 +115,7 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
             const char            listSeparator = MatchValueList::ListSeparatorCharacter();
             const char            listTerminator = MatchValueList::ListTerminatorCharacter();
             yarp::os::ConstString assembled;
-            int                   startSubPos = workPos;
+            size_t                startSubPos = workPos;
             
             // If we have a quote character, scan for the matching character. If we have an illegal starting character,
             // reject the string.
@@ -230,7 +230,7 @@ MatchValue::MatchValue(const yarp::os::ConstString & inString) :
     bool escapeNextChar = false;
     
     // Mark if the string will need escaping or has unescaped wildcards.
-    for (int ii = 0, len = inString.length(); ii < len; ++ii)
+    for (size_t ii = 0, len = inString.length(); ii < len; ++ii)
     {
         char walker = inString[ii];
         
@@ -294,7 +294,7 @@ const
             OD_LOG("(_hasWildcards || _needsEscaping)");//####
             bool wasEscaped = false;
             
-            for (int ii = 0, len = _matchingString.length(); ii < len; ++ii)
+            for (size_t ii = 0, len = _matchingString.length(); ii < len; ++ii)
             {
                 char walker = _matchingString[ii];
                 
@@ -372,13 +372,13 @@ const
 
     try
     {
-        bool sawDoubleQuote = false;
-        bool sawSingleQuote = false;
-        bool sawWhitespace = false;
-        int  len = _matchingString.length();
+        bool   sawDoubleQuote = false;
+        bool   sawSingleQuote = false;
+        bool   sawWhitespace = false;
+        size_t len = _matchingString.length();
         
         // First, check if there are blanks or quotes in the string:
-        for (int ii = 0; ii < len; ++ii)
+        for (size_t ii = 0; ii < len; ++ii)
         {
             char walker = _matchingString[ii];
             
@@ -401,7 +401,7 @@ const
             {
                 // If both quotes are present, use double quotes and escape any double quotes that we find.
                 converted += kDoubleQuote;
-                for (int ii = 0; ii < len; ++ii)
+                for (size_t ii = 0; ii < len; ++ii)
                 {
                     char walker = _matchingString[ii];
                     

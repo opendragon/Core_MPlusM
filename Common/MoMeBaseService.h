@@ -147,6 +147,7 @@ namespace MoAndMe
                 return _started;
             } // isStarted
             
+            void performMainLoop(void);
             /*! @brief Process partially-structured input data.
              @param request The requested operation.
              @param restOfInput The arguments for the operation.

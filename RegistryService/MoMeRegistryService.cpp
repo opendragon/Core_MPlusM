@@ -1323,7 +1323,7 @@ bool RegistryService::start(void)
                 
                 if (newChannel)
                 {
-                    if (newChannel->open(aName))
+                    if (newChannel->openWithRetries(aName))
                     {
                         if (Common::NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
                         {
@@ -1371,7 +1371,7 @@ bool RegistryService::start(void)
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->open(aName))");//####
+                        OD_LOG("! (newChannel->openWithRetries(aName))");//####
                     }
                     Common::ClientChannel::RelinquishChannel(newChannel);
                 }

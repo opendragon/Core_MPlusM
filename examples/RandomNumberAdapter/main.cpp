@@ -44,7 +44,7 @@
 #include "MoMeRandomNumberClient.h"
 #include "MoMeRandomNumberDataInputHandler.h"
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <iostream>
@@ -134,7 +134,7 @@ int main(int      argc,
             {
                 lKeepRunning = true;
                 MoAndMe::Common::SetSignalHandlers(stopRunning);
-                if (stuff->findService("Name RandomNumber"))
+                if (stuff->findService("keyword random"))
                 {
                     if (stuff->connectToService())
                     {

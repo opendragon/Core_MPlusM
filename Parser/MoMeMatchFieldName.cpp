@@ -79,9 +79,9 @@ static const char kColon = ':';
 #endif // defined(__APPLE__)
 
 MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inString,
-                                               const int                     inLength,
-                                               const int                     startPos,
-                                               int &                         endPos,
+                                               const size_t                  inLength,
+                                               const size_t                  startPos,
+                                               size_t &                      endPos,
                                                BaseNameValidator *           validator)
 {
     OD_LOG_ENTER();//####
@@ -91,14 +91,14 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
     
     try
     {
-        int workPos = SkipWhitespace(inString, inLength, startPos);
+        size_t workPos = SkipWhitespace(inString, inLength, startPos);
 
         if (workPos < inLength)
         {
             // Remember where we began.
-            char listStart = MatchValueList::ListInitiatorCharacter();
-            char scanChar = inString[workPos];
-            int  startSubPos = workPos;
+            char   listStart = MatchValueList::ListInitiatorCharacter();
+            char   scanChar = inString[workPos];
+            size_t startSubPos = workPos;
             
             for (++workPos; workPos < inLength; ++workPos)
             {

@@ -124,7 +124,7 @@
 /*! @brief The retry interval multiplier. */
 # define RETRY_MULTIPLIER       1.2
 /*! @brief The maximum number of retries before declaring failure. */
-# define MAX_RETRIES            5
+# define MAX_RETRIES            10
 
 /*! @brief A simple macro to hold the pieces of a string together. */
 # define T_(xx) xx

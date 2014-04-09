@@ -107,7 +107,7 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & servic
     
     if (newChannel)
     {
-        if (newChannel->open(aName))
+        if (newChannel->openWithRetries(aName))
         {
             if (MoAndMe::Common::NetworkConnectWithRetries(aName, serviceChannelName))
             {
@@ -163,7 +163,7 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & servic
         }
         else
         {
-            OD_LOG("! (newChannel->open(aName))");//####
+            OD_LOG("! (newChannel->openWithRetries(aName))");//####
         }
         delete newChannel;
     }

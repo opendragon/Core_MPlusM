@@ -94,6 +94,9 @@ namespace MoAndMe
             
         protected:
             
+            /*! @brief Re-establish the service connection if it has dropped. */
+            void reconnectIfDisconnected(void);
+
             /*! @brief Send a request to the service associated with the client.
              @param request The name of the request.
              @param parameters The required parameters for the request.

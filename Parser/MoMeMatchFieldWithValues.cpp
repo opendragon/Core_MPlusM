@@ -74,9 +74,9 @@ using namespace MoAndMe::Parser;
 #endif // defined(__APPLE__)
 
 MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const yarp::os::ConstString & inString,
-                                                           const int                     inLength,
-                                                           const int                     startPos,
-                                                           int &                         endPos,
+                                                           const size_t                  inLength,
+                                                           const size_t                  startPos,
+                                                           size_t &                      endPos,
                                                            BaseNameValidator *           validator)
 {
     OD_LOG_ENTER();//####
@@ -86,7 +86,7 @@ MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const yarp::os::Const
 
     try
     {
-        int              workPos = startPos;
+        size_t           workPos = startPos;
         MatchFieldName * fieldName = MatchFieldName::CreateMatcher(inString, inLength, startPos, workPos, validator);
         
         if (fieldName)
@@ -94,7 +94,7 @@ MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const yarp::os::Const
             workPos = SkipWhitespace(inString, inLength, workPos);
             if (workPos < inLength)
             {
-                int nextPos;
+                size_t nextPos;
                 
                 if (MatchValueList::ListInitiatorCharacter() == inString[workPos])
                 {

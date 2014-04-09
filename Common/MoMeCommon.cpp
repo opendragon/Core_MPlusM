@@ -250,17 +250,41 @@ bool MoAndMe::Common::NetworkConnectWithRetries(const yarp::os::ConstString & so
     OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
+#if (! defined(MAM_DONT_USE_TIMEOUTS))
     int    retriesLeft = MAX_RETRIES;
+#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
     
     SetUpCatcher();
     try
     {
+#if defined(MAM_DONT_USE_TIMEOUTS)
+        do
+        {
+            OD_LOG("about to connect");//####
+# if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+            result = yarp::os::Network::connect(sourceName, destinationName, yarp::os::ConstString(""), false);
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+            result = yarp::os::Network::connect(sourceName, destinationName, yarp::os::ConstString(""), true);
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+            if (! result)
+            {
+                OD_LOG("%%retry%%");//####
+                yarp::os::Time::delay(retryTime);
+                retryTime *= RETRY_MULTIPLIER;
+            }
+        }
+        while (! result);
+#else // ! defined(MAM_DONT_USE_TIMEOUTS)
         do
         {
             BailOut bailer;
             
             OD_LOG("about to connect");//####
-            result = yarp::os::Network::connect(sourceName, destinationName);
+# if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+            result = yarp::os::Network::connect(sourceName, destinationName, yarp::os::ConstString(""), false);
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+            result = yarp::os::Network::connect(sourceName, destinationName, yarp::os::ConstString(""), true);
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
             if (! result)
             {
                 if (0 < --retriesLeft)
@@ -272,6 +296,7 @@ bool MoAndMe::Common::NetworkConnectWithRetries(const yarp::os::ConstString & so
             }
         }
         while ((! result) && (0 < retriesLeft));
+#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
     }
     catch (...)
     {
@@ -290,17 +315,41 @@ bool MoAndMe::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString &
     OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
+#if (! defined(MAM_DONT_USE_TIMEOUTS))
     int    retriesLeft = MAX_RETRIES;
+#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
     
     SetUpCatcher();
     try
     {
+#if defined(MAM_DONT_USE_TIMEOUTS)
+        do
+        {
+            OD_LOG("about to disconnect");//####
+# if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+            result = yarp::os::Network::disconnect(sourceName, destinationName, false);
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+            result = yarp::os::Network::disconnect(sourceName, destinationName, true);
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+            if (! result)
+            {
+                OD_LOG("%%retry%%");//####
+                yarp::os::Time::delay(retryTime);
+                retryTime *= RETRY_MULTIPLIER;
+            }
+        }
+        while (! result);
+#else // ! defined(MAM_DONT_USE_TIMEOUTS)
         do
         {
             BailOut bailer;
             
             OD_LOG("about to disconnect");//####
-            result = yarp::os::Network::disconnect(sourceName, destinationName);
+# if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+            result = yarp::os::Network::disconnect(sourceName, destinationName, false);
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+            result = yarp::os::Network::disconnect(sourceName, destinationName, true);
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
             if (! result)
             {
                 if (0 < --retriesLeft)
@@ -312,6 +361,7 @@ bool MoAndMe::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString &
             }
         }
         while ((! result) && (0 < retriesLeft));
+#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
     }
     catch (...)
     {

@@ -91,6 +91,14 @@ using namespace MoAndMe::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
+ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName) :
+        _name(requestName), _holder(), _parameters()
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("requestName = ", requestName.c_str());//####
+    OD_LOG_EXIT_P(this);//####
+} // ServiceRequest::ServiceRequest
+
 ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName,
                                const Package &               parameters) :
         _name(requestName), _holder(), _parameters(parameters)
@@ -135,12 +143,12 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
         message.addString(_name);
         message.append(_parameters);
         OD_LOG_S1("message <- ", message.toString().c_str());//####
+        OD_LOG_LL1("usingChannel.getOutputCount = ", usingChannel.getOutputCount());//####
         if (response)
         {
             _holder.clear();
             if (usingChannel.write(message, _holder))
             {
-                OD_LOG("(usingChannel.write(message, _holder))");//####
                 OD_LOG_S1("got ", _holder.toString().c_str());//####
                 *response = _holder;
                 result = true;
@@ -150,13 +158,28 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
                 OD_LOG("! (usingChannel.write(message, _holder))");//####
             }
         }
-        else if (usingChannel.write(message))
-        {
-            result = true;
-        }
         else
         {
-            OD_LOG("(! usingChannel.write(message))");//####
+#if defined(MAM_CHANNELS_USE_RPC)
+            _holder.clear();
+            if (usingChannel.write(message, _holder))
+            {
+                result = true;
+            }
+            else
+            {
+                OD_LOG("(! usingChannel.write(message))");//####
+            }
+#else // ! defined(MAM_CHANNELS_USE_RPC)
+            if (usingChannel.write(message))
+            {
+                result = true;
+            }
+            else
+            {
+                OD_LOG("(! usingChannel.write(message))");//####
+            }
+#endif // ! defined(MAM_CHANNELS_USE_RPC)
         }
     }
     catch (...)

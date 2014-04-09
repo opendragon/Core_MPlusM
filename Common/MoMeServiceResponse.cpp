@@ -73,6 +73,13 @@ using namespace MoAndMe::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
+ServiceResponse::ServiceResponse(void) :
+        _values()
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
+} // ServiceResponse::ServiceResponse
+
 ServiceResponse::ServiceResponse(const Package & values) :
         _values(values)
 {

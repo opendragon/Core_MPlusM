@@ -80,9 +80,9 @@ static const char kRoundOpenBracket = '(';
 #endif // defined(__APPLE__)
 
 MatchValueList * MatchValueList::CreateMatcher(const yarp::os::ConstString & inString,
-                                               const int                     inLength,
-                                               const int                     startPos,
-                                               int &                         endPos)
+                                               const size_t                  inLength,
+                                               const size_t                  startPos,
+                                               size_t &                      endPos)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("inString = ", inString.c_str());//####
@@ -91,7 +91,7 @@ MatchValueList * MatchValueList::CreateMatcher(const yarp::os::ConstString & inS
     
     try
     {
-        int workPos = SkipWhitespace(inString, inLength, startPos);
+        size_t workPos = SkipWhitespace(inString, inLength, startPos);
 
         if (workPos < inLength)
         {
@@ -104,7 +104,7 @@ MatchValueList * MatchValueList::CreateMatcher(const yarp::os::ConstString & inS
                 result = new MatchValueList();
                 for (++workPos; okSoFar && (! done); )
                 {
-                    int          nextElementPos;
+                    size_t       nextElementPos;
                     MatchValue * element = MatchValue::CreateMatcher(inString, inLength, workPos, nextElementPos);
                     
                     if (element)

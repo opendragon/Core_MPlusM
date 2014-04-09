@@ -102,9 +102,6 @@ namespace MoAndMe
              @param other Another object to construct from. */
             RandomNumberAdapterData & operator=(const RandomNumberAdapterData & other);
             
-            /*! @brief The output channel for the adapter. */
-            Common::AdapterChannel * _output;
-            
         }; // RandomNumberDataInputHandler
         
     } // Example

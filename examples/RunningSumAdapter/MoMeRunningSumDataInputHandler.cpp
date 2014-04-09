@@ -41,9 +41,12 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeRunningSumDataInputHandler.h"
+#include "MoMeAdapterChannel.h"
 #include "MoMeRunningSumAdapterData.h"
+#include "MoMeRunningSumClient.h"
+#include "MoMeRunningSumRequests.h"
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -105,11 +108,113 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
     
     try
     {
-        if (0 < input.size())
+        int howMany = input.size();
+        
+        if (0 < howMany)
         {
-#if 0
-            result = _service.processRequest(input.get(0).toString(), input.tail(), senderChannel, replyMechanism);
-#endif//0
+            Common::AdapterChannel * theOutput = _shared.getOutput();
+            RunningSumClient *       theClient = (RunningSumClient *) _shared.getClient();
+            
+            if (theClient && theOutput)
+            {
+                if (1 == howMany)
+                {
+                    bool            gotValue = false;
+                    double          inValue = 0.0;
+                    yarp::os::Value argValue(input.get(0));
+                    
+                    if (argValue.isInt())
+                    {
+                        inValue = argValue.asInt();
+                        gotValue = true;
+                    }
+                    else if (argValue.isDouble())
+                    {
+                        inValue = argValue.asDouble();
+                        gotValue = true;
+                    }
+                    if (gotValue)
+                    {
+                        double outValue;
+
+                        _shared.lock();
+                        if (theClient->addToSum(inValue, outValue))
+                        {
+                            Common::Package message;
+                            
+                            message.addDouble(outValue);
+                            OD_LOG_LL1("theOutput->getOutputCount = ", theOutput->getOutputCount());//####
+                            if (theOutput->write(message))
+                            {
+                                result = true;
+                            }
+                            else
+                            {
+                                OD_LOG("! (theOutput->write(message))");//####
+                            }
+                        }
+                        else
+                        {
+                            OD_LOG("! (theClient->startSum())");//####
+                        }
+                        _shared.unlock();
+                    }
+                }
+                else
+                {
+                    bool                 gotValues = true;
+                    Common::DoubleVector values;
+                    
+                    for (int ii = 0; gotValues && (ii < howMany); ++ii)
+                    {
+                        double          inValue;
+                        yarp::os::Value aValue(input.get(ii));
+                        
+                        if (aValue.isInt())
+                        {
+                            inValue = aValue.asInt();
+                        }
+                        else if (aValue.isDouble())
+                        {
+                            inValue = aValue.asDouble();
+                        }
+                        else
+                        {
+                            gotValues = false;
+                        }
+                        if (gotValues)
+                        {
+                            values.push_back(inValue);
+                        }
+                    }
+                    if (gotValues)
+                    {
+                        double outValue;
+                        
+                        _shared.lock();
+                        if (theClient->addToSum(values, outValue))
+                        {
+                            Common::Package message;
+                            
+                            message.addDouble(outValue);
+                            OD_LOG_LL1("theOutput->getOutputCount = ", theOutput->getOutputCount());//####
+                            if (theOutput->write(message))
+                            {
+                                result = true;
+                            }
+                            else
+                            {
+                                OD_LOG("! (theOutput->write(message))");//####
+                            }
+                        }
+                        else
+                        {
+                            OD_LOG("! (theClient->startSum())");//####
+                        }
+                        _shared.unlock();
+                    }
+                }                
+            }
         }
         else
         {

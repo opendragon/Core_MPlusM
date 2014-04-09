@@ -70,10 +70,14 @@ namespace MoAndMe
         public:
             
             /*! @brief The constructor.
+             @param requestName The request to be processed. */
+            ServiceRequest(const yarp::os::ConstString & requestName);
+            
+            /*! @brief The constructor.
              @param requestName The request to be processed.
              @param parameters The (optional) parameters for the request. */
             ServiceRequest(const yarp::os::ConstString & requestName,
-                           const Package &               parameters = "");
+                           const Package &               parameters);
             
             /*! @brief The destructor. */
             virtual ~ServiceRequest(void);

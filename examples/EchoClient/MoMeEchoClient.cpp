@@ -105,6 +105,7 @@ bool EchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
         Common::Package         parameters(outgoing);
         Common::ServiceResponse response;
         
+        reconnectIfDisconnected();
         if (send(MAM_ECHO_REQUEST, parameters, &response))
         {
             incoming = response.asString();

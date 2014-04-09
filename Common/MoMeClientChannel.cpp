@@ -40,11 +40,10 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeClientChannel.h"
+#include "MoMeBailOut.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-
-#include "MoMeBailOut.h"
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -115,13 +114,28 @@ bool ClientChannel::addOutputWithRetries(const yarp::os::ConstString & theChanne
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("theChannelToBeAdded = ", theChannelToBeAdded.c_str());//####
     bool   result = false;
-
     double retryTime = INITIAL_RETRY_INTERVAL;
+#if (! defined(MAM_DONT_USE_TIMEOUTS))
     int    retriesLeft = MAX_RETRIES;
+#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
     
     SetUpCatcher();
     try
     {
+#if defined(MAM_DONT_USE_TIMEOUTS)
+        do
+        {
+            OD_LOG("about to add an output");//####
+            result = inherited::addOutput(theChannelToBeAdded);
+            if (! result)
+            {
+                OD_LOG("%%retry%%");//####
+                yarp::os::Time::delay(retryTime);
+                retryTime *= RETRY_MULTIPLIER;
+            }
+        }
+        while (! result);
+#else // ! defined(MAM_DONT_USE_TIMEOUTS)
         do
         {
             BailOut bailer(*this);
@@ -139,6 +153,7 @@ bool ClientChannel::addOutputWithRetries(const yarp::os::ConstString & theChanne
             }
         }
         while ((! result) && (0 < retriesLeft));
+#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
     }
     catch (...)
     {
@@ -156,7 +171,9 @@ void ClientChannel::close(void)
     SetUpCatcher();
     try
     {
+#if (! defined(MAM_DONT_USE_TIMEOUTS))
         BailOut bailer(*this);
+#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
         
         inherited::interrupt();
         OD_LOG("about to close");//####
@@ -178,16 +195,34 @@ bool ClientChannel::openWithRetries(const yarp::os::ConstString & theChannelName
     OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
+#if (! defined(MAM_DONT_USE_TIMEOUTS))
     int    retriesLeft = MAX_RETRIES;
+#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
     
-#if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+#if (! defined(MAM_CHANNELS_USE_RPC))
+# if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
     inherited::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
     inherited::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+#endif // ! defined(MAM_CHANNELS_USE_RPC)
     SetUpCatcher();
     try
     {
+#if defined(MAM_DONT_USE_TIMEOUTS)
+        do
+        {
+            OD_LOG("about to open");//####
+            result = inherited::open(theChannelName);
+            if (! result)
+            {
+                OD_LOG("%%retry%%");//####
+                yarp::os::Time::delay(retryTime);
+                retryTime *= RETRY_MULTIPLIER;
+            }
+        }
+        while (! result);
+#else // ! defined(MAM_DONT_USE_TIMEOUTS)
         do
         {
             BailOut bailer(*this);
@@ -205,6 +240,7 @@ bool ClientChannel::openWithRetries(const yarp::os::ConstString & theChannelName
             }
         }
         while ((! result) && (0 < retriesLeft));
+#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
     }
     catch (...)
     {
@@ -223,7 +259,9 @@ void ClientChannel::RelinquishChannel(ClientChannel * & theChannel)
     SetUpCatcher();
     try
     {
+#if (! defined(MAM_DONT_USE_TIMEOUTS))
         BailOut bailer(*theChannel);
+#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
         
         delete theChannel;
         theChannel = NULL;

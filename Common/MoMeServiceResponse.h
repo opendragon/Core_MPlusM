@@ -65,9 +65,12 @@ namespace MoAndMe
         {
         public:
             
+            /*! @brief The constructor. */
+            ServiceResponse(void);
+            
             /*! @brief The constructor.
              @param values The (optional) values for the response. */
-            ServiceResponse(const Package & values = "");
+            ServiceResponse(const Package & values);
             
             /*! @brief The destructor. */
             virtual ~ServiceResponse(void);
