@@ -1,5 +1,7 @@
-* the running sum adapter command set should include start / stop / quit / reset
+* the running sum adapter command set should include quit
 
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
 
 * check RegistryService for instability when ‘probed’
+
+**** change over to use reply() and replyAndDrop() for service calls. Note that the subdirectories are disabled, except for Common, Logging and Parsing —> ‘##’ is in front of each disabled test or subdirectory

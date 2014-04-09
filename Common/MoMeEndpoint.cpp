@@ -88,11 +88,7 @@ using std::endl;
 #endif // defined(OD_ENABLE_LOGGING)
 
 /*! @brief The carrier type to be used for service connections. */
-#if defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
-# define SERVICE_CHANNEL_CARRIER_ "xmlrpc"
-#else  // ! defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
-# define SERVICE_CHANNEL_CARRIER_ "tcp"
-#endif // ! defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
+#define SERVICE_CHANNEL_CARRIER_ "tcp"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -340,9 +336,6 @@ bool Endpoint::open(void)
                     if (_channel->openWithRetries(_contact))
                     {
                         _isOpen = true;
-#if defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
-                        _channel->setOutputMode(false);
-#endif // defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
 #if defined(REPORT_CONTACT_DETAILS)
                         DumpContact("after open", _channel->where());//####
 #endif // defined(REPORT_CONTACT_DETAILS)
@@ -355,9 +348,6 @@ bool Endpoint::open(void)
                 else if (_channel->openWithRetries(_contact.getName()))
                 {
                     OD_LOG("(_channel->open(_contact.getName()))");//####
-#if defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
-                    _channel->setOutputMode(false);
-#endif // defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
                     _isOpen = true;
 #if defined(REPORT_CONTACT_DETAILS)
                     DumpContact("after open", _channel->where());//####

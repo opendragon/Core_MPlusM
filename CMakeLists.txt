@@ -46,13 +46,12 @@ project(MovementAndMeaning)
 
 set(MAM_VERSION_MAJOR 1)
 set(MAM_VERSION_MINOR 2)
-set(MAM_VERSION_PATCH 0)
+set(MAM_VERSION_PATCH 1)
 
 option(MAM_DO_EXPLICIT_CLOSE "Perform an explicit CloseChannel() prior to freeing a channel")
 option(MAM_DO_EXPLICIT_DISCONNECT "Perform an explicit disconnect prior to closing a channel")
 option(MAM_LOG_INCLUDES_YARP_TRACE "Include YARP trace when logging")
 option(MAM_MAIN_DOES_DELAY_NOT_YIELD "Use Delay() in main() loop")
-option(MAM_MAKE_CHANNELS_UNIDIRECTIONAL "Channels can only be used for either input or output")
 option(MAM_SERVICES_LOG_TO_STDERR "Services send logging output to stderr")
 
 # find YARP
@@ -69,19 +68,6 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 # add ACE include directories
 include_directories(${ACE_INCLUDE_DIRS})
 
-# find SQLite
-if(WIN32)
-    set(PC_SQLITE_INCLUDE_DIRS "D:/dev/yarp-2.3.22/extern/sqlite/sqlite")
-    set(PC_SQLITE_LIBRARY_DIRS "D:/dev/yarp-2.3.22/lib/Debug/")
-    set(PC_SQLITE_LIBRARIES "D:/dev/yarp-2.3.22/lib/Debug/YARP_sqlited.lib")
-endif(WIN32)
-
-#find_package(SQLite REQUIRED)
-#list(APPEND CMAKE_MODULE_PATH ${SQLite_MODULE_PATH})
-
-## add SQLite include directories
-#include_directories(${SQLite_INCLUDE_DIRS})
-
 set(MAM_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
 set(MAM_LOGGING_DIR "${PROJECT_SOURCE_DIR}/Logging")
 set(MAM_PARSER_DIR "${PROJECT_SOURCE_DIR}/Parser")
@@ -94,15 +80,15 @@ include_directories("${MAM_COMMON_DIR}"
                     "${MAM_LOGGING_DIR}"
                     "${MAM_PARSER_DIR}")
 
-add_subdirectory(ClientList)
+##add_subdirectory(ClientList)
 add_subdirectory(Common)
-add_subdirectory(examples)
+##add_subdirectory(examples)
 add_subdirectory(Logging)
 add_subdirectory(Parser)
-add_subdirectory(PortLister)
-add_subdirectory(RegistryService)
-add_subdirectory(RequestCounter)
-add_subdirectory(RequestInfo)
-add_subdirectory(ServiceLister)
+##add_subdirectory(PortLister)
+##add_subdirectory(RegistryService)
+##add_subdirectory(RequestCounter)
+##add_subdirectory(RequestInfo)
+##add_subdirectory(ServiceLister)
 
 enable_testing()

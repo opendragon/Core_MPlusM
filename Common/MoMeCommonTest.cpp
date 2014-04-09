@@ -145,6 +145,7 @@ static Endpoint * doCreateEndpointForTest(const int argc,
     return stuff;
 } // doCreateEndpointForTest
 
+#if 0
 /*! @brief Create a temporary channel for a test.
  @param destinationName The name of the channel to be connected to.
  @param channelPath The root path for the new temporary channel.
@@ -229,6 +230,7 @@ static void doDestroyTestChannel(Endpoint &      anEndpoint,
 {
     doDestroyTestChannel(anEndpoint.getName(), theChannel);
 } // doDestroyTestChannel
+#endif//0
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 01 ***
@@ -275,6 +277,7 @@ static int doTestCreateEndpoint(const int argc,
     return result;
 } // doTestCreateEndpoint
 
+#if 0
 #if defined(__APPLE__)
 # pragma mark *** Test Case 02 ***
 #endif // defined(__APPLE__)
@@ -1215,6 +1218,7 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const int argc,
     OD_LOG_EXIT_L(result);//####
     return result;
 } // doTestRequestEchoFromServiceWithRequestHandlerAndInfo
+#endif//0
 
 /*! @brief The signal handler to catch requests to stop the service.
  @param signal The signal being handled. */
@@ -1265,7 +1269,8 @@ int main(int      argc,
                     case 1:
                         result = doTestCreateEndpoint(argc - 1, argv + 2);
                         break;
-                        
+
+#if 0
                     case 2:
                         result = doTestConnectToEndpoint(argc - 1, argv + 2);
                         break;
@@ -1309,7 +1314,8 @@ int main(int      argc,
                     case 12:
                         result = doTestRequestEchoFromServiceWithRequestHandlerAndInfo(argc - 1, argv + 2);
                         break;
-                        
+#endif//0
+
                     default:
                         break;
                         

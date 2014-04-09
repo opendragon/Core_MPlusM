@@ -159,10 +159,6 @@ int main(int      argc,
                             if (dataChannel->openWithRetries(dataName) && outputChannel->openWithRetries(outputName))
                             {
                                 sharedData.activate();
-#if defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
-                                dataChannel->setOutputMode(false);
-                                outputChannel->setInputMode(false);
-#endif // defined(MAM_MAKE_CHANNELS_UNIDIRECTIONAL)
                                 dataChannel->setReader(*dataHandler);
                                 for ( ; lKeepRunning && sharedData.isActive(); )
                                 {
