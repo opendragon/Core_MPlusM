@@ -203,11 +203,6 @@ namespace MoAndMe
              @param handler The function to be called by default. */
             void setDefaultRequestHandler(BaseRequestHandler * handler);
             
-            /*! @brief Set the endpoint timeout; must be called between creating an endpoint and opening it.
-             @param timeout The number of seconds to wait; if negative, wait forever.
-             @returns @c true if the timeou was set and @c false otherwise. */
-            bool setTimeout(const float timeout);
-            
             /*! @brief Forget the function to be used to handle a particular request.
              @param handler The function that was called for the request. */
             void unregisterRequestHandler(BaseRequestHandler * handler);
@@ -244,7 +239,7 @@ namespace MoAndMe
              @returns @c true if the data was locked and @c false otherwise. */
             inline bool conditionallyLockContexts(void)
             {
-                return _contextsLock.check();
+                return _contextsLock.tryLock();
             } // conditionallyLockContexts
 # endif // defined(SERVICES_HAVE_CONTEXTS)
             
@@ -255,7 +250,7 @@ namespace MoAndMe
             /*! @brief Lock the data. */
             inline void lockContexts(void)
             {
-                _contextsLock.wait();
+                _contextsLock.lock();
             } // lockContexts
 # endif // defined(SERVICES_HAVE_CONTEXTS)
             
@@ -263,13 +258,13 @@ namespace MoAndMe
             /*! @brief Unlock the data. */
             inline void unlockContexts(void)
             {
-                _contextsLock.post();
+                _contextsLock.unlock();
             } // unlockContexts
 # endif // defined(SERVICES_HAVE_CONTEXTS)
             
 # if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief The contention lock used to avoid inconsistencies. */
-            yarp::os::Semaphore              _contextsLock;
+            yarp::os::Mutex                  _contextsLock;
 # endif // defined(SERVICES_HAVE_CONTEXTS)
             
             /*! @brief The map between requests and request handlers. */

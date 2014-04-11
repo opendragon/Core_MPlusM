@@ -40,6 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeEndpoint.h"
+#include "MoMeChannelStatusReporter.h"
 #include "MoMeException.h"
 #include "MoMeInputHandlerCreator.h"
 #include "MoMeServiceChannel.h"
@@ -454,8 +455,8 @@ bool Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
     return result;
 } // Endpoint::setInputHandlerCreator
 
-bool Endpoint::setReporter(yarp::os::PortReport & reporter,
-                           const bool             andReportNow)
+bool Endpoint::setReporter(ChannelStatusReporter & reporter,
+                           const bool              andReportNow)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("reporter = ", &reporter);//####
@@ -486,39 +487,6 @@ bool Endpoint::setReporter(yarp::os::PortReport & reporter,
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Endpoint::setReporter
-
-bool Endpoint::setTimeout(const float timeout)
-{
-#if (defined(MAM_CHANNELS_USE_RPC) && (! defined(OD_ENABLE_LOGGING)))
-# pragma unused(timeout)
-#endif // defined(MAM_CHANNELS_USE_RPC) && (! defined(OD_ENABLE_LOGGING))
-    OD_LOG_OBJENTER();//####
-    OD_LOG_D1("timeout = ", timeout);//####
-    bool result = false;
-    
-#if defined(MAM_CHANNELS_USE_RPC)
-    result = true;
-#else // ! defined(MAM_CHANNELS_USE_RPC)
-    try
-    {
-        if (_channel)
-        {
-            result = _channel->setTimeout(timeout);
-        }
-        else
-        {
-            OD_LOG("! (_channel)");//####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-#endif // ! defined(MAM_CHANNELS_USE_RPC)
-    OD_LOG_OBJEXIT_B(result);//####
-    return result;
-} // Endpoint::setTimeout
 
 #if defined(__APPLE__)
 # pragma mark Accessors

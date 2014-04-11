@@ -156,7 +156,13 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
             _service.getStatistics(senderChannel, counter, elapsedTime);
             response.addInt(static_cast<int>(counter));
             response.addDouble(elapsedTime);
-            response.write(*replyMechanism);
+            if (! response.write(*replyMechanism))
+            {
+                OD_LOG("(! response.write(*replyMechanism))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+            }
         }
     }
     catch (...)

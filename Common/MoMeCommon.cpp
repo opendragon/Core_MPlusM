@@ -452,6 +452,14 @@ void MoAndMe::Common::ShutDownCatcher(void)
 #endif // defined(__APPLE__) || defined(__linux__)
 } // MoAndMe::Common::ShutDownCatcher
 
+void MoAndMe::Common::Stall(void)
+{
+    for ( ; ; )
+    {
+        yarp::os::Time::yield();
+    }
+} // MoAndMe::Common::Stall
+
 const char * MoAndMe::NameOfSignal(const int theSignal)
 {
     const char * result;

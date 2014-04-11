@@ -110,7 +110,13 @@ bool Test03Handler::handleInput(const MoAndMe::Common::Package & input,
     {
         MoAndMe::Common::Package dummy;
         
-        dummy.write(*replyMechanism);
+        if (! dummy.write(*replyMechanism))
+        {
+            OD_LOG("(! dummy.write(*replyMechanism))");//####
+# if defined(MAM_STALL_ON_SEND_PROBLEM)
+            Common::Stall();
+# endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+        }
     }
 #endif // defined(MAM_CHANNELS_USE_RPC)
     OD_LOG_OBJEXIT_B(result);//####

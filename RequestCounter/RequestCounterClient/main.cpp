@@ -39,6 +39,7 @@
 //
 //--------------------------------------------------------------------------------------
 
+#include "MoMeChannelStatusReporter.h"
 #include "MoMeRequestCounterClient.h"
 
 //#include "ODEnableLogging.h"
@@ -176,6 +177,13 @@ int main(int      argc,
             
             if (stuff)
             {
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+                MoAndMe::Common::ChannelStatusReporter reporter;
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+                
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+                stuff->setReporter(reporter, true);
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
                 lKeepRunning = true;
                 MoAndMe::Common::SetSignalHandlers(stopRunning);
                 for ( ; lKeepRunning; )

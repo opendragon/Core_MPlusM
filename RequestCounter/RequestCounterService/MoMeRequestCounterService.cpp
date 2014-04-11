@@ -82,9 +82,6 @@ using namespace MoAndMe::RequestCounter;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The operation timeout to use with YARP. */
-static const float kRequestCounterServiceTimeout = 5.0;
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -300,7 +297,6 @@ bool RequestCounterService::start(void)
     {
         if (! isStarted())
         {
-            setTimeout(kRequestCounterServiceTimeout);
             inherited::start();
             if (isStarted())
             {

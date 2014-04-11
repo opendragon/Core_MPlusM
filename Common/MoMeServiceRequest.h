@@ -108,8 +108,7 @@ namespace MoAndMe
             
             /*! @brief The request name. */
             yarp::os::ConstString _name;
-            /*! @brief The response holding area. */
-            Package               _holder;
+
             /*! @brief The request parameters. */
             Package               _parameters;
             

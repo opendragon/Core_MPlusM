@@ -26,8 +26,8 @@
 		DF06998F18EDDB1C00FF0E93 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = ../SQLite3/sqlite3.c; sourceTree = SOURCE_ROOT; };
 		DF06999018EDDB1C00FF0E93 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3.h; path = ../SQLite3/sqlite3.h; sourceTree = SOURCE_ROOT; };
 		DF06999118EDDB1C00FF0E93 /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3ext.h; path = ../SQLite3/sqlite3ext.h; sourceTree = SOURCE_ROOT; };
-		DF0EC61D18EA0D8500B22857 /* MoMeEndpointStatusReporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeEndpointStatusReporter.cpp; path = ../Common/MoMeEndpointStatusReporter.cpp; sourceTree = SOURCE_ROOT; };
-		DF0EC61E18EA0D8500B22857 /* MoMeEndpointStatusReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeEndpointStatusReporter.h; path = ../Common/MoMeEndpointStatusReporter.h; sourceTree = SOURCE_ROOT; };
+		DF0EC61D18EA0D8500B22857 /* MoMeChannelStatusReporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeChannelStatusReporter.cpp; path = ../Common/MoMeChannelStatusReporter.cpp; sourceTree = SOURCE_ROOT; };
+		DF0EC61E18EA0D8500B22857 /* MoMeChannelStatusReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeChannelStatusReporter.h; path = ../Common/MoMeChannelStatusReporter.h; sourceTree = SOURCE_ROOT; };
 		DF20929018D0DAFF0093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = ../ServiceLister/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF20929118D0DB860093D3DC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = main.cpp; path = ../ServiceLister/main.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF20929318D241AC0093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = ../RequestInfo/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -539,6 +539,8 @@
 				DFA3432D18C91C5A0053B87C /* MoMeBaseServiceInputHandler.h */,
 				DFA3432E18C91C5A0053B87C /* MoMeBaseServiceInputHandlerCreator.cpp */,
 				DFA3432F18C91C5A0053B87C /* MoMeBaseServiceInputHandlerCreator.h */,
+				DF0EC61D18EA0D8500B22857 /* MoMeChannelStatusReporter.cpp */,
+				DF0EC61E18EA0D8500B22857 /* MoMeChannelStatusReporter.h */,
 				DF65B4F218F3219500B5F2F1 /* MoMeClientChannel.cpp */,
 				DF65B4F318F3219500B5F2F1 /* MoMeClientChannel.h */,
 				DFCB229518EF1BB900358EA5 /* MoMeClientsRequestHandler.cpp */,
@@ -550,8 +552,6 @@
 				DFA3433318C91C5A0053B87C /* MoMeConfig.h.in */,
 				DFA3433418C91C5A0053B87C /* MoMeEndpoint.cpp */,
 				DFA3433518C91C5A0053B87C /* MoMeEndpoint.h */,
-				DF0EC61D18EA0D8500B22857 /* MoMeEndpointStatusReporter.cpp */,
-				DF0EC61E18EA0D8500B22857 /* MoMeEndpointStatusReporter.h */,
 				DFA3433618C91C5A0053B87C /* MoMeException.cpp */,
 				DFA3433718C91C5A0053B87C /* MoMeException.h */,
 				DFA3433818C91C5A0053B87C /* MoMeInfoRequestHandler.cpp */,

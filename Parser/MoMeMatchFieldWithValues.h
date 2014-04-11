@@ -133,10 +133,13 @@ namespace MoAndMe
             
             /*! @brief The validator function object that was used for this field. */
             BaseNameValidator * _validator;
+            
             /*! @brief The field name. */
             MatchFieldName *    _fieldName;
+            
             /*! @brief The value, if a single value is present. */
             MatchValue *        _singleValue;
+            
             /*! @brief The list of values, if more than one value is present. */
             MatchValueList *    _values;
             

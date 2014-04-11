@@ -92,7 +92,7 @@ using namespace MoAndMe::Common;
 #endif // defined(__APPLE__)
 
 ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName) :
-        _name(requestName), _holder(), _parameters()
+        _name(requestName), _parameters()
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("requestName = ", requestName.c_str());//####
@@ -101,7 +101,7 @@ ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName) :
 
 ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName,
                                const Package &               parameters) :
-        _name(requestName), _holder(), _parameters(parameters)
+        _name(requestName), _parameters(parameters)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("requestName = ", requestName.c_str());//####
@@ -146,29 +146,39 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
         OD_LOG_LL1("usingChannel.getOutputCount = ", usingChannel.getOutputCount());//####
         if (response)
         {
-            _holder.clear();
-            if (usingChannel.write(message, _holder))
+            Package holder;
+            
+            if (usingChannel.write(message, holder))
             {
-                OD_LOG_S1("got ", _holder.toString().c_str());//####
-                *response = _holder;
+                OD_LOG_S1("got ", holder.toString().c_str());//####
+                *response = holder;
                 result = true;
             }
             else
             {
                 OD_LOG("! (usingChannel.write(message, _holder))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
             }
         }
         else
         {
 #if defined(MAM_CHANNELS_USE_RPC)
-            _holder.clear();
-            if (usingChannel.write(message, _holder))
+            Package holder;
+#endif // defined(MAM_CHANNELS_USE_RPC)
+            
+#if defined(MAM_CHANNELS_USE_RPC)
+            if (usingChannel.write(message, holder))
             {
                 result = true;
             }
             else
             {
                 OD_LOG("(! usingChannel.write(message))");//####
+# if defined(MAM_STALL_ON_SEND_PROBLEM)
+                Common::Stall();
+# endif // defined(MAM_STALL_ON_SEND_PROBLEM)
             }
 #else // ! defined(MAM_CHANNELS_USE_RPC)
             if (usingChannel.write(message))
@@ -178,6 +188,9 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
             else
             {
                 OD_LOG("(! usingChannel.write(message))");//####
+# if defined(MAM_STALL_ON_SEND_PROBLEM)
+                Common::Stall();
+# endif // defined(MAM_STALL_ON_SEND_PROBLEM)
             }
 #endif // ! defined(MAM_CHANNELS_USE_RPC)
         }

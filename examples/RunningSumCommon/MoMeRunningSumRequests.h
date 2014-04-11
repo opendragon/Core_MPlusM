@@ -63,6 +63,9 @@
 /*! @brief The name for the 'add' request. */
 # define MAM_ADD_REQUEST   "add"
 
+/*! @brief The name for the 'quit' request. */
+# define MAM_QUIT_REQUEST  "quit"
+
 /*! @brief The name for the 'reset' request. */
 # define MAM_RESET_REQUEST "reset"
 

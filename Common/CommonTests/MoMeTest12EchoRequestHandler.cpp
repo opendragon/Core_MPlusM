@@ -141,7 +141,13 @@ bool Test12EchoRequestHandler::processRequest(const yarp::os::ConstString &    r
     {
         MoAndMe::Common::Package argsCopy(restOfInput);
         
-        argsCopy.write(*replyMechanism);
+        if (! argsCopy.write(*replyMechanism))
+        {
+            OD_LOG("(! argsCopy.write(*replyMechanism))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+            Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+        }
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;

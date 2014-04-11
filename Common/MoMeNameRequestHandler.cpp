@@ -155,7 +155,13 @@ bool NameRequestHandler::processRequest(const yarp::os::ConstString & request,
             reply.addString(_service.canonicalName());
             reply.addString(_service.description());
             OD_LOG_S1("reply <- ", reply.toString().c_str());
-            reply.write(*replyMechanism);
+            if (! reply.write(*replyMechanism))
+            {
+                OD_LOG("(! reply.write(*replyMechanism))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+            }
         }
     }
     catch (...)

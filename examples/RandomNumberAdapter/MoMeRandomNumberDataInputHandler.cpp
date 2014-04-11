@@ -45,7 +45,7 @@
 #include "MoMeRandomNumberAdapterData.h"
 #include "MoMeRandomNumberClient.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -106,7 +106,7 @@ bool RandomNumberDataInputHandler::handleInput(const Common::Package &       inp
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
-    bool result = false;
+    bool result = true;
     
     try
     {
@@ -151,13 +151,12 @@ bool RandomNumberDataInputHandler::handleInput(const Common::Package &       inp
                         }
                         _shared.lock();
                         OD_LOG_LL1("theOutput->getOutputCount = ", theOutput->getOutputCount());//####
-                        if (theOutput->write(message))
+                        if (! theOutput->write(message))
                         {
-                            result = true;
-                        }
-                        else
-                        {
-                            OD_LOG("! (theOutput->write(message))");//####
+                            OD_LOG("(! theOutput->write(message))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                            Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
                         }
                         _shared.unlock();
                     }
@@ -177,13 +176,12 @@ bool RandomNumberDataInputHandler::handleInput(const Common::Package &       inp
                         message.addDouble(randResult);
                         _shared.lock();
                         OD_LOG_LL1("theOutput->getOutputCount = ", theOutput->getOutputCount());//####
-                        if (theOutput->write(message))
+                        if (! theOutput->write(message))
                         {
-                            result = true;
-                        }
-                        else
-                        {
-                            OD_LOG("! (theOutput->write(message))");//####
+                            OD_LOG("(! theOutput->write(message))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                            Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
                         }
                         _shared.unlock();
                     }
@@ -193,10 +191,6 @@ bool RandomNumberDataInputHandler::handleInput(const Common::Package &       inp
                     }
                 }
             }
-        }
-        else
-        {
-            result = true;
         }
     }
     catch (...)

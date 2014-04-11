@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeTEndpointStatusReporter.h
+//  File:       MoMeChannelStatusReporter.h
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class declaration for the endpoint status reporter for the MoAndMe
+//  Contains:   The class declaration for the channel status reporter for the MoAndMe
 //              unit tests.
 //
 //  Written by: Norman Jaffe
@@ -40,9 +40,9 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MOMEENDPOINTSTATUSREPORTER_H_))
+#if (! defined(MOMECHANNELSTATUSREPORTER_H_))
 /*! @brief Header guard. */
-# define MOMEENDPOINTSTATUSREPORTER_H_ /* */
+# define MOMECHANNELSTATUSREPORTER_H_ /* */
 
 # include "MoMeCommon.h"
 
@@ -67,7 +67,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the endpoint status reporter for the MoAndMe unit tests. */
+ @brief The class declaration for the channel status reporter for the MoAndMe unit tests. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -77,15 +77,15 @@ namespace MoAndMe
     namespace Common
     {
         /*! @brief An endpoint status reporter. */
-        class EndpointStatusReporter : public yarp::os::PortReport
+        class ChannelStatusReporter : public yarp::os::PortReport
         {
         public:
             
             /*! @brief The constructor. */
-            EndpointStatusReporter(void);
+            ChannelStatusReporter(void);
             
             /*! @brief The destructor. */
-            virtual ~EndpointStatusReporter(void);
+            virtual ~ChannelStatusReporter(void);
             
             /*! @brief Write out the endpoint event / state information.
              @param info The event / state information from the endpoint. */
@@ -98,10 +98,10 @@ namespace MoAndMe
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::PortReport inherited;
             
-        }; // EndpointStatusReporter
+        }; // ChannelStatusReporter
         
     } // Common
     
 } // MoAndMe
 
-#endif // ! defined(MOMEENDPOINTSTATUSREPORTER_H_)
+#endif // ! defined(MOMECHANNELSTATUSREPORTER_H_)

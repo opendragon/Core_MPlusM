@@ -67,9 +67,6 @@ using namespace MoAndMe::Example;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The operation timeout to use with YARP. */
-static const float kRunningSumServiceTimeout = 5.0;
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -257,7 +254,6 @@ bool RunningSumService::start(void)
     {
         if (! isStarted())
         {
-            setTimeout(kRunningSumServiceTimeout);
             inherited::start();
             if (isStarted())
             {

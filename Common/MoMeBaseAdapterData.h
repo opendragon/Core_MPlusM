@@ -46,6 +46,7 @@
 
 # include "MoMeCommon.h"
 
+# include <list>
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -56,7 +57,7 @@
 #  pragma clang diagnostic ignored "-Wunused-parameter"
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
-# include <yarp/os/Semaphore.h>
+# include <yarp/os/Mutex.h>
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -102,7 +103,7 @@ namespace MoAndMe
              @returns @c true if the data was locked and @c false otherwise. */
             inline bool conditionallyLock(void)
             {
-                return _lock.check();
+                return _lock.tryLock();
             } // conditionallyLock
             
             /*! @brief Mark the adapter as inactive.
@@ -137,13 +138,13 @@ namespace MoAndMe
             /*! @brief Lock the data. */
             inline void lock(void)
             {
-                _lock.wait();
+                _lock.lock();
             } // lock
             
             /*! @brief Unlock the data. */
             inline void unlock(void)
             {
-                _lock.post();
+                _lock.unlock();
             } // unlock
             
         protected:
@@ -163,28 +164,28 @@ namespace MoAndMe
             BaseAdapterData & operator=(const BaseAdapterData & other);
             
             /*! @brief The contention lock used to avoid intermixing of outputs. */
-            yarp::os::Semaphore _lock;
+            yarp::os::Mutex  _lock;
+            
+            /*! @brief The output channel to use. */
+            AdapterChannel * _output;
             
             /*! @brief The connection to the service. */
-            BaseClient *        _client;
-            
-            /*! @brief The output channel for the adapter. */
-            AdapterChannel *    _output;
+            BaseClient *     _client;
             
             /*! @brief @c true if the adapter is active and @c false otherwise. */
-            bool                _active;
+            bool             _active;
             
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char                _filler[7];
+            char             _filler[7];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-        }; // RunningSumDataInputHandler
+        }; // BaseAdapterData
         
     } // Common
     

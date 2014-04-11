@@ -98,7 +98,7 @@ bool InputHandler::read(yarp::os::ConnectionReader & connection)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("connection = ", &connection);//####
-    bool result = false;
+    bool result = true;
     
     try
     {
@@ -113,10 +113,6 @@ bool InputHandler::read(yarp::os::ConnectionReader & connection)
             {
                 result = handleInput(aPackage, connection.getRemoteContact().getName(), connection.getWriter());
             }
-        }
-        else
-        {
-            result = true;
         }
     }
     catch (...)

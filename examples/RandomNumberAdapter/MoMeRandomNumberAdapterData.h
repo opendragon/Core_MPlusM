@@ -102,7 +102,7 @@ namespace MoAndMe
              @param other Another object to construct from. */
             RandomNumberAdapterData & operator=(const RandomNumberAdapterData & other);
             
-        }; // RandomNumberDataInputHandler
+        }; // RandomNumberAdapterData
         
     } // Example
     

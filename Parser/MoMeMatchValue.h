@@ -131,12 +131,16 @@ namespace MoAndMe
             
             /*! @brief The subtring that (maximally) matched as a value. */
             yarp::os::ConstString _matchingString;
+            
             /*! @brief @c true if the string has single quote characters and @c false otherwise. */
             bool                  _hasSingleQuotes;
+            
             /*! @brief @c true if the string has wild-card characters and @c false otherwise. */
             bool                  _hasWildcards;
+            
             /*! @brief @c true if the string will need to be escaped and @c false otherwise. */
             bool                  _needsEscaping;
+            
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"

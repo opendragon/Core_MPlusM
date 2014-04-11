@@ -106,7 +106,13 @@ bool Test04Handler::handleInput(const MoAndMe::Common::Package & input,
     {
         MoAndMe::Common::Package inputCopy(input);
         
-        inputCopy.write(*replyMechanism);
+        if (! inputCopy.write(*replyMechanism))
+        {
+            OD_LOG("(! inputCopy.write(*replyMechanism))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+            Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+        }
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;

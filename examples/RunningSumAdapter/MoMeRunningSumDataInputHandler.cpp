@@ -46,7 +46,7 @@
 #include "MoMeRunningSumClient.h"
 #include "MoMeRunningSumRequests.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -104,7 +104,7 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
-    bool result = false;
+    bool result = true;
     
     try
     {
@@ -144,13 +144,12 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
                             
                             message.addDouble(outValue);
                             OD_LOG_LL1("theOutput->getOutputCount = ", theOutput->getOutputCount());//####
-                            if (theOutput->write(message))
+                            if (! theOutput->write(message))
                             {
-                                result = true;
-                            }
-                            else
-                            {
-                                OD_LOG("! (theOutput->write(message))");//####
+                                OD_LOG("(! theOutput->write(message))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
                             }
                         }
                         else
@@ -198,13 +197,12 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
                             
                             message.addDouble(outValue);
                             OD_LOG_LL1("theOutput->getOutputCount = ", theOutput->getOutputCount());//####
-                            if (theOutput->write(message))
+                            if (! theOutput->write(message))
                             {
-                                result = true;
-                            }
-                            else
-                            {
-                                OD_LOG("! (theOutput->write(message))");//####
+                                OD_LOG("(! theOutput->write(message))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
                             }
                         }
                         else
@@ -215,10 +213,6 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
                     }
                 }                
             }
-        }
-        else
-        {
-            result = true;
         }
     }
     catch (...)

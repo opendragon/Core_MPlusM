@@ -58,11 +58,11 @@ add_library(MoMeCommon
             MoMeBaseService.cpp
             MoMeBaseServiceInputHandler.cpp
             MoMeBaseServiceInputHandlerCreator.cpp
+            MoMeChannelStatusReporter.cpp
             MoMeClientChannel.cpp
             MoMeClientsRequestHandler.cpp
             MoMeCommon.cpp
             MoMeEndpoint.cpp
-            MoMeEndpointStatusReporter.cpp
             MoMeException.cpp
             MoMeInfoRequestHandler.cpp
             MoMeInputHandler.cpp

@@ -97,6 +97,7 @@ void RequestMap::fillInListReply(Package & reply)
     OD_LOG_OBJENTER();//####
     try
     {
+        lock();
         RequestHandlerMap::const_iterator walker(_handlers.cbegin());
         
         for ( ; walker != _handlers.cend(); ++walker)
@@ -106,6 +107,7 @@ void RequestMap::fillInListReply(Package & reply)
             
             aHandler->fillInDescription(walker->first.c_str(), aDict);
         }
+        unlock();
     }
     catch (...)
     {
@@ -121,6 +123,7 @@ void RequestMap::fillInRequestInfo(Package &                     reply,
     OD_LOG_OBJENTER();//####
     try
     {
+        lock();
         RequestHandlerMap::const_iterator match(_handlers.find(std::string(requestName)));
         
         if (_handlers.cend() == match)
@@ -134,6 +137,7 @@ void RequestMap::fillInRequestInfo(Package &                     reply,
             
             aHandler->fillInDescription(match->first.c_str(), aDict);
         }
+        unlock();
     }
     catch (...)
     {
@@ -151,6 +155,7 @@ BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstStrin
     
     try
     {
+        lock();
         RequestHandlerMap::const_iterator match(_handlers.find(std::string(request)));
 
         if (_handlers.cend() == match)
@@ -163,6 +168,7 @@ BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstStrin
             OD_LOG("! (_handlers.cend() == match)");//####
             result = match->second;
         }
+        unlock();
     }
     catch (...)
     {
@@ -184,14 +190,15 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
             StringVector aliases;
             
             handler->fillInAliases(aliases);
+            lock();
             _handlers.insert(RequestHandlerMapValue(std::string(handler->name()), handler));
             for (StringVector::const_iterator it(aliases.cbegin()); it != aliases.cend(); ++it)
             {
                 _handlers.insert(RequestHandlerMapValue(*it, handler));
             }
+            unlock();
             handler->setOwner(*this);
         }
-        OD_LOG_LL1("_handlers.size = ", _handlers.size());//####
     }
     catch (...)
     {
@@ -205,7 +212,9 @@ void RequestMap::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("handler = ", handler);//####
+    lock();
     _defaultHandler = handler;
+    unlock();
     OD_LOG_OBJEXIT();//####
 } // RequestMap::setDefaultRequestHandler
 
@@ -220,13 +229,14 @@ void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
             StringVector aliases;
             
             handler->fillInAliases(aliases);
+            lock();
             _handlers.erase(std::string(handler->name()));
             for (StringVector::const_iterator it(aliases.cbegin()); it != aliases.cend(); ++it)
             {
                 _handlers.erase(*it);
             }
+            unlock();
         }
-        OD_LOG_LL1("_handlers.size = ", _handlers.size());//####
     }
     catch (...)
     {

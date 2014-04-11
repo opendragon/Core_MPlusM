@@ -42,7 +42,7 @@
 #include "MoMeEndpoint.h"
 #include "MoMeRandomNumberService.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <iostream>

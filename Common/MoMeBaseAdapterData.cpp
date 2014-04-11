@@ -77,7 +77,7 @@ using namespace MoAndMe::Common;
 
 BaseAdapterData::BaseAdapterData(BaseClient *     client,
                                  AdapterChannel * output) :
-        _lock(), _client(client), _output(output), _active(false)
+        _lock(), _output(output), _client(client), _active(false)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P2("client = ", client, "output = ", output);//####

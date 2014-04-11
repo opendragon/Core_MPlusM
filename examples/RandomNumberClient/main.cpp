@@ -39,9 +39,10 @@
 //
 //--------------------------------------------------------------------------------------
 
+#include "MoMeChannelStatusReporter.h"
 #include "MoMeRandomNumberClient.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <iostream>
@@ -134,6 +135,13 @@ int main(int      argc,
                 MoAndMe::Common::SetSignalHandlers(stopRunning);
                 if (stuff->findService("keyword random"))
                 {
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+                    MoAndMe::Common::ChannelStatusReporter reporter;
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+                    
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+                    stuff->setReporter(reporter, true);
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
                     if (stuff->connectToService())
                     {
                         for ( ; lKeepRunning; )

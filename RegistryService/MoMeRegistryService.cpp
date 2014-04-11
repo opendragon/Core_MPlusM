@@ -114,9 +114,6 @@ static const char * kEndTransaction = "END TRANSACTION";
 /*! @brief The command to undo an SQL transaction. */
 static const char * kRollbackTransaction = "ROLLBACK TRANSACTION";
 
-/*! @brief The operation timeout to use with YARP. */
-static const float kRegistryServiceTimeout = 5.0;
-
 namespace MoAndMe
 {
     namespace Registry
@@ -1313,7 +1310,6 @@ bool RegistryService::start(void)
     {
         if ((! isActive()) && (! isStarted()))
         {
-            setTimeout(kRegistryServiceTimeout);
             inherited::start();
             if (isStarted() && setUpDatabase())
             {

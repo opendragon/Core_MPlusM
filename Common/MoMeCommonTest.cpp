@@ -49,9 +49,9 @@
 #include "CommonTests/MoMeTest12Service.h"
 #include "MoMeBaseClient.h"
 #include "MoMeBaseRequestHandler.h"
+#include "MoMeChannelStatusReporter.h"
 #include "MoMeClientChannel.h"
 #include "MoMeEndpoint.h"
-#include "MoMeEndpointStatusReporter.h"
 #include "MoMeRequests.h"
 #include "MoMeServiceRequest.h"
 #include "MoMeServiceResponse.h"
@@ -159,6 +159,14 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
     
     if (newChannel)
     {
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+        ChannelStatusReporter reporter;
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+        
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+        newChannel->setReporter(reporter);
+        newChannel->getReport(reporter);
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
         if (newChannel->openWithRetries(aName))
         {
             if (! NetworkConnectWithRetries(aName, destinationName))
@@ -295,7 +303,7 @@ static int doTestConnectToEndpoint(const int argc,
         
         if (stuff)
         {
-            EndpointStatusReporter reporter;
+            ChannelStatusReporter reporter;
             
             if (stuff->open() && stuff->setReporter(reporter, true))
             {
@@ -306,6 +314,10 @@ static int doTestConnectToEndpoint(const int argc,
                 
                 if (outChannel)
                 {
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+                    outChannel->setReporter(reporter);
+                    outChannel->getReport(reporter);
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
                     if (outChannel->openWithRetries(aName))
                     {
                         outChannel->getReport(reporter);
@@ -379,7 +391,7 @@ static int doTestWriteToEndpoint(const int argc,
         
         if (stuff)
         {
-            EndpointStatusReporter reporter;
+            ChannelStatusReporter reporter;
             Test03Handler          handler;
             
             if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
@@ -391,6 +403,10 @@ static int doTestWriteToEndpoint(const int argc,
                 
                 if (outChannel)
                 {
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+                    outChannel->setReporter(reporter);
+                    outChannel->getReport(reporter);
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
                     if (outChannel->openWithRetries(aName))
                     {
                         outChannel->getReport(reporter);
@@ -432,6 +448,9 @@ static int doTestWriteToEndpoint(const int argc,
                             else
                             {
                                 OD_LOG("! (outChannel->write(message))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
                             }
                         }
                         else
@@ -494,7 +513,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
 
         if (stuff)
         {
-            EndpointStatusReporter reporter;
+            ChannelStatusReporter reporter;
             Test04Handler          handler;
             
             if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))
@@ -506,6 +525,10 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                 
                 if (outChannel)
                 {
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+                    outChannel->setReporter(reporter);
+                    outChannel->getReport(reporter);
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
                     if (outChannel->openWithRetries(aName))
                     {
                         outChannel->getReport(reporter);
@@ -532,6 +555,9 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                             else
                             {
                                 OD_LOG("! (outChannel->write(message, response))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
                             }
                         }
                         else
@@ -594,7 +620,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
 
         if (stuff)
         {
-            EndpointStatusReporter reporter;
+            ChannelStatusReporter reporter;
             Test05HandlerCreator   handlerCreator;
             
             if (stuff->setInputHandlerCreator(handlerCreator) && stuff->open() && stuff->setReporter(reporter, true))
@@ -606,6 +632,10 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                 
                 if (outChannel)
                 {
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+                    outChannel->setReporter(reporter);
+                    outChannel->getReport(reporter);
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
                     if (outChannel->openWithRetries(aName))
                     {
                         outChannel->getReport(reporter);
@@ -632,6 +662,9 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                             else
                             {
                                 OD_LOG("! (outChannel->write(message, response))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
                             }
                         }
                         else
@@ -773,7 +806,7 @@ static int doTestRequestEchoFromEndpoint(const int argc,
         
         if (stuff)
         {
-            EndpointStatusReporter reporter;
+            ChannelStatusReporter reporter;
             Test08Handler          handler;
             
             if (stuff->setInputHandler(handler) && stuff->open() && stuff->setReporter(reporter, true))

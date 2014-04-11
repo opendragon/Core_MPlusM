@@ -42,7 +42,7 @@
 #include "MoMeRandomRequestHandler.h"
 #include "MoMeRandomNumberRequests.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -193,7 +193,13 @@ bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("! (count > 0)");//####
             }
-            response.write(*replyMechanism);
+            if (! response.write(*replyMechanism))
+            {
+                OD_LOG("(! response.write(*replyMechanism))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+            }
         }
     }
     catch (...)

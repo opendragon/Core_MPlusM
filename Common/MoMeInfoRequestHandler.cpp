@@ -154,16 +154,20 @@ bool InfoRequestHandler::processRequest(const yarp::os::ConstString & request,
             
             if (_owner && (1 == restOfInput.size()))
             {
-                _owner->lock();
                 _owner->fillInRequestInfo(reply, restOfInput.get(0).toString());
-                _owner->unlock();
             }
             else
             {
                 OD_LOG("! (_owner && (1 == restOfInput.size()))");//####
             }
             OD_LOG_S1("reply <- ", reply.toString().c_str());
-            reply.write(*replyMechanism);
+            if (! reply.write(*replyMechanism))
+            {
+                OD_LOG("(! reply.write(*replyMechanism))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+            }
         }
     }
     catch (...)

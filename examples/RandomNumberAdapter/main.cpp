@@ -40,11 +40,12 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeAdapterChannel.h"
+#include "MoMeChannelStatusReporter.h"
 #include "MoMeRandomNumberAdapterData.h"
 #include "MoMeRandomNumberClient.h"
 #include "MoMeRandomNumberDataInputHandler.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <iostream>
@@ -136,6 +137,13 @@ int main(int      argc,
                 MoAndMe::Common::SetSignalHandlers(stopRunning);
                 if (stuff->findService("keyword random"))
                 {
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+                    MoAndMe::Common::ChannelStatusReporter reporter;
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+                    
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+                    stuff->setReporter(reporter, true);
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
                     if (stuff->connectToService())
                     {
                         MoAndMe::Common::AdapterChannel * dataChannel = new MoAndMe::Common::AdapterChannel;
@@ -156,6 +164,12 @@ int main(int      argc,
                                     outputName = argv[2];
                                 }
                             }
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+                            dataChannel->setReporter(reporter);
+                            dataChannel->getReport(reporter);
+                            outputChannel->setReporter(reporter);
+                            outputChannel->getReport(reporter);
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
                             if (dataChannel->openWithRetries(dataName) && outputChannel->openWithRetries(outputName))
                             {
                                 sharedData.activate();

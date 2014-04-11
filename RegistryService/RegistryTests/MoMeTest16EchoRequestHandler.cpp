@@ -153,7 +153,13 @@ bool Test16EchoRequestHandler::processRequest(const yarp::os::ConstString & requ
         {
             Common::Package argsCopy(restOfInput);
             
-            argsCopy.write(*replyMechanism);
+            if (! argsCopy.write(*replyMechanism))
+            {
+                OD_LOG("(! argsCopy.write(*replyMechanism))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+            }
         }
     }
     catch (...)

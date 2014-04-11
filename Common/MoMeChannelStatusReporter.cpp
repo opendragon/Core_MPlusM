@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeTEndpointStatusReporter.cpp
+//  File:       MoMeChannelStatusReporter.cpp
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class definition for the endpoint status reporter for the MoAndMe
+//  Contains:   The class definition for the channel status reporter for the MoAndMe
 //              unit tests.
 //
 //  Written by: Norman Jaffe
@@ -40,7 +40,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeEndpointStatusReporter.h"
+#include "MoMeChannelStatusReporter.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -66,7 +66,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the endpoint status reporter for the MoAndMe unit tests. */
+ @brief The class definition for the channel status reporter for the MoAndMe unit tests. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -89,20 +89,24 @@ using namespace MoAndMe::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-EndpointStatusReporter::EndpointStatusReporter(void) :
+ChannelStatusReporter::ChannelStatusReporter(void) :
         inherited()
 {
-} // EndpointStatusReporter::EndpointStatusReporter
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(this);//####
+} // ChannelStatusReporter::ChannelStatusReporter
 
-EndpointStatusReporter::~EndpointStatusReporter(void)
+ChannelStatusReporter::~ChannelStatusReporter(void)
 {
-} // EndpointStatusReporter::~EndpointStatusReporter
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
+} // ChannelStatusReporter::~ChannelStatusReporter
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void EndpointStatusReporter::report(const yarp::os::PortInfo & info)
+void ChannelStatusReporter::report(const yarp::os::PortInfo & info)
 {
     OD_LOG_LL1("tag = ", info.tag);//####
     switch (info.tag)
@@ -128,7 +132,7 @@ void EndpointStatusReporter::report(const yarp::os::PortInfo & info)
     OD_LOG_S4("portName = ", info.portName.c_str(), "sourceName = ", info.sourceName.c_str(), "targetName = ",//####
               info.targetName.c_str(), "carrierName = ", info.carrierName.c_str());//####
     OD_LOG_S1("message = ", info.message.c_str());//####
-} // EndpointStatusReporter::report
+} // ChannelStatusReporter::report
 
 #if defined(__APPLE__)
 # pragma mark Accessors

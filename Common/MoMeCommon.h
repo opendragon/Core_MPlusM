@@ -187,6 +187,9 @@ namespace MoAndMe
         /*! @brief Restore the normal signal-handling behaviour. */
         void ShutDownCatcher(void);
         
+        /*! @brief Perform a busy loop, using yarp::os::Time::yield(). */
+        void Stall(void) __attribute__((noreturn));
+        
     } // Common
 
     /*! @brief Return the name of a signal.

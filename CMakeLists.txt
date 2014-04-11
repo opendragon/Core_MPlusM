@@ -46,7 +46,7 @@ project(MovementAndMeaning)
 
 set(MAM_VERSION_MAJOR 1)
 set(MAM_VERSION_MINOR 2)
-set(MAM_VERSION_PATCH 1)
+set(MAM_VERSION_PATCH 2)
 
 option(MAM_CHANNELS_USE_RPC "Use RpcClient and RpcService objects for communication")
 option(MAM_DO_EXPLICIT_CLOSE "Perform an explicit CloseChannel() prior to freeing a channel")
@@ -54,7 +54,9 @@ option(MAM_DO_EXPLICIT_DISCONNECT "Perform an explicit disconnect prior to closi
 option(MAM_DONT_USE_TIMEOUTS "Allow operations to take arbitrary lengths of time")
 option(MAM_LOG_INCLUDES_YARP_TRACE "Include YARP trace when logging")
 option(MAM_MAIN_DOES_DELAY_NOT_YIELD "Use Delay() in main() loop")
+option(MAM_REPORT_ON_CONNECTIONS "Report on connections")
 option(MAM_SERVICES_LOG_TO_STDERR "Services send logging output to stderr")
+option(MAM_STALL_ON_SEND_PROBLEM "A send failure goes to a tight loop")
 
 # find YARP
 find_package(YARP REQUIRED)

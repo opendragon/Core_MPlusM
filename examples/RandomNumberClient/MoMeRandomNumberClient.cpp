@@ -43,7 +43,7 @@
 #include "MoMeRandomNumberRequests.h"
 #include "MoMeServiceResponse.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -76,7 +76,7 @@ using namespace MoAndMe::Example;
 #endif // defined(__APPLE__)
 
 RandomNumberClient::RandomNumberClient(void) :
-        inherited("example/randomnumber_")
+        inherited("client/example/randomnumber_")
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####

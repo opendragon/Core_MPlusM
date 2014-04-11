@@ -75,6 +75,10 @@
 
 #cmakedefine MAM_MAIN_DOES_DELAY_NOT_YIELD /* Use delay() instead of yield() in the background loop in main(). */
 
+#cmakedefine MAM_REPORT_ON_CONNECTIONS /* Report on connections. */
+
 #cmakedefine MAM_SERVICES_LOG_TO_STDERR /* Enable logging to stderr as well as the system log. */
+
+#cmakedefine MAM_STALL_ON_SEND_PROBLEM /* A send failure goes to a tight loop. */
 
 #endif // ! defined(MOMECONFIG_H_)

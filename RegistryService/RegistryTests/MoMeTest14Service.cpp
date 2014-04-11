@@ -63,9 +63,6 @@ using namespace MoAndMe::Test;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The operation timeout to use with YARP. */
-static const float kTest14ServiceTimeout = 5.0;
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -150,7 +147,6 @@ bool Test14Service::start(void)
     {
         if (! isStarted())
         {
-            setTimeout(kTest14ServiceTimeout);
             inherited::start();
             if (isStarted())
             {

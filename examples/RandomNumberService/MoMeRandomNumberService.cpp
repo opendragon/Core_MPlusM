@@ -43,7 +43,7 @@
 #include "MoMeRandomNumberRequests.h"
 #include "MoMeRandomRequestHandler.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -62,9 +62,6 @@ using namespace MoAndMe::Example;
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-/*! @brief The operation timeout to use with YARP. */
-static const float kRandomNumberServiceTimeout = 5.0;
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -152,7 +149,6 @@ bool RandomNumberService::start(void)
     {
         if (! isStarted())
         {
-            setTimeout(kRandomNumberServiceTimeout);
             inherited::start();
             if (isStarted())
             {

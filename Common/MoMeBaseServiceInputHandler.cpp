@@ -100,17 +100,13 @@ bool BaseServiceInputHandler::handleInput(const Package &               input,
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
-    bool result = false;
+    bool result = true;
     
     try
     {
         if (0 < input.size())
         {
             result = _service.processRequest(input.get(0).toString(), input.tail(), senderChannel, replyMechanism);
-        }
-        else
-        {
-            result = true;
         }
     }
     catch (...)

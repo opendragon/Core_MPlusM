@@ -162,7 +162,13 @@ bool ClientsRequestHandler::processRequest(const yarp::os::ConstString & request
             }
 #endif // defined(SERVICES_HAVE_CONTEXTS)
             OD_LOG_S1("reply <- ", reply.toString().c_str());
-            reply.write(*replyMechanism);
+            if (! reply.write(*replyMechanism))
+            {
+                OD_LOG("(! reply.write(*replyMechanism))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+            }
         }
     }
     catch (...)

@@ -223,6 +223,9 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                                 OD_LOG("! (outChannel->write(message2, response))");//####
                                                 reply.addString(MAM_FAILED_RESPONSE);
                                                 reply.addString("Could not write to channel");
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                                                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
                                             }
                                         }
                                         else
@@ -237,6 +240,9 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                         OD_LOG("! (outChannel->write(message1, response))");//####
                                         reply.addString(MAM_FAILED_RESPONSE);
                                         reply.addString("Could not write to channel");
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                                        Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
                                     }
 #if defined(MAM_DO_EXPLICIT_DISCONNECT)
                                     if (! Common::NetworkDisconnectWithRetries(outChannel->getName(), argAsString))
@@ -291,7 +297,13 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                 reply.addString("Missing channel name or extra arguments to request");
             }
             OD_LOG_S1("reply <- ", reply.toString().c_str());
-            reply.write(*replyMechanism);
+            if (! reply.write(*replyMechanism))
+            {
+                OD_LOG("(! reply.write(*replyMechanism))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+            }
         }
     }
     catch (...)

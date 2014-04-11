@@ -46,6 +46,7 @@
 #include "MoMeBaseServiceInputHandlerCreator.h"
 #include "MoMeEndpoint.h"
 #include "MoMeException.h"
+#include "MoMeChannelStatusReporter.h"
 #include "MoMeClientChannel.h"
 #include "MoMeClientsRequestHandler.h"
 #include "MoMeInfoRequestHandler.h"
@@ -236,14 +237,12 @@ void BaseService::attachRequestHandlers(void)
         if (_infoHandler && _listHandler && _nameHandler)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
         {
-            _requestHandlers.lock();
 #if defined(SERVICES_HAVE_CONTEXTS)
             _requestHandlers.registerRequestHandler(_clientsHandler);
 #endif // defined(SERVICES_HAVE_CONTEXTS)
             _requestHandlers.registerRequestHandler(_infoHandler);
             _requestHandlers.registerRequestHandler(_listHandler);
             _requestHandlers.registerRequestHandler(_nameHandler);
-            _requestHandlers.unlock();
         }
         else
         {
@@ -304,7 +303,6 @@ void BaseService::detachRequestHandlers(void)
     OD_LOG_OBJENTER();//####
     try
     {
-        _requestHandlers.lock();
 #if defined(SERVICES_HAVE_CONTEXTS)
         if (_clientsHandler)
         {
@@ -331,7 +329,6 @@ void BaseService::detachRequestHandlers(void)
             delete _nameHandler;
             _nameHandler = NULL;
         }
-        _requestHandlers.unlock();
     }
     catch (...)
     {
@@ -393,14 +390,12 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
     OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
               senderChannel.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
-    bool result;
+    bool result = true;
     
     try
     {
-        _requestHandlers.lock();
         BaseRequestHandler * handler = _requestHandlers.lookupRequestHandler(request);
         
-        _requestHandlers.unlock();
         if (handler)
         {
             OD_LOG("(handler)");//####
@@ -413,7 +408,13 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
             {
                 Package errorMessage("unrecognized request");
                 
-                errorMessage.write(*replyMechanism);
+                if (! errorMessage.write(*replyMechanism))
+                {
+                    OD_LOG("(! errorMessage.write(*replyMechanism))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                    Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+                }
             }
             result = false;
         }
@@ -431,9 +432,7 @@ void BaseService::registerRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("handler = ", handler);//####
-    _requestHandlers.lock();
     _requestHandlers.registerRequestHandler(handler);
-    _requestHandlers.unlock();
     OD_LOG_OBJEXIT();//####
 } // BaseService::registerRequestHandler
 
@@ -472,37 +471,9 @@ void BaseService::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("handler = ", handler);//####
-    _requestHandlers.lock();
     _requestHandlers.setDefaultRequestHandler(handler);
-    _requestHandlers.unlock();
     OD_LOG_OBJEXIT();//####
 } // BaseService::setDefaultRequestHandler
-
-bool BaseService::setTimeout(const float timeout)
-{
-    OD_LOG_OBJENTER();//####
-    OD_LOG_D1("timeout = ", timeout);//####
-    bool result = false;
-    
-    try
-    {
-        if (! _started)
-        {
-            result = _endpoint->setTimeout(timeout);
-        }
-        else
-        {
-            OD_LOG("! (! _started)");//####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(result);//####
-    return result;
-} // BaseService::setTimeout
 
 bool BaseService::start(void)
 {
@@ -576,9 +547,7 @@ void BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("handler = ", handler);//####
-    _requestHandlers.lock();
     _requestHandlers.unregisterRequestHandler(handler);
-    _requestHandlers.unlock();
     OD_LOG_OBJEXIT();//####
 } // BaseService::unregisterRequestHandler
 
@@ -603,6 +572,14 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
         
         if (newChannel)
         {
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+            ChannelStatusReporter reporter;
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+            
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+            newChannel->setReporter(reporter);
+            newChannel->getReport(reporter);
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
             if (newChannel->openWithRetries(aName))
             {
                 if (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
@@ -685,6 +662,14 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
         
         if (newChannel)
         {
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+            ChannelStatusReporter reporter;
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+            
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+            newChannel->setReporter(reporter);
+            newChannel->getReport(reporter);
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
             if (newChannel->openWithRetries(aName))
             {
                 if (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))

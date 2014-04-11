@@ -136,7 +136,13 @@ bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstSt
         {
             Common::Package response(MAM_OK_RESPONSE);
             
-            response.write(*replyMechanism);
+            if (! response.write(*replyMechanism))
+            {
+                OD_LOG("(! response.write(*replyMechanism))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+            }
         }
     }
     catch (...)

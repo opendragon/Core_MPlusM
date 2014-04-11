@@ -40,12 +40,13 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeAdapterChannel.h"
+#include "MoMeChannelStatusReporter.h"
 #include "MoMeRunningSumAdapterData.h"
 #include "MoMeRunningSumClient.h"
 #include "MoMeRunningSumControlInputHandler.h"
 #include "MoMeRunningSumDataInputHandler.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <iostream>
@@ -137,6 +138,13 @@ int main(int      argc,
                 MoAndMe::Common::SetSignalHandlers(stopRunning);
                 if (stuff->findService("Name RunningSum"))
                 {
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+                    MoAndMe::Common::ChannelStatusReporter reporter;
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+                    
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+                    stuff->setReporter(reporter, true);
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
                     if (stuff->connectToService())
                     {
                         MoAndMe::Common::AdapterChannel * controlChannel = new MoAndMe::Common::AdapterChannel;
@@ -165,6 +173,14 @@ int main(int      argc,
                                     }
                                 }
                             }
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+                            controlChannel->setReporter(reporter);
+                            controlChannel->getReport(reporter);
+                            dataChannel->setReporter(reporter);
+                            dataChannel->getReport(reporter);
+                            outputChannel->setReporter(reporter);
+                            outputChannel->getReport(reporter);
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
                             if (controlChannel->openWithRetries(controlName) &&
                                 dataChannel->openWithRetries(dataName) && outputChannel->openWithRetries(outputName))
                             {

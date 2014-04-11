@@ -45,7 +45,7 @@
 #include "MoMeRunningSumClient.h"
 #include "MoMeRunningSumRequests.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -103,7 +103,7 @@ bool RunningSumControlInputHandler::handleInput(const Common::Package &       in
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
-    bool result = false;
+    bool result = true;
     
     try
     {
@@ -133,6 +133,12 @@ bool RunningSumControlInputHandler::handleInput(const Common::Package &       in
                         }
                         _shared.unlock();
                     }
+                    else if (argString == MAM_QUIT_REQUEST)
+                    {
+                        _shared.lock();
+                        _shared.deactivate();
+                        _shared.unlock();
+                    }
                     else if (argString == MAM_START_REQUEST)
                     {
                         _shared.lock();
@@ -157,15 +163,10 @@ bool RunningSumControlInputHandler::handleInput(const Common::Package &       in
                         {
                             OD_LOG("! (theClient->startSum())");//####
                         }
-                        _shared.deactivate();
                         _shared.unlock();
                     }
                 }
             }
-        }
-        else
-        {
-            result = true;
         }
     }
     catch (...)

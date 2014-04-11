@@ -61,6 +61,7 @@ namespace MoAndMe
 {
     namespace Common
     {
+        class ChannelStatusReporter;
         class ClientChannel;
         class ServiceResponse;
         
@@ -92,6 +93,12 @@ namespace MoAndMe
             bool findService(const char * criteria,
                              const bool   allowOnlyOneMatch = false);
             
+            /*! @brief Set the channel status reporter for the private channel.
+             @param reporter The channel status reporter to be used by the private channel.
+             @param andReportNow @c true if the channel status reporter is to be activated immediately on open. */
+            void setReporter(ChannelStatusReporter & reporter,
+                             const bool              andReportNow = false);
+            
         protected:
             
             /*! @brief Re-establish the service connection if it has dropped. */
@@ -120,30 +127,37 @@ namespace MoAndMe
              @param other Another object to construct from. */
             BaseClient & operator=(const BaseClient & other);
             
+            /*! @brief The channel status reporter that has been set for this channel. */
+            ChannelStatusReporter * _reporter;
+            
             /*! @brief The channel that the client uses for communication. */
-            ClientChannel *       _channel;
+            ClientChannel *         _channel;
             
             /*! @brief The name of the client channel being used. */
-            yarp::os::ConstString _channelName;
+            yarp::os::ConstString   _channelName;
             
             /*! @brief The name of the service channel being used. */
-            yarp::os::ConstString _serviceChannelName;
+            yarp::os::ConstString   _serviceChannelName;
             
             /*! @brief The root name for the client channel. */
-            char *                _baseChannelName;
+            char *                  _baseChannelName;
             
             /*! @brief @c true if the client is connected to the service and @c false otherwise. */
-            bool                  _connected;
+            bool                    _connected;
+            
+            /*! @brief @c true if the channel status is to be reported on initial creation of the channel. */
+            bool                    _reportImmediately;
             
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char                  _filler[7];
+            char                    _filler[6];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
+            
         }; // BaseClient
         
         /*! @brief Find one or more matching services that are registered with a running Service Registry service.

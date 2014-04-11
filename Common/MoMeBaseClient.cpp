@@ -41,6 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeBaseClient.h"
+#include "MoMeChannelStatusReporter.h"
 #include "MoMeClientChannel.h"
 #include "MoMeRequests.h"
 #include "MoMeServiceRequest.h"
@@ -159,7 +160,8 @@ static Package validateMatchResponse(const Package & response)
 #endif // defined(__APPLE__)
 
 BaseClient::BaseClient(const char * baseChannelName) :
-        _channel(NULL), _channelName(), _serviceChannelName(), _baseChannelName(NULL), _connected(false)
+        _reporter(NULL), _channel(NULL), _channelName(), _serviceChannelName(), _baseChannelName(NULL),
+        _connected(false), _reportImmediately(false)
 {
     OD_LOG_ENTER();//####
     size_t len = strlen(baseChannelName);
@@ -187,32 +189,48 @@ bool BaseClient::connectToService(void)
     OD_LOG_OBJENTER();//####
     if (! _connected)
     {
-        if (! _channel)
+        try
         {
-            _channelName = GetRandomChannelName(_baseChannelName);
-            _channel = new ClientChannel;
-        }
-        if (_channel)
-        {
-            if (_channel->openWithRetries(_channelName))
+            if (! _channel)
             {
-                if (NetworkConnectWithRetries(_channelName, _serviceChannelName))
+                _channelName = GetRandomChannelName(_baseChannelName);
+                _channel = new ClientChannel;
+                if (_reporter)
                 {
-                    _connected = true;
+                    _channel->setReporter(*_reporter);
+                    if (_reportImmediately)
+                    {
+                        _channel->getReport(*_reporter);
+                    }
+                }
+            }
+            if (_channel)
+            {
+                if (_channel->openWithRetries(_channelName))
+                {
+                    if (NetworkConnectWithRetries(_channelName, _serviceChannelName))
+                    {
+                        _connected = true;
+                    }
+                    else
+                    {
+                        OD_LOG("! (NetworkConnectWithRetries(_channelName, _serviceChannelName))");//####
+                    }
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(_channelName, _serviceChannelName))");//####
+                    OD_LOG("! (_channel->openWithRetries(_channelName))");//####
                 }
             }
             else
             {
-                OD_LOG("! (_channel->openWithRetries(_channelName))");//####
+                OD_LOG("! (_channel)");//####
             }
         }
-        else
+        catch (...)
         {
-            OD_LOG("! (_channel)");//####
+            OD_LOG("Exception caught");//####
+            throw;
         }
     }
     OD_LOG_OBJEXIT_B(_connected);//####
@@ -364,6 +382,17 @@ bool BaseClient::send(const char *      request,
     return result;
 } // BaseClient::send
 
+void BaseClient::setReporter(ChannelStatusReporter & reporter,
+                             const bool              andReportNow)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("reporter = ", &reporter);//####
+    OD_LOG_B1("andReportNow = ", andReportNow);//####
+    _reporter = &reporter;
+    _reportImmediately = andReportNow;
+    OD_LOG_OBJEXIT();//####
+} // BaseClient::setReporter
+
 #if defined(__APPLE__)
 # pragma mark Accessors
 #endif // defined(__APPLE__)
@@ -388,6 +417,13 @@ Package Common::FindMatchingServices(const char * criteria)
         
         if (newChannel)
         {
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+            ChannelStatusReporter reporter;
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+            
+#if defined(MAM_REPORT_ON_CONNECTIONS)
+            newChannel->setReporter(reporter);
+#endif // defined(MAM_REPORT_ON_CONNECTIONS)
             if (newChannel->openWithRetries(aName))
             {
                 if (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))

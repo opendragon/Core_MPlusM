@@ -75,6 +75,7 @@ namespace MoAndMe
 {
     namespace Common
     {
+        class ChannelStatusReporter;
         class InputHandler;
         class InputHandlerCreator;
         class ServiceChannel;
@@ -132,17 +133,12 @@ namespace MoAndMe
              @returns @c true if the input handler creator was attached to the endpoint. */
             bool setInputHandlerCreator(InputHandlerCreator & handlerCreator);
             
-            /*! @brief Set the port activity reporter for the endpoint.
-             @param reporter The port activity reporter to be used by the endpoint.
-             @param andReportNow @c true if the port activity reporter is to be activated immediately.
-             @returns @c true if the port activity reporter was attached to the endpoint. */
-            bool setReporter(yarp::os::PortReport & reporter,
-                             const bool             andReportNow = false);
-            
-            /*! @brief Set the endpoint timeout; must be called between creating an endpoint and opening it.
-             @param timeout The number of seconds to wait; if negative, wait forever.
-             @returns @c true if the timeou was set and @c false otherwise. */
-            bool setTimeout(const float timeout);
+            /*! @brief Set the channel status reporter for the endpoint.
+             @param reporter The channel status reporter to be used by the endpoint.
+             @param andReportNow @c true if the channel status reporter is to be activated immediately.
+             @returns @c true if the channel status reporter was attached to the endpoint. */
+            bool setReporter(ChannelStatusReporter & reporter,
+                             const bool              andReportNow = false);
             
             /*! @brief Check the format of an endpoint name.
              @param channelName The name to be checked.
