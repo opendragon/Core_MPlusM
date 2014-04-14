@@ -100,6 +100,9 @@ bool RunningSumControlInputHandler::handleInput(const Common::Package &       in
                                                 const yarp::os::ConstString & senderChannel,
                                                 yarp::os::ConnectionWriter *  replyMechanism)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# pragma unused(senderChannel,replyMechanism)
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
@@ -135,9 +138,7 @@ bool RunningSumControlInputHandler::handleInput(const Common::Package &       in
                     }
                     else if (argString == MAM_QUIT_REQUEST)
                     {
-                        _shared.lock();
                         _shared.deactivate();
-                        _shared.unlock();
                     }
                     else if (argString == MAM_START_REQUEST)
                     {

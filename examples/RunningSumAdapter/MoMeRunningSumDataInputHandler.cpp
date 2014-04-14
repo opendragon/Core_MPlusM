@@ -101,6 +101,9 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
                                              const yarp::os::ConstString & senderChannel,
                                              yarp::os::ConnectionWriter *  replyMechanism)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# pragma unused(senderChannel,replyMechanism)
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
@@ -115,7 +118,7 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
             Common::AdapterChannel * theOutput = _shared.getOutput();
             RunningSumClient *       theClient = (RunningSumClient *) _shared.getClient();
             
-            if (theClient && theOutput)
+            if (_shared.isActive() && theClient && theOutput)
             {
                 if (1 == howMany)
                 {
