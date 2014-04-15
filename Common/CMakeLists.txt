@@ -2,7 +2,7 @@
 #
 #  File:       Common/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The CMAKE definitions for the M+M common libraries.
 #
@@ -48,32 +48,32 @@ include_directories("${MpM_LOGGING_DIR}"
                     "${MpM_COMMONTESTSUPPORT_DIR}")
 
 add_library(Common
-            MoMeAdapterChannel.cpp
-            MoMeBailOut.cpp
-            MoMeBailOutThread.cpp
-            MoMeBaseAdapterData.cpp
-            MoMeBaseClient.cpp
-            MoMeBaseContext.cpp
-            MoMeBaseRequestHandler.cpp
-            MoMeBaseService.cpp
-            MoMeBaseServiceInputHandler.cpp
-            MoMeBaseServiceInputHandlerCreator.cpp
-            MoMeChannelStatusReporter.cpp
-            MoMeClientChannel.cpp
-            MoMeClientsRequestHandler.cpp
-            MoMeCommon.cpp
-            MoMeDetachRequestHandler.cpp
-            MoMeEndpoint.cpp
-            MoMeException.cpp
-            MoMeInfoRequestHandler.cpp
-            MoMeInputHandler.cpp
-            MoMeInputHandlerCreator.cpp
-            MoMeListRequestHandler.cpp
-            MoMeNameRequestHandler.cpp
-            MoMeRequestMap.cpp
-            MoMeServiceChannel.cpp
-            MoMeServiceRequest.cpp
-            MoMeServiceResponse.cpp)
+            M+MAdapterChannel.cpp
+            M+MBailOut.cpp
+            M+MBailOutThread.cpp
+            M+MBaseAdapterData.cpp
+            M+MBaseClient.cpp
+            M+MBaseContext.cpp
+            M+MBaseRequestHandler.cpp
+            M+MBaseService.cpp
+            M+MBaseServiceInputHandler.cpp
+            M+MBaseServiceInputHandlerCreator.cpp
+            M+MChannelStatusReporter.cpp
+            M+MClientChannel.cpp
+            M+MClientsRequestHandler.cpp
+            M+MCommon.cpp
+            M+MDetachRequestHandler.cpp
+            M+MEndpoint.cpp
+            M+MException.cpp
+            M+MInfoRequestHandler.cpp
+            M+MInputHandler.cpp
+            M+MInputHandlerCreator.cpp
+            M+MListRequestHandler.cpp
+            M+MNameRequestHandler.cpp
+            M+MRequestMap.cpp
+            M+MServiceChannel.cpp
+            M+MServiceRequest.cpp
+            M+MServiceResponse.cpp)
 
 install(TARGETS Common DESTINATION bin)
 install(FILES Common DESTINATION include)
@@ -81,7 +81,7 @@ install(FILES Common DESTINATION include)
 enable_testing()
 
 add_executable(CommonTest
-               MoMeCommonTest.cpp)
+               M+MCommonTest.cpp)
 
 target_link_libraries(CommonTest
                       Common

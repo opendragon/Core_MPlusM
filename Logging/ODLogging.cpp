@@ -2,7 +2,7 @@
 //
 //  File:       ODLogging.cpp
 //
-//  Project:    MPlusM
+//  Project:    M+M
 //
 //  Contains:   The C++ variation of the debugging facility.
 //

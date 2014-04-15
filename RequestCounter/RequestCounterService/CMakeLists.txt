@@ -2,7 +2,7 @@
 #
 #  File:       RequestCounterService/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The CMAKE definitions for the request counter service application.
 #
@@ -46,11 +46,11 @@ include_directories("${MpM_LOGGING_DIR}"
 # set up our program
 add_executable(RequestCounterService
                main.cpp
-               MoMeRequestCounterContext.cpp
-               MoMeRequestCounterDefaultRequestHandler.cpp
-               MoMeRequestCounterService.cpp
-               MoMeResetRequestHandler.cpp
-               MoMeStatsRequestHandler.cpp)
+               M+MRequestCounterContext.cpp
+               M+MRequestCounterDefaultRequestHandler.cpp
+               M+MRequestCounterService.cpp
+               M+MResetRequestHandler.cpp
+               M+MStatsRequestHandler.cpp)
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RequestCounterService

@@ -2,7 +2,7 @@
 #
 #  File:       RequestInfo/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The CMAKE definitions for the ServiceLister application.
 #

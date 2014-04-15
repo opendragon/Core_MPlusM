@@ -2,7 +2,7 @@
 //
 //  File:       RunningSumService/main.cpp
 //
-//  Project:    MPlusM
+//  Project:    M+M
 //
 //  Contains:   The main application for a simple M+M service with context.
 //
@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeEndpoint.h"
-#include "MoMeRunningSumService.h"
+#include "M+MEndpoint.h"
+#include "M+MRunningSumService.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"

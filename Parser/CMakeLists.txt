@@ -2,7 +2,7 @@
 #
 #  File:       Parser/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The CMAKE definitions for the M+M parser library.
 #
@@ -47,14 +47,14 @@ include_directories("${MpM_COMMON_DIR}"
                     "${MpM_LOGGING_DIR}")
 
 add_library(Parser
-            MoMeBaseMatcher.cpp
-            MoMeBaseNameValidator.cpp
-            MoMeMatchConstraint.cpp
-            MoMeMatchExpression.cpp
-            MoMeMatchFieldName.cpp
-            MoMeMatchFieldWithValues.cpp
-            MoMeMatchValue.cpp
-            MoMeMatchValueList.cpp)
+            M+MBaseMatcher.cpp
+            M+MBaseNameValidator.cpp
+            M+MMatchConstraint.cpp
+            M+MMatchExpression.cpp
+            M+MMatchFieldName.cpp
+            M+MMatchFieldWithValues.cpp
+            M+MMatchValue.cpp
+            M+MMatchValueList.cpp)
 
 install(TARGETS Parser DESTINATION bin)
 install(FILES Parser DESTINATION include)
@@ -62,8 +62,8 @@ install(FILES Parser DESTINATION include)
 enable_testing()
 
 add_executable(ParserTest
-               MoMeParserTest.cpp
-               MoMeTestNameValidator.cpp)
+               M+MParserTest.cpp
+               M+MTestNameValidator.cpp)
 
 target_link_libraries(ParserTest
                       Common

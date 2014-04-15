@@ -2,7 +2,7 @@
 //
 //  File:       PortLister/main.cpp
 //
-//  Project:    MPlusM
+//  Project:    M+M
 //
 //  Contains:   A utility application to list the available ports.
 //
@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeBaseClient.h"
-#include "MoMeRequests.h"
+#include "M+MBaseClient.h"
+#include "M+MRequests.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"

@@ -2,7 +2,7 @@
 #
 #  File:       RunningSumClient/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The CMAKE definitions for the example running sum client application.
 #
@@ -46,7 +46,7 @@ include_directories("${MpM_LOGGING_DIR}"
 # set up our program
 add_executable(RunningSumClient
                main.cpp
-               MoMeRunningSumClient.cpp)
+               M+MRunningSumClient.cpp)
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RunningSumClient

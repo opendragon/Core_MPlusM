@@ -8,7 +8,6 @@ install_manifest.txt
 Testing
 Doxygen_output
 ClientList/ClientList
-Common/MoMeConfig.h
 Common/CommonTest
 examples/EchoClient/EchoClient
 examples/EchoService/EchoService
@@ -29,9 +28,8 @@ ServiceLister/ServiceLister
 ports.db
 subs.db
 test.db
-system.log
-debug.txt
 MoAndMe/MoAndMe.xcodeproj/project.xcworkspace/xcuserdata/njaffe.xcuserdatad/UserInterfaceState.xcuserstate
 MoAndMe/MoAndMe.xcodeproj/xcuserdata/njaffe.xcuserdatad/xcschemes/MoAndMe.xcscheme
 MoAndMe/MoAndMe.xcodeproj/xcuserdata/njaffe.xcuserdatad/xcschemes/xcschememanagement.plist
 RunningSumAltAdapter
+Common/M+MConfig.h

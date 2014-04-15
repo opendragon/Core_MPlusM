@@ -2,7 +2,7 @@
 //
 //  File:       ODLogging.h
 //
-//  Project:    MPlusM
+//  Project:    M+M
 //
 //  Contains:   The function declarations and macro definitions for the logging facility.
 //

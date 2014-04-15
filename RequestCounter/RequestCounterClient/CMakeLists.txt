@@ -2,7 +2,7 @@
 #
 #  File:       RequestCounterClient/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The CMAKE definitions for the request counter client application.
 #
@@ -46,7 +46,7 @@ include_directories("${MpM_LOGGING_DIR}"
 # set up our program
 add_executable(RequestCounterClient
                main.cpp
-               MoMeRequestCounterClient.cpp)
+               M+MRequestCounterClient.cpp)
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RequestCounterClient

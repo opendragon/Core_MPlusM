@@ -2,7 +2,7 @@
 #
 #  File:       RequestCounter/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The CMAKE definitions for the request counter applications.
 #

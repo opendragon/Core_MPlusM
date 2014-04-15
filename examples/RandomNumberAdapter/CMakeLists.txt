@@ -2,7 +2,7 @@
 #
 #  File:       RandomNumberAdapter/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The CMAKE definitions for the example random number adapter application.
 #
@@ -47,9 +47,9 @@ include_directories("${MpM_LOGGING_DIR}"
 # set up our program
 add_executable(RandomNumberAdapter
                main.cpp
-               MoMeRandomNumberAdapterData.cpp
-               MoMeRandomNumberInputHandler.cpp
-               ${MpM_EXAMPLES_DIR}/RandomNumberClient/MoMeRandomNumberClient.cpp)
+               M+MRandomNumberAdapterData.cpp
+               M+MRandomNumberInputHandler.cpp
+               ${MpM_EXAMPLES_DIR}/RandomNumberClient/M+MRandomNumberClient.cpp)
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RandomNumberAdapter

@@ -2,7 +2,7 @@
 #
 #  File:       RegistryTests/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The CMAKE definitions for the registry unit test application.
 #
@@ -44,12 +44,12 @@ include_directories("${MpM_LOGGING_DIR}"
                     “${MpM_PARSER_DIR}”)
 
 add_library(RegistryTestSupport
-            MoMeTest14EchoRequestHandler.cpp
-            MoMeTest14Service.cpp
-            MoMeTest15EchoRequestHandler.cpp
-            MoMeTest15Service.cpp
-            MoMeTest16EchoRequestHandler.cpp
-            MoMeTest16Service.cpp)
+            M+MTest14EchoRequestHandler.cpp
+            M+MTest14Service.cpp
+            M+MTest15EchoRequestHandler.cpp
+            M+MTest15Service.cpp
+            M+MTest16EchoRequestHandler.cpp
+            M+MTest16Service.cpp)
 
 install(TARGETS RegistryTestSupport DESTINATION bin)
 install(FILES RegistryTestSupport DESTINATION include)

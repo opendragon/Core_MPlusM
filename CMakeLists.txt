@@ -2,7 +2,7 @@
 #
 #  File:       CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The common CMAKE definitions for the M+M project.
 #
@@ -42,11 +42,11 @@
 # YARP needs CMake 2.6 or greater
 cmake_minimum_required(VERSION 2.6)
 
-project(MPlusM)
+project(M+M)
 
 set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 2)
-set(MpM_VERSION_PATCH 3)
+set(MpM_VERSION_PATCH 4)
 
 option(MpM_CHANNELS_USE_RPC "Use RpcClient and RpcService objects for communication")
 option(MpM_DO_EXPLICIT_CLOSE "Perform an explicit CloseChannel() prior to freeing a channel")
@@ -77,8 +77,8 @@ set(MpM_LOGGING_DIR "${PROJECT_SOURCE_DIR}/Logging")
 set(MpM_PARSER_DIR "${PROJECT_SOURCE_DIR}/Parser")
 set(MpM_SQLITE_DIR "${PROJECT_SOURCE_DIR}/SQLite3")
 
-configure_file("${MpM_COMMON_DIR}/MoMeConfig.h.in"
-                "${MpM_COMMON_DIR}/MoMeConfig.h")
+configure_file("${MpM_COMMON_DIR}/M+MConfig.h.in"
+                "${MpM_COMMON_DIR}/M+MConfig.h")
 
 include_directories("${MpM_COMMON_DIR}"
                     "${MpM_LOGGING_DIR}"

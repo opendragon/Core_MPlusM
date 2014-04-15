@@ -2,7 +2,7 @@
 #
 #  File:       RunningSumAdapter/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The CMAKE definitions for the example running sum adapter application.
 #
@@ -47,10 +47,10 @@ include_directories("${MpM_LOGGING_DIR}"
 # set up our program
 add_executable(RunningSumAdapter
                main.cpp
-               MoMeRunningSumAdapterData.cpp
-               MoMeRunningSumControlInputHandler.cpp
-               MoMeRunningSumDataInputHandler.cpp
-               ${MpM_EXAMPLES_DIR}/RunningSumClient/MoMeRunningSumClient.cpp)
+               M+MRunningSumAdapterData.cpp
+               M+MRunningSumControlInputHandler.cpp
+               M+MRunningSumDataInputHandler.cpp
+               ${MpM_EXAMPLES_DIR}/RunningSumClient/M+MRunningSumClient.cpp)
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RunningSumAdapter

@@ -2,7 +2,7 @@
 //
 //  File:       EchoClient/main.cpp
 //
-//  Project:    MPlusM
+//  Project:    M+M
 //
 //  Contains:   The main application for the client of a simple M+M service.
 //
@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeChannelStatusReporter.h"
-#include "MoMeEchoClient.h"
+#include "M+MChannelStatusReporter.h"
+#include "M+MEchoClient.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"

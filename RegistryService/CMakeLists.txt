@@ -2,7 +2,7 @@
 #
 #  File:       RegistryService/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The CMAKE definitions for the RegistryService application.
 #
@@ -51,11 +51,11 @@ include_directories("${MpM_LOGGING_DIR}"
 # set up our program
 add_executable(RegistryService
                main.cpp
-               MoMeColumnNameValidator.cpp
-               MoMeMatchRequestHandler.cpp
-               MoMeRegisterRequestHandler.cpp
-               MoMeRegistryService.cpp
-               MoMeUnregisterRequestHandler.cpp
+               M+MColumnNameValidator.cpp
+               M+MMatchRequestHandler.cpp
+               M+MRegisterRequestHandler.cpp
+               M+MRegistryService.cpp
+               M+MUnregisterRequestHandler.cpp
                ${MpM_SQLITE_DIR}/sqlite3.c)
 
 # link with YARP libraries and our interface classes
@@ -68,12 +68,12 @@ target_link_libraries(RegistryService
 enable_testing()
 
 add_executable(RegistryTest
-               MoMeRegistryTest.cpp
-               MoMeColumnNameValidator.cpp
-               MoMeMatchRequestHandler.cpp
-               MoMeRegisterRequestHandler.cpp
-               MoMeRegistryService.cpp
-               MoMeUnregisterRequestHandler.cpp
+               M+MRegistryTest.cpp
+               M+MColumnNameValidator.cpp
+               M+MMatchRequestHandler.cpp
+               M+MRegisterRequestHandler.cpp
+               M+MRegistryService.cpp
+               M+MUnregisterRequestHandler.cpp
                ${MpM_SQLITE_DIR}/sqlite3.c)
 
 target_link_libraries(RegistryTest

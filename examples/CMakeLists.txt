@@ -2,7 +2,7 @@
 #
 #  File:       examples/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The common CMAKE definitions for the M+M examples.
 #

@@ -2,7 +2,7 @@
 //
 //  File:       RunningSumAdapter/main.cpp
 //
-//  Project:    MPlusM
+//  Project:    M+M
 //
 //  Contains:   The main application for an adapter of a simple M+M service.
 //
@@ -39,12 +39,12 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeAdapterChannel.h"
-#include "MoMeChannelStatusReporter.h"
-#include "MoMeRunningSumAdapterData.h"
-#include "MoMeRunningSumClient.h"
-#include "MoMeRunningSumControlInputHandler.h"
-#include "MoMeRunningSumDataInputHandler.h"
+#include "M+MAdapterChannel.h"
+#include "M+MChannelStatusReporter.h"
+#include "M+MRunningSumAdapterData.h"
+#include "M+MRunningSumClient.h"
+#include "M+MRunningSumControlInputHandler.h"
+#include "M+MRunningSumDataInputHandler.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"

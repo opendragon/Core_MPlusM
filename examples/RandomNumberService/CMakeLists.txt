@@ -2,7 +2,7 @@
 #
 #  File:       RandomNumberService/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The CMAKE definitions for the example random number service application.
 #
@@ -46,8 +46,8 @@ include_directories("${MpM_LOGGING_DIR}"
 # set up our program
 add_executable(RandomNumberService
                main.cpp
-               MoMeRandomNumberService.cpp
-               MoMeRandomRequestHandler.cpp)
+               M+MRandomNumberService.cpp
+               M+MRandomRequestHandler.cpp)
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RandomNumberService

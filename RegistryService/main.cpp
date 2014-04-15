@@ -2,7 +2,7 @@
 //
 //  File:       RegistryService/main.cpp
 //
-//  Project:    MPlusM
+//  Project:    M+M
 //
 //  Contains:   The main application for the Service Registry M+M service.
 //
@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeRegistryService.h"
-#include "MoMeRequests.h"
+#include "M+MRegistryService.h"
+#include "M+MRequests.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"

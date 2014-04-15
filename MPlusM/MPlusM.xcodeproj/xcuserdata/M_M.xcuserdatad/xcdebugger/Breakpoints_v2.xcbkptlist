@@ -9,7 +9,7 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../Common/MoMeEndpoint.cpp"
+            filePath = "../Common/M+MEndpoint.cpp"
             timestampString = "418934528.676399"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"

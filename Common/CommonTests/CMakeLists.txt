@@ -2,7 +2,7 @@
 #
 #  File:       CommonTests/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The CMAKE definitions for the common unit test application.
 #
@@ -44,19 +44,19 @@ include_directories("${MpM_LOGGING_DIR}"
                     “${MpM_PARSER_DIR}”)
 
 add_library(CommonTestSupport
-            MoMeTest03Handler.cpp
-            MoMeTest04Handler.cpp
-            MoMeTest05Handler.cpp
-            MoMeTest05HandlerCreator.cpp
-            MoMeTest08Handler.cpp
-            MoMeTest09DefaultRequestHandler.cpp
-            MoMeTest09Service.cpp
-            MoMeTest10DefaultRequestHandler.cpp
-            MoMeTest10Service.cpp
-            MoMeTest11EchoRequestHandler.cpp
-            MoMeTest11Service.cpp
-            MoMeTest12EchoRequestHandler.cpp
-            MoMeTest12Service.cpp)
+            M+MTest03Handler.cpp
+            M+MTest04Handler.cpp
+            M+MTest05Handler.cpp
+            M+MTest05HandlerCreator.cpp
+            M+MTest08Handler.cpp
+            M+MTest09DefaultRequestHandler.cpp
+            M+MTest09Service.cpp
+            M+MTest10DefaultRequestHandler.cpp
+            M+MTest10Service.cpp
+            M+MTest11EchoRequestHandler.cpp
+            M+MTest11Service.cpp
+            M+MTest12EchoRequestHandler.cpp
+            M+MTest12Service.cpp)
 
 install(TARGETS CommonTestSupport DESTINATION bin)
 install(FILES CommonTestSupport DESTINATION include)

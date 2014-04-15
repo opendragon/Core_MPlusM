@@ -2,7 +2,7 @@
 //
 //  File:       ODLogging.m
 //
-//  Project:    MPlusM
+//  Project:    M+M
 //
 //  Contains:   The Objective C variation of the debugging facility.
 //

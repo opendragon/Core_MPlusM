@@ -2,7 +2,7 @@
 //
 //  File:       RequestCounterService/main.cpp
 //
-//  Project:    MPlusM
+//  Project:    M+M
 //
 //  Contains:   The main application for the request counter service.
 //
@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeEndpoint.h"
-#include "MoMeRequestCounterService.h"
+#include "M+MEndpoint.h"
+#include "M+MRequestCounterService.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"

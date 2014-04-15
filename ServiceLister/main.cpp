@@ -2,7 +2,7 @@
 //
 //  File:       ServiceLister/main.cpp
 //
-//  Project:    MPlusM
+//  Project:    M+M
 //
 //  Contains:   A utility application to list the available services.
 //
@@ -39,11 +39,11 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeBaseClient.h"
-#include "MoMeClientChannel.h"
-#include "MoMeRequests.h"
-#include "MoMeServiceRequest.h"
-#include "MoMeServiceResponse.h"
+#include "M+MBaseClient.h"
+#include "M+MClientChannel.h"
+#include "M+MRequests.h"
+#include "M+MServiceRequest.h"
+#include "M+MServiceResponse.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"

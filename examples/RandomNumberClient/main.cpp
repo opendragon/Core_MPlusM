@@ -2,7 +2,7 @@
 //
 //  File:       RandomNumberClient/main.cpp
 //
-//  Project:    MPlusM
+//  Project:    M+M
 //
 //  Contains:   The main application for the client of a simple M+M service.
 //
@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeChannelStatusReporter.h"
-#include "MoMeRandomNumberClient.h"
+#include "M+MChannelStatusReporter.h"
+#include "M+MRandomNumberClient.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"

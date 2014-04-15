@@ -2,7 +2,7 @@
 #
 #  File:       PortLister/CMakeLists.txt
 #
-#  Project:    MPlusM
+#  Project:    M+M
 #
 #  Contains:   The CMAKE definitions for the PortLister application.
 #

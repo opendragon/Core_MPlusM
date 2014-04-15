@@ -2,7 +2,7 @@
 //
 //  File:       RequestCounterClient/main.cpp
 //
-//  Project:    MPlusM
+//  Project:    M+M
 //
 //  Contains:   The main application for the client of the request counter service.
 //
@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeChannelStatusReporter.h"
-#include "MoMeRequestCounterClient.h"
+#include "M+MChannelStatusReporter.h"
+#include "M+MRequestCounterClient.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"

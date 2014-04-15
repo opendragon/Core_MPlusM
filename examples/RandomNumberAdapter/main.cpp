@@ -2,7 +2,7 @@
 //
 //  File:       RandomNumberAdapter/main.cpp
 //
-//  Project:    MPlusM
+//  Project:    M+M
 //
 //  Contains:   The main application for an adapter of a simple M+M service.
 //
@@ -39,11 +39,11 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeAdapterChannel.h"
-#include "MoMeChannelStatusReporter.h"
-#include "MoMeRandomNumberAdapterData.h"
-#include "MoMeRandomNumberClient.h"
-#include "MoMeRandomNumberInputHandler.h"
+#include "M+MAdapterChannel.h"
+#include "M+MChannelStatusReporter.h"
+#include "M+MRandomNumberAdapterData.h"
+#include "M+MRandomNumberClient.h"
+#include "M+MRandomNumberInputHandler.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
