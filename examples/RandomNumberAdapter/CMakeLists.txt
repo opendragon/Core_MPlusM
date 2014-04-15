@@ -48,7 +48,7 @@ include_directories("${MAM_LOGGING_DIR}"
 add_executable(RandomNumberAdapter
                main.cpp
                MoMeRandomNumberAdapterData.cpp
-               MoMeRandomNumberDataInputHandler.cpp
+               MoMeRandomNumberInputHandler.cpp
                ${MAM_EXAMPLES_DIR}/RandomNumberClient/MoMeRandomNumberClient.cpp)
 
 # link with YARP libraries and our interface classes

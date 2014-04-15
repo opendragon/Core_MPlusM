@@ -114,7 +114,10 @@ static void stopRunning(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating the Service Registry service.
+/*! @brief The entry point for running the Service Registry service.
+ 
+ The second, optional, argument is the port number to be used and the first, optional, argument is the name of the
+ channel to be used. There is no output.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Service Registry service.
  @returns @c 0 on a successful test and @c 1 on failure. */

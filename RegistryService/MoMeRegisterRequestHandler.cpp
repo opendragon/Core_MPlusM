@@ -195,15 +195,12 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                     Common::Package message1(MAM_NAME_REQUEST);
                                     Common::Package response;
                                     
-                                    OD_LOG_LL1("outChannel->getOutputCount = ", outChannel->getOutputCount());//####
                                     if (outChannel->write(message1, response))
                                     {
                                         if (processNameResponse(argAsString, response))
                                         {
                                             Common::Package message2(MAM_LIST_REQUEST);
                                             
-                                            OD_LOG_LL1("outChannel->getOutputCount = ",//####
-                                                       outChannel->getOutputCount());//####
                                             if (outChannel->write(message2, response))
                                             {
                                                 if (processListResponse(argAsString, response))

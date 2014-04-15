@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       RandomNumberAdapter/main.cpp
+//  File:       RunningSumAltAdapter/main.cpp
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The main application for an adapter of a simple MoAndMe service.
+//  Contains:   The main application for an alternative adapter of a simple MoAndMe service.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,15 +35,15 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-27
+//  Created:    2014-04-15
 //
 //--------------------------------------------------------------------------------------
 
 #include "MoMeAdapterChannel.h"
 #include "MoMeChannelStatusReporter.h"
-#include "MoMeRandomNumberAdapterData.h"
-#include "MoMeRandomNumberClient.h"
-#include "MoMeRandomNumberInputHandler.h"
+#include "MoMeRunningSumAdapterData.h"
+#include "MoMeRunningSumClient.h"
+#include "MoMeRunningSumInputHandler.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -72,7 +72,7 @@
  
  @brief The main application for an adapter of a simple MoAndMe service. */
 
-/*! @dir RandomNumberAdapter
+/*! @dir RunningSumAdapter
  @brief The set of files that implement an adapter for a simple MoAndMe service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -112,14 +112,27 @@ static void stopRunning(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating an adapter for the example Random Number Service.
+/*! @brief The entry point for creating an adapter for the example Running Sum Service.
  
- The program creates two YARP ports: an output port and an input port. Integers received in the input port are sent to
- the service as the number of random numbers to generate, with zero indicating that the program is to exit.
+ The program creates two YARP ports: an output port and an input port.
+ 
+ 
+ a control port to receive commands and a
+ data port to receive a sequence of numbers to be added. Commands are case-sensitive and will result in requests being
+ sent to the service. The commands are:
+ 
+ quit Ask the service to stop calculating the running sum and exit from the program.
+ 
+ reset Ask the service to reset its running sum.
+ 
+ start Ask the service to start calculating the running sum.
+
+ stop Ask the service to stop calculating the running sum.
+
  The first, optional, argument is the port name to be used for the input port and the second, optional, argument is the
  name to be used for the output port. If the first argument is missing, the input port will be named
- /adapter/input/randomnumber and if the second argument is missing, the output port will be named
- /adapter/output/randomnumber.
+ /adapter/input/runningsum and if the second argument is missing, the output port will be named
+ /adapter/output/runningsum.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -136,13 +149,13 @@ int main(int      argc,
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
             MoAndMe::Common::Initialize(*argv);
-            RandomNumberClient * stuff = new RandomNumberClient;
+            RunningSumClient * stuff = new RunningSumClient;
             
             if (stuff)
             {
                 lKeepRunning = true;
                 MoAndMe::Common::SetSignalHandlers(stopRunning);
-                if (stuff->findService("keyword random"))
+                if (stuff->findService("Name RunningSum"))
                 {
 #if defined(MAM_REPORT_ON_CONNECTIONS)
                     MoAndMe::Common::ChannelStatusReporter reporter;
@@ -155,13 +168,13 @@ int main(int      argc,
                     {
                         MoAndMe::Common::AdapterChannel * inputChannel = new MoAndMe::Common::AdapterChannel;
                         MoAndMe::Common::AdapterChannel * outputChannel = new MoAndMe::Common::AdapterChannel;
-                        RandomNumberAdapterData           sharedData(stuff, outputChannel);
-                        RandomNumberInputHandler *        inputHandler = new RandomNumberInputHandler(sharedData);
+                        RunningSumAdapterData             sharedData(stuff, outputChannel);
+                        RunningSumInputHandler *          inputHandler = new RunningSumInputHandler(sharedData);
                         
                         if (inputChannel && outputChannel && inputHandler)
                         {
-                            yarp::os::ConstString inputName("/adapter/input/randomnumber");
-                            yarp::os::ConstString outputName("/adapter/output/randomnumber");
+                            yarp::os::ConstString inputName("/adapter/input/runningsum");
+                            yarp::os::ConstString outputName("/adapter/output/runningsum");
                             
                             if (argc > 1)
                             {
@@ -207,8 +220,7 @@ int main(int      argc,
                         }
                         else
                         {
-                            OD_LOG("! (controlChannel && inputChannel && outputChannel && controlHandler && "//####
-                                   "inputHandler)");//####
+                            OD_LOG("! (inputChannel && outputChannel && inputHandler)");//####
                             cerr << "Problem creating a channel." << endl;
                         }
                         MoAndMe::Common::AdapterChannel::RelinquishChannel(inputChannel);
@@ -227,7 +239,7 @@ int main(int      argc,
                 }
                 else
                 {
-                    OD_LOG("! (stuff->findService(\"Name RandomNumber\"))");//####
+                    OD_LOG("! (stuff->findService(\"Name RunningSum\"))");//####
                     cerr << "Problem locating the service." << endl;
                 }
                 delete stuff;

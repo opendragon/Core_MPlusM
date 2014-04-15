@@ -109,14 +109,20 @@
 		DF30062C18E4745E00B51C22 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../examples/RandomNumberAdapter/main.cpp; sourceTree = SOURCE_ROOT; };
 		DF30062D18E4745E00B51C22 /* MoMeRandomNumberAdapterData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeRandomNumberAdapterData.cpp; path = ../examples/RandomNumberAdapter/MoMeRandomNumberAdapterData.cpp; sourceTree = SOURCE_ROOT; };
 		DF30062E18E4745E00B51C22 /* MoMeRandomNumberAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeRandomNumberAdapterData.h; path = ../examples/RandomNumberAdapter/MoMeRandomNumberAdapterData.h; sourceTree = SOURCE_ROOT; };
-		DF30062F18E4745E00B51C22 /* MoMeRandomNumberDataInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeRandomNumberDataInputHandler.cpp; path = ../examples/RandomNumberAdapter/MoMeRandomNumberDataInputHandler.cpp; sourceTree = SOURCE_ROOT; };
-		DF30063018E4745E00B51C22 /* MoMeRandomNumberDataInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeRandomNumberDataInputHandler.h; path = ../examples/RandomNumberAdapter/MoMeRandomNumberDataInputHandler.h; sourceTree = SOURCE_ROOT; };
+		DF30062F18E4745E00B51C22 /* MoMeRandomNumberInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeRandomNumberInputHandler.cpp; path = ../examples/RandomNumberAdapter/MoMeRandomNumberInputHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DF30063018E4745E00B51C22 /* MoMeRandomNumberInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeRandomNumberInputHandler.h; path = ../examples/RandomNumberAdapter/MoMeRandomNumberInputHandler.h; sourceTree = SOURCE_ROOT; };
 		DF30063118E47D9E00B51C22 /* MoMeBaseAdapterData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeBaseAdapterData.cpp; path = ../Common/MoMeBaseAdapterData.cpp; sourceTree = SOURCE_ROOT; };
 		DF30063218E47D9E00B51C22 /* MoMeBaseAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeBaseAdapterData.h; path = ../Common/MoMeBaseAdapterData.h; sourceTree = SOURCE_ROOT; };
 		DF30063318E4C94D00B51C22 /* ODEnableLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODEnableLogging.h; path = ../Logging/ODEnableLogging.h; sourceTree = "<group>"; };
 		DF30063418E5C62500B51C22 /* ODDisableLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODDisableLogging.h; path = ../Logging/ODDisableLogging.h; sourceTree = "<group>"; };
 		DF30063518E605CA00B51C22 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../PortLister/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF30063618E605CA00B51C22 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../PortLister/main.cpp; sourceTree = SOURCE_ROOT; };
+		DF4CCFD318FD906100713E54 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../examples/RunningSumAltAdapter/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF4CCFD418FD906100713E54 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../examples/RunningSumAltAdapter/main.cpp; sourceTree = SOURCE_ROOT; };
+		DF4CCFD518FD906100713E54 /* MoMeRunningSumInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeRunningSumInputHandler.cpp; path = ../examples/RunningSumAltAdapter/MoMeRunningSumInputHandler.cpp; sourceTree = SOURCE_ROOT; };
+		DF4CCFD618FD906100713E54 /* MoMeRunningSumInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeRunningSumInputHandler.h; path = ../examples/RunningSumAltAdapter/MoMeRunningSumInputHandler.h; sourceTree = SOURCE_ROOT; };
+		DF4CCFD718FDA14E00713E54 /* MoMeDetachRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeDetachRequestHandler.cpp; path = ../Common/MoMeDetachRequestHandler.cpp; sourceTree = "<group>"; };
+		DF4CCFD818FDA14E00713E54 /* MoMeDetachRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeDetachRequestHandler.h; path = ../Common/MoMeDetachRequestHandler.h; sourceTree = "<group>"; };
 		DF65B4F018F31B5900B5F2F1 /* MoMeAdapterChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeAdapterChannel.cpp; path = ../Common/MoMeAdapterChannel.cpp; sourceTree = SOURCE_ROOT; };
 		DF65B4F118F31B5900B5F2F1 /* MoMeAdapterChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeAdapterChannel.h; path = ../Common/MoMeAdapterChannel.h; sourceTree = SOURCE_ROOT; };
 		DF65B4F218F3219500B5F2F1 /* MoMeClientChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeClientChannel.cpp; path = ../Common/MoMeClientChannel.cpp; sourceTree = SOURCE_ROOT; };
@@ -224,8 +230,6 @@
 		DFCB229618EF1BB900358EA5 /* MoMeClientsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeClientsRequestHandler.h; path = ../Common/MoMeClientsRequestHandler.h; sourceTree = SOURCE_ROOT; };
 		DFCB229818EF23DF00358EA5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../ClientList/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCB229918EF23DF00358EA5 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../ClientList/main.cpp; sourceTree = SOURCE_ROOT; };
-		DFCB229C18EF44D300358EA5 /* MoMeDetachRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeDetachRequestHandler.cpp; path = ../RequestCounter/RequestCounterService/MoMeDetachRequestHandler.cpp; sourceTree = SOURCE_ROOT; };
-		DFCB229D18EF44D300358EA5 /* MoMeDetachRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeDetachRequestHandler.h; path = ../RequestCounter/RequestCounterService/MoMeDetachRequestHandler.h; sourceTree = SOURCE_ROOT; };
 		DFF9E67218E0C66C008EC0DD /* MoMeBaseNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeBaseNameValidator.cpp; path = ../Parser/MoMeBaseNameValidator.cpp; sourceTree = SOURCE_ROOT; };
 		DFF9E67318E0C66C008EC0DD /* MoMeBaseNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoMeBaseNameValidator.h; path = ../Parser/MoMeBaseNameValidator.h; sourceTree = SOURCE_ROOT; };
 		DFF9E67418E0CBDE008EC0DD /* MoMeTestNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MoMeTestNameValidator.cpp; path = ../Parser/MoMeTestNameValidator.cpp; sourceTree = SOURCE_ROOT; };
@@ -277,8 +281,6 @@
 			children = (
 				DF06998418ECC06500FF0E93 /* CMakeLists.txt */,
 				DF06998518ECC06500FF0E93 /* main.cpp */,
-				DFCB229C18EF44D300358EA5 /* MoMeDetachRequestHandler.cpp */,
-				DFCB229D18EF44D300358EA5 /* MoMeDetachRequestHandler.h */,
 				DFCB229318EF091000358EA5 /* MoMeRequestCounterContext.cpp */,
 				DFCB229418EF091000358EA5 /* MoMeRequestCounterContext.h */,
 				DF06998618ECC06500FF0E93 /* MoMeRequestCounterDefaultRequestHandler.cpp */,
@@ -390,8 +392,8 @@
 				DF30062C18E4745E00B51C22 /* main.cpp */,
 				DF30062D18E4745E00B51C22 /* MoMeRandomNumberAdapterData.cpp */,
 				DF30062E18E4745E00B51C22 /* MoMeRandomNumberAdapterData.h */,
-				DF30062F18E4745E00B51C22 /* MoMeRandomNumberDataInputHandler.cpp */,
-				DF30063018E4745E00B51C22 /* MoMeRandomNumberDataInputHandler.h */,
+				DF30062F18E4745E00B51C22 /* MoMeRandomNumberInputHandler.cpp */,
+				DF30063018E4745E00B51C22 /* MoMeRandomNumberInputHandler.h */,
 			);
 			name = RandomNumberAdapter;
 			sourceTree = "<group>";
@@ -403,6 +405,17 @@
 				DF30063618E605CA00B51C22 /* main.cpp */,
 			);
 			name = PortLister;
+			sourceTree = "<group>";
+		};
+		DF4CCFD218FD903000713E54 /* RunningSumAltAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				DF4CCFD318FD906100713E54 /* CMakeLists.txt */,
+				DF4CCFD418FD906100713E54 /* main.cpp */,
+				DF4CCFD518FD906100713E54 /* MoMeRunningSumInputHandler.cpp */,
+				DF4CCFD618FD906100713E54 /* MoMeRunningSumInputHandler.h */,
+			);
+			name = RunningSumAltAdapter;
 			sourceTree = "<group>";
 		};
 		DF7784F918ECA5EA00BDC5C1 /* EchoCommon */ = {
@@ -550,6 +563,8 @@
 				DFA3433118C91C5A0053B87C /* MoMeCommonTest.cpp */,
 				DFA3433218C91C5A0053B87C /* MoMeConfig.h */,
 				DFA3433318C91C5A0053B87C /* MoMeConfig.h.in */,
+				DF4CCFD718FDA14E00713E54 /* MoMeDetachRequestHandler.cpp */,
+				DF4CCFD818FDA14E00713E54 /* MoMeDetachRequestHandler.h */,
 				DFA3433418C91C5A0053B87C /* MoMeEndpoint.cpp */,
 				DFA3433518C91C5A0053B87C /* MoMeEndpoint.h */,
 				DFA3433618C91C5A0053B87C /* MoMeException.cpp */,
@@ -662,6 +677,7 @@
 				DF7784FA18ECA5F400BDC5C1 /* RandomNumberCommon */,
 				DFA3438518C91E2C0053B87C /* RandomNumberService */,
 				DFA86D1E18E0E09E00A22941 /* RunningSumAdapter */,
+				DF4CCFD218FD903000713E54 /* RunningSumAltAdapter */,
 				DF2092E918D8F6110093D3DC /* RunningSumClient */,
 				DF7784FB18ECA60600BDC5C1 /* RunningSumCommon */,
 				DF2092D918D8DFE60093D3DC /* RunningSumService */,

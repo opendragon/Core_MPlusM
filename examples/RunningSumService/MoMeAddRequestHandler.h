@@ -64,7 +64,8 @@ namespace MoAndMe
         
         /*! @brief The example 'add' request handler.
          
-         The input for the request is a single floating point number, and the output is a single floating point number. */
+         The input for the request is a single floating point number, and the output is a single floating point
+         number. */
         class AddRequestHandler : public Common::BaseRequestHandler
         {
         public:

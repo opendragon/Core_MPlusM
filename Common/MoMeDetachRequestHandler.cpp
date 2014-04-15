@@ -4,7 +4,7 @@
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class definition for the request handler for a 'reset' request.
+//  Contains:   The class definition for the request handler for a 'detach' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -40,8 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeDetachRequestHandler.h"
-#include "MoMeRequestCounterRequests.h"
-#include "MoMeRequestCounterService.h"
+#include "MoMeBaseService.h"
+#include "MoMeRequests.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -52,12 +52,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a 'reset' request. */
+ @brief The class definition for the request handler for a 'detach' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::RequestCounter;
+using namespace MoAndMe::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -78,7 +78,7 @@ using namespace MoAndMe::RequestCounter;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-DetachRequestHandler::DetachRequestHandler(RequestCounterService & service) :
+DetachRequestHandler::DetachRequestHandler(BaseService & service) :
         inherited(MAM_DETACH_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
@@ -96,7 +96,7 @@ DetachRequestHandler::~DetachRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void DetachRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void DetachRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -117,8 +117,8 @@ void DetachRequestHandler::fillInDescription(const yarp::os::ConstString & reque
         info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MAM_REQREP_DICT_VERSION_KEY, DETACH_REQUEST_VERSION_NUMBER);
         info.put(MAM_REQREP_DICT_DETAILS_KEY, "Disconnect the client from the service");
-        yarp::os::Value   keywords;
-        Common::Package * asList = keywords.asList();
+        yarp::os::Value keywords;
+        Package *       asList = keywords.asList();
         
         asList->addString(request);
         info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -132,7 +132,7 @@ void DetachRequestHandler::fillInDescription(const yarp::os::ConstString & reque
 } // DetachRequestHandler::fillInDescription
 
 bool DetachRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                          const Common::Package &       restOfInput,
+                                          const Package &               restOfInput,
                                           const yarp::os::ConstString & senderChannel,
                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -150,13 +150,13 @@ bool DetachRequestHandler::processRequest(const yarp::os::ConstString & request,
         _service.detachClient(senderChannel);
         if (replyMechanism)
         {
-            Common::Package response(MAM_OK_RESPONSE);
+            Package response(MAM_OK_RESPONSE);
             
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####
 #if defined(MAM_STALL_ON_SEND_PROBLEM)
-                Common::Stall();
+                Stall();
 #endif // defined(MAM_STALL_ON_SEND_PROBLEM)
             }
         }

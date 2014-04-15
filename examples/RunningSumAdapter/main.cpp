@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       RunningSumClient/main.cpp
+//  File:       RunningSumAdapter/main.cpp
 //
 //  Project:    MoAndMe
 //
@@ -113,7 +113,24 @@ static void stopRunning(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating an example client.
+/*! @brief The entry point for creating an adapter for the example Running Sum Service.
+ 
+ The program creates three YARP ports: an output port and two input ports - a control port to receive commands and a
+ data port to receive a sequence of numbers to be added. Commands are case-sensitive and will result in requests being
+ sent to the service. The commands are:
+ 
+ quit Ask the service to stop calculating the running sum and exit from the program.
+ 
+ reset Ask the service to reset its running sum.
+ 
+ start Ask the service to start calculating the running sum.
+
+ stop Ask the service to stop calculating the running sum.
+ The first, optional, argument is the port name to be used for the control port, the second, optional, argument is the
+ name to be used for the data port and the third, optional, argument is the name to be used for the output port. If the
+ first argument is missing, the control port will be named /adapter/control/runningsum, if the second argument is
+ missing, the data port will be named /adapter/data/randomnumber and if the third argument is missing the output port
+ will be named /adapter/output/runningsum.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */

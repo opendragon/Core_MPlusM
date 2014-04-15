@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeRequestCounterClient.h
+//  File:       MoMeRunningSumInputHandler.h
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class declaration for the client of the request counter service.
+//  Contains:   The class declaration for the custom control channel input handler used
+//              by the running sum alternative adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,15 +36,15 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2014-04-15
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MOMEREQUESTCOUNTERCLIENT_H_))
+#if (! defined(MOMERUNNINGSUMINPUTHANDLER_H_))
 /*! @brief Header guard. */
-# define MOMEREQUESTCOUNTERCLIENT_H_ /* */
+# define MOMERUNNINGSUMINPUTHANDLER_H_ /* */
 
-# include "MoMeBaseClient.h"
+# include "MoMeInputHandler.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -51,64 +52,65 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the client of the request counter service. */
+ @brief The class declaration for the custom control channel input handler used by the
+ running sum alternative adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MoAndMe
 {
-    namespace RequestCounter
+    namespace Example
     {
-        /*! @brief A client for the request counter service. */
-        class RequestCounterClient : public Common::BaseClient
+        class RunningSumAdapterData;
+        
+        /*! @brief A handler for partially-structured input data. */
+        class RunningSumInputHandler : public Common::InputHandler
         {
         public:
             
-            /*! @brief The constructor. */
-            RequestCounterClient(void);
+            /*! @brief The constructor.
+             @param shared The data shared between the input handlers and the main thread. */
+            RunningSumInputHandler(RunningSumAdapterData & shared);
             
             /*! @brief The destructor. */
-            virtual ~RequestCounterClient(void);
+            virtual ~RunningSumInputHandler(void);
             
-            /*! @brief Get the statistics from the service.
-             @param counter The number of requests since the last reset.
-             @param elapsedTime The number of seconds since the last reset.
-             @returns @c true if the statistics were retrieved successfully and @c false otherwise. */
-            bool getServiceStatistics(long &   counter,
-                                      double & elapsedTime);
-            
-            /*! @brief Trigger the service counter.
-             @returns @c true if the service handled the request and @c false otherwise. */
-            bool pokeService(void);
-            
-            /*! @brief Reset the service counters.
-             @returns @c true if the service handled the request and @c false otherwise. */
-            bool resetServiceCounters(void);
+            /*! @brief Process partially-structured input data.
+             @param input The partially-structured input data.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @returns @c true if the input was correctly structured and successfully processed. */
+            virtual bool handleInput(const Common::Package &       input,
+                                     const yarp::os::ConstString & senderChannel,
+                                     yarp::os::ConnectionWriter *  replyMechanism);
             
         protected:
             
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseClient inherited;
+            typedef InputHandler inherited;
             
             /*! @brief Copy constructor.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RequestCounterClient(const RequestCounterClient & other);
+            RunningSumInputHandler(const RunningSumInputHandler & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RequestCounterClient & operator=(const RequestCounterClient & other);
+            RunningSumInputHandler & operator=(const RunningSumInputHandler & other);
             
-        }; // RequestCounterClient
+            /*! @brief The shared data that describes the connection to the service that we are using. */
+            RunningSumAdapterData & _shared;
+            
+        }; // RunningSumInputHandler
         
-    } // RequestCounter
+    } // Example
     
 } // MoAndMe
 
-#endif // ! defined(MOMEREQUESTCOUNTERCLIENT_H_)
+#endif // ! defined(MOMERUNNINGSUMINPUTHANDLER_H_)

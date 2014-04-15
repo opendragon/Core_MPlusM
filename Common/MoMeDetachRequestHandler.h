@@ -4,7 +4,7 @@
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class declaration for the request handler for a 'reset' request.
+//  Contains:   The class declaration for the request handler for a 'detach' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -39,9 +39,9 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MOMERANDOMREQUESTHANDLER_H_))
+#if (! defined(MOMEDETACHREQUESTHANDLER_H_))
 /*! @brief Header guard. */
-# define MOMERANDOMREQUESTHANDLER_H_ /* */
+# define MOMEDETACHREQUESTHANDLER_H_ /* */
 
 # include "MoMeBaseRequestHandler.h"
 
@@ -51,34 +51,34 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for a 'reset' request. */
+ @brief The class declaration for the request handler for a 'detach' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MoAndMe
 {
-    namespace RequestCounter
+    namespace Common
     {
-        class RequestCounterService;
+        class BaseService;
         
         /*! @brief The example 'detach' request handler.
          
          There is no input for the request and the output is a single floating point number, between 0 and 1. */
-        class DetachRequestHandler : public Common::BaseRequestHandler
+        class DetachRequestHandler : public BaseRequestHandler
         {
         public:
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            DetachRequestHandler(RequestCounterService & service);
+            DetachRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
             virtual ~DetachRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(Common::StringVector & alternateNames);
+            virtual void fillInAliases(StringVector & alternateNames);
             
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
@@ -92,7 +92,7 @@ namespace MoAndMe
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
             virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const Common::Package &       restOfInput,
+                                        const Package &               restOfInput,
                                         const yarp::os::ConstString & senderChannel,
                                         yarp::os::ConnectionWriter *  replyMechanism);
             
@@ -104,12 +104,12 @@ namespace MoAndMe
             typedef BaseRequestHandler inherited;
             
             /*! @brief The service that will manages the statistics. */
-            RequestCounterService & _service;
+            BaseService & _service;
             
         }; // DetachRequestHandler
         
-    } // RequestCounter
+    } // Common
     
 } // MoAndMe
 
-#endif // ! defined(MOMERANDOMREQUESTHANDLER_H_)
+#endif // ! defined(MOMEDETACHREQUESTHANDLER_H_)

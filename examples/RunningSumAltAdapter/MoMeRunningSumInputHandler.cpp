@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeRunningSumDataInputHandler.cpp
+//  File:       MoMeRunningSumInputHandler.cpp
 //
 //  Project:    MoAndMe
 //
-//  Contains:   The class definition for the custom data channel input handler used by
-//              the running sum adapter.
+//  Contains:   The class definition for the custom control channel input handler used by
+//              the running sum alternative adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,11 +36,11 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-24
+//  Created:    2014-04-15
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeRunningSumDataInputHandler.h"
+#include "MoMeRunningSumInputHandler.h"
 #include "MoMeAdapterChannel.h"
 #include "MoMeRunningSumAdapterData.h"
 #include "MoMeRunningSumClient.h"
@@ -55,8 +55,8 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the custom data channel input handler used by the
- running sum adapter. */
+ @brief The class definition for the custom control channel input handler used by the
+ running sum alternative adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -79,27 +79,27 @@ using namespace MoAndMe::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RunningSumDataInputHandler::RunningSumDataInputHandler(RunningSumAdapterData & shared) :
+RunningSumInputHandler::RunningSumInputHandler(RunningSumAdapterData & shared) :
         inherited(), _shared(shared)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("shared = ", &shared);//####
     OD_LOG_EXIT_P(this);//####
-} // RunningSumDataInputHandler::RunningSumDataInputHandler
+} // RunningSumInputHandler::RunningSumInputHandler
 
-RunningSumDataInputHandler::~RunningSumDataInputHandler(void)
+RunningSumInputHandler::~RunningSumInputHandler(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // RunningSumDataInputHandler::~RunningSumDataInputHandler
+} // RunningSumInputHandler::~RunningSumInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RunningSumDataInputHandler::handleInput(const Common::Package &       input,
-                                             const yarp::os::ConstString & senderChannel,
-                                             yarp::os::ConnectionWriter *  replyMechanism)
+bool RunningSumInputHandler::handleInput(const Common::Package &       input,
+                                         const yarp::os::ConstString & senderChannel,
+                                         yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(senderChannel,replyMechanism)
@@ -116,32 +116,132 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
         if (0 < howMany)
         {
             Common::AdapterChannel * theOutput = _shared.getOutput();
+            Common::DoubleVector     values;
+            double                   outValue;
             RunningSumClient *       theClient = (RunningSumClient *) _shared.getClient();
             
-            if (_shared.isActive() && theClient && theOutput)
+            if (theClient && theOutput)
             {
-                if (1 == howMany)
+                // We might have values and commands intermixed; process the whole input, one segment at a time.
+                for (int ii = 0; ii < howMany; ++ii)
                 {
-                    bool            gotValue = false;
-                    double          inValue = 0.0;
-                    yarp::os::Value argValue(input.get(0));
+                    yarp::os::Value argValue(input.get(ii));
                     
-                    if (argValue.isInt())
+                    if (argValue.isString())
                     {
-                        inValue = argValue.asInt();
-                        gotValue = true;
+                        yarp::os::ConstString argString(argValue.asString());
+
+                        if (values.size())
+                        {
+                            Common::DoubleVector::size_type soFar = values.size();
+                            
+                            if (1 == soFar)
+                            {
+                                _shared.lock();
+                                if (theClient->addToSum(values[0], outValue))
+                                {
+                                    Common::Package message;
+                                    
+                                    message.addDouble(outValue);
+                                    if (! theOutput->write(message))
+                                    {
+                                        OD_LOG("(! theOutput->write(message))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                                        Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+                                    }
+                                }
+                                else
+                                {
+                                    OD_LOG("! (theClient->startSum())");//####
+                                }
+                                _shared.unlock();
+                            }
+                            else
+                            {
+                                _shared.lock();
+                                if (theClient->addToSum(values, outValue))
+                                {
+                                    Common::Package message;
+                                    
+                                    message.addDouble(outValue);
+                                    if (! theOutput->write(message))
+                                    {
+                                        OD_LOG("(! theOutput->write(message))");//####
+#if defined(MAM_STALL_ON_SEND_PROBLEM)
+                                        Common::Stall();
+#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+                                    }
+                                }
+                                else
+                                {
+                                    OD_LOG("! (theClient->startSum())");//####
+                                }
+                                _shared.unlock();
+                            }
+                            values.clear();
+                        }
+                        if (argString == MAM_RESET_REQUEST)
+                        {
+                            _shared.lock();
+                            if (theClient->resetSum())
+                            {
+                                
+                            }
+                            else
+                            {
+                                OD_LOG("! (theClient->resetSum())");//####
+                            }
+                            _shared.unlock();
+                        }
+                        else if (argString == MAM_QUIT_REQUEST)
+                        {
+                            _shared.deactivate();
+                        }
+                        else if (argString == MAM_START_REQUEST)
+                        {
+                            _shared.lock();
+                            if (theClient->startSum())
+                            {
+                                
+                            }
+                            else
+                            {
+                                OD_LOG("! (theClient->startSum())");//####
+                            }
+                            _shared.unlock();
+                        }
+                        else if (argString == MAM_STOP_REQUEST)
+                        {
+                            _shared.lock();
+                            if (theClient->stopSum())
+                            {
+                                
+                            }
+                            else
+                            {
+                                OD_LOG("! (theClient->startSum())");//####
+                            }
+                            _shared.unlock();
+                        }
+                    }
+                    else if (argValue.isInt())
+                    {
+                        values.push_back(static_cast<double>(argValue.asInt()));
                     }
                     else if (argValue.isDouble())
                     {
-                        inValue = argValue.asDouble();
-                        gotValue = true;
+                        values.push_back(argValue.asDouble());
                     }
-                    if (gotValue)
+                }
+                if (values.size())
+                {
+                    Common::DoubleVector::size_type soFar = values.size();
+                    
+                    if (1 == soFar)
                     {
-                        double outValue;
-
                         _shared.lock();
-                        if (theClient->addToSum(inValue, outValue))
+                        if (theClient->addToSum(values[0], outValue))
                         {
                             Common::Package message;
                             
@@ -160,38 +260,8 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
                         }
                         _shared.unlock();
                     }
-                }
-                else
-                {
-                    bool                 gotValues = true;
-                    Common::DoubleVector values;
-                    
-                    for (int ii = 0; gotValues && (ii < howMany); ++ii)
+                    else
                     {
-                        double          inValue;
-                        yarp::os::Value aValue(input.get(ii));
-                        
-                        if (aValue.isInt())
-                        {
-                            inValue = aValue.asInt();
-                        }
-                        else if (aValue.isDouble())
-                        {
-                            inValue = aValue.asDouble();
-                        }
-                        else
-                        {
-                            gotValues = false;
-                        }
-                        if (gotValues)
-                        {
-                            values.push_back(inValue);
-                        }
-                    }
-                    if (gotValues)
-                    {
-                        double outValue;
-                        
                         _shared.lock();
                         if (theClient->addToSum(values, outValue))
                         {
@@ -212,7 +282,7 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
                         }
                         _shared.unlock();
                     }
-                }                
+                }
             }
         }
     }
@@ -223,7 +293,7 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RunningSumDataInputHandler::handleInput
+} // RunningSumInputHandler::handleInput
 
 #if defined(__APPLE__)
 # pragma mark Accessors

@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeRandomNumberDataInputHandler.h
+//  File:       MoMeRandomNumberInputHandler.h
 //
 //  Project:    MoAndMe
 //
@@ -40,9 +40,9 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MOMERANDOMNUMBERDATAINPUTHANDLER_H_))
+#if (! defined(MOMERANDOMNUMBERINPUTHANDLER_H_))
 /*! @brief Header guard. */
-# define MOMERANDOMNUMBERDATAINPUTHANDLER_H_ /* */
+# define MOMERANDOMNUMBERINPUTHANDLER_H_ /* */
 
 # include "MoMeInputHandler.h"
 
@@ -65,16 +65,16 @@ namespace MoAndMe
         class RandomNumberAdapterData;
         
         /*! @brief A handler for partially-structured input data. */
-        class RandomNumberDataInputHandler : public Common::InputHandler
+        class RandomNumberInputHandler : public Common::InputHandler
         {
         public:
             
             /*! @brief The constructor.
              @param shared The data shared between the input handlers and the main thread. */
-            RandomNumberDataInputHandler(RandomNumberAdapterData & shared);
+            RandomNumberInputHandler(RandomNumberAdapterData & shared);
             
             /*! @brief The destructor. */
-            virtual ~RandomNumberDataInputHandler(void);
+            virtual ~RandomNumberInputHandler(void);
             
             /*! @brief Process partially-structured input data.
              @param input The partially-structured input data.
@@ -96,21 +96,21 @@ namespace MoAndMe
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RandomNumberDataInputHandler(const RandomNumberDataInputHandler & other);
+            RandomNumberInputHandler(const RandomNumberInputHandler & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RandomNumberDataInputHandler & operator=(const RandomNumberDataInputHandler & other);
+            RandomNumberInputHandler & operator=(const RandomNumberInputHandler & other);
             
             /*! @brief The shared data that describes the connection to the service that we are using. */
             RandomNumberAdapterData & _shared;
             
-        }; // RandomNumberDataInputHandler
+        }; // RandomNumberInputHandler
         
     } // Example
     
 } // MoAndMe
 
-#endif // ! defined(MOMERANDOMNUMBERDATAINPUTHANDLER_H_)
+#endif // ! defined(MOMERANDOMNUMBERINPUTHANDLER_H_)

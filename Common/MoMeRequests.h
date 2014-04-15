@@ -59,6 +59,8 @@
 
 /*! @brief The name for the 'clients' request. */
 # define MAM_CLIENTS_REQUEST    "clients"
+/*! @brief The name for the 'detach' request. */
+# define MAM_DETACH_REQUEST     "detach"
 /*! @brief The name for the 'echo' request. */
 # define MAM_ECHO_REQUEST       "echo"
 /*! @brief The standard name for an 'info' request. */
@@ -71,8 +73,6 @@
 # define MAM_NAME_REQUEST       "name"
 /*! @brief The standard name for a 'register' request. */
 # define MAM_REGISTER_REQUEST   "register"
-/*! @brief The standard name for a 'unclient' request. */
-# define MAM_UNCLIENT_REQUEST   "unclient"
 /*! @brief The standard name for a 'unregister' request. */
 # define MAM_UNREGISTER_REQUEST "unregister"
 

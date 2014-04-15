@@ -44,6 +44,7 @@
 #include "MoMeBaseContext.h"
 #include "MoMeBaseServiceInputHandler.h"
 #include "MoMeBaseServiceInputHandlerCreator.h"
+#include "MoMeDetachRequestHandler.h"
 #include "MoMeEndpoint.h"
 #include "MoMeException.h"
 #include "MoMeChannelStatusReporter.h"
@@ -118,7 +119,7 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
 #if defined(SERVICES_HAVE_CONTEXTS)
         _clientsHandler(NULL),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
-        _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
+        _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
         _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
         _useMultipleHandlers(useMultipleHandlers)
 {
@@ -146,7 +147,7 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
 #if defined(SERVICES_HAVE_CONTEXTS)
         _clientsHandler(NULL),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
-        _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
+        _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
         _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
         _useMultipleHandlers(useMultipleHandlers)
 {
@@ -228,25 +229,31 @@ void BaseService::attachRequestHandlers(void)
 #if defined(SERVICES_HAVE_CONTEXTS)
         _clientsHandler = new ClientsRequestHandler(*this);
 #endif // defined(SERVICES_HAVE_CONTEXTS)
+        _detachHandler = new DetachRequestHandler(*this);
         _infoHandler = new InfoRequestHandler;
         _listHandler = new ListRequestHandler;
         _nameHandler = new NameRequestHandler(*this);
 #if defined(SERVICES_HAVE_CONTEXTS)
-        if (_clientsHandler && _infoHandler && _listHandler && _nameHandler)
+        if (_clientsHandler && _detachHandler && _infoHandler && _listHandler && _nameHandler)
 #else // ! defined(SERVICES_HAVE_CONTEXTS)
-        if (_infoHandler && _listHandler && _nameHandler)
+        if (_detachHandler && _infoHandler && _listHandler && _nameHandler)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
         {
 #if defined(SERVICES_HAVE_CONTEXTS)
             _requestHandlers.registerRequestHandler(_clientsHandler);
 #endif // defined(SERVICES_HAVE_CONTEXTS)
+            _requestHandlers.registerRequestHandler(_detachHandler);
             _requestHandlers.registerRequestHandler(_infoHandler);
             _requestHandlers.registerRequestHandler(_listHandler);
             _requestHandlers.registerRequestHandler(_nameHandler);
         }
         else
         {
-            OD_LOG("! (_infoHandler && _listHandler && _nameHandler)");//####
+#if defined(SERVICES_HAVE_CONTEXTS)
+            OD_LOG("! (_clientsHandler && _detachHandler && _infoHandler && _listHandler && _nameHandler)");//####
+#else // ! defined(SERVICES_HAVE_CONTEXTS)
+            OD_LOG("! (_detachHandler && _infoHandler && _listHandler && _nameHandler)");//####
+#endif // ! defined(SERVICES_HAVE_CONTEXTS)
         }
     }
     catch (...)
@@ -311,6 +318,12 @@ void BaseService::detachRequestHandlers(void)
             _clientsHandler = NULL;
         }
 #endif // defined(SERVICES_HAVE_CONTEXTS)
+        if (_detachHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_detachHandler);
+            delete _detachHandler;
+            _detachHandler = NULL;
+        }
         if (_infoHandler)
         {
             _requestHandlers.unregisterRequestHandler(_infoHandler);
@@ -702,7 +715,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
                     }
                     else
                     {
-                        OD_LOG("! (request.send(MAM_SERVICE_REGISTRY_CHANNEL_NAME, *newChannel, &response))");//####
+                        OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
 #if defined(MAM_DO_EXPLICIT_DISCONNECT)
                     if (! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))

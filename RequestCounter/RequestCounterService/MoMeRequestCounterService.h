@@ -136,9 +136,6 @@ namespace MoAndMe
             /*! @brief The request handler for unrecognized requests. */
             RequestCounterDefaultRequestHandler * _defaultHandler;
             
-            /*! @brief The request handler for the 'detach' request. */
-            DetachRequestHandler *                _detachHandler;
-            
             /*! @brief The request handler for the 'reset' request. */
             ResetRequestHandler *                 _resetHandler;
             

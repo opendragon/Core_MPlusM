@@ -109,7 +109,10 @@ static void stopRunning(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating an example client.
+/*! @brief The entry point for communicating with the example Random Number service.
+ 
+ Integers read from standard input will be sent to the service as the number of random numbers to generate. Entering a
+ zero will exit the program.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */

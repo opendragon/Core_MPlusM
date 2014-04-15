@@ -177,7 +177,7 @@ bool RunningSumControlInputHandler::handleInput(const Common::Package &       in
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RunningSumDataInputHandler::handleInput
+} // RunningSumControlInputHandler::handleInput
 
 #if defined(__APPLE__)
 # pragma mark Accessors

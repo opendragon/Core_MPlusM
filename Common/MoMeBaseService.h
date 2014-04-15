@@ -66,6 +66,7 @@ namespace MoAndMe
         class BaseServiceInputHandler;
         class BaseServiceInputHandlerCreator;
         class ClientsRequestHandler;
+        class DetachRequestHandler;
         class Endpoint;
         class InfoRequestHandler;
         class ListRequestHandler;
@@ -285,6 +286,9 @@ namespace MoAndMe
             /*! @brief The request handler for the 'clients' request. */
             ClientsRequestHandler *          _clientsHandler;
 # endif // defined(SERVICES_HAVE_CONTEXTS)
+            
+            /*! @brief The request handler for the 'detach' request. */
+            DetachRequestHandler *           _detachHandler;
             
             /*! @brief The request handler for the 'info' request. */
             InfoRequestHandler *             _infoHandler;

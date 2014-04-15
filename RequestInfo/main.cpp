@@ -201,7 +201,11 @@ static bool processResponse(const yarp::os::ConstString &            serviceName
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating an example client.
+/*! @brief The entry point for listing the available requests.
+ 
+ The second, optional, argument is the name of the request to be matched and the first, optional, argument is the name
+ of the channel for the service. If the request is not specified, all requests will be listed and if the channel is
+ not specified, all service channels will be reported. Standard output will receive a list of the specified requests.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */

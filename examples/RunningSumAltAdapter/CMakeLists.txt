@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------
 #
-#  File:       examples/CMakeLists.txt
+#  File:       RunningSumAltAdapter/CMakeLists.txt
 #
 #  Project:    MoAndMe
 #
-#  Contains:   The common CMAKE definitions for the MoAndMe examples.
+#  Contains:   The CMAKE definitions for an alternative example running sum adapter application.
 #
 #  Written by: Norman Jaffe
 #
@@ -35,20 +35,27 @@
 #              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 #              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
-#  Created:    2014-03-25
+#  Created:    2014-04-15
 #
 #--------------------------------------------------------------------------------------
 
-set(MAM_EXAMPLES_DIR "${PROJECT_SOURCE_DIR}/examples")
+include_directories("${MAM_LOGGING_DIR}"
+                    "${MAM_COMMON_DIR}"
+                    "${MAM_EXAMPLES_DIR}/RunningSumAdapter"
+                    "${MAM_EXAMPLES_DIR}/RunningSumClient"
+                    "${MAM_EXAMPLES_DIR}/RunningSumCommon")
 
-add_subdirectory(EchoClient)
-add_subdirectory(EchoService)
-add_subdirectory(RandomNumberAdapter)
-add_subdirectory(RandomNumberClient)
-add_subdirectory(RandomNumberService)
-add_subdirectory(RunningSumAdapter)
-add_subdirectory(RunningSumAltAdapter)
-add_subdirectory(RunningSumClient)
-add_subdirectory(RunningSumService)
+# set up our program
+add_executable(RunningSumAltAdapter
+               main.cpp
+               ${MAM_EXAMPLES_DIR}/RunningSumAdapter/MoMeRunningSumAdapterData.cpp
+               MoMeRunningSumInputHandler.cpp
+               ${MAM_EXAMPLES_DIR}/RunningSumClient/MoMeRunningSumClient.cpp)
+
+# link with YARP libraries and our interface classes
+target_link_libraries(RunningSumAltAdapter
+                      MoMeCommon
+                      MoMeLogging
+                      ${YARP_LIBRARIES})
 
 enable_testing()

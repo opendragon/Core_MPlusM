@@ -40,7 +40,6 @@
 //--------------------------------------------------------------------------------------
 
 #include "MoMeRequestCounterService.h"
-#include "MoMeDetachRequestHandler.h"
 #include "MoMeRequestCounterContext.h"
 #include "MoMeRequestCounterDefaultRequestHandler.h"
 #include "MoMeRequestCounterRequests.h"
@@ -98,7 +97,7 @@ RequestCounterService::RequestCounterService(const yarp::os::ConstString & servi
                                              const yarp::os::ConstString & serviceHostName,
                                              const yarp::os::ConstString & servicePortNumber) :
         inherited(true, MAM_REQUESTCOUNTER_CANONICAL_NAME, "The request counter service", serviceEndpointName,
-                  serviceHostName, servicePortNumber), _defaultHandler(NULL), _detachHandler(NULL), _resetHandler(NULL),
+                  serviceHostName, servicePortNumber), _defaultHandler(NULL), _resetHandler(NULL),
         _statsHandler(NULL)
 #if (! defined(SERVICES_HAVE_CONTEXTS))
         , _counter(0), _lastReset(yarp::os::Time::now())
@@ -128,12 +127,10 @@ void RequestCounterService::attachRequestHandlers(void)
     try
     {
         _defaultHandler = new RequestCounterDefaultRequestHandler(*this);
-        _detachHandler = new DetachRequestHandler(*this);
         _resetHandler = new ResetRequestHandler(*this);
         _statsHandler = new StatsRequestHandler(*this);
-        if (_defaultHandler && _detachHandler && _resetHandler && _statsHandler)
+        if (_defaultHandler && _resetHandler && _statsHandler)
         {
-            registerRequestHandler(_detachHandler);
             registerRequestHandler(_resetHandler);
             registerRequestHandler(_statsHandler);
             setDefaultRequestHandler(_defaultHandler);
@@ -192,12 +189,6 @@ void RequestCounterService::detachRequestHandlers(void)
             setDefaultRequestHandler(NULL);
             delete _defaultHandler;
             _defaultHandler = NULL;
-        }
-        if (_detachHandler)
-        {
-            unregisterRequestHandler(_detachHandler);
-            delete _detachHandler;
-            _detachHandler = NULL;
         }
         if (_resetHandler)
         {

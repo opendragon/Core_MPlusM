@@ -60,9 +60,6 @@
 /*! @brief The channel-independent name of the example echo service. */
 # define MAM_REQUESTCOUNTER_CANONICAL_NAME "RequestCounter"
 
-/*! @brief The name for the 'detach' request. */
-# define MAM_DETACH_REQUEST "detach"
-
 /*! @brief The name for the 'reset' request. */
 # define MAM_RESET_REQUEST  "reset"
 

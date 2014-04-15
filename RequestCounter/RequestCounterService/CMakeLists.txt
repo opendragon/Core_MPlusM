@@ -46,7 +46,6 @@ include_directories("${MAM_LOGGING_DIR}"
 # set up our program
 add_executable(RequestCounterService
                main.cpp
-               MoMeDetachRequestHandler.cpp
                MoMeRequestCounterContext.cpp
                MoMeRequestCounterDefaultRequestHandler.cpp
                MoMeRequestCounterService.cpp

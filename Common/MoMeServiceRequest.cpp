@@ -143,7 +143,6 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
         message.addString(_name);
         message.append(_parameters);
         OD_LOG_S1("message <- ", message.toString().c_str());//####
-        OD_LOG_LL1("usingChannel.getOutputCount = ", usingChannel.getOutputCount());//####
         if (response)
         {
             Package holder;

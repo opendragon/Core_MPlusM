@@ -108,7 +108,18 @@ static void stopRunning(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating an example client.
+/*! @brief The entry point for communicating with the example Running Sum service.
+ 
+ Commands from standard input will be interpreted and will result in requests being sent to the service.
+ Commands are not case-sensitive. The commands are:
+ 
+ + Read a number from standard input and send it to the service.
+ 
+ r Ask the service to reset its running sum.
+ 
+ s Ask the service to start calculating the running sum.
+ 
+ x Ask the service to stop calculating the running sum and exit from the program.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -149,7 +160,7 @@ int main(int      argc,
                             double newSum;
                             double value;
                             
-                            cout << "Operation: [+ r x s]? ";
+                            cout << "Operation: [+ r s x]? ";
                             cin >> inChar;
                             switch (inChar)
                             {

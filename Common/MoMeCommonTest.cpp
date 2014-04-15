@@ -419,7 +419,6 @@ static int doTestWriteToEndpoint(const int argc,
                             
                             message.addString(aName);
                             message.addString("howdi");
-                            OD_LOG_LL1("outChannel->getOutputCount = ", outChannel->getOutputCount());//####
 #if defined(MAM_CHANNELS_USE_RPC)
                             if (outChannel->write(message, response))
                             {
@@ -539,7 +538,6 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                             
                             message.addString(aName);
                             message.addString("howdi");
-                            OD_LOG_LL1("outChannel->getOutputCount = ", outChannel->getOutputCount());//####
                             if (outChannel->write(message, response))
                             {
 //                                OD_LOG_S1("got ", response.toString().c_str());//####
@@ -646,7 +644,6 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                             
                             message.addString(aName);
                             message.addString("howdi");
-                            OD_LOG_LL1("outChannel->getOutputCount = ", outChannel->getOutputCount());//####
                             if (outChannel->write(message, response))
                             {
 //                                OD_LOG_S1("got ", response.toString().c_str());//####
@@ -1284,7 +1281,11 @@ static void catchSignal(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for unit tests.
+/*! @brief The entry point for unit tests of the MoAndMe common classes.
+ 
+ The first argument is the test number, the second argument is the name of the channel to be used with the test, the
+ optional third argument is the machine to connect to and the optional fourth argument is the port number to be used.
+ Output depends on the test being run.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */

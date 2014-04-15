@@ -46,7 +46,7 @@ project(MovementAndMeaning)
 
 set(MAM_VERSION_MAJOR 1)
 set(MAM_VERSION_MINOR 2)
-set(MAM_VERSION_PATCH 2)
+set(MAM_VERSION_PATCH 3)
 
 option(MAM_CHANNELS_USE_RPC "Use RpcClient and RpcService objects for communication")
 option(MAM_DO_EXPLICIT_CLOSE "Perform an explicit CloseChannel() prior to freeing a channel")

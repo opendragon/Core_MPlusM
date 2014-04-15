@@ -62,6 +62,7 @@ add_library(MoMeCommon
             MoMeClientChannel.cpp
             MoMeClientsRequestHandler.cpp
             MoMeCommon.cpp
+            MoMeDetachRequestHandler.cpp
             MoMeEndpoint.cpp
             MoMeException.cpp
             MoMeInfoRequestHandler.cpp

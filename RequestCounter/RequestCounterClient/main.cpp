@@ -155,7 +155,10 @@ static void reportTimeInReasonableUnits(const double measurement)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating an example client.
+/*! @brief The entry point for communicating with the Request Counter service.
+ 
+ Integers read from standard input will be sent to the service as the number of requests to simulate. Entering a zero
+ will exit the program.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -240,11 +243,6 @@ int main(int      argc,
                             {
                                 OD_LOG("! (stuff->resetServiceCounters())");//####
                                 cerr << "Problem resetting the service counters." << endl;
-                            }
-                            if (! stuff->detachFromService())
-                            {
-                                OD_LOG("(! stuff->detachFromService())");//####
-                                cerr << "Problem detaching from the service." << endl;
                             }
                             if (! stuff->disconnectFromService())
                             {

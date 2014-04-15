@@ -242,6 +242,13 @@ bool BaseClient::disconnectFromService(void)
     OD_LOG_OBJENTER();//####
     if (_connected)
     {
+        Common::Package parameters;
+        
+        reconnectIfDisconnected();
+        if (! send(MAM_DETACH_REQUEST, parameters))
+        {
+            OD_LOG("! (send(MAM_DETACH_REQUEST, parameters))");//####
+        }
         if (NetworkDisconnectWithRetries(_channelName, _serviceChannelName))
         {
             _connected = false;
@@ -328,7 +335,6 @@ void BaseClient::reconnectIfDisconnected(void)
     OD_LOG_OBJENTER();//####
     if (_channel)
     {
-        OD_LOG_LL1("_channel->getOutputCount = ", _channel->getOutputCount());//####
         if (0 >= _channel->getOutputCount())
         {
             if (! connectToService())
@@ -442,7 +448,7 @@ Package Common::FindMatchingServices(const char * criteria)
                     }
                     else
                     {
-                        OD_LOG("! (request.send(MAM_SERVICE_REGISTRY_CHANNEL_NAME, *newChannel, &response))");//####
+                        OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
 #if defined(MAM_DO_EXPLICIT_DISCONNECT)
                     if (! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))

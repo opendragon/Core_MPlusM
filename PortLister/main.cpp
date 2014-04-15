@@ -259,13 +259,10 @@ static void reportConnections(const std::string & portName)
     {
         if ((address.getCarrier() == "tcp") || (address.getCarrier() == "xmlrpc"))
         {
-//            yarp::os::impl::Address          fromAddress(yarp::os::impl::Address::fromContact(address));
-//            yarp::os::impl::OutputProtocol * out = yarp::os::impl::Carriers::connect(fromAddress);
             yarp::os::OutputProtocol * out = yarp::os::impl::Carriers::connect(address);
             
             if (out)
             {
-//                yarp::os::impl::Route rr(kMagicName, portName.c_str(), "text_ack");
                 yarp::os::Route rr(kMagicName, portName.c_str(), "text_ack");
                 
                 if (out->open(rr))
@@ -375,7 +372,9 @@ static void reportPortStatus(const std::string & portName,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating an example client.
+/*! @brief The entry point for listing the connection status of all visible YARP ports.
+
+ There is no input and the output consists of a list of ports and what, if anything, is connected to them.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */

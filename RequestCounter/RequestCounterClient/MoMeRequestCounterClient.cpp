@@ -92,34 +92,6 @@ RequestCounterClient::~RequestCounterClient(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RequestCounterClient::detachFromService(void)
-{
-    OD_LOG_OBJENTER();//####
-    bool okSoFar = false;
-    
-    try
-    {
-        Common::Package parameters;
-        
-        reconnectIfDisconnected();
-        if (send(MAM_DETACH_REQUEST, parameters))
-        {
-            okSoFar = true;
-        }
-        else
-        {
-            OD_LOG("! (send(MAM_DETACH_REQUEST, parameters, &response))");//####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(okSoFar);//####
-    return okSoFar;
-} // RequestCounterClient::detachFromService
-
 bool RequestCounterClient::getServiceStatistics(long &   counter,
                                                 double & elapsedTime)
 {

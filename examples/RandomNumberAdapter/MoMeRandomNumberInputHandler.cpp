@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       MoMeRandomNumberDataInputHandler.cpp
+//  File:       MoMeRandomNumberInputHandler.cpp
 //
 //  Project:    MoAndMe
 //
@@ -40,7 +40,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "MoMeRandomNumberDataInputHandler.h"
+#include "MoMeRandomNumberInputHandler.h"
 #include "MoMeAdapterChannel.h"
 #include "MoMeRandomNumberAdapterData.h"
 #include "MoMeRandomNumberClient.h"
@@ -78,27 +78,27 @@ using namespace MoAndMe::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RandomNumberDataInputHandler::RandomNumberDataInputHandler(RandomNumberAdapterData & shared) :
+RandomNumberInputHandler::RandomNumberInputHandler(RandomNumberAdapterData & shared) :
         inherited(), _shared(shared)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("shared = ", &shared);//####
     OD_LOG_EXIT_P(this);//####
-} // RandomNumberDataInputHandler::RandomNumberDataInputHandler
+} // RandomNumberInputHandler::RandomNumberInputHandler
 
-RandomNumberDataInputHandler::~RandomNumberDataInputHandler(void)
+RandomNumberInputHandler::~RandomNumberInputHandler(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // RandomNumberDataInputHandler::~RandomNumberDataInputHandler
+} // RandomNumberInputHandler::~RandomNumberInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RandomNumberDataInputHandler::handleInput(const Common::Package &       input,
-                                               const yarp::os::ConstString & senderChannel,
-                                               yarp::os::ConnectionWriter *  replyMechanism)
+bool RandomNumberInputHandler::handleInput(const Common::Package &       input,
+                                           const yarp::os::ConstString & senderChannel,
+                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(senderChannel,replyMechanism)
@@ -132,7 +132,7 @@ bool RandomNumberDataInputHandler::handleInput(const Common::Package &       inp
                 {
                     count = 1;
                 }
-                if (0 >= count)
+                if (0 > count)
                 {
                     count = 1;
                 }
@@ -150,7 +150,6 @@ bool RandomNumberDataInputHandler::handleInput(const Common::Package &       inp
                             message.addDouble(*it);
                         }
                         _shared.lock();
-                        OD_LOG_LL1("theOutput->getOutputCount = ", theOutput->getOutputCount());//####
                         if (! theOutput->write(message))
                         {
                             OD_LOG("(! theOutput->write(message))");//####
@@ -165,7 +164,7 @@ bool RandomNumberDataInputHandler::handleInput(const Common::Package &       inp
                         OD_LOG("! (theClient->getRandomNumbers(count, randResult))");//####
                     }
                 }
-                else
+                else if (0 < count)
                 {
                     double randResult;
                     
@@ -175,7 +174,6 @@ bool RandomNumberDataInputHandler::handleInput(const Common::Package &       inp
                         
                         message.addDouble(randResult);
                         _shared.lock();
-                        OD_LOG_LL1("theOutput->getOutputCount = ", theOutput->getOutputCount());//####
                         if (! theOutput->write(message))
                         {
                             OD_LOG("(! theOutput->write(message))");//####
@@ -190,6 +188,10 @@ bool RandomNumberDataInputHandler::handleInput(const Common::Package &       inp
                         OD_LOG("! (theClient->getOneRandomNumber(randResult))");//####
                     }
                 }
+                else
+                {
+                    _shared.deactivate();
+                }
             }
         }
     }
@@ -200,7 +202,7 @@ bool RandomNumberDataInputHandler::handleInput(const Common::Package &       inp
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RandomNumberDataInputHandler::handleInput
+} // RandomNumberInputHandler::handleInput
 
 #if defined(__APPLE__)
 # pragma mark Accessors

@@ -179,7 +179,9 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & servic
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating an example client.
+/*! @brief The entry point for listing the available services.
+
+ There are no input arguments and standard output will receive a list of the available services.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
