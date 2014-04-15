@@ -317,7 +317,6 @@ static int doTestRequestUnregisterService(const int argc,
                             
                             if (MoAndMe::Common::RegisterLocalService(channelName))
                             {
-                                yarp::os::Time::delay(0.2);
                                 if (MoAndMe::Common::UnregisterLocalService(channelName))
                                 {
                                     result = 0;
