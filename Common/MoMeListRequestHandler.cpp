@@ -2,7 +2,7 @@
 //
 //  File:       MoMeListRequestHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for the request handler for the standard 'list'
 //              request.
@@ -58,7 +58,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Common;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -80,7 +80,7 @@ using namespace MoAndMe::Common;
 #endif // defined(__APPLE__)
 
 ListRequestHandler::ListRequestHandler(void) :
-        inherited(MAM_LIST_REQUEST)
+        inherited(MpM_LIST_REQUEST)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
@@ -112,11 +112,11 @@ void ListRequestHandler::fillInDescription(const yarp::os::ConstString & request
     OD_LOG_P1("info = ", &info);//####
     try
     {
-        info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_LIST_START MAM_REQREP_DICT_START MAM_REQREP_DICT_END
-                 MAM_REQREP_1_OR_MORE MAM_REQREP_LIST_END);
-        info.put(MAM_REQREP_DICT_VERSION_KEY, LIST_REQUEST_VERSION_NUMBER);
-        info.put(MAM_REQREP_DICT_DETAILS_KEY, "List the recognized requests");
+        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_LIST_START MpM_REQREP_DICT_START MpM_REQREP_DICT_END
+                 MpM_REQREP_1_OR_MORE MpM_REQREP_LIST_END);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, LIST_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "List the recognized requests");
         yarp::os::Value keywords;
         Package *       asList = keywords.asList();
         
@@ -124,7 +124,7 @@ void ListRequestHandler::fillInDescription(const yarp::os::ConstString & request
         asList->addString("requests");
         asList->addString("methods");
         asList->addString("operations");
-        info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
     {
@@ -166,9 +166,9 @@ bool ListRequestHandler::processRequest(const yarp::os::ConstString & request,
             if (! reply.write(*replyMechanism))
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
     }

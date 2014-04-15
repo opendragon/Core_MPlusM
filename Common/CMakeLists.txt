@@ -2,9 +2,9 @@
 #
 #  File:       Common/CMakeLists.txt
 #
-#  Project:    MoAndMe
+#  Project:    MPlusM
 #
-#  Contains:   The CMAKE definitions for the MoAndMe common libraries.
+#  Contains:   The CMAKE definitions for the M+M common libraries.
 #
 #  Written by: Norman Jaffe
 #
@@ -39,15 +39,15 @@
 #
 #--------------------------------------------------------------------------------------
 
-set(MAM_COMMONTESTSUPPORT_DIR "${MAM_COMMON_DIR}/CommonTests")
+set(MpM_COMMONTESTSUPPORT_DIR "${MpM_COMMON_DIR}/CommonTests")
 
 add_subdirectory(CommonTests)
 
-include_directories("${MAM_LOGGING_DIR}"
-                    “${MAM_PARSER_DIR}”
-                    "${MAM_COMMONTESTSUPPORT_DIR}")
+include_directories("${MpM_LOGGING_DIR}"
+                    “${MpM_PARSER_DIR}”
+                    "${MpM_COMMONTESTSUPPORT_DIR}")
 
-add_library(MoMeCommon
+add_library(Common
             MoMeAdapterChannel.cpp
             MoMeBailOut.cpp
             MoMeBailOutThread.cpp
@@ -75,8 +75,8 @@ add_library(MoMeCommon
             MoMeServiceRequest.cpp
             MoMeServiceResponse.cpp)
 
-install(TARGETS MoMeCommon DESTINATION bin)
-install(FILES MoMeCommon DESTINATION include)
+install(TARGETS Common DESTINATION bin)
+install(FILES Common DESTINATION include)
 
 enable_testing()
 
@@ -84,10 +84,10 @@ add_executable(CommonTest
                MoMeCommonTest.cpp)
 
 target_link_libraries(CommonTest
-                      MoMeCommon
-                      MoMeLogging
-                      MoMeParser
-                      MoMeCommonTestSupport
+                      Common
+                      Logging
+                      Parser
+                      CommonTestSupport
                       ${YARP_LIBRARIES})
 
 # Argument order for test 1 = endpoint name [, IP address / name [, port]]

@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRequestCounterClient.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for the client of the request counter service.
 //
@@ -56,7 +56,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace RequestCounter
     {
@@ -109,6 +109,6 @@ namespace MoAndMe
         
     } // RequestCounter
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEREQUESTCOUNTERCLIENT_H_)

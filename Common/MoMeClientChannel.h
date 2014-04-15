@@ -2,7 +2,7 @@
 //
 //  File:       MoMeClientChannel.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for channels for responses from a service to a client.
 //
@@ -55,9 +55,9 @@
 #  pragma clang diagnostic ignored "-Wunused-parameter"
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
-# if defined(MAM_CHANNELS_USE_RPC)
+# if defined(MpM_CHANNELS_USE_RPC)
 #  include <yarp/os/RpcClient.h>
-# endif // defined(MAM_CHANNELS_USE_RPC)
+# endif // defined(MpM_CHANNELS_USE_RPC)
 # include <yarp/os/Port.h>
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
@@ -75,13 +75,13 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The Port class to be used for client connections. */
-# if defined(MAM_CHANNELS_USE_RPC)
+# if defined(MpM_CHANNELS_USE_RPC)
 #  define CLIENT_PORT_CLASS_ yarp::os::RpcClient
-# else // ! defined(MAM_CHANNELS_USE_RPC)
+# else // ! defined(MpM_CHANNELS_USE_RPC)
 #  define CLIENT_PORT_CLASS_ yarp::os::Port
-# endif // ! defined(MAM_CHANNELS_USE_RPC)
+# endif // ! defined(MpM_CHANNELS_USE_RPC)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
@@ -136,6 +136,6 @@ namespace MoAndMe
         
     } // Common
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMECLIENTCHANNEL_H_)

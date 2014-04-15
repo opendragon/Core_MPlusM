@@ -2,9 +2,9 @@
 //
 //  File:       MoMeBaseMatcher.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for the minimal functionality required for a MoAndMe
+//  Contains:   The class definition for the minimal functionality required for a M+M
 //              pattern matcher.
 //
 //  Written by: Norman Jaffe
@@ -54,7 +54,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the minimal functionality required for a MoAndMe pattern matcher. */
+ @brief The class definition for the minimal functionality required for a M+M pattern matcher. */
 
 /*! @dir Parser
  @brief The set of files that support parsing of search requests. */
@@ -62,7 +62,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Parser;
+using namespace MplusM::Parser;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

@@ -2,9 +2,9 @@
 //
 //  File:       RegistryService/main.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The main application for the Service Registry MoAndMe service.
+//  Contains:   The main application for the Service Registry M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -71,7 +71,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for the Service Registry MoAndMe service. */
+ @brief The main application for the Service Registry M+M service. */
 
 /*! @dir RegistryService
  @brief The RegistryService application. */
@@ -124,37 +124,38 @@ static void stopRunning(int signal)
 int main(int      argc,
          char * * argv)
 {
-#if defined(MAM_SERVICES_LOG_TO_STDERR)
+#if defined(MpM_SERVICES_LOG_TO_STDERR)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport);//####
-#else // ! defined(MAM_SERVICES_LOG_TO_STDERR)
+#else // ! defined(MpM_SERVICES_LOG_TO_STDERR)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport);//####
-#endif // ! defined(MAM_SERVICES_LOG_TO_STDERR)
+#endif // ! defined(MpM_SERVICES_LOG_TO_STDERR)
     OD_LOG_ENTER();//####
     try
     {
         if (yarp::os::Network::checkNetwork())
         {
-            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-            MoAndMe::Registry::RegistryService * stuff = NULL;
+            yarp::os::Network                   yarp; // This is necessary to establish any connection to the YARP
+                                                      // infrastructure
+            MplusM::Registry::RegistryService * stuff = NULL;
             
-            MoAndMe::Common::Initialize(*argv);
+            MplusM::Common::Initialize(*argv);
             if (1 <= argc)
             {
                 switch (argc)
                 {
                         // Argument order for tests = endpoint name [, IP address / name [, port]]
                     case 1:
-                        stuff = new MoAndMe::Registry::RegistryService(USE_INMEMORY);
+                        stuff = new MplusM::Registry::RegistryService(USE_INMEMORY);
                         break;
                         
                     case 2:
-                        stuff = new MoAndMe::Registry::RegistryService(USE_INMEMORY, argv[1]);
+                        stuff = new MplusM::Registry::RegistryService(USE_INMEMORY, argv[1]);
                         break;
                         
                     case 3:
-                        stuff = new MoAndMe::Registry::RegistryService(USE_INMEMORY, argv[1], argv[2]);
+                        stuff = new MplusM::Registry::RegistryService(USE_INMEMORY, argv[1], argv[2]);
                         break;
                         
                     default:
@@ -169,14 +170,14 @@ int main(int      argc,
                     // Note that the Registry Service is self-registering... so we don't need to call
                     // RegisterLocalService().
                     lKeepRunning = true;
-                    MoAndMe::Common::SetSignalHandlers(stopRunning);
+                    MplusM::Common::SetSignalHandlers(stopRunning);
                     for ( ; lKeepRunning && stuff; )
                     {
-#if defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
+#if defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
                         yarp::os::Time::delay(ONE_SECOND_DELAY);
-#else // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
+#else // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
                         yarp::os::Time::yield();
-#endif // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
+#endif // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
                     }
                     stuff->stop();
                 }

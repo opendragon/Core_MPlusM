@@ -2,7 +2,7 @@
 //
 //  File:       MoMeInfoRequestHandler.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for the request handler for the standard 'info'
 //              request.
@@ -57,7 +57,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
@@ -119,6 +119,6 @@ namespace MoAndMe
         
     } // Common
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEINFOREQUESTHANDLER_H_)

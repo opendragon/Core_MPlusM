@@ -2,7 +2,7 @@
 //
 //  File:       MoMeMatchValueList.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for a pattern matcher for lists of simple values.
 //
@@ -56,7 +56,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Parser
     {
@@ -153,6 +153,6 @@ namespace MoAndMe
         
     } // Parser
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEMATCHVALUELIST_H_)

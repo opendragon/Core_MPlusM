@@ -2,9 +2,9 @@
 //
 //  File:       MoMeEndpoint.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class declaration for the connection endpoint for a MoAndMe service.
+//  Contains:   The class declaration for the connection endpoint for a M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -66,12 +66,12 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the connection endpoint for a MoAndMe service. */
+ @brief The class declaration for the connection endpoint for a M+M service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
@@ -190,6 +190,6 @@ namespace MoAndMe
         
     } // Common
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEENDPOINT_H_)

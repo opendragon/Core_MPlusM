@@ -2,7 +2,7 @@
 //
 //  File:       MoMeTest15Service.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for a simple service used by the unit tests.
 //
@@ -57,7 +57,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Test;
+using namespace MplusM::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

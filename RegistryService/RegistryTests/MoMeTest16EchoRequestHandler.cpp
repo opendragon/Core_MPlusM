@@ -2,7 +2,7 @@
 //
 //  File:       MoMeTest16EchoRequestHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for a simple request handler used by the unit tests.
 //
@@ -56,7 +56,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Test;
+using namespace MplusM::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -78,7 +78,7 @@ using namespace MoAndMe::Test;
 #endif // defined(__APPLE__)
 
 Test16EchoRequestHandler::Test16EchoRequestHandler(void) :
-        inherited(MAM_ECHO_REQUEST)
+        inherited(MpM_ECHO_REQUEST)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
@@ -112,18 +112,18 @@ void Test16EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
     OD_LOG_P1("info = ", &info);//####
     try
     {
-        info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MAM_REQREP_DICT_INPUT_KEY, MAM_REQREP_ANYTHING MAM_REQREP_0_OR_MORE);
-        info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_ANYTHING MAM_REQREP_0_OR_MORE);
-        info.put(MAM_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
-        info.put(MAM_REQREP_DICT_DETAILS_KEY, "Echo back any input");
+        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
+        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_ANYTHING MpM_REQREP_0_OR_MORE);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_ANYTHING MpM_REQREP_0_OR_MORE);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Echo back any input");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("blorg");
         asList->addString("blirg");
-        info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
     {
@@ -156,9 +156,9 @@ bool Test16EchoRequestHandler::processRequest(const yarp::os::ConstString & requ
             if (! argsCopy.write(*replyMechanism))
             {
                 OD_LOG("(! argsCopy.write(*replyMechanism))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
     }

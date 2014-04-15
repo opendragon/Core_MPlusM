@@ -2,9 +2,9 @@
 //
 //  File:       MoMeCommonTest.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The test driver for the unit tests of the MoAndMe common library.
+//  Contains:   The test driver for the unit tests of the M+M common library.
 //
 //  Written by: Norman Jaffe
 //
@@ -81,14 +81,14 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The test driver for the unit tests of the MoAndMe common library. */
+ @brief The test driver for the unit tests of the M+M common library. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe;
-using namespace MoAndMe::Common;
-using namespace MoAndMe::Test;
+using namespace MplusM;
+using namespace MplusM::Common;
+using namespace MplusM::Test;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -159,22 +159,22 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
     
     if (newChannel)
     {
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
         ChannelStatusReporter reporter;
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
         
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
         newChannel->setReporter(reporter);
         newChannel->getReport(reporter);
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
         if (newChannel->openWithRetries(aName))
         {
             if (! NetworkConnectWithRetries(aName, destinationName))
             {
                 OD_LOG("(! NetworkConnectWithRetries(aName, destinationName))");//####
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
                 newChannel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
                 ClientChannel::RelinquishChannel(newChannel);
             }
         }
@@ -207,23 +207,23 @@ static ClientChannel * doCreateTestChannel(Endpoint &   anEndpoint,
 static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
                                  ClientChannel *               theChannel)
 {
-#if (! defined(MAM_DO_EXPLICIT_DISCONNECT))
+#if (! defined(MpM_DO_EXPLICIT_DISCONNECT))
 # pragma unused(destinationName)
-#endif // ! defined(MAM_DO_EXPLICIT_DISCONNECT)
+#endif // ! defined(MpM_DO_EXPLICIT_DISCONNECT)
     OD_LOG_ENTER();//####
     OD_LOG_P1("theChannel = ", theChannel);//####
     
     if (theChannel)
     {
-#if defined(MAM_DO_EXPLICIT_DISCONNECT)
+#if defined(MpM_DO_EXPLICIT_DISCONNECT)
         if (! NetworkDisconnectWithRetries(theChannel->getName(), destinationName))
         {
             OD_LOG("(! NetworkDisconnectWithRetries(theChannel->getName(), destinationName))");//####
         }
-#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
         theChannel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
         ClientChannel::RelinquishChannel(theChannel);
     }
     OD_LOG_EXIT();//####
@@ -314,31 +314,31 @@ static int doTestConnectToEndpoint(const int argc,
                 
                 if (outChannel)
                 {
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
                     outChannel->setReporter(reporter);
                     outChannel->getReport(reporter);
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     if (outChannel->openWithRetries(aName))
                     {
                         outChannel->getReport(reporter);
                         if (outChannel->addOutputWithRetries(stuff->getName()))
                         {
                             result = 0;
-#if defined(MAM_DO_EXPLICIT_DISCONNECT)
+#if defined(MpM_DO_EXPLICIT_DISCONNECT)
                             if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName()))
                             {
                                 OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                        "stuff->getName()))");//####
                             }
-#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                         }
                         else
                         {
                             OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName()))");//####
                         }
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
                         outChannel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
                     }
                     else
                     {
@@ -403,62 +403,62 @@ static int doTestWriteToEndpoint(const int argc,
                 
                 if (outChannel)
                 {
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
                     outChannel->setReporter(reporter);
                     outChannel->getReport(reporter);
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     if (outChannel->openWithRetries(aName))
                     {
                         outChannel->getReport(reporter);
                         if (outChannel->addOutputWithRetries(stuff->getName()))
                         {
                             Package message;
-#if defined(MAM_CHANNELS_USE_RPC)
+#if defined(MpM_CHANNELS_USE_RPC)
                             Package response;
-#endif // defined(MAM_CHANNELS_USE_RPC)
+#endif // defined(MpM_CHANNELS_USE_RPC)
                             
                             message.addString(aName);
                             message.addString("howdi");
-#if defined(MAM_CHANNELS_USE_RPC)
+#if defined(MpM_CHANNELS_USE_RPC)
                             if (outChannel->write(message, response))
                             {
                                 result = 0;
-# if defined(MAM_DO_EXPLICIT_DISCONNECT)
+# if defined(MpM_DO_EXPLICIT_DISCONNECT)
                                 if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName()))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                            "stuff->getName()))");//####
                                 }
-# endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+# endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                             }
-#else // ! defined(MAM_CHANNELS_USE_RPC)
+#else // ! defined(MpM_CHANNELS_USE_RPC)
                             if (outChannel->write(message))
                             {
                                 result = 0;
-# if defined(MAM_DO_EXPLICIT_DISCONNECT)
+# if defined(MpM_DO_EXPLICIT_DISCONNECT)
                                 if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName()))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                            "stuff->getName()))");//####
                                 }
-# endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+# endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                             }
-#endif // ! defined(MAM_CHANNELS_USE_RPC)
+#endif // ! defined(MpM_CHANNELS_USE_RPC)
                             else
                             {
                                 OD_LOG("! (outChannel->write(message))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }
                         else
                         {
                             OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName()))");//####
                         }
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
                         outChannel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
                     }
                     else
                     {
@@ -524,10 +524,10 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                 
                 if (outChannel)
                 {
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
                     outChannel->setReporter(reporter);
                     outChannel->getReport(reporter);
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     if (outChannel->openWithRetries(aName))
                     {
                         outChannel->getReport(reporter);
@@ -542,29 +542,29 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                             {
 //                                OD_LOG_S1("got ", response.toString().c_str());//####
                                 result = 0;
-#if defined(MAM_DO_EXPLICIT_DISCONNECT)
+#if defined(MpM_DO_EXPLICIT_DISCONNECT)
                                 if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName()))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                            "stuff->getName()))");//####
                                 }
-#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                             }
                             else
                             {
                                 OD_LOG("! (outChannel->write(message, response))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }
                         else
                         {
                             OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName()))");//####
                         }
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
                         outChannel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
                     }
                     else
                     {
@@ -630,10 +630,10 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                 
                 if (outChannel)
                 {
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
                     outChannel->setReporter(reporter);
                     outChannel->getReport(reporter);
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     if (outChannel->openWithRetries(aName))
                     {
                         outChannel->getReport(reporter);
@@ -648,29 +648,29 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                             {
 //                                OD_LOG_S1("got ", response.toString().c_str());//####
                                 result = 0;
-#if defined(MAM_DO_EXPLICIT_DISCONNECT)
+#if defined(MpM_DO_EXPLICIT_DISCONNECT)
                                 if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName()))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                            "stuff->getName()))");//####
                                 }
-#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                             }
                             else
                             {
                                 OD_LOG("! (outChannel->write(message, response))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }
                         else
                         {
                             OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName()))");//####
                         }
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
                         outChannel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
                     }
                     else
                     {
@@ -814,7 +814,7 @@ static int doTestRequestEchoFromEndpoint(const int argc,
                 {
                     OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                     Package         parameters("some to send");
-                    ServiceRequest  request(MAM_ECHO_REQUEST, parameters);
+                    ServiceRequest  request(MpM_ECHO_REQUEST, parameters);
                     ServiceResponse response;
                     
                     if (request.send(*outChannel, &response))
@@ -886,7 +886,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const int argc,
                 if (outChannel)
                 {
                     Package         parameters("some to send");
-                    ServiceRequest  request(MAM_ECHO_REQUEST, parameters);
+                    ServiceRequest  request(MpM_ECHO_REQUEST, parameters);
                     ServiceResponse response;
                     
                     if (request.send(*outChannel, &response))
@@ -958,7 +958,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const int a
                 if (outChannel)
                 {
                     Package         parameters("some to send");
-                    ServiceRequest  request(MAM_ECHO_REQUEST, parameters);
+                    ServiceRequest  request(MpM_ECHO_REQUEST, parameters);
                     ServiceResponse response;
                     
                     if (request.send(*outChannel, &response))
@@ -1030,7 +1030,7 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const int argc,
                 if (outChannel)
                 {
                     Package         parameters("some to send");
-                    ServiceRequest  request(MAM_ECHO_REQUEST, parameters);
+                    ServiceRequest  request(MpM_ECHO_REQUEST, parameters);
                     ServiceResponse response;
                     
                     if (request.send(*outChannel, &response))
@@ -1116,14 +1116,14 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                 if (anElement.isDict())
                 {
                     yarp::os::Property * asDict = anElement.asDict();
-                    bool                 hasInput = asDict->check(MAM_REQREP_DICT_INPUT_KEY);
-                    bool                 hasOutput = asDict->check(MAM_REQREP_DICT_OUTPUT_KEY);
+                    bool                 hasInput = asDict->check(MpM_REQREP_DICT_INPUT_KEY);
+                    bool                 hasOutput = asDict->check(MpM_REQREP_DICT_OUTPUT_KEY);
                     
-                    if (asDict->check(MAM_REQREP_DICT_REQUEST_KEY))
+                    if (asDict->check(MpM_REQREP_DICT_REQUEST_KEY))
                     {
-                        yarp::os::ConstString aName(asDict->find(MAM_REQREP_DICT_REQUEST_KEY).asString());
+                        yarp::os::ConstString aName(asDict->find(MpM_REQREP_DICT_REQUEST_KEY).asString());
                         
-                        if (aName == MAM_LIST_REQUEST)
+                        if (aName == MpM_LIST_REQUEST)
                         {
                             if (sawList)
                             {
@@ -1131,12 +1131,12 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                             }
                             else if ((! hasInput) && hasOutput)
                             {
-                                yarp::os::ConstString itsOutput(asDict->find(MAM_REQREP_DICT_OUTPUT_KEY).asString());
+                                yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
                                 
                                 sawList = (itsOutput == "([]+)");
                             }
                         }
-                        else if (aName == MAM_INFO_REQUEST)
+                        else if (aName == MpM_INFO_REQUEST)
                         {
                             if (sawInfo)
                             {
@@ -1144,13 +1144,13 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                             }
                             else if (hasInput && hasOutput)
                             {
-                                yarp::os::ConstString itsOutput(asDict->find(MAM_REQREP_DICT_OUTPUT_KEY).asString());
-                                yarp::os::ConstString itsInput(asDict->find(MAM_REQREP_DICT_INPUT_KEY).asString());
+                                yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                                yarp::os::ConstString itsInput(asDict->find(MpM_REQREP_DICT_INPUT_KEY).asString());
                                 
                                 sawInfo = ((itsInput == ".+") && (itsOutput == "([]?)"));
                             }
                         }
-                        else if (aName == MAM_ECHO_REQUEST)
+                        else if (aName == MpM_ECHO_REQUEST)
                         {
                             if (sawEcho)
                             {
@@ -1158,8 +1158,8 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                             }
                             else if (hasInput && hasOutput)
                             {
-                                yarp::os::ConstString itsOutput(asDict->find(MAM_REQREP_DICT_OUTPUT_KEY).asString());
-                                yarp::os::ConstString itsInput(asDict->find(MAM_REQREP_DICT_INPUT_KEY).asString());
+                                yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                                yarp::os::ConstString itsInput(asDict->find(MpM_REQREP_DICT_INPUT_KEY).asString());
                                 
                                 sawEcho = ((itsInput == ".*") && (itsOutput == ".*"));
                             }
@@ -1215,7 +1215,7 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const int argc,
                 
                 if (outChannel)
                 {
-                    ServiceRequest  request(MAM_LIST_REQUEST);
+                    ServiceRequest  request(MpM_LIST_REQUEST);
                     ServiceResponse response;
                     
                     if (request.send(*outChannel, &response))
@@ -1272,7 +1272,7 @@ static void catchSignal(int signal)
 {
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
-    cerr << "Exiting due to signal " << signal << " = " << MoAndMe::NameOfSignal(signal) << endl;
+    cerr << "Exiting due to signal " << signal << " = " << MplusM::NameOfSignal(signal) << endl;
     OD_LOG_EXIT_EXIT(1);//####
     yarp::os::exit(1);
 } // catchSignal
@@ -1281,7 +1281,7 @@ static void catchSignal(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for unit tests of the MoAndMe common classes.
+/*! @brief The entry point for unit tests of the M+M common classes.
  
  The first argument is the test number, the second argument is the name of the channel to be used with the test, the
  optional third argument is the machine to connect to and the optional fourth argument is the port number to be used.
@@ -1303,12 +1303,12 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MoAndMe::Common::Initialize(*argv);
+            MplusM::Common::Initialize(*argv);
             if (0 < --argc)
             {
                 int selector = atoi(argv[1]);
                 
-                MoAndMe::Common::SetSignalHandlers(catchSignal);
+                MplusM::Common::SetSignalHandlers(catchSignal);
                 switch (selector)
                 {
                     case 0:

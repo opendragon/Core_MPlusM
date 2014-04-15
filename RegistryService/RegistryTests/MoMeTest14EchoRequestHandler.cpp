@@ -2,7 +2,7 @@
 //
 //  File:       MoMeTest14EchoRequestHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for a simple request handler used by the unit tests.
 //
@@ -54,12 +54,12 @@
  @brief The class definition for a simple request handler used by the unit tests. */
 
 /*! @dir RegistryTests
- @brief The set of files used for unit testing of the MoAndMe Service Registry service. */
+ @brief The set of files used for unit testing of the M+M Service Registry service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Test;
+using namespace MplusM::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -81,7 +81,7 @@ using namespace MoAndMe::Test;
 #endif // defined(__APPLE__)
 
 Test14EchoRequestHandler::Test14EchoRequestHandler(void) :
-        inherited(MAM_ECHO_REQUEST)
+        inherited(MpM_ECHO_REQUEST)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
@@ -115,16 +115,16 @@ void Test14EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
     OD_LOG_P1("info = ", &info);//####
     try
     {
-        info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MAM_REQREP_DICT_INPUT_KEY, MAM_REQREP_ANYTHING MAM_REQREP_0_OR_MORE);
-        info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_ANYTHING MAM_REQREP_0_OR_MORE);
-        info.put(MAM_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
-        info.put(MAM_REQREP_DICT_DETAILS_KEY, "Echo back any input");
+        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
+        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_ANYTHING MpM_REQREP_0_OR_MORE);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_ANYTHING MpM_REQREP_0_OR_MORE);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Echo back any input");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
     {
@@ -157,9 +157,9 @@ bool Test14EchoRequestHandler::processRequest(const yarp::os::ConstString & requ
             if (! argsCopy.write(*replyMechanism))
             {
                 OD_LOG("(! argsCopy.write(*replyMechanism))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
     }

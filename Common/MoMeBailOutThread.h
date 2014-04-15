@@ -2,9 +2,9 @@
 //
 //  File:       MoMeBailOutThread.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class declaration for a timeout thread for MoAndMe.
+//  Contains:   The class declaration for a timeout thread for M+M.
 //
 //  Written by: Norman Jaffe
 //
@@ -66,12 +66,12 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for a timeout thread for MoAndMe. */
+ @brief The class declaration for a timeout thread for M+M. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
@@ -167,6 +167,6 @@ namespace MoAndMe
         
     } // Common
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEBAILOUT_H_)

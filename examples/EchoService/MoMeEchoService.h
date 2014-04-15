@@ -2,9 +2,9 @@
 //
 //  File:       MoMeEchoService.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class declaration for a simple MoAndMe service.
+//  Contains:   The class declaration for a simple M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,7 +51,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for a simple MoAndMe service. */
+ @brief The class declaration for a simple M+M service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -59,13 +59,13 @@
 /*! @brief The channel name to use for the service if not provided. */
 # define DEFAULT_ECHO_SERVICE_NAME "/service/example/echo"
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Example
     {
         class EchoRequestHandler;
         
-        /*! @brief An example MoAndMe service, handling 'echo' requests. */
+        /*! @brief An example M+M service, handling 'echo' requests. */
         class EchoService : public Common::BaseService
         {
         public:
@@ -121,6 +121,6 @@ namespace MoAndMe
         
     } // Example
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEECHOSERVICE_H_)

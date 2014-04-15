@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRequestMap.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for the mapping between requests and request handlers.
 //
@@ -72,7 +72,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
@@ -174,6 +174,6 @@ namespace MoAndMe
         
     } // Common
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEREQUESTMAP_H_)

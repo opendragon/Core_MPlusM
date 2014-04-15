@@ -2,7 +2,7 @@
 //
 //  File:       MoMeStatsRequestHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for the request handler for a 'stats' request.
 //
@@ -57,7 +57,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::RequestCounter;
+using namespace MplusM::RequestCounter;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -79,7 +79,7 @@ using namespace MoAndMe::RequestCounter;
 #endif // defined(__APPLE__)
 
 StatsRequestHandler::StatsRequestHandler(RequestCounterService & service) :
-        inherited(MAM_STATS_REQUEST), _service(service)
+        inherited(MpM_STATS_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
@@ -113,15 +113,15 @@ void StatsRequestHandler::fillInDescription(const yarp::os::ConstString & reques
     OD_LOG_P1("info = ", &info);//####
     try
     {
-        info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_INT MAM_REQREP_DOUBLE);
-        info.put(MAM_REQREP_DICT_VERSION_KEY, STATS_REQUEST_VERSION_NUMBER);
-        info.put(MAM_REQREP_DICT_DETAILS_KEY, "Return the number of requests and the time since last reset");
+        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_INT MpM_REQREP_DOUBLE);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, STATS_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the number of requests and the time since last reset");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
     {
@@ -159,9 +159,9 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
     }

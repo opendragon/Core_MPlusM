@@ -2,9 +2,9 @@
 //
 //  File:       MoMeBaseContext.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class declaration for contexts used with persistent services in MoAndMe.
+//  Contains:   The class declaration for contexts used with persistent services in M+M.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,12 +51,12 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for contexts used with persistent services in MoAndMe. */
+ @brief The class declaration for contexts used with persistent services in M+M. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
@@ -91,6 +91,6 @@ namespace MoAndMe
         
     } // Common
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEBASECONTEXT_H_)

@@ -2,7 +2,7 @@
 //
 //  File:       MoMeTestNameValidator.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for a field name validator used by the unit tests.
 //
@@ -56,12 +56,12 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Test
     {
         /*! @brief A convenience class to provide function objects for field name handling. */
-        class TestNameValidator : public MoAndMe::Parser::BaseNameValidator
+        class TestNameValidator : public MplusM::Parser::BaseNameValidator
         {
         public:
             
@@ -108,6 +108,6 @@ namespace MoAndMe
         
     } // Test
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMETESTNAMEVALIDATOR_H_)

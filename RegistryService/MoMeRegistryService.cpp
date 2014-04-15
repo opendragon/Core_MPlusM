@@ -2,9 +2,9 @@
 //
 //  File:       MoMeRegistryService.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for the Service Registry MoAndMe service.
+//  Contains:   The class definition for the Service Registry M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -83,12 +83,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the Service Registry MoAndMe service. */
+ @brief The class definition for the Service Registry M+M service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Registry;
+using namespace MplusM::Registry;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -114,7 +114,7 @@ static const char * kEndTransaction = "END TRANSACTION";
 /*! @brief The command to undo an SQL transaction. */
 static const char * kRollbackTransaction = "ROLLBACK TRANSACTION";
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Registry
     {
@@ -150,7 +150,7 @@ namespace MoAndMe
         
     } // Registry
     
-} // MoAndMe
+} // MplusM
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -388,12 +388,12 @@ static bool performSQLstatementWithNoResults(sqlite3 *    database,
  @param doBinds A function that will fill in any parameters in the statement.
  @param data The custom information used with the binding function.
  @returns @c true if the operation was successfully performed and @c false otherwise. */
-static bool performSQLstatementWithResults(sqlite3 *                  database,
-                                           MoAndMe::Common::Package & resultList,
-                                           const char *               sqlStatement,
-                                           const int                  columnOfInterest = 0,
-                                           BindFunction               doBinds = NULL,
-                                           const void *               data = NULL)
+static bool performSQLstatementWithResults(sqlite3 *                 database,
+                                           MplusM::Common::Package & resultList,
+                                           const char *              sqlStatement,
+                                           const int                 columnOfInterest = 0,
+                                           BindFunction              doBinds = NULL,
+                                           const void *              data = NULL)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P3("database = ", database, "resultList = ", &resultList, "data = ", data);//####
@@ -944,7 +944,7 @@ static int setupRemoveForServices(sqlite3_stmt * statement,
 RegistryService::RegistryService(const bool                    useInMemoryDb,
                                  const yarp::os::ConstString & serviceHostName,
                                  const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, MAM_REGISTRY_CANONICAL_NAME, "The Service Registry service", MAM_SERVICE_REGISTRY_CHANNEL_NAME,
+        inherited(true, MpM_REGISTRY_CANONICAL_NAME, "The Service Registry service", MpM_SERVICE_REGISTRY_CHANNEL_NAME,
                   serviceHostName, servicePortNumber), _db(NULL), _validator(new ColumnNameValidator),
         _matchHandler(NULL), _registerHandler(NULL), _unregisterHandler(NULL), _inMemory(useInMemoryDb),
         _isActive(false)
@@ -1314,17 +1314,17 @@ bool RegistryService::start(void)
             if (isStarted() && setUpDatabase())
             {
                 // Register ourselves!!!
-                yarp::os::ConstString   aName(Common::GetRandomChannelName(MAM_SERVICE_REGISTRY_CHANNEL_NAME "/temp_"));
+                yarp::os::ConstString   aName(Common::GetRandomChannelName(MpM_SERVICE_REGISTRY_CHANNEL_NAME "/temp_"));
                 Common::ClientChannel * newChannel = new Common::ClientChannel;
                 
                 if (newChannel)
                 {
                     if (newChannel->openWithRetries(aName))
                     {
-                        if (Common::NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
+                        if (Common::NetworkConnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))
                         {
-                            Common::Package         parameters(MAM_SERVICE_REGISTRY_CHANNEL_NAME);
-                            Common::ServiceRequest  request(MAM_REGISTER_REQUEST, parameters);
+                            Common::Package         parameters(MpM_SERVICE_REGISTRY_CHANNEL_NAME);
+                            Common::ServiceRequest  request(MpM_REGISTER_REQUEST, parameters);
                             Common::ServiceResponse response;
                             
                             if (request.send(*newChannel, &response))
@@ -1337,7 +1337,7 @@ bool RegistryService::start(void)
                                     OD_LOG_S1("theValue <- ", theValue.toString().c_str());//####
                                     if (theValue.isString())
                                     {
-                                        _isActive = (theValue.toString() == MAM_OK_RESPONSE);
+                                        _isActive = (theValue.toString() == MpM_OK_RESPONSE);
                                         OD_LOG_B1("_isActive <- ", _isActive);//####
                                     }
                                     else
@@ -1359,11 +1359,11 @@ bool RegistryService::start(void)
                         else
                         {
                             OD_LOG("! (Common::NetworkConnectWithRetries(aName, "//####
-                                   "MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
+                                   "MpM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                         }
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
                         newChannel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
                     }
                     else
                     {

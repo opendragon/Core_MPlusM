@@ -2,7 +2,7 @@
 #
 #  File:       CommonTests/CMakeLists.txt
 #
-#  Project:    MoAndMe
+#  Project:    MPlusM
 #
 #  Contains:   The CMAKE definitions for the common unit test application.
 #
@@ -39,11 +39,11 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${MAM_LOGGING_DIR}"
-                    "${MAM_COMMON_DIR}"
-                    “${MAM_PARSER_DIR}”)
+include_directories("${MpM_LOGGING_DIR}"
+                    "${MpM_COMMON_DIR}"
+                    “${MpM_PARSER_DIR}”)
 
-add_library(MoMeCommonTestSupport
+add_library(CommonTestSupport
             MoMeTest03Handler.cpp
             MoMeTest04Handler.cpp
             MoMeTest05Handler.cpp
@@ -58,5 +58,5 @@ add_library(MoMeCommonTestSupport
             MoMeTest12EchoRequestHandler.cpp
             MoMeTest12Service.cpp)
 
-install(TARGETS MoMeCommonTestSupport DESTINATION bin)
-install(FILES MoMeCommonTestSupport DESTINATION include)
+install(TARGETS CommonTestSupport DESTINATION bin)
+install(FILES CommonTestSupport DESTINATION include)

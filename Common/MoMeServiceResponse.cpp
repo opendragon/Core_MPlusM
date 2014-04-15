@@ -2,9 +2,9 @@
 //
 //  File:       MoMeServiceResponse.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for the response to a MoAndMe request.
+//  Contains:   The class definition for the response to a M+M request.
 //
 //  Written by: Norman Jaffe
 //
@@ -50,12 +50,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the response to a MoAndMe request. */
+ @brief The class definition for the response to a M+M request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Common;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

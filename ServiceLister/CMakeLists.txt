@@ -2,7 +2,7 @@
 #
 #  File:       ServiceLister/CMakeLists.txt
 #
-#  Project:    MoAndMe
+#  Project:    MPlusM
 #
 #  Contains:   The CMAKE definitions for the ServiceLister application.
 #
@@ -39,8 +39,8 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${MAM_LOGGING_DIR}"
-                    "${MAM_COMMON_DIR}")
+include_directories("${MpM_LOGGING_DIR}"
+                    "${MpM_COMMON_DIR}")
 
 # set up our program
 add_executable(ServiceLister
@@ -48,9 +48,9 @@ add_executable(ServiceLister
 
 # link with YARP libraries and our interface classes
 target_link_libraries(ServiceLister
-                      MoMeCommon
-                      MoMeLogging
-                      MoMeParser
+                      Common
+                      Logging
+                      Parser
                       ${YARP_LIBRARIES})
 
 enable_testing()

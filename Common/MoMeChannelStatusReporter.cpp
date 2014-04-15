@@ -2,9 +2,9 @@
 //
 //  File:       MoMeChannelStatusReporter.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for the channel status reporter for the MoAndMe
+//  Contains:   The class definition for the channel status reporter for the M+M
 //              unit tests.
 //
 //  Written by: Norman Jaffe
@@ -66,12 +66,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the channel status reporter for the MoAndMe unit tests. */
+ @brief The class definition for the channel status reporter for the M+M unit tests. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Common;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

@@ -2,9 +2,9 @@
 //
 //  File:       EchoClient/main.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The main application for the client of a simple MoAndMe service.
+//  Contains:   The main application for the client of a simple M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -67,15 +67,15 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for the client of a simple MoAndMe service. */
+ @brief The main application for the client of a simple M+M service. */
 
 /*! @dir EchoClient
- @brief The set of files that implement the client for a simple MoAndMe service. */
+ @brief The set of files that implement the client for a simple M+M service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Example;
+using namespace MplusM::Example;
 using std::cin;
 using std::cout;
 using std::cerr;
@@ -128,22 +128,22 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MoAndMe::Common::Initialize(*argv);
+            MplusM::Common::Initialize(*argv);
             EchoClient * stuff = new EchoClient;
             
             if (stuff)
             {
                 lKeepRunning = true;
-                MoAndMe::Common::SetSignalHandlers(stopRunning);
+                MplusM::Common::SetSignalHandlers(stopRunning);
                 if (stuff->findService("details Echo*"))
                 {
-#if defined(MAM_REPORT_ON_CONNECTIONS)
-                    MoAndMe::Common::ChannelStatusReporter reporter;
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
+                    MplusM::Common::ChannelStatusReporter reporter;
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
                     stuff->setReporter(reporter, true);
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     if (stuff->connectToService())
                     {
                         for ( ; lKeepRunning; )

@@ -2,7 +2,7 @@
 //
 //  File:       PortLister/main.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   A utility application to list the available ports.
 //
@@ -101,8 +101,8 @@ static const char * kMagicName = "<!!!>";
  Note that each line of the response, except the last, is started with 'registration name'.
  @param received The response to be processed.
  @param ports The list of non-default ports found. */
-static void processResponse(const yarp::os::ConstString &   received,
-                            MoAndMe::Common::StringVector & ports)
+static void processResponse(const yarp::os::ConstString &  received,
+                            MplusM::Common::StringVector & ports)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("received = ", received.c_str());//####
@@ -143,14 +143,14 @@ static void processResponse(const yarp::os::ConstString &   received,
 /*! @brief Check if the Registry Service is active.
  @param ports The set of detected ports.
  @returns @c true if the Registry Service port is present and @c false otherwise. */
-static bool checkForRegistryService(const MoAndMe::Common::StringVector & ports)
+static bool checkForRegistryService(const MplusM::Common::StringVector & ports)
 {
     OD_LOG_ENTER();//####
     bool result = false;
     
-    for (MoAndMe::Common::StringVector::const_iterator it(ports.cbegin()); (! result) && (ports.cend() != it); ++it)
+    for (MplusM::Common::StringVector::const_iterator it(ports.cbegin()); (! result) && (ports.cend() != it); ++it)
     {
-        if (*it == MAM_SERVICE_REGISTRY_CHANNEL_NAME)
+        if (*it == MpM_SERVICE_REGISTRY_CHANNEL_NAME)
         {
             result = true;
         }
@@ -338,23 +338,23 @@ static void reportPortStatus(const std::string & portName,
     OD_LOG_B1("checkWithRegistry = ", checkWithRegistry);//####
     if (checkWithRegistry)
     {
-        std::string request(MAM_REQREP_DICT_CHANNELNAME_KEY ":");
+        std::string request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
         
         request += portName;
-        MoAndMe::Common::Package matches(MoAndMe::Common::FindMatchingServices(request.c_str()));
+        MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(request.c_str()));
         
         OD_LOG_S1("matches <- ", matches.toString().c_str());//####
-        if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+        if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
         {
             yarp::os::ConstString matchesFirstString(matches.get(0).toString());
             
-            if (! strcmp(MAM_OK_RESPONSE, matchesFirstString.c_str()))
+            if (! strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
             {
                 yarp::os::Value secondValue(matches.get(1));
                 
                 if (secondValue.isList())
                 {
-                    MoAndMe::Common::Package * secondList = secondValue.asList();
+                    MplusM::Common::Package * secondList = secondValue.asList();
                     
                     if (secondList && secondList->size())
                     {
@@ -393,18 +393,18 @@ int main(int      argc,
     {
         if (yarp::os::Network::checkNetwork())
         {
-            yarp::os::Network             yarp; // This is necessary to establish any connection to the YARP
-                                                // infrastructure
-            MoAndMe::Common::Package      request;
-            MoAndMe::Common::Package      response;
-            yarp::os::ContactStyle        contactInfo;
-            MoAndMe::Common::StringVector ports;
+            yarp::os::Network            yarp; // This is necessary to establish any connection to the YARP
+                                               // infrastructure
+            MplusM::Common::Package      request;
+            MplusM::Common::Package      response;
+            yarp::os::ContactStyle       contactInfo;
+            MplusM::Common::StringVector ports;
             
-#if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             request.addString("list");
             contactInfo.timeout = 5.0;
             if (yarp::os::Network::writeToNameServer(request, response, contactInfo))
@@ -420,7 +420,7 @@ int main(int      argc,
                         processResponse(responseValue.asString(), ports);
                         bool serviceRegistryPresent = checkForRegistryService(ports);
                         
-                        for (MoAndMe::Common::StringVector::const_iterator it(ports.cbegin()); ports.cend() != it; ++it)
+                        for (MplusM::Common::StringVector::const_iterator it(ports.cbegin()); ports.cend() != it; ++it)
                         {
                             if (! found)
                             {

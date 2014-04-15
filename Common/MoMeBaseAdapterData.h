@@ -2,10 +2,10 @@
 //
 //  File:       MoMeBaseAdapterData.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for the minimal functionality required for the data
-//              shared between the input handlers and main thread of a MoAndMe adapter.
+//              shared between the input handlers and main thread of a M+M adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -69,12 +69,12 @@
 /*! @file
  
  @brief The class declaration for the minimal functionality required for the data shared
- between the input handlers and main thread of a MoAndMe adapter. */
+ between the input handlers and main thread of a M+M adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
@@ -189,6 +189,6 @@ namespace MoAndMe
         
     } // Common
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEBASEADAPTERDATA_H_)

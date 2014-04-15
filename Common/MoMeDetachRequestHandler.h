@@ -2,7 +2,7 @@
 //
 //  File:       MoMeDetachRequestHandler.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for the request handler for a 'detach' request.
 //
@@ -56,7 +56,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
@@ -110,6 +110,6 @@ namespace MoAndMe
         
     } // Common
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEDETACHREQUESTHANDLER_H_)

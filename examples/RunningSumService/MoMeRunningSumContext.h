@@ -2,9 +2,9 @@
 //
 //  File:       MoMeRunningSumContext.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class declaration for a context used with a simple MoAndMe service.
+//  Contains:   The class declaration for a context used with a simple M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,12 +51,12 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for a context used with a simple MoAndMe service. */
+ @brief The class declaration for a context used with a simple M+M service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Example
     {
@@ -103,6 +103,6 @@ namespace MoAndMe
         
     } // Example
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMERUNNINGSUMCONTEXT_H_)

@@ -2,9 +2,9 @@
 //
 //  File:       MoMeBailOut.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for a timeout mechanism for MoAndMe.
+//  Contains:   The class definition for a timeout mechanism for M+M.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,12 +51,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for a timeout mechanism for MoAndMe. */
+ @brief The class definition for a timeout mechanism for M+M. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Common;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

@@ -2,7 +2,7 @@
 //
 //  File:       MoMeTest05HandlerCreator.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for an input handler factory used by the unit tests.
 //
@@ -56,7 +56,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Test
     {
@@ -86,6 +86,6 @@ namespace MoAndMe
         
     } // Test
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMETEST05HANDLERCREATOR_H_)

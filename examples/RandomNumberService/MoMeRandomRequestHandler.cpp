@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRandomRequestHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for the request handler for a 'random' request.
 //
@@ -71,7 +71,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Example;
+using namespace MplusM::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -93,7 +93,7 @@ using namespace MoAndMe::Example;
 #endif // defined(__APPLE__)
 
 RandomRequestHandler::RandomRequestHandler(void) :
-        inherited(MAM_RANDOM_REQUEST)
+        inherited(MpM_RANDOM_REQUEST)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
@@ -125,16 +125,16 @@ void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & reque
     OD_LOG_P1("info = ", &info);//####
     try
     {
-        info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MAM_REQREP_DICT_INPUT_KEY, MAM_REQREP_INT MAM_REQREP_0_OR_1);
-        info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_DOUBLE MAM_REQREP_1_OR_MORE);
-        info.put(MAM_REQREP_DICT_VERSION_KEY, RANDOM_REQUEST_VERSION_NUMBER);
-        info.put(MAM_REQREP_DICT_DETAILS_KEY, "Generate one or more random numbers");
+        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
+        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_INT MpM_REQREP_0_OR_1);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_DOUBLE MpM_REQREP_1_OR_MORE);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, RANDOM_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Generate one or more random numbers");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
     {
@@ -196,9 +196,9 @@ bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
     }

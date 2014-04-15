@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRegisterRequestHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for the request handler for the standard 'register'
 //              request.
@@ -76,7 +76,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Registry;
+using namespace MplusM::Registry;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -98,7 +98,7 @@ using namespace MoAndMe::Registry;
 #endif // defined(__APPLE__)
 
 RegisterRequestHandler::RegisterRequestHandler(RegistryService & service) :
-        inherited(MAM_REGISTER_REQUEST), _service(service)
+        inherited(MpM_REGISTER_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("service = ", &service);//####
@@ -131,17 +131,17 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
     OD_LOG_P1("info = ", &info);//####
     try
     {
-        info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MAM_REQREP_DICT_INPUT_KEY, MAM_REQREP_STRING);
-        info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_STRING);
-        info.put(MAM_REQREP_DICT_VERSION_KEY, REGISTER_REQUEST_VERSION_NUMBER);
-        info.put(MAM_REQREP_DICT_DETAILS_KEY, "Register the service and its requests");
+        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
+        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_STRING);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, REGISTER_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Register the service and its requests");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("add");
-        info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
     {
@@ -192,78 +192,78 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                             {
                                 if (outChannel->addOutputWithRetries(argAsString))
                                 {
-                                    Common::Package message1(MAM_NAME_REQUEST);
+                                    Common::Package message1(MpM_NAME_REQUEST);
                                     Common::Package response;
                                     
                                     if (outChannel->write(message1, response))
                                     {
                                         if (processNameResponse(argAsString, response))
                                         {
-                                            Common::Package message2(MAM_LIST_REQUEST);
+                                            Common::Package message2(MpM_LIST_REQUEST);
                                             
                                             if (outChannel->write(message2, response))
                                             {
                                                 if (processListResponse(argAsString, response))
                                                 {
                                                     // Remember the response
-                                                    reply.addString(MAM_OK_RESPONSE);
+                                                    reply.addString(MpM_OK_RESPONSE);
                                                 }
                                                 else
                                                 {
                                                     OD_LOG("! (processListResponse(argAsString, response))");//####
-                                                    reply.addString(MAM_FAILED_RESPONSE);
+                                                    reply.addString(MpM_FAILED_RESPONSE);
                                                     reply.addString("Invalid response to 'list' request");
                                                 }
                                             }
                                             else
                                             {
                                                 OD_LOG("! (outChannel->write(message2, response))");//####
-                                                reply.addString(MAM_FAILED_RESPONSE);
+                                                reply.addString(MpM_FAILED_RESPONSE);
                                                 reply.addString("Could not write to channel");
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                                                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                                             }
                                         }
                                         else
                                         {
                                             OD_LOG("! (processNameResponse(argAsString, response))");//####
-                                            reply.addString(MAM_FAILED_RESPONSE);
+                                            reply.addString(MpM_FAILED_RESPONSE);
                                             reply.addString("Invalid response to 'name' request");
                                         }
                                     }
                                     else
                                     {
                                         OD_LOG("! (outChannel->write(message1, response))");//####
-                                        reply.addString(MAM_FAILED_RESPONSE);
+                                        reply.addString(MpM_FAILED_RESPONSE);
                                         reply.addString("Could not write to channel");
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                                         Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                                     }
-#if defined(MAM_DO_EXPLICIT_DISCONNECT)
+#if defined(MpM_DO_EXPLICIT_DISCONNECT)
                                     if (! Common::NetworkDisconnectWithRetries(outChannel->getName(), argAsString))
                                     {
                                         OD_LOG("(! Common::NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                                "argAsString))");//####
                                     }
-#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                                 }
                                 else
                                 {
                                     OD_LOG("! (outChannel->addOutputWithRetries(argAsString))");//####
-                                    reply.addString(MAM_FAILED_RESPONSE);
+                                    reply.addString(MpM_FAILED_RESPONSE);
                                     reply.addString("Could not connect to channel");
                                     reply.addString(argAsString);
                                 }
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
                                 outChannel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
                             }
                             else
                             {
                                 OD_LOG("! (outChannel->openWithRetries(aName))");//####
-                                reply.addString(MAM_FAILED_RESPONSE);
+                                reply.addString(MpM_FAILED_RESPONSE);
                                 reply.addString("Channel could not be opened");
                             }
                             Common::ClientChannel::RelinquishChannel(outChannel);
@@ -276,30 +276,30 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                     else
                     {
                         OD_LOG("! (Common::Endpoint::CheckEndpointName(argAsString))");//####
-                        reply.addString(MAM_FAILED_RESPONSE);
+                        reply.addString(MpM_FAILED_RESPONSE);
                         reply.addString("Invalid channel name");
                     }
                 }
                 else
                 {
                     OD_LOG("! (argument.isString())");//####
-                    reply.addString(MAM_FAILED_RESPONSE);
+                    reply.addString(MpM_FAILED_RESPONSE);
                     reply.addString("Invalid channel name");
                 }
             }
             else
             {
                 OD_LOG("! (1 == restOfInput.size())");//####
-                reply.addString(MAM_FAILED_RESPONSE);
+                reply.addString(MpM_FAILED_RESPONSE);
                 reply.addString("Missing channel name or extra arguments to request");
             }
             OD_LOG_S1("reply <- ", reply.toString().c_str());
             if (! reply.write(*replyMechanism))
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
     }
@@ -334,16 +334,16 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &  
                 {
                     yarp::os::Property * asDict = anElement.asDict();
                     
-                    if (asDict->check(MAM_REQREP_DICT_REQUEST_KEY))
+                    if (asDict->check(MpM_REQREP_DICT_REQUEST_KEY))
                     {
-                        yarp::os::ConstString theRequest(asDict->find(MAM_REQREP_DICT_REQUEST_KEY).asString());
+                        yarp::os::ConstString theRequest(asDict->find(MpM_REQREP_DICT_REQUEST_KEY).asString());
                         Common::Package       keywordList;
                         RequestDescription    requestDescriptor;
                         
                         OD_LOG_S1("theRequest <- ", theRequest.c_str());//####
-                        if (asDict->check(MAM_REQREP_DICT_DETAILS_KEY))
+                        if (asDict->check(MpM_REQREP_DICT_DETAILS_KEY))
                         {
-                            yarp::os::Value theDetails = asDict->find(MAM_REQREP_DICT_DETAILS_KEY);
+                            yarp::os::Value theDetails = asDict->find(MpM_REQREP_DICT_DETAILS_KEY);
                             
                             OD_LOG_S1("theDetails <- ", theDetails.toString().c_str());//####
                             if (theDetails.isString())
@@ -357,9 +357,9 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &  
                                 result = false;
                             }
                         }
-                        if (asDict->check(MAM_REQREP_DICT_INPUT_KEY))
+                        if (asDict->check(MpM_REQREP_DICT_INPUT_KEY))
                         {
-                            yarp::os::Value theInputs = asDict->find(MAM_REQREP_DICT_INPUT_KEY);
+                            yarp::os::Value theInputs = asDict->find(MpM_REQREP_DICT_INPUT_KEY);
                             
                             OD_LOG_S1("theInputs <- ", theInputs.toString().c_str());//####
                             if (theInputs.isString())
@@ -373,9 +373,9 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &  
                                 result = false;
                             }
                         }
-                        if (asDict->check(MAM_REQREP_DICT_KEYWORDS_KEY))
+                        if (asDict->check(MpM_REQREP_DICT_KEYWORDS_KEY))
                         {
-                            yarp::os::Value theKeywords = asDict->find(MAM_REQREP_DICT_KEYWORDS_KEY);
+                            yarp::os::Value theKeywords = asDict->find(MpM_REQREP_DICT_KEYWORDS_KEY);
                             
                             OD_LOG_S1("theKeywords <- ", theKeywords.toString().c_str());//####
                             if (theKeywords.isList())
@@ -389,9 +389,9 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &  
                                 result = false;
                             }
                         }
-                        if (asDict->check(MAM_REQREP_DICT_OUTPUT_KEY))
+                        if (asDict->check(MpM_REQREP_DICT_OUTPUT_KEY))
                         {
-                            yarp::os::Value theOutputs = asDict->find(MAM_REQREP_DICT_OUTPUT_KEY);
+                            yarp::os::Value theOutputs = asDict->find(MpM_REQREP_DICT_OUTPUT_KEY);
                             
                             OD_LOG_S1("theOutputs <- ", theOutputs.toString().c_str());//####
                             if (theOutputs.isString())
@@ -405,9 +405,9 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &  
                                 result = false;
                             }
                         }
-                        if (asDict->check(MAM_REQREP_DICT_VERSION_KEY))
+                        if (asDict->check(MpM_REQREP_DICT_VERSION_KEY))
                         {
-                            yarp::os::Value theVersion = asDict->find(MAM_REQREP_DICT_VERSION_KEY);
+                            yarp::os::Value theVersion = asDict->find(MpM_REQREP_DICT_VERSION_KEY);
                             
                             OD_LOG_S1("theVersion <- ", theVersion.toString().c_str());//####
                             if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
@@ -432,7 +432,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &  
                     }
                     else
                     {
-                        OD_LOG("! (asDict->check(MAM_REQREP_DICT_REQUEST_KEY))");//####
+                        OD_LOG("! (asDict->check(MpM_REQREP_DICT_REQUEST_KEY))");//####
                         // There is no 'name' entry in this dictionary
                         result = false;
                     }

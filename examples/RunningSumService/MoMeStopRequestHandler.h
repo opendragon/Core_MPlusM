@@ -2,7 +2,7 @@
 //
 //  File:       MoMeStopRequestHandler.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for the request handler for a 'stop' request.
 //
@@ -56,7 +56,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Example
     {
@@ -110,6 +110,6 @@ namespace MoAndMe
         
     } // Example
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMESTOPREQUESTHANDLER_H_)

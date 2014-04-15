@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRequestCounterDefaultRequestHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for a default request handler used by the request
 //              counter service.
@@ -58,7 +58,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::RequestCounter;
+using namespace MplusM::RequestCounter;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -134,14 +134,14 @@ bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstSt
         _service.countRequest(senderChannel);
         if (replyMechanism)
         {
-            Common::Package response(MAM_OK_RESPONSE);
+            Common::Package response(MpM_OK_RESPONSE);
             
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
     }

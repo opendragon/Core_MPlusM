@@ -697,16 +697,16 @@
 /* End PBXGroup section */
 
 /* Begin PBXLegacyTarget section */
-		DFA3430B18C91B4F0053B87C /* MoAndMe */ = {
+		DFA3430B18C91B4F0053B87C /* MPlusM */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = "$(ACTION)";
-			buildConfigurationList = DFA3430E18C91B4F0053B87C /* Build configuration list for PBXLegacyTarget "MoAndMe" */;
+			buildConfigurationList = DFA3430E18C91B4F0053B87C /* Build configuration list for PBXLegacyTarget "MPlusM" */;
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
 			dependencies = (
 			);
-			name = MoAndMe;
+			name = MPlusM;
 			passBuildSettingsInEnvironment = 1;
 			productName = YarpPlusPlus;
 		};
@@ -719,7 +719,7 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Movement Meaning";
 			};
-			buildConfigurationList = DFA3430A18C91B4F0053B87C /* Build configuration list for PBXProject "MoAndMe" */;
+			buildConfigurationList = DFA3430A18C91B4F0053B87C /* Build configuration list for PBXProject "MPlusM" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -730,7 +730,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DFA3430B18C91B4F0053B87C /* MoAndMe */,
+				DFA3430B18C91B4F0053B87C /* MPlusM */,
 			);
 		};
 /* End PBXProject section */
@@ -812,7 +812,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = MoAndMe;
+				PRODUCT_NAME = MPlusM;
 			};
 			name = Debug;
 		};
@@ -821,14 +821,14 @@
 			buildSettings = {
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = MoAndMe;
+				PRODUCT_NAME = MPlusM;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		DFA3430A18C91B4F0053B87C /* Build configuration list for PBXProject "MoAndMe" */ = {
+		DFA3430A18C91B4F0053B87C /* Build configuration list for PBXProject "MPlusM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DFA3430C18C91B4F0053B87C /* Debug */,
@@ -837,7 +837,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DFA3430E18C91B4F0053B87C /* Build configuration list for PBXLegacyTarget "MoAndMe" */ = {
+		DFA3430E18C91B4F0053B87C /* Build configuration list for PBXLegacyTarget "MPlusM" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DFA3430F18C91B4F0053B87C /* Debug */,

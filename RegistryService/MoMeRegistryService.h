@@ -2,9 +2,9 @@
 //
 //  File:       MoMeRegistryService.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class declaration for the Service Registry MoAndMe service.
+//  Contains:   The class declaration for the Service Registry M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,14 +51,14 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the Service Registry MoAndMe service. */
+ @brief The class declaration for the Service Registry M+M service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 struct sqlite3;
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Parser
     {
@@ -89,7 +89,7 @@ namespace MoAndMe
             yarp::os::ConstString _version;
         }; // RequestDescription
         
-        /*! @brief The MoAndMe Service Registry service. */
+        /*! @brief The M+M Service Registry service. */
         class RegistryService : public Common::BaseService
         {
         public:
@@ -220,6 +220,6 @@ namespace MoAndMe
         
     } // Registry
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEREGISTRYSERVICE_H_)

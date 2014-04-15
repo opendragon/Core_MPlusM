@@ -2,9 +2,9 @@
 //
 //  File:       MoMeConfig.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The common macro definitions for MoAndMe clients and services.
+//  Contains:   The common macro definitions for M+M clients and services.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,36 +49,36 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The common macro definitions for MoAndMe clients and services. */
+ @brief The common macro definitions for M+M clients and services. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 /*! @brief The major part of the version number. */
-# define MAM_VERSION_MAJOR @MAM_VERSION_MAJOR@
+# define MpM_VERSION_MAJOR @MpM_VERSION_MAJOR@
 /*! @brief The minor part of the version number. */
-# define MAM_VERSION_MINOR @MAM_VERSION_MINOR@
+# define MpM_VERSION_MINOR @MpM_VERSION_MINOR@
 /*! @brief The patch part of the version number. */
-# define MAM_VERSION_PATCH @MAM_VERSION_PATCH@
+# define MpM_VERSION_PATCH @MpM_VERSION_PATCH@
 /*! @brief The version number as a string. */
-# define MAM_VERSION "@MAM_VERSION_MAJOR@.@MAM_VERSION_MINOR@.@MAM_VERSION_PATCH@"
+# define MpM_VERSION "@MpM_VERSION_MAJOR@.@MpM_VERSION_MINOR@.@MpM_VERSION_PATCH@"
 
-#cmakedefine MAM_CHANNELS_USE_RPC /* Use RpcClient and RpcService objects for communication. */
+#cmakedefine MpM_CHANNELS_USE_RPC /* Use RpcClient and RpcService objects for communication. */
 
-#cmakedefine MAM_DO_EXPLICIT_CLOSE /* Perform a CloseChannel() prior to freeing a dynamically-allocated channel. */
+#cmakedefine MpM_DO_EXPLICIT_CLOSE /* Perform a CloseChannel() prior to freeing a dynamically-allocated channel. */
 
-#cmakedefine MAM_DO_EXPLICIT_DISCONNECT /* Perform a disconnect() prior to closing a channel. */
+#cmakedefine MpM_DO_EXPLICIT_DISCONNECT /* Perform a disconnect() prior to closing a channel. */
 
-#cmakedefine MAM_DONT_USE_TIMEOUTS /* Allow operations to take arbitrary lengths of time. */
+#cmakedefine MpM_DONT_USE_TIMEOUTS /* Allow operations to take arbitrary lengths of time. */
 
-#cmakedefine MAM_LOG_INCLUDES_YARP_TRACE /* Enable YARP tracing. */
+#cmakedefine MpM_LOG_INCLUDES_YARP_TRACE /* Enable YARP tracing. */
 
-#cmakedefine MAM_MAIN_DOES_DELAY_NOT_YIELD /* Use delay() instead of yield() in the background loop in main(). */
+#cmakedefine MpM_MAIN_DOES_DELAY_NOT_YIELD /* Use delay() instead of yield() in the background loop in main(). */
 
-#cmakedefine MAM_REPORT_ON_CONNECTIONS /* Report on connections. */
+#cmakedefine MpM_REPORT_ON_CONNECTIONS /* Report on connections. */
 
-#cmakedefine MAM_SERVICES_LOG_TO_STDERR /* Enable logging to stderr as well as the system log. */
+#cmakedefine MpM_SERVICES_LOG_TO_STDERR /* Enable logging to stderr as well as the system log. */
 
-#cmakedefine MAM_STALL_ON_SEND_PROBLEM /* A send failure goes to a tight loop. */
+#cmakedefine MpM_STALL_ON_SEND_PROBLEM /* A send failure goes to a tight loop. */
 
 #endif // ! defined(MOMECONFIG_H_)

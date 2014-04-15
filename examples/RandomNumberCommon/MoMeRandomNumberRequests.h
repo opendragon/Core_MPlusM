@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRandomNumberRequests.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The common macro definitions for requests and responses for the random
 //              number service.
@@ -58,9 +58,9 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the random number service. */
-# define MAM_RANDOM_CANONICAL_NAME "Random"
+# define MpM_RANDOM_CANONICAL_NAME "Random"
 
 /*! @brief The name for the 'random' request. */
-# define MAM_RANDOM_REQUEST "random"
+# define MpM_RANDOM_REQUEST "random"
 
 #endif // ! defined(MOMERANDOMNUMBERREQUESTS_H_)

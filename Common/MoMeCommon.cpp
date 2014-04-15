@@ -2,7 +2,7 @@
 //
 //  File:       MoMeCommon.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The definitions for common functions.
 //
@@ -75,12 +75,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The function and variable definitions for common entities for MoAndMe clients and services. */
+ @brief The function and variable definitions for common entities for M+M clients and services. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Common;
+using namespace MplusM::Common;
 using std::cerr;
 using std::cout;
 using std::endl;
@@ -129,7 +129,7 @@ static void localCatcher(int signal)
 {
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
-    cerr << "Exiting due to signal " << signal << " = " << MoAndMe::NameOfSignal(signal) << endl;
+    cerr << "Exiting due to signal " << signal << " = " << MplusM::NameOfSignal(signal) << endl;
     OD_LOG_EXIT_EXIT(1);//####
     yarp::os::exit(1);
 } // localCatcher
@@ -139,8 +139,8 @@ static void localCatcher(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-void MoAndMe::Common::DumpContact(const char *              tag,
-                                  const yarp::os::Contact & aContact)
+void MplusM::Common::DumpContact(const char *              tag,
+                                 const yarp::os::Contact & aContact)
 {
     OD_LOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
               "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ", aContact.getCarrier().c_str());//####
@@ -155,9 +155,9 @@ void MoAndMe::Common::DumpContact(const char *              tag,
     cout << "contact.toString = '" << nullOrString(aContact.toString().c_str()) << "'" << endl;
     cout << "contact.isValid = " << (aContact.isValid() ? "true" : "false") << endl;
     cout.flush();
-} // MoAndMe::Common::DumpContact
+} // MplusM::Common::DumpContact
 
-yarp::os::ConstString MoAndMe::Common::GetRandomChannelName(const char * channelRoot)
+yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelRoot)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("channelRoot = ", channelRoot);//####
@@ -203,9 +203,9 @@ yarp::os::ConstString MoAndMe::Common::GetRandomChannelName(const char * channel
     }
     OD_LOG_EXIT_S(result.c_str());//####
     return result;
-} // MoAndMe::Common::GetRandomChannelName
+} // MplusM::Common::GetRandomChannelName
 
-void MoAndMe::Common::Initialize(const char * progName)
+void MplusM::Common::Initialize(const char * progName)
 {
 #if (! defined(CHATTY_START_))
 # pragma unused(progName)
@@ -213,11 +213,11 @@ void MoAndMe::Common::Initialize(const char * progName)
     OD_LOG_ENTER();//####
     try
     {
-#if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
         yarp::os::Network::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
         yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
         double intPart;
         double now = yarp::os::Time::now();
         double fraction = modf(now, &intPart);
@@ -225,7 +225,7 @@ void MoAndMe::Common::Initialize(const char * progName)
         
 #if defined(CHATTY_START_)
         cerr << "Program " << progName << endl;
-        cerr << "Movement And Meaning Version " << MAM_VERSION << ", YARP Version " << YARP_VERSION_STRING <<
+        cerr << "Movement And Meaning Version " << MpM_VERSION << ", YARP Version " << YARP_VERSION_STRING <<
                 ", ACE Version = " << ACE_VERSION << endl;
 #endif // defined(CHATTY_START_)
         OD_LOG_D2("time = ", now, "fraction = ", fraction);//####
@@ -241,31 +241,31 @@ void MoAndMe::Common::Initialize(const char * progName)
         throw;
     }
     OD_LOG_EXIT();//####
-} // MoAndMe::Common::Initialize
+} // MplusM::Common::Initialize
 
-bool MoAndMe::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
-                                                const yarp::os::ConstString & destinationName)
+bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
+                                               const yarp::os::ConstString & destinationName)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
-#if (! defined(MAM_DONT_USE_TIMEOUTS))
+#if (! defined(MpM_DONT_USE_TIMEOUTS))
     int    retriesLeft = MAX_RETRIES;
-#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
     
     SetUpCatcher();
     try
     {
-#if defined(MAM_DONT_USE_TIMEOUTS)
+#if defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
             OD_LOG("about to connect");//####
-# if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             result = yarp::os::Network::connect(sourceName, destinationName, yarp::os::ConstString(""), false);
-# else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             result = yarp::os::Network::connect(sourceName, destinationName, yarp::os::ConstString(""), true);
-# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             if (! result)
             {
                 OD_LOG("%%retry%%");//####
@@ -274,17 +274,17 @@ bool MoAndMe::Common::NetworkConnectWithRetries(const yarp::os::ConstString & so
             }
         }
         while (! result);
-#else // ! defined(MAM_DONT_USE_TIMEOUTS)
+#else // ! defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
             BailOut bailer;
             
             OD_LOG("about to connect");//####
-# if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             result = yarp::os::Network::connect(sourceName, destinationName, yarp::os::ConstString(""), false);
-# else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             result = yarp::os::Network::connect(sourceName, destinationName, yarp::os::ConstString(""), true);
-# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             if (! result)
             {
                 if (0 < --retriesLeft)
@@ -296,7 +296,7 @@ bool MoAndMe::Common::NetworkConnectWithRetries(const yarp::os::ConstString & so
             }
         }
         while ((! result) && (0 < retriesLeft));
-#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
     }
     catch (...)
     {
@@ -306,31 +306,31 @@ bool MoAndMe::Common::NetworkConnectWithRetries(const yarp::os::ConstString & so
     ShutDownCatcher();
     OD_LOG_EXIT_B(result);//####
     return result;
-} // MoAndMe::Common::NetworkConnectWithRetries
+} // MplusM::Common::NetworkConnectWithRetries
 
-bool MoAndMe::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
-                                                   const yarp::os::ConstString & destinationName)
+bool MplusM::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
+                                                  const yarp::os::ConstString & destinationName)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
-#if (! defined(MAM_DONT_USE_TIMEOUTS))
+#if (! defined(MpM_DONT_USE_TIMEOUTS))
     int    retriesLeft = MAX_RETRIES;
-#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
     
     SetUpCatcher();
     try
     {
-#if defined(MAM_DONT_USE_TIMEOUTS)
+#if defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
             OD_LOG("about to disconnect");//####
-# if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             result = yarp::os::Network::disconnect(sourceName, destinationName, false);
-# else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             result = yarp::os::Network::disconnect(sourceName, destinationName, true);
-# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             if (! result)
             {
                 OD_LOG("%%retry%%");//####
@@ -339,17 +339,17 @@ bool MoAndMe::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString &
             }
         }
         while (! result);
-#else // ! defined(MAM_DONT_USE_TIMEOUTS)
+#else // ! defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
             BailOut bailer;
             
             OD_LOG("about to disconnect");//####
-# if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             result = yarp::os::Network::disconnect(sourceName, destinationName, false);
-# else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             result = yarp::os::Network::disconnect(sourceName, destinationName, true);
-# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             if (! result)
             {
                 if (0 < --retriesLeft)
@@ -361,7 +361,7 @@ bool MoAndMe::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString &
             }
         }
         while ((! result) && (0 < retriesLeft));
-#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
     }
     catch (...)
     {
@@ -371,9 +371,9 @@ bool MoAndMe::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString &
     ShutDownCatcher();
     OD_LOG_EXIT_B(result);//####
     return result;
-} // MoAndMe::Common::NetworkDisconnectWithRetries
+} // MplusM::Common::NetworkDisconnectWithRetries
 
-void MoAndMe::Common::SetSignalHandlers(SignalHandler theHandler)
+void MplusM::Common::SetSignalHandlers(SignalHandler theHandler)
 {
     OD_LOG_ENTER();//####
 #if (defined(__APPLE__) || defined(__linux__))
@@ -408,9 +408,9 @@ void MoAndMe::Common::SetSignalHandlers(SignalHandler theHandler)
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
 #endif // defined(__APPLE__) || defined(__linux__)
     OD_LOG_EXIT();//####
-} // MoAndMe::Common::SetSignalHandlers
+} // MplusM::Common::SetSignalHandlers
 
-void MoAndMe::Common::SetUpCatcher(void)
+void MplusM::Common::SetUpCatcher(void)
 {
 #if (defined(__APPLE__) || defined(__linux__))
     sigset_t unblocking;
@@ -429,9 +429,9 @@ void MoAndMe::Common::SetUpCatcher(void)
     act.sa_flags = 0;
     sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
 #endif // defined(__APPLE__) || defined(__linux__)
-} // MoAndMe::Common::SetUpCatcher
+} // MplusM::Common::SetUpCatcher
 
-void MoAndMe::Common::ShutDownCatcher(void)
+void MplusM::Common::ShutDownCatcher(void)
 {
 #if (defined(__APPLE__) || defined(__linux__))
     sigset_t blocking;
@@ -450,17 +450,17 @@ void MoAndMe::Common::ShutDownCatcher(void)
     act.sa_flags = 0;
     sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
 #endif // defined(__APPLE__) || defined(__linux__)
-} // MoAndMe::Common::ShutDownCatcher
+} // MplusM::Common::ShutDownCatcher
 
-void MoAndMe::Common::Stall(void)
+void MplusM::Common::Stall(void)
 {
     for ( ; ; )
     {
         yarp::os::Time::yield();
     }
-} // MoAndMe::Common::Stall
+} // MplusM::Common::Stall
 
-const char * MoAndMe::NameOfSignal(const int theSignal)
+const char * MplusM::NameOfSignal(const int theSignal)
 {
     const char * result;
 
@@ -612,4 +612,4 @@ const char * MoAndMe::NameOfSignal(const int theSignal)
     result = "unknown";
 #endif // (! defined(__APPLE__)) && (! defined(__linux__))
     return result;
-} // MoAndMe::NameOfSignal
+} // MplusM::NameOfSignal

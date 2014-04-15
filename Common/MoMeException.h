@@ -2,9 +2,9 @@
 //
 //  File:       MoMeException.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class declaration for objects thrown by exceptions within MoAndMe.
+//  Contains:   The class declaration for objects thrown by exceptions within M+M.
 //
 //  Written by: Norman Jaffe
 //
@@ -66,12 +66,12 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for objects thrown by exceptions within MoAndMe. */
+ @brief The class declaration for objects thrown by exceptions within M+M. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
@@ -107,6 +107,6 @@ namespace MoAndMe
         
     } // Common
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEEXCEPTION_H_)

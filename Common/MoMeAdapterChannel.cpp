@@ -2,7 +2,7 @@
 //
 //  File:       MoMeAdapterChannel.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for channels to and from adapters.
 //
@@ -71,7 +71,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Common;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -112,9 +112,9 @@ void AdapterChannel::close(void)
     SetUpCatcher();
     try
     {
-#if (! defined(MAM_DONT_USE_TIMEOUTS))
+#if (! defined(MpM_DONT_USE_TIMEOUTS))
         BailOut bailer(*this);
-#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
 
         inherited::interrupt();
         OD_LOG("about to close");//####
@@ -136,19 +136,19 @@ bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
     OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
-#if (! defined(MAM_DONT_USE_TIMEOUTS))
+#if (! defined(MpM_DONT_USE_TIMEOUTS))
     int    retriesLeft = MAX_RETRIES;
-#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
     
-#if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
     inherited::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
     inherited::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
     SetUpCatcher();
     try
     {
-#if defined(MAM_DONT_USE_TIMEOUTS)
+#if defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
             OD_LOG("about to open");//####
@@ -161,7 +161,7 @@ bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
             }
         }
         while (! result);
-#else // ! defined(MAM_DONT_USE_TIMEOUTS)
+#else // ! defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
             BailOut bailer(*this);
@@ -179,7 +179,7 @@ bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
             }
         }
         while ((! result) && (0 < retriesLeft));
-#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
     }
     catch (...)
     {
@@ -198,9 +198,9 @@ void AdapterChannel::RelinquishChannel(AdapterChannel * & theChannel)
     SetUpCatcher();
     try
     {
-#if (! defined(MAM_DONT_USE_TIMEOUTS))
+#if (! defined(MpM_DONT_USE_TIMEOUTS))
         BailOut bailer(*theChannel);
-#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
         
         delete theChannel;
         theChannel = NULL;

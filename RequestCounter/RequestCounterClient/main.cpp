@@ -2,7 +2,7 @@
 //
 //  File:       RequestCounterClient/main.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The main application for the client of the request counter service.
 //
@@ -75,7 +75,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::RequestCounter;
+using namespace MplusM::RequestCounter;
 using std::cin;
 using std::cout;
 using std::cerr;
@@ -175,20 +175,20 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MoAndMe::Common::Initialize(*argv);
+            MplusM::Common::Initialize(*argv);
             RequestCounterClient * stuff = new RequestCounterClient;
             
             if (stuff)
             {
-#if defined(MAM_REPORT_ON_CONNECTIONS)
-                MoAndMe::Common::ChannelStatusReporter reporter;
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
+                MplusM::Common::ChannelStatusReporter reporter;
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
                 
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
                 stuff->setReporter(reporter, true);
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
                 lKeepRunning = true;
-                MoAndMe::Common::SetSignalHandlers(stopRunning);
+                MplusM::Common::SetSignalHandlers(stopRunning);
                 for ( ; lKeepRunning; )
                 {
                     int count;

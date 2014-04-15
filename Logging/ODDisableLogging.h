@@ -2,7 +2,7 @@
 //
 //  File:       ODDisableLogging.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The macro definitions to disable the logging facility.
 //

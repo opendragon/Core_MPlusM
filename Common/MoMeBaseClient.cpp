@@ -2,9 +2,9 @@
 //
 //  File:       MoMeBaseClient.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for the minimal functionality required for a MoAndMe
+//  Contains:   The class definition for the minimal functionality required for a M+M
 //              client.
 //
 //  Written by: Norman Jaffe
@@ -72,13 +72,13 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the minimal functionality required for a MoAndMe client. */
+ @brief The class definition for the minimal functionality required for a M+M client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe;
-using namespace MoAndMe::Common;
+using namespace MplusM;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -99,7 +99,7 @@ static Package validateMatchResponse(const Package & response)
     
     try
     {
-        if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == response.size())
+        if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == response.size())
         {
             // The first element of the response should be 'OK' or 'FAILED'; if 'OK', the second element should be a
             // list of service names.
@@ -109,7 +109,7 @@ static Package validateMatchResponse(const Package & response)
             {
                 yarp::os::ConstString responseFirstAsString(responseFirst.toString());
                 
-                if (! strcmp(MAM_OK_RESPONSE, responseFirstAsString.c_str()))
+                if (! strcmp(MpM_OK_RESPONSE, responseFirstAsString.c_str()))
                 {
                     // Now, check the second element.
                     yarp::os::Value responseSecond(response.get(1));
@@ -123,13 +123,13 @@ static Package validateMatchResponse(const Package & response)
                         OD_LOG("! (responseSecond.isList())");//####
                     }
                 }
-                else if (! strcmp(MAM_FAILED_RESPONSE, responseFirstAsString.c_str()))
+                else if (! strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))
                 {
                     result = response;
                 }
                 else
                 {
-                    OD_LOG("! (! strcmp(MAM_FAILED_RESPONSE, responseFirstAsString.c_str()))");//####
+                    OD_LOG("! (! strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))");//####
                 }
             }
             else
@@ -139,7 +139,7 @@ static Package validateMatchResponse(const Package & response)
         }
         else
         {
-            OD_LOG("! (MAM_EXPECTED_MATCH_RESPONSE_SIZE == response.size())");//####
+            OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == response.size())");//####
         }
     }
     catch (...)
@@ -245,9 +245,9 @@ bool BaseClient::disconnectFromService(void)
         Common::Package parameters;
         
         reconnectIfDisconnected();
-        if (! send(MAM_DETACH_REQUEST, parameters))
+        if (! send(MpM_DETACH_REQUEST, parameters))
         {
-            OD_LOG("! (send(MAM_DETACH_REQUEST, parameters))");//####
+            OD_LOG("! (send(MpM_DETACH_REQUEST, parameters))");//####
         }
         if (NetworkDisconnectWithRetries(_channelName, _serviceChannelName))
         {
@@ -275,12 +275,12 @@ bool BaseClient::findService(const char * criteria,
         Package candidates(FindMatchingServices(criteria));
 
         OD_LOG_S1("candidates <- ", candidates.toString().c_str());//####
-        if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())
+        if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())
         {
             // First, check if the search succeeded.
             yarp::os::ConstString candidatesFirstString(candidates.get(0).toString());
             
-            if (! strcmp(MAM_OK_RESPONSE, candidatesFirstString.c_str()))
+            if (! strcmp(MpM_OK_RESPONSE, candidatesFirstString.c_str()))
             {
                 // Now, process the second element.
                 Package * candidateList = candidates.get(1).asList();
@@ -308,12 +308,12 @@ bool BaseClient::findService(const char * criteria,
             }
             else
             {
-                OD_LOG("! (! strcmp(MAM_OK_RESPONSE, candidatesFirstString.c_str()))");//####
+                OD_LOG("! (! strcmp(MpM_OK_RESPONSE, candidatesFirstString.c_str()))");//####
             }
         }
         else
         {
-            OD_LOG("! (MAM_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())");//####
+            OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())");//####
         }
         if (! result)
         {
@@ -423,22 +423,22 @@ Package Common::FindMatchingServices(const char * criteria)
         
         if (newChannel)
         {
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
             ChannelStatusReporter reporter;
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
             
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
             newChannel->setReporter(reporter);
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
             if (newChannel->openWithRetries(aName))
             {
-                if (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
+                if (NetworkConnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))
                 {
                     Package parameters;
                     
                     parameters.addString(criteria); // Note that we can't simply initialize the package with the
                                                     // criteria, as it will be parsed by YARP.
-                    ServiceRequest  request(MAM_MATCH_REQUEST, parameters);
+                    ServiceRequest  request(MpM_MATCH_REQUEST, parameters);
                     ServiceResponse response;
                     
                     if (request.send(*newChannel, &response))
@@ -450,20 +450,20 @@ Package Common::FindMatchingServices(const char * criteria)
                     {
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
-#if defined(MAM_DO_EXPLICIT_DISCONNECT)
-                    if (! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
+#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+                    if (! NetworkDisconnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                     }
-#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                 }
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
                 newChannel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
             }
             else
             {
@@ -479,4 +479,4 @@ Package Common::FindMatchingServices(const char * criteria)
     }
     OD_LOG_EXIT();//####
     return result;
-} // MoAndMe::FindMatchingServices
+} // MplusM::FindMatchingServices

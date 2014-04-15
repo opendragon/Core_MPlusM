@@ -2,9 +2,9 @@
 #
 #  File:       Parser/CMakeLists.txt
 #
-#  Project:    MoAndMe
+#  Project:    MPlusM
 #
-#  Contains:   The CMAKE definitions for the MoAndMe parser library.
+#  Contains:   The CMAKE definitions for the M+M parser library.
 #
 #  Written by: Norman Jaffe
 #
@@ -43,10 +43,10 @@
 set(ESCAPE_CHAR1 "\\")
 set(ESCAPE_CHAR2 "\\\\")
 
-include_directories("${MAM_COMMON_DIR}"
-                    "${MAM_LOGGING_DIR}")
+include_directories("${MpM_COMMON_DIR}"
+                    "${MpM_LOGGING_DIR}")
 
-add_library(MoMeParser
+add_library(Parser
             MoMeBaseMatcher.cpp
             MoMeBaseNameValidator.cpp
             MoMeMatchConstraint.cpp
@@ -56,8 +56,8 @@ add_library(MoMeParser
             MoMeMatchValue.cpp
             MoMeMatchValueList.cpp)
 
-install(TARGETS MoMeParser DESTINATION bin)
-install(FILES MoMeParser DESTINATION include)
+install(TARGETS Parser DESTINATION bin)
+install(FILES Parser DESTINATION include)
 
 enable_testing()
 
@@ -66,9 +66,9 @@ add_executable(ParserTest
                MoMeTestNameValidator.cpp)
 
 target_link_libraries(ParserTest
-                      MoMeCommon
-                      MoMeLogging
-                      MoMeParser
+                      Common
+                      Logging
+                      Parser
                       ${YARP_LIBRARIES})
 
 # Argument order for test 1 = expected result (t/f), string to match

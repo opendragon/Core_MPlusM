@@ -2,7 +2,7 @@
 //
 //  File:       MoMeEchoRequests.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The common macro definitions for requests and responses for the echo
 //              service.
@@ -58,6 +58,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the example echo service. */
-# define MAM_ECHO_CANONICAL_NAME "Echo"
+# define MpM_ECHO_CANONICAL_NAME "Echo"
 
 #endif // ! defined(MOMEECHOREQUESTS_H_)

@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRequestCounterService.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for a service that collects statistic on requests.
 //
@@ -75,7 +75,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::RequestCounter;
+using namespace MplusM::RequestCounter;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -96,7 +96,7 @@ using namespace MoAndMe::RequestCounter;
 RequestCounterService::RequestCounterService(const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & serviceHostName,
                                              const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, MAM_REQUESTCOUNTER_CANONICAL_NAME, "The request counter service", serviceEndpointName,
+        inherited(true, MpM_REQUESTCOUNTER_CANONICAL_NAME, "The request counter service", serviceEndpointName,
                   serviceHostName, servicePortNumber), _defaultHandler(NULL), _resetHandler(NULL),
         _statsHandler(NULL)
 #if (! defined(SERVICES_HAVE_CONTEXTS))

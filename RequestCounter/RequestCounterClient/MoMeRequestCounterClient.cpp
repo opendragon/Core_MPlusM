@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRequestCounterClient.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for the client of the request counter service.
 //
@@ -57,7 +57,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::RequestCounter;
+using namespace MplusM::RequestCounter;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -105,7 +105,7 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
         Common::ServiceResponse response;
         
         reconnectIfDisconnected();
-        if (send(MAM_STATS_REQUEST, parameters, &response))
+        if (send(MpM_STATS_REQUEST, parameters, &response))
         {
             if (2 == response.count())
             {
@@ -131,7 +131,7 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
         }
         else
         {
-            OD_LOG("! (send(MAM_STATS_REQUEST, parameters, &response))");//####
+            OD_LOG("! (send(MpM_STATS_REQUEST, parameters, &response))");//####
         }
     }
     catch (...)
@@ -180,13 +180,13 @@ bool RequestCounterClient::resetServiceCounters(void)
         Common::Package parameters;
         
         reconnectIfDisconnected();
-        if (send(MAM_RESET_REQUEST, parameters))
+        if (send(MpM_RESET_REQUEST, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MAM_RESET_REQUEST, parameters))");//####
+            OD_LOG("! (send(MpM_RESET_REQUEST, parameters))");//####
         }
     }
     catch (...)

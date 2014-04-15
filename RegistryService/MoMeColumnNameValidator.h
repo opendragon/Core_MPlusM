@@ -2,9 +2,9 @@
 //
 //  File:       MoMeTestNameValidator.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class declaration for the functionality required for a MoAndMe field name matcher for the service
+//  Contains:   The class declaration for the functionality required for a M+M field name matcher for the service
 //              registry.
 //
 //  Written by: Norman Jaffe
@@ -52,7 +52,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the functionality required for a MoAndMe field name matcher for the service
+ @brief The class declaration for the functionality required for a M+M field name matcher for the service
  registry. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
@@ -92,12 +92,12 @@
 /*! @brief The name of the 'services' table. */
 # define SERVICES_T_         "Services"
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Registry
     {
         /*! @brief A convenience class to provide function objects for field name handling. */
-        class ColumnNameValidator : public MoAndMe::Parser::BaseNameValidator
+        class ColumnNameValidator : public MplusM::Parser::BaseNameValidator
         {
         public:
             
@@ -144,6 +144,6 @@ namespace MoAndMe
         
     } // Registry
     
-} // MoAndMe::Parser
+} // MplusM
 
 #endif // ! defined(MOMECOLUMNNAMEVALIDATOR_H_)

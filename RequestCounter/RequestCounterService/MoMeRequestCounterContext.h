@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRequestCounterContext.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for a context used with the request counter service.
 //
@@ -56,7 +56,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace RequestCounter
     {
@@ -112,6 +112,6 @@ namespace MoAndMe
         
     } // Example
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEREQUESTCOUNTERCONTEXT_H_)

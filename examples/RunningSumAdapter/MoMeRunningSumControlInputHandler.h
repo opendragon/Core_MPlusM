@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRunningSumControlInputHandler.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for the custom control channel input handler used
 //              by the running sum adapter.
@@ -58,7 +58,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Example
     {
@@ -111,6 +111,6 @@ namespace MoAndMe
         
     } // Example
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMERUNNINGSUMCONTROLINPUTHANDLER_H_)

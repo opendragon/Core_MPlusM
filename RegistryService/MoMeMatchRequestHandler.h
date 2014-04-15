@@ -2,7 +2,7 @@
 //
 //  File:       MoMeMatchRequestHandler.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for the request handler for the standard 'match'
 //              request.
@@ -57,7 +57,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Parser
     {
@@ -161,6 +161,6 @@ namespace MoAndMe
         
     } // Registry
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEMATCHREQUESTHANDLER_H_)

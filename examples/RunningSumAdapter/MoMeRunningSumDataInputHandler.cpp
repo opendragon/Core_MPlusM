@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRunningSumDataInputHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for the custom data channel input handler used by
 //              the running sum adapter.
@@ -61,7 +61,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Example;
+using namespace MplusM::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -149,9 +149,9 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
                             if (! theOutput->write(message))
                             {
                                 OD_LOG("(! theOutput->write(message))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }
                         else
@@ -201,9 +201,9 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
                             if (! theOutput->write(message))
                             {
                                 OD_LOG("(! theOutput->write(message))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }
                         else

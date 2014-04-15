@@ -2,7 +2,7 @@
 //
 //  File:       RequestCounterService/main.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The main application for the request counter service.
 //
@@ -78,7 +78,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::RequestCounter;
+using namespace MplusM::RequestCounter;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -121,13 +121,13 @@ static void stopRunning(int signal)
 int main(int      argc,
          char * * argv)
 {
-#if defined(MAM_SERVICES_LOG_TO_STDERR)
+#if defined(MpM_SERVICES_LOG_TO_STDERR)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport);//####
-#else // ! defined(MAM_SERVICES_LOG_TO_STDERR)
+#else // ! defined(MpM_SERVICES_LOG_TO_STDERR)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport);//####
-#endif // ! defined(MAM_SERVICES_LOG_TO_STDERR)
+#endif // ! defined(MpM_SERVICES_LOG_TO_STDERR)
     OD_LOG_ENTER();//####
     try
     {
@@ -138,7 +138,7 @@ int main(int      argc,
             yarp::os::ConstString serviceHostName;
             yarp::os::ConstString servicePortNumber;
             
-            MoAndMe::Common::Initialize(*argv);
+            MplusM::Common::Initialize(*argv);
             if (1 < argc)
             {
                 serviceEndpointName = argv[1];
@@ -165,19 +165,19 @@ int main(int      argc,
                     yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
                     OD_LOG_S1("channelName = ", channelName.c_str());//####
-                    if (MoAndMe::Common::RegisterLocalService(channelName))
+                    if (MplusM::Common::RegisterLocalService(channelName))
                     {
                         lKeepRunning = true;
-                        MoAndMe::Common::SetSignalHandlers(stopRunning);
+                        MplusM::Common::SetSignalHandlers(stopRunning);
                         for ( ; lKeepRunning && stuff; )
                         {
-#if defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
+#if defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
                             yarp::os::Time::delay(ONE_SECOND_DELAY);
-#else // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
+#else // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
                             yarp::os::Time::yield();
-#endif // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
+#endif // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
                         }
-                        MoAndMe::Common::UnregisterLocalService(channelName);
+                        MplusM::Common::UnregisterLocalService(channelName);
                         stuff->stop();
                     }
                     else

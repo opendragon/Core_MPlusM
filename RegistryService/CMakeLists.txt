@@ -2,7 +2,7 @@
 #
 #  File:       RegistryService/CMakeLists.txt
 #
-#  Project:    MoAndMe
+#  Project:    MPlusM
 #
 #  Contains:   The CMAKE definitions for the RegistryService application.
 #
@@ -39,14 +39,14 @@
 #
 #--------------------------------------------------------------------------------------
 
-set(MAM_REGISTRYTESTSUPPORT_DIR "${MAM_COMMON_DIR}/RegistryTests")
+set(MpM_REGISTRYTESTSUPPORT_DIR "${MpM_COMMON_DIR}/RegistryTests")
 
 add_subdirectory(RegistryTests)
 
-include_directories("${MAM_LOGGING_DIR}"
-                    “${MAM_COMMON_DIR}”
-                    "${MAM_SQLITE_DIR}"
-                    "${MAM_REGISTRYTESTSUPPORT_DIR}")
+include_directories("${MpM_LOGGING_DIR}"
+                    “${MpM_COMMON_DIR}”
+                    "${MpM_SQLITE_DIR}"
+                    "${MpM_REGISTRYTESTSUPPORT_DIR}")
 
 # set up our program
 add_executable(RegistryService
@@ -56,13 +56,13 @@ add_executable(RegistryService
                MoMeRegisterRequestHandler.cpp
                MoMeRegistryService.cpp
                MoMeUnregisterRequestHandler.cpp
-               ${MAM_SQLITE_DIR}/sqlite3.c)
+               ${MpM_SQLITE_DIR}/sqlite3.c)
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RegistryService
-                      MoMeCommon
-                      MoMeLogging
-                      MoMeParser
+                      Common
+                      Logging
+                      Parser
                       ${YARP_LIBRARIES})
 
 enable_testing()
@@ -74,13 +74,13 @@ add_executable(RegistryTest
                MoMeRegisterRequestHandler.cpp
                MoMeRegistryService.cpp
                MoMeUnregisterRequestHandler.cpp
-               ${MAM_SQLITE_DIR}/sqlite3.c)
+               ${MpM_SQLITE_DIR}/sqlite3.c)
 
 target_link_libraries(RegistryTest
-                      MoMeCommon
-                      MoMeLogging
-                      MoMeParser
-                      MoMeRegistryTestSupport
+                      Common
+                      Logging
+                      Parser
+                      RegistryTestSupport
                       ${YARP_LIBRARIES})
 
 # Test create register service

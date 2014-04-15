@@ -2,9 +2,9 @@
 //
 //  File:       MoMeException.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for objects thrown by exceptions within MoAndMe.
+//  Contains:   The class definition for objects thrown by exceptions within M+M.
 //
 //  Written by: Norman Jaffe
 //
@@ -50,12 +50,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for objects thrown by exceptions within MoAndMe. */
+ @brief The class definition for objects thrown by exceptions within M+M. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Common;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

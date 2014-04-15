@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRequestCounterService.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for a service that collects statistic on requests.
 //
@@ -59,7 +59,7 @@
 /*! @brief The channel name to use for the service if not provided. */
 # define DEFAULT_REQUESTCOUNTER_SERVICE_NAME "/service/requestCounter"
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace RequestCounter
     {
@@ -156,6 +156,6 @@ namespace MoAndMe
         
     } // RequestCounter
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEREQUESTCOUNTERSERVICE_H_)

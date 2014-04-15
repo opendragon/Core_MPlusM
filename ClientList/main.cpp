@@ -2,7 +2,7 @@
 //
 //  File:       ClientList/main.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   A utility application to list the clients of a service or all services.
 //
@@ -95,8 +95,8 @@ using std::endl;
  @param serviceName The name of the service that generated the response.
  @param response The response to be processed.
  @returns @c true if some output was generated and @c false otherwise. */
-static bool processResponse(const yarp::os::ConstString &            serviceName,
-                            const MoAndMe::Common::ServiceResponse & response)
+static bool processResponse(const yarp::os::ConstString &           serviceName,
+                            const MplusM::Common::ServiceResponse & response)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("serviceName = ", serviceName.c_str());//####
@@ -151,9 +151,9 @@ int main(int      argc,
         if (yarp::os::Network::checkNetwork())
         {
             yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
-            yarp::os::ConstString channelNameRequest(MAM_REQREP_DICT_CHANNELNAME_KEY ":");
+            yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
             
-            MoAndMe::Common::Initialize(*argv);
+            MplusM::Common::Initialize(*argv);
             if (1 < argc)
             {
                 channelNameRequest += argv[1];
@@ -162,16 +162,16 @@ int main(int      argc,
             {
                 channelNameRequest += "*";
             }
-            MoAndMe::Common::Package matches(MoAndMe::Common::FindMatchingServices(channelNameRequest.c_str()));
+            MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(channelNameRequest.c_str()));
             
-            if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+            if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
                 // First, check if the search succeeded.
                 yarp::os::ConstString matchesFirstString(matches.get(0).toString());
                 
-                if (strcmp(MAM_OK_RESPONSE, matchesFirstString.c_str()))
+                if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
                 {
-                    OD_LOG("(strcmp(MAM_OK_RESPONSE, matchesFirstString.c_str()))");//####
+                    OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))");//####
                     yarp::os::ConstString reason(matches.get(1).toString());
                     
                     cerr << "Failed: " << reason.c_str() << "." << endl;
@@ -179,7 +179,7 @@ int main(int      argc,
                 else
                 {
                     // Now, process the second element.
-                    MoAndMe::Common::Package * matchesList = matches.get(1).asList();
+                    MplusM::Common::Package * matchesList = matches.get(1).asList();
                     
                     if (matchesList)
                     {
@@ -187,25 +187,25 @@ int main(int      argc,
                         
                         if (matchesCount)
                         {
-                            yarp::os::ConstString            aName =
-                                                        MoAndMe::Common::GetRandomChannelName("/clientlist/channel_");
-                            MoAndMe::Common::ClientChannel * newChannel = new MoAndMe::Common::ClientChannel;
+                            yarp::os::ConstString           aName =
+                                                        MplusM::Common::GetRandomChannelName("/clientlist/channel_");
+                            MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
                             
                             if (newChannel)
                             {
                                 if (newChannel->openWithRetries(aName))
                                 {
-                                    bool                     sawRequestResponse = false;
-                                    MoAndMe::Common::Package parameters;
+                                    bool                    sawRequestResponse = false;
+                                    MplusM::Common::Package parameters;
 
                                     for (int ii = 0; ii < matchesCount; ++ii)
                                     {
                                         yarp::os::ConstString aMatch(matchesList->get(ii).toString());
                                         
-                                        if (MoAndMe::Common::NetworkConnectWithRetries(aName, aMatch))
+                                        if (MplusM::Common::NetworkConnectWithRetries(aName, aMatch))
                                         {
-                                            MoAndMe::Common::ServiceRequest  request(MAM_CLIENTS_REQUEST, parameters);
-                                            MoAndMe::Common::ServiceResponse response;
+                                            MplusM::Common::ServiceRequest  request(MpM_CLIENTS_REQUEST, parameters);
+                                            MplusM::Common::ServiceResponse response;
                                             
                                             if (request.send(*newChannel, &response))
                                             {
@@ -225,17 +225,17 @@ int main(int      argc,
                                                 cerr << "Problem communicating with " << aMatch.c_str() << "." <<
                                                 endl;
                                             }
-# if defined(MAM_DO_EXPLICIT_DISCONNECT)
-                                            if (! MoAndMe::Common::NetworkDisconnectWithRetries(aName, aMatch))
+# if defined(MpM_DO_EXPLICIT_DISCONNECT)
+                                            if (! MplusM::Common::NetworkDisconnectWithRetries(aName, aMatch))
                                             {
-                                                OD_LOG("(! MoAndMe::Common::NetworkDisconnectWithRetries(aName, "//####
+                                                OD_LOG("(! MplusM::Common::NetworkDisconnectWithRetries(aName, "//####
                                                        "aMatch))");//####
                                             }
-# endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+# endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                                         }
                                         else
                                         {
-                                            OD_LOG("! (MoAndMe::Common::NetworkConnectWithRetries(aName, "//####
+                                            OD_LOG("! (MplusM::Common::NetworkConnectWithRetries(aName, "//####
                                                    "aMatch))");//####
                                         }
                                     }
@@ -243,9 +243,9 @@ int main(int      argc,
                                     {
                                         cout << "No client connections found." << endl;
                                     }
-# if defined(MAM_DO_EXPLICIT_CLOSE)
+# if defined(MpM_DO_EXPLICIT_CLOSE)
                                     newChannel->close();
-# endif // defined(MAM_DO_EXPLICIT_CLOSE)
+# endif // defined(MpM_DO_EXPLICIT_CLOSE)
                                 }
                                 else
                                 {
@@ -271,7 +271,7 @@ int main(int      argc,
             }
             else
             {
-                OD_LOG("! (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
+                OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
                 cerr << "Problem getting information from the Service Registry." << endl;
             }
         }

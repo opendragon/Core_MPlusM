@@ -2,7 +2,7 @@
 //
 //  File:       MoMeMatchConstraint.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for a pattern matcher for AND clauses.
 //
@@ -56,7 +56,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Parser
     {
@@ -148,6 +148,6 @@ namespace MoAndMe
         
     } // Parser
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEMATCHCONSTRAINT_H_)

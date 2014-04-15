@@ -2,7 +2,7 @@
 //
 //  File:       MoMeTest15EchoRequestHandler.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for a simple request handler used by the unit tests.
 //
@@ -56,7 +56,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Test
     {
@@ -102,6 +102,6 @@ namespace MoAndMe
         
     } // Test
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMETEST15ECHOREQUESTHANDLER_H_)

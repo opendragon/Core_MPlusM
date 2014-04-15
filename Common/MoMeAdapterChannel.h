@@ -2,7 +2,7 @@
 //
 //  File:       MoMeAdapterChannel.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for channels to and from adapters.
 //
@@ -71,7 +71,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
@@ -121,6 +121,6 @@ namespace MoAndMe
         
     } // Common
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEADAPTERCHANNEL_H_)

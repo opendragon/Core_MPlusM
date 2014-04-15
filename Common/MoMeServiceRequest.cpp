@@ -2,9 +2,9 @@
 //
 //  File:       MoMeServiceRequest.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for a MoAndMe request.
+//  Contains:   The class definition for a M+M request.
 //
 //  Written by: Norman Jaffe
 //
@@ -68,12 +68,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for a MoAndMe request. */
+ @brief The class definition for a M+M request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Common;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -156,18 +156,18 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
             else
             {
                 OD_LOG("! (usingChannel.write(message, _holder))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
         else
         {
-#if defined(MAM_CHANNELS_USE_RPC)
+#if defined(MpM_CHANNELS_USE_RPC)
             Package holder;
-#endif // defined(MAM_CHANNELS_USE_RPC)
+#endif // defined(MpM_CHANNELS_USE_RPC)
             
-#if defined(MAM_CHANNELS_USE_RPC)
+#if defined(MpM_CHANNELS_USE_RPC)
             if (usingChannel.write(message, holder))
             {
                 result = true;
@@ -175,11 +175,11 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
             else
             {
                 OD_LOG("(! usingChannel.write(message))");//####
-# if defined(MAM_STALL_ON_SEND_PROBLEM)
+# if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
-# endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+# endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
-#else // ! defined(MAM_CHANNELS_USE_RPC)
+#else // ! defined(MpM_CHANNELS_USE_RPC)
             if (usingChannel.write(message))
             {
                 result = true;
@@ -187,11 +187,11 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
             else
             {
                 OD_LOG("(! usingChannel.write(message))");//####
-# if defined(MAM_STALL_ON_SEND_PROBLEM)
+# if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
-# endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+# endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
-#endif // ! defined(MAM_CHANNELS_USE_RPC)
+#endif // ! defined(MpM_CHANNELS_USE_RPC)
         }
     }
     catch (...)

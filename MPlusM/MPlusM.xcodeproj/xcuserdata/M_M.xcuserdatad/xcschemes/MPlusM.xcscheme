@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "DFA3430B18C91B4F0053B87C"
-               BuildableName = "MoAndMe"
-               BlueprintName = "MoAndMe"
-               ReferencedContainer = "container:MoAndMe.xcodeproj">
+               BuildableName = "MPlusM"
+               BlueprintName = "MPlusM"
+               ReferencedContainer = "container:MPlusM.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

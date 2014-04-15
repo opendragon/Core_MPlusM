@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRequestCounterDefaultRequestHandler.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for a default request handler used by the request
 //              counter service.
@@ -57,7 +57,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace RequestCounter
     {
@@ -109,6 +109,6 @@ namespace MoAndMe
         
     } // RequestCounter
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEREQUESTCOUNTERDEFAULTREQUESTHANDLER_H_)

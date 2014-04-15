@@ -2,9 +2,9 @@
 //
 //  File:       MoMeBaseServiceInputHandlerCreator.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for the minimal functionality required for a MoAndMe
+//  Contains:   The class definition for the minimal functionality required for a M+M
 //              input handler factory object.
 //
 //  Written by: Norman Jaffe
@@ -52,12 +52,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the minimal functionality required for a MoAndMe input handler factory object. */
+ @brief The class definition for the minimal functionality required for a M+M input handler factory object. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Common;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

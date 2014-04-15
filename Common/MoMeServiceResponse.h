@@ -2,9 +2,9 @@
 //
 //  File:       MoMeServiceResponse.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class declaration for the response to a MoAndMe request.
+//  Contains:   The class declaration for the response to a M+M request.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,12 +51,12 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the response to a MoAndMe request. */
+ @brief The class declaration for the response to a M+M request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
@@ -129,6 +129,6 @@ namespace MoAndMe
         
     } // Common
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMESERVICERESPONSE_H_)

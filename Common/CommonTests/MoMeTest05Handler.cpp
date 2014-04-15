@@ -2,7 +2,7 @@
 //
 //  File:       MoMeTest05Handler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for an input handler used by the unit tests.
 //
@@ -55,7 +55,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Test;
+using namespace MplusM::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -90,9 +90,9 @@ Test05Handler::~Test05Handler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool Test05Handler::handleInput(const MoAndMe::Common::Package & input,
-                                const yarp::os::ConstString &    senderChannel,
-                                yarp::os::ConnectionWriter *     replyMechanism)
+bool Test05Handler::handleInput(const MplusM::Common::Package & input,
+                                const yarp::os::ConstString &   senderChannel,
+                                yarp::os::ConnectionWriter *    replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(senderChannel)
@@ -104,14 +104,14 @@ bool Test05Handler::handleInput(const MoAndMe::Common::Package & input,
     
     if (replyMechanism)
     {
-        MoAndMe::Common::Package inputCopy(input);
+        MplusM::Common::Package inputCopy(input);
         
         if (! inputCopy.write(*replyMechanism))
         {
             OD_LOG("(! inputCopy.write(*replyMechanism))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
             Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
         }
     }
     OD_LOG_OBJEXIT_B(result);//####

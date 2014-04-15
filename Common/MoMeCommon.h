@@ -2,9 +2,9 @@
 //
 //  File:       MoMeCommon.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The function and variable declarations for common entities for MoAndMe
+//  Contains:   The function and variable declarations for common entities for M+M
 //              clients and services.
 //
 //  Written by: Norman Jaffe
@@ -71,32 +71,32 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The function and variable declarations for common entities for MoAndMe clients and services. */
+ @brief The function and variable declarations for common entities for M+M clients and services. */
 
 /*! @dir Common
- @brief The set of files that implement the MoAndMe framework. */
+ @brief The set of files that implement the M+M framework. */
 
-/*! @namespace MoAndMe
- @brief The classes that implement the MoAndMe framework. */
+/*! @namespace MplusM
+ @brief The classes that implement the M+M framework. */
 
-/*! @namespace MoAndMe::Common
- @brief The classes that support the basic functionality of the MoAndMe framework. */
+/*! @namespace MplusM::Common
+ @brief The classes that support the basic functionality of the M+M framework. */
 
-/*! @namespace MoAndMe::Example
- @brief A set of example classes using features from MoAndMe. */
+/*! @namespace MplusM::Example
+ @brief A set of example classes using features from M+M. */
 
-/*! @namespace MoAndMe::Parser
+/*! @namespace MplusM::Parser
  @brief The classes that support parsing of search requests and the generation of SQL @c SELECT strings from the search
  requests. */
 
-/*! @namespace MoAndMe::Registry
+/*! @namespace MplusM::Registry
  @brief The classes that support registering and unregistering services. */
 
-/*! @namespace MoAndMe::RequestCounter
+/*! @namespace MplusM::RequestCounter
  @brief The classes that support measuring the time for service requests. */
 
-/*! @namespace MoAndMe::Test
- @brief The classes used for unit testing of the MoAndMe classes. */
+/*! @namespace MplusM::Test
+ @brief The classes used for unit testing of the M+M classes. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -107,7 +107,7 @@
 /*! @brief The delay value corresponding to one second of delay. */
 # define ONE_SECOND_DELAY 1.0
 
-/*! @brief All MoAndMe services maintain contexts for each incoming channel connection. */
+/*! @brief All M+M services maintain contexts for each incoming channel connection. */
 # define SERVICES_HAVE_CONTEXTS /* */
 
 /*! @brief The default timeout duration in seconds. */
@@ -129,7 +129,7 @@
 /*! @brief A simple macro to hold the pieces of a string together. */
 # define T_(xx) xx
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
@@ -197,6 +197,6 @@ namespace MoAndMe
      @returns A string description of the signal. */
     const char * NameOfSignal(const int theSignal);
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMECOMMON_H_)

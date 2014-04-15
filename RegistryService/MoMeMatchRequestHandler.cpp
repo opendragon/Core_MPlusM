@@ -2,7 +2,7 @@
 //
 //  File:       MoMeMatchRequestHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for the request handler for the standard 'match'
 //              request.
@@ -63,7 +63,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Registry;
+using namespace MplusM::Registry;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -86,7 +86,7 @@ using namespace MoAndMe::Registry;
 
 MatchRequestHandler::MatchRequestHandler(RegistryService &           service,
                                          Parser::BaseNameValidator * validator) :
-        inherited(MAM_MATCH_REQUEST), _service(service), _validator(validator)
+        inherited(MpM_MATCH_REQUEST), _service(service), _validator(validator)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P2("service = ", &service, "validator = ", validator);//####
@@ -119,18 +119,18 @@ void MatchRequestHandler::fillInDescription(const yarp::os::ConstString & reques
     OD_LOG_P1("info = ", &info);//####
     try
     {
-        info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MAM_REQREP_DICT_INPUT_KEY, MAM_REQREP_STRING MAM_REQREP_1_OR_MORE);
-        info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_LIST_START MAM_REQREP_STRING MAM_REQREP_0_OR_MORE
-                 MAM_REQREP_LIST_END);
-        info.put(MAM_REQREP_DICT_VERSION_KEY, MATCH_REQUEST_VERSION_NUMBER);
-        info.put(MAM_REQREP_DICT_DETAILS_KEY, "Find a matching service");
+        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
+        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_STRING MpM_REQREP_1_OR_MORE);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_LIST_START MpM_REQREP_STRING MpM_REQREP_0_OR_MORE
+                 MpM_REQREP_LIST_END);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, MATCH_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Find a matching service");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("find");
-        info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
     {
@@ -180,12 +180,12 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
                         OD_LOG("(matcher)");//####
                         // Hand off the processing to the registry service. First, put the 'OK' response in the output
                         // buffer, as we have successfully parsed the request.
-                        reply.addString(MAM_OK_RESPONSE);
+                        reply.addString(MpM_OK_RESPONSE);
                         if (! _service.processMatchRequest(matcher, reply))
                         {
                             OD_LOG("(! _service.processMatchRequest(matcher, reply))");//####
                             reply.clear();
-                            reply.addString(MAM_FAILED_RESPONSE);
+                            reply.addString(MpM_FAILED_RESPONSE);
                             reply.addString("Invalid criteria");
                         }
                         delete matcher;
@@ -193,30 +193,30 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
                     else
                     {
                         OD_LOG("! (matcher)");//####
-                        reply.addString(MAM_FAILED_RESPONSE);
+                        reply.addString(MpM_FAILED_RESPONSE);
                         reply.addString("Invalid criteria");
                     }
                 }
                 else
                 {
                     OD_LOG("! (argument.isString())");//####
-                    reply.addString(MAM_FAILED_RESPONSE);
+                    reply.addString(MpM_FAILED_RESPONSE);
                     reply.addString("Invalid criteria");
                 }
             }
             else
             {
                 OD_LOG("! (1 == restOfInput.size())");//####
-                reply.addString(MAM_FAILED_RESPONSE);
+                reply.addString(MpM_FAILED_RESPONSE);
                 reply.addString("Missing criteria or extra arguments to request");
             }
             OD_LOG_S1("reply <- ", reply.toString().c_str());
             if (! reply.write(*replyMechanism))
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
     }

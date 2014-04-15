@@ -2,9 +2,9 @@
 //
 //  File:       MoMeBaseService.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for the minimal functionality required for a MoAndMe
+//  Contains:   The class definition for the minimal functionality required for a M+M
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -81,13 +81,13 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the minimal functionality required for a MoAndMe service. */
+ @brief The class definition for the minimal functionality required for a M+M service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe;
-using namespace MoAndMe::Common;
+using namespace MplusM;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -424,9 +424,9 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
                 if (! errorMessage.write(*replyMechanism))
                 {
                     OD_LOG("(! errorMessage.write(*replyMechanism))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                     Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                 }
             }
             result = false;
@@ -585,20 +585,20 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
         
         if (newChannel)
         {
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
             ChannelStatusReporter reporter;
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
             
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
             newChannel->setReporter(reporter);
             newChannel->getReport(reporter);
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
             if (newChannel->openWithRetries(aName))
             {
-                if (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
+                if (NetworkConnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))
                 {
                     Package         parameters(channelName);
-                    ServiceRequest  request(MAM_REGISTER_REQUEST, parameters);
+                    ServiceRequest  request(MpM_REGISTER_REQUEST, parameters);
                     ServiceResponse response;
                     
                     if (request.send(*newChannel, &response))
@@ -610,7 +610,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
                             
                             if (theValue.isString())
                             {
-                                result = (theValue.toString() == MAM_OK_RESPONSE);
+                                result = (theValue.toString() == MpM_OK_RESPONSE);
                             }
                             else
                             {
@@ -627,20 +627,20 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
                     {
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
-#if defined(MAM_DO_EXPLICIT_DISCONNECT)
-                    if (! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
+#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+                    if (! NetworkDisconnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                     }
-#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                 }
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
                 newChannel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
             }
             else
             {
@@ -675,20 +675,20 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
         
         if (newChannel)
         {
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
             ChannelStatusReporter reporter;
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
             
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
             newChannel->setReporter(reporter);
             newChannel->getReport(reporter);
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
             if (newChannel->openWithRetries(aName))
             {
-                if (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
+                if (NetworkConnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))
                 {
                     Package         parameters(channelName);
-                    ServiceRequest  request(MAM_UNREGISTER_REQUEST, parameters);
+                    ServiceRequest  request(MpM_UNREGISTER_REQUEST, parameters);
                     ServiceResponse response;
                     
                     if (request.send(*newChannel, &response))
@@ -700,7 +700,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
                             
                             if (theValue.isString())
                             {
-                                result = (theValue.toString() == MAM_OK_RESPONSE);
+                                result = (theValue.toString() == MpM_OK_RESPONSE);
                             }
                             else
                             {
@@ -717,20 +717,20 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
                     {
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
-#if defined(MAM_DO_EXPLICIT_DISCONNECT)
-                    if (! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))
+#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+                    if (! NetworkDisconnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                     }
-#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MAM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
                 }
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
                 newChannel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
             }
             else
             {

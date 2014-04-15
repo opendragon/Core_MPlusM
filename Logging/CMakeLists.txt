@@ -2,7 +2,7 @@
 #
 #  File:       Debugging/CMakeLists.txt
 #
-#  Project:    MoAndMe
+#  Project:    MPlusM
 #
 #  Contains:   The CMAKE definitions for the debugging library.
 #
@@ -39,16 +39,16 @@
 #
 #--------------------------------------------------------------------------------------
 
-option(MAM_USE_OBJECTIVE_C_DEBUG "Use Objective C Debug" FALSE)
-mark_as_advanced(MAM_USE_OBJECTIVE_C_DEBUG)
+option(MpM_USE_OBJECTIVE_C_DEBUG "Use Objective C Debug" FALSE)
+mark_as_advanced(MpM_USE_OBJECTIVE_C_DEBUG)
 
-if(MAM_USE_OBJECTIVE_C_DEBUG)
-    add_library(MoMeLogging
+if(MpM_USE_OBJECTIVE_C_DEBUG)
+    add_library(Logging
                 ODLogging.m)
-else(MAM_USE_OBJECTIVE_C_DEBUG)
-    add_library(MoMeLogging
+else(MpM_USE_OBJECTIVE_C_DEBUG)
+    add_library(Logging
                 ODLogging.cpp)
-endif(MAM_USE_OBJECTIVE_C_DEBUG)
+endif(MpM_USE_OBJECTIVE_C_DEBUG)
 
-install(TARGETS MoMeLogging DESTINATION bin)
-install(FILES MoMeLogging DESTINATION include)
+install(TARGETS Logging DESTINATION bin)
+install(FILES Logging DESTINATION include)

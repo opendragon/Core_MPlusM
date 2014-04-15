@@ -2,9 +2,9 @@
 //
 //  File:       RandomNumberClient/main.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The main application for the client of a simple MoAndMe service.
+//  Contains:   The main application for the client of a simple M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -67,15 +67,15 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for the client of a simple MoAndMe service. */
+ @brief The main application for the client of a simple M+M service. */
 
 /*! @dir RandomNumberClient
- @brief The set of files that implement the client for a simple MoAndMe service. */
+ @brief The set of files that implement the client for a simple M+M service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Example;
+using namespace MplusM::Example;
 using std::cin;
 using std::cout;
 using std::cerr;
@@ -129,22 +129,22 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MoAndMe::Common::Initialize(*argv);
+            MplusM::Common::Initialize(*argv);
             RandomNumberClient * stuff = new RandomNumberClient;
             
             if (stuff)
             {
                 lKeepRunning = true;
-                MoAndMe::Common::SetSignalHandlers(stopRunning);
+                MplusM::Common::SetSignalHandlers(stopRunning);
                 if (stuff->findService("keyword random"))
                 {
-#if defined(MAM_REPORT_ON_CONNECTIONS)
-                    MoAndMe::Common::ChannelStatusReporter reporter;
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
+                    MplusM::Common::ChannelStatusReporter reporter;
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
                     stuff->setReporter(reporter, true);
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     if (stuff->connectToService())
                     {
                         for ( ; lKeepRunning; )
@@ -174,12 +174,12 @@ int main(int      argc,
                             }
                             else
                             {
-                                MoAndMe::Common::DoubleVector results;
+                                MplusM::Common::DoubleVector results;
                                 
                                 if (stuff->getRandomNumbers(count, results))
                                 {
                                     cout << "result = ( ";
-                                    for (MoAndMe::Common::DoubleVector::const_iterator it(results.cbegin());
+                                    for (MplusM::Common::DoubleVector::const_iterator it(results.cbegin());
                                          it != results.cend(); ++it)
                                     {
                                         cout << " " << *it;

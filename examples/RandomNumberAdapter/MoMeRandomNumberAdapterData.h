@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRandomNumberAdapterData.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for the data shared between the input handlers and
 //              main thread of the random number adapter.
@@ -58,7 +58,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
@@ -106,6 +106,6 @@ namespace MoAndMe
         
     } // Example
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMERANDOMNUMBERADAPTERDATA_H_)

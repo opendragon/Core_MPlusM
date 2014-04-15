@@ -2,9 +2,9 @@
 //
 //  File:       MoMeEchoClient.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class declaration for the client of a simple MoAndMe service.
+//  Contains:   The class declaration for the client of a simple M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,19 +51,19 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the client of a simple MoAndMe service. */
+ @brief The class declaration for the client of a simple M+M service. */
 
 /*! @dir examples
- @brief The set of files that demonstrate features of the MoAndMe framework. */
+ @brief The set of files that demonstrate features of the M+M framework. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Example
     {
-        /*! @brief An example MoAndMe client, for the 'echo' service. */
+        /*! @brief An example M+M client, for the 'echo' service. */
         class EchoClient : public Common::BaseClient
         {
         public:
@@ -104,6 +104,6 @@ namespace MoAndMe
         
     } // Example
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEECHOCLIENT_H_)

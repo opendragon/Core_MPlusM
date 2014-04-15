@@ -2,9 +2,9 @@
 #
 #  File:       examples/CMakeLists.txt
 #
-#  Project:    MoAndMe
+#  Project:    MPlusM
 #
-#  Contains:   The common CMAKE definitions for the MoAndMe examples.
+#  Contains:   The common CMAKE definitions for the M+M examples.
 #
 #  Written by: Norman Jaffe
 #
@@ -39,7 +39,7 @@
 #
 #--------------------------------------------------------------------------------------
 
-set(MAM_EXAMPLES_DIR "${PROJECT_SOURCE_DIR}/examples")
+set(MpM_EXAMPLES_DIR "${PROJECT_SOURCE_DIR}/examples")
 
 add_subdirectory(EchoClient)
 add_subdirectory(EchoService)

@@ -2,9 +2,9 @@
 //
 //  File:       MoMeEchoClient.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for the client of a simple MoAndMe service.
+//  Contains:   The class definition for the client of a simple M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -52,12 +52,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the client of a simple MoAndMe service. */
+ @brief The class definition for the client of a simple M+M service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Example;
+using namespace MplusM::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -106,14 +106,14 @@ bool EchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
         Common::ServiceResponse response;
         
         reconnectIfDisconnected();
-        if (send(MAM_ECHO_REQUEST, parameters, &response))
+        if (send(MpM_ECHO_REQUEST, parameters, &response))
         {
             incoming = response.asString();
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MAM_ECHO_REQUEST, parameters, &response))");//####
+            OD_LOG("! (send(MpM_ECHO_REQUEST, parameters, &response))");//####
         }
     }
     catch (...)

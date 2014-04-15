@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRunningSumControlInputHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for the custom control channel input handler used by
 //              the running sum adapter.
@@ -60,7 +60,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Example;
+using namespace MplusM::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -123,7 +123,7 @@ bool RunningSumControlInputHandler::handleInput(const Common::Package &       in
                 {
                     yarp::os::ConstString argString(argValue.asString());
                     
-                    if (argString == MAM_RESET_REQUEST)
+                    if (argString == MpM_RESET_REQUEST)
                     {
                         _shared.lock();
                         if (theClient->resetSum())
@@ -136,11 +136,11 @@ bool RunningSumControlInputHandler::handleInput(const Common::Package &       in
                         }
                         _shared.unlock();
                     }
-                    else if (argString == MAM_QUIT_REQUEST)
+                    else if (argString == MpM_QUIT_REQUEST)
                     {
                         _shared.deactivate();
                     }
-                    else if (argString == MAM_START_REQUEST)
+                    else if (argString == MpM_START_REQUEST)
                     {
                         _shared.lock();
                         if (theClient->startSum())
@@ -153,7 +153,7 @@ bool RunningSumControlInputHandler::handleInput(const Common::Package &       in
                         }
                         _shared.unlock();
                     }
-                    else if (argString == MAM_STOP_REQUEST)
+                    else if (argString == MpM_STOP_REQUEST)
                     {
                         _shared.lock();
                         if (theClient->stopSum())

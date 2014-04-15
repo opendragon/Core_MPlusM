@@ -2,9 +2,9 @@
 //
 //  File:       MoMeBaseServiceInputHandler.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class declaration for the minimal functionality required for a MoAndMe
+//  Contains:   The class declaration for the minimal functionality required for a M+M
 //              input handler.
 //
 //  Written by: Norman Jaffe
@@ -52,18 +52,18 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the minimal functionality required for a MoAndMe input handler. */
+ @brief The class declaration for the minimal functionality required for a M+M input handler. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
         class BaseService;
         
-        /*! @brief The minimal functionality required for a MoAndMe service. */
+        /*! @brief The minimal functionality required for a M+M service. */
         class BaseServiceInputHandler : public InputHandler
         {
         public:
@@ -109,6 +109,6 @@ namespace MoAndMe
         
     } // Common
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEBASESERVICEINPUTHANDLER_H_)

@@ -2,9 +2,9 @@
 //
 //  File:       MoMeRunningSumContext.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for a contexts used with a simple MoAndMe service.
+//  Contains:   The class definition for a contexts used with a simple M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -50,12 +50,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for a context used with a simple MoAndMe service. */
+ @brief The class definition for a context used with a simple M+M service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Example;
+using namespace MplusM::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

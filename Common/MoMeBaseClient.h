@@ -2,9 +2,9 @@
 //                                                                                      
 //  File:       MoMeBaseClient.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //                                                                                      
-//  Contains:   The class declaration for the minimal functionality required for a MoAndMe
+//  Contains:   The class declaration for the minimal functionality required for a M+M
 //              client.
 //                                                                                      
 //  Written by: Norman Jaffe                                                            
@@ -52,12 +52,12 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the minimal functionality required for a MoAndMe client. */
+ @brief The class declaration for the minimal functionality required for a M+M client. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Common
     {
@@ -65,7 +65,7 @@ namespace MoAndMe
         class ClientChannel;
         class ServiceResponse;
         
-        /*! @brief The minimal functionality required for a MoAndMe client. */
+        /*! @brief The minimal functionality required for a M+M client. */
         class BaseClient
         {
         public:
@@ -167,6 +167,6 @@ namespace MoAndMe
         
     } // Common
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEBASECLIENT_H_)

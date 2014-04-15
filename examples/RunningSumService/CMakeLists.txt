@@ -2,7 +2,7 @@
 #
 #  File:       RunningSumService/CMakeLists.txt
 #
-#  Project:    MoAndMe
+#  Project:    MPlusM
 #
 #  Contains:   The CMAKE definitions for the example running sum service application.
 #
@@ -39,9 +39,9 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${MAM_LOGGING_DIR}"
-                    "${MAM_COMMON_DIR}"
-                    "${MAM_EXAMPLES_DIR}/RunningSumCommon")
+include_directories("${MpM_LOGGING_DIR}"
+                    "${MpM_COMMON_DIR}"
+                    "${MpM_EXAMPLES_DIR}/RunningSumCommon")
 
 # set up our program
 add_executable(RunningSumService
@@ -55,8 +55,8 @@ add_executable(RunningSumService
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RunningSumService
-                      MoMeCommon
-                      MoMeLogging
+                      Common
+                      Logging
                       ${YARP_LIBRARIES})
 
 enable_testing()

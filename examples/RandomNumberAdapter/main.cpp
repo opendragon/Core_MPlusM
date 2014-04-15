@@ -2,9 +2,9 @@
 //
 //  File:       RandomNumberAdapter/main.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The main application for an adapter of a simple MoAndMe service.
+//  Contains:   The main application for an adapter of a simple M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -70,15 +70,15 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for an adapter of a simple MoAndMe service. */
+ @brief The main application for an adapter of a simple M+M service. */
 
 /*! @dir RandomNumberAdapter
- @brief The set of files that implement an adapter for a simple MoAndMe service. */
+ @brief The set of files that implement an adapter for a simple M+M service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Example;
+using namespace MplusM::Example;
 using std::cin;
 using std::cout;
 using std::cerr;
@@ -135,28 +135,28 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MoAndMe::Common::Initialize(*argv);
+            MplusM::Common::Initialize(*argv);
             RandomNumberClient * stuff = new RandomNumberClient;
             
             if (stuff)
             {
                 lKeepRunning = true;
-                MoAndMe::Common::SetSignalHandlers(stopRunning);
+                MplusM::Common::SetSignalHandlers(stopRunning);
                 if (stuff->findService("keyword random"))
                 {
-#if defined(MAM_REPORT_ON_CONNECTIONS)
-                    MoAndMe::Common::ChannelStatusReporter reporter;
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
+                    MplusM::Common::ChannelStatusReporter reporter;
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
                     stuff->setReporter(reporter, true);
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     if (stuff->connectToService())
                     {
-                        MoAndMe::Common::AdapterChannel * inputChannel = new MoAndMe::Common::AdapterChannel;
-                        MoAndMe::Common::AdapterChannel * outputChannel = new MoAndMe::Common::AdapterChannel;
-                        RandomNumberAdapterData           sharedData(stuff, outputChannel);
-                        RandomNumberInputHandler *        inputHandler = new RandomNumberInputHandler(sharedData);
+                        MplusM::Common::AdapterChannel * inputChannel = new MplusM::Common::AdapterChannel;
+                        MplusM::Common::AdapterChannel * outputChannel = new MplusM::Common::AdapterChannel;
+                        RandomNumberAdapterData          sharedData(stuff, outputChannel);
+                        RandomNumberInputHandler *       inputHandler = new RandomNumberInputHandler(sharedData);
                         
                         if (inputChannel && outputChannel && inputHandler)
                         {
@@ -171,23 +171,23 @@ int main(int      argc,
                                     outputName = argv[2];
                                 }
                             }
-#if defined(MAM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_REPORT_ON_CONNECTIONS)
                             inputChannel->setReporter(reporter);
                             inputChannel->getReport(reporter);
                             outputChannel->setReporter(reporter);
                             outputChannel->getReport(reporter);
-#endif // defined(MAM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
                             if (inputChannel->openWithRetries(inputName) && outputChannel->openWithRetries(outputName))
                             {
                                 sharedData.activate();
                                 inputChannel->setReader(*inputHandler);
                                 for ( ; lKeepRunning && sharedData.isActive(); )
                                 {
-#if defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
+#if defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
                                     yarp::os::Time::delay(ONE_SECOND_DELAY);
-#else // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
+#else // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
                                     yarp::os::Time::yield();
-#endif // ! defined(MAM_MAIN_DOES_DELAY_NOT_YIELD)
+#endif // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
                                     if (! lKeepRunning)
                                     {
                                         sharedData.deactivate();
@@ -200,10 +200,10 @@ int main(int      argc,
                                        "outputChannel->openWithRetries(outputName))");//####
                                 cerr << "Problem opening a channel." << endl;
                             }
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
                             inputChannel->close();
                             outputChannel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
                         }
                         else
                         {
@@ -211,8 +211,8 @@ int main(int      argc,
                                    "inputHandler)");//####
                             cerr << "Problem creating a channel." << endl;
                         }
-                        MoAndMe::Common::AdapterChannel::RelinquishChannel(inputChannel);
-                        MoAndMe::Common::AdapterChannel::RelinquishChannel(outputChannel);
+                        MplusM::Common::AdapterChannel::RelinquishChannel(inputChannel);
+                        MplusM::Common::AdapterChannel::RelinquishChannel(outputChannel);
                         if (! stuff->disconnectFromService())
                         {
                             OD_LOG("(! stuff->disconnectFromService())");//####

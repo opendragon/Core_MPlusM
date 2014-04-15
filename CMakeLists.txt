@@ -2,9 +2,9 @@
 #
 #  File:       CMakeLists.txt
 #
-#  Project:    MoAndMe
+#  Project:    MPlusM
 #
-#  Contains:   The common CMAKE definitions for the MoAndMe project.
+#  Contains:   The common CMAKE definitions for the M+M project.
 #
 #  Written by: Norman Jaffe
 #
@@ -42,21 +42,21 @@
 # YARP needs CMake 2.6 or greater
 cmake_minimum_required(VERSION 2.6)
 
-project(MovementAndMeaning)
+project(MPlusM)
 
-set(MAM_VERSION_MAJOR 1)
-set(MAM_VERSION_MINOR 2)
-set(MAM_VERSION_PATCH 3)
+set(MpM_VERSION_MAJOR 1)
+set(MpM_VERSION_MINOR 2)
+set(MpM_VERSION_PATCH 3)
 
-option(MAM_CHANNELS_USE_RPC "Use RpcClient and RpcService objects for communication")
-option(MAM_DO_EXPLICIT_CLOSE "Perform an explicit CloseChannel() prior to freeing a channel")
-option(MAM_DO_EXPLICIT_DISCONNECT "Perform an explicit disconnect prior to closing a channel")
-option(MAM_DONT_USE_TIMEOUTS "Allow operations to take arbitrary lengths of time")
-option(MAM_LOG_INCLUDES_YARP_TRACE "Include YARP trace when logging")
-option(MAM_MAIN_DOES_DELAY_NOT_YIELD "Use Delay() in main() loop")
-option(MAM_REPORT_ON_CONNECTIONS "Report on connections")
-option(MAM_SERVICES_LOG_TO_STDERR "Services send logging output to stderr")
-option(MAM_STALL_ON_SEND_PROBLEM "A send failure goes to a tight loop")
+option(MpM_CHANNELS_USE_RPC "Use RpcClient and RpcService objects for communication")
+option(MpM_DO_EXPLICIT_CLOSE "Perform an explicit CloseChannel() prior to freeing a channel")
+option(MpM_DO_EXPLICIT_DISCONNECT "Perform an explicit disconnect prior to closing a channel")
+option(MpM_DONT_USE_TIMEOUTS "Allow operations to take arbitrary lengths of time")
+option(MpM_LOG_INCLUDES_YARP_TRACE "Include YARP trace when logging")
+option(MpM_MAIN_DOES_DELAY_NOT_YIELD "Use Delay() in main() loop")
+option(MpM_REPORT_ON_CONNECTIONS "Report on connections")
+option(MpM_SERVICES_LOG_TO_STDERR "Services send logging output to stderr")
+option(MpM_STALL_ON_SEND_PROBLEM "A send failure goes to a tight loop")
 
 # find YARP
 find_package(YARP REQUIRED)
@@ -72,17 +72,17 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 # add ACE include directories
 include_directories(${ACE_INCLUDE_DIRS})
 
-set(MAM_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
-set(MAM_LOGGING_DIR "${PROJECT_SOURCE_DIR}/Logging")
-set(MAM_PARSER_DIR "${PROJECT_SOURCE_DIR}/Parser")
-set(MAM_SQLITE_DIR "${PROJECT_SOURCE_DIR}/SQLite3")
+set(MpM_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
+set(MpM_LOGGING_DIR "${PROJECT_SOURCE_DIR}/Logging")
+set(MpM_PARSER_DIR "${PROJECT_SOURCE_DIR}/Parser")
+set(MpM_SQLITE_DIR "${PROJECT_SOURCE_DIR}/SQLite3")
 
-configure_file("${MAM_COMMON_DIR}/MoMeConfig.h.in"
-                "${MAM_COMMON_DIR}/MoMeConfig.h")
+configure_file("${MpM_COMMON_DIR}/MoMeConfig.h.in"
+                "${MpM_COMMON_DIR}/MoMeConfig.h")
 
-include_directories("${MAM_COMMON_DIR}"
-                    "${MAM_LOGGING_DIR}"
-                    "${MAM_PARSER_DIR}")
+include_directories("${MpM_COMMON_DIR}"
+                    "${MpM_LOGGING_DIR}"
+                    "${MpM_PARSER_DIR}")
 
 add_subdirectory(ClientList)
 add_subdirectory(Common)

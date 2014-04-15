@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRunningSumInputHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for the custom control channel input handler used by
 //              the running sum alternative adapter.
@@ -61,7 +61,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Example;
+using namespace MplusM::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -146,9 +146,9 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                                     if (! theOutput->write(message))
                                     {
                                         OD_LOG("(! theOutput->write(message))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                                         Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                                     }
                                 }
                                 else
@@ -168,9 +168,9 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                                     if (! theOutput->write(message))
                                     {
                                         OD_LOG("(! theOutput->write(message))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                                         Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                                     }
                                 }
                                 else
@@ -181,7 +181,7 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                             }
                             values.clear();
                         }
-                        if (argString == MAM_RESET_REQUEST)
+                        if (argString == MpM_RESET_REQUEST)
                         {
                             _shared.lock();
                             if (theClient->resetSum())
@@ -194,11 +194,11 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                             }
                             _shared.unlock();
                         }
-                        else if (argString == MAM_QUIT_REQUEST)
+                        else if (argString == MpM_QUIT_REQUEST)
                         {
                             _shared.deactivate();
                         }
-                        else if (argString == MAM_START_REQUEST)
+                        else if (argString == MpM_START_REQUEST)
                         {
                             _shared.lock();
                             if (theClient->startSum())
@@ -211,7 +211,7 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                             }
                             _shared.unlock();
                         }
-                        else if (argString == MAM_STOP_REQUEST)
+                        else if (argString == MpM_STOP_REQUEST)
                         {
                             _shared.lock();
                             if (theClient->stopSum())
@@ -249,9 +249,9 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                             if (! theOutput->write(message))
                             {
                                 OD_LOG("(! theOutput->write(message))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }
                         else
@@ -271,9 +271,9 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                             if (! theOutput->write(message))
                             {
                                 OD_LOG("(! theOutput->write(message))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }
                         else

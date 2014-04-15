@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRunningSumRequests.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The common macro definitions for requests and responses for the running
 //              sum service.
@@ -58,21 +58,21 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the running sum service. */
-# define MAM_RUNNINGSUM_CANONICAL_NAME "RunningSum"
+# define MpM_RUNNINGSUM_CANONICAL_NAME "RunningSum"
 
 /*! @brief The name for the 'add' request. */
-# define MAM_ADD_REQUEST   "add"
+# define MpM_ADD_REQUEST   "add"
 
 /*! @brief The name for the 'quit' request. */
-# define MAM_QUIT_REQUEST  "quit"
+# define MpM_QUIT_REQUEST  "quit"
 
 /*! @brief The name for the 'reset' request. */
-# define MAM_RESET_REQUEST "reset"
+# define MpM_RESET_REQUEST "reset"
 
 /*! @brief The name for the 'start' request. */
-# define MAM_START_REQUEST "start"
+# define MpM_START_REQUEST "start"
 
 /*! @brief The name for the 'stop' request. */
-# define MAM_STOP_REQUEST  "stop"
+# define MpM_STOP_REQUEST  "stop"
 
 #endif // ! defined(MOMERUNNINGSUMREQUESTS_H_)

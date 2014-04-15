@@ -2,9 +2,9 @@
 //
 //  File:       MoMeRandomNumberClient.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class declaration for the client of a simple MoAndMe service.
+//  Contains:   The class declaration for the client of a simple M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,16 +51,16 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the client of a simple MoAndMe service. */
+ @brief The class declaration for the client of a simple M+M service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Example
     {
-        /*! @brief An example MoAndMe client, for the 'random' service. */
+        /*! @brief An example M+M client, for the 'random' service. */
         class RandomNumberClient : public Common::BaseClient
         {
         public:
@@ -106,6 +106,6 @@ namespace MoAndMe
         
     } // Example
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMERANDOMNUMBERCLIENT_H_)

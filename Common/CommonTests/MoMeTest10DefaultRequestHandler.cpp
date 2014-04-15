@@ -2,7 +2,7 @@
 //
 //  File:       MoMeTest10DefaultRequestHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for a default request handler used by the unit tests.
 //
@@ -55,7 +55,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Test;
+using namespace MplusM::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -90,7 +90,7 @@ Test10DefaultRequestHandler::~Test10DefaultRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test10DefaultRequestHandler::fillInAliases(MoAndMe::Common::StringVector & alternateNames)
+void Test10DefaultRequestHandler::fillInAliases(MplusM::Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -112,10 +112,10 @@ void Test10DefaultRequestHandler::fillInDescription(const yarp::os::ConstString 
     OD_LOG_OBJEXIT();//####
 } // Test10DefaultRequestHandler::fillInDescription
 
-bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString &    request,
-                                                 const MoAndMe::Common::Package & restOfInput,
-                                                 const yarp::os::ConstString &    senderChannel,
-                                                 yarp::os::ConnectionWriter *     replyMechanism)
+bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString &   request,
+                                                 const MplusM::Common::Package & restOfInput,
+                                                 const yarp::os::ConstString &   senderChannel,
+                                                 yarp::os::ConnectionWriter *    replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(request,senderChannel)
@@ -128,15 +128,15 @@ bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString &  
     
     if (replyMechanism)
     {
-        MoAndMe::Common::Package argsCopy(name());
+        MplusM::Common::Package argsCopy(name());
         
         argsCopy.append(restOfInput);
         if (! argsCopy.write(*replyMechanism))
         {
             OD_LOG("(! argsCopy.write(*replyMechanism))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
             Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
         }
     }
     OD_LOG_OBJEXIT_B(result);//####

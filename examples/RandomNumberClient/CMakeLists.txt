@@ -2,7 +2,7 @@
 #
 #  File:       RandomNumberClient/CMakeLists.txt
 #
-#  Project:    MoAndMe
+#  Project:    MPlusM
 #
 #  Contains:   The CMAKE definitions for the example random number client application.
 #
@@ -39,9 +39,9 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${MAM_LOGGING_DIR}"
-                    "${MAM_COMMON_DIR}"
-                    "${MAM_EXAMPLES_DIR}/RandomNumberCommon")
+include_directories("${MpM_LOGGING_DIR}"
+                    "${MpM_COMMON_DIR}"
+                    "${MpM_EXAMPLES_DIR}/RandomNumberCommon")
 
 # set up our program
 add_executable(RandomNumberClient
@@ -50,8 +50,8 @@ add_executable(RandomNumberClient
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RandomNumberClient
-                      MoMeCommon
-                      MoMeLogging
+                      Common
+                      Logging
                       ${YARP_LIBRARIES})
 
 enable_testing()

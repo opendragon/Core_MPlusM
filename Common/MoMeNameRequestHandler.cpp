@@ -2,7 +2,7 @@
 //
 //  File:       MoMeNameRequestHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for the request handler for the standard 'name'
 //              request.
@@ -58,7 +58,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Common;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -80,7 +80,7 @@ using namespace MoAndMe::Common;
 #endif // defined(__APPLE__)
 
 NameRequestHandler::NameRequestHandler(BaseService & service) :
-        inherited(MAM_NAME_REQUEST), _service(service)
+        inherited(MpM_NAME_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
@@ -112,17 +112,17 @@ void NameRequestHandler::fillInDescription(const yarp::os::ConstString & request
     OD_LOG_P1("info = ", &info);//####
     try
     {
-        info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_STRING MAM_REQREP_STRING);
-        info.put(MAM_REQREP_DICT_VERSION_KEY, NAME_REQUEST_VERSION_NUMBER);
-        info.put(MAM_REQREP_DICT_DETAILS_KEY, "Return the canonical name and description of the service");
+        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING MpM_REQREP_STRING);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, NAME_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the canonical name and description of the service");
         yarp::os::Value keywords;
         Package *       asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("canonical");
         asList->addString("description");
-        info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
     {
@@ -158,9 +158,9 @@ bool NameRequestHandler::processRequest(const yarp::os::ConstString & request,
             if (! reply.write(*replyMechanism))
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
     }

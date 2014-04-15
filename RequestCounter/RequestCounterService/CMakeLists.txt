@@ -2,7 +2,7 @@
 #
 #  File:       RequestCounterService/CMakeLists.txt
 #
-#  Project:    MoAndMe
+#  Project:    MPlusM
 #
 #  Contains:   The CMAKE definitions for the request counter service application.
 #
@@ -39,8 +39,8 @@
 #
 #--------------------------------------------------------------------------------------
 
-include_directories("${MAM_LOGGING_DIR}"
-                    "${MAM_COMMON_DIR}"
+include_directories("${MpM_LOGGING_DIR}"
+                    "${MpM_COMMON_DIR}"
                     "../RequestCounterCommon")
 
 # set up our program
@@ -54,8 +54,8 @@ add_executable(RequestCounterService
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RequestCounterService
-                      MoMeCommon
-                      MoMeLogging
+                      Common
+                      Logging
                       ${YARP_LIBRARIES})
 
 enable_testing()

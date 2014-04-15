@@ -2,7 +2,7 @@
 //
 //  File:       ServiceLister/main.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   A utility application to list the available services.
 //
@@ -101,24 +101,24 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & servic
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("serviceChannelName = ", serviceChannelName.c_str());//####
-    bool                             result = false;
-    yarp::os::ConstString            aName(MoAndMe::Common::GetRandomChannelName("/servicelister/channel_"));
-    MoAndMe::Common::ClientChannel * newChannel = new MoAndMe::Common::ClientChannel;
+    bool                            result = false;
+    yarp::os::ConstString           aName(MplusM::Common::GetRandomChannelName("/servicelister/channel_"));
+    MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
     
     if (newChannel)
     {
         if (newChannel->openWithRetries(aName))
         {
-            if (MoAndMe::Common::NetworkConnectWithRetries(aName, serviceChannelName))
+            if (MplusM::Common::NetworkConnectWithRetries(aName, serviceChannelName))
             {
-                MoAndMe::Common::Package         parameters;
-                MoAndMe::Common::ServiceRequest  request(MAM_NAME_REQUEST, parameters);
-                MoAndMe::Common::ServiceResponse response;
+                MplusM::Common::Package         parameters;
+                MplusM::Common::ServiceRequest  request(MpM_NAME_REQUEST, parameters);
+                MplusM::Common::ServiceResponse response;
                 
                 if (request.send(*newChannel, &response))
                 {
                     OD_LOG_S1("response <- ", response.asString().c_str());//####
-                    if (MAM_EXPECTED_NAME_RESPONSE_SIZE == response.count())
+                    if (MpM_EXPECTED_NAME_RESPONSE_SIZE == response.count())
                     {
                         yarp::os::Value theCanonicalName(response.element(0));
                         yarp::os::Value theDescription(response.element(1));
@@ -138,7 +138,7 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & servic
                     }
                     else
                     {
-                        OD_LOG("! (MAM_EXPECTED_NAME_RESPONSE_SIZE == response.count())");//####
+                        OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE == response.count())");//####
                         OD_LOG_S1("response = ", response.asString().c_str());//####
                     }
                 }
@@ -146,20 +146,20 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & servic
                 {
                     OD_LOG("! (request.send(*newChannel, &response))");//####
                 }
-#if defined(MAM_DO_EXPLICIT_DISCONNECT)
-                if (! MoAndMe::Common::NetworkDisconnectWithRetries(aName, serviceChannelName))
+#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+                if (! MplusM::Common::NetworkDisconnectWithRetries(aName, serviceChannelName))
                 {
-                    OD_LOG("(! MoAndMe::Common::NetworkDisconnectWithRetries(aName, destinationName))");//####
+                    OD_LOG("(! MplusM::Common::NetworkDisconnectWithRetries(aName, destinationName))");//####
                 }
-#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
             }
             else
             {
-                OD_LOG("! (MoAndMe::Common::NetworkConnectWithRetries(aName, serviceChannelName))");//####
+                OD_LOG("! (MplusM::Common::NetworkConnectWithRetries(aName, serviceChannelName))");//####
             }
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
             newChannel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
         }
         else
         {
@@ -198,17 +198,17 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MoAndMe::Common::Initialize(*argv);
-            MoAndMe::Common::Package matches(MoAndMe::Common::FindMatchingServices(MAM_REQREP_DICT_REQUEST_KEY ":*"));
+            MplusM::Common::Initialize(*argv);
+            MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(MpM_REQREP_DICT_REQUEST_KEY ":*"));
             
-            if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+            if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
                 // First, check if the search succeeded.
                 yarp::os::ConstString matchesFirstString(matches.get(0).toString());
                 
-                if (strcmp(MAM_OK_RESPONSE, matchesFirstString.c_str()))
+                if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
                 {
-                    OD_LOG("(strcmp(MAM_OK_RESPONSE, matchesFirstString.c_str()))");//####
+                    OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))");//####
                     yarp::os::ConstString reason(matches.get(1).toString());
                     
                     cerr << "Failed: " << reason.c_str() << "." << endl;
@@ -216,7 +216,7 @@ int main(int      argc,
                 else
                 {
                     // Now, process the second element.
-                    MoAndMe::Common::Package * matchesList = matches.get(1).asList();
+                    MplusM::Common::Package * matchesList = matches.get(1).asList();
                     
                     if (matchesList)
                     {
@@ -259,7 +259,7 @@ int main(int      argc,
             }
             else
             {
-                OD_LOG("! (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
+                OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
                 cerr << "Problem getting information from the Service Registry." << endl;
             }
         }

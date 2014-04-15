@@ -2,7 +2,7 @@
 //
 //  File:       MoMeTest16Service.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for a simple service used by the unit tests.
 //
@@ -56,7 +56,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Test
     {
@@ -104,6 +104,6 @@ namespace MoAndMe
         
     } // Test
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMETEST16SERVICE_H_)

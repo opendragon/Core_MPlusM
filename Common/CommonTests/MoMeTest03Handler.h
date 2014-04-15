@@ -2,7 +2,7 @@
 //
 //  File:       MoMeTest03Handler.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for an input handler used by the unit tests.
 //
@@ -54,12 +54,12 @@
  @brief The class declaration for an input handler used by the unit tests. */
 
 /*! @dir CommonTests
- @brief The set of files used for unit testing of the MoAndMe classes. */
+ @brief The set of files used for unit testing of the M+M classes. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Test
     {
@@ -79,9 +79,9 @@ namespace MoAndMe
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
              @returns @c true if the input was correctly structured and successfully processed. */
-            virtual bool handleInput(const MoAndMe::Common::Package & input,
-                                     const yarp::os::ConstString &    senderChannel,
-                                     yarp::os::ConnectionWriter *     replyMechanism);
+            virtual bool handleInput(const MplusM::Common::Package & input,
+                                     const yarp::os::ConstString &   senderChannel,
+                                     yarp::os::ConnectionWriter *    replyMechanism);
             
         protected:
             
@@ -94,6 +94,6 @@ namespace MoAndMe
         
     } // Test
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMETEST03HANDLER_H_)

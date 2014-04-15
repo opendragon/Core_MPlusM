@@ -2,7 +2,7 @@
 //
 //  File:       MoMeServiceChannel.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for channels for responses from a service to a client.
 //
@@ -71,7 +71,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Common;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -116,9 +116,9 @@ void ServiceChannel::close(void)
     SetUpCatcher();
     try
     {
-#if (! defined(MAM_DONT_USE_TIMEOUTS))
+#if (! defined(MpM_DONT_USE_TIMEOUTS))
         BailOut bailer(*this);
-#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
         
         inherited::interrupt();        
         OD_LOG("about to close");//####
@@ -140,21 +140,21 @@ bool ServiceChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
     OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
-#if (! defined(MAM_DONT_USE_TIMEOUTS))
+#if (! defined(MpM_DONT_USE_TIMEOUTS))
     int    retriesLeft = MAX_RETRIES;
-#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
     
-#if (! defined(MAM_CHANNELS_USE_RPC))
-# if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+#if (! defined(MpM_CHANNELS_USE_RPC))
+# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
     inherited::setVerbosity(1);
-# else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
     inherited::setVerbosity(-1);
-# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
-#endif // ! defined(MAM_CHANNELS_USE_RPC)
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#endif // ! defined(MpM_CHANNELS_USE_RPC)
     SetUpCatcher();
     try
     {
-#if defined(MAM_DONT_USE_TIMEOUTS)
+#if defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
             OD_LOG("about to open");//####
@@ -167,7 +167,7 @@ bool ServiceChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
             }
         }
         while (! result);
-#else // ! defined(MAM_DONT_USE_TIMEOUTS)
+#else // ! defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
             BailOut bailer(*this);
@@ -185,7 +185,7 @@ bool ServiceChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
             }
         }
         while ((! result) && (0 < retriesLeft));
-#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
     }
     catch (...)
     {
@@ -206,21 +206,21 @@ bool ServiceChannel::openWithRetries(yarp::os::Contact & theContactInfo)
 #endif // defined(REPORT_CONTACT_DETAILS)
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
-#if (! defined(MAM_DONT_USE_TIMEOUTS))
+#if (! defined(MpM_DONT_USE_TIMEOUTS))
     int    retriesLeft = MAX_RETRIES;
-#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
     
-#if (! defined(MAM_CHANNELS_USE_RPC))
-# if (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+#if (! defined(MpM_CHANNELS_USE_RPC))
+# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
     inherited::setVerbosity(1);
-# else // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
     inherited::setVerbosity(-1);
-# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MAM_LOG_INCLUDES_YARP_TRACE))
-#endif // ! defined(MAM_CHANNELS_USE_RPC)
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#endif // ! defined(MpM_CHANNELS_USE_RPC)
     SetUpCatcher();
     try
     {
-#if defined(MAM_DONT_USE_TIMEOUTS)
+#if defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
             OD_LOG("about to open");//####
@@ -233,7 +233,7 @@ bool ServiceChannel::openWithRetries(yarp::os::Contact & theContactInfo)
             }
         }
         while (! result);
-#else // ! defined(MAM_DONT_USE_TIMEOUTS)
+#else // ! defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
             BailOut bailer(*this);
@@ -251,7 +251,7 @@ bool ServiceChannel::openWithRetries(yarp::os::Contact & theContactInfo)
             }
         }
         while ((! result) && (0 < retriesLeft));
-#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
     }
     catch (...)
     {
@@ -270,9 +270,9 @@ void ServiceChannel::RelinquishChannel(ServiceChannel * & theChannel)
     SetUpCatcher();
     try
     {
-#if (! defined(MAM_DONT_USE_TIMEOUTS))
+#if (! defined(MpM_DONT_USE_TIMEOUTS))
         BailOut bailer(*theChannel);
-#endif // ! defined(MAM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
         
         delete theChannel;
         theChannel = NULL;

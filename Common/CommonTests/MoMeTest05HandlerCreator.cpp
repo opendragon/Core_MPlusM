@@ -2,7 +2,7 @@
 //
 //  File:       MoMeTest05HandlerCreator.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for an input handler factory used by the unit tests.
 //
@@ -56,7 +56,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Test;
+using namespace MplusM::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -91,7 +91,7 @@ Test05HandlerCreator::~Test05HandlerCreator(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-MoAndMe::Common::InputHandler * Test05HandlerCreator::create(void)
+MplusM::Common::InputHandler * Test05HandlerCreator::create(void)
 {
     OD_LOG_OBJENTER();//####
     Test05Handler * result = new Test05Handler;

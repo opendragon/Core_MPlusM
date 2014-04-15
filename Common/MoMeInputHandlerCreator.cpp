@@ -2,9 +2,9 @@
 //
 //  File:       MoMeInputHandlerCreator.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for the interface between MoAndMe input handler
+//  Contains:   The class definition for the interface between M+M input handler
 //              factories and YARP.
 //
 //  Written by: Norman Jaffe
@@ -51,12 +51,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the interface between MoAndMe input handler factories and YARP. */
+ @brief The class definition for the interface between M+M input handler factories and YARP. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Common;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

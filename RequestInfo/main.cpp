@@ -2,7 +2,7 @@
 //
 //  File:       RequestInfo/main.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   A utility application to list the available requests.
 //
@@ -94,8 +94,8 @@ using std::endl;
  @param serviceName The name of the service that generated the response.
  @param response The response to be processed.
  @returns @c true if some output was generated and @c false otherwise. */
-static bool processResponse(const yarp::os::ConstString &            serviceName,
-                            const MoAndMe::Common::ServiceResponse & response)
+static bool processResponse(const yarp::os::ConstString &           serviceName,
+                            const MplusM::Common::ServiceResponse & response)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("response = ", &response);//####
@@ -111,55 +111,55 @@ static bool processResponse(const yarp::os::ConstString &            serviceName
             
             if (propList)
             {
-                if (propList->check(MAM_REQREP_DICT_REQUEST_KEY))
+                if (propList->check(MpM_REQREP_DICT_REQUEST_KEY))
                 {
-                    yarp::os::ConstString    theDetailsString;
-                    yarp::os::ConstString    theInputsString;
-                    yarp::os::ConstString    theOutputsString;
-                    yarp::os::ConstString    theVersionString;
-                    yarp::os::ConstString    theRequest(propList->find(MAM_REQREP_DICT_REQUEST_KEY).asString());
-                    MoAndMe::Common::Package keywordList;
+                    yarp::os::ConstString   theDetailsString;
+                    yarp::os::ConstString   theInputsString;
+                    yarp::os::ConstString   theOutputsString;
+                    yarp::os::ConstString   theVersionString;
+                    yarp::os::ConstString   theRequest(propList->find(MpM_REQREP_DICT_REQUEST_KEY).asString());
+                    MplusM::Common::Package keywordList;
                     
                     result = true;
-                    if (propList->check(MAM_REQREP_DICT_DETAILS_KEY))
+                    if (propList->check(MpM_REQREP_DICT_DETAILS_KEY))
                     {
-                        yarp::os::Value theDetails = propList->find(MAM_REQREP_DICT_DETAILS_KEY);
+                        yarp::os::Value theDetails = propList->find(MpM_REQREP_DICT_DETAILS_KEY);
                         
                         if (theDetails.isString())
                         {
                             theDetailsString = theDetails.toString();
                         }
                     }
-                    if (propList->check(MAM_REQREP_DICT_INPUT_KEY))
+                    if (propList->check(MpM_REQREP_DICT_INPUT_KEY))
                     {
-                        yarp::os::Value theInputs = propList->find(MAM_REQREP_DICT_INPUT_KEY);
+                        yarp::os::Value theInputs = propList->find(MpM_REQREP_DICT_INPUT_KEY);
                         
                         if (theInputs.isString())
                         {
                             theInputsString = theInputs.toString();
                         }
                     }
-                    if (propList->check(MAM_REQREP_DICT_KEYWORDS_KEY))
+                    if (propList->check(MpM_REQREP_DICT_KEYWORDS_KEY))
                     {
-                        yarp::os::Value theKeywords = propList->find(MAM_REQREP_DICT_KEYWORDS_KEY);
+                        yarp::os::Value theKeywords = propList->find(MpM_REQREP_DICT_KEYWORDS_KEY);
                         
                         if (theKeywords.isList())
                         {
                             keywordList = *theKeywords.asList();
                         }
                     }
-                    if (propList->check(MAM_REQREP_DICT_OUTPUT_KEY))
+                    if (propList->check(MpM_REQREP_DICT_OUTPUT_KEY))
                     {
-                        yarp::os::Value theOutputs = propList->find(MAM_REQREP_DICT_OUTPUT_KEY);
+                        yarp::os::Value theOutputs = propList->find(MpM_REQREP_DICT_OUTPUT_KEY);
                         
                         if (theOutputs.isString())
                         {
                             theOutputsString = theOutputs.toString();
                         }
                     }
-                    if (propList->check(MAM_REQREP_DICT_VERSION_KEY))
+                    if (propList->check(MpM_REQREP_DICT_VERSION_KEY))
                     {
-                        yarp::os::Value theVersion = propList->find(MAM_REQREP_DICT_VERSION_KEY);
+                        yarp::os::Value theVersion = propList->find(MpM_REQREP_DICT_VERSION_KEY);
                         
                         if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
                         {
@@ -220,10 +220,10 @@ int main(int      argc,
         if (yarp::os::Network::checkNetwork())
         {
             yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
-            yarp::os::ConstString channelNameRequest(MAM_REQREP_DICT_CHANNELNAME_KEY ":");
+            yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
             const char *          requestName;
             
-            MoAndMe::Common::Initialize(*argv);
+            MplusM::Common::Initialize(*argv);
             if (1 < argc)
             {
                 channelNameRequest += argv[1];
@@ -248,16 +248,16 @@ int main(int      argc,
                 channelNameRequest += "*";
                 requestName = NULL;
             }
-            MoAndMe::Common::Package matches(MoAndMe::Common::FindMatchingServices(channelNameRequest.c_str()));
+            MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(channelNameRequest.c_str()));
             
-            if (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+            if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
                 // First, check if the search succeeded.
                 yarp::os::ConstString matchesFirstString(matches.get(0).toString());
                 
-                if (strcmp(MAM_OK_RESPONSE, matchesFirstString.c_str()))
+                if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
                 {
-                    OD_LOG("(strcmp(MAM_OK_RESPONSE, matchesFirstString.c_str()))");//####
+                    OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))");//####
                     yarp::os::ConstString reason(matches.get(1).toString());
                     
                     cerr << "Failed: " << reason.c_str() << "." << endl;
@@ -265,7 +265,7 @@ int main(int      argc,
                 else
                 {
                     // Now, process the second element.
-                    MoAndMe::Common::Package * matchesList = matches.get(1).asList();
+                    MplusM::Common::Package * matchesList = matches.get(1).asList();
                     
                     if (matchesList)
                     {
@@ -273,16 +273,16 @@ int main(int      argc,
                         
                         if (matchesCount)
                         {
-                            yarp::os::ConstString            aName =
-                                                        MoAndMe::Common::GetRandomChannelName("/requestinfo/channel_");
-                            MoAndMe::Common::ClientChannel * newChannel = new MoAndMe::Common::ClientChannel;
+                            yarp::os::ConstString           aName =
+                                                        MplusM::Common::GetRandomChannelName("/requestinfo/channel_");
+                            MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
                             
                             if (newChannel)
                             {
                                 if (newChannel->openWithRetries(aName))
                                 {
-                                    bool                     sawRequestResponse = false;
-                                    MoAndMe::Common::Package parameters;
+                                    bool                    sawRequestResponse = false;
+                                    MplusM::Common::Package parameters;
                                     
                                     if (requestName)
                                     {
@@ -292,15 +292,15 @@ int main(int      argc,
                                     {
                                         yarp::os::ConstString aMatch(matchesList->get(ii).toString());
                                         
-                                        if (MoAndMe::Common::NetworkConnectWithRetries(aName, aMatch))
+                                        if (MplusM::Common::NetworkConnectWithRetries(aName, aMatch))
                                         {
-                                            MoAndMe::Common::ServiceResponse response;
+                                            MplusM::Common::ServiceResponse response;
                                             
                                             // If no request was identified, or a wildcard was specified, we use the
                                             // 'list' request; otherwise, do an 'info' request.
                                             if (requestName)
                                             {
-                                                MoAndMe::Common::ServiceRequest request(MAM_INFO_REQUEST, parameters);
+                                                MplusM::Common::ServiceRequest request(MpM_INFO_REQUEST, parameters);
                                                 
                                                 if (request.send(*newChannel, &response))
                                                 {
@@ -321,7 +321,7 @@ int main(int      argc,
                                             }
                                             else
                                             {
-                                                MoAndMe::Common::ServiceRequest request(MAM_LIST_REQUEST, parameters);
+                                                MplusM::Common::ServiceRequest request(MpM_LIST_REQUEST, parameters);
                                                 
                                                 if (request.send(*newChannel, &response))
                                                 {
@@ -340,17 +340,17 @@ int main(int      argc,
                                                             endl;
                                                 }
                                             }
-#if defined(MAM_DO_EXPLICIT_DISCONNECT)
-                                            if (! MoAndMe::Common::NetworkDisconnectWithRetries(aName, aMatch))
+#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+                                            if (! MplusM::Common::NetworkDisconnectWithRetries(aName, aMatch))
                                             {
-                                                OD_LOG("(! MoAndMe::Common::NetworkDisconnectWithRetries(aName, "//####
+                                                OD_LOG("(! MplusM::Common::NetworkDisconnectWithRetries(aName, "//####
                                                        "aMatch))");//####
                                             }
-#endif // defined(MAM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                                         }
                                         else
                                         {
-                                            OD_LOG("! (MoAndMe::Common::NetworkConnectWithRetries(aName, "//####
+                                            OD_LOG("! (MplusM::Common::NetworkConnectWithRetries(aName, "//####
                                                    "aMatch))");//####
                                         }
                                     }
@@ -358,9 +358,9 @@ int main(int      argc,
                                     {
                                         cout << "No matching request found." << endl;
                                     }
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
                                     newChannel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
                                 }
                                 else
                                 {
@@ -386,7 +386,7 @@ int main(int      argc,
             }
             else
             {
-                OD_LOG("! (MAM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
+                OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
                 cerr << "Problem getting information from the Service Registry." << endl;
             }
         }

@@ -2,7 +2,7 @@
 //
 //  File:       MoMeStopRequestHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for the request handler for a 'stop' request.
 //
@@ -57,7 +57,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Example;
+using namespace MplusM::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -79,7 +79,7 @@ using namespace MoAndMe::Example;
 #endif // defined(__APPLE__)
 
 StopRequestHandler::StopRequestHandler(RunningSumService & service) :
-        inherited(MAM_STOP_REQUEST), _service(service)
+        inherited(MpM_STOP_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("service = ", &service);//####
@@ -114,14 +114,14 @@ void StopRequestHandler::fillInDescription(const yarp::os::ConstString & request
     OD_LOG_P1("info = ", &info);//####
     try
     {
-        info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MAM_REQREP_DICT_VERSION_KEY, STOP_REQUEST_VERSION_NUMBER);
-        info.put(MAM_REQREP_DICT_DETAILS_KEY, "Stop the running sum");
+        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, STOP_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Stop the running sum");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
     {
@@ -150,14 +150,14 @@ bool StopRequestHandler::processRequest(const yarp::os::ConstString & request,
         _service.detachClient(senderChannel);
         if (replyMechanism)
         {
-            Common::Package response(MAM_OK_RESPONSE);
+            Common::Package response(MpM_OK_RESPONSE);
             
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
     }

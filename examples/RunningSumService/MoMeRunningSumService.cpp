@@ -2,9 +2,9 @@
 //
 //  File:       MoMeRunningSumService.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for a simple MoAndMe service with context.
+//  Contains:   The class definition for a simple M+M service with context.
 //
 //  Written by: Norman Jaffe
 //
@@ -56,12 +56,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for a simple MoAndMe service. */
+ @brief The class definition for a simple M+M service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Example;
+using namespace MplusM::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -82,7 +82,7 @@ using namespace MoAndMe::Example;
 RunningSumService::RunningSumService(const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & serviceHostName,
                                      const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, MAM_RUNNINGSUM_CANONICAL_NAME, "An example running sum service", serviceEndpointName,
+        inherited(true, MpM_RUNNINGSUM_CANONICAL_NAME, "An example running sum service", serviceEndpointName,
                   serviceHostName, servicePortNumber), _addHandler(NULL), _resetHandler(NULL), _startHandler(NULL),
         _stopHandler(NULL)
 #if (! defined(SERVICES_HAVE_CONTEXTS))

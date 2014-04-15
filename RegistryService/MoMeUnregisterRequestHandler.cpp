@@ -2,7 +2,7 @@
 //
 //  File:       MoMeUnregisterRequestHandler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for the request handler for the standard 'unregister'
 //              request.
@@ -59,8 +59,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-//using namespace MoAndMe::Common;
-using namespace MoAndMe::Registry;
+using namespace MplusM::Registry;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -82,7 +81,7 @@ using namespace MoAndMe::Registry;
 #endif // defined(__APPLE__)
 
 UnregisterRequestHandler::UnregisterRequestHandler(RegistryService & service) :
-        inherited(MAM_UNREGISTER_REQUEST), _service(service)
+        inherited(MpM_UNREGISTER_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("service = ", &service);//####
@@ -115,17 +114,17 @@ void UnregisterRequestHandler::fillInDescription(const yarp::os::ConstString & r
     OD_LOG_P1("info = ", &info);//####
     try
     {
-        info.put(MAM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MAM_REQREP_DICT_INPUT_KEY, MAM_REQREP_STRING);
-        info.put(MAM_REQREP_DICT_OUTPUT_KEY, MAM_REQREP_STRING);
-        info.put(MAM_REQREP_DICT_VERSION_KEY, UNREGISTER_REQUEST_VERSION_NUMBER);
-        info.put(MAM_REQREP_DICT_DETAILS_KEY, "Unregister the service and its requests");
+        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
+        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_STRING);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, UNREGISTER_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Unregister the service and its requests");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("remove");
-        info.put(MAM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
     {
@@ -169,42 +168,42 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                         // Forget the information associated with the channel name
                         if (_service.removeServiceRecord(argAsString))
                         {
-                            reply.addString(MAM_OK_RESPONSE);
+                            reply.addString(MpM_OK_RESPONSE);
                         }
                         else
                         {
                             OD_LOG("! (_service.removeServiceRecord(argAsString))");//####
-                            reply.addString(MAM_FAILED_RESPONSE);
+                            reply.addString(MpM_FAILED_RESPONSE);
                             reply.addString("Could not remove service");
                         }
                     }
                     else
                     {
                         OD_LOG("! (Common::Endpoint::CheckEndpointName(argAsString))");//####
-                        reply.addString(MAM_FAILED_RESPONSE);
+                        reply.addString(MpM_FAILED_RESPONSE);
                         reply.addString("Invalid channel name");
                     }
                 }
                 else
                 {
                     OD_LOG("! (argument.isString())");//####
-                    reply.addString(MAM_FAILED_RESPONSE);
+                    reply.addString(MpM_FAILED_RESPONSE);
                     reply.addString("Invalid channel name");
                 }
             }
             else
             {
                 OD_LOG("! (1 == restOfInput.size())");//####
-                reply.addString(MAM_FAILED_RESPONSE);
+                reply.addString(MpM_FAILED_RESPONSE);
                 reply.addString("Missing channel name or extra arguments to request");
             }
             OD_LOG_S1("reply <- ", reply.toString().c_str());
             if (! reply.write(*replyMechanism))
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####
-#if defined(MAM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
-#endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
     }

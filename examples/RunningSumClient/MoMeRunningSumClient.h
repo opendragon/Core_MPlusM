@@ -2,9 +2,9 @@
 //
 //  File:       MoMeRunningSumClient.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class declaration for the client of a simple MoAndMe service with context.
+//  Contains:   The class declaration for the client of a simple M+M service with context.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,16 +51,16 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the client of a simple MoAndMe service with context. */
+ @brief The class declaration for the client of a simple M+M service with context. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Example
     {
-        /*! @brief An example MoAndMe client, for the 'running sum' service. */
+        /*! @brief An example M+M client, for the 'running sum' service. */
         class RunningSumClient : public Common::BaseClient
         {
         public:
@@ -120,6 +120,6 @@ namespace MoAndMe
         
     } // Example
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMERUNNINGSUMCLIENT_H_)

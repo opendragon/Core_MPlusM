@@ -2,9 +2,9 @@
 //
 //  File:       MoMeParserTest.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The test driver for the unit tests of the MoAndMe parser.
+//  Contains:   The test driver for the unit tests of the M+M parser.
 //
 //  Written by: Norman Jaffe
 //
@@ -72,12 +72,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The test driver for the unit tests of the MoAndMe parser. */
+ @brief The test driver for the unit tests of the M+M parser. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Test;
+using namespace MplusM::Test;
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -108,9 +108,9 @@ static int doTestParseValue(const bool   expected,
     
     try
     {
-        size_t                        endPos;
-        size_t                        len = strlen(inString);
-        MoAndMe::Parser::MatchValue * didMatch = MoAndMe::Parser::MatchValue::CreateMatcher(inString, len, 0, endPos);
+        size_t                       endPos;
+        size_t                       len = strlen(inString);
+        MplusM::Parser::MatchValue * didMatch = MplusM::Parser::MatchValue::CreateMatcher(inString, len, 0, endPos);
         
         if ((NULL != didMatch) == expected)
         {
@@ -155,10 +155,10 @@ static int doTestParseValueList(const bool   expected,
     
     try
     {
-        size_t                            endPos;
-        size_t                            len = strlen(inString);
-        MoAndMe::Parser::MatchValueList * didMatch = MoAndMe::Parser::MatchValueList::CreateMatcher(inString, len, 0,
-                                                                                                    endPos);
+        size_t                           endPos;
+        size_t                           len = strlen(inString);
+        MplusM::Parser::MatchValueList * didMatch = MplusM::Parser::MatchValueList::CreateMatcher(inString, len, 0,
+                                                                                                  endPos);
 
         if ((NULL != didMatch) == expected)
         {
@@ -203,11 +203,11 @@ static int doTestParseFieldName(const bool   expected,
     
     try
     {
-        size_t                            endPos;
-        size_t                            len = strlen(inString);
-        TestNameValidator *               validator = new TestNameValidator;
-        MoAndMe::Parser::MatchFieldName * didMatch = MoAndMe::Parser::MatchFieldName::CreateMatcher(inString, len, 0,
-                                                                                                    endPos, validator);
+        size_t                           endPos;
+        size_t                           len = strlen(inString);
+        TestNameValidator *              validator = new TestNameValidator;
+        MplusM::Parser::MatchFieldName * didMatch = MplusM::Parser::MatchFieldName::CreateMatcher(inString, len, 0,
+                                                                                                  endPos, validator);
 
         if ((NULL != didMatch) == expected)
         {
@@ -253,13 +253,13 @@ static int doTestParseFieldWithValues(const bool   expected,
     
     try
     {
-        size_t                                  endPos;
-        size_t                                  len = strlen(inString);
-        TestNameValidator *                     validator = new TestNameValidator;
-        MoAndMe::Parser::MatchFieldWithValues * didMatch =
-                                                    MoAndMe::Parser::MatchFieldWithValues::CreateMatcher(inString, len,
-                                                                                                         0, endPos,
-                                                                                                         validator);
+        size_t                                 endPos;
+        size_t                                 len = strlen(inString);
+        TestNameValidator *                    validator = new TestNameValidator;
+        MplusM::Parser::MatchFieldWithValues * didMatch =
+                                                    MplusM::Parser::MatchFieldWithValues::CreateMatcher(inString, len,
+                                                                                                        0, endPos,
+                                                                                                        validator);
 
         if ((NULL != didMatch) == expected)
         {
@@ -305,11 +305,11 @@ static int doTestParseConstraintList(const bool   expected,
     
     try
     {
-        size_t                             endPos;
-        size_t                             len = strlen(inString);
-        TestNameValidator *                validator = new TestNameValidator;
-        MoAndMe::Parser::MatchConstraint * didMatch = MoAndMe::Parser::MatchConstraint::CreateMatcher(inString, len, 0,
-                                                                                                      endPos, validator);
+        size_t                            endPos;
+        size_t                            len = strlen(inString);
+        TestNameValidator *               validator = new TestNameValidator;
+        MplusM::Parser::MatchConstraint * didMatch = MplusM::Parser::MatchConstraint::CreateMatcher(inString, len, 0,
+                                                                                                    endPos, validator);
 
         if ((NULL != didMatch) == expected)
         {
@@ -355,12 +355,11 @@ static int doTestParseExpression(const bool   expected,
     
     try
     {
-        size_t                             endPos;
-        size_t                             len = strlen(inString);
-        TestNameValidator *                validator = new TestNameValidator;
-        MoAndMe::Parser::MatchExpression * didMatch = MoAndMe::Parser::MatchExpression::CreateMatcher(inString, len, 0,
-                                                                                                      endPos,
-                                                                                                      validator);
+        size_t                            endPos;
+        size_t                            len = strlen(inString);
+        TestNameValidator *               validator = new TestNameValidator;
+        MplusM::Parser::MatchExpression * didMatch = MplusM::Parser::MatchExpression::CreateMatcher(inString, len, 0,
+                                                                                                    endPos, validator);
 
         if ((NULL != didMatch) == expected)
         {
@@ -394,7 +393,7 @@ static void catchSignal(int signal)
 {
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
-    cerr << "Exiting due to signal " << signal << " = " << MoAndMe::NameOfSignal(signal) << endl;
+    cerr << "Exiting due to signal " << signal << " = " << MplusM::NameOfSignal(signal) << endl;
     OD_LOG_EXIT_EXIT(1);//####
     yarp::os::exit(1);
 } // catchSignal
@@ -403,7 +402,7 @@ static void catchSignal(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for unit tests of the MoAndMe Parser classes.
+/*! @brief The entry point for unit tests of the M+M Parser classes.
  
  The first argument is the test number, the second argument is either 't' or 'f', to indicate if the the test is
  expected to succeed or fail, respectivelly, and the third argument is the string to be parsed. Output depends on the
@@ -426,7 +425,7 @@ int main(int      argc,
             int  selector = atoi(argv[1]);
             bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));
             
-            MoAndMe::Common::SetSignalHandlers(catchSignal);
+            MplusM::Common::SetSignalHandlers(catchSignal);
             OD_LOG_LL1("selector <- ", selector);//####
             OD_LOG_B1("expected <- ", expected);//####
             switch (selector)

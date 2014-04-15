@@ -2,7 +2,7 @@
 //
 //  File:       MoMeTest03Handler.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class definition for an input handler used by the unit tests.
 //
@@ -55,7 +55,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Test;
+using namespace MplusM::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -90,35 +90,35 @@ Test03Handler::~Test03Handler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool Test03Handler::handleInput(const MoAndMe::Common::Package & input,
-                                const yarp::os::ConstString &    senderChannel,
-                                yarp::os::ConnectionWriter *     replyMechanism)
+bool Test03Handler::handleInput(const MplusM::Common::Package & input,
+                                const yarp::os::ConstString &   senderChannel,
+                                yarp::os::ConnectionWriter *    replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(input,senderChannel)
 #endif // ! defined(OD_ENABLE_LOGGING)
-#if ((! defined(MAM_CHANNELS_USE_RPC)) && (! defined(OD_ENABLE_LOGGING)))
+#if ((! defined(MpM_CHANNELS_USE_RPC)) && (! defined(OD_ENABLE_LOGGING)))
 # pragma unused(replyMechanism)
-#endif // (! defined(MAM_CHANNELS_USE_RPC)) && (! defined(OD_ENABLE_LOGGING))
+#endif // (! defined(MpM_CHANNELS_USE_RPC)) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
-#if defined(MAM_CHANNELS_USE_RPC)
+#if defined(MpM_CHANNELS_USE_RPC)
     if (replyMechanism)
     {
-        MoAndMe::Common::Package dummy;
+        MplusM::Common::Package dummy;
         
         if (! dummy.write(*replyMechanism))
         {
             OD_LOG("(! dummy.write(*replyMechanism))");//####
-# if defined(MAM_STALL_ON_SEND_PROBLEM)
+# if defined(MpM_STALL_ON_SEND_PROBLEM)
             Common::Stall();
-# endif // defined(MAM_STALL_ON_SEND_PROBLEM)
+# endif // defined(MpM_STALL_ON_SEND_PROBLEM)
         }
     }
-#endif // defined(MAM_CHANNELS_USE_RPC)
+#endif // defined(MpM_CHANNELS_USE_RPC)
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Test03Handler::handleInput

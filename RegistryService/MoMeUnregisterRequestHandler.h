@@ -2,7 +2,7 @@
 //
 //  File:       MoMeUnregisterRequestHandler.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The class declaration for the request handler for the standard 'unregister'
 //              request.
@@ -57,7 +57,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MoAndMe
+namespace MplusM
 {
     namespace Registry
     {
@@ -124,6 +124,6 @@ namespace MoAndMe
         
     } // Registry
     
-} // MoAndMe
+} // MplusM
 
 #endif // ! defined(MOMEUNREGISTERREQUESTHANDLER_H_)

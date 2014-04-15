@@ -2,9 +2,9 @@
 //
 //  File:       MoMeTestNameValidator.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for the minimal functionality required for a MoAndMe
+//  Contains:   The class definition for the minimal functionality required for a M+M
 //              field name matcher.
 //
 //  Written by: Norman Jaffe
@@ -58,7 +58,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Test;
+using namespace MplusM::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

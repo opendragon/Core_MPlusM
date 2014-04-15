@@ -2,9 +2,9 @@
 //
 //  File:       MoMeEndpoint.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for the connection endpoint for a MoAndMe service.
+//  Contains:   The class definition for the connection endpoint for a M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -71,12 +71,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the connection endpoint for a MoAndMe service. */
+ @brief The class definition for the connection endpoint for a M+M service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Common;
+using namespace MplusM::Common;
 using std::cout;
 using std::endl;
 
@@ -298,9 +298,9 @@ void Endpoint::close(void)
                 {
                     yarp::os::Network::unregisterName(_contact.getName());
                 }
-#if defined(MAM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DO_EXPLICIT_CLOSE)
                 _channel->close();
-#endif // defined(MAM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
                 ServiceChannel::RelinquishChannel(_channel);
             }
             _handler = NULL;

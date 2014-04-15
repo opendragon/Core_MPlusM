@@ -2,7 +2,7 @@
 //
 //  File:       MoMeRequestCounterRequests.h
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
 //  Contains:   The common macro definitions for requests and responses for the request
 //              counter service.
@@ -58,12 +58,12 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the example echo service. */
-# define MAM_REQUESTCOUNTER_CANONICAL_NAME "RequestCounter"
+# define MpM_REQUESTCOUNTER_CANONICAL_NAME "RequestCounter"
 
 /*! @brief The name for the 'reset' request. */
-# define MAM_RESET_REQUEST  "reset"
+# define MpM_RESET_REQUEST  "reset"
 
 /*! @brief The name for the 'stats' request. */
-# define MAM_STATS_REQUEST  "stats"
+# define MpM_STATS_REQUEST  "stats"
 
 #endif // ! defined(MOMEREQUESTCOUNTERREQUESTS_H_)

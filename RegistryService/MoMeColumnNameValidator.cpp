@@ -2,9 +2,9 @@
 //
 //  File:       MoMeColumnNameValidator.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for the functionality required for a MoAndMe field name matcher for the service
+//  Contains:   The class definition for the functionality required for a M+M field name matcher for the service
 //              registry.
 //
 //  Written by: Norman Jaffe
@@ -53,13 +53,13 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the functionality required for a MoAndMe field name matcher for the service
+ @brief The class definition for the functionality required for a M+M field name matcher for the service
  registry. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Registry;
+using namespace MplusM::Registry;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

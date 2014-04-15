@@ -2,9 +2,9 @@
 //
 //  File:       MoMeRunningSumClient.cpp
 //
-//  Project:    MoAndMe
+//  Project:    MPlusM
 //
-//  Contains:   The class definition for the client of a simple MoAndMe service with context.
+//  Contains:   The class definition for the client of a simple M+M service with context.
 //
 //  Written by: Norman Jaffe
 //
@@ -68,12 +68,12 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the client of a simple MoAndMe service with context. */
+ @brief The class definition for the client of a simple M+M service with context. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MoAndMe::Example;
+using namespace MplusM::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -122,7 +122,7 @@ bool RunningSumClient::addToSum(const double value,
         
         parameters.addDouble(value);
         reconnectIfDisconnected();
-        if (send(MAM_ADD_REQUEST, parameters, &response))
+        if (send(MpM_ADD_REQUEST, parameters, &response))
         {
             if (1 == response.count())
             {
@@ -151,7 +151,7 @@ bool RunningSumClient::addToSum(const double value,
         }
         else
         {
-            OD_LOG("! (send(MAM_ADD_REQUEST, parameters, &response))");//####
+            OD_LOG("! (send(MpM_ADD_REQUEST, parameters, &response))");//####
         }
     }
     catch (...)
@@ -182,7 +182,7 @@ bool RunningSumClient::addToSum(const Common::DoubleVector & values,
         if (1 <= parameters.size())
         {
             reconnectIfDisconnected();
-            if (send(MAM_ADD_REQUEST, parameters, &response))
+            if (send(MpM_ADD_REQUEST, parameters, &response))
             {
                 if (1 == response.count())
                 {
@@ -211,7 +211,7 @@ bool RunningSumClient::addToSum(const Common::DoubleVector & values,
             }
             else
             {
-                OD_LOG("! (send(MAM_ADD_REQUEST, parameters, &response))");//####
+                OD_LOG("! (send(MpM_ADD_REQUEST, parameters, &response))");//####
             }
         }
         else
@@ -238,13 +238,13 @@ bool RunningSumClient::resetSum(void)
         Common::Package parameters;
         
         reconnectIfDisconnected();
-        if (send(MAM_RESET_REQUEST, parameters))
+        if (send(MpM_RESET_REQUEST, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MAM_RESET_REQUEST, parameters))");//####
+            OD_LOG("! (send(MpM_RESET_REQUEST, parameters))");//####
         }
     }
     catch (...)
@@ -266,13 +266,13 @@ bool RunningSumClient::startSum(void)
         Common::Package parameters;
         
         reconnectIfDisconnected();
-        if (send(MAM_START_REQUEST, parameters))
+        if (send(MpM_START_REQUEST, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MAM_START_REQUEST, parameters))");//####
+            OD_LOG("! (send(MpM_START_REQUEST, parameters))");//####
         }
     }
     catch (...)
@@ -294,13 +294,13 @@ bool RunningSumClient::stopSum(void)
         Common::Package parameters;
         
         reconnectIfDisconnected();
-        if (send(MAM_STOP_REQUEST, parameters))
+        if (send(MpM_STOP_REQUEST, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MAM_STOP_REQUEST, parameters))");//####
+            OD_LOG("! (send(MpM_STOP_REQUEST, parameters))");//####
         }
     }
     catch (...)
