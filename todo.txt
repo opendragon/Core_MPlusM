@@ -1,3 +1,5 @@
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
 
 * check RegistryService for instability when ‘probed’
+
+* create a new adapter for running sum, that accepts a single input channel and parses the data - sequences of numbers are sent to the service and the results passed to the output channel; commands are acted on immediately, with no output
