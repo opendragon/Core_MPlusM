@@ -129,7 +129,9 @@ void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & reque
         info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_INT MpM_REQREP_0_OR_1);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_DOUBLE MpM_REQREP_1_OR_MORE);
         info.put(MpM_REQREP_DICT_VERSION_KEY, RANDOM_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Generate one or more random numbers");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Generate one or more random numbers\n"
+                 "Input: the number of random values to generate\n"
+                 "Output one or more random numbers per request");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         

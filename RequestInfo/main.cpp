@@ -173,7 +173,7 @@ static bool processResponse(const yarp::os::ConstString &           serviceName,
                     }
                     if (0 < theDetailsString.length())
                     {
-                        MplusM::OutputDescription(cout, "Details:      ", theDetailsString.c_str());
+                        MplusM::OutputDescription(cout, "Details:      ", theDetailsString);
                     }
                     if (0 < keywordList.size())
                     {

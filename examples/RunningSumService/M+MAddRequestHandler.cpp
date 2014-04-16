@@ -116,7 +116,9 @@ void AddRequestHandler::fillInDescription(const yarp::os::ConstString & request,
         info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_NUMBER MpM_REQREP_1_OR_MORE);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_DOUBLE);
         info.put(MpM_REQREP_DICT_VERSION_KEY, ADD_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Add to the running sum");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Add to the running sum\n"
+                 "Input: one or more numeric values\n"
+                 "Output: the current running sum, including the new values");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         

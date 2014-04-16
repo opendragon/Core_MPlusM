@@ -602,9 +602,31 @@ const char * MplusM::NameOfSignal(const int theSignal)
     return result;
 } // MplusM::NameOfSignal
 
-void MplusM::OutputDescription(std::ostream & outStream,
-                               const char *   heading,
-                               const char *   description)
+void MplusM::OutputDescription(std::ostream &                outStream,
+                               const char *                  heading,
+                               const yarp::os::ConstString & description)
 {
-    outStream << heading << description << endl;
+    size_t                descriptionLength = description.size();
+    size_t                indentSize = strlen(heading);
+    size_t                pieceStart = 0;
+    yarp::os::ConstString blanks(indentSize, ' ');
+    yarp::os::ConstString indent(heading);
+    
+    for (size_t ii = 0; ii < descriptionLength; ++ii)
+    {
+        if ('\n' == description[ii])
+        {
+            yarp::os::ConstString piece(description.substr(pieceStart, ii - pieceStart));
+            
+            outStream << indent << piece.c_str() << endl;
+            pieceStart = ii + 1;
+            indent = blanks;
+        }
+    }
+    if (pieceStart)
+    {
+        yarp::os::ConstString piece(description.substr(pieceStart, descriptionLength - pieceStart));
+        
+        outStream << indent << piece.c_str() << endl;
+    }
 } // MplusM::OutputDescription

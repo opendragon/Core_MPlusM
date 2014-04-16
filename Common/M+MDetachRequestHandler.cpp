@@ -116,7 +116,9 @@ void DetachRequestHandler::fillInDescription(const yarp::os::ConstString & reque
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MpM_REQREP_DICT_VERSION_KEY, DETACH_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Disconnect the client from the service");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Disconnect the client from the service\n"
+                 "Input: nothing\n"
+                 "Output: nothing");
         yarp::os::Value keywords;
         Package *       asList = keywords.asList();
         

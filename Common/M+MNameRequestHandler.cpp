@@ -139,7 +139,9 @@ void NameRequestHandler::fillInDescription(const yarp::os::ConstString & request
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING MpM_REQREP_STRING MpM_REQREP_STRING);
         info.put(MpM_REQREP_DICT_VERSION_KEY, NAME_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the canonical name and description of the service");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the canonical name and description of the service\n"
+                 "Input: nothing\n"
+                 "Output: the canonical name, the description and the path to the executable for the service");
         yarp::os::Value keywords;
         Package *       asList = keywords.asList();
         

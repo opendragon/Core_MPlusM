@@ -116,7 +116,9 @@ void StopRequestHandler::fillInDescription(const yarp::os::ConstString & request
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MpM_REQREP_DICT_VERSION_KEY, STOP_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Stop the running sum");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Stop the running sum\n"
+                 "Input: nothing\n"
+                 "Output: nothing");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         

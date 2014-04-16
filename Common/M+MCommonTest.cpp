@@ -1146,7 +1146,7 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                                 yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
                                 yarp::os::ConstString itsInput(asDict->find(MpM_REQREP_DICT_INPUT_KEY).asString());
                                 
-                                sawInfo = ((itsInput == ".+") && (itsOutput == "([]?)"));
+                                sawInfo = ((itsInput == ".") && (itsOutput == "([]?)"));
                             }
                         }
                         else if (aName == MpM_ECHO_REQUEST)

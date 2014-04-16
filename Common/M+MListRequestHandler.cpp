@@ -116,7 +116,9 @@ void ListRequestHandler::fillInDescription(const yarp::os::ConstString & request
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_LIST_START MpM_REQREP_DICT_START MpM_REQREP_DICT_END
                  MpM_REQREP_1_OR_MORE MpM_REQREP_LIST_END);
         info.put(MpM_REQREP_DICT_VERSION_KEY, LIST_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "List the recognized requests");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "List the recognized requests\n"
+                 "Input: nothing\n"
+                 "Output: a list of request descriptions");
         yarp::os::Value keywords;
         Package *       asList = keywords.asList();
         

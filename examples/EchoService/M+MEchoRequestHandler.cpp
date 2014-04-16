@@ -116,7 +116,9 @@ void EchoRequestHandler::fillInDescription(const yarp::os::ConstString & request
         info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_ANYTHING MpM_REQREP_0_OR_MORE);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_ANYTHING MpM_REQREP_0_OR_MORE);
         info.put(MpM_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Echo back any input");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Echo back any input\n"
+                 "Input: anything\n"
+                 "Output: same as input");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         

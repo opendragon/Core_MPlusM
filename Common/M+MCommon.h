@@ -201,9 +201,9 @@ namespace MplusM
      @param outStream The stream to write to.
      @param heading The text to appear on the first line before the beginning of the description.
      @param description The description, which may contain multiple newlines. */
-    void OutputDescription(std::ostream & outStream,
-                           const char *   heading,
-                           const char *   description);
+    void OutputDescription(std::ostream &                outStream,
+                           const char *                  heading,
+                           const yarp::os::ConstString & description);
 
 } // MplusM
 

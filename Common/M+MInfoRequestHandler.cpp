@@ -113,11 +113,13 @@ void InfoRequestHandler::fillInDescription(const yarp::os::ConstString & request
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_ANYTHING MpM_REQREP_1_OR_MORE);
+        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_ANYTHING);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_LIST_START MpM_REQREP_DICT_START MpM_REQREP_DICT_END
                  MpM_REQREP_0_OR_1 MpM_REQREP_LIST_END);
         info.put(MpM_REQREP_DICT_VERSION_KEY, INFO_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return information on a request");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return information on a request\n"
+                 "Input: a request to get information on\n"
+                 "Output: a request description");
         yarp::os::Value keywords;
         Package *       asList = keywords.asList();
         

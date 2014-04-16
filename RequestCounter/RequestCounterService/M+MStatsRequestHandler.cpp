@@ -116,7 +116,9 @@ void StatsRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_INT MpM_REQREP_DOUBLE);
         info.put(MpM_REQREP_DICT_VERSION_KEY, STATS_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the number of requests and the time since last reset");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the number of requests and the time since last reset\n"
+                 "Input: nothing\n"
+                 "Output: the number of requests seen and the elapsed time in seconds");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         

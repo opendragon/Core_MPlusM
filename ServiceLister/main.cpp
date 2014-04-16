@@ -247,7 +247,7 @@ int main(int      argc,
                                     cout << endl;
                                     cout << "Service port: " << aMatch.c_str() << endl;
                                     cout << "Service name: " << canonicalName.c_str() << endl;
-                                    MplusM::OutputDescription(cout, "Description:  ", description.c_str());
+                                    MplusM::OutputDescription(cout, "Description:  ", description);
                                     cout << "Path:         " << path.c_str() << endl;
                                  }
                             }

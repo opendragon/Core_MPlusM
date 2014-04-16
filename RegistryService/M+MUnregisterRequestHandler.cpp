@@ -118,7 +118,9 @@ void UnregisterRequestHandler::fillInDescription(const yarp::os::ConstString & r
         info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_STRING);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING);
         info.put(MpM_REQREP_DICT_VERSION_KEY, UNREGISTER_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Unregister the service and its requests");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Unregister the service and its requests\n"
+                 "Input: the channel used by the service\n"
+                 "Output: OK or FAILED, with a description of the problem encountered");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         

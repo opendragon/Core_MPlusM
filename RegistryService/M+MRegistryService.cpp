@@ -958,7 +958,10 @@ RegistryService::RegistryService(const char *                  launchPath,
                                  const bool                    useInMemoryDb,
                                  const yarp::os::ConstString & serviceHostName,
                                  const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_REGISTRY_CANONICAL_NAME, "The Service Registry service",
+        inherited(launchPath, true, MpM_REGISTRY_CANONICAL_NAME, "The Service Registry service\n"
+                  "Requests: match - return the channels for services matching the criteria provided\n"
+                  "          register - record the information for a service on the given channel\n"
+                  "          unregister - remove the information for a service on the given channel",
                   MpM_SERVICE_REGISTRY_CHANNEL_NAME, serviceHostName, servicePortNumber), _db(NULL),
         _validator(new ColumnNameValidator), _matchHandler(NULL), _registerHandler(NULL), _unregisterHandler(NULL),
         _inMemory(useInMemoryDb), _isActive(false)

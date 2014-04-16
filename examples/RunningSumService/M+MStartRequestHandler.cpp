@@ -116,7 +116,9 @@ void StartRequestHandler::fillInDescription(const yarp::os::ConstString & reques
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MpM_REQREP_DICT_VERSION_KEY, START_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Start the running sum");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Start the running sum\n"
+                 "Input: nothing\n"
+                 "Output: nothing");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         

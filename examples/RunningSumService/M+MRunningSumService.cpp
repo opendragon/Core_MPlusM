@@ -83,9 +83,12 @@ RunningSumService::RunningSumService(const char *                  launchPath,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & serviceHostName,
                                      const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_RUNNINGSUM_CANONICAL_NAME, "An example running sum service",
-                  serviceEndpointName, serviceHostName, servicePortNumber), _addHandler(NULL), _resetHandler(NULL),
-        _startHandler(NULL), _stopHandler(NULL)
+        inherited(launchPath, true, MpM_RUNNINGSUM_CANONICAL_NAME, "An example running sum service\n"
+                  "Requests: add - add one or more values to the running sum and return the sum\n"
+                  "          reset - clear the running sum\n"
+                  "          start - start adding values to the running sum\n"
+                  "          stop - stop adding values to the running sum", serviceEndpointName, serviceHostName,
+                  servicePortNumber), _addHandler(NULL), _resetHandler(NULL), _startHandler(NULL), _stopHandler(NULL)
 #if (! defined(SERVICES_HAVE_CONTEXTS))
         , _runningSum(0.0)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)

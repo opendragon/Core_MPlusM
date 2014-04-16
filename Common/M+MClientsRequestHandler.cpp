@@ -116,7 +116,9 @@ void ClientsRequestHandler::fillInDescription(const yarp::os::ConstString & requ
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_LIST_START MpM_REQREP_STRING MpM_REQREP_0_OR_MORE
                  MpM_REQREP_LIST_END);
         info.put(MpM_REQREP_DICT_VERSION_KEY, CLIENTS_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "List the clients of a service");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "List the clients of a service\n"
+                 "Inputs: nothing\n"
+                 "Outputs: a list of client channels");
         yarp::os::Value keywords;
         Package *       asList = keywords.asList();
         

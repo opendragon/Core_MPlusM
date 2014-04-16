@@ -124,7 +124,9 @@ void MatchRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_LIST_START MpM_REQREP_STRING MpM_REQREP_0_OR_MORE
                  MpM_REQREP_LIST_END);
         info.put(MpM_REQREP_DICT_VERSION_KEY, MATCH_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Find a matching service");
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Find a matching service\n"
+                 "Input: an expression describing the service to be found\n"
+                 "Output: OK and a list of matching services or FAILED, with a description of the problem encountered");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         
