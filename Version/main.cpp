@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MConfig.h
+//  File:       Version/main.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for M+M clients and services.
+//  Contains:   A utility application to report the version numbers of M+M and its
+//              dependencies.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,52 +36,70 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-06
+//  Created:    2014-04-16
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MpMConfig_H_))
-/*! @brief Header guard. */
-# define MpMConfig_H_ /* */
+#include "M+MCommon.h"
 
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-# endif // defined(__APPLE__)
+#include <ace/Version.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wc++11-extensions"
+# pragma clang diagnostic ignored "-Wdocumentation"
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# pragma clang diagnostic ignored "-Wpadded"
+# pragma clang diagnostic ignored "-Wshadow"
+# pragma clang diagnostic ignored "-Wunused-parameter"
+# pragma clang diagnostic ignored "-Wweak-vtables"
+#endif // defined(__APPLE__)
+#include <yarp/conf/version.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
 /*! @file
  
- @brief The common macro definitions for M+M clients and services. */
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
+ @brief A utility application to report the version numbers of M+M and its dependencies. */
 
-/*! @brief The major part of the version number. */
-# define MpM_VERSION_MAJOR @MpM_VERSION_MAJOR@
-/*! @brief The minor part of the version number. */
-# define MpM_VERSION_MINOR @MpM_VERSION_MINOR@
-/*! @brief The patch part of the version number. */
-# define MpM_VERSION_PATCH @MpM_VERSION_PATCH@
-/*! @brief The version number as a string. */
-# define MpM_VERSION "@MpM_VERSION_MAJOR@.@MpM_VERSION_MINOR@.@MpM_VERSION_PATCH@"
+/*! @dir ClientList
+ @brief The ClientList application. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
-#cmakedefine MpM_CHANNELS_USE_RPC /* Use RpcClient and RpcService objects for communication. */
+using std::cout;
+using std::cerr;
+using std::endl;
 
-#cmakedefine MpM_CHATTY_START /* Report the version numbers when launching an executable. */
+#if defined(__APPLE__)
+# pragma mark Private structures, constants and variables
+#endif // defined(__APPLE__)
 
-#cmakedefine MpM_DO_EXPLICIT_CLOSE /* Perform a CloseChannel() prior to freeing a dynamically-allocated channel. */
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
 
-#cmakedefine MpM_DO_EXPLICIT_DISCONNECT /* Perform a disconnect() prior to closing a channel. */
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)
 
-#cmakedefine MpM_DONT_USE_TIMEOUTS /* Allow operations to take arbitrary lengths of time. */
-
-#cmakedefine MpM_LOG_INCLUDES_YARP_TRACE /* Enable YARP tracing. */
-
-#cmakedefine MpM_MAIN_DOES_DELAY_NOT_YIELD /* Use delay() instead of yield() in the background loop in main(). */
-
-#cmakedefine MpM_REPORT_ON_CONNECTIONS /* Report on connections. */
-
-#cmakedefine MpM_SERVICES_LOG_TO_STDERR /* Enable logging to stderr as well as the system log. */
-
-#cmakedefine MpM_STALL_ON_SEND_PROBLEM /* A send failure goes to a tight loop. */
-
-#endif // ! defined(MpMConfig_H_)
+/*! @brief The entry point for reporting the version numbers.
+ 
+ Standard output will receive a list of the version numbers.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used with the example client.
+ @returns @c 0 on a successful test and @c 1 on failure. */
+int main(int      argc,
+         char * * argv)
+{
+    //#pragma unused(argc,argv)
+    cout << *argv << endl;
+    cout << "Movement And Meaning Version " << MpM_VERSION << ", YARP Version " << YARP_VERSION_STRING <<
+            ", ACE Version = " << ACE_VERSION << endl;
+    return 0;
+} // main

@@ -48,7 +48,6 @@
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
-#include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -97,10 +96,12 @@ using std::endl;
  @returns @c true if the service returned the desired information and @c false otherwise. */
 static bool getNameAndDescriptionForService(const yarp::os::ConstString & serviceChannelName,
                                             yarp::os::ConstString &       canonicalName,
-                                            yarp::os::ConstString &       description)
+                                            yarp::os::ConstString &       description,
+                                            yarp::os::ConstString &       path)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("serviceChannelName = ", serviceChannelName.c_str());//####
+    OD_LOG_P3("canonicalName = ", &canonicalName, "description = ", &description, "path = ", &path);//####
     bool                            result = false;
     yarp::os::ConstString           aName(MplusM::Common::GetRandomChannelName("/servicelister/channel_"));
     MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
@@ -122,18 +123,22 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & servic
                     {
                         yarp::os::Value theCanonicalName(response.element(0));
                         yarp::os::Value theDescription(response.element(1));
+                        yarp::os::Value thePath(response.element(2));
                         
-                        OD_LOG_S2("theCanonicalName <- ", theCanonicalName.toString().c_str(),//####
-                                  "theDescription <- ", theDescription.toString().c_str());//####
-                        if (theCanonicalName.isString() && theDescription.isString())
+                        OD_LOG_S3("theCanonicalName <- ", theCanonicalName.toString().c_str(),//####
+                                  "theDescription <- ", theDescription.toString().c_str(), "thePath <- ",//####
+                                  thePath.toString().c_str());//####
+                        if (theCanonicalName.isString() && theDescription.isString() && thePath.isString())
                         {
                             canonicalName = theCanonicalName.toString();
                             description = theDescription.toString();
+                            path = thePath.toString();
                             result = true;
                         }
                         else
                         {
-                            OD_LOG("! (theCanonicalName.isString() && theDescription.isString())");//####
+                            OD_LOG("! (theCanonicalName.isString() && theDescription.isString() && "//####
+                                   "thePath.isString())");//####
                         }
                     }
                     else
@@ -230,8 +235,9 @@ int main(int      argc,
                                 yarp::os::ConstString aMatch(matchesList->get(ii).toString());
                                 yarp::os::ConstString canonicalName;
                                 yarp::os::ConstString description;
+                                yarp::os::ConstString path;
                                 
-                                if (getNameAndDescriptionForService(aMatch, canonicalName, description))
+                                if (getNameAndDescriptionForService(aMatch, canonicalName, description, path))
                                 {
                                     if (! reported)
                                     {
@@ -241,8 +247,9 @@ int main(int      argc,
                                     cout << endl;
                                     cout << "Service port: " << aMatch.c_str() << endl;
                                     cout << "Service name: " << canonicalName.c_str() << endl;
-                                    cout << "Description:  " << description.c_str() << endl;
-                                }
+                                    MplusM::OutputDescription(cout, "Description:  ", description.c_str());
+                                    cout << "Path:         " << path.c_str() << endl;
+                                 }
                             }
                             cout << endl;
                         }

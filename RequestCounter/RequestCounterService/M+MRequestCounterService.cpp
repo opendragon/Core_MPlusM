@@ -93,19 +93,20 @@ using namespace MplusM::RequestCounter;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RequestCounterService::RequestCounterService(const yarp::os::ConstString & serviceEndpointName,
+RequestCounterService::RequestCounterService(const char *                  launchPath,
+                                             const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & serviceHostName,
                                              const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, MpM_REQUESTCOUNTER_CANONICAL_NAME, "The request counter service", serviceEndpointName,
-                  serviceHostName, servicePortNumber), _defaultHandler(NULL), _resetHandler(NULL),
+        inherited(launchPath, true, MpM_REQUESTCOUNTER_CANONICAL_NAME, "The request counter service",
+                  serviceEndpointName, serviceHostName, servicePortNumber), _defaultHandler(NULL), _resetHandler(NULL),
         _statsHandler(NULL)
 #if (! defined(SERVICES_HAVE_CONTEXTS))
         , _counter(0), _lastReset(yarp::os::Time::now())
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
-              serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_S4("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+              "serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RequestCounterService::RequestCounterService

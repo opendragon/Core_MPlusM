@@ -45,10 +45,6 @@
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
-#include <iostream>
-#if (defined(__APPLE__) || defined(__linux__))
-# include <unistd.h>
-#endif // defined(__APPLE__) || defined(__linux__)
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -155,7 +151,7 @@ int main(int      argc,
             {
                 serviceEndpointName = DEFAULT_RANDOM_SERVICE_NAME;
             }
-            RandomNumberService * stuff = new RandomNumberService(serviceEndpointName, serviceHostName,
+            RandomNumberService * stuff = new RandomNumberService(*argv, serviceEndpointName, serviceHostName,
                                                                   servicePortNumber);
             
             if (stuff)

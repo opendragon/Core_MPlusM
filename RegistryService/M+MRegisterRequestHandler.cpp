@@ -475,25 +475,27 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString &  
     
     try
     {
-        if (2 == response.count())
+        if (MpM_EXPECTED_NAME_RESPONSE_SIZE == response.count())
         {
             yarp::os::Value theCanonicalName(response.element(0));
             yarp::os::Value theDescription(response.element(1));
+            yarp::os::Value thePath(response.element(2));
             
-            if (theCanonicalName.isString() && theDescription.isString())
+            if (theCanonicalName.isString() && theDescription.isString() && thePath.isString())
             {
-                result = _service.addServiceRecord(channelName, theCanonicalName.toString(), theDescription.toString());
+                result = _service.addServiceRecord(channelName, theCanonicalName.toString(), theDescription.toString(),
+                                                   thePath.toString());
             }
             else
             {
-                OD_LOG("! (theCanonicalName.isString() && theDescription.isString())");//####
+                OD_LOG("! (theCanonicalName.isString() && theDescription.isString() && thePath.isString())");//####
                 // The canonical name and description are present, but at least one of them is not a string
                 result = false;
             }
         }
         else
         {
-            OD_LOG("! (2 == response.count())");//####
+            OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE == response.count())");//####
             OD_LOG_S1("response = ", response.asString().c_str());//####
             // Wrong number of values in the response.
             result = false;

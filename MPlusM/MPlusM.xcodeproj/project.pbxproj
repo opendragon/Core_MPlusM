@@ -177,6 +177,8 @@
 		DFA3434C18C91C5A0053B87C /* M+MServiceResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MServiceResponse.h"; path = "../Common/M+MServiceResponse.h"; sourceTree = SOURCE_ROOT; };
 		DFA3434D18C91C5A0053B87C /* M+MUnregisterRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MUnregisterRequestHandler.cpp"; path = "../RegistryService/M+MUnregisterRequestHandler.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DFA3434E18C91C5A0053B87C /* M+MUnregisterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUnregisterRequestHandler.h"; path = "../RegistryService/M+MUnregisterRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DFA4963B18FED346005A7213 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../Version/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFA4963C18FED346005A7213 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../Version/main.cpp; sourceTree = SOURCE_ROOT; };
 		DFA86D1C18E0D3AE00A22941 /* M+MColumnNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MColumnNameValidator.cpp"; path = "../RegistryService/M+MColumnNameValidator.cpp"; sourceTree = SOURCE_ROOT; };
 		DFA86D1D18E0D3AE00A22941 /* M+MColumnNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MColumnNameValidator.h"; path = "../RegistryService/M+MColumnNameValidator.h"; sourceTree = SOURCE_ROOT; };
 		DFA86D2618E1D1AC00A22941 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../examples/CMakeLists.txt; sourceTree = "<group>"; };
@@ -465,6 +467,7 @@
 				DF20929218D241270093D3DC /* RequestInfo */,
 				DF20928F18D0DAA50093D3DC /* ServiceLister */,
 				DF06998E18EDD9F100FF0E93 /* SQLite3 */,
+				DFA4963A18FED31A005A7213 /* Version */,
 			);
 			sourceTree = "<group>";
 		};
@@ -648,6 +651,15 @@
 				DFA86D4318E1D6FF00A22941 /* M+MRandomRequestHandler.h */,
 			);
 			name = RandomNumberService;
+			sourceTree = "<group>";
+		};
+		DFA4963A18FED31A005A7213 /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				DFA4963B18FED346005A7213 /* CMakeLists.txt */,
+				DFA4963C18FED346005A7213 /* main.cpp */,
+			);
+			name = Version;
 			sourceTree = "<group>";
 		};
 		DFA86D1E18E0E09E00A22941 /* RunningSumAdapter */ = {

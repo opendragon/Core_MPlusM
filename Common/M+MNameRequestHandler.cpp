@@ -47,6 +47,22 @@
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
+#include <ace/OS.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wc++11-extensions"
+# pragma clang diagnostic ignored "-Wdocumentation"
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# pragma clang diagnostic ignored "-Wpadded"
+# pragma clang diagnostic ignored "-Wshadow"
+# pragma clang diagnostic ignored "-Wunused-parameter"
+# pragma clang diagnostic ignored "-Wweak-vtables"
+#endif // defined(__APPLE__)
+#include <yarp/os/os.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -70,6 +86,14 @@ using namespace MplusM::Common;
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
+
+#if 0
+However, the following heuristic often works:
+
+If argv[0] is an absolute path, assume this is the full path to the executable.
+If argv[0] is a relative path, ie, it contains a /, determine the current working directory with getcwd() and then append argv[0] to it.
+If argv[0] is a plain word, search $PATH looking for argv[0], and append argv[0] to whatever directory you find it in.
+#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -113,7 +137,7 @@ void NameRequestHandler::fillInDescription(const yarp::os::ConstString & request
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING MpM_REQREP_STRING);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING MpM_REQREP_STRING MpM_REQREP_STRING);
         info.put(MpM_REQREP_DICT_VERSION_KEY, NAME_REQUEST_VERSION_NUMBER);
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the canonical name and description of the service");
         yarp::os::Value keywords;
@@ -122,6 +146,7 @@ void NameRequestHandler::fillInDescription(const yarp::os::ConstString & request
         asList->addString(request);
         asList->addString("canonical");
         asList->addString("description");
+        asList->addString("executable");
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
@@ -150,10 +175,13 @@ bool NameRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
+            char    bigPath[PATH_MAX * 2];
             Package reply;
             
+            ACE_OS::realpath(_service.launchPath().c_str(), bigPath);
             reply.addString(_service.canonicalName());
             reply.addString(_service.description());
+            reply.addString(bigPath);
             OD_LOG_S1("reply <- ", reply.toString().c_str());
             if (! reply.write(*replyMechanism))
             {
@@ -162,6 +190,7 @@ bool NameRequestHandler::processRequest(const yarp::os::ConstString & request,
                 Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
+            //            free(where);
         }
     }
     catch (...)

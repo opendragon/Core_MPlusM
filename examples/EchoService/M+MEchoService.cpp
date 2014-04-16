@@ -75,15 +75,16 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-EchoService::EchoService(const yarp::os::ConstString & serviceEndpointName,
+EchoService::EchoService(const char *                  launchPath,
+                         const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & serviceHostName,
                          const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, MpM_ECHO_CANONICAL_NAME, "An example echo service", serviceEndpointName, serviceHostName,
-                  servicePortNumber), _echoHandler(NULL)
+        inherited(launchPath, true, MpM_ECHO_CANONICAL_NAME, "An example echo service", serviceEndpointName,
+                  serviceHostName, servicePortNumber), _echoHandler(NULL)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
-              serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_S4("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+              "serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // EchoService::EchoService

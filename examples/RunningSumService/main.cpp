@@ -45,10 +45,6 @@
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
-#include <iostream>
-#if (defined(__APPLE__) || defined(__linux__))
-# include <unistd.h>
-#endif // defined(__APPLE__) || defined(__linux__)
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -155,7 +151,8 @@ int main(int      argc,
             {
                 serviceEndpointName = DEFAULT_RUNNINGSUM_SERVICE_NAME;
             }
-            RunningSumService * stuff = new RunningSumService(serviceEndpointName, serviceHostName, servicePortNumber);
+            RunningSumService * stuff = new RunningSumService(*argv, serviceEndpointName, serviceHostName,
+                                                              servicePortNumber);
             
             if (stuff)
             {

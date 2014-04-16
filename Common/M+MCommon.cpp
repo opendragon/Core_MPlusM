@@ -49,7 +49,6 @@
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
-#include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -88,14 +87,6 @@ using std::endl;
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-#define CHATTY_START_ /* Report the version numbers when launching an executable. */
-
-//#define DELAY_ON_START_ /* Delay the start of execution to allow channels to clear. */
-
-#if defined(DELAY_ON_START_)
-static const double kInitialDelay = 0.5;
-#endif // defined(DELAY_ON_START_)
 
 /*! @brief The maximum integer that we wish to use for generated random values. */
 static const int kMaxRandom = 123456789;
@@ -207,9 +198,9 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
 
 void MplusM::Common::Initialize(const char * progName)
 {
-#if (! defined(CHATTY_START_))
+#if (! defined(MpM_CHATTY_START))
 # pragma unused(progName)
-#endif // ! defined(CHATTY_START_)
+#endif // ! defined(MpM_CHATTY_START)
     OD_LOG_ENTER();//####
     try
     {
@@ -223,17 +214,14 @@ void MplusM::Common::Initialize(const char * progName)
         double fraction = modf(now, &intPart);
         int    seed = static_cast<int>(ceil(fraction * kMaxRandom));
         
-#if defined(CHATTY_START_)
+#if defined(MpM_CHATTY_START)
         cerr << "Program " << progName << endl;
         cerr << "Movement And Meaning Version " << MpM_VERSION << ", YARP Version " << YARP_VERSION_STRING <<
                 ", ACE Version = " << ACE_VERSION << endl;
-#endif // defined(CHATTY_START_)
+#endif // defined(MpM_CHATTY_START)
         OD_LOG_D2("time = ", now, "fraction = ", fraction);//####
         OD_LOG_LL1("seed = ", seed);//####
         yarp::os::Random::seed(seed);
-#if defined(DELAY_ON_START_)
-        yarp::os::Time::delay(kInitialDelay);
-#endif // defined(DELAY_ON_START_)
     }
     catch (...)
     {
@@ -613,3 +601,10 @@ const char * MplusM::NameOfSignal(const int theSignal)
 #endif // (! defined(__APPLE__)) && (! defined(__linux__))
     return result;
 } // MplusM::NameOfSignal
+
+void MplusM::OutputDescription(std::ostream & outStream,
+                               const char *   heading,
+                               const char *   description)
+{
+    outStream << heading << description << endl;
+} // MplusM::OutputDescription

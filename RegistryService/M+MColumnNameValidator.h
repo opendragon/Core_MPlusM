@@ -64,6 +64,8 @@
 # define DESCRIPTION_C_ "description"
 /*! @brief The named parameter for the 'details' column. */
 # define DETAILS_C_     "details"
+/*! @brief The named parameter for the 'executable' column. */
+# define EXECUTABLE_C_  "executable"
 /*! @brief The named parameter for the 'input' column. */
 # define INPUT_C_       "input"
 /*! @brief The named parameter for the 'key' column. */

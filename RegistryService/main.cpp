@@ -45,11 +45,7 @@
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
-#include <iostream>
 #include <string.h>
-#if (defined(__APPLE__) || defined(__linux__))
-# include <unistd.h>
-#endif // defined(__APPLE__) || defined(__linux__)
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -147,15 +143,15 @@ int main(int      argc,
                 {
                         // Argument order for tests = endpoint name [, IP address / name [, port]]
                     case 1:
-                        stuff = new MplusM::Registry::RegistryService(USE_INMEMORY);
+                        stuff = new MplusM::Registry::RegistryService(*argv, USE_INMEMORY);
                         break;
                         
                     case 2:
-                        stuff = new MplusM::Registry::RegistryService(USE_INMEMORY, argv[1]);
+                        stuff = new MplusM::Registry::RegistryService(*argv, USE_INMEMORY, argv[1]);
                         break;
                         
                     case 3:
-                        stuff = new MplusM::Registry::RegistryService(USE_INMEMORY, argv[1], argv[2]);
+                        stuff = new MplusM::Registry::RegistryService(*argv, USE_INMEMORY, argv[1], argv[2]);
                         break;
                         
                     default:

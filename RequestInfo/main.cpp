@@ -48,7 +48,6 @@
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
-#include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -174,7 +173,7 @@ static bool processResponse(const yarp::os::ConstString &           serviceName,
                     }
                     if (0 < theDetailsString.length())
                     {
-                        cout << "Details:      " << theDetailsString.c_str() << endl;
+                        MplusM::OutputDescription(cout, "Details:      ", theDetailsString.c_str());
                     }
                     if (0 < keywordList.size())
                     {

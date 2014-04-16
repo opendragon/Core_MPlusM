@@ -45,10 +45,6 @@
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
-#include <iostream>
-#if (defined(__APPLE__) || defined(__linux__))
-# include <unistd.h>
-#endif // defined(__APPLE__) || defined(__linux__)
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -155,7 +151,7 @@ int main(int      argc,
             {
                 serviceEndpointName = DEFAULT_REQUESTCOUNTER_SERVICE_NAME;
             }
-            RequestCounterService * stuff = new RequestCounterService(serviceEndpointName, serviceHostName,
+            RequestCounterService * stuff = new RequestCounterService(*argv, serviceEndpointName, serviceHostName,
                                                                       servicePortNumber);
             
             if (stuff)

@@ -70,6 +70,7 @@ static const char * kFieldNames[] =
     "channelname",
     "description",
     "details",
+    "executable",
     "input",
     "keyword",
     "name",

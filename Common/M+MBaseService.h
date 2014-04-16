@@ -78,13 +78,15 @@ namespace MplusM
         public:
             
             /*! @brief The constructor.
+             @param launchPath The command-line name used to launch the service.
              @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if one handler is used.
              @param canonicalName The channel-independent name of the service.
              @param description The description of the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param serviceHostName The name or IP address of the machine running the service.
              @param servicePortNumber The channel being used by the service. */
-            BaseService(const bool                    useMultipleHandlers,
+            BaseService(const char *                  launchPath,
+                        const bool                    useMultipleHandlers,
                         const yarp::os::ConstString & canonicalName,
                         const yarp::os::ConstString & description,
                         const yarp::os::ConstString & serviceEndpointName,
@@ -147,6 +149,14 @@ namespace MplusM
             {
                 return _started;
             } // isStarted
+            
+            /*! @brief Return the command-line name used to launch the service.
+             @returns The command-line name used to launch the service. */
+            inline yarp::os::ConstString launchPath(void)
+            const
+            {
+                return _launchPath;
+            } // launchPath
             
             void performMainLoop(void);
             /*! @brief Process partially-structured input data.
@@ -262,6 +272,9 @@ namespace MplusM
                 _contextsLock.unlock();
             } // unlockContexts
 # endif // defined(SERVICES_HAVE_CONTEXTS)
+            
+            /*! @brief The command-line name used to launch the service. */
+            yarp::os::ConstString            _launchPath;
             
 # if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief The contention lock used to avoid inconsistencies. */

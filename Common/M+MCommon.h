@@ -46,7 +46,7 @@
 
 # include "M+MConfig.h"
 
-# include <string>
+# include <iostream>
 # include <vector>
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -197,6 +197,14 @@ namespace MplusM
      @returns A string description of the signal. */
     const char * NameOfSignal(const int theSignal);
     
+    /*! @brief Write out a (possibly multi-line) description.
+     @param outStream The stream to write to.
+     @param heading The text to appear on the first line before the beginning of the description.
+     @param description The description, which may contain multiple newlines. */
+    void OutputDescription(std::ostream & outStream,
+                           const char *   heading,
+                           const char *   description);
+
 } // MplusM
 
 #endif // ! defined(MpMCommon_H_)

@@ -1,5 +1,3 @@
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
 
-* Version/Version to always display version information; move CHATTY to cmake settings
-
-—> doxy main page screen capture for Dhruv
+* Enhance the request descriptions by adding input/output text, separated by newlines; for request info, process the descriptions and indent after newline, but don’t output the newlines

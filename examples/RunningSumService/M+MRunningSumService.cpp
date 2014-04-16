@@ -79,19 +79,20 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RunningSumService::RunningSumService(const yarp::os::ConstString & serviceEndpointName,
+RunningSumService::RunningSumService(const char *                  launchPath,
+                                     const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & serviceHostName,
                                      const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, MpM_RUNNINGSUM_CANONICAL_NAME, "An example running sum service", serviceEndpointName,
-                  serviceHostName, servicePortNumber), _addHandler(NULL), _resetHandler(NULL), _startHandler(NULL),
-        _stopHandler(NULL)
+        inherited(launchPath, true, MpM_RUNNINGSUM_CANONICAL_NAME, "An example running sum service",
+                  serviceEndpointName, serviceHostName, servicePortNumber), _addHandler(NULL), _resetHandler(NULL),
+        _startHandler(NULL), _stopHandler(NULL)
 #if (! defined(SERVICES_HAVE_CONTEXTS))
         , _runningSum(0.0)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
-              serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_S4("launchPath = ", launcHpath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+              "serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RunningSumService::RunningSumService

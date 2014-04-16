@@ -142,10 +142,12 @@ namespace MplusM
         {
             /*! @brief The service channel for the service. */
             yarp::os::ConstString _channel;
-            /*! @brief The name for the service. */
-            yarp::os::ConstString _name;
             /*! @brief The description of the service. */
             yarp::os::ConstString _description;
+            /*! @brief The path to the executable for the service. */
+            yarp::os::ConstString _executable;
+            /*! @brief The name for the service. */
+            yarp::os::ConstString _name;
         }; // ServiceData
         
     } // Registry
@@ -514,7 +516,8 @@ static bool constructTables(sqlite3 * database)
 #endif // defined(USE_TEST_DATABASE)
                     T_("CREATE TABLE IF NOT EXISTS " SERVICES_T_ "( " CHANNELNAME_C_
                        " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT REPLACE, " NAME_C_
-                       " Text NOT NULL DEFAULT _, " DESCRIPTION_C_ " Text NOT NULL DEFAULT _)"),
+                       " Text NOT NULL DEFAULT _, " DESCRIPTION_C_ " Text NOT NULL DEFAULT _, " EXECUTABLE_C_
+                       " Text NOT NULL DEFAULT _)"),
                     T_("CREATE INDEX IF NOT EXISTS " SERVICES_NAME_I_ " ON " SERVICES_T_ "(" NAME_C_ ")"),
                     T_("CREATE TABLE IF NOT EXISTS " KEYWORDS_T_ "( " KEYWORD_C_
                        " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT IGNORE)"),
@@ -768,9 +771,10 @@ static int setupInsertForServices(sqlite3_stmt * statement,
     {
         int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
         int descriptionIndex = sqlite3_bind_parameter_index(statement, "@" DESCRIPTION_C_);
+        int executableIndex = sqlite3_bind_parameter_index(statement, "@" EXECUTABLE_C_);
         int nameIndex = sqlite3_bind_parameter_index(statement, "@" NAME_C_);
         
-        if ((0 < channelNameIndex) && (0 < descriptionIndex) && (0 < nameIndex))
+        if ((0 < channelNameIndex) && (0 < descriptionIndex) && (0 < executableIndex) && (0 < nameIndex))
         {
             const ServiceData * descriptor = static_cast<const ServiceData *>(stuff);
             const char *        channelName = descriptor->_channel.c_str();
@@ -794,6 +798,14 @@ static int setupInsertForServices(sqlite3_stmt * statement,
                 result = sqlite3_bind_text(statement, descriptionIndex, description,
                                            static_cast<int>(strlen(description)), SQLITE_TRANSIENT);
             }
+            if (SQLITE_OK == result)
+            {
+                const char * executable = descriptor->_executable.c_str();
+                
+                OD_LOG_S1("executable <- ", executable);//####
+                result = sqlite3_bind_text(statement, executableIndex, executable,
+                                           static_cast<int>(strlen(executable)), SQLITE_TRANSIENT);
+            }
             if (SQLITE_OK != result)
             {
                 OD_LOG_S1("error description: ", sqlite3_errstr(result));//####
@@ -801,7 +813,8 @@ static int setupInsertForServices(sqlite3_stmt * statement,
         }
         else
         {
-            OD_LOG("! ((0 < channelNameIndex) && (0 < descriptionIndex) && (0 < nameIndex))");//####
+            OD_LOG("! ((0 < channelNameIndex) && (0 < descriptionIndex) && (0 < executableIndex) && "//####
+                   "(0 < nameIndex))");//####
         }
     }
     catch (...)
@@ -941,15 +954,17 @@ static int setupRemoveForServices(sqlite3_stmt * statement,
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RegistryService::RegistryService(const bool                    useInMemoryDb,
+RegistryService::RegistryService(const char *                  launchPath,
+                                 const bool                    useInMemoryDb,
                                  const yarp::os::ConstString & serviceHostName,
                                  const yarp::os::ConstString & servicePortNumber) :
-        inherited(true, MpM_REGISTRY_CANONICAL_NAME, "The Service Registry service", MpM_SERVICE_REGISTRY_CHANNEL_NAME,
-                  serviceHostName, servicePortNumber), _db(NULL), _validator(new ColumnNameValidator),
-        _matchHandler(NULL), _registerHandler(NULL), _unregisterHandler(NULL), _inMemory(useInMemoryDb),
-        _isActive(false)
+        inherited(launchPath, true, MpM_REGISTRY_CANONICAL_NAME, "The Service Registry service",
+                  MpM_SERVICE_REGISTRY_CHANNEL_NAME, serviceHostName, servicePortNumber), _db(NULL),
+        _validator(new ColumnNameValidator), _matchHandler(NULL), _registerHandler(NULL), _unregisterHandler(NULL),
+        _inMemory(useInMemoryDb), _isActive(false)
 {
     OD_LOG_ENTER();//####
+    OD_LOG_S1("launchPath = ", launchPath);//####
     OD_LOG_B1("useInMemoryDb = ", useInMemoryDb);//####
     OD_LOG_S2("serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     attachRequestHandlers();
@@ -1050,7 +1065,8 @@ bool RegistryService::addRequestRecord(const Common::Package &    keywordList,
 
 bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName,
                                        const yarp::os::ConstString & name,
-                                       const yarp::os::ConstString & description)
+                                       const yarp::os::ConstString & description,
+                                       const yarp::os::ConstString & executable)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("channelName = ", channelName.c_str(), "name = ", name.c_str());//####
@@ -1062,13 +1078,14 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
         {
             // Add the service channel name.
             static const char * insertIntoServices = T_("INSERT INTO " SERVICES_T_ "(" CHANNELNAME_C_ "," NAME_C_ ","
-                                                        DESCRIPTION_C_ ") VALUES(@" CHANNELNAME_C_ ",@" NAME_C_ ",@"
-                                                        DESCRIPTION_C_ ")");
+                                                        DESCRIPTION_C_ "," EXECUTABLE_C_ ") VALUES(@" CHANNELNAME_C_
+                                                        ",@" NAME_C_ ",@" DESCRIPTION_C_ ",@" EXECUTABLE_C_ ")");
             ServiceData         servData;
             
             servData._channel = channelName;
             servData._name = name;
             servData._description = description;
+            servData._executable = executable;
             okSoFar = performSQLstatementWithNoResults(_db, insertIntoServices, setupInsertForServices,
                                                        static_cast<const void *>(&servData));
             if (okSoFar)

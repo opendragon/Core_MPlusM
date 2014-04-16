@@ -105,12 +105,17 @@ using namespace MplusM::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-BaseService::BaseService(const bool                    useMultipleHandlers,
+BaseService::BaseService(const char *                  launchPath,
+                         const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
                          const yarp::os::ConstString & description,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & serviceHostName,
                          const yarp::os::ConstString & servicePortNumber) :
+        _launchPath(launchPath),
+# if defined(SERVICES_HAVE_CONTEXTS)
+        _contextsLock(),
+# endif // defined(SERVICES_HAVE_CONTEXTS)
         _requestHandlers(*this),
 #if defined(SERVICES_HAVE_CONTEXTS)
         _contexts(),
@@ -124,6 +129,7 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
         _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER();//####
+    OD_LOG_S1("launchPath = ", launchPath);//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
     OD_LOG_S4("canonicalName = ", canonicalName.c_str(), "description = ", description.c_str(),//####
               "serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
@@ -139,6 +145,10 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & description,
                          const int                     argc,
                          char * *                      argv) :
+        _launchPath(*argv),
+# if defined(SERVICES_HAVE_CONTEXTS)
+        _contextsLock(),
+# endif // defined(SERVICES_HAVE_CONTEXTS)
         _requestHandlers(*this),
 #if defined(SERVICES_HAVE_CONTEXTS)
         _contexts(),

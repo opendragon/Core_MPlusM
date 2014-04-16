@@ -52,7 +52,6 @@
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
-#include <iostream>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -96,13 +95,16 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestCreateRegisterService(const int argc,
-                                       char * *  argv) // create 'register' service
+static int doTestCreateRegisterService(const char * launchPath,
+                                       const int    argc,
+                                       char * *     argv) // create 'register' service
 {
     OD_LOG_ENTER();//####
+    OD_LOG_S1("launchPath = ", launchPath);//####
     int result = 1;
     
     try
@@ -115,15 +117,15 @@ static int doTestCreateRegisterService(const int argc,
             {
                     // Argument order for tests = endpoint name [, IP address / name [, port]]
                 case 0:
-                    registry = new MplusM::Registry::RegistryService(TEST_INMEMORY);
+                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY);
                     break;
                     
                 case 1:
-                    registry = new MplusM::Registry::RegistryService(TEST_INMEMORY, *argv);
+                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv);
                     break;
                     
                 case 2:
-                    registry = new MplusM::Registry::RegistryService(TEST_INMEMORY, *argv, argv[1]);
+                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv, argv[1]);
                     break;
                     
                 default:
@@ -159,13 +161,16 @@ static int doTestCreateRegisterService(const int argc,
 } // doTestCreateRegisterService
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestRegisterService(const int argc,
-                                        char * *  argv) // send 'register' request
+static int doTestRequestRegisterService(const char * launchPath,
+                                        const int    argc,
+                                        char * *     argv) // send 'register' request
 {
     OD_LOG_ENTER();//####
+    OD_LOG_S1("launchPath = ", launchPath);//####
     int result = false;
     
     try
@@ -179,17 +184,17 @@ static int doTestRequestRegisterService(const int argc,
             {
                     // Argument order for tests = endpoint name [, IP address / name [, port]]
                 case 0:
-                    registry = new MplusM::Registry::RegistryService(TEST_INMEMORY);
+                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY);
                     secondServiceChannel = "/service/test/requestregisterservice_1";
                     break;
                     
                 case 1:
-                    registry = new MplusM::Registry::RegistryService(TEST_INMEMORY, *argv);
+                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv);
                     secondServiceChannel = "/service/test/requestregisterservice_2";
                     break;
                     
                 case 2:
-                    registry = new MplusM::Registry::RegistryService(TEST_INMEMORY, *argv, argv[1]);
+                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv, argv[1]);
                     secondServiceChannel = "/service/test/requestregisterservice_3";
                     break;
                     
@@ -261,13 +266,16 @@ static int doTestRequestRegisterService(const int argc,
 } // doTestRequestRegisterService
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestUnregisterService(const int argc,
-                                          char * *  argv) // send 'register' request
+static int doTestRequestUnregisterService(const char * launchPath,
+                                          const int    argc,
+                                          char * *     argv) // send 'register' request
 {
     OD_LOG_ENTER();//####
+    OD_LOG_S1("launchPath = ", launchPath);//####
     int result = 1;
 
     try
@@ -281,17 +289,17 @@ static int doTestRequestUnregisterService(const int argc,
             {
                     // Argument order for tests = endpoint name [, IP address / name [, port]]
                 case 0:
-                    registry = new MplusM::Registry::RegistryService(TEST_INMEMORY);
+                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY);
                     secondServiceChannel = "/service/test/requestunregisterservice_1";
                     break;
                     
                 case 1:
-                    registry = new MplusM::Registry::RegistryService(TEST_INMEMORY, *argv);
+                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv);
                     secondServiceChannel = "/service/test/requestunregisterservice_2";
                     break;
                     
                 case 2:
-                    registry = new MplusM::Registry::RegistryService(TEST_INMEMORY, *argv, argv[1]);
+                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv, argv[1]);
                     secondServiceChannel = "/service/test/requestunregisterservice_3";
                     break;
                     
@@ -370,13 +378,16 @@ static int doTestRequestUnregisterService(const int argc,
 } // doTestRequestUnregisterService
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestSearchService(const int argc,
-                                      char * *  argv) // send 'match' request
+static int doTestRequestSearchService(const char * launchPath,
+                                      const int    argc,
+                                      char * *     argv) // send 'match' request
 {
     OD_LOG_ENTER();//####
+    OD_LOG_S1("launchPath = ", launchPath);//####
     int result = 1;
 
     try
@@ -384,7 +395,8 @@ static int doTestRequestSearchService(const int argc,
         if (1 < argc)
         {
             const char *                        secondServiceChannel = "/service/test/requestsearchservice";
-            MplusM::Registry::RegistryService * registry = new MplusM::Registry::RegistryService(TEST_INMEMORY);
+            MplusM::Registry::RegistryService * registry = new MplusM::Registry::RegistryService(launchPath,
+                                                                                                 TEST_INMEMORY);
             
             if (registry)
             {
@@ -608,19 +620,19 @@ int main(int      argc,
                 switch (selector)
                 {
                     case 13:
-                        result = doTestCreateRegisterService(argc - 1, argv + 2);
+                        result = doTestCreateRegisterService(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 14:
-                        result = doTestRequestRegisterService(argc - 1, argv + 2);
+                        result = doTestRequestRegisterService(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 15:
-                        result = doTestRequestUnregisterService(argc - 1, argv + 2);
+                        result = doTestRequestUnregisterService(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 16:
-                        result = doTestRequestSearchService(argc - 1, argv + 2);
+                        result = doTestRequestSearchService(*argv, argc - 1, argv + 2);
                         break;
                         
                     default:

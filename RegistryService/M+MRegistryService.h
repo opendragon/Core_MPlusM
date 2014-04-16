@@ -95,11 +95,13 @@ namespace MplusM
         public:
             
             /*! @brief The constructor.
+             @param launchPath The command-line name used to launch the service.
              @param useInMemoryDb @c true if the database is in-memory and @c false if a temporary disk file is to be
              used.
              @param serviceHostName The name or IP address of the machine running the service.
              @param servicePortNumber The port being used by the service. */
-            RegistryService(const bool                    useInMemoryDb = false,
+            RegistryService(const char *                  launchPath,
+                            const bool                    useInMemoryDb = false,
                             const yarp::os::ConstString & serviceHostName = "",
                             const yarp::os::ConstString & servicePortNumber = "");
             
@@ -117,10 +119,12 @@ namespace MplusM
              @param channelName The service channel for the service.
              @param name The canonical name for the service.
              @param description The description of the service.
+             @param executable The path to the executable for the service.
              @returns @c true if the request was successfully added and @c false otherwise. */
             bool addServiceRecord(const yarp::os::ConstString & channelName,
                                   const yarp::os::ConstString & name,
-                                  const yarp::os::ConstString & description);
+                                  const yarp::os::ConstString & description,
+                                  const yarp::os::ConstString & executable);
             
             /*! @brief Return @c true if the service is active.
              @returns @c true if the service is active and @c false otherwise. */
