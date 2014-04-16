@@ -1,1 +1,5 @@
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
+
+* Version/Version to always display version information; move CHATTY to cmake settings
+
+—> doxy main page screen capture for Dhruv
