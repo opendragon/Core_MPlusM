@@ -66,9 +66,9 @@ add_executable(ParserTest
                M+MTestNameValidator.cpp)
 
 target_link_libraries(ParserTest
+                      Parser
                       Common
                       Logging
-                      Parser
                       ${YARP_LIBRARIES})
 
 # Argument order for test 1 = expected result (t/f), string to match

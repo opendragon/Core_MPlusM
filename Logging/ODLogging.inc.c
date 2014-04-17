@@ -265,7 +265,7 @@ inline static tOdThreadData * odGetThreadData_(void)
  @returns The file name part of a file path. */
 static const char * odFileNameRoot_(const char * fileName)
 {
-    char * result = strrchr(fileName, '/');
+    const char * result = strrchr(fileName, '/');
     
     return (result ? (result + 1) : fileName);
 } // odFileNameRoot_

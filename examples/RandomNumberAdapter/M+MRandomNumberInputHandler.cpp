@@ -144,7 +144,7 @@ bool RandomNumberInputHandler::handleInput(const Common::Package &       input,
                     {
                         Common::Package message;
                         
-                        for (Common::DoubleVector::const_iterator it(randResult.cbegin()); randResult.cend() != it;
+                        for (Common::DoubleVector::const_iterator it(randResult.begin()); randResult.end() != it;
                              ++it)
                         {
                             message.addDouble(*it);

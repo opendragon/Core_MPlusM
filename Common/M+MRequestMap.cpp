@@ -98,9 +98,9 @@ void RequestMap::fillInListReply(Package & reply)
     try
     {
         lock();
-        RequestHandlerMap::const_iterator walker(_handlers.cbegin());
+        RequestHandlerMap::const_iterator walker(_handlers.begin());
         
-        for ( ; walker != _handlers.cend(); ++walker)
+        for ( ; _handlers.end() != walker; ++walker)
         {
             yarp::os::Property & aDict = reply.addDict();
             BaseRequestHandler * aHandler = walker->second;
@@ -126,9 +126,9 @@ void RequestMap::fillInRequestInfo(Package &                     reply,
         lock();
         RequestHandlerMap::const_iterator match(_handlers.find(std::string(requestName)));
         
-        if (_handlers.cend() == match)
+        if (_handlers.end() == match)
         {
-            OD_LOG("(_handlers.cend() == match)");//####
+            OD_LOG("(_handlers.end() == match)");//####
         }
         else
         {
@@ -158,14 +158,14 @@ BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstStrin
         lock();
         RequestHandlerMap::const_iterator match(_handlers.find(std::string(request)));
 
-        if (_handlers.cend() == match)
+        if (_handlers.end() == match)
         {
-            OD_LOG("(_handlers.cend() == match)");//####
+            OD_LOG("(_handlers.end() == match)");//####
             result = _defaultHandler;
         }
         else
         {
-            OD_LOG("! (_handlers.cend() == match)");//####
+            OD_LOG("! (_handlers.end() == match)");//####
             result = match->second;
         }
         unlock();
@@ -192,7 +192,7 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
             handler->fillInAliases(aliases);
             lock();
             _handlers.insert(RequestHandlerMapValue(std::string(handler->name()), handler));
-            for (StringVector::const_iterator it(aliases.cbegin()); it != aliases.cend(); ++it)
+            for (StringVector::const_iterator it(aliases.begin()); aliases.end() != it; ++it)
             {
                 _handlers.insert(RequestHandlerMapValue(*it, handler));
             }
@@ -231,7 +231,7 @@ void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
             handler->fillInAliases(aliases);
             lock();
             _handlers.erase(std::string(handler->name()));
-            for (StringVector::const_iterator it(aliases.cbegin()); it != aliases.cend(); ++it)
+            for (StringVector::const_iterator it(aliases.begin()); aliases.end() != it; ++it)
             {
                 _handlers.erase(*it);
             }

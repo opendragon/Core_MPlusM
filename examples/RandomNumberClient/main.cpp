@@ -178,8 +178,8 @@ int main(int      argc,
                                 if (stuff->getRandomNumbers(count, results))
                                 {
                                     cout << "result = ( ";
-                                    for (MplusM::Common::DoubleVector::const_iterator it(results.cbegin());
-                                         it != results.cend(); ++it)
+                                    for (MplusM::Common::DoubleVector::const_iterator it(results.begin());
+                                         results.end() != it; ++it)
                                     {
                                         cout << " " << *it;
                                     }

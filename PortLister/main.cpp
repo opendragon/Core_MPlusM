@@ -147,7 +147,7 @@ static bool checkForRegistryService(const MplusM::Common::StringVector & ports)
     OD_LOG_ENTER();//####
     bool result = false;
     
-    for (MplusM::Common::StringVector::const_iterator it(ports.cbegin()); (! result) && (ports.cend() != it); ++it)
+    for (MplusM::Common::StringVector::const_iterator it(ports.begin()); (! result) && (ports.end() != it); ++it)
     {
         if (*it == MpM_SERVICE_REGISTRY_CHANNEL_NAME)
         {
@@ -419,7 +419,7 @@ int main(int      argc,
                         processResponse(responseValue.asString(), ports);
                         bool serviceRegistryPresent = checkForRegistryService(ports);
                         
-                        for (MplusM::Common::StringVector::const_iterator it(ports.cbegin()); ports.cend() != it; ++it)
+                        for (MplusM::Common::StringVector::const_iterator it(ports.begin()); ports.end() != it; ++it)
                         {
                             if (! found)
                             {

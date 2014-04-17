@@ -60,9 +60,9 @@ add_executable(RegistryService
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RegistryService
+                      Parser
                       Common
                       Logging
-                      Parser
                       ${YARP_LIBRARIES})
 
 enable_testing()
@@ -77,10 +77,10 @@ add_executable(RegistryTest
                ${MpM_SQLITE_DIR}/sqlite3.c)
 
 target_link_libraries(RegistryTest
+                      RegistryTestSupport
+                      Parser
                       Common
                       Logging
-                      Parser
-                      RegistryTestSupport
                       ${YARP_LIBRARIES})
 
 # Test create register service

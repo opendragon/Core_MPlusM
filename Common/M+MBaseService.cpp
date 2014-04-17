@@ -367,7 +367,7 @@ void BaseService::fillInClientList(StringVector & clients)
     OD_LOG_OBJENTER();//####
     lockContexts();
     
-    for (ContextMap::const_iterator walker(_contexts.cbegin()); _contexts.cend() != walker; ++walker)
+    for (ContextMap::const_iterator walker(_contexts.begin()); _contexts.end() != walker; ++walker)
     {
         clients.push_back(walker->first.c_str());
     }
@@ -388,7 +388,7 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
         lockContexts();
         ContextMap::const_iterator match(_contexts.find(std::string(key)));
         
-        if (_contexts.cend() != match)
+        if (_contexts.end() != match)
         {
             result = match->second;
         }

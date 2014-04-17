@@ -47,7 +47,9 @@
 
 #include <ace/Version.h>
 #include <cmath>
+#include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <ctime>
 #if defined(__APPLE__)
 # pragma clang diagnostic push

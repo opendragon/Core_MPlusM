@@ -175,7 +175,7 @@ bool RunningSumClient::addToSum(const Common::DoubleVector & values,
         Common::Package         parameters;
         Common::ServiceResponse response;
         
-        for (Common::DoubleVector::const_iterator it(values.cbegin()); it != values.cend(); ++it)
+        for (Common::DoubleVector::const_iterator it(values.begin()); values.end() != it; ++it)
         {
             parameters.addDouble(*it);
         }

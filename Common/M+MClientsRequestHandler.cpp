@@ -158,7 +158,7 @@ bool ClientsRequestHandler::processRequest(const yarp::os::ConstString & request
             
 #if defined(SERVICES_HAVE_CONTEXTS)
             _service.fillInClientList(clients);
-            for (StringVector::const_iterator it(clients.cbegin()); it != clients.cend(); ++it)
+            for (StringVector::const_iterator it(clients.begin()); clients.end() != it; ++it)
             {
                 reply.addString(it->c_str());
             }

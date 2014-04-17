@@ -43,7 +43,7 @@
 /*! @brief Header guard. */
 # define MpMBaseContext_H_ /* */
 
-# include "M+MConfig.h"
+# include "M+MCommon.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

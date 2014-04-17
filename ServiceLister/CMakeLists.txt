@@ -48,9 +48,9 @@ add_executable(ServiceLister
 
 # link with YARP libraries and our interface classes
 target_link_libraries(ServiceLister
+                      Parser
                       Common
                       Logging
-                      Parser
                       ${YARP_LIBRARIES})
 
 enable_testing()

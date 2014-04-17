@@ -49,8 +49,8 @@ add_executable(ClientList
 # link with YARP libraries and our interface classes
 target_link_libraries(ClientList
                       Common
-                      Logging
                       Parser
+                      Logging
                       ${YARP_LIBRARIES})
 
 enable_testing()

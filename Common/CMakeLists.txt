@@ -84,10 +84,10 @@ add_executable(CommonTest
                M+MCommonTest.cpp)
 
 target_link_libraries(CommonTest
+                      CommonTestSupport
+                      Parser
                       Common
                       Logging
-                      Parser
-                      CommonTestSupport
                       ${YARP_LIBRARIES})
 
 # Argument order for test 1 = endpoint name [, IP address / name [, port]]

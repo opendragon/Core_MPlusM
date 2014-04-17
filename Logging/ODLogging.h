@@ -43,6 +43,7 @@
 /*! @brief Header guard. */
 # define ODLOGGING_H_ /* */
 
+# include <stdint.h>
 # if defined(__OBJC__)
 #  import <Foundation/Foundation.h>
 # endif // defined(__OBJC__)

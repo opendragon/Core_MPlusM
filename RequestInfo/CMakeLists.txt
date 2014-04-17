@@ -48,9 +48,9 @@ add_executable(RequestInfo
 
 # link with YARP libraries and our interface classes
 target_link_libraries(RequestInfo
+                      Parser
                       Common
                       Logging
-                      Parser
                       ${YARP_LIBRARIES})
 
 enable_testing()
