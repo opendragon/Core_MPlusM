@@ -5,36 +5,36 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>5D6B8C48-B8A3-4156-AE42-2B2A36EC97D4</string>
+	<string>926F496B-8E16-418D-BC67-42D2499665BC</string>
 	<key>IDESourceControlProjectName</key>
 	<string>MPlusM</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>744CE36B-6656-43B2-B8D4-64B60C7F1560</key>
-		<string>https://github.com/MovementAndMeaning/MoAndMe.git</string>
+		<key>32B82A04-177D-4A93-92D6-7FDE9163027C</key>
+		<string>https://github.com/MovementAndMeaning/MPlusM.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>MPlusM/MPlusM.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>744CE36B-6656-43B2-B8D4-64B60C7F1560</key>
+		<key>32B82A04-177D-4A93-92D6-7FDE9163027C</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/MovementAndMeaning/MoAndMe.git</string>
+	<string>https://github.com/MovementAndMeaning/MPlusM.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>744CE36B-6656-43B2-B8D4-64B60C7F1560</string>
+	<string>32B82A04-177D-4A93-92D6-7FDE9163027C</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>744CE36B-6656-43B2-B8D4-64B60C7F1560</string>
+			<string>32B82A04-177D-4A93-92D6-7FDE9163027C</string>
 			<key>IDESourceControlWCCName</key>
-			<string>MoAndMe</string>
+			<string>M+M</string>
 		</dict>
 	</array>
 </dict>
