@@ -117,7 +117,7 @@ static int doTestCreateRegisterService(const char * launchPath,
         {
             switch (argc)
             {
-                    // Argument order for tests = endpoint name [, IP address / name [, port]]
+                    // Argument order for tests = [IP address / name [, port]]
                 case 0:
                     registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY);
                     break;
@@ -184,20 +184,20 @@ static int doTestRequestRegisterService(const char * launchPath,
         {
             switch (argc)
             {
-                    // Argument order for tests = endpoint name [, IP address / name [, port]]
+                    // Argument order for tests = [IP address / name [, port]]
                 case 0:
                     registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY);
-                    secondServiceChannel = "/service/test/requestregisterservice_1";
+                    secondServiceChannel = DEFAULT_SERVICE_NAME_BASE "test/requestregisterservice_1";
                     break;
                     
                 case 1:
                     registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv);
-                    secondServiceChannel = "/service/test/requestregisterservice_2";
+                    secondServiceChannel = DEFAULT_SERVICE_NAME_BASE "test/requestregisterservice_2";
                     break;
                     
                 case 2:
                     registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv, argv[1]);
-                    secondServiceChannel = "/service/test/requestregisterservice_3";
+                    secondServiceChannel = DEFAULT_SERVICE_NAME_BASE "test/requestregisterservice_3";
                     break;
                     
                 default:
@@ -289,20 +289,20 @@ static int doTestRequestUnregisterService(const char * launchPath,
         {
             switch (argc)
             {
-                    // Argument order for tests = endpoint name [, IP address / name [, port]]
+                    // Argument order for tests = [IP address / name [, port]]
                 case 0:
                     registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY);
-                    secondServiceChannel = "/service/test/requestunregisterservice_1";
+                    secondServiceChannel = DEFAULT_SERVICE_NAME_BASE "test/requestunregisterservice_1";
                     break;
                     
                 case 1:
                     registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv);
-                    secondServiceChannel = "/service/test/requestunregisterservice_2";
+                    secondServiceChannel = DEFAULT_SERVICE_NAME_BASE "test/requestunregisterservice_2";
                     break;
                     
                 case 2:
                     registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv, argv[1]);
-                    secondServiceChannel = "/service/test/requestunregisterservice_3";
+                    secondServiceChannel = DEFAULT_SERVICE_NAME_BASE "test/requestunregisterservice_3";
                     break;
                     
                 default:
@@ -396,7 +396,8 @@ static int doTestRequestSearchService(const char * launchPath,
     {
         if (1 < argc)
         {
-            const char *                        secondServiceChannel = "/service/test/requestsearchservice";
+            const char *                        secondServiceChannel = DEFAULT_SERVICE_NAME_BASE
+                                                                        "test/requestsearchservice";
             MplusM::Registry::RegistryService * registry = new MplusM::Registry::RegistryService(launchPath,
                                                                                                  TEST_INMEMORY);
             

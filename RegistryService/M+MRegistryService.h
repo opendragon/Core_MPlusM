@@ -60,6 +60,11 @@ struct sqlite3;
 
 namespace MplusM
 {
+    namespace Common
+    {
+        class AdapterChannel;
+    } // Common
+    
     namespace Parser
     {
         class MatchExpression;
@@ -185,9 +190,19 @@ namespace MplusM
             /*! @brief Disable the standard request handlers. */
             void detachRequestHandlers(void);
             
+            /*! @brief Report a change to a service.
+             @param channelName The service channel for the service.
+             @param ifAdded @c true if the service is being added and @c false if it is being removed. */
+            void reportStatusChange(const yarp::os::ConstString & channelName,
+                                    const bool                    ifAdded);
+            
             /*! @brief Set up the service registry database.
              @returns @c true if the database was set up and @c false otherwise. */
             bool setUpDatabase(void);
+            
+            /*! @brief Set up the status reporting channel.
+             @returns @c true if the channel was set up and @c false otherwise. */
+            bool setUpStatusChannel(void);
             
             /*! @brief The service registry database. */
             sqlite3 *                  _db;
@@ -197,6 +212,9 @@ namespace MplusM
             
             /*! @brief The request handler for the 'match' request. */
             MatchRequestHandler *      _matchHandler;
+            
+            /*! @brief The channel to send status change messages to. */
+            Common::AdapterChannel *   _statusChannel;
             
             /*! @brief The request handler for the 'register' request. */
             RegisterRequestHandler *   _registerHandler;

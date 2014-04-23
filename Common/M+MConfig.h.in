@@ -63,6 +63,11 @@
 /*! @brief The version number as a string. */
 # define MpM_VERSION "@MpM_VERSION_MAJOR@.@MpM_VERSION_MINOR@.@MpM_VERSION_PATCH@"
 
+/*! @brief The base of the channel name to use for an adapter. */
+# define MpM_ADAPTER_BASE_NAME "@MpM_ADAPTER_BASE_NAME@"
+/*! @brief The base of the channel name to use for a service. */
+# define MpM_SERVICE_BASE_NAME "@MpM_SERVICE_BASE_NAME@"
+
 #cmakedefine MpM_CHANNELS_USE_RPC /* Use RpcClient and RpcService objects for communication. */
 
 #cmakedefine MpM_CHATTY_START /* Report the version numbers when launching an executable. */

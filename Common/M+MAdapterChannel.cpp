@@ -195,22 +195,25 @@ void AdapterChannel::RelinquishChannel(AdapterChannel * & theChannel)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("theChannel = ", theChannel);//####
-    SetUpCatcher();
-    try
+    if (theChannel)
     {
+        SetUpCatcher();
+        try
+        {
 #if (! defined(MpM_DONT_USE_TIMEOUTS))
-        BailOut bailer(*theChannel);
+            BailOut bailer(*theChannel);
 #endif // ! defined(MpM_DONT_USE_TIMEOUTS)
-        
-        delete theChannel;
-        theChannel = NULL;
+            
+            delete theChannel;
+            theChannel = NULL;
+        }
+        catch (...)
+        {
+            OD_LOG("Exception caught");//####
+            throw;
+        }
+        ShutDownCatcher();        
     }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    ShutDownCatcher();
     OD_LOG_EXIT();//####
 } // AdapterChannel::RelinquishChannel
 

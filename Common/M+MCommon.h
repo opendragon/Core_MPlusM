@@ -113,6 +113,7 @@
 /*! @brief The default timeout duration in seconds. */
 # define STANDARD_WAIT_TIME 5.0
 
+/*! @brief The signal to use for internally-detected timeouts. */
 # if (defined(__APPLE__) || defined(__linux__))
 #  define STANDARD_SIGNAL_TO_USE SIGUSR2
 # else // (! defined(__APPLE__)) && (! defined(__linux__))

@@ -40,6 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "M+MRegistryService.h"
+#include "M+MAdapterChannel.h"
 #include "M+MClientChannel.h"
 #include "M+MColumnNameValidator.h"
 #include "M+MMatchExpression.h"
@@ -154,10 +155,6 @@ namespace MplusM
     } // Registry
     
 } // MplusM
-
-#if defined(__APPLE__)
-# pragma mark Local functions
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -964,8 +961,8 @@ RegistryService::RegistryService(const char *                  launchPath,
                   "          register - record the information for a service on the given channel\n"
                   "          unregister - remove the information for a service on the given channel",
                   MpM_SERVICE_REGISTRY_CHANNEL_NAME, serviceHostName, servicePortNumber), _db(NULL),
-        _validator(new ColumnNameValidator), _matchHandler(NULL), _registerHandler(NULL), _unregisterHandler(NULL),
-        _inMemory(useInMemoryDb), _isActive(false)
+        _validator(new ColumnNameValidator), _matchHandler(NULL), _statusChannel(NULL), _registerHandler(NULL),
+        _unregisterHandler(NULL), _inMemory(useInMemoryDb), _isActive(false)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("launchPath = ", launchPath);//####
@@ -984,6 +981,13 @@ RegistryService::~RegistryService(void)
         sqlite3_close(_db);
     }
     delete _validator;
+    if (_statusChannel)
+    {
+#if defined(MpM_DO_EXPLICIT_CLOSE)
+        _statusChannel->close();
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+        Common::AdapterChannel::RelinquishChannel(_statusChannel);
+    }
     OD_LOG_OBJEXIT();//####
 } // RegistryService::~RegistryService
 
@@ -1100,6 +1104,7 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
             {
                 performSQLstatementWithNoResults(_db, kRollbackTransaction);
             }
+            reportStatusChange(channelName, true);
         }
     }
     catch (...)
@@ -1257,6 +1262,7 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceC
             {
                 performSQLstatementWithNoResults(_db, kRollbackTransaction);
             }
+            reportStatusChange(serviceChannelName, false);
         }
     }
     catch (...)
@@ -1267,6 +1273,28 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceC
     OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RegistryService::removeServiceRecord
+
+void RegistryService::reportStatusChange(const yarp::os::ConstString & channelName,
+                                         const bool                    ifAdded)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("channelName = ", channelName.c_str());//####
+    if (_statusChannel)
+    {
+        Common::Package message;
+        
+        message.addString(ifAdded ? "add" : "remove");
+        message.addString(channelName);
+        if (! _statusChannel->write(message))
+        {
+            OD_LOG("(! _statusChannel->write(message))");//####
+#if defined(MpM_STALL_ON_SEND_PROBLEM)
+            Common::Stall();
+#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
+        }
+    }
+    OD_LOG_OBJEXIT();//####
+} // RegistryService::reportStatusChange
 
 bool RegistryService::setUpDatabase(void)
 {
@@ -1322,6 +1350,45 @@ bool RegistryService::setUpDatabase(void)
     return okSoFar;
 } // RegistryService::setUpDatabase
 
+bool RegistryService::setUpStatusChannel(void)
+{
+    OD_LOG_OBJENTER();//####
+    bool okSoFar = false;
+    
+    try
+    {
+        _statusChannel = new Common::AdapterChannel;
+        if (_statusChannel)
+        {
+            yarp::os::ConstString outputName(MpM_SERVICE_REGISTRY_CHANNEL_NAME "/status");
+            
+#if defined(MpM_REPORT_ON_CONNECTIONS)
+            _statusChannel->setReporter(reporter);
+            _statusChannel->getReport(reporter);
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+            if (_statusChannel->openWithRetries(outputName))
+            {
+                okSoFar = true;
+            }
+            else
+            {
+                OD_LOG("! (_statusChannel->openWithRetries(outputName))");//####
+            }
+        }
+        else
+        {
+            OD_LOG("! (_statusChannel)");//####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(okSoFar);//####
+    return okSoFar;
+} // RegistryService::setUpStatusChannel
+
 bool RegistryService::start(void)
 {
     OD_LOG_OBJENTER();//####
@@ -1332,7 +1399,7 @@ bool RegistryService::start(void)
         if ((! isActive()) && (! isStarted()))
         {
             inherited::start();
-            if (isStarted() && setUpDatabase())
+            if (isStarted() && setUpDatabase() && setUpStatusChannel())
             {
                 // Register ourselves!!!
                 yarp::os::ConstString   aName(Common::GetRandomChannelName(MpM_SERVICE_REGISTRY_CHANNEL_NAME "/temp_"));

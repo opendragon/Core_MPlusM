@@ -46,7 +46,7 @@ project(M+M)
 
 set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 2)
-set(MpM_VERSION_PATCH 5)
+set(MpM_VERSION_PATCH 6)
 
 option(MpM_CHANNELS_USE_RPC "Use RpcClient and RpcService objects for communication")
 option(MpM_CHATTY_START "Report the version numbers when launching an executable")
@@ -72,6 +72,9 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 
 # add ACE include directories
 include_directories(${ACE_INCLUDE_DIRS})
+
+set(MpM_ADAPTER_BASE_NAME "/adapter/")
+set(MpM_SERVICE_BASE_NAME "/service/")
 
 set(MpM_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
 set(MpM_LOGGING_DIR "${PROJECT_SOURCE_DIR}/Logging")

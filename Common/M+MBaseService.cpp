@@ -166,7 +166,7 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
     OD_LOG_S2("canonicalName = ", canonicalName.c_str(), "description = ", description.c_str());//####
     switch (argc)
     {
-            // Argument order for tests = endpoint name [, IP address / name [, port [, carrier]]]
+            // Argument order = endpoint name [, IP address / name [, port]]
         case 1:
             _endpoint = new Endpoint(*argv);
             break;

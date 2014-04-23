@@ -74,6 +74,9 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief The base of the channel name to use for an adapter if not provided. */
+# define ADAPTER_PORT_NAME_BASE MpM_ADAPTER_BASE_NAME
+
 namespace MplusM
 {
     namespace Common

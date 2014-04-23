@@ -127,9 +127,9 @@ static void stopRunning(int signal)
  stop Ask the service to stop calculating the running sum.
  The first, optional, argument is the port name to be used for the control port, the second, optional, argument is the
  name to be used for the data port and the third, optional, argument is the name to be used for the output port. If the
- first argument is missing, the control port will be named /adapter/control/runningsum, if the second argument is
- missing, the data port will be named /adapter/data/randomnumber and if the third argument is missing the output port
- will be named /adapter/output/runningsum.
+ first argument is missing, the control port will be named ADAPTER_PORT_NAME_BASE+control/runningsum, if the second
+ argument is missing, the data port will be named ADAPTER_PORT_NAME_BASE+data/randomnumber and if the third argument is
+ missing the output port will be named ADAPTER_PORT_NAME_BASE+output/runningsum.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -172,9 +172,9 @@ int main(int      argc,
                         
                         if (controlChannel && dataChannel && outputChannel && controlHandler && dataHandler)
                         {
-                            yarp::os::ConstString controlName("/adapter/control/runningsum");
-                            yarp::os::ConstString dataName("/adapter/data/runningsum");
-                            yarp::os::ConstString outputName("/adapter/output/runningsum");
+                            yarp::os::ConstString controlName(ADAPTER_PORT_NAME_BASE "control/runningsum");
+                            yarp::os::ConstString dataName(ADAPTER_PORT_NAME_BASE "data/runningsum");
+                            yarp::os::ConstString outputName(ADAPTER_PORT_NAME_BASE "output/runningsum");
                             
                             if (argc > 1)
                             {

@@ -130,8 +130,8 @@ static void stopRunning(int signal)
 
  The first, optional, argument is the port name to be used for the input port and the second, optional, argument is the
  name to be used for the output port. If the first argument is missing, the input port will be named
- /adapter/input/runningsum and if the second argument is missing, the output port will be named
- /adapter/output/runningsum.
+ ADAPTER_PORT_NAME_BASE+input/runningsum and if the second argument is missing, the output port will be named
+ ADAPTER_PORT_NAME_BASE+output/runningsum.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -172,8 +172,8 @@ int main(int      argc,
                         
                         if (inputChannel && outputChannel && inputHandler)
                         {
-                            yarp::os::ConstString inputName("/adapter/input/runningsum");
-                            yarp::os::ConstString outputName("/adapter/output/runningsum");
+                            yarp::os::ConstString inputName(ADAPTER_PORT_NAME_BASE "input/runningsum");
+                            yarp::os::ConstString outputName(ADAPTER_PORT_NAME_BASE "output/runningsum");
                             
                             if (argc > 1)
                             {
