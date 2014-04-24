@@ -1,3 +1,9 @@
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
 
-* add outlet port to Registry Service to post status messages
+* add ‘stopping’ message to status port
+
+* what are YARP namespaces and could we use them
+
+* check port names against the standards - if an adapter, report as ‘possible adapter’; if a service, report as ‘possibly unregistered service’ if not known
+
+* PortLister should still work even if the registry server is not reachable 
