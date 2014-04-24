@@ -960,7 +960,7 @@ RegistryService::RegistryService(const char *                  launchPath,
                   "Requests: match - return the channels for services matching the criteria provided\n"
                   "          register - record the information for a service on the given channel\n"
                   "          unregister - remove the information for a service on the given channel",
-                  MpM_SERVICE_REGISTRY_CHANNEL_NAME, serviceHostName, servicePortNumber), _db(NULL),
+                  MpM_REGISTRY_CHANNEL_NAME, serviceHostName, servicePortNumber), _db(NULL),
         _validator(new ColumnNameValidator), _matchHandler(NULL), _statusChannel(NULL), _registerHandler(NULL),
         _unregisterHandler(NULL), _inMemory(useInMemoryDb), _isActive(false)
 {
@@ -1104,7 +1104,7 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
             {
                 performSQLstatementWithNoResults(_db, kRollbackTransaction);
             }
-            reportStatusChange(channelName, true);
+            reportStatusChange(channelName, kRegistryAddService);
         }
     }
     catch (...)
@@ -1262,7 +1262,7 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceC
             {
                 performSQLstatementWithNoResults(_db, kRollbackTransaction);
             }
-            reportStatusChange(serviceChannelName, false);
+            reportStatusChange(serviceChannelName, kRegistryRemoveService);
         }
     }
     catch (...)
@@ -1275,7 +1275,7 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceC
 } // RegistryService::removeServiceRecord
 
 void RegistryService::reportStatusChange(const yarp::os::ConstString & channelName,
-                                         const bool                    ifAdded)
+                                         const ServiceStatus           newStatus)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("channelName = ", channelName.c_str());//####
@@ -1283,8 +1283,31 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
     {
         Common::Package message;
         
-        message.addString(ifAdded ? "add" : "remove");
-        message.addString(channelName);
+        switch (newStatus)
+        {
+            case kRegistryStarted:
+                message.addString(MpM_REGISTRY_STATUS_STARTING);
+                break;
+                
+            case kRegistryStopped:
+                message.addString(MpM_REGISTRY_STATUS_STOPPING);
+                break;
+                
+            case kRegistryAddService:
+                message.addString(MpM_REGISTRY_STATUS_ADDING);
+                message.addString(channelName);
+                break;
+                
+            case kRegistryRemoveService:
+                message.addString(MpM_REGISTRY_STATUS_REMOVING);
+                message.addString(channelName);
+                break;
+                
+            default:
+                message.addString(MpM_REGISTRY_STATUS_UNKNOWN);
+                break;
+                
+        }
         if (! _statusChannel->write(message))
         {
             OD_LOG("(! _statusChannel->write(message))");//####
@@ -1360,7 +1383,7 @@ bool RegistryService::setUpStatusChannel(void)
         _statusChannel = new Common::AdapterChannel;
         if (_statusChannel)
         {
-            yarp::os::ConstString outputName(MpM_SERVICE_REGISTRY_CHANNEL_NAME "/status");
+            yarp::os::ConstString outputName(MpM_REGISTRY_CHANNEL_NAME "/status");
             
 #if defined(MpM_REPORT_ON_CONNECTIONS)
             _statusChannel->setReporter(reporter);
@@ -1402,16 +1425,16 @@ bool RegistryService::start(void)
             if (isStarted() && setUpDatabase() && setUpStatusChannel())
             {
                 // Register ourselves!!!
-                yarp::os::ConstString   aName(Common::GetRandomChannelName(MpM_SERVICE_REGISTRY_CHANNEL_NAME "/temp_"));
+                yarp::os::ConstString   aName(Common::GetRandomChannelName(MpM_REGISTRY_CHANNEL_NAME "/temp_"));
                 Common::ClientChannel * newChannel = new Common::ClientChannel;
                 
                 if (newChannel)
                 {
                     if (newChannel->openWithRetries(aName))
                     {
-                        if (Common::NetworkConnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))
+                        if (Common::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
                         {
-                            Common::Package         parameters(MpM_SERVICE_REGISTRY_CHANNEL_NAME);
+                            Common::Package         parameters(MpM_REGISTRY_CHANNEL_NAME);
                             Common::ServiceRequest  request(MpM_REGISTER_REQUEST, parameters);
                             Common::ServiceResponse response;
                             
@@ -1447,7 +1470,7 @@ bool RegistryService::start(void)
                         else
                         {
                             OD_LOG("! (Common::NetworkConnectWithRetries(aName, "//####
-                                   "MpM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
+                                   "MpM_REGISTRY_CHANNEL_NAME))");//####
                         }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
                         newChannel->close();
@@ -1470,6 +1493,10 @@ bool RegistryService::start(void)
             }
         }
         result = isStarted();
+        if (result)
+        {
+            reportStatusChange("", kRegistryStarted);
+        }
     }
     catch (...)
     {
@@ -1487,6 +1514,10 @@ bool RegistryService::stop(void)
     
     try
     {
+        if (isActive())
+        {
+            reportStatusChange("", kRegistryStopped);
+        }
         result = inherited::stop();
         _isActive = false;
         OD_LOG_B1("_isActive <- ", _isActive);//####

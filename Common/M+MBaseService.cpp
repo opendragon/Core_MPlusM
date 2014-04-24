@@ -605,7 +605,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
             if (newChannel->openWithRetries(aName))
             {
-                if (NetworkConnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
                 {
                     Package         parameters(channelName);
                     ServiceRequest  request(MpM_REGISTER_REQUEST, parameters);
@@ -638,15 +638,15 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
                     }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
                 }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
                 newChannel->close();
@@ -695,7 +695,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
             if (newChannel->openWithRetries(aName))
             {
-                if (NetworkConnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
                 {
                     Package         parameters(channelName);
                     ServiceRequest  request(MpM_UNREGISTER_REQUEST, parameters);
@@ -728,15 +728,15 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
                     }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
                 }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
                 newChannel->close();

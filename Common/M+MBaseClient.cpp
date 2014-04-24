@@ -432,7 +432,7 @@ Package Common::FindMatchingServices(const char * criteria)
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
             if (newChannel->openWithRetries(aName))
             {
-                if (NetworkConnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
                 {
                     Package parameters;
                     
@@ -451,15 +451,15 @@ Package Common::FindMatchingServices(const char * criteria)
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
                     }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_SERVICE_REGISTRY_CHANNEL_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
                 }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
                 newChannel->close();

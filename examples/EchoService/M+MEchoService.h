@@ -57,7 +57,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_ECHO_SERVICE_NAME DEFAULT_SERVICE_NAME_BASE "example/echo"
+# define DEFAULT_ECHO_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "example/echo")
 
 namespace MplusM
 {

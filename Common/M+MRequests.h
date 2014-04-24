@@ -54,6 +54,9 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief The standard name for the service registry channel. */
+# define MpM_REGISTRY_CHANNEL_NAME    "/$ervice"
+
 /*! @brief The channel-independent name of the service registry service. */
 # define MpM_REGISTRY_CANONICAL_NAME "Registry"
 
@@ -73,7 +76,7 @@
 # define MpM_NAME_REQUEST       "name"
 /*! @brief The standard name for a 'register' request. */
 # define MpM_REGISTER_REQUEST   "register"
-/*! @brief The standard name for a 'unregister' request. */
+/*! @brief The standard name for an 'unregister' request. */
 # define MpM_UNREGISTER_REQUEST "unregister"
 
 /*! @brief The number of elements expected in the output of a 'match' request. */
@@ -85,6 +88,17 @@
 # define MpM_FAILED_RESPONSE "FAILED"
 /*! @brief The standard response to a valid 'register' / 'unregister' request. */
 # define MpM_OK_RESPONSE     "OK"
+
+/*! @brief A service is being added to the registry. */
+# define MpM_REGISTRY_STATUS_ADDING   "adding"
+/*! @brief A service is being removed from the registry. */
+# define MpM_REGISTRY_STATUS_REMOVING "removing"
+/*! @brief The registry has just started. */
+# define MpM_REGISTRY_STATUS_STARTING "starting"
+/*! @brief The registry is stopping. */
+# define MpM_REGISTRY_STATUS_STOPPING "stopping"
+/*! @brief The registry status is unknown. */
+# define MpM_REGISTRY_STATUS_UNKNOWN  "<unknown>"
 
 /*! @brief Request/response specification character - zero or one repetitions of preceding. */
 # define MpM_REQREP_0_OR_1     "?"
@@ -127,8 +141,5 @@
 # define MpM_REQREP_DICT_REQUEST_KEY     "request"
 /*! @brief Request/response dictionary key - version. */
 # define MpM_REQREP_DICT_VERSION_KEY     "version"
-
-/*! @brief The standard name for the service registry channel. */
-# define MpM_SERVICE_REGISTRY_CHANNEL_NAME "/$ervice"
 
 #endif // ! defined(MpMRequests_H_)

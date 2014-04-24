@@ -166,6 +166,19 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseService inherited;
             
+            /*! @brief The current state of the service. */
+            enum ServiceStatus
+            {
+                /*! @brief The registry has just started. */
+                kRegistryStarted,
+                /*! @brief The registry is stopping. */
+                kRegistryStopped,
+                /*! @brief A service is being added to the registry. */
+                kRegistryAddService,
+                /*! @brief A service is being removed from the registry. */
+                kRegistryRemoveService
+            }; // ServiceStatus
+            
             /*! @brief The constructor.
              @param argc The number of arguments in 'argv'.
              @param argv The arguments to be used to specify the new service. */
@@ -192,9 +205,9 @@ namespace MplusM
             
             /*! @brief Report a change to a service.
              @param channelName The service channel for the service.
-             @param ifAdded @c true if the service is being added and @c false if it is being removed. */
+             @param newStatus The updated state of the service. */
             void reportStatusChange(const yarp::os::ConstString & channelName,
-                                    const bool                    ifAdded);
+                                    const ServiceStatus           newStatus);
             
             /*! @brief Set up the service registry database.
              @returns @c true if the database was set up and @c false otherwise. */

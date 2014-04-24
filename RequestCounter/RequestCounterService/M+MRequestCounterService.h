@@ -57,7 +57,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_REQUESTCOUNTER_SERVICE_NAME DEFAULT_SERVICE_NAME_BASE "requestCounter"
+# define DEFAULT_REQUESTCOUNTER_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "requestCounter")
 
 namespace MplusM
 {

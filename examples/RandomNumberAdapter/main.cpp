@@ -159,8 +159,8 @@ int main(int      argc,
                         
                         if (inputChannel && outputChannel && inputHandler)
                         {
-                            yarp::os::ConstString inputName(ADAPTER_PORT_NAME_BASE "input/randomnumber");
-                            yarp::os::ConstString outputName(ADAPTER_PORT_NAME_BASE "output/randomnumber");
+                            yarp::os::ConstString inputName(T_(ADAPTER_PORT_NAME_BASE "input/randomnumber"));
+                            yarp::os::ConstString outputName(T_(ADAPTER_PORT_NAME_BASE "output/randomnumber"));
                             
                             if (argc > 1)
                             {

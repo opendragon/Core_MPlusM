@@ -149,7 +149,7 @@ static bool checkForRegistryService(const MplusM::Common::StringVector & ports)
     
     for (MplusM::Common::StringVector::const_iterator it(ports.begin()); (! result) && (ports.end() != it); ++it)
     {
-        if (*it == MpM_SERVICE_REGISTRY_CHANNEL_NAME)
+        if (*it == MpM_REGISTRY_CHANNEL_NAME)
         {
             result = true;
         }
@@ -335,6 +335,9 @@ static void reportPortStatus(const std::string & portName,
     OD_LOG_ENTER();//####
     OD_LOG_S1("portName = ", portName.c_str());//####
     OD_LOG_B1("checkWithRegistry = ", checkWithRegistry);//####
+    const size_t kAdapterPortNameBaseLen = sizeof(ADAPTER_PORT_NAME_BASE) - 1;
+    const size_t kDefaultServiceNameBaseLen = sizeof(DEFAULT_SERVICE_NAME_BASE) - 1;
+
     if (checkWithRegistry)
     {
         std::string request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
@@ -347,7 +350,19 @@ static void reportPortStatus(const std::string & portName,
         {
             yarp::os::ConstString matchesFirstString(matches.get(0).toString());
             
-            if (! strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
+            if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
+            {
+                // Didn't match - use a simpler check, in case it's unregistered or is an adapter.
+                if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portName.c_str(), kDefaultServiceNameBaseLen))
+                {
+                    cout << "   An unregistered service port." << endl;
+                }
+                else if (! strncmp(ADAPTER_PORT_NAME_BASE, portName.c_str(), kAdapterPortNameBaseLen))
+                {
+                    cout << "   An adapter." << endl;
+                }
+            }
+            else
             {
                 yarp::os::Value secondValue(matches.get(1));
                 
@@ -357,10 +372,29 @@ static void reportPortStatus(const std::string & portName,
                     
                     if (secondList && secondList->size())
                     {
-                        cout << "   A service port." << endl;
+                        if (portName == MpM_REGISTRY_CHANNEL_NAME)
+                        {
+                            cout << "   The service registry." << endl;
+                        }
+                        else
+                        {
+                            cout << "   A service port." << endl;
+                        }
                     }
                 }
             }
+        }
+    }
+    else
+    {
+        // We can't interrogate the service registry, so use a simple heuristic to identify services and adapters.
+        if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portName.c_str(), kDefaultServiceNameBaseLen))
+        {
+            cout << "   An unregistered service port." << endl;
+        }
+        else if (! strncmp(ADAPTER_PORT_NAME_BASE, portName.c_str(), kAdapterPortNameBaseLen))
+        {
+            cout << "   An adapter." << endl;
         }
     }
     reportConnections(portName);

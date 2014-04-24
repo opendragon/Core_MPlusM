@@ -172,8 +172,8 @@ int main(int      argc,
                         
                         if (inputChannel && outputChannel && inputHandler)
                         {
-                            yarp::os::ConstString inputName(ADAPTER_PORT_NAME_BASE "input/runningsum");
-                            yarp::os::ConstString outputName(ADAPTER_PORT_NAME_BASE "output/runningsum");
+                            yarp::os::ConstString inputName(T_(ADAPTER_PORT_NAME_BASE "input/runningsum"));
+                            yarp::os::ConstString outputName(T_(ADAPTER_PORT_NAME_BASE "output/runningsum"));
                             
                             if (argc > 1)
                             {

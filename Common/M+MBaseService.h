@@ -57,9 +57,6 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The base of the channel name to use for a service if not provided. */
-# define DEFAULT_SERVICE_NAME_BASE MpM_SERVICE_BASE_NAME
-
 namespace MplusM
 {
     namespace Common

@@ -101,34 +101,42 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief The base of the channel name to use for an adapter if not provided. */
+# define ADAPTER_PORT_NAME_BASE    MpM_ADAPTER_BASE_NAME
+
 /*! @brief The default name for the root part of a channel name. */
-# define DEFAULT_CHANNEL_ROOT "channel_"
+# define DEFAULT_CHANNEL_ROOT      "channel_"
+
+/*! @brief The base of the channel name to use for a service if not provided. */
+# define DEFAULT_SERVICE_NAME_BASE MpM_SERVICE_BASE_NAME
+
+/*! @brief The basic time interval for retries. */
+# define INITIAL_RETRY_INTERVAL    0.1
+
+/*! @brief The maximum number of retries before declaring failure. */
+# define MAX_RETRIES               10
 
 /*! @brief The delay value corresponding to one second of delay. */
-# define ONE_SECOND_DELAY 1.0
+# define ONE_SECOND_DELAY          1.0
+
+/*! @brief The retry interval multiplier. */
+# define RETRY_MULTIPLIER          1.2
 
 /*! @brief All M+M services maintain contexts for each incoming channel connection. */
-# define SERVICES_HAVE_CONTEXTS /* */
-
-/*! @brief The default timeout duration in seconds. */
-# define STANDARD_WAIT_TIME 5.0
+# define SERVICES_HAVE_CONTEXTS    /* */
 
 /*! @brief The signal to use for internally-detected timeouts. */
 # if (defined(__APPLE__) || defined(__linux__))
-#  define STANDARD_SIGNAL_TO_USE SIGUSR2
+#  define STANDARD_SIGNAL_TO_USE   SIGUSR2
 # else // (! defined(__APPLE__)) && (! defined(__linux__))
-#  define STANDARD_SIGNAL_TO_USE 42
+#  define STANDARD_SIGNAL_TO_USE   42
 # endif // (! defined(__APPLE__)) && (! defined(__linux__))
 
-/*! @brief The basic time interval for retries. */
-# define INITIAL_RETRY_INTERVAL 0.1
-/*! @brief The retry interval multiplier. */
-# define RETRY_MULTIPLIER       1.2
-/*! @brief The maximum number of retries before declaring failure. */
-# define MAX_RETRIES            10
+/*! @brief The default timeout duration in seconds. */
+# define STANDARD_WAIT_TIME        5.0
 
 /*! @brief A simple macro to hold the pieces of a string together. */
-# define T_(xx) xx
+# define T_(xx)                    xx
 
 namespace MplusM
 {
