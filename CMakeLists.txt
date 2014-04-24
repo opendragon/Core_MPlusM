@@ -74,6 +74,7 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 include_directories(${ACE_INCLUDE_DIRS})
 
 set(MpM_ADAPTER_BASE_NAME "/adapter/")
+set(MpM_CLIENT_BASE_NAME  "/client/")
 set(MpM_SERVICE_BASE_NAME "/service/")
 
 set(MpM_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")

@@ -76,7 +76,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RandomNumberClient::RandomNumberClient(void) :
-        inherited("client/example/randomnumber_")
+        inherited("example/randomnumber_")
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####

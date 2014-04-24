@@ -164,10 +164,15 @@ BaseClient::BaseClient(const char * baseChannelName) :
         _connected(false), _reportImmediately(false)
 {
     OD_LOG_ENTER();//####
-    size_t len = strlen(baseChannelName);
+    const size_t baseLen = sizeof(CLIENT_PORT_NAME_BASE) - 1;
+    size_t       len = (baseChannelName ? strlen(baseChannelName) : 0);
     
-    _baseChannelName = new char[len + 1];
-    memcpy(_baseChannelName, baseChannelName, len + 1);
+    _baseChannelName = new char[baseLen + len + 1];
+    memcpy(_baseChannelName, CLIENT_PORT_NAME_BASE, baseLen);
+    if (len)
+    {
+        memcpy(_baseChannelName + baseLen, baseChannelName, len + 1);
+    }
     OD_LOG_EXIT_P(this);//####
 } // BaseClient::BaseClient
 

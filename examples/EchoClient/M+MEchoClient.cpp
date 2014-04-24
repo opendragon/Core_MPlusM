@@ -76,7 +76,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 EchoClient::EchoClient(void) :
-        inherited("client/example/echo_")
+        inherited("example/echo_")
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####

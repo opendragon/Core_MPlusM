@@ -92,7 +92,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RunningSumClient::RunningSumClient(void) :
-        inherited("client/example/runningsum_")
+        inherited("example/runningsum_")
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####

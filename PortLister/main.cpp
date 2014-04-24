@@ -193,7 +193,7 @@ static bool checkForInputConnection(const yarp::os::Bottle & response)
             
             if ((source != kMagicName) && (destination != kMagicName))
             {
-                cout << "   Input from " << source.c_str() << endl;
+                cout << "   Input from " << source.c_str() << "." << endl;
                 sawConnection = true;
             }
         }
@@ -237,7 +237,7 @@ static bool checkForOutputConnection(const yarp::os::Bottle & response)
             
             if ((source != kMagicName) && (destination != kMagicName))
             {
-                cout << "   Output to " << destination.c_str() << endl;
+                cout << "   Output to " << destination.c_str() << "." << endl;
                 sawConnection = true;
             }
         }
@@ -336,7 +336,9 @@ static void reportPortStatus(const std::string & portName,
     OD_LOG_S1("portName = ", portName.c_str());//####
     OD_LOG_B1("checkWithRegistry = ", checkWithRegistry);//####
     const size_t kAdapterPortNameBaseLen = sizeof(ADAPTER_PORT_NAME_BASE) - 1;
+    const size_t kClientPortNameBaseLen = sizeof(CLIENT_PORT_NAME_BASE) - 1;
     const size_t kDefaultServiceNameBaseLen = sizeof(DEFAULT_SERVICE_NAME_BASE) - 1;
+    const char * portNameChars = portName.c_str();
 
     if (checkWithRegistry)
     {
@@ -352,14 +354,18 @@ static void reportPortStatus(const std::string & portName,
             
             if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
             {
-                // Didn't match - use a simpler check, in case it's unregistered or is an adapter.
-                if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portName.c_str(), kDefaultServiceNameBaseLen))
+                // Didn't match - use a simpler check, in case it's unregistered or is an adapter or client.
+                if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portNameChars, kDefaultServiceNameBaseLen))
                 {
                     cout << "   An unregistered service port." << endl;
                 }
-                else if (! strncmp(ADAPTER_PORT_NAME_BASE, portName.c_str(), kAdapterPortNameBaseLen))
+                else if (! strncmp(ADAPTER_PORT_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
                 {
-                    cout << "   An adapter." << endl;
+                    cout << "   An adapter port." << endl;
+                }
+                else if (! strncmp(CLIENT_PORT_NAME_BASE, portNameChars, kClientPortNameBaseLen))
+                {
+                    cout << "   A client port." << endl;
                 }
             }
             else
@@ -374,11 +380,28 @@ static void reportPortStatus(const std::string & portName,
                     {
                         if (portName == MpM_REGISTRY_CHANNEL_NAME)
                         {
-                            cout << "   The service registry." << endl;
+                            cout << "   The service registry port." << endl;
                         }
                         else
                         {
                             cout << "   A service port." << endl;
+                        }
+                    }
+                    else
+                    {
+                        // The response was an empty list - use a simpler check, in case it's unregistered or is an
+                        // adapter or client.
+                        if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portNameChars, kDefaultServiceNameBaseLen))
+                        {
+                            cout << "   An unregistered service port." << endl;
+                        }
+                        else if (! strncmp(ADAPTER_PORT_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
+                        {
+                            cout << "   An adapter port." << endl;
+                        }
+                        else if (! strncmp(CLIENT_PORT_NAME_BASE, portNameChars, kClientPortNameBaseLen))
+                        {
+                            cout << "   A client port." << endl;
                         }
                     }
                 }
@@ -387,14 +410,19 @@ static void reportPortStatus(const std::string & portName,
     }
     else
     {
-        // We can't interrogate the service registry, so use a simple heuristic to identify services and adapters.
-        if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portName.c_str(), kDefaultServiceNameBaseLen))
+        // We can't interrogate the service registry, so use a simple heuristic to identify clients, services and
+        // adapters.
+        if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portNameChars, kDefaultServiceNameBaseLen))
         {
             cout << "   An unregistered service port." << endl;
         }
-        else if (! strncmp(ADAPTER_PORT_NAME_BASE, portName.c_str(), kAdapterPortNameBaseLen))
+        else if (! strncmp(ADAPTER_PORT_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
         {
-            cout << "   An adapter." << endl;
+            cout << "   An adapter port." << endl;
+        }
+        else if (! strncmp(CLIENT_PORT_NAME_BASE, portNameChars, kClientPortNameBaseLen))
+        {
+            cout << "   A client port." << endl;
         }
     }
     reportConnections(portName);

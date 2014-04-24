@@ -104,6 +104,9 @@
 /*! @brief The base of the channel name to use for an adapter if not provided. */
 # define ADAPTER_PORT_NAME_BASE    MpM_ADAPTER_BASE_NAME
 
+/*! @brief The base of the channel name to use for a client if not provided. */
+# define CLIENT_PORT_NAME_BASE     MpM_CLIENT_BASE_NAME
+
 /*! @brief The default name for the root part of a channel name. */
 # define DEFAULT_CHANNEL_ROOT      "channel_"
 

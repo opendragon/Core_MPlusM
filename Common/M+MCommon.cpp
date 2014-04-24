@@ -158,19 +158,25 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
 
     try
     {
-        bool         hasLeadingSlash;
+        bool         hasLeadingSlash = false;
         const char * stringToUse;
         size_t       buffLen;
         
         if (channelRoot)
         {
-            hasLeadingSlash = ('/' == *channelRoot);
             stringToUse = channelRoot;
             buffLen = strlen(channelRoot);
+            if ('/' == *channelRoot)
+            {
+                hasLeadingSlash = true;
+            }
+            else
+            {
+                ++buffLen;
+            }
         }
         else
         {
-            hasLeadingSlash = false;
             stringToUse = "_";
             buffLen = 1;
         }
