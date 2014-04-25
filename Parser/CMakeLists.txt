@@ -65,6 +65,7 @@ add_executable(ParserTest
                M+MParserTest.cpp
                M+MTestNameValidator.cpp)
 
+# Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(ParserTest
                       Parser
                       Common

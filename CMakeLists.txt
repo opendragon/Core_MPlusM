@@ -59,18 +59,18 @@ option(MpM_REPORT_ON_CONNECTIONS "Report on connections")
 option(MpM_SERVICES_LOG_TO_STDERR "Services send logging output to stderr")
 option(MpM_STALL_ON_SEND_PROBLEM "A send failure goes to a tight loop")
 
-# find YARP
+# Find YARP
 find_package(YARP REQUIRED)
 list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
 
-# add YARP include directories
+# Add YARP include directories
 include_directories(${YARP_INCLUDE_DIRS})
 
-# find ACE
+# Find ACE
 find_package(ACE REQUIRED)
 list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 
-# add ACE include directories
+# Add ACE include directories
 include_directories(${ACE_INCLUDE_DIRS})
 
 set(MpM_ADAPTER_BASE_NAME "/adapter/")

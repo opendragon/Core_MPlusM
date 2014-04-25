@@ -43,7 +43,7 @@ include_directories("${MpM_LOGGING_DIR}"
                     "${MpM_COMMON_DIR}"
                     "../RequestCounterCommon")
 
-# set up our program
+# Set up our program
 add_executable(RequestCounterService
                main.cpp
                M+MRequestCounterContext.cpp
@@ -52,7 +52,7 @@ add_executable(RequestCounterService
                M+MResetRequestHandler.cpp
                M+MStatsRequestHandler.cpp)
 
-# link with YARP libraries and our interface classes
+# Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(RequestCounterService
                       Common
                       Logging

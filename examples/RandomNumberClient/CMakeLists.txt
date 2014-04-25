@@ -43,12 +43,12 @@ include_directories("${MpM_LOGGING_DIR}"
                     "${MpM_COMMON_DIR}"
                     "${MpM_EXAMPLES_DIR}/RandomNumberCommon")
 
-# set up our program
+# Set up our program
 add_executable(RandomNumberClient
                main.cpp
                M+MRandomNumberClient.cpp)
 
-# link with YARP libraries and our interface classes
+# Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(RandomNumberClient
                       Common
                       Logging

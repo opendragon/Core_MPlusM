@@ -48,7 +48,7 @@ include_directories("${MpM_LOGGING_DIR}"
                     "${MpM_SQLITE_DIR}"
                     "${MpM_REGISTRYTESTSUPPORT_DIR}")
 
-# set up our program
+# Set up our program
 add_executable(RegistryService
                main.cpp
                M+MColumnNameValidator.cpp
@@ -58,7 +58,7 @@ add_executable(RegistryService
                M+MUnregisterRequestHandler.cpp
                ${MpM_SQLITE_DIR}/sqlite3.c)
 
-# link with YARP libraries and our interface classes
+# Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(RegistryService
                       Parser
                       Common
@@ -76,6 +76,7 @@ add_executable(RegistryTest
                M+MUnregisterRequestHandler.cpp
                ${MpM_SQLITE_DIR}/sqlite3.c)
 
+# Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(RegistryTest
                       RegistryTestSupport
                       Parser

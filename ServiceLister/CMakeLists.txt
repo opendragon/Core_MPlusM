@@ -42,11 +42,11 @@
 include_directories("${MpM_LOGGING_DIR}"
                     "${MpM_COMMON_DIR}")
 
-# set up our program
+# Set up our program
 add_executable(ServiceLister
                main.cpp)
 
-# link with YARP libraries and our interface classes
+# Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(ServiceLister
                       Parser
                       Common
