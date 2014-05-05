@@ -93,7 +93,7 @@ RequestCounterDefaultRequestHandler::~RequestCounterDefaultRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RequestCounterDefaultRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void RequestCounterDefaultRequestHandler::fillInAliases(CommonX::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -116,7 +116,7 @@ void RequestCounterDefaultRequestHandler::fillInDescription(const yarp::os::Cons
 } // RequestCounterDefaultRequestHandler::fillInDescription
 
 bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                                         const Common::Package &       restOfInput,
+                                                         const CommonX::Package &       restOfInput,
                                                          const yarp::os::ConstString & senderChannel,
                                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -134,13 +134,13 @@ bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstSt
         _service.countRequest(senderChannel);
         if (replyMechanism)
         {
-            Common::Package response(MpM_OK_RESPONSE);
+            CommonX::Package response(MpM_OK_RESPONSE);
             
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                Common::Stall();
+                CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }

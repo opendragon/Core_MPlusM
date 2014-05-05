@@ -96,7 +96,7 @@ RunningSumControlInputHandler::~RunningSumControlInputHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RunningSumControlInputHandler::handleInput(const Common::Package &       input,
+bool RunningSumControlInputHandler::handleInput(const CommonX::Package &       input,
                                                 const yarp::os::ConstString & senderChannel,
                                                 yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -112,7 +112,7 @@ bool RunningSumControlInputHandler::handleInput(const Common::Package &       in
     {
         if (0 < input.size())
         {
-            Common::AdapterChannel * theOutput = _shared.getOutput();
+            CommonX::AdapterChannel * theOutput = _shared.getOutput();
             RunningSumClient *       theClient = (RunningSumClient *) _shared.getClient();
             
             if (theClient && theOutput)

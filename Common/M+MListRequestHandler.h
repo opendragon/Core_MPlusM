@@ -59,7 +59,7 @@
 
 namespace MplusM
 {
-    namespace Common
+    namespace CommonX
     {
         /*! @brief The standard 'list' request handler.
          

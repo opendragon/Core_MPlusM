@@ -95,7 +95,7 @@ using std::endl;
  @param response The response to be processed.
  @returns @c true if some output was generated and @c false otherwise. */
 static bool processResponse(const yarp::os::ConstString &           serviceName,
-                            const MplusM::Common::ServiceResponse & response)
+                            const MplusM::CommonX::ServiceResponse & response)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("response = ", &response);//####
@@ -118,7 +118,7 @@ static bool processResponse(const yarp::os::ConstString &           serviceName,
                     yarp::os::ConstString   theOutputsString;
                     yarp::os::ConstString   theVersionString;
                     yarp::os::ConstString   theRequest(propList->find(MpM_REQREP_DICT_REQUEST_KEY).asString());
-                    MplusM::Common::Package keywordList;
+                    MplusM::CommonX::Package keywordList;
                     
                     result = true;
                     if (propList->check(MpM_REQREP_DICT_DETAILS_KEY))
@@ -223,7 +223,7 @@ int main(int      argc,
             yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
             const char *          requestName;
             
-            MplusM::Common::Initialize(*argv);
+            MplusM::CommonX::Initialize(*argv);
             if (1 < argc)
             {
                 channelNameRequest += argv[1];
@@ -248,7 +248,7 @@ int main(int      argc,
                 channelNameRequest += "*";
                 requestName = NULL;
             }
-            MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(channelNameRequest.c_str()));
+            MplusM::CommonX::Package matches(MplusM::CommonX::FindMatchingServices(channelNameRequest.c_str()));
             
             if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
@@ -265,7 +265,7 @@ int main(int      argc,
                 else
                 {
                     // Now, process the second element.
-                    MplusM::Common::Package * matchesList = matches.get(1).asList();
+                    MplusM::CommonX::Package * matchesList = matches.get(1).asList();
                     
                     if (matchesList)
                     {
@@ -274,15 +274,15 @@ int main(int      argc,
                         if (matchesCount)
                         {
                             yarp::os::ConstString           aName =
-                                                        MplusM::Common::GetRandomChannelName("/requestinfo/channel_");
-                            MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
+                                                        MplusM::CommonX::GetRandomChannelName("/requestinfo/channel_");
+                            MplusM::CommonX::ClientChannel * newChannel = new MplusM::CommonX::ClientChannel;
                             
                             if (newChannel)
                             {
                                 if (newChannel->openWithRetries(aName))
                                 {
                                     bool                    sawRequestResponse = false;
-                                    MplusM::Common::Package parameters;
+                                    MplusM::CommonX::Package parameters;
                                     
                                     if (requestName)
                                     {
@@ -292,15 +292,15 @@ int main(int      argc,
                                     {
                                         yarp::os::ConstString aMatch(matchesList->get(ii).toString());
                                         
-                                        if (MplusM::Common::NetworkConnectWithRetries(aName, aMatch))
+                                        if (MplusM::CommonX::NetworkConnectWithRetries(aName, aMatch))
                                         {
-                                            MplusM::Common::ServiceResponse response;
+                                            MplusM::CommonX::ServiceResponse response;
                                             
                                             // If no request was identified, or a wildcard was specified, we use the
                                             // 'list' request; otherwise, do an 'info' request.
                                             if (requestName)
                                             {
-                                                MplusM::Common::ServiceRequest request(MpM_INFO_REQUEST, parameters);
+                                                MplusM::CommonX::ServiceRequest request(MpM_INFO_REQUEST, parameters);
                                                 
                                                 if (request.send(*newChannel, &response))
                                                 {
@@ -321,7 +321,7 @@ int main(int      argc,
                                             }
                                             else
                                             {
-                                                MplusM::Common::ServiceRequest request(MpM_LIST_REQUEST, parameters);
+                                                MplusM::CommonX::ServiceRequest request(MpM_LIST_REQUEST, parameters);
                                                 
                                                 if (request.send(*newChannel, &response))
                                                 {
@@ -341,16 +341,16 @@ int main(int      argc,
                                                 }
                                             }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                                            if (! MplusM::Common::NetworkDisconnectWithRetries(aName, aMatch))
+                                            if (! MplusM::CommonX::NetworkDisconnectWithRetries(aName, aMatch))
                                             {
-                                                OD_LOG("(! MplusM::Common::NetworkDisconnectWithRetries(aName, "//####
+                                                OD_LOG("(! MplusM::CommonX::NetworkDisconnectWithRetries(aName, "//####
                                                        "aMatch))");//####
                                             }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                                         }
                                         else
                                         {
-                                            OD_LOG("! (MplusM::Common::NetworkConnectWithRetries(aName, "//####
+                                            OD_LOG("! (MplusM::CommonX::NetworkConnectWithRetries(aName, "//####
                                                    "aMatch))");//####
                                         }
                                     }

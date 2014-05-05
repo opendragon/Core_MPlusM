@@ -58,7 +58,7 @@
 
 namespace MplusM
 {
-    namespace Common
+    namespace CommonX
     {
         class ClientChannel;
         class Endpoint;

@@ -101,7 +101,7 @@ static const char * kMagicName = "<!!!>";
  @param received The response to be processed.
  @param ports The list of non-default ports found. */
 static void processResponse(const yarp::os::ConstString &  received,
-                            MplusM::Common::StringVector & ports)
+                            MplusM::CommonX::StringVector & ports)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("received = ", received.c_str());//####
@@ -142,12 +142,12 @@ static void processResponse(const yarp::os::ConstString &  received,
 /*! @brief Check if the Registry Service is active.
  @param ports The set of detected ports.
  @returns @c true if the Registry Service port is present and @c false otherwise. */
-static bool checkForRegistryService(const MplusM::Common::StringVector & ports)
+static bool checkForRegistryService(const MplusM::CommonX::StringVector & ports)
 {
     OD_LOG_ENTER();//####
     bool result = false;
     
-    for (MplusM::Common::StringVector::const_iterator it(ports.begin()); (! result) && (ports.end() != it); ++it)
+    for (MplusM::CommonX::StringVector::const_iterator it(ports.begin()); (! result) && (ports.end() != it); ++it)
     {
         if (*it == MpM_REGISTRY_CHANNEL_NAME)
         {
@@ -345,7 +345,7 @@ static void reportPortStatus(const std::string & portName,
         std::string request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
         
         request += portName;
-        MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(request.c_str()));
+        MplusM::CommonX::Package matches(MplusM::CommonX::FindMatchingServices(request.c_str()));
         
         OD_LOG_S1("matches <- ", matches.toString().c_str());//####
         if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
@@ -374,7 +374,7 @@ static void reportPortStatus(const std::string & portName,
                 
                 if (secondValue.isList())
                 {
-                    MplusM::Common::Package * secondList = secondValue.asList();
+                    MplusM::CommonX::Package * secondList = secondValue.asList();
                     
                     if (secondList && secondList->size())
                     {
@@ -456,10 +456,10 @@ int main(int      argc,
         {
             yarp::os::Network            yarp; // This is necessary to establish any connection to the YARP
                                                // infrastructure
-            MplusM::Common::Package      request;
-            MplusM::Common::Package      response;
+            MplusM::CommonX::Package      request;
+            MplusM::CommonX::Package      response;
             yarp::os::ContactStyle       contactInfo;
-            MplusM::Common::StringVector ports;
+            MplusM::CommonX::StringVector ports;
             
 #if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             yarp::os::Network::setVerbosity(1);
@@ -481,7 +481,7 @@ int main(int      argc,
                         processResponse(responseValue.asString(), ports);
                         bool serviceRegistryPresent = checkForRegistryService(ports);
                         
-                        for (MplusM::Common::StringVector::const_iterator it(ports.begin()); ports.end() != it; ++it)
+                        for (MplusM::CommonX::StringVector::const_iterator it(ports.begin()); ports.end() != it; ++it)
                         {
                             if (! found)
                             {

@@ -104,18 +104,18 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & servic
     OD_LOG_S1("serviceChannelName = ", serviceChannelName.c_str());//####
     OD_LOG_P3("canonicalName = ", &canonicalName, "description = ", &description, "path = ", &path);//####
     bool                            result = false;
-    yarp::os::ConstString           aName(MplusM::Common::GetRandomChannelName("/servicelister/channel_"));
-    MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
+    yarp::os::ConstString           aName(MplusM::CommonX::GetRandomChannelName("/servicelister/channel_"));
+    MplusM::CommonX::ClientChannel * newChannel = new MplusM::CommonX::ClientChannel;
     
     if (newChannel)
     {
         if (newChannel->openWithRetries(aName))
         {
-            if (MplusM::Common::NetworkConnectWithRetries(aName, serviceChannelName))
+            if (MplusM::CommonX::NetworkConnectWithRetries(aName, serviceChannelName))
             {
-                MplusM::Common::Package         parameters;
-                MplusM::Common::ServiceRequest  request(MpM_NAME_REQUEST, parameters);
-                MplusM::Common::ServiceResponse response;
+                MplusM::CommonX::Package         parameters;
+                MplusM::CommonX::ServiceRequest  request(MpM_NAME_REQUEST, parameters);
+                MplusM::CommonX::ServiceResponse response;
                 
                 if (request.send(*newChannel, &response))
                 {
@@ -153,15 +153,15 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & servic
                     OD_LOG("! (request.send(*newChannel, &response))");//####
                 }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                if (! MplusM::Common::NetworkDisconnectWithRetries(aName, serviceChannelName))
+                if (! MplusM::CommonX::NetworkDisconnectWithRetries(aName, serviceChannelName))
                 {
-                    OD_LOG("(! MplusM::Common::NetworkDisconnectWithRetries(aName, destinationName))");//####
+                    OD_LOG("(! MplusM::CommonX::NetworkDisconnectWithRetries(aName, destinationName))");//####
                 }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
             }
             else
             {
-                OD_LOG("! (MplusM::Common::NetworkConnectWithRetries(aName, serviceChannelName))");//####
+                OD_LOG("! (MplusM::CommonX::NetworkConnectWithRetries(aName, serviceChannelName))");//####
             }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
             newChannel->close();
@@ -204,8 +204,8 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MplusM::Common::Initialize(*argv);
-            MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(MpM_REQREP_DICT_REQUEST_KEY ":*"));
+            MplusM::CommonX::Initialize(*argv);
+            MplusM::CommonX::Package matches(MplusM::CommonX::FindMatchingServices(MpM_REQREP_DICT_REQUEST_KEY ":*"));
             
             if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
@@ -222,7 +222,7 @@ int main(int      argc,
                 else
                 {
                     // Now, process the second element.
-                    MplusM::Common::Package * matchesList = matches.get(1).asList();
+                    MplusM::CommonX::Package * matchesList = matches.get(1).asList();
                     
                     if (matchesList)
                     {

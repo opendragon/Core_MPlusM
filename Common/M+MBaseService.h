@@ -59,7 +59,7 @@
 
 namespace MplusM
 {
-    namespace Common
+    namespace CommonX
     {
         class BaseContext;
         class BaseRequestHandler;

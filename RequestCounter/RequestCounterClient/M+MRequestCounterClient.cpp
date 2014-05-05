@@ -101,8 +101,8 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
     
     try
     {
-        Common::Package         parameters;
-        Common::ServiceResponse response;
+        CommonX::Package         parameters;
+        CommonX::ServiceResponse response;
         
         reconnectIfDisconnected();
         if (send(MpM_STATS_REQUEST, parameters, &response))
@@ -150,7 +150,7 @@ bool RequestCounterClient::pokeService(void)
     
     try
     {
-        Common::Package parameters;
+        CommonX::Package parameters;
         
         if (send("blarg_blerg_blirg_blorg_blurg", parameters))
         {
@@ -177,7 +177,7 @@ bool RequestCounterClient::resetServiceCounters(void)
     
     try
     {
-        Common::Package parameters;
+        CommonX::Package parameters;
         
         reconnectIfDisconnected();
         if (send(MpM_RESET_REQUEST, parameters))

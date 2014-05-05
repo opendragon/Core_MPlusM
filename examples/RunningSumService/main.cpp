@@ -134,7 +134,7 @@ int main(int      argc,
             yarp::os::ConstString serviceHostName;
             yarp::os::ConstString servicePortNumber;
             
-            MplusM::Common::Initialize(*argv);
+            MplusM::CommonX::Initialize(*argv);
             if (1 < argc)
             {
                 serviceEndpointName = argv[1];
@@ -161,10 +161,10 @@ int main(int      argc,
                     yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
                     OD_LOG_S1("channelName = ", channelName.c_str());//####
-                    if (MplusM::Common::RegisterLocalService(channelName))
+                    if (MplusM::CommonX::RegisterLocalService(channelName))
                     {
                         lKeepRunning = true;
-                        MplusM::Common::SetSignalHandlers(stopRunning);
+                        MplusM::CommonX::SetSignalHandlers(stopRunning);
                         for ( ; lKeepRunning && stuff; )
                         {
 #if defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
@@ -173,12 +173,12 @@ int main(int      argc,
                             yarp::os::Time::yield();
 #endif // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
                         }
-                        MplusM::Common::UnregisterLocalService(channelName);
+                        MplusM::CommonX::UnregisterLocalService(channelName);
                         stuff->stop();
                     }
                     else
                     {
-                        OD_LOG("! (MplusM::Common::RegisterLocalService(channelName))");//####
+                        OD_LOG("! (MplusM::CommonX::RegisterLocalService(channelName))");//####
                     }
                 }
                 else

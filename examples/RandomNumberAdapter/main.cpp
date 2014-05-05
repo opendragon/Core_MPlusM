@@ -134,17 +134,17 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MplusM::Common::Initialize(*argv);
+            MplusM::CommonX::Initialize(*argv);
             RandomNumberClient * stuff = new RandomNumberClient;
             
             if (stuff)
             {
                 lKeepRunning = true;
-                MplusM::Common::SetSignalHandlers(stopRunning);
+                MplusM::CommonX::SetSignalHandlers(stopRunning);
                 if (stuff->findService("keyword random"))
                 {
 #if defined(MpM_REPORT_ON_CONNECTIONS)
-                    MplusM::Common::ChannelStatusReporter reporter;
+                    MplusM::CommonX::ChannelStatusReporter reporter;
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     
 #if defined(MpM_REPORT_ON_CONNECTIONS)
@@ -152,8 +152,8 @@ int main(int      argc,
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     if (stuff->connectToService())
                     {
-                        MplusM::Common::AdapterChannel * inputChannel = new MplusM::Common::AdapterChannel;
-                        MplusM::Common::AdapterChannel * outputChannel = new MplusM::Common::AdapterChannel;
+                        MplusM::CommonX::AdapterChannel * inputChannel = new MplusM::CommonX::AdapterChannel;
+                        MplusM::CommonX::AdapterChannel * outputChannel = new MplusM::CommonX::AdapterChannel;
                         RandomNumberAdapterData          sharedData(stuff, outputChannel);
                         RandomNumberInputHandler *       inputHandler = new RandomNumberInputHandler(sharedData);
                         
@@ -210,8 +210,8 @@ int main(int      argc,
                                    "inputHandler)");//####
                             cerr << "Problem creating a channel." << endl;
                         }
-                        MplusM::Common::AdapterChannel::RelinquishChannel(inputChannel);
-                        MplusM::Common::AdapterChannel::RelinquishChannel(outputChannel);
+                        MplusM::CommonX::AdapterChannel::RelinquishChannel(inputChannel);
+                        MplusM::CommonX::AdapterChannel::RelinquishChannel(outputChannel);
                         if (! stuff->disconnectFromService())
                         {
                             OD_LOG("(! stuff->disconnectFromService())");//####

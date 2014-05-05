@@ -124,10 +124,10 @@
 #  define OD_FREE_PREFIX_() \
             free(prefixString_)
 
-#  if defined(WIN32)
+#  if ((! defined(__APPLE__)) && (! defined(__linux__)))
 /*! @brief The output stream to use for logging with Windows. */
 #   define OD_LOG_STREAM_ stderr
-#  endif // defined(WIN32)
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
 
 /*! @brief The data associated with each thread for logging. */
 typedef struct tOdThreadData_
@@ -136,24 +136,24 @@ typedef struct tOdThreadData_
     int _indentLevel;
 } tOdThreadData;
 
-#  if (! defined(WIN32))
+#  if (defined(__APPLE__) || defined(__linux__))
 /*! @brief @c true if thread support is enabled and @c false if all threads share data. */
 static bool lOdEnableThreadSupport_ = false;
 /*! @brief @c true if the process identifier is to be logged and @c false otherwise. */
 static bool lOdIncludeProcessID_ = false;
 /*! @brief @c true if the thread identifier is to be logged and @c false otherwise. */
 static bool lOdIncludeThreadID_ = false;
-#  endif // ! defined(WIN32)
+#  endif // defined(__APPLE__) || defined(__linux__)
 
 /*! @brief The stream to be used when logging to a file. */
 static FILE * lOdLogFile_ = NULL;
 
-#  if (! defined(WIN32))
+#  if (defined(__APPLE__) || defined(__linux__))
 /*! @brief The thread key to be used. */
 static pthread_key_t  lOdThreadSpecificKey_;
 /*! @brief The once-only variable to be used with threading. */
 static pthread_once_t lOdThreadSpecificKeyOnce_ = PTHREAD_ONCE_INIT;
-#  endif // ! defined(WIN32)
+#  endif // (defined(__APPLE__) || defined(__linux__))
 
 /*! @brief The thread data to be used when thread support is not enabled. */
 static tOdThreadData lOdThreadData_ = { OD_LOG_INIT_VALUE_ };
@@ -204,7 +204,7 @@ static const char * odNullOrString(const char * aString)
     return result;
 } // odNullOrString
 
-#  if (! defined(WIN32))
+#  if (defined(__APPLE__) || defined(__linux__))
 /*! @brief Release the data associated with a thread.
  @param data A pointer to the data to be released. */
 static void odReleaseThreadSpecificData_(void * data)
@@ -214,9 +214,9 @@ static void odReleaseThreadSpecificData_(void * data)
     pthread_setspecific(lOdThreadSpecificKey_, NULL);
     free(stuff);
 } // odReleaseThreadSpecificData_
-#  endif // ! defined(WIN32)
+#  endif // (defined(__APPLE__) || defined(__linux__))
 
-#  if (! defined(WIN32))
+#  if (defined(__APPLE__) || defined(__linux__))
 /*! @brief Create the thread key and record the 'release' function for thread-specific data. */
 static void odSetUpThreadKey_(void)
 {
@@ -229,7 +229,7 @@ static void odSetUpThreadKey_(void)
 #   endif // ! defined(__OBJC__)
     }
 } // odSetUpThreadKey_
-#  endif // ! defined(WIN32)
+#  endif // (defined(__APPLE__) || defined(__linux__))
 
 /*! @brief Get a pointer to the thread-specific data.
  
@@ -240,7 +240,7 @@ inline static tOdThreadData * odGetThreadData_(void)
 {
     tOdThreadData * stuff;
     
-#  if (! defined(WIN32))
+#  if (defined(__APPLE__) || defined(__linux__))
     if (lOdEnableThreadSupport_)
     {
         pthread_once(&lOdThreadSpecificKeyOnce_, odSetUpThreadKey_);
@@ -253,7 +253,7 @@ inline static tOdThreadData * odGetThreadData_(void)
         }
     }
     else
-#  endif // ! defined(WIN32)
+#  endif // (defined(__APPLE__) || defined(__linux__))
     {
         stuff = &lOdThreadData_;
     }
@@ -311,11 +311,11 @@ static char * odBuildPrefix_(void)
 {
     char *              result;
     size_t              length;
-#  if (! defined(WIN32))
+#  if (defined(__APPLE__) || defined(__linux__))
     static const size_t lengthHexString = 20; // Enough digits for an 8-byte value in hexadecimal, plus a little more.
-#  endif // ! defined(WIN32)
+#  endif // (defined(__APPLE__) || defined(__linux__))
     
-#  if (! defined(WIN32))
+#  if (defined(__APPLE__) || defined(__linux__))
     if (lOdIncludeProcessID_)
     {
         if (lOdIncludeThreadID_)
@@ -338,7 +338,7 @@ static char * odBuildPrefix_(void)
         snprintf(result, length, "<%#lx>", (long unsigned) pthread_self());
     }
     else
-#  endif // ! defined(WIN32)
+#  endif // (defined(__APPLE__) || defined(__linux__))
     {
         length = 0;
         result = (char *) malloc(length + 1);
@@ -450,17 +450,17 @@ EXTERN_C void ODLog_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LOG_ "\n", OD_FUNC_PREFIX_(rootName), text ? text : "");
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LOG_, OD_FUNC_PREFIX_(rootName), text ? text : "");
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LOG_, OD_FUNC_PREFIX_(rootName), text ? text : "");
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LOG_ "\n", OD_FUNC_PREFIX_(rootName), text ? text : "");
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -485,19 +485,19 @@ EXTERN_C void ODLogB1_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), text1,
-                odBoolToString_(val1));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_B1_, OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1));
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_B1_, OD_FUNC_PREFIX_(rootName), text1,
                odBoolToString_(val1));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+                odBoolToString_(val1));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -524,12 +524,7 @@ EXTERN_C void ODLogB2_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
-                odBoolToString_(val1), text2, odBoolToString_(val2));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_B2_, OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1), text2,
               odBoolToString_(val2));
@@ -537,7 +532,12 @@ EXTERN_C void ODLogB2_(const char * fileName,
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_B2_, OD_FUNC_PREFIX_(rootName), text1,
                odBoolToString_(val1), text2, odBoolToString_(val2));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+                odBoolToString_(val1), text2, odBoolToString_(val2));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -569,15 +569,7 @@ EXTERN_C void ODLogB3_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
-                odBoolToString_(val1), text2, odBoolToString_(val2));
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), text3,
-                odBoolToString_(val3));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_B2_, OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1), text2,
               odBoolToString_(val2));
@@ -588,7 +580,15 @@ EXTERN_C void ODLogB3_(const char * fileName,
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_B1_, OD_FUNC_PREFIX_(rootName), text3,
                odBoolToString_(val3));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+                odBoolToString_(val1), text2, odBoolToString_(val2));
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), text3,
+                odBoolToString_(val3));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -622,15 +622,7 @@ EXTERN_C void ODLogB4_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
-                odBoolToString_(val1), text2, odBoolToString_(val2));
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text3,
-                odBoolToString_(val3), text4, odBoolToString_(val4));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_B2_, OD_FUNC_PREFIX_(rootName), text1, odBoolToString_(val1), text2,
               odBoolToString_(val2));
@@ -642,7 +634,15 @@ EXTERN_C void ODLogB4_(const char * fileName,
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_B2_, OD_FUNC_PREFIX_(rootName), text3,
                odBoolToString_(val3), text4, odBoolToString_(val4));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+                odBoolToString_(val1), text2, odBoolToString_(val2));
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text3,
+                odBoolToString_(val3), text4, odBoolToString_(val4));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -666,17 +666,17 @@ EXTERN_C void ODLogC1_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_C1_, OD_FUNC_PREFIX_(rootName), text1, val1, val1);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_C1_, OD_FUNC_PREFIX_(rootName), text1, val1, val1);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -703,19 +703,19 @@ EXTERN_C void ODLogC2_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
-                val2, val2);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_C2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_C2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
                val2, val2);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -746,14 +746,7 @@ EXTERN_C void ODLogC3_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
-                val2, val2);
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_C2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_C1_, OD_FUNC_PREFIX_(rootName), text3, val3, val3);
@@ -762,7 +755,14 @@ EXTERN_C void ODLogC3_(const char * fileName,
                val2, val2);
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_C1_, OD_FUNC_PREFIX_(rootName), text3, val3, val3);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -796,15 +796,7 @@ EXTERN_C void ODLogC4_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
-                val2, val2);
-        odWriteTime_(lOdLogFile_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
-                val4, val4);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_C2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_C2_, OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4, val4, val4);
@@ -814,7 +806,15 @@ EXTERN_C void ODLogC4_(const char * fileName,
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_C2_, OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
                val4, val4);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
+        odWriteTime_(lOdLogFile_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_C2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
+                val4, val4);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -838,17 +838,17 @@ EXTERN_C void ODLogD1_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_D1_, OD_FUNC_PREFIX_(rootName), text1, val1);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_D1_, OD_FUNC_PREFIX_(rootName), text1, val1);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -874,19 +874,19 @@ EXTERN_C void ODLogD2_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2,
-                val2);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_D2_, OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_D2_, OD_FUNC_PREFIX_(rootName), text1, val1, text2,
                val2);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2,
+                val2);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -916,14 +916,7 @@ EXTERN_C void ODLogD3_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2,
-                val2);
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_D2_, OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_D1_, OD_FUNC_PREFIX_(rootName), text3, val3);
@@ -932,7 +925,14 @@ EXTERN_C void ODLogD3_(const char * fileName,
                val2);
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_D1_, OD_FUNC_PREFIX_(rootName), text3, val3);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2,
+                val2);
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -964,15 +964,7 @@ EXTERN_C void ODLogD4_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2,
-                val2);
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, text4,
-                val4);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_D2_, OD_FUNC_PREFIX_(rootName), text1, val1, text2, val2);
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_D2_, OD_FUNC_PREFIX_(rootName), text3, val3, text4, val4);
@@ -982,7 +974,15 @@ EXTERN_C void ODLogD4_(const char * fileName,
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_D2_, OD_FUNC_PREFIX_(rootName), text3, val3, text4,
                val4);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, text2,
+                val2);
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_D2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, text4,
+                val4);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1004,17 +1004,17 @@ EXTERN_C void ODLogEnter_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_ENTER_ "\n", OD_FUNC_PREFIX_(rootName));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_ENTER_, OD_FUNC_PREFIX_(rootName));
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_ENTER_, OD_FUNC_PREFIX_(rootName));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_ENTER_ "\n", OD_FUNC_PREFIX_(rootName));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1038,17 +1038,17 @@ EXTERN_C void ODLogExit_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_ "\n", OD_FUNC_PREFIX_(rootName));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_EXIT_, OD_FUNC_PREFIX_(rootName));
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_, OD_FUNC_PREFIX_(rootName));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_ "\n", OD_FUNC_PREFIX_(rootName));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1073,19 +1073,19 @@ EXTERN_C void ODLogExitB_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
-                odBoolToString_(val));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_B1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, odBoolToString_(val));
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_B1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
                odBoolToString_(val));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                odBoolToString_(val));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1109,18 +1109,18 @@ EXTERN_C void ODLogExitC_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
-                val);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_C1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_C1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_C1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
+                val);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1144,17 +1144,17 @@ EXTERN_C void ODLogExitD_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_D1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_D1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_D1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1178,17 +1178,17 @@ EXTERN_C void ODLogExitExit_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_CALL_ "\n", OD_FUNC_PREFIX_(rootName), val, val);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_EXIT_CALL_, OD_FUNC_PREFIX_(rootName), val, val);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_CALL_, OD_FUNC_PREFIX_(rootName), val, val);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_CALL_ "\n", OD_FUNC_PREFIX_(rootName), val, val);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1212,19 +1212,19 @@ EXTERN_C void ODLogExitL_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
-                val);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_L1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_L1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
                val);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
+                val);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1248,19 +1248,19 @@ EXTERN_C void ODLogExitLL_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
-                val);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LL1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
                val);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val,
+                val);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1311,17 +1311,17 @@ EXTERN_C void ODLogExitP_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_P1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_P1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1379,19 +1379,19 @@ EXTERN_C void ODLogExitS_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
-                odNullOrString(val));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_S1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, odNullOrString(val));
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_S1_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
                odNullOrString(val));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+                odNullOrString(val));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1415,17 +1415,17 @@ EXTERN_C void ODLogExitThrowL_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_L_ "\n", OD_FUNC_PREFIX_(rootName), val, val);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_L_, OD_FUNC_PREFIX_(rootName), val, val);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_L_, OD_FUNC_PREFIX_(rootName), val, val);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_L_ "\n", OD_FUNC_PREFIX_(rootName), val, val);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1449,19 +1449,19 @@ EXTERN_C void ODLogExitThrowS_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_S_ "\n", OD_FUNC_PREFIX_(rootName),
-                odNullOrString(val));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_S_, OD_FUNC_PREFIX_(rootName), odNullOrString(val));
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_S_, OD_FUNC_PREFIX_(rootName),
                odNullOrString(val));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_EXIT_T_S_ "\n", OD_FUNC_PREFIX_(rootName),
+                odNullOrString(val));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1473,20 +1473,20 @@ EXTERN_C void ODLogInit_(const char * prefix,
                          const char * funcName,
                          const int    lineNumber)
 {
-#  if (defined(__OBJC__) || defined(WIN32))
+#  if (defined(__OBJC__) || (! defined(__APPLE__)) && (! defined(__linux__)))
 #   pragma unused(prefix)
-#  endif // defined(__OBJC__) || defined(WIN32)
+#  endif // defined(__OBJC__) || (! defined(__APPLE__)) && (! defined(__linux__))
     bool         odWriteToFile = (options & kODLoggingOptionWriteToFile);
     const char * rootName = odFileNameRoot_(fileName);
     const char * suffixString;
     char *       stars;
     size_t       starsLength = strlen(rootName) + strlen(funcName) + (sizeof(OD_INIT_FORMAT_) - 1) - 8; // 4 %s
     
-#  if (! defined(WIN32))
+#  if (defined(__APPLE__) || defined(__linux__))
     lOdEnableThreadSupport_ = (options & kODLoggingOptionEnableThreadSupport);
     lOdIncludeProcessID_ = (options & kODLoggingOptionIncludeProcessID);
     lOdIncludeThreadID_ = (options & kODLoggingOptionIncludeThreadID);
-#  endif // ! defined(WIN32)
+#  endif // (defined(__APPLE__) || defined(__linux__))
     OD_CREATE_PREFIX_();
     size_t prefixLength = strlen(prefixString_);
     
@@ -1502,7 +1502,7 @@ EXTERN_C void ODLogInit_(const char * prefix,
     stars = (char *) malloc(starsLength + 1);
     memset(stars, '*', starsLength);
     stars[starsLength] = '\0';
-#  if ((! defined(WIN32)) && (! defined(__OBJC__)))
+#  if ((defined(__APPLE__) || defined(__linux__)) && (! defined(__OBJC__)))
     if (options & kODLoggingOptionWriteToStderr)
     {
         openlog(prefix, LOG_PID | LOG_CONS | LOG_PERROR, OD_LOG_LOG_TARGET_);
@@ -1511,16 +1511,16 @@ EXTERN_C void ODLogInit_(const char * prefix,
     {
         openlog(prefix, LOG_PID | LOG_CONS, OD_LOG_LOG_TARGET_);
     }
-#  endif // (! defined(WIN32)) && (! defined(__OBJC__))
+#  endif // (defined(__APPLE__) || defined(__linux__)) && (! defined(__OBJC__))
     if (odWriteToFile)
     {
         char pidString[100];
         
-#  if defined(WIN32)
-        snprintf(pidString, sizeof(pidString), "od_temp.log");
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
         snprintf(pidString, sizeof(pidString), "/var/log/pid-%lX.log", (long unsigned) getpid());
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        sprintf(pidString, sizeof(pidString), "od_temp.log");
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
         lOdLogFile_ = fopen(pidString, "w");
         if (lOdLogFile_)
         {
@@ -1529,28 +1529,28 @@ EXTERN_C void ODLogInit_(const char * prefix,
         }
         else
         {
-#  if defined(WIN32)
-            fprintf(OD_LOG_STREAM_, "problem opening %s => %d\n", pidString, errno);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
             NSLog(@"problem opening %s => %d", pidString, errno);
 #   else // ! defined(__OBJC__)
             syslog(OD_LOG_LOG_LEVEL_, "problem opening %s => %d", pidString, errno);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+            fprintf(OD_LOG_STREAM_, "problem opening %s => %d\n", pidString, errno);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
         }
     }
     else
     {
-#  if defined(WIN32)
-        fprintf(OD_LOG_STREAM_, "%s\n", stars);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@"%s", stars);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, "%s", stars);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        fprintf(OD_LOG_STREAM_, "%s\n", stars);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     if (lOdLogFile_)
     {
@@ -1559,16 +1559,16 @@ EXTERN_C void ODLogInit_(const char * prefix,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_INIT_FORMAT_ "\n", prefixString_, suffixString, funcName, rootName, lineNumber);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_INIT_FORMAT_, prefixString_, suffixString, funcName, rootName, lineNumber);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_INIT_FORMAT_, prefixString_, suffixString, funcName, rootName, lineNumber);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_INIT_FORMAT_ "\n", prefixString_, suffixString, funcName, rootName, lineNumber);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     if (lOdLogFile_)
     {
@@ -1578,17 +1578,17 @@ EXTERN_C void ODLogInit_(const char * prefix,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, "%s\n", stars);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@"%s", stars);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, "%s", stars);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, "%s\n", stars);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     free(stars);
     OD_FREE_PREFIX_();
@@ -1621,12 +1621,7 @@ EXTERN_C void ODLogIP_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_IP_ "\n", OD_FUNC_PREFIX_(rootName), text1,
-                address.asBytes[0], address.asBytes[1], address.asBytes[2], address.asBytes[3], val2);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_IP_, OD_FUNC_PREFIX_(rootName), text1, address.asBytes[0],
               address.asBytes[1], address.asBytes[2], address.asBytes[3], val2);
@@ -1634,7 +1629,12 @@ EXTERN_C void ODLogIP_(const char *  fileName,
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_IP_, OD_FUNC_PREFIX_(rootName), text1,
                address.asBytes[0], address.asBytes[1], address.asBytes[2], address.asBytes[3], val2);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_IP_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+                address.asBytes[0], address.asBytes[1], address.asBytes[2], address.asBytes[3], val2);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1658,17 +1658,17 @@ EXTERN_C void ODLogL1_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_L1_, OD_FUNC_PREFIX_(rootName), text1, val1, val1);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_L1_, OD_FUNC_PREFIX_(rootName), text1, val1, val1);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1695,19 +1695,19 @@ EXTERN_C void ODLogL2_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
-                val2, val2);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_L2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_L2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
                val2, val2);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1738,14 +1738,7 @@ EXTERN_C void ODLogL3_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
-                val2, val2);
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_L2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_L1_, OD_FUNC_PREFIX_(rootName), text3, val3, val3);
@@ -1754,7 +1747,14 @@ EXTERN_C void ODLogL3_(const char *  fileName,
                val2, val2);
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_L1_, OD_FUNC_PREFIX_(rootName), text3, val3, val3);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_L1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1788,15 +1788,7 @@ EXTERN_C void ODLogL4_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
-                val2, val2);
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
-                val4, val4);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_L2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_L2_, OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4, val4, val4);
@@ -1806,7 +1798,15 @@ EXTERN_C void ODLogL4_(const char *  fileName,
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_L2_, OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
                val4, val4);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2,
+                val2, val2);
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_L2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4,
+                val4, val4);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1830,17 +1830,17 @@ EXTERN_C void ODLogLL1_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LL1_, OD_FUNC_PREFIX_(rootName), text1, val1, val1);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_, OD_FUNC_PREFIX_(rootName), text1, val1, val1);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1867,19 +1867,19 @@ EXTERN_C void ODLogLL2_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1,
-                text2, val2, val2);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LL2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1,
                text2, val2, val2);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1,
+                text2, val2, val2);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1910,14 +1910,7 @@ EXTERN_C void ODLogLL3_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1,
-                text2, val2, val2);
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LL2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LL1_, OD_FUNC_PREFIX_(rootName), text3, val3, val3);
@@ -1926,7 +1919,14 @@ EXTERN_C void ODLogLL3_(const char *  fileName,
                text2, val2, val2);
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_, OD_FUNC_PREFIX_(rootName), text3, val3, val3);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1,
+                text2, val2, val2);
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LL1_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -1960,15 +1960,7 @@ EXTERN_C void ODLogLL4_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1,
-                text2, val2, val2);
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3,
-                text4, val4, val4);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LL2_, OD_FUNC_PREFIX_(rootName), text1, val1, val1, text2, val2, val2);
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LL2_, OD_FUNC_PREFIX_(rootName), text3, val3, val3, text4, val4, val4);
@@ -1978,7 +1970,15 @@ EXTERN_C void ODLogLL4_(const char *  fileName,
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_, OD_FUNC_PREFIX_(rootName), text3, val3, val3,
                text4, val4, val4);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1, val1,
+                text2, val2, val2);
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LL2_ "\n", OD_FUNC_PREFIX_(rootName), text3, val3, val3,
+                text4, val4, val4);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2022,18 +2022,18 @@ EXTERN_C void ODLogLS_(const char * fileName,
                 }
                 else
                 {
-#  if defined(WIN32)
-                    odWriteTime_(OD_LOG_STREAM_);
-                    fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading,
-                            lineBuffer);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
                     NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LS, OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
 #   else // ! defined(__OBJC__)
                     syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LS, OD_FUNC_PREFIX_(rootName), heading,
                            lineBuffer);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+                    odWriteTime_(OD_LOG_STREAM_);
+                    fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading,
+                            lineBuffer);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
                 }
                 heading = blankCaption;
                 memset(lineBuffer, ' ', sizeof(lineBuffer) - 1);
@@ -2052,18 +2052,18 @@ EXTERN_C void ODLogLS_(const char * fileName,
             }
             else
             {
-#  if defined(WIN32)
-                odWriteTime_(OD_LOG_STREAM_);
-                fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading,
-                        lineBuffer);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
                 NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LS, OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
 #   else // ! defined(__OBJC__)
                 syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LS, OD_FUNC_PREFIX_(rootName), heading,
                        lineBuffer);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+                odWriteTime_(OD_LOG_STREAM_);
+                fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading,
+                        lineBuffer);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
             }
             heading = blankCaption;
             memset(lineBuffer, ' ', sizeof(lineBuffer) - 1);
@@ -2079,29 +2079,29 @@ EXTERN_C void ODLogLS_(const char * fileName,
         }
         else
         {
-#  if defined(WIN32)
-            odWriteTime_(OD_LOG_STREAM_);
-            fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
             NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_LS, OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
 #   else // ! defined(__OBJC__)
             syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_LS, OD_FUNC_PREFIX_(rootName), heading,
                    lineBuffer);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+            odWriteTime_(OD_LOG_STREAM_);
+            fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_LS "\n", OD_FUNC_PREFIX_(rootName), heading, lineBuffer);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
         }
     }
     if (lOdLogFile_)
     {
         fflush(lOdLogFile_);
     }
-#  if defined(WIN32)
+#  if (! defined(__APPLE__)) && (! defined(__linux__))
     else
     {
         fflush(OD_LOG_STREAM_);
     }
-#  endif // defined(WIN32)
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     free(blankCaption);
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2258,17 +2258,17 @@ EXTERN_C void ODLogObjEnter_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_ENTER_ "\n", OD_METHOD_PREFIX_(rootName));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_ENTER_, OD_METHOD_PREFIX_(rootName));
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_ENTER_, OD_METHOD_PREFIX_(rootName));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_ENTER_ "\n", OD_METHOD_PREFIX_(rootName));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2293,17 +2293,17 @@ EXTERN_C void ODLogObjExit_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_ "\n", OD_METHOD_PREFIX_(rootName));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_EXIT_, OD_METHOD_PREFIX_(rootName));
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_, OD_METHOD_PREFIX_(rootName));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_ "\n", OD_METHOD_PREFIX_(rootName));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2329,19 +2329,19 @@ EXTERN_C void ODLogObjExitB_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_B1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
-                odBoolToString_(val));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_B1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, odBoolToString_(val));
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_B1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                odBoolToString_(val));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_B1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
+                odBoolToString_(val));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2367,19 +2367,19 @@ EXTERN_C void ODLogObjExitC_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_C1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
-                val, val);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_C1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_C1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                val, val);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_C1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
+                val, val);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2404,19 +2404,19 @@ EXTERN_C void ODLogObjExitD_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_D1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
-                val);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_D1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_D1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                val);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_D1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
+                val);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2441,17 +2441,17 @@ EXTERN_C void ODLogObjExitExit_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_CALL_ "\n", OD_METHOD_PREFIX_(rootName), val, val);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_EXIT_CALL_, OD_METHOD_PREFIX_(rootName), val, val);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_CALL_, OD_METHOD_PREFIX_(rootName), val, val);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_CALL_ "\n", OD_METHOD_PREFIX_(rootName), val, val);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2477,19 +2477,19 @@ EXTERN_C void ODLogObjExitL_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_L1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
-                val, val);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_L1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_L1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                val, val);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_L1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
+                val, val);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2515,19 +2515,19 @@ EXTERN_C void ODLogObjExitLL_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_LL1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
-                val, val);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_LL1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val, val);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_LL1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                val, val);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_LL1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
+                val, val);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2581,19 +2581,19 @@ EXTERN_C void ODLogObjExitP_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_P1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
-                val);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_P1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_P1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                val);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_P1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
+                val);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2653,19 +2653,19 @@ EXTERN_C void ODLogObjExitS_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_S1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
-                odNullOrString(val));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_S1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, odNullOrString(val));
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_S1_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
                odNullOrString(val));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_S1_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
+                odNullOrString(val));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2690,17 +2690,17 @@ EXTERN_C void ODLogObjExitThrowL_(const char *  fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_L_ "\n", OD_METHOD_PREFIX_(rootName), val, val);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_L_, OD_METHOD_PREFIX_(rootName), val, val);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_L_, OD_METHOD_PREFIX_(rootName), val, val);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_L_ "\n", OD_METHOD_PREFIX_(rootName), val, val);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2726,19 +2726,19 @@ EXTERN_C void ODLogObjExitThrowS_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_S_ "\n", OD_METHOD_PREFIX_(rootName),
-                odNullOrString(val));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_S_, OD_METHOD_PREFIX_(rootName), odNullOrString(val));
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_S_, OD_METHOD_PREFIX_(rootName),
                odNullOrString(val));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_METHOD_FORMAT_ OD_FORMAT_EXIT_T_S_ "\n", OD_METHOD_PREFIX_(rootName),
+                odNullOrString(val));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2762,17 +2762,17 @@ EXTERN_C void ODLogP1_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_P1_, OD_FUNC_PREFIX_(rootName), text1, ptr1);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_P1_, OD_FUNC_PREFIX_(rootName), text1, ptr1);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2798,19 +2798,19 @@ EXTERN_C void ODLogP2_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
-                ptr2);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_P2_, OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_P2_, OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
                ptr2);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
+                ptr2);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2840,14 +2840,7 @@ EXTERN_C void ODLogP3_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
-                ptr2);
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), text3, ptr3);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_P2_, OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_P1_, OD_FUNC_PREFIX_(rootName), text3, ptr3);
@@ -2856,7 +2849,14 @@ EXTERN_C void ODLogP3_(const char * fileName,
                ptr2);
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_P1_, OD_FUNC_PREFIX_(rootName), text3, ptr3);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
+                ptr2);
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_P1_ "\n", OD_FUNC_PREFIX_(rootName), text3, ptr3);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2888,15 +2888,7 @@ EXTERN_C void ODLogP4_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
-                ptr2);
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text3, ptr3, text4,
-                ptr4);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_P2_, OD_FUNC_PREFIX_(rootName), text1, ptr1, text2, ptr2);
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_P2_, OD_FUNC_PREFIX_(rootName), text3, ptr3, text4, ptr4);
@@ -2906,7 +2898,15 @@ EXTERN_C void ODLogP4_(const char * fileName,
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_P2_, OD_FUNC_PREFIX_(rootName), text3, ptr3, text4,
                ptr4);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text1, ptr1, text2,
+                ptr2);
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_P2_ "\n", OD_FUNC_PREFIX_(rootName), text3, ptr3, text4,
+                ptr4);
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -2936,16 +2936,16 @@ EXTERN_C void ODLogPacket_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_PACKET_1_ "\n", OD_FUNC_PREFIX_(rootName), buffer, size);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_PACKET_1_, OD_FUNC_PREFIX_(rootName), buffer, size);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_PACKET_1_, OD_FUNC_PREFIX_(rootName), buffer, size);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_PACKET_1_ "\n", OD_FUNC_PREFIX_(rootName), buffer, size);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     memset(blankCaption, ' ', captionLength);
     blankCaption[captionLength] = '\0';
@@ -2972,11 +2972,7 @@ EXTERN_C void ODLogPacket_(const char * fileName,
         }
         else
         {
-#  if defined(WIN32)
-            odWriteTime_(OD_LOG_STREAM_);
-            fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_PACKET_2_ "\n", OD_FUNC_PREFIX_(rootName), heading, ii,
-                    lineBuffer, charBuffer);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
             NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_PACKET_2_, OD_FUNC_PREFIX_(rootName), heading, ii, lineBuffer,
                   charBuffer);
@@ -2984,7 +2980,11 @@ EXTERN_C void ODLogPacket_(const char * fileName,
             syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_PACKET_2_, OD_FUNC_PREFIX_(rootName), heading,
                    ii, lineBuffer, charBuffer);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+            odWriteTime_(OD_LOG_STREAM_);
+            fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_PACKET_2_ "\n", OD_FUNC_PREFIX_(rootName), heading, ii,
+                    lineBuffer, charBuffer);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
         }
         memset(lineBuffer, ' ', sizeof(lineBuffer) - 1);
         heading = blankCaption;
@@ -2993,12 +2993,12 @@ EXTERN_C void ODLogPacket_(const char * fileName,
     {
         fflush(lOdLogFile_);
     }
-#  if defined(WIN32)
+#  if (! defined(__APPLE__)) && (! defined(__linux__))
     else
     {
         fflush(OD_LOG_STREAM_);
     }
-#  endif // ! defined(WIN32)
+#  endif // (defined(__APPLE__) || defined(__linux__))
     free(blankCaption);
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -3056,19 +3056,19 @@ EXTERN_C void ODLogS1_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), text1,
-                odNullOrString(val1));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_S1_, OD_FUNC_PREFIX_(rootName), text1, odNullOrString(val1));
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_S1_, OD_FUNC_PREFIX_(rootName), text1,
                odNullOrString(val1));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+                odNullOrString(val1));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -3095,12 +3095,7 @@ EXTERN_C void ODLogS2_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
-                odNullOrString(val1), text2, odNullOrString(val2));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_S2_, OD_FUNC_PREFIX_(rootName), text1, odNullOrString(val1), text2,
               odNullOrString(val2));
@@ -3108,7 +3103,12 @@ EXTERN_C void ODLogS2_(const char * fileName,
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_S2_, OD_FUNC_PREFIX_(rootName), text1,
                odNullOrString(val1), text2, odNullOrString(val2));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+                odNullOrString(val1), text2, odNullOrString(val2));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -3140,15 +3140,7 @@ EXTERN_C void ODLogS3_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
-                odNullOrString(val1), text2, odNullOrString(val2));
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), text3,
-                odNullOrString(val3));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_S2_, OD_FUNC_PREFIX_(rootName), text1, odNullOrString(val1), text2,
               odNullOrString(val2));
@@ -3159,7 +3151,15 @@ EXTERN_C void ODLogS3_(const char * fileName,
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_S1_, OD_FUNC_PREFIX_(rootName), text3,
                odNullOrString(val3));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+                odNullOrString(val1), text2, odNullOrString(val2));
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_S1_ "\n", OD_FUNC_PREFIX_(rootName), text3,
+                odNullOrString(val3));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -3193,15 +3193,7 @@ EXTERN_C void ODLogS4_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
-                odNullOrString(val1), text2, odNullOrString(val2));
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text3,
-                odNullOrString(val3), text4, odNullOrString(val4));
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_S2_, OD_FUNC_PREFIX_(rootName), text1, odNullOrString(val1), text2,
               odNullOrString(val2));
@@ -3213,7 +3205,15 @@ EXTERN_C void ODLogS4_(const char * fileName,
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_S2_, OD_FUNC_PREFIX_(rootName), text3,
                odNullOrString(val3), text4, odNullOrString(val4));
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
+                odNullOrString(val1), text2, odNullOrString(val2));
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_S2_ "\n", OD_FUNC_PREFIX_(rootName), text3,
+                odNullOrString(val3), text4, odNullOrString(val4));
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
@@ -3238,24 +3238,25 @@ EXTERN_C void ODLogSp_(const char * fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_SP_ "\n", OD_FUNC_PREFIX_(rootName), text, len,
-                val ? val : "");
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
+#  if (defined(__APPLE__) || defined(__linux__))
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_SP_, OD_FUNC_PREFIX_(rootName), text, len, val ? val : "");
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_SP_, OD_FUNC_PREFIX_(rootName), text, len,
                val ? val : "");
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
+#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+        odWriteTime_(OD_LOG_STREAM_);
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_SP_ "\n", OD_FUNC_PREFIX_(rootName), text, len,
+                val ? val : "");
+        fflush(OD_LOG_STREAM_);
+#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
 } // ODLogSp_
 
+#  if (defined(__APPLE__) || defined(__linux__))
 EXTERN_C void ODLogTi_(const char *           fileName,
                        const char *           funcName,
                        const int              lineNumber,
@@ -3275,23 +3276,17 @@ EXTERN_C void ODLogTi_(const char *           fileName,
     }
     else
     {
-#  if defined(WIN32)
-        odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_TI_ "\n", OD_FUNC_PREFIX_(rootName), text1, val1->tv_sec,
-                (long) val1->tv_usec);
-        fflush(OD_LOG_STREAM_);
-#  else // ! defined(WIN32)
 #   if defined(__OBJC__)
         NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_TI_, OD_FUNC_PREFIX_(rootName), text1, val1->tv_sec, (long) val1->tv_usec);
 #   else // ! defined(__OBJC__)
         syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_TI_, OD_FUNC_PREFIX_(rootName), text1, val1->tv_sec,
                (long) val1->tv_usec);
 #   endif // ! defined(__OBJC__)
-#  endif // ! defined(WIN32)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
 } // ODLogTi_
+#  endif // defined(__APPLE__) || defined(__linux__)
 
 # endif // defined(OD_ENABLE_LOGGING)
 #endif // ! defined(ODLOGGING_INC_C_)

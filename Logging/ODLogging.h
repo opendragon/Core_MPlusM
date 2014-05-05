@@ -596,11 +596,13 @@
  @param val The value to be written. */
 #  define OD_LOG_Sp(text, len, val)  \
         ODLogSp_(__FILE__, __func__, __LINE__, text, (long) len, val)
+#  if (defined(__APPLE__) || defined(__linux__))
 /*! @brief Write a time value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
-#  define OD_LOG_Ti(text1, val1)  \
+#   define OD_LOG_Ti(text1, val1)  \
         ODLogTi_(__FILE__, __func__, __LINE__, text1, val1)
+#  endif // defined(__APPLE__) || defined(__linux__)
 
 #  if defined(__cplusplus)
 extern "C"
@@ -1583,6 +1585,7 @@ extern "C"
                   const int    len,
                   const char * val);
 
+#  if (defined(__APPLE__) || defined(__linux__))
     /*! @brief Write a time value to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1594,6 +1597,7 @@ extern "C"
                   const int              lineNumber,
                   const char *           text1,
                   const struct timeval * val1);
+#  endif // defined(__APPLE__) || defined(__linux__)
 
 #  if defined(__cplusplus)
 }
@@ -1949,10 +1953,12 @@ extern "C"
  @param len The number of bytes to be written.
  @param val The value to be written. */
 #  define OD_LOG_Sp(text, len, val)  /* */
+#  if (defined(__APPLE__) || defined(__linux__))
 /*! @brief Write a time value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
-#  define OD_LOG_Ti(text1, val1)  /* */
+#   define OD_LOG_Ti(text1, val1)  /* */
+#  endif // defined(__APPLE__) || defined(__linux__)
 # endif // ! defined(OD_ENABLE_LOGGING)
 
 #endif // ! defined(ODLOGGING_H_)

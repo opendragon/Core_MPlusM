@@ -102,8 +102,8 @@ bool EchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
 
     try
     {
-        Common::Package         parameters(outgoing);
-        Common::ServiceResponse response;
+        CommonX::Package         parameters(outgoing);
+        CommonX::ServiceResponse response;
         
         reconnectIfDisconnected();
         if (send(MpM_ECHO_REQUEST, parameters, &response))

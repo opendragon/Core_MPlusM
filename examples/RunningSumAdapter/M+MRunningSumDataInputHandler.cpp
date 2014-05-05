@@ -97,7 +97,7 @@ RunningSumDataInputHandler::~RunningSumDataInputHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RunningSumDataInputHandler::handleInput(const Common::Package &       input,
+bool RunningSumDataInputHandler::handleInput(const CommonX::Package &       input,
                                              const yarp::os::ConstString & senderChannel,
                                              yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -115,7 +115,7 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
         
         if (0 < howMany)
         {
-            Common::AdapterChannel * theOutput = _shared.getOutput();
+            CommonX::AdapterChannel * theOutput = _shared.getOutput();
             RunningSumClient *       theClient = (RunningSumClient *) _shared.getClient();
             
             if (_shared.isActive() && theClient && theOutput)
@@ -143,14 +143,14 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
                         _shared.lock();
                         if (theClient->addToSum(inValue, outValue))
                         {
-                            Common::Package message;
+                            CommonX::Package message;
                             
                             message.addDouble(outValue);
                             if (! theOutput->write(message))
                             {
                                 OD_LOG("(! theOutput->write(message))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                                Common::Stall();
+                                CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }
@@ -164,7 +164,7 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
                 else
                 {
                     bool                 gotValues = true;
-                    Common::DoubleVector values;
+                    CommonX::DoubleVector values;
                     
                     for (int ii = 0; gotValues && (ii < howMany); ++ii)
                     {
@@ -195,14 +195,14 @@ bool RunningSumDataInputHandler::handleInput(const Common::Package &       input
                         _shared.lock();
                         if (theClient->addToSum(values, outValue))
                         {
-                            Common::Package message;
+                            CommonX::Package message;
                             
                             message.addDouble(outValue);
                             if (! theOutput->write(message))
                             {
                                 OD_LOG("(! theOutput->write(message))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                                Common::Stall();
+                                CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }

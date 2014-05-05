@@ -90,7 +90,7 @@ Test10DefaultRequestHandler::~Test10DefaultRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test10DefaultRequestHandler::fillInAliases(MplusM::Common::StringVector & alternateNames)
+void Test10DefaultRequestHandler::fillInAliases(MplusM::CommonX::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -113,7 +113,7 @@ void Test10DefaultRequestHandler::fillInDescription(const yarp::os::ConstString 
 } // Test10DefaultRequestHandler::fillInDescription
 
 bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString &   request,
-                                                 const MplusM::Common::Package & restOfInput,
+                                                 const MplusM::CommonX::Package & restOfInput,
                                                  const yarp::os::ConstString &   senderChannel,
                                                  yarp::os::ConnectionWriter *    replyMechanism)
 {
@@ -128,14 +128,14 @@ bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString &  
     
     if (replyMechanism)
     {
-        MplusM::Common::Package argsCopy(name());
+        MplusM::CommonX::Package argsCopy(name());
         
         argsCopy.append(restOfInput);
         if (! argsCopy.write(*replyMechanism))
         {
             OD_LOG("(! argsCopy.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-            Common::Stall();
+            CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
         }
     }

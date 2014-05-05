@@ -74,7 +74,7 @@
 
 namespace MplusM
 {
-    namespace Common
+    namespace CommonX
     {
         class BaseRequestHandler;
         class BaseService;

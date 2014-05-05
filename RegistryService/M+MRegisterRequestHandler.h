@@ -59,7 +59,7 @@
 
 namespace MplusM
 {
-    namespace Common
+    namespace CommonX
     {
         class ServiceResponse;
     } // Common
@@ -72,7 +72,7 @@ namespace MplusM
          
          The input is the name of a service channel and the output is either 'OK', which indicates success, or 'FAILED'
          followed with a description of the reason for failure. */
-        class RegisterRequestHandler : public Common::BaseRequestHandler
+        class RegisterRequestHandler : public CommonX::BaseRequestHandler
         {
         public:
             
@@ -85,7 +85,7 @@ namespace MplusM
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(Common::StringVector & alternateNames);
+            virtual void fillInAliases(CommonX::StringVector & alternateNames);
             
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
@@ -99,7 +99,7 @@ namespace MplusM
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
             virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const Common::Package &       restOfInput,
+                                        const CommonX::Package &       restOfInput,
                                         const yarp::os::ConstString & senderChannel,
                                         yarp::os::ConnectionWriter *  replyMechanism);
             
@@ -128,7 +128,7 @@ namespace MplusM
              @returns @c true if the expected values are all present and @c false if they are not or if unexpected
              values appear. */
             bool processListResponse(const yarp::os::ConstString &   channelName,
-                                     const Common::ServiceResponse & response);
+                                     const CommonX::ServiceResponse & response);
             
             /*! @brief Check the response from the 'name' request.
              @param channelName The channel that sent the response.
@@ -136,7 +136,7 @@ namespace MplusM
              @returns @c true if the expected values are all present and @c false if they are not or if unexpected
              values appear. */
             bool processNameResponse(const yarp::os::ConstString &   channelName,
-                                     const Common::ServiceResponse & response);
+                                     const CommonX::ServiceResponse & response);
             
             /*! @brief The service that will handle the registration operation. */
             RegistryService & _service;

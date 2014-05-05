@@ -135,17 +135,17 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MplusM::Common::Initialize(*argv);
+            MplusM::CommonX::Initialize(*argv);
             RunningSumClient * stuff = new RunningSumClient;
             
             if (stuff)
             {
                 lKeepRunning = true;
-                MplusM::Common::SetSignalHandlers(stopRunning);
+                MplusM::CommonX::SetSignalHandlers(stopRunning);
                 if (stuff->findService("Name RunningSum"))
                 {
 #if defined(MpM_REPORT_ON_CONNECTIONS)
-                    MplusM::Common::ChannelStatusReporter reporter;
+                    MplusM::CommonX::ChannelStatusReporter reporter;
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     
 #if defined(MpM_REPORT_ON_CONNECTIONS)

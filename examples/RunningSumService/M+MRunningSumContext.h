@@ -61,7 +61,7 @@ namespace MplusM
     namespace Example
     {
         /*! @brief A convenience class to provide context objects for the running sum service. */
-        class RunningSumContext : public Common::BaseContext
+        class RunningSumContext : public CommonX::BaseContext
         {
         public:
             

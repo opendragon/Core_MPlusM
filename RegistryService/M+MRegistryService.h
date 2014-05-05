@@ -60,7 +60,7 @@ struct sqlite3;
 
 namespace MplusM
 {
-    namespace Common
+    namespace CommonX
     {
         class AdapterChannel;
     } // Common
@@ -95,7 +95,7 @@ namespace MplusM
         }; // RequestDescription
         
         /*! @brief The M+M Service Registry service. */
-        class RegistryService : public Common::BaseService
+        class RegistryService : public CommonX::BaseService
         {
         public:
             
@@ -117,7 +117,7 @@ namespace MplusM
              @param keywordList The list of keywords associated with the request.
              @param description The attributes of the request.
              @returns @c true if the request was successfully added and @c false otherwise. */
-            bool addRequestRecord(const Common::Package &    keywordList,
+            bool addRequestRecord(const CommonX::Package &    keywordList,
                                   const RequestDescription & description);
             
             /*! @brief Add a service to the registry.
@@ -144,7 +144,7 @@ namespace MplusM
              @param reply The result from performing a SELECT with the converted match expression.
              @returns @c true if the match request was successfully performed and @c false otherwise. */
             bool processMatchRequest(Parser::MatchExpression * matcher,
-                                     Common::Package &         reply);
+                                     CommonX::Package &         reply);
             
             /*! @brief Remove a service entry from the registry.
              @param serviceChannelName The service channel that is being removed.
@@ -227,7 +227,7 @@ namespace MplusM
             MatchRequestHandler *      _matchHandler;
             
             /*! @brief The channel to send status change messages to. */
-            Common::AdapterChannel *   _statusChannel;
+            CommonX::AdapterChannel *   _statusChannel;
             
             /*! @brief The request handler for the 'register' request. */
             RegisterRequestHandler *   _registerHandler;

@@ -64,7 +64,7 @@ namespace MplusM
     namespace Test
     {
         /*! @brief A test input handler. */
-        class Test03Handler : public Common::InputHandler
+        class Test03Handler : public CommonX::InputHandler
         {
         public:
             
@@ -79,7 +79,7 @@ namespace MplusM
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
              @returns @c true if the input was correctly structured and successfully processed. */
-            virtual bool handleInput(const MplusM::Common::Package & input,
+            virtual bool handleInput(const MplusM::CommonX::Package & input,
                                      const yarp::os::ConstString &   senderChannel,
                                      yarp::os::ConnectionWriter *    replyMechanism);
             

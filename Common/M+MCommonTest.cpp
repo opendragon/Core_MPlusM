@@ -87,7 +87,7 @@
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::Common;
+using namespace MplusM::CommonX;
 using namespace MplusM::Test;
 using std::cout;
 using std::cerr;
@@ -448,7 +448,7 @@ static int doTestWriteToEndpoint(const int argc,
                             {
                                 OD_LOG("! (outChannel->write(message))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                                Common::Stall();
+                                CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }
@@ -554,7 +554,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                             {
                                 OD_LOG("! (outChannel->write(message, response))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                                Common::Stall();
+                                CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }
@@ -660,7 +660,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                             {
                                 OD_LOG("! (outChannel->write(message, response))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                                Common::Stall();
+                                CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }
@@ -1303,12 +1303,12 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MplusM::Common::Initialize(*argv);
+            MplusM::CommonX::Initialize(*argv);
             if (0 < --argc)
             {
                 int selector = atoi(argv[1]);
                 
-                MplusM::Common::SetSignalHandlers(catchSignal);
+                MplusM::CommonX::SetSignalHandlers(catchSignal);
                 switch (selector)
                 {
                     case 0:

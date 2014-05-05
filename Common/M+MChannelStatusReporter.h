@@ -74,7 +74,7 @@
 
 namespace MplusM
 {
-    namespace Common
+    namespace CommonX
     {
         /*! @brief An endpoint status reporter. */
         class ChannelStatusReporter : public yarp::os::PortReport

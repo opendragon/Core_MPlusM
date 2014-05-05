@@ -91,7 +91,7 @@ Test11EchoRequestHandler::~Test11EchoRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test11EchoRequestHandler::fillInAliases(MplusM::Common::StringVector & alternateNames)
+void Test11EchoRequestHandler::fillInAliases(MplusM::CommonX::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -114,7 +114,7 @@ void Test11EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
 } // Test11EchoRequestHandler::fillInDescription
 
 bool Test11EchoRequestHandler::processRequest(const yarp::os::ConstString &   request,
-                                              const MplusM::Common::Package & restOfInput,
+                                              const MplusM::CommonX::Package & restOfInput,
                                               const yarp::os::ConstString &   senderChannel,
                                               yarp::os::ConnectionWriter *    replyMechanism)
 {
@@ -129,13 +129,13 @@ bool Test11EchoRequestHandler::processRequest(const yarp::os::ConstString &   re
     
     if (replyMechanism)
     {
-        MplusM::Common::Package argsCopy(restOfInput);
+        MplusM::CommonX::Package argsCopy(restOfInput);
         
         if (! argsCopy.write(*replyMechanism))
         {
             OD_LOG("(! argsCopy.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-            Common::Stall();
+            CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
         }
     }

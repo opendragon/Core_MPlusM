@@ -100,8 +100,8 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
 
     try
     {
-        Common::Package         parameters;
-        Common::ServiceResponse response;
+        CommonX::Package         parameters;
+        CommonX::ServiceResponse response;
         
         reconnectIfDisconnected();
         if (send(MpM_RANDOM_REQUEST, parameters, &response))
@@ -141,7 +141,7 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
 } // RandomNumberClient::getOneRandomNumber
 
 bool RandomNumberClient::getRandomNumbers(const int              howMany,
-                                          Common::DoubleVector & result)
+                                          CommonX::DoubleVector & result)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_LL1("howMany = ", howMany);//####
@@ -152,8 +152,8 @@ bool RandomNumberClient::getRandomNumbers(const int              howMany,
     {
         if (0 < howMany)
         {
-            Common::Package         parameters;
-            Common::ServiceResponse response;
+            CommonX::Package         parameters;
+            CommonX::ServiceResponse response;
             
             parameters.addInt(howMany);
             reconnectIfDisconnected();

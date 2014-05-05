@@ -90,7 +90,7 @@ Test04Handler::~Test04Handler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool Test04Handler::handleInput(const MplusM::Common::Package & input,
+bool Test04Handler::handleInput(const MplusM::CommonX::Package & input,
                                 const yarp::os::ConstString &   senderChannel,
                                 yarp::os::ConnectionWriter *    replyMechanism)
 {
@@ -104,13 +104,13 @@ bool Test04Handler::handleInput(const MplusM::Common::Package & input,
     
     if (replyMechanism)
     {
-        MplusM::Common::Package inputCopy(input);
+        MplusM::CommonX::Package inputCopy(input);
         
         if (! inputCopy.write(*replyMechanism))
         {
             OD_LOG("(! inputCopy.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-            Common::Stall();
+            CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
         }
     }

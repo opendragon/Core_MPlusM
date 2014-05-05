@@ -58,7 +58,7 @@
 
 namespace MplusM
 {
-    namespace Common
+    namespace CommonX
     {
         /*! @brief The data returned from a service request. */
         class ServiceResponse

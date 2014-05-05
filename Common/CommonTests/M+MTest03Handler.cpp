@@ -90,7 +90,7 @@ Test03Handler::~Test03Handler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool Test03Handler::handleInput(const MplusM::Common::Package & input,
+bool Test03Handler::handleInput(const MplusM::CommonX::Package & input,
                                 const yarp::os::ConstString &   senderChannel,
                                 yarp::os::ConnectionWriter *    replyMechanism)
 {
@@ -108,13 +108,13 @@ bool Test03Handler::handleInput(const MplusM::Common::Package & input,
 #if defined(MpM_CHANNELS_USE_RPC)
     if (replyMechanism)
     {
-        MplusM::Common::Package dummy;
+        MplusM::CommonX::Package dummy;
         
         if (! dummy.write(*replyMechanism))
         {
             OD_LOG("(! dummy.write(*replyMechanism))");//####
 # if defined(MpM_STALL_ON_SEND_PROBLEM)
-            Common::Stall();
+            CommonX::Stall();
 # endif // defined(MpM_STALL_ON_SEND_PROBLEM)
         }
     }

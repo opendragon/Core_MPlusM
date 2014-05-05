@@ -96,7 +96,7 @@ StartRequestHandler::~StartRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void StartRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void StartRequestHandler::fillInAliases(CommonX::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -120,7 +120,7 @@ void StartRequestHandler::fillInDescription(const yarp::os::ConstString & reques
                  "Input: nothing\n"
                  "Output: nothing");
         yarp::os::Value   keywords;
-        Common::Package * asList = keywords.asList();
+        CommonX::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -134,7 +134,7 @@ void StartRequestHandler::fillInDescription(const yarp::os::ConstString & reques
 } // StartRequestHandler::fillInDescription
 
 bool StartRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const Common::Package &       restOfInput,
+                                         const CommonX::Package &       restOfInput,
                                          const yarp::os::ConstString & senderChannel,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -152,13 +152,13 @@ bool StartRequestHandler::processRequest(const yarp::os::ConstString & request,
         _service.startSum(senderChannel);
         if (replyMechanism)
         {
-            Common::Package response(MpM_OK_RESPONSE);
+            CommonX::Package response(MpM_OK_RESPONSE);
             
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                Common::Stall();
+                CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }

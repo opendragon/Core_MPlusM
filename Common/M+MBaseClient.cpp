@@ -78,7 +78,7 @@
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::Common;
+using namespace MplusM::CommonX;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -247,7 +247,7 @@ bool BaseClient::disconnectFromService(void)
     OD_LOG_OBJENTER();//####
     if (_connected)
     {
-        Common::Package parameters;
+        CommonX::Package parameters;
         
         reconnectIfDisconnected();
         if (! send(MpM_DETACH_REQUEST, parameters))
@@ -415,7 +415,7 @@ void BaseClient::setReporter(ChannelStatusReporter & reporter,
 /*! @brief Find one or more matching local services that are registered with a running Service Registry service.
  @param criteria The matching conditions.
  @returns A (possibly empty) list of matching services, preceded by the request status. */
-Package Common::FindMatchingServices(const char * criteria)
+Package CommonX::FindMatchingServices(const char * criteria)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("criteria = ", criteria);//####

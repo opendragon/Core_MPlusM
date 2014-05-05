@@ -174,20 +174,20 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MplusM::Common::Initialize(*argv);
+            MplusM::CommonX::Initialize(*argv);
             RequestCounterClient * stuff = new RequestCounterClient;
             
             if (stuff)
             {
 #if defined(MpM_REPORT_ON_CONNECTIONS)
-                MplusM::Common::ChannelStatusReporter reporter;
+                MplusM::CommonX::ChannelStatusReporter reporter;
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                 
 #if defined(MpM_REPORT_ON_CONNECTIONS)
                 stuff->setReporter(reporter, true);
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                 lKeepRunning = true;
-                MplusM::Common::SetSignalHandlers(stopRunning);
+                MplusM::CommonX::SetSignalHandlers(stopRunning);
                 for ( ; lKeepRunning; )
                 {
                     int count;

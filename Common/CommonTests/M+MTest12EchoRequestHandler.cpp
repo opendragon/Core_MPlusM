@@ -94,7 +94,7 @@ Test12EchoRequestHandler::~Test12EchoRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test12EchoRequestHandler::fillInAliases(MplusM::Common::StringVector & alternateNames)
+void Test12EchoRequestHandler::fillInAliases(MplusM::CommonX::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -116,7 +116,7 @@ void Test12EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
     info.put(MpM_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
     info.put(MpM_REQREP_DICT_DETAILS_KEY, "Echo back any input");
     yarp::os::Value           keywords;
-    MplusM::Common::Package * asList = keywords.asList();
+    MplusM::CommonX::Package * asList = keywords.asList();
     
     asList->addString(request);
     info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -124,7 +124,7 @@ void Test12EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
 } // Test12EchoRequestHandler::fillInDescription
 
 bool Test12EchoRequestHandler::processRequest(const yarp::os::ConstString &   request,
-                                              const MplusM::Common::Package & restOfInput,
+                                              const MplusM::CommonX::Package & restOfInput,
                                               const yarp::os::ConstString &   senderChannel,
                                               yarp::os::ConnectionWriter *    replyMechanism)
 {
@@ -139,13 +139,13 @@ bool Test12EchoRequestHandler::processRequest(const yarp::os::ConstString &   re
     
     if (replyMechanism)
     {
-        MplusM::Common::Package argsCopy(restOfInput);
+        MplusM::CommonX::Package argsCopy(restOfInput);
         
         if (! argsCopy.write(*replyMechanism))
         {
             OD_LOG("(! argsCopy.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-            Common::Stall();
+            CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
         }
     }

@@ -127,17 +127,17 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MplusM::Common::Initialize(*argv);
+            MplusM::CommonX::Initialize(*argv);
             EchoClient * stuff = new EchoClient;
             
             if (stuff)
             {
                 lKeepRunning = true;
-                MplusM::Common::SetSignalHandlers(stopRunning);
+                MplusM::CommonX::SetSignalHandlers(stopRunning);
                 if (stuff->findService("details Echo*"))
                 {
 #if defined(MpM_REPORT_ON_CONNECTIONS)
-                    MplusM::Common::ChannelStatusReporter reporter;
+                    MplusM::CommonX::ChannelStatusReporter reporter;
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     
 #if defined(MpM_REPORT_ON_CONNECTIONS)

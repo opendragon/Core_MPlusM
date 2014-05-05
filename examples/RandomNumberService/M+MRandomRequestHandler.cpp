@@ -109,7 +109,7 @@ RandomRequestHandler::~RandomRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RandomRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void RandomRequestHandler::fillInAliases(CommonX::StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
@@ -133,7 +133,7 @@ void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & reque
                  "Input: the number of random values to generate\n"
                  "Output one or more random numbers per request");
         yarp::os::Value   keywords;
-        Common::Package * asList = keywords.asList();
+        CommonX::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -147,7 +147,7 @@ void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & reque
 } // RandomRequestHandler::fillInDescription
 
 bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                          const Common::Package &       restOfInput,
+                                          const CommonX::Package &       restOfInput,
                                           const yarp::os::ConstString & senderChannel,
                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -164,7 +164,7 @@ bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
-            Common::Package response;
+            CommonX::Package response;
             int             count;
             
             if (0 < restOfInput.size())
@@ -199,7 +199,7 @@ bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                Common::Stall();
+                CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }

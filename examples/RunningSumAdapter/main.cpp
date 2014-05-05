@@ -145,17 +145,17 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MplusM::Common::Initialize(*argv);
+            MplusM::CommonX::Initialize(*argv);
             RunningSumClient * stuff = new RunningSumClient;
             
             if (stuff)
             {
                 lKeepRunning = true;
-                MplusM::Common::SetSignalHandlers(stopRunning);
+                MplusM::CommonX::SetSignalHandlers(stopRunning);
                 if (stuff->findService("Name RunningSum"))
                 {
 #if defined(MpM_REPORT_ON_CONNECTIONS)
-                    MplusM::Common::ChannelStatusReporter reporter;
+                    MplusM::CommonX::ChannelStatusReporter reporter;
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     
 #if defined(MpM_REPORT_ON_CONNECTIONS)
@@ -163,9 +163,9 @@ int main(int      argc,
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     if (stuff->connectToService())
                     {
-                        MplusM::Common::AdapterChannel * controlChannel = new MplusM::Common::AdapterChannel;
-                        MplusM::Common::AdapterChannel * dataChannel = new MplusM::Common::AdapterChannel;
-                        MplusM::Common::AdapterChannel * outputChannel = new MplusM::Common::AdapterChannel;
+                        MplusM::CommonX::AdapterChannel * controlChannel = new MplusM::CommonX::AdapterChannel;
+                        MplusM::CommonX::AdapterChannel * dataChannel = new MplusM::CommonX::AdapterChannel;
+                        MplusM::CommonX::AdapterChannel * outputChannel = new MplusM::CommonX::AdapterChannel;
                         RunningSumAdapterData            sharedData(stuff, outputChannel);
                         RunningSumControlInputHandler *  controlHandler = new RunningSumControlInputHandler(sharedData);
                         RunningSumDataInputHandler *     dataHandler = new RunningSumDataInputHandler(sharedData);
@@ -234,9 +234,9 @@ int main(int      argc,
                                    "dataHandler)");//####
                             cerr << "Problem creating a channel." << endl;
                         }
-                        MplusM::Common::AdapterChannel::RelinquishChannel(controlChannel);
-                        MplusM::Common::AdapterChannel::RelinquishChannel(dataChannel);
-                        MplusM::Common::AdapterChannel::RelinquishChannel(outputChannel);
+                        MplusM::CommonX::AdapterChannel::RelinquishChannel(controlChannel);
+                        MplusM::CommonX::AdapterChannel::RelinquishChannel(dataChannel);
+                        MplusM::CommonX::AdapterChannel::RelinquishChannel(outputChannel);
                         if (! stuff->disconnectFromService())
                         {
                             OD_LOG("(! stuff->disconnectFromService())");//####

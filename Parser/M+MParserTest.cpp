@@ -426,7 +426,7 @@ int main(int      argc,
             int  selector = atoi(argv[1]);
             bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));
             
-            MplusM::Common::SetSignalHandlers(catchSignal);
+            MplusM::CommonX::SetSignalHandlers(catchSignal);
             OD_LOG_LL1("selector <- ", selector);//####
             OD_LOG_B1("expected <- ", expected);//####
             switch (selector)

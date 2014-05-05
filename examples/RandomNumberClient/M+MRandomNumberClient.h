@@ -61,7 +61,7 @@ namespace MplusM
     namespace Example
     {
         /*! @brief An example M+M client, for the 'random' service. */
-        class RandomNumberClient : public Common::BaseClient
+        class RandomNumberClient : public CommonX::BaseClient
         {
         public:
             
@@ -81,7 +81,7 @@ namespace MplusM
              @param result Where to return the numbers.
              @returns @c true if the numbere were retrieved successfully and @c false otherwise. */
             bool getRandomNumbers(const int              howMany,
-                                  Common::DoubleVector & result);
+                                  CommonX::DoubleVector & result);
             
         protected:
             

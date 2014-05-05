@@ -83,7 +83,7 @@
 
 namespace MplusM
 {
-    namespace Common
+    namespace CommonX
     {
         /*! @brief A convenience class to provide distinct channels for responses from a service to a client. */
         class ServiceChannel : public SERVICE_PORT_CLASS_

@@ -115,7 +115,7 @@ RegisterRequestHandler::~RegisterRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RegisterRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void RegisterRequestHandler::fillInAliases(CommonX::StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
@@ -139,7 +139,7 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
                  "Input: the channel used by the service\n"
                  "Output: OK or FAILED, with a description of the problem encountered");
         yarp::os::Value   keywords;
-        Common::Package * asList = keywords.asList();
+        CommonX::Package * asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("add");
@@ -154,7 +154,7 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
 } // RegisterRequestHandler::fillInDescription
 
 bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                            const Common::Package &       restOfInput,
+                                            const CommonX::Package &       restOfInput,
                                             const yarp::os::ConstString & senderChannel,
                                             yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -171,7 +171,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
     {
         if (replyMechanism)
         {
-            Common::Package reply;
+            CommonX::Package reply;
             
             // Validate the name as a channel name
             if (1 == restOfInput.size())
@@ -182,11 +182,11 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                 {
                     yarp::os::ConstString argAsString(argument.toString());
                     
-                    if (Common::Endpoint::CheckEndpointName(argAsString))
+                    if (CommonX::Endpoint::CheckEndpointName(argAsString))
                     {
                         // Send a 'list' request to the channel
-                        yarp::os::ConstString   aName(Common::GetRandomChannelName("register/channel_"));
-                        Common::ClientChannel * outChannel = new Common::ClientChannel;
+                        yarp::os::ConstString   aName(CommonX::GetRandomChannelName("register/channel_"));
+                        CommonX::ClientChannel * outChannel = new CommonX::ClientChannel;
                         
                         if (outChannel)
                         {
@@ -194,14 +194,14 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                             {
                                 if (outChannel->addOutputWithRetries(argAsString))
                                 {
-                                    Common::Package message1(MpM_NAME_REQUEST);
-                                    Common::Package response;
+                                    CommonX::Package message1(MpM_NAME_REQUEST);
+                                    CommonX::Package response;
                                     
                                     if (outChannel->write(message1, response))
                                     {
                                         if (processNameResponse(argAsString, response))
                                         {
-                                            Common::Package message2(MpM_LIST_REQUEST);
+                                            CommonX::Package message2(MpM_LIST_REQUEST);
                                             
                                             if (outChannel->write(message2, response))
                                             {
@@ -223,7 +223,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                                 reply.addString(MpM_FAILED_RESPONSE);
                                                 reply.addString("Could not write to channel");
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                                                Common::Stall();
+                                                CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                                             }
                                         }
@@ -240,13 +240,13 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                         reply.addString(MpM_FAILED_RESPONSE);
                                         reply.addString("Could not write to channel");
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                                        Common::Stall();
+                                        CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                                     }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                                    if (! Common::NetworkDisconnectWithRetries(outChannel->getName(), argAsString))
+                                    if (! CommonX::NetworkDisconnectWithRetries(outChannel->getName(), argAsString))
                                     {
-                                        OD_LOG("(! Common::NetworkDisconnectWithRetries(outChannel->getName(), "//####
+                                        OD_LOG("(! CommonX::NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                                "argAsString))");//####
                                     }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
@@ -268,7 +268,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                 reply.addString(MpM_FAILED_RESPONSE);
                                 reply.addString("Channel could not be opened");
                             }
-                            Common::ClientChannel::RelinquishChannel(outChannel);
+                            CommonX::ClientChannel::RelinquishChannel(outChannel);
                         }
                         else
                         {
@@ -277,7 +277,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                     }
                     else
                     {
-                        OD_LOG("! (Common::Endpoint::CheckEndpointName(argAsString))");//####
+                        OD_LOG("! (CommonX::Endpoint::CheckEndpointName(argAsString))");//####
                         reply.addString(MpM_FAILED_RESPONSE);
                         reply.addString("Invalid channel name");
                     }
@@ -300,7 +300,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                Common::Stall();
+                CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
@@ -315,7 +315,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
 } // RegisterRequestHandler::processRequest
 
 bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &   channelName,
-                                                 const Common::ServiceResponse & response)
+                                                 const CommonX::ServiceResponse & response)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("channelName = ", channelName.c_str(), "response = ", response.asString().c_str());//####
@@ -339,7 +339,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &  
                     if (asDict->check(MpM_REQREP_DICT_REQUEST_KEY))
                     {
                         yarp::os::ConstString theRequest(asDict->find(MpM_REQREP_DICT_REQUEST_KEY).asString());
-                        Common::Package       keywordList;
+                        CommonX::Package       keywordList;
                         RequestDescription    requestDescriptor;
                         
                         OD_LOG_S1("theRequest <- ", theRequest.c_str());//####
@@ -469,7 +469,7 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &  
 } // RegisterRequestHandler::processListResponse
 
 bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString &   channelName,
-                                                 const Common::ServiceResponse & response)
+                                                 const CommonX::ServiceResponse & response)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("channelName = ", channelName.c_str(), "response = ", response.asString().c_str());//####

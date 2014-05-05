@@ -94,7 +94,7 @@ EchoRequestHandler::~EchoRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void EchoRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void EchoRequestHandler::fillInAliases(CommonX::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -120,7 +120,7 @@ void EchoRequestHandler::fillInDescription(const yarp::os::ConstString & request
                  "Input: anything\n"
                  "Output: same as input");
         yarp::os::Value   keywords;
-        Common::Package * asList = keywords.asList();
+        CommonX::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -134,7 +134,7 @@ void EchoRequestHandler::fillInDescription(const yarp::os::ConstString & request
 } // EchoRequestHandler::fillInDescription
 
 bool EchoRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                        const Common::Package &       restOfInput,
+                                        const CommonX::Package &       restOfInput,
                                         const yarp::os::ConstString & senderChannel,
                                         yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -151,13 +151,13 @@ bool EchoRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
-            Common::Package argsCopy(restOfInput);
+            CommonX::Package argsCopy(restOfInput);
             
             if (! argsCopy.write(*replyMechanism))
             {
                 OD_LOG("(! argsCopy.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                Common::Stall();
+                CommonX::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }

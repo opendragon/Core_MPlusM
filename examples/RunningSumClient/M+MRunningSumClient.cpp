@@ -117,8 +117,8 @@ bool RunningSumClient::addToSum(const double value,
     
     try
     {
-        Common::Package         parameters;
-        Common::ServiceResponse response;
+        CommonX::Package         parameters;
+        CommonX::ServiceResponse response;
         
         parameters.addDouble(value);
         reconnectIfDisconnected();
@@ -163,7 +163,7 @@ bool RunningSumClient::addToSum(const double value,
     return okSoFar;
 } // RunningSumClient::addToSum
 
-bool RunningSumClient::addToSum(const Common::DoubleVector & values,
+bool RunningSumClient::addToSum(const CommonX::DoubleVector & values,
                                 double &                     newSum)
 {
     OD_LOG_OBJENTER();//####
@@ -172,10 +172,10 @@ bool RunningSumClient::addToSum(const Common::DoubleVector & values,
     
     try
     {
-        Common::Package         parameters;
-        Common::ServiceResponse response;
+        CommonX::Package         parameters;
+        CommonX::ServiceResponse response;
         
-        for (Common::DoubleVector::const_iterator it(values.begin()); values.end() != it; ++it)
+        for (CommonX::DoubleVector::const_iterator it(values.begin()); values.end() != it; ++it)
         {
             parameters.addDouble(*it);
         }
@@ -235,7 +235,7 @@ bool RunningSumClient::resetSum(void)
 
     try
     {
-        Common::Package parameters;
+        CommonX::Package parameters;
         
         reconnectIfDisconnected();
         if (send(MpM_RESET_REQUEST, parameters))
@@ -263,7 +263,7 @@ bool RunningSumClient::startSum(void)
 
     try
     {
-        Common::Package parameters;
+        CommonX::Package parameters;
         
         reconnectIfDisconnected();
         if (send(MpM_START_REQUEST, parameters))
@@ -291,7 +291,7 @@ bool RunningSumClient::stopSum(void)
     
     try
     {
-        Common::Package parameters;
+        CommonX::Package parameters;
         
         reconnectIfDisconnected();
         if (send(MpM_STOP_REQUEST, parameters))

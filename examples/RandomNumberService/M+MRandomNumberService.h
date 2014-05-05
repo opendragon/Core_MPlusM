@@ -66,7 +66,7 @@ namespace MplusM
         class RandomRequestHandler;
         
         /*! @brief An example M+M service, handling 'random' requests. */
-        class RandomNumberService : public Common::BaseService
+        class RandomNumberService : public CommonX::BaseService
         {
         public:
             

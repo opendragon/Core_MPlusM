@@ -69,7 +69,7 @@ namespace MplusM
         class StopRequestHandler;
         
         /*! @brief An example M+M service. */
-        class RunningSumService : public Common::BaseService
+        class RunningSumService : public CommonX::BaseService
         {
         public:
             

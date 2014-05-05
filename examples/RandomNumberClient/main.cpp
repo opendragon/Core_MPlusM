@@ -128,17 +128,17 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MplusM::Common::Initialize(*argv);
+            MplusM::CommonX::Initialize(*argv);
             RandomNumberClient * stuff = new RandomNumberClient;
             
             if (stuff)
             {
                 lKeepRunning = true;
-                MplusM::Common::SetSignalHandlers(stopRunning);
+                MplusM::CommonX::SetSignalHandlers(stopRunning);
                 if (stuff->findService("keyword random"))
                 {
 #if defined(MpM_REPORT_ON_CONNECTIONS)
-                    MplusM::Common::ChannelStatusReporter reporter;
+                    MplusM::CommonX::ChannelStatusReporter reporter;
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     
 #if defined(MpM_REPORT_ON_CONNECTIONS)
@@ -173,12 +173,12 @@ int main(int      argc,
                             }
                             else
                             {
-                                MplusM::Common::DoubleVector results;
+                                MplusM::CommonX::DoubleVector results;
                                 
                                 if (stuff->getRandomNumbers(count, results))
                                 {
                                     cout << "result = ( ";
-                                    for (MplusM::Common::DoubleVector::const_iterator it(results.begin());
+                                    for (MplusM::CommonX::DoubleVector::const_iterator it(results.begin());
                                          results.end() != it; ++it)
                                     {
                                         cout << " " << *it;

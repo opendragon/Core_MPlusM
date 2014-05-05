@@ -76,7 +76,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MplusM::Common;
+using namespace MplusM::CommonX;
 using std::cout;
 using std::endl;
 

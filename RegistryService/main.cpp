@@ -136,7 +136,7 @@ int main(int      argc,
                                                       // infrastructure
             MplusM::Registry::RegistryService * stuff = NULL;
             
-            MplusM::Common::Initialize(*argv);
+            MplusM::CommonX::Initialize(*argv);
             if (1 <= argc)
             {
                 switch (argc)
@@ -166,7 +166,7 @@ int main(int      argc,
                     // Note that the Registry Service is self-registering... so we don't need to call
                     // RegisterLocalService().
                     lKeepRunning = true;
-                    MplusM::Common::SetSignalHandlers(stopRunning);
+                    MplusM::CommonX::SetSignalHandlers(stopRunning);
                     for ( ; lKeepRunning && stuff; )
                     {
 #if defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)

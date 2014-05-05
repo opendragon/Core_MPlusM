@@ -58,7 +58,7 @@
 
 namespace MplusM
 {
-    namespace Common
+    namespace CommonX
     {
         /*! @brief A convenience class to provide distinct exception objects. */
         class Exception
