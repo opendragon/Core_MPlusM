@@ -1475,7 +1475,9 @@ EXTERN_C void ODLogInit_(const char * prefix,
                          const int    lineNumber)
 {
 #  if (defined(__OBJC__) || (! defined(__APPLE__)) && (! defined(__linux__)))
-#   pragma unused(prefix)
+#   if (defined(__APPLE__) || defined(__linux__))
+#    pragma unused(prefix)
+#   endif // defined(__APPLE__) || defined(__linux__)
 #  endif // defined(__OBJC__) || (! defined(__APPLE__)) && (! defined(__linux__))
     bool         odWriteToFile = (options & kODLoggingOptionWriteToFile);
     const char * rootName = odFileNameRoot_(fileName);

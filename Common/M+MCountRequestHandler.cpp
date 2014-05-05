@@ -41,6 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "M+MCountRequestHandler.h"
+#include "M+MBaseService.h"
 #include "M+MRequestMap.h"
 #include "M+MRequests.h"
 
@@ -138,7 +139,9 @@ bool CountRequestHandler::processRequest(const yarp::os::ConstString & request,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,senderChannel)
+# if (defined(__APPLE__) || defined(__linux__))
+#  pragma unused(request,senderChannel)
+# endif // defined(__APPLE__) || defined(__linux__)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
@@ -150,29 +153,13 @@ bool CountRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
-            Package reply;
+            double    elapsedTime;
+            long long counter;
+            Package   reply;
             
-#if 0
-            double          elapsedTime;
-            long            counter;
-            
-            _service.getStatistics(senderChannel, counter, elapsedTime);
-            response.addInt(static_cast<int>(counter));
-            response.addDouble(elapsedTime);
-
-            
-            
-            
-            
-            if (_owner && (1 == restOfInput.size()))
-            {
-                _owner->fillInRequestInfo(reply, restOfInput.get(0).toString());
-            }
-            else
-            {
-                OD_LOG("! (_owner && (1 == restOfInput.size()))");//####
-            }
-#endif//0
+            _service.getStatistics(counter, elapsedTime);
+            reply.addInt(static_cast<int>(counter));
+            reply.addDouble(elapsedTime);
             OD_LOG_S1("reply <- ", reply.toString().c_str());
             if (! reply.write(*replyMechanism))
             {

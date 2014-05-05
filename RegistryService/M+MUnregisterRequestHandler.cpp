@@ -144,7 +144,9 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                                               yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,senderChannel)
+# if (defined(__APPLE__) || defined(__linux__))
+#  pragma unused(request,senderChannel)
+# endif // defined(__APPLE__) || defined(__linux__)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####

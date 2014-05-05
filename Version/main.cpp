@@ -97,7 +97,9 @@ using std::endl;
 int main(int      argc,
          char * * argv)
 {
-    //#pragma unused(argc,argv)
+#if (defined(__APPLE__) || defined(__linux__))
+# pragma unused(argv)
+#endif // defined(__APPLE__) || defined(__linux__)
     cout << *argv << endl;
     cout << "Movement And Meaning Version " << MpM_VERSION << ", YARP Version " << YARP_VERSION_STRING <<
             ", ACE Version = " << ACE_VERSION << endl;

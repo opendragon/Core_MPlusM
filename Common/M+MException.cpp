@@ -77,7 +77,9 @@ using namespace MplusM::Common;
 Exception::Exception(const yarp::os::ConstString & reason)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(reason)
+# if (defined(__APPLE__) || defined(__linux__))
+#  pragma unused(reason)
+# endif // defined(__APPLE__) || defined(__linux__)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
     OD_LOG_S1("reason = ", reason.c_str());//####

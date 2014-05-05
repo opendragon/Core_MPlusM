@@ -443,9 +443,13 @@ int main(int      argc,
          char * * argv)
 {
 #if defined(OD_ENABLE_LOGGING)
-# pragma unused(argc)
+# if (defined(__APPLE__) || defined(__linux__))
+#  pragma unused(argc)
+# endif // defined(__APPLE__) || defined(__linux__)
 #else // ! defined(OD_ENABLE_LOGGING)
-# pragma unused(argc,argv)
+# if (defined(__APPLE__) || defined(__linux__))
+#  pragma unused(argc,argv)
+# endif // defined(__APPLE__) || defined(__linux__)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####

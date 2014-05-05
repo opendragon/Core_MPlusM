@@ -208,7 +208,9 @@ static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
                                  ClientChannel *               theChannel)
 {
 #if (! defined(MpM_DO_EXPLICIT_DISCONNECT))
-# pragma unused(destinationName)
+# if (defined(__APPLE__) || defined(__linux__))
+#  pragma unused(destinationName)
+# endif // defined(__APPLE__) || defined(__linux__)
 #endif // ! defined(MpM_DO_EXPLICIT_DISCONNECT)
     OD_LOG_ENTER();//####
     OD_LOG_P1("theChannel = ", theChannel);//####

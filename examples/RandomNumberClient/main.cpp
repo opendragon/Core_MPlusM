@@ -98,7 +98,9 @@ static bool lKeepRunning;
 static void stopRunning(int signal)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(signal)
+# if (defined(__APPLE__) || defined(__linux__))
+#  pragma unused(signal)
+# endif // defined(__APPLE__) || defined(__linux__)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
@@ -120,7 +122,9 @@ static void stopRunning(int signal)
 int main(int      argc,
          char * * argv)
 {
-#pragma unused(argc)
+#if (defined(__APPLE__) || defined(__linux__))
+# pragma unused(argc)
+#endif // defined(__APPLE__) || defined(__linux__)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####

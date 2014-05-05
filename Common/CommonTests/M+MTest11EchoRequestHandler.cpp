@@ -96,7 +96,9 @@ Test11EchoRequestHandler::~Test11EchoRequestHandler(void)
 void Test11EchoRequestHandler::fillInAliases(MplusM::Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(alternateNames)
+# if (defined(__APPLE__) || defined(__linux__))
+#  pragma unused(alternateNames)
+# endif // defined(__APPLE__) || defined(__linux__)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
@@ -107,7 +109,9 @@ void Test11EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
                                                  yarp::os::Property &          info)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,info)
+# if (defined(__APPLE__) || defined(__linux__))
+#  pragma unused(request,info)
+# endif // defined(__APPLE__) || defined(__linux__)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("request = ", request.c_str());//####
@@ -121,7 +125,9 @@ bool Test11EchoRequestHandler::processRequest(const yarp::os::ConstString &   re
                                               yarp::os::ConnectionWriter *    replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(request,senderChannel)
+# if (defined(__APPLE__) || defined(__linux__))
+#  pragma unused(request,senderChannel)
+# endif // defined(__APPLE__) || defined(__linux__)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####

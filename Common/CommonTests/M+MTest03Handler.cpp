@@ -97,10 +97,14 @@ bool Test03Handler::handleInput(const MplusM::Common::Package & input,
                                 yarp::os::ConnectionWriter *    replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(input,senderChannel)
+# if (defined(__APPLE__) || defined(__linux__))
+#  pragma unused(input,senderChannel)
+# endif // defined(__APPLE__) || defined(__linux__)
 #endif // ! defined(OD_ENABLE_LOGGING)
 #if ((! defined(MpM_CHANNELS_USE_RPC)) && (! defined(OD_ENABLE_LOGGING)))
-# pragma unused(replyMechanism)
+# if (defined(__APPLE__) || defined(__linux__))
+#  pragma unused(replyMechanism)
+# endif // defined(__APPLE__) || defined(__linux__)
 #endif // (! defined(MpM_CHANNELS_USE_RPC)) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####

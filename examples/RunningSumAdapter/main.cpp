@@ -102,7 +102,9 @@ static bool lKeepRunning;
 static void stopRunning(int signal)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# pragma unused(signal)
+# if (defined(__APPLE__) || defined(__linux__))
+#  pragma unused(signal)
+# endif // defined(__APPLE__) || defined(__linux__)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####

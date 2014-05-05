@@ -221,7 +221,9 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
 void MplusM::Common::Initialize(const char * progName)
 {
 #if (! defined(MpM_CHATTY_START))
-# pragma unused(progName)
+# if (defined(__APPLE__) || defined(__linux__))
+#  pragma unused(progName)
+# endif // defined(__APPLE__) || defined(__linux__)
 #endif // ! defined(MpM_CHATTY_START)
     OD_LOG_ENTER();//####
     try
