@@ -51,6 +51,7 @@
 # endif // defined(__APPLE__) || defined(__linux)
 # include <stdlib.h>
 # include <string.h>
+# include <time.h>
 # include <ctype.h>
 # include <errno.h>
 # include <stdio.h>
@@ -1519,7 +1520,7 @@ EXTERN_C void ODLogInit_(const char * prefix,
 #  if (defined(__APPLE__) || defined(__linux__))
         snprintf(pidString, sizeof(pidString), "/var/log/pid-%lX.log", (long unsigned) getpid());
 #  else // (! defined(__APPLE__)) && (! defined(__linux__))
-        sprintf(pidString, sizeof(pidString), "od_temp.log");
+        sprintf(pidString, "od_temp.log");
 #  endif // (! defined(__APPLE__)) && (! defined(__linux__))
         lOdLogFile_ = fopen(pidString, "w");
         if (lOdLogFile_)

@@ -56,6 +56,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM;
 using namespace MplusM::Common;
 
 #if defined(__APPLE__)
