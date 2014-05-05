@@ -60,6 +60,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Example;
 
 #if defined(__APPLE__)
@@ -96,7 +97,7 @@ RandomNumberInputHandler::~RandomNumberInputHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RandomNumberInputHandler::handleInput(const CommonX::Package &       input,
+bool RandomNumberInputHandler::handleInput(const Common::Package &       input,
                                            const yarp::os::ConstString & senderChannel,
                                            yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -112,7 +113,7 @@ bool RandomNumberInputHandler::handleInput(const CommonX::Package &       input,
     {
         if (0 < input.size())
         {
-            CommonX::AdapterChannel * theOutput = _shared.getOutput();
+            Common::AdapterChannel * theOutput = _shared.getOutput();
             RandomNumberClient *     theClient = (RandomNumberClient *) _shared.getClient();
             
             if (theClient && theOutput)
@@ -138,13 +139,13 @@ bool RandomNumberInputHandler::handleInput(const CommonX::Package &       input,
                 }
                 if (1 < count)
                 {
-                    CommonX::DoubleVector randResult;
+                    Common::DoubleVector randResult;
                     
                     if (theClient->getRandomNumbers(count, randResult))
                     {
-                        CommonX::Package message;
+                        Common::Package message;
                         
-                        for (CommonX::DoubleVector::const_iterator it(randResult.begin()); randResult.end() != it;
+                        for (Common::DoubleVector::const_iterator it(randResult.begin()); randResult.end() != it;
                              ++it)
                         {
                             message.addDouble(*it);
@@ -154,7 +155,7 @@ bool RandomNumberInputHandler::handleInput(const CommonX::Package &       input,
                         {
                             OD_LOG("(! theOutput->write(message))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                            CommonX::Stall();
+                            Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                         }
                         _shared.unlock();
@@ -170,7 +171,7 @@ bool RandomNumberInputHandler::handleInput(const CommonX::Package &       input,
                     
                     if (theClient->getOneRandomNumber(randResult))
                     {
-                        CommonX::Package message;
+                        Common::Package message;
                         
                         message.addDouble(randResult);
                         _shared.lock();
@@ -178,7 +179,7 @@ bool RandomNumberInputHandler::handleInput(const CommonX::Package &       input,
                         {
                             OD_LOG("(! theOutput->write(message))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                            CommonX::Stall();
+                            Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                         }
                         _shared.unlock();

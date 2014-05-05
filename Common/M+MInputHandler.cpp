@@ -56,7 +56,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MplusM::CommonX;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

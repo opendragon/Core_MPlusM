@@ -66,7 +66,7 @@ namespace MplusM
         class EchoRequestHandler;
         
         /*! @brief An example M+M service, handling 'echo' requests. */
-        class EchoService : public CommonX::BaseService
+        class EchoService : public Common::BaseService
         {
         public:
             

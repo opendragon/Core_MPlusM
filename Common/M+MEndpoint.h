@@ -73,7 +73,7 @@
 
 namespace MplusM
 {
-    namespace CommonX
+    namespace Common
     {
         class ChannelStatusReporter;
         class InputHandler;

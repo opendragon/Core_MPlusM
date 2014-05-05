@@ -56,6 +56,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Test;
 
 #if defined(__APPLE__)
@@ -91,7 +92,7 @@ Test11EchoRequestHandler::~Test11EchoRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test11EchoRequestHandler::fillInAliases(MplusM::CommonX::StringVector & alternateNames)
+void Test11EchoRequestHandler::fillInAliases(MplusM::Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -114,7 +115,7 @@ void Test11EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
 } // Test11EchoRequestHandler::fillInDescription
 
 bool Test11EchoRequestHandler::processRequest(const yarp::os::ConstString &   request,
-                                              const MplusM::CommonX::Package & restOfInput,
+                                              const MplusM::Common::Package & restOfInput,
                                               const yarp::os::ConstString &   senderChannel,
                                               yarp::os::ConnectionWriter *    replyMechanism)
 {
@@ -129,13 +130,13 @@ bool Test11EchoRequestHandler::processRequest(const yarp::os::ConstString &   re
     
     if (replyMechanism)
     {
-        MplusM::CommonX::Package argsCopy(restOfInput);
+        MplusM::Common::Package argsCopy(restOfInput);
         
         if (! argsCopy.write(*replyMechanism))
         {
             OD_LOG("(! argsCopy.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-            CommonX::Stall();
+            Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
         }
     }

@@ -55,6 +55,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Test;
 
 #if defined(__APPLE__)
@@ -90,7 +91,7 @@ Test03Handler::~Test03Handler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool Test03Handler::handleInput(const MplusM::CommonX::Package & input,
+bool Test03Handler::handleInput(const MplusM::Common::Package & input,
                                 const yarp::os::ConstString &   senderChannel,
                                 yarp::os::ConnectionWriter *    replyMechanism)
 {
@@ -108,13 +109,13 @@ bool Test03Handler::handleInput(const MplusM::CommonX::Package & input,
 #if defined(MpM_CHANNELS_USE_RPC)
     if (replyMechanism)
     {
-        MplusM::CommonX::Package dummy;
+        MplusM::Common::Package dummy;
         
         if (! dummy.write(*replyMechanism))
         {
             OD_LOG("(! dummy.write(*replyMechanism))");//####
 # if defined(MpM_STALL_ON_SEND_PROBLEM)
-            CommonX::Stall();
+            Common::Stall();
 # endif // defined(MpM_STALL_ON_SEND_PROBLEM)
         }
     }

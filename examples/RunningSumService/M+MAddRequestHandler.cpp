@@ -57,6 +57,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Example;
 
 #if defined(__APPLE__)
@@ -96,7 +97,7 @@ AddRequestHandler::~AddRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void AddRequestHandler::fillInAliases(CommonX::StringVector & alternateNames)
+void AddRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
@@ -120,7 +121,7 @@ void AddRequestHandler::fillInDescription(const yarp::os::ConstString & request,
                  "Input: one or more numeric values\n"
                  "Output: the current running sum, including the new values");
         yarp::os::Value   keywords;
-        CommonX::Package * asList = keywords.asList();
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -134,7 +135,7 @@ void AddRequestHandler::fillInDescription(const yarp::os::ConstString & request,
 } // AddRequestHandler::fillInDescription
 
 bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                       const CommonX::Package &       restOfInput,
+                                       const Common::Package &       restOfInput,
                                        const yarp::os::ConstString & senderChannel,
                                        yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -151,7 +152,7 @@ bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         double          total = 0.0;
         int             count = restOfInput.size();
-        CommonX::Package response;
+        Common::Package response;
         
         if (1 < count)
         {
@@ -193,7 +194,7 @@ bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                CommonX::Stall();
+                Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }

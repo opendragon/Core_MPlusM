@@ -89,7 +89,7 @@
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::CommonX;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -456,7 +456,7 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
                 {
                     OD_LOG("(! errorMessage.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                    CommonX::Stall();
+                    Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                 }
             }
@@ -603,7 +603,7 @@ void BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-bool CommonX::RegisterLocalService(const yarp::os::ConstString & channelName)
+bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("channelName = ", channelName.c_str());//####
@@ -693,7 +693,7 @@ bool CommonX::RegisterLocalService(const yarp::os::ConstString & channelName)
     return result;
 } // RegisterLocalService
 
-bool CommonX::UnregisterLocalService(const yarp::os::ConstString & channelName)
+bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("channelName = ", channelName.c_str());//####

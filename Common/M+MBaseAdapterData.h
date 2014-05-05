@@ -76,7 +76,7 @@
 
 namespace MplusM
 {
-    namespace CommonX
+    namespace Common
     {
         class AdapterChannel;
         class BaseClient;

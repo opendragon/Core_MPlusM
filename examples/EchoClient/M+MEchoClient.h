@@ -64,7 +64,7 @@ namespace MplusM
     namespace Example
     {
         /*! @brief An example M+M client, for the 'echo' service. */
-        class EchoClient : public CommonX::BaseClient
+        class EchoClient : public Common::BaseClient
         {
         public:
             

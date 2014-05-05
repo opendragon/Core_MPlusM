@@ -58,7 +58,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MplusM::CommonX;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -167,7 +167,7 @@ bool InfoRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                CommonX::Stall();
+                Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }

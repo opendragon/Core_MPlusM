@@ -58,7 +58,7 @@
 
 namespace MplusM
 {
-    namespace CommonX
+    namespace Common
     {
         /*! @brief A convenience class to provide distinct context objects. */
         class BaseContext

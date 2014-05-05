@@ -81,7 +81,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MplusM::CommonX;
+using namespace MplusM::Common;
 using std::cerr;
 using std::cout;
 using std::endl;
@@ -132,7 +132,7 @@ static void localCatcher(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-void MplusM::CommonX::DumpContact(const char *              tag,
+void MplusM::Common::DumpContact(const char *              tag,
                                  const yarp::os::Contact & aContact)
 {
     OD_LOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
@@ -148,9 +148,9 @@ void MplusM::CommonX::DumpContact(const char *              tag,
     cout << "contact.toString = '" << nullOrString(aContact.toString().c_str()) << "'" << endl;
     cout << "contact.isValid = " << (aContact.isValid() ? "true" : "false") << endl;
     cout.flush();
-} // MplusM::CommonX::DumpContact
+} // MplusM::Common::DumpContact
 
-yarp::os::ConstString MplusM::CommonX::GetRandomChannelName(const char * channelRoot)
+yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelRoot)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("channelRoot = ", channelRoot);//####
@@ -215,9 +215,9 @@ yarp::os::ConstString MplusM::CommonX::GetRandomChannelName(const char * channel
     }
     OD_LOG_EXIT_S(result.c_str());//####
     return result;
-} // MplusM::CommonX::GetRandomChannelName
+} // MplusM::Common::GetRandomChannelName
 
-void MplusM::CommonX::Initialize(const char * progName)
+void MplusM::Common::Initialize(const char * progName)
 {
 #if (! defined(MpM_CHATTY_START))
 # pragma unused(progName)
@@ -250,9 +250,9 @@ void MplusM::CommonX::Initialize(const char * progName)
         throw;
     }
     OD_LOG_EXIT();//####
-} // MplusM::CommonX::Initialize
+} // MplusM::Common::Initialize
 
-bool MplusM::CommonX::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
+bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
                                                const yarp::os::ConstString & destinationName)
 {
     OD_LOG_ENTER();//####
@@ -315,9 +315,9 @@ bool MplusM::CommonX::NetworkConnectWithRetries(const yarp::os::ConstString & so
     ShutDownCatcher();
     OD_LOG_EXIT_B(result);//####
     return result;
-} // MplusM::CommonX::NetworkConnectWithRetries
+} // MplusM::Common::NetworkConnectWithRetries
 
-bool MplusM::CommonX::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
+bool MplusM::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
                                                   const yarp::os::ConstString & destinationName)
 {
     OD_LOG_ENTER();//####
@@ -380,9 +380,9 @@ bool MplusM::CommonX::NetworkDisconnectWithRetries(const yarp::os::ConstString &
     ShutDownCatcher();
     OD_LOG_EXIT_B(result);//####
     return result;
-} // MplusM::CommonX::NetworkDisconnectWithRetries
+} // MplusM::Common::NetworkDisconnectWithRetries
 
-void MplusM::CommonX::SetSignalHandlers(SignalHandler theHandler)
+void MplusM::Common::SetSignalHandlers(SignalHandler theHandler)
 {
     OD_LOG_ENTER();//####
 #if (defined(__APPLE__) || defined(__linux__))
@@ -417,9 +417,9 @@ void MplusM::CommonX::SetSignalHandlers(SignalHandler theHandler)
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
 #endif // defined(__APPLE__) || defined(__linux__)
     OD_LOG_EXIT();//####
-} // MplusM::CommonX::SetSignalHandlers
+} // MplusM::Common::SetSignalHandlers
 
-void MplusM::CommonX::SetUpCatcher(void)
+void MplusM::Common::SetUpCatcher(void)
 {
 #if (defined(__APPLE__) || defined(__linux__))
     sigset_t unblocking;
@@ -438,9 +438,9 @@ void MplusM::CommonX::SetUpCatcher(void)
     act.sa_flags = 0;
     sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
 #endif // defined(__APPLE__) || defined(__linux__)
-} // MplusM::CommonX::SetUpCatcher
+} // MplusM::Common::SetUpCatcher
 
-void MplusM::CommonX::ShutDownCatcher(void)
+void MplusM::Common::ShutDownCatcher(void)
 {
 #if (defined(__APPLE__) || defined(__linux__))
     sigset_t blocking;
@@ -459,15 +459,15 @@ void MplusM::CommonX::ShutDownCatcher(void)
     act.sa_flags = 0;
     sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
 #endif // defined(__APPLE__) || defined(__linux__)
-} // MplusM::CommonX::ShutDownCatcher
+} // MplusM::Common::ShutDownCatcher
 
-void MplusM::CommonX::Stall(void)
+void MplusM::Common::Stall(void)
 {
     for ( ; ; )
     {
         yarp::os::Time::yield();
     }
-} // MplusM::CommonX::Stall
+} // MplusM::Common::Stall
 
 const char * MplusM::NameOfSignal(const int theSignal)
 {

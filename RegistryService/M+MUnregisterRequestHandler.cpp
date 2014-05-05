@@ -59,6 +59,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Registry;
 
 #if defined(__APPLE__)
@@ -98,7 +99,7 @@ UnregisterRequestHandler::~UnregisterRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void UnregisterRequestHandler::fillInAliases(CommonX::StringVector & alternateNames)
+void UnregisterRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
@@ -122,7 +123,7 @@ void UnregisterRequestHandler::fillInDescription(const yarp::os::ConstString & r
                  "Input: the channel used by the service\n"
                  "Output: OK or FAILED, with a description of the problem encountered");
         yarp::os::Value   keywords;
-        CommonX::Package * asList = keywords.asList();
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("remove");
@@ -137,7 +138,7 @@ void UnregisterRequestHandler::fillInDescription(const yarp::os::ConstString & r
 } // UnregisterRequestHandler::fillInDescription
 
 bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                              const CommonX::Package &       restOfInput,
+                                              const Common::Package &       restOfInput,
                                               const yarp::os::ConstString & senderChannel,
                                               yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -154,7 +155,7 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
     {
         if (replyMechanism)
         {
-            CommonX::Package reply;
+            Common::Package reply;
             
             // Validate the name as a channel name
             if (1 == restOfInput.size())
@@ -165,7 +166,7 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                 {
                     yarp::os::ConstString argAsString(argument.toString());
                     
-                    if (CommonX::Endpoint::CheckEndpointName(argAsString))
+                    if (Common::Endpoint::CheckEndpointName(argAsString))
                     {
                         // Forget the information associated with the channel name
                         if (_service.removeServiceRecord(argAsString))
@@ -181,7 +182,7 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                     }
                     else
                     {
-                        OD_LOG("! (CommonX::Endpoint::CheckEndpointName(argAsString))");//####
+                        OD_LOG("! (Common::Endpoint::CheckEndpointName(argAsString))");//####
                         reply.addString(MpM_FAILED_RESPONSE);
                         reply.addString("Invalid channel name");
                     }
@@ -204,7 +205,7 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                CommonX::Stall();
+                Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }

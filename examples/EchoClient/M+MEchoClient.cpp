@@ -57,6 +57,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Example;
 
 #if defined(__APPLE__)
@@ -102,8 +103,8 @@ bool EchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
 
     try
     {
-        CommonX::Package         parameters(outgoing);
-        CommonX::ServiceResponse response;
+        Common::Package         parameters(outgoing);
+        Common::ServiceResponse response;
         
         reconnectIfDisconnected();
         if (send(MpM_ECHO_REQUEST, parameters, &response))

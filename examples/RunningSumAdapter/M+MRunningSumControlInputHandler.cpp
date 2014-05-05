@@ -60,6 +60,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Example;
 
 #if defined(__APPLE__)
@@ -96,7 +97,7 @@ RunningSumControlInputHandler::~RunningSumControlInputHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RunningSumControlInputHandler::handleInput(const CommonX::Package &       input,
+bool RunningSumControlInputHandler::handleInput(const Common::Package &       input,
                                                 const yarp::os::ConstString & senderChannel,
                                                 yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -112,7 +113,7 @@ bool RunningSumControlInputHandler::handleInput(const CommonX::Package &       i
     {
         if (0 < input.size())
         {
-            CommonX::AdapterChannel * theOutput = _shared.getOutput();
+            Common::AdapterChannel * theOutput = _shared.getOutput();
             RunningSumClient *       theClient = (RunningSumClient *) _shared.getClient();
             
             if (theClient && theOutput)

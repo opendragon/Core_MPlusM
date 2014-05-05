@@ -75,7 +75,7 @@
 
 namespace MplusM
 {
-    namespace CommonX
+    namespace Common
     {
         class RequestMap;
         

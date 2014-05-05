@@ -73,6 +73,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Example;
 
 #if defined(__APPLE__)
@@ -117,8 +118,8 @@ bool RunningSumClient::addToSum(const double value,
     
     try
     {
-        CommonX::Package         parameters;
-        CommonX::ServiceResponse response;
+        Common::Package         parameters;
+        Common::ServiceResponse response;
         
         parameters.addDouble(value);
         reconnectIfDisconnected();
@@ -163,7 +164,7 @@ bool RunningSumClient::addToSum(const double value,
     return okSoFar;
 } // RunningSumClient::addToSum
 
-bool RunningSumClient::addToSum(const CommonX::DoubleVector & values,
+bool RunningSumClient::addToSum(const Common::DoubleVector & values,
                                 double &                     newSum)
 {
     OD_LOG_OBJENTER();//####
@@ -172,10 +173,10 @@ bool RunningSumClient::addToSum(const CommonX::DoubleVector & values,
     
     try
     {
-        CommonX::Package         parameters;
-        CommonX::ServiceResponse response;
+        Common::Package         parameters;
+        Common::ServiceResponse response;
         
-        for (CommonX::DoubleVector::const_iterator it(values.begin()); values.end() != it; ++it)
+        for (Common::DoubleVector::const_iterator it(values.begin()); values.end() != it; ++it)
         {
             parameters.addDouble(*it);
         }
@@ -235,7 +236,7 @@ bool RunningSumClient::resetSum(void)
 
     try
     {
-        CommonX::Package parameters;
+        Common::Package parameters;
         
         reconnectIfDisconnected();
         if (send(MpM_RESET_REQUEST, parameters))
@@ -263,7 +264,7 @@ bool RunningSumClient::startSum(void)
 
     try
     {
-        CommonX::Package parameters;
+        Common::Package parameters;
         
         reconnectIfDisconnected();
         if (send(MpM_START_REQUEST, parameters))
@@ -291,7 +292,7 @@ bool RunningSumClient::stopSum(void)
     
     try
     {
-        CommonX::Package parameters;
+        Common::Package parameters;
         
         reconnectIfDisconnected();
         if (send(MpM_STOP_REQUEST, parameters))

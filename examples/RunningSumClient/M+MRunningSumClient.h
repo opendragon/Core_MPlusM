@@ -61,7 +61,7 @@ namespace MplusM
     namespace Example
     {
         /*! @brief An example M+M client, for the 'running sum' service. */
-        class RunningSumClient : public CommonX::BaseClient
+        class RunningSumClient : public Common::BaseClient
         {
         public:
             
@@ -82,7 +82,7 @@ namespace MplusM
              @param values The set of values to add to the running sum.
              @param newSum The new running sum.
              @returns @c true if the service handled the request and @c false otherwise. */
-            bool addToSum(const CommonX::DoubleVector & values,
+            bool addToSum(const Common::DoubleVector & values,
                           double &                     newSum);
             
             /*! @brief Reset the running sum for this client.

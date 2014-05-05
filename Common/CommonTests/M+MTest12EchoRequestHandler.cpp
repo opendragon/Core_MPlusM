@@ -56,6 +56,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Test;
 
 #if defined(__APPLE__)
@@ -94,7 +95,7 @@ Test12EchoRequestHandler::~Test12EchoRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test12EchoRequestHandler::fillInAliases(MplusM::CommonX::StringVector & alternateNames)
+void Test12EchoRequestHandler::fillInAliases(MplusM::Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -116,7 +117,7 @@ void Test12EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
     info.put(MpM_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
     info.put(MpM_REQREP_DICT_DETAILS_KEY, "Echo back any input");
     yarp::os::Value           keywords;
-    MplusM::CommonX::Package * asList = keywords.asList();
+    MplusM::Common::Package * asList = keywords.asList();
     
     asList->addString(request);
     info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -124,7 +125,7 @@ void Test12EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
 } // Test12EchoRequestHandler::fillInDescription
 
 bool Test12EchoRequestHandler::processRequest(const yarp::os::ConstString &   request,
-                                              const MplusM::CommonX::Package & restOfInput,
+                                              const MplusM::Common::Package & restOfInput,
                                               const yarp::os::ConstString &   senderChannel,
                                               yarp::os::ConnectionWriter *    replyMechanism)
 {
@@ -139,13 +140,13 @@ bool Test12EchoRequestHandler::processRequest(const yarp::os::ConstString &   re
     
     if (replyMechanism)
     {
-        MplusM::CommonX::Package argsCopy(restOfInput);
+        MplusM::Common::Package argsCopy(restOfInput);
         
         if (! argsCopy.write(*replyMechanism))
         {
             OD_LOG("(! argsCopy.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-            CommonX::Stall();
+            Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
         }
     }

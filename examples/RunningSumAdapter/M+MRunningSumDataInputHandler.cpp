@@ -61,6 +61,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Example;
 
 #if defined(__APPLE__)
@@ -97,7 +98,7 @@ RunningSumDataInputHandler::~RunningSumDataInputHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RunningSumDataInputHandler::handleInput(const CommonX::Package &       input,
+bool RunningSumDataInputHandler::handleInput(const Common::Package &       input,
                                              const yarp::os::ConstString & senderChannel,
                                              yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -115,7 +116,7 @@ bool RunningSumDataInputHandler::handleInput(const CommonX::Package &       inpu
         
         if (0 < howMany)
         {
-            CommonX::AdapterChannel * theOutput = _shared.getOutput();
+            Common::AdapterChannel * theOutput = _shared.getOutput();
             RunningSumClient *       theClient = (RunningSumClient *) _shared.getClient();
             
             if (_shared.isActive() && theClient && theOutput)
@@ -143,14 +144,14 @@ bool RunningSumDataInputHandler::handleInput(const CommonX::Package &       inpu
                         _shared.lock();
                         if (theClient->addToSum(inValue, outValue))
                         {
-                            CommonX::Package message;
+                            Common::Package message;
                             
                             message.addDouble(outValue);
                             if (! theOutput->write(message))
                             {
                                 OD_LOG("(! theOutput->write(message))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                                CommonX::Stall();
+                                Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }
@@ -164,7 +165,7 @@ bool RunningSumDataInputHandler::handleInput(const CommonX::Package &       inpu
                 else
                 {
                     bool                 gotValues = true;
-                    CommonX::DoubleVector values;
+                    Common::DoubleVector values;
                     
                     for (int ii = 0; gotValues && (ii < howMany); ++ii)
                     {
@@ -195,14 +196,14 @@ bool RunningSumDataInputHandler::handleInput(const CommonX::Package &       inpu
                         _shared.lock();
                         if (theClient->addToSum(values, outValue))
                         {
-                            CommonX::Package message;
+                            Common::Package message;
                             
                             message.addDouble(outValue);
                             if (! theOutput->write(message))
                             {
                                 OD_LOG("(! theOutput->write(message))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                                CommonX::Stall();
+                                Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }

@@ -143,7 +143,7 @@
 
 namespace MplusM
 {
-    namespace CommonX
+    namespace Common
     {
         /*! @brief The logical connection between a client and a service. */
         typedef yarp::os::Bottle         Package;

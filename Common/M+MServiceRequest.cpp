@@ -73,7 +73,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using namespace MplusM::CommonX;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -157,7 +157,7 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
             {
                 OD_LOG("! (usingChannel.write(message, _holder))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                CommonX::Stall();
+                Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
@@ -176,7 +176,7 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
             {
                 OD_LOG("(! usingChannel.write(message))");//####
 # if defined(MpM_STALL_ON_SEND_PROBLEM)
-                CommonX::Stall();
+                Common::Stall();
 # endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
 #else // ! defined(MpM_CHANNELS_USE_RPC)
@@ -188,7 +188,7 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
             {
                 OD_LOG("(! usingChannel.write(message))");//####
 # if defined(MpM_STALL_ON_SEND_PROBLEM)
-                CommonX::Stall();
+                Common::Stall();
 # endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
 #endif // ! defined(MpM_CHANNELS_USE_RPC)

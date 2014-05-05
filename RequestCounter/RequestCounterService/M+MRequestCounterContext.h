@@ -61,7 +61,7 @@ namespace MplusM
     namespace RequestCounter
     {
         /*! @brief A convenience class to provide context objects for the request counter service. */
-        class RequestCounterContext : public CommonX::BaseContext
+        class RequestCounterContext : public Common::BaseContext
         {
         public:
             

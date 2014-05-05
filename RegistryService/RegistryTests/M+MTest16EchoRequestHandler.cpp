@@ -56,6 +56,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Test;
 
 #if defined(__APPLE__)
@@ -94,7 +95,7 @@ Test16EchoRequestHandler::~Test16EchoRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test16EchoRequestHandler::fillInAliases(CommonX::StringVector & alternateNames)
+void Test16EchoRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -118,7 +119,7 @@ void Test16EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
         info.put(MpM_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Echo back any input");
         yarp::os::Value   keywords;
-        CommonX::Package * asList = keywords.asList();
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("blorg");
@@ -134,7 +135,7 @@ void Test16EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
 } // Test16EchoRequestHandler::fillInDescription
 
 bool Test16EchoRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                              const CommonX::Package &       restOfInput,
+                                              const Common::Package &       restOfInput,
                                               const yarp::os::ConstString & senderChannel,
                                               yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -151,13 +152,13 @@ bool Test16EchoRequestHandler::processRequest(const yarp::os::ConstString & requ
     {
         if (replyMechanism)
         {
-            CommonX::Package argsCopy(restOfInput);
+            Common::Package argsCopy(restOfInput);
             
             if (! argsCopy.write(*replyMechanism))
             {
                 OD_LOG("(! argsCopy.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                CommonX::Stall();
+                Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }

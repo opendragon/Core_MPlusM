@@ -69,7 +69,7 @@ namespace MplusM
         class StatsRequestHandler;
         
         /*! @brief The request counter service. */
-        class RequestCounterService : public CommonX::BaseService
+        class RequestCounterService : public Common::BaseService
         {
         public:
             

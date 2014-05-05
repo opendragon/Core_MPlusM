@@ -58,6 +58,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Example;
 
 #if defined(__APPLE__)
@@ -77,7 +78,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RunningSumAdapterData::RunningSumAdapterData(RunningSumClient *       client,
-                                             CommonX::AdapterChannel * output) :
+                                             Common::AdapterChannel * output) :
         inherited(client, output)
 {
     OD_LOG_ENTER();//####

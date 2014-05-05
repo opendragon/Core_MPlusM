@@ -63,7 +63,7 @@ namespace MplusM
         class Test12EchoRequestHandler;
         
         /*! @brief A test service. */
-        class Test12Service : public CommonX::BaseService
+        class Test12Service : public Common::BaseService
         {
         public:
             

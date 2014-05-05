@@ -57,6 +57,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Example;
 
 #if defined(__APPLE__)
@@ -100,8 +101,8 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
 
     try
     {
-        CommonX::Package         parameters;
-        CommonX::ServiceResponse response;
+        Common::Package         parameters;
+        Common::ServiceResponse response;
         
         reconnectIfDisconnected();
         if (send(MpM_RANDOM_REQUEST, parameters, &response))
@@ -141,7 +142,7 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
 } // RandomNumberClient::getOneRandomNumber
 
 bool RandomNumberClient::getRandomNumbers(const int              howMany,
-                                          CommonX::DoubleVector & result)
+                                          Common::DoubleVector & result)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_LL1("howMany = ", howMany);//####
@@ -152,8 +153,8 @@ bool RandomNumberClient::getRandomNumbers(const int              howMany,
     {
         if (0 < howMany)
         {
-            CommonX::Package         parameters;
-            CommonX::ServiceResponse response;
+            Common::Package         parameters;
+            Common::ServiceResponse response;
             
             parameters.addInt(howMany);
             reconnectIfDisconnected();

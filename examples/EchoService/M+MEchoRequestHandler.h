@@ -63,7 +63,7 @@ namespace MplusM
         /*! @brief The example 'echo' request handler.
          
          The input is a list of strings and the output is the same list of strings. */
-        class EchoRequestHandler : public CommonX::BaseRequestHandler
+        class EchoRequestHandler : public Common::BaseRequestHandler
         {
         public:
             
@@ -75,7 +75,7 @@ namespace MplusM
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(CommonX::StringVector & alternateNames);
+            virtual void fillInAliases(Common::StringVector & alternateNames);
             
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
@@ -89,7 +89,7 @@ namespace MplusM
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
             virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const CommonX::Package &       restOfInput,
+                                        const Common::Package &       restOfInput,
                                         const yarp::os::ConstString & senderChannel,
                                         yarp::os::ConnectionWriter *  replyMechanism);
             

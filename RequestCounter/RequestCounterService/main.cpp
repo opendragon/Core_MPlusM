@@ -74,6 +74,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::RequestCounter;
 using std::cout;
 using std::cerr;
@@ -134,7 +135,7 @@ int main(int      argc,
             yarp::os::ConstString serviceHostName;
             yarp::os::ConstString servicePortNumber;
             
-            MplusM::CommonX::Initialize(*argv);
+            MplusM::Common::Initialize(*argv);
             if (1 < argc)
             {
                 serviceEndpointName = argv[1];
@@ -161,10 +162,10 @@ int main(int      argc,
                     yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
                     OD_LOG_S1("channelName = ", channelName.c_str());//####
-                    if (MplusM::CommonX::RegisterLocalService(channelName))
+                    if (MplusM::Common::RegisterLocalService(channelName))
                     {
                         lKeepRunning = true;
-                        MplusM::CommonX::SetSignalHandlers(stopRunning);
+                        MplusM::Common::SetSignalHandlers(stopRunning);
                         for ( ; lKeepRunning && stuff; )
                         {
 #if defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
@@ -173,7 +174,7 @@ int main(int      argc,
                             yarp::os::Time::yield();
 #endif // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
                         }
-                        MplusM::CommonX::UnregisterLocalService(channelName);
+                        MplusM::Common::UnregisterLocalService(channelName);
                         stuff->stop();
                     }
                     else

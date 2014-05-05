@@ -57,6 +57,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::RequestCounter;
 
 #if defined(__APPLE__)
@@ -101,8 +102,8 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
     
     try
     {
-        CommonX::Package         parameters;
-        CommonX::ServiceResponse response;
+        Common::Package         parameters;
+        Common::ServiceResponse response;
         
         reconnectIfDisconnected();
         if (send(MpM_STATS_REQUEST, parameters, &response))
@@ -150,7 +151,7 @@ bool RequestCounterClient::pokeService(void)
     
     try
     {
-        CommonX::Package parameters;
+        Common::Package parameters;
         
         if (send("blarg_blerg_blirg_blorg_blurg", parameters))
         {
@@ -177,7 +178,7 @@ bool RequestCounterClient::resetServiceCounters(void)
     
     try
     {
-        CommonX::Package parameters;
+        Common::Package parameters;
         
         reconnectIfDisconnected();
         if (send(MpM_RESET_REQUEST, parameters))

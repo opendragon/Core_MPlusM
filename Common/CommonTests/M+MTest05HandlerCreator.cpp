@@ -56,6 +56,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Test;
 
 #if defined(__APPLE__)
@@ -91,7 +92,7 @@ Test05HandlerCreator::~Test05HandlerCreator(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-MplusM::CommonX::InputHandler * Test05HandlerCreator::create(void)
+MplusM::Common::InputHandler * Test05HandlerCreator::create(void)
 {
     OD_LOG_OBJENTER();//####
     Test05Handler * result = new Test05Handler;

@@ -60,7 +60,7 @@
 
 namespace MplusM
 {
-    namespace CommonX
+    namespace Common
     {
         class AdapterChannel;
     } // Common
@@ -70,7 +70,7 @@ namespace MplusM
         class RandomNumberClient;
         
         /*! @brief A handler for partially-structured input data. */
-        class RandomNumberAdapterData : public CommonX::BaseAdapterData
+        class RandomNumberAdapterData : public Common::BaseAdapterData
         {
         public:
             
@@ -78,7 +78,7 @@ namespace MplusM
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
             RandomNumberAdapterData(RandomNumberClient *     client,
-                                    CommonX::AdapterChannel * output);
+                                    Common::AdapterChannel * output);
             
             /*! @brief The destructor. */
             virtual ~RandomNumberAdapterData(void);

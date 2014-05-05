@@ -74,7 +74,7 @@
 
 namespace MplusM
 {
-    namespace CommonX
+    namespace Common
     {
         /*! @brief A factory for InputHandler objects. */
         class InputHandlerCreator : public yarp::os::PortReaderCreator

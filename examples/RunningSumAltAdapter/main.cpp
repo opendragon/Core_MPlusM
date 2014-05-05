@@ -77,6 +77,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Example;
 using std::cin;
 using std::cout;
@@ -147,17 +148,17 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MplusM::CommonX::Initialize(*argv);
+            MplusM::Common::Initialize(*argv);
             RunningSumClient * stuff = new RunningSumClient;
             
             if (stuff)
             {
                 lKeepRunning = true;
-                MplusM::CommonX::SetSignalHandlers(stopRunning);
+                MplusM::Common::SetSignalHandlers(stopRunning);
                 if (stuff->findService("Name RunningSum"))
                 {
 #if defined(MpM_REPORT_ON_CONNECTIONS)
-                    MplusM::CommonX::ChannelStatusReporter reporter;
+                    MplusM::Common::ChannelStatusReporter reporter;
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     
 #if defined(MpM_REPORT_ON_CONNECTIONS)
@@ -165,8 +166,8 @@ int main(int      argc,
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     if (stuff->connectToService())
                     {
-                        MplusM::CommonX::AdapterChannel * inputChannel = new MplusM::CommonX::AdapterChannel;
-                        MplusM::CommonX::AdapterChannel * outputChannel = new MplusM::CommonX::AdapterChannel;
+                        MplusM::Common::AdapterChannel * inputChannel = new MplusM::Common::AdapterChannel;
+                        MplusM::Common::AdapterChannel * outputChannel = new MplusM::Common::AdapterChannel;
                         RunningSumAdapterData            sharedData(stuff, outputChannel);
                         RunningSumInputHandler *         inputHandler = new RunningSumInputHandler(sharedData);
                         
@@ -222,8 +223,8 @@ int main(int      argc,
                             OD_LOG("! (inputChannel && outputChannel && inputHandler)");//####
                             cerr << "Problem creating a channel." << endl;
                         }
-                        MplusM::CommonX::AdapterChannel::RelinquishChannel(inputChannel);
-                        MplusM::CommonX::AdapterChannel::RelinquishChannel(outputChannel);
+                        MplusM::Common::AdapterChannel::RelinquishChannel(inputChannel);
+                        MplusM::Common::AdapterChannel::RelinquishChannel(outputChannel);
                         if (! stuff->disconnectFromService())
                         {
                             OD_LOG("(! stuff->disconnectFromService())");//####

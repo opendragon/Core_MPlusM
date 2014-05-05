@@ -65,7 +65,7 @@ namespace MplusM
         class RunningSumAdapterData;
         
         /*! @brief A handler for partially-structured input data. */
-        class RunningSumControlInputHandler : public CommonX::InputHandler
+        class RunningSumControlInputHandler : public Common::InputHandler
         {
         public:
             
@@ -81,7 +81,7 @@ namespace MplusM
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
              @returns @c true if the input was correctly structured and successfully processed. */
-            virtual bool handleInput(const CommonX::Package &       input,
+            virtual bool handleInput(const Common::Package &       input,
                                      const yarp::os::ConstString & senderChannel,
                                      yarp::os::ConnectionWriter *  replyMechanism);
             

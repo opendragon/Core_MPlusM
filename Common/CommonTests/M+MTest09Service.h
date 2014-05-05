@@ -63,7 +63,7 @@ namespace MplusM
         class Test09DefaultRequestHandler;
         
         /*! @brief A test service. */
-        class Test09Service : public CommonX::BaseService
+        class Test09Service : public Common::BaseService
         {
         public:
             

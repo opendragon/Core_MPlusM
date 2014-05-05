@@ -74,6 +74,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Example;
 using std::cin;
 using std::cout;
@@ -128,17 +129,17 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MplusM::CommonX::Initialize(*argv);
+            MplusM::Common::Initialize(*argv);
             RandomNumberClient * stuff = new RandomNumberClient;
             
             if (stuff)
             {
                 lKeepRunning = true;
-                MplusM::CommonX::SetSignalHandlers(stopRunning);
+                MplusM::Common::SetSignalHandlers(stopRunning);
                 if (stuff->findService("keyword random"))
                 {
 #if defined(MpM_REPORT_ON_CONNECTIONS)
-                    MplusM::CommonX::ChannelStatusReporter reporter;
+                    MplusM::Common::ChannelStatusReporter reporter;
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     
 #if defined(MpM_REPORT_ON_CONNECTIONS)
@@ -173,12 +174,12 @@ int main(int      argc,
                             }
                             else
                             {
-                                MplusM::CommonX::DoubleVector results;
+                                MplusM::Common::DoubleVector results;
                                 
                                 if (stuff->getRandomNumbers(count, results))
                                 {
                                     cout << "result = ( ";
-                                    for (MplusM::CommonX::DoubleVector::const_iterator it(results.begin());
+                                    for (MplusM::Common::DoubleVector::const_iterator it(results.begin());
                                          results.end() != it; ++it)
                                     {
                                         cout << " " << *it;

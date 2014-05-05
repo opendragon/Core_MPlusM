@@ -96,7 +96,7 @@ using std::endl;
  @param response The response to be processed.
  @returns @c true if some output was generated and @c false otherwise. */
 static bool processResponse(const yarp::os::ConstString &           serviceName,
-                            const MplusM::CommonX::ServiceResponse & response)
+                            const MplusM::Common::ServiceResponse & response)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("serviceName = ", serviceName.c_str());//####
@@ -153,7 +153,7 @@ int main(int      argc,
             yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
             yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
             
-            MplusM::CommonX::Initialize(*argv);
+            MplusM::Common::Initialize(*argv);
             if (1 < argc)
             {
                 channelNameRequest += argv[1];
@@ -162,7 +162,7 @@ int main(int      argc,
             {
                 channelNameRequest += "*";
             }
-            MplusM::CommonX::Package matches(MplusM::CommonX::FindMatchingServices(channelNameRequest.c_str()));
+            MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(channelNameRequest.c_str()));
             
             if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
@@ -179,7 +179,7 @@ int main(int      argc,
                 else
                 {
                     // Now, process the second element.
-                    MplusM::CommonX::Package * matchesList = matches.get(1).asList();
+                    MplusM::Common::Package * matchesList = matches.get(1).asList();
                     
                     if (matchesList)
                     {
@@ -188,24 +188,24 @@ int main(int      argc,
                         if (matchesCount)
                         {
                             yarp::os::ConstString           aName =
-                                                        MplusM::CommonX::GetRandomChannelName("/clientlist/channel_");
-                            MplusM::CommonX::ClientChannel * newChannel = new MplusM::CommonX::ClientChannel;
+                                                        MplusM::Common::GetRandomChannelName("/clientlist/channel_");
+                            MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
                             
                             if (newChannel)
                             {
                                 if (newChannel->openWithRetries(aName))
                                 {
                                     bool                    sawRequestResponse = false;
-                                    MplusM::CommonX::Package parameters;
+                                    MplusM::Common::Package parameters;
 
                                     for (int ii = 0; ii < matchesCount; ++ii)
                                     {
                                         yarp::os::ConstString aMatch(matchesList->get(ii).toString());
                                         
-                                        if (MplusM::CommonX::NetworkConnectWithRetries(aName, aMatch))
+                                        if (MplusM::Common::NetworkConnectWithRetries(aName, aMatch))
                                         {
-                                            MplusM::CommonX::ServiceRequest  request(MpM_CLIENTS_REQUEST, parameters);
-                                            MplusM::CommonX::ServiceResponse response;
+                                            MplusM::Common::ServiceRequest  request(MpM_CLIENTS_REQUEST, parameters);
+                                            MplusM::Common::ServiceResponse response;
                                             
                                             if (request.send(*newChannel, &response))
                                             {
@@ -226,16 +226,16 @@ int main(int      argc,
                                                 endl;
                                             }
 # if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                                            if (! MplusM::CommonX::NetworkDisconnectWithRetries(aName, aMatch))
+                                            if (! MplusM::Common::NetworkDisconnectWithRetries(aName, aMatch))
                                             {
-                                                OD_LOG("(! MplusM::CommonX::NetworkDisconnectWithRetries(aName, "//####
+                                                OD_LOG("(! MplusM::Common::NetworkDisconnectWithRetries(aName, "//####
                                                        "aMatch))");//####
                                             }
 # endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                                         }
                                         else
                                         {
-                                            OD_LOG("! (MplusM::CommonX::NetworkConnectWithRetries(aName, "//####
+                                            OD_LOG("! (MplusM::Common::NetworkConnectWithRetries(aName, "//####
                                                    "aMatch))");//####
                                         }
                                     }

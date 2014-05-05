@@ -90,6 +90,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Registry;
 
 #if defined(__APPLE__)
@@ -389,7 +390,7 @@ static bool performSQLstatementWithNoResults(sqlite3 *    database,
  @param data The custom information used with the binding function.
  @returns @c true if the operation was successfully performed and @c false otherwise. */
 static bool performSQLstatementWithResults(sqlite3 *                 database,
-                                           MplusM::CommonX::Package & resultList,
+                                           MplusM::Common::Package & resultList,
                                            const char *              sqlStatement,
                                            const int                 columnOfInterest = 0,
                                            BindFunction              doBinds = NULL,
@@ -986,7 +987,7 @@ RegistryService::~RegistryService(void)
 #if defined(MpM_DO_EXPLICIT_CLOSE)
         _statusChannel->close();
 #endif // defined(MpM_DO_EXPLICIT_CLOSE)
-        CommonX::AdapterChannel::RelinquishChannel(_statusChannel);
+        Common::AdapterChannel::RelinquishChannel(_statusChannel);
     }
     OD_LOG_OBJEXIT();//####
 } // RegistryService::~RegistryService
@@ -995,7 +996,7 @@ RegistryService::~RegistryService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RegistryService::addRequestRecord(const CommonX::Package &    keywordList,
+bool RegistryService::addRequestRecord(const Common::Package &    keywordList,
                                        const RequestDescription & description)
 {
     OD_LOG_OBJENTER();//####
@@ -1176,7 +1177,7 @@ void RegistryService::detachRequestHandlers(void)
 } // RegistryService::detachRequestHandlers
 
 bool RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
-                                          CommonX::Package &         reply)
+                                          Common::Package &         reply)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("matcher = ", matcher);//####
@@ -1188,7 +1189,7 @@ bool RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
         {
             if (performSQLstatementWithNoResults(_db, kBeginTransaction))
             {
-                CommonX::Package &     subList = reply.addList();
+                Common::Package &     subList = reply.addList();
                 yarp::os::ConstString requestAsSQL(matcher->asSQLString("SELECT DISTINCT " CHANNELNAME_C_ " FROM "
                                                                         REQUESTS_T_ " WHERE "));
                 
@@ -1281,7 +1282,7 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
     OD_LOG_S1("channelName = ", channelName.c_str());//####
     if (_statusChannel)
     {
-        CommonX::Package message;
+        Common::Package message;
         
         switch (newStatus)
         {
@@ -1312,7 +1313,7 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
         {
             OD_LOG("(! _statusChannel->write(message))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-            CommonX::Stall();
+            Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
         }
     }
@@ -1380,7 +1381,7 @@ bool RegistryService::setUpStatusChannel(void)
     
     try
     {
-        _statusChannel = new CommonX::AdapterChannel;
+        _statusChannel = new Common::AdapterChannel;
         if (_statusChannel)
         {
             yarp::os::ConstString outputName(MpM_REGISTRY_CHANNEL_NAME "/status");
@@ -1425,18 +1426,18 @@ bool RegistryService::start(void)
             if (isStarted() && setUpDatabase() && setUpStatusChannel())
             {
                 // Register ourselves!!!
-                yarp::os::ConstString   aName(CommonX::GetRandomChannelName(MpM_REGISTRY_CHANNEL_NAME "/temp_"));
-                CommonX::ClientChannel * newChannel = new CommonX::ClientChannel;
+                yarp::os::ConstString   aName(Common::GetRandomChannelName(MpM_REGISTRY_CHANNEL_NAME "/temp_"));
+                Common::ClientChannel * newChannel = new Common::ClientChannel;
                 
                 if (newChannel)
                 {
                     if (newChannel->openWithRetries(aName))
                     {
-                        if (CommonX::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                        if (Common::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
                         {
-                            CommonX::Package         parameters(MpM_REGISTRY_CHANNEL_NAME);
-                            CommonX::ServiceRequest  request(MpM_REGISTER_REQUEST, parameters);
-                            CommonX::ServiceResponse response;
+                            Common::Package         parameters(MpM_REGISTRY_CHANNEL_NAME);
+                            Common::ServiceRequest  request(MpM_REGISTER_REQUEST, parameters);
+                            Common::ServiceResponse response;
                             
                             if (request.send(*newChannel, &response))
                             {
@@ -1469,7 +1470,7 @@ bool RegistryService::start(void)
                         }
                         else
                         {
-                            OD_LOG("! (CommonX::NetworkConnectWithRetries(aName, "//####
+                            OD_LOG("! (Common::NetworkConnectWithRetries(aName, "//####
                                    "MpM_REGISTRY_CHANNEL_NAME))");//####
                         }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
@@ -1480,7 +1481,7 @@ bool RegistryService::start(void)
                     {
                         OD_LOG("! (newChannel->openWithRetries(aName))");//####
                     }
-                    CommonX::ClientChannel::RelinquishChannel(newChannel);
+                    Common::ClientChannel::RelinquishChannel(newChannel);
                 }
                 else
                 {

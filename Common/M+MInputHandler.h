@@ -74,7 +74,7 @@
 
 namespace MplusM
 {
-    namespace CommonX
+    namespace Common
     {
         /*! @brief A handler for partially-structured input data. */
         class InputHandler : public yarp::os::PortReader

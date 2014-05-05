@@ -57,6 +57,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Example;
 
 #if defined(__APPLE__)
@@ -96,7 +97,7 @@ StartRequestHandler::~StartRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void StartRequestHandler::fillInAliases(CommonX::StringVector & alternateNames)
+void StartRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -120,7 +121,7 @@ void StartRequestHandler::fillInDescription(const yarp::os::ConstString & reques
                  "Input: nothing\n"
                  "Output: nothing");
         yarp::os::Value   keywords;
-        CommonX::Package * asList = keywords.asList();
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -134,7 +135,7 @@ void StartRequestHandler::fillInDescription(const yarp::os::ConstString & reques
 } // StartRequestHandler::fillInDescription
 
 bool StartRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const CommonX::Package &       restOfInput,
+                                         const Common::Package &       restOfInput,
                                          const yarp::os::ConstString & senderChannel,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -152,13 +153,13 @@ bool StartRequestHandler::processRequest(const yarp::os::ConstString & request,
         _service.startSum(senderChannel);
         if (replyMechanism)
         {
-            CommonX::Package response(MpM_OK_RESPONSE);
+            Common::Package response(MpM_OK_RESPONSE);
             
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                CommonX::Stall();
+                Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }

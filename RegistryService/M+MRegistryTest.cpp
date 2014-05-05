@@ -80,6 +80,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Test;
 using std::cout;
 using std::cerr;
@@ -220,13 +221,13 @@ static int doTestRequestRegisterService(const char * launchPath,
                         {
                             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (MplusM::CommonX::RegisterLocalService(channelName))
+                            if (MplusM::Common::RegisterLocalService(channelName))
                             {
                                 result = 0;
                             }
                             else
                             {
-                                OD_LOG("! (MplusM::CommonX::RegisterLocalService(channelName))");//####
+                                OD_LOG("! (MplusM::Common::RegisterLocalService(channelName))");//####
                             }
                             stuff->stop();
                         }
@@ -325,20 +326,20 @@ static int doTestRequestUnregisterService(const char * launchPath,
                         {
                             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (MplusM::CommonX::RegisterLocalService(channelName))
+                            if (MplusM::Common::RegisterLocalService(channelName))
                             {
-                                if (MplusM::CommonX::UnregisterLocalService(channelName))
+                                if (MplusM::Common::UnregisterLocalService(channelName))
                                 {
                                     result = 0;
                                 }
                                 else
                                 {
-                                    OD_LOG("! (MplusM::CommonX::UnregisterLocalService(channelName))");//####
+                                    OD_LOG("! (MplusM::Common::UnregisterLocalService(channelName))");//####
                                 }
                             }
                             else
                             {
-                                OD_LOG("! (MplusM::CommonX::RegisterLocalService(channelName))");//####
+                                OD_LOG("! (MplusM::Common::RegisterLocalService(channelName))");//####
                             }
                             stuff->stop();
                         }
@@ -416,11 +417,11 @@ static int doTestRequestSearchService(const char * launchPath,
                             {
                                 yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                                 
-                                if (MplusM::CommonX::RegisterLocalService(channelName))
+                                if (MplusM::Common::RegisterLocalService(channelName))
                                 {
                                     // Search for the service that we just registered.
-                                    MplusM::CommonX::Package matches(MplusM::CommonX::FindMatchingServices(*argv));
-                                    MplusM::CommonX::Package expected(argv[1]);
+                                    MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(*argv));
+                                    MplusM::Common::Package expected(argv[1]);
                                     
                                     OD_LOG_S3("criteria <- ", *argv, "expected <- ", expected.toString().c_str(),//####
                                               "matches <- ", matches.toString().c_str());//####
@@ -460,8 +461,8 @@ static int doTestRequestSearchService(const char * launchPath,
                                             
                                             if (expectedSecond.isList())
                                             {
-                                                MplusM::CommonX::Package * matchesSecondAsList = matchesSecond.asList();
-                                                MplusM::CommonX::Package * expectedSecondAsList =
+                                                MplusM::Common::Package * matchesSecondAsList = matchesSecond.asList();
+                                                MplusM::Common::Package * expectedSecondAsList =
                                                                                                 expectedSecond.asList();
                                                 int                       matchesSecondCount =
                                                                                             matchesSecondAsList->size();
@@ -523,14 +524,14 @@ static int doTestRequestSearchService(const char * launchPath,
                                         OD_LOG("! ((expected.size() == matches.size()) && "//####
                                                   "(MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size()))");//####
                                     }
-                                    if (! MplusM::CommonX::UnregisterLocalService(channelName))
+                                    if (! MplusM::Common::UnregisterLocalService(channelName))
                                     {
-                                        OD_LOG("(! MplusM::CommonX::UnregisterLocalService(channelName))");//####
+                                        OD_LOG("(! MplusM::Common::UnregisterLocalService(channelName))");//####
                                     }
                                 }
                                 else
                                 {
-                                    OD_LOG("! (MplusM::CommonX::RegisterLocalService(channelName))");//####
+                                    OD_LOG("! (MplusM::Common::RegisterLocalService(channelName))");//####
                                 }
                                 stuff->stop();
                             }
@@ -613,12 +614,12 @@ int main(int      argc,
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
-            MplusM::CommonX::Initialize(*argv);
+            MplusM::Common::Initialize(*argv);
             if (0 < --argc)
             {
                 int selector = atoi(argv[1]);
                 
-                MplusM::CommonX::SetSignalHandlers(catchSignal);
+                MplusM::Common::SetSignalHandlers(catchSignal);
                 OD_LOG_LL1("selector <- ", selector);//####
                 switch (selector)
                 {

@@ -63,6 +63,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Registry;
 
 #if defined(__APPLE__)
@@ -103,7 +104,7 @@ MatchRequestHandler::~MatchRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void MatchRequestHandler::fillInAliases(CommonX::StringVector & alternateNames)
+void MatchRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
@@ -128,7 +129,7 @@ void MatchRequestHandler::fillInDescription(const yarp::os::ConstString & reques
                  "Input: an expression describing the service to be found\n"
                  "Output: OK and a list of matching services or FAILED, with a description of the problem encountered");
         yarp::os::Value   keywords;
-        CommonX::Package * asList = keywords.asList();
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         asList->addString("find");
@@ -143,7 +144,7 @@ void MatchRequestHandler::fillInDescription(const yarp::os::ConstString & reques
 } // MatchRequestHandler::fillInDescription
 
 bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const CommonX::Package &       restOfInput,
+                                         const Common::Package &       restOfInput,
                                          const yarp::os::ConstString & senderChannel,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -160,7 +161,7 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
-            CommonX::Package reply;
+            Common::Package reply;
             
             // We are expecting just one string as the parameter
             if (1 == restOfInput.size())
@@ -217,7 +218,7 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                CommonX::Stall();
+                Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }

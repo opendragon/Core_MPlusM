@@ -60,7 +60,7 @@
 
 namespace MplusM
 {
-    namespace CommonX
+    namespace Common
     {
         class AdapterChannel;
     } // Common
@@ -70,7 +70,7 @@ namespace MplusM
         class RunningSumClient;
         
         /*! @brief A handler for partially-structured input data. */
-        class RunningSumAdapterData : public CommonX::BaseAdapterData
+        class RunningSumAdapterData : public Common::BaseAdapterData
         {
         public:
             
@@ -78,7 +78,7 @@ namespace MplusM
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
             RunningSumAdapterData(RunningSumClient *       client,
-                                  CommonX::AdapterChannel * output);
+                                  Common::AdapterChannel * output);
             
             /*! @brief The destructor. */
             virtual ~RunningSumAdapterData(void);

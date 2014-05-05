@@ -61,6 +61,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::Example;
 
 #if defined(__APPLE__)
@@ -97,7 +98,7 @@ RunningSumInputHandler::~RunningSumInputHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RunningSumInputHandler::handleInput(const CommonX::Package &       input,
+bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                                          const yarp::os::ConstString & senderChannel,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -115,8 +116,8 @@ bool RunningSumInputHandler::handleInput(const CommonX::Package &       input,
         
         if (0 < howMany)
         {
-            CommonX::AdapterChannel * theOutput = _shared.getOutput();
-            CommonX::DoubleVector     values;
+            Common::AdapterChannel * theOutput = _shared.getOutput();
+            Common::DoubleVector     values;
             double                   outValue;
             RunningSumClient *       theClient = (RunningSumClient *) _shared.getClient();
             
@@ -133,21 +134,21 @@ bool RunningSumInputHandler::handleInput(const CommonX::Package &       input,
 
                         if (values.size())
                         {
-                            CommonX::DoubleVector::size_type soFar = values.size();
+                            Common::DoubleVector::size_type soFar = values.size();
                             
                             if (1 == soFar)
                             {
                                 _shared.lock();
                                 if (theClient->addToSum(values[0], outValue))
                                 {
-                                    CommonX::Package message;
+                                    Common::Package message;
                                     
                                     message.addDouble(outValue);
                                     if (! theOutput->write(message))
                                     {
                                         OD_LOG("(! theOutput->write(message))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                                        CommonX::Stall();
+                                        Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                                     }
                                 }
@@ -162,14 +163,14 @@ bool RunningSumInputHandler::handleInput(const CommonX::Package &       input,
                                 _shared.lock();
                                 if (theClient->addToSum(values, outValue))
                                 {
-                                    CommonX::Package message;
+                                    Common::Package message;
                                     
                                     message.addDouble(outValue);
                                     if (! theOutput->write(message))
                                     {
                                         OD_LOG("(! theOutput->write(message))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                                        CommonX::Stall();
+                                        Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                                     }
                                 }
@@ -236,21 +237,21 @@ bool RunningSumInputHandler::handleInput(const CommonX::Package &       input,
                 }
                 if (values.size())
                 {
-                    CommonX::DoubleVector::size_type soFar = values.size();
+                    Common::DoubleVector::size_type soFar = values.size();
                     
                     if (1 == soFar)
                     {
                         _shared.lock();
                         if (theClient->addToSum(values[0], outValue))
                         {
-                            CommonX::Package message;
+                            Common::Package message;
                             
                             message.addDouble(outValue);
                             if (! theOutput->write(message))
                             {
                                 OD_LOG("(! theOutput->write(message))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                                CommonX::Stall();
+                                Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }
@@ -265,14 +266,14 @@ bool RunningSumInputHandler::handleInput(const CommonX::Package &       input,
                         _shared.lock();
                         if (theClient->addToSum(values, outValue))
                         {
-                            CommonX::Package message;
+                            Common::Package message;
                             
                             message.addDouble(outValue);
                             if (! theOutput->write(message))
                             {
                                 OD_LOG("(! theOutput->write(message))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                                CommonX::Stall();
+                                Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                             }
                         }

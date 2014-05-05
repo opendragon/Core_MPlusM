@@ -57,6 +57,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM::Common;
 using namespace MplusM::RequestCounter;
 
 #if defined(__APPLE__)
@@ -95,7 +96,7 @@ StatsRequestHandler::~StatsRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void StatsRequestHandler::fillInAliases(CommonX::StringVector & alternateNames)
+void StatsRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # pragma unused(alternateNames)
@@ -120,7 +121,7 @@ void StatsRequestHandler::fillInDescription(const yarp::os::ConstString & reques
                  "Input: nothing\n"
                  "Output: the number of requests seen and the elapsed time in seconds");
         yarp::os::Value   keywords;
-        CommonX::Package * asList = keywords.asList();
+        Common::Package * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -134,7 +135,7 @@ void StatsRequestHandler::fillInDescription(const yarp::os::ConstString & reques
 } // StatsRequestHandler::fillInDescription
 
 bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const CommonX::Package &       restOfInput,
+                                         const Common::Package &       restOfInput,
                                          const yarp::os::ConstString & senderChannel,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -151,7 +152,7 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
-            CommonX::Package response;
+            Common::Package response;
             double          elapsedTime;
             long            counter;
             
@@ -162,7 +163,7 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                CommonX::Stall();
+                Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }
