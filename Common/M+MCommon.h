@@ -154,10 +154,8 @@ namespace MplusM
         /*! @brief A sequence of strings. */
         typedef std::vector<std::string> StringVector;
         
-#if (defined(__APPLE__) || defined(__linux__))
         /*! @brief A signal handler. */
         typedef void (*SignalHandler) (int signal);
-#endif // defined(__APPLE__) || defined(__linux__)
         
         /*! @brief Dump out a description of the provided connection information to the log.
          @param tag A unique string used to identify the call point for the output.
@@ -200,7 +198,11 @@ namespace MplusM
         void ShutDownCatcher(void);
         
         /*! @brief Perform a busy loop, using yarp::os::Time::yield(). */
+#if (defined(__APPLE__) || defined(__linux__))
         void Stall(void) __attribute__((noreturn));
+#else // (! defined(__APPLE__)) && (! defined(__linux__))
+        void Stall(void);
+#endif // (! defined(__APPLE__)) && (! defined(__linux__))
         
     } // Common
 
