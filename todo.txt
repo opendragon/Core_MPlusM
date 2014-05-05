@@ -1,1 +1,3 @@
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
+
+* add request count to base service, and returns the count and current time

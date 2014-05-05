@@ -44,6 +44,7 @@
 #include "M+MBaseContext.h"
 #include "M+MBaseServiceInputHandler.h"
 #include "M+MBaseServiceInputHandlerCreator.h"
+#include "M+MCountRequestHandler.h"
 #include "M+MDetachRequestHandler.h"
 #include "M+MEndpoint.h"
 #include "M+MException.h"
@@ -71,6 +72,7 @@
 # pragma clang diagnostic ignored "-Wweak-vtables"
 #endif // defined(__APPLE__)
 #include <yarp/os/Network.h>
+#include <yarp/os/Time.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -120,7 +122,7 @@ BaseService::BaseService(const char *                  launchPath,
 #if defined(SERVICES_HAVE_CONTEXTS)
         _contexts(),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
-        _canonicalName(canonicalName), _description(description),
+        _canonicalName(canonicalName), _description(description), _requestCount(0),
 #if defined(SERVICES_HAVE_CONTEXTS)
         _clientsHandler(NULL),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
@@ -153,7 +155,7 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
 #if defined(SERVICES_HAVE_CONTEXTS)
         _contexts(),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
-        _canonicalName(canonicalName), _description(description),
+        _canonicalName(canonicalName), _description(description), _requestCount(0),
 #if defined(SERVICES_HAVE_CONTEXTS)
         _clientsHandler(NULL),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
@@ -239,19 +241,21 @@ void BaseService::attachRequestHandlers(void)
 #if defined(SERVICES_HAVE_CONTEXTS)
         _clientsHandler = new ClientsRequestHandler(*this);
 #endif // defined(SERVICES_HAVE_CONTEXTS)
+        _countHandler = new CountRequestHandler(*this);
         _detachHandler = new DetachRequestHandler(*this);
         _infoHandler = new InfoRequestHandler;
         _listHandler = new ListRequestHandler;
         _nameHandler = new NameRequestHandler(*this);
 #if defined(SERVICES_HAVE_CONTEXTS)
-        if (_clientsHandler && _detachHandler && _infoHandler && _listHandler && _nameHandler)
+        if (_clientsHandler && _countHandler &&  _detachHandler && _infoHandler && _listHandler && _nameHandler)
 #else // ! defined(SERVICES_HAVE_CONTEXTS)
-        if (_detachHandler && _infoHandler && _listHandler && _nameHandler)
+        if (_countHandler && _detachHandler && _infoHandler && _listHandler && _nameHandler)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
         {
 #if defined(SERVICES_HAVE_CONTEXTS)
             _requestHandlers.registerRequestHandler(_clientsHandler);
 #endif // defined(SERVICES_HAVE_CONTEXTS)
+            _requestHandlers.registerRequestHandler(_countHandler);
             _requestHandlers.registerRequestHandler(_detachHandler);
             _requestHandlers.registerRequestHandler(_infoHandler);
             _requestHandlers.registerRequestHandler(_listHandler);
@@ -328,6 +332,12 @@ void BaseService::detachRequestHandlers(void)
             _clientsHandler = NULL;
         }
 #endif // defined(SERVICES_HAVE_CONTEXTS)
+        if (_countHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_countHandler);
+            delete _countHandler;
+            _countHandler = NULL;
+        }
         if (_detachHandler)
         {
             _requestHandlers.unregisterRequestHandler(_detachHandler);
@@ -404,6 +414,16 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
 } // BaseService::findContext
 #endif // defined(SERVICES_HAVE_CONTEXTS)
 
+void BaseService::getStatistics(long long & count,
+                                double &    currentTime)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P2("count = ", &count, "currentTime = ", &currentTime);//####
+    count = _requestCount;
+    currentTime = yarp::os::Time::now();
+    OD_LOG_OBJEXIT();//####
+} // BaseService::getStatistics
+
 bool BaseService::processRequest(const yarp::os::ConstString & request,
                                  const Package &               restOfInput,
                                  const yarp::os::ConstString & senderChannel,
@@ -422,6 +442,7 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
         if (handler)
         {
             OD_LOG("(handler)");//####
+            ++_requestCount;
             result = handler->processRequest(request, restOfInput, senderChannel, replyMechanism);
         }
         else

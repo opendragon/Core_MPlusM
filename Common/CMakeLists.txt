@@ -62,6 +62,7 @@ add_library(Common
             M+MClientChannel.cpp
             M+MClientsRequestHandler.cpp
             M+MCommon.cpp
+            M+MCountRequestHandler.cpp
             M+MDetachRequestHandler.cpp
             M+MEndpoint.cpp
             M+MException.cpp

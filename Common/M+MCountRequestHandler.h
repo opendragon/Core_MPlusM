@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MDetachRequestHandler.h
+//  File:       M+MCountRequestHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for a 'detach' request.
+//  Contains:   The class declaration for the request handler for the standard 'count'
+//              request.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,13 +36,13 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2014-02-27
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MpMDetachRequestHandler_H_))
+#if (! defined(MpMCountRequestHandler_H_))
 /*! @brief Header guard. */
-# define MpMDetachRequestHandler_H_ /* */
+# define MpMCountRequestHandler_H_ /* */
 
 # include "M+MBaseRequestHandler.h"
 
@@ -51,7 +52,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for a 'detach' request. */
+ @brief The class declaration for the request handler for the standard 'count' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -62,19 +63,20 @@ namespace MplusM
     {
         class BaseService;
         
-        /*! @brief The example 'detach' request handler.
+        /*! @brief The example 'count' request handler.
          
-         There is no input or output for the request. */
-        class DetachRequestHandler : public BaseRequestHandler
+         There is no input for the request and the output is an integer (the count) and a floating point value (the
+         elapsed time). */
+        class CountRequestHandler : public BaseRequestHandler
         {
         public:
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            DetachRequestHandler(BaseService & service);
+            CountRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
-            virtual ~DetachRequestHandler(void);
+            virtual ~CountRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -107,21 +109,21 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            DetachRequestHandler(const DetachRequestHandler & other);
+            CountRequestHandler(const CountRequestHandler & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            DetachRequestHandler & operator=(const DetachRequestHandler & other);
+            CountRequestHandler & operator=(const CountRequestHandler & other);
             
             /*! @brief The service that will handle the request. */
             BaseService & _service;
             
-        }; // DetachRequestHandler
+        }; // CountRequestHandler
         
     } // Common
     
 } // MplusM
 
-#endif // ! defined(MpMDetachRequestHandler_H_)
+#endif // ! defined(MpMCountRequestHandler_H_)

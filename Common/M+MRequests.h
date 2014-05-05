@@ -62,6 +62,8 @@
 
 /*! @brief The name for the 'clients' request. */
 # define MpM_CLIENTS_REQUEST    "clients"
+/*! @brief The name for the 'count' request. */
+# define MpM_COUNT_REQUEST      "count"
 /*! @brief The name for the 'detach' request. */
 # define MpM_DETACH_REQUEST     "detach"
 /*! @brief The name for the 'echo' request. */

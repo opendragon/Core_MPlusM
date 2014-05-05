@@ -179,6 +179,8 @@
 		DFA3434E18C91C5A0053B87C /* M+MUnregisterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUnregisterRequestHandler.h"; path = "../RegistryService/M+MUnregisterRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DFA4963B18FED346005A7213 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../Version/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFA4963C18FED346005A7213 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../Version/main.cpp; sourceTree = SOURCE_ROOT; };
+		DFA738A719182C3800AFB0B9 /* M+MCountRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MCountRequestHandler.cpp"; path = "../Common/M+MCountRequestHandler.cpp"; sourceTree = "<group>"; };
+		DFA738A819182C3800AFB0B9 /* M+MCountRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MCountRequestHandler.h"; path = "../Common/M+MCountRequestHandler.h"; sourceTree = "<group>"; };
 		DFA86D1C18E0D3AE00A22941 /* M+MColumnNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MColumnNameValidator.cpp"; path = "../RegistryService/M+MColumnNameValidator.cpp"; sourceTree = SOURCE_ROOT; };
 		DFA86D1D18E0D3AE00A22941 /* M+MColumnNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MColumnNameValidator.h"; path = "../RegistryService/M+MColumnNameValidator.h"; sourceTree = SOURCE_ROOT; };
 		DFA86D2618E1D1AC00A22941 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../examples/CMakeLists.txt; sourceTree = "<group>"; };
@@ -566,6 +568,8 @@
 				DFA3433118C91C5A0053B87C /* M+MCommonTest.cpp */,
 				DFA3433218C91C5A0053B87C /* M+MConfig.h */,
 				DFA3433318C91C5A0053B87C /* M+MConfig.h.in */,
+				DFA738A719182C3800AFB0B9 /* M+MCountRequestHandler.cpp */,
+				DFA738A819182C3800AFB0B9 /* M+MCountRequestHandler.h */,
 				DF4CCFD718FDA14E00713E54 /* M+MDetachRequestHandler.cpp */,
 				DF4CCFD818FDA14E00713E54 /* M+MDetachRequestHandler.h */,
 				DFA3433418C91C5A0053B87C /* M+MEndpoint.cpp */,

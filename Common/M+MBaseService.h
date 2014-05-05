@@ -66,6 +66,7 @@ namespace MplusM
         class BaseServiceInputHandler;
         class BaseServiceInputHandlerCreator;
         class ClientsRequestHandler;
+        class CountRequestHandler;
         class DetachRequestHandler;
         class Endpoint;
         class InfoRequestHandler;
@@ -142,6 +143,12 @@ namespace MplusM
                 return *_endpoint;
             } // getEndpoint
             
+            /*! @brief Return the request statistics.
+             @param count The number of requests since the service started.
+             @param currentTime The current service time. */
+            void getStatistics(long long & count,
+                               double &    currentTime);
+            
             /*! @brief Return the state of the service.
              @returns @c true if the service has been started and @c false otherwise. */
             inline bool isStarted(void)
@@ -158,7 +165,6 @@ namespace MplusM
                 return _launchPath;
             } // launchPath
             
-            void performMainLoop(void);
             /*! @brief Process partially-structured input data.
              @param request The requested operation.
              @param restOfInput The arguments for the operation.
@@ -295,11 +301,17 @@ namespace MplusM
             /*! @brief The description of the service. */
             yarp::os::ConstString            _description;
             
+            /*! @brief The number of requests seen. */
+            long long                        _requestCount;
+            
 # if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief The request handler for the 'clients' request. */
             ClientsRequestHandler *          _clientsHandler;
 # endif // defined(SERVICES_HAVE_CONTEXTS)
             
+            /*! @brief The request handler for the 'count' request. */
+            CountRequestHandler *            _countHandler;
+
             /*! @brief The request handler for the 'detach' request. */
             DetachRequestHandler *           _detachHandler;
             
