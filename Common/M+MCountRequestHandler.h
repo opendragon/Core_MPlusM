@@ -63,10 +63,10 @@ namespace MplusM
     {
         class BaseService;
         
-        /*! @brief The example 'count' request handler.
+        /*! @brief The standard 'count' request handler.
          
-         There is no input for the request and the output is an integer (the count) and a floating point value (the
-         elapsed time). */
+         There is no input for the request and the output is a pair of integers (the count, high bits first) and a
+         floating point value (the service time). */
         class CountRequestHandler : public BaseRequestHandler
         {
         public:

@@ -302,7 +302,7 @@ namespace MplusM
             yarp::os::ConstString            _description;
             
             /*! @brief The number of requests seen. */
-            long long                        _requestCount;
+            int64_t                          _requestCount;
             
 # if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief The request handler for the 'clients' request. */

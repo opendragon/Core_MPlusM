@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for the standard 'info'
+//  Contains:   The class definition for the request handler for the standard 'count'
 //              request.
 //
 //  Written by: Norman Jaffe
@@ -54,7 +54,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for the standard 'info' request. */
+ @brief The class definition for the request handler for the standard 'count' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -118,7 +118,7 @@ void CountRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_INT MpM_REQREP_DOUBLE);
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Report the number of requests seen and the current time\n"
                  "Input: nothing\n"
-                 "Output: the number of requests and the time");
+                 "Output: the number of requests (two integers, high first) and the time");
         yarp::os::Value keywords;
         Package *       asList = keywords.asList();
         
@@ -153,11 +153,12 @@ bool CountRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
-            double    elapsedTime;
-            long long counter;
-            Package   reply;
+            double  elapsedTime;
+            int64_t counter;
+            Package reply;
             
             _service.getStatistics(counter, elapsedTime);
+            reply.addInt(static_cast<int>(counter >> 32));
             reply.addInt(static_cast<int>(counter));
             reply.addDouble(elapsedTime);
             OD_LOG_S1("reply <- ", reply.toString().c_str());
