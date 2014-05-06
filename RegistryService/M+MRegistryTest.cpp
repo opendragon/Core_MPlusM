@@ -611,7 +611,9 @@ int main(int      argc,
     
     try
     {
+#if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
+#endif // CheckNetworkWorks_
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
@@ -654,11 +656,13 @@ int main(int      argc,
                 OD_LOG("! (0 < --argc)");//####
             }
         }
+#if CheckNetworkWorks_
         else
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())");//####
             cerr << "YARP network not running." << endl;
         }
+#endif // CheckNetworkWorks_
     }
     catch (...)
     {

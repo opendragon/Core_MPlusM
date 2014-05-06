@@ -116,7 +116,7 @@ static const char * nullOrString(const char * aString)
     return result;
 } // nullOrString
 
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
 /*! @brief The signal handler to catch requests to stop the service.
  @param signal The signal being handled. */
 static void localCatcher(int signal)
@@ -127,7 +127,7 @@ static void localCatcher(int signal)
     OD_LOG_EXIT_EXIT(1);//####
     yarp::os::exit(1);
 } // localCatcher
-#endif // defined(__APPLE__) || defined(__linux__)
+#endif // MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -185,7 +185,7 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
         char * buff = new char[buffLen];
         int    randNumb = yarp::os::Random::uniform(0, kMaxRandom);
         
-#  if (defined(__APPLE__) || defined(__linux__))
+#  if MAC_OR_LINUX_
         if (hasLeadingSlash)
         {
             snprintf(buff, buffLen, "%s%x", stringToUse, randNumb);
@@ -195,7 +195,7 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
             snprintf(buff, buffLen, "/%s%x", stringToUse, randNumb);
         }
         
-#  else // (! defined(__APPLE__)) && (! defined(__linux__))
+#  else // ! MAC_OR_LINUX_
         if (hasLeadingSlash)
         {
             sprintf(buff, "%s%x", stringToUse, randNumb);
@@ -205,7 +205,7 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
             sprintf(buff, "/%s%x", stringToUse, randNumb);
         }
         
-#  endif // (! defined(__APPLE__)) && (! defined(__linux__))
+#  endif // ! MAC_OR_LINUX_
         result = buff;
         delete[] buff;
     }
@@ -221,9 +221,9 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
 void MplusM::Common::Initialize(const char * progName)
 {
 #if (! defined(MpM_CHATTY_START))
-# if (defined(__APPLE__) || defined(__linux__))
+# if MAC_OR_LINUX_
 #  pragma unused(progName)
-# endif // defined(__APPLE__) || defined(__linux__)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(MpM_CHATTY_START)
     OD_LOG_ENTER();//####
     try
@@ -388,11 +388,11 @@ bool MplusM::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString & 
 void MplusM::Common::SetSignalHandlers(SignalHandler theHandler)
 {
     OD_LOG_ENTER();//####
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
     struct sigaction act;
-#endif // defined(__APPLE__) || defined(__linux__)
+#endif // MAC_OR_LINUX_
 
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
     act.sa_handler = theHandler;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
@@ -412,56 +412,56 @@ void MplusM::Common::SetSignalHandlers(SignalHandler theHandler)
     sigaction(SIGUSR2, &act, NULL);
 # endif // SIGUSR2 != STANDARD_SIGNAL_TO_USE
     sigset_t blocking;
-#endif // defined(__APPLE__) || defined(__linux__)
+#endif // MAC_OR_LINUX_
     
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
     sigemptyset(&blocking);
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
-#endif // defined(__APPLE__) || defined(__linux__)
+#endif // MAC_OR_LINUX_
     OD_LOG_EXIT();//####
 } // MplusM::Common::SetSignalHandlers
 
 void MplusM::Common::SetUpCatcher(void)
 {
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
     sigset_t unblocking;
-#endif // defined(__APPLE__) || defined(__linux__)
+#endif // MAC_OR_LINUX_
     
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
     sigemptyset(&unblocking);
     sigaddset(&unblocking, STANDARD_SIGNAL_TO_USE);
     pthread_sigmask(SIG_UNBLOCK, &unblocking, NULL);
     struct sigaction act;
-#endif // defined(__APPLE__) || defined(__linux__)
+#endif // MAC_OR_LINUX_
     
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
     act.sa_handler = localCatcher;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
     sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
-#endif // defined(__APPLE__) || defined(__linux__)
+#endif // MAC_OR_LINUX_
 } // MplusM::Common::SetUpCatcher
 
 void MplusM::Common::ShutDownCatcher(void)
 {
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
     sigset_t blocking;
-#endif // defined(__APPLE__) || defined(__linux__)
+#endif // MAC_OR_LINUX_
 
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
     sigemptyset(&blocking);
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
     struct sigaction act;
-#endif // defined(__APPLE__) || defined(__linux__)
+#endif // MAC_OR_LINUX_
 
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
     act.sa_handler = SIG_DFL;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
     sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
-#endif // defined(__APPLE__) || defined(__linux__)
+#endif // MAC_OR_LINUX_
 } // MplusM::Common::ShutDownCatcher
 
 void MplusM::Common::Stall(void)
@@ -476,7 +476,7 @@ const char * MplusM::NameOfSignal(const int theSignal)
 {
     const char * result;
 
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
     switch (theSignal)
     {
         case SIGHUP:
@@ -620,9 +620,9 @@ const char * MplusM::NameOfSignal(const int theSignal)
             break;
             
     }
-#else // (! defined(__APPLE__)) && (! defined(__linux__))
+#else // ! MAC_OR_LINUX_
     result = "unknown";
-#endif // (! defined(__APPLE__)) && (! defined(__linux__))
+#endif // ! MAC_OR_LINUX_
     return result;
 } // MplusM::NameOfSignal
 

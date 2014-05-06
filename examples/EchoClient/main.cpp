@@ -98,9 +98,9 @@ static bool lKeepRunning;
 static void stopRunning(int signal)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# if (defined(__APPLE__) || defined(__linux__))
+# if MAC_OR_LINUX_
 #  pragma unused(signal)
-# endif // defined(__APPLE__) || defined(__linux__)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
@@ -121,15 +121,17 @@ static void stopRunning(int signal)
 int main(int      argc,
          char * * argv)
 {
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
 # pragma unused(argc)
-#endif // defined(__APPLE__) || defined(__linux__)
+#endif // MAC_OR_LINUX_
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
     try
     {
+#if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
+#endif // CheckNetworkWorks_
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
@@ -201,11 +203,13 @@ int main(int      argc,
                 OD_LOG("! (stuff)");//####
             }
         }
+#if CheckNetworkWorks_
         else
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())");//####
             cerr << "YARP network not running." << endl;
         }
+#endif // CheckNetworkWorks_
     }
     catch (...)
     {

@@ -46,6 +46,14 @@
 
 # include "M+MConfig.h"
 
+# if (! defined(MAC_OR_LINUX_))
+/*! @brief @c TRUE if non-Windows, @c FALSE if Windows. */
+#  define MAC_OR_LINUX_ (defined(__APPLE__) || defined(__linux__))
+# endif // ! defined(MAC_OR_LINUX_)
+
+/*! @brief @c TRUE if NetworkBase::checkNetwork() can be trusted and @c FALSE otherwise. */
+# define CheckNetworkWorks_ MAC_OR_LINUX_
+
 # include <iostream>
 # include <vector>
 # if defined(__APPLE__)
@@ -129,11 +137,11 @@
 # define SERVICES_HAVE_CONTEXTS    /* */
 
 /*! @brief The signal to use for internally-detected timeouts. */
-# if (defined(__APPLE__) || defined(__linux__))
+# if MAC_OR_LINUX_
 #  define STANDARD_SIGNAL_TO_USE   SIGUSR2
-# else // (! defined(__APPLE__)) && (! defined(__linux__))
+# else // ! MAC_OR_LINUX_
 #  define STANDARD_SIGNAL_TO_USE   42
-# endif // (! defined(__APPLE__)) && (! defined(__linux__))
+# endif // ! MAC_OR_LINUX_
 
 /*! @brief The default timeout duration in seconds. */
 # define STANDARD_WAIT_TIME        5.0
@@ -198,11 +206,11 @@ namespace MplusM
         void ShutDownCatcher(void);
         
         /*! @brief Perform a busy loop, using yarp::os::Time::yield(). */
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
         void Stall(void) __attribute__((noreturn));
-#else // (! defined(__APPLE__)) && (! defined(__linux__))
+#else // ! MAC_OR_LINUX_
         void Stall(void);
-#endif // (! defined(__APPLE__)) && (! defined(__linux__))
+#endif // ! MAC_OR_LINUX_
         
     } // Common
 

@@ -140,9 +140,9 @@ int main(int      argc,
          char * * argv)
 {
 #if (! defined(SERVICES_HAVE_CONTEXTS))
-# if (defined(__APPLE__) || defined(__linux__))
+# if MAC_OR_LINUX_
 #  pragma unused(argc)
-# endif // defined(__APPLE__) || defined(__linux__)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
@@ -150,7 +150,9 @@ int main(int      argc,
 #if defined(SERVICES_HAVE_CONTEXTS)
     try
     {
+#if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
+#endif // CheckNetworkWorks_
         {
             yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
             yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
@@ -277,11 +279,13 @@ int main(int      argc,
                 cerr << "Problem getting information from the Service Registry." << endl;
             }
         }
+# if CheckNetworkWorks_
         else
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())");//####
             cerr << "YARP network not running." << endl;
         }
+# endif // CheckNetworkWorks_
     }
     catch (...)
     {

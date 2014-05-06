@@ -47,9 +47,9 @@
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
-# if (defined(__APPLE__) || defined(__linux__))
+# if MAC_OR_LINUX_
 #  include <csignal>
-# endif // defined(__APPLE__) || defined(__linux__)
+# endif // MAC_OR_LINUX_
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -166,9 +166,9 @@ void BailOutThread::run(void)
             {
                 _serviceChannel->interrupt();
             }
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
             raise(STANDARD_SIGNAL_TO_USE);
-#endif // defined(__APPLE__) || defined(__linux__)
+#endif // MAC_OR_LINUX_
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunreachable-code"

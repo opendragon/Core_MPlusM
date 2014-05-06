@@ -194,15 +194,17 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & servic
 int main(int      argc,
          char * * argv)
 {
-#if (defined(__APPLE__) || defined(__linux__))
+#if MAC_OR_LINUX_
 # pragma unused(argc)
-#endif // defined(__APPLE__) || defined(__linux__)
+#endif // MAC_OR_LINUX_
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
     try
     {
+#if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
+#endif // CheckNetworkWorks_
         {
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
@@ -273,11 +275,13 @@ int main(int      argc,
                 cerr << "Problem getting information from the Service Registry." << endl;
             }
         }
+#if CheckNetworkWorks_
         else
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())");//####
             cerr << "YARP network not running." << endl;
         }
+#endif // CheckNetworkWorks_
     }
     catch (...)
     {

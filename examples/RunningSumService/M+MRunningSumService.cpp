@@ -117,9 +117,9 @@ double RunningSumService::addToSum(const yarp::os::ConstString & key,
                                    const double                  value)
 {
 #if (! defined(SERVICES_HAVE_CONTEXTS))
-# if (defined(__APPLE__) || defined(__linux__))
+# if MAC_OR_LINUX_
 #  pragma unused(key)
-# endif // defined(__APPLE__) || defined(__linux__)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("key = ", key.c_str());//####
@@ -224,9 +224,9 @@ void RunningSumService::detachRequestHandlers(void)
 void RunningSumService::resetSum(const yarp::os::ConstString & key)
 {
 #if (! defined(SERVICES_HAVE_CONTEXTS))
-# if (defined(__APPLE__) || defined(__linux__))
+# if MAC_OR_LINUX_
 #  pragma unused(key)
-# endif // defined(__APPLE__) || defined(__linux__)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("key = ", key.c_str());//####
@@ -288,9 +288,9 @@ bool RunningSumService::start(void)
 void RunningSumService::startSum(const yarp::os::ConstString & key)
 {
 #if (! defined(SERVICES_HAVE_CONTEXTS))
-# if (defined(__APPLE__) || defined(__linux__))
+# if MAC_OR_LINUX_
 #  pragma unused(key)
-# endif // defined(__APPLE__) || defined(__linux__)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("key = ", key.c_str());//####

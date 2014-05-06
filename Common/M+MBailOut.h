@@ -45,9 +45,9 @@
 
 # include "M+MCommon.h"
 
-# if (defined(__APPLE__) || defined(__linux__))
+# if MAC_OR_LINUX_
 #  include <csignal>
-# endif // defined(__APPLE__) || defined(__linux__)
+# endif // MAC_OR_LINUX_
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

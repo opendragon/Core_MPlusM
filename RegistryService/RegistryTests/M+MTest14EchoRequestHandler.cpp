@@ -102,9 +102,9 @@ Test14EchoRequestHandler::~Test14EchoRequestHandler(void)
 void Test14EchoRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# if (defined(__APPLE__) || defined(__linux__))
+# if MAC_OR_LINUX_
 #  pragma unused(alternateNames)
-# endif // defined(__APPLE__) || defined(__linux__)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
@@ -144,9 +144,9 @@ bool Test14EchoRequestHandler::processRequest(const yarp::os::ConstString & requ
                                               yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
-# if (defined(__APPLE__) || defined(__linux__))
+# if MAC_OR_LINUX_
 #  pragma unused(request,senderChannel)
-# endif // defined(__APPLE__) || defined(__linux__)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####

@@ -157,9 +157,9 @@ void RequestCounterService::attachRequestHandlers(void)
 void RequestCounterService::countRequest(const yarp::os::ConstString & key)
 {
 #if (! defined(SERVICES_HAVE_CONTEXTS))
-# if (defined(__APPLE__) || defined(__linux__))
+# if MAC_OR_LINUX_
 #  pragma unused(key)
-# endif // defined(__APPLE__) || defined(__linux__)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     try
@@ -224,9 +224,9 @@ void RequestCounterService::getStatistics(const yarp::os::ConstString & key,
                                           double &                      elapsedTime)
 {
 #if (! defined(SERVICES_HAVE_CONTEXTS))
-# if (defined(__APPLE__) || defined(__linux__))
+# if MAC_OR_LINUX_
 #  pragma unused(key)
-# endif // defined(__APPLE__) || defined(__linux__)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     try
@@ -259,9 +259,9 @@ void RequestCounterService::getStatistics(const yarp::os::ConstString & key,
 void RequestCounterService::resetCounters(const yarp::os::ConstString & key)
 {
 #if (! defined(SERVICES_HAVE_CONTEXTS))
-# if (defined(__APPLE__) || defined(__linux__))
+# if MAC_OR_LINUX_
 #  pragma unused(key)
-# endif // defined(__APPLE__) || defined(__linux__)
+# endif // MAC_OR_LINUX_
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     try
