@@ -69,7 +69,10 @@
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
-
+#if (!MAC_OR_LINUX_)
+	//ASSUME WINDOWS
+#include <signal.h>
+#endif // defined(!MAC_OR_LINUX)
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -419,6 +422,12 @@ void MplusM::Common::SetSignalHandlers(SignalHandler theHandler)
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
 #endif // MAC_OR_LINUX_
+
+#if (!MAC_OR_LINUX_) //ASSUME WINDOWS
+	signal(SIGINT, theHandler);
+	signal(SIGABRT, theHandler);
+#endif //(!MAC_OR_LINUX_)
+
     OD_LOG_EXIT();//####
 } // MplusM::Common::SetSignalHandlers
 
@@ -621,7 +630,18 @@ const char * MplusM::NameOfSignal(const int theSignal)
             
     }
 #else // ! MAC_OR_LINUX_
-    result = "unknown";
+	//ASSUME WINDOWS
+	switch (theSignal)
+	{
+		case SIGINT:
+			result = "SIGINT[interrupt]";
+			break;
+		case SIGABRT:
+			result = "SIGABRT[abort()]";
+            break;
+		default:
+			result = "unknown";
+	}
 #endif // ! MAC_OR_LINUX_
     return result;
 } // MplusM::NameOfSignal
