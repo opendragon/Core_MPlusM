@@ -47,7 +47,7 @@ include_directories("${MpM_LOGGING_DIR}"
                     “${MpM_PARSER_DIR}”
                     "${MpM_COMMONTESTSUPPORT_DIR}")
 
-add_library(Common
+add_library(M+MCommon
             M+MAdapterChannel.cpp
             M+MBailOut.cpp
             M+MBailOutThread.cpp
@@ -76,8 +76,8 @@ add_library(Common
             M+MServiceRequest.cpp
             M+MServiceResponse.cpp)
 
-install(TARGETS Common DESTINATION bin)
-install(FILES Common DESTINATION include)
+install(TARGETS M+MCommon DESTINATION bin)
+install(FILES M+MCommon DESTINATION include)
 
 enable_testing()
 
@@ -86,10 +86,10 @@ add_executable(CommonTest
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(CommonTest
-                      CommonTestSupport
-                      Parser
-                      Common
-                      Logging
+                      M+MCommonTestSupport
+                      M+MParser
+                      M+MCommon
+                      OdLogging
                       ${YARP_LIBRARIES})
 
 # Argument order for test 1 = endpoint name [, IP address / name [, port]]

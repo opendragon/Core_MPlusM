@@ -46,7 +46,7 @@ set(ESCAPE_CHAR2 "\\\\")
 include_directories("${MpM_COMMON_DIR}"
                     "${MpM_LOGGING_DIR}")
 
-add_library(Parser
+add_library(M+MParser
             M+MBaseMatcher.cpp
             M+MBaseNameValidator.cpp
             M+MMatchConstraint.cpp
@@ -56,8 +56,8 @@ add_library(Parser
             M+MMatchValue.cpp
             M+MMatchValueList.cpp)
 
-install(TARGETS Parser DESTINATION bin)
-install(FILES Parser DESTINATION include)
+install(TARGETS M+MParser DESTINATION bin)
+install(FILES M+MParser DESTINATION include)
 
 enable_testing()
 
@@ -67,9 +67,9 @@ add_executable(ParserTest
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(ParserTest
-                      Parser
-                      Common
-                      Logging
+                      M+MParser
+                      M+MCommon
+                      OdLogging
                       ${YARP_LIBRARIES})
 
 # Argument order for test 1 = expected result (t/f), string to match

@@ -48,9 +48,9 @@ add_executable(ClientList
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(ClientList
-                      Common
-                      Parser
-                      Logging
+                      M+MCommon
+                      M+MParser
+                      OdLogging
                       ${YARP_LIBRARIES})
 
 enable_testing()

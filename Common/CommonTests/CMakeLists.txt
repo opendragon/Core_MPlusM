@@ -43,7 +43,7 @@ include_directories("${MpM_LOGGING_DIR}"
                     "${MpM_COMMON_DIR}"
                     “${MpM_PARSER_DIR}”)
 
-add_library(CommonTestSupport
+add_library(M+MCommonTestSupport
             M+MTest03Handler.cpp
             M+MTest04Handler.cpp
             M+MTest05Handler.cpp
@@ -58,5 +58,5 @@ add_library(CommonTestSupport
             M+MTest12EchoRequestHandler.cpp
             M+MTest12Service.cpp)
 
-install(TARGETS CommonTestSupport DESTINATION bin)
-install(FILES CommonTestSupport DESTINATION include)
+install(TARGETS M+MCommonTestSupport DESTINATION bin)
+install(FILES M+MCommonTestSupport DESTINATION include)

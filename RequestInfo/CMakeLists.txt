@@ -48,9 +48,9 @@ add_executable(RequestInfo
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(RequestInfo
-                      Parser
-                      Common
-                      Logging
+                      M+MParser
+                      M+MCommon
+                      OdLogging
                       ${YARP_LIBRARIES})
 
 enable_testing()

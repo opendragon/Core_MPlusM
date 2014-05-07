@@ -50,8 +50,8 @@ add_executable(RunningSumClient
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(RunningSumClient
-                      Common
-                      Logging
+                      M+MCommon
+                      OdLogging
                       ${YARP_LIBRARIES})
 
 enable_testing()

@@ -48,9 +48,9 @@ add_executable(ServiceLister
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(ServiceLister
-                      Parser
-                      Common
-                      Logging
+                      M+MParser
+                      M+MCommon
+                      OdLogging
                       ${YARP_LIBRARIES})
 
 enable_testing()

@@ -60,9 +60,9 @@ add_executable(RegistryService
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(RegistryService
-                      Parser
-                      Common
-                      Logging
+                      M+MParser
+                      M+MCommon
+                      OdLogging
                       ${YARP_LIBRARIES})
 
 enable_testing()
@@ -78,10 +78,10 @@ add_executable(RegistryTest
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(RegistryTest
-                      RegistryTestSupport
-                      Parser
-                      Common
-                      Logging
+                      M+MRegistryTestSupport
+                      M+MParser
+                      M+MCommon
+                      OdLogging
                       ${YARP_LIBRARIES})
 
 # Test create register service
