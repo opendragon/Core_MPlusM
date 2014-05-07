@@ -69,9 +69,9 @@
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
-#if (!MAC_OR_LINUX_)
+#if (! MAC_OR_LINUX_)
 	//ASSUME WINDOWS
-#include <signal.h>
+# include <signal.h>
 #endif // defined(!MAC_OR_LINUX)
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -422,12 +422,11 @@ void MplusM::Common::SetSignalHandlers(SignalHandler theHandler)
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
 #endif // MAC_OR_LINUX_
-
-#if (!MAC_OR_LINUX_) //ASSUME WINDOWS
+#if (! MAC_OR_LINUX_)
+    //ASSUME WINDOWS
 	signal(SIGINT, theHandler);
 	signal(SIGABRT, theHandler);
 #endif //(!MAC_OR_LINUX_)
-
     OD_LOG_EXIT();//####
 } // MplusM::Common::SetSignalHandlers
 
