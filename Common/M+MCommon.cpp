@@ -243,8 +243,8 @@ void MplusM::Common::Initialize(const char * progName)
         
 #if defined(MpM_CHATTY_START)
         cerr << "Program " << progName << endl;
-        cerr << "Movement And Meaning Version " << MpM_VERSION << ", YARP Version " << YARP_VERSION_STRING <<
-                ", ACE Version = " << ACE_VERSION << endl;
+        cerr << "Movement And Meaning Version: " << MpM_VERSION << ", YARP Version: " << YARP_VERSION_STRING <<
+                ", ACE Version: " << ACE_VERSION << endl;
 #endif // defined(MpM_CHATTY_START)
         OD_LOG_D2("time = ", now, "fraction = ", fraction);//####
         OD_LOG_LL1("seed = ", seed);//####
