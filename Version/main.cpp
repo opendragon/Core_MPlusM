@@ -73,7 +73,6 @@
 #endif // defined(__APPLE__)
 
 using std::cout;
-using std::cerr;
 using std::endl;
 
 #if defined(__APPLE__)

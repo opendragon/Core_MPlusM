@@ -102,7 +102,7 @@ static Package validateMatchResponse(const Package & response)
         if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == response.size())
         {
             // The first element of the response should be 'OK' or 'FAILED'; if 'OK', the second element should be a
-            // list of service names.
+            // list of service port names.
             yarp::os::Value responseFirst(response.get(0));
             
             if (responseFirst.isString())
@@ -412,13 +412,12 @@ void BaseClient::setReporter(ChannelStatusReporter & reporter,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief Find one or more matching local services that are registered with a running Service Registry service.
- @param criteria The matching conditions.
- @returns A (possibly empty) list of matching services, preceded by the request status. */
-Package Common::FindMatchingServices(const char * criteria)
+Package Common::FindMatchingServices(const char * criteria,
+                                     const bool   getNames)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("criteria = ", criteria);//####
+    OD_LOG_B1("getNames = ", getNames);//####
     Package result;
 
     try
@@ -441,8 +440,8 @@ Package Common::FindMatchingServices(const char * criteria)
                 {
                     Package parameters;
                     
-                    parameters.addString(criteria); // Note that we can't simply initialize the package with the
-                                                    // criteria, as it will be parsed by YARP.
+                    parameters.addInt(getNames ? 1 : 0);
+                    parameters.addString(criteria);
                     ServiceRequest  request(MpM_MATCH_REQUEST, parameters);
                     ServiceResponse response;
                     

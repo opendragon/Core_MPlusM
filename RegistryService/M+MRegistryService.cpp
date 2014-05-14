@@ -1179,10 +1179,12 @@ void RegistryService::detachRequestHandlers(void)
 } // RegistryService::detachRequestHandlers
 
 bool RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
+                                          const bool                getNames,
                                           Common::Package &         reply)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("matcher = ", matcher);//####
+    OD_LOG_B1("getNames = ", getNames);//####
     bool okSoFar = false;
     
     try
@@ -1192,8 +1194,12 @@ bool RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
             if (performSQLstatementWithNoResults(_db, kBeginTransaction))
             {
                 Common::Package &     subList = reply.addList();
-                yarp::os::ConstString requestAsSQL(matcher->asSQLString("SELECT DISTINCT " CHANNELNAME_C_ " FROM "
-                                                                        REQUESTS_T_ " WHERE "));
+                const char *          sqlStart = (getNames ? T_("SELECT DISTINCT " NAME_C_ " FROM " SERVICES_T_
+                                                                " WHERE " CHANNELNAME_C_ " IN (SELECT DISTINCT "
+                                                                CHANNELNAME_C_ " FROM " REQUESTS_T_ " WHERE ") :
+                                                  T_("SELECT DISTINCT " CHANNELNAME_C_ " FROM " REQUESTS_T_ " WHERE "));
+                const char *          sqlEnd = (getNames ? T_(")") : T_(""));
+                yarp::os::ConstString requestAsSQL(matcher->asSQLString(sqlStart, sqlEnd));
                 
                 OD_LOG_S1("requestAsSQL <- ", requestAsSQL.c_str());//####
                 okSoFar = performSQLstatementWithResults(_db, subList, requestAsSQL.c_str());

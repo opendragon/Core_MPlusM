@@ -162,8 +162,10 @@ namespace MplusM
         
         /*! @brief Find one or more matching services that are registered with a running Service Registry service.
          @param criteria The matching conditions.
-         @returns A (possibly empty) list of matching services. */
-        Package FindMatchingServices(const char * criteria);
+         @param getNames @c true if service names are to be returned and @c false if service ports are to be returned.
+         @returns A (possibly empty) list of matching service ports or service names. */
+        Package FindMatchingServices(const char * criteria,
+                                     const bool   getNames = false);
         
     } // Common
     

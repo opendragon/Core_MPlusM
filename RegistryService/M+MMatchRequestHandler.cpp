@@ -123,13 +123,15 @@ void MatchRequestHandler::fillInDescription(const yarp::os::ConstString & reques
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_STRING MpM_REQREP_1_OR_MORE);
+        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_INT MpM_REQREP_STRING);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_LIST_START MpM_REQREP_STRING MpM_REQREP_0_OR_MORE
                  MpM_REQREP_LIST_END);
         info.put(MpM_REQREP_DICT_VERSION_KEY, MATCH_REQUEST_VERSION_NUMBER);
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Find a matching service\n"
-                 "Input: an expression describing the service to be found\n"
-                 "Output: OK and a list of matching services or FAILED, with a description of the problem encountered");
+                 "Input: an integer (1=return names, 0=return ports) and an expression describing the service to "
+                 "be found\n"
+                 "Output: OK and a list of matching service names/ports or FAILED, with a description of the problem "
+                 "encountered");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         
@@ -167,13 +169,15 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
         {
             Common::Package reply;
             
-            // We are expecting just one string as the parameter
-            if (1 == restOfInput.size())
+            // We are expecting an integer and a string as the parameter
+            if (2 == restOfInput.size())
             {
-                yarp::os::Value argument(restOfInput.get(0));
+                yarp::os::Value condition(restOfInput.get(0));
+                yarp::os::Value argument(restOfInput.get(1));
                 
-                if (argument.isString())
+                if (condition.isInt() && argument.isString())
                 {
+                    int                   conditionAsInt = condition.asInt();
                     yarp::os::ConstString argAsString(argument.toString());
                     
                     OD_LOG_S1("argAsString <- ", argAsString.c_str());//####
@@ -188,9 +192,9 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
                         // Hand off the processing to the registry service. First, put the 'OK' response in the output
                         // buffer, as we have successfully parsed the request.
                         reply.addString(MpM_OK_RESPONSE);
-                        if (! _service.processMatchRequest(matcher, reply))
+                        if (! _service.processMatchRequest(matcher, 0 != conditionAsInt, reply))
                         {
-                            OD_LOG("(! _service.processMatchRequest(matcher, reply))");//####
+                            OD_LOG("(! _service.processMatchRequest(matcher, 0 != conditionAsInt, reply))");//####
                             reply.clear();
                             reply.addString(MpM_FAILED_RESPONSE);
                             reply.addString("Invalid criteria");

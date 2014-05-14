@@ -97,11 +97,12 @@ static const char * kMagicName = "<!!!>";
 
 /*! @brief Process the response from the name server.
  
- Note that each line of the response, except the last, is started with 'registration name'.
+ Note that each line of the response, except the last, is started with 'registration name'. This is followed by the
+ port name, 'ip', the IP address, 'port' and the port number.
  @param received The response to be processed.
- @param ports The list of non-default ports found. */
-static void processResponse(const yarp::os::ConstString &  received,
-                            MplusM::Common::StringVector & ports)
+ @param ports The list of non-default ports/ipaddress/portnumber found. */
+static void processNameServerResponse(const yarp::os::ConstString &  received,
+                                      MplusM::Common::StringVector & ports)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("received = ", received.c_str());//####
@@ -116,28 +117,78 @@ static void processResponse(const yarp::os::ConstString &  received,
         if (yarp::os::ConstString::npos != nextPos)
         {
             workingCopy = workingCopy.substr(nextPos + lineMakerLength);
-            size_t endPos = workingCopy.find(" ");
+            size_t chopPos = workingCopy.find(kLineMarker);
             
-            if (yarp::os::ConstString::npos == endPos)
+            if (yarp::os::ConstString::npos != chopPos)
             {
-                nextPos = yarp::os::ConstString::npos;
-            }
-            else
-            {
-                yarp::os::ConstString channelName(workingCopy.substr(0, endPos));
+                char *                channelName;
+                yarp::os::ConstString chopped(workingCopy.substr(0, chopPos));
+                char *                choppedAsChars = strdup(chopped.c_str());
+                char *                ipAddress;
+                char *                saved;
+                char *                pp = strtok_r(choppedAsChars, " ", &saved);
                 
-                if ('/' == channelName[0])
+                if (pp)
                 {
-                    if (channelName != nameServerName)
+                    // Port name
+                    if ('/' == *pp)
                     {
-                        ports.push_back(channelName.c_str());
+                        channelName = pp;
+                        if (nameServerName == channelName)
+                        {
+                            pp = NULL;
+                        }
+                        else
+                        {
+                            pp = strtok_r(NULL, " ", &saved);
+                        }
+                    }
+                    else
+                    {
+                        pp = NULL;
                     }
                 }
+                if (pp)
+                {
+                    // 'ip'
+                    if (strcmp(pp, "ip"))
+                    {
+                        pp = NULL;
+                    }
+                    else
+                    {
+                        pp = strtok_r(NULL, " ", &saved);
+                    }
+                }
+                if (pp)
+                {
+                    ipAddress = pp;
+                    pp = strtok_r(NULL, " ", &saved);
+                }
+                if (pp)
+                {
+                    // 'port'
+                    if (strcmp(pp, "port"))
+                    {
+                        pp = NULL;
+                    }
+                    else
+                    {
+                        pp = strtok_r(NULL, " ", &saved);
+                    }
+                }
+                if (pp)
+                {
+                    ports.push_back(channelName);
+                    ports.push_back(ipAddress);
+                    ports.push_back(pp);
+                }
+                free(choppedAsChars);
             }
         }
     }
     OD_LOG_EXIT();//####
-} // processResponse
+} // processNameServerResponse
 
 /*! @brief Check if the Registry Service is active.
  @param ports The set of detected ports.
@@ -147,7 +198,7 @@ static bool checkForRegistryService(const MplusM::Common::StringVector & ports)
     OD_LOG_ENTER();//####
     bool result = false;
     
-    for (MplusM::Common::StringVector::const_iterator it(ports.begin()); (! result) && (ports.end() != it); ++it)
+    for (MplusM::Common::StringVector::const_iterator it(ports.begin()); (! result) && (ports.end() != it); it += 3)
     {
         if (*it == MpM_REGISTRY_CHANNEL_NAME)
         {
@@ -258,6 +309,8 @@ static void reportConnections(const std::string & portName)
     {
         if ((address.getCarrier() == "tcp") || (address.getCarrier() == "xmlrpc"))
         {
+            // Note that the following connect() call will hang indefinitely if the address given is for an 'output'
+            // port that is connected to another 'output' port. 'yarp ping /port' will hang as well.
             yarp::os::OutputProtocol * out = yarp::os::impl::Carriers::connect(address);
             
             if (out)
@@ -330,22 +383,26 @@ static void reportConnections(const std::string & portName)
 /*! @brief Print out connection information for a port.
  @param portName The name of the port of interest. */
 static void reportPortStatus(const std::string & portName,
+                             const std::string & ipAddress,
+                             const std::string & portNumber,
                              const bool          checkWithRegistry)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S1("portName = ", portName.c_str());//####
+    OD_LOG_S3("portName = ", portName.c_str(), "ipAddress = ", ipAddress.c_str(), "portNumber = ",//####
+              portNumber.c_str());//####
     OD_LOG_B1("checkWithRegistry = ", checkWithRegistry);//####
     const size_t kAdapterPortNameBaseLen = sizeof(ADAPTER_PORT_NAME_BASE) - 1;
     const size_t kClientPortNameBaseLen = sizeof(CLIENT_PORT_NAME_BASE) - 1;
     const size_t kDefaultServiceNameBaseLen = sizeof(DEFAULT_SERVICE_NAME_BASE) - 1;
     const char * portNameChars = portName.c_str();
 
+    cout << portName.c_str() << ": ";
     if (checkWithRegistry)
     {
         std::string request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
         
         request += portName;
-        MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(request.c_str()));
+        MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(request.c_str(), true));
         
         OD_LOG_S1("matches <- ", matches.toString().c_str());//####
         if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
@@ -357,15 +414,20 @@ static void reportPortStatus(const std::string & portName,
                 // Didn't match - use a simpler check, in case it's unregistered or is an adapter or client.
                 if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portNameChars, kDefaultServiceNameBaseLen))
                 {
-                    cout << "   An unregistered service port." << endl;
+                    cout << "Unregistered service port.";
                 }
                 else if (! strncmp(ADAPTER_PORT_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
                 {
-                    cout << "   An adapter port." << endl;
+                    cout << "Adapter port.";
                 }
                 else if (! strncmp(CLIENT_PORT_NAME_BASE, portNameChars, kClientPortNameBaseLen))
                 {
-                    cout << "   A client port." << endl;
+                    cout << "Client port.";
+                }
+                else
+                {
+                    // A plain port.
+                    cout << "Standard port at " << ipAddress.c_str() << ":" << portNumber.c_str();
                 }
             }
             else
@@ -378,13 +440,15 @@ static void reportPortStatus(const std::string & portName,
                     
                     if (secondList && secondList->size())
                     {
+                        yarp::os::ConstString serviceName(matches.get(1).toString());
+                        
                         if (portName == MpM_REGISTRY_CHANNEL_NAME)
                         {
-                            cout << "   The service registry port." << endl;
+                            cout << "Service registry port for '" << serviceName.c_str() << "'.";
                         }
                         else
                         {
-                            cout << "   A service port." << endl;
+                            cout << "Service port for '" << serviceName.c_str() << "'.";
                         }
                     }
                     else
@@ -393,15 +457,20 @@ static void reportPortStatus(const std::string & portName,
                         // adapter or client.
                         if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portNameChars, kDefaultServiceNameBaseLen))
                         {
-                            cout << "   An unregistered service port." << endl;
+                            cout << "Unregistered service port.";
                         }
                         else if (! strncmp(ADAPTER_PORT_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
                         {
-                            cout << "   An adapter port." << endl;
+                            cout << "Adapter port.";
                         }
                         else if (! strncmp(CLIENT_PORT_NAME_BASE, portNameChars, kClientPortNameBaseLen))
                         {
-                            cout << "   A client port." << endl;
+                            cout << "Client port.";
+                        }
+                        else
+                        {
+                            // A plain port.
+                            cout << "Standard port at " << ipAddress.c_str() << ":" << portNumber.c_str();
                         }
                     }
                 }
@@ -414,17 +483,23 @@ static void reportPortStatus(const std::string & portName,
         // adapters.
         if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portNameChars, kDefaultServiceNameBaseLen))
         {
-            cout << "   An unregistered service port." << endl;
+            cout << "Unregistered service port.";
         }
         else if (! strncmp(ADAPTER_PORT_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
         {
-            cout << "   An adapter port." << endl;
+            cout << "Adapter port.";
         }
         else if (! strncmp(CLIENT_PORT_NAME_BASE, portNameChars, kClientPortNameBaseLen))
         {
-            cout << "   A client port." << endl;
+            cout << "Client port.";
+        }
+        else
+        {
+            // A plain port.
+            cout << "Standard port at " << ipAddress.c_str() << ":" << portNumber.c_str();
         }
     }
+    cout << endl;
     reportConnections(portName);
     OD_LOG_EXIT();//####
 } // reportPortStatus
@@ -484,18 +559,17 @@ int main(int      argc,
                     {
                         bool found = false;
                         
-                        processResponse(responseValue.asString(), ports);
+                        processNameServerResponse(responseValue.asString(), ports);
                         bool serviceRegistryPresent = checkForRegistryService(ports);
                         
-                        for (MplusM::Common::StringVector::const_iterator it(ports.begin()); ports.end() != it; ++it)
+                        for (MplusM::Common::StringVector::const_iterator it(ports.begin()); ports.end() != it; it += 3)
                         {
                             if (! found)
                             {
                                 cout << "Ports:" << endl << endl;
                                 found = true;
                             }
-                            cout << it->c_str() << endl;
-                            reportPortStatus(*it, serviceRegistryPresent);
+                            reportPortStatus(*it, *(it + 1), *(it + 2), serviceRegistryPresent);
                         }
                         if (! found)
                         {

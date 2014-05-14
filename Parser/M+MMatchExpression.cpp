@@ -42,7 +42,7 @@
 #include "M+MMatchExpression.h"
 #include "M+MMatchConstraint.h"
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -189,10 +189,12 @@ MatchExpression::~MatchExpression(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-yarp::os::ConstString MatchExpression::asSQLString(const char * prefixString)
+yarp::os::ConstString MatchExpression::asSQLString(const char * prefixString,
+                                                   const char * suffixString)
 const
 {
     OD_LOG_OBJENTER();//####
+    OD_LOG_S2("prefixString = ", prefixString, "suffixString = ", suffixString);//####
     yarp::os::ConstString result;
     
     try
@@ -203,6 +205,10 @@ const
             
             if (ii)
             {
+                if (suffixString)
+                {
+                    result += suffixString;
+                }
                 result += " UNION ";
             }
             if (prefixString)
@@ -210,6 +216,10 @@ const
                 result += prefixString;
             }
             result += element->asSQLString();
+        }
+        if ((0 < result.size()) && suffixString)
+        {
+            result += suffixString;
         }
     }
     catch (...)

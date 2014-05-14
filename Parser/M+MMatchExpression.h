@@ -73,8 +73,10 @@ namespace MplusM
             
             /*! @brief Generate a proper SQL string value corresponding to this match value.
              @param prefixString The SELECT prefix to be applied before each expression.
+             @param suffixString The SELECT suffix to be applied after each expression.
              @returns A string representing the value as a string suitable for use with SQL. */
-            yarp::os::ConstString asSQLString(const char * prefixString)
+            yarp::os::ConstString asSQLString(const char * prefixString,
+                                              const char * suffixString = NULL)
             const;
             
             /*! @brief Return the match value as a printable string.

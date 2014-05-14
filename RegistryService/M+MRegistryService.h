@@ -141,9 +141,12 @@ namespace MplusM
             
             /*! @brief Convert a match expression into SQL and process it.
              @param matcher The match expression to be processed.
+             @param getNames @c true if service names are to be returned and @c false if service ports are to be
+             returned.
              @param reply The result from performing a SELECT with the converted match expression.
              @returns @c true if the match request was successfully performed and @c false otherwise. */
             bool processMatchRequest(Parser::MatchExpression * matcher,
+                                     const bool                getNames,
                                      Common::Package &         reply);
             
             /*! @brief Remove a service entry from the registry.

@@ -75,7 +75,6 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-using std::cout;
 using std::cerr;
 using std::endl;
 

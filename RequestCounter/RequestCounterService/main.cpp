@@ -77,7 +77,6 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::RequestCounter;
-using std::cout;
 using std::cerr;
 using std::endl;
 
