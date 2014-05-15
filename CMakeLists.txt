@@ -48,6 +48,10 @@ set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 2)
 set(MpM_VERSION_PATCH 7)
 
+# Make some flags to control the build visible
+mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
+mark_as_advanced(CLEAR CMAKE_OSX_ARCHITECTURES)
+
 option(MpM_CHANNELS_USE_RPC "Use RpcClient and RpcService objects for communication")
 option(MpM_CHATTY_START "Report the version numbers when launching an executable")
 option(MpM_DO_EXPLICIT_CLOSE "Perform an explicit CloseChannel() prior to freeing a channel")
