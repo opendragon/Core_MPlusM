@@ -397,11 +397,13 @@ static int doTestRequestSearchService(const char * launchPath,
     {
         if (1 < argc)
         {
+            bool                                getNamesFlag = ('0' != **argv);
             const char *                        secondServiceChannel = DEFAULT_SERVICE_NAME_BASE
                                                                         "test/requestsearchservice";
             MplusM::Registry::RegistryService * registry = new MplusM::Registry::RegistryService(launchPath,
                                                                                                  TEST_INMEMORY);
             
+            OD_LOG_B1("getNamesFlag <- ", getNamesFlag);//####
             if (registry)
             {
                 if (registry->start())
@@ -420,11 +422,12 @@ static int doTestRequestSearchService(const char * launchPath,
                                 if (MplusM::Common::RegisterLocalService(channelName))
                                 {
                                     // Search for the service that we just registered.
-                                    MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(*argv));
-                                    MplusM::Common::Package expected(argv[1]);
+                                    MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(argv[1],
+                                                                                                         getNamesFlag));
+                                    MplusM::Common::Package expected(argv[2]);
                                     
-                                    OD_LOG_S3("criteria <- ", *argv, "expected <- ", expected.toString().c_str(),//####
-                                              "matches <- ", matches.toString().c_str());//####
+                                    OD_LOG_S3("criteria <- ", argv[1], "expected <- ", argv[2], "matches <- ",//####
+                                              matches.toString().c_str());//####
                                     if ((expected.size() == matches.size()) &&
                                         (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size()))
                                     {
