@@ -51,7 +51,7 @@ add_executable(mpmRunningSumClient
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(mpmRunningSumClient
                       mpmCommon
-                      OdLogging
+                      odLogging
                       ${YARP_LIBRARIES})
 
 enable_testing()

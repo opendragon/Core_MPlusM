@@ -119,7 +119,7 @@ target_link_libraries(M+MCommonTest
                       M+MCommonTestSupport
                       mpmParser
                       mpmCommon
-                      OdLogging
+                      odLogging
                       ${YARP_LIBRARIES})
 
 # Argument order for test 1 = endpoint name [, IP address / name [, port]]

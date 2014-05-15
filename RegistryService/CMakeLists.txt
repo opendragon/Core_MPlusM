@@ -62,7 +62,7 @@ add_executable(mpmRegistryService
 target_link_libraries(mpmRegistryService
                       mpmParser
                       mpmCommon
-                      OdLogging
+                      odLogging
                       ${YARP_LIBRARIES})
 
 install(TARGETS mpmRegistryService DESTINATION bin)
@@ -83,7 +83,7 @@ target_link_libraries(M+MRegistryTest
                       M+MRegistryTestSupport
                       mpmParser
                       mpmCommon
-                      OdLogging
+                      odLogging
                       ${YARP_LIBRARIES})
 
 # Test create register service

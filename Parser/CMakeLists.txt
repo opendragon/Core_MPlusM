@@ -79,7 +79,7 @@ add_executable(M+MParserTest
 target_link_libraries(M+MParserTest
                       mpmParser
                       mpmCommon
-                      OdLogging
+                      odLogging
                       ${YARP_LIBRARIES})
 
 # Argument order for test 1 = expected result (t/f), string to match

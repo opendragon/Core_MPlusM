@@ -55,7 +55,7 @@ add_executable(mpmRequestCounterService
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(mpmRequestCounterService
                       mpmCommon
-                      OdLogging
+                      odLogging
                       ${YARP_LIBRARIES})
 
 install(TARGETS mpmRequestCounterService DESTINATION bin)

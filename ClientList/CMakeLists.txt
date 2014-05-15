@@ -50,7 +50,7 @@ add_executable(mpmClientList
 target_link_libraries(mpmClientList
                       mpmCommon
                       mpmParser
-                      OdLogging
+                      odLogging
                       ${YARP_LIBRARIES})
 
 install(TARGETS mpmClientList DESTINATION bin)
