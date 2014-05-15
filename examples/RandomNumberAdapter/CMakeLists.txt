@@ -45,15 +45,15 @@ include_directories("${MpM_LOGGING_DIR}"
                     "${MpM_EXAMPLES_DIR}/RandomNumberCommon")
 
 # Set up our program
-add_executable(RandomNumberAdapter
+add_executable(mpmRandomNumberAdapter
                main.cpp
                M+MRandomNumberAdapterData.cpp
                M+MRandomNumberInputHandler.cpp
                ${MpM_EXAMPLES_DIR}/RandomNumberClient/M+MRandomNumberClient.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
-target_link_libraries(RandomNumberAdapter
-                      M+MCommon
+target_link_libraries(mpmRandomNumberAdapter
+                      mpmCommon
                       OdLogging
                       ${YARP_LIBRARIES})
 

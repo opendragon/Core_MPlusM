@@ -99,7 +99,6 @@ int main(int      argc,
 #if MAC_OR_LINUX_
 # pragma unused(argv)
 #endif // MAC_OR_LINUX_
-    cout << *argv << endl;
     cout << "Movement And Meaning Version: " << MpM_VERSION << ", YARP Version: " << YARP_VERSION_STRING <<
             ", ACE Version: " << ACE_VERSION << endl;
     return 0;

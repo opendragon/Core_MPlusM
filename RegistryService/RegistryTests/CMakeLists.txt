@@ -50,6 +50,3 @@ add_library(M+MRegistryTestSupport
             M+MTest15Service.cpp
             M+MTest16EchoRequestHandler.cpp
             M+MTest16Service.cpp)
-
-install(TARGETS M+MRegistryTestSupport DESTINATION bin)
-install(FILES M+MRegistryTestSupport DESTINATION include)

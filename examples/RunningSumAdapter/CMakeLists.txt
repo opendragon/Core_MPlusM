@@ -45,7 +45,7 @@ include_directories("${MpM_LOGGING_DIR}"
                     "${MpM_EXAMPLES_DIR}/RunningSumCommon")
 
 # Set up our program
-add_executable(RunningSumAdapter
+add_executable(mpmRunningSumAdapter
                main.cpp
                M+MRunningSumAdapterData.cpp
                M+MRunningSumControlInputHandler.cpp
@@ -53,8 +53,8 @@ add_executable(RunningSumAdapter
                ${MpM_EXAMPLES_DIR}/RunningSumClient/M+MRunningSumClient.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
-target_link_libraries(RunningSumAdapter
-                      M+MCommon
+target_link_libraries(mpmRunningSumAdapter
+                      mpmCommon
                       OdLogging
                       ${YARP_LIBRARIES})
 

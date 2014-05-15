@@ -44,13 +44,13 @@ include_directories("${MpM_LOGGING_DIR}"
                     "${MpM_EXAMPLES_DIR}/EchoCommon")
 
 # Set up our program
-add_executable(EchoClient
+add_executable(mpmEchoClient
                main.cpp
                M+MEchoClient.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
-target_link_libraries(EchoClient
-                      M+MCommon
+target_link_libraries(mpmEchoClient
+                      mpmCommon
                       OdLogging
                       ${YARP_LIBRARIES})
 

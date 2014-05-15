@@ -43,14 +43,16 @@ include_directories("${MpM_LOGGING_DIR}"
                     "${MpM_COMMON_DIR}")
 
 # Set up our program
-add_executable(RequestInfo
+add_executable(mpmRequestInfo
                main.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
-target_link_libraries(RequestInfo
-                      M+MParser
-                      M+MCommon
+target_link_libraries(mpmRequestInfo
+                      mpmParser
+                      mpmCommon
                       OdLogging
                       ${YARP_LIBRARIES})
+
+install(TARGETS mpmRequestInfo DESTINATION bin)
 
 enable_testing()

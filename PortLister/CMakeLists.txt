@@ -43,13 +43,15 @@ include_directories("${MpM_LOGGING_DIR}"
                     "${MpM_COMMON_DIR}")
 
 # Set up our program
-add_executable(PortLister
+add_executable(mpmPortLister
                main.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
-target_link_libraries(PortLister
-                      M+MCommon
+target_link_libraries(mpmPortLister
+                      mpmCommon
                       OdLogging
                       ${YARP_LIBRARIES})
+
+install(TARGETS mpmPortLister DESTINATION bin)
 
 enable_testing()

@@ -43,14 +43,16 @@ include_directories("${MpM_LOGGING_DIR}"
                     "${MpM_COMMON_DIR}")
 
 # Set up our program
-add_executable(ServiceLister
+add_executable(mpmServiceLister
                main.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
-target_link_libraries(ServiceLister
-                      M+MParser
-                      M+MCommon
+target_link_libraries(mpmServiceLister
+                      mpmParser
+                      mpmCommon
                       OdLogging
                       ${YARP_LIBRARIES})
+
+install(TARGETS mpmServiceLister DESTINATION bin)
 
 enable_testing()

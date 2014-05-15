@@ -50,5 +50,9 @@ else(MpM_USE_OBJECTIVE_C_DEBUG)
                 ODLogging.cpp)
 endif(MpM_USE_OBJECTIVE_C_DEBUG)
 
-install(TARGETS OdLogging DESTINATION bin)
-install(FILES OdLogging DESTINATION include)
+install(TARGETS OdLogging DESTINATION lib)
+install(FILES
+        ODDisableLogging.h
+        ODEnableLogging.h
+        ODLogging.h
+        DESTINATION include)

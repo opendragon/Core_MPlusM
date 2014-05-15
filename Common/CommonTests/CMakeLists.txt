@@ -57,6 +57,3 @@ add_library(M+MCommonTestSupport
             M+MTest11Service.cpp
             M+MTest12EchoRequestHandler.cpp
             M+MTest12Service.cpp)
-
-install(TARGETS M+MCommonTestSupport DESTINATION bin)
-install(FILES M+MCommonTestSupport DESTINATION include)
