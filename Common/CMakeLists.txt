@@ -74,7 +74,8 @@ add_library(mpmCommon
             M+MRequestMap.cpp
             M+MServiceChannel.cpp
             M+MServiceRequest.cpp
-            M+MServiceResponse.cpp)
+            M+MServiceResponse.cpp
+            M+MUtilities.cpp)
 
 install(TARGETS mpmCommon DESTINATION lib)
 install(FILES
@@ -107,6 +108,7 @@ install(FILES
         M+MServiceChannel.h
         M+MServiceRequest.h
         M+MServiceResponse.h
+        M+MUtilities.h
         DESTINATION include)
 
 enable_testing()

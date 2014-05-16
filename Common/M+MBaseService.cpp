@@ -220,7 +220,7 @@ void BaseService::addContext(const yarp::os::ConstString & key,
         if (context)
         {
             lockContexts();
-            _contexts.insert(ContextMapValue(std::string(key), context));
+            _contexts.insert(ContextMapValue(key, context));
             unlockContexts();
         }
     }
@@ -398,7 +398,7 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
     try
     {
         lockContexts();
-        ContextMap::const_iterator match(_contexts.find(std::string(key)));
+        ContextMap::const_iterator match(_contexts.find(key));
         
         if (_contexts.end() != match)
         {
@@ -490,7 +490,7 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
     try
     {
         lockContexts();
-        ContextMap::iterator match(_contexts.find(std::string(key)));
+        ContextMap::iterator match(_contexts.find(key));
         
         if (_contexts.end() != match)
         {

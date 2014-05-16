@@ -125,7 +125,7 @@ void RequestMap::fillInRequestInfo(Package &                     reply,
     try
     {
         lock();
-        RequestHandlerMap::const_iterator match(_handlers.find(std::string(requestName)));
+        RequestHandlerMap::const_iterator match(_handlers.find(requestName));
         
         if (_handlers.end() == match)
         {
@@ -157,7 +157,7 @@ BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstStrin
     try
     {
         lock();
-        RequestHandlerMap::const_iterator match(_handlers.find(std::string(request)));
+        RequestHandlerMap::const_iterator match(_handlers.find(request));
 
         if (_handlers.end() == match)
         {
@@ -192,10 +192,12 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
             
             handler->fillInAliases(aliases);
             lock();
-            _handlers.insert(RequestHandlerMapValue(std::string(handler->name()), handler));
-            for (StringVector::const_iterator it(aliases.begin()); aliases.end() != it; ++it)
+            _handlers.insert(RequestHandlerMapValue(handler->name(), handler));
+            for (size_t ii = 0, mm = aliases.size(); mm > ii; ++ii)
             {
-                _handlers.insert(RequestHandlerMapValue(*it, handler));
+                const yarp::os::ConstString & aString = aliases.at(ii);
+                
+                _handlers.insert(RequestHandlerMapValue(aString, handler));
             }
             unlock();
             handler->setOwner(*this);
@@ -231,10 +233,12 @@ void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
             
             handler->fillInAliases(aliases);
             lock();
-            _handlers.erase(std::string(handler->name()));
-            for (StringVector::const_iterator it(aliases.begin()); aliases.end() != it; ++it)
+            _handlers.erase(handler->name());
+            for (size_t ii = 0, mm = aliases.size(); mm > ii; ++ii)
             {
-                _handlers.erase(*it);
+                const yarp::os::ConstString & aString = aliases.at(ii);
+                
+                _handlers.erase(aString);
             }
             unlock();
         }

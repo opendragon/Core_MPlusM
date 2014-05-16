@@ -105,6 +105,9 @@
 
 /*! @namespace MplusM::Test
  @brief The classes used for unit testing of the M+M classes. */
+
+/*! @namespace MplusM::Utilities
+ @brief The classes that extend the basic functionality of the M+M framework. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -154,13 +157,13 @@ namespace MplusM
     namespace Common
     {
         /*! @brief The logical connection between a client and a service. */
-        typedef yarp::os::Bottle         Package;
+        typedef yarp::os::Bottle                   Package;
         
         /*! @brief A sequence of random numbers. */
-        typedef std::vector<double>      DoubleVector;
+        typedef std::vector<double>                DoubleVector;
         
         /*! @brief A sequence of strings. */
-        typedef std::vector<std::string> StringVector;
+        typedef std::vector<yarp::os::ConstString> StringVector;
         
         /*! @brief A signal handler. */
         typedef void (*SignalHandler) (int signal);

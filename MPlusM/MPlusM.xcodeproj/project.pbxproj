@@ -28,6 +28,8 @@
 		DF06999118EDDB1C00FF0E93 /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3ext.h; path = ../SQLite3/sqlite3ext.h; sourceTree = SOURCE_ROOT; };
 		DF0EC61D18EA0D8500B22857 /* M+MChannelStatusReporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChannelStatusReporter.cpp"; path = "../Common/M+MChannelStatusReporter.cpp"; sourceTree = SOURCE_ROOT; };
 		DF0EC61E18EA0D8500B22857 /* M+MChannelStatusReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MChannelStatusReporter.h"; path = "../Common/M+MChannelStatusReporter.h"; sourceTree = SOURCE_ROOT; };
+		DF194D3D19267F0C00A47642 /* M+MUtilities.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUtilities.cpp"; path = "../Common/M+MUtilities.cpp"; sourceTree = SOURCE_ROOT; };
+		DF194D3E19267F0C00A47642 /* M+MUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "M+MUtilities.h"; path = "../Common/M+MUtilities.h"; sourceTree = SOURCE_ROOT; };
 		DF20929018D0DAFF0093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = ../ServiceLister/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF20929118D0DB860093D3DC /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = main.cpp; path = ../ServiceLister/main.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF20929318D241AC0093D3DC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = ../RequestInfo/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -595,6 +597,8 @@
 				DFA3434A18C91C5A0053B87C /* M+MServiceRequest.h */,
 				DFA3434B18C91C5A0053B87C /* M+MServiceResponse.cpp */,
 				DFA3434C18C91C5A0053B87C /* M+MServiceResponse.h */,
+				DF194D3D19267F0C00A47642 /* M+MUtilities.cpp */,
+				DF194D3E19267F0C00A47642 /* M+MUtilities.h */,
 			);
 			name = Common;
 			sourceTree = "<group>";

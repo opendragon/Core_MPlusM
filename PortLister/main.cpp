@@ -41,6 +41,7 @@
 
 #include "M+MBaseClient.h"
 #include "M+MRequests.h"
+#include "M+MUtilities.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -85,129 +86,12 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The indicator string for the beginning of new information received. */
-static const char * kLineMarker = "registration name ";
-
 /*! @brief The part name being used for probing connections. */
 static const char * kMagicName = "<!!!>";
 
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
-
-/*! @brief Process the response from the name server.
- 
- Note that each line of the response, except the last, is started with 'registration name'. This is followed by the
- port name, 'ip', the IP address, 'port' and the port number.
- @param received The response to be processed.
- @param ports The list of non-default ports/ipaddress/portnumber found. */
-static void processNameServerResponse(const yarp::os::ConstString &  received,
-                                      MplusM::Common::StringVector & ports)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("received = ", received.c_str());//####
-    size_t                lineMakerLength = strlen(kLineMarker);
-    yarp::os::ConstString nameServerName(yarp::os::Network::getNameServerName());
-    yarp::os::ConstString workingCopy(received);
-
-    OD_LOG_S1("nameServerName = ", nameServerName.c_str());//####
-    for (size_t nextPos = 0; yarp::os::ConstString::npos != nextPos; )
-    {
-        nextPos = workingCopy.find(kLineMarker);
-        if (yarp::os::ConstString::npos != nextPos)
-        {
-            workingCopy = workingCopy.substr(nextPos + lineMakerLength);
-            size_t chopPos = workingCopy.find(kLineMarker);
-            
-            if (yarp::os::ConstString::npos != chopPos)
-            {
-                char *                channelName;
-                yarp::os::ConstString chopped(workingCopy.substr(0, chopPos));
-                char *                choppedAsChars = strdup(chopped.c_str());
-                char *                ipAddress;
-                char *                saved;
-                char *                pp = strtok_r(choppedAsChars, " ", &saved);
-                
-                if (pp)
-                {
-                    // Port name
-                    if ('/' == *pp)
-                    {
-                        channelName = pp;
-                        if (nameServerName == channelName)
-                        {
-                            pp = NULL;
-                        }
-                        else
-                        {
-                            pp = strtok_r(NULL, " ", &saved);
-                        }
-                    }
-                    else
-                    {
-                        pp = NULL;
-                    }
-                }
-                if (pp)
-                {
-                    // 'ip'
-                    if (strcmp(pp, "ip"))
-                    {
-                        pp = NULL;
-                    }
-                    else
-                    {
-                        pp = strtok_r(NULL, " ", &saved);
-                    }
-                }
-                if (pp)
-                {
-                    ipAddress = pp;
-                    pp = strtok_r(NULL, " ", &saved);
-                }
-                if (pp)
-                {
-                    // 'port'
-                    if (strcmp(pp, "port"))
-                    {
-                        pp = NULL;
-                    }
-                    else
-                    {
-                        pp = strtok_r(NULL, " ", &saved);
-                    }
-                }
-                if (pp)
-                {
-                    ports.push_back(channelName);
-                    ports.push_back(ipAddress);
-                    ports.push_back(pp);
-                }
-                free(choppedAsChars);
-            }
-        }
-    }
-    OD_LOG_EXIT();//####
-} // processNameServerResponse
-
-/*! @brief Check if the Registry Service is active.
- @param ports The set of detected ports.
- @returns @c true if the Registry Service port is present and @c false otherwise. */
-static bool checkForRegistryService(const MplusM::Common::StringVector & ports)
-{
-    OD_LOG_ENTER();//####
-    bool result = false;
-    
-    for (MplusM::Common::StringVector::const_iterator it(ports.begin()); (! result) && (ports.end() != it); it += 3)
-    {
-        if (*it == MpM_REGISTRY_CHANNEL_NAME)
-        {
-            result = true;
-        }
-    }
-    OD_LOG_EXIT_B(result);//####
-    return result;
-} // checkForRegistryService
 
 /*! @brief Check if the response is for an input connection.
  @param response The response from the port that is being checked.
@@ -299,7 +183,7 @@ static bool checkForOutputConnection(const yarp::os::Bottle & response)
 
 /*! @brief Report the connections for a given port.
  @param portName The port to be inspected. */
-static void reportConnections(const std::string & portName)
+static void reportConnections(const yarp::os::ConstString & portName)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("portName = ", portName.c_str());//####
@@ -382,10 +266,10 @@ static void reportConnections(const std::string & portName)
 
 /*! @brief Print out connection information for a port.
  @param portName The name of the port of interest. */
-static void reportPortStatus(const std::string & portName,
-                             const std::string & ipAddress,
-                             const std::string & portNumber,
-                             const bool          checkWithRegistry)
+static void reportPortStatus(const yarp::os::ConstString & portName,
+                             const yarp::os::ConstString & ipAddress,
+                             const yarp::os::ConstString & portNumber,
+                             const bool                    checkWithRegistry)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S3("portName = ", portName.c_str(), "ipAddress = ", ipAddress.c_str(), "portNumber = ",//####
@@ -399,7 +283,7 @@ static void reportPortStatus(const std::string & portName,
     cout << portName.c_str() << ": ";
     if (checkWithRegistry)
     {
-        std::string request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
+        yarp::os::ConstString request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
         
         request += portName;
         MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(request.c_str(), true));
@@ -517,15 +401,9 @@ static void reportPortStatus(const std::string & portName,
 int main(int      argc,
          char * * argv)
 {
-#if defined(OD_ENABLE_LOGGING)
-# if MAC_OR_LINUX_
-#  pragma unused(argc)
-# endif // MAC_OR_LINUX_
-#else // ! defined(OD_ENABLE_LOGGING)
-# if MAC_OR_LINUX_
-#  pragma unused(argc,argv)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
+#if MAC_OR_LINUX_
+# pragma unused(argc)
+#endif // MAC_OR_LINUX_
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
@@ -535,61 +413,34 @@ int main(int      argc,
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network            yarp; // This is necessary to establish any connection to the YARP
-                                               // infrastructure
-            MplusM::Common::Package      request;
-            MplusM::Common::Package      response;
-            yarp::os::ContactStyle       contactInfo;
+            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+
+            MplusM::Common::Initialize(*argv);
             MplusM::Common::StringVector ports;
+            bool                         found = false;
             
-#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            yarp::os::Network::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            request.addString("list");
-            contactInfo.timeout = 5.0;
-            if (yarp::os::Network::writeToNameServer(request, response, contactInfo))
+            MplusM::Utilities::GetDetectedPortList(ports);
+            if (ports.size())
             {
-                if (1 == response.size())
+                bool serviceRegistryPresent = MplusM::Utilities::CheckForRegistryService(ports);
+                
+                for (size_t ii = 0, mm = ports.size(); mm > ii; ii += 3)
                 {
-                    yarp::os::Value responseValue(response.get(0));
+                    const yarp::os::ConstString & aString = ports.at(ii);
+                    const yarp::os::ConstString & bString = ports.at(ii + 1);
+                    const yarp::os::ConstString & cString = ports.at(ii + 2);
                     
-                    if (responseValue.isString())
+                    if (! found)
                     {
-                        bool found = false;
-                        
-                        processNameServerResponse(responseValue.asString(), ports);
-                        bool serviceRegistryPresent = checkForRegistryService(ports);
-                        
-                        for (MplusM::Common::StringVector::const_iterator it(ports.begin()); ports.end() != it; it += 3)
-                        {
-                            if (! found)
-                            {
-                                cout << "Ports:" << endl << endl;
-                                found = true;
-                            }
-                            reportPortStatus(*it, *(it + 1), *(it + 2), serviceRegistryPresent);
-                        }
-                        if (! found)
-                        {
-                            cout << "No ports found." << endl;
-                        }
+                        cout << "Ports:" << endl << endl;
+                        found = true;
                     }
-                    else
-                    {
-                        OD_LOG("! (responseValue.isString())");//####
-                    }
-                }
-                else
-                {
-                    OD_LOG("! (1 == response.size())");//####
-                    OD_LOG_S1("response = ", response.toString().c_str());//####
+                    reportPortStatus(aString, bString, cString, serviceRegistryPresent);
                 }
             }
-            else
+            if (! found)
             {
-                OD_LOG("! (yarp::os::Network::writeToNameServer(request, response))");//####
+                cout << "No ports found." << endl;
             }
         }
 #if CheckNetworkWorks_

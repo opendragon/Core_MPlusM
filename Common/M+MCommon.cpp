@@ -4,7 +4,8 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The definitions for common functions.
+//  Contains:   The function and variable declarations for common entities for M+M
+//              clients and services.
 //
 //  Written by: Norman Jaffe
 //
@@ -41,6 +42,7 @@
 
 //#include "M+MCommon.h"
 #include "M+MBailOut.h"
+#include "M+MRequests.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -73,6 +75,7 @@
 	//ASSUME WINDOWS
 # include <signal.h>
 #endif // defined(!MAC_OR_LINUX)
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -101,6 +104,19 @@ static const int kMaxRandom = 123456789;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if MAC_OR_LINUX_
+/*! @brief The signal handler to catch requests to stop the service.
+ @param signal The signal being handled. */
+static void localCatcher(int signal)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_LL1("signal = ", signal);//####
+    cerr << "Exiting due to signal " << signal << " = " << MplusM::NameOfSignal(signal) << endl;
+    OD_LOG_EXIT_EXIT(1);//####
+    yarp::os::exit(1);
+} // localCatcher
+#endif // MAC_OR_LINUX_
+
 /*! @brief Returns a printable string, even for null strings.
  @param aString The string to be checked.
  @returns The input string, if non-@c NULL, or a fixed string if it is @c NULL. */
@@ -119,19 +135,6 @@ static const char * nullOrString(const char * aString)
     return result;
 } // nullOrString
 
-#if MAC_OR_LINUX_
-/*! @brief The signal handler to catch requests to stop the service.
- @param signal The signal being handled. */
-static void localCatcher(int signal)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_LL1("signal = ", signal);//####
-    cerr << "Exiting due to signal " << signal << " = " << MplusM::NameOfSignal(signal) << endl;
-    OD_LOG_EXIT_EXIT(1);//####
-    yarp::os::exit(1);
-} // localCatcher
-#endif // MAC_OR_LINUX_
-
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -145,9 +148,9 @@ void MplusM::Common::DumpContact(const char *              tag,
     OD_LOG_S1("contact.toString = ", aContact.toString().c_str());//####
     OD_LOG_B1("contact.isValid = ", aContact.isValid());//####
     cout << "tag = '" << nullOrString(tag) << "', contact.name = '" << nullOrString(aContact.getName().c_str()) <<
-            "'" << endl;
+    "'" << endl;
     cout << "contact.host = '" << nullOrString(aContact.getHost().c_str()) << "', contact.carrier = '" <<
-            nullOrString(aContact.getCarrier().c_str()) << "'" << endl;
+    nullOrString(aContact.getCarrier().c_str()) << "'" << endl;
     cout << "contact.port = " << aContact.getPort() << endl;
     cout << "contact.toString = '" << nullOrString(aContact.toString().c_str()) << "'" << endl;
     cout << "contact.isValid = " << (aContact.isValid() ? "true" : "false") << endl;

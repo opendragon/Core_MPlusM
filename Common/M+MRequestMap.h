@@ -122,10 +122,10 @@ namespace MplusM
         private:
             
             /*! @brief A mapping from strings to requests. */
-            typedef std::map<std::string, BaseRequestHandler *> RequestHandlerMap;
+            typedef std::map<yarp::os::ConstString, BaseRequestHandler *> RequestHandlerMap;
             
             /*! @brief The entry-type for the mapping. */
-            typedef RequestHandlerMap::value_type               RequestHandlerMapValue;
+            typedef RequestHandlerMap::value_type                         RequestHandlerMapValue;
             
             /*! @brief Copy constructor.
              

@@ -161,9 +161,11 @@ bool ClientsRequestHandler::processRequest(const yarp::os::ConstString & request
             
 #if defined(SERVICES_HAVE_CONTEXTS)
             _service.fillInClientList(clients);
-            for (StringVector::const_iterator it(clients.begin()); clients.end() != it; ++it)
+            for (size_t ii = 0, mm = clients.size(); mm > ii; ++ii)
             {
-                reply.addString(it->c_str());
+                const yarp::os::ConstString & aString = clients.at(ii);
+                
+                reply.addString(aString.c_str());
             }
 #endif // defined(SERVICES_HAVE_CONTEXTS)
             OD_LOG_S1("reply <- ", reply.toString().c_str());

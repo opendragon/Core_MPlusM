@@ -46,7 +46,7 @@
 
 # include "M+MRequestMap.h"
 
-# include <cstdint>
+# include <stdint.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -230,7 +230,7 @@ namespace MplusM
             
 # if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief A mapping from strings to contexts. */
-            typedef std::map<std::string, BaseContext *> ContextMap;
+            typedef std::map<yarp::os::ConstString, BaseContext *> ContextMap;
 # endif // defined(SERVICES_HAVE_CONTEXTS)
             
 # if defined(SERVICES_HAVE_CONTEXTS)
