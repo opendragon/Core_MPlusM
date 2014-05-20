@@ -428,6 +428,7 @@ int main(int      argc,
                 for (size_t ii = 0, mm = ports.size(); mm > ii; ++ii)
                 {
                     MplusM::Utilities::PortDescriptor & aDescriptor = ports[ii];
+                    
                     if (! found)
                     {
                         cout << "Ports:" << endl << endl;

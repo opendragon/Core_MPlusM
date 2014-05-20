@@ -72,6 +72,14 @@ namespace MplusM
             yarp::os::ConstString _portPortNumber;
         }; // PortDescriptor
         
+        struct ServiceDescriptor
+        {
+            yarp::os::ConstString _canonicalName;
+            yarp::os::ConstString _description;
+            yarp::os::ConstString _path;
+            Common::StringVector  _channels;
+        }; // ServiceDescriptor
+        
         typedef std::vector<PortDescriptor> PortVector;
         
         /*! @brief Check if the Registry Service is active.
@@ -82,6 +90,13 @@ namespace MplusM
         /*! @brief Get the set of detected ports.
          @param ports The set of detected ports. */
         void GetDetectedPortList(PortVector & ports);
+
+        /*! @brief Retrieve the details for a service.
+         @param serviceChannelName The channel for the service.
+         @param descriptor The details for a service.
+         @returns @c true if the service returned the desired information and @c false otherwise. */
+        bool GetNameAndDescriptionForService(const yarp::os::ConstString & serviceChannelName,
+                                             ServiceDescriptor &           descriptor);
 
     } // Utilities
     

@@ -41,7 +41,10 @@
 //--------------------------------------------------------------------------------------
 
 #include "M+MUtilities.h"
+#include "M+MClientChannel.h"
 #include "M+MRequests.h"
+#include "M+MServiceRequest.h"
+#include "M+MServiceResponse.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -88,103 +91,6 @@ static const char * kLineMarker = "registration name ";
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
-
-#if 0
-/*! @brief Process the response from the name server.
- 
- Note that each line of the response, except the last, is started with 'registration name'. This is followed by the
- port name, 'ip', the IP address, 'port' and the port number.
- @param received The response to be processed.
- @param ports The list of non-default ports/ipaddress/portnumber found. */
-static void processNameServerResponse(const yarp::os::ConstString &  received,
-                                      MplusM::Common::StringVector & ports)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("received = ", received.c_str());//####
-    size_t                lineMakerLength = strlen(kLineMarker);
-    yarp::os::ConstString nameServerName(yarp::os::Network::getNameServerName());
-    yarp::os::ConstString workingCopy(received);
-    
-    OD_LOG_S1("nameServerName = ", nameServerName.c_str());//####
-    for (size_t nextPos = 0; yarp::os::ConstString::npos != nextPos; )
-    {
-        nextPos = workingCopy.find(kLineMarker);
-        if (yarp::os::ConstString::npos != nextPos)
-        {
-            workingCopy = workingCopy.substr(nextPos + lineMakerLength);
-            size_t chopPos = workingCopy.find(kLineMarker);
-            
-            if (yarp::os::ConstString::npos != chopPos)
-            {
-                char *                channelName;
-                yarp::os::ConstString chopped(workingCopy.substr(0, chopPos));
-                char *                choppedAsChars = strdup(chopped.c_str());
-                char *                ipAddress;
-                char *                saved;
-                char *                pp = strtok_r(choppedAsChars, " ", &saved);
-                
-                if (pp)
-                {
-                    // Port name
-                    if ('/' == *pp)
-                    {
-                        channelName = pp;
-                        if (nameServerName == channelName)
-                        {
-                            pp = NULL;
-                        }
-                        else
-                        {
-                            pp = strtok_r(NULL, " ", &saved);
-                        }
-                    }
-                    else
-                    {
-                        pp = NULL;
-                    }
-                }
-                if (pp)
-                {
-                    // 'ip'
-                    if (strcmp(pp, "ip"))
-                    {
-                        pp = NULL;
-                    }
-                    else
-                    {
-                        pp = strtok_r(NULL, " ", &saved);
-                    }
-                }
-                if (pp)
-                {
-                    ipAddress = pp;
-                    pp = strtok_r(NULL, " ", &saved);
-                }
-                if (pp)
-                {
-                    // 'port'
-                    if (strcmp(pp, "port"))
-                    {
-                        pp = NULL;
-                    }
-                    else
-                    {
-                        pp = strtok_r(NULL, " ", &saved);
-                    }
-                }
-                if (pp)
-                {
-                    ports.push_back(channelName);
-                    ports.push_back(ipAddress);
-                    ports.push_back(pp);
-                }
-                free(choppedAsChars);
-            }
-        }
-    }
-    OD_LOG_EXIT();//####
-} // processNameServerResponse
-#endif//0
 
 /*! @brief Process the response from the name server.
  
@@ -346,3 +252,112 @@ void MplusM::Utilities::GetDetectedPortList(PortVector & ports)
     }
     OD_LOG_EXIT();//####
 } // MplusM::Utilities::GetDetectedPortList
+
+bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & serviceChannelName,
+                                                        ServiceDescriptor &           descriptor)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("serviceChannelName = ", serviceChannelName.c_str());//####
+    OD_LOG_P1("descriptor = ", &descriptor);//####
+    bool                            result = false;
+    yarp::os::ConstString           aName(MplusM::Common::GetRandomChannelName("/servicelister/channel_"));
+    MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
+    
+    if (newChannel)
+    {
+        if (newChannel->openWithRetries(aName))
+        {
+            if (MplusM::Common::NetworkConnectWithRetries(aName, serviceChannelName))
+            {
+                MplusM::Common::Package         parameters1;
+                MplusM::Common::ServiceRequest  request1(MpM_NAME_REQUEST, parameters1);
+                MplusM::Common::ServiceResponse response1;
+                
+                if (request1.send(*newChannel, &response1))
+                {
+                    OD_LOG_S1("response1 <- ", response1.asString().c_str());//####
+                    if (MpM_EXPECTED_NAME_RESPONSE_SIZE == response1.count())
+                    {
+                        yarp::os::Value theCanonicalName(response1.element(0));
+                        yarp::os::Value theDescription(response1.element(1));
+                        yarp::os::Value thePath(response1.element(2));
+                        
+                        OD_LOG_S3("theCanonicalName <- ", theCanonicalName.toString().c_str(),//####
+                                  "theDescription <- ", theDescription.toString().c_str(), "thePath <- ",//####
+                                  thePath.toString().c_str());//####
+                        if (theCanonicalName.isString() && theDescription.isString() && thePath.isString())
+                        {
+                            descriptor._canonicalName = theCanonicalName.toString();
+                            descriptor._description = theDescription.toString();
+                            descriptor._path = thePath.toString();
+                            result = true;
+                        }
+                        else
+                        {
+                            OD_LOG("! (theCanonicalName.isString() && theDescription.isString() && "//####
+                                   "thePath.isString())");//####
+                        }
+                    }
+                    else
+                    {
+                        OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE == response1.count())");//####
+                        OD_LOG_S1("response1 = ", response1.asString().c_str());//####
+                    }
+                }
+                else
+                {
+                    OD_LOG("! (request1.send(*newChannel, &response1))");//####
+                }
+                if (result)
+                {
+                    MplusM::Common::Package         parameters2;
+                    MplusM::Common::ServiceRequest  request2(MpM_CHANNELS_REQUEST, parameters2);
+                    MplusM::Common::ServiceResponse response2;
+                    
+                    if (request2.send(*newChannel, &response2))
+                    {
+                        OD_LOG_S1("response2 <- ", response2.asString().c_str());//####
+                        for (int ii = 0, howMany = response2.count(); ii < howMany; ++ii)
+                        {
+                            yarp::os::Value element(response2.element(ii));
+                            
+                            if (element.isString())
+                            {
+                                descriptor._channels.push_back(element.toString());
+                            }
+                        }
+                    }
+                    else
+                    {
+                        OD_LOG("! (request2.send(*newChannel, &response2))");//####
+                        result = false;
+                    }
+                }
+#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+                if (! MplusM::Common::NetworkDisconnectWithRetries(aName, serviceChannelName))
+                {
+                    OD_LOG("(! MplusM::Common::NetworkDisconnectWithRetries(aName, destinationName))");//####
+                }
+#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
+            }
+            else
+            {
+                OD_LOG("! (MplusM::Common::NetworkConnectWithRetries(aName, serviceChannelName))");//####
+            }
+#if defined(MpM_DO_EXPLICIT_CLOSE)
+            newChannel->close();
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+        }
+        else
+        {
+            OD_LOG("! (newChannel->openWithRetries(aName))");//####
+        }
+        delete newChannel;
+    }
+    else
+    {
+        OD_LOG("! (newChannel)");//####
+    }
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // MplusM::Utilities::GetNameAndDescriptionForService

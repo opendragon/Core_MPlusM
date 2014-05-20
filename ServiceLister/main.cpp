@@ -40,10 +40,11 @@
 //--------------------------------------------------------------------------------------
 
 #include "M+MBaseClient.h"
-#include "M+MClientChannel.h"
+//#include "M+MClientChannel.h"
 #include "M+MRequests.h"
-#include "M+MServiceRequest.h"
-#include "M+MServiceResponse.h"
+//#include "M+MServiceRequest.h"
+//#include "M+MServiceResponse.h"
+#include "M+MUtilities.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -89,117 +90,6 @@ using std::endl;
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
-
-/*! @brief Retrieve the details for a service.
- @param serviceChannelName The channel for the service.
- @param canonicalName The canonical name for the service.
- @param description The description of the service.
- @param path The path to the service executable.
- @param channels The secondary channels for the service.
- @returns @c true if the service returned the desired information and @c false otherwise. */
-static bool getNameAndDescriptionForService(const yarp::os::ConstString &  serviceChannelName,
-                                            yarp::os::ConstString &        canonicalName,
-                                            yarp::os::ConstString &        description,
-                                            yarp::os::ConstString &        path,
-                                            yarp::os::ConstString &        channels)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("serviceChannelName = ", serviceChannelName.c_str());//####
-    OD_LOG_P4("canonicalName = ", &canonicalName, "description = ", &description, "path = ", &path,//####
-              "channels = ", &channels);//####
-    bool                            result = false;
-    yarp::os::ConstString           aName(MplusM::Common::GetRandomChannelName("/servicelister/channel_"));
-    MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
-    
-    if (newChannel)
-    {
-        if (newChannel->openWithRetries(aName))
-        {
-            if (MplusM::Common::NetworkConnectWithRetries(aName, serviceChannelName))
-            {
-                MplusM::Common::Package         parameters1;
-                MplusM::Common::ServiceRequest  request1(MpM_NAME_REQUEST, parameters1);
-                MplusM::Common::ServiceResponse response1;
-                
-                if (request1.send(*newChannel, &response1))
-                {
-                    OD_LOG_S1("response1 <- ", response1.asString().c_str());//####
-                    if (MpM_EXPECTED_NAME_RESPONSE_SIZE == response1.count())
-                    {
-                        yarp::os::Value theCanonicalName(response1.element(0));
-                        yarp::os::Value theDescription(response1.element(1));
-                        yarp::os::Value thePath(response1.element(2));
-                        
-                        OD_LOG_S3("theCanonicalName <- ", theCanonicalName.toString().c_str(),//####
-                                  "theDescription <- ", theDescription.toString().c_str(), "thePath <- ",//####
-                                  thePath.toString().c_str());//####
-                        if (theCanonicalName.isString() && theDescription.isString() && thePath.isString())
-                        {
-                            canonicalName = theCanonicalName.toString();
-                            description = theDescription.toString();
-                            path = thePath.toString();
-                            result = true;
-                        }
-                        else
-                        {
-                            OD_LOG("! (theCanonicalName.isString() && theDescription.isString() && "//####
-                                   "thePath.isString())");//####
-                        }
-                    }
-                    else
-                    {
-                        OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE == response1.count())");//####
-                        OD_LOG_S1("response1 = ", response1.asString().c_str());//####
-                    }
-                }
-                else
-                {
-                    OD_LOG("! (request1.send(*newChannel, &response1))");//####
-                }
-                if (result)
-                {
-                    MplusM::Common::Package         parameters2;
-                    MplusM::Common::ServiceRequest  request2(MpM_CHANNELS_REQUEST, parameters2);
-                    MplusM::Common::ServiceResponse response2;
-                    
-                    if (request2.send(*newChannel, &response2))
-                    {
-                        OD_LOG_S1("response2 <- ", response2.asString().c_str());//####
-                        channels = response2.asString();
-                    }
-                    else
-                    {
-                        OD_LOG("! (request2.send(*newChannel, &response2))");//####
-                    }
-                }
-#if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                if (! MplusM::Common::NetworkDisconnectWithRetries(aName, serviceChannelName))
-                {
-                    OD_LOG("(! MplusM::Common::NetworkDisconnectWithRetries(aName, destinationName))");//####
-                }
-#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
-            }
-            else
-            {
-                OD_LOG("! (MplusM::Common::NetworkConnectWithRetries(aName, serviceChannelName))");//####
-            }
-#if defined(MpM_DO_EXPLICIT_CLOSE)
-            newChannel->close();
-#endif // defined(MpM_DO_EXPLICIT_CLOSE)
-        }
-        else
-        {
-            OD_LOG("! (newChannel->openWithRetries(aName))");//####
-        }
-        delete newChannel;
-    }
-    else
-    {
-        OD_LOG("! (newChannel)");//####
-    }
-    OD_LOG_EXIT_B(result);//####
-    return result;
-} // getNameAndDescriptionForService
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -257,13 +147,10 @@ int main(int      argc,
                         {
                             for (int ii = 0; ii < matchesCount; ++ii)
                             {
-                                yarp::os::ConstString aMatch(matchesList->get(ii).toString());
-                                yarp::os::ConstString canonicalName;
-                                yarp::os::ConstString channels;
-                                yarp::os::ConstString description;
-                                yarp::os::ConstString path;
+                                yarp::os::ConstString                aMatch(matchesList->get(ii).toString());
+                                MplusM::Utilities::ServiceDescriptor descriptor;
                                 
-                                if (getNameAndDescriptionForService(aMatch, canonicalName, description, path, channels))
+                                if (GetNameAndDescriptionForService(aMatch, descriptor))
                                 {
                                     yarp::os::ConstString channelNames;
                                     
@@ -272,12 +159,20 @@ int main(int      argc,
                                         cout << "Services: " << endl;
                                     }
                                     reported = true;
+                                    for (int jj = 0, mm = descriptor._channels.size(); mm > jj; ++jj)
+                                    {
+                                        if (jj)
+                                        {
+                                            channelNames += " ";
+                                        }
+                                        channelNames += descriptor._channels[ii];
+                                    }
                                     cout << endl;
                                     cout << "Service port:       " << aMatch.c_str() << endl;
-                                    cout << "Service name:       " << canonicalName.c_str() << endl;
-                                    MplusM::OutputDescription(cout, "Description:        ", description);
-                                    cout << "Path:               " << path.c_str() << endl;
-                                    MplusM::OutputDescription(cout, "Secondary channels: ", channels + "\n");
+                                    cout << "Service name:       " << descriptor._canonicalName.c_str() << endl;
+                                    MplusM::OutputDescription(cout, "Description:        ", descriptor._description);
+                                    cout << "Path:               " << descriptor._path.c_str() << endl;
+                                    MplusM::OutputDescription(cout, "Secondary channels: ", channelNames + "\n");
                                  }
                             }
                             cout << endl;
