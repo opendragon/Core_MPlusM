@@ -39,11 +39,6 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MBaseClient.h"
-//#include "M+MClientChannel.h"
-#include "M+MRequests.h"
-//#include "M+MServiceRequest.h"
-//#include "M+MServiceResponse.h"
 #include "M+MUtilities.h"
 
 //#include "ODEnableLogging.h"
