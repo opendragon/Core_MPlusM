@@ -58,6 +58,7 @@ add_library(mpmCommon
             M+MBaseService.cpp
             M+MBaseServiceInputHandler.cpp
             M+MBaseServiceInputHandlerCreator.cpp
+            M+MChannelsRequestHandler.cpp
             M+MChannelStatusReporter.cpp
             M+MClientChannel.cpp
             M+MClientsRequestHandler.cpp
@@ -89,6 +90,7 @@ install(FILES
         M+MBaseService.h
         M+MBaseServiceInputHandler.h
         M+MBaseServiceInputHandlerCreator.h
+        M+MChannelsRequestHandler.h
         M+MChannelStatusReporter.h
         M+MClientChannel.h
         M+MClientsRequestHandler.h

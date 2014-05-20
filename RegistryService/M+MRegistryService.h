@@ -131,6 +131,10 @@ namespace MplusM
                                   const yarp::os::ConstString & description,
                                   const yarp::os::ConstString & executable);
             
+            /*! @brief Fill in a list of secondary channels for the service.
+             @param clients The list to be filled in. */
+            virtual void fillInChannelsList(Common::StringVector & channels);
+            
             /*! @brief Return @c true if the service is active.
              @returns @c true if the service is active and @c false otherwise. */
             inline bool isActive(void)

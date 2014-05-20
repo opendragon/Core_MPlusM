@@ -60,6 +60,8 @@
 /*! @brief The channel-independent name of the service registry service. */
 # define MpM_REGISTRY_CANONICAL_NAME "Registry"
 
+/*! @brief The standard name for a 'channels' request. */
+# define MpM_CHANNELS_REQUEST   "channels"
 /*! @brief The name for the 'clients' request. */
 # define MpM_CLIENTS_REQUEST    "clients"
 /*! @brief The name for the 'count' request. */

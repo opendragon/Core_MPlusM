@@ -48,6 +48,7 @@
 #include "M+MDetachRequestHandler.h"
 #include "M+MEndpoint.h"
 #include "M+MException.h"
+#include "M+MChannelsRequestHandler.h"
 #include "M+MChannelStatusReporter.h"
 #include "M+MClientChannel.h"
 #include "M+MClientsRequestHandler.h"
@@ -83,7 +84,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the minimal functionality required for a M+M service. */
+ @brief The class definition for the minimal functionality required for an M+M service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -122,13 +123,12 @@ BaseService::BaseService(const char *                  launchPath,
 #if defined(SERVICES_HAVE_CONTEXTS)
         _contexts(),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
-        _canonicalName(canonicalName), _description(description), _requestCount(0),
+        _canonicalName(canonicalName), _description(description), _requestCount(0), _channelsHandler(NULL),
 #if defined(SERVICES_HAVE_CONTEXTS)
         _clientsHandler(NULL),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
-        _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
-        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
-        _useMultipleHandlers(useMultipleHandlers)
+        _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL), _endpoint(NULL),
+        _handler(NULL), _handlerCreator(NULL), _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("launchPath = ", launchPath);//####
@@ -155,13 +155,12 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
 #if defined(SERVICES_HAVE_CONTEXTS)
         _contexts(),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
-        _canonicalName(canonicalName), _description(description), _requestCount(0),
+        _canonicalName(canonicalName), _description(description), _requestCount(0), _channelsHandler(NULL),
 #if defined(SERVICES_HAVE_CONTEXTS)
         _clientsHandler(NULL),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
-        _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
-        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
-        _useMultipleHandlers(useMultipleHandlers)
+        _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL), _endpoint(NULL),
+        _handler(NULL), _handlerCreator(NULL), _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER();//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
@@ -238,6 +237,7 @@ void BaseService::attachRequestHandlers(void)
     OD_LOG_OBJENTER();//####
     try
     {
+        _channelsHandler = new ChannelsRequestHandler(*this);
 #if defined(SERVICES_HAVE_CONTEXTS)
         _clientsHandler = new ClientsRequestHandler(*this);
 #endif // defined(SERVICES_HAVE_CONTEXTS)
@@ -247,11 +247,13 @@ void BaseService::attachRequestHandlers(void)
         _listHandler = new ListRequestHandler;
         _nameHandler = new NameRequestHandler(*this);
 #if defined(SERVICES_HAVE_CONTEXTS)
-        if (_clientsHandler && _countHandler &&  _detachHandler && _infoHandler && _listHandler && _nameHandler)
+        if (_channelsHandler && _clientsHandler && _countHandler &&  _detachHandler && _infoHandler && _listHandler &&
+            _nameHandler)
 #else // ! defined(SERVICES_HAVE_CONTEXTS)
-        if (_countHandler && _detachHandler && _infoHandler && _listHandler && _nameHandler)
+        if (_channelsHandler && _countHandler && _detachHandler && _infoHandler && _listHandler && _nameHandler)
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
         {
+            _requestHandlers.registerRequestHandler(_channelsHandler);
 #if defined(SERVICES_HAVE_CONTEXTS)
             _requestHandlers.registerRequestHandler(_clientsHandler);
 #endif // defined(SERVICES_HAVE_CONTEXTS)
@@ -264,9 +266,11 @@ void BaseService::attachRequestHandlers(void)
         else
         {
 #if defined(SERVICES_HAVE_CONTEXTS)
-            OD_LOG("! (_clientsHandler && _detachHandler && _infoHandler && _listHandler && _nameHandler)");//####
+            OD_LOG("! (_channelsHandler && _clientsHandler && _countHandler &&  _detachHandler && "//####
+                   "_infoHandler && _listHandler _nameHandler)");//####
 #else // ! defined(SERVICES_HAVE_CONTEXTS)
-            OD_LOG("! (_detachHandler && _infoHandler && _listHandler && _nameHandler)");//####
+            OD_LOG("! (_channelsHandler && _countHandler && _detachHandler && _infoHandler && _listHandler && "//####
+                   "_nameHandler)");//####
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)
         }
     }
@@ -326,6 +330,12 @@ void BaseService::detachRequestHandlers(void)
     OD_LOG_OBJENTER();//####
     try
     {
+        if (_channelsHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_channelsHandler);
+            delete _channelsHandler;
+            _channelsHandler = NULL;
+        }
 #if defined(SERVICES_HAVE_CONTEXTS)
         if (_clientsHandler)
         {
@@ -373,10 +383,18 @@ void BaseService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // BaseService::detachRequestHandlers
 
+void BaseService::fillInChannelsList(StringVector & channels)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("channels = ", &channels);//####
+    OD_LOG_OBJEXIT();//####
+} // BaseService::fillInChannelsList
+
 #if defined(SERVICES_HAVE_CONTEXTS)
 void BaseService::fillInClientList(StringVector & clients)
 {
     OD_LOG_OBJENTER();//####
+    OD_LOG_P1("clients = ", &clients);//####
     lockContexts();
     
     for (ContextMap::const_iterator walker(_contexts.begin()); _contexts.end() != walker; ++walker)

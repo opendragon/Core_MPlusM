@@ -1105,9 +1105,14 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
     {
         if (3 <= response.count())
         {
+            bool sawChannels = false;
+            bool sawClients = false;
+            bool sawCount = false;
+            bool sawDetach = false;
             bool sawEcho = false;
             bool sawInfo = false;
             bool sawList = false;
+            bool sawName = false;
             
             result = true;
             for (int ii = 0; result && (ii < response.count()); ++ii)
@@ -1124,9 +1129,9 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                     {
                         yarp::os::ConstString aName(asDict->find(MpM_REQREP_DICT_REQUEST_KEY).asString());
                         
-                        if (aName == MpM_LIST_REQUEST)
+                        if (aName == MpM_CHANNELS_REQUEST)
                         {
-                            if (sawList)
+                            if (sawChannels)
                             {
                                 result = false;
                             }
@@ -1134,21 +1139,44 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                             {
                                 yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
                                 
-                                sawList = (itsOutput == "([]+)");
+                                sawChannels = (itsOutput == "s*");
                             }
                         }
-                        else if (aName == MpM_INFO_REQUEST)
+                        else if (aName == MpM_CLIENTS_REQUEST)
                         {
-                            if (sawInfo)
+                            if (sawClients)
                             {
                                 result = false;
                             }
-                            else if (hasInput && hasOutput)
+                            else if ((! hasInput) && hasOutput)
                             {
                                 yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
-                                yarp::os::ConstString itsInput(asDict->find(MpM_REQREP_DICT_INPUT_KEY).asString());
                                 
-                                sawInfo = ((itsInput == ".") && (itsOutput == "([]?)"));
+                                sawClients = (itsOutput == "(s*)");
+                            }
+                        }
+                        else if (aName == MpM_COUNT_REQUEST)
+                        {
+                            if (sawCount)
+                            {
+                                result = false;
+                            }
+                            else if ((! hasInput) && hasOutput)
+                            {
+                                yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                                
+                                sawCount = (itsOutput == "id");
+                            }
+                        }
+                        else if (aName == MpM_DETACH_REQUEST)
+                        {
+                            if (sawDetach)
+                            {
+                                result = false;
+                            }
+                            else if ((! hasInput) && (! hasOutput))
+                            {
+                                sawDetach = true;
                             }
                         }
                         else if (aName == MpM_ECHO_REQUEST)
@@ -1165,6 +1193,46 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                                 sawEcho = ((itsInput == ".*") && (itsOutput == ".*"));
                             }
                         }
+                        else if (aName == MpM_INFO_REQUEST)
+                        {
+                            if (sawInfo)
+                            {
+                                result = false;
+                            }
+                            else if (hasInput && hasOutput)
+                            {
+                                yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                                yarp::os::ConstString itsInput(asDict->find(MpM_REQREP_DICT_INPUT_KEY).asString());
+                                
+                                sawInfo = ((itsInput == ".") && (itsOutput == "([]?)"));
+                            }
+                        }
+                        else if (aName == MpM_LIST_REQUEST)
+                        {
+                            if (sawList)
+                            {
+                                result = false;
+                            }
+                            else if ((! hasInput) && hasOutput)
+                            {
+                                yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                                
+                                sawList = (itsOutput == "([]+)");
+                            }
+                        }
+                        else if (aName == MpM_NAME_REQUEST)
+                        {
+                            if (sawName)
+                            {
+                                result = false;
+                            }
+                            else if ((! hasInput) && hasOutput)
+                            {
+                                yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                                
+                                sawName = (itsOutput == "sss");
+                            }
+                        }
                     }
                     else
                     {
@@ -1176,7 +1244,7 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                     result = false;
                 }
             }
-            result &= (sawInfo && sawEcho && sawList);
+            result &= (sawChannels && sawClients && sawCount && sawDetach && sawEcho && sawInfo && sawList && sawName);
         }
         else
         {

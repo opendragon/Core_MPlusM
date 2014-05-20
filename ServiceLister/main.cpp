@@ -94,15 +94,19 @@ using std::endl;
  @param serviceChannelName The channel for the service.
  @param canonicalName The canonical name for the service.
  @param description The description of the service.
+ @param path The path to the service executable.
+ @param channels The secondary channels for the service.
  @returns @c true if the service returned the desired information and @c false otherwise. */
-static bool getNameAndDescriptionForService(const yarp::os::ConstString & serviceChannelName,
-                                            yarp::os::ConstString &       canonicalName,
-                                            yarp::os::ConstString &       description,
-                                            yarp::os::ConstString &       path)
+static bool getNameAndDescriptionForService(const yarp::os::ConstString &  serviceChannelName,
+                                            yarp::os::ConstString &        canonicalName,
+                                            yarp::os::ConstString &        description,
+                                            yarp::os::ConstString &        path,
+                                            yarp::os::ConstString &        channels)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("serviceChannelName = ", serviceChannelName.c_str());//####
-    OD_LOG_P3("canonicalName = ", &canonicalName, "description = ", &description, "path = ", &path);//####
+    OD_LOG_P4("canonicalName = ", &canonicalName, "description = ", &description, "path = ", &path,//####
+              "channels = ", &channels);//####
     bool                            result = false;
     yarp::os::ConstString           aName(MplusM::Common::GetRandomChannelName("/servicelister/channel_"));
     MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
@@ -113,18 +117,18 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & servic
         {
             if (MplusM::Common::NetworkConnectWithRetries(aName, serviceChannelName))
             {
-                MplusM::Common::Package         parameters;
-                MplusM::Common::ServiceRequest  request(MpM_NAME_REQUEST, parameters);
-                MplusM::Common::ServiceResponse response;
+                MplusM::Common::Package         parameters1;
+                MplusM::Common::ServiceRequest  request1(MpM_NAME_REQUEST, parameters1);
+                MplusM::Common::ServiceResponse response1;
                 
-                if (request.send(*newChannel, &response))
+                if (request1.send(*newChannel, &response1))
                 {
-                    OD_LOG_S1("response <- ", response.asString().c_str());//####
-                    if (MpM_EXPECTED_NAME_RESPONSE_SIZE == response.count())
+                    OD_LOG_S1("response1 <- ", response1.asString().c_str());//####
+                    if (MpM_EXPECTED_NAME_RESPONSE_SIZE == response1.count())
                     {
-                        yarp::os::Value theCanonicalName(response.element(0));
-                        yarp::os::Value theDescription(response.element(1));
-                        yarp::os::Value thePath(response.element(2));
+                        yarp::os::Value theCanonicalName(response1.element(0));
+                        yarp::os::Value theDescription(response1.element(1));
+                        yarp::os::Value thePath(response1.element(2));
                         
                         OD_LOG_S3("theCanonicalName <- ", theCanonicalName.toString().c_str(),//####
                                   "theDescription <- ", theDescription.toString().c_str(), "thePath <- ",//####
@@ -144,13 +148,29 @@ static bool getNameAndDescriptionForService(const yarp::os::ConstString & servic
                     }
                     else
                     {
-                        OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE == response.count())");//####
-                        OD_LOG_S1("response = ", response.asString().c_str());//####
+                        OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE == response1.count())");//####
+                        OD_LOG_S1("response1 = ", response1.asString().c_str());//####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (request.send(*newChannel, &response))");//####
+                    OD_LOG("! (request1.send(*newChannel, &response1))");//####
+                }
+                if (result)
+                {
+                    MplusM::Common::Package         parameters2;
+                    MplusM::Common::ServiceRequest  request2(MpM_CHANNELS_REQUEST, parameters2);
+                    MplusM::Common::ServiceResponse response2;
+                    
+                    if (request2.send(*newChannel, &response2))
+                    {
+                        OD_LOG_S1("response2 <- ", response2.asString().c_str());//####
+                        channels = response2.asString();
+                    }
+                    else
+                    {
+                        OD_LOG("! (request2.send(*newChannel, &response2))");//####
+                    }
                 }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
                 if (! MplusM::Common::NetworkDisconnectWithRetries(aName, serviceChannelName))
@@ -239,21 +259,25 @@ int main(int      argc,
                             {
                                 yarp::os::ConstString aMatch(matchesList->get(ii).toString());
                                 yarp::os::ConstString canonicalName;
+                                yarp::os::ConstString channels;
                                 yarp::os::ConstString description;
                                 yarp::os::ConstString path;
                                 
-                                if (getNameAndDescriptionForService(aMatch, canonicalName, description, path))
+                                if (getNameAndDescriptionForService(aMatch, canonicalName, description, path, channels))
                                 {
+                                    yarp::os::ConstString channelNames;
+                                    
                                     if (! reported)
                                     {
                                         cout << "Services: " << endl;
                                     }
                                     reported = true;
                                     cout << endl;
-                                    cout << "Service port: " << aMatch.c_str() << endl;
-                                    cout << "Service name: " << canonicalName.c_str() << endl;
-                                    MplusM::OutputDescription(cout, "Description:  ", description);
-                                    cout << "Path:         " << path.c_str() << endl;
+                                    cout << "Service port:       " << aMatch.c_str() << endl;
+                                    cout << "Service name:       " << canonicalName.c_str() << endl;
+                                    MplusM::OutputDescription(cout, "Description:        ", description);
+                                    cout << "Path:               " << path.c_str() << endl;
+                                    MplusM::OutputDescription(cout, "Secondary channels: ", channels + "\n");
                                  }
                             }
                             cout << endl;

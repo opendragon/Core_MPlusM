@@ -230,6 +230,8 @@
 		DFA86D5A18E1DA1C00A22941 /* M+MStartRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStartRequestHandler.h"; path = "../examples/RunningSumService/M+MStartRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DFA86D5B18E1DA1C00A22941 /* M+MStopRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStopRequestHandler.cpp"; path = "../examples/RunningSumService/M+MStopRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DFA86D5C18E1DA1C00A22941 /* M+MStopRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStopRequestHandler.h"; path = "../examples/RunningSumService/M+MStopRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DFBB40DC192BAFCD000DA19D /* M+MChannelsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChannelsRequestHandler.cpp"; path = "../Common/M+MChannelsRequestHandler.cpp"; sourceTree = "<group>"; };
+		DFBB40DD192BAFCD000DA19D /* M+MChannelsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MChannelsRequestHandler.h"; path = "../Common/M+MChannelsRequestHandler.h"; sourceTree = "<group>"; };
 		DFCB229318EF091000358EA5 /* M+MRequestCounterContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterContext.cpp"; path = "../RequestCounter/RequestCounterService/M+MRequestCounterContext.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCB229418EF091000358EA5 /* M+MRequestCounterContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequestCounterContext.h"; path = "../RequestCounter/RequestCounterService/M+MRequestCounterContext.h"; sourceTree = SOURCE_ROOT; };
 		DFCB229518EF1BB900358EA5 /* M+MClientsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MClientsRequestHandler.cpp"; path = "../Common/M+MClientsRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -559,6 +561,8 @@
 				DFA3432D18C91C5A0053B87C /* M+MBaseServiceInputHandler.h */,
 				DFA3432E18C91C5A0053B87C /* M+MBaseServiceInputHandlerCreator.cpp */,
 				DFA3432F18C91C5A0053B87C /* M+MBaseServiceInputHandlerCreator.h */,
+				DFBB40DC192BAFCD000DA19D /* M+MChannelsRequestHandler.cpp */,
+				DFBB40DD192BAFCD000DA19D /* M+MChannelsRequestHandler.h */,
 				DF0EC61D18EA0D8500B22857 /* M+MChannelStatusReporter.cpp */,
 				DF0EC61E18EA0D8500B22857 /* M+MChannelStatusReporter.h */,
 				DF65B4F218F3219500B5F2F1 /* M+MClientChannel.cpp */,

@@ -42,7 +42,7 @@
 #include "M+MMatchExpression.h"
 #include "M+MMatchConstraint.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)

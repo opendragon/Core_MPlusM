@@ -109,6 +109,8 @@ using namespace MplusM::Registry;
 #define REQUESTSKEYWORDS_KEYWORDS_ID_I_ "RequestsKeywords_Keywords_id_idx"
 /*! @brief The name of the index for the 'requests_id' column of the 'requests-keywords' table. */
 #define REQUESTSKEYWORDS_REQUESTS_ID_I_ "RequestsKeywords_Requests_id_idx"
+/*! @brief The name of the secondary port for the service. */
+#define SECONDARY_CHANNEL_NAME_         T_(MpM_REGISTRY_CHANNEL_NAME "/status")
 /*! @brief The name of the index for the 'name' column of the 'services' table. */
 #define SERVICES_NAME_I_                "Services_name_idx"
 
@@ -1178,6 +1180,14 @@ void RegistryService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // RegistryService::detachRequestHandlers
 
+void RegistryService::fillInChannelsList(StringVector & channels)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("channels = ", &channels);//####
+    channels.push_back(SECONDARY_CHANNEL_NAME_);
+    OD_LOG_OBJEXIT();//####
+} // RegistryService::fillInChannelsList
+
 bool RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
                                           const bool                getNames,
                                           Common::Package &         reply)
@@ -1392,7 +1402,7 @@ bool RegistryService::setUpStatusChannel(void)
         _statusChannel = new Common::AdapterChannel;
         if (_statusChannel)
         {
-            yarp::os::ConstString outputName(MpM_REGISTRY_CHANNEL_NAME "/status");
+            yarp::os::ConstString outputName(SECONDARY_CHANNEL_NAME_);
             
 #if defined(MpM_REPORT_ON_CONNECTIONS)
             _statusChannel->setReporter(reporter);
@@ -1498,7 +1508,7 @@ bool RegistryService::start(void)
             }
             else
             {
-                OD_LOG("! (isStarted() && setUpDatabase())");//####
+                OD_LOG("! (isStarted() && setUpDatabase() && setUpStatusChannel())");//####
             }
         }
         result = isStarted();

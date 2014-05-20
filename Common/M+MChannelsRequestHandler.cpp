@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MNameRequestHandler.cpp
+//  File:       M+MChannelsRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for the standard 'name'
+//  Contains:   The class definition for the request handler for the standard 'channels'
 //              request.
 //
 //  Written by: Norman Jaffe
@@ -36,32 +36,17 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2014-02-27
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MNameRequestHandler.h"
+#include "M+MChannelsRequestHandler.h"
 #include "M+MBaseService.h"
+#include "M+MRequestMap.h"
 #include "M+MRequests.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-
-#include <ace/OS.h>
-#if defined(__APPLE__)
-# pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Wc++11-extensions"
-# pragma clang diagnostic ignored "-Wdocumentation"
-# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-# pragma clang diagnostic ignored "-Wpadded"
-# pragma clang diagnostic ignored "-Wshadow"
-# pragma clang diagnostic ignored "-Wunused-parameter"
-# pragma clang diagnostic ignored "-Wweak-vtables"
-#endif // defined(__APPLE__)
-#include <yarp/os/Os.h>
-#if defined(__APPLE__)
-# pragma clang diagnostic pop
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -69,7 +54,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for the standard 'name' request. */
+ @brief The class definition for the request handler for the standard 'ports' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -81,8 +66,8 @@ using namespace MplusM::Common;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'list' request. */
-#define NAME_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'channels' request. */
+#define CHANNELS_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -96,33 +81,31 @@ using namespace MplusM::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-NameRequestHandler::NameRequestHandler(BaseService & service) :
-        inherited(MpM_NAME_REQUEST), _service(service)
+ChannelsRequestHandler::ChannelsRequestHandler(BaseService & service) :
+        inherited(MpM_CHANNELS_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
-} // NameRequestHandler::NameRequestHandler
+} // ChannelsRequestHandler::ChannelsRequestHandler
 
-NameRequestHandler::~NameRequestHandler(void)
+ChannelsRequestHandler::~ChannelsRequestHandler(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // NameRequestHandler::~NameRequestHandler
+} // ChannelsRequestHandler::~ChannelsRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void NameRequestHandler::fillInAliases(StringVector & alternateNames)
+void ChannelsRequestHandler::fillInAliases(StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_P1("alternateNames = ", &alternateNames);//####
-    alternateNames.push_back("n");
     OD_LOG_OBJEXIT();//####
-} // NameRequestHandler::fillInAliases
+} // ChannelsRequestHandler::fillInAliases
 
-void NameRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info)
+void ChannelsRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                               yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("request = ", request.c_str());//####
@@ -130,18 +113,15 @@ void NameRequestHandler::fillInDescription(const yarp::os::ConstString & request
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING MpM_REQREP_STRING MpM_REQREP_STRING);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, NAME_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the canonical name and description of the service\n"
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING MpM_REQREP_0_OR_MORE);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, CHANNELS_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the secondary channels of the service\n"
                  "Input: nothing\n"
-                 "Output: the canonical name, the description and the path to the executable for the service");
+                 "Output: a list of secondary channel names");
         yarp::os::Value keywords;
         Package *       asList = keywords.asList();
         
         asList->addString(request);
-        asList->addString("canonical");
-        asList->addString("description");
-        asList->addString("executable");
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
@@ -150,16 +130,16 @@ void NameRequestHandler::fillInDescription(const yarp::os::ConstString & request
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // NameRequestHandler::fillInDescription
+} // ChannelsRequestHandler::fillInDescription
 
-bool NameRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                        const Package &               restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism)
+bool ChannelsRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                            const Package &               restOfInput,
+                                            const yarp::os::ConstString & senderChannel,
+                                            yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
-#  pragma unused(request,restOfInput,senderChannel)
+#  pragma unused(request,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
@@ -172,13 +152,16 @@ bool NameRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
-            char    bigPath[PATH_MAX * 2];
-            Package reply;
+            Package      reply;
+            StringVector channels;
             
-            ACE_OS::realpath(_service.launchPath().c_str(), bigPath);
-            reply.addString(_service.canonicalName());
-            reply.addString(_service.description());
-            reply.addString(bigPath);
+            _service.fillInChannelsList(channels);
+            for (size_t ii = 0, mm = channels.size(); mm > ii; ++ii)
+            {
+                const yarp::os::ConstString & aString = channels.at(ii);
+                
+                reply.addString(aString.c_str());
+            }
             OD_LOG_S1("reply <- ", reply.toString().c_str());
             if (! reply.write(*replyMechanism))
             {
@@ -196,7 +179,7 @@ bool NameRequestHandler::processRequest(const yarp::os::ConstString & request,
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // NameRequestHandler::processRequest
+} // ChannelsRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors

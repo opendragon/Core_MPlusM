@@ -54,7 +54,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the minimal functionality required for a M+M service. */
+ @brief The class declaration for the minimal functionality required for an M+M service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -67,6 +67,7 @@ namespace MplusM
         class BaseRequestHandler;
         class BaseServiceInputHandler;
         class BaseServiceInputHandlerCreator;
+        class ChannelsRequestHandler;
         class ClientsRequestHandler;
         class CountRequestHandler;
         class DetachRequestHandler;
@@ -75,7 +76,7 @@ namespace MplusM
         class ListRequestHandler;
         class NameRequestHandler;
         
-        /*! @brief The minimal functionality required for a M+M service. */
+        /*! @brief The minimal functionality required for an M+M service. */
         class BaseService
         {
         public:
@@ -130,6 +131,10 @@ namespace MplusM
             /*! @brief Forget the specified client.
              @param key The client-provided key. */
             void detachClient(const yarp::os::ConstString & key);
+            
+            /*! @brief Fill in a list of secondary channels for the service.
+             @param channels The list to be filled in. */
+            virtual void fillInChannelsList(StringVector & channels);
             
 # if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief Fill in a list of clients for the service.
@@ -305,6 +310,9 @@ namespace MplusM
             
             /*! @brief The number of requests seen. */
             int64_t                          _requestCount;
+            
+            /*! @brief The request handler for the 'channels' request. */
+            ChannelsRequestHandler *         _channelsHandler;
             
 # if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief The request handler for the 'clients' request. */
