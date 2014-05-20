@@ -119,79 +119,49 @@ int main(int      argc,
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
             
             MplusM::Common::Initialize(*argv);
-            MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(MpM_REQREP_DICT_REQUEST_KEY ":*"));
+            MplusM::Common::StringVector services;
             
-            if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+            MplusM::Utilities::GetServiceNames(services);
+            bool reported = false;
+            int  serviceCount = services.size();
+            
+            if (serviceCount)
             {
-                // First, check if the search succeeded.
-                yarp::os::ConstString matchesFirstString(matches.get(0).toString());
-                
-                if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
+                for (int ii = 0; ii < serviceCount; ++ii)
                 {
-                    OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))");//####
-                    yarp::os::ConstString reason(matches.get(1).toString());
+                    yarp::os::ConstString                aService(services[ii]);
+                    MplusM::Utilities::ServiceDescriptor descriptor;
                     
-                    cerr << "Failed: " << reason.c_str() << "." << endl;
-                }
-                else
-                {
-                    // Now, process the second element.
-                    MplusM::Common::Package * matchesList = matches.get(1).asList();
-                    
-                    if (matchesList)
+                    if (MplusM::Utilities::GetNameAndDescriptionForService(aService, descriptor))
                     {
-                        bool reported = false;
-                        int  matchesCount = matchesList->size();
+                        yarp::os::ConstString channelNames;
                         
-                        if (matchesCount)
-                        {
-                            for (int ii = 0; ii < matchesCount; ++ii)
-                            {
-                                yarp::os::ConstString                aMatch(matchesList->get(ii).toString());
-                                MplusM::Utilities::ServiceDescriptor descriptor;
-                                
-                                if (GetNameAndDescriptionForService(aMatch, descriptor))
-                                {
-                                    yarp::os::ConstString channelNames;
-                                    
-                                    if (! reported)
-                                    {
-                                        cout << "Services: " << endl;
-                                    }
-                                    reported = true;
-                                    for (int jj = 0, mm = descriptor._channels.size(); mm > jj; ++jj)
-                                    {
-                                        if (jj)
-                                        {
-                                            channelNames += " ";
-                                        }
-                                        channelNames += descriptor._channels[ii];
-                                    }
-                                    cout << endl;
-                                    cout << "Service port:       " << aMatch.c_str() << endl;
-                                    cout << "Service name:       " << descriptor._canonicalName.c_str() << endl;
-                                    MplusM::OutputDescription(cout, "Description:        ", descriptor._description);
-                                    cout << "Path:               " << descriptor._path.c_str() << endl;
-                                    MplusM::OutputDescription(cout, "Secondary channels: ", channelNames + "\n");
-                                 }
-                            }
-                            cout << endl;
-                        }
                         if (! reported)
                         {
-                            cout << "No services found." << endl;
+                            cout << "Services: " << endl;
                         }
-                    }
-                    else
-                    {
-                        OD_LOG("! (matchesList)");//####
+                        reported = true;
+                        for (int jj = 0, mm = descriptor._channels.size(); mm > jj; ++jj)
+                        {
+                            if (jj)
+                            {
+                                channelNames += " ";
+                            }
+                            channelNames += descriptor._channels[ii];
+                        }
+                        cout << endl;
+                        cout << "Service port:       " << aService.c_str() << endl;
+                        cout << "Service name:       " << descriptor._canonicalName.c_str() << endl;
+                        MplusM::OutputDescription(cout, "Description:        ", descriptor._description);
+                        cout << "Path:               " << descriptor._path.c_str() << endl;
+                        MplusM::OutputDescription(cout, "Secondary channels: ", channelNames + "\n");
                     }
                 }
+                cout << endl;
             }
-            else
+            if (! reported)
             {
-                OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
-                cerr << "Problem getting information from the Service Registry." << endl;
+                cout << "No services found." << endl;
             }
         }
 #if CheckNetworkWorks_

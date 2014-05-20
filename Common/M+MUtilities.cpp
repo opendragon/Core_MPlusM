@@ -41,6 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "M+MUtilities.h"
+#include "M+MBaseClient.h"
 #include "M+MClientChannel.h"
 #include "M+MRequests.h"
 #include "M+MServiceRequest.h"
@@ -361,3 +362,40 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
     OD_LOG_EXIT_B(result);//####
     return result;
 } // MplusM::Utilities::GetNameAndDescriptionForService
+
+void MplusM::Utilities::GetServiceNames(StringVector & services)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("services = ", &services);//####
+    MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(MpM_REQREP_DICT_REQUEST_KEY ":*"));
+    
+    services.clear();
+    if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+    {
+        // First, check if the search succeeded.
+        yarp::os::ConstString matchesFirstString(matches.get(0).toString());
+        
+        if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
+        {
+            OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))");//####
+        }
+        else
+        {
+            // Now, process the second element.
+            MplusM::Common::Package * matchesList = matches.get(1).asList();
+            
+            if (matchesList)
+            {
+                for (int ii = 0, matchesCount = matchesList->size(); ii < matchesCount; ++ii)
+                {
+                    services.push_back(matchesList->get(ii).toString());
+                }
+            }
+        }
+    }
+    else
+    {
+        OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
+    }
+    OD_LOG_EXIT();//####
+} // MplusM::Utilities::GetServiceNames

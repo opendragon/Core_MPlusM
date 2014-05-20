@@ -98,6 +98,10 @@ namespace MplusM
         bool GetNameAndDescriptionForService(const yarp::os::ConstString & serviceChannelName,
                                              ServiceDescriptor &           descriptor);
 
+        /*! @brief Retrieve the set of known services.
+         @param services The set of registered services. */
+        void GetServiceNames(Common::StringVector & services);
+        
     } // Utilities
     
 } // MplusM
