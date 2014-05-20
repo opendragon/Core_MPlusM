@@ -89,6 +89,7 @@ static const char * kLineMarker = "registration name ";
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if 0
 /*! @brief Process the response from the name server.
  
  Note that each line of the response, except the last, is started with 'registration name'. This is followed by the
@@ -183,12 +184,111 @@ static void processNameServerResponse(const yarp::os::ConstString &  received,
     }
     OD_LOG_EXIT();//####
 } // processNameServerResponse
+#endif//0
+
+/*! @brief Process the response from the name server.
+ 
+ Note that each line of the response, except the last, is started with 'registration name'. This is followed by the
+ port name, 'ip', the IP address, 'port' and the port number.
+ @param received The response to be processed.
+ @param ports The list of non-default ports/ipaddress/portnumber found. */
+static void processNameServerResponse(const yarp::os::ConstString & received,
+                                      PortVector &                  ports)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("received = ", received.c_str());//####
+    size_t                lineMakerLength = strlen(kLineMarker);
+    yarp::os::ConstString nameServerName(yarp::os::Network::getNameServerName());
+    yarp::os::ConstString workingCopy(received);
+    
+    OD_LOG_S1("nameServerName = ", nameServerName.c_str());//####
+    for (size_t nextPos = 0; yarp::os::ConstString::npos != nextPos; )
+    {
+        nextPos = workingCopy.find(kLineMarker);
+        if (yarp::os::ConstString::npos != nextPos)
+        {
+            workingCopy = workingCopy.substr(nextPos + lineMakerLength);
+            size_t chopPos = workingCopy.find(kLineMarker);
+            
+            if (yarp::os::ConstString::npos != chopPos)
+            {
+                char *                channelName;
+                yarp::os::ConstString chopped(workingCopy.substr(0, chopPos));
+                char *                choppedAsChars = strdup(chopped.c_str());
+                char *                ipAddress;
+                char *                saved;
+                char *                pp = strtok_r(choppedAsChars, " ", &saved);
+                
+                if (pp)
+                {
+                    // Port name
+                    if ('/' == *pp)
+                    {
+                        channelName = pp;
+                        if (nameServerName == channelName)
+                        {
+                            pp = NULL;
+                        }
+                        else
+                        {
+                            pp = strtok_r(NULL, " ", &saved);
+                        }
+                    }
+                    else
+                    {
+                        pp = NULL;
+                    }
+                }
+                if (pp)
+                {
+                    // 'ip'
+                    if (strcmp(pp, "ip"))
+                    {
+                        pp = NULL;
+                    }
+                    else
+                    {
+                        pp = strtok_r(NULL, " ", &saved);
+                    }
+                }
+                if (pp)
+                {
+                    ipAddress = pp;
+                    pp = strtok_r(NULL, " ", &saved);
+                }
+                if (pp)
+                {
+                    // 'port'
+                    if (strcmp(pp, "port"))
+                    {
+                        pp = NULL;
+                    }
+                    else
+                    {
+                        pp = strtok_r(NULL, " ", &saved);
+                    }
+                }
+                if (pp)
+                {
+                    PortDescriptor aDescriptor;
+                    
+                    aDescriptor._portName = channelName;
+                    aDescriptor._portIpAddress = ipAddress;
+                    aDescriptor._portPortNumber = pp;
+                    ports.push_back(aDescriptor);
+                }
+                free(choppedAsChars);
+            }
+        }
+    }
+    OD_LOG_EXIT();//####
+} // processNameServerResponse
 
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-bool MplusM::Utilities::CheckForRegistryService(const StringVector & ports)
+bool MplusM::Utilities::CheckForRegistryService(const PortVector & ports)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("ports = ", &ports);//####
@@ -196,9 +296,9 @@ bool MplusM::Utilities::CheckForRegistryService(const StringVector & ports)
     
     for (size_t ii = 0, mm = ports.size(); mm > ii; ++ii)
     {
-        const yarp::os::ConstString & aString = ports.at(ii);
+        const PortDescriptor & aDescriptor = ports[ii];
         
-        if (aString == MpM_REGISTRY_CHANNEL_NAME)
+        if (aDescriptor._portName == MpM_REGISTRY_CHANNEL_NAME)
         {
             result = true;
             break;
@@ -208,13 +308,13 @@ bool MplusM::Utilities::CheckForRegistryService(const StringVector & ports)
     return result;
 } // MplusM::Utilities::CheckForRegistryService
 
-void MplusM::Utilities::GetDetectedPortList(StringVector & ports)
+void MplusM::Utilities::GetDetectedPortList(PortVector & ports)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("ports = ", &ports);//####
-    Package                 request;
-    Package                 response;
-    yarp::os::ContactStyle  contactInfo;
+    Package                request;
+    Package                response;
+    yarp::os::ContactStyle contactInfo;
     
     ports.clear();
     request.addString("list");

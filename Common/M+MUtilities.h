@@ -60,16 +60,29 @@
 namespace MplusM
 {
     namespace Utilities
-    {       
+    {
+        /*! @brief */
+        struct PortDescriptor
+        {
+            /*! @brief The registered name of the port. */
+            yarp::os::ConstString _portName;
+            /*! @brief The IP address for the port. */
+            yarp::os::ConstString _portIpAddress;
+            /*! @brief The IP port number for the port. */
+            yarp::os::ConstString _portPortNumber;
+        }; // PortDescriptor
+        
+        typedef std::vector<PortDescriptor> PortVector;
+        
         /*! @brief Check if the Registry Service is active.
          @param ports The set of detected ports.
          @returns @c true if the Registry Service port is present and @c false otherwise. */
-        bool CheckForRegistryService(const MplusM::Common::StringVector & ports);
+        bool CheckForRegistryService(const PortVector & ports);
         
         /*! @brief Get the set of detected ports.
          @param ports The set of detected ports. */
-        void GetDetectedPortList(MplusM::Common::StringVector & ports);
-        
+        void GetDetectedPortList(PortVector & ports);
+
     } // Utilities
     
 } // MplusM

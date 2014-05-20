@@ -265,27 +265,25 @@ static void reportConnections(const yarp::os::ConstString & portName)
 } // reportConnections
 
 /*! @brief Print out connection information for a port.
- @param portName The name of the port of interest. */
-static void reportPortStatus(const yarp::os::ConstString & portName,
-                             const yarp::os::ConstString & ipAddress,
-                             const yarp::os::ConstString & portNumber,
-                             const bool                    checkWithRegistry)
+ @param aDescriptor The attributes of the port of interest.
+ @param checkWithRegistry @c true if the Service Registry is available for requests and @c false otherwise. */
+static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescriptor,
+                             const bool                                checkWithRegistry)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S3("portName = ", portName.c_str(), "ipAddress = ", ipAddress.c_str(), "portNumber = ",//####
-              portNumber.c_str());//####
+    OD_LOG_P1("aDescriptor = ", &aDescriptor);//####
     OD_LOG_B1("checkWithRegistry = ", checkWithRegistry);//####
     const size_t kAdapterPortNameBaseLen = sizeof(ADAPTER_PORT_NAME_BASE) - 1;
     const size_t kClientPortNameBaseLen = sizeof(CLIENT_PORT_NAME_BASE) - 1;
     const size_t kDefaultServiceNameBaseLen = sizeof(DEFAULT_SERVICE_NAME_BASE) - 1;
-    const char * portNameChars = portName.c_str();
+    const char * portNameChars = aDescriptor._portName.c_str();
 
-    cout << portName.c_str() << ": ";
+    cout << portNameChars << ": ";
     if (checkWithRegistry)
     {
         yarp::os::ConstString request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
         
-        request += portName;
+        request += portNameChars;
         MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(request.c_str(), true));
         
         OD_LOG_S1("matches <- ", matches.toString().c_str());//####
@@ -311,7 +309,8 @@ static void reportPortStatus(const yarp::os::ConstString & portName,
                 else
                 {
                     // A plain port.
-                    cout << "Standard port at " << ipAddress.c_str() << ":" << portNumber.c_str();
+                    cout << "Standard port at " << aDescriptor._portIpAddress.c_str() << ":" <<
+                            aDescriptor._portPortNumber.c_str();
                 }
             }
             else
@@ -326,7 +325,7 @@ static void reportPortStatus(const yarp::os::ConstString & portName,
                     {
                         yarp::os::ConstString serviceName(matches.get(1).toString());
                         
-                        if (portName == MpM_REGISTRY_CHANNEL_NAME)
+                        if (aDescriptor._portName == MpM_REGISTRY_CHANNEL_NAME)
                         {
                             cout << "Service registry port for '" << serviceName.c_str() << "'.";
                         }
@@ -354,7 +353,8 @@ static void reportPortStatus(const yarp::os::ConstString & portName,
                         else
                         {
                             // A plain port.
-                            cout << "Standard port at " << ipAddress.c_str() << ":" << portNumber.c_str();
+                            cout << "Standard port at " << aDescriptor._portIpAddress.c_str() << ":" <<
+                                    aDescriptor._portPortNumber.c_str();
                         }
                     }
                 }
@@ -380,11 +380,12 @@ static void reportPortStatus(const yarp::os::ConstString & portName,
         else
         {
             // A plain port.
-            cout << "Standard port at " << ipAddress.c_str() << ":" << portNumber.c_str();
+            cout << "Standard port at " << aDescriptor._portIpAddress.c_str() << ":" <<
+                    aDescriptor._portPortNumber.c_str();
         }
     }
     cout << endl;
-    reportConnections(portName);
+    reportConnections(aDescriptor._portName);
     OD_LOG_EXIT();//####
 } // reportPortStatus
 
@@ -416,26 +417,23 @@ int main(int      argc,
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
 
             MplusM::Common::Initialize(*argv);
-            MplusM::Common::StringVector ports;
-            bool                         found = false;
+            MplusM::Utilities::PortVector ports;
+            bool                          found = false;
             
             MplusM::Utilities::GetDetectedPortList(ports);
             if (ports.size())
             {
                 bool serviceRegistryPresent = MplusM::Utilities::CheckForRegistryService(ports);
                 
-                for (size_t ii = 0, mm = ports.size(); mm > ii; ii += 3)
+                for (size_t ii = 0, mm = ports.size(); mm > ii; ++ii)
                 {
-                    const yarp::os::ConstString & aString = ports.at(ii);
-                    const yarp::os::ConstString & bString = ports.at(ii + 1);
-                    const yarp::os::ConstString & cString = ports.at(ii + 2);
-                    
+                    MplusM::Utilities::PortDescriptor & aDescriptor = ports[ii];
                     if (! found)
                     {
                         cout << "Ports:" << endl << endl;
                         found = true;
                     }
-                    reportPortStatus(aString, bString, cString, serviceRegistryPresent);
+                    reportPortStatus(aDescriptor, serviceRegistryPresent);
                 }
             }
             if (! found)
