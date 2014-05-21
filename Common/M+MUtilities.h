@@ -61,7 +61,20 @@ namespace MplusM
 {
     namespace Utilities
     {
-        /*! @brief */
+        /*! @brief Which combination of input and output to use. */
+        enum InputOutputFlag
+        {
+            /*! @brief Neither input nor output. */
+            kInputAndOutputNone   = 0x0,
+            /*! @brief Input. */
+            kInputAndOutputInput  = 0x1,
+            /*! @brief Output. */
+            kInputAndOutputOutput = 0x2,
+            /*! @brief Both input and output. */
+            kInputAndOutputBoth   = 0x3
+        }; // InputOutputFlag
+        
+        /*! @brief The attributes of a port. */
         struct PortDescriptor
         {
             /*! @brief The registered name of the port. */
@@ -72,20 +85,38 @@ namespace MplusM
             yarp::os::ConstString _portPortNumber;
         }; // PortDescriptor
         
+        /*! @brief The attributes of a service. */
         struct ServiceDescriptor
         {
+            /*! @brief The standard name for the service. */
             yarp::os::ConstString _canonicalName;
+            /*! @brief The description of the service. */
             yarp::os::ConstString _description;
+            /*! @brief The name of the input channel for the service. */
             yarp::os::ConstString _path;
+            /*! @brief The set of secondary channels for the service. */
             Common::StringVector  _channels;
         }; // ServiceDescriptor
         
+        /*! @brief A set of port descriptions. */
         typedef std::vector<PortDescriptor> PortVector;
         
         /*! @brief Check if the Registry Service is active.
          @param ports The set of detected ports.
          @returns @c true if the Registry Service port is present and @c false otherwise. */
         bool CheckForRegistryService(const PortVector & ports);
+        
+        /*! @brief Collect the input and output connections for a port.
+         @param portName The port to be inspected.
+         @param inputs The collected inputs for the port.
+         @param outputs The collected outputs for the port.
+         @param which A flag to specify what is to be gathered.
+         @param quiet @c true if status output is to be suppressed and @c false otherwise. */
+        void GatherPortConnections(const yarp::os::ConstString & portName,
+                                   Common::StringVector &        inputs,
+                                   Common::StringVector &        outputs,
+                                   const InputOutputFlag         which,
+                                   const bool                    quiet = false);
         
         /*! @brief Get the set of detected ports.
          @param ports The set of detected ports. */
@@ -99,8 +130,10 @@ namespace MplusM
                                              ServiceDescriptor &           descriptor);
 
         /*! @brief Retrieve the set of known services.
-         @param services The set of registered services. */
-        void GetServiceNames(Common::StringVector & services);
+         @param services The set of registered services.
+         @param quiet @c true if status output is to be suppressed and @c false otherwise. */
+        void GetServiceNames(Common::StringVector & services,
+                             const bool             quiet = false);
         
     } // Utilities
     

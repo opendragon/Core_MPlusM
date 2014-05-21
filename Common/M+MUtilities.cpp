@@ -60,7 +60,9 @@
 # pragma clang diagnostic ignored "-Wunused-parameter"
 # pragma clang diagnostic ignored "-Wweak-vtables"
 #endif // defined(__APPLE__)
-#include <yarp/os/Network.h>
+#include <yarp/os/impl/BufferedConnectionWriter.h>
+#include <yarp/os/impl/PortCommand.h>
+#include <yarp/os/impl/Protocol.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -89,6 +91,9 @@ using std::endl;
 /*! @brief The indicator string for the beginning of new information received. */
 static const char * kLineMarker = "registration name ";
 
+/*! @brief The part name being used for probing connections. */
+static const char * kMagicName = "<!!!>";
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -97,6 +102,93 @@ static const char * kLineMarker = "registration name ";
 //ASSUME WINDOWS
 # define strtok_r strtok_s
 #endif // defined (! MAC_OR_LINUX_)
+
+/*! @brief Check if the response is for an input connection.
+ @param response The response from the port that is being checked.
+ @param inputs The collected inputs for the port. */
+static void checkForInputConnection(const yarp::os::Bottle &       response,
+                                    MplusM::Common::StringVector & inputs)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("response = ", response.toString().c_str());//####
+    OD_LOG_P1("inputs = ", &inputs);//####
+    bool         sawConnection = false;
+    const char * matchString[] = { "There", "is", "an", "input", "connection", "from", NULL, "to", NULL };
+    int          respLen = response.size();
+    int          matchLen = (sizeof(matchString) / sizeof(*matchString));
+    
+    if (respLen > matchLen)
+    {
+        bool matched = true;
+        
+        for (int ii = 0; matched && (ii < matchLen); ++ii)
+        {
+            yarp::os::ConstString element(response.get(ii).asString());
+            
+            if (matchString[ii])
+            {
+                if (element != matchString[ii])
+                {
+                    matched = false;
+                }
+            }
+        }
+        if (matched)
+        {
+            yarp::os::ConstString destination(response.get(matchLen - 1).asString());
+            yarp::os::ConstString source(response.get(matchLen - 3).asString());
+            
+            if ((source != kMagicName) && (destination != kMagicName))
+            {
+                inputs.push_back(source);
+            }
+        }
+    }
+    OD_LOG_EXIT();//####
+} // checkForInputConnection
+
+/*! @brief Check if the response is for an output connection.
+ @param response The response from the port that is being checked.
+ @param outputs The collected outputs for the port. */
+static void checkForOutputConnection(const yarp::os::Bottle &       response,
+                                     MplusM::Common::StringVector & outputs)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("response = ", response.toString().c_str());//####
+    OD_LOG_P1("outputs = ", &outputs);//####
+    const char * matchString[] = { "There", "is", "an", "output", "connection", "from", NULL, "to", NULL };
+    int          respLen = response.size();
+    int          matchLen = (sizeof(matchString) / sizeof(*matchString));
+    
+    if (respLen > matchLen)
+    {
+        bool matched = true;
+        
+        for (int ii = 0; matched && (ii < matchLen); ++ii)
+        {
+            yarp::os::ConstString element(response.get(ii).asString());
+            
+            if (matchString[ii])
+            {
+                if (element != matchString[ii])
+                {
+                    matched = false;
+                }
+            }
+        }
+        if (matched)
+        {
+            yarp::os::ConstString destination(response.get(matchLen - 1).asString());
+            yarp::os::ConstString source(response.get(matchLen - 3).asString());
+            
+            if ((source != kMagicName) && (destination != kMagicName))
+            {
+                outputs.push_back(destination);
+            }
+        }
+    }
+    OD_LOG_EXIT();//####
+} // checkForOutputConnection
 
 /*! @brief Process the response from the name server.
  
@@ -219,6 +311,88 @@ bool MplusM::Utilities::CheckForRegistryService(const PortVector & ports)
     }
     return result;
 } // MplusM::Utilities::CheckForRegistryService
+
+void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
+                                              Common::StringVector &        inputs,
+                                              Common::StringVector &        outputs,
+                                              const InputOutputFlag         which,
+                                              const bool                    quiet)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_P2("inputs = ", &inputs, "outputs = ", &outputs);//####
+    OD_LOG_L1("which = ", static_cast<int>(which));//####
+    OD_LOG_B1("quiet = ", quiet);//####
+    yarp::os::Contact address = yarp::os::Network::queryName(portName.c_str());
+    
+    inputs.clear();
+    outputs.clear();
+    if (address.isValid())
+    {
+        if ((address.getCarrier() == "tcp") || (address.getCarrier() == "xmlrpc"))
+        {
+            // Note that the following connect() call will hang indefinitely if the address given is for an 'output'
+            // port that is connected to another 'output' port. 'yarp ping /port' will hang as well.
+            yarp::os::OutputProtocol * out = yarp::os::impl::Carriers::connect(address);
+            
+            if (out)
+            {
+                yarp::os::Route rr(kMagicName, portName.c_str(), "text_ack");
+                
+                if (out->open(rr))
+                {
+                    yarp::os::Bottle                         resp;
+                    yarp::os::impl::BufferedConnectionWriter bw(out->getConnection().isTextMode());
+                    yarp::os::InputStream &                  is = out->getInputStream();
+                    yarp::os::OutputStream &                 os = out->getOutputStream();
+                    yarp::os::impl::PortCommand              pc(0, "*");
+                    yarp::os::impl::StreamConnectionReader   reader;
+                    
+                    pc.write(bw);
+                    bw.write(os);
+                    reader.reset(is, NULL, rr, 0, true);
+                    for (bool done = false; ! done; )
+                    {
+                        resp.read(reader);
+                        yarp::os::ConstString checkString(resp.get(0).asString());
+                        
+                        if (checkString == "<ACK>")
+                        {
+                            done = true;
+                        }
+                        else if (checkString == "There")
+                        {
+                            if (which & kInputAndOutputInput)
+                            {
+                                checkForInputConnection(resp, inputs);
+                            }
+                            if (which & kInputAndOutputOutput)
+                            {
+                                checkForOutputConnection(resp, outputs);                                
+                            }
+                        }
+                    }
+                }
+                else if (! quiet)
+                {
+                    cerr << "Could not open route to port." << endl;
+                }
+                delete out;
+            }
+            else if (! quiet)
+            {
+                cerr << "Could not connect to port." << endl;
+            }
+        }
+        else if (! quiet)
+        {
+            cerr << "Port not using recognized connection type." << endl;
+        }
+    }
+    else if (! quiet)
+    {
+        cerr << "Port name not recognized." << endl;
+    }
+} // MplusM::Utilities::GatherPortConnections
 
 void MplusM::Utilities::GetDetectedPortList(PortVector & ports)
 {
@@ -368,10 +542,12 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
     return result;
 } // MplusM::Utilities::GetNameAndDescriptionForService
 
-void MplusM::Utilities::GetServiceNames(StringVector & services)
+void MplusM::Utilities::GetServiceNames(StringVector & services,
+                                        const bool     quiet)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("services = ", &services);//####
+    OD_LOG_B1("quiet = ", quiet);//####
     MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(MpM_REQREP_DICT_REQUEST_KEY ":*"));
     
     services.clear();
@@ -383,6 +559,12 @@ void MplusM::Utilities::GetServiceNames(StringVector & services)
         if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
         {
             OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))");//####
+            if (! quiet)
+            {
+                yarp::os::ConstString reason(matches.get(1).toString());
+                
+                cerr << "Failed: " << reason.c_str() << "." << endl;
+            }
         }
         else
         {
@@ -401,6 +583,10 @@ void MplusM::Utilities::GetServiceNames(StringVector & services)
     else
     {
         OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
+        if (! quiet)
+        {
+            cerr << "Problem getting information from the Service Registry." << endl;            
+        }
     }
     OD_LOG_EXIT();//####
 } // MplusM::Utilities::GetServiceNames
