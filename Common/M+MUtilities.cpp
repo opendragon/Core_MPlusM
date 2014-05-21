@@ -93,6 +93,11 @@ static const char * kLineMarker = "registration name ";
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+//ASSUME WINDOWS
+# define strtok_r strtok_s
+#endif // defined (! MAC_OR_LINUX_)
+
 /*! @brief Process the response from the name server.
  
  Note that each line of the response, except the last, is started with 'registration name'. This is followed by the
