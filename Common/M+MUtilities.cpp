@@ -83,6 +83,7 @@ using namespace MplusM::Common;
 using namespace MplusM::Utilities;
 using std::cout;
 using std::endl;
+using std::cerr;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
