@@ -4,8 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for the standard 'match'
-//              request.
+//  Contains:   The class declaration for the request handler for the 'match' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -52,7 +51,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for the standard 'match' request. */
+ @brief The class declaration for the request handler for the 'match' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -68,7 +67,7 @@ namespace MplusM
     {
         class RegistryService;
         
-        /*! @brief The standard 'match' request handler.
+        /*! @brief The 'match' request handler.
          
          The input is in the form of a pattern to be matched and the output is either 'OK', followed by a list of
          matching service channels, which indicates success, or 'FAILED' followed with a description of the reason for

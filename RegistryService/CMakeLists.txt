@@ -51,7 +51,10 @@ include_directories("${MpM_LOGGING_DIR}"
 # Set up our program
 add_executable(mpmRegistryService
                main.cpp
+               M+MAssociateRequestHandler.cpp
                M+MColumnNameValidator.cpp
+               M+MDisassociateRequestHandler.cpp
+               M+MGetAssociatesRequestHandler.cpp
                M+MMatchRequestHandler.cpp
                M+MRegisterRequestHandler.cpp
                M+MRegistryService.cpp
@@ -71,7 +74,10 @@ enable_testing()
 
 add_executable(M+MRegistryTest
                M+MRegistryTest.cpp
+               M+MAssociateRequestHandler.cpp
                M+MColumnNameValidator.cpp
+               M+MDisassociateRequestHandler.cpp
+               M+MGetAssociatesRequestHandler.cpp
                M+MMatchRequestHandler.cpp
                M+MRegisterRequestHandler.cpp
                M+MRegistryService.cpp

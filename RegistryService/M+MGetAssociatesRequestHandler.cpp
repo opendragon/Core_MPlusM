@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MRegisterRequestHandler.cpp
+//  File:       M+MGetAssociatesRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for the 'register' request.
+//  Contains:   The class definition for the request handler for the 'getAssociates'
+//              request.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,20 +36,23 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-03
+//  Created:    2014-05-22
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MRegisterRequestHandler.h"
-#include "M+MClientChannel.h"
+#include "M+MGetAssociatesRequestHandler.h"
 #include "M+MEndpoint.h"
 #include "M+MRegistryService.h"
 #include "M+MRequests.h"
+#if 0
+#include "M+MClientChannel.h"
 #include "M+MServiceResponse.h"
+#endif//0
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
+#if 0
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -63,6 +67,7 @@
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
+#endif//0
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -70,7 +75,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for the 'register' request. */
+ @brief The class definition for the request handler for the 'getAssociates' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -83,8 +88,8 @@ using namespace MplusM::Registry;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'register' request. */
-#define REGISTER_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'getAssociates' request. */
+#define GETASSOCIATES_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -98,34 +103,34 @@ using namespace MplusM::Registry;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RegisterRequestHandler::RegisterRequestHandler(RegistryService & service) :
-        inherited(MpM_REGISTER_REQUEST), _service(service)
+GetAssociatesRequestHandler::GetAssociatesRequestHandler(RegistryService & service) :
+        inherited(MpM_GETASSOCIATES_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("service = ", &service);//####
     OD_LOG_EXIT_P(this);//####
-} // RegisterRequestHandler::RegisterRequestHandler
+} // GetAssociatesRequestHandler::GetAssociatesRequestHandler
 
-RegisterRequestHandler::~RegisterRequestHandler(void)
+GetAssociatesRequestHandler::~GetAssociatesRequestHandler(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // RegisterRequestHandler::~RegisterRequestHandler
+} // GetAssociatesRequestHandler::~GetAssociatesRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RegisterRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void GetAssociatesRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
     alternateNames.push_back("remember");
     OD_LOG_OBJEXIT();//####
-} // RegisterRequestHandler::fillInAliases
+} // GetAssociatesRequestHandler::fillInAliases
 
-void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                               yarp::os::Property &          info)
+void GetAssociatesRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                                    yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("request = ", request.c_str());//####
@@ -134,16 +139,18 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_STRING);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, REGISTER_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Register the service and its requests\n"
-                 "Input: the channel used by the service\n"
-                 "Output: OK or FAILED, with a description of the problem encountered");
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING MpM_REQREP_INT MpM_REQREP_LIST_START MpM_REQREP_STRING
+                 MpM_REQREP_0_OR_MORE MpM_REQREP_LIST_END MpM_REQREP_LIST_START MpM_REQREP_STRING MpM_REQREP_0_OR_MORE
+                 MpM_REQREP_LIST_END);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, GETASSOCIATES_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Get the channels associated with a channel\n"
+                 "Input: the channel to be checked\n"
+                 "Output: OK or FAILED, integer (0 = secondary, 1 = primary), list of input associates, list of output "
+                 "associates");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         
         asList->addString(request);
-        asList->addString("add");
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
@@ -152,12 +159,12 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // RegisterRequestHandler::fillInDescription
+} // GetAssociatesRequestHandler::fillInDescription
 
-bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                            const Common::Package &       restOfInput,
-                                            const yarp::os::ConstString & senderChannel,
-                                            yarp::os::ConnectionWriter *  replyMechanism)
+bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                                 const Common::Package &       restOfInput,
+                                                 const yarp::os::ConstString & senderChannel,
+                                                 yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -187,6 +194,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                     
                     if (Common::Endpoint::CheckEndpointName(argAsString))
                     {
+#if 0
                         // Send a 'list' request to the channel
                         yarp::os::ConstString   aName(Common::GetRandomChannelName("register/channel_"));
                         Common::ClientChannel * outChannel = new Common::ClientChannel;
@@ -277,6 +285,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                         {
                             OD_LOG("! (outChannel)");
                         }
+#endif//0
                     }
                     else
                     {
@@ -315,10 +324,11 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RegisterRequestHandler::processRequest
+} // GetAssociatesRequestHandler::processRequest
 
-bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &   channelName,
-                                                 const Common::ServiceResponse & response)
+#if 0
+bool GetAssociatesRequestHandler::processListResponse(const yarp::os::ConstString &   channelName,
+                                                      const Common::ServiceResponse & response)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("channelName = ", channelName.c_str(), "response = ", response.asString().c_str());//####
@@ -469,10 +479,12 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &  
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RegisterRequestHandler::processListResponse
+} // GetAssociatesRequestHandler::processListResponse
+#endif//0
 
-bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString &   channelName,
-                                                 const Common::ServiceResponse & response)
+#if 0
+bool GetAssociatesRequestHandler::processNameResponse(const yarp::os::ConstString &   channelName,
+                                                      const Common::ServiceResponse & response)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("channelName = ", channelName.c_str(), "response = ", response.asString().c_str());//####
@@ -518,7 +530,8 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString &  
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RegisterRequestHandler::processNameResponse
+} // GetAssociatesRequestHandler::processNameResponse
+#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Accessors

@@ -4,8 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for the standard 'unregister'
-//              request.
+//  Contains:   The class definition for the request handler for the 'unregister' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -54,7 +53,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for the standard 'unregister' request. */
+ @brief The class definition for the request handler for the 'unregister' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

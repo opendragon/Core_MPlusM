@@ -95,7 +95,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 ServiceChannel::ServiceChannel(void) :
-        inherited()
+        inherited(), _name()
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
@@ -183,6 +183,10 @@ bool ServiceChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
                     yarp::os::Time::delay(retryTime);
                     retryTime *= RETRY_MULTIPLIER;
                 }
+            }
+            if (result)
+            {
+                _name = theChannelName;
             }
         }
         while ((! result) && (0 < retriesLeft));

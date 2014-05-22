@@ -4,7 +4,8 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for a 'detach' request.
+//  Contains:   The class definition for the request handler for the standard 'detach'
+//              request.
 //
 //  Written by: Norman Jaffe
 //
@@ -52,7 +53,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a 'detach' request. */
+ @brief The class definition for the request handler for the standard 'detach' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -64,7 +65,7 @@ using namespace MplusM::Common;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'detach' request. */
+/*! @brief The protocol version number for the standard 'detach' request. */
 #define DETACH_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)

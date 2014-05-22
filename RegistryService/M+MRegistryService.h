@@ -72,7 +72,10 @@ namespace MplusM
     
     namespace Registry
     {
+        class AssociateRequestHandler;
         class ColumnNameValidator;
+        class DisassociateRequestHandler;
+        class GetAssociatesRequestHandler;
         class MatchRequestHandler;
         class RegisterRequestHandler;
         class UnregisterRequestHandler;
@@ -113,6 +116,15 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~RegistryService(void);
             
+            /*! @brief Add an association between channels.
+             @param primaryChannelName The name of the primary channel.
+             @param isOutput @c true if the secondary channel is an output and @c false otherwise.
+             @param secondaryChannelName The name of the associated channel.
+             @returns @c true if the association can be added and @c false otherwise.*/
+            bool addAssociation(const yarp::os::ConstString & primaryChannelName,
+                                const bool                    isOutput,
+                                const yarp::os::ConstString & secondaryChannelName);
+            
             /*! @brief Add a request to the registry.
              @param keywordList The list of keywords associated with the request.
              @param description The attributes of the request.
@@ -152,6 +164,11 @@ namespace MplusM
             bool processMatchRequest(Parser::MatchExpression * matcher,
                                      const bool                getNames,
                                      Common::Package &         reply);
+            
+            /*! @brief Remove all associations for a channel.
+             @param primaryChannelName The name of the primary channel.
+             @returns @c true if the associations were removed and @c false otherwise.*/
+            bool removeAllAssociations(const yarp::os::ConstString & primaryChannelName);
             
             /*! @brief Remove a service entry from the registry.
              @param serviceChannelName The service channel that is being removed.
@@ -225,35 +242,44 @@ namespace MplusM
             bool setUpStatusChannel(void);
             
             /*! @brief The service registry database. */
-            sqlite3 *                  _db;
+            sqlite3 *                     _db;
             
             /*! @brief The validator function object that the Service Registry will use. */
-            ColumnNameValidator *      _validator;
+            ColumnNameValidator *         _validator;
+            
+            /*! @brief The request handler for the 'associate' request. */
+            AssociateRequestHandler *     _associateHandler;
+            
+            /*! @brief The request handler for the 'disassociate' request. */
+            DisassociateRequestHandler *  _disassociateHandler;
+            
+            /*! @brief The request handler for the 'disassociate' request. */
+            GetAssociatesRequestHandler * _getAssociatesHandler;
             
             /*! @brief The request handler for the 'match' request. */
-            MatchRequestHandler *      _matchHandler;
+            MatchRequestHandler *         _matchHandler;
             
             /*! @brief The channel to send status change messages to. */
-            Common::AdapterChannel *   _statusChannel;
+            Common::AdapterChannel *      _statusChannel;
             
             /*! @brief The request handler for the 'register' request. */
-            RegisterRequestHandler *   _registerHandler;
+            RegisterRequestHandler *      _registerHandler;
             
             /*! @brief The request handler for the 'unregister' request. */
-            UnregisterRequestHandler * _unregisterHandler;
+            UnregisterRequestHandler *    _unregisterHandler;
             
             /*! @brief @c true if the database is in-memory and @c false if it is disk-based. */
-            bool                       _inMemory;
+            bool                          _inMemory;
             
             /*! @brief @c true if the registry service is fully operational and @c false if it could not be set up. */
-            bool                       _isActive;
+            bool                          _isActive;
             
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char                       _filler[6];
+            char                          _filler[6];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

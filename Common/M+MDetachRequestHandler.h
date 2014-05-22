@@ -4,7 +4,8 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for a 'detach' request.
+//  Contains:   The class declaration for the request handler for the standard 'detach'
+//              request.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,7 +52,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for a 'detach' request. */
+ @brief The class declaration for the request handler for the standard 'detach' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -62,7 +63,7 @@ namespace MplusM
     {
         class BaseService;
         
-        /*! @brief The example 'detach' request handler.
+        /*! @brief The standard 'detach' request handler.
          
          There is no input or output for the request. */
         class DetachRequestHandler : public BaseRequestHandler

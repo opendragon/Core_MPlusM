@@ -138,6 +138,12 @@
 		DF7784FD18ECA65200BDC5C1 /* M+MEchoRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MEchoRequests.h"; path = "../examples/EchoCommon/M+MEchoRequests.h"; sourceTree = SOURCE_ROOT; };
 		DF7784FE18ECA6D000BDC5C1 /* M+MRandomNumberRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomNumberRequests.h"; path = "../examples/RandomNumberCommon/M+MRandomNumberRequests.h"; sourceTree = SOURCE_ROOT; };
 		DF7784FF18ECA72000BDC5C1 /* M+MRunningSumRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumRequests.h"; path = "../examples/RunningSumCommon/M+MRunningSumRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF95CA19192E8C2F00BDABA1 /* M+MAssociateRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAssociateRequestHandler.cpp"; path = "../RegistryService/M+MAssociateRequestHandler.cpp"; sourceTree = "<group>"; };
+		DF95CA1A192E8C2F00BDABA1 /* M+MAssociateRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAssociateRequestHandler.h"; path = "../RegistryService/M+MAssociateRequestHandler.h"; sourceTree = "<group>"; };
+		DF95CA1B192E907E00BDABA1 /* M+MDisassociateRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MDisassociateRequestHandler.cpp"; path = "../RegistryService/M+MDisassociateRequestHandler.cpp"; sourceTree = "<group>"; };
+		DF95CA1C192E907E00BDABA1 /* M+MDisassociateRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MDisassociateRequestHandler.h"; path = "../RegistryService/M+MDisassociateRequestHandler.h"; sourceTree = "<group>"; };
+		DF95CA1D192E927700BDABA1 /* M+MGetAssociatesRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MGetAssociatesRequestHandler.cpp"; path = "../RegistryService/M+MGetAssociatesRequestHandler.cpp"; sourceTree = "<group>"; };
+		DF95CA1E192E927700BDABA1 /* M+MGetAssociatesRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MGetAssociatesRequestHandler.h"; path = "../RegistryService/M+MGetAssociatesRequestHandler.h"; sourceTree = "<group>"; };
 		DFA3431318C91B7E0053B87C /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = main.cpp; path = ../RegistryService/main.cpp; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DFA3432718C91C5A0053B87C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = ../Common/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFA3432818C91C5A0053B87C /* M+MBaseClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MBaseClient.cpp"; path = "../Common/M+MBaseClient.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -482,8 +488,14 @@
 			children = (
 				DF27F42C18CA37E000E93C95 /* CMakeLists.txt */,
 				DFA3431318C91B7E0053B87C /* main.cpp */,
+				DF95CA19192E8C2F00BDABA1 /* M+MAssociateRequestHandler.cpp */,
+				DF95CA1A192E8C2F00BDABA1 /* M+MAssociateRequestHandler.h */,
 				DFA86D1C18E0D3AE00A22941 /* M+MColumnNameValidator.cpp */,
 				DFA86D1D18E0D3AE00A22941 /* M+MColumnNameValidator.h */,
+				DF95CA1B192E907E00BDABA1 /* M+MDisassociateRequestHandler.cpp */,
+				DF95CA1C192E907E00BDABA1 /* M+MDisassociateRequestHandler.h */,
+				DF95CA1D192E927700BDABA1 /* M+MGetAssociatesRequestHandler.cpp */,
+				DF95CA1E192E927700BDABA1 /* M+MGetAssociatesRequestHandler.h */,
 				DF27F43A18CE48E000E93C95 /* M+MMatchRequestHandler.cpp */,
 				DF27F43B18CE48E000E93C95 /* M+MMatchRequestHandler.h */,
 				DFA3434018C91C5A0053B87C /* M+MRegisterRequestHandler.cpp */,

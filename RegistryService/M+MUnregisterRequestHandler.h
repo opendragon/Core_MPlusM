@@ -4,8 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for the standard 'unregister'
-//              request.
+//  Contains:   The class declaration for the request handler for the 'unregister' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -52,7 +51,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for the standard 'unregister' request. */
+ @brief The class declaration for the request handler for the 'unregister' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -63,7 +62,7 @@ namespace MplusM
     {
         class RegistryService;
         
-        /*! @brief The standard 'unregister' request handler.
+        /*! @brief The 'unregister' request handler.
          
          The input is the name of a service channel and the output is either 'OK', which indicates success, or 'FAILED'
          followed with a description of the reason for failure. */

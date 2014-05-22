@@ -156,8 +156,8 @@ int main(int      argc,
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     if (stuff->connectToService())
                     {
-                        MplusM::Common::AdapterChannel * inputChannel = new MplusM::Common::AdapterChannel;
-                        MplusM::Common::AdapterChannel * outputChannel = new MplusM::Common::AdapterChannel;
+                        MplusM::Common::AdapterChannel * inputChannel = new MplusM::Common::AdapterChannel(false);
+                        MplusM::Common::AdapterChannel * outputChannel = new MplusM::Common::AdapterChannel(true);
                         RandomNumberAdapterData          sharedData(stuff, outputChannel);
                         RandomNumberInputHandler *       inputHandler = new RandomNumberInputHandler(sharedData);
                         
@@ -182,6 +182,8 @@ int main(int      argc,
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                             if (inputChannel->openWithRetries(inputName) && outputChannel->openWithRetries(outputName))
                             {
+                                stuff->addAssociatedChannel(inputChannel);
+                                stuff->addAssociatedChannel(outputChannel);
                                 sharedData.activate();
                                 inputChannel->setReader(*inputHandler);
                                 for ( ; lKeepRunning && sharedData.isActive(); )
@@ -196,6 +198,7 @@ int main(int      argc,
                                         sharedData.deactivate();
                                     }
                                 }
+                                stuff->removeAssociatedChannels();
                             }
                             else
                             {

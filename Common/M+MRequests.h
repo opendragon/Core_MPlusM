@@ -60,39 +60,51 @@
 /*! @brief The channel-independent name of the service registry service. */
 # define MpM_REGISTRY_CANONICAL_NAME "Registry"
 
+/*! @brief The name for an 'associate' request. */
+# define MpM_ASSOCIATE_REQUEST     "associate"
 /*! @brief The standard name for a 'channels' request. */
-# define MpM_CHANNELS_REQUEST   "channels"
-/*! @brief The name for the 'clients' request. */
-# define MpM_CLIENTS_REQUEST    "clients"
-/*! @brief The name for the 'count' request. */
-# define MpM_COUNT_REQUEST      "count"
-/*! @brief The name for the 'detach' request. */
-# define MpM_DETACH_REQUEST     "detach"
+# define MpM_CHANNELS_REQUEST      "channels"
+/*! @brief The standard name for the 'clients' request. */
+# define MpM_CLIENTS_REQUEST       "clients"
+/*! @brief The standard name for the 'count' request. */
+# define MpM_COUNT_REQUEST         "count"
+/*! @brief The standard name for the 'detach' request. */
+# define MpM_DETACH_REQUEST        "detach"
+/*! @brief The name for the 'disassociate' request. */
+# define MpM_DISASSOCIATE_REQUEST  "disassociate"
 /*! @brief The name for the 'echo' request. */
-# define MpM_ECHO_REQUEST       "echo"
+# define MpM_ECHO_REQUEST          "echo"
+/*! @brief The name for the 'getAssociates' request. */
+# define MpM_GETASSOCIATES_REQUEST "getAssociates"
 /*! @brief The standard name for an 'info' request. */
-# define MpM_INFO_REQUEST       "info"
+# define MpM_INFO_REQUEST          "info"
 /*! @brief The standard name for a 'list' request. */
-# define MpM_LIST_REQUEST       "list"
-/*! @brief The standard name for a 'match' request. */
-# define MpM_MATCH_REQUEST      "match"
+# define MpM_LIST_REQUEST          "list"
+/*! @brief The name for a 'match' request. */
+# define MpM_MATCH_REQUEST         "match"
 /*! @brief The standard name for a 'name' request. */
-# define MpM_NAME_REQUEST       "name"
-/*! @brief The standard name for a 'register' request. */
-# define MpM_REGISTER_REQUEST   "register"
-/*! @brief The standard name for an 'unregister' request. */
-# define MpM_UNREGISTER_REQUEST "unregister"
+# define MpM_NAME_REQUEST          "name"
+/*! @brief The name for a 'register' request. */
+# define MpM_REGISTER_REQUEST      "register"
+/*! @brief The name for an 'unregister' request. */
+# define MpM_UNREGISTER_REQUEST    "unregister"
 
+/*! @brief The number of elements expected in the output of an 'associate' request. */
+# define MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE     1
 /*! @brief The number of elements expected in the output of a 'channels' request. */
-# define MpM_EXPECTED_CHANNELS_RESPONSE_SIZE 2
+# define MpM_EXPECTED_CHANNELS_RESPONSE_SIZE      2
+/*! @brief The number of elements expected in the output of a 'disassociate' request. */
+# define MpM_EXPECTED_DISASSOCIATE_RESPONSE_SIZE  1
+/*! @brief The number of elements expected in the output of a 'getAssociates' request. */
+# define MpM_EXPECTED_GETASSOCIATES_RESPONSE_SIZE 4
 /*! @brief The number of elements expected in the output of a 'match' request. */
-# define MpM_EXPECTED_MATCH_RESPONSE_SIZE    2
+# define MpM_EXPECTED_MATCH_RESPONSE_SIZE         2
 /*! @brief The number of elements expected in the output of a 'name' request. */
-# define MpM_EXPECTED_NAME_RESPONSE_SIZE     3
+# define MpM_EXPECTED_NAME_RESPONSE_SIZE          3
 
-/*! @brief The standard response to an invalid 'register' / 'unregister' request. */
+/*! @brief The standard response to an invalid Service Registry request. */
 # define MpM_FAILED_RESPONSE "FAILED"
-/*! @brief The standard response to a valid 'register' / 'unregister' request. */
+/*! @brief The standard response to a valid Service Registry request. */
 # define MpM_OK_RESPONSE     "OK"
 
 /*! @brief A service is being added to the registry. */

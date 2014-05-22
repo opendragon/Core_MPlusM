@@ -42,7 +42,7 @@
 #include "M+MRegistryService.h"
 #include "M+MRequests.h"
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <cstring>

@@ -90,8 +90,8 @@ using namespace MplusM::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-AdapterChannel::AdapterChannel(void) :
-        inherited()
+AdapterChannel::AdapterChannel(const bool isOutput) :
+        inherited(), _name(), _isOutput(isOutput)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
@@ -181,6 +181,10 @@ bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
         }
         while ((! result) && (0 < retriesLeft));
 #endif // ! defined(MpM_DONT_USE_TIMEOUTS)
+        if (result)
+        {
+            _name = theChannelName;
+        }
     }
     catch (...)
     {

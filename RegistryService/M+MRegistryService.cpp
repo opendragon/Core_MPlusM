@@ -41,8 +41,11 @@
 
 #include "M+MRegistryService.h"
 #include "M+MAdapterChannel.h"
+#include "M+MAssociateRequestHandler.h"
 #include "M+MClientChannel.h"
 #include "M+MColumnNameValidator.h"
+#include "M+MDisassociateRequestHandler.h"
+#include "M+MGetAssociatesRequestHandler.h"
 #include "M+MMatchExpression.h"
 #include "M+MMatchRequestHandler.h"
 #include "M+MRegisterRequestHandler.h"
@@ -962,11 +965,15 @@ RegistryService::RegistryService(const char *                  launchPath,
                                  const yarp::os::ConstString & serviceHostName,
                                  const yarp::os::ConstString & servicePortNumber) :
         inherited(launchPath, true, MpM_REGISTRY_CANONICAL_NAME, "The Service Registry service\n"
-                  "Requests: match - return the channels for services matching the criteria provided\n"
+                  "Requests: associate - \n"
+                  "          disassociate - \n"
+                  "          getAssociates - \n"
+                  "          match - return the channels for services matching the criteria provided\n"
                   "          register - record the information for a service on the given channel\n"
                   "          unregister - remove the information for a service on the given channel",
                   MpM_REGISTRY_CHANNEL_NAME, serviceHostName, servicePortNumber), _db(NULL),
-        _validator(new ColumnNameValidator), _matchHandler(NULL), _statusChannel(NULL), _registerHandler(NULL),
+        _validator(new ColumnNameValidator), _associateHandler(NULL), _disassociateHandler(NULL),
+        _getAssociatesHandler(NULL), _matchHandler(NULL), _statusChannel(NULL), _registerHandler(NULL),
         _unregisterHandler(NULL), _inMemory(useInMemoryDb), _isActive(false)
 {
     OD_LOG_ENTER();//####
@@ -999,6 +1006,19 @@ RegistryService::~RegistryService(void)
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
+
+bool RegistryService::addAssociation(const yarp::os::ConstString & primaryChannelName,
+                                     const bool                    isOutput,
+                                     const yarp::os::ConstString & secondaryChannelName)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S2("primaryChannelName = ", primaryChannelName, "secondaryChannelName = ", secondaryChannelName);//####
+    OD_LOG_B1("isOutput = ", isOutput);//####
+    bool result = false;
+
+    OD_LOG_OBJEXIT_B(result);//####
+    return result;
+} // RegistryService::::addAssociation
 
 bool RegistryService::addRequestRecord(const Common::Package &    keywordList,
                                        const RequestDescription & description)
@@ -1126,18 +1146,26 @@ void RegistryService::attachRequestHandlers(void)
     OD_LOG_OBJENTER();//####
     try
     {
+        _associateHandler = new AssociateRequestHandler(*this);
+        _disassociateHandler = new DisassociateRequestHandler(*this);
+        _getAssociatesHandler = new GetAssociatesRequestHandler(*this);
         _matchHandler = new MatchRequestHandler(*this, _validator);
         _registerHandler = new RegisterRequestHandler(*this);
         _unregisterHandler = new UnregisterRequestHandler(*this);
-        if (_matchHandler && _registerHandler && _unregisterHandler)
+        if (_associateHandler && _disassociateHandler && _getAssociatesHandler && _matchHandler && _registerHandler &&
+            _unregisterHandler)
         {
+            registerRequestHandler(_associateHandler);
+            registerRequestHandler(_disassociateHandler);
+            registerRequestHandler(_getAssociatesHandler);
             registerRequestHandler(_matchHandler);
             registerRequestHandler(_registerHandler);
             registerRequestHandler(_unregisterHandler);
         }
         else
         {
-            OD_LOG("! (_matchHandler && _registerHandler && _unregisterHandler)");//####
+            OD_LOG("! (_associateHandler && _disassociateHandler && _getAssociatesHandler && _matchHandler && "
+                   "_registerHandler && _unregisterHandler)");//####
         }
     }
     catch (...)
@@ -1153,6 +1181,24 @@ void RegistryService::detachRequestHandlers(void)
     OD_LOG_OBJENTER();//####
     try
     {
+        if (_associateHandler)
+        {
+            unregisterRequestHandler(_associateHandler);
+            delete _associateHandler;
+            _associateHandler = NULL;
+        }
+        if (_disassociateHandler)
+        {
+            unregisterRequestHandler(_disassociateHandler);
+            delete _disassociateHandler;
+            _disassociateHandler = NULL;
+        }
+        if (_getAssociatesHandler)
+        {
+            unregisterRequestHandler(_getAssociatesHandler);
+            delete _getAssociatesHandler;
+            _getAssociatesHandler = NULL;
+        }
         if (_matchHandler)
         {
             unregisterRequestHandler(_matchHandler);
@@ -1237,6 +1283,16 @@ bool RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
     OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RegistryService::processMatchRequest
+
+bool RegistryService::removeAllAssociations(const yarp::os::ConstString & primaryChannelName)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("primaryChannelName = ", primaryChannelName);//####
+    bool result = false;
+    
+    OD_LOG_OBJEXIT_B(result);//####
+    return result;
+} // RegistryService::::removeAllAssociations
 
 bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceChannelName)
 {
@@ -1400,7 +1456,7 @@ bool RegistryService::setUpStatusChannel(void)
     
     try
     {
-        _statusChannel = new Common::AdapterChannel;
+        _statusChannel = new Common::AdapterChannel(true);
         if (_statusChannel)
         {
             yarp::os::ConstString outputName(SECONDARY_CHANNEL_NAME_);

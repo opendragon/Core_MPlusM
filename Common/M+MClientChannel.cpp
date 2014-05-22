@@ -91,7 +91,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 ClientChannel::ClientChannel(void) :
-        inherited()
+        inherited(), _name()
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
@@ -221,6 +221,10 @@ bool ClientChannel::openWithRetries(const yarp::os::ConstString & theChannelName
                 yarp::os::Time::delay(retryTime);
                 retryTime *= RETRY_MULTIPLIER;
             }
+            if (result)
+            {
+                _name = theChannelName;
+            }
         }
         while (! result);
 #else // ! defined(MpM_DONT_USE_TIMEOUTS)
@@ -242,6 +246,10 @@ bool ClientChannel::openWithRetries(const yarp::os::ConstString & theChannelName
         }
         while ((! result) && (0 < retriesLeft));
 #endif // ! defined(MpM_DONT_USE_TIMEOUTS)
+        if (result)
+        {
+            _name = theChannelName;
+        }
     }
     catch (...)
     {

@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MMatchRequestHandler.cpp
+//  File:       M+MDisassociateRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for the 'match' request.
+//  Contains:   The class definition for the request handler for the 'disassociate'
+//              request.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,21 +36,38 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-10
+//  Created:    2014-05-22
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MMatchRequestHandler.h"
-#include "M+MBaseNameValidator.h"
+#include "M+MDisassociateRequestHandler.h"
 #include "M+MEndpoint.h"
-#include "M+MMatchExpression.h"
 #include "M+MRegistryService.h"
 #include "M+MRequests.h"
+#if 0
+#include "M+MClientChannel.h"
+#include "M+MServiceResponse.h"
+#endif//0
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
-#include <cstdlib>
+#if 0
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wc++11-extensions"
+# pragma clang diagnostic ignored "-Wdocumentation"
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# pragma clang diagnostic ignored "-Wpadded"
+# pragma clang diagnostic ignored "-Wshadow"
+# pragma clang diagnostic ignored "-Wunused-parameter"
+# pragma clang diagnostic ignored "-Wweak-vtables"
+#endif // defined(__APPLE__)
+#include <yarp/os/Time.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+#endif//0
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -57,22 +75,21 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for the 'match' request. */
+ @brief The class definition for the request handler for the 'disassociate' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Parser;
 using namespace MplusM::Registry;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'match' request. */
-#define MATCH_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'disassociate' request. */
+#define DISASSOCIATE_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -86,35 +103,34 @@ using namespace MplusM::Registry;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-MatchRequestHandler::MatchRequestHandler(RegistryService &           service,
-                                         Parser::BaseNameValidator * validator) :
-        inherited(MpM_MATCH_REQUEST), _service(service), _validator(validator)
+DisassociateRequestHandler::DisassociateRequestHandler(RegistryService & service) :
+        inherited(MpM_DISASSOCIATE_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_P2("service = ", &service, "validator = ", validator);//####
+    OD_LOG_P1("service = ", &service);//####
     OD_LOG_EXIT_P(this);//####
-} // MatchRequestHandler::MatchRequestHandler
+} // DisassociateRequestHandler::DisassociateRequestHandler
 
-MatchRequestHandler::~MatchRequestHandler(void)
+DisassociateRequestHandler::~DisassociateRequestHandler(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // MatchRequestHandler::~MatchRequestHandler
+} // DisassociateRequestHandler::~DisassociateRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void MatchRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void DisassociateRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
-    alternateNames.push_back("find");
+    alternateNames.push_back("remember");
     OD_LOG_OBJEXIT();//####
-} // MatchRequestHandler::fillInAliases
+} // DisassociateRequestHandler::fillInAliases
 
-void MatchRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                            yarp::os::Property &          info)
+void DisassociateRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                                   yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("request = ", request.c_str());//####
@@ -122,20 +138,16 @@ void MatchRequestHandler::fillInDescription(const yarp::os::ConstString & reques
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_INT MpM_REQREP_STRING);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_LIST_START MpM_REQREP_STRING MpM_REQREP_0_OR_MORE
-                 MpM_REQREP_LIST_END);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, MATCH_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Find a matching service\n"
-                 "Input: an integer (1=return names, 0=return ports) and an expression describing the service to "
-                 "be found\n"
-                 "Output: OK and a list of matching service names/ports or FAILED, with a description of the problem "
-                 "encountered");
+        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_STRING);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING MpM_REQREP_STRING MpM_REQREP_0_OR_MORE);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, DISASSOCIATE_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Remove an association between channels\n"
+                 "Input: the primary channel\n"
+                 "Output: OK or FAILED, with a description of the problem encountered");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         
         asList->addString(request);
-        asList->addString("find");
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
@@ -144,12 +156,12 @@ void MatchRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // MatchRequestHandler::fillInDescription
+} // DisassociateRequestHandler::fillInDescription
 
-bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const Common::Package &       restOfInput,
-                                         const yarp::os::ConstString & senderChannel,
-                                         yarp::os::ConnectionWriter *  replyMechanism)
+bool DisassociateRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                                const Common::Package &       restOfInput,
+                                                const yarp::os::ConstString & senderChannel,
+                                                yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -168,57 +180,47 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
         {
             Common::Package reply;
             
-            // We are expecting an integer and a string as the parameter
-            if (2 == restOfInput.size())
+            // Validate the name as a channel name
+            if (1 == restOfInput.size())
             {
-                yarp::os::Value condition(restOfInput.get(0));
-                yarp::os::Value argument(restOfInput.get(1));
+                yarp::os::Value argument(restOfInput.get(0));
                 
-                if (condition.isInt() && argument.isString())
+                if (argument.isString())
                 {
-                    int                   conditionAsInt = condition.asInt();
                     yarp::os::ConstString argAsString(argument.toString());
                     
-                    OD_LOG_S1("argAsString <- ", argAsString.c_str());//####
-                    size_t                    endPos;
-                    Parser::MatchExpression * matcher = Parser::MatchExpression::CreateMatcher(argAsString,
-                                                                                               argAsString.length(), 0,
-                                                                                               endPos, _validator);
-                    
-                    if (matcher)
+                    if (Common::Endpoint::CheckEndpointName(argAsString))
                     {
-                        OD_LOG("(matcher)");//####
-                        // Hand off the processing to the registry service. First, put the 'OK' response in the output
-                        // buffer, as we have successfully parsed the request.
-                        reply.addString(MpM_OK_RESPONSE);
-                        if (! _service.processMatchRequest(matcher, 0 != conditionAsInt, reply))
+                        if (_service.removeAllAssociations(argAsString))
                         {
-                            OD_LOG("(! _service.processMatchRequest(matcher, 0 != conditionAsInt, reply))");//####
-                            reply.clear();
-                            reply.addString(MpM_FAILED_RESPONSE);
-                            reply.addString("Invalid criteria");
+                            reply.addString(MpM_OK_RESPONSE);
                         }
-                        delete matcher;
+                        else
+                        {
+                            OD_LOG("! (_service.removeAllAssociations(argAsString))");//####
+                            reply.addString(MpM_FAILED_RESPONSE);
+                            reply.addString("Could not add association");
+                        }
                     }
                     else
                     {
-                        OD_LOG("! (matcher)");//####
+                        OD_LOG("! (Common::Endpoint::CheckEndpointName(argAsString))");//####
                         reply.addString(MpM_FAILED_RESPONSE);
-                        reply.addString("Invalid criteria");
+                        reply.addString("Invalid channel name");
                     }
                 }
                 else
                 {
                     OD_LOG("! (argument.isString())");//####
                     reply.addString(MpM_FAILED_RESPONSE);
-                    reply.addString("Invalid criteria");
+                    reply.addString("Invalid channel name");
                 }
             }
             else
             {
                 OD_LOG("! (1 == restOfInput.size())");//####
                 reply.addString(MpM_FAILED_RESPONSE);
-                reply.addString("Missing criteria or extra arguments to request");
+                reply.addString("Missing channel name(s) or extra arguments to request");
             }
             OD_LOG_S1("reply <- ", reply.toString().c_str());
             if (! reply.write(*replyMechanism))
@@ -237,7 +239,7 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // MatchRequestHandler::processRequest
+} // DisassociateRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors

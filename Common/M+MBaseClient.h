@@ -61,6 +61,7 @@ namespace MplusM
 {
     namespace Common
     {
+        class AdapterChannel;
         class ChannelStatusReporter;
         class ClientChannel;
         class ServiceResponse;
@@ -77,6 +78,10 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BaseClient(void);
             
+            /*! @brief Record an associated channel.
+             @param aChannel The channel to remember. */
+            void addAssociatedChannel(AdapterChannel * aChannel);
+            
             /*! @brief Create a connection with the service.
              @returns @c true if the client is connected to the service and @c false otherwise. */
             bool connectToService(void);
@@ -92,6 +97,9 @@ namespace MplusM
              were found. */
             bool findService(const char * criteria,
                              const bool   allowOnlyOneMatch = false);
+            
+            /*! @brief Remove all the associated channels. */
+            void removeAssociatedChannels(void);
             
             /*! @brief Set the channel status reporter for the private channel.
              @param reporter The channel status reporter to be used by the private channel.

@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MClientChannel.h
+//  File:       M+MGetAssociatesRequestHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for channels for responses from a service to a client.
+//  Contains:   The class declaration for the request handler for the 'getAssociates'
+//              request.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,33 +36,15 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-04-07
+//  Created:    2014-05-22
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MpMClientChannel_H_))
+#if (! defined(MpMGetAssociatesRequestHandler_H_))
 /*! @brief Header guard. */
-# define MpMClientChannel_H_ /* */
+# define MpMGetAssociatesRequestHandler_H_ /* */
 
-# include "M+MCommon.h"
-
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wc++11-extensions"
-#  pragma clang diagnostic ignored "-Wdocumentation"
-#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-#  pragma clang diagnostic ignored "-Wpadded"
-#  pragma clang diagnostic ignored "-Wshadow"
-#  pragma clang diagnostic ignored "-Wunused-parameter"
-#  pragma clang diagnostic ignored "-Wweak-vtables"
-# endif // defined(__APPLE__)
-# if defined(MpM_CHANNELS_USE_RPC)
-#  include <yarp/os/RpcClient.h>
-# endif // defined(MpM_CHANNELS_USE_RPC)
-# include <yarp/os/Port.h>
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
+# include "M+MBaseRequestHandler.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -69,84 +52,84 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for channels for responses from a service to a client. */
+ @brief The class declaration for the request handler for the 'getAssociates' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-
-/*! @brief The Port class to be used for client connections. */
-# if defined(MpM_CHANNELS_USE_RPC)
-#  define CLIENT_PORT_CLASS_ yarp::os::RpcClient
-# else // ! defined(MpM_CHANNELS_USE_RPC)
-#  define CLIENT_PORT_CLASS_ yarp::os::Port
-# endif // ! defined(MpM_CHANNELS_USE_RPC)
 
 namespace MplusM
 {
     namespace Common
     {
-        /*! @brief A convenience class to provide distinct channels for responses from a service to a client. */
-        class ClientChannel : public CLIENT_PORT_CLASS_
+        class ServiceResponse;
+    } // Common
+    
+    namespace Registry
+    {
+        class RegistryService;
+        
+        /*! @brief The 'getAssociates' request handler.
+         
+         The input is the name of the client channel and the output is either 'OK', which indicates success, followed by
+         an integer (0 = associate and 1 = client channel) and a list of the associated input channels and a list of the
+         associated output channels, or 'FAILED' followed with a description of the reason for failure. */
+        class GetAssociatesRequestHandler : public Common::BaseRequestHandler
         {
         public:
             
-            /*! @brief The constructor. */
-            ClientChannel(void);
+            /*! @brief The constructor.
+             @param service The service that has registered this request. */
+            GetAssociatesRequestHandler(RegistryService & service);
             
             /*! @brief The destructor. */
-            virtual ~ClientChannel(void);
+            virtual ~GetAssociatesRequestHandler(void);
             
-            /*! @brief Add an output to the channel, using a backoff strategy with retries.
-             @param theChannelToBeAdded The output to be added to the channel.
-             @returns @c true if the channel was opened and @c false if it could not be opened. */
-            bool addOutputWithRetries(const yarp::os::ConstString & theChannelToBeAdded);
+            /*! @brief Fill in a set of aliases for the request.
+             @param alternateNames Aliases for the request. */
+            virtual void fillInAliases(Common::StringVector & alternateNames);
             
-            /*! @brief Close the channel. */
-            void close(void);
+            /*! @brief Fill in a description dictionary for the request.
+             @param request The actual request name.
+             @param info The dictionary to be filled in. */
+            virtual void fillInDescription(const yarp::os::ConstString & request,
+                                           yarp::os::Property &          info);
             
-            /*! @brief Returns the name associated with the channel.
-             @returns The name associated with the channel. */
-            inline yarp::os::ConstString name(void)
-            const
-            {
-                return _name;
-            } // name
-            
-            /*! @brief Open the channel, using a backoff strategy with retries.
-             @param theChannelName The name to be associated with the channel.
-             @returns @c true if the channel was opened and @c false if it could not be opened. */
-            bool openWithRetries(const yarp::os::ConstString & theChannelName);
-            
-            /*! @brief Release an allocated adapter channel.
-             @param theChannel A pointer to the channel to be released. */
-            static void RelinquishChannel(ClientChannel * & theChannel);
+            /*! @brief Process a request.
+             @param request The actual request name.
+             @param restOfInput The arguments to the operation.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+            virtual bool processRequest(const yarp::os::ConstString & request,
+                                        const Common::Package &       restOfInput,
+                                        const yarp::os::ConstString & senderChannel,
+                                        yarp::os::ConnectionWriter *  replyMechanism);
             
         protected:
             
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef CLIENT_PORT_CLASS_ inherited;
+            typedef BaseRequestHandler inherited;
             
             /*! @brief Copy constructor.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ClientChannel(const ClientChannel & other);
+            GetAssociatesRequestHandler(const GetAssociatesRequestHandler & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ClientChannel & operator=(const ClientChannel & other);
+            GetAssociatesRequestHandler & operator=(const GetAssociatesRequestHandler & other);
             
-            /*! @brief The name associated with the channel. */
-            yarp::os::ConstString _name;
+            /*! @brief The service that will handle the registration operation. */
+            RegistryService & _service;
             
-        }; // ClientChannel
+        }; // GetAssociatesRequestHandler
         
-    } // Common
+    } // Registry
     
 } // MplusM
 
-#endif // ! defined(MpMClientChannel_H_)
+#endif // ! defined(MpMGetAssociatesRequestHandler_H_)

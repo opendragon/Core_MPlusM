@@ -99,6 +99,14 @@ namespace MplusM
             /*! @brief Close the channel. */
             void close(void);
            
+            /*! @brief Returns the name associated with the channel.
+             @returns The name associated with the channel. */
+            inline yarp::os::ConstString name(void)
+            const
+            {
+                return _name;
+            } // name
+            
             /*! @brief Open the channel, using a backoff strategy with retries.
              @param theChannelName The name to be associated with the channel.
              @returns @c true if the channel was opened and @c false if it could not be opened. */
@@ -131,6 +139,9 @@ namespace MplusM
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
             ServiceChannel & operator=(const ServiceChannel & other);
+            
+            /*! @brief The name associated with the channel. */
+            yarp::os::ConstString _name;
             
         }; // ServiceChannel
         

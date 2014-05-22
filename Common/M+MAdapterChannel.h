@@ -80,14 +80,31 @@ namespace MplusM
         {
         public:
             
-            /*! @brief The constructor. */
-            AdapterChannel(void);
+            /*! @brief The constructor.
+             @param isOutput @c true if the channel is used for output and @c false otherwise. */
+            AdapterChannel(const bool isOutput);
             
             /*! @brief The destructor. */
             virtual ~AdapterChannel(void);
             
             /*! @brief Close the channel. */
             void close(void);
+            
+            /*! @brief Returns @c true if the channel is used for output and @c false otherwise.
+             @returns @c true if the channel is used for output and @c false otherwise. */
+            inline bool isOutput(void)
+            const
+            {
+                return _isOutput;
+            } // isOutput
+            
+            /*! @brief Returns the name associated with the channel.
+             @returns The name associated with the channel. */
+            inline yarp::os::ConstString name(void)
+            const
+            {
+                return _name;
+            } // name
             
             /*! @brief Open the channel, using a backoff strategy with retries.
              @param theChannelName The name to be associated with the channel.
@@ -117,6 +134,21 @@ namespace MplusM
              @param other Another object to construct from. */
             AdapterChannel & operator=(const AdapterChannel & other);
             
+            /*! @brief The name associated with the channel. */
+            yarp::os::ConstString _name;
+            
+            /*! @brief @c true if the channel is used for output and @c false otherwise. */
+            bool _isOutput;
+            
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler[7];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
         }; // AdapterChannel
         
     } // Common

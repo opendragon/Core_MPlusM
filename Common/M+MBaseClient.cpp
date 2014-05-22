@@ -41,6 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "M+MBaseClient.h"
+#include "M+MAdapterChannel.h"
 #include "M+MChannelStatusReporter.h"
 #include "M+MClientChannel.h"
 #include "M+MRequests.h"
@@ -87,6 +88,54 @@ using namespace MplusM::Common;
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
+
+/*! @brief Check the response to the 'associate' request for validity.
+ @param response The response to be checked.
+ @returns The original response, if it is valid, or an empty response if it is not. */
+static bool validateAssociateResponse(const Package & response)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("response = ", response.toString().c_str());//####
+    bool result = false;
+    
+    try
+    {
+        if (MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE < response.size())
+        {
+            // The first element of the response should be 'OK' or 'FAILED'.
+            yarp::os::Value responseFirst(response.get(0));
+            
+            if (responseFirst.isString())
+            {
+                yarp::os::ConstString responseFirstAsString(responseFirst.toString());
+                
+                if (! strcmp(MpM_OK_RESPONSE, responseFirstAsString.c_str()))
+                {
+                    result = true;
+                }
+                else if (strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))
+                {
+                    OD_LOG("! (! strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))");//####
+                }
+            }
+            else
+            {
+                OD_LOG("! (responseFirst.isString())");//####
+            }
+        }
+        else
+        {
+            OD_LOG("! (MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE < response.size())");//####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // validateAssociateResponse
 
 /*! @brief Check the response to the 'match' request for validity.
  @param response The response to be checked.
@@ -189,6 +238,75 @@ BaseClient::~BaseClient(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
+void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("aChannel = ", aChannel);//####
+    try
+    {
+        yarp::os::ConstString aName(GetRandomChannelName("/associate/channel_"));
+        ClientChannel *       newChannel = new ClientChannel;
+        
+        if (newChannel)
+        {
+#if defined(MpM_REPORT_ON_CONNECTIONS)
+            ChannelStatusReporter reporter;
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+            
+#if defined(MpM_REPORT_ON_CONNECTIONS)
+            newChannel->setReporter(reporter);
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+            if (newChannel->openWithRetries(aName))
+            {
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                {
+                    Package parameters;
+                    
+                    parameters.addString(_channelName);
+                    parameters.addInt(aChannel->isOutput() ? 1 : 0);
+                    parameters.addString(aChannel->name());
+                    ServiceRequest  request(MpM_ASSOCIATE_REQUEST, parameters);
+                    ServiceResponse response;
+                    
+                    if (request.send(*newChannel, &response))
+                    {
+                        OD_LOG_S1("response <- ", response.asString().c_str());//####
+                        validateAssociateResponse(response.values());
+                    }
+                    else
+                    {
+                        OD_LOG("! (request.send(*newChannel, &response))");//####
+                    }
+#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                    {
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                    }
+#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
+                }
+                else
+                {
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                }
+#if defined(MpM_DO_EXPLICIT_CLOSE)
+                newChannel->close();
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+            }
+            else
+            {
+                OD_LOG("! (newChannel->openWithRetries(aName))");//####
+            }
+            ClientChannel::RelinquishChannel(newChannel);
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // BaseClient::addAssociatedInputChannel
+
 bool BaseClient::connectToService(void)
 {
     OD_LOG_OBJENTER();//####
@@ -247,7 +365,7 @@ bool BaseClient::disconnectFromService(void)
     OD_LOG_OBJENTER();//####
     if (_connected)
     {
-        Common::Package parameters;
+        Package parameters;
         
         reconnectIfDisconnected();
         if (! send(MpM_DETACH_REQUEST, parameters))
@@ -354,6 +472,73 @@ void BaseClient::reconnectIfDisconnected(void)
     }
     OD_LOG_OBJEXIT();//####
 } // BaseClient::reconnectIfDisconnected
+
+void BaseClient::removeAssociatedChannels(void)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("aChannel = ", aChannel);//####
+    try
+    {
+        yarp::os::ConstString aName(GetRandomChannelName("/disassociate/channel_"));
+        ClientChannel *       newChannel = new ClientChannel;
+        
+        if (newChannel)
+        {
+#if defined(MpM_REPORT_ON_CONNECTIONS)
+            ChannelStatusReporter reporter;
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+            
+#if defined(MpM_REPORT_ON_CONNECTIONS)
+            newChannel->setReporter(reporter);
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+            if (newChannel->openWithRetries(aName))
+            {
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                {
+                    Package parameters;
+                    
+                    parameters.addString(_channelName);
+                    ServiceRequest  request(MpM_DISASSOCIATE_REQUEST, parameters);
+                    ServiceResponse response;
+                    
+                    if (request.send(*newChannel, &response))
+                    {
+                        OD_LOG_S1("response <- ", response.asString().c_str());//####
+                        validateAssociateResponse(response.values());
+                    }
+                    else
+                    {
+                        OD_LOG("! (request.send(*newChannel, &response))");//####
+                    }
+#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                    {
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                    }
+#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
+                }
+                else
+                {
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                }
+#if defined(MpM_DO_EXPLICIT_CLOSE)
+                newChannel->close();
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+            }
+            else
+            {
+                OD_LOG("! (newChannel->openWithRetries(aName))");//####
+            }
+            ClientChannel::RelinquishChannel(newChannel);
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // BaseClient::removeAssociatedChannels
 
 bool BaseClient::send(const char *      request,
                       const Package &   parameters,

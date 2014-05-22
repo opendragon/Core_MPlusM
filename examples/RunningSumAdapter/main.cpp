@@ -167,9 +167,9 @@ int main(int      argc,
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
                     if (stuff->connectToService())
                     {
-                        MplusM::Common::AdapterChannel * controlChannel = new MplusM::Common::AdapterChannel;
-                        MplusM::Common::AdapterChannel * dataChannel = new MplusM::Common::AdapterChannel;
-                        MplusM::Common::AdapterChannel * outputChannel = new MplusM::Common::AdapterChannel;
+                        MplusM::Common::AdapterChannel * controlChannel = new MplusM::Common::AdapterChannel(false);
+                        MplusM::Common::AdapterChannel * dataChannel = new MplusM::Common::AdapterChannel(false);
+                        MplusM::Common::AdapterChannel * outputChannel = new MplusM::Common::AdapterChannel(true);
                         RunningSumAdapterData            sharedData(stuff, outputChannel);
                         RunningSumControlInputHandler *  controlHandler = new RunningSumControlInputHandler(sharedData);
                         RunningSumDataInputHandler *     dataHandler = new RunningSumDataInputHandler(sharedData);
@@ -203,6 +203,9 @@ int main(int      argc,
                             if (controlChannel->openWithRetries(controlName) &&
                                 dataChannel->openWithRetries(dataName) && outputChannel->openWithRetries(outputName))
                             {
+                                stuff->addAssociatedChannel(controlChannel);
+                                stuff->addAssociatedChannel(dataChannel);
+                                stuff->addAssociatedChannel(outputChannel);
                                 sharedData.activate();
                                 controlChannel->setReader(*controlHandler);
                                 dataChannel->setReader(*dataHandler);
@@ -218,6 +221,7 @@ int main(int      argc,
                                         sharedData.deactivate();
                                     }
                                 }
+                                stuff->removeAssociatedChannels();
                             }
                             else
                             {
