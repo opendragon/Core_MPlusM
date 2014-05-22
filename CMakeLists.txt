@@ -52,6 +52,11 @@ set(MpM_VERSION_PATCH 9)
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
 mark_as_advanced(CLEAR CMAKE_OSX_ARCHITECTURES)
 
+if(APPLE)
+	set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
+	set(CMAKE_CXX_FLAGS "-stdlib=libstdc++" CACHE STRING "Fixes linking error for M+M/ACE" FORCE)
+endif(APPLE)
+
 option(MpM_CHANNELS_USE_RPC "Use RpcClient and RpcService objects for communication")
 option(MpM_CHATTY_START "Report the version numbers when launching an executable")
 option(MpM_DO_EXPLICIT_CLOSE "Perform an explicit CloseChannel() prior to freeing a channel")
