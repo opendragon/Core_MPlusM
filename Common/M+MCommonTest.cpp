@@ -1139,7 +1139,7 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                             {
                                 yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
                                 
-                                sawChannels = (itsOutput == "s*");
+                                sawChannels = (itsOutput == "(s*)(s*)");
                             }
                         }
                         else if (aName == MpM_CLIENTS_REQUEST)

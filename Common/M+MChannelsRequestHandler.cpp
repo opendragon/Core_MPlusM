@@ -112,11 +112,12 @@ void ChannelsRequestHandler::fillInDescription(const yarp::os::ConstString & req
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING MpM_REQREP_0_OR_MORE);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_LIST_START MpM_REQREP_STRING MpM_REQREP_0_OR_MORE
+                 MpM_REQREP_LIST_END MpM_REQREP_LIST_START MpM_REQREP_STRING MpM_REQREP_0_OR_MORE MpM_REQREP_LIST_END);
         info.put(MpM_REQREP_DICT_VERSION_KEY, CHANNELS_REQUEST_VERSION_NUMBER);
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the secondary channels of the service\n"
                  "Input: nothing\n"
-                 "Output: a list of secondary channel names");
+                 "Output: a list of secondary input channel names and a list of secondary output channel names");
         yarp::os::Value keywords;
         Package *       asList = keywords.asList();
         
@@ -154,12 +155,23 @@ bool ChannelsRequestHandler::processRequest(const yarp::os::ConstString & reques
             Package      reply;
             StringVector channels;
             
-            _service.fillInChannelsList(channels);
+            _service.fillInSecondaryInputChannelsList(channels);
+            Package & aList1 = reply.addList();
+            
             for (size_t ii = 0, mm = channels.size(); mm > ii; ++ii)
             {
                 const yarp::os::ConstString & aString = channels.at(ii);
                 
-                reply.addString(aString.c_str());
+                aList1.addString(aString.c_str());
+            }
+            Package & aList2 = reply.addList();
+            
+            _service.fillInSecondaryOutputChannelsList(channels);
+            for (size_t ii = 0, mm = channels.size(); mm > ii; ++ii)
+            {
+                const yarp::os::ConstString & aString = channels.at(ii);
+                
+                aList2.addString(aString.c_str());
             }
             OD_LOG_S1("reply <- ", reply.toString().c_str());
             if (! reply.write(*replyMechanism))

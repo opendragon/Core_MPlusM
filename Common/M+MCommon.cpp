@@ -669,10 +669,7 @@ void MplusM::OutputDescription(std::ostream &                outStream,
             indent = blanks;
         }
     }
-    if (pieceStart)
-    {
-        yarp::os::ConstString piece(description.substr(pieceStart, descriptionLength - pieceStart));
-        
-        outStream << indent << piece.c_str() << endl;
-    }
+    yarp::os::ConstString piece(description.substr(pieceStart, descriptionLength - pieceStart));
+    
+    outStream << indent << piece.c_str() << endl;
 } // MplusM::OutputDescription

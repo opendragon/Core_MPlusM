@@ -1180,13 +1180,14 @@ void RegistryService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // RegistryService::detachRequestHandlers
 
-void RegistryService::fillInChannelsList(StringVector & channels)
+void RegistryService::fillInSecondaryOutputChannelsList(StringVector & channels)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("channels = ", &channels);//####
+    inherited::fillInSecondaryOutputChannelsList(channels);
     channels.push_back(SECONDARY_CHANNEL_NAME_);
     OD_LOG_OBJEXIT();//####
-} // RegistryService::fillInChannelsList
+} // RegistryService::fillInSecondaryOutputChannelsList
 
 bool RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
                                           const bool                getNames,

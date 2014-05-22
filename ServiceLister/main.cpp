@@ -129,27 +129,37 @@ int main(int      argc,
                     
                     if (MplusM::Utilities::GetNameAndDescriptionForService(aService, descriptor))
                     {
-                        yarp::os::ConstString channelNames;
-                        
                         if (! reported)
                         {
                             cout << "Services: " << endl;
                         }
                         reported = true;
-                        for (int jj = 0, mm = descriptor._channels.size(); mm > jj; ++jj)
+                        cout << endl;
+                        cout << "Service port:      " << aService.c_str() << endl;
+                        cout << "Service name:      " << descriptor._canonicalName.c_str() << endl;
+                        MplusM::OutputDescription(cout, "Description:       ", descriptor._description);
+                        cout << "Path:              " << descriptor._path.c_str() << endl;
+                        yarp::os::ConstString channelNames;
+                        
+                        for (int jj = 0, mm = descriptor._inputChannels.size(); mm > jj; ++jj)
                         {
                             if (jj)
                             {
                                 channelNames += " ";
                             }
-                            channelNames += descriptor._channels[ii];
+                            channelNames += descriptor._inputChannels[ii];
                         }
-                        cout << endl;
-                        cout << "Service port:       " << aService.c_str() << endl;
-                        cout << "Service name:       " << descriptor._canonicalName.c_str() << endl;
-                        MplusM::OutputDescription(cout, "Description:        ", descriptor._description);
-                        cout << "Path:               " << descriptor._path.c_str() << endl;
-                        MplusM::OutputDescription(cout, "Secondary channels: ", channelNames + "\n");
+                        MplusM::OutputDescription(cout, "Secondary inputs:  ", channelNames);
+                        channelNames = "";
+                        for (int jj = 0, mm = descriptor._outputChannels.size(); mm > jj; ++jj)
+                        {
+                            if (jj)
+                            {
+                                channelNames += " ";
+                            }
+                            channelNames += descriptor._outputChannels[ii];
+                        }
+                        MplusM::OutputDescription(cout, "Secondary outputs: ", channelNames);
                     }
                 }
                 cout << endl;

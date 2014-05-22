@@ -383,12 +383,21 @@ void BaseService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // BaseService::detachRequestHandlers
 
-void BaseService::fillInChannelsList(StringVector & channels)
+void BaseService::fillInSecondaryInputChannelsList(StringVector & channels)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("channels = ", &channels);//####
+    channels.clear();
     OD_LOG_OBJEXIT();//####
-} // BaseService::fillInChannelsList
+} // BaseService::fillInSecondaryInputChannelsList
+
+void BaseService::fillInSecondaryOutputChannelsList(StringVector & channels)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("channels = ", &channels);//####
+    channels.clear();
+    OD_LOG_OBJEXIT();//####
+} // BaseService::fillInSecondaryOutputChannelsList
 
 #if defined(SERVICES_HAVE_CONTEXTS)
 void BaseService::fillInClientList(StringVector & clients)

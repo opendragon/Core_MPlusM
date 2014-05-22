@@ -497,15 +497,46 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                     
                     if (request2.send(*newChannel, &response2))
                     {
-                        OD_LOG_S1("response2 <- ", response2.asString().c_str());//####
-                        for (int ii = 0, howMany = response2.count(); ii < howMany; ++ii)
+                        if (MpM_EXPECTED_CHANNELS_RESPONSE_SIZE == response2.count())
                         {
-                            yarp::os::Value element(response2.element(ii));
-                            
-                            if (element.isString())
+                            yarp::os::Value theInputChannels(response2.element(0));
+                            yarp::os::Value theOutputChannels(response2.element(1));
+                        
+                            OD_LOG_S2("theInputChannels <- ", theInputChannels.toString().c_str(),//####
+                                      "theOutputChannels <- ", theOutputChannels.toString().c_str());//####
+                            if (theInputChannels.isList() && theOutputChannels.isList())
                             {
-                                descriptor._channels.push_back(element.toString());
+                                MplusM::Common::Package * inputChannelsAsList = theInputChannels.asList();
+                                MplusM::Common::Package * outputChannelsAsList = theOutputChannels.asList();
+                                
+                                for (int ii = 0, howMany = inputChannelsAsList->size(); ii < howMany; ++ii)
+                                {
+                                    yarp::os::Value element(inputChannelsAsList->get(ii));
+                                    
+                                    if (element.isString())
+                                    {
+                                        descriptor._inputChannels.push_back(element.toString());
+                                    }
+                                }
+                                for (int ii = 0, howMany = outputChannelsAsList->size(); ii < howMany; ++ii)
+                                {
+                                    yarp::os::Value element(outputChannelsAsList->get(ii));
+                                    
+                                    if (element.isString())
+                                    {
+                                        descriptor._outputChannels.push_back(element.toString());
+                                    }
+                                }
                             }
+                            else
+                            {
+                                OD_LOG("! (theInputChannels.isList() && theOutputChannels.isList())");
+                            }
+                        }
+                        else
+                        {
+                            OD_LOG("! (MpM_EXPECTED_CHANNELS_RESPONSE_SIZE == response2.count())");//####
+                            OD_LOG_S1("response2 = ", response2.asString().c_str());//####
                         }
                     }
                     else
