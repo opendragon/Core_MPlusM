@@ -94,8 +94,10 @@ namespace MplusM
             yarp::os::ConstString _description;
             /*! @brief The name of the input channel for the service. */
             yarp::os::ConstString _path;
-            /*! @brief The set of secondary channels for the service. */
-            Common::StringVector  _channels;
+            /*! @brief The set of secondary input channels for the service. */
+            Common::StringVector  _inputChannels;
+            /*! @brief The set of secondary output channels for the service. */
+            Common::StringVector  _outputChannels;
         }; // ServiceDescriptor
         
         /*! @brief A set of port descriptions. */

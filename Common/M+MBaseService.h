@@ -132,9 +132,13 @@ namespace MplusM
              @param key The client-provided key. */
             void detachClient(const yarp::os::ConstString & key);
             
-            /*! @brief Fill in a list of secondary channels for the service.
+            /*! @brief Fill in a list of secondary input channels for the service.
              @param channels The list to be filled in. */
-            virtual void fillInChannelsList(StringVector & channels);
+            virtual void fillInSecondaryInputChannelsList(StringVector & channels);
+            
+            /*! @brief Fill in a list of secondary output channels for the service.
+             @param channels The list to be filled in. */
+            virtual void fillInSecondaryOutputChannelsList(StringVector & channels);
             
 # if defined(SERVICES_HAVE_CONTEXTS)
             /*! @brief Fill in a list of clients for the service.
