@@ -164,6 +164,7 @@ bool ChannelsRequestHandler::processRequest(const yarp::os::ConstString & reques
                 
                 aList1.addString(aString.c_str());
             }
+            // Note that we can't reuse the first list variable; we wind up with duplicate entries for some reason.
             Package & aList2 = reply.addList();
             
             _service.fillInSecondaryOutputChannelsList(channels);

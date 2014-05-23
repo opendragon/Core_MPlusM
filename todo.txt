@@ -1,4 +1,3 @@
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
 
-* add ‘associate’ registry request to connect adapter ports to client ports in the same entity - can record if input or output as well
-* ‘disassociate’ and ‘getAssociates’
+sqlStatement = 'INSERT INTO RequestsKeywords(keywords_id,requests_id) SELECT @keyword, key FROM Requests WHERE request = @request AND channelname = @channelname'

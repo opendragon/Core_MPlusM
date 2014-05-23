@@ -143,8 +143,19 @@ namespace MplusM
                                   const yarp::os::ConstString & description,
                                   const yarp::os::ConstString & executable);
             
+            /*! @brief Fill in the list of associated input channels and output channesls for a channel.
+             @param channelName The channel to be checked.
+             @param isPrimary @c true if the channel is a primary and @c false if it is an associated channel
+             @param inputs The associated list of input channels to be filled in.
+             @param outputs The associated list of output channels to be filled in.
+             @returns @c true if the lists were successfully filled and @c false otherwise. */
+            bool fillInAssociates(const yarp::os::ConstString & channelName,
+                                  bool &                        isPrimary,
+                                  Common::StringVector &        inputs,
+                                  Common::StringVector &        outputs);
+            
             /*! @brief Fill in a list of secondary output channels for the service.
-             @param clients The list to be filled in. */
+             @param channels The list to be filled in. */
             virtual void fillInSecondaryOutputChannelsList(Common::StringVector & channels);
             
             /*! @brief Return @c true if the service is active.

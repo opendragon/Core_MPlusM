@@ -58,7 +58,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The named parameter for the 'channelName' column. */
+/*! @brief The named parameter for the 'channelname' column. */
 # define CHANNELNAME_C_ "channelname"
 /*! @brief The named parameter for the 'details' column. */
 # define DESCRIPTION_C_ "description"
@@ -72,7 +72,7 @@
 # define KEY_C_         "key"
 /*! @brief The named parameter for the 'keyword' column. */
 # define KEYWORD_C_     "keyword"
-/*! @brief The named parameter for the 'Keywords_id' column. */
+/*! @brief The named parameter for the 'keywords_id' column. */
 # define KEYWORDS_ID_C_ "keywords_id"
 /*! @brief The named parameter for the 'name' column. */
 # define NAME_C_        "name"
@@ -80,18 +80,18 @@
 # define OUTPUT_C_      "output"
 /*! @brief The named parameter for the 'request' column. */
 # define REQUEST_C_     "request"
-/*! @brief The named parameter for the 'Keywords_id' column. */
+/*! @brief The named parameter for the 'keywords_id' column. */
 # define REQUESTS_ID_C_ "requests_id"
 /*! @brief The named parameter for the 'version' column. */
 # define VERSION_C_     "version"
 
-/*! @brief The name of the 'keywords' table. */
+/*! @brief The name of the 'Keywords' table. */
 # define KEYWORDS_T_         "Keywords"
-/*! @brief The name of the 'requests' table. */
+/*! @brief The name of the 'Requests' table. */
 # define REQUESTS_T_         "Requests"
-/*! @brief The name of the 'requests-keywords' table. */
+/*! @brief The name of the 'RequestsKeywords' table. */
 # define REQUESTSKEYWORDS_T_ "RequestsKeywords"
-/*! @brief The name of the 'services' table. */
+/*! @brief The name of the 'Services' table. */
 # define SERVICES_T_         "Services"
 
 namespace MplusM
