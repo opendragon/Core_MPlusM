@@ -218,6 +218,39 @@ static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescript
                 }
             }
         }
+        MplusM::Common::StringVector inputs;
+        MplusM::Common::StringVector outputs;
+        bool                         isPrimary;
+        
+        if (MplusM::Utilities::GetAssociatedPorts(aDescriptor._portName, inputs, outputs, isPrimary, true))
+        {
+            if (isPrimary)
+            {
+                cout << " Primary port with inputs (";
+                for (int ii = 0, mm = inputs.size(); mm > ii; ++ii)
+                {
+                    if (ii)
+                    {
+                        cout << ", ";
+                    }
+                    cout << inputs[ii].c_str();
+                }
+                cout << ") and outputs (";
+                for (int ii = 0, mm = outputs.size(); mm > ii; ++ii)
+                {
+                    if (ii)
+                    {
+                        cout << ", ";
+                    }
+                    cout << outputs[ii].c_str();
+                }
+                cout << ").";
+            }
+            else
+            {
+                cout << " Port associated with " << inputs[0].c_str() << ".";
+            }
+        }
     }
     else
     {

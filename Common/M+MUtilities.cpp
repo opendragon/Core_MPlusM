@@ -191,6 +191,94 @@ static void checkForOutputConnection(const yarp::os::Bottle &       response,
     OD_LOG_EXIT();//####
 } // checkForOutputConnection
 
+/*! @brief Check the response to the 'getAssociates' request for validity.
+ @param response The response to be checked.
+ @param inputs The collected inputs from the response.
+ @param outputs The collected outputs from the response.
+ @param isPrimary @c true if the 'primary' flag was set and @c false otherwise.
+ @returns @c true if the response was valid and @c false otherwise. */
+static bool processGetAssociatesResponse(const Package &        response,
+                                         Common::StringVector & inputs,
+                                         Common::StringVector & outputs,
+                                         bool &                 isPrimary)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("response = ", response.toString().c_str());//####
+    bool result = false;
+    
+    try
+    {
+        if (MpM_EXPECTED_GETASSOCIATES_RESPONSE_SIZE <= response.size())
+        {
+            // The first element of the response should be 'OK' or 'FAILED'.
+            yarp::os::Value responseFirst(response.get(0));
+            
+            if (responseFirst.isString())
+            {
+                yarp::os::ConstString responseFirstAsString(responseFirst.toString());
+                
+                if (! strcmp(MpM_OK_RESPONSE, responseFirstAsString.c_str()))
+                {
+                    yarp::os::Value responseSecond(response.get(1));
+                    yarp::os::Value responseThird(response.get(2));
+                    yarp::os::Value responseFourth(response.get(3));
+                    
+                    if (responseSecond.isInt() && responseThird.isList() && responseFourth.isList())
+                    {
+                        isPrimary = (0 != responseSecond.asInt());
+                        Package * thirdAsList = responseThird.asList();
+                        Package * fourthAsList = responseFourth.asList();
+                        
+                        for (int ii = 0, mm = thirdAsList->size(); mm > ii; ++ii)
+                        {
+                            yarp::os::Value aPort(thirdAsList->get(ii));
+                            
+                            if (aPort.isString())
+                            {
+                                inputs.push_back(aPort.toString());
+                            }
+                        }
+                        for (int ii = 0, mm = fourthAsList->size(); mm > ii; ++ii)
+                        {
+                            yarp::os::Value aPort(fourthAsList->get(ii));
+                            
+                            if (aPort.isString())
+                            {
+                                outputs.push_back(aPort.toString());
+                            }
+                        }
+                        result = true;
+                    }
+                    else
+                    {
+                        OD_LOG("! (responseSecond.isInt() && responseThird.isList() && "//####
+                               "responseFourth.isList())");//####
+                    }
+                }
+                else if (strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))
+                {
+                    OD_LOG("! (! strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))");//####
+                }
+            }
+            else
+            {
+                OD_LOG("! (responseFirst.isString())");//####
+            }
+        }
+        else
+        {
+            OD_LOG("! (MpM_EXPECTED_GETASSOCIATES_RESPONSE_SIZE <= response.size())");//####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // processGetAssociatesResponse
+
 /*! @brief Process the response from the name server.
  
  Note that each line of the response, except the last, is started with 'registration name'. This is followed by the
@@ -393,7 +481,94 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
     {
         cerr << "Port name not recognized." << endl;
     }
+    OD_LOG_EXIT();//####
 } // MplusM::Utilities::GatherPortConnections
+
+///*! @brief Collect the associated input and output connections for a port.
+// @param portName The port to be inspected.
+// @param inputs The collected inputs associated with the port.
+// @param outputs The collected outputs associated with the port.
+// @param isPrimary @c true if the prt is associated and @c false if it is an associate, in which case the first
+// input port is the primary for the association.
+// @param quiet @c true if status output is to be suppressed and @c false otherwise.*/
+bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
+                                           Common::StringVector &        inputs,
+                                           Common::StringVector &        outputs,
+                                           bool &                        isPrimary,
+                                           const bool                    quiet)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("portName = ", portName.c_str());//####
+    OD_LOG_P3("inputs = ", &inputs, "outputs = ", &outputs, "isPrimary = ", &isPrimary);//####
+    OD_LOG_B1("quiet = ", quiet);//####
+    bool result = false;
+    
+    inputs.clear();
+    outputs.clear();
+    isPrimary = false;
+    try
+    {
+        yarp::os::ConstString aName(GetRandomChannelName("/getassociates/channel_"));
+        ClientChannel *       newChannel = new ClientChannel;
+        
+        if (newChannel)
+        {
+#if defined(MpM_REPORT_ON_CONNECTIONS)
+            ChannelStatusReporter reporter;
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+            
+#if defined(MpM_REPORT_ON_CONNECTIONS)
+            newChannel->setReporter(reporter);
+#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+            if (newChannel->openWithRetries(aName))
+            {
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                {
+                    Package parameters;
+                    
+                    parameters.addString(portName);
+                    ServiceRequest  request(MpM_GETASSOCIATES_REQUEST, parameters);
+                    ServiceResponse response;
+                    
+                    if (request.send(*newChannel, &response))
+                    {
+                        OD_LOG_S1("response <- ", response.asString().c_str());//####
+                        result = processGetAssociatesResponse(response.values(), inputs, outputs, isPrimary);
+                    }
+                    else
+                    {
+                        OD_LOG("! (request.send(*newChannel, &response))");//####
+                    }
+#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                    {
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                    }
+#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
+                }
+                else
+                {
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                }
+#if defined(MpM_DO_EXPLICIT_CLOSE)
+                newChannel->close();
+#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+            }
+            else
+            {
+                OD_LOG("! (newChannel->openWithRetries(aName))");//####
+            }
+            ClientChannel::RelinquishChannel(newChannel);
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // MplusM::Utilities::GetAssociatedPorts
 
 void MplusM::Utilities::GetDetectedPortList(PortVector & ports)
 {

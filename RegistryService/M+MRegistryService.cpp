@@ -54,7 +54,7 @@
 #include "M+MServiceResponse.h"
 #include "M+MUnregisterRequestHandler.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <cstring>
@@ -868,15 +868,15 @@ static int setupCollectPrimaries(sqlite3_stmt * statement,
     
     try
     {
-        int associateIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
+        int associatesIdIndex = sqlite3_bind_parameter_index(statement, "@" ASSOCIATES_ID_C_);
         
-        if (0 < associateIndex)
+        if (0 < associatesIdIndex)
         {
-            const char * associateString = static_cast<const char *>(stuff);
+            const char * associatesIdString = static_cast<const char *>(stuff);
             
-            OD_LOG_S1("associateString <- ", associateString);//####
-            result = sqlite3_bind_text(statement, associateIndex, associateString,
-                                       static_cast<int>(strlen(associateString)), SQLITE_TRANSIENT);
+            OD_LOG_S1("associatesIdString <- ", associatesIdString);//####
+            result = sqlite3_bind_text(statement, associatesIdIndex, associatesIdString,
+                                       static_cast<int>(strlen(associatesIdString)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
                 OD_LOG_S1("error description: ", sqlite3_errstr(result));//####
@@ -884,7 +884,7 @@ static int setupCollectPrimaries(sqlite3_stmt * statement,
         }
         else
         {
-            OD_LOG("! (0 < associateIndex)");//####
+            OD_LOG("! (0 < associatesIdIndex)");//####
         }
     }
     catch (...)

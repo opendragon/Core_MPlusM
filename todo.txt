@@ -1,3 +1,1 @@
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
-
-sqlStatement = 'INSERT INTO RequestsKeywords(keywords_id,requests_id) SELECT @keyword, key FROM Requests WHERE request = @request AND channelname = @channelname'

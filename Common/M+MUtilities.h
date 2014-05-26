@@ -120,6 +120,20 @@ namespace MplusM
                                    const InputOutputFlag         which,
                                    const bool                    quiet = false);
         
+        /*! @brief Collect the associated input and output connections for a port.
+         @param portName The port to be inspected.
+         @param inputs The collected inputs associated with the port.
+         @param outputs The collected outputs associated with the port.
+         @param isPrimary @c true if the prt is associated and @c false if it is an associate, in which case the first
+         input port is the primary for the association.
+         @param quiet @c true if status output is to be suppressed and @c false otherwise.
+         @returns @c true if there is association data for the port and @c false otherwise. */
+        bool GetAssociatedPorts(const yarp::os::ConstString & portName,
+                                Common::StringVector &        inputs,
+                                Common::StringVector &        outputs,
+                                bool &                        isPrimary,
+                                const bool                    quiet = false);
+        
         /*! @brief Get the set of detected ports.
          @param ports The set of detected ports. */
         void GetDetectedPortList(PortVector & ports);
