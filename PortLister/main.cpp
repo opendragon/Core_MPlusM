@@ -88,10 +88,8 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Report the connections for a given port.
- @param portName The port to be inspected.
- @param quiet @c true if status output is to be suppressed and @c false otherwise. */
-static void reportConnections(const yarp::os::ConstString & portName,
-                              const bool                    quiet = false)
+ @param portName The port to be inspected. */
+static void reportConnections(const yarp::os::ConstString & portName)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("portName = ", portName.c_str());//####
@@ -99,7 +97,7 @@ static void reportConnections(const yarp::os::ConstString & portName,
     MplusM::Common::StringVector inputs;
     MplusM::Common::StringVector outputs;
 
-    MplusM::Utilities::GatherPortConnections(portName, inputs, outputs, MplusM::Utilities::kInputAndOutputBoth, quiet);
+    MplusM::Utilities::GatherPortConnections(portName, inputs, outputs, MplusM::Utilities::kInputAndOutputBoth, false);
     if ((0 < inputs.size()) || (0 < outputs.size()))
     {
         for (int ii = 0, mm = inputs.size(); mm > ii; ++ii)
@@ -131,17 +129,12 @@ static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescript
     OD_LOG_ENTER();//####
     OD_LOG_P1("aDescriptor = ", &aDescriptor);//####
     OD_LOG_B1("checkWithRegistry = ", checkWithRegistry);//####
-    const size_t kAdapterPortNameBaseLen = sizeof(ADAPTER_PORT_NAME_BASE) - 1;
-    const size_t kClientPortNameBaseLen = sizeof(CLIENT_PORT_NAME_BASE) - 1;
-    const size_t kDefaultServiceNameBaseLen = sizeof(DEFAULT_SERVICE_NAME_BASE) - 1;
-    const char * portNameChars = aDescriptor._portName.c_str();
-
-    cout << portNameChars << ": ";
+    cout << aDescriptor._portName.c_str() << ": ";
     if (checkWithRegistry)
     {
         yarp::os::ConstString request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
         
-        request += portNameChars;
+        request += aDescriptor._portName;
         MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(request.c_str(), true));
         
         OD_LOG_S1("matches <- ", matches.toString().c_str());//####
@@ -152,23 +145,29 @@ static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescript
             if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
             {
                 // Didn't match - use a simpler check, in case it's unregistered or is an adapter or client.
-                if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portNameChars, kDefaultServiceNameBaseLen))
+                switch (MplusM::Utilities::GetPortKind(aDescriptor._portName))
                 {
-                    cout << "Unregistered service port.";
-                }
-                else if (! strncmp(ADAPTER_PORT_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
-                {
-                    cout << "Adapter port.";
-                }
-                else if (! strncmp(CLIENT_PORT_NAME_BASE, portNameChars, kClientPortNameBaseLen))
-                {
-                    cout << "Client port.";
-                }
-                else
-                {
-                    // A plain port.
-                    cout << "Standard port at " << aDescriptor._portIpAddress.c_str() << ":" <<
-                            aDescriptor._portPortNumber.c_str();
+                    case MplusM::Utilities::kPortKindAdapter:
+                        cout << "Adapter port.";
+                        break;
+                        
+                    case MplusM::Utilities::kPortKindClient:
+                        cout << "Client port.";
+                        break;
+                        
+                    case MplusM::Utilities::kPortKindService:
+                        cout << "Unregistered service port.";
+                        break;
+                        
+                    case MplusM::Utilities::kPortKindServiceRegistry:
+                        cout << "Service Registry port.";
+                        break;
+                        
+                    case MplusM::Utilities::kPortKindStandard:
+                        cout << "Standard port at " << aDescriptor._portIpAddress.c_str() << ":" <<
+                                aDescriptor._portPortNumber.c_str();
+                        break;
+                        
                 }
             }
             else
@@ -194,25 +193,30 @@ static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescript
                     }
                     else
                     {
-                        // The response was an empty list - use a simpler check, in case it's unregistered or is an
-                        // adapter or client.
-                        if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portNameChars, kDefaultServiceNameBaseLen))
+                        // Didn't match - use a simpler check, in case it's unregistered or is an adapter or client.
+                        switch (MplusM::Utilities::GetPortKind(aDescriptor._portName))
                         {
-                            cout << "Unregistered service port.";
-                        }
-                        else if (! strncmp(ADAPTER_PORT_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
-                        {
-                            cout << "Adapter port.";
-                        }
-                        else if (! strncmp(CLIENT_PORT_NAME_BASE, portNameChars, kClientPortNameBaseLen))
-                        {
-                            cout << "Client port.";
-                        }
-                        else
-                        {
-                            // A plain port.
-                            cout << "Standard port at " << aDescriptor._portIpAddress.c_str() << ":" <<
-                                    aDescriptor._portPortNumber.c_str();
+                            case MplusM::Utilities::kPortKindAdapter:
+                                cout << "Adapter port.";
+                                break;
+                                
+                            case MplusM::Utilities::kPortKindClient:
+                                cout << "Client port.";
+                                break;
+                                
+                            case MplusM::Utilities::kPortKindService:
+                                cout << "Unregistered service port.";
+                                break;
+                                
+                            case MplusM::Utilities::kPortKindServiceRegistry:
+                                cout << "Service Registry port.";
+                                break;
+                                
+                            case MplusM::Utilities::kPortKindStandard:
+                                cout << "Standard port at " << aDescriptor._portIpAddress.c_str() << ":" <<
+                                        aDescriptor._portPortNumber.c_str();
+                                break;
+                                
                         }
                     }
                 }
@@ -256,23 +260,30 @@ static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescript
     {
         // We can't interrogate the service registry, so use a simple heuristic to identify clients, services and
         // adapters.
-        if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portNameChars, kDefaultServiceNameBaseLen))
+        // Didn't match - use a simpler check, in case it's unregistered or is an adapter or client.
+        switch (MplusM::Utilities::GetPortKind(aDescriptor._portName))
         {
-            cout << "Unregistered service port.";
-        }
-        else if (! strncmp(ADAPTER_PORT_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
-        {
-            cout << "Adapter port.";
-        }
-        else if (! strncmp(CLIENT_PORT_NAME_BASE, portNameChars, kClientPortNameBaseLen))
-        {
-            cout << "Client port.";
-        }
-        else
-        {
-            // A plain port.
-            cout << "Standard port at " << aDescriptor._portIpAddress.c_str() << ":" <<
-                    aDescriptor._portPortNumber.c_str();
+            case MplusM::Utilities::kPortKindAdapter:
+                cout << "Adapter port.";
+                break;
+                
+            case MplusM::Utilities::kPortKindClient:
+                cout << "Client port.";
+                break;
+                
+            case MplusM::Utilities::kPortKindService:
+                cout << "Unregistered service port.";
+                break;
+                
+            case MplusM::Utilities::kPortKindServiceRegistry:
+                cout << "Service Registry port.";
+                break;
+                
+            case MplusM::Utilities::kPortKindStandard:
+                cout << "Standard port at " << aDescriptor._portIpAddress.c_str() << ":" <<
+                        aDescriptor._portPortNumber.c_str();
+                break;
+                
         }
     }
     cout << endl;

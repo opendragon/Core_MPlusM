@@ -74,6 +74,21 @@ namespace MplusM
             kInputAndOutputBoth   = 0x3
         }; // InputOutputFlag
         
+        /*! @brief The kinds of ports. */
+        enum PortKind
+        {
+            /*! @brief The port is an adapter port. */
+            kPortKindAdapter,
+            /*! @brief The port is a client port. */
+            kPortKindClient,
+            /*! @brief The port is a service port. */
+            kPortKindService,
+            /*! @brief The port is the service registry port. */
+            kPortKindServiceRegistry,
+            /*! @brief The port is s standard port. */
+            kPortKindStandard
+        }; // PortKind
+        
         /*! @brief The attributes of a port. */
         struct PortDescriptor
         {
@@ -144,6 +159,11 @@ namespace MplusM
          @returns @c true if the service returned the desired information and @c false otherwise. */
         bool GetNameAndDescriptionForService(const yarp::os::ConstString & serviceChannelName,
                                              ServiceDescriptor &           descriptor);
+
+        /*! @brief Map a port name to the port kind.
+         @param portName The name of the port.
+         @returns The kind of the port. */
+        PortKind GetPortKind(const yarp::os::ConstString & portName);
 
         /*! @brief Retrieve the set of known services.
          @param services The set of registered services.

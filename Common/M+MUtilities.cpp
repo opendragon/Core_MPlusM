@@ -749,6 +749,37 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
     return result;
 } // MplusM::Utilities::GetNameAndDescriptionForService
 
+MplusM::Utilities::PortKind MplusM::Utilities::GetPortKind(const yarp::os::ConstString & portName)
+{
+    const char * portNameChars = portName.c_str();
+    const size_t kAdapterPortNameBaseLen = sizeof(ADAPTER_PORT_NAME_BASE) - 1;
+    const size_t kClientPortNameBaseLen = sizeof(CLIENT_PORT_NAME_BASE) - 1;
+    const size_t kDefaultServiceNameBaseLen = sizeof(DEFAULT_SERVICE_NAME_BASE) - 1;
+    PortKind     result;
+    
+    if (! strcmp(MpM_REGISTRY_CHANNEL_NAME, portNameChars))
+    {
+        result = kPortKindServiceRegistry;
+    }
+    else if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portNameChars, kDefaultServiceNameBaseLen))
+    {
+        result = kPortKindService;
+    }
+    else if (! strncmp(ADAPTER_PORT_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
+    {
+        result = kPortKindAdapter;
+    }
+    else if (! strncmp(CLIENT_PORT_NAME_BASE, portNameChars, kClientPortNameBaseLen))
+    {
+        result = kPortKindClient;
+    }
+    else
+    {
+        result = kPortKindStandard;
+    }
+    return result;
+} // MplusM::Utilities::GetPortKind
+
 void MplusM::Utilities::GetServiceNames(StringVector & services,
                                         const bool     quiet)
 {
