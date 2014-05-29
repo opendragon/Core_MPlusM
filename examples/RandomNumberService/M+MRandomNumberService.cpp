@@ -81,9 +81,9 @@ RandomNumberService::RandomNumberService(const char *                  launchPat
                                          const yarp::os::ConstString & serviceEndpointName,
                                          const yarp::os::ConstString & serviceHostName,
                                          const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_RANDOM_CANONICAL_NAME, "An example random number service\n"
-                  "Requests: random - return the number of random values requested", serviceEndpointName,
-                  serviceHostName, servicePortNumber), _randomHandler(NULL)
+        inherited(launchPath, true, MpM_RANDOM_CANONICAL_NAME, "An example random number service",
+                  "random - return the number of random values requested", serviceEndpointName, serviceHostName,
+                  servicePortNumber), _randomHandler(NULL)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S4("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####

@@ -79,7 +79,7 @@ using namespace MplusM::Test;
 
 Test11Service::Test11Service(const int argc,
                              char * *  argv) :
-        inherited(true, "Test11", "Simple service for unit tests", argc, argv), _echoHandler(NULL)
+        inherited(true, "Test11", "Simple service for unit tests", "", argc, argv), _echoHandler(NULL)
 {
     OD_LOG_ENTER();//####
     attachRequestHandlers();

@@ -86,6 +86,7 @@ namespace MplusM
              @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if one handler is used.
              @param canonicalName The channel-independent name of the service.
              @param description The description of the service.
+             @param requestsDescription The description of the requests for the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param serviceHostName The name or IP address of the machine running the service.
              @param servicePortNumber The channel being used by the service. */
@@ -93,6 +94,7 @@ namespace MplusM
                         const bool                    useMultipleHandlers,
                         const yarp::os::ConstString & canonicalName,
                         const yarp::os::ConstString & description,
+                        const yarp::os::ConstString & requestsDescription,
                         const yarp::os::ConstString & serviceEndpointName,
                         const yarp::os::ConstString & serviceHostName = "",
                         const yarp::os::ConstString & servicePortNumber = "");
@@ -101,11 +103,13 @@ namespace MplusM
              @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if one handler is used.
              @param canonicalName The channel-independent name of the service.
              @param description The description of the service.
+             @param requestsDescription The description of the requests for the service.
              @param argc The number of arguments in 'argv'.
              @param argv The arguments to be used to specify the new service. */
             BaseService(const bool                    useMultipleHandlers,
                         const yarp::os::ConstString & canonicalName,
                         const yarp::os::ConstString & description,
+                        const yarp::os::ConstString & requestsDescription,
                         const int                     argc,
                         char * *                      argv);
             
@@ -121,7 +125,7 @@ namespace MplusM
             } // canonicalName
             
             /*! @brief Return the description of the service.
-             @returns The standard name of the service. */
+             @returns The description of the service. */
             inline yarp::os::ConstString description(void)
             const
             {
@@ -186,6 +190,14 @@ namespace MplusM
                                 const Package &               restOfInput,
                                 const yarp::os::ConstString & senderChannel,
                                 yarp::os::ConnectionWriter *  replyMechanism);
+            
+            /*! @brief Return the description of the requests for the service.
+             @returns The description of the requests for the service. */
+            inline yarp::os::ConstString requestsDescription(void)
+            const
+            {
+                return _requestsDescription;
+            } // requestsDescription
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
@@ -311,6 +323,9 @@ namespace MplusM
             
             /*! @brief The description of the service. */
             yarp::os::ConstString            _description;
+            
+            /*! @brief The description of the requests for the service. */
+            yarp::os::ConstString            _requestsDescription;
             
             /*! @brief The number of requests seen. */
             int64_t                          _requestCount;

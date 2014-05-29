@@ -113,6 +113,8 @@ namespace MplusM
             Common::StringVector  _inputChannels;
             /*! @brief The set of secondary output channels for the service. */
             Common::StringVector  _outputChannels;
+            /*! @brief The description of the requests for the service. */
+            yarp::os::ConstString _requestsDescription;
         }; // ServiceDescriptor
         
         /*! @brief A set of port descriptions. */

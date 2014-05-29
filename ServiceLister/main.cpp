@@ -138,6 +138,7 @@ int main(int      argc,
                         cout << "Service port:      " << aService.c_str() << endl;
                         cout << "Service name:      " << descriptor._canonicalName.c_str() << endl;
                         MplusM::OutputDescription(cout, "Description:       ", descriptor._description);
+                        MplusM::OutputDescription(cout, "Requests:          ", descriptor._requestsDescription);
                         cout << "Path:              " << descriptor._path.c_str() << endl;
                         yarp::os::ConstString channelNames;
                         

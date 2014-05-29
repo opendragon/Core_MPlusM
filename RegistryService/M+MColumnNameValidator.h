@@ -59,31 +59,33 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The named parameter for the 'channelname' column. */
-# define CHANNELNAME_C_ "channelname"
+# define CHANNELNAME_C_         "channelname"
 /*! @brief The named parameter for the 'details' column. */
-# define DESCRIPTION_C_ "description"
+# define DESCRIPTION_C_         "description"
 /*! @brief The named parameter for the 'details' column. */
-# define DETAILS_C_     "details"
+# define DETAILS_C_             "details"
 /*! @brief The named parameter for the 'executable' column. */
-# define EXECUTABLE_C_  "executable"
+# define EXECUTABLE_C_          "executable"
 /*! @brief The named parameter for the 'input' column. */
-# define INPUT_C_       "input"
+# define INPUT_C_               "input"
 /*! @brief The named parameter for the 'key' column. */
-# define KEY_C_         "key"
+# define KEY_C_                 "key"
 /*! @brief The named parameter for the 'keyword' column. */
-# define KEYWORD_C_     "keyword"
+# define KEYWORD_C_             "keyword"
 /*! @brief The named parameter for the 'keywords_id' column. */
-# define KEYWORDS_ID_C_ "keywords_id"
+# define KEYWORDS_ID_C_         "keywords_id"
 /*! @brief The named parameter for the 'name' column. */
-# define NAME_C_        "name"
+# define NAME_C_                "name"
 /*! @brief The named parameter for the 'output' column. */
-# define OUTPUT_C_      "output"
+# define OUTPUT_C_              "output"
 /*! @brief The named parameter for the 'request' column. */
-# define REQUEST_C_     "request"
-/*! @brief The named parameter for the 'keywords_id' column. */
-# define REQUESTS_ID_C_ "requests_id"
+# define REQUEST_C_             "request"
+/*! @brief The named parameter for the 'requestsDesciption' column. */
+# define REQUESTSDESCRIPTION_C_ "requestsDescription"
+/*! @brief The named parameter for the 'requests_id' column. */
+# define REQUESTS_ID_C_         "requests_id"
 /*! @brief The named parameter for the 'version' column. */
-# define VERSION_C_     "version"
+# define VERSION_C_             "version"
 
 /*! @brief The name of the 'Keywords' table. */
 # define KEYWORDS_T_         "Keywords"

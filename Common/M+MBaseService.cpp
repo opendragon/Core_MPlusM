@@ -112,6 +112,7 @@ BaseService::BaseService(const char *                  launchPath,
                          const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
                          const yarp::os::ConstString & description,
+                         const yarp::os::ConstString & requestsDescription,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & serviceHostName,
                          const yarp::os::ConstString & servicePortNumber) :
@@ -123,7 +124,8 @@ BaseService::BaseService(const char *                  launchPath,
 #if defined(SERVICES_HAVE_CONTEXTS)
         _contexts(),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
-        _canonicalName(canonicalName), _description(description), _requestCount(0), _channelsHandler(NULL),
+        _canonicalName(canonicalName), _description(description), _requestsDescription(requestsDescription),
+        _requestCount(0), _channelsHandler(NULL),
 #if defined(SERVICES_HAVE_CONTEXTS)
         _clientsHandler(NULL),
 #endif // defined(SERVICES_HAVE_CONTEXTS)
@@ -134,9 +136,9 @@ BaseService::BaseService(const char *                  launchPath,
     OD_LOG_S1("launchPath = ", launchPath);//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
     OD_LOG_S4("canonicalName = ", canonicalName.c_str(), "description = ", description.c_str(),//####
-              "serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
-              serviceHostName.c_str());//####
-    OD_LOG_S1("servicePortNumber = ", servicePortNumber.c_str());//####
+              "requestsDescription = ", requestsDescription.c_str(), "serviceEndpointName = ",//####
+              serviceEndpointName.c_str());//####
+    OD_LOG_S2("serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     _endpoint = new Endpoint(serviceEndpointName, serviceHostName, servicePortNumber);
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
@@ -145,6 +147,7 @@ BaseService::BaseService(const char *                  launchPath,
 BaseService::BaseService(const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
                          const yarp::os::ConstString & description,
+                         const yarp::os::ConstString & requestsDescription,
                          const int                     argc,
                          char * *                      argv) :
         _launchPath(*argv),
@@ -164,7 +167,8 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
 {
     OD_LOG_ENTER();//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
-    OD_LOG_S2("canonicalName = ", canonicalName.c_str(), "description = ", description.c_str());//####
+    OD_LOG_S3("canonicalName = ", canonicalName.c_str(), "description = ", description.c_str(),//####
+              "requestsDescription = ", requestsDescription.c_str());//####
     switch (argc)
     {
             // Argument order = endpoint name [, IP address / name [, port]]

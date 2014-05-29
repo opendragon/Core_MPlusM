@@ -130,11 +130,12 @@ void NameRequestHandler::fillInDescription(const yarp::os::ConstString & request
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING MpM_REQREP_STRING MpM_REQREP_STRING);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING MpM_REQREP_STRING MpM_REQREP_STRING MpM_REQREP_STRING);
         info.put(MpM_REQREP_DICT_VERSION_KEY, NAME_REQUEST_VERSION_NUMBER);
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the canonical name and description of the service\n"
                  "Input: nothing\n"
-                 "Output: the canonical name, the description and the path to the executable for the service");
+                 "Output: the canonical name, the description, the path to the executable for the service and the "
+                 "description of the requests for the service");
         yarp::os::Value keywords;
         Package *       asList = keywords.asList();
         
@@ -179,6 +180,7 @@ bool NameRequestHandler::processRequest(const yarp::os::ConstString & request,
             reply.addString(_service.canonicalName());
             reply.addString(_service.description());
             reply.addString(bigPath);
+            reply.addString(_service.requestsDescription());
             OD_LOG_S1("reply <- ", reply.toString().c_str());
             if (! reply.write(*replyMechanism))
             {

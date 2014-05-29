@@ -99,12 +99,11 @@ RequestCounterService::RequestCounterService(const char *                  launc
                                              const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & serviceHostName,
                                              const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_REQUESTCOUNTER_CANONICAL_NAME, "The request counter service\n"
-                  "Requests: reset - clear the request counter and the elapsed time\n"
-                  "          stats - report the request counter and the elapsed time\n"
-                  "          <anything else> - simply increment the request counter", serviceEndpointName,
-                  serviceHostName, servicePortNumber), _defaultHandler(NULL), _resetHandler(NULL),
-        _statsHandler(NULL)
+        inherited(launchPath, true, MpM_REQUESTCOUNTER_CANONICAL_NAME, "The request counter service",
+                  "reset - clear the request counter and the elapsed time\n"
+                  "stats - report the request counter and the elapsed time\n"
+                  "<anything else> - simply increment the request counter", serviceEndpointName, serviceHostName,
+                  servicePortNumber), _defaultHandler(NULL), _resetHandler(NULL), _statsHandler(NULL)
 #if (! defined(SERVICES_HAVE_CONTEXTS))
         , _counter(0), _lastReset(yarp::os::Time::now())
 #endif // ! defined(SERVICES_HAVE_CONTEXTS)

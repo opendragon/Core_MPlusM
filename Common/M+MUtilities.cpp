@@ -637,21 +637,25 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                         yarp::os::Value theCanonicalName(response1.element(0));
                         yarp::os::Value theDescription(response1.element(1));
                         yarp::os::Value thePath(response1.element(2));
+                        yarp::os::Value theRequestsDescription(response1.element(3));
                         
-                        OD_LOG_S3("theCanonicalName <- ", theCanonicalName.toString().c_str(),//####
+                        OD_LOG_S4("theCanonicalName <- ", theCanonicalName.toString().c_str(),//####
                                   "theDescription <- ", theDescription.toString().c_str(), "thePath <- ",//####
-                                  thePath.toString().c_str());//####
-                        if (theCanonicalName.isString() && theDescription.isString() && thePath.isString())
+                                  thePath.toString().c_str(), "theRequestsDescription = ",//####
+                                  theRequestsDescription.c_str());//####
+                        if (theCanonicalName.isString() && theDescription.isString() && thePath.isString() &&
+                            theRequestsDescription.isString())
                         {
                             descriptor._canonicalName = theCanonicalName.toString();
                             descriptor._description = theDescription.toString();
                             descriptor._path = thePath.toString();
+                            descriptor._requestsDescription = theRequestsDescription.toString();
                             result = true;
                         }
                         else
                         {
                             OD_LOG("! (theCanonicalName.isString() && theDescription.isString() && "//####
-                                   "thePath.isString())");//####
+                                   "thePath.isString() && theRequestsDescription.isString())");//####
                         }
                     }
                     else

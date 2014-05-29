@@ -485,16 +485,18 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString &  
             yarp::os::Value theCanonicalName(response.element(0));
             yarp::os::Value theDescription(response.element(1));
             yarp::os::Value thePath(response.element(2));
+            yarp::os::Value theRequestsDescription(response.element(3));
             
-            if (theCanonicalName.isString() && theDescription.isString() && thePath.isString())
+            if (theCanonicalName.isString() && theDescription.isString() && thePath.isString() &&
+                theRequestsDescription.isString())
             {
                 result = _service.addServiceRecord(channelName, theCanonicalName.toString(), theDescription.toString(),
-                                                   thePath.toString());
+                                                   thePath.toString(), theRequestsDescription.toString());
             }
             else
             {
-                OD_LOG("! (theCanonicalName.isString() && theDescription.isString() && thePath.isString())");//####
-                // The canonical name and description are present, but at least one of them is not a string
+                OD_LOG("! (theCanonicalName.isString() && theDescription.isString() && thePath.isString() && "//####
+                       "theRequestsDescription.isString())");//####
                 result = false;
             }
         }

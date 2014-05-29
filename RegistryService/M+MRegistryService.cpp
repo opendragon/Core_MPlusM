@@ -191,6 +191,8 @@ namespace MplusM
             yarp::os::ConstString _executable;
             /*! @brief The name for the service. */
             yarp::os::ConstString _name;
+            /*! @brief The description of the requests for the service. */
+            yarp::os::ConstString _requestsDescription;
         }; // ServiceData
         
     } // Registry
@@ -753,7 +755,7 @@ static bool constructTables(sqlite3 * database)
                     T_("CREATE TABLE IF NOT EXISTS " SERVICES_T_ "( " CHANNELNAME_C_
                        " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT REPLACE, " NAME_C_
                        " Text NOT NULL DEFAULT _, " DESCRIPTION_C_ " Text NOT NULL DEFAULT _, " EXECUTABLE_C_
-                       " Text NOT NULL DEFAULT _)"),
+                       " Text NOT NULL DEFAULT _, " REQUESTSDESCRIPTION_C_ " Text NOT NULL DEFAULT _)"),
                     T_("CREATE INDEX IF NOT EXISTS " SERVICES_NAME_I_ " ON " SERVICES_T_ "(" NAME_C_ ")"),
                     T_("CREATE TABLE IF NOT EXISTS " KEYWORDS_T_ "( " KEYWORD_C_
                        " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT IGNORE)"),
@@ -1241,8 +1243,10 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
         int descriptionIndex = sqlite3_bind_parameter_index(statement, "@" DESCRIPTION_C_);
         int executableIndex = sqlite3_bind_parameter_index(statement, "@" EXECUTABLE_C_);
         int nameIndex = sqlite3_bind_parameter_index(statement, "@" NAME_C_);
+        int requestsDescriptionIndex = sqlite3_bind_parameter_index(statement, "@" REQUESTSDESCRIPTION_C_);
         
-        if ((0 < channelNameIndex) && (0 < descriptionIndex) && (0 < executableIndex) && (0 < nameIndex))
+        if ((0 < channelNameIndex) && (0 < descriptionIndex) && (0 < executableIndex) && (0 < nameIndex) &&
+            (0 < requestsDescriptionIndex))
         {
             const ServiceData * descriptor = static_cast<const ServiceData *>(stuff);
             const char *        channelName = descriptor->_channel.c_str();
@@ -1274,6 +1278,14 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
                 result = sqlite3_bind_text(statement, executableIndex, executable,
                                            static_cast<int>(strlen(executable)), SQLITE_TRANSIENT);
             }
+            if (SQLITE_OK == result)
+            {
+                const char * requestsDescription = descriptor->_requestsDescription.c_str();
+                
+                OD_LOG_S1("requestsDescription <- ", requestsDescription);//####
+                result = sqlite3_bind_text(statement, requestsDescriptionIndex, requestsDescription,
+                                           static_cast<int>(strlen(requestsDescription)), SQLITE_TRANSIENT);
+            }
             if (SQLITE_OK != result)
             {
                 OD_LOG_S1("error description: ", sqlite3_errstr(result));//####
@@ -1281,8 +1293,8 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
         }
         else
         {
-            OD_LOG("! ((0 < channelNameIndex) && (0 < descriptionIndex) && (0 < executableIndex) && "//####
-                   "(0 < nameIndex))");//####
+            OD_LOG("! ((0 < channelNameIndex) && (0 < descriptionIndex) && (0 < executableIndex) && (0 < nameIndex) && "
+                   "(0 < requestsDescriptionIndex))");//####
         }
     }
     catch (...)
@@ -1546,17 +1558,17 @@ RegistryService::RegistryService(const char *                  launchPath,
                                  const bool                    useInMemoryDb,
                                  const yarp::os::ConstString & serviceHostName,
                                  const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_REGISTRY_CANONICAL_NAME, "The Service Registry service\n"
-                  "Requests: associate - associate a channel with another channel\n"
-                  "          disassociate - remove all associations for a channel\n"
-                  "          getAssociates - return the associations of a channel\n"
-                  "          match - return the channels for services matching the criteria provided\n"
-                  "          register - record the information for a service on the given channel\n"
-                  "          unregister - remove the information for a service on the given channel",
-                  MpM_REGISTRY_CHANNEL_NAME, serviceHostName, servicePortNumber), _db(NULL),
-        _validator(new ColumnNameValidator), _associateHandler(NULL), _disassociateHandler(NULL),
-        _getAssociatesHandler(NULL), _matchHandler(NULL), _statusChannel(NULL), _registerHandler(NULL),
-        _unregisterHandler(NULL), _inMemory(useInMemoryDb), _isActive(false)
+        inherited(launchPath, true, MpM_REGISTRY_CANONICAL_NAME, "The Service Registry service",
+                  "associate - associate a channel with another channel\n"
+                  "disassociate - remove all associations for a channel\n"
+                  "getAssociates - return the associations of a channel\n"
+                  "match - return the channels for services matching the criteria provided\n"
+                  "register - record the information for a service on the given channel\n"
+                  "unregister - remove the information for a service on the given channel", MpM_REGISTRY_CHANNEL_NAME,
+                  serviceHostName, servicePortNumber), _db(NULL), _validator(new ColumnNameValidator),
+        _associateHandler(NULL), _disassociateHandler(NULL), _getAssociatesHandler(NULL), _matchHandler(NULL),
+        _statusChannel(NULL), _registerHandler(NULL), _unregisterHandler(NULL), _inMemory(useInMemoryDb),
+        _isActive(false)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("launchPath = ", launchPath);//####
@@ -1732,10 +1744,13 @@ bool RegistryService::addRequestRecord(const Common::Package &    keywordList,
 bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName,
                                        const yarp::os::ConstString & name,
                                        const yarp::os::ConstString & description,
-                                       const yarp::os::ConstString & executable)
+                                       const yarp::os::ConstString & executable,
+                                       const yarp::os::ConstString & requestsDescription)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S2("channelName = ", channelName.c_str(), "name = ", name.c_str());//####
+    OD_LOG_S4("channelName = ", channelName.c_str(), "name = ", name.c_str(), "description = ",//####
+              description.c_str(), "executable = ", executable.c_str());//####
+    OD_LOG_S1("requestsDescription = ", requestsDescription.c_str());//####
     bool okSoFar = false;
     
     try
@@ -1744,14 +1759,16 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
         {
             // Add the service channel name.
             static const char * insertIntoServices = T_("INSERT INTO " SERVICES_T_ "(" CHANNELNAME_C_ "," NAME_C_ ","
-                                                        DESCRIPTION_C_ "," EXECUTABLE_C_ ") VALUES(@" CHANNELNAME_C_
-                                                        ",@" NAME_C_ ",@" DESCRIPTION_C_ ",@" EXECUTABLE_C_ ")");
+                                                        DESCRIPTION_C_ "," EXECUTABLE_C_ "," REQUESTSDESCRIPTION_C_
+                                                        ") VALUES(@" CHANNELNAME_C_ ",@" NAME_C_ ",@" DESCRIPTION_C_
+                                                        ",@" EXECUTABLE_C_ ",@" REQUESTSDESCRIPTION_C_ ")");
             ServiceData         servData;
             
             servData._channel = channelName;
             servData._name = name;
             servData._description = description;
             servData._executable = executable;
+            servData._requestsDescription = requestsDescription;
             okSoFar = performSQLstatementWithNoResults(_db, insertIntoServices, setupInsertIntoServices,
                                                        static_cast<const void *>(&servData));
             if (okSoFar)

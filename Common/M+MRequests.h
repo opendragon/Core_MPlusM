@@ -100,7 +100,7 @@
 /*! @brief The number of elements expected in the output of a 'match' request. */
 # define MpM_EXPECTED_MATCH_RESPONSE_SIZE         2
 /*! @brief The number of elements expected in the output of a 'name' request. */
-# define MpM_EXPECTED_NAME_RESPONSE_SIZE          3
+# define MpM_EXPECTED_NAME_RESPONSE_SIZE          4
 
 /*! @brief The standard response to an invalid Service Registry request. */
 # define MpM_FAILED_RESPONSE "FAILED"

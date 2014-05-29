@@ -137,11 +137,13 @@ namespace MplusM
              @param name The canonical name for the service.
              @param description The description of the service.
              @param executable The path to the executable for the service.
+             @param requestsDescription The description of the requests for the service.
              @returns @c true if the request was successfully added and @c false otherwise. */
             bool addServiceRecord(const yarp::os::ConstString & channelName,
                                   const yarp::os::ConstString & name,
                                   const yarp::os::ConstString & description,
-                                  const yarp::os::ConstString & executable);
+                                  const yarp::os::ConstString & executable,
+                                  const yarp::os::ConstString & requestsDescription);
             
             /*! @brief Fill in the list of associated input channels and output channesls for a channel.
              @param channelName The channel to be checked.
