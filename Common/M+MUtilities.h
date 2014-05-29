@@ -120,6 +120,12 @@ namespace MplusM
         /*! @brief A set of port descriptions. */
         typedef std::vector<PortDescriptor> PortVector;
         
+        /*! @brief Add a connection between two ports.
+         @param fromPortName The name of the source port.
+         @param toPortName The name of the destination port. */
+        bool AddConnection(const yarp::os::ConstString & fromPortName,
+                           const yarp::os::ConstString & toPortName);
+        
         /*! @brief Check if the Registry Service is active.
          @param ports The set of detected ports.
          @returns @c true if the Registry Service port is present and @c false otherwise. */
@@ -172,6 +178,12 @@ namespace MplusM
          @param quiet @c true if status output is to be suppressed and @c false otherwise. */
         void GetServiceNames(Common::StringVector & services,
                              const bool             quiet = false);
+        
+        /*! @brief Remove a connection between two ports.
+         @param fromPortName The name of the source port.
+         @param toPortName The name of the destination port. */
+        bool RemoveConnection(const yarp::os::ConstString & fromPortName,
+                              const yarp::os::ConstString & toPortName);
         
     } // Utilities
     

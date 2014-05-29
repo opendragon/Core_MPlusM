@@ -381,6 +381,17 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
+bool MplusM::Utilities::AddConnection(const yarp::os::ConstString & fromPortName,
+                                      const yarp::os::ConstString & toPortName)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S2("fromPortName = ", fromPortName.c_str(), "toPortName = ", toPortName.c_str());//####
+    bool result = NetworkConnectWithRetries(fromPortName, toPortName);
+    
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // MplusM::Utilities::AddConnection
+
 bool MplusM::Utilities::CheckForRegistryService(const PortVector & ports)
 {
     OD_LOG_ENTER();//####
@@ -623,7 +634,7 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
     {
         if (newChannel->openWithRetries(aName))
         {
-            if (MplusM::Common::NetworkConnectWithRetries(aName, serviceChannelName))
+            if (NetworkConnectWithRetries(aName, serviceChannelName))
             {
                 MplusM::Common::Package         parameters1;
                 MplusM::Common::ServiceRequest  request1(MpM_NAME_REQUEST, parameters1);
@@ -642,7 +653,7 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                         OD_LOG_S4("theCanonicalName <- ", theCanonicalName.toString().c_str(),//####
                                   "theDescription <- ", theDescription.toString().c_str(), "thePath <- ",//####
                                   thePath.toString().c_str(), "theRequestsDescription = ",//####
-                                  theRequestsDescription.c_str());//####
+                                  theRequestsDescription.toString().c_str());//####
                         if (theCanonicalName.isString() && theDescription.isString() && thePath.isString() &&
                             theRequestsDescription.isString())
                         {
@@ -725,15 +736,15 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                     }
                 }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                if (! MplusM::Common::NetworkDisconnectWithRetries(aName, serviceChannelName))
+                if (! NetworkDisconnectWithRetries(aName, serviceChannelName))
                 {
-                    OD_LOG("(! MplusM::Common::NetworkDisconnectWithRetries(aName, destinationName))");//####
+                    OD_LOG("(! NetworkDisconnectWithRetries(aName, destinationName))");//####
                 }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
             }
             else
             {
-                OD_LOG("! (MplusM::Common::NetworkConnectWithRetries(aName, serviceChannelName))");//####
+                OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName))");//####
             }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
             newChannel->close();
@@ -832,3 +843,14 @@ void MplusM::Utilities::GetServiceNames(StringVector & services,
     }
     OD_LOG_EXIT();//####
 } // MplusM::Utilities::GetServiceNames
+
+bool MplusM::Utilities::RemoveConnection(const yarp::os::ConstString & fromPortName,
+                                         const yarp::os::ConstString & toPortName)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S2("fromPortName = ", fromPortName.c_str(), "toPortName = ", toPortName.c_str());//####
+    bool result = NetworkDisconnectWithRetries(fromPortName, toPortName);
+
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // MplusM::Utilities::RemoveConnection

@@ -1,7 +1,3 @@
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
 
-* change red dot to yellow square; filled yellow dot is ‘add connection’ and hollow yellow dot is ‘remove connection’
-* cmd-press to select first port of a connection to be deleted; cmd-press on second port deletes connection - if second press is on same port or not on any port, ignore
-* shift-press to select first port of a new connection; shift-press on second port adds connection - if second press is on same port or not on any port, ignore
 * shift-drag to draw line between first port and (free-floating) mouse point; bezier control line from mouse point to closest port other than the first port => note that connection is established when release occurs on another port, not via second click; release on same port of no port stops the drag with no connection made
-* cmd-drag does nothing
