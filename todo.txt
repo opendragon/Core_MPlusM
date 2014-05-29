@@ -1,3 +1,11 @@
 * use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
 
-* shift-drag to draw line between first port and (free-floating) mouse point; bezier control line from mouse point to closest port other than the first port => note that connection is established when release occurs on another port, not via second click; release on same port of no port stops the drag with no connection made
+* alt-drag to draw line between first port and (free-floating) mouse point; bezier control line from mouse point to closest port other than the first port => note that connection is established when release occurs on another port, not via second click; release on same port of no port stops the drag with no connection made
+
+* change ‘add connection’ to use ‘alt’, not ‘shift’
+
+* don’t allow start ports for addition or deletion to be client ports
+
+* see if the port detection logic can be improved to recognize input or output ports
+
+* use a double-buffering scheme to refresh the display, with a timer to initiate a fresh scan; if adding or deleting is active, reschedule the scan; protect the entity list with a semaphore so that the switchover from one list of entities to the freshly-scanned list won’t break the display [by having both lists, the positions of known entities can be retained from one scan to the next] 
