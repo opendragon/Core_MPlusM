@@ -6,6 +6,12 @@
 
 * don’t allow start ports for addition or deletion to be client ports
 
-* see if the port detection logic can be improved to recognize input or output ports
+* see if the port detection logic can be improved to recognize input or output ports, since ‘yarp connect’ rejects ‘connect /input /output’ 
 
 * use a double-buffering scheme to refresh the display, with a timer to initiate a fresh scan; if adding or deleting is active, reschedule the scan; protect the entity list with a semaphore so that the switchover from one list of entities to the freshly-scanned list won’t break the display [by having both lists, the positions of known entities can be retained from one scan to the next] 
+
+* alt+shift => UDP connection rather than TCP
+
+* use ‘yarp clean —timeout 3’ logic for port exploration or send the ‘clean’ command to yarp before scanning
+
+* colour TCP [teal = blue/green], UDP [purple], other [orange/amber]; need to capture TCP/UDP part of ‘There is an input/output from “—“ to “—“ using tcp/udp/text_ack’
