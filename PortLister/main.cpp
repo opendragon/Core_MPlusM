@@ -94,23 +94,55 @@ static void reportConnections(const yarp::os::ConstString & portName)
     OD_LOG_ENTER();//####
     OD_LOG_S1("portName = ", portName.c_str());//####
     OD_LOG_B1("quiet = ", quiet);//####
-    MplusM::Common::StringVector inputs;
-    MplusM::Common::StringVector outputs;
+    MplusM::Common::ChannelVector inputs;
+    MplusM::Common::ChannelVector outputs;
 
     MplusM::Utilities::GatherPortConnections(portName, inputs, outputs, MplusM::Utilities::kInputAndOutputBoth, false);
     if ((0 < inputs.size()) || (0 < outputs.size()))
     {
         for (int ii = 0, mm = inputs.size(); mm > ii; ++ii)
         {
-            yarp::os::ConstString aConnection = inputs[ii];
+            MplusM::Common::ChannelDescription aConnection = inputs[ii];
             
-            cout << "   Input from " << aConnection.c_str() << "." << endl;
+            cout << "   Input from " << aConnection._portName.c_str();
+            switch (aConnection._portMode)
+            {
+                case MplusM::Common::kChannelModeTCP:
+                    cout << " via TCP.";
+                    break;
+                    
+                case MplusM::Common::kChannelModeUDP:
+                    cout << " via UDP.";
+                    break;
+                    
+                default:
+                    cout << " via non-TCP/non-UDP.";
+                    break;
+                    
+            }
+            cout << endl;
         }
         for (int ii = 0, mm = outputs.size(); mm > ii; ++ii)
         {
-            yarp::os::ConstString aConnection = outputs[ii];
+            MplusM::Common::ChannelDescription aConnection = outputs[ii];
             
-            cout << "   Output to " << aConnection.c_str() << "." << endl;
+            cout << "   Output to " << aConnection._portName.c_str();
+            switch (aConnection._portMode)
+            {
+                case MplusM::Common::kChannelModeTCP:
+                    cout << " via TCP.";
+                    break;
+                    
+                case MplusM::Common::kChannelModeUDP:
+                    cout << " via UDP.";
+                    break;
+                    
+                default:
+                    cout << " via non-TCP/non-UDP.";
+                    break;
+                    
+            }
+            cout << endl;
         }
     }
     else

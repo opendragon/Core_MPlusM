@@ -107,18 +107,19 @@ static const char * kMagicName = "<!!!>";
 /*! @brief Check if the response is for an input connection.
  @param response The response from the port that is being checked.
  @param inputs The collected inputs for the port. */
-static void checkForInputConnection(const yarp::os::Bottle &       response,
-                                    MplusM::Common::StringVector & inputs)
+static void checkForInputConnection(const yarp::os::Bottle & response,
+                                    ChannelVector &          inputs)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("response = ", response.toString().c_str());//####
     OD_LOG_P1("inputs = ", &inputs);//####
     bool         sawConnection = false;
-    const char * matchString[] = { "There", "is", "an", "input", "connection", "from", NULL, "to", NULL };
+    const char * matchString[] = { "There", "is", "an", "input", "connection", "from", NULL, "to", NULL, "using",
+                                    NULL };
     int          respLen = response.size();
     int          matchLen = (sizeof(matchString) / sizeof(*matchString));
     
-    if (respLen > matchLen)
+    if (respLen >= matchLen)
     {
         bool matched = true;
         
@@ -136,12 +137,28 @@ static void checkForInputConnection(const yarp::os::Bottle &       response,
         }
         if (matched)
         {
-            yarp::os::ConstString destination(response.get(matchLen - 1).asString());
-            yarp::os::ConstString source(response.get(matchLen - 3).asString());
+            yarp::os::ConstString destination(response.get(matchLen - 3).asString());
+            yarp::os::ConstString source(response.get(matchLen - 5).asString());
+            yarp::os::ConstString mode(response.get(matchLen - 1).asString());
             
             if ((source != kMagicName) && (destination != kMagicName))
             {
-                inputs.push_back(source);
+                ChannelDescription connection;
+                
+                connection._portName = source;
+                if (mode == "tcp")
+                {
+                    connection._portMode = Common::kChannelModeTCP;
+                }
+                else if (mode == "udp")
+                {
+                    connection._portMode = Common::kChannelModeUDP;
+                }
+                else
+                {
+                    connection._portMode = Common::kChannelModeOther;
+                }
+                inputs.push_back(connection);
             }
         }
     }
@@ -151,17 +168,18 @@ static void checkForInputConnection(const yarp::os::Bottle &       response,
 /*! @brief Check if the response is for an output connection.
  @param response The response from the port that is being checked.
  @param outputs The collected outputs for the port. */
-static void checkForOutputConnection(const yarp::os::Bottle &       response,
-                                     MplusM::Common::StringVector & outputs)
+static void checkForOutputConnection(const yarp::os::Bottle & response,
+                                     ChannelVector &          outputs)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("response = ", response.toString().c_str());//####
     OD_LOG_P1("outputs = ", &outputs);//####
-    const char * matchString[] = { "There", "is", "an", "output", "connection", "from", NULL, "to", NULL };
+    const char * matchString[] = { "There", "is", "an", "output", "connection", "from", NULL, "to", NULL, "using",
+                                    NULL };
     int          respLen = response.size();
     int          matchLen = (sizeof(matchString) / sizeof(*matchString));
     
-    if (respLen > matchLen)
+    if (respLen >= matchLen)
     {
         bool matched = true;
         
@@ -179,12 +197,28 @@ static void checkForOutputConnection(const yarp::os::Bottle &       response,
         }
         if (matched)
         {
-            yarp::os::ConstString destination(response.get(matchLen - 1).asString());
-            yarp::os::ConstString source(response.get(matchLen - 3).asString());
-            
+            yarp::os::ConstString destination(response.get(matchLen - 3).asString());
+            yarp::os::ConstString source(response.get(matchLen - 5).asString());
+            yarp::os::ConstString mode(response.get(matchLen - 1).asString());
+
             if ((source != kMagicName) && (destination != kMagicName))
             {
-                outputs.push_back(destination);
+                ChannelDescription connection;
+                
+                connection._portName = destination;
+                if (mode == "tcp")
+                {
+                    connection._portMode = Common::kChannelModeTCP;
+                }
+                else if (mode == "udp")
+                {
+                    connection._portMode = Common::kChannelModeUDP;
+                }
+                else
+                {
+                    connection._portMode = Common::kChannelModeOther;
+                }
+                outputs.push_back(connection);
             }
         }
     }
@@ -197,10 +231,10 @@ static void checkForOutputConnection(const yarp::os::Bottle &       response,
  @param outputs The collected outputs from the response.
  @param isPrimary @c true if the 'primary' flag was set and @c false otherwise.
  @returns @c true if the response was valid and @c false otherwise. */
-static bool processGetAssociatesResponse(const Package &        response,
-                                         Common::StringVector & inputs,
-                                         Common::StringVector & outputs,
-                                         bool &                 isPrimary)
+static bool processGetAssociatesResponse(const Package & response,
+                                         StringVector &  inputs,
+                                         StringVector &  outputs,
+                                         bool &          isPrimary)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("response = ", response.toString().c_str());//####
@@ -382,11 +416,13 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
 #endif // defined(__APPLE__)
 
 bool MplusM::Utilities::AddConnection(const yarp::os::ConstString & fromPortName,
-                                      const yarp::os::ConstString & toPortName)
+                                      const yarp::os::ConstString & toPortName,
+                                      const bool                    isUDP)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S2("fromPortName = ", fromPortName.c_str(), "toPortName = ", toPortName.c_str());//####
-    bool result = NetworkConnectWithRetries(fromPortName, toPortName);
+    OD_LOG_B1("isUDP = ", isUDP);//####
+    bool result = NetworkConnectWithRetries(fromPortName, toPortName, isUDP);
     
     OD_LOG_EXIT_B(result);//####
     return result;
@@ -413,8 +449,8 @@ bool MplusM::Utilities::CheckForRegistryService(const PortVector & ports)
 } // MplusM::Utilities::CheckForRegistryService
 
 void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
-                                              Common::StringVector &        inputs,
-                                              Common::StringVector &        outputs,
+                                              ChannelVector &               inputs,
+                                              ChannelVector &               outputs,
                                               const InputOutputFlag         which,
                                               const bool                    quiet)
 {
@@ -503,8 +539,8 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
 // input port is the primary for the association.
 // @param quiet @c true if status output is to be suppressed and @c false otherwise.*/
 bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
-                                           Common::StringVector &        inputs,
-                                           Common::StringVector &        outputs,
+                                           StringVector &                inputs,
+                                           StringVector &                outputs,
                                            bool &                        isPrimary,
                                            const bool                    quiet)
 {
@@ -626,9 +662,9 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
     OD_LOG_ENTER();//####
     OD_LOG_S1("serviceChannelName = ", serviceChannelName.c_str());//####
     OD_LOG_P1("descriptor = ", &descriptor);//####
-    bool                            result = false;
-    yarp::os::ConstString           aName(MplusM::Common::GetRandomChannelName("/servicelister/channel_"));
-    MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
+    bool                  result = false;
+    yarp::os::ConstString aName(GetRandomChannelName("/servicelister/channel_"));
+    ClientChannel *       newChannel = new ClientChannel;
     
     if (newChannel)
     {
@@ -636,9 +672,9 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
         {
             if (NetworkConnectWithRetries(aName, serviceChannelName))
             {
-                MplusM::Common::Package         parameters1;
-                MplusM::Common::ServiceRequest  request1(MpM_NAME_REQUEST, parameters1);
-                MplusM::Common::ServiceResponse response1;
+                Package         parameters1;
+                ServiceRequest  request1(MpM_NAME_REQUEST, parameters1);
+                ServiceResponse response1;
                 
                 if (request1.send(*newChannel, &response1))
                 {
@@ -681,9 +717,9 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                 }
                 if (result)
                 {
-                    MplusM::Common::Package         parameters2;
-                    MplusM::Common::ServiceRequest  request2(MpM_CHANNELS_REQUEST, parameters2);
-                    MplusM::Common::ServiceResponse response2;
+                    Package         parameters2;
+                    ServiceRequest  request2(MpM_CHANNELS_REQUEST, parameters2);
+                    ServiceResponse response2;
                     
                     if (request2.send(*newChannel, &response2))
                     {
@@ -696,8 +732,8 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                                       "theOutputChannels <- ", theOutputChannels.toString().c_str());//####
                             if (theInputChannels.isList() && theOutputChannels.isList())
                             {
-                                MplusM::Common::Package * inputChannelsAsList = theInputChannels.asList();
-                                MplusM::Common::Package * outputChannelsAsList = theOutputChannels.asList();
+                                Package * inputChannelsAsList = theInputChannels.asList();
+                                Package * outputChannelsAsList = theOutputChannels.asList();
                                 
                                 for (int ii = 0, howMany = inputChannelsAsList->size(); ii < howMany; ++ii)
                                 {
@@ -801,7 +837,7 @@ void MplusM::Utilities::GetServiceNames(StringVector & services,
     OD_LOG_ENTER();//####
     OD_LOG_P1("services = ", &services);//####
     OD_LOG_B1("quiet = ", quiet);//####
-    MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(MpM_REQREP_DICT_REQUEST_KEY ":*"));
+    Package matches(FindMatchingServices(MpM_REQREP_DICT_REQUEST_KEY ":*"));
     
     services.clear();
     if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
@@ -822,7 +858,7 @@ void MplusM::Utilities::GetServiceNames(StringVector & services,
         else
         {
             // Now, process the second element.
-            MplusM::Common::Package * matchesList = matches.get(1).asList();
+            Package * matchesList = matches.get(1).asList();
             
             if (matchesList)
             {

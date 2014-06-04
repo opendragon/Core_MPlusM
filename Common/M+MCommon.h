@@ -156,8 +156,31 @@ namespace MplusM
 {
     namespace Common
     {
+        /*! @brief The mode of a channel. */
+        enum ChannelMode
+        {
+            /*! @brief The connection is a TCP connection. */
+            kChannelModeTCP,
+            /*! @brief The connection is a UDP connection. */
+            kChannelModeUDP,
+            /*! @brief The connection is neither a TCP nor a UDP connection. */
+            kChannelModeOther
+        }; // ChannelMode
+        
+        /*! @brief A description of a channel. */
+        struct ChannelDescription
+        {
+            /*! @brief The name of the port being connected to. */
+            yarp::os::ConstString _portName;
+            /*! @brief The mode of the connection. */
+            ChannelMode           _portMode;
+        }; // ChannelDescription
+        
         /*! @brief The logical connection between a client and a service. */
         typedef yarp::os::Bottle                   Package;
+        
+        /*! @brief A sequence of connections. */
+        typedef std::vector<ChannelDescription>    ChannelVector;
         
         /*! @brief A sequence of random numbers. */
         typedef std::vector<double>                DoubleVector;
@@ -187,9 +210,11 @@ namespace MplusM
         /*! @brief Connect two channels, using a backoff strategy with retries.
          @param sourceName The name of the source channel.
          @param destinationName The name of the destination channel.
+         @param isUDP @c true if the connection is to be UDP and @c false otherwise.
          @returns @c true if the connection was established and @ false otherwise. */
         bool NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
-                                       const yarp::os::ConstString & destinationName);
+                                       const yarp::os::ConstString & destinationName,
+                                       const bool                    isUDP = false);
         
         /*! @brief Disconnect two channels, using a backoff strategy with retries.
          @param sourceName The name of the source channel.

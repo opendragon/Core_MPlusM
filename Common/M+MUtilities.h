@@ -122,9 +122,12 @@ namespace MplusM
         
         /*! @brief Add a connection between two ports.
          @param fromPortName The name of the source port.
-         @param toPortName The name of the destination port. */
+         @param toPortName The name of the destination port.
+         @param isUDP @c true if the connection is to be UDP and @c false otherwise.
+         @returns @c true if successful and @c false otherwise. */
         bool AddConnection(const yarp::os::ConstString & fromPortName,
-                           const yarp::os::ConstString & toPortName);
+                           const yarp::os::ConstString & toPortName,
+                           const bool                    isUDP = false);
         
         /*! @brief Check if the Registry Service is active.
          @param ports The set of detected ports.
@@ -138,8 +141,8 @@ namespace MplusM
          @param which A flag to specify what is to be gathered.
          @param quiet @c true if status output is to be suppressed and @c false otherwise. */
         void GatherPortConnections(const yarp::os::ConstString & portName,
-                                   Common::StringVector &        inputs,
-                                   Common::StringVector &        outputs,
+                                   Common::ChannelVector &       inputs,
+                                   Common::ChannelVector &       outputs,
                                    const InputOutputFlag         which,
                                    const bool                    quiet = false);
         

@@ -262,10 +262,12 @@ void MplusM::Common::Initialize(const char * progName)
 } // MplusM::Common::Initialize
 
 bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
-                                               const yarp::os::ConstString & destinationName)
+                                               const yarp::os::ConstString & destinationName,
+                                               const bool                    isUDP)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
+    OD_LOG_B1("isUDP = ", isUDP);//####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
 #if (! defined(MpM_DONT_USE_TIMEOUTS))
@@ -275,14 +277,24 @@ bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sou
     SetUpCatcher();
     try
     {
+        yarp::os::ConstString carrier;
+        
+        if (isUDP)
+        {
+            carrier = "udp";
+        }
+        else
+        {
+            carrier = "tcp";
+        }
 #if defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
             OD_LOG("about to connect");//####
 # if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            result = yarp::os::Network::connect(sourceName, destinationName, yarp::os::ConstString(""), false);
+            result = yarp::os::Network::connect(sourceName, destinationName, carrier, false);
 # else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            result = yarp::os::Network::connect(sourceName, destinationName, yarp::os::ConstString(""), true);
+            result = yarp::os::Network::connect(sourceName, destinationName, carrier, true);
 # endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             if (! result)
             {
