@@ -277,7 +277,7 @@ bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sou
     SetUpCatcher();
     try
     {
-        yarp::os::ConstString carrier;
+        const char * carrier;
         
         if (isUDP)
         {
@@ -311,9 +311,9 @@ bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sou
             
             OD_LOG("about to connect");//####
 # if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            result = yarp::os::Network::connect(sourceName, destinationName, yarp::os::ConstString(""), false);
+            result = yarp::os::Network::connect(sourceName, destinationName, carrier, false);
 # else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            result = yarp::os::Network::connect(sourceName, destinationName, yarp::os::ConstString(""), true);
+            result = yarp::os::Network::connect(sourceName, destinationName, carrier, true);
 # endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
             if (! result)
             {
