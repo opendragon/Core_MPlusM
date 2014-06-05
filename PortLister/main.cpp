@@ -351,8 +351,8 @@ int main(int      argc,
             yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
 
             MplusM::Common::Initialize(*argv);
-            MplusM::Utilities::PortVector ports;
             bool                          found = false;
+            MplusM::Utilities::PortVector ports;
             
             MplusM::Utilities::GetDetectedPortList(ports);
             if (ports.size())

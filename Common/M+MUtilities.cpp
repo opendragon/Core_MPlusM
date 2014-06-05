@@ -464,7 +464,8 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
     outputs.clear();
     if (address.isValid())
     {
-        if ((address.getCarrier() == "tcp") || (address.getCarrier() == "xmlrpc"))
+        if ((address.getCarrier() == "tcp") || (address.getCarrier() == "fast_tcp") ||
+            (address.getCarrier() == "xmlrpc"))
         {
             // Note that the following connect() call will hang indefinitely if the address given is for an 'output'
             // port that is connected to another 'output' port. 'yarp ping /port' will hang as well.

@@ -138,17 +138,18 @@ namespace MplusM
             yarp::os::ConstString _name;
             
             /*! @brief @c true if the channel is used for output and @c false otherwise. */
-            bool _isOutput;
+            bool                  _isOutput;
             
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char _filler[7];
+            char                  _filler[7];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
+
         }; // AdapterChannel
         
     } // Common
