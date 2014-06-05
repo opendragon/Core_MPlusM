@@ -41,6 +41,7 @@
 
 set(MpM_EXAMPLES_DIR "${PROJECT_SOURCE_DIR}/examples")
 
+add_subdirectory(ChordGeneratorService)
 add_subdirectory(EchoClient)
 add_subdirectory(EchoService)
 add_subdirectory(RandomNumberAdapter)
