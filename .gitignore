@@ -5,6 +5,23 @@ Makefile
 cmake_install.cmake
 install_manifest.txt
 *.a
+
+#VS/Windows related
+*.ilk
+*.lastbuildstate
+*.vcxproj
+*.filters
+*.lib
+*.sdf
+*.sln
+*.suo
+*.obj
+*.tlog
+*.log
+*.pdb
+*.cache
+*.exe
+
 Testing
 Doxygen_output
 ClientList/ClientList
