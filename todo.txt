@@ -2,10 +2,16 @@
 
 = use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
 
-+ alt-drag to draw line between first port and (free-floating) mouse point; bezier control line from mouse point to closest port other than the first port => note that connection is established when release occurs on another port, not via second click; release on same port or no port stops the drag with no connection made
-
-+ use a double-buffering scheme to refresh the display, with a timer to initiate a fresh scan; if adding or deleting is active, reschedule the scan; protect the entity list with a semaphore so that the switchover from one list of entities to the freshly-scanned list won’t break the display [by having both lists, the positions of known entities can be retained from one scan to the next] 
++ use a double-buffering scheme to refresh the display, with a timer to initiate a fresh scan; if adding or deleting is active, reschedule the scan; protect the entity list with a semaphore so that the switchover from one list of entities to the freshly-scanned list won’t break the display 
 
 + use ‘yarp clean —timeout 3’ logic for port exploration or send the ‘clean’ command to yarp before scanning
 
 * add ‘sendKeepAlive’ to base service [virtual - Registry Service goes directly to database] to signal to the Registry Service that the sending service is still active; when a service starts, an ‘expected alive arrival time’ is set, and a background thread checks all the ‘expected alive arrival time’ - if it is earlier than the current time, flag the service as inactive; the ‘expected arrival time’ should be a multiple of the background thread scan interval
+
++ note that selecting an entity after connecting other entities sometimes causes the new entity to jump!
+
++ need some form of auto-positioning of entities - perhaps OGDF!!!
+
++ when copying OGDF files into /usr/local/*, use ‘cp -rp’ so that permissions will allow reading!
+
++ entities with no connections should have ‘phantom’ edges to other entities
