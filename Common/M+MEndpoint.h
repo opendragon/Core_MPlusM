@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMEndpoint_H_))
-/*! @brief Header guard. */
-# define MpMEndpoint_H_ /* */
+# define MpMEndpoint_H_ /* Header guard */
 
 # include "M+MCommon.h"
 

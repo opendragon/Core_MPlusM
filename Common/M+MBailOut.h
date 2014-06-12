@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMBailOut_H_))
-/*! @brief Header guard. */
-# define MpMBailOut_H_ /* */
+# define MpMBailOut_H_ /* Header guard */
 
 # include "M+MCommon.h"
 

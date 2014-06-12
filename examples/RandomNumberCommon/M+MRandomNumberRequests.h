@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMRandomNumberRequests_H_))
-/*! @brief Header guard. */
-# define MpMRandomNumberRequests_H_ /* */
+# define MpMRandomNumberRequests_H_ /* Header guard */
 
 # include "M+MRequests.h"
 

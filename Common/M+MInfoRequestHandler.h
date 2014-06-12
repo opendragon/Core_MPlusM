@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMInfoRequestHandler_H_))
-/*! @brief Header guard. */
-# define MpMInfoRequestHandler_H_ /* */
+# define MpMInfoRequestHandler_H_ /* Header guard */
 
 # include "M+MBaseRequestHandler.h"
 

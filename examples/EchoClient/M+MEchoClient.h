@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMEchoClient_H_))
-/*! @brief Header guard. */
-# define MpMEchoClient_H_ /* */
+# define MpMEchoClient_H_ /* Header guard */
 
 # include "M+MBaseClient.h"
 

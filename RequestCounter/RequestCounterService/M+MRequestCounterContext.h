@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMRequestCounterContext_H_))
-/*! @brief Header guard. */
-# define MpMRequestCounterContext_H_ /* */
+# define MpMRequestCounterContext_H_ /* Header guard */
 
 # include "M+MBaseContext.h"
 

@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(ODLOGGING_INC_C_))
-/*! @brief Header guard. */
-# define ODLOGGING_INC_C_ /* */
+# define ODLOGGING_INC_C_ /* Header guard */
 
 # include "ODLogging.h"
 

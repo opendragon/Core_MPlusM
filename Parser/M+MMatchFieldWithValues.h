@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMMatchFieldWithValues_H_))
-/*! @brief Header guard. */
-# define MpMMatchFieldWithValues_H_ /* */
+# define MpMMatchFieldWithValues_H_ /* Header guard */
 
 # include "M+MBaseMatcher.h"
 

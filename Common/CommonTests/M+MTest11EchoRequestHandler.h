@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMTest11EchoRequestHandler_H_))
-/*! @brief Header guard. */
-# define MpMTest11EchoRequestHandler_H_ /* */
+# define MpMTest11EchoRequestHandler_H_ /* Header guard */
 
 # include "M+MBaseRequestHandler.h"
 

@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMUtilities_H_))
-/*! @brief Header guard. */
-# define MpMUtilities_H_ /* */
+# define MpMUtilities_H_ /* Header guard */
 
 # include "M+MCommon.h"
 

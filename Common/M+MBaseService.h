@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMBaseService_H_))
-/*! @brief Header guard. */
-# define MpMBaseService_H_ /* */
+# define MpMBaseService_H_ /* Header guard */
 
 # include "M+MRequestMap.h"
 

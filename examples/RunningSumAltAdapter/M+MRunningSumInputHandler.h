@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMRunningSumInputHandler_H_))
-/*! @brief Header guard. */
-# define MpMRunningSumInputHandler_H_ /* */
+# define MpMRunningSumInputHandler_H_ /* Header guard */
 
 # include "M+MInputHandler.h"
 

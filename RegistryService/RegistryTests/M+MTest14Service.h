@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMTest14Service_H_))
-/*! @brief Header guard. */
-# define MpMTest14Service_H_ /* */
+# define MpMTest14Service_H_ /* Header guard */
 
 # include "M+MBaseService.h"
 

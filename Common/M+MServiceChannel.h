@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMServiceChannel_H_))
-/*! @brief Header guard. */
-# define MpMServiceChannel_H_ /* */
+# define MpMServiceChannel_H_ /* Header guard */
 
 # include "M+MCommon.h"
 

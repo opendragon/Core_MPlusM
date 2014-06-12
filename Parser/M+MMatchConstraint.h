@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMMatchConstraint_H_))
-/*! @brief Header guard. */
-# define MpMMatchConstraint_H_ /* */
+# define MpMMatchConstraint_H_ /* Header guard */
 
 # include "M+MBaseMatcher.h"
 

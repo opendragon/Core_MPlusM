@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMBaseServiceInputHandler_H_))
-/*! @brief Header guard. */
-# define MpMBaseServiceInputHandler_H_ /* */
+# define MpMBaseServiceInputHandler_H_ /* Header guard */
 
 # include "M+MInputHandler.h"
 

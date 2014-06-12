@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMInputHandler_H_))
-/*! @brief Header guard. */
-# define MpMInputHandler_H_ /* */
+# define MpMInputHandler_H_ /* Header guard */
 
 # include "M+MCommon.h"
 

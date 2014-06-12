@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMServiceResponse_H_))
-/*! @brief Header guard. */
-# define MpMServiceResponse_H_ /* */
+# define MpMServiceResponse_H_ /* Header guard */
 
 # include "M+MCommon.h"
 

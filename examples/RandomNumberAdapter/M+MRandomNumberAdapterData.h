@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMRandomNumberAdapterData_H_))
-/*! @brief Header guard. */
-# define MpMRandomNumberAdapterData_H_ /* */
+# define MpMRandomNumberAdapterData_H_ /* Header guard */
 
 # include "M+MBaseAdapterData.h"
 

@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMRequestCounterDefaultRequestHandler_H_))
-/*! @brief Header guard. */
-# define MpMRequestCounterDefaultRequestHandler_H_ /* */
+# define MpMRequestCounterDefaultRequestHandler_H_ /* Header guard */
 
 # include "M+MBaseRequestHandler.h"
 

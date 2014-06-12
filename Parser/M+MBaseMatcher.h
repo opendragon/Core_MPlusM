@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMBaseMatcher_H_))
-/*! @brief Header guard. */
-# define MpMBaseMatcher_H_ /* */
+# define MpMBaseMatcher_H_ /* Header guard */
 
 # include "M+MCommon.h"
 

@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMBaseClient_H_))
-/*! @brief Header guard. */
-# define MpMBaseClient_H_ /* */
+# define MpMBaseClient_H_ /* Header guard */
 
 # include "M+MCommon.h"
 

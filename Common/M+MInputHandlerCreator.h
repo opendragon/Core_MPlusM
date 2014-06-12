@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMInputHandlerCreator_H_))
-/*! @brief Header guard. */
-# define MpMInputHandlerCreator_H_ /* */
+# define MpMInputHandlerCreator_H_ /* Header guard */
 
 # include "M+MInputHandler.h"
 

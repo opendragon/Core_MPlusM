@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMCommon_H_))
-/*! @brief Header guard. */
-# define MpMCommon_H_ /* */
+# define MpMCommon_H_ /* Header guard */
 
 # include "M+MConfig.h"
 

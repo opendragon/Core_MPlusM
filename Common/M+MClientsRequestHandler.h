@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMClientsRequestHandler_H_))
-/*! @brief Header guard. */
-# define MpMClientsRequestHandler_H_ /* */
+# define MpMClientsRequestHandler_H_ /* Header guard */
 
 # include "M+MBaseRequestHandler.h"
 

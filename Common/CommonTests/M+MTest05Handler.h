@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMTest05Handler_H_))
-/*! @brief Header guard. */
-# define MpMTest05Handler_H_ /* */
+# define MpMTest05Handler_H_ /* Header guard */
 
 # include "M+MInputHandler.h"
 

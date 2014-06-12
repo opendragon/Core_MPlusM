@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMBaseAdapterData_H_))
-/*! @brief Header guard. */
-# define MpMBaseAdapterData_H_ /* */
+# define MpMBaseAdapterData_H_ /* Header guard */
 
 # include "M+MCommon.h"
 

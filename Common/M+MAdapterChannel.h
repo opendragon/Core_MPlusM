@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMAdapterChannel_H_))
-/*! @brief Header guard. */
-# define MpMAdapterChannel_H_ /* */
+# define MpMAdapterChannel_H_ /* Header guard */
 
 # include "M+MCommon.h"
 

@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMMatchFieldName_H_))
-/*! @brief Header guard. */
-# define MpMMatchFieldName_H_ /* */
+# define MpMMatchFieldName_H_ /* Header guard */
 
 # include "M+MBaseMatcher.h"
 

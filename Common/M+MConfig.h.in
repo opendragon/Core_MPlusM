@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMConfig_H_))
-/*! @brief Header guard. */
-# define MpMConfig_H_ /* */
+# define MpMConfig_H_ /* Header guard */
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMException_H_))
-/*! @brief Header guard. */
-# define MpMException_H_ /* */
+# define MpMException_H_ /* Header guard */
 
 # include "M+MCommon.h"
 

@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMRunningSumContext_H_))
-/*! @brief Header guard. */
-# define MpMRunningSumContext_H_ /* */
+# define MpMRunningSumContext_H_ /* Header guard */
 
 # include "M+MBaseContext.h"
 

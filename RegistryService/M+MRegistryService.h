@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMRegistryService_H_))
-/*! @brief Header guard. */
-# define MpMRegistryService_H_ /* */
+# define MpMRegistryService_H_ /* Header guard */
 
 # include "M+MBaseService.h"
 

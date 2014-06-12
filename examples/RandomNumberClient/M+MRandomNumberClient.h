@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMRandomNumberClient_H_))
-/*! @brief Header guard. */
-# define MpMRandomNumberClient_H_ /* */
+# define MpMRandomNumberClient_H_ /* Header guard */
 
 # include "M+MBaseClient.h"
 

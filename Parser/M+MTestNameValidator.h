@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMTestNameValidator_H_))
-/*! @brief Header guard. */
-# define MpMTestNameValidator_H_ /* */
+# define MpMTestNameValidator_H_ /* Header guard */
 
 # include "M+MBaseNameValidator.h"
 

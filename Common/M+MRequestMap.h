@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMRequestMap_H_))
-/*! @brief Header guard. */
-# define MpMRequestMap_H_ /* */
+# define MpMRequestMap_H_ /* Header guard */
 
 # include "M+MCommon.h"
 

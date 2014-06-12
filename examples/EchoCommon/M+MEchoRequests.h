@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMEchoRequests_H_))
-/*! @brief Header guard. */
-# define MpMEchoRequests_H_ /* */
+# define MpMEchoRequests_H_ /* Header guard */
 
 # include "M+MRequests.h"
 

@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(ODENABLELOGGING_H_))
-/*! @brief Header guard. */
-# define ODENABLELOGGING_H_ /* */
+# define ODENABLELOGGING_H_ /* Header guard */
 
 # if (! defined(OD_ENABLE_LOGGING))
 #  define OD_ENABLE_LOGGING /* */

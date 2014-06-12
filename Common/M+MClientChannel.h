@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMClientChannel_H_))
-/*! @brief Header guard. */
-# define MpMClientChannel_H_ /* */
+# define MpMClientChannel_H_ /* Header guard */
 
 # include "M+MCommon.h"
 

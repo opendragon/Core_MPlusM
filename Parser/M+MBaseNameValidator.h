@@ -41,8 +41,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMBaseNameValidator_H_))
-/*! @brief Header guard. */
-# define MpMBaseNameValidator_H_ /* */
+# define MpMBaseNameValidator_H_ /* Header guard */
 
 # include "M+MCommon.h"
 

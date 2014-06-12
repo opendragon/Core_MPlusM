@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMRunningSumService_H_))
-/*! @brief Header guard. */
-# define MpMRunningSumService_H_ /* */
+# define MpMRunningSumService_H_ /* Header guard */
 
 # include "M+MBaseService.h"
 

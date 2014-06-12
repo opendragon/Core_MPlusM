@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMRequestCounterClient_H_))
-/*! @brief Header guard. */
-# define MpMRequestCounterClient_H_ /* */
+# define MpMRequestCounterClient_H_ /* Header guard */
 
 # include "M+MBaseClient.h"
 

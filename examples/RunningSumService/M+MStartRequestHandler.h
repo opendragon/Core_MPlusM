@@ -40,8 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMStartRequestHandler_H_))
-/*! @brief Header guard. */
-# define MpMStartRequestHandler_H_ /* */
+# define MpMStartRequestHandler_H_ /* Header guard */
 
 # include "M+MBaseRequestHandler.h"
 
