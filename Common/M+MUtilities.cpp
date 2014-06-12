@@ -137,9 +137,9 @@ static void checkForInputConnection(const yarp::os::Bottle & response,
         }
         if (matched)
         {
+            yarp::os::ConstString mode(response.get(matchLen - 1).asString());
             yarp::os::ConstString destination(response.get(matchLen - 3).asString());
             yarp::os::ConstString source(response.get(matchLen - 5).asString());
-            yarp::os::ConstString mode(response.get(matchLen - 1).asString());
             
             if ((source != kMagicName) && (destination != kMagicName))
             {
@@ -197,9 +197,9 @@ static void checkForOutputConnection(const yarp::os::Bottle & response,
         }
         if (matched)
         {
+            yarp::os::ConstString mode(response.get(matchLen - 1).asString());
             yarp::os::ConstString destination(response.get(matchLen - 3).asString());
             yarp::os::ConstString source(response.get(matchLen - 5).asString());
-            yarp::os::ConstString mode(response.get(matchLen - 1).asString());
 
             if ((source != kMagicName) && (destination != kMagicName))
             {
