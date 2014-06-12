@@ -102,8 +102,6 @@ using namespace MplusM::Registry;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-#define USE_TEST_DATABASE /* Use an on-disk database rather than in-memory. */
-
 /*! @brief The named parameter for the 'associate' column. */
 #define ASSOCIATE_C_                        "associate"
 ///*! @brief The name of the index for the 'associate' column of the 'Associates' table. */
@@ -2263,9 +2261,9 @@ bool RegistryService::setUpDatabase(void)
         {
             const char * dbFileName;
             
-#if defined(USE_TEST_DATABASE)
-            dbFileName = "test.db";
-#else // ! defined(USE_TEST_DATABASE)
+#if defined(MpM_USE_TEST_DATABASE)
+            dbFileName = "/tmp/test.db";
+#else // ! defined(MpM_USE_TEST_DATABASE)
             if (_inMemory)
             {
                 dbFileName = ":memory:";
@@ -2274,7 +2272,7 @@ bool RegistryService::setUpDatabase(void)
             {
                 dbFileName = "";
             }
-#endif // ! defined(USE_TEST_DATABASE)
+#endif // ! defined(MpM_USE_TEST_DATABASE)
             sqlRes = sqlite3_open_v2(dbFileName, &_db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
             if (SQLITE_OK != sqlRes)
             {

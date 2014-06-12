@@ -46,7 +46,7 @@ project(M+M)
 
 set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 2)
-set(MpM_VERSION_PATCH 14)
+set(MpM_VERSION_PATCH 16)
 
 # Make some flags to control the build visible
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
@@ -67,6 +67,10 @@ option(MpM_MAIN_DOES_DELAY_NOT_YIELD "Use Delay() in main() loop")
 option(MpM_REPORT_ON_CONNECTIONS "Report on connections")
 option(MpM_SERVICES_LOG_TO_STDERR "Services send logging output to stderr")
 option(MpM_STALL_ON_SEND_PROBLEM "A send failure goes to a tight loop")
+option(MpM_USE_DISK_DATABASE "Use a disk-based database, rather than in-memory")
+option(MpM_USE_TEST_DATABASE "Use a test database, in /tmp, rather than a random disk location")
+mark_as_advanced(MpM_USE_DISK_DATABASE)
+mark_as_advanced(MpM_USE_TEST_DATABASE)
 
 # Find YARP
 find_package(YARP REQUIRED)

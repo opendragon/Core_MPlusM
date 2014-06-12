@@ -10,8 +10,8 @@
 
 + note that selecting an entity after connecting other entities sometimes causes the new entity to jump!
 
-+ need some form of auto-positioning of entities - perhaps OGDF!!!
-
 + when copying OGDF files into /usr/local/*, use ‘cp -rp’ so that permissions will allow reading!
 
-+ entities with no connections should have ‘phantom’ edges to other entities
++ load/save positions, by entity name
+
++ if dragging / adding / removing connection - ignore scan result, but re-enable scan

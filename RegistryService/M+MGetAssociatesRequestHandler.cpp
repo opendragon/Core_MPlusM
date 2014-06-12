@@ -184,21 +184,19 @@ bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & r
                             reply.addInt(isPrimary ? 1 : 0);
                             Package & aList1 = reply.addList();
                             
-                            for (size_t ii = 0, mm = associatedInputs.size(); mm > ii; ++ii)
+                            for (StringVector::const_iterator walker(associatedInputs.begin());
+                                 associatedInputs.end() != walker; ++walker)
                             {
-                                const yarp::os::ConstString & aString = associatedInputs.at(ii);
-                                
-                                aList1.addString(aString.c_str());
+                                aList1.addString(*walker);
                             }
                             // Note that we can't reuse the first list variable; we wind up with duplicate entries for
                             // some reason.
                             Package & aList2 = reply.addList();
                             
-                            for (size_t ii = 0, mm = associatedOutputs.size(); mm > ii; ++ii)
+                            for (StringVector::const_iterator walker(associatedOutputs.begin());
+                                 associatedOutputs.end() != walker; ++walker)
                             {
-                                const yarp::os::ConstString & aString = associatedOutputs.at(ii);
-                                
-                                aList2.addString(aString.c_str());
+                                aList2.addString(*walker);
                             }
                         }
                         else

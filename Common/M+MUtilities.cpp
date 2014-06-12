@@ -227,14 +227,10 @@ static void checkForOutputConnection(const yarp::os::Bottle & response,
 
 /*! @brief Check the response to the 'getAssociates' request for validity.
  @param response The response to be checked.
- @param inputs The collected inputs from the response.
- @param outputs The collected outputs from the response.
- @param isPrimary @c true if the 'primary' flag was set and @c false otherwise.
+ @param associates The associated ports for the port.
  @returns @c true if the response was valid and @c false otherwise. */
-static bool processGetAssociatesResponse(const Package & response,
-                                         StringVector &  inputs,
-                                         StringVector &  outputs,
-                                         bool &          isPrimary)
+static bool processGetAssociatesResponse(const Package &   response,
+                                         PortAssociation & associates)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("response = ", response.toString().c_str());//####
@@ -259,7 +255,7 @@ static bool processGetAssociatesResponse(const Package & response,
                     
                     if (responseSecond.isInt() && responseThird.isList() && responseFourth.isList())
                     {
-                        isPrimary = (0 != responseSecond.asInt());
+                        associates._primary = (0 != responseSecond.asInt());
                         Package * thirdAsList = responseThird.asList();
                         Package * fourthAsList = responseFourth.asList();
                         
@@ -269,7 +265,7 @@ static bool processGetAssociatesResponse(const Package & response,
                             
                             if (aPort.isString())
                             {
-                                inputs.push_back(aPort.toString());
+                                associates._inputs.push_back(aPort.toString());
                             }
                         }
                         for (int ii = 0, mm = fourthAsList->size(); mm > ii; ++ii)
@@ -278,7 +274,7 @@ static bool processGetAssociatesResponse(const Package & response,
                             
                             if (aPort.isString())
                             {
-                                outputs.push_back(aPort.toString());
+                                associates._outputs.push_back(aPort.toString());
                             }
                         }
                         result = true;
@@ -434,16 +430,13 @@ bool MplusM::Utilities::CheckForRegistryService(const PortVector & ports)
     OD_LOG_P1("ports = ", &ports);//####
     bool result = false;
     
-    for (size_t ii = 0, mm = ports.size(); mm > ii; ++ii)
+    for (PortVector::const_iterator walker(ports.begin()); ports.end() != walker; ++walker)
     {
-        const PortDescriptor & aDescriptor = ports[ii];
-        
-        if (aDescriptor._portName == MpM_REGISTRY_CHANNEL_NAME)
+        if (walker->_portName == MpM_REGISTRY_CHANNEL_NAME)
         {
             result = true;
             break;
         }
-        
     }
     return result;
 } // MplusM::Utilities::CheckForRegistryService
@@ -532,28 +525,18 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
     OD_LOG_EXIT();//####
 } // MplusM::Utilities::GatherPortConnections
 
-///*! @brief Collect the associated input and output connections for a port.
-// @param portName The port to be inspected.
-// @param inputs The collected inputs associated with the port.
-// @param outputs The collected outputs associated with the port.
-// @param isPrimary @c true if the prt is associated and @c false if it is an associate, in which case the first
-// input port is the primary for the association.
-// @param quiet @c true if status output is to be suppressed and @c false otherwise.*/
 bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
-                                           StringVector &                inputs,
-                                           StringVector &                outputs,
-                                           bool &                        isPrimary,
+                                           PortAssociation &             associates,
                                            const bool                    quiet)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("portName = ", portName.c_str());//####
-    OD_LOG_P3("inputs = ", &inputs, "outputs = ", &outputs, "isPrimary = ", &isPrimary);//####
     OD_LOG_B1("quiet = ", quiet);//####
     bool result = false;
     
-    inputs.clear();
-    outputs.clear();
-    isPrimary = false;
+    associates._inputs.clear();
+    associates._outputs.clear();
+    associates._primary = false;
     try
     {
         yarp::os::ConstString aName(GetRandomChannelName("/getassociates/channel_"));
@@ -581,7 +564,7 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
                     if (request.send(*newChannel, &response))
                     {
                         OD_LOG_S1("response <- ", response.asString().c_str());//####
-                        result = processGetAssociatesResponse(response.values(), inputs, outputs, isPrimary);
+                        result = processGetAssociatesResponse(response.values(), associates);
                     }
                     else
                     {
@@ -694,6 +677,7 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                         if (theCanonicalName.isString() && theDescription.isString() && thePath.isString() &&
                             theRequestsDescription.isString())
                         {
+                            descriptor._channelName = serviceChannelName;
                             descriptor._canonicalName = theCanonicalName.toString();
                             descriptor._description = theDescription.toString();
                             descriptor._path = thePath.toString();

@@ -193,11 +193,9 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
             handler->fillInAliases(aliases);
             lock();
             _handlers.insert(RequestHandlerMapValue(handler->name(), handler));
-            for (size_t ii = 0, mm = aliases.size(); mm > ii; ++ii)
+            for (StringVector::const_iterator walker(aliases.begin()); aliases.end() != walker; ++walker)
             {
-                const yarp::os::ConstString & aString = aliases.at(ii);
-                
-                _handlers.insert(RequestHandlerMapValue(aString, handler));
+                _handlers.insert(RequestHandlerMapValue(*walker, handler));
             }
             unlock();
             handler->setOwner(*this);
@@ -234,11 +232,9 @@ void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
             handler->fillInAliases(aliases);
             lock();
             _handlers.erase(handler->name());
-            for (size_t ii = 0, mm = aliases.size(); mm > ii; ++ii)
+            for (StringVector::const_iterator walker(aliases.begin()); aliases.end() != walker; ++walker)
             {
-                const yarp::os::ConstString & aString = aliases.at(ii);
-                
-                _handlers.erase(aString);
+                _handlers.erase(*walker);
             }
             unlock();
         }

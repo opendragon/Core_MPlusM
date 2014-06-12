@@ -90,4 +90,8 @@
 
 #cmakedefine MpM_STALL_ON_SEND_PROBLEM /* A send failure goes to a tight loop. */
 
+#cmakedefine MpM_USE_DISK_DATABASE /* Use a disk-based database, rather than in-memory */
+
+#cmakedefine MpM_USE_TEST_DATABASE /* Use a test database, in /tmp, rather than a random disk location */
+
 #endif // ! defined(MpMConfig_H_)

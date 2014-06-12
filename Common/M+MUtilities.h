@@ -89,6 +89,18 @@ namespace MplusM
             kPortKindStandard
         }; // PortKind
         
+        /*! @brief The associates of a port. */
+        struct PortAssociation
+        {
+            /*! @brief The collected inputs associated with the port. */
+            Common::StringVector _inputs;
+            /*! @brief The collected outputs associated with the port. */
+            Common::StringVector _outputs;
+            /*! @brief @c true if the port is associated and @c false if it is an associate, in which case the first
+             input port is the primary for the association. */
+            bool                 _primary;
+        }; // PortAssociation
+        
         /*! @brief The attributes of a port. */
         struct PortDescriptor
         {
@@ -103,6 +115,8 @@ namespace MplusM
         /*! @brief The attributes of a service. */
         struct ServiceDescriptor
         {
+            /*! @brief The standard channel for the service. */
+            yarp::os::ConstString _channelName;
             /*! @brief The standard name for the service. */
             yarp::os::ConstString _canonicalName;
             /*! @brief The description of the service. */
@@ -148,16 +162,11 @@ namespace MplusM
         
         /*! @brief Collect the associated input and output connections for a port.
          @param portName The port to be inspected.
-         @param inputs The collected inputs associated with the port.
-         @param outputs The collected outputs associated with the port.
-         @param isPrimary @c true if the prt is associated and @c false if it is an associate, in which case the first
-         input port is the primary for the association.
+         @param associates The associated ports for the port.
          @param quiet @c true if status output is to be suppressed and @c false otherwise.
          @returns @c true if there is association data for the port and @c false otherwise. */
         bool GetAssociatedPorts(const yarp::os::ConstString & portName,
-                                Common::StringVector &        inputs,
-                                Common::StringVector &        outputs,
-                                bool &                        isPrimary,
+                                PortAssociation &             associates,
                                 const bool                    quiet = false);
         
         /*! @brief Get the set of detected ports.

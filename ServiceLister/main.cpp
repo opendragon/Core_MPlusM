@@ -118,54 +118,59 @@ int main(int      argc,
             
             MplusM::Utilities::GetServiceNames(services);
             bool reported = false;
-            int  serviceCount = services.size();
             
-            if (serviceCount)
+            for (MplusM::Common::StringVector::const_iterator walker(services.begin()); services.end() != walker;
+                 ++walker)
             {
-                for (int ii = 0; ii < serviceCount; ++ii)
+                MplusM::Utilities::ServiceDescriptor descriptor;
+                
+                if (MplusM::Utilities::GetNameAndDescriptionForService(*walker, descriptor))
                 {
-                    yarp::os::ConstString                aService(services[ii]);
-                    MplusM::Utilities::ServiceDescriptor descriptor;
-                    
-                    if (MplusM::Utilities::GetNameAndDescriptionForService(aService, descriptor))
+                    if (! reported)
                     {
-                        if (! reported)
-                        {
-                            cout << "Services: " << endl;
-                        }
-                        reported = true;
-                        cout << endl;
-                        cout << "Service port:      " << aService.c_str() << endl;
-                        cout << "Service name:      " << descriptor._canonicalName.c_str() << endl;
-                        MplusM::OutputDescription(cout, "Description:       ", descriptor._description);
-                        MplusM::OutputDescription(cout, "Requests:          ", descriptor._requestsDescription);
-                        cout << "Path:              " << descriptor._path.c_str() << endl;
-                        yarp::os::ConstString channelNames;
-                        
-                        for (int jj = 0, mm = descriptor._inputChannels.size(); mm > jj; ++jj)
-                        {
-                            if (jj)
-                            {
-                                channelNames += " ";
-                            }
-                            channelNames += descriptor._inputChannels[ii];
-                        }
-                        MplusM::OutputDescription(cout, "Secondary inputs:  ", channelNames);
-                        channelNames = "";
-                        for (int jj = 0, mm = descriptor._outputChannels.size(); mm > jj; ++jj)
-                        {
-                            if (jj)
-                            {
-                                channelNames += " ";
-                            }
-                            channelNames += descriptor._outputChannels[ii];
-                        }
-                        MplusM::OutputDescription(cout, "Secondary outputs: ", channelNames);
+                        cout << "Services: " << endl;
                     }
+                    reported = true;
+                    cout << endl;
+                    cout << "Service port:      " << walker->c_str() << endl;
+                    cout << "Service name:      " << descriptor._canonicalName.c_str() << endl;
+                    MplusM::OutputDescription(cout, "Description:       ", descriptor._description);
+                    MplusM::OutputDescription(cout, "Requests:          ", descriptor._requestsDescription);
+                    cout << "Path:              " << descriptor._path.c_str() << endl;
+                    bool                  sawInputs = false;
+                    bool                  sawOutputs = false;
+                    yarp::os::ConstString channelNames;
+                    
+                    for (MplusM::Common::StringVector::const_iterator walker(descriptor._inputChannels.begin());
+                         descriptor._inputChannels.end() != walker; ++walker)
+                    {
+                        if (sawInputs)
+                        {
+                            channelNames += " ";
+                        }
+                        channelNames += *walker;
+                        sawInputs = true;
+                    }
+                    MplusM::OutputDescription(cout, "Secondary inputs:  ", channelNames);
+                    channelNames = "";
+                    for (MplusM::Common::StringVector::const_iterator walker(descriptor._outputChannels.begin());
+                         descriptor._outputChannels.end() != walker; ++walker)
+                    {
+                        if (sawOutputs)
+                        {
+                            channelNames += " ";
+                        }
+                        channelNames += *walker;
+                        sawOutputs = true;
+                    }
+                    MplusM::OutputDescription(cout, "Secondary outputs: ", channelNames);
                 }
+            }
+            if (reported)
+            {
                 cout << endl;
             }
-            if (! reported)
+            else
             {
                 cout << "No services found." << endl;
             }

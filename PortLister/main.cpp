@@ -95,58 +95,54 @@ static void reportConnections(const yarp::os::ConstString & portName)
     OD_LOG_ENTER();//####
     OD_LOG_S1("portName = ", portName.c_str());//####
     OD_LOG_B1("quiet = ", quiet);//####
+    bool                          sawConnection = false;
     MplusM::Common::ChannelVector inputs;
     MplusM::Common::ChannelVector outputs;
 
     MplusM::Utilities::GatherPortConnections(portName, inputs, outputs, MplusM::Utilities::kInputAndOutputBoth, false);
-    if ((0 < inputs.size()) || (0 < outputs.size()))
+    for (MplusM::Common::ChannelVector::const_iterator walker(inputs.begin()); inputs.end() != walker; ++walker)
     {
-        for (int ii = 0, mm = inputs.size(); mm > ii; ++ii)
+        cout << "   Input from " << walker->_portName.c_str();
+        switch (walker->_portMode)
         {
-            MplusM::Common::ChannelDescription aConnection = inputs[ii];
-            
-            cout << "   Input from " << aConnection._portName.c_str();
-            switch (aConnection._portMode)
-            {
-                case MplusM::Common::kChannelModeTCP:
-                    cout << " via TCP.";
-                    break;
-                    
-                case MplusM::Common::kChannelModeUDP:
-                    cout << " via UDP.";
-                    break;
-                    
-                default:
-                    cout << " via non-TCP/non-UDP.";
-                    break;
-                    
-            }
-            cout << endl;
+            case MplusM::Common::kChannelModeTCP:
+                cout << " via TCP.";
+                break;
+                
+            case MplusM::Common::kChannelModeUDP:
+                cout << " via UDP.";
+                break;
+                
+            default:
+                cout << " via non-TCP/non-UDP.";
+                break;
+                
         }
-        for (int ii = 0, mm = outputs.size(); mm > ii; ++ii)
-        {
-            MplusM::Common::ChannelDescription aConnection = outputs[ii];
-            
-            cout << "   Output to " << aConnection._portName.c_str();
-            switch (aConnection._portMode)
-            {
-                case MplusM::Common::kChannelModeTCP:
-                    cout << " via TCP.";
-                    break;
-                    
-                case MplusM::Common::kChannelModeUDP:
-                    cout << " via UDP.";
-                    break;
-                    
-                default:
-                    cout << " via non-TCP/non-UDP.";
-                    break;
-                    
-            }
-            cout << endl;
-        }
+        cout << endl;
+        sawConnection = true;
     }
-    else
+    for (MplusM::Common::ChannelVector::const_iterator walker(outputs.begin()); outputs.end() != walker; ++walker)
+    {
+        cout << "   Output to " << walker->_portName.c_str();
+        switch (walker->_portMode)
+        {
+            case MplusM::Common::kChannelModeTCP:
+                cout << " via TCP.";
+                break;
+                
+            case MplusM::Common::kChannelModeUDP:
+                cout << " via UDP.";
+                break;
+                
+            default:
+                cout << " via non-TCP/non-UDP.";
+                break;
+                
+        }
+        cout << endl;
+        sawConnection = true;
+    }
+    if (! sawConnection)
     {
         cout << "   No active connections." << endl;
     }
@@ -255,37 +251,42 @@ static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescript
                 }
             }
         }
-        MplusM::Common::StringVector inputs;
-        MplusM::Common::StringVector outputs;
-        bool                         isPrimary;
+        MplusM::Utilities::PortAssociation associates;
         
-        if (MplusM::Utilities::GetAssociatedPorts(aDescriptor._portName, inputs, outputs, isPrimary, true))
+        if (MplusM::Utilities::GetAssociatedPorts(aDescriptor._portName, associates, true))
         {
-            if (isPrimary)
+            if (associates._primary)
             {
+                bool sawInput = false;
+                bool sawOutput = false;
+                
                 cout << " Primary port with inputs (";
-                for (int ii = 0, mm = inputs.size(); mm > ii; ++ii)
+                for (MplusM::Common::StringVector::const_iterator walker(associates._inputs.begin());
+                     associates._inputs.end() != walker; ++walker)
                 {
-                    if (ii)
+                    if (sawInput)
                     {
                         cout << ", ";
                     }
-                    cout << inputs[ii].c_str();
+                    cout << walker->c_str();
+                    sawInput = true;
                 }
                 cout << ") and outputs (";
-                for (int ii = 0, mm = outputs.size(); mm > ii; ++ii)
+                for (MplusM::Common::StringVector::const_iterator walker(associates._outputs.begin());
+                     associates._outputs.end() != walker; ++walker)
                 {
-                    if (ii)
+                    if (sawOutput)
                     {
                         cout << ", ";
                     }
-                    cout << outputs[ii].c_str();
-                }
+                    cout << walker->c_str();
+                    sawOutput = true;
+                }                
                 cout << ").";
             }
             else
             {
-                cout << " Port associated with " << inputs[0].c_str() << ".";
+                cout << " Port associated with " << associates._inputs[0].c_str() << ".";
             }
         }
     }
@@ -356,21 +357,16 @@ int main(int      argc,
             MplusM::Utilities::PortVector ports;
             
             MplusM::Utilities::GetDetectedPortList(ports);
-            if (ports.size())
+            bool serviceRegistryPresent = MplusM::Utilities::CheckForRegistryService(ports);
+            
+            for (MplusM::Utilities::PortVector::const_iterator walker(ports.begin()); ports.end() != walker; ++walker)
             {
-                bool serviceRegistryPresent = MplusM::Utilities::CheckForRegistryService(ports);
-                
-                for (size_t ii = 0, mm = ports.size(); mm > ii; ++ii)
+                if (! found)
                 {
-                    MplusM::Utilities::PortDescriptor & aDescriptor = ports[ii];
-                    
-                    if (! found)
-                    {
-                        cout << "Ports:" << endl << endl;
-                        found = true;
-                    }
-                    reportPortStatus(aDescriptor, serviceRegistryPresent);
+                    cout << "Ports:" << endl << endl;
+                    found = true;
                 }
+                reportPortStatus(*walker, serviceRegistryPresent);
             }
             if (! found)
             {

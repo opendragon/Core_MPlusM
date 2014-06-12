@@ -82,8 +82,13 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+#if defined(MpM_USE_DISK_DATABASE)
 /*! @brief Set to @c true to use an in-memory database and @c false to use a disk-based database. */
-#define USE_INMEMORY false//true
+# define USE_INMEMORY false
+#else // ! defined(MpM_USE_DISK_DATABASE)
+/*! @brief Set to @c true to use an in-memory database and @c false to use a disk-based database. */
+# define USE_INMEMORY true
+#endif // ! defined(MpM_USE_DISK_DATABASE)
 
 /*! @brief Run loop control; @c true if the service is to keep going and @c false otherwise. */
 static bool lKeepRunning;
