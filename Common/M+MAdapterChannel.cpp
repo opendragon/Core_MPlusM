@@ -114,7 +114,7 @@ void AdapterChannel::close(void)
     try
     {
 #if (! defined(MpM_DONT_USE_TIMEOUTS))
-        BailOut bailer(*this);
+        BailOut bailer(*this, STANDARD_WAIT_TIME);
 #endif // ! defined(MpM_DONT_USE_TIMEOUTS)
 
         inherited::interrupt();
@@ -131,10 +131,17 @@ void AdapterChannel::close(void)
     OD_LOG_OBJEXIT();//####
 } // AdapterChannel::close
 
-bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelName)
+bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelName,
+                                     const double                  timeToWait)
 {
+#if (defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+# if MAC_OR_LINUX_
+#  pragma unused(timeToWait)
+# endif // MAC_OR_LINUX_
+#endif // defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
 #if (! defined(MpM_DONT_USE_TIMEOUTS))
@@ -165,7 +172,7 @@ bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
 #else // ! defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
-            BailOut bailer(*this);
+            BailOut bailer(*this, timeToWait);
             
             OD_LOG("about to open");//####
             result = inherited::open(theChannelName);
@@ -206,7 +213,7 @@ void AdapterChannel::RelinquishChannel(AdapterChannel * & theChannel)
         try
         {
 #if (! defined(MpM_DONT_USE_TIMEOUTS))
-            BailOut bailer(*theChannel);
+            BailOut bailer(*theChannel, STANDARD_WAIT_TIME);
 #endif // ! defined(MpM_DONT_USE_TIMEOUTS)
             
             delete theChannel;

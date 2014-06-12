@@ -139,7 +139,7 @@ bool ClientChannel::addOutputWithRetries(const yarp::os::ConstString & theChanne
 #else // ! defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
-            BailOut bailer(*this);
+            BailOut bailer(*this, STANDARD_WAIT_TIME);
             
             OD_LOG("about to add an output");//####
             result = inherited::addOutput(theChannelToBeAdded);
@@ -173,7 +173,7 @@ void ClientChannel::close(void)
     try
     {
 #if (! defined(MpM_DONT_USE_TIMEOUTS))
-        BailOut bailer(*this);
+        BailOut bailer(*this, STANDARD_WAIT_TIME);
 #endif // ! defined(MpM_DONT_USE_TIMEOUTS)
         
         inherited::interrupt();
@@ -190,10 +190,17 @@ void ClientChannel::close(void)
     OD_LOG_OBJEXIT();//####
 } // ClientChannel::close
 
-bool ClientChannel::openWithRetries(const yarp::os::ConstString & theChannelName)
+bool ClientChannel::openWithRetries(const yarp::os::ConstString & theChannelName,
+                                    const double                  timeToWait)
 {
+#if (defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+# if MAC_OR_LINUX_
+#  pragma unused(timeToWait)
+# endif // MAC_OR_LINUX_
+#endif // defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
 #if (! defined(MpM_DONT_USE_TIMEOUTS))
@@ -230,7 +237,7 @@ bool ClientChannel::openWithRetries(const yarp::os::ConstString & theChannelName
 #else // ! defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
-            BailOut bailer(*this);
+            BailOut bailer(*this, timeToWait);
             
             OD_LOG("about to open");//####
             result = inherited::open(theChannelName);
@@ -269,7 +276,7 @@ void ClientChannel::RelinquishChannel(ClientChannel * & theChannel)
     try
     {
 #if (! defined(MpM_DONT_USE_TIMEOUTS))
-        BailOut bailer(*theChannel);
+        BailOut bailer(*theChannel, STANDARD_WAIT_TIME);
 #endif // ! defined(MpM_DONT_USE_TIMEOUTS)
         
         delete theChannel;

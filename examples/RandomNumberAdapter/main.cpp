@@ -180,7 +180,8 @@ int main(int      argc,
                             outputChannel->setReporter(reporter);
                             outputChannel->getReport(reporter);
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
-                            if (inputChannel->openWithRetries(inputName) && outputChannel->openWithRetries(outputName))
+                            if (inputChannel->openWithRetries(inputName, STANDARD_WAIT_TIME) &&
+                                outputChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
                             {
                                 stuff->addAssociatedChannel(inputChannel);
                                 stuff->addAssociatedChannel(outputChannel);
@@ -202,8 +203,8 @@ int main(int      argc,
                             }
                             else
                             {
-                                OD_LOG("! (inputChannel->openWithRetries(inputName) && "
-                                       "outputChannel->openWithRetries(outputName))");//####
+                                OD_LOG("! (inputChannel->openWithRetries(inputName, STANDARD_WAIT_TIME) && "
+                                       "outputChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))");//####
                                 cerr << "Problem opening a channel." << endl;
                             }
 #if defined(MpM_DO_EXPLICIT_CLOSE)

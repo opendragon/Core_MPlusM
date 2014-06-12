@@ -2318,13 +2318,13 @@ bool RegistryService::setUpStatusChannel(void)
             _statusChannel->setReporter(reporter);
             _statusChannel->getReport(reporter);
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
-            if (_statusChannel->openWithRetries(outputName))
+            if (_statusChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
             {
                 okSoFar = true;
             }
             else
             {
-                OD_LOG("! (_statusChannel->openWithRetries(outputName))");//####
+                OD_LOG("! (_statusChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))");//####
             }
         }
         else
@@ -2359,9 +2359,10 @@ bool RegistryService::start(void)
                 
                 if (newChannel)
                 {
-                    if (newChannel->openWithRetries(aName))
+                    if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
-                        if (Common::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                        if (Common::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME,
+                                                              false))
                         {
                             Common::Package         parameters(MpM_REGISTRY_CHANNEL_NAME);
                             Common::ServiceRequest  request(MpM_REGISTER_REQUEST, parameters);
@@ -2399,7 +2400,7 @@ bool RegistryService::start(void)
                         else
                         {
                             OD_LOG("! (Common::NetworkConnectWithRetries(aName, "//####
-                                   "MpM_REGISTRY_CHANNEL_NAME))");//####
+                                   "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))");//####
                         }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
                         newChannel->close();
@@ -2407,7 +2408,7 @@ bool RegistryService::start(void)
                     }
                     else
                     {
-                        OD_LOG("! (newChannel->openWithRetries(aName))");//####
+                        OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
                     }
                     Common::ClientChannel::RelinquishChannel(newChannel);
                 }

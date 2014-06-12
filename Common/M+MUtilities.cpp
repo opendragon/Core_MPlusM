@@ -413,12 +413,14 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
 
 bool MplusM::Utilities::AddConnection(const yarp::os::ConstString & fromPortName,
                                       const yarp::os::ConstString & toPortName,
+                                      const double                  timeToWait,
                                       const bool                    isUDP)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S2("fromPortName = ", fromPortName.c_str(), "toPortName = ", toPortName.c_str());//####
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
     OD_LOG_B1("isUDP = ", isUDP);//####
-    bool result = NetworkConnectWithRetries(fromPortName, toPortName, isUDP);
+    bool result = NetworkConnectWithRetries(fromPortName, toPortName, timeToWait, isUDP);
     
     OD_LOG_EXIT_B(result);//####
     return result;
@@ -527,10 +529,12 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
 
 bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
                                            PortAssociation &             associates,
+                                           const double                  timeToWait,
                                            const bool                    quiet)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("portName = ", portName.c_str());//####
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
     OD_LOG_B1("quiet = ", quiet);//####
     bool result = false;
     
@@ -551,9 +555,9 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
 #if defined(MpM_REPORT_ON_CONNECTIONS)
             newChannel->setReporter(reporter);
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
-            if (newChannel->openWithRetries(aName))
+            if (newChannel->openWithRetries(aName, timeToWait))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait, false))
                 {
                     Package parameters;
                     
@@ -571,15 +575,15 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait))");//####
                     }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait, false))");//####
                 }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
                 newChannel->close();
@@ -587,7 +591,7 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }
@@ -641,20 +645,22 @@ void MplusM::Utilities::GetDetectedPortList(PortVector & ports)
 } // MplusM::Utilities::GetDetectedPortList
 
 bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & serviceChannelName,
-                                                        ServiceDescriptor &           descriptor)
+                                                        ServiceDescriptor &           descriptor,
+                                                        const double                  timeToWait)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("serviceChannelName = ", serviceChannelName.c_str());//####
     OD_LOG_P1("descriptor = ", &descriptor);//####
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
     bool                  result = false;
     yarp::os::ConstString aName(GetRandomChannelName("/servicelister/channel_"));
     ClientChannel *       newChannel = new ClientChannel;
     
     if (newChannel)
     {
-        if (newChannel->openWithRetries(aName))
+        if (newChannel->openWithRetries(aName, timeToWait))
         {
-            if (NetworkConnectWithRetries(aName, serviceChannelName))
+            if (NetworkConnectWithRetries(aName, serviceChannelName, timeToWait, false))
             {
                 Package         parameters1;
                 ServiceRequest  request1(MpM_NAME_REQUEST, parameters1);
@@ -757,15 +763,15 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                     }
                 }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                if (! NetworkDisconnectWithRetries(aName, serviceChannelName))
+                if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait))
                 {
-                    OD_LOG("(! NetworkDisconnectWithRetries(aName, destinationName))");//####
+                    OD_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, timeToWait))");//####
                 }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
             }
             else
             {
-                OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName))");//####
+                OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, false))");//####
             }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
             newChannel->close();
@@ -773,7 +779,7 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
         }
         else
         {
-            OD_LOG("! (newChannel->openWithRetries(aName))");//####
+            OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))");//####
         }
         delete newChannel;
     }
@@ -870,7 +876,7 @@ bool MplusM::Utilities::RemoveConnection(const yarp::os::ConstString & fromPortN
 {
     OD_LOG_ENTER();//####
     OD_LOG_S2("fromPortName = ", fromPortName.c_str(), "toPortName = ", toPortName.c_str());//####
-    bool result = NetworkDisconnectWithRetries(fromPortName, toPortName);
+    bool result = NetworkDisconnectWithRetries(fromPortName, toPortName, STANDARD_WAIT_TIME);
 
     OD_LOG_EXIT_B(result);//####
     return result;

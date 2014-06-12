@@ -113,8 +113,9 @@ namespace MplusM
             } // isOpen
             
             /*! @brief Open the endpoint if it is not already open.
+             @param timeToWait The number of seconds allowed before a failure is considered.
              @returns @c true if the endpoint is open and @c false otherwise. */
-            bool open(void);
+            bool open(const double timeToWait);
             
             /*! @brief Set the input handler for the endpoint.
              

@@ -256,9 +256,9 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
 #if defined(MpM_REPORT_ON_CONNECTIONS)
             newChannel->setReporter(reporter);
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
-            if (newChannel->openWithRetries(aName))
+            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
                 {
                     Package parameters;
                     
@@ -278,15 +278,17 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
+                               "STANDARD_WAIT_TIME))");//####
                     }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
+                           "false))");//####
                 }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
                 newChannel->close();
@@ -294,7 +296,7 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }
@@ -329,20 +331,21 @@ bool BaseClient::connectToService(void)
             }
             if (_channel)
             {
-                if (_channel->openWithRetries(_channelName))
+                if (_channel->openWithRetries(_channelName, STANDARD_WAIT_TIME))
                 {
-                    if (NetworkConnectWithRetries(_channelName, _serviceChannelName))
+                    if (NetworkConnectWithRetries(_channelName, _serviceChannelName, STANDARD_WAIT_TIME, false))
                     {
                         _connected = true;
                     }
                     else
                     {
-                        OD_LOG("! (NetworkConnectWithRetries(_channelName, _serviceChannelName))");//####
+                        OD_LOG("! (NetworkConnectWithRetries(_channelName, _serviceChannelName, "//####
+                               "STANDARD_WAIT_TIME, false))");//####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (_channel->openWithRetries(_channelName))");//####
+                    OD_LOG("! (_channel->openWithRetries(_channelName, STANDARD_WAIT_TIME))");//####
                 }
             }
             else
@@ -372,13 +375,13 @@ bool BaseClient::disconnectFromService(void)
         {
             OD_LOG("! (send(MpM_DETACH_REQUEST, parameters))");//####
         }
-        if (NetworkDisconnectWithRetries(_channelName, _serviceChannelName))
+        if (NetworkDisconnectWithRetries(_channelName, _serviceChannelName, STANDARD_WAIT_TIME))
         {
             _connected = false;
         }
         else
         {
-            OD_LOG("! (NetworkDisconnectWithRetries(_channelName, _serviceChannelName))");//####
+            OD_LOG("! (NetworkDisconnectWithRetries(_channelName, _serviceChannelName, STANDARD_WAIT_TIME))");//####
         }
     }
     OD_LOG_OBJEXIT_B(! _connected);//####
@@ -491,9 +494,9 @@ void BaseClient::removeAssociatedChannels(void)
 #if defined(MpM_REPORT_ON_CONNECTIONS)
             newChannel->setReporter(reporter);
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
-            if (newChannel->openWithRetries(aName))
+            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
                 {
                     Package parameters;
                     
@@ -511,15 +514,17 @@ void BaseClient::removeAssociatedChannels(void)
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
+                               "STANDARD_WAIT_TIME))");//####
                     }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
+                           "false))");//####
                 }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
                 newChannel->close();
@@ -527,7 +532,7 @@ void BaseClient::removeAssociatedChannels(void)
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }
@@ -619,9 +624,9 @@ Package Common::FindMatchingServices(const char * criteria,
 #if defined(MpM_REPORT_ON_CONNECTIONS)
             newChannel->setReporter(reporter);
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
-            if (newChannel->openWithRetries(aName))
+            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
                 {
                     Package parameters;
                     
@@ -640,15 +645,17 @@ Package Common::FindMatchingServices(const char * criteria,
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
+                               "STANDARD_WAIT_TIME))");//####
                     }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
+                           "false))");//####
                 }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
                 newChannel->close();
@@ -656,7 +663,7 @@ Package Common::FindMatchingServices(const char * criteria,
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }

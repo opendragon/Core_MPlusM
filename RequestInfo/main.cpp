@@ -281,7 +281,7 @@ int main(int      argc,
                             
                             if (newChannel)
                             {
-                                if (newChannel->openWithRetries(aName))
+                                if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                                 {
                                     bool                    sawRequestResponse = false;
                                     MplusM::Common::Package parameters;
@@ -294,7 +294,8 @@ int main(int      argc,
                                     {
                                         yarp::os::ConstString aMatch(matchesList->get(ii).toString());
                                         
-                                        if (MplusM::Common::NetworkConnectWithRetries(aName, aMatch))
+                                        if (MplusM::Common::NetworkConnectWithRetries(aName, aMatch, STANDARD_WAIT_TIME,
+                                                                                      false))
                                         {
                                             MplusM::Common::ServiceResponse response;
                                             
@@ -343,17 +344,18 @@ int main(int      argc,
                                                 }
                                             }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                                            if (! MplusM::Common::NetworkDisconnectWithRetries(aName, aMatch))
+                                            if (! MplusM::Common::NetworkDisconnectWithRetries(aName, aMatch,
+                                                                                               STANDARD_WAIT_TIME))
                                             {
                                                 OD_LOG("(! MplusM::Common::NetworkDisconnectWithRetries(aName, "//####
-                                                       "aMatch))");//####
+                                                       "aMatch, STANDARD_WAIT_TIME))");//####
                                             }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                                         }
                                         else
                                         {
                                             OD_LOG("! (MplusM::Common::NetworkConnectWithRetries(aName, "//####
-                                                   "aMatch))");//####
+                                                   "aMatch, STANDARD_WAIT_TIME, false))");//####
                                         }
                                     }
                                     if (! sawRequestResponse)
@@ -366,7 +368,7 @@ int main(int      argc,
                                 }
                                 else
                                 {
-                                    OD_LOG("! (newChannel->openWithRetries(aName))");//####
+                                    OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
                                 }
                                 delete newChannel;
                             }

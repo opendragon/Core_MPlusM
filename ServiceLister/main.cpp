@@ -124,7 +124,7 @@ int main(int      argc,
             {
                 MplusM::Utilities::ServiceDescriptor descriptor;
                 
-                if (MplusM::Utilities::GetNameAndDescriptionForService(*walker, descriptor))
+                if (MplusM::Utilities::GetNameAndDescriptionForService(*walker, descriptor, STANDARD_WAIT_TIME))
                 {
                     if (! reported)
                     {

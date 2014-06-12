@@ -253,7 +253,7 @@ static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescript
         }
         MplusM::Utilities::PortAssociation associates;
         
-        if (MplusM::Utilities::GetAssociatedPorts(aDescriptor._portName, associates, true))
+        if (MplusM::Utilities::GetAssociatedPorts(aDescriptor._portName, associates, STANDARD_WAIT_TIME, true))
         {
             if (associates._primary)
             {

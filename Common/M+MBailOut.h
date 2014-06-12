@@ -75,25 +75,25 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param timeToWait The number of seconds to delay before triggering. */
-            BailOut(const double timeToWait = STANDARD_WAIT_TIME);
+            BailOut(const double timeToWait);
             
             /*! @brief The constructor.
              @param channelOfInterest The channel that we are waiting for.
              @param timeToWait The number of seconds to delay before triggering. */
             BailOut(AdapterChannel & channelOfInterest,
-                    const double     timeToWait = STANDARD_WAIT_TIME);
+                    const double     timeToWait);
             
             /*! @brief The constructor.
              @param channelOfInterest The channel that we are waiting for.
              @param timeToWait The number of seconds to delay before triggering. */
             BailOut(ClientChannel & channelOfInterest,
-                    const double    timeToWait = STANDARD_WAIT_TIME);
+                    const double    timeToWait);
             
             /*! @brief The constructor.
              @param channelOfInterest The channel that we are waiting for.
              @param timeToWait The number of seconds to delay before triggering. */
             BailOut(ServiceChannel & channelOfInterest,
-                    const double     timeToWait = STANDARD_WAIT_TIME);
+                    const double     timeToWait);
             
             /*! @brief The destructor. */
             virtual ~BailOut(void);

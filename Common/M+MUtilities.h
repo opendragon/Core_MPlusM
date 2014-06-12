@@ -136,11 +136,13 @@ namespace MplusM
         /*! @brief Add a connection between two ports.
          @param fromPortName The name of the source port.
          @param toPortName The name of the destination port.
+         @param timeToWait The number of seconds allowed before a failure is considered.
          @param isUDP @c true if the connection is to be UDP and @c false otherwise.
          @returns @c true if successful and @c false otherwise. */
         bool AddConnection(const yarp::os::ConstString & fromPortName,
                            const yarp::os::ConstString & toPortName,
-                           const bool                    isUDP = false);
+                           const double                  timeToWait,
+                           const bool                    isUDP);
         
         /*! @brief Check if the Registry Service is active.
          @param ports The set of detected ports.
@@ -162,10 +164,12 @@ namespace MplusM
         /*! @brief Collect the associated input and output connections for a port.
          @param portName The port to be inspected.
          @param associates The associated ports for the port.
+         @param timeToWait The number of seconds allowed before a failure is considered.
          @param quiet @c true if status output is to be suppressed and @c false otherwise.
          @returns @c true if there is association data for the port and @c false otherwise. */
         bool GetAssociatedPorts(const yarp::os::ConstString & portName,
                                 PortAssociation &             associates,
+                                const double                  timeToWait,
                                 const bool                    quiet = false);
         
         /*! @brief Get the set of detected ports.
@@ -175,9 +179,11 @@ namespace MplusM
         /*! @brief Retrieve the details for a service.
          @param serviceChannelName The channel for the service.
          @param descriptor The details for a service.
+         @param timeToWait The number of seconds allowed before a failure is considered.
          @returns @c true if the service returned the desired information and @c false otherwise. */
         bool GetNameAndDescriptionForService(const yarp::os::ConstString & serviceChannelName,
-                                             ServiceDescriptor &           descriptor);
+                                             ServiceDescriptor &           descriptor,
+                                             const double                  timeToWait);
 
         /*! @brief Map a port name to the port kind.
          @param portName The name of the port.

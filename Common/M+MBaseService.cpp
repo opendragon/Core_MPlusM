@@ -564,13 +564,14 @@ bool BaseService::start(void)
                 _handlerCreator = new BaseServiceInputHandlerCreator(*this);
                 if (_handlerCreator)
                 {
-                    if (_endpoint->setInputHandlerCreator(*_handlerCreator) && _endpoint->open())
+                    if (_endpoint->setInputHandlerCreator(*_handlerCreator) && _endpoint->open(STANDARD_WAIT_TIME))
                     {
                         _started = true;
                     }
                     else
                     {
-                        OD_LOG("! (_endpoint->setInputHandlerCreator(*_handlerCreator) && _endpoint->open())");//####
+                        OD_LOG("! (_endpoint->setInputHandlerCreator(*_handlerCreator) && "//####
+                               "_endpoint->open(STANDARD_WAIT_TIME))");//####
                         delete _handlerCreator;
                         _handlerCreator = NULL;
                     }
@@ -585,13 +586,14 @@ bool BaseService::start(void)
                 _handler = new BaseServiceInputHandler(*this);
                 if (_handler)
                 {
-                    if (_endpoint->setInputHandler(*_handler) && _endpoint->open())
+                    if (_endpoint->setInputHandler(*_handler) && _endpoint->open(STANDARD_WAIT_TIME))
                     {
                         _started = true;
                     }
                     else
                     {
-                        OD_LOG("! (_endpoint->setInputHandler(*_handler) && _endpoint->open())");//####
+                        OD_LOG("! (_endpoint->setInputHandler(*_handler) && "//####
+                               "_endpoint->open(STANDARD_WAIT_TIME))");//####
                         delete _handler;
                         _handler = NULL;
                     }
@@ -657,9 +659,9 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
             newChannel->setReporter(reporter);
             newChannel->getReport(reporter);
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
-            if (newChannel->openWithRetries(aName))
+            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
                 {
                     Package         parameters(channelName);
                     ServiceRequest  request(MpM_REGISTER_REQUEST, parameters);
@@ -692,15 +694,17 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
+                               "STANDARD_WAIT_TIME))");//####
                     }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
+                           "false))");//####
                 }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
                 newChannel->close();
@@ -708,7 +712,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }
@@ -747,9 +751,9 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
             newChannel->setReporter(reporter);
             newChannel->getReport(reporter);
 #endif // defined(MpM_REPORT_ON_CONNECTIONS)
-            if (newChannel->openWithRetries(aName))
+            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
                 {
                     Package         parameters(channelName);
                     ServiceRequest  request(MpM_UNREGISTER_REQUEST, parameters);
@@ -782,15 +786,17 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
+                               "STANDARD_WAIT_TIME))");//####
                     }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
+                           "false))");//####
                 }
 #if defined(MpM_DO_EXPLICIT_CLOSE)
                 newChannel->close();
@@ -798,7 +804,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }

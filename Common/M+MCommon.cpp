@@ -263,142 +263,172 @@ void MplusM::Common::Initialize(const char * progName)
 
 bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
                                                const yarp::os::ConstString & destinationName,
+                                               const double                  timeToWait,
                                                const bool                    isUDP)
 {
+#if (defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+# if MAC_OR_LINUX_
+#  pragma unused(timeToWait)
+# endif // MAC_OR_LINUX_
+#endif // defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_ENTER();//####
     OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
     OD_LOG_B1("isUDP = ", isUDP);//####
-    bool   result = false;
-    double retryTime = INITIAL_RETRY_INTERVAL;
-#if (! defined(MpM_DONT_USE_TIMEOUTS))
-    int    retriesLeft = MAX_RETRIES;
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
+    bool result = false;
     
-    SetUpCatcher();
-    try
+    if (yarp::os::Network::exists(sourceName) && yarp::os::Network::exists(destinationName))
     {
-        const char * carrier;
+        double retryTime = INITIAL_RETRY_INTERVAL;
+#if (! defined(MpM_DONT_USE_TIMEOUTS))
+        int    retriesLeft = MAX_RETRIES;
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
         
-        if (isUDP)
+        SetUpCatcher();
+        try
         {
-            carrier = "udp";
-        }
-        else
-        {
-            carrier = "tcp";
-        }
-#if defined(MpM_DONT_USE_TIMEOUTS)
-        do
-        {
-            OD_LOG("about to connect");//####
-# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            result = yarp::os::Network::connect(sourceName, destinationName, carrier, false);
-# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            result = yarp::os::Network::connect(sourceName, destinationName, carrier, true);
-# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            if (! result)
-            {
-                OD_LOG("%%retry%%");//####
-                yarp::os::Time::delay(retryTime);
-                retryTime *= RETRY_MULTIPLIER;
-            }
-        }
-        while (! result);
-#else // ! defined(MpM_DONT_USE_TIMEOUTS)
-        do
-        {
-            BailOut bailer;
+            const char * carrier;
             
-            OD_LOG("about to connect");//####
-# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            result = yarp::os::Network::connect(sourceName, destinationName, carrier, false);
-# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            result = yarp::os::Network::connect(sourceName, destinationName, carrier, true);
-# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            if (! result)
+            if (isUDP)
             {
-                if (0 < --retriesLeft)
+                carrier = "udp";
+            }
+            else
+            {
+                carrier = "tcp";
+            }
+#if defined(MpM_DONT_USE_TIMEOUTS)
+            do
+            {
+                OD_LOG("about to connect");//####
+# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+                result = yarp::os::Network::connect(sourceName, destinationName, carrier, false);
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+                result = yarp::os::Network::connect(sourceName, destinationName, carrier, true);
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+                if (! result)
                 {
                     OD_LOG("%%retry%%");//####
                     yarp::os::Time::delay(retryTime);
                     retryTime *= RETRY_MULTIPLIER;
                 }
             }
-        }
-        while ((! result) && (0 < retriesLeft));
+            while (! result);
+#else // ! defined(MpM_DONT_USE_TIMEOUTS)
+            do
+            {
+                BailOut bailer(timeToWait);
+                
+                OD_LOG("about to connect");//####
+# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+                result = yarp::os::Network::connect(sourceName, destinationName, carrier, false);
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+                result = yarp::os::Network::connect(sourceName, destinationName, carrier, true);
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+                if (! result)
+                {
+                    if (0 < --retriesLeft)
+                    {
+                        OD_LOG("%%retry%%");//####
+                        yarp::os::Time::delay(retryTime);
+                        retryTime *= RETRY_MULTIPLIER;
+                    }
+                }
+            }
+            while ((! result) && (0 < retriesLeft));
 #endif // ! defined(MpM_DONT_USE_TIMEOUTS)
+        }
+        catch (...)
+        {
+            OD_LOG("Exception caught");//####
+            throw;
+        }
+        ShutDownCatcher();
     }
-    catch (...)
+    else
     {
-        OD_LOG("Exception caught");//####
-        throw;
+        OD_LOG("! (yarp::os::Network::exists(sourceName) && yarp::os::Network::exists(destinationName))");//####
     }
-    ShutDownCatcher();
     OD_LOG_EXIT_B(result);//####
     return result;
 } // MplusM::Common::NetworkConnectWithRetries
 
 bool MplusM::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
-                                                  const yarp::os::ConstString & destinationName)
+                                                  const yarp::os::ConstString & destinationName,
+                                                  const double                  timeToWait)
 {
+#if (defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+# if MAC_OR_LINUX_
+#  pragma unused(timeToWait)
+# endif // MAC_OR_LINUX_
+#endif // defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_ENTER();//####
     OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
-    bool   result = false;
-    double retryTime = INITIAL_RETRY_INTERVAL;
-#if (! defined(MpM_DONT_USE_TIMEOUTS))
-    int    retriesLeft = MAX_RETRIES;
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
+    bool result = false;
     
-    SetUpCatcher();
-    try
+    if (yarp::os::Network::exists(sourceName) && yarp::os::Network::exists(destinationName))
     {
+        double retryTime = INITIAL_RETRY_INTERVAL;
+#if (! defined(MpM_DONT_USE_TIMEOUTS))
+        int    retriesLeft = MAX_RETRIES;
+#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
+        
+        SetUpCatcher();
+        try
+        {
 #if defined(MpM_DONT_USE_TIMEOUTS)
-        do
-        {
-            OD_LOG("about to disconnect");//####
-# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            result = yarp::os::Network::disconnect(sourceName, destinationName, false);
-# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            result = yarp::os::Network::disconnect(sourceName, destinationName, true);
-# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            if (! result)
+            do
             {
-                OD_LOG("%%retry%%");//####
-                yarp::os::Time::delay(retryTime);
-                retryTime *= RETRY_MULTIPLIER;
-            }
-        }
-        while (! result);
-#else // ! defined(MpM_DONT_USE_TIMEOUTS)
-        do
-        {
-            BailOut bailer;
-            
-            OD_LOG("about to disconnect");//####
+                OD_LOG("about to disconnect");//####
 # if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            result = yarp::os::Network::disconnect(sourceName, destinationName, false);
+                result = yarp::os::Network::disconnect(sourceName, destinationName, false);
 # else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            result = yarp::os::Network::disconnect(sourceName, destinationName, true);
+                result = yarp::os::Network::disconnect(sourceName, destinationName, true);
 # endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-            if (! result)
-            {
-                if (0 < --retriesLeft)
+                if (! result)
                 {
                     OD_LOG("%%retry%%");//####
                     yarp::os::Time::delay(retryTime);
                     retryTime *= RETRY_MULTIPLIER;
                 }
             }
-        }
-        while ((! result) && (0 < retriesLeft));
+            while (! result);
+#else // ! defined(MpM_DONT_USE_TIMEOUTS)
+            do
+            {
+                BailOut bailer(timeToWait);
+                
+                OD_LOG("about to disconnect");//####
+# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+                result = yarp::os::Network::disconnect(sourceName, destinationName, false);
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+                result = yarp::os::Network::disconnect(sourceName, destinationName, true);
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+                if (! result)
+                {
+                    if (0 < --retriesLeft)
+                    {
+                        OD_LOG("%%retry%%");//####
+                        yarp::os::Time::delay(retryTime);
+                        retryTime *= RETRY_MULTIPLIER;
+                    }
+                }
+            }
+            while ((! result) && (0 < retriesLeft));
 #endif // ! defined(MpM_DONT_USE_TIMEOUTS)
+        }
+        catch (...)
+        {
+            OD_LOG("Exception caught");//####
+            throw;
+        }
+        ShutDownCatcher();
     }
-    catch (...)
+    else
     {
-        OD_LOG("Exception caught");//####
-        throw;
+        OD_LOG("! (yarp::os::Network::exists(sourceName) && yarp::os::exists(destinationName))");//####
     }
-    ShutDownCatcher();
     OD_LOG_EXIT_B(result);//####
     return result;
 } // MplusM::Common::NetworkDisconnectWithRetries

@@ -126,8 +126,8 @@
 /*! @brief The basic time interval for retries. */
 # define INITIAL_RETRY_INTERVAL    0.1
 
-/*! @brief The maximum number of retries before declaring failure. */
-# define MAX_RETRIES               10
+/*! @brief The maximum number of retries before declaring failure, if not using timeouts. */
+# define MAX_RETRIES               20
 
 /*! @brief The delay value corresponding to one second of delay. */
 # define ONE_SECOND_DELAY          1.0
@@ -209,18 +209,22 @@ namespace MplusM
         /*! @brief Connect two channels, using a backoff strategy with retries.
          @param sourceName The name of the source channel.
          @param destinationName The name of the destination channel.
+         @param timeToWait The number of seconds allowed before a failure is considered.
          @param isUDP @c true if the connection is to be UDP and @c false otherwise.
          @returns @c true if the connection was established and @ false otherwise. */
         bool NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
                                        const yarp::os::ConstString & destinationName,
-                                       const bool                    isUDP = false);
+                                       const double                  timeToWait,
+                                       const bool                    isUDP);
         
         /*! @brief Disconnect two channels, using a backoff strategy with retries.
          @param sourceName The name of the source channel.
          @param destinationName The name of the destination channel.
+         @param timeToWait The number of seconds allowed before a failure is considered.
          @returns @c true if the connection was removed and @ false otherwise. */
         bool NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
-                                          const yarp::os::ConstString & destinationName);
+                                          const yarp::os::ConstString & destinationName,
+                                          const double                  timeToWait);
         
         /*! @brief Connect the standard signals to a handler.
          @param theHandler The new handler for the signals. */
@@ -233,11 +237,11 @@ namespace MplusM
         void ShutDownCatcher(void);
         
         /*! @brief Perform a busy loop, using yarp::os::Time::yield(). */
-#if MAC_OR_LINUX_
+# if MAC_OR_LINUX_
         void Stall(void) __attribute__((noreturn));
-#else // ! MAC_OR_LINUX_
+# else // ! MAC_OR_LINUX_
         void Stall(void);
-#endif // ! MAC_OR_LINUX_
+# endif // ! MAC_OR_LINUX_
         
     } // Common
 

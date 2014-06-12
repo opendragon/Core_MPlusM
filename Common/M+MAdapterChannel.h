@@ -107,8 +107,10 @@ namespace MplusM
             
             /*! @brief Open the channel, using a backoff strategy with retries.
              @param theChannelName The name to be associated with the channel.
+             @param timeToWait The number of seconds allowed before a failure is considered.
              @returns @c true if the channel was opened and @c false if it could not be opened. */
-            bool openWithRetries(const yarp::os::ConstString & theChannelName);
+            bool openWithRetries(const yarp::os::ConstString & theChannelName,
+                                 const double                  timeToWait);
             
             /*! @brief Release an allocated adapter channel.
              @param theChannel A pointer to the channel to be released. */

@@ -193,7 +193,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                         
                         if (outChannel)
                         {
-                            if (outChannel->openWithRetries(aName))
+                            if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                             {
                                 if (outChannel->addOutputWithRetries(argAsString))
                                 {
@@ -247,10 +247,11 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
                                     }
 #if defined(MpM_DO_EXPLICIT_DISCONNECT)
-                                    if (! Common::NetworkDisconnectWithRetries(outChannel->getName(), argAsString))
+                                    if (! Common::NetworkDisconnectWithRetries(outChannel->getName(), argAsString,
+                                                                               STANDARD_WAIT_TIME))
                                     {
                                         OD_LOG("(! Common::NetworkDisconnectWithRetries(outChannel->getName(), "//####
-                                               "argAsString))");//####
+                                               "argAsString, STANDARD_WAIT_TIME))");//####
                                     }
 #endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
                                 }
@@ -267,7 +268,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                             }
                             else
                             {
-                                OD_LOG("! (outChannel->openWithRetries(aName))");//####
+                                OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
                                 reply.addString(MpM_FAILED_RESPONSE);
                                 reply.addString("Channel could not be opened");
                             }

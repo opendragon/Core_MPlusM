@@ -118,7 +118,7 @@ void ServiceChannel::close(void)
     try
     {
 #if (! defined(MpM_DONT_USE_TIMEOUTS))
-        BailOut bailer(*this);
+        BailOut bailer(*this, STANDARD_WAIT_TIME);
 #endif // ! defined(MpM_DONT_USE_TIMEOUTS)
         
         inherited::interrupt();        
@@ -135,10 +135,17 @@ void ServiceChannel::close(void)
     OD_LOG_OBJEXIT();//####
 } // ServiceChannel::close
 
-bool ServiceChannel::openWithRetries(const yarp::os::ConstString & theChannelName)
+bool ServiceChannel::openWithRetries(const yarp::os::ConstString & theChannelName,
+                                     const double                  timeToWait)
 {
+#if (defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+# if MAC_OR_LINUX_
+#  pragma unused(timeToWait)
+# endif // MAC_OR_LINUX_
+#endif // defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
 #if (! defined(MpM_DONT_USE_TIMEOUTS))
@@ -171,7 +178,7 @@ bool ServiceChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
 #else // ! defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
-            BailOut bailer(*this);
+            BailOut bailer(*this, timeToWait);
             
             OD_LOG("about to open");//####
             result = inherited::open(theChannelName);
@@ -202,10 +209,17 @@ bool ServiceChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
     return result;
 } // ServiceChannel::openWithRetries
 
-bool ServiceChannel::openWithRetries(yarp::os::Contact & theContactInfo)
+bool ServiceChannel::openWithRetries(yarp::os::Contact & theContactInfo,
+                                     const double        timeToWait)
 {
+#if (defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+# if MAC_OR_LINUX_
+#  pragma unused(timeToWait)
+# endif // MAC_OR_LINUX_
+#endif // defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("theContactInfo = ", &theContactInfo);//####
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
 #if defined(REPORT_CONTACT_DETAILS)
     DumpContact("theContactInfo = ", theContactInfo);//####
 #endif // defined(REPORT_CONTACT_DETAILS)
@@ -241,7 +255,7 @@ bool ServiceChannel::openWithRetries(yarp::os::Contact & theContactInfo)
 #else // ! defined(MpM_DONT_USE_TIMEOUTS)
         do
         {
-            BailOut bailer(*this);
+            BailOut bailer(*this, timeToWait);
             
             OD_LOG("about to open");//####
             result = inherited::open(theContactInfo);
@@ -276,7 +290,7 @@ void ServiceChannel::RelinquishChannel(ServiceChannel * & theChannel)
     try
     {
 #if (! defined(MpM_DONT_USE_TIMEOUTS))
-        BailOut bailer(*theChannel);
+        BailOut bailer(*theChannel, STANDARD_WAIT_TIME);
 #endif // ! defined(MpM_DONT_USE_TIMEOUTS)
         
         delete theChannel;

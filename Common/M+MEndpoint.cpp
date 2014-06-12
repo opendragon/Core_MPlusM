@@ -315,9 +315,10 @@ void Endpoint::close(void)
     OD_LOG_OBJEXIT();//####
 } // Endpoint::close
 
-bool Endpoint::open(void)
+bool Endpoint::open(const double timeToWait)
 {
     OD_LOG_OBJENTER();//####
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
     bool result = false;
     
     try
@@ -333,7 +334,7 @@ bool Endpoint::open(void)
 #if defined(REPORT_CONTACT_DETAILS)
                     DumpContact("after registerContact", _contact);//####
 #endif // defined(REPORT_CONTACT_DETAILS)
-                    if (_channel->openWithRetries(_contact))
+                    if (_channel->openWithRetries(_contact, timeToWait))
                     {
                         _isOpen = true;
 #if defined(REPORT_CONTACT_DETAILS)
@@ -345,7 +346,7 @@ bool Endpoint::open(void)
                         OD_LOG("Channel could not be opened");//####
                     }
                 }
-                else if (_channel->openWithRetries(_contact.getName()))
+                else if (_channel->openWithRetries(_contact.getName(), timeToWait))
                 {
                     OD_LOG("(_channel->openWithRetries(_contact.getName()))");//####
                     _isOpen = true;
