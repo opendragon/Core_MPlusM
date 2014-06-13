@@ -139,23 +139,15 @@ static const char * nullOrString(const char * aString)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-void MplusM::Common::DumpContact(const char *              tag,
-                                 const yarp::os::Contact & aContact)
+void MplusM::Common::DumpContactToLog(const char *              tag,
+                                      const yarp::os::Contact & aContact)
 {
     OD_LOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
               "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ", aContact.getCarrier().c_str());//####
     OD_LOG_LL1("contact.port = ", aContact.getPort());//####
     OD_LOG_S1("contact.toString = ", aContact.toString().c_str());//####
     OD_LOG_B1("contact.isValid = ", aContact.isValid());//####
-    cout << "tag = '" << nullOrString(tag) << "', contact.name = '" << nullOrString(aContact.getName().c_str()) <<
-    "'" << endl;
-    cout << "contact.host = '" << nullOrString(aContact.getHost().c_str()) << "', contact.carrier = '" <<
-    nullOrString(aContact.getCarrier().c_str()) << "'" << endl;
-    cout << "contact.port = " << aContact.getPort() << endl;
-    cout << "contact.toString = '" << nullOrString(aContact.toString().c_str()) << "'" << endl;
-    cout << "contact.isValid = " << (aContact.isValid() ? "true" : "false") << endl;
-    cout.flush();
-} // MplusM::Common::DumpContact
+} // MplusM::Common::DumpContactToLog
 
 yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelRoot)
 {
@@ -226,29 +218,29 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
 
 void MplusM::Common::Initialize(const char * progName)
 {
-#if (! defined(MpM_CHATTY_START))
+#if (! defined(MpM_ChattyStart))
 # if MAC_OR_LINUX_
 #  pragma unused(progName)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(MpM_CHATTY_START)
+#endif // ! defined(MpM_ChattyStart)
     OD_LOG_ENTER();//####
     try
     {
-#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
         yarp::os::Network::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
         yarp::os::Network::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
         double intPart;
         double now = yarp::os::Time::now();
         double fraction = modf(now, &intPart);
         int    seed = static_cast<int>(ceil(fraction * kMaxRandom));
         
-#if defined(MpM_CHATTY_START)
+#if defined(MpM_ChattyStart)
         cerr << "Program " << progName << endl;
         cerr << "Movement And Meaning Version: " << MpM_VERSION << ", YARP Version: " << YARP_VERSION_STRING <<
                 ", ACE Version: " << ACE_VERSION << endl;
-#endif // defined(MpM_CHATTY_START)
+#endif // defined(MpM_ChattyStart)
         OD_LOG_D2("time = ", now, "fraction = ", fraction);//####
         OD_LOG_LL1("seed = ", seed);//####
         yarp::os::Random::seed(seed);
@@ -266,11 +258,11 @@ bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sou
                                                const double                  timeToWait,
                                                const bool                    isUDP)
 {
-#if (defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
 # if MAC_OR_LINUX_
 #  pragma unused(timeToWait)
 # endif // MAC_OR_LINUX_
-#endif // defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
+#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_ENTER();//####
     OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
     OD_LOG_D1("timeToWait = ", timeToWait);//####
@@ -280,13 +272,16 @@ bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sou
     if (yarp::os::Network::exists(sourceName) && yarp::os::Network::exists(destinationName))
     {
         double retryTime = INITIAL_RETRY_INTERVAL;
-#if (! defined(MpM_DONT_USE_TIMEOUTS))
         int    retriesLeft = MAX_RETRIES;
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
         
+#if RETRY_LOOPS_USE_TIMEOUTS
         SetUpCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
         try
         {
+#if RETRY_LOOPS_USE_TIMEOUTS
+            BailOut      bailer(timeToWait);
+#endif // RETRY_LOOPS_USE_TIMEOUTS
             const char * carrier;
             
             if (isUDP)
@@ -297,34 +292,14 @@ bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sou
             {
                 carrier = "tcp";
             }
-#if defined(MpM_DONT_USE_TIMEOUTS)
             do
             {
                 OD_LOG("about to connect");//####
-# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::connect(sourceName, destinationName, carrier, false);
-# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::connect(sourceName, destinationName, carrier, true);
-# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-                if (! result)
-                {
-                    OD_LOG("%%retry%%");//####
-                    yarp::os::Time::delay(retryTime);
-                    retryTime *= RETRY_MULTIPLIER;
-                }
-            }
-            while (! result);
-#else // ! defined(MpM_DONT_USE_TIMEOUTS)
-            do
-            {
-                BailOut bailer(timeToWait);
-                
-                OD_LOG("about to connect");//####
-# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-                result = yarp::os::Network::connect(sourceName, destinationName, carrier, false);
-# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-                result = yarp::os::Network::connect(sourceName, destinationName, carrier, true);
-# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
                 if (! result)
                 {
                     if (0 < --retriesLeft)
@@ -336,14 +311,15 @@ bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sou
                 }
             }
             while ((! result) && (0 < retriesLeft));
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
         }
         catch (...)
         {
             OD_LOG("Exception caught");//####
             throw;
         }
+#if RETRY_LOOPS_USE_TIMEOUTS
         ShutDownCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
     }
     else
     {
@@ -357,11 +333,11 @@ bool MplusM::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString & 
                                                   const yarp::os::ConstString & destinationName,
                                                   const double                  timeToWait)
 {
-#if (defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
 # if MAC_OR_LINUX_
 #  pragma unused(timeToWait)
 # endif // MAC_OR_LINUX_
-#endif // defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
+#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_ENTER();//####
     OD_LOG_S2("sourceName = ", sourceName.c_str(), "destinationName = ", destinationName.c_str());//####
     OD_LOG_D1("timeToWait = ", timeToWait);//####
@@ -370,41 +346,25 @@ bool MplusM::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString & 
     if (yarp::os::Network::exists(sourceName) && yarp::os::Network::exists(destinationName))
     {
         double retryTime = INITIAL_RETRY_INTERVAL;
-#if (! defined(MpM_DONT_USE_TIMEOUTS))
         int    retriesLeft = MAX_RETRIES;
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
         
+#if RETRY_LOOPS_USE_TIMEOUTS
         SetUpCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
         try
         {
-#if defined(MpM_DONT_USE_TIMEOUTS)
+#if RETRY_LOOPS_USE_TIMEOUTS
+            BailOut bailer(timeToWait);
+#endif // RETRY_LOOPS_USE_TIMEOUTS
+
             do
             {
                 OD_LOG("about to disconnect");//####
-# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::disconnect(sourceName, destinationName, false);
-# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::disconnect(sourceName, destinationName, true);
-# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-                if (! result)
-                {
-                    OD_LOG("%%retry%%");//####
-                    yarp::os::Time::delay(retryTime);
-                    retryTime *= RETRY_MULTIPLIER;
-                }
-            }
-            while (! result);
-#else // ! defined(MpM_DONT_USE_TIMEOUTS)
-            do
-            {
-                BailOut bailer(timeToWait);
-                
-                OD_LOG("about to disconnect");//####
-# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-                result = yarp::os::Network::disconnect(sourceName, destinationName, false);
-# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-                result = yarp::os::Network::disconnect(sourceName, destinationName, true);
-# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
                 if (! result)
                 {
                     if (0 < --retriesLeft)
@@ -416,14 +376,15 @@ bool MplusM::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString & 
                 }
             }
             while ((! result) && (0 < retriesLeft));
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
         }
         catch (...)
         {
             OD_LOG("Exception caught");//####
             throw;
         }
+#if RETRY_LOOPS_USE_TIMEOUTS
         ShutDownCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
     }
     else
     {
@@ -437,6 +398,7 @@ void MplusM::Common::SetSignalHandlers(SignalHandler theHandler)
 {
     OD_LOG_ENTER();//####
 #if MAC_OR_LINUX_
+    sigset_t         blocking;
     struct sigaction act;
 #endif // MAC_OR_LINUX_
 
@@ -459,36 +421,28 @@ void MplusM::Common::SetSignalHandlers(SignalHandler theHandler)
 # if (SIGUSR2 != STANDARD_SIGNAL_TO_USE)
     sigaction(SIGUSR2, &act, NULL);
 # endif // SIGUSR2 != STANDARD_SIGNAL_TO_USE
-    sigset_t blocking;
-#endif // MAC_OR_LINUX_
-    
-#if MAC_OR_LINUX_
     sigemptyset(&blocking);
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
-#endif // MAC_OR_LINUX_
-#if (! MAC_OR_LINUX_)
-    //ASSUME WINDOWS
+#else // ! MAC_OR_LINUX_
+      //ASSUME WINDOWS
 	signal(SIGINT, theHandler);
 	signal(SIGABRT, theHandler);
-#endif //(!MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT();//####
 } // MplusM::Common::SetSignalHandlers
 
 void MplusM::Common::SetUpCatcher(void)
 {
 #if MAC_OR_LINUX_
-    sigset_t unblocking;
+    sigset_t         unblocking;
+    struct sigaction act;
 #endif // MAC_OR_LINUX_
     
 #if MAC_OR_LINUX_
     sigemptyset(&unblocking);
     sigaddset(&unblocking, STANDARD_SIGNAL_TO_USE);
     pthread_sigmask(SIG_UNBLOCK, &unblocking, NULL);
-    struct sigaction act;
-#endif // MAC_OR_LINUX_
-    
-#if MAC_OR_LINUX_
     act.sa_handler = localCatcher;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
@@ -499,17 +453,14 @@ void MplusM::Common::SetUpCatcher(void)
 void MplusM::Common::ShutDownCatcher(void)
 {
 #if MAC_OR_LINUX_
-    sigset_t blocking;
+    sigset_t         blocking;
+    struct sigaction act;
 #endif // MAC_OR_LINUX_
 
 #if MAC_OR_LINUX_
     sigemptyset(&blocking);
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
-    struct sigaction act;
-#endif // MAC_OR_LINUX_
-
-#if MAC_OR_LINUX_
     act.sa_handler = SIG_DFL;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
@@ -680,11 +631,15 @@ const char * MplusM::NameOfSignal(const int theSignal)
 		case SIGINT:
 			result = "SIGINT[interrupt]";
 			break;
+            
 		case SIGABRT:
 			result = "SIGABRT[abort()]";
             break;
+            
 		default:
 			result = "unknown";
+            break;
+
 	}
 #endif // ! MAC_OR_LINUX_
     return result;

@@ -68,8 +68,10 @@ using namespace MplusM::Parser;
 
 /*! @brief The character used to separate value list elements. */
 static const char kComma = ',';
+
 /*! @brief The character used to end a value list. */
 static const char kRoundCloseBracket = ')';
+
 /*! @brief The character used to start a value list. */
 static const char kRoundOpenBracket = '(';
 

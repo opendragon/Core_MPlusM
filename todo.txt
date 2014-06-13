@@ -15,5 +15,3 @@
 + load/save positions, by entity name
 
 + if dragging / adding / removing connection - ignore scan result, but re-enable scan
-
-+ reduce the retry count to 3; connect/disconnect don’t need bailout; see if direct calls to harp connect/disconnect behave reasonably; if none of the above work, just don’t bother reporting mode for standard ports

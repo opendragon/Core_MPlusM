@@ -71,32 +71,37 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-# if defined(__cplusplus)
 /*! @brief Make sure that the function will have a 'C'-style external name. */
+# if defined(__cplusplus)
 #  define EXTERN_C extern "C"
 # else // ! defined(__cpluplus)
-/*! @brief Make sure that the function will have a 'C'-style external name. */
 #  define EXTERN_C /* */
 # endif // ! defined(__cplusplus)
 
 # if defined(OD_ENABLE_LOGGING)
 /*! @brief The number of bytes to be displayed per line when logging a memory region. */
 #  define OD_MAX_BYTES_IN_LINE_ 16
+
 /*! @brief The maximum size of the output displayed per line when logging a memory region. */
 #  define OD_MAX_CHARS_IN_LINE_ (OD_MAX_BYTES_IN_LINE_ * 4)
+
 /*! @brief The initial indentation level. */
 #  define OD_LOG_INIT_VALUE_ 1
+
 /*! @brief The @c syslog facility to be used for logging. */
 #  define OD_LOG_LOG_TARGET_ LOG_LOCAL7
+
 /*! @brief The @c syslog level to be used for logging. */
 #  define OD_LOG_LOG_LEVEL_  LOG_NOTICE
 
 /*! @brief The format to be used to log the prefix and indentation strings with functions. */
 #  define OD_FUNC_FORMAT_ \
             "%s%s" OD_FUNC_WHERE_
+
 /*! @brief The standard parameters to be used with each logged message for functions. */
 #  define OD_FUNC_PREFIX_(file_) \
             prefixString_, indentString_, funcName, file_, lineNumber
+
 /*! @brief The format to be used to log the function name, file name and line number. */
 #  define OD_FUNC_WHERE_ \
             "%s{%s@%04d}"
@@ -104,9 +109,11 @@
 /*! @brief The format to be used to log the prefix and indentation strings with methods. */
 #  define OD_METHOD_FORMAT_ \
             "%s%s" OD_METHOD_WHERE_
+
 /*! @brief The standard parameters to be used with each logged message for methods. */
 #  define OD_METHOD_PREFIX_(file_) \
             prefixString_, indentString_, funcName, file_, lineNumber, objPtr
+
 /*! @brief The format to be used to log the method name, file name and line number. */
 #  define OD_METHOD_WHERE_ \
             "%s{%s@%04d}[%p]"
@@ -114,19 +121,21 @@
 /*! @brief The standard variable used to hold the indentation string. */
 #  define OD_CREATE_INDENT_() \
             char * indentString_ = odBuildIndent_()
+
 /*! @brief The standard variable used to hold the prefix string. */
 #  define OD_CREATE_PREFIX_() \
             char * prefixString_ = odBuildPrefix_()
+
 /*! @brief The standard code to release the memory associated with the indentation string. */
 #  define OD_FREE_INDENT_() \
             free(indentString_)
+
 /*! @brief The standard code to release the memory associated with the prefix string. */
 #  define OD_FREE_PREFIX_() \
             free(prefixString_)
 
 #  if (! MAC_OR_LINUX_)
-/*! @brief The output stream to use for logging with Windows. */
-#   define OD_LOG_STREAM_ stderr
+#   define OD_LOG_STREAM_ stderr /* The output stream to use for logging with Windows. */
 #  endif // ! MAC_OR_LINUX_
 
 /*! @brief The data associated with each thread for logging. */
@@ -139,8 +148,10 @@ typedef struct tOdThreadData_
 #  if MAC_OR_LINUX_
 /*! @brief @c true if thread support is enabled and @c false if all threads share data. */
 static bool lOdEnableThreadSupport_ = false;
+
 /*! @brief @c true if the process identifier is to be logged and @c false otherwise. */
 static bool lOdIncludeProcessID_ = false;
+
 /*! @brief @c true if the thread identifier is to be logged and @c false otherwise. */
 static bool lOdIncludeThreadID_ = false;
 #  endif // MAC_OR_LINUX_
@@ -151,6 +162,7 @@ static FILE * lOdLogFile_ = NULL;
 #  if MAC_OR_LINUX_
 /*! @brief The thread key to be used. */
 static pthread_key_t  lOdThreadSpecificKey_;
+
 /*! @brief The once-only variable to be used with threading. */
 static pthread_once_t lOdThreadSpecificKeyOnce_ = PTHREAD_ONCE_INIT;
 #  endif // MAC_OR_LINUX_
@@ -372,64 +384,94 @@ static void odWriteTime_(FILE * outFile)
 
 /*! @brief The value prefix string to be used when exiting a function or method. */
 #  define OD_EXIT_VALUE_       "exit -> "
+
 /*! @brief The format string to be used with a single boolean value. */
 #  define OD_FORMAT_B1_        " %s%s"
+
 /*! @brief The format string to be used with a pair of boolean values. */
 #  define OD_FORMAT_B2_        " %s%s, %s%s"
+
 /*! @brief The format string to be used with a single character value. */
 #  define OD_FORMAT_C1_        " %s'%c'(%#02X)"
+
 /*! @brief The format string to be used with a pair of character values. */
 #  define OD_FORMAT_C2_        " %s'%c'(%#02X), %s'%c'(%#02X)"
+
 /*! @brief The format string to be used with a single double value. */
 #  define OD_FORMAT_D1_        " %s%g"
+
 /*! @brief The format string to be used with a pair of double values. */
 #  define OD_FORMAT_D2_        " %s%g, %s%g"
+
 /*! @brief The message string to be used when entering a function or method. */
 #  define OD_FORMAT_ENTER_     " enter"
+
 /*! @brief The message string to be used when exiting a function or method. */
 #  define OD_FORMAT_EXIT_      " exit"
+
 /*! @brief The format string to be used when exiting a function or method via @c exit. */
 #  define OD_FORMAT_EXIT_CALL_ " call exit(%ld(%#lx))"
+
 /*! @brief The format string to be used when exiting a function or method via @c throw of an integer. */
 #  define OD_FORMAT_EXIT_T_L_  " throw(%d(%#x))"
+
 /*! @brief The format string to be used when exiting a function or method via @c throw of a string. */
 #  define OD_FORMAT_EXIT_T_S_  " throw(%s)"
+
 /*! @brief The format string to be used with an IP address and port value. */
 #  define OD_FORMAT_IP_        " %s%d.%d.%d.%d:%d"
+
 /*! @brief The format string to be used with a single long value. */
 #  define OD_FORMAT_L1_        " %s%d(%#x)"
+
 /*! @brief The format string to be used with a pair of long values. */
 #  define OD_FORMAT_L2_        " %s%d(%#x), %s%d(%#x)"
+
 /*! @brief The format string to be used with a single long long value. */
 #  define OD_FORMAT_LL1_       " %s%lld(%#llx)"
+
 /*! @brief The format string to be used with a pair of long long values. */
 #  define OD_FORMAT_LL2_       " %s%lld(%#llx), %s%lld(%#llx)"
+
 /*! @brief The format string to be used with a message. */
 #  define OD_FORMAT_LOG_       " %s"
+
 /*! @brief The format string to be used with a long string value. */
 #  define OD_FORMAT_LS         " %s | %s |"
+
 /*! @brief The format string to be used with a single object value. */
 #  define OD_FORMAT_O1_        " %s%s"
+
 /*! @brief The format string to be used with a pair of object values. */
 #  define OD_FORMAT_O2_        " %s%s, %s%s"
+
 /*! @brief The format string to be used with a single pointer value. */
 #  define OD_FORMAT_P1_        " %s%p"
+
 /*! @brief The format string to be used with a pair of pointer values. */
 #  define OD_FORMAT_P2_        " %s%p, %s%p"
+
 /*! @brief The format string to be used for the heading when logging a memory region. */
 #  define OD_FORMAT_PACKET_1_  " address = %p, size = %d"
+
 /*! @brief The format string to be used when logging a section of a memory region. */
 #  define OD_FORMAT_PACKET_2_  " %s | %04X : %s| %s"
+
 /*! @brief The format string to be used with a rectangle value. */
 #  define OD_FORMAT_RECT_      " %s[l: %g, t: %g, h: %g, w: %g]"
+
 /*! @brief The format string to be used with a single string value. */
 #  define OD_FORMAT_S1_        " %s'%s'"
+
 /*! @brief The format string to be used with a pair of string values. */
 #  define OD_FORMAT_S2_        " %s'%s', %s'%s'"
+
 /*! @brief The format string to be used with a (possibly unterminated) string value. */
 #  define OD_FORMAT_SP_        " %s'%.*s'"
+
 /*! @brief The format string to be used with a time value. */
 #  define OD_FORMAT_TI_        " %s%ld:%ld"
+
 /*! @brief The message string to be used when setting up logging for the first time. */
 #  define OD_INIT_FORMAT_      "* %s%s" OD_FUNC_WHERE_ " started *"
 

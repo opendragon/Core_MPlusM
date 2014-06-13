@@ -343,14 +343,14 @@ int main(int      argc,
                                                             endl;
                                                 }
                                             }
-#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+#if defined(MpM_DoExplicitDisconnect)
                                             if (! MplusM::Common::NetworkDisconnectWithRetries(aName, aMatch,
                                                                                                STANDARD_WAIT_TIME))
                                             {
                                                 OD_LOG("(! MplusM::Common::NetworkDisconnectWithRetries(aName, "//####
                                                        "aMatch, STANDARD_WAIT_TIME))");//####
                                             }
-#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DoExplicitDisconnect)
                                         }
                                         else
                                         {
@@ -362,9 +362,9 @@ int main(int      argc,
                                     {
                                         cout << "No matching request found." << endl;
                                     }
-#if defined(MpM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DoExplicitClose)
                                     newChannel->close();
-#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DoExplicitClose)
                                 }
                                 else
                                 {

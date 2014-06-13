@@ -61,101 +61,142 @@
 
 /*! @brief The name for an 'associate' request. */
 # define MpM_ASSOCIATE_REQUEST     "associate"
+
 /*! @brief The standard name for a 'channels' request. */
 # define MpM_CHANNELS_REQUEST      "channels"
+
 /*! @brief The standard name for the 'clients' request. */
 # define MpM_CLIENTS_REQUEST       "clients"
+
 /*! @brief The standard name for the 'count' request. */
 # define MpM_COUNT_REQUEST         "count"
+
 /*! @brief The standard name for the 'detach' request. */
 # define MpM_DETACH_REQUEST        "detach"
+
 /*! @brief The name for the 'disassociate' request. */
 # define MpM_DISASSOCIATE_REQUEST  "disassociate"
+
 /*! @brief The name for the 'echo' request. */
 # define MpM_ECHO_REQUEST          "echo"
+
 /*! @brief The name for the 'getAssociates' request. */
 # define MpM_GETASSOCIATES_REQUEST "getAssociates"
+
 /*! @brief The standard name for an 'info' request. */
 # define MpM_INFO_REQUEST          "info"
+
 /*! @brief The standard name for a 'list' request. */
 # define MpM_LIST_REQUEST          "list"
+
 /*! @brief The name for a 'match' request. */
 # define MpM_MATCH_REQUEST         "match"
+
 /*! @brief The standard name for a 'name' request. */
 # define MpM_NAME_REQUEST          "name"
+
 /*! @brief The name for a 'register' request. */
 # define MpM_REGISTER_REQUEST      "register"
+
 /*! @brief The name for an 'unregister' request. */
 # define MpM_UNREGISTER_REQUEST    "unregister"
 
 /*! @brief The number of elements expected in the output of an 'associate' request. */
 # define MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE     1
+
 /*! @brief The number of elements expected in the output of a 'channels' request. */
 # define MpM_EXPECTED_CHANNELS_RESPONSE_SIZE      2
+
 /*! @brief The number of elements expected in the output of a 'disassociate' request. */
 # define MpM_EXPECTED_DISASSOCIATE_RESPONSE_SIZE  1
+
 /*! @brief The number of elements expected in the output of a 'getAssociates' request. */
 # define MpM_EXPECTED_GETASSOCIATES_RESPONSE_SIZE 4
+
 /*! @brief The number of elements expected in the output of a 'match' request. */
 # define MpM_EXPECTED_MATCH_RESPONSE_SIZE         2
+
 /*! @brief The number of elements expected in the output of a 'name' request. */
 # define MpM_EXPECTED_NAME_RESPONSE_SIZE          4
 
 /*! @brief The standard response to an invalid Service Registry request. */
 # define MpM_FAILED_RESPONSE "FAILED"
+
 /*! @brief The standard response to a valid Service Registry request. */
 # define MpM_OK_RESPONSE     "OK"
 
 /*! @brief A service is being added to the registry. */
 # define MpM_REGISTRY_STATUS_ADDING   "adding"
+
 /*! @brief A service is being removed from the registry. */
 # define MpM_REGISTRY_STATUS_REMOVING "removing"
+
 /*! @brief The registry has just started. */
 # define MpM_REGISTRY_STATUS_STARTING "starting"
+
 /*! @brief The registry is stopping. */
 # define MpM_REGISTRY_STATUS_STOPPING "stopping"
+
 /*! @brief The registry status is unknown. */
 # define MpM_REGISTRY_STATUS_UNKNOWN  "<unknown>"
 
 /*! @brief Request/response specification character - zero or one repetitions of preceding. */
 # define MpM_REQREP_0_OR_1     "?"
+
 /*! @brief Request/response specification character - zero or more repetitions of preceding. */
 # define MpM_REQREP_0_OR_MORE  "*"
+
 /*! @brief Request/response specification character - one or more repetitions of preceding. */
 # define MpM_REQREP_1_OR_MORE  "+"
+
 /*! @brief Request/response specification character - any element. */
 # define MpM_REQREP_ANYTHING   "."
+
 /*! @brief Request/response specification character - end of dictionary specification. */
 # define MpM_REQREP_DICT_END   "]"
+
 /*! @brief Request/response specification character - key/value separator for dictionary. */
 # define MpM_REQREP_DICT_SEP   ":"
+
 /*! @brief Request/response specification character - start of dictionary specification. */
 # define MpM_REQREP_DICT_START "["
+
 /*! @brief Request/response specification character - double value. */
 # define MpM_REQREP_DOUBLE     "d"
+
 /*! @brief Request/response specification character - integer value. */
 # define MpM_REQREP_INT        "i"
+
 /*! @brief Request/response specification character - end of list specification. */
 # define MpM_REQREP_LIST_END   ")"
+
 /*! @brief Request/response specification character - start of list specification. */
 # define MpM_REQREP_LIST_START "("
+
 /*! @brief Request/response specification character - numeric value (double or integer). */
 # define MpM_REQREP_NUMBER     "n"
+
 /*! @brief Request/response specification character - string value. */
 # define MpM_REQREP_STRING     "s"
 
 /*! @brief Request/response dictionary key - channel name. */
 # define MpM_REQREP_DICT_CHANNELNAME_KEY "channelname"
+
 /*! @brief Request/response dictionary key - details. */
 # define MpM_REQREP_DICT_DETAILS_KEY     "details"
+
 /*! @brief Request/response dictionary key - input specification. */
 # define MpM_REQREP_DICT_INPUT_KEY       "input"
+
 /*! @brief Request/response dictionary key - keywords. */
 # define MpM_REQREP_DICT_KEYWORDS_KEY    "keywords"
+
 /*! @brief Request/response dictionary key - output specification. */
 # define MpM_REQREP_DICT_OUTPUT_KEY      "output"
+
 /*! @brief Request/response dictionary key - request specification. */
 # define MpM_REQREP_DICT_REQUEST_KEY     "request"
+
 /*! @brief Request/response dictionary key - version. */
 # define MpM_REQREP_DICT_VERSION_KEY     "version"
 

@@ -104,9 +104,6 @@ RequestCounterService::RequestCounterService(const char *                  launc
                   "stats - report the request counter and the elapsed time\n"
                   "<anything else> - simply increment the request counter", serviceEndpointName, serviceHostName,
                   servicePortNumber), _defaultHandler(NULL), _resetHandler(NULL), _statsHandler(NULL)
-#if (! defined(SERVICES_HAVE_CONTEXTS))
-        , _counter(0), _lastReset(yarp::os::Time::now())
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S4("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
@@ -155,28 +152,17 @@ void RequestCounterService::attachRequestHandlers(void)
 
 void RequestCounterService::countRequest(const yarp::os::ConstString & key)
 {
-#if (! defined(SERVICES_HAVE_CONTEXTS))
-# if MAC_OR_LINUX_
-#  pragma unused(key)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     try
     {
-#if defined(SERVICES_HAVE_CONTEXTS)
         RequestCounterContext * context = (RequestCounterContext *) findContext(key);
-#endif // defined(SERVICES_HAVE_CONTEXTS)
 
-#if defined(SERVICES_HAVE_CONTEXTS)
         if (! context)
         {
             context = new RequestCounterContext;
             addContext(key, context);
         }
         context->counter() += 1;
-#else // ! defined(SERVICES_HAVE_CONTEXTS)
-        ++_counter;
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     }
     catch (...)
     {
@@ -222,19 +208,11 @@ void RequestCounterService::getStatistics(const yarp::os::ConstString & key,
                                           long &                        counter,
                                           double &                      elapsedTime)
 {
-#if (! defined(SERVICES_HAVE_CONTEXTS))
-# if MAC_OR_LINUX_
-#  pragma unused(key)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     try
     {
-#if defined(SERVICES_HAVE_CONTEXTS)
         RequestCounterContext * context = (RequestCounterContext *) findContext(key);
-#endif // defined(SERVICES_HAVE_CONTEXTS)
 
-#if defined(SERVICES_HAVE_CONTEXTS)
         if (! context)
         {
             context = new RequestCounterContext;
@@ -242,10 +220,6 @@ void RequestCounterService::getStatistics(const yarp::os::ConstString & key,
         }
         counter = context->counter();
         elapsedTime = yarp::os::Time::now() - context->lastReset();
-#else // ! defined(SERVICES_HAVE_CONTEXTS)
-        counter = _counter;
-        elapsedTime = yarp::os::Time::now() - _lastReset;
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     }
     catch (...)
     {
@@ -257,19 +231,11 @@ void RequestCounterService::getStatistics(const yarp::os::ConstString & key,
 
 void RequestCounterService::resetCounters(const yarp::os::ConstString & key)
 {
-#if (! defined(SERVICES_HAVE_CONTEXTS))
-# if MAC_OR_LINUX_
-#  pragma unused(key)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     try
     {
-#if defined(SERVICES_HAVE_CONTEXTS)
         RequestCounterContext * context = (RequestCounterContext *) findContext(key);
-#endif // defined(SERVICES_HAVE_CONTEXTS)
 
-#if defined(SERVICES_HAVE_CONTEXTS)
         if (! context)
         {
             context = new RequestCounterContext;
@@ -277,10 +243,6 @@ void RequestCounterService::resetCounters(const yarp::os::ConstString & key)
         }
         context->counter() = 0;
         context->lastReset() = yarp::os::Time::now();
-#else // ! defined(SERVICES_HAVE_CONTEXTS)
-        _counter = 0;
-        _lastReset = yarp::os::Time::now();
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     }
     catch (...)
     {

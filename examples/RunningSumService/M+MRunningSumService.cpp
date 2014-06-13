@@ -91,9 +91,6 @@ RunningSumService::RunningSumService(const char *                  launchPath,
                   "start - start adding values to the running sum\n"
                   "stop - stop adding values to the running sum", serviceEndpointName, serviceHostName,
                   servicePortNumber), _addHandler(NULL), _resetHandler(NULL), _startHandler(NULL), _stopHandler(NULL)
-#if (! defined(SERVICES_HAVE_CONTEXTS))
-        , _runningSum(0.0)
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S4("launchPath = ", launcHpath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
@@ -116,11 +113,6 @@ RunningSumService::~RunningSumService(void)
 double RunningSumService::addToSum(const yarp::os::ConstString & key,
                                    const double                  value)
 {
-#if (! defined(SERVICES_HAVE_CONTEXTS))
-# if MAC_OR_LINUX_
-#  pragma unused(key)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("key = ", key.c_str());//####
     OD_LOG_D1("value = ", value);//####
@@ -128,11 +120,8 @@ double RunningSumService::addToSum(const yarp::os::ConstString & key,
     
     try
     {
-#if defined(SERVICES_HAVE_CONTEXTS)
         RunningSumContext * context = (RunningSumContext *) findContext(key);
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
         
-#if defined(SERVICES_HAVE_CONTEXTS)
         if (! context)
         {
             context = new RunningSumContext;
@@ -140,10 +129,6 @@ double RunningSumService::addToSum(const yarp::os::ConstString & key,
         }
         context->sum() += value;
         result = context->sum();
-#else // ! defined(SERVICES_HAVE_CONTEXTS)
-        _runningSum += value;
-        result = _runningSum;
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     }
     catch (...)
     {
@@ -223,29 +208,18 @@ void RunningSumService::detachRequestHandlers(void)
 
 void RunningSumService::resetSum(const yarp::os::ConstString & key)
 {
-#if (! defined(SERVICES_HAVE_CONTEXTS))
-# if MAC_OR_LINUX_
-#  pragma unused(key)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("key = ", key.c_str());//####
     try
     {
-#if defined(SERVICES_HAVE_CONTEXTS)
         RunningSumContext * context = (RunningSumContext *) findContext(key);
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
 
-#if defined(SERVICES_HAVE_CONTEXTS)
         if (! context)
         {
             context = new RunningSumContext;
             addContext(key, context);
         }
         context->sum() = 0.0;
-#else // ! defined(SERVICES_HAVE_CONTEXTS)
-        _runningSum = 0.0;
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     }
     catch (...)
     {
@@ -287,29 +261,18 @@ bool RunningSumService::start(void)
 
 void RunningSumService::startSum(const yarp::os::ConstString & key)
 {
-#if (! defined(SERVICES_HAVE_CONTEXTS))
-# if MAC_OR_LINUX_
-#  pragma unused(key)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("key = ", key.c_str());//####
     try
     {
-#if defined(SERVICES_HAVE_CONTEXTS)
         RunningSumContext * context = (RunningSumContext *) findContext(key);
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
         
-#if defined(SERVICES_HAVE_CONTEXTS)
         if (! context)
         {
             context = new RunningSumContext;
             addContext(key, context);
         }
         context->sum() = 0.0;
-#else // ! defined(SERVICES_HAVE_CONTEXTS)
-        _runningSum = 0.0;
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     }
     catch (...)
     {

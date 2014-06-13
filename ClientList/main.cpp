@@ -90,7 +90,6 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-#if defined(SERVICES_HAVE_CONTEXTS)
 /*! @brief Process the response to the 'list' request sent to a service.
  @param serviceName The name of the service that generated the response.
  @param response The response to be processed.
@@ -123,7 +122,6 @@ static bool processResponse(const yarp::os::ConstString &           serviceName,
     OD_LOG_EXIT_B(result);//####
     return result;
 } // processResponse
-#endif // defined(SERVICES_HAVE_CONTEXTS)
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -139,15 +137,9 @@ static bool processResponse(const yarp::os::ConstString &           serviceName,
 int main(int      argc,
          char * * argv)
 {
-#if (! defined(SERVICES_HAVE_CONTEXTS))
-# if MAC_OR_LINUX_
-#  pragma unused(argc)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
-#if defined(SERVICES_HAVE_CONTEXTS)
     try
     {
 #if CheckNetworkWorks_
@@ -230,14 +222,14 @@ int main(int      argc,
                                                 cerr << "Problem communicating with " << aMatch.c_str() << "." <<
                                                 endl;
                                             }
-# if defined(MpM_DO_EXPLICIT_DISCONNECT)
+#if defined(MpM_DoExplicitDisconnect)
                                             if (! MplusM::Common::NetworkDisconnectWithRetries(aName, aMatch,
                                                                                                STANDARD_WAIT_TIME))
                                             {
                                                 OD_LOG("(! MplusM::Common::NetworkDisconnectWithRetries(aName, "//####
                                                        "aMatch, STANDARD_WAIT_TIME))");//####
                                             }
-# endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DoExplicitDisconnect)
                                         }
                                         else
                                         {
@@ -249,9 +241,9 @@ int main(int      argc,
                                     {
                                         cout << "No client connections found." << endl;
                                     }
-# if defined(MpM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DoExplicitClose)
                                     newChannel->close();
-# endif // defined(MpM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DoExplicitClose)
                                 }
                                 else
                                 {
@@ -281,22 +273,19 @@ int main(int      argc,
                 cerr << "Problem getting information from the Service Registry." << endl;
             }
         }
-# if CheckNetworkWorks_
+#if CheckNetworkWorks_
         else
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())");//####
             cerr << "YARP network not running." << endl;
         }
-# endif // CheckNetworkWorks_
+#endif // CheckNetworkWorks_
     }
     catch (...)
     {
         OD_LOG("Exception caught");//####
     }
     yarp::os::Network::fini();
-#else // ! defined(SERVICES_HAVE_CONTEXTS)
-    cout << "Services do not have contexts, so the clients cannot be determined." << endl;
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_EXIT_L(0);//####
     return 0;
 } // main

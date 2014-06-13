@@ -70,16 +70,22 @@ using namespace MplusM::Parser;
 
 /*! @brief The asterisk character, which is one of our wildcard characters. */
 static const char kAsterisk = '*';
+
 /*! @brief The double quote character. */
 static const char kDoubleQuote = '"';
+
 /*! @brief The 'escape' character - a backslash. */
 static const char kEscapeCharacter = '\\';
+
 /*! @brief The percent character, which is an SQL pattern character. */
 static const char kPercent = '%';
+
 /*! @brief The question mark character, which is one of our wildcard characters. */
 static const char kQuestionMark = '?';
+
 /*! @brief The single quote character. */
 static const char kSingleQuote = '\'';
+
 /*! @brief The underscore character, which is an SQL pattern character. */
 static const char kUnderscore = '_';
 

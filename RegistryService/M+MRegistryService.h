@@ -84,14 +84,19 @@ namespace MplusM
         {
             /*! @brief The details of the request. */
             yarp::os::ConstString _details;
+            
             /*! @brief The inputs descriptor for the request. */
             yarp::os::ConstString _inputs;
+            
             /*! @brief The outputs descriptor for the request. */
             yarp::os::ConstString _outputs;
+            
             /*! @brief The service channel for the request. */
             yarp::os::ConstString _channel;
+            
             /*! @brief The name of the request. */
             yarp::os::ConstString _request;
+            
             /*! @brief The version of the request. */
             yarp::os::ConstString _version;
         }; // RequestDescription
@@ -207,10 +212,13 @@ namespace MplusM
             {
                 /*! @brief The registry has just started. */
                 kRegistryStarted,
+                
                 /*! @brief The registry is stopping. */
                 kRegistryStopped,
+                
                 /*! @brief A service is being added to the registry. */
                 kRegistryAddService,
+                
                 /*! @brief A service is being removed from the registry. */
                 kRegistryRemoveService
             }; // ServiceStatus

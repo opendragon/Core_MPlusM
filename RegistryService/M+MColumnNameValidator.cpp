@@ -69,14 +69,19 @@ using namespace MplusM::Registry;
 
 /*! @brief The prefix to be used when generating SQL for a 'description' request. */
 #define DESCRIPTION_PREFIX_ T_(CHANNELNAME_C_ " IN (SELECT DISTINCT " CHANNELNAME_C_ " FROM " SERVICES_T_ " WHERE ")
+
 /*! @brief The suffix to be used when generating SQL for a 'description' request. */
 #define DESCRIPTION_SUFFIX_ T_(")")
+
 /*! @brief The prefix to be used when generating SQL for a 'keyword' request. */
 #define KEYWORD_PREFIX_     T_("KEY IN (SELECT DISTINCT " REQUESTS_ID_C_ " FROM " REQUESTSKEYWORDS_T_ " WHERE ")
+
 /*! @brief The suffix to be used when generating SQL for a 'keyword' request. */
 #define KEYWORD_SUFFIX_     T_(")")
+
 /*! @brief The prefix to be used when generating SQL for a 'name' request. */
 #define NAME_PREFIX_        T_(CHANNELNAME_C_ " IN (SELECT DISTINCT " CHANNELNAME_C_ " FROM " SERVICES_T_ " WHERE ")
+
 /*! @brief The suffix to be used when generating SQL for a 'name' request. */
 #define NAME_SUFFIX_        T_(")")
 

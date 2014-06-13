@@ -65,10 +65,13 @@ namespace MplusM
         {
             /*! @brief Neither input nor output. */
             kInputAndOutputNone   = 0x0,
+            
             /*! @brief Input. */
             kInputAndOutputInput  = 0x1,
+            
             /*! @brief Output. */
             kInputAndOutputOutput = 0x2,
+            
             /*! @brief Both input and output. */
             kInputAndOutputBoth   = 0x3
         }; // InputOutputFlag
@@ -78,12 +81,16 @@ namespace MplusM
         {
             /*! @brief The port is an adapter port. */
             kPortKindAdapter,
+            
             /*! @brief The port is a client port. */
             kPortKindClient,
+            
             /*! @brief The port is a service port. */
             kPortKindService,
+            
             /*! @brief The port is the service registry port. */
             kPortKindServiceRegistry,
+            
             /*! @brief The port is s standard port. */
             kPortKindStandard
         }; // PortKind
@@ -93,8 +100,10 @@ namespace MplusM
         {
             /*! @brief The collected inputs associated with the port. */
             Common::StringVector _inputs;
+            
             /*! @brief The collected outputs associated with the port. */
             Common::StringVector _outputs;
+            
             /*! @brief @c true if the port is associated and @c false if it is an associate, in which case the first
              input port is the primary for the association. */
             bool                 _primary;
@@ -105,8 +114,10 @@ namespace MplusM
         {
             /*! @brief The registered name of the port. */
             yarp::os::ConstString _portName;
+            
             /*! @brief The IP address for the port. */
             yarp::os::ConstString _portIpAddress;
+            
             /*! @brief The IP port number for the port. */
             yarp::os::ConstString _portPortNumber;
         }; // PortDescriptor
@@ -116,16 +127,22 @@ namespace MplusM
         {
             /*! @brief The standard channel for the service. */
             yarp::os::ConstString _channelName;
+            
             /*! @brief The standard name for the service. */
             yarp::os::ConstString _canonicalName;
+            
             /*! @brief The description of the service. */
             yarp::os::ConstString _description;
+            
             /*! @brief The name of the input channel for the service. */
             yarp::os::ConstString _path;
+            
             /*! @brief The set of secondary input channels for the service. */
             Common::StringVector  _inputChannels;
+            
             /*! @brief The set of secondary output channels for the service. */
             Common::StringVector  _outputChannels;
+            
             /*! @brief The description of the requests for the service. */
             yarp::os::ConstString _requestsDescription;
         }; // ServiceDescriptor

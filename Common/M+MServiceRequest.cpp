@@ -157,18 +157,18 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
             else
             {
                 OD_LOG("! (usingChannel.write(message, _holder))");//####
-#if defined(MpM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_StallOnSendProblem)
                 Common::Stall();
-#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_StallOnSendProblem)
             }
         }
         else
         {
-#if defined(MpM_CHANNELS_USE_RPC)
+#if defined(MpM_ChannelsUseRpc)
             Package holder;
-#endif // defined(MpM_CHANNELS_USE_RPC)
+#endif // defined(MpM_ChannelsUseRpc)
             
-#if defined(MpM_CHANNELS_USE_RPC)
+#if defined(MpM_ChannelsUseRpc)
             if (usingChannel.write(message, holder))
             {
                 result = true;
@@ -176,11 +176,11 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
             else
             {
                 OD_LOG("(! usingChannel.write(message))");//####
-# if defined(MpM_STALL_ON_SEND_PROBLEM)
+# if defined(MpM_StallOnSendProblem)
                 Common::Stall();
-# endif // defined(MpM_STALL_ON_SEND_PROBLEM)
+# endif // defined(MpM_StallOnSendProblem)
             }
-#else // ! defined(MpM_CHANNELS_USE_RPC)
+#else // ! defined(MpM_ChannelsUseRpc)
             if (usingChannel.write(message))
             {
                 result = true;
@@ -188,11 +188,11 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
             else
             {
                 OD_LOG("(! usingChannel.write(message))");//####
-# if defined(MpM_STALL_ON_SEND_PROBLEM)
+# if defined(MpM_StallOnSendProblem)
                 Common::Stall();
-# endif // defined(MpM_STALL_ON_SEND_PROBLEM)
+# endif // defined(MpM_StallOnSendProblem)
             }
-#endif // ! defined(MpM_CHANNELS_USE_RPC)
+#endif // ! defined(MpM_ChannelsUseRpc)
         }
     }
     catch (...)

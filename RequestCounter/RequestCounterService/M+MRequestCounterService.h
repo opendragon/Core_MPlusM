@@ -143,16 +143,6 @@ namespace MplusM
             /*! @brief The request handler for the 'stats' request. */
             StatsRequestHandler *                 _statsHandler;
             
-#if (! defined(SERVICES_HAVE_CONTEXTS))
-            /*! @brief The number of requests since the most recent reset. */
-            long                                  _counter;
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
-            
-#if (! defined(SERVICES_HAVE_CONTEXTS))
-            /*! @brief The time of the last reset. */
-            double                                _lastReset;
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
-
         }; // RequestCounterService
         
     } // RequestCounter

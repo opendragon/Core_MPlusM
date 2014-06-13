@@ -43,7 +43,7 @@
 # define ODENABLELOGGING_H_ /* Header guard */
 
 # if (! defined(OD_ENABLE_LOGGING))
-#  define OD_ENABLE_LOGGING /* */
+#  define OD_ENABLE_LOGGING /* Enable logging if not already enabled. */
 # endif // ! defined(OD_ENABLE_LOGGING)
 
 // Allow a reload of the logging macros.

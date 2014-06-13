@@ -158,13 +158,13 @@ int main(int      argc,
                 MplusM::Common::SetSignalHandlers(stopRunning);
                 if (stuff->findService("Name RunningSum"))
                 {
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
                     MplusM::Common::ChannelStatusReporter reporter;
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
                     
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
                     stuff->setReporter(reporter, true);
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
                     if (stuff->connectToService())
                     {
                         MplusM::Common::AdapterChannel * controlChannel = new MplusM::Common::AdapterChannel(false);
@@ -192,14 +192,14 @@ int main(int      argc,
                                     }
                                 }
                             }
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
                             controlChannel->setReporter(reporter);
                             controlChannel->getReport(reporter);
                             dataChannel->setReporter(reporter);
                             dataChannel->getReport(reporter);
                             outputChannel->setReporter(reporter);
                             outputChannel->getReport(reporter);
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
                             if (controlChannel->openWithRetries(controlName, STANDARD_WAIT_TIME) &&
                                 dataChannel->openWithRetries(dataName, STANDARD_WAIT_TIME) &&
                                 outputChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
@@ -212,11 +212,11 @@ int main(int      argc,
                                 dataChannel->setReader(*dataHandler);
                                 for ( ; lKeepRunning && sharedData.isActive(); )
                                 {
-#if defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
+#if defined(MpM_MainDoesDelayNotYield)
                                     yarp::os::Time::delay(ONE_SECOND_DELAY);
-#else // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
+#else // ! defined(MpM_MainDoesDelayNotYield)
                                     yarp::os::Time::yield();
-#endif // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
+#endif // ! defined(MpM_MainDoesDelayNotYield)
                                     if (! lKeepRunning)
                                     {
                                         sharedData.deactivate();
@@ -231,11 +231,11 @@ int main(int      argc,
                                        "outputChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))");//####
                                 cerr << "Problem opening a channel." << endl;
                             }
-#if defined(MpM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DoExplicitClose)
                             controlChannel->close();
                             dataChannel->close();
                             outputChannel->close();
-#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DoExplicitClose)
                         }
                         else
                         {

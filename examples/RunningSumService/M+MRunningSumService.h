@@ -145,11 +145,6 @@ namespace MplusM
             /*! @brief The request handler for the 'stop' request. */
             StopRequestHandler *  _stopHandler;
             
-#if (! defined(SERVICES_HAVE_CONTEXTS))
-            /*! @brief The current running sum. */
-            double                _runningSum;
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
-            
         }; // RunningSumService
         
     } // Example

@@ -54,9 +54,9 @@
 #  pragma clang diagnostic ignored "-Wunused-parameter"
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
-# if defined(MpM_CHANNELS_USE_RPC)
+# if defined(MpM_ChannelsUseRpc)
 #  include <yarp/os/RpcClient.h>
-# endif // defined(MpM_CHANNELS_USE_RPC)
+# endif // defined(MpM_ChannelsUseRpc)
 # include <yarp/os/Port.h>
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
@@ -74,11 +74,11 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The Port class to be used for client connections. */
-# if defined(MpM_CHANNELS_USE_RPC)
+# if defined(MpM_ChannelsUseRpc)
 #  define CLIENT_PORT_CLASS_ yarp::os::RpcClient
-# else // ! defined(MpM_CHANNELS_USE_RPC)
+# else // ! defined(MpM_ChannelsUseRpc)
 #  define CLIENT_PORT_CLASS_ yarp::os::Port
-# endif // ! defined(MpM_CHANNELS_USE_RPC)
+# endif // ! defined(MpM_ChannelsUseRpc)
 
 namespace MplusM
 {
@@ -97,8 +97,10 @@ namespace MplusM
             
             /*! @brief Add an output to the channel, using a backoff strategy with retries.
              @param theChannelToBeAdded The output to be added to the channel.
+             @param timeToWait The number of seconds allowed before a failure is considered.
              @returns @c true if the channel was opened and @c false if it could not be opened. */
-            bool addOutputWithRetries(const yarp::os::ConstString & theChannelToBeAdded);
+            bool addOutputWithRetries(const yarp::os::ConstString & theChannelToBeAdded,
+                                      const double                  timeToWait);
             
             /*! @brief Close the channel. */
             void close(void);

@@ -144,13 +144,13 @@ int main(int      argc,
                 MplusM::Common::SetSignalHandlers(stopRunning);
                 if (stuff->findService("details Echo*"))
                 {
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
                     MplusM::Common::ChannelStatusReporter reporter;
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
                     
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
                     stuff->setReporter(reporter, true);
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
                     if (stuff->connectToService())
                     {
                         for ( ; lKeepRunning; )

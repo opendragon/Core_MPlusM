@@ -104,43 +104,58 @@ using namespace MplusM::Registry;
 
 /*! @brief The named parameter for the 'associate' column. */
 #define ASSOCIATE_C_                        "associate"
-///*! @brief The name of the index for the 'associate' column of the 'Associates' table. */
-//#define ASSOCIATES_ASSOCIATE_I_             "Associates_associate_idx"
+
 /*! @brief The named parameter for the 'associates_id' column. */
 #define ASSOCIATES_ID_C_                    "associates_id"
+
 /*! @brief The name of the 'Associates' table. */
 #define ASSOCIATES_T_                       "Associates"
+
 /*! @brief The name of the index for the 'channelname' column of the 'Channels' table. */
 #define CHANNELS_CHANNELNAME_I_             "Channels_channelname_idx"
+
 /*! @brief The named parameter for the 'channels_id' column. */
 #define CHANNELS_ID_C_                      "channels_id"
+
 /*! @brief The name of the 'Channels' table. */
 #define CHANNELS_T_                         "Channels"
+
 /*! @brief The name of the index for the 'associates_id' column of the 'ChannelsAssociates' table. */
 #define CHANNELSASSOCIATES_ASSOCIATES_ID_I_ "ChannelsAssociates_Associates_id_idx"
+
 /*! @brief The name of the index for the 'channels_id' column of the 'ChannelsAssociates' table. */
 #define CHANNELSASSOCIATES_CHANNELS_ID_I_   "ChannelsAssociates_Channels_id_idx"
+
 /*! @brief The name of the 'ChannelsAssociates' table. */
 #define CHANNELSASSOCIATES_T_               "ChannelsAssociates"
+
 /*! @brief The named parameter for the 'direction' column. */
 #define DIRECTION_C_                        "direction"
+
 /*! @brief The name of the index for the 'channelname' column of the 'Requests' table. */
 #define REQUESTS_CHANNELNAME_I_             "Requests_channelname_idx"
+
 /*! @brief The name of the index for the 'requests' column of the 'Requests' table. */
 #define REQUESTS_REQUEST_I_                 "Requests_request_idx"
+
 /*! @brief The name of the index for the 'keywords_id' column of the 'RequestsKeywords' table. */
 #define REQUESTSKEYWORDS_KEYWORDS_ID_I_     "RequestsKeywords_Keywords_id_idx"
+
 /*! @brief The name of the index for the 'requests_id' column of the 'RequestsKeywords' table. */
 #define REQUESTSKEYWORDS_REQUESTS_ID_I_     "RequestsKeywords_Requests_id_idx"
+
 /*! @brief The name of the secondary port for the service. */
 #define SECONDARY_CHANNEL_NAME_             T_(MpM_REGISTRY_CHANNEL_NAME "/status")
+
 /*! @brief The name of the index for the 'name' column of the 'Services' table. */
 #define SERVICES_NAME_I_                    "Services_name_idx"
 
 /*! @brief The command to initiate an SQL transaction. */
 static const char * kBeginTransaction = "BEGIN TRANSACTION";
+
 /*! @brief The command to successfully complete an SQL transaction. */
 static const char * kEndTransaction = "END TRANSACTION";
+
 /*! @brief The command to undo an SQL transaction. */
 static const char * kRollbackTransaction = "ROLLBACK TRANSACTION";
 
@@ -152,17 +167,19 @@ namespace MplusM
          @param statement The prepared statement that is to be updated.
          @param stuff The source of data that is to be bound.
          @returns The SQLite error from the bind operation. */
-        typedef int (*BindFunction)
-            (sqlite3_stmt * statement,
-             const void *   stuff);
+        typedef int (* BindFunction)
+                        (sqlite3_stmt * statement,
+                         const void *   stuff);
         
         /*! @brief The data needed to add a channel-associates entry into the database. */
         struct ChannelAssociateData
         {
             /*! @brief The primary channel. */
             yarp::os::ConstString _channel;
+            
             /*! @brief The channel to be associated. */
             yarp::os::ConstString _associate;
+            
             /*! @brief The direction of the associate channel. */
             int                   _direction;
         }; // ChannelAssociateData
@@ -172,8 +189,10 @@ namespace MplusM
         {
             /*! @brief The name of the request. */
             yarp::os::ConstString _request;
+            
             /*! @brief The service channel for the request. */
             yarp::os::ConstString _channel;
+            
             /*! @brief A keyword for the request. */
             yarp::os::ConstString _key;
         }; // RequestKeywordData
@@ -183,12 +202,16 @@ namespace MplusM
         {
             /*! @brief The service channel for the service. */
             yarp::os::ConstString _channel;
+            
             /*! @brief The description of the service. */
             yarp::os::ConstString _description;
+            
             /*! @brief The path to the executable for the service. */
             yarp::os::ConstString _executable;
+            
             /*! @brief The name for the service. */
             yarp::os::ConstString _name;
+            
             /*! @brief The description of the requests for the service. */
             yarp::os::ConstString _requestsDescription;
         }; // ServiceData
@@ -1587,9 +1610,9 @@ RegistryService::~RegistryService(void)
     delete _validator;
     if (_statusChannel)
     {
-#if defined(MpM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DoExplicitClose)
         _statusChannel->close();
-#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DoExplicitClose)
         Common::AdapterChannel::RelinquishChannel(_statusChannel);
     }
     OD_LOG_OBJEXIT();//####
@@ -2240,9 +2263,9 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
         if (! _statusChannel->write(message))
         {
             OD_LOG("(! _statusChannel->write(message))");//####
-#if defined(MpM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_StallOnSendProblem)
             Common::Stall();
-#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_StallOnSendProblem)
         }
     }
     OD_LOG_OBJEXIT();//####
@@ -2261,9 +2284,9 @@ bool RegistryService::setUpDatabase(void)
         {
             const char * dbFileName;
             
-#if defined(MpM_USE_TEST_DATABASE)
+#if defined(MpM_UseTestDatabase)
             dbFileName = "/tmp/test.db";
-#else // ! defined(MpM_USE_TEST_DATABASE)
+#else // ! defined(MpM_UseTestDatabase)
             if (_inMemory)
             {
                 dbFileName = ":memory:";
@@ -2272,7 +2295,7 @@ bool RegistryService::setUpDatabase(void)
             {
                 dbFileName = "";
             }
-#endif // ! defined(MpM_USE_TEST_DATABASE)
+#endif // ! defined(MpM_UseTestDatabase)
             sqlRes = sqlite3_open_v2(dbFileName, &_db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, NULL);
             if (SQLITE_OK != sqlRes)
             {
@@ -2314,10 +2337,10 @@ bool RegistryService::setUpStatusChannel(void)
         {
             yarp::os::ConstString outputName(SECONDARY_CHANNEL_NAME_);
             
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
             _statusChannel->setReporter(reporter);
             _statusChannel->getReport(reporter);
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
             if (_statusChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
             {
                 okSoFar = true;
@@ -2402,9 +2425,9 @@ bool RegistryService::start(void)
                             OD_LOG("! (Common::NetworkConnectWithRetries(aName, "//####
                                    "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))");//####
                         }
-#if defined(MpM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DoExplicitClose)
                         newChannel->close();
-#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DoExplicitClose)
                     }
                     else
                     {

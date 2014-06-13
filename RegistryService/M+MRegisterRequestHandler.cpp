@@ -195,7 +195,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                         {
                             if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                             {
-                                if (outChannel->addOutputWithRetries(argAsString))
+                                if (outChannel->addOutputWithRetries(argAsString, STANDARD_WAIT_TIME))
                                 {
                                     Common::Package message1(MpM_NAME_REQUEST);
                                     Common::Package response;
@@ -225,9 +225,9 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                                 OD_LOG("! (outChannel->write(message2, response))");//####
                                                 reply.addString(MpM_FAILED_RESPONSE);
                                                 reply.addString("Could not write to channel");
-#if defined(MpM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_StallOnSendProblem)
                                                 Common::Stall();
-#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_StallOnSendProblem)
                                             }
                                         }
                                         else
@@ -242,29 +242,30 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                         OD_LOG("! (outChannel->write(message1, response))");//####
                                         reply.addString(MpM_FAILED_RESPONSE);
                                         reply.addString("Could not write to channel");
-#if defined(MpM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_StallOnSendProblem)
                                         Common::Stall();
-#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_StallOnSendProblem)
                                     }
-#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+#if defined(MpM_DoExplicitDisconnect)
                                     if (! Common::NetworkDisconnectWithRetries(outChannel->getName(), argAsString,
                                                                                STANDARD_WAIT_TIME))
                                     {
                                         OD_LOG("(! Common::NetworkDisconnectWithRetries(outChannel->getName(), "//####
                                                "argAsString, STANDARD_WAIT_TIME))");//####
                                     }
-#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DoExplicitDisconnect)
                                 }
                                 else
                                 {
-                                    OD_LOG("! (outChannel->addOutputWithRetries(argAsString))");//####
+                                    OD_LOG("! (outChannel->addOutputWithRetries(argAsString, "//####
+                                           "STANDARD_WAIT_TIME))");//####
                                     reply.addString(MpM_FAILED_RESPONSE);
                                     reply.addString("Could not connect to channel");
                                     reply.addString(argAsString);
                                 }
-#if defined(MpM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DoExplicitClose)
                                 outChannel->close();
-#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DoExplicitClose)
                             }
                             else
                             {
@@ -303,9 +304,9 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
             if (! reply.write(*replyMechanism))
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####
-#if defined(MpM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_StallOnSendProblem)
                 Common::Stall();
-#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_StallOnSendProblem)
             }
         }
     }

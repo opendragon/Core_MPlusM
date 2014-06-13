@@ -63,8 +63,6 @@ using namespace MplusM::Common;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-//#define REPORT_CONTACT_DETAILS /* Report details of the contacts during operations that might change them. */
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -105,9 +103,9 @@ bool InputHandler::read(yarp::os::ConnectionReader & connection)
     {
         if (_canProcessInput)
         {
-#if defined(REPORT_CONTACT_DETAILS)
-            DumpContact("input read", connection.getRemoteContact());//####
-#endif // defined(REPORT_CONTACT_DETAILS)
+#if defined(MpM_ReportContactDetails)
+            DumpContactToLog("input read", connection.getRemoteContact());//####
+#endif // defined(MpM_ReportContactDetails)
             Package aPackage;
             
             if (aPackage.read(connection))

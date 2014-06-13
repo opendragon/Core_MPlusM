@@ -54,9 +54,9 @@
 #  pragma clang diagnostic ignored "-Wunused-parameter"
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
-# if defined(MpM_CHANNELS_USE_RPC)
+# if defined(MpM_ChannelsUseRpc)
 #  include <yarp/os/RpcServer.h>
-# endif // defined(MpM_CHANNELS_USE_RPC)
+# endif // defined(MpM_ChannelsUseRpc)
 # include <yarp/os/Port.h>
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
@@ -74,11 +74,11 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The Port class to be used for service connections. */
-# if defined(MpM_CHANNELS_USE_RPC)
+# if defined(MpM_ChannelsUseRpc)
 #  define SERVICE_PORT_CLASS_ yarp::os::RpcServer
-# else // ! defined(MpM_CHANNELS_USE_RPC)
+# else // ! defined(MpM_ChannelsUseRpc)
 #  define SERVICE_PORT_CLASS_ yarp::os::Port
-# endif // ! defined(MpM_CHANNELS_USE_RPC)
+# endif // ! defined(MpM_ChannelsUseRpc)
 
 namespace MplusM
 {

@@ -202,9 +202,9 @@ bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####
-#if defined(MpM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_StallOnSendProblem)
                 Common::Stall();
-#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_StallOnSendProblem)
             }
         }
     }

@@ -116,21 +116,11 @@ BaseService::BaseService(const char *                  launchPath,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & serviceHostName,
                          const yarp::os::ConstString & servicePortNumber) :
-        _launchPath(launchPath),
-# if defined(SERVICES_HAVE_CONTEXTS)
-        _contextsLock(),
-# endif // defined(SERVICES_HAVE_CONTEXTS)
-        _requestHandlers(*this),
-#if defined(SERVICES_HAVE_CONTEXTS)
-        _contexts(),
-#endif // defined(SERVICES_HAVE_CONTEXTS)
-        _canonicalName(canonicalName), _description(description), _requestsDescription(requestsDescription),
-        _requestCount(0), _channelsHandler(NULL),
-#if defined(SERVICES_HAVE_CONTEXTS)
-        _clientsHandler(NULL),
-#endif // defined(SERVICES_HAVE_CONTEXTS)
-        _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL), _endpoint(NULL),
-        _handler(NULL), _handlerCreator(NULL), _started(false), _useMultipleHandlers(useMultipleHandlers)
+        _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(), _canonicalName(canonicalName),
+        _description(description), _requestsDescription(requestsDescription), _requestCount(0), _channelsHandler(NULL),
+        _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
+        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
+        _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("launchPath = ", launchPath);//####
@@ -150,18 +140,8 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & requestsDescription,
                          const int                     argc,
                          char * *                      argv) :
-        _launchPath(*argv),
-# if defined(SERVICES_HAVE_CONTEXTS)
-        _contextsLock(),
-# endif // defined(SERVICES_HAVE_CONTEXTS)
-        _requestHandlers(*this),
-#if defined(SERVICES_HAVE_CONTEXTS)
-        _contexts(),
-#endif // defined(SERVICES_HAVE_CONTEXTS)
-        _canonicalName(canonicalName), _description(description), _requestCount(0), _channelsHandler(NULL),
-#if defined(SERVICES_HAVE_CONTEXTS)
-        _clientsHandler(NULL),
-#endif // defined(SERVICES_HAVE_CONTEXTS)
+        _launchPath(*argv), _contextsLock(), _requestHandlers(*this), _contexts(), _canonicalName(canonicalName),
+        _description(description), _requestCount(0), _channelsHandler(NULL), _clientsHandler(NULL),
         _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL), _endpoint(NULL),
         _handler(NULL), _handlerCreator(NULL), _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
@@ -201,9 +181,7 @@ BaseService::~BaseService(void)
     delete _endpoint;
     delete _handler;
     delete _handlerCreator;
-#if defined(SERVICES_HAVE_CONTEXTS)
     clearContexts();
-#endif // defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJEXIT();//####
 } // BaseService::~BaseService
 
@@ -211,7 +189,6 @@ BaseService::~BaseService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-#if defined(SERVICES_HAVE_CONTEXTS)
 void BaseService::addContext(const yarp::os::ConstString & key,
                              BaseContext *                 context)
 {
@@ -234,7 +211,6 @@ void BaseService::addContext(const yarp::os::ConstString & key,
     }
     OD_LOG_OBJEXIT();//####
 } // BaseService::addContext
-#endif // defined(SERVICES_HAVE_CONTEXTS)
 
 void BaseService::attachRequestHandlers(void)
 {
@@ -242,25 +218,17 @@ void BaseService::attachRequestHandlers(void)
     try
     {
         _channelsHandler = new ChannelsRequestHandler(*this);
-#if defined(SERVICES_HAVE_CONTEXTS)
         _clientsHandler = new ClientsRequestHandler(*this);
-#endif // defined(SERVICES_HAVE_CONTEXTS)
         _countHandler = new CountRequestHandler(*this);
         _detachHandler = new DetachRequestHandler(*this);
         _infoHandler = new InfoRequestHandler;
         _listHandler = new ListRequestHandler;
         _nameHandler = new NameRequestHandler(*this);
-#if defined(SERVICES_HAVE_CONTEXTS)
         if (_channelsHandler && _clientsHandler && _countHandler &&  _detachHandler && _infoHandler && _listHandler &&
             _nameHandler)
-#else // ! defined(SERVICES_HAVE_CONTEXTS)
-        if (_channelsHandler && _countHandler && _detachHandler && _infoHandler && _listHandler && _nameHandler)
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
         {
             _requestHandlers.registerRequestHandler(_channelsHandler);
-#if defined(SERVICES_HAVE_CONTEXTS)
             _requestHandlers.registerRequestHandler(_clientsHandler);
-#endif // defined(SERVICES_HAVE_CONTEXTS)
             _requestHandlers.registerRequestHandler(_countHandler);
             _requestHandlers.registerRequestHandler(_detachHandler);
             _requestHandlers.registerRequestHandler(_infoHandler);
@@ -269,13 +237,8 @@ void BaseService::attachRequestHandlers(void)
         }
         else
         {
-#if defined(SERVICES_HAVE_CONTEXTS)
             OD_LOG("! (_channelsHandler && _clientsHandler && _countHandler &&  _detachHandler && "//####
                    "_infoHandler && _listHandler _nameHandler)");//####
-#else // ! defined(SERVICES_HAVE_CONTEXTS)
-            OD_LOG("! (_channelsHandler && _countHandler && _detachHandler && _infoHandler && _listHandler && "//####
-                   "_nameHandler)");//####
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
         }
     }
     catch (...)
@@ -286,7 +249,6 @@ void BaseService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // BaseService::attachRequestHandlers
 
-#if defined(SERVICES_HAVE_CONTEXTS)
 void BaseService::clearContexts(void)
 {
     OD_LOG_OBJENTER();//####
@@ -304,22 +266,14 @@ void BaseService::clearContexts(void)
     unlockContexts();
     OD_LOG_OBJEXIT();//####
 } // BaseService::clearContexts
-#endif // defined(SERVICES_HAVE_CONTEXTS)
 
 void BaseService::detachClient(const yarp::os::ConstString & key)
 {
-#if (! defined(SERVICES_HAVE_CONTEXTS))
-# if MAC_OR_LINUX_
-#  pragma unused(key)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(SERVICES_HAVE_CONTEXTS)
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("key = ", key.c_str());//####
     try
     {
-#if defined(SERVICES_HAVE_CONTEXTS)
         removeContext(key);
-#endif // defined(SERVICES_HAVE_CONTEXTS)
     }
     catch (...)
     {
@@ -340,14 +294,12 @@ void BaseService::detachRequestHandlers(void)
             delete _channelsHandler;
             _channelsHandler = NULL;
         }
-#if defined(SERVICES_HAVE_CONTEXTS)
         if (_clientsHandler)
         {
             _requestHandlers.unregisterRequestHandler(_clientsHandler);
             delete _clientsHandler;
             _clientsHandler = NULL;
         }
-#endif // defined(SERVICES_HAVE_CONTEXTS)
         if (_countHandler)
         {
             _requestHandlers.unregisterRequestHandler(_countHandler);
@@ -403,7 +355,6 @@ void BaseService::fillInSecondaryOutputChannelsList(StringVector & channels)
     OD_LOG_OBJEXIT();//####
 } // BaseService::fillInSecondaryOutputChannelsList
 
-#if defined(SERVICES_HAVE_CONTEXTS)
 void BaseService::fillInClientList(StringVector & clients)
 {
     OD_LOG_OBJENTER();//####
@@ -417,9 +368,7 @@ void BaseService::fillInClientList(StringVector & clients)
     unlockContexts();
     OD_LOG_OBJEXIT();//####
 } // BaseService::fillInClientList
-#endif // defined(SERVICES_HAVE_CONTEXTS)
 
-#if defined(SERVICES_HAVE_CONTEXTS)
 BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
 {
     OD_LOG_OBJENTER();//####
@@ -445,7 +394,6 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
     OD_LOG_OBJEXIT_P(result);//####
     return result;
 } // BaseService::findContext
-#endif // defined(SERVICES_HAVE_CONTEXTS)
 
 void BaseService::getStatistics(long long & count,
                                 double &    currentTime)
@@ -488,9 +436,9 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
                 if (! errorMessage.write(*replyMechanism))
                 {
                     OD_LOG("(! errorMessage.write(*replyMechanism))");//####
-#if defined(MpM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_StallOnSendProblem)
                     Common::Stall();
-#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_StallOnSendProblem)
                 }
             }
             result = false;
@@ -513,7 +461,6 @@ void BaseService::registerRequestHandler(BaseRequestHandler * handler)
     OD_LOG_OBJEXIT();//####
 } // BaseService::registerRequestHandler
 
-#if defined(SERVICES_HAVE_CONTEXTS)
 void BaseService::removeContext(const yarp::os::ConstString & key)
 {
     OD_LOG_OBJENTER();//####
@@ -542,7 +489,6 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
     }
     OD_LOG_OBJEXIT();//####
 } // BaseService::removeContext
-#endif // defined(SERVICES_HAVE_CONTEXTS)
 
 void BaseService::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
@@ -651,14 +597,14 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
         
         if (newChannel)
         {
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
             ChannelStatusReporter reporter;
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
             
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
             newChannel->setReporter(reporter);
             newChannel->getReport(reporter);
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
                 if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
@@ -693,22 +639,22 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
                     {
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
-#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+#if defined(MpM_DoExplicitDisconnect)
                     if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
                     {
                         OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
                                "STANDARD_WAIT_TIME))");//####
                     }
-#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
                            "false))");//####
                 }
-#if defined(MpM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DoExplicitClose)
                 newChannel->close();
-#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DoExplicitClose)
             }
             else
             {
@@ -743,14 +689,14 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
         
         if (newChannel)
         {
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
             ChannelStatusReporter reporter;
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
             
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
             newChannel->setReporter(reporter);
             newChannel->getReport(reporter);
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
                 if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
@@ -785,22 +731,22 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
                     {
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
-#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+#if defined(MpM_DoExplicitDisconnect)
                     if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
                     {
                         OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
                                "STANDARD_WAIT_TIME))");//####
                     }
-#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
                            "false))");//####
                 }
-#if defined(MpM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DoExplicitClose)
                 newChannel->close();
-#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DoExplicitClose)
             }
             else
             {

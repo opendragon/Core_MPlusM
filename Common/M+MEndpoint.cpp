@@ -83,10 +83,6 @@ using namespace MplusM::Common;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-#if defined(OD_ENABLE_LOGGING)
-# define REPORT_CONTACT_DETAILS /* Report details of the contacts during operations that might change them. */
-#endif // defined(OD_ENABLE_LOGGING)
-
 /*! @brief The carrier type to be used for service connections. */
 #define SERVICE_CHANNEL_CARRIER_ "tcp"
 
@@ -141,9 +137,9 @@ static bool checkHostName(yarp::os::Contact &           workingContact,
                           const yarp::os::ConstString & hostName,
                           const int                     portNumber)
 {
-#if defined(REPORT_CONTACT_DETAILS)
-    DumpContact("enter checkHostName", workingContact);//####
-#endif // defined(REPORT_CONTACT_DETAILS)
+#if defined(MpM_ReportContactDetails)
+    DumpContactToLog("enter checkHostName", workingContact);//####
+#endif // defined(MpM_ReportContactDetails)
     bool result = false;
     
     try
@@ -155,9 +151,9 @@ static bool checkHostName(yarp::os::Contact &           workingContact,
             
             OD_LOG_S1("ipAddress = ", ipAddress.c_str());//####
             workingContact = workingContact.addSocket(SERVICE_CHANNEL_CARRIER_, ipAddress, portNumber);
-#if defined(REPORT_CONTACT_DETAILS)
-            DumpContact("after addSocket", workingContact);//####
-#endif // defined(REPORT_CONTACT_DETAILS)
+#if defined(MpM_ReportContactDetails)
+            DumpContactToLog("after addSocket", workingContact);//####
+#endif // defined(MpM_ReportContactDetails)
             result = workingContact.isValid();
         }
         else
@@ -232,9 +228,9 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
         if (checkHostPort(realPort, portNumber))
         {
             _contact = yarp::os::Contact::byName(endpointName);
-#if defined(REPORT_CONTACT_DETAILS)
-            DumpContact("after byName", _contact);//####
-#endif // defined(REPORT_CONTACT_DETAILS)
+#if defined(MpM_ReportContactDetails)
+            DumpContactToLog("after byName", _contact);//####
+#endif // defined(MpM_ReportContactDetails)
             if (checkHostName(_contact, hostName, realPort))
             {
                 // Ready to be set up... we have a valid port, and either a blank URI or a valid one.
@@ -297,9 +293,9 @@ void Endpoint::close(void)
                 {
                     yarp::os::Network::unregisterName(_contact.getName());
                 }
-#if defined(MpM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DoExplicitClose)
                 _channel->close();
-#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DoExplicitClose)
                 ServiceChannel::RelinquishChannel(_channel);
             }
             _handler = NULL;
@@ -331,15 +327,15 @@ bool Endpoint::open(const double timeToWait)
                 {
                     OD_LOG("(0 < _contact.getHost().length())");//####
                     _contact = yarp::os::Network::registerContact(_contact);
-#if defined(REPORT_CONTACT_DETAILS)
-                    DumpContact("after registerContact", _contact);//####
-#endif // defined(REPORT_CONTACT_DETAILS)
+#if defined(MpM_ReportContactDetails)
+                    DumpContactToLog("after registerContact", _contact);//####
+#endif // defined(MpM_ReportContactDetails)
                     if (_channel->openWithRetries(_contact, timeToWait))
                     {
                         _isOpen = true;
-#if defined(REPORT_CONTACT_DETAILS)
-                        DumpContact("after open", _channel->where());//####
-#endif // defined(REPORT_CONTACT_DETAILS)
+#if defined(MpM_ReportContactDetails)
+                        DumpContactToLog("after open", _channel->where());//####
+#endif // defined(MpM_ReportContactDetails)
                     }
                     else
                     {
@@ -350,9 +346,9 @@ bool Endpoint::open(const double timeToWait)
                 {
                     OD_LOG("(_channel->openWithRetries(_contact.getName()))");//####
                     _isOpen = true;
-#if defined(REPORT_CONTACT_DETAILS)
-                    DumpContact("after open", _channel->where());//####
-#endif // defined(REPORT_CONTACT_DETAILS)
+#if defined(MpM_ReportContactDetails)
+                    DumpContactToLog("after open", _channel->where());//####
+#endif // defined(MpM_ReportContactDetails)
                 }
                 else
                 {

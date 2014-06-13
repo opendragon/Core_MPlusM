@@ -160,9 +160,9 @@ bool Test15EchoRequestHandler::processRequest(const yarp::os::ConstString & requ
             if (! argsCopy.write(*replyMechanism))
             {
                 OD_LOG("(! argsCopy.write(*replyMechanism))");//####
-#if defined(MpM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_StallOnSendProblem)
                 Common::Stall();
-#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_StallOnSendProblem)
             }
         }
     }

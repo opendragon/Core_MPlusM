@@ -39,16 +39,16 @@
 #
 #--------------------------------------------------------------------------------------
 
-option(MpM_USE_OBJECTIVE_C_DEBUG "Use Objective C Debug" FALSE)
-mark_as_advanced(MpM_USE_OBJECTIVE_C_DEBUG)
+option(MpM_UseObjectiveCDebug "Use Objective C Debug" FALSE)
+mark_as_advanced(MpM_UseObjectiveCDebug)
 
-if(MpM_USE_OBJECTIVE_C_DEBUG)
+if(MpM_UseObjectiveCDebug)
     add_library(odLogging
                 ODLogging.m)
-else(MpM_USE_OBJECTIVE_C_DEBUG)
+else(MpM_UseObjectiveCDebug)
     add_library(odLogging
                 ODLogging.cpp)
-endif(MpM_USE_OBJECTIVE_C_DEBUG)
+endif(MpM_UseObjectiveCDebug)
 
 install(TARGETS odLogging DESTINATION lib)
 install(FILES

@@ -155,11 +155,8 @@ bool ClientsRequestHandler::processRequest(const yarp::os::ConstString & request
         if (replyMechanism)
         {
             Package      reply;
-#if defined(SERVICES_HAVE_CONTEXTS)
             StringVector clients;
-#endif // defined(SERVICES_HAVE_CONTEXTS)
             
-#if defined(SERVICES_HAVE_CONTEXTS)
             _service.fillInClientList(clients);
             for (size_t ii = 0, mm = clients.size(); mm > ii; ++ii)
             {
@@ -167,14 +164,13 @@ bool ClientsRequestHandler::processRequest(const yarp::os::ConstString & request
                 
                 reply.addString(aString.c_str());
             }
-#endif // defined(SERVICES_HAVE_CONTEXTS)
             OD_LOG_S1("reply <- ", reply.toString().c_str());
             if (! reply.write(*replyMechanism))
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####
-#if defined(MpM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_StallOnSendProblem)
                 Common::Stall();
-#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_StallOnSendProblem)
             }
         }
     }

@@ -110,12 +110,14 @@ AdapterChannel::~AdapterChannel(void)
 void AdapterChannel::close(void)
 {
     OD_LOG_OBJENTER();//####
+#if (! defined(MpM_DontUseTimeouts))
     SetUpCatcher();
+#endif // ! defined(MpM_DontUseTimeouts)
     try
     {
-#if (! defined(MpM_DONT_USE_TIMEOUTS))
+#if (! defined(MpM_DontUseTimeouts))
         BailOut bailer(*this, STANDARD_WAIT_TIME);
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DontUseTimeouts)
 
         inherited::interrupt();
         OD_LOG("about to close");//####
@@ -127,53 +129,43 @@ void AdapterChannel::close(void)
         OD_LOG("Exception caught");//####
         throw;
     }
+#if (! defined(MpM_DontUseTimeouts))
     ShutDownCatcher();
+#endif // ! defined(MpM_DontUseTimeouts)
     OD_LOG_OBJEXIT();//####
 } // AdapterChannel::close
 
 bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelName,
                                      const double                  timeToWait)
 {
-#if (defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
 # if MAC_OR_LINUX_
 #  pragma unused(timeToWait)
 # endif // MAC_OR_LINUX_
-#endif // defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
+#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
     OD_LOG_D1("timeToWait = ", timeToWait);//####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
-#if (! defined(MpM_DONT_USE_TIMEOUTS))
     int    retriesLeft = MAX_RETRIES;
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
     
-#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
     inherited::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
     inherited::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+#if RETRY_LOOPS_USE_TIMEOUTS
     SetUpCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
     try
     {
-#if defined(MpM_DONT_USE_TIMEOUTS)
+#if RETRY_LOOPS_USE_TIMEOUTS
+        BailOut bailer(*this, timeToWait);
+#endif // RETRY_LOOPS_USE_TIMEOUTS
+        
         do
         {
-            OD_LOG("about to open");//####
-            result = inherited::open(theChannelName);
-            if (! result)
-            {
-                OD_LOG("%%retry%%");//####
-                yarp::os::Time::delay(retryTime);
-                retryTime *= RETRY_MULTIPLIER;
-            }
-        }
-        while (! result);
-#else // ! defined(MpM_DONT_USE_TIMEOUTS)
-        do
-        {
-            BailOut bailer(*this, timeToWait);
-            
             OD_LOG("about to open");//####
             result = inherited::open(theChannelName);
             if (! result)
@@ -187,7 +179,6 @@ bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
             }
         }
         while ((! result) && (0 < retriesLeft));
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
         if (result)
         {
             _name = theChannelName;
@@ -198,7 +189,9 @@ bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
         OD_LOG("Exception caught");//####
         throw;
     }
+#if RETRY_LOOPS_USE_TIMEOUTS
     ShutDownCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // AdapterChannel::openWithRetries
@@ -209,12 +202,14 @@ void AdapterChannel::RelinquishChannel(AdapterChannel * & theChannel)
     OD_LOG_P1("theChannel = ", theChannel);//####
     if (theChannel)
     {
+#if (! defined(MpM_DontUseTimeouts))
         SetUpCatcher();
+#endif // ! defined(MpM_DontUseTimeouts)
         try
         {
-#if (! defined(MpM_DONT_USE_TIMEOUTS))
+#if (! defined(MpM_DontUseTimeouts))
             BailOut bailer(*theChannel, STANDARD_WAIT_TIME);
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DontUseTimeouts)
             
             delete theChannel;
             theChannel = NULL;
@@ -224,7 +219,9 @@ void AdapterChannel::RelinquishChannel(AdapterChannel * & theChannel)
             OD_LOG("Exception caught");//####
             throw;
         }
-        ShutDownCatcher();        
+#if (! defined(MpM_DontUseTimeouts))
+        ShutDownCatcher();
+#endif // ! defined(MpM_DontUseTimeouts)
     }
     OD_LOG_EXIT();//####
 } // AdapterChannel::RelinquishChannel

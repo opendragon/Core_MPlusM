@@ -101,17 +101,17 @@ bool Test03Handler::handleInput(const MplusM::Common::Package & input,
 #  pragma unused(input,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
-#if ((! defined(MpM_CHANNELS_USE_RPC)) && (! defined(OD_ENABLE_LOGGING)))
+#if ((! defined(MpM_ChannelsUseRpc)) && (! defined(OD_ENABLE_LOGGING)))
 # if MAC_OR_LINUX_
 #  pragma unused(replyMechanism)
 # endif // MAC_OR_LINUX_
-#endif // (! defined(MpM_CHANNELS_USE_RPC)) && (! defined(OD_ENABLE_LOGGING))
+#endif // (! defined(MpM_ChannelsUseRpc)) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
-#if defined(MpM_CHANNELS_USE_RPC)
+#if defined(MpM_ChannelsUseRpc)
     if (replyMechanism)
     {
         MplusM::Common::Package dummy;
@@ -119,12 +119,12 @@ bool Test03Handler::handleInput(const MplusM::Common::Package & input,
         if (! dummy.write(*replyMechanism))
         {
             OD_LOG("(! dummy.write(*replyMechanism))");//####
-# if defined(MpM_STALL_ON_SEND_PROBLEM)
+# if defined(MpM_StallOnSendProblem)
             Common::Stall();
-# endif // defined(MpM_STALL_ON_SEND_PROBLEM)
+# endif // defined(MpM_StallOnSendProblem)
         }
     }
-#endif // defined(MpM_CHANNELS_USE_RPC)
+#endif // defined(MpM_ChannelsUseRpc)
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // Test03Handler::handleInput

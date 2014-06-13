@@ -147,13 +147,13 @@ int main(int      argc,
                 MplusM::Common::SetSignalHandlers(stopRunning);
                 if (stuff->findService("keyword random"))
                 {
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
                     MplusM::Common::ChannelStatusReporter reporter;
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
                     
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
                     stuff->setReporter(reporter, true);
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
                     if (stuff->connectToService())
                     {
                         MplusM::Common::AdapterChannel * inputChannel = new MplusM::Common::AdapterChannel(false);
@@ -174,12 +174,12 @@ int main(int      argc,
                                     outputName = argv[2];
                                 }
                             }
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
                             inputChannel->setReporter(reporter);
                             inputChannel->getReport(reporter);
                             outputChannel->setReporter(reporter);
                             outputChannel->getReport(reporter);
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
                             if (inputChannel->openWithRetries(inputName, STANDARD_WAIT_TIME) &&
                                 outputChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
                             {
@@ -189,11 +189,11 @@ int main(int      argc,
                                 inputChannel->setReader(*inputHandler);
                                 for ( ; lKeepRunning && sharedData.isActive(); )
                                 {
-#if defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
+#if defined(MpM_MainDoesDelayNotYield)
                                     yarp::os::Time::delay(ONE_SECOND_DELAY);
-#else // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
+#else // ! defined(MpM_MainDoesDelayNotYield)
                                     yarp::os::Time::yield();
-#endif // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
+#endif // ! defined(MpM_MainDoesDelayNotYield)
                                     if (! lKeepRunning)
                                     {
                                         sharedData.deactivate();
@@ -207,10 +207,10 @@ int main(int      argc,
                                        "outputChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))");//####
                                 cerr << "Problem opening a channel." << endl;
                             }
-#if defined(MpM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DoExplicitClose)
                             inputChannel->close();
                             outputChannel->close();
-#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DoExplicitClose)
                         }
                         else
                         {

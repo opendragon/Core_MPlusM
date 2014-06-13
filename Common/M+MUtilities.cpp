@@ -101,7 +101,7 @@ static const char * kMagicName = "<!!!>";
 
 #if (! MAC_OR_LINUX_)
 //ASSUME WINDOWS
-# define strtok_r strtok_s
+# define strtok_r strtok_s /* Equivalent routine for Windows. */
 #endif // defined (! MAC_OR_LINUX_)
 
 /*! @brief Check if the response is for an input connection.
@@ -548,13 +548,13 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
         
         if (newChannel)
         {
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
             ChannelStatusReporter reporter;
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
             
-#if defined(MpM_REPORT_ON_CONNECTIONS)
+#if defined(MpM_ReportOnConnections)
             newChannel->setReporter(reporter);
-#endif // defined(MpM_REPORT_ON_CONNECTIONS)
+#endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, timeToWait))
             {
                 if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait, false))
@@ -574,20 +574,20 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
                     {
                         OD_LOG("! (request.send(*newChannel, &response))");//####
                     }
-#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+#if defined(MpM_DoExplicitDisconnect)
                     if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait))
                     {
                         OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait))");//####
                     }
-#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait, false))");//####
                 }
-#if defined(MpM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DoExplicitClose)
                 newChannel->close();
-#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DoExplicitClose)
             }
             else
             {
@@ -762,20 +762,20 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                         result = false;
                     }
                 }
-#if defined(MpM_DO_EXPLICIT_DISCONNECT)
+#if defined(MpM_DoExplicitDisconnect)
                 if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait))
                 {
                     OD_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, timeToWait))");//####
                 }
-#endif // defined(MpM_DO_EXPLICIT_DISCONNECT)
+#endif // defined(MpM_DoExplicitDisconnect)
             }
             else
             {
                 OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, false))");//####
             }
-#if defined(MpM_DO_EXPLICIT_CLOSE)
+#if defined(MpM_DoExplicitClose)
             newChannel->close();
-#endif // defined(MpM_DO_EXPLICIT_CLOSE)
+#endif // defined(MpM_DoExplicitClose)
         }
         else
         {

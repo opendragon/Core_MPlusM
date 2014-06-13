@@ -113,9 +113,9 @@ bool Test04Handler::handleInput(const MplusM::Common::Package & input,
         if (! inputCopy.write(*replyMechanism))
         {
             OD_LOG("(! inputCopy.write(*replyMechanism))");//####
-#if defined(MpM_STALL_ON_SEND_PROBLEM)
+#if defined(MpM_StallOnSendProblem)
             Common::Stall();
-#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
+#endif // defined(MpM_StallOnSendProblem)
         }
     }
     OD_LOG_OBJEXIT_B(result);//####

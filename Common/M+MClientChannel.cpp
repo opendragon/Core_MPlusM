@@ -107,40 +107,27 @@ ClientChannel::~ClientChannel(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-/*! @brief Add an output to the channel, using a backoff strategy with retries.
- @param theChannelToBeAdded The output to be added to the channel.
- @returns @c true if the channel was opened and @c false if it could not be opened. */
-bool ClientChannel::addOutputWithRetries(const yarp::os::ConstString & theChannelToBeAdded)
+bool ClientChannel::addOutputWithRetries(const yarp::os::ConstString & theChannelToBeAdded,
+                                         const double                  timeToWait)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("theChannelToBeAdded = ", theChannelToBeAdded.c_str());//####
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
-#if (! defined(MpM_DONT_USE_TIMEOUTS))
     int    retriesLeft = MAX_RETRIES;
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
     
+#if RETRY_LOOPS_USE_TIMEOUTS
     SetUpCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
     try
     {
-#if defined(MpM_DONT_USE_TIMEOUTS)
+#if RETRY_LOOPS_USE_TIMEOUTS
+        BailOut bailer(*this, timeToWait);
+#endif // RETRY_LOOPS_USE_TIMEOUTS
+
         do
         {
-            OD_LOG("about to add an output");//####
-            result = inherited::addOutput(theChannelToBeAdded);
-            if (! result)
-            {
-                OD_LOG("%%retry%%");//####
-                yarp::os::Time::delay(retryTime);
-                retryTime *= RETRY_MULTIPLIER;
-            }
-        }
-        while (! result);
-#else // ! defined(MpM_DONT_USE_TIMEOUTS)
-        do
-        {
-            BailOut bailer(*this, STANDARD_WAIT_TIME);
-            
             OD_LOG("about to add an output");//####
             result = inherited::addOutput(theChannelToBeAdded);
             if (! result)
@@ -154,14 +141,15 @@ bool ClientChannel::addOutputWithRetries(const yarp::os::ConstString & theChanne
             }
         }
         while ((! result) && (0 < retriesLeft));
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
     }
     catch (...)
     {
         OD_LOG("Exception caught");//####
         throw;
     }
+#if RETRY_LOOPS_USE_TIMEOUTS
     ShutDownCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // ClientChannel::addOutputWithRetries
@@ -169,12 +157,14 @@ bool ClientChannel::addOutputWithRetries(const yarp::os::ConstString & theChanne
 void ClientChannel::close(void)
 {
     OD_LOG_OBJENTER();//####
+#if (! defined(MpM_DontUseTimeouts))
     SetUpCatcher();
+#endif // ! defined(MpM_DontUseTimeouts)
     try
     {
-#if (! defined(MpM_DONT_USE_TIMEOUTS))
+#if (! defined(MpM_DontUseTimeouts))
         BailOut bailer(*this, STANDARD_WAIT_TIME);
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DontUseTimeouts)
         
         inherited::interrupt();
         OD_LOG("about to close");//####
@@ -186,59 +176,45 @@ void ClientChannel::close(void)
         OD_LOG("Exception caught");//####
         throw;
     }
+#if (! defined(MpM_DontUseTimeouts))
     ShutDownCatcher();
+#endif // ! defined(MpM_DontUseTimeouts)
     OD_LOG_OBJEXIT();//####
 } // ClientChannel::close
 
 bool ClientChannel::openWithRetries(const yarp::os::ConstString & theChannelName,
                                     const double                  timeToWait)
 {
-#if (defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
 # if MAC_OR_LINUX_
 #  pragma unused(timeToWait)
 # endif // MAC_OR_LINUX_
-#endif // defined(MpM_DONT_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
+#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
     OD_LOG_D1("timeToWait = ", timeToWait);//####
     bool   result = false;
     double retryTime = INITIAL_RETRY_INTERVAL;
-#if (! defined(MpM_DONT_USE_TIMEOUTS))
     int    retriesLeft = MAX_RETRIES;
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
     
-#if (! defined(MpM_CHANNELS_USE_RPC))
-# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+#if (! defined(MpM_ChannelsUseRpc))
+# if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
     inherited::setVerbosity(1);
-# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
+# else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
     inherited::setVerbosity(-1);
-# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LOG_INCLUDES_YARP_TRACE))
-#endif // ! defined(MpM_CHANNELS_USE_RPC)
+# endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+#endif // ! defined(MpM_ChannelsUseRpc)
+#if RETRY_LOOPS_USE_TIMEOUTS
     SetUpCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
     try
     {
-#if defined(MpM_DONT_USE_TIMEOUTS)
+#if RETRY_LOOPS_USE_TIMEOUTS
+        BailOut bailer(*this, timeToWait);
+#endif // RETRY_LOOPS_USE_TIMEOUTS
+
         do
         {
-            OD_LOG("about to open");//####
-            result = inherited::open(theChannelName);
-            if (! result)
-            {
-                OD_LOG("%%retry%%");//####
-                yarp::os::Time::delay(retryTime);
-                retryTime *= RETRY_MULTIPLIER;
-            }
-            if (result)
-            {
-                _name = theChannelName;
-            }
-        }
-        while (! result);
-#else // ! defined(MpM_DONT_USE_TIMEOUTS)
-        do
-        {
-            BailOut bailer(*this, timeToWait);
-            
             OD_LOG("about to open");//####
             result = inherited::open(theChannelName);
             if (! result)
@@ -252,7 +228,6 @@ bool ClientChannel::openWithRetries(const yarp::os::ConstString & theChannelName
             }
         }
         while ((! result) && (0 < retriesLeft));
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
         if (result)
         {
             _name = theChannelName;
@@ -263,7 +238,9 @@ bool ClientChannel::openWithRetries(const yarp::os::ConstString & theChannelName
         OD_LOG("Exception caught");//####
         throw;
     }
+#if RETRY_LOOPS_USE_TIMEOUTS
     ShutDownCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // ClientChannel::openWithRetries
@@ -272,12 +249,14 @@ void ClientChannel::RelinquishChannel(ClientChannel * & theChannel)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("theChannel = ", theChannel);//####
+#if (! defined(MpM_DontUseTimeouts))
     SetUpCatcher();
+#endif // ! defined(MpM_DontUseTimeouts)
     try
     {
-#if (! defined(MpM_DONT_USE_TIMEOUTS))
+#if (! defined(MpM_DontUseTimeouts))
         BailOut bailer(*theChannel, STANDARD_WAIT_TIME);
-#endif // ! defined(MpM_DONT_USE_TIMEOUTS)
+#endif // ! defined(MpM_DontUseTimeouts)
         
         delete theChannel;
         theChannel = NULL;
@@ -287,7 +266,9 @@ void ClientChannel::RelinquishChannel(ClientChannel * & theChannel)
         OD_LOG("Exception caught");//####
         throw;
     }
+#if (! defined(MpM_DontUseTimeouts))
     ShutDownCatcher();
+#endif // ! defined(MpM_DontUseTimeouts)
     OD_LOG_EXIT();//####
 } // ClientChannel::RelinquishChannel
 

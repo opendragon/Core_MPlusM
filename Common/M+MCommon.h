@@ -127,16 +127,13 @@
 # define INITIAL_RETRY_INTERVAL    0.1
 
 /*! @brief The maximum number of retries before declaring failure, if not using timeouts. */
-# define MAX_RETRIES               20
+# define MAX_RETRIES               5
 
 /*! @brief The delay value corresponding to one second of delay. */
 # define ONE_SECOND_DELAY          1.0
 
 /*! @brief The retry interval multiplier. */
 # define RETRY_MULTIPLIER          1.2
-
-/*! @brief All M+M services maintain contexts for each incoming channel connection. */
-# define SERVICES_HAVE_CONTEXTS    /* */
 
 /*! @brief The signal to use for internally-detected timeouts. */
 # if MAC_OR_LINUX_
@@ -151,6 +148,9 @@
 /*! @brief A simple macro to hold the pieces of a string together. */
 # define T_(xx)                    xx
 
+/*! @brief @c TRUE if retry loops use timeouts and @c FALSE otherwise. */
+# define RETRY_LOOPS_USE_TIMEOUTS ((! defined(MpM_DontUseTimeouts)) && defined(MpM_UseTimeoutsInRetryLoops))
+
 namespace MplusM
 {
     namespace Common
@@ -160,8 +160,10 @@ namespace MplusM
         {
             /*! @brief The connection is a TCP connection. */
             kChannelModeTCP,
+
             /*! @brief The connection is a UDP connection. */
             kChannelModeUDP,
+            
             /*! @brief The connection is neither a TCP nor a UDP connection. */
             kChannelModeOther
         }; // ChannelMode
@@ -171,6 +173,7 @@ namespace MplusM
         {
             /*! @brief The name of the port being connected to. */
             yarp::os::ConstString _portName;
+            
             /*! @brief The mode of the connection. */
             ChannelMode           _portMode;
         }; // ChannelDescription
@@ -188,13 +191,14 @@ namespace MplusM
         typedef std::vector<yarp::os::ConstString> StringVector;
         
         /*! @brief A signal handler. */
-        typedef void (*SignalHandler) (int signal);
+        typedef void (* SignalHandler)
+                        (int signal);
         
         /*! @brief Dump out a description of the provided connection information to the log.
          @param tag A unique string used to identify the call point for the output.
          @param aContact The connection information to be reported. */
-        void DumpContact(const char *              tag,
-                         const yarp::os::Contact & aContact);
+        void DumpContactToLog(const char *              tag,
+                              const yarp::os::Contact & aContact);
         
         /*! @brief Generate a random channel name.
          @returns A randomly-generated channel name. */

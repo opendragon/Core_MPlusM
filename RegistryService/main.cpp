@@ -82,13 +82,12 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-#if defined(MpM_USE_DISK_DATABASE)
 /*! @brief Set to @c true to use an in-memory database and @c false to use a disk-based database. */
+#if defined(MpM_UseDiskDatabase)
 # define USE_INMEMORY false
-#else // ! defined(MpM_USE_DISK_DATABASE)
-/*! @brief Set to @c true to use an in-memory database and @c false to use a disk-based database. */
+#else // ! defined(MpM_UseDiskDatabase)
 # define USE_INMEMORY true
-#endif // ! defined(MpM_USE_DISK_DATABASE)
+#endif // ! defined(MpM_UseDiskDatabase)
 
 /*! @brief Run loop control; @c true if the service is to keep going and @c false otherwise. */
 static bool lKeepRunning;
@@ -126,13 +125,13 @@ static void stopRunning(int signal)
 int main(int      argc,
          char * * argv)
 {
-#if defined(MpM_SERVICES_LOG_TO_STDERR)
+#if defined(MpM_ServicesLogToStandardError)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport);//####
-#else // ! defined(MpM_SERVICES_LOG_TO_STDERR)
+#else // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport);//####
-#endif // ! defined(MpM_SERVICES_LOG_TO_STDERR)
+#endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER();//####
     try
     {
@@ -177,11 +176,11 @@ int main(int      argc,
                     MplusM::Common::SetSignalHandlers(stopRunning);
                     for ( ; lKeepRunning && stuff; )
                     {
-#if defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
+#if defined(MpM_MainDoesDelayNotYield)
                         yarp::os::Time::delay(ONE_SECOND_DELAY);
-#else // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
+#else // ! defined(MpM_MainDoesDelayNotYield)
                         yarp::os::Time::yield();
-#endif // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
+#endif // ! defined(MpM_MainDoesDelayNotYield)
                     }
                     stuff->stop();
                 }
