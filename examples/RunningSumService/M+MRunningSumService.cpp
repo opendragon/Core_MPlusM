@@ -93,7 +93,7 @@ RunningSumService::RunningSumService(const char *                  launchPath,
                   servicePortNumber), _addHandler(NULL), _resetHandler(NULL), _startHandler(NULL), _stopHandler(NULL)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launcHpath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+    OD_LOG_S4("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
               "serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####

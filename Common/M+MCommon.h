@@ -135,6 +135,21 @@
 /*! @brief The retry interval multiplier. */
 # define RETRY_MULTIPLIER          1.2
 
+/*! @brief The standard command-line options. */
+# define STANDARD_OPTIONS          "jt"
+
+/*! @brief A TAB character. */
+# define CHAR_TAB                  "\t"
+
+/*! @brief A NEWLINE character. */
+# define CHAR_NEWLINE              "\n"
+
+/*! @brief A BACKSLASH character. */
+# define CHAR_BACKSLASH            "\\"
+
+/*! @brief A DOUBLEQUOTE character. */
+# define CHAR_DOUBLEQUOTE          "\""
+
 /*! @brief The signal to use for internally-detected timeouts. */
 # if MAC_OR_LINUX_
 #  define STANDARD_SIGNAL_TO_USE   SIGUSR2
@@ -167,6 +182,19 @@ namespace MplusM
             /*! @brief The connection is neither a TCP nor a UDP connection. */
             kChannelModeOther
         }; // ChannelMode
+        
+        /*! @brief The format for the output from command-line tools. */
+        enum OutputFlavour
+        {
+            /*! @brief Normal output with no special processing. */
+            kOutputFlavourNormal,
+            
+            /*! @brief Output in JSON format. Tabs and newlines are replaced with spaces. */
+            kOutputFlavourJSON,
+            
+            /*! @brief Output in tab-delimited format. Tabs and newlines are replaced with spaces. */
+            kOutputFlavourTabs
+        }; // OutputFlavour
         
         /*! @brief A description of a channel. */
         struct ChannelDescription
@@ -262,6 +290,13 @@ namespace MplusM
                            const char *                  heading,
                            const yarp::os::ConstString & description);
 
+    /*! @brief Return a string with special characters escaped.
+     @param inString The string to be processed.
+     @param allowDoubleQuotes @c true if double quotes aren't escaped and @c false otherwise.
+     @returns A string with special characters escaped. */
+    yarp::os::ConstString SanitizeString(const yarp::os::ConstString & inString,
+                                         const bool                    allowDoubleQuotes = false);
+    
 } // MplusM
 
 #endif // ! defined(MpMCommon_H_)

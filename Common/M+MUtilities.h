@@ -107,6 +107,9 @@ namespace MplusM
             /*! @brief @c true if the port is associated and @c false if it is an associate, in which case the first
              input port is the primary for the association. */
             bool                 _primary;
+            
+            /*! @brief @c true if the association data is valid and @c false otherwise. */
+            bool                 _valid;
         }; // PortAssociation
         
         /*! @brief The attributes of a port. */

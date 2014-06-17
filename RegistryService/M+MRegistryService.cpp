@@ -48,13 +48,14 @@
 #include "M+MGetAssociatesRequestHandler.h"
 #include "M+MMatchExpression.h"
 #include "M+MMatchRequestHandler.h"
+#include "M+MPingRequestHandler.h"
 #include "M+MRegisterRequestHandler.h"
 #include "M+MRequests.h"
 #include "M+MServiceRequest.h"
 #include "M+MServiceResponse.h"
 #include "M+MUnregisterRequestHandler.h"
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #include <cstring>
@@ -1588,8 +1589,8 @@ RegistryService::RegistryService(const char *                  launchPath,
                   "unregister - remove the information for a service on the given channel", MpM_REGISTRY_CHANNEL_NAME,
                   serviceHostName, servicePortNumber), _db(NULL), _validator(new ColumnNameValidator),
         _associateHandler(NULL), _disassociateHandler(NULL), _getAssociatesHandler(NULL), _matchHandler(NULL),
-        _statusChannel(NULL), _registerHandler(NULL), _unregisterHandler(NULL), _inMemory(useInMemoryDb),
-        _isActive(false)
+        _pingHandler(NULL), _statusChannel(NULL), _registerHandler(NULL), _unregisterHandler(NULL),
+        _inMemory(useInMemoryDb), _isActive(false)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("launchPath = ", launchPath);//####
@@ -1821,22 +1822,24 @@ void RegistryService::attachRequestHandlers(void)
         _disassociateHandler = new DisassociateRequestHandler(*this);
         _getAssociatesHandler = new GetAssociatesRequestHandler(*this);
         _matchHandler = new MatchRequestHandler(*this, _validator);
+        _pingHandler = new PingRequestHandler(*this);
         _registerHandler = new RegisterRequestHandler(*this);
         _unregisterHandler = new UnregisterRequestHandler(*this);
-        if (_associateHandler && _disassociateHandler && _getAssociatesHandler && _matchHandler && _registerHandler &&
-            _unregisterHandler)
+        if (_associateHandler && _disassociateHandler && _getAssociatesHandler && _matchHandler && _pingHandler &&
+            _registerHandler && _unregisterHandler)
         {
             registerRequestHandler(_associateHandler);
             registerRequestHandler(_disassociateHandler);
             registerRequestHandler(_getAssociatesHandler);
             registerRequestHandler(_matchHandler);
+            registerRequestHandler(_pingHandler);
             registerRequestHandler(_registerHandler);
             registerRequestHandler(_unregisterHandler);
         }
         else
         {
             OD_LOG("! (_associateHandler && _disassociateHandler && _getAssociatesHandler && _matchHandler && "
-                   "_registerHandler && _unregisterHandler)");//####
+                   "_pingHandler && _registerHandler && _unregisterHandler)");//####
         }
     }
     catch (...)
@@ -1875,6 +1878,12 @@ void RegistryService::detachRequestHandlers(void)
             unregisterRequestHandler(_matchHandler);
             delete _matchHandler;
             _matchHandler = NULL;
+        }
+        if (_pingHandler)
+        {
+            unregisterRequestHandler(_pingHandler);
+            delete _pingHandler;
+            _pingHandler = NULL;
         }
         if (_registerHandler)
         {
@@ -2377,7 +2386,7 @@ bool RegistryService::start(void)
             if (isStarted() && setUpDatabase() && setUpStatusChannel())
             {
                 // Register ourselves!!!
-                yarp::os::ConstString   aName(Common::GetRandomChannelName(MpM_REGISTRY_CHANNEL_NAME "/temp_"));
+                yarp::os::ConstString   aName(Common::GetRandomChannelName(MpM_REGISTRY_CHANNEL_NAME "/_temp_"));
                 Common::ClientChannel * newChannel = new Common::ClientChannel;
                 
                 if (newChannel)

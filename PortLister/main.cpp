@@ -89,76 +89,369 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Report the connections for a given port.
+ @param flavour The format for the output.
  @param portName The port to be inspected. */
-static void reportConnections(const yarp::os::ConstString & portName)
+static void reportConnections(const MplusM::Common::OutputFlavour flavour,
+                              const yarp::os::ConstString &       portName)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("portName = ", portName.c_str());//####
-    OD_LOG_B1("quiet = ", quiet);//####
-    bool                          sawConnection = false;
+    bool                          sawInputs = false;
+    bool                          sawOutputs = false;
     MplusM::Common::ChannelVector inputs;
     MplusM::Common::ChannelVector outputs;
+    yarp::os::ConstString         inputsAsString;
+    yarp::os::ConstString         outputsAsString;
 
     MplusM::Utilities::GatherPortConnections(portName, inputs, outputs, MplusM::Utilities::kInputAndOutputBoth, false);
     for (MplusM::Common::ChannelVector::const_iterator walker(inputs.begin()); inputs.end() != walker; ++walker)
     {
-        cout << "   Input from " << walker->_portName.c_str();
-        switch (walker->_portMode)
+        switch (flavour)
         {
-            case MplusM::Common::kChannelModeTCP:
-                cout << " via TCP.";
+            case MplusM::Common::kOutputFlavourTabs:
+                if (sawInputs)
+                {
+                    inputsAsString += ", ";
+                }
+                inputsAsString += MplusM::SanitizeString(walker->_portName, true);
+                switch (walker->_portMode)
+                {
+                    case MplusM::Common::kChannelModeTCP:
+                        inputsAsString += " TCP";
+                        break;
+                        
+                    case MplusM::Common::kChannelModeUDP:
+                        inputsAsString += " UDP";
+                        break;
+                        
+                    default:
+                        inputsAsString += " unknown";
+                        break;
+                        
+                }
                 break;
                 
-            case MplusM::Common::kChannelModeUDP:
-                cout << " via UDP.";
+            case MplusM::Common::kOutputFlavourJSON:
+                if (sawInputs)
+                {
+                    inputsAsString += ", ";
+                }
+                inputsAsString += T_("{ " CHAR_DOUBLEQUOTE "Port" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
+                inputsAsString += MplusM::SanitizeString(walker->_portName);
+                inputsAsString += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Mode" CHAR_DOUBLEQUOTE ": "
+                                     CHAR_DOUBLEQUOTE);
+                switch (walker->_portMode)
+                {
+                    case MplusM::Common::kChannelModeTCP:
+                        inputsAsString += "TCP";
+                        break;
+                        
+                    case MplusM::Common::kChannelModeUDP:
+                        inputsAsString += "UDP";
+                        break;
+                        
+                    default:
+                        inputsAsString += "unknown";
+                        break;
+                        
+                }
+                inputsAsString += T_(CHAR_DOUBLEQUOTE " }");
                 break;
                 
             default:
-                cout << " via non-TCP/non-UDP.";
+                inputsAsString += "   Input from ";
+                inputsAsString += MplusM::SanitizeString(walker->_portName, true);
+                switch (walker->_portMode)
+                {
+                    case MplusM::Common::kChannelModeTCP:
+                        inputsAsString += " via TCP.";
+                        break;
+                        
+                    case MplusM::Common::kChannelModeUDP:
+                        inputsAsString += " via UDP.";
+                        break;
+                        
+                    default:
+                        inputsAsString += " via non-TCP/non-UDP.";
+                        break;
+                        
+                }
+                inputsAsString += "\n";
                 break;
                 
         }
-        cout << endl;
-        sawConnection = true;
+        sawInputs = true;
     }
     for (MplusM::Common::ChannelVector::const_iterator walker(outputs.begin()); outputs.end() != walker; ++walker)
     {
-        cout << "   Output to " << walker->_portName.c_str();
-        switch (walker->_portMode)
+        switch (flavour)
         {
-            case MplusM::Common::kChannelModeTCP:
-                cout << " via TCP.";
+            case MplusM::Common::kOutputFlavourTabs:
+                if (sawOutputs)
+                {
+                    outputsAsString += ", ";
+                }
+                outputsAsString += MplusM::SanitizeString(walker->_portName, true);
+                switch (walker->_portMode)
+                {
+                    case MplusM::Common::kChannelModeTCP:
+                        outputsAsString += " TCP";
+                        break;
+                        
+                    case MplusM::Common::kChannelModeUDP:
+                        outputsAsString += " UDP";
+                        break;
+                        
+                    default:
+                        outputsAsString += " unknown";
+                        break;
+                        
+                }
                 break;
                 
-            case MplusM::Common::kChannelModeUDP:
-                cout << " via UDP.";
+            case MplusM::Common::kOutputFlavourJSON:
+                if (sawOutputs)
+                {
+                    outputsAsString += ", ";
+                }
+                outputsAsString += T_("{ " CHAR_DOUBLEQUOTE "Port" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
+                outputsAsString += MplusM::SanitizeString(walker->_portName);
+                outputsAsString += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Mode" CHAR_DOUBLEQUOTE ": "
+                                      CHAR_DOUBLEQUOTE);
+                switch (walker->_portMode)
+                {
+                    case MplusM::Common::kChannelModeTCP:
+                        outputsAsString += "TCP";
+                        break;
+                        
+                    case MplusM::Common::kChannelModeUDP:
+                        outputsAsString += "UDP";
+                        break;
+                        
+                    default:
+                        outputsAsString += "unknown";
+                        break;
+                        
+                }
+                outputsAsString += T_(CHAR_DOUBLEQUOTE " }");
                 break;
                 
             default:
-                cout << " via non-TCP/non-UDP.";
+                outputsAsString += "   Output to ";
+                outputsAsString += MplusM::SanitizeString(walker->_portName, true);
+                switch (walker->_portMode)
+                {
+                    case MplusM::Common::kChannelModeTCP:
+                        outputsAsString += " via TCP.";
+                        break;
+                        
+                    case MplusM::Common::kChannelModeUDP:
+                        outputsAsString += " via UDP.";
+                        break;
+                        
+                    default:
+                        outputsAsString += " via non-TCP/non-UDP.";
+                        break;
+                        
+                }
+                outputsAsString += "\n";
                 break;
                 
         }
-        cout << endl;
-        sawConnection = true;
+        sawOutputs = true;
     }
-    if (! sawConnection)
+    switch (flavour)
     {
-        cout << "   No active connections." << endl;
+        case MplusM::Common::kOutputFlavourTabs:
+            cout << inputsAsString.c_str() << "\t" << outputsAsString.c_str();
+            break;
+            
+        case MplusM::Common::kOutputFlavourJSON:
+            cout << T_(CHAR_DOUBLEQUOTE "Inputs" CHAR_DOUBLEQUOTE ": [ ") << inputsAsString.c_str() <<
+                    T_(" ], " CHAR_DOUBLEQUOTE "Outputs" CHAR_DOUBLEQUOTE ": [ ") << outputsAsString.c_str() << " ]";
+            break;
+            
+        default:
+            if (sawInputs || sawOutputs)
+            {
+                if (sawInputs)
+                {
+                    cout << inputsAsString.c_str();
+                }
+                if (sawOutputs)
+                {
+                    cout << outputsAsString.c_str();
+                }
+            }
+            else
+            {
+                cout << "   No active connections." << endl;
+            }
+            break;
+            
     }
     OD_LOG_EXIT();//####
 } // reportConnections
 
 /*! @brief Print out connection information for a port.
+ @param flavour The format for the output.
+ @param associates The associates of the port of interest. */
+static void reportAssociates(const MplusM::Common::OutputFlavour        flavour,
+                             const MplusM::Utilities::PortAssociation & associates)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("associates = ", &associates);//####
+    
+    if (associates._valid)
+    {
+        yarp::os::ConstString inputAssociates;
+        yarp::os::ConstString outputAssociates;
+        
+        if (associates._primary)
+        {
+            bool sawInput = false;
+            bool sawOutput = false;
+            
+            for (MplusM::Common::StringVector::const_iterator walker(associates._inputs.begin());
+                 associates._inputs.end() != walker; ++walker)
+            {
+                if (sawInput)
+                {
+                    inputAssociates += ", ";
+                }
+                if (MplusM::Common::kOutputFlavourJSON == flavour)
+                {
+                    inputAssociates += CHAR_DOUBLEQUOTE;
+                    inputAssociates += MplusM::SanitizeString(*walker);
+                    inputAssociates += CHAR_DOUBLEQUOTE;
+                }
+                else
+                {
+                    inputAssociates += MplusM::SanitizeString(*walker, true);
+                }
+                sawInput = true;
+            }
+            for (MplusM::Common::StringVector::const_iterator walker(associates._outputs.begin());
+                 associates._outputs.end() != walker; ++walker)
+            {
+                if (sawOutput)
+                {
+                    outputAssociates += ", ";
+                }
+                if (MplusM::Common::kOutputFlavourJSON == flavour)
+                {
+                    outputAssociates += CHAR_DOUBLEQUOTE;
+                    outputAssociates += MplusM::SanitizeString(*walker);
+                    outputAssociates += CHAR_DOUBLEQUOTE;
+                }
+                else
+                {
+                    outputAssociates += MplusM::SanitizeString(*walker, true);
+                }
+                sawOutput = true;
+            }
+            switch (flavour)
+            {
+                case MplusM::Common::kOutputFlavourTabs:
+                    // Skip over the missing fields.
+                    cout << "\tPrimary\t" << inputAssociates.c_str() << "\t" << outputAssociates.c_str();
+                    break;
+                    
+                case MplusM::Common::kOutputFlavourJSON:
+                    cout << T_(CHAR_DOUBLEQUOTE "Primary" CHAR_DOUBLEQUOTE ": true, " CHAR_DOUBLEQUOTE "AssocInputs"
+                               CHAR_DOUBLEQUOTE ": [ ") << inputAssociates.c_str() <<
+                            T_(" ], " CHAR_DOUBLEQUOTE "AssocOutputs" CHAR_DOUBLEQUOTE ": [ ") <<
+                            outputAssociates.c_str() << " ], ";
+                    break;
+                    
+                default:
+                    cout << " Primary port with inputs (" << inputAssociates.c_str() << ") and outputs (" <<
+                            outputAssociates.c_str() << ").";
+                    break;
+                    
+            }
+        }
+        else
+        {
+            switch (flavour)
+            {
+                case MplusM::Common::kOutputFlavourTabs:
+                    inputAssociates = MplusM::SanitizeString(associates._inputs[0], true);
+                    cout << "\tAssociate\t" << inputAssociates.c_str() << "\t";
+                    break;
+                    
+                case MplusM::Common::kOutputFlavourJSON:
+                    inputAssociates = MplusM::SanitizeString(associates._inputs[0]);
+                    cout << T_(CHAR_DOUBLEQUOTE "Primary" CHAR_DOUBLEQUOTE ": false, " CHAR_DOUBLEQUOTE "AssocInputs"
+                               CHAR_DOUBLEQUOTE ": [ " CHAR_DOUBLEQUOTE) << inputAssociates.c_str() <<
+                            T_(CHAR_DOUBLEQUOTE " ], " CHAR_DOUBLEQUOTE "AssocOutputs" CHAR_DOUBLEQUOTE ": [ ], ");
+                    break;
+                    
+                default:
+                    inputAssociates = MplusM::SanitizeString(associates._inputs[0], true);
+                    cout << " Port associated with " << inputAssociates.c_str() << ".";
+                    break;
+                    
+            }
+        }
+    }
+    else
+    {
+        switch (flavour)
+        {
+            case MplusM::Common::kOutputFlavourTabs:
+                // Skip over the missing fields.
+                cout << "\t\t\t";
+                break;
+                
+            case MplusM::Common::kOutputFlavourJSON:
+                cout << T_(CHAR_DOUBLEQUOTE "Primary" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE "null"
+                           CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "AssocInputs" CHAR_DOUBLEQUOTE ": [ ], "
+                           CHAR_DOUBLEQUOTE "AssocOutputs" CHAR_DOUBLEQUOTE ": [ ], ");
+                break;
+                
+            default:
+                break;
+                
+        }
+    }
+    OD_LOG_EXIT();//####
+} // reportAssociates
+
+/*! @brief Print out connection information for a port.
+ @param flavour The format for the output.
  @param aDescriptor The attributes of the port of interest.
  @param checkWithRegistry @c true if the Service Registry is available for requests and @c false otherwise. */
-static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescriptor,
+static void reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
+                             const MplusM::Utilities::PortDescriptor & aDescriptor,
                              const bool                                checkWithRegistry)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("aDescriptor = ", &aDescriptor);//####
     OD_LOG_B1("checkWithRegistry = ", checkWithRegistry);//####
-    cout << aDescriptor._portName.c_str() << ": ";
+    MplusM::Utilities::PortAssociation associates;
+    yarp::os::ConstString              portName;
+    yarp::os::ConstString              portClass;
+    
+    switch (flavour)
+    {
+        case MplusM::Common::kOutputFlavourTabs:
+            portName = MplusM::SanitizeString(aDescriptor._portName, true);
+            cout << portName.c_str() << "\t";
+            break;
+            
+        case MplusM::Common::kOutputFlavourJSON:
+            portName = MplusM::SanitizeString(aDescriptor._portName);
+            cout << T_("{ " CHAR_DOUBLEQUOTE "PortName" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                    portName.c_str() << T_(CHAR_DOUBLEQUOTE ", ");
+            break;
+            
+        default:
+            portName = MplusM::SanitizeString(aDescriptor._portName, true);
+            cout << portName.c_str() << ": ";
+            break;
+            
+    }
     if (checkWithRegistry)
     {
         yarp::os::ConstString request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
@@ -177,24 +470,26 @@ static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescript
                 switch (MplusM::Utilities::GetPortKind(aDescriptor._portName))
                 {
                     case MplusM::Utilities::kPortKindAdapter:
-                        cout << "Adapter port.";
+                        portClass = "Adapter port";
                         break;
                         
                     case MplusM::Utilities::kPortKindClient:
-                        cout << "Client port.";
+                        portClass = "Client port";
                         break;
                         
                     case MplusM::Utilities::kPortKindService:
-                        cout << "Unregistered service port.";
+                        portClass = "Unregistered service port";
                         break;
                         
                     case MplusM::Utilities::kPortKindServiceRegistry:
-                        cout << "Service Registry port.";
+                        portClass = "Service Registry port";
                         break;
                         
                     case MplusM::Utilities::kPortKindStandard:
-                        cout << "Standard port at " << aDescriptor._portIpAddress.c_str() << ":" <<
-                                aDescriptor._portPortNumber.c_str();
+                        portClass = "Standard port at ";
+                        portClass += aDescriptor._portIpAddress;
+                        portClass += ":";
+                        portClass += aDescriptor._portPortNumber;
                         break;
                         
                 }
@@ -213,11 +508,15 @@ static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescript
                         
                         if (aDescriptor._portName == MpM_REGISTRY_CHANNEL_NAME)
                         {
-                            cout << "Service registry port for '" << serviceName.c_str() << "'.";
+                            portClass = "Service registry port for '";
+                            portClass += serviceName;
+                            portClass += "'";
                         }
                         else
                         {
-                            cout << "Service port for '" << serviceName.c_str() << "'.";
+                            portClass = "Service port for '";
+                            portClass += serviceName;
+                            portClass += "'";
                         }
                     }
                     else
@@ -226,24 +525,26 @@ static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescript
                         switch (MplusM::Utilities::GetPortKind(aDescriptor._portName))
                         {
                             case MplusM::Utilities::kPortKindAdapter:
-                                cout << "Adapter port.";
+                                portClass = "Adapter port";
                                 break;
                                 
                             case MplusM::Utilities::kPortKindClient:
-                                cout << "Client port.";
+                                portClass = "Client port";
                                 break;
                                 
                             case MplusM::Utilities::kPortKindService:
-                                cout << "Unregistered service port.";
+                                portClass = "Unregistered service port";
                                 break;
                                 
                             case MplusM::Utilities::kPortKindServiceRegistry:
-                                cout << "Service Registry port.";
+                                portClass = "Service Registry port";
                                 break;
                                 
                             case MplusM::Utilities::kPortKindStandard:
-                                cout << "Standard port at " << aDescriptor._portIpAddress.c_str() << ":" <<
-                                        aDescriptor._portPortNumber.c_str();
+                                portClass = "Standard port at ";
+                                portClass += aDescriptor._portIpAddress;
+                                portClass += ":";
+                                portClass += aDescriptor._portPortNumber;
                                 break;
                                 
                         }
@@ -251,44 +552,23 @@ static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescript
                 }
             }
         }
-        MplusM::Utilities::PortAssociation associates;
-        
-        if (MplusM::Utilities::GetAssociatedPorts(aDescriptor._portName, associates, STANDARD_WAIT_TIME, true))
+        switch (flavour)
         {
-            if (associates._primary)
-            {
-                bool sawInput = false;
-                bool sawOutput = false;
+            case MplusM::Common::kOutputFlavourTabs:
+                cout << MplusM::SanitizeString(portClass, true).c_str() << "\t";
+                break;
                 
-                cout << " Primary port with inputs (";
-                for (MplusM::Common::StringVector::const_iterator walker(associates._inputs.begin());
-                     associates._inputs.end() != walker; ++walker)
-                {
-                    if (sawInput)
-                    {
-                        cout << ", ";
-                    }
-                    cout << walker->c_str();
-                    sawInput = true;
-                }
-                cout << ") and outputs (";
-                for (MplusM::Common::StringVector::const_iterator walker(associates._outputs.begin());
-                     associates._outputs.end() != walker; ++walker)
-                {
-                    if (sawOutput)
-                    {
-                        cout << ", ";
-                    }
-                    cout << walker->c_str();
-                    sawOutput = true;
-                }                
-                cout << ").";
-            }
-            else
-            {
-                cout << " Port associated with " << associates._inputs[0].c_str() << ".";
-            }
+            case MplusM::Common::kOutputFlavourJSON:
+                cout << T_(CHAR_DOUBLEQUOTE "PortClass" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                        MplusM::SanitizeString(portClass).c_str() << T_(CHAR_DOUBLEQUOTE ", ");
+                break;
+                
+            default:
+                cout << MplusM::SanitizeString(portClass, true).c_str() << ".";
+                break;
+                
         }
+        MplusM::Utilities::GetAssociatedPorts(aDescriptor._portName, associates, STANDARD_WAIT_TIME, true);
     }
     else
     {
@@ -298,30 +578,74 @@ static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescript
         switch (MplusM::Utilities::GetPortKind(aDescriptor._portName))
         {
             case MplusM::Utilities::kPortKindAdapter:
-                cout << "Adapter port.";
+                portClass = "Adapter port";
                 break;
                 
             case MplusM::Utilities::kPortKindClient:
-                cout << "Client port.";
+                portClass = "Client port";
                 break;
                 
             case MplusM::Utilities::kPortKindService:
-                cout << "Unregistered service port.";
+                portClass = "Unregistered service port";
                 break;
                 
             case MplusM::Utilities::kPortKindServiceRegistry:
-                cout << "Service Registry port.";
+                portClass = "Service Registry port";
                 break;
                 
             case MplusM::Utilities::kPortKindStandard:
-                cout << "Standard port at " << aDescriptor._portIpAddress.c_str() << ":" <<
-                        aDescriptor._portPortNumber.c_str();
+                portClass = "Standard port at ";
+                portClass += aDescriptor._portIpAddress;
+                portClass += ":";
+                portClass += aDescriptor._portPortNumber;
+                break;
+                
+        }
+        switch (flavour)
+        {
+            case MplusM::Common::kOutputFlavourTabs:
+                cout << MplusM::SanitizeString(portClass, true).c_str() << "\t";
+                break;
+                
+            case MplusM::Common::kOutputFlavourJSON:
+                cout << T_(CHAR_DOUBLEQUOTE "PortClass" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                        MplusM::SanitizeString(portClass).c_str() << T_(CHAR_DOUBLEQUOTE ", ");
+                break;
+                
+            default:
+                cout << MplusM::SanitizeString(portClass, true).c_str() << ".";
                 break;
                 
         }
     }
-    cout << endl;
-    reportConnections(aDescriptor._portName);
+    reportAssociates(flavour, associates);
+    switch (flavour)
+    {
+        case MplusM::Common::kOutputFlavourTabs:
+            break;
+            
+        case MplusM::Common::kOutputFlavourJSON:
+            break;
+            
+        default:
+            cout << endl;
+            break;
+            
+    }
+    reportConnections(flavour, aDescriptor._portName);
+    switch (flavour)
+    {
+        case MplusM::Common::kOutputFlavourTabs:
+            break;
+            
+        case MplusM::Common::kOutputFlavourJSON:
+            cout << " }";
+            break;
+            
+        default:
+            break;
+            
+    }
     OD_LOG_EXIT();//####
 } // reportPortStatus
 
@@ -338,12 +662,31 @@ static void reportPortStatus(const MplusM::Utilities::PortDescriptor & aDescript
 int main(int      argc,
          char * * argv)
 {
-#if MAC_OR_LINUX_
-# pragma unused(argc)
-#endif // MAC_OR_LINUX_
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
+    MplusM::Common::OutputFlavour flavour = MplusM::Common::kOutputFlavourNormal;
+    int                           cc;
+    
+    opterr = 0; // Suppress the error message resulting from an unknown option.
+    for (cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc; cc = getopt(argc, argv, STANDARD_OPTIONS))
+    {
+        switch (cc)
+        {
+            case 'j':
+                flavour = MplusM::Common::kOutputFlavourJSON;
+                break;
+                
+            case 't':
+                flavour = MplusM::Common::kOutputFlavourTabs;
+                break;
+                
+            default:
+                // Ignore unknown options.
+                break;
+                
+        }
+    }
     try
     {
 #if CheckNetworkWorks_
@@ -359,18 +702,63 @@ int main(int      argc,
             MplusM::Utilities::GetDetectedPortList(ports);
             bool serviceRegistryPresent = MplusM::Utilities::CheckForRegistryService(ports);
             
+            if (MplusM::Common::kOutputFlavourJSON == flavour)
+            {
+                cout << "[ ";
+            }
             for (MplusM::Utilities::PortVector::const_iterator walker(ports.begin()); ports.end() != walker; ++walker)
             {
-                if (! found)
+                switch (flavour)
                 {
-                    cout << "Ports:" << endl << endl;
-                    found = true;
+                    case MplusM::Common::kOutputFlavourJSON:
+                        if (found)
+                        {
+                            cout << "," << endl;
+                        }
+                        break;
+                        
+                    case MplusM::Common::kOutputFlavourTabs:
+                        if (found)
+                        {
+                            cout << endl;
+                        }
+                        break;
+                        
+                    default:
+                        if (! found)
+                        {
+                            cout << "Ports:" << endl << endl;
+                        }
+                        break;
+                        
                 }
-                reportPortStatus(*walker, serviceRegistryPresent);
+                found = true;
+                reportPortStatus(flavour, *walker, serviceRegistryPresent);
             }
-            if (! found)
+            switch (flavour)
             {
-                cout << "No ports found." << endl;
+                case MplusM::Common::kOutputFlavourTabs:
+                    if (found)
+                    {
+                        cout << endl;
+                    }
+                    break;
+                    
+                case MplusM::Common::kOutputFlavourJSON:
+                    cout << " ]" << endl;
+                    break;
+                    
+                default:
+                    if (found)
+                    {
+                        cout << endl;
+                    }
+                    else
+                    {
+                        cout << "No ports found." << endl;
+                    }
+                    break;
+                    
             }
         }
 #if CheckNetworkWorks_

@@ -255,6 +255,7 @@ static bool processGetAssociatesResponse(const Package &   response,
                     
                     if (responseSecond.isInt() && responseThird.isList() && responseFourth.isList())
                     {
+                        associates._valid = true;
                         associates._primary = (0 != responseSecond.asInt());
                         Package * thirdAsList = responseThird.asList();
                         Package * fourthAsList = responseFourth.asList();
@@ -540,10 +541,10 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
     
     associates._inputs.clear();
     associates._outputs.clear();
-    associates._primary = false;
+    associates._primary = associates._valid = false;
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName("/getassociates/channel_"));
+        yarp::os::ConstString aName(GetRandomChannelName("/getassociates_/" DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -653,7 +654,7 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
     OD_LOG_P1("descriptor = ", &descriptor);//####
     OD_LOG_D1("timeToWait = ", timeToWait);//####
     bool                  result = false;
-    yarp::os::ConstString aName(GetRandomChannelName("/servicelister/channel_"));
+    yarp::os::ConstString aName(GetRandomChannelName("/servicelister_/" DEFAULT_CHANNEL_ROOT));
     ClientChannel *       newChannel = new ClientChannel;
     
     if (newChannel)

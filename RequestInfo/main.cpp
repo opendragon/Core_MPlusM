@@ -215,6 +215,28 @@ int main(int      argc,
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
+    MplusM::Common::OutputFlavour flavour = MplusM::Common::kOutputFlavourNormal;
+    int                           cc;
+    
+    opterr = 0; // Suppress the error message resulting from an unknown option.
+    for (cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc; cc = getopt(argc, argv, STANDARD_OPTIONS))
+    {
+        switch (cc)
+        {
+            case 'j':
+                flavour = MplusM::Common::kOutputFlavourJSON;
+                break;
+                
+            case 't':
+                flavour = MplusM::Common::kOutputFlavourTabs;
+                break;
+                
+            default:
+                // Ignore unknown options.
+                break;
+                
+        }
+    }
     try
     {
 #if CheckNetworkWorks_
@@ -276,7 +298,8 @@ int main(int      argc,
                         if (matchesCount)
                         {
                             yarp::os::ConstString           aName =
-                                                        MplusM::Common::GetRandomChannelName("/requestinfo/channel_");
+                                                                MplusM::Common::GetRandomChannelName("/requestinfo_/"
+                                                                                                DEFAULT_CHANNEL_ROOT);
                             MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
                             
                             if (newChannel)

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MRegisterRequestHandler.cpp
+//  File:       M+MPingRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for the 'register' request.
+//  Contains:   The class definition for the request handler for the 'ping' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,11 +35,11 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-03
+//  Created:    2014-06-17
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MRegisterRequestHandler.h"
+#include "M+MPingRequestHandler.h"
 #include "M+MClientChannel.h"
 #include "M+MEndpoint.h"
 #include "M+MRegistryService.h"
@@ -70,7 +70,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for the 'register' request. */
+ @brief The class definition for the request handler for the 'ping' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -83,8 +83,8 @@ using namespace MplusM::Registry;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'register' request. */
-#define REGISTER_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'ping' request. */
+#define PING_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -98,34 +98,34 @@ using namespace MplusM::Registry;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RegisterRequestHandler::RegisterRequestHandler(RegistryService & service) :
-        inherited(MpM_REGISTER_REQUEST), _service(service)
+PingRequestHandler::PingRequestHandler(RegistryService & service) :
+        inherited(MpM_PING_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("service = ", &service);//####
     OD_LOG_EXIT_P(this);//####
-} // RegisterRequestHandler::RegisterRequestHandler
+} // PingRequestHandler::PingRequestHandler
 
-RegisterRequestHandler::~RegisterRequestHandler(void)
+PingRequestHandler::~PingRequestHandler(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // RegisterRequestHandler::~RegisterRequestHandler
+} // PingRequestHandler::~PingRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RegisterRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void PingRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
     alternateNames.push_back("remember");
     OD_LOG_OBJEXIT();//####
-} // RegisterRequestHandler::fillInAliases
+} // PingRequestHandler::fillInAliases
 
-void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                               yarp::os::Property &          info)
+void PingRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                           yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("request = ", request.c_str());//####
@@ -135,7 +135,7 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_STRING);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, REGISTER_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, PING_REQUEST_VERSION_NUMBER);
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Register the service and its requests\n"
                  "Input: the channel used by the service\n"
                  "Output: OK or FAILED, with a description of the problem encountered");
@@ -152,12 +152,12 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // RegisterRequestHandler::fillInDescription
+} // PingRequestHandler::fillInDescription
 
-bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                            const Common::Package &       restOfInput,
-                                            const yarp::os::ConstString & senderChannel,
-                                            yarp::os::ConnectionWriter *  replyMechanism)
+bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                        const Common::Package &       restOfInput,
+                                        const yarp::os::ConstString & senderChannel,
+                                        yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -317,10 +317,10 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RegisterRequestHandler::processRequest
+} // PingRequestHandler::processRequest
 
-bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &   channelName,
-                                                 const Common::ServiceResponse & response)
+bool PingRequestHandler::processListResponse(const yarp::os::ConstString &   channelName,
+                                             const Common::ServiceResponse & response)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("channelName = ", channelName.c_str(), "response = ", response.asString().c_str());//####
@@ -471,10 +471,10 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &  
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RegisterRequestHandler::processListResponse
+} // PingRequestHandler::processListResponse
 
-bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString &   channelName,
-                                                 const Common::ServiceResponse & response)
+bool PingRequestHandler::processNameResponse(const yarp::os::ConstString &   channelName,
+                                             const Common::ServiceResponse & response)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S2("channelName = ", channelName.c_str(), "response = ", response.asString().c_str());//####
@@ -522,7 +522,7 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString &  
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RegisterRequestHandler::processNameResponse
+} // PingRequestHandler::processNameResponse
 
 #if defined(__APPLE__)
 # pragma mark Accessors

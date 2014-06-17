@@ -76,6 +76,7 @@ namespace MplusM
         class DisassociateRequestHandler;
         class GetAssociatesRequestHandler;
         class MatchRequestHandler;
+        class PingRequestHandler;
         class RegisterRequestHandler;
         class UnregisterRequestHandler;
         
@@ -278,6 +279,9 @@ namespace MplusM
             
             /*! @brief The request handler for the 'match' request. */
             MatchRequestHandler *         _matchHandler;
+            
+            /*! @brief The request handler for the 'ping' request. */
+            PingRequestHandler *          _pingHandler;
             
             /*! @brief The channel to send status change messages to. */
             Common::AdapterChannel *      _statusChannel;

@@ -95,6 +95,9 @@
 /*! @brief The standard name for a 'name' request. */
 # define MpM_NAME_REQUEST          "name"
 
+/*! @brief The standard name for a 'name' request. */
+# define MpM_PING_REQUEST          "ping"
+
 /*! @brief The name for a 'register' request. */
 # define MpM_REGISTER_REQUEST      "register"
 

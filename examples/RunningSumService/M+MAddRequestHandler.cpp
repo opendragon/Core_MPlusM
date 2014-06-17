@@ -157,7 +157,7 @@ bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
         int             count = restOfInput.size();
         Common::Package response;
         
-        if (1 < count)
+        if (1 <= count)
         {
             int tally = 0;
             
@@ -188,7 +188,7 @@ bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
         }
         else
         {
-            OD_LOG("! (1 == restOfInput.size())");//####
+            OD_LOG("! (1 <= count)");//####
             response.addString(MpM_FAILED_RESPONSE);
         }
         if (replyMechanism)

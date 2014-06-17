@@ -4,10 +4,12 @@
 
 + use ‘yarp clean —timeout 3’ logic for port exploration or send the ‘clean’ command to yarp before scanning
 
-* add ‘sendKeepAlive’ to base service [virtual - Registry Service goes directly to database] to signal to the Registry Service that the sending service is still active; when a service starts, an ‘expected alive arrival time’ is set, and a background thread checks all the ‘expected alive arrival time’ - if it is earlier than the current time, flag the service as inactive; the ‘expected arrival time’ should be a multiple of the background thread scan interval
+* add ‘ping’ to base service [virtual - Registry Service goes directly to database] to signal to the Registry Service that the sending service is still active; when a service starts, an ‘expected alive arrival time’ is set, and a background thread checks all the ‘expected alive arrival time’s - if it is earlier than the current time, flag the service as inactive; the ‘expected arrival time’ delta should be a multiple of the background thread scan interval; note that the Registry Service does send the message to itself
 
 + note that selecting an entity after connecting other entities sometimes causes the new entity to jump!
 
 + when copying OGDF files into /usr/local/*, use ‘cp -rp’ so that permissions will allow reading!
 
 + load/save positions, by entity name [optional???]
+
+* query applications should have options to generate JSON or tab-delimited output

@@ -159,8 +159,7 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
                     escapeNextChar = false;
                     // If the escaped character is one that will still need to be escaped when converted to SQL, retain
                     // the escape character.
-                    if ((kEscapeCharacter == scanChar) || (kAsterisk == scanChar) || (kQuestionMark == scanChar) ||
-                        (kAsterisk == scanChar) || (kQuestionMark == scanChar))
+                    if ((kEscapeCharacter == scanChar) || (kAsterisk == scanChar) || (kQuestionMark == scanChar))
                     {
                         assembled += kEscapeCharacter;
                     }
@@ -236,40 +235,57 @@ MatchValue::MatchValue(const yarp::os::ConstString & inString) :
     OD_LOG_ENTER();//####
     OD_LOG_S1("inString = ", inString.c_str());//####
     bool escapeNextChar = false;
+    int  len = inString.length();
     
-    // Mark if the string will need escaping or has unescaped wildcards.
-    for (size_t ii = 0, len = inString.length(); ii < len; ++ii)
+    // Check if we have unescaped wildcards.
+    for (size_t ii = 0; len > ii; ++ii)
     {
         char walker = inString[ii];
         
-        if (escapeNextChar)
+        if (! escapeNextChar)
         {
-            if ((kEscapeCharacter == walker) || (kAsterisk == walker) || (kQuestionMark == walker))
+            if (kEscapeCharacter == walker)
             {
-                // If the escaped character will still need to be escaped when converted to SQL, remember to do so.
-                _needsEscaping = true;
-            }
-        }
-        else if (kEscapeCharacter == walker)
-        {
-            escapeNextChar = true;
-        }
-        else
-        {
-            // If there are SQL special characters present, flag this as needing to be escaped.
-            if ((kUnderscore == walker) || (kPercent == walker))
-            {
-                _needsEscaping = true;
+                escapeNextChar = true;
             }
             else if ((kAsterisk == walker) || (kQuestionMark == walker))
             {
                 // If there are wildcard characters present, flag this.
                 _hasWildcards = true;
+                OD_LOG_B1("_hasWildcards <- ", _hasWildcards);//####
             }
             else if (kSingleQuote == walker)
             {
                 // If there are single quote characters present, flag this.
                 _hasSingleQuotes = true;
+                OD_LOG_B1("_hasSingleQuotes <- ", _hasSingleQuotes);//####
+            }
+        }
+    }
+    // Check for SQL characters that will need to be escaped, if not already escaped.
+    if (_hasWildcards)
+    {
+        escapeNextChar = false;
+        // Mark if the string will need escaping.
+        for (size_t ii = 0; len > ii; ++ii)
+        {
+            char walker = inString[ii];
+            
+            if (! escapeNextChar)
+            {
+                if (kEscapeCharacter == walker)
+                {
+                    escapeNextChar = true;
+                }
+                else
+                {
+                    // If there are SQL special characters present, flag this as needing to be escaped.
+                    if ((kUnderscore == walker) || (kPercent == walker))
+                    {
+                        _needsEscaping = true;
+                        OD_LOG_B1("_needsEscaping <- ", _needsEscaping);//####
+                    }
+                }
             }
         }
     }
@@ -299,7 +315,7 @@ const
         converted += kSingleQuote;
         if (_hasSingleQuotes || _hasWildcards || _needsEscaping)
         {
-            OD_LOG("(_hasWildcards || _needsEscaping)");//####
+            OD_LOG("(_hasSingleQuotes || _hasWildcards || _needsEscaping)");//####
             bool wasEscaped = false;
             
             for (size_t ii = 0, len = _matchingString.length(); ii < len; ++ii)
@@ -311,8 +327,15 @@ const
                 {
                     if ((kUnderscore == walker) || (kPercent == walker) || (kSingleQuote == walker))
                     {
-                        wasEscaped = true;
-                        converted += kEscapeCharacter;
+                        if (_hasWildcards)
+                        {
+                            wasEscaped = true;
+                            converted += kEscapeCharacter;
+                        }
+                        else if (kSingleQuote == walker)
+                        {
+                            converted += kSingleQuote;
+                        }
                         converted += walker;
                     }
                     else
@@ -326,8 +349,11 @@ const
                 }
                 else if ((kUnderscore == walker) || (kPercent == walker))
                 {
-                    wasEscaped = true;
-                    converted += kEscapeCharacter;
+                    if (_hasWildcards)
+                    {
+                        wasEscaped = true;
+                        converted += kEscapeCharacter;
+                    }
                     converted += walker;
                 }
                 else if (kAsterisk == walker)
@@ -360,7 +386,16 @@ const
         }
         else
         {
-            converted += _matchingString;
+            // Remove any unneeded escape characters.
+            for (size_t ii = 0, len = _matchingString.length(); ii < len; ++ii)
+            {
+                char walker = _matchingString[ii];
+                
+                if (kEscapeCharacter != walker)
+                {
+                    converted += walker;
+                }
+            }
         }
         converted += kSingleQuote;
     }
@@ -372,6 +407,10 @@ const
     OD_LOG_OBJEXIT_S(converted.c_str());//####
     return converted;
 } // MatchValue::asSQLString
+#if 0
+SELECT name FROM emp
+WHERE id LIKE '%\%%' ESCAPE '\';
+#endif//0
 
 yarp::os::ConstString MatchValue::asString(void)
 const

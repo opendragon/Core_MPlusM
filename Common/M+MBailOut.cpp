@@ -99,7 +99,7 @@ BailOut::BailOut(AdapterChannel & channelOfInterest,
 
 BailOut::BailOut(ClientChannel & channelOfInterest,
                  const double    timeToWait) :
-_bailer(NULL)
+        _bailer(NULL)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("channelOfInterest = ", &channelOfInterest);//####

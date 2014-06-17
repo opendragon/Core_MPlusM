@@ -243,6 +243,8 @@
 		DFA98940194BA904005F10EB /* M+MChordGeneratorService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MChordGeneratorService.h"; path = "../examples/ChordGeneratorService/M+MChordGeneratorService.h"; sourceTree = "<group>"; };
 		DFA98941194BA904005F10EB /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../examples/ChordGeneratorService/main.cpp; sourceTree = "<group>"; };
 		DFA98943194BA94B005F10EB /* CMakeListsStandalone.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeListsStandalone.txt; path = ../examples/CMakeListsStandalone.txt; sourceTree = "<group>"; };
+		DFA98944195088F8005F10EB /* M+MPingRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MPingRequestHandler.cpp"; path = "../RegistryService/M+MPingRequestHandler.cpp"; sourceTree = "<group>"; };
+		DFA98945195088F8005F10EB /* M+MPingRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MPingRequestHandler.h"; path = "../RegistryService/M+MPingRequestHandler.h"; sourceTree = "<group>"; };
 		DFBB40DC192BAFCD000DA19D /* M+MChannelsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChannelsRequestHandler.cpp"; path = "../Common/M+MChannelsRequestHandler.cpp"; sourceTree = "<group>"; };
 		DFBB40DD192BAFCD000DA19D /* M+MChannelsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MChannelsRequestHandler.h"; path = "../Common/M+MChannelsRequestHandler.h"; sourceTree = "<group>"; };
 		DFCB229318EF091000358EA5 /* M+MRequestCounterContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterContext.cpp"; path = "../RequestCounter/RequestCounterService/M+MRequestCounterContext.cpp"; sourceTree = SOURCE_ROOT; };
@@ -505,6 +507,8 @@
 				DF95CA1E192E927700BDABA1 /* M+MGetAssociatesRequestHandler.h */,
 				DF27F43A18CE48E000E93C95 /* M+MMatchRequestHandler.cpp */,
 				DF27F43B18CE48E000E93C95 /* M+MMatchRequestHandler.h */,
+				DFA98944195088F8005F10EB /* M+MPingRequestHandler.cpp */,
+				DFA98945195088F8005F10EB /* M+MPingRequestHandler.h */,
 				DFA3434018C91C5A0053B87C /* M+MRegisterRequestHandler.cpp */,
 				DFA3434118C91C5A0053B87C /* M+MRegisterRequestHandler.h */,
 				DFA3434218C91C5A0053B87C /* M+MRegistryService.cpp */,
@@ -733,12 +737,12 @@
 		DFA98942194BA92D005F10EB /* ChordGeneratorService */ = {
 			isa = PBXGroup;
 			children = (
+				DFA98941194BA904005F10EB /* main.cpp */,
 				DFA9893C194BA904005F10EB /* M+MChordGeneratorRequestHandler.cpp */,
 				DFA9893D194BA904005F10EB /* M+MChordGeneratorRequestHandler.h */,
 				DFA9893E194BA904005F10EB /* M+MChordGeneratorRequests.h */,
 				DFA9893F194BA904005F10EB /* M+MChordGeneratorService.cpp */,
 				DFA98940194BA904005F10EB /* M+MChordGeneratorService.h */,
-				DFA98941194BA904005F10EB /* main.cpp */,
 			);
 			name = ChordGeneratorService;
 			sourceTree = "<group>";

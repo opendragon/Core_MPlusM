@@ -140,6 +140,28 @@ int main(int      argc,
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
+    MplusM::Common::OutputFlavour flavour = MplusM::Common::kOutputFlavourNormal;
+    int                           cc;
+    
+    opterr = 0; // Suppress the error message resulting from an unknown option.
+    for (cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc; cc = getopt(argc, argv, STANDARD_OPTIONS))
+    {
+        switch (cc)
+        {
+            case 'j':
+                flavour = MplusM::Common::kOutputFlavourJSON;
+                break;
+                
+            case 't':
+                flavour = MplusM::Common::kOutputFlavourTabs;
+                break;
+                
+            default:
+                // Ignore unknown options.
+                break;
+                
+        }
+    }
     try
     {
 #if CheckNetworkWorks_
@@ -150,13 +172,13 @@ int main(int      argc,
             yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
             
             MplusM::Common::Initialize(*argv);
-            if (1 < argc)
+            if (optind >= argc)
             {
-                channelNameRequest += argv[1];
+                channelNameRequest += "*";
             }
             else
             {
-                channelNameRequest += "*";
+                channelNameRequest += argv[optind];
             }
             MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(channelNameRequest.c_str()));
             
@@ -183,8 +205,8 @@ int main(int      argc,
                         
                         if (matchesCount)
                         {
-                            yarp::os::ConstString           aName =
-                                                        MplusM::Common::GetRandomChannelName("/clientlist/channel_");
+                            yarp::os::ConstString           aName = MplusM::Common::GetRandomChannelName("/clientlist_/"
+                                                                                                DEFAULT_CHANNEL_ROOT);
                             MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
                             
                             if (newChannel)
@@ -198,6 +220,7 @@ int main(int      argc,
                                     {
                                         yarp::os::ConstString aMatch(matchesList->get(ii).toString());
                                         
+OD_LOG_S1("aMatch = ", aMatch.c_str());//####
                                         if (MplusM::Common::NetworkConnectWithRetries(aName, aMatch, STANDARD_WAIT_TIME,
                                                                                       false))
                                         {

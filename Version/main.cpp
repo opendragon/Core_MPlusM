@@ -96,10 +96,60 @@ using std::endl;
 int main(int      argc,
          char * * argv)
 {
-#if MAC_OR_LINUX_
-# pragma unused(argv)
-#endif // MAC_OR_LINUX_
-    cout << "Movement And Meaning Version: " << MpM_VERSION << ", YARP Version: " << YARP_VERSION_STRING <<
-            ", ACE Version: " << ACE_VERSION << endl;
+    MplusM::Common::OutputFlavour flavour = MplusM::Common::kOutputFlavourNormal;
+    int                           cc;
+    yarp::os::ConstString         aceVersionString;
+    yarp::os::ConstString         mpmVersionString;
+    yarp::os::ConstString         yarpVersionString;
+    
+    opterr = 0; // Suppress the error message resulting from an unknown option.
+    for (cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc; cc = getopt(argc, argv, STANDARD_OPTIONS))
+    {
+        switch (cc)
+        {
+            case 'j':
+                flavour = MplusM::Common::kOutputFlavourJSON;
+                break;
+                
+            case 't':
+                flavour = MplusM::Common::kOutputFlavourTabs;
+                break;
+                
+            default:
+                // Ignore unknown options.
+                break;
+                
+        }
+    }
+    switch (flavour)
+    {
+        case MplusM::Common::kOutputFlavourTabs:
+            aceVersionString = MplusM::SanitizeString(ACE_VERSION, true);
+            mpmVersionString = MplusM::SanitizeString(MpM_VERSION, true);
+            yarpVersionString = MplusM::SanitizeString(YARP_VERSION_STRING, true);
+            cout << mpmVersionString.c_str() << "\t" << yarpVersionString.c_str() << "\t" << aceVersionString.c_str() <<
+                    endl;
+            break;
+            
+        case MplusM::Common::kOutputFlavourJSON:
+            aceVersionString = MplusM::SanitizeString(ACE_VERSION);
+            mpmVersionString = MplusM::SanitizeString(MpM_VERSION);
+            yarpVersionString = MplusM::SanitizeString(YARP_VERSION_STRING);
+            cout << T_("{ " CHAR_DOUBLEQUOTE "M+M" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                    mpmVersionString.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "YARP" CHAR_DOUBLEQUOTE ": "
+                                                   CHAR_DOUBLEQUOTE) << yarpVersionString.c_str() <<
+                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "ACE" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                    aceVersionString.c_str() << T_(CHAR_DOUBLEQUOTE " }") << endl;
+            break;
+            
+        default:
+            aceVersionString = MplusM::SanitizeString(ACE_VERSION, true);
+            mpmVersionString = MplusM::SanitizeString(MpM_VERSION, true);
+            yarpVersionString = MplusM::SanitizeString(YARP_VERSION_STRING, true);
+            cout << "Movement And Meaning Version: " << mpmVersionString.c_str() << ", YARP Version: " <<
+                    yarpVersionString.c_str() << ", ACE Version: " << aceVersionString.c_str() << endl;
+            break;
+            
+    }
     return 0;
 } // main

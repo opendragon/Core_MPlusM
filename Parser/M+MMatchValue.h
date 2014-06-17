@@ -85,15 +85,6 @@ namespace MplusM
                 return _hasWildcards;
             } // hasWildcardCharacters
             
-            /*! @brief Return @c true if the string will be escaped during conversion to SQL.
-             @returns @c true if there are characters in the string that will be escaped during conversin and @c false
-             otherwise. */
-            bool willBeEscapedDuringConversion(void)
-            const
-            {
-                return _needsEscaping;
-            } // willBeEscapedDuringConversion
-            
             /*! @brief Create a pattern matcher if the next substring would be a valid value.
              @param inString The string being scanned.
              @param inLength The length of the string being scanned.

@@ -670,3 +670,56 @@ void MplusM::OutputDescription(std::ostream &                outStream,
     
     outStream << indent << piece.c_str() << endl;
 } // MplusM::OutputDescription
+
+yarp::os::ConstString MplusM::SanitizeString(const yarp::os::ConstString & inString,
+                                             const bool                    allowDoubleQuotes)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("channelRoot = ", inString.c_str());//####
+    OD_LOG_B1("allowDoubleQuotes = ", allowDoubleQuotes);//####
+    yarp::os::ConstString outString;
+    
+    try
+    {
+        for (int ii = 0, mm = inString.size(); mm > ii; )
+        {
+            char cc = inString[ii++];
+            
+            switch (cc)
+            {
+                case '\t':
+                    outString += '\\';
+                    cc = 't';
+                    break;
+                    
+                case '\n':
+                    outString += '\\';
+                    cc = 'n';
+                    break;
+                    
+                case '\\':
+                    outString += '\\';
+                    break;
+                    
+                case '"':
+                    if (! allowDoubleQuotes)
+                    {
+                        outString += '\\';
+                    }
+                    break;
+                    
+                default:
+                    break;
+                    
+            }
+            outString += cc;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_EXIT_S(outString.c_str());//####
+    return outString;
+} // MplusM::SanitizeString

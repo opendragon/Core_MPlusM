@@ -46,7 +46,7 @@ project(M+M)
 
 set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 2)
-set(MpM_VERSION_PATCH 17)
+set(MpM_VERSION_PATCH 18)
 
 # Make some flags to control the build visible
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
@@ -95,9 +95,9 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 # Add ACE include directories
 include_directories(${ACE_INCLUDE_DIRS})
 
-set(MpM_ADAPTER_BASE_NAME "/adapter/")
-set(MpM_CLIENT_BASE_NAME  "/client/")
-set(MpM_SERVICE_BASE_NAME "/service/")
+set(MpM_ADAPTER_BASE_NAME "/_adapter_/")
+set(MpM_CLIENT_BASE_NAME  "/_client_/")
+set(MpM_SERVICE_BASE_NAME "/_service_/")
 
 set(MpM_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
 set(MpM_LOGGING_DIR "${PROJECT_SOURCE_DIR}/Logging")

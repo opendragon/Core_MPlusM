@@ -398,50 +398,59 @@ static int doTestRequestSearchService(const char * launchPath,
         if (1 < argc)
         {
             bool                                getNamesFlag = ('0' != **argv);
-            const char *                        secondServiceChannel = DEFAULT_SERVICE_NAME_BASE
-                                                                        "test/requestsearchservice";
+            const char *                        secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
+                                                                          "test/requestsearchservice");
             MplusM::Registry::RegistryService * registry = new MplusM::Registry::RegistryService(launchPath,
                                                                                                  TEST_INMEMORY);
             
             OD_LOG_B1("getNamesFlag <- ", getNamesFlag);//####
             if (registry)
             {
+                OD_LOG("");//####
                 if (registry->start())
                 {
+                    OD_LOG("");//####
                     if (registry->isActive())
                     {
                         // Now we start up another service (Test16Service) and register it
+                        OD_LOG("");//####
                         Test16Service * stuff = new Test16Service(1, const_cast<char **>(&secondServiceChannel));
                         
                         if (stuff)
                         {
+                            OD_LOG("");//####
                             if (stuff->start())
                             {
+                                OD_LOG("");//####
                                 yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                                 
                                 if (MplusM::Common::RegisterLocalService(channelName))
                                 {
+                                    OD_LOG("");//####
                                     // Search for the service that we just registered.
                                     MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(argv[1],
                                                                                                          getNamesFlag));
-                                    MplusM::Common::Package expected(argv[2]);
-                                    
                                     OD_LOG_S3("criteria <- ", argv[1], "expected <- ", argv[2], "matches <- ",//####
                                               matches.toString().c_str());//####
+                                    MplusM::Common::Package expected(argv[2]);
+                                    
                                     if ((expected.size() == matches.size()) &&
                                         (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size()))
                                     {
+                                        OD_LOG("");//####
                                         bool            wasASuccess = false;
                                         yarp::os::Value matchesFirst(matches.get(0));
                                         yarp::os::Value expectedFirst(expected.get(0));
                                         
                                         if (expectedFirst.isString())
                                         {
+                                            OD_LOG("");//####
                                             yarp::os::ConstString matchesFirstAsString(matchesFirst.toString());
                                             yarp::os::ConstString expectedFirstAsString(expectedFirst.toString());
                                             
                                             if (matchesFirstAsString == expectedFirstAsString)
                                             {
+                                                OD_LOG("");//####
                                                 result = 0;
                                                 if (! strcmp(MpM_OK_RESPONSE, matchesFirstAsString.c_str()))
                                                 {
@@ -459,11 +468,13 @@ static int doTestRequestSearchService(const char * launchPath,
                                         }
                                         if ((! result) && wasASuccess)
                                         {
+                                            OD_LOG("");//####
                                             yarp::os::Value matchesSecond(matches.get(1));
                                             yarp::os::Value expectedSecond(expected.get(1));
                                             
                                             if (expectedSecond.isList())
                                             {
+                                                OD_LOG("");//####
                                                 MplusM::Common::Package * matchesSecondAsList = matchesSecond.asList();
                                                 MplusM::Common::Package * expectedSecondAsList =
                                                                                                 expectedSecond.asList();
@@ -476,10 +487,12 @@ static int doTestRequestSearchService(const char * launchPath,
                                                            "expectedSecondCount <- ", expectedSecondCount);//####
                                                 if (matchesSecondCount == expectedSecondCount)
                                                 {
+                                                    OD_LOG("");//####
                                                     // Since the lists are the same length, we can just look for the
                                                     // expected values in the matched values.
                                                     for (int ii = 0; ii < expectedSecondCount; ++ii)
                                                     {
+                                                        OD_LOG("");//####
                                                         bool                  didFind = false;
                                                         yarp::os::Value       expectedSecondValue =
                                                                                         expectedSecondAsList->get(ii);
@@ -488,6 +501,7 @@ static int doTestRequestSearchService(const char * launchPath,
                                                         
                                                         for (int jj = 0; jj < expectedSecondCount; ++jj)
                                                         {
+                                                            OD_LOG("");//####
                                                             yarp::os::Value       matchesSecondValue =
                                                                                         matchesSecondAsList->get(jj);
                                                             yarp::os::ConstString matchesString =
@@ -537,12 +551,14 @@ static int doTestRequestSearchService(const char * launchPath,
                                     OD_LOG("! (MplusM::Common::RegisterLocalService(channelName))");//####
                                 }
                                 stuff->stop();
+                                OD_LOG("");//####
                             }
                             else
                             {
                                 OD_LOG("! (stuff->start())");//####
                             }
                             delete stuff;
+                            OD_LOG("");//####
                         }
                         else
                         {
@@ -554,12 +570,14 @@ static int doTestRequestSearchService(const char * launchPath,
                         OD_LOG("! (registry->isActive())");//####
                     }
                     registry->stop();
+                    OD_LOG("");//####
                 }
                 else
                 {
                     OD_LOG("! (registry->start())");//####
                 }
                 delete registry;
+                OD_LOG("");//####
             }
             else
             {
