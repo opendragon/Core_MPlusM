@@ -91,15 +91,21 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Process the response to the 'list' request sent to a service.
+ @param flavour The format for the output.
  @param serviceName The name of the service that generated the response.
  @param response The response to be processed.
+ @param sawResponse @c true if there was already a response output and @c false if this is the first.
  @returns @c true if some output was generated and @c false otherwise. */
-static bool processResponse(const yarp::os::ConstString &           serviceName,
-                            const MplusM::Common::ServiceResponse & response)
+static bool processResponse(MplusM::Common::OutputFlavour           flavour,
+                            const yarp::os::ConstString &           serviceName,
+                            const MplusM::Common::ServiceResponse & response,
+                            const bool                              sawResponse)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("response = ", &response);//####
-    bool result = false;
+    bool                  result = false;
+    yarp::os::ConstString cleanServiceName(MplusM::SanitizeString(serviceName,
+                                                                  MplusM::Common::kOutputFlavourJSON != flavour));
     
     for (int ii = 0, howMany = response.count(); ii < howMany; ++ii)
     {
@@ -120,7 +126,7 @@ static bool processResponse(const yarp::os::ConstString &           serviceName,
                     yarp::os::ConstString   theRequest(propList->find(MpM_REQREP_DICT_REQUEST_KEY).asString());
                     MplusM::Common::Package keywordList;
                     
-                    result = true;
+                    theRequest = MplusM::SanitizeString(theRequest, MplusM::Common::kOutputFlavourJSON != flavour);
                     if (propList->check(MpM_REQREP_DICT_DETAILS_KEY))
                     {
                         yarp::os::Value theDetails = propList->find(MpM_REQREP_DICT_DETAILS_KEY);
@@ -166,29 +172,76 @@ static bool processResponse(const yarp::os::ConstString &           serviceName,
                             theVersionString = theVersion.toString();
                         }
                     }
-                    cout <<     "Service Port: " << serviceName.c_str() << endl;
-                    cout <<     "Request:      " << theRequest.c_str() << endl;
-                    if (0 < theVersionString.length())
+                    switch (flavour)
                     {
-                        cout << "Version:      " << theVersionString.c_str() << endl;
+                        case MplusM::Common::kOutputFlavourTabs:
+                            cout << cleanServiceName.c_str() << "\t" << theRequest.c_str() << "\t" <<
+                                    MplusM::SanitizeString(theVersionString).c_str() << "\t" <<
+                                    MplusM::SanitizeString(theDetailsString).c_str() << "\t" <<
+                                    MplusM::SanitizeString(keywordList.toString()).c_str() << "\t" <<
+                                    theInputsString.c_str() << "\t" << theOutputsString.c_str() << endl;
+                            break;
+                            
+                        case MplusM::Common::kOutputFlavourJSON:
+                            if (result || sawResponse)
+                            {
+                                cout << "," << endl;
+                            }
+                            cout << T_("{ " CHAR_DOUBLEQUOTE "Port" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                                    cleanServiceName.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Request"
+                                                                   CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                                    theRequest.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Version"
+                                                             CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                                    MplusM::SanitizeString(theVersionString, true).c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Details" CHAR_DOUBLEQUOTE ": "
+                                       CHAR_DOUBLEQUOTE) << MplusM::SanitizeString(theDetailsString, true).c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Keywords" CHAR_DOUBLEQUOTE ": [ ");
+                            for (int ii = 0, mm = keywordList.size(); mm > ii; ++ii)
+                            {
+                                yarp::os::Value aKeyword(keywordList.get(ii));
+
+                                if (ii)
+                                {
+                                    cout << ", ";
+                                }
+                                cout << CHAR_DOUBLEQUOTE << MplusM::SanitizeString(aKeyword.toString(), true) <<
+                                CHAR_DOUBLEQUOTE;
+                            }
+                            cout << T_(" ], " CHAR_DOUBLEQUOTE "Inputs" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                                    theInputsString.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Outputs"
+                                                                  CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                                    theOutputsString.c_str() << T_(CHAR_DOUBLEQUOTE " }");
+                            break;
+                            
+                        default:
+                            cout <<     "Service Port: " << cleanServiceName.c_str() << endl;
+                            cout <<     "Request:      " << theRequest.c_str() << endl;
+                            if (0 < theVersionString.length())
+                            {
+                                cout << "Version:      " << MplusM::SanitizeString(theVersionString).c_str() << endl;
+                            }
+                            if (0 < theDetailsString.length())
+                            {
+                                MplusM::OutputDescription(cout, "Details:      ", theDetailsString);
+                            }
+                            if (0 < keywordList.size())
+                            {
+                                cout << "Keywords:     " << MplusM::SanitizeString(keywordList.toString()).c_str() <<
+                                        endl;
+                            }
+                            if (0 < theInputsString.length())
+                            {
+                                cout << "Inputs:       " << theInputsString.c_str() << endl;
+                            }
+                            if (0 < theInputsString.length())
+                            {
+                                cout << "Outputs:      " << theOutputsString.c_str() << endl;
+                            }
+                            cout << endl;
+                            break;
+                            
                     }
-                    if (0 < theDetailsString.length())
-                    {
-                        MplusM::OutputDescription(cout, "Details:      ", theDetailsString);
-                    }
-                    if (0 < keywordList.size())
-                    {
-                        cout << "Keywords:     " << keywordList.toString().c_str() << endl;
-                    }
-                    if (0 < theInputsString.length())
-                    {
-                        cout << "Inputs:       " << theInputsString.c_str() << endl;
-                    }
-                    if (0 < theInputsString.length())
-                    {
-                        cout << "Outputs:      " << theOutputsString.c_str() << endl;
-                    }
-                    cout << endl;
+                    result = true;
                 }
             }
         }
@@ -248,29 +301,27 @@ int main(int      argc,
             const char *          requestName;
             
             MplusM::Common::Initialize(*argv);
-            if (1 < argc)
+            if (optind >= argc)
             {
-                channelNameRequest += argv[1];
-                if (2 < argc)
+                channelNameRequest += "*";
+                requestName = NULL;
+            }
+            else if ((optind + 1) == argc)
+            {
+                channelNameRequest += argv[optind];
+                requestName = NULL;
+            }
+            else
+            {
+                channelNameRequest += argv[optind];
+                if (strcmp(argv[optind + 1], "*"))
                 {
-                    if (strcmp(argv[2], "*"))
-                    {
-                        requestName = argv[2];
-                    }
-                    else
-                    {
-                        requestName = NULL;
-                    }
+                    requestName = argv[optind + 1];
                 }
                 else
                 {
                     requestName = NULL;
                 }
-            }
-            else
-            {
-                channelNameRequest += "*";
-                requestName = NULL;
             }
             MplusM::Common::Package matches(MplusM::Common::FindMatchingServices(channelNameRequest.c_str()));
             
@@ -313,6 +364,10 @@ int main(int      argc,
                                     {
                                         parameters.addString(requestName);
                                     }
+                                    if (MplusM::Common::kOutputFlavourJSON == flavour)
+                                    {
+                                        cout << "[ ";
+                                    }
                                     for (int ii = 0; ii < matchesCount; ++ii)
                                     {
                                         yarp::os::ConstString aMatch(matchesList->get(ii).toString());
@@ -332,7 +387,8 @@ int main(int      argc,
                                                 {
                                                     if (0 < response.count())
                                                     {
-                                                        if (processResponse(aMatch, response))
+                                                        if (processResponse(flavour, aMatch, response,
+                                                                            sawRequestResponse))
                                                         {
                                                             sawRequestResponse = true;
                                                         }
@@ -353,7 +409,8 @@ int main(int      argc,
                                                 {
                                                     if (0 < response.count())
                                                     {
-                                                        if (processResponse(aMatch, response))
+                                                        if (processResponse(flavour, aMatch, response,
+                                                                            sawRequestResponse))
                                                         {
                                                             sawRequestResponse = true;
                                                         }
@@ -381,9 +438,23 @@ int main(int      argc,
                                                    "aMatch, STANDARD_WAIT_TIME, false))");//####
                                         }
                                     }
+                                    if (MplusM::Common::kOutputFlavourJSON == flavour)
+                                    {
+                                        cout << " ]" << endl;
+                                    }
                                     if (! sawRequestResponse)
                                     {
-                                        cout << "No matching request found." << endl;
+                                        switch (flavour)
+                                        {
+                                            case MplusM::Common::kOutputFlavourJSON:
+                                            case MplusM::Common::kOutputFlavourTabs:
+                                                break;
+                                                
+                                            default:
+                                                cout << "No matching request found." << endl;
+                                                break;
+                                                
+                                        }
                                     }
 #if defined(MpM_DoExplicitClose)
                                     newChannel->close();
@@ -402,7 +473,17 @@ int main(int      argc,
                         }
                         else
                         {
-                            cout << "No services found." << endl;
+                            switch (flavour)
+                            {
+                                case MplusM::Common::kOutputFlavourJSON:
+                                case MplusM::Common::kOutputFlavourTabs:
+                                    break;
+                                    
+                                default:
+                                    cout << "No services found." << endl;
+                                    break;
+                                    
+                            }
                         }
                     }
                     else

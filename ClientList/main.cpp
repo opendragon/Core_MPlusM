@@ -94,29 +94,21 @@ using std::endl;
  @param flavour The format for the output.
  @param serviceName The name of the service that generated the response.
  @param response The response to be processed.
+ @param sawResponse @c true if there was already a response output and @c false if this is the first.
  @returns @c true if some output was generated and @c false otherwise. */
 static bool processResponse(MplusM::Common::OutputFlavour           flavour,
                             const yarp::os::ConstString &           serviceName,
-                            const MplusM::Common::ServiceResponse & response)
+                            const MplusM::Common::ServiceResponse & response,
+                            const bool                              sawResponse)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("serviceName = ", serviceName.c_str());//####
     OD_LOG_P1("response = ", &response);//####
     bool result = false;
-    yarp::os::ConstString cleanServiceName;
+    yarp::os::ConstString cleanServiceName(MplusM::SanitizeString(serviceName,
+                                                                  MplusM::Common::kOutputFlavourJSON != flavour));
     
     OD_LOG_S1("response = ", response.asString().c_str());//####
-    switch (flavour)
-    {
-        case MplusM::Common::kOutputFlavourJSON:
-            cleanServiceName = MplusM::SanitizeString(serviceName);
-            break;
-            
-        default:
-            cleanServiceName = MplusM::SanitizeString(serviceName, true);
-            break;
-            
-    }
     for (int ii = 0, howMany = response.count(); ii < howMany; ++ii)
     {
         yarp::os::Value element(response.element(ii));
@@ -128,7 +120,7 @@ static bool processResponse(MplusM::Common::OutputFlavour           flavour,
             switch (flavour)
             {
                 case MplusM::Common::kOutputFlavourJSON:
-                    if (result)
+                    if (result || sawResponse)
                     {
                         cout << "," << endl;
                     }
@@ -271,7 +263,7 @@ int main(int      argc,
                                                 if (0 < response.count())
                                                 {
                                                     OD_LOG("(0 < response.count())");//####
-                                                    if (processResponse(flavour, aMatch, response))
+                                                    if (processResponse(flavour, aMatch, response, sawRequestResponse))
                                                     {
                                                         sawRequestResponse = true;
                                                     }

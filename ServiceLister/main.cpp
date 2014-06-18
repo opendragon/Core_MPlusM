@@ -243,13 +243,14 @@ int main(int      argc,
                     {
                         outChannelNames += " ]";
                     }
+                    servicePortName = MplusM::SanitizeString(*walker, MplusM::Common::kOutputFlavourJSON != flavour);
+                    serviceName = MplusM::SanitizeString(descriptor._canonicalName,
+                                                         MplusM::Common::kOutputFlavourJSON != flavour);
                     switch (flavour)
                     {
                         case MplusM::Common::kOutputFlavourJSON:
-                            servicePortName = MplusM::SanitizeString(*walker);
                             cout << T_(CHAR_DOUBLEQUOTE "ServicePort" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
                                     servicePortName.c_str() << T_(CHAR_DOUBLEQUOTE ", ");
-                            serviceName = MplusM::SanitizeString(descriptor._canonicalName);
                             cout << T_(CHAR_DOUBLEQUOTE "ServiceName" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
                                     serviceName.c_str() << T_(CHAR_DOUBLEQUOTE ", ");
                             description = MplusM::SanitizeString(descriptor._description);
@@ -267,9 +268,7 @@ int main(int      argc,
                             break;
                             
                         case MplusM::Common::kOutputFlavourTabs:
-                            servicePortName = MplusM::SanitizeString(*walker, true);
                             cout << servicePortName.c_str() << "\t";
-                            serviceName = MplusM::SanitizeString(descriptor._canonicalName, true);
                             cout << serviceName.c_str() << "\t";
                             description = MplusM::SanitizeString(descriptor._description, true);
                             cout << description.c_str() << "\t";
@@ -279,8 +278,8 @@ int main(int      argc,
                             break;
                             
                         default:
-                            cout << "Service port:      " << walker->c_str() << endl;
-                            cout << "Service name:      " << descriptor._canonicalName.c_str() << endl;
+                            cout << "Service port:      " << servicePortName.c_str() << endl;
+                            cout << "Service name:      " << serviceName.c_str() << endl;
                             MplusM::OutputDescription(cout, "Description:       ", descriptor._description);
                             MplusM::OutputDescription(cout, "Requests:          ", descriptor._requestsDescription);
                             cout << "Path:              " << descriptor._path.c_str() << endl;

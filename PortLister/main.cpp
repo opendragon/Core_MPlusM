@@ -373,22 +373,21 @@ static void reportAssociates(const MplusM::Common::OutputFlavour        flavour,
         }
         else
         {
+            inputAssociates = MplusM::SanitizeString(associates._inputs[0],
+                                                     MplusM::Common::kOutputFlavourJSON != flavour);
             switch (flavour)
             {
                 case MplusM::Common::kOutputFlavourTabs:
-                    inputAssociates = MplusM::SanitizeString(associates._inputs[0], true);
                     cout << "\tAssociate\t" << inputAssociates.c_str() << "\t";
                     break;
                     
                 case MplusM::Common::kOutputFlavourJSON:
-                    inputAssociates = MplusM::SanitizeString(associates._inputs[0]);
                     cout << T_(CHAR_DOUBLEQUOTE "Primary" CHAR_DOUBLEQUOTE ": false, " CHAR_DOUBLEQUOTE "AssocInputs"
                                CHAR_DOUBLEQUOTE ": [ " CHAR_DOUBLEQUOTE) << inputAssociates.c_str() <<
                             T_(CHAR_DOUBLEQUOTE " ], " CHAR_DOUBLEQUOTE "AssocOutputs" CHAR_DOUBLEQUOTE ": [ ], ");
                     break;
                     
                 default:
-                    inputAssociates = MplusM::SanitizeString(associates._inputs[0], true);
                     cout << " Port associated with " << inputAssociates.c_str() << ".";
                     break;
                     
@@ -433,21 +432,19 @@ static void reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
     yarp::os::ConstString              portName;
     yarp::os::ConstString              portClass;
     
+    portName = MplusM::SanitizeString(aDescriptor._portName, MplusM::Common::kOutputFlavourJSON != flavour);
     switch (flavour)
     {
         case MplusM::Common::kOutputFlavourTabs:
-            portName = MplusM::SanitizeString(aDescriptor._portName, true);
             cout << portName.c_str() << "\t";
             break;
             
         case MplusM::Common::kOutputFlavourJSON:
-            portName = MplusM::SanitizeString(aDescriptor._portName);
             cout << T_("{ " CHAR_DOUBLEQUOTE "PortName" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
                     portName.c_str() << T_(CHAR_DOUBLEQUOTE ", ");
             break;
             
         default:
-            portName = MplusM::SanitizeString(aDescriptor._portName, true);
             cout << portName.c_str() << ": ";
             break;
             
