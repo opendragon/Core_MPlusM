@@ -11,5 +11,3 @@
 + when copying OGDF files into /usr/local/*, use ‘cp -rp’ so that permissions will allow reading!
 
 + load/save positions, by entity name [optional???]
-
-* query applications should have options to generate JSON or tab-delimited output
