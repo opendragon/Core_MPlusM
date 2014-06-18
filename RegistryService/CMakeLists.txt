@@ -58,6 +58,7 @@ add_executable(mpmRegistryService
                M+MMatchRequestHandler.cpp
                M+MPingRequestHandler.cpp
                M+MRegisterRequestHandler.cpp
+               M+MRegistryCheckThread.cpp
                M+MRegistryService.cpp
                M+MUnregisterRequestHandler.cpp
                ${MpM_SQLITE_DIR}/sqlite3.c)
@@ -82,6 +83,7 @@ add_executable(M+MRegistryTest
                M+MMatchRequestHandler.cpp
                M+MPingRequestHandler.cpp
                M+MRegisterRequestHandler.cpp
+               M+MRegistryCheckThread.cpp
                M+MRegistryService.cpp
                M+MUnregisterRequestHandler.cpp
                ${MpM_SQLITE_DIR}/sqlite3.c)

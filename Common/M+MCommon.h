@@ -124,13 +124,22 @@
 # define DEFAULT_SERVICE_NAME_BASE MpM_SERVICE_BASE_NAME
 
 /*! @brief The basic time interval for retries. */
-# define INITIAL_RETRY_INTERVAL    0.1
+# define INITIAL_RETRY_INTERVAL    (0.1 * ONE_SECOND_DELAY)
 
 /*! @brief The maximum number of retries before declaring failure, if not using timeouts. */
 # define MAX_RETRIES               5
 
 /*! @brief The delay value corresponding to one second of delay. */
 # define ONE_SECOND_DELAY          1.0
+
+/*! @brief The time between checking for 'stale' registry entries. */
+# define PING_CHECK_INTERVAL       (4.3 * ONE_SECOND_DELAY)
+
+/*! @brief The number of missing pings before a service is declared 'dead'. */
+# define PING_COUNT_MAX            4
+
+/*! @brief The time between ping requests that a service should use. */
+# define PING_INTERVAL             (6.3 * ONE_SECOND_DELAY)
 
 /*! @brief The retry interval multiplier. */
 # define RETRY_MULTIPLIER          1.2
@@ -158,7 +167,7 @@
 # endif // ! MAC_OR_LINUX_
 
 /*! @brief The default timeout duration in seconds. */
-# define STANDARD_WAIT_TIME        5.0
+# define STANDARD_WAIT_TIME        (5.0 * ONE_SECOND_DELAY)
 
 /*! @brief A simple macro to hold the pieces of a string together. */
 # define T_(xx)                    xx

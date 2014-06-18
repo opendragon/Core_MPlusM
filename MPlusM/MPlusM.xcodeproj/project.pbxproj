@@ -245,6 +245,10 @@
 		DFA98943194BA94B005F10EB /* CMakeListsStandalone.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeListsStandalone.txt; path = ../examples/CMakeListsStandalone.txt; sourceTree = "<group>"; };
 		DFA98944195088F8005F10EB /* M+MPingRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MPingRequestHandler.cpp"; path = "../RegistryService/M+MPingRequestHandler.cpp"; sourceTree = "<group>"; };
 		DFA98945195088F8005F10EB /* M+MPingRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MPingRequestHandler.h"; path = "../RegistryService/M+MPingRequestHandler.h"; sourceTree = "<group>"; };
+		DFA9894619522B17005F10EB /* M+MPingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MPingThread.cpp"; path = "../Common/M+MPingThread.cpp"; sourceTree = "<group>"; };
+		DFA9894719522B17005F10EB /* M+MPingThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MPingThread.h"; path = "../Common/M+MPingThread.h"; sourceTree = "<group>"; };
+		DFA9894819523A8A005F10EB /* M+MRegistryCheckThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegistryCheckThread.cpp"; path = "../RegistryService/M+MRegistryCheckThread.cpp"; sourceTree = "<group>"; };
+		DFA9894919523A8A005F10EB /* M+MRegistryCheckThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRegistryCheckThread.h"; path = "../RegistryService/M+MRegistryCheckThread.h"; sourceTree = "<group>"; };
 		DFBB40DC192BAFCD000DA19D /* M+MChannelsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChannelsRequestHandler.cpp"; path = "../Common/M+MChannelsRequestHandler.cpp"; sourceTree = "<group>"; };
 		DFBB40DD192BAFCD000DA19D /* M+MChannelsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MChannelsRequestHandler.h"; path = "../Common/M+MChannelsRequestHandler.h"; sourceTree = "<group>"; };
 		DFCB229318EF091000358EA5 /* M+MRequestCounterContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterContext.cpp"; path = "../RequestCounter/RequestCounterService/M+MRequestCounterContext.cpp"; sourceTree = SOURCE_ROOT; };
@@ -511,6 +515,8 @@
 				DFA98945195088F8005F10EB /* M+MPingRequestHandler.h */,
 				DFA3434018C91C5A0053B87C /* M+MRegisterRequestHandler.cpp */,
 				DFA3434118C91C5A0053B87C /* M+MRegisterRequestHandler.h */,
+				DFA9894819523A8A005F10EB /* M+MRegistryCheckThread.cpp */,
+				DFA9894919523A8A005F10EB /* M+MRegistryCheckThread.h */,
 				DFA3434218C91C5A0053B87C /* M+MRegistryService.cpp */,
 				DFA3434318C91C5A0053B87C /* M+MRegistryService.h */,
 				DF2092A018D35D720093D3DC /* M+MRegistryTest.cpp */,
@@ -615,6 +621,8 @@
 				DFA3433F18C91C5A0053B87C /* M+MListRequestHandler.h */,
 				DF2092D518D39D4F0093D3DC /* M+MNameRequestHandler.cpp */,
 				DF2092D618D39D4F0093D3DC /* M+MNameRequestHandler.h */,
+				DFA9894619522B17005F10EB /* M+MPingThread.cpp */,
+				DFA9894719522B17005F10EB /* M+MPingThread.h */,
 				DFA3434618C91C5A0053B87C /* M+MRequestMap.cpp */,
 				DFA3434718C91C5A0053B87C /* M+MRequestMap.h */,
 				DFA3434818C91C5A0053B87C /* M+MRequests.h */,

@@ -78,6 +78,7 @@ namespace MplusM
         class MatchRequestHandler;
         class PingRequestHandler;
         class RegisterRequestHandler;
+        class RegistryCheckThread;
         class UnregisterRequestHandler;
         
         /*! @brief The characteristics of a request. */
@@ -150,6 +151,11 @@ namespace MplusM
                                   const yarp::os::ConstString & executable,
                                   const yarp::os::ConstString & requestsDescription);
             
+            /*! @brief Check if a service is already in the registry.
+             @param channelName The service channel for the service.
+             @returns @c true if the service is present and @c false otherwise. */
+            bool checkForExistingService(const yarp::os::ConstString & channelName);
+            
             /*! @brief Fill in the list of associated input channels and output channesls for a channel.
              @param channelName The channel to be checked.
              @param isPrimary @c true if the channel is a primary and @c false if it is an associated channel
@@ -188,6 +194,10 @@ namespace MplusM
              @returns @c true if the associations were removed and @c false otherwise.*/
             bool removeAllAssociations(const yarp::os::ConstString & primaryChannelName);
             
+            /*! @brief Remove the last checked time for a service channel.
+             @param serviceChannelName The service channel that is being removed. */
+            void removeCheckedTimeForChannel(const yarp::os::ConstString & serviceChannelName);
+            
             /*! @brief Remove a service entry from the registry.
              @param serviceChannelName The service channel that is being removed.
              @returns @c true if the service was successfully removed and @c false otherwise. */
@@ -197,9 +207,16 @@ namespace MplusM
              @returns @c true if the service was started and @c false if it was not. */
             virtual bool start(void);
             
+            /*! @brief Start the background 'checking' thread. */
+            void startChecker(void);
+            
             /*! @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */
             virtual bool stop(void);
+            
+            /*! @brief Update the last checked time for a service channel.
+             @param serviceChannelName The service channel that is being updated. */
+            void updateCheckedTimeForChannel(const yarp::os::ConstString & serviceChannelName);
             
         protected:
             
@@ -223,6 +240,9 @@ namespace MplusM
                 /*! @brief A service is being removed from the registry. */
                 kRegistryRemoveService
             }; // ServiceStatus
+            
+            /*! @brief A mapping from strings to time values. */
+            typedef std::map<yarp::os::ConstString, double> TimeMap;
             
             /*! @brief The constructor.
              @param argc The number of arguments in 'argv'.
@@ -262,6 +282,12 @@ namespace MplusM
              @returns @c true if the channel was set up and @c false otherwise. */
             bool setUpStatusChannel(void);
             
+            /*! @brief The last time that a channel 'checked-in'. */
+            TimeMap                       _lastCheckedTime;
+            
+            /*! @brief The contention lock used to avoid inconsistencies. */
+            yarp::os::Mutex               _checkedTimeLock;
+            
             /*! @brief The service registry database. */
             sqlite3 *                     _db;
             
@@ -291,6 +317,9 @@ namespace MplusM
             
             /*! @brief The request handler for the 'unregister' request. */
             UnregisterRequestHandler *    _unregisterHandler;
+            
+            /*! @brief The object used to generate 'checks' for the service. */
+            RegistryCheckThread *         _checker;
             
             /*! @brief @c true if the database is in-memory and @c false if it is disk-based. */
             bool                          _inMemory;

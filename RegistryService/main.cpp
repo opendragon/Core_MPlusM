@@ -171,9 +171,10 @@ int main(int      argc,
                 if (stuff->start())
                 {
                     // Note that the Registry Service is self-registering... so we don't need to call
-                    // RegisterLocalService().
+                    // RegisterLocalService() _or_ start a 'pinger'.
                     lKeepRunning = true;
                     MplusM::Common::SetSignalHandlers(stopRunning);
+                    stuff->startChecker();
                     for ( ; lKeepRunning && stuff; )
                     {
 #if defined(MpM_MainDoesDelayNotYield)

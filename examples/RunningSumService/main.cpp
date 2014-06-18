@@ -170,10 +170,11 @@ int main(int      argc,
                     {
                         lKeepRunning = true;
                         MplusM::Common::SetSignalHandlers(stopRunning);
+                        stuff->startPinger();
                         for ( ; lKeepRunning && stuff; )
                         {
 #if defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::delay(ONE_SECOND_DELAY);
+                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
                             yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)

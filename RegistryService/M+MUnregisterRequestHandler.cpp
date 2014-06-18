@@ -174,6 +174,10 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                         if (_service.removeServiceRecord(argAsString))
                         {
                             reply.addString(MpM_OK_RESPONSE);
+                            if (argAsString != MpM_REGISTRY_CHANNEL_NAME)
+                            {
+                                _service.removeCheckedTimeForChannel(argAsString);
+                            }
                         }
                         else
                         {

@@ -50,6 +50,7 @@
 #include "M+MMatchRequestHandler.h"
 #include "M+MPingRequestHandler.h"
 #include "M+MRegisterRequestHandler.h"
+#include "M+MRegistryCheckThread.h"
 #include "M+MRequests.h"
 #include "M+MServiceRequest.h"
 #include "M+MServiceResponse.h"
@@ -838,6 +839,47 @@ static bool constructTables(sqlite3 * database)
     return okSoFar;
 } // constructTables
 
+/*! @brief Bind the values that are to be gathered from the Services table.
+ @param statement The prepared statement that is to be updated.
+ @param stuff The source of data that is to be bound.
+ @returns The SQLite error from the bind operation. */
+static int setupCheckChannel(sqlite3_stmt * statement,
+                             const void *   stuff)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_P2("statement = ", statement, "stuff = ", stuff);//####
+    int result = SQLITE_MISUSE;
+    
+    try
+    {
+        int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
+        
+        if (0 < channelNameIndex)
+        {
+            const char * channelNameString = static_cast<const char *>(stuff);
+            
+            OD_LOG_S1("channelNameString <- ", channelNameString);//####
+            result = sqlite3_bind_text(statement, channelNameIndex, channelNameString,
+                                       static_cast<int>(strlen(channelNameString)), SQLITE_TRANSIENT);
+            if (SQLITE_OK != result)
+            {
+                OD_LOG_S1("error description: ", sqlite3_errstr(result));//####
+            }
+        }
+        else
+        {
+            OD_LOG("! (0 < channelNameIndex)");//####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_EXIT_LL(result);
+    return result;
+} // setupCheckChannel
+
 /*! @brief Bind the values that are to be gathered from the Associates table.
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
@@ -1585,6 +1627,8 @@ RegistryService::RegistryService(const char *                  launchPath,
                   "disassociate - remove all associations for a channel\n"
                   "getAssociates - return the associations of a channel\n"
                   "match - return the channels for services matching the criteria provided\n"
+                  "ping - update the last-pinged information for a channel or record the information for a service on "
+                      "the given channel\n"
                   "register - record the information for a service on the given channel\n"
                   "unregister - remove the information for a service on the given channel", MpM_REGISTRY_CHANNEL_NAME,
                   serviceHostName, servicePortNumber), _db(NULL), _validator(new ColumnNameValidator),
@@ -1604,6 +1648,7 @@ RegistryService::~RegistryService(void)
 {
     OD_LOG_OBJENTER();//####
     detachRequestHandlers();
+    _lastCheckedTime.clear();
     if (_db)
     {
         sqlite3_close(_db);
@@ -1850,6 +1895,45 @@ void RegistryService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // RegistryService::attachRequestHandlers
 
+bool RegistryService::checkForExistingService(const yarp::os::ConstString & channelName)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_S1("channelName = ", channelName.c_str());//####
+    bool okSoFar = false;
+    
+    try
+    {
+        if (performSQLstatementWithNoResults(_db, kBeginTransaction))
+        {
+            Common::Package dummy;
+            const char *    checkName = T_("SELECT DISTINCT " NAME_C_ " FROM " SERVICES_T_
+                                           " WHERE " CHANNELNAME_C_ " = @" CHANNELNAME_C_);
+
+            okSoFar = performSQLstatementWithSingleColumnResults(_db, dummy, checkName, 0, setupCheckChannel,
+                                                                 static_cast<const void *>(channelName.c_str()));
+            if (okSoFar)
+            {
+                okSoFar = performSQLstatementWithNoResults(_db, kEndTransaction);
+            }
+            else
+            {
+                performSQLstatementWithNoResults(_db, kRollbackTransaction);
+            }
+            if (okSoFar)
+            {
+                okSoFar = (1 <= dummy.size());
+            }
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(okSoFar);//####
+    return okSoFar;
+} // RegistryService::checkForExistingService
+
 void RegistryService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER();//####
@@ -1931,7 +2015,6 @@ bool RegistryService::fillInAssociates(const yarp::os::ConstString & channelName
             okSoFar = performSQLstatementWithSingleColumnResults(_db, dummy, collectPrimaries1, 0,
                                                                  setupCollectAssociates,
                                                                  static_cast<const void *>(channelName.c_str()));
-            
             if (okSoFar)
             {
                 isPrimary = (0 < dummy.size());
@@ -2178,6 +2261,15 @@ bool RegistryService::removeAllAssociations(const yarp::os::ConstString & primar
     OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RegistryService::::removeAllAssociations
+
+void RegistryService::removeCheckedTimeForChannel(const yarp::os::ConstString & serviceChannelName)
+{
+    OD_LOG_OBJENTER();//####
+    _checkedTimeLock.lock();
+    _lastCheckedTime.erase(serviceChannelName);
+    _checkedTimeLock.unlock();
+    OD_LOG_OBJEXIT();//####
+} // RegistryService::removeCheckedTimeForChannel
 
 bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceChannelName)
 {
@@ -2469,6 +2561,17 @@ bool RegistryService::start(void)
     return result;
 } // RegistryService::start
 
+void RegistryService::startChecker(void)
+{
+    OD_LOG_OBJENTER();//####
+    if (! _checker)
+    {
+        _checker = new RegistryCheckThread(*this);
+        _checker->start();
+    }
+    OD_LOG_OBJEXIT();//####
+} // RegistryService::startChecker
+
 bool RegistryService::stop(void)
 {
     OD_LOG_OBJENTER();//####
@@ -2476,6 +2579,12 @@ bool RegistryService::stop(void)
     
     try
     {
+        if (_checker)
+        {
+            _checker->stop();
+            delete _checker;
+            _checker = NULL;
+        }
         if (isActive())
         {
             reportStatusChange("", kRegistryStopped);
@@ -2492,6 +2601,15 @@ bool RegistryService::stop(void)
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // RegistryService::stop
+
+void RegistryService::updateCheckedTimeForChannel(const yarp::os::ConstString & serviceChannelName)
+{
+    OD_LOG_OBJENTER();//####
+    _checkedTimeLock.lock();
+    _lastCheckedTime[serviceChannelName] = yarp::os::Time::now() + (PING_COUNT_MAX * PING_INTERVAL);
+    _checkedTimeLock.unlock();
+    OD_LOG_OBJEXIT();//####
+} // RegistryService::updateCheckedTimeForChannel
 
 #if defined(__APPLE__)
 # pragma mark Accessors

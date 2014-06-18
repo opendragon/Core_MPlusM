@@ -74,6 +74,7 @@ namespace MplusM
         class InfoRequestHandler;
         class ListRequestHandler;
         class NameRequestHandler;
+        class PingThread;
         
         /*! @brief The minimal functionality required for an M+M service. */
         class BaseService
@@ -196,9 +197,15 @@ namespace MplusM
                 return _requestsDescription;
             } // requestsDescription
             
+            /*! @brief Send a 'ping' on behalf of a service. */
+            static bool sendPingForChannel(const yarp::os::ConstString & channelName);
+            
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
             virtual bool start(void);
+            
+            /*! @brief Start the background 'pinging' thread. */
+            void startPinger(void);
             
             /*! @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */
@@ -334,6 +341,9 @@ namespace MplusM
             
             /*! @brief The input handler creator for the service. */
             BaseServiceInputHandlerCreator * _handlerCreator;
+            
+            /*! @brief The object used to generate 'pings' for the service. */
+            PingThread *                     _pinger;
             
             /*! @brief The current state of the service - @c true if active and @c false otherwise. */
             bool                             _started;

@@ -120,7 +120,6 @@ void PingRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
-    alternateNames.push_back("remember");
     OD_LOG_OBJEXIT();//####
 } // PingRequestHandler::fillInAliases
 
@@ -136,14 +135,13 @@ void PingRequestHandler::fillInDescription(const yarp::os::ConstString & request
         info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_STRING);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING);
         info.put(MpM_REQREP_DICT_VERSION_KEY, PING_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Register the service and its requests\n"
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Update the last-pinged time for a service or re-register it\n"
                  "Input: the channel used by the service\n"
                  "Output: OK or FAILED, with a description of the problem encountered");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         
         asList->addString(request);
-        asList->addString("add");
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
@@ -187,97 +185,106 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                     
                     if (Common::Endpoint::CheckEndpointName(argAsString))
                     {
-                        // Send a 'list' request to the channel
-                        yarp::os::ConstString   aName(Common::GetRandomChannelName("_register_/" DEFAULT_CHANNEL_ROOT));
-                        Common::ClientChannel * outChannel = new Common::ClientChannel;
-                        
-                        if (outChannel)
+                        if (_service.checkForExistingService(argAsString))
                         {
-                            if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+                            // This service is already known, so just update the last-checked time.
+                            _service.updateCheckedTimeForChannel(argAsString);
+                        }
+                        else
+                        {
+                            // Send a 'list' request to the channel
+                            yarp::os::ConstString   aName(Common::GetRandomChannelName("_ping_/" DEFAULT_CHANNEL_ROOT));
+                            Common::ClientChannel * outChannel = new Common::ClientChannel;
+                            
+                            if (outChannel)
                             {
-                                if (outChannel->addOutputWithRetries(argAsString, STANDARD_WAIT_TIME))
+                                if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                                 {
-                                    Common::Package message1(MpM_NAME_REQUEST);
-                                    Common::Package response;
-                                    
-                                    if (outChannel->write(message1, response))
+                                    if (outChannel->addOutputWithRetries(argAsString, STANDARD_WAIT_TIME))
                                     {
-                                        if (processNameResponse(argAsString, response))
+                                        Common::Package message1(MpM_NAME_REQUEST);
+                                        Common::Package response;
+                                        
+                                        if (outChannel->write(message1, response))
                                         {
-                                            Common::Package message2(MpM_LIST_REQUEST);
-                                            
-                                            if (outChannel->write(message2, response))
+                                            if (processNameResponse(argAsString, response))
                                             {
-                                                if (processListResponse(argAsString, response))
+                                                Common::Package message2(MpM_LIST_REQUEST);
+                                                
+                                                if (outChannel->write(message2, response))
                                                 {
-                                                    // Remember the response
-                                                    reply.addString(MpM_OK_RESPONSE);
+                                                    if (processListResponse(argAsString, response))
+                                                    {
+                                                        // Remember the response
+                                                        reply.addString(MpM_OK_RESPONSE);
+                                                        _service.updateCheckedTimeForChannel(argAsString);
+                                                    }
+                                                    else
+                                                    {
+                                                        OD_LOG("! (processListResponse(argAsString, response))");//####
+                                                        reply.addString(MpM_FAILED_RESPONSE);
+                                                        reply.addString("Invalid response to 'list' request");
+                                                    }
                                                 }
                                                 else
                                                 {
-                                                    OD_LOG("! (processListResponse(argAsString, response))");//####
+                                                    OD_LOG("! (outChannel->write(message2, response))");//####
                                                     reply.addString(MpM_FAILED_RESPONSE);
-                                                    reply.addString("Invalid response to 'list' request");
+                                                    reply.addString("Could not write to channel");
+#if defined(MpM_StallOnSendProblem)
+                                                    Common::Stall();
+#endif // defined(MpM_StallOnSendProblem)
                                                 }
                                             }
                                             else
                                             {
-                                                OD_LOG("! (outChannel->write(message2, response))");//####
+                                                OD_LOG("! (processNameResponse(argAsString, response))");//####
                                                 reply.addString(MpM_FAILED_RESPONSE);
-                                                reply.addString("Could not write to channel");
-#if defined(MpM_StallOnSendProblem)
-                                                Common::Stall();
-#endif // defined(MpM_StallOnSendProblem)
+                                                reply.addString("Invalid response to 'name' request");
                                             }
                                         }
                                         else
                                         {
-                                            OD_LOG("! (processNameResponse(argAsString, response))");//####
+                                            OD_LOG("! (outChannel->write(message1, response))");//####
                                             reply.addString(MpM_FAILED_RESPONSE);
-                                            reply.addString("Invalid response to 'name' request");
+                                            reply.addString("Could not write to channel");
+#if defined(MpM_StallOnSendProblem)
+                                            Common::Stall();
+#endif // defined(MpM_StallOnSendProblem)
                                         }
+#if defined(MpM_DoExplicitDisconnect)
+                                        if (! Common::NetworkDisconnectWithRetries(outChannel->getName(), argAsString,
+                                                                                   STANDARD_WAIT_TIME))
+                                        {
+                                            OD_LOG("(! Common::NetworkDisconnectWithRetries(outChannel->"//####
+                                                   "getName(), argAsString, STANDARD_WAIT_TIME))");//####
+                                        }
+#endif // defined(MpM_DoExplicitDisconnect)
                                     }
                                     else
                                     {
-                                        OD_LOG("! (outChannel->write(message1, response))");//####
+                                        OD_LOG("! (outChannel->addOutputWithRetries(argAsString, "//####
+                                               "STANDARD_WAIT_TIME))");//####
                                         reply.addString(MpM_FAILED_RESPONSE);
-                                        reply.addString("Could not write to channel");
-#if defined(MpM_StallOnSendProblem)
-                                        Common::Stall();
-#endif // defined(MpM_StallOnSendProblem)
+                                        reply.addString("Could not connect to channel");
+                                        reply.addString(argAsString);
                                     }
-#if defined(MpM_DoExplicitDisconnect)
-                                    if (! Common::NetworkDisconnectWithRetries(outChannel->getName(), argAsString,
-                                                                               STANDARD_WAIT_TIME))
-                                    {
-                                        OD_LOG("(! Common::NetworkDisconnectWithRetries(outChannel->getName(), "//####
-                                               "argAsString, STANDARD_WAIT_TIME))");//####
-                                    }
-#endif // defined(MpM_DoExplicitDisconnect)
+#if defined(MpM_DoExplicitClose)
+                                    outChannel->close();
+#endif // defined(MpM_DoExplicitClose)
                                 }
                                 else
                                 {
-                                    OD_LOG("! (outChannel->addOutputWithRetries(argAsString, "//####
-                                           "STANDARD_WAIT_TIME))");//####
+                                    OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
                                     reply.addString(MpM_FAILED_RESPONSE);
-                                    reply.addString("Could not connect to channel");
-                                    reply.addString(argAsString);
+                                    reply.addString("Channel could not be opened");
                                 }
-#if defined(MpM_DoExplicitClose)
-                                outChannel->close();
-#endif // defined(MpM_DoExplicitClose)
+                                Common::ClientChannel::RelinquishChannel(outChannel);
                             }
                             else
                             {
-                                OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
-                                reply.addString(MpM_FAILED_RESPONSE);
-                                reply.addString("Channel could not be opened");
+                                OD_LOG("! (outChannel)");
                             }
-                            Common::ClientChannel::RelinquishChannel(outChannel);
-                        }
-                        else
-                        {
-                            OD_LOG("! (outChannel)");
                         }
                     }
                     else

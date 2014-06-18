@@ -55,6 +55,7 @@
 #include "M+MInfoRequestHandler.h"
 #include "M+MListRequestHandler.h"
 #include "M+MNameRequestHandler.h"
+#include "M+MPingThread.h"
 #include "M+MRequests.h"
 #include "M+MServiceRequest.h"
 #include "M+MServiceResponse.h"
@@ -119,7 +120,7 @@ BaseService::BaseService(const char *                  launchPath,
         _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(), _canonicalName(canonicalName),
         _description(description), _requestsDescription(requestsDescription), _requestCount(0), _channelsHandler(NULL),
         _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
-        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _started(false),
+        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL), _started(false),
         _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER();//####
@@ -143,7 +144,7 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
         _launchPath(*argv), _contextsLock(), _requestHandlers(*this), _contexts(), _canonicalName(canonicalName),
         _description(description), _requestCount(0), _channelsHandler(NULL), _clientsHandler(NULL),
         _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL), _endpoint(NULL),
-        _handler(NULL), _handlerCreator(NULL), _started(false), _useMultipleHandlers(useMultipleHandlers)
+        _handler(NULL), _handlerCreator(NULL), _pinger(NULL), _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER();//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
@@ -490,6 +491,98 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
     OD_LOG_OBJEXIT();//####
 } // BaseService::removeContext
 
+bool BaseService::sendPingForChannel(const yarp::os::ConstString & channelName)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("channelName = ", channelName.c_str());//####
+    bool result = false;
+    
+    try
+    {
+        yarp::os::ConstString aName(GetRandomChannelName("_ping_/" DEFAULT_CHANNEL_ROOT));
+        ClientChannel *       newChannel = new ClientChannel;
+        
+        if (newChannel)
+        {
+#if defined(MpM_ReportOnConnections)
+            ChannelStatusReporter reporter;
+#endif // defined(MpM_ReportOnConnections)
+            
+#if defined(MpM_ReportOnConnections)
+            newChannel->setReporter(reporter);
+            newChannel->getReport(reporter);
+#endif // defined(MpM_ReportOnConnections)
+            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+            {
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
+                {
+                    Package         parameters(channelName);
+                    ServiceRequest  request(MpM_PING_REQUEST, parameters);
+                    ServiceResponse response;
+                    
+                    if (request.send(*newChannel, &response))
+                    {
+                        // Check that we got a successful self-registration!
+                        if (1 == response.count())
+                        {
+                            yarp::os::Value theValue = response.element(0);
+                            
+                            if (theValue.isString())
+                            {
+                                result = (theValue.toString() == MpM_OK_RESPONSE);
+                            }
+                            else
+                            {
+                                OD_LOG("! (theValue.isString())");//####
+                            }
+                        }
+                        else
+                        {
+                            OD_LOG("! (1 == response.count())");//####
+                            OD_LOG_S1("response = ", response.asString().c_str());//####
+                        }
+                    }
+                    else
+                    {
+                        OD_LOG("! (request.send(*newChannel, &response))");//####
+                    }
+#if defined(MpM_DoExplicitDisconnect)
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
+                    {
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
+                               "STANDARD_WAIT_TIME))");//####
+                    }
+#endif // defined(MpM_DoExplicitDisconnect)
+                }
+                else
+                {
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
+                           "false))");//####
+                }
+#if defined(MpM_DoExplicitClose)
+                newChannel->close();
+#endif // defined(MpM_DoExplicitClose)
+            }
+            else
+            {
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
+            }
+            ClientChannel::RelinquishChannel(newChannel);
+        }
+        else
+        {
+            OD_LOG("! (newChannel)");//####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // BaseService::sendPingForChannel
+
 void BaseService::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER();//####
@@ -560,9 +653,26 @@ bool BaseService::start(void)
     return _started;
 } // BaseService::start
 
+void BaseService::startPinger(void)
+{
+    OD_LOG_OBJENTER();//####
+    if ((! _pinger) && _endpoint)
+    {
+        _pinger = new PingThread(_endpoint->getName());
+        _pinger->start();
+    }
+    OD_LOG_OBJEXIT();//####
+} // BaseService::startPinger
+
 bool BaseService::stop(void)
 {
     OD_LOG_OBJENTER();//####
+    if (_pinger)
+    {
+        _pinger->stop();
+        delete _pinger;
+        _pinger = NULL;
+    }
     _started = false;
     OD_LOG_OBJEXIT_B(! _started);//####
     return (! _started);

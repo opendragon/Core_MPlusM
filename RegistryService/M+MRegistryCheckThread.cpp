@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MBailOutThread.cpp
+//  File:       M+MRegistryCheckThread.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for a timeout thread for M+M.
+//  Contains:   The class definition for a regitry check thread for M+M.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,14 +35,12 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-04-01
+//  Created:    2014-06-18
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MBailOutThread.h"
-#include "M+MAdapterChannel.h"
-#include "M+MClientChannel.h"
-#include "M+MServiceChannel.h"
+#include "M+MRegistryCheckThread.h"
+#include "M+MRegistryService.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -71,13 +69,14 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for a timeout thread for M+M. */
+ @brief The class definition for a registry check thread for M+M. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
+using namespace MplusM::Registry;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -95,109 +94,57 @@ using namespace MplusM::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-BailOutThread::BailOutThread(const double timeToWait) :
-        inherited(), _adapterChannel(NULL), _clientChannel(NULL), _serviceChannel(NULL), _timeToWait(timeToWait)
+RegistryCheckThread::RegistryCheckThread(RegistryService & service) :
+        inherited(), _service(service)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
+    OD_LOG_P1("service = ", &service);//####
     OD_LOG_EXIT_P(this);//####
-} // BailOutThread::BailOutThread
+} // RegistryCheckThread::RegistryCheckThread
 
-BailOutThread::BailOutThread(AdapterChannel & channelOfInterest,
-                             const double     timeToWait) :
-        inherited(), _adapterChannel(&channelOfInterest), _clientChannel(NULL), _serviceChannel(NULL),
-        _timeToWait(timeToWait)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("channelOfInterest = ", &channelOfInterest);//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
-    OD_LOG_EXIT_P(this);//####
-} // BailOutThread::BailOutThread
-
-BailOutThread::BailOutThread(ClientChannel & channelOfInterest,
-                             const double    timeToWait) :
-        inherited(), _adapterChannel(NULL), _clientChannel(&channelOfInterest), _serviceChannel(NULL),
-        _timeToWait(timeToWait)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("channelOfInterest = ", &channelOfInterest);//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
-    OD_LOG_EXIT_P(this);//####
-} // BailOutThread::BailOutThread
-
-BailOutThread::BailOutThread(ServiceChannel & channelOfInterest,
-                             const double     timeToWait) :
-        inherited(), _adapterChannel(NULL), _clientChannel(NULL), _serviceChannel(&channelOfInterest),
-        _timeToWait(timeToWait)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("channelOfInterest = ", &channelOfInterest);//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
-    OD_LOG_EXIT_P(this);//####
-} // BailOutThread::BailOutThread
-
-BailOutThread::~BailOutThread(void)
+RegistryCheckThread::~RegistryCheckThread(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // BailOutThread::~BailOutThread
+} // RegistryCheckThread::~RegistryCheckThread
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void BailOutThread::run(void)
+void RegistryCheckThread::run(void)
 {
     OD_LOG_OBJENTER();//####
     for ( ; ! isStopping(); )
     {
-        if (_endTime <= yarp::os::Time::now())
+        double now = yarp::os::Time::now();
+        
+        if (_checkTime <= now)
         {
-            OD_LOG("(_endTime <= yarp::os::Time::now())");//####
-            if (_adapterChannel)
-            {
-                _adapterChannel->interrupt();
-            }
-            else if (_clientChannel)
-            {
-                _clientChannel->interrupt();
-            }
-            else if (_serviceChannel)
-            {
-                _serviceChannel->interrupt();
-            }
-#if MAC_OR_LINUX_
-            raise(STANDARD_SIGNAL_TO_USE);
-#endif // MAC_OR_LINUX_
-#if defined(__APPLE__)
-# pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Wunreachable-code"
-#endif // defined(__APPLE__)
-            break;
-#if defined(__APPLE__)
-# pragma clang diagnostic pop
-#endif // defined(__APPLE__)
+//// Send a ping!
+//MplusM::Common::BaseService::sendPingForChannel(_channelName);
+            _checkTime = now + PING_CHECK_INTERVAL;
         }
-        yarp::os::Time::yield();
+        yarp::os::Time::delay(PING_CHECK_INTERVAL / 10.0);
     }
     OD_LOG_OBJEXIT();//####
-} // BailOutThread::run
+} // RegistryCheckThread::run
 
-bool BailOutThread::threadInit(void)
+bool RegistryCheckThread::threadInit(void)
 {
     OD_LOG_OBJENTER();//####
     bool result = true;
     
-    _endTime = yarp::os::Time::now() + _timeToWait;
+    _checkTime = yarp::os::Time::now() + PING_CHECK_INTERVAL;
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // BailOutThread::threadInit
+} // RegistryCheckThread::threadInit
 
-void BailOutThread::threadRelease(void)
+void RegistryCheckThread::threadRelease(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // BailOutThread::threadRelease
+} // RegistryCheckThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Accessors
