@@ -244,7 +244,7 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
     OD_LOG_P1("aChannel = ", aChannel);//####
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName("/associate_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName("_associate_/" DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -481,7 +481,7 @@ void BaseClient::removeAssociatedChannels(void)
     OD_LOG_OBJENTER();//####
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName("/disassociate_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName("_disassociate_/" DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -611,7 +611,7 @@ Package Common::FindMatchingServices(const char * criteria,
 
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName("/findmatch_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName("_findmatch_/" DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)

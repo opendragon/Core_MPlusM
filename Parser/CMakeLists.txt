@@ -100,13 +100,9 @@ add_test(NAME TestParseValue6 COMMAND M+MParserTest 1 t "alpha*beta")
 set_property(TEST TestParseValue6
              PROPERTY PASS_REGULAR_EXPRESSION "^'alpha%beta'\n$")
 add_test(NAME TestParseValue7 COMMAND M+MParserTest 1 t "alpha_beta")
-#set_property(TEST TestParseValue7
-#             PROPERTY PASS_REGULAR_EXPRESSION "^'alpha${ESCAPE_CHAR2}_beta' ESCAPE '${ESCAPE_CHAR2}'\n$")
 set_property(TEST TestParseValue7
              PROPERTY PASS_REGULAR_EXPRESSION "^'alpha_beta'\n$")
 add_test(NAME TestParseValue8 COMMAND M+MParserTest 1 t "alpha%beta")
-#set_property(TEST TestParseValue8
-#             PROPERTY PASS_REGULAR_EXPRESSION "^'alpha${ESCAPE_CHAR2}%beta' ESCAPE '${ESCAPE_CHAR2}'\n$")
 set_property(TEST TestParseValue8
              PROPERTY PASS_REGULAR_EXPRESSION "^'alpha%beta'\n$")
 add_test(NAME TestParseValue9 COMMAND M+MParserTest 1 t "'alpha beta'")
@@ -178,8 +174,6 @@ add_test(NAME TestParseFieldWithValues5 COMMAND M+MParserTest 4 t "keyword(alpha
 set_property(TEST TestParseFieldWithValues5
              PROPERTY PASS_REGULAR_EXPRESSION "^keyword = 'alpha'\n$")
 add_test(NAME TestParseFieldWithValues6 COMMAND M+MParserTest 4 t "keyword alpha${ESCAPE_CHAR1}*")
-#set_property(TEST TestParseFieldWithValues6
-#             PROPERTY PASS_REGULAR_EXPRESSION "^keyword = 'alpha${ESCAPE_CHAR1}*'\n$")
 set_property(TEST TestParseFieldWithValues6
              PROPERTY PASS_REGULAR_EXPRESSION "^keyword = 'alpha${ESCAPE_CHAR1}*'\n$")
 add_test(NAME TestParseFieldWithValues7 COMMAND M+MParserTest 4 t "keyword:alpha")

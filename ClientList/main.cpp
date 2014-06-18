@@ -91,18 +91,32 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Process the response to the 'list' request sent to a service.
+ @param flavour The format for the output.
  @param serviceName The name of the service that generated the response.
  @param response The response to be processed.
  @returns @c true if some output was generated and @c false otherwise. */
-static bool processResponse(const yarp::os::ConstString &           serviceName,
+static bool processResponse(MplusM::Common::OutputFlavour           flavour,
+                            const yarp::os::ConstString &           serviceName,
                             const MplusM::Common::ServiceResponse & response)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("serviceName = ", serviceName.c_str());//####
     OD_LOG_P1("response = ", &response);//####
     bool result = false;
+    yarp::os::ConstString cleanServiceName;
     
     OD_LOG_S1("response = ", response.asString().c_str());//####
+    switch (flavour)
+    {
+        case MplusM::Common::kOutputFlavourJSON:
+            cleanServiceName = MplusM::SanitizeString(serviceName);
+            break;
+            
+        default:
+            cleanServiceName = MplusM::SanitizeString(serviceName, true);
+            break;
+            
+    }
     for (int ii = 0, howMany = response.count(); ii < howMany; ++ii)
     {
         yarp::os::Value element(response.element(ii));
@@ -111,11 +125,32 @@ static bool processResponse(const yarp::os::ConstString &           serviceName,
         {
             yarp::os::ConstString clientString(element.toString());
             
-            if (! result)
+            switch (flavour)
             {
-                cout << "Service: " << serviceName.c_str() << endl << "Clients: " << endl;
+                case MplusM::Common::kOutputFlavourJSON:
+                    if (result)
+                    {
+                        cout << "," << endl;
+                    }
+                    cout << T_("{ " CHAR_DOUBLEQUOTE "Service" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                            cleanServiceName.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Client"
+                                                           CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                            MplusM::SanitizeString(clientString, true).c_str() << T_(CHAR_DOUBLEQUOTE " }");
+                    break;
+                    
+                case MplusM::Common::kOutputFlavourTabs:
+                    cout << cleanServiceName.c_str() << "\t" << MplusM::SanitizeString(clientString).c_str() << endl;
+                    break;
+                    
+                default:
+                    if (! result)
+                    {
+                        cout << "Service: " << cleanServiceName.c_str() << endl << "Clients: " << endl;
+                    }
+                    cout << "   " << MplusM::SanitizeString(clientString).c_str() << endl;
+                    break;
+                    
             }
-            cout << "   " << clientString.c_str() << endl;
             result = true;
         }
     }
@@ -205,7 +240,7 @@ int main(int      argc,
                         
                         if (matchesCount)
                         {
-                            yarp::os::ConstString           aName = MplusM::Common::GetRandomChannelName("/clientlist_/"
+                            yarp::os::ConstString           aName = MplusM::Common::GetRandomChannelName("_clientlist_/"
                                                                                                 DEFAULT_CHANNEL_ROOT);
                             MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
                             
@@ -216,11 +251,14 @@ int main(int      argc,
                                     bool                    sawRequestResponse = false;
                                     MplusM::Common::Package parameters;
 
+                                    if (MplusM::Common::kOutputFlavourJSON == flavour)
+                                    {
+                                        cout << "[ ";
+                                    }
                                     for (int ii = 0; ii < matchesCount; ++ii)
                                     {
                                         yarp::os::ConstString aMatch(matchesList->get(ii).toString());
                                         
-OD_LOG_S1("aMatch = ", aMatch.c_str());//####
                                         if (MplusM::Common::NetworkConnectWithRetries(aName, aMatch, STANDARD_WAIT_TIME,
                                                                                       false))
                                         {
@@ -233,7 +271,7 @@ OD_LOG_S1("aMatch = ", aMatch.c_str());//####
                                                 if (0 < response.count())
                                                 {
                                                     OD_LOG("(0 < response.count())");//####
-                                                    if (processResponse(aMatch, response))
+                                                    if (processResponse(flavour, aMatch, response))
                                                     {
                                                         sawRequestResponse = true;
                                                     }
@@ -260,9 +298,23 @@ OD_LOG_S1("aMatch = ", aMatch.c_str());//####
                                                    "aMatch, STANDARD_WAIT_TIME, false))");//####
                                         }
                                     }
+                                    if (MplusM::Common::kOutputFlavourJSON == flavour)
+                                    {
+                                        cout << " ]" << endl;
+                                    }
                                     if (! sawRequestResponse)
                                     {
-                                        cout << "No client connections found." << endl;
+                                        switch (flavour)
+                                        {
+                                            case MplusM::Common::kOutputFlavourJSON:
+                                            case MplusM::Common::kOutputFlavourTabs:
+                                                break;
+                                                
+                                            default:
+                                                cout << "No client connections found." << endl;
+                                                break;
+                                                
+                                        }
                                     }
 #if defined(MpM_DoExplicitClose)
                                     newChannel->close();
@@ -281,7 +333,17 @@ OD_LOG_S1("aMatch = ", aMatch.c_str());//####
                         }
                         else
                         {
-                            cout << "No services found." << endl;
+                            switch (flavour)
+                            {
+                                case MplusM::Common::kOutputFlavourJSON:
+                                case MplusM::Common::kOutputFlavourTabs:
+                                    break;
+                                    
+                                default:
+                                    cout << "No services found." << endl;
+                                    break;
+                                    
+                            }
                         }
                     }
                     else

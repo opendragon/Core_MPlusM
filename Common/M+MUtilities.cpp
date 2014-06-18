@@ -544,7 +544,7 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
     associates._primary = associates._valid = false;
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName("/getassociates_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName("_getassociates_/" DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -654,7 +654,7 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
     OD_LOG_P1("descriptor = ", &descriptor);//####
     OD_LOG_D1("timeToWait = ", timeToWait);//####
     bool                  result = false;
-    yarp::os::ConstString aName(GetRandomChannelName("/servicelister_/" DEFAULT_CHANNEL_ROOT));
+    yarp::os::ConstString aName(GetRandomChannelName("_servicelister_/" DEFAULT_CHANNEL_ROOT));
     ClientChannel *       newChannel = new ClientChannel;
     
     if (newChannel)

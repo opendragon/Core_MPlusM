@@ -192,7 +192,6 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
         {
             snprintf(buff, buffLen, "/%s%x", stringToUse, randNumb);
         }
-        
 #  else // ! MAC_OR_LINUX_
         if (hasLeadingSlash)
         {
@@ -202,7 +201,6 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
         {
             sprintf(buff, "/%s%x", stringToUse, randNumb);
         }
-        
 #  endif // ! MAC_OR_LINUX_
         result = buff;
         delete[] buff;

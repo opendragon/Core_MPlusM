@@ -311,7 +311,7 @@ static int doTestConnectToEndpoint(const int argc,
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomChannelName("test_/connecttoendpoint_"));
+                yarp::os::ConstString aName(GetRandomChannelName("_test_/connecttoendpoint_"));
                 ClientChannel *       outChannel = new ClientChannel;
                 
                 if (outChannel)
@@ -402,7 +402,7 @@ static int doTestWriteToEndpoint(const int argc,
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomChannelName("test_/writetoendpoint_"));
+                yarp::os::ConstString aName(GetRandomChannelName("_test_/writetoendpoint_"));
                 ClientChannel *       outChannel = new ClientChannel;
                 
                 if (outChannel)
@@ -526,7 +526,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomChannelName("test_/echofromendpointwithreader_"));
+                yarp::os::ConstString aName(GetRandomChannelName("_test_/echofromendpointwithreader_"));
                 ClientChannel *       outChannel = new ClientChannel;
                 
                 if (outChannel)
@@ -634,7 +634,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomChannelName("test_/echofromendpointwithreadercreator_"));
+                yarp::os::ConstString aName(GetRandomChannelName("_test_/echofromendpointwithreadercreator_"));
                 ClientChannel *       outChannel = new ClientChannel;
                 
                 if (outChannel)

@@ -592,7 +592,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
     
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName("/registerlocal_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName("_registerlocal_/" DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -684,7 +684,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
     
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName("/unregisterlocal_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName("_unregisterlocal_/" DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)

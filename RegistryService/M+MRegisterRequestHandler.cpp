@@ -188,7 +188,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                     if (Common::Endpoint::CheckEndpointName(argAsString))
                     {
                         // Send a 'list' request to the channel
-                        yarp::os::ConstString   aName(Common::GetRandomChannelName("register_/" DEFAULT_CHANNEL_ROOT));
+                        yarp::os::ConstString   aName(Common::GetRandomChannelName("_register_/" DEFAULT_CHANNEL_ROOT));
                         Common::ClientChannel * outChannel = new Common::ClientChannel;
                         
                         if (outChannel)
