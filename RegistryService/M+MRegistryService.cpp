@@ -1934,6 +1934,34 @@ bool RegistryService::checkForExistingService(const yarp::os::ConstString & chan
     return okSoFar;
 } // RegistryService::checkForExistingService
 
+void RegistryService::checkServiceTimes(void)
+{
+    OD_LOG_OBJENTER();//####
+    double       now = yarp::os::Time::now();
+    StringVector expired;
+    
+    // Build a list of expired services.
+    _checkedTimeLock.lock();
+    for (TimeMap::const_iterator walker(_lastCheckedTime.begin()); _lastCheckedTime.end() != walker; ++walker)
+    {
+        double check = walker->second;
+        
+        if (now > check)
+        {
+            expired.push_back(walker->first);
+        }
+    }
+    _checkedTimeLock.unlock();
+    for (StringVector::const_iterator walker(expired.begin()); expired.end() != walker; ++walker)
+    {
+        if (removeServiceRecord(*walker))
+        {
+            removeCheckedTimeForChannel(*walker);
+        }
+    }
+    OD_LOG_OBJEXIT();//####
+} // RegistryService::checkServiceTimes
+
 void RegistryService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER();//####

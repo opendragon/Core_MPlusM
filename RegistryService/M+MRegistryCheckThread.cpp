@@ -121,8 +121,7 @@ void RegistryCheckThread::run(void)
         
         if (_checkTime <= now)
         {
-//// Send a ping!
-//MplusM::Common::BaseService::sendPingForChannel(_channelName);
+            _service.checkServiceTimes();
             _checkTime = now + PING_CHECK_INTERVAL;
         }
         yarp::os::Time::delay(PING_CHECK_INTERVAL / 10.0);

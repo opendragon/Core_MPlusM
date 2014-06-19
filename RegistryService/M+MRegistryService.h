@@ -156,6 +156,9 @@ namespace MplusM
              @returns @c true if the service is present and @c false otherwise. */
             bool checkForExistingService(const yarp::os::ConstString & channelName);
             
+            /*! @brief Check for expired services. */
+            void checkServiceTimes(void);
+            
             /*! @brief Fill in the list of associated input channels and output channesls for a channel.
              @param channelName The channel to be checked.
              @param isPrimary @c true if the channel is a primary and @c false if it is an associated channel
