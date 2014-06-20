@@ -50,8 +50,6 @@
 #include <ace/Version.h>
 #include <cmath>
 #include <cstdio>
-#include <cstdlib>
-#include <cstring>
 #include <ctime>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -64,17 +62,9 @@
 # pragma clang diagnostic ignored "-Wweak-vtables"
 #endif // defined(__APPLE__)
 #include <yarp/conf/version.h>
-#include <yarp/os/Network.h>
-#include <yarp/os/Os.h>
-#include <yarp/os/Random.h>
-#include <yarp/os/Time.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
-#if (! MAC_OR_LINUX_)
-	//ASSUME WINDOWS
-# include <signal.h>
-#endif // defined(!MAC_OR_LINUX)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -392,40 +382,59 @@ bool MplusM::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString & 
     return result;
 } // MplusM::Common::NetworkDisconnectWithRetries
 
-void MplusM::Common::SetSignalHandlers(SignalHandler theHandler)
+void MplusM::Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
 {
     OD_LOG_ENTER();//####
 #if MAC_OR_LINUX_
     sigset_t         blocking;
     struct sigaction act;
 #endif // MAC_OR_LINUX_
-
+    
 #if MAC_OR_LINUX_
     act.sa_handler = theHandler;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
-# if (SIGHUP != STANDARD_SIGNAL_TO_USE)
+# if (defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE))
+    sigaction(SIGABRT, &act, NULL);
+# endif // defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
+# if (defined(SIGHUP) && (SIGHUP != STANDARD_SIGNAL_TO_USE))
     sigaction(SIGHUP, &act, NULL);
-# endif // SIGHUP != STANDARD_SIGNAL_TO_USE
-# if (SIGINT != STANDARD_SIGNAL_TO_USE)
+# endif // defined(SIGHUP) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
+# if (defined(SIGINT) && (SIGINT != STANDARD_SIGNAL_TO_USE))
     sigaction(SIGINT, &act, NULL);
-# endif // SIGINT != STANDARD_SIGNAL_TO_USE
-# if (SIGQUIT != STANDARD_SIGNAL_TO_USE)
+# endif // defined(SIGINT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
+# if (defined(SIGQUIT) && (SIGQUIT != STANDARD_SIGNAL_TO_USE))
     sigaction(SIGQUIT, &act, NULL);
-# endif // SIGQUIT != STANDARD_SIGNAL_TO_USE
-# if (SIGUSR1 != STANDARD_SIGNAL_TO_USE)
+# endif // defined(SIGQUIT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
+# if (defined(SIGUSR1) && (SIGUSR1 != STANDARD_SIGNAL_TO_USE))
     sigaction(SIGUSR1, &act, NULL);
-# endif // SIGUSR1 != STANDARD_SIGNAL_TO_USE
-# if (SIGUSR2 != STANDARD_SIGNAL_TO_USE)
+# endif // defined(SIGUSR1) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
+# if (defined(SIGUSR2) && (SIGUSR2 != STANDARD_SIGNAL_TO_USE))
     sigaction(SIGUSR2, &act, NULL);
-# endif // SIGUSR2 != STANDARD_SIGNAL_TO_USE
+# endif // defined(SIGUSR2) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
     sigemptyset(&blocking);
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
 #else // ! MAC_OR_LINUX_
-      //ASSUME WINDOWS
-	signal(SIGINT, theHandler);
-	signal(SIGABRT, theHandler);
+# if (defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE))
+    yarp::os::signal(SIGABRT, theHandler);
+# endif // defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
+# if (defined(SIGHUP) && (SIGHUP != STANDARD_SIGNAL_TO_USE))
+    yarp::os::signal(SIGHUP, theHandler);
+# endif // defined(SIGHUP) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
+# if (defined(SIGINT) && (SIGINT != STANDARD_SIGNAL_TO_USE))
+    yarp::os::signal(SIGINT, theHandler);
+# endif // defined(SIGINT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
+# if (defined(SIGQUIT) && (SIGQUIT != STANDARD_SIGNAL_TO_USE))
+    yarp::os::signal(SIGQUIT, theHandler);
+# endif // defined(SIGQUIT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
+# if (defined(SIGUSR1) && (SIGUSR1 != STANDARD_SIGNAL_TO_USE))
+    yarp::os::signal(SIGUSR1, theHandler);
+# endif // defined(SIGUSR1) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
+# if (defined(SIGUSR2) && (SIGUSR2 != STANDARD_SIGNAL_TO_USE))
+    yarp::os::signal(SIGUSR2, theHandler);
+# endif // defined(SIGUSR2) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
+    yarp::os::signal(SIGTERM, theHandler);
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT();//####
 } // MplusM::Common::SetSignalHandlers
@@ -445,7 +454,8 @@ void MplusM::Common::SetUpCatcher(void)
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
     sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
-#endif // MAC_OR_LINUX_
+#else // ! MAC_OR_LINUX_
+#endif // ! MAC_OR_LINUX_
 } // MplusM::Common::SetUpCatcher
 
 void MplusM::Common::ShutDownCatcher(void)
@@ -463,7 +473,8 @@ void MplusM::Common::ShutDownCatcher(void)
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
     sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
-#endif // MAC_OR_LINUX_
+#else // ! MAC_OR_LINUX_
+#endif // ! MAC_OR_LINUX_
 } // MplusM::Common::ShutDownCatcher
 
 void MplusM::Common::Stall(void)

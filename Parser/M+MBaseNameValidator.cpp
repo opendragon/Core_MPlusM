@@ -45,8 +45,6 @@
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
-#include <cctype>
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"

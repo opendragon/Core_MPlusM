@@ -53,7 +53,13 @@
 /*! @brief @c TRUE if NetworkBase::checkNetwork() can be trusted and @c FALSE otherwise. */
 # define CheckNetworkWorks_ MAC_OR_LINUX_
 
+# include <cctype>
+# include <csignal>
+# include <cstdlib>
+# include <cstring>
 # include <iostream>
+# include <list>
+# include <map>
 # include <vector>
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -65,9 +71,7 @@
 #  pragma clang diagnostic ignored "-Wunused-parameter"
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
-# include <yarp/os/Bottle.h>
-# include <yarp/os/ConstString.h>
-# include <yarp/os/Contact.h>
+# include <yarp/os/all.h>
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -173,7 +177,15 @@
 # define T_(xx)                    xx
 
 /*! @brief @c TRUE if retry loops use timeouts and @c FALSE otherwise. */
-# define RETRY_LOOPS_USE_TIMEOUTS ((! defined(MpM_DontUseTimeouts)) && defined(MpM_UseTimeoutsInRetryLoops))
+# if defined(MpM_UseTimeoutsInRetryLoops)
+#  if defined(MpM_DontUseTimeouts)
+#   define RETRY_LOOPS_USE_TIMEOUTS FALSE
+#  else // ! defined(MpM_DontUseTimeouts)
+#   define RETRY_LOOPS_USE_TIMEOUTS TRUE
+#  endif // ! defined(MpM_DontUseTimeouts)
+# else // ! defined(MpM_UseTimeoutsInRetryLoops)
+#  define RETRY_LOOPS_USE_TIMEOUTS  FALSE
+# endif // ! defined(MpM_UseTimeoutsInRetryLoops)
 
 namespace MplusM
 {
@@ -227,10 +239,6 @@ namespace MplusM
         /*! @brief A sequence of strings. */
         typedef std::vector<yarp::os::ConstString> StringVector;
         
-        /*! @brief A signal handler. */
-        typedef void (* SignalHandler)
-                        (int signal);
-        
         /*! @brief Dump out a description of the provided connection information to the log.
          @param tag A unique string used to identify the call point for the output.
          @param aContact The connection information to be reported. */
@@ -269,7 +277,7 @@ namespace MplusM
         
         /*! @brief Connect the standard signals to a handler.
          @param theHandler The new handler for the signals. */
-        void SetSignalHandlers(SignalHandler theHandler);
+        void SetSignalHandlers(yarp::os::YarpSignalHandler theHandler);
         
         /*! @brief Set up the signal-handling behaviour so that this thread will catch our signal. */
         void SetUpCatcher(void);
