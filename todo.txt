@@ -13,3 +13,13 @@
 * change signal handling to use platform-neutral mechanisms
 
 * a port has a corresponding protocols; ‘normal’ services can, of course, have secondary inputs and outputs - ’non-normal’ services respond to ‘protocol’ requests for their ports, as well as ‘restartStreams’, ‘startStreams’ and ‘stopStreams’ requests
+
+—> note that the Service Registry already acts like an input… so it may not be necessary to add a new request but, rather, generalize what is already working
+
+* random number stream service; start [# per packet [interval]] / stop; output protocol is ‘d’
+
+* recorder service; start [file-name] / stop; input protocol is ‘i’
+
+* general channels should have protocols -> if not specified (blank) anything goes; the Service Registry status port can have a protocol of ’s’ - protocols are just strings
+
+* truncate filter; input protocol is ‘d’, output protocol is ‘i’
