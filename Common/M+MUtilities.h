@@ -128,26 +128,30 @@ namespace MplusM
         /*! @brief The attributes of a service. */
         struct ServiceDescriptor
         {
-            /*! @brief The standard channel for the service. */
-            yarp::os::ConstString _channelName;
-            
             /*! @brief The standard name for the service. */
             yarp::os::ConstString _canonicalName;
+            
+            /*! @brief The standard channel for the service. */
+            yarp::os::ConstString _channelName;
             
             /*! @brief The description of the service. */
             yarp::os::ConstString _description;
             
-            /*! @brief The name of the input channel for the service. */
-            yarp::os::ConstString _path;
-            
             /*! @brief The set of secondary input channels for the service. */
             Common::StringVector  _inputChannels;
+            
+            /*! @brief The description of the behavioural model for the service. */
+            yarp::os::ConstString _kind;
             
             /*! @brief The set of secondary output channels for the service. */
             Common::StringVector  _outputChannels;
             
+            /*! @brief The name of the input channel for the service. */
+            yarp::os::ConstString _path;
+            
             /*! @brief The description of the requests for the service. */
             yarp::os::ConstString _requestsDescription;
+            
         }; // ServiceDescriptor
         
         /*! @brief A set of port descriptions. */
@@ -215,6 +219,16 @@ namespace MplusM
          @param quiet @c true if status output is to be suppressed and @c false otherwise. */
         void GetServiceNames(Common::StringVector & services,
                              const bool             quiet = false);
+        
+        /*! @brief Return a string representation of a service kind.
+         @param kind The value to be converted.
+         @returns A string representation of the service kind. */
+        const char * MapServiceKindToString(const Common::ServiceKind kind);
+        
+        /*! @brief Return the service kind corresponding to a string.
+         @param kindString The value to be converted.
+         @returns The service kind corresponding to a string. */
+        Common::ServiceKind MapStringToServiceKind(const yarp::os::ConstString & kindString);
         
         /*! @brief Remove a connection between two ports.
          @param fromPortName The name of the source port.

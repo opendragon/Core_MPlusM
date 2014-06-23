@@ -60,67 +60,91 @@
 # define MpM_REGISTRY_CANONICAL_NAME "Registry"
 
 /*! @brief The name for an 'associate' request. */
-# define MpM_ASSOCIATE_REQUEST     "associate"
+# define MpM_ASSOCIATE_REQUEST      "associate"
 
 /*! @brief The standard name for a 'channels' request. */
-# define MpM_CHANNELS_REQUEST      "channels"
+# define MpM_CHANNELS_REQUEST       "channels"
 
 /*! @brief The standard name for the 'clients' request. */
-# define MpM_CLIENTS_REQUEST       "clients"
+# define MpM_CLIENTS_REQUEST        "clients"
 
 /*! @brief The standard name for the 'count' request. */
-# define MpM_COUNT_REQUEST         "count"
+# define MpM_COUNT_REQUEST          "count"
 
 /*! @brief The standard name for the 'detach' request. */
-# define MpM_DETACH_REQUEST        "detach"
+# define MpM_DETACH_REQUEST         "detach"
 
 /*! @brief The name for the 'disassociate' request. */
-# define MpM_DISASSOCIATE_REQUEST  "disassociate"
+# define MpM_DISASSOCIATE_REQUEST   "disassociate"
 
 /*! @brief The name for the 'echo' request. */
-# define MpM_ECHO_REQUEST          "echo"
+# define MpM_ECHO_REQUEST           "echo"
 
 /*! @brief The name for the 'getAssociates' request. */
-# define MpM_GETASSOCIATES_REQUEST "getAssociates"
+# define MpM_GETASSOCIATES_REQUEST  "getAssociates"
 
 /*! @brief The standard name for an 'info' request. */
-# define MpM_INFO_REQUEST          "info"
+# define MpM_INFO_REQUEST           "info"
 
 /*! @brief The standard name for a 'list' request. */
-# define MpM_LIST_REQUEST          "list"
+# define MpM_LIST_REQUEST           "list"
 
 /*! @brief The name for a 'match' request. */
-# define MpM_MATCH_REQUEST         "match"
+# define MpM_MATCH_REQUEST          "match"
 
 /*! @brief The standard name for a 'name' request. */
-# define MpM_NAME_REQUEST          "name"
+# define MpM_NAME_REQUEST           "name"
 
 /*! @brief The standard name for a 'name' request. */
-# define MpM_PING_REQUEST          "ping"
+# define MpM_PING_REQUEST           "ping"
 
 /*! @brief The name for a 'register' request. */
-# define MpM_REGISTER_REQUEST      "register"
+# define MpM_REGISTER_REQUEST       "register"
+
+/*! @brief The name for a 'restartStreams' request. */
+# define MpM_RESTARTSTREAMS_REQUEST "restartStreams"
+
+/*! @brief The name for a 'startStreams' request. */
+# define MpM_STARTSTREAMS_REQUEST   "startStreams"
+
+/*! @brief The name for a 'stopStreams' request. */
+# define MpM_STOPSTREAMS_REQUEST    "stopStreams"
 
 /*! @brief The name for an 'unregister' request. */
-# define MpM_UNREGISTER_REQUEST    "unregister"
+# define MpM_UNREGISTER_REQUEST     "unregister"
 
 /*! @brief The number of elements expected in the output of an 'associate' request. */
-# define MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE     1
+# define MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE      1
 
 /*! @brief The number of elements expected in the output of a 'channels' request. */
-# define MpM_EXPECTED_CHANNELS_RESPONSE_SIZE      2
+# define MpM_EXPECTED_CHANNELS_RESPONSE_SIZE       2
 
 /*! @brief The number of elements expected in the output of a 'disassociate' request. */
-# define MpM_EXPECTED_DISASSOCIATE_RESPONSE_SIZE  1
+# define MpM_EXPECTED_DISASSOCIATE_RESPONSE_SIZE   1
 
 /*! @brief The number of elements expected in the output of a 'getAssociates' request. */
-# define MpM_EXPECTED_GETASSOCIATES_RESPONSE_SIZE 4
+# define MpM_EXPECTED_GETASSOCIATES_RESPONSE_SIZE  4
 
 /*! @brief The number of elements expected in the output of a 'match' request. */
-# define MpM_EXPECTED_MATCH_RESPONSE_SIZE         2
+# define MpM_EXPECTED_MATCH_RESPONSE_SIZE          2
 
 /*! @brief The number of elements expected in the output of a 'name' request. */
-# define MpM_EXPECTED_NAME_RESPONSE_SIZE          4
+# define MpM_EXPECTED_NAME_RESPONSE_SIZE           5
+
+/*! @brief The number of elements expected in the output of a 'register' request. */
+# define MpM_EXPECTED_REGISTER_RESPONSE_SIZE       1
+
+/*! @brief The number of elements expected in the output of a 'restartStreams' request. */
+# define MpM_EXPECTED_RESTARTSTREAMS_RESPONSE_SIZE 1
+
+/*! @brief The number of elements expected in the output of a 'startStreams' request. */
+# define MpM_EXPECTED_STARTSTREAMS_RESPONSE_SIZE   1
+
+/*! @brief The number of elements expected in the output of a 'stopStreams' request. */
+# define MpM_EXPECTED_STOPSTREAMS_RESPONSE_SIZE    1
+
+/*! @brief The number of elements expected in the output of an 'unregister' request. */
+# define MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE     1
 
 /*! @brief The standard response to an invalid Service Registry request. */
 # define MpM_FAILED_RESPONSE "FAILED"

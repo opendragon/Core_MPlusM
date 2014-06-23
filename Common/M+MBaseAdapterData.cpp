@@ -5,7 +5,7 @@
 //  Project:    M+M
 //
 //  Contains:   The class definition for the minimal functionality required for the data
-//              shared between the input handlers and main thread of a M+M adapter.
+//              shared between the input handlers and main thread of an M+M adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -52,7 +52,7 @@
 /*! @file
  
  @brief The class definition for the minimal functionality required for the data shared
- between the input handlers and main thread of a M+M adapter. */
+ between the input handlers and main thread of an M+M adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

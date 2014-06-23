@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MTest16Service.cpp
+//  File:       M+MGeneralChannel.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for a simple service used by the unit tests.
+//  Contains:   The class definition for for general-purpose channels.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,13 +35,12 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-06
+//  Created:    2014-06-23
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MTest16Service.h"
-#include "M+MRequests.h"
-#include "M+MTest16EchoRequestHandler.h"
+#include "M+MGeneralChannel.h"
+#include "M+MBailOut.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -51,15 +50,14 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
- @brief The class definition for a simple service used by the unit tests. */
+
+ @brief The class definition for for general-purpose channels. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -77,117 +75,141 @@ using namespace MplusM::Test;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-Test16Service::Test16Service(const int argc,
-                             char * *  argv) :
-        inherited(kServiceKindNormal, true, "Test16", "Simple service for unit tests", "", argc, argv),
-        _echoHandler(NULL)
+GeneralChannel::GeneralChannel(const bool isOutput) :
+        inherited(), _name(), _isOutput(isOutput)
 {
     OD_LOG_ENTER();//####
-    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
-} // Test16Service::Test16Service
+} // GeneralChannel::GeneralChannel
 
-Test16Service::~Test16Service(void)
+GeneralChannel::~GeneralChannel(void)
 {
     OD_LOG_OBJENTER();//####
-    detachRequestHandlers();
     OD_LOG_OBJEXIT();//####
-} // Test16Service::~Test16Service
+} // GeneralChannel::~GeneralChannel
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test16Service::attachRequestHandlers(void)
+void GeneralChannel::close(void)
 {
     OD_LOG_OBJENTER();//####
+#if (! defined(MpM_DontUseTimeouts))
+    SetUpCatcher();
+#endif // ! defined(MpM_DontUseTimeouts)
     try
     {
-        _echoHandler = new Test16EchoRequestHandler;
-        if (_echoHandler)
-        {
-            registerRequestHandler(_echoHandler);
-        }
-        else
-        {
-            OD_LOG("! (_echoHandler)");//####
-        }
+#if (! defined(MpM_DontUseTimeouts))
+        BailOut bailer(*this, STANDARD_WAIT_TIME);
+#endif // ! defined(MpM_DontUseTimeouts)
+
+        inherited::interrupt();
+        OD_LOG("about to close");//####
+        inherited::close();
+        OD_LOG("close completed.");//####
     }
     catch (...)
     {
         OD_LOG("Exception caught");//####
         throw;
     }
+#if (! defined(MpM_DontUseTimeouts))
+    ShutDownCatcher();
+#endif // ! defined(MpM_DontUseTimeouts)
     OD_LOG_OBJEXIT();//####
-} // Test16Service::attachRequestHandlers
+} // GeneralChannel::close
 
-void Test16Service::detachRequestHandlers(void)
+bool GeneralChannel::openWithRetries(const yarp::os::ConstString & theChannelName,
+                                     const double                  timeToWait)
 {
+#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+# if MAC_OR_LINUX_
+#  pragma unused(timeToWait)
+# endif // MAC_OR_LINUX_
+#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_OBJENTER();//####
-    try
-    {
-        if (_echoHandler)
-        {
-            unregisterRequestHandler(_echoHandler);
-            delete _echoHandler;
-            _echoHandler = NULL;
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // Test16Service::detachRequestHandlers
-
-bool Test16Service::start(void)
-{
-    OD_LOG_OBJENTER();//####
-    bool result = false;
+    OD_LOG_S1("theChannelName = ", theChannelName.c_str());//####
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
+    bool   result = false;
+    double retryTime = INITIAL_RETRY_INTERVAL;
+    int    retriesLeft = MAX_RETRIES;
     
+#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+    inherited::setVerbosity(1);
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+    inherited::setVerbosity(-1);
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+#if RETRY_LOOPS_USE_TIMEOUTS
+    SetUpCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
     try
     {
-        if (! isStarted())
+#if RETRY_LOOPS_USE_TIMEOUTS
+        BailOut bailer(*this, timeToWait);
+#endif // RETRY_LOOPS_USE_TIMEOUTS
+        
+        do
         {
-            inherited::start();
-            if (isStarted())
+            OD_LOG("about to open");//####
+            result = inherited::open(theChannelName);
+            if (! result)
             {
-                
-            }
-            else
-            {
-                OD_LOG("! (isStarted())");//####
+                if (0 < --retriesLeft)
+                {
+                    OD_LOG("%%retry%%");//####
+                    yarp::os::Time::delay(retryTime);
+                    retryTime *= RETRY_MULTIPLIER;
+                }
             }
         }
-        result = isStarted();
+        while ((! result) && (0 < retriesLeft));
+        if (result)
+        {
+            _name = theChannelName;
+        }
     }
     catch (...)
     {
         OD_LOG("Exception caught");//####
         throw;
     }
+#if RETRY_LOOPS_USE_TIMEOUTS
+    ShutDownCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // Test16Service::start
+} // GeneralChannel::openWithRetries
 
-bool Test16Service::stop(void)
+void GeneralChannel::RelinquishChannel(GeneralChannel * & theChannel)
 {
-    OD_LOG_OBJENTER();//####
-    bool result = false;
-    
-    try
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("theChannel = ", theChannel);//####
+    if (theChannel)
     {
-        result = inherited::stop();
+#if (! defined(MpM_DontUseTimeouts))
+        SetUpCatcher();
+#endif // ! defined(MpM_DontUseTimeouts)
+        try
+        {
+#if (! defined(MpM_DontUseTimeouts))
+            BailOut bailer(*theChannel, STANDARD_WAIT_TIME);
+#endif // ! defined(MpM_DontUseTimeouts)
+            
+            delete theChannel;
+            theChannel = NULL;
+        }
+        catch (...)
+        {
+            OD_LOG("Exception caught");//####
+            throw;
+        }
+#if (! defined(MpM_DontUseTimeouts))
+        ShutDownCatcher();
+#endif // ! defined(MpM_DontUseTimeouts)
     }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(result);//####
-    return result;
-} // Test16Service::stop
+    OD_LOG_EXIT();//####
+} // GeneralChannel::RelinquishChannel
 
 #if defined(__APPLE__)
 # pragma mark Accessors

@@ -61,7 +61,7 @@ namespace MplusM
 {
     namespace Common
     {
-        class AdapterChannel;
+        class GeneralChannel;
     } // Common
     
     namespace Parser
@@ -313,7 +313,7 @@ namespace MplusM
             PingRequestHandler *          _pingHandler;
             
             /*! @brief The channel to send status change messages to. */
-            Common::AdapterChannel *      _statusChannel;
+            Common::GeneralChannel *      _statusChannel;
             
             /*! @brief The request handler for the 'register' request. */
             RegisterRequestHandler *      _registerHandler;

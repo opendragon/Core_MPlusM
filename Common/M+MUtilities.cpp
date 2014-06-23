@@ -674,19 +674,21 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                     {
                         yarp::os::Value theCanonicalName(response1.element(0));
                         yarp::os::Value theDescription(response1.element(1));
-                        yarp::os::Value thePath(response1.element(2));
-                        yarp::os::Value theRequestsDescription(response1.element(3));
+                        yarp::os::Value theKind(response1.element(2));
+                        yarp::os::Value thePath(response1.element(3));
+                        yarp::os::Value theRequestsDescription(response1.element(4));
                         
                         OD_LOG_S4("theCanonicalName <- ", theCanonicalName.toString().c_str(),//####
-                                  "theDescription <- ", theDescription.toString().c_str(), "thePath <- ",//####
-                                  thePath.toString().c_str(), "theRequestsDescription = ",//####
-                                  theRequestsDescription.toString().c_str());//####
-                        if (theCanonicalName.isString() && theDescription.isString() && thePath.isString() &&
-                            theRequestsDescription.isString())
+                                  "theDescription <- ", theDescription.toString().c_str(), "theKind <- ",//####
+                                  theKind.toString().c_str(), "thePath <- ", thePath.toString().c_str());
+                        OD_LOG_S1("theRequestsDescription = ", theRequestsDescription.toString().c_str());//####
+                        if (theCanonicalName.isString() && theDescription.isString() && theKind.isString() &&
+                            thePath.isString() && theRequestsDescription.isString())
                         {
                             descriptor._channelName = serviceChannelName;
                             descriptor._canonicalName = theCanonicalName.toString();
                             descriptor._description = theDescription.toString();
+                            descriptor._kind = theKind.toString();
                             descriptor._path = thePath.toString();
                             descriptor._requestsDescription = theRequestsDescription.toString();
                             result = true;
@@ -694,7 +696,8 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                         else
                         {
                             OD_LOG("! (theCanonicalName.isString() && theDescription.isString() && "//####
-                                   "thePath.isString() && theRequestsDescription.isString())");//####
+                                   "theKind.isString() && thePath.isString() && "//####
+                                   "theRequestsDescription.isString())");//####
                         }
                     }
                     else
@@ -871,6 +874,70 @@ void MplusM::Utilities::GetServiceNames(StringVector & services,
     }
     OD_LOG_EXIT();//####
 } // MplusM::Utilities::GetServiceNames
+
+const char * MplusM::Utilities::MapServiceKindToString(const Common::ServiceKind kind)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_L1("kind = ", static_cast<int>(kind));//####
+    const char * result;
+    
+    switch (kind)
+    {
+        case kServiceKindFilter:
+            result = "Filter";
+            break;
+            
+        case kServiceKindInput:
+            result = "Input";
+            break;
+            
+        case kServiceKindOutput:
+            result = "Output";
+            break;
+            
+        case kServiceKindRegistry:
+            result = "Registry";
+            break;
+            
+        default:
+            result = "Normal";
+            break;
+            
+    }
+    OD_LOG_EXIT_S(result);//####
+    return result;
+} // MplusM::Utilities::MapServiceKindToString
+
+Common::ServiceKind MplusM::Utilities::MapStringToServiceKind(const yarp::os::ConstString & kindString)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("kindString = ", kindString.c_str());//####
+    Common::ServiceKind result;
+    const char *        kindStringChars = kindString.c_str();
+    
+    if (! strcmp("Filter", kindStringChars))
+    {
+        result = kServiceKindFilter;
+    }
+    else if (! strcmp("Input", kindStringChars))
+    {
+        result = kServiceKindInput;
+    }
+    else if (! strcmp("Output", kindStringChars))
+    {
+        result = kServiceKindOutput;
+    }
+    else if (! strcmp("Registry", kindStringChars))
+    {
+        result = kServiceKindRegistry;
+    }
+    else
+    {
+        result = kServiceKindNormal;
+    }
+    OD_LOG_EXIT_L(static_cast<int>(result));//####
+    return result;
+} // MplusM::Utilities::MapStringToServiceKind
 
 bool MplusM::Utilities::RemoveConnection(const yarp::os::ConstString & fromPortName,
                                          const yarp::os::ConstString & toPortName)

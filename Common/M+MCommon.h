@@ -130,11 +130,17 @@
 /*! @brief The basic time interval for retries. */
 # define INITIAL_RETRY_INTERVAL    (0.1 * ONE_SECOND_DELAY)
 
+/*! @brief The base of the channel name to use for an input if not provided. */
+# define INPUT_PORT_NAME_BASE      MpM_INPUT_BASE_NAME
+
 /*! @brief The maximum number of retries before declaring failure, if not using timeouts. */
 # define MAX_RETRIES               5
 
 /*! @brief The delay value corresponding to one second of delay. */
 # define ONE_SECOND_DELAY          1.0
+
+/*! @brief The base of the channel name to use for an output if not provided. */
+# define OUTPUT_PORT_NAME_BASE     MpM_OUTPUT_BASE_NAME
 
 /*! @brief The time between checking for 'stale' registry entries. */
 # define PING_CHECK_INTERVAL       (4.3 * ONE_SECOND_DELAY)
@@ -196,13 +202,23 @@ namespace MplusM
         {
             /*! @brief The connection is a TCP connection. */
             kChannelModeTCP,
-
+            
             /*! @brief The connection is a UDP connection. */
             kChannelModeUDP,
             
             /*! @brief The connection is neither a TCP nor a UDP connection. */
             kChannelModeOther
         }; // ChannelMode
+        
+        /*! @brief A description of a channel. */
+        struct ChannelDescription
+        {
+            /*! @brief The name of the port being connected to. */
+            yarp::os::ConstString _portName;
+            
+            /*! @brief The mode of the connection. */
+            ChannelMode           _portMode;
+        }; // ChannelDescription
         
         /*! @brief The format for the output from command-line tools. */
         enum OutputFlavour
@@ -217,15 +233,20 @@ namespace MplusM
             kOutputFlavourTabs
         }; // OutputFlavour
         
-        /*! @brief A description of a channel. */
-        struct ChannelDescription
+        /*! @brief The behavioural model for the service. */
+        enum ServiceKind
         {
-            /*! @brief The name of the port being connected to. */
-            yarp::os::ConstString _portName;
-            
-            /*! @brief The mode of the connection. */
-            ChannelMode           _portMode;
-        }; // ChannelDescription
+            /*! @brief The service has no specical characteristics. */
+            kServiceKindNormal,
+            /*! @brief The service provides a proxy for an input source. */
+            kServiceKindInput,
+            /*! @brief The service provides a proxy for an output destination. */
+            kServiceKindOutput,
+            /*! @brief The service provides a proxy for a transformative process. */
+            kServiceKindFilter,
+            /*! @brief The service is the Registry, which is a specialized 'normal' service. */
+            kServiceKindRegistry
+        }; // ServiceKind
         
         /*! @brief The logical connection between a client and a service. */
         typedef yarp::os::Bottle                   Package;

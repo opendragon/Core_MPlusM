@@ -78,7 +78,8 @@ using namespace MplusM::Test;
 
 Test09Service::Test09Service(const int argc,
                              char * *  argv) :
-        inherited(false, "Test09", "Simple service for unit tests", "", argc, argv), _defaultHandler(NULL)
+        inherited(kServiceKindNormal, false, "Test09", "Simple service for unit tests", "", argc, argv),
+        _defaultHandler(NULL)
 {
     OD_LOG_ENTER();//####
     attachRequestHandlers();

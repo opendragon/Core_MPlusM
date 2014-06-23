@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the minimal functionality required for a M+M
+//  Contains:   The class definition for the minimal functionality required for an M+M
 //              field name matcher.
 //
 //  Written by: Norman Jaffe

@@ -40,11 +40,11 @@
 //--------------------------------------------------------------------------------------
 
 #include "M+MRegistryService.h"
-#include "M+MAdapterChannel.h"
 #include "M+MAssociateRequestHandler.h"
 #include "M+MClientChannel.h"
 #include "M+MColumnNameValidator.h"
 #include "M+MDisassociateRequestHandler.h"
+#include "M+MGeneralChannel.h"
 #include "M+MGetAssociatesRequestHandler.h"
 #include "M+MMatchExpression.h"
 #include "M+MMatchRequestHandler.h"
@@ -1606,7 +1606,7 @@ RegistryService::RegistryService(const char *                  launchPath,
                                  const bool                    useInMemoryDb,
                                  const yarp::os::ConstString & serviceHostName,
                                  const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_REGISTRY_CANONICAL_NAME, "The Service Registry service",
+        inherited(kServiceKindRegistry, launchPath, true, MpM_REGISTRY_CANONICAL_NAME, "The Service Registry service",
                   "associate - associate a channel with another channel\n"
                   "disassociate - remove all associations for a channel\n"
                   "getAssociates - return the associations of a channel\n"
@@ -1643,7 +1643,7 @@ RegistryService::~RegistryService(void)
 #if defined(MpM_DoExplicitClose)
         _statusChannel->close();
 #endif // defined(MpM_DoExplicitClose)
-        Common::AdapterChannel::RelinquishChannel(_statusChannel);
+        Common::GeneralChannel::RelinquishChannel(_statusChannel);
     }
     OD_LOG_OBJEXIT();//####
 } // RegistryService::~RegistryService
@@ -2445,7 +2445,7 @@ bool RegistryService::setUpStatusChannel(void)
     
     try
     {
-        _statusChannel = new Common::AdapterChannel(true);
+        _statusChannel = new Common::GeneralChannel(true);
         if (_statusChannel)
         {
             yarp::os::ConstString outputName(SECONDARY_CHANNEL_NAME_);
@@ -2507,7 +2507,7 @@ bool RegistryService::start(void)
                             if (request.send(*newChannel, &response))
                             {
                                 // Check that we got a successful self-registration!
-                                if (1 == response.count())
+                                if (MpM_EXPECTED_REGISTER_RESPONSE_SIZE == response.count())
                                 {
                                     yarp::os::Value theValue = response.element(0);
                                     
@@ -2524,7 +2524,7 @@ bool RegistryService::start(void)
                                 }
                                 else
                                 {
-                                    OD_LOG("! (1 == response.count())");//####
+                                    OD_LOG("! (MpM_EXPECTED_REGISTER_RESPONSE_SIZE == response.count())");//####
                                     OD_LOG_S1("response = ", response.asString().c_str());//####
                                 }
                             }

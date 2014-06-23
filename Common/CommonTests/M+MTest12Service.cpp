@@ -79,7 +79,8 @@ using namespace MplusM::Test;
 
 Test12Service::Test12Service(const int argc,
                              char * *  argv) :
-        inherited(true, "Test12", "Simple service for unit tests", "", argc, argv), _echoHandler(NULL)
+        inherited(kServiceKindNormal, true, "Test12", "Simple service for unit tests", "", argc, argv),
+        _echoHandler(NULL)
 {
     OD_LOG_ENTER();//####
     attachRequestHandlers();

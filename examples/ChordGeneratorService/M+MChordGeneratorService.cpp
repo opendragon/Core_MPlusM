@@ -78,10 +78,10 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 ChordGeneratorService::ChordGeneratorService(const char *                  launchPath,
-                                         const yarp::os::ConstString & serviceEndpointName,
-                                         const yarp::os::ConstString & serviceHostName,
-                                         const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_CHORD_GENERATOR_NAME, "A service that generates chords",
+                                             const yarp::os::ConstString & serviceEndpointName,
+                                             const yarp::os::ConstString & serviceHostName,
+                                             const yarp::os::ConstString & servicePortNumber) :
+        inherited(kServiceKindNormal, launchPath, true, MpM_CHORD_GENERATOR_NAME, "A service that generates chords",
                   "returns list of MIDI note numbers defining the chord", serviceEndpointName, serviceHostName,
 				  servicePortNumber), _chordReqHandler(NULL)
 {

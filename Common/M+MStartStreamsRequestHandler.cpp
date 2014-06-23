@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MTest16Service.cpp
+//  File:       M+MStartStreamsRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for a simple service used by the unit tests.
+//  Contains:   The class definition for the request handler for a 'startStreams' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,13 +35,13 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-06
+//  Created:    2014-06-23
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MTest16Service.h"
+#include "M+MStartStreamsRequestHandler.h"
 #include "M+MRequests.h"
-#include "M+MTest16EchoRequestHandler.h"
+#include "M+MBaseInputOutputService.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -52,18 +52,20 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for a simple service used by the unit tests. */
+ @brief The class definition for the request handler for a 'startStreams' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
+
+/*! @brief The protocol version number for the 'startStreams' request. */
+#define STARTSTREAMS_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -77,41 +79,54 @@ using namespace MplusM::Test;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-Test16Service::Test16Service(const int argc,
-                             char * *  argv) :
-        inherited(kServiceKindNormal, true, "Test16", "Simple service for unit tests", "", argc, argv),
-        _echoHandler(NULL)
+StartStreamsRequestHandler::StartStreamsRequestHandler(BaseInputOutputService & service) :
+        inherited(MpM_STARTSTREAMS_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
-    attachRequestHandlers();
+    OD_LOG_P1("service = ", &service);//####
     OD_LOG_EXIT_P(this);//####
-} // Test16Service::Test16Service
+} // StartStreamsRequestHandler::StartStreamsRequestHandler
 
-Test16Service::~Test16Service(void)
+StartStreamsRequestHandler::~StartStreamsRequestHandler(void)
 {
     OD_LOG_OBJENTER();//####
-    detachRequestHandlers();
     OD_LOG_OBJEXIT();//####
-} // Test16Service::~Test16Service
+} // StartStreamsRequestHandler::~StartStreamsRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void Test16Service::attachRequestHandlers(void)
+void StartStreamsRequestHandler::fillInAliases(StringVector & alternateNames)
+{
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(alternateNames)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("alternateNames = ", &alternateNames);//####
+    OD_LOG_OBJEXIT();//####
+} // StartStreamsRequestHandler::fillInAliases
+
+void StartStreamsRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                                   yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
+    OD_LOG_S1("request = ", request.c_str());//####
+    OD_LOG_P1("info = ", &info);//####
     try
     {
-        _echoHandler = new Test16EchoRequestHandler;
-        if (_echoHandler)
-        {
-            registerRequestHandler(_echoHandler);
-        }
-        else
-        {
-            OD_LOG("! (_echoHandler)");//####
-        }
+        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, STARTSTREAMS_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Start the input/output streams\n"
+                 "Input: nothing\n"
+                 "Output: nothing");
+        yarp::os::Value   keywords;
+        Common::Package * asList = keywords.asList();
+        
+        asList->addString(request);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
     {
@@ -119,48 +134,39 @@ void Test16Service::attachRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // Test16Service::attachRequestHandlers
+} // StartStreamsRequestHandler::fillInDescription
 
-void Test16Service::detachRequestHandlers(void)
+bool StartStreamsRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                                const Package &               restOfInput,
+                                                const yarp::os::ConstString & senderChannel,
+                                                yarp::os::ConnectionWriter *  replyMechanism)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(request,restOfInput)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
+    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
+              senderChannel.c_str());//####
+    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
+    bool result = true;
+
     try
     {
-        if (_echoHandler)
+        _service.startStreams();
+        if (replyMechanism)
         {
-            unregisterRequestHandler(_echoHandler);
-            delete _echoHandler;
-            _echoHandler = NULL;
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // Test16Service::detachRequestHandlers
-
-bool Test16Service::start(void)
-{
-    OD_LOG_OBJENTER();//####
-    bool result = false;
-    
-    try
-    {
-        if (! isStarted())
-        {
-            inherited::start();
-            if (isStarted())
+            Common::Package response(MpM_OK_RESPONSE);
+            
+            if (! response.write(*replyMechanism))
             {
-                
-            }
-            else
-            {
-                OD_LOG("! (isStarted())");//####
+                OD_LOG("(! response.write(*replyMechanism))");//####
+#if defined(MpM_StallOnSendProblem)
+                Common::Stall();
+#endif // defined(MpM_StallOnSendProblem)
             }
         }
-        result = isStarted();
     }
     catch (...)
     {
@@ -169,25 +175,7 @@ bool Test16Service::start(void)
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // Test16Service::start
-
-bool Test16Service::stop(void)
-{
-    OD_LOG_OBJENTER();//####
-    bool result = false;
-    
-    try
-    {
-        result = inherited::stop();
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(result);//####
-    return result;
-} // Test16Service::stop
+} // StartStreamsRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors

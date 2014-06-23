@@ -109,6 +109,18 @@ BailOut::BailOut(ClientChannel & channelOfInterest,
     OD_LOG_EXIT_P(this);//####
 } // BailOut::BailOut
 
+BailOut::BailOut(GeneralChannel & channelOfInterest,
+                 const double     timeToWait) :
+        _bailer(NULL)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("channelOfInterest = ", &channelOfInterest);//####
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
+    _bailer = new BailOutThread(channelOfInterest, timeToWait);
+    _bailer->start();
+    OD_LOG_EXIT_P(this);//####
+} // BailOut::BailOut
+
 BailOut::BailOut(ServiceChannel & channelOfInterest,
                  const double     timeToWait) :
         _bailer(NULL)

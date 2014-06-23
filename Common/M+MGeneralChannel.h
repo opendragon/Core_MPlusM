@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MServiceRequest.h
+//  File:       M+MGeneralChannel.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for an M+M request.
+//  Contains:   The class declaration for general-purpose channels.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,12 +35,12 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-06
+//  Created:    2014-04-07
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MpMServiceRequest_H_))
-# define MpMServiceRequest_H_ /* Header guard */
+#if (! defined(MpMGeneralChannel_H_))
+# define MpMGeneralChannel_H_ /* Header guard */
 
 # include "M+MCommon.h"
 
@@ -50,7 +50,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for an M+M request. */
+ @brief The class declaration for for general-purpose channels. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -59,62 +59,87 @@ namespace MplusM
 {
     namespace Common
     {
-        class ClientChannel;
-        class Endpoint;
-        class ServiceResponse;
-        
-        /*! @brief The data constituting a service request. */
-        class ServiceRequest
+        /*! @brief A convenience class to provide distinct channels to and from adapters. */
+        class GeneralChannel : public yarp::os::Port
         {
         public:
             
             /*! @brief The constructor.
-             @param requestName The request to be processed. */
-            ServiceRequest(const yarp::os::ConstString & requestName);
-            
-            /*! @brief The constructor.
-             @param requestName The request to be processed.
-             @param parameters The (optional) parameters for the request. */
-            ServiceRequest(const yarp::os::ConstString & requestName,
-                           const Package &               parameters);
+             @param isOutput @c true if the channel is used for output and @c false otherwise. */
+            GeneralChannel(const bool isOutput);
             
             /*! @brief The destructor. */
-            virtual ~ServiceRequest(void);
+            virtual ~GeneralChannel(void);
             
-            /*! @brief Send the request to an endpoint for processing.
-             @param usingChannel The channel that is to send the request, or @c NULL if an arbitrary channel is to be
-             used.
-             @param response The response from the request, @c NULL if none is expected.
-             @returns @c true if the request was successfully transmitted. */
-            bool send(ClientChannel &   usingChannel,
-                      ServiceResponse * response = NULL);
+            /*! @brief Close the channel. */
+            void close(void);
+            
+            /*! @brief Returns @c true if the channel is used for output and @c false otherwise.
+             @returns @c true if the channel is used for output and @c false otherwise. */
+            inline bool isOutput(void)
+            const
+            {
+                return _isOutput;
+            } // isOutput
+            
+            /*! @brief Returns the name associated with the channel.
+             @returns The name associated with the channel. */
+            inline yarp::os::ConstString name(void)
+            const
+            {
+                return _name;
+            } // name
+            
+            /*! @brief Open the channel, using a backoff strategy with retries.
+             @param theChannelName The name to be associated with the channel.
+             @param timeToWait The number of seconds allowed before a failure is considered.
+             @returns @c true if the channel was opened and @c false if it could not be opened. */
+            bool openWithRetries(const yarp::os::ConstString & theChannelName,
+                                 const double                  timeToWait);
+            
+            /*! @brief Release an allocated adapter channel.
+             @param theChannel A pointer to the channel to be released. */
+            static void RelinquishChannel(GeneralChannel * & theChannel);
             
         protected:
             
         private:
             
+            /*! @brief The class that this class is derived from. */
+            typedef yarp::os::Port inherited;
+            
             /*! @brief Copy constructor.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ServiceRequest(const ServiceRequest & other);
+            GeneralChannel(const GeneralChannel & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ServiceRequest & operator=(const ServiceRequest & other);
+            GeneralChannel & operator=(const GeneralChannel & other);
             
-            /*! @brief The request name. */
+            /*! @brief The name associated with the channel. */
             yarp::os::ConstString _name;
-
-            /*! @brief The request parameters. */
-            Package               _parameters;
             
-        }; // ServiceRequest
+            /*! @brief @c true if the channel is used for output and @c false otherwise. */
+            bool                  _isOutput;
+            
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char                  _filler[7];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+        }; // GeneralChannel
         
     } // Common
     
 } // MplusM
 
-#endif // ! defined(MpMServiceRequest_H_)
+#endif // ! defined(MpMGeneralChannel_H_)

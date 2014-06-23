@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the minimal functionality required for a M+M
+//  Contains:   The class declaration for the minimal functionality required for an M+M
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -82,6 +82,7 @@ namespace MplusM
         public:
             
             /*! @brief The constructor.
+             @param theKind The behavioural model for the service.
              @param launchPath The command-line name used to launch the service.
              @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if one handler is used.
              @param canonicalName The channel-independent name of the service.
@@ -90,7 +91,8 @@ namespace MplusM
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param serviceHostName The name or IP address of the machine running the service.
              @param servicePortNumber The channel being used by the service. */
-            BaseService(const char *                  launchPath,
+            BaseService(const ServiceKind             theKind,
+                        const char *                  launchPath,
                         const bool                    useMultipleHandlers,
                         const yarp::os::ConstString & canonicalName,
                         const yarp::os::ConstString & description,
@@ -100,13 +102,15 @@ namespace MplusM
                         const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The constructor.
+             @param theKind The behavioural model for the service.
              @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if one handler is used.
              @param canonicalName The channel-independent name of the service.
              @param description The description of the service.
              @param requestsDescription The description of the requests for the service.
              @param argc The number of arguments in 'argv'.
              @param argv The arguments to be used to specify the new service. */
-            BaseService(const bool                    useMultipleHandlers,
+            BaseService(const ServiceKind             theKind,
+                        const bool                    useMultipleHandlers,
                         const yarp::os::ConstString & canonicalName,
                         const yarp::os::ConstString & description,
                         const yarp::os::ConstString & requestsDescription,
@@ -169,6 +173,14 @@ namespace MplusM
             {
                 return _started;
             } // isStarted
+            
+            /*! @brief Return the behavioural model for the service.
+             @returns The behavioural model for the service. */
+            inline ServiceKind kind(void)
+            const
+            {
+                return _kind;
+            } // kind
             
             /*! @brief Return the command-line name used to launch the service.
              @returns The command-line name used to launch the service. */
@@ -344,6 +356,9 @@ namespace MplusM
             
             /*! @brief The object used to generate 'pings' for the service. */
             PingThread *                     _pinger;
+            
+            /*! @brief The kind of service. */
+            ServiceKind                      _kind;
             
             /*! @brief The current state of the service - @c true if active and @c false otherwise. */
             bool                             _started;

@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the minimal functionality required for a M+M
+//  Contains:   The class definition for the minimal functionality required for an M+M
 //              pattern matcher.
 //
 //  Written by: Norman Jaffe
@@ -52,7 +52,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the minimal functionality required for a M+M pattern matcher. */
+ @brief The class definition for the minimal functionality required for an M+M pattern matcher. */
 
 /*! @dir Parser
  @brief The set of files that support parsing of search requests. */

@@ -81,7 +81,7 @@ EchoService::EchoService(const char *                  launchPath,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & serviceHostName,
                          const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_ECHO_CANONICAL_NAME, "An example echo service",
+        inherited(kServiceKindNormal, launchPath, true, MpM_ECHO_CANONICAL_NAME, "An example echo service",
                   "echo - send back any values given with the request", serviceEndpointName, serviceHostName,
                   servicePortNumber), _echoHandler(NULL)
 {

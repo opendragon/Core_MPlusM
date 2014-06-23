@@ -478,10 +478,11 @@ bool PingRequestHandler::processNameResponse(const yarp::os::ConstString &   cha
         {
             yarp::os::Value theCanonicalName(response.element(0));
             yarp::os::Value theDescription(response.element(1));
-            yarp::os::Value thePath(response.element(2));
-            yarp::os::Value theRequestsDescription(response.element(3));
+            yarp::os::Value theKind(response.element(2));
+            yarp::os::Value thePath(response.element(3));
+            yarp::os::Value theRequestsDescription(response.element(4));
             
-            if (theCanonicalName.isString() && theDescription.isString() && thePath.isString() &&
+            if (theCanonicalName.isString() && theDescription.isString() && theKind.isString() && thePath.isString() &&
                 theRequestsDescription.isString())
             {
                 result = _service.addServiceRecord(channelName, theCanonicalName.toString(), theDescription.toString(),
@@ -489,8 +490,8 @@ bool PingRequestHandler::processNameResponse(const yarp::os::ConstString &   cha
             }
             else
             {
-                OD_LOG("! (theCanonicalName.isString() && theDescription.isString() && thePath.isString() && "//####
-                       "theRequestsDescription.isString())");//####
+                OD_LOG("! (theCanonicalName.isString() && theDescription.isString() && theKind.isString() && "//####
+                       "thePath.isString() && theRequestsDescription.isString()");//####
                 result = false;
             }
         }

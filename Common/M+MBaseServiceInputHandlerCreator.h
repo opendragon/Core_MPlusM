@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the minimal functionality required for a M+M
+//  Contains:   The class declaration for the minimal functionality required for an M+M
 //              input handler factory object.
 //
 //  Written by: Norman Jaffe
@@ -51,7 +51,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the minimal functionality required for a M+M input handler factory object. */
+ @brief The class declaration for the minimal functionality required for an M+M input handler factory object. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -62,7 +62,7 @@ namespace MplusM
     {
         class BaseService;
         
-        /*! @brief The minimal functionality required for a M+M service. */
+        /*! @brief The minimal functionality required for an M+M service. */
         class BaseServiceInputHandlerCreator : public InputHandlerCreator
         {
         public:

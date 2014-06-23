@@ -84,8 +84,8 @@ RequestCounterService::RequestCounterService(const char *                  launc
                                              const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & serviceHostName,
                                              const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_REQUESTCOUNTER_CANONICAL_NAME, "The request counter service",
-                  "reset - clear the request counter and the elapsed time\n"
+        inherited(kServiceKindNormal, launchPath, true, MpM_REQUESTCOUNTER_CANONICAL_NAME,
+                  "The request counter service", "reset - clear the request counter and the elapsed time\n"
                   "stats - report the request counter and the elapsed time\n"
                   "<anything else> - simply increment the request counter", serviceEndpointName, serviceHostName,
                   servicePortNumber), _defaultHandler(NULL), _resetHandler(NULL), _statsHandler(NULL)

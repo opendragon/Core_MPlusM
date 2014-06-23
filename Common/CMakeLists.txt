@@ -54,6 +54,10 @@ add_library(mpmCommon
             M+MBaseAdapterData.cpp
             M+MBaseClient.cpp
             M+MBaseContext.cpp
+            M+MBaseFilterService.cpp
+            M+MBaseInputOutputService.cpp
+            M+MBaseInputService.cpp
+            M+MBaseOutputService.cpp
             M+MBaseRequestHandler.cpp
             M+MBaseService.cpp
             M+MBaseServiceInputHandler.cpp
@@ -67,6 +71,7 @@ add_library(mpmCommon
             M+MDetachRequestHandler.cpp
             M+MEndpoint.cpp
             M+MException.cpp
+            M+MGeneralChannel.cpp
             M+MInfoRequestHandler.cpp
             M+MInputHandler.cpp
             M+MInputHandlerCreator.cpp
@@ -74,9 +79,12 @@ add_library(mpmCommon
             M+MNameRequestHandler.cpp
             M+MPingThread.cpp
             M+MRequestMap.cpp
+            M+MRestartStreamsRequestHandler.cpp
             M+MServiceChannel.cpp
             M+MServiceRequest.cpp
             M+MServiceResponse.cpp
+            M+MStartStreamsRequestHandler.cpp
+            M+MStopStreamsRequestHandler.cpp
             M+MUtilities.cpp)
 
 install(TARGETS mpmCommon DESTINATION lib)
@@ -87,6 +95,10 @@ install(FILES
         M+MBaseAdapterData.h
         M+MBaseClient.h
         M+MBaseContext.h
+        M+MBaseFilterService.h
+        M+MBaseInputOutputService.h
+        M+MBaseInputService.h
+        M+MBaseOutputService.h
         M+MBaseRequestHandler.h
         M+MBaseService.h
         M+MBaseServiceInputHandler.h
@@ -101,6 +113,7 @@ install(FILES
         M+MDetachRequestHandler.h
         M+MEndpoint.h
         M+MException.h
+        M+MGeneralChannel.h
         M+MInfoRequestHandler.h
         M+MInputHandler.h
         M+MInputHandlerCreator.h
@@ -109,9 +122,12 @@ install(FILES
         M+MPingThread.h
         M+MRequestMap.h
         M+MRequests.h
+        M+MRestartStreamsRequestHandler.h
         M+MServiceChannel.h
         M+MServiceRequest.h
         M+MServiceResponse.h
+        M+MStartStreamsRequestHandler.h
+        M+MStopStreamsRequestHandler.h
         M+MUtilities.h
         DESTINATION include)
 

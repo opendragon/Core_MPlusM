@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the connection endpoint for a M+M service.
+//  Contains:   The class definition for the connection endpoint for an M+M service.
 //
 //  Written by: Norman Jaffe
 //
@@ -54,7 +54,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the connection endpoint for a M+M service. */
+ @brief The class definition for the connection endpoint for an M+M service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

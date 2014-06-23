@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the minimal functionality required for a M+M
+//  Contains:   The class definition for the minimal functionality required for an M+M
 //              client.
 //
 //  Written by: Norman Jaffe
@@ -57,7 +57,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the minimal functionality required for a M+M client. */
+ @brief The class definition for the minimal functionality required for an M+M client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

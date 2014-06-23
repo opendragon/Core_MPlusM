@@ -61,6 +61,7 @@ namespace MplusM
     {
         class AdapterChannel;
         class ClientChannel;
+        class GeneralChannel;
         class ServiceChannel;
         
         /*! @brief A convenience class to timeout objects. */
@@ -83,6 +84,12 @@ namespace MplusM
              @param timeToWait The number of seconds to delay before triggering. */
             BailOutThread(ClientChannel & channelOfInterest,
                           const double    timeToWait);
+            
+            /*! @brief The constructor.
+             @param channelOfInterest The channel that we are waiting for.
+             @param timeToWait The number of seconds to delay before triggering. */
+            BailOutThread(GeneralChannel & channelOfInterest,
+                          const double     timeToWait);
             
             /*! @brief The constructor.
              @param channelOfInterest The channel that we are waiting for.
@@ -137,6 +144,9 @@ namespace MplusM
             
             /*! @brief The client channel that we are waiting on. */
             ClientChannel *  _clientChannel;
+            
+            /*! @brief The general channel that we are waiting on. */
+            GeneralChannel * _generalChannel;
             
             /*! @brief The service channel that we are waiting on. */
             ServiceChannel * _serviceChannel;

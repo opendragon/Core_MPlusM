@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the minimal functionality required for a M+M
+//  Contains:   The class declaration for the minimal functionality required for an M+M
 //              field name matcher.
 //
 //  Written by: Norman Jaffe
@@ -51,7 +51,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the minimal functionality required for a M+M field name matcher. */
+ @brief The class declaration for the minimal functionality required for an M+M field name matcher. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

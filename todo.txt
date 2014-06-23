@@ -12,4 +12,4 @@
 
 * change signal handling to use platform-neutral mechanisms
 
-* add ‘kind’ to services, along with a new request to get the service ‘kind’ or add it to the service description; ‘kind’ is ’n’ (normal) for standard services, ‘i’ (input) for sensors, ‘o’ (output) for transducers and ‘f’ (filter) for filters; ‘i’ and ‘o’ also supply a port (outPort for ‘i’ and inPort for ‘o’) while ‘f’ supply two ports (inPort and outPort); a port has a corresponding (set of) protocol(s) - it’s TBD if more than one protocol is present, in which case a ‘setProtocol’ request would be needed
+* a port has a corresponding protocols; ‘normal’ services can, of course, have secondary inputs and outputs - ’non-normal’ services respond to ‘protocol’ requests for their ports, as well as ‘restartStreams’, ‘startStreams’ and ‘stopStreams’ requests

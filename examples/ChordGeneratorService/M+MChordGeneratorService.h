@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a M+M Chord Generator service.
+//  Contains:   The class declaration for an M+M Chord Generator service.
 //
 //  Written by: Norman Jaffe, Johnty Wang
 //
@@ -76,9 +76,9 @@ namespace MplusM
              @param serviceHostName The name or IP address of the machine running the service.
              @param servicePortNumber The port being used by the service. */
             ChordGeneratorService(const char *                  launchPath,
-                                const yarp::os::ConstString & serviceEndpointName,
-                                const yarp::os::ConstString & serviceHostName = "",
-                                const yarp::os::ConstString & servicePortNumber = "");
+                                  const yarp::os::ConstString & serviceEndpointName,
+                                  const yarp::os::ConstString & serviceHostName = "",
+                                  const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~ChordGeneratorService(void);

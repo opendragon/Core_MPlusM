@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MServiceRequest.h
+//  File:       M+MRestartStreamsRequestHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for an M+M request.
+//  Contains:   The class declaration for the request handler for a 'restartStreams' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,14 +35,14 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-02-06
+//  Created:    2014-06-23
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MpMServiceRequest_H_))
-# define MpMServiceRequest_H_ /* Header guard */
+#if (! defined(MpMRestartStreamsRequestHandler_H_))
+# define MpMRestartStreamsRequestHandler_H_ /* Header guard */
 
-# include "M+MCommon.h"
+# include "M+MBaseRequestHandler.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -50,7 +50,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for an M+M request. */
+ @brief The class declaration for the request handler for a 'reset' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -59,62 +59,56 @@ namespace MplusM
 {
     namespace Common
     {
-        class ClientChannel;
-        class Endpoint;
-        class ServiceResponse;
+        class BaseInputOutputService;
         
-        /*! @brief The data constituting a service request. */
-        class ServiceRequest
+        /*! @brief The standard 'restartStreams' request handler.
+         
+         There is no input for the request and there is no output. */
+        class RestartStreamsRequestHandler : public BaseRequestHandler
         {
         public:
             
             /*! @brief The constructor.
-             @param requestName The request to be processed. */
-            ServiceRequest(const yarp::os::ConstString & requestName);
-            
-            /*! @brief The constructor.
-             @param requestName The request to be processed.
-             @param parameters The (optional) parameters for the request. */
-            ServiceRequest(const yarp::os::ConstString & requestName,
-                           const Package &               parameters);
+             @param service The service that has registered this request. */
+            RestartStreamsRequestHandler(BaseInputOutputService & service);
             
             /*! @brief The destructor. */
-            virtual ~ServiceRequest(void);
+            virtual ~RestartStreamsRequestHandler(void);
             
-            /*! @brief Send the request to an endpoint for processing.
-             @param usingChannel The channel that is to send the request, or @c NULL if an arbitrary channel is to be
-             used.
-             @param response The response from the request, @c NULL if none is expected.
-             @returns @c true if the request was successfully transmitted. */
-            bool send(ClientChannel &   usingChannel,
-                      ServiceResponse * response = NULL);
+            /*! @brief Fill in a set of aliases for the request.
+             @param alternateNames Aliases for the request. */
+            virtual void fillInAliases(Common::StringVector & alternateNames);
+            
+            /*! @brief Fill in a description dictionary for the request.
+             @param request The actual request name.
+             @param info The dictionary to be filled in. */
+            virtual void fillInDescription(const yarp::os::ConstString & request,
+                                           yarp::os::Property &          info);
+            
+            /*! @brief Process a request.
+             @param request The actual request name.
+             @param restOfInput The arguments to the operation.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+            virtual bool processRequest(const yarp::os::ConstString & request,
+                                        const Common::Package &       restOfInput,
+                                        const yarp::os::ConstString & senderChannel,
+                                        yarp::os::ConnectionWriter *  replyMechanism);
             
         protected:
             
         private:
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ServiceRequest(const ServiceRequest & other);
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ServiceRequest & operator=(const ServiceRequest & other);
+            /*! @brief The service that will manages the statistics. */
+            BaseInputOutputService & _service;
             
-            /*! @brief The request name. */
-            yarp::os::ConstString _name;
-
-            /*! @brief The request parameters. */
-            Package               _parameters;
-            
-        }; // ServiceRequest
+        }; // RestartStreamsRequestHandler
         
     } // Common
     
 } // MplusM
 
-#endif // ! defined(MpMServiceRequest_H_)
+#endif // ! defined(MpMRestartStreamsRequestHandler_H_)

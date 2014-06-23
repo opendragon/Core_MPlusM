@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for compiling a M+M project OUTSIDE of the MPlusM 
+#  Contains:   The CMAKE definitions for compiling an M+M project OUTSIDE of the MPlusM 
 #              source folder. Uses the EchoClient as an example. Assumes ../EchoCommon 
 #              and ../EchoService directions exists
 #

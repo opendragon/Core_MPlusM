@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the minimal functionality required for a M+M
+//  Contains:   The class definition for the minimal functionality required for an M+M
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -93,7 +93,8 @@ using namespace MplusM::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-BaseService::BaseService(const char *                  launchPath,
+BaseService::BaseService(const ServiceKind             theKind,
+                         const char *                  launchPath,
                          const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
                          const yarp::os::ConstString & description,
@@ -104,7 +105,7 @@ BaseService::BaseService(const char *                  launchPath,
         _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(), _canonicalName(canonicalName),
         _description(description), _requestsDescription(requestsDescription), _requestCount(0), _channelsHandler(NULL),
         _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
-        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL), _started(false),
+        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _started(false),
         _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER();//####
@@ -119,7 +120,8 @@ BaseService::BaseService(const char *                  launchPath,
     OD_LOG_EXIT_P(this);//####
 } // BaseService::BaseService
 
-BaseService::BaseService(const bool                    useMultipleHandlers,
+BaseService::BaseService(const ServiceKind             theKind,
+                         const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
                          const yarp::os::ConstString & description,
                          const yarp::os::ConstString & requestsDescription,
@@ -128,7 +130,8 @@ BaseService::BaseService(const bool                    useMultipleHandlers,
         _launchPath(*argv), _contextsLock(), _requestHandlers(*this), _contexts(), _canonicalName(canonicalName),
         _description(description), _requestCount(0), _channelsHandler(NULL), _clientsHandler(NULL),
         _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL), _endpoint(NULL),
-        _handler(NULL), _handlerCreator(NULL), _pinger(NULL), _started(false), _useMultipleHandlers(useMultipleHandlers)
+        _handler(NULL), _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _started(false),
+        _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER();//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
@@ -710,7 +713,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
                     if (request.send(*newChannel, &response))
                     {
                         // Check that we got a successful self-registration!
-                        if (1 == response.count())
+                        if (MpM_EXPECTED_REGISTER_RESPONSE_SIZE == response.count())
                         {
                             yarp::os::Value theValue = response.element(0);
                             
@@ -725,7 +728,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
                         }
                         else
                         {
-                            OD_LOG("! (1 == response.count())");//####
+                            OD_LOG("! (MpM_EXPECTED_REGISTER_RESPONSE_SIZE == response.count())");//####
                             OD_LOG_S1("response = ", response.asString().c_str());//####
                         }
                     }
@@ -801,8 +804,8 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
                     
                     if (request.send(*newChannel, &response))
                     {
-                        // Check that we got a successful self-registration!
-                        if (1 == response.count())
+                        // Check that we got a successful self-deregistration!
+                        if (MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE == response.count())
                         {
                             yarp::os::Value theValue = response.element(0);
                             
@@ -817,7 +820,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
                         }
                         else
                         {
-                            OD_LOG("! (1 == response.count())");//####
+                            OD_LOG("! (MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE == response.count())");//####
                             OD_LOG_S1("response = ", response.asString().c_str());//####
                        }
                     }

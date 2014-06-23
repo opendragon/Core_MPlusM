@@ -237,6 +237,8 @@ int main(int      argc,
                                     servicePortName.c_str() << T_(CHAR_DOUBLEQUOTE ", ");
                             cout << T_(CHAR_DOUBLEQUOTE "ServiceName" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
                                     serviceName.c_str() << T_(CHAR_DOUBLEQUOTE ", ");
+                            cout << T_(CHAR_DOUBLEQUOTE "ServiceKind" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                                    descriptor._kind.c_str() << T_(CHAR_DOUBLEQUOTE ", ");
                             description = MplusM::SanitizeString(descriptor._description);
                             cout << T_(CHAR_DOUBLEQUOTE "Description" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
                                     description.c_str() << T_(CHAR_DOUBLEQUOTE ", ");
@@ -254,6 +256,7 @@ int main(int      argc,
                         case MplusM::Common::kOutputFlavourTabs:
                             cout << servicePortName.c_str() << "\t";
                             cout << serviceName.c_str() << "\t";
+                            cout << descriptor._kind.c_str() << "\t";
                             description = MplusM::SanitizeString(descriptor._description, true);
                             cout << description.c_str() << "\t";
                             requests = MplusM::SanitizeString(descriptor._requestsDescription, true);
@@ -264,11 +267,18 @@ int main(int      argc,
                         default:
                             cout << "Service port:      " << servicePortName.c_str() << endl;
                             cout << "Service name:      " << serviceName.c_str() << endl;
+                            cout << "Service kind:      " << descriptor._kind.c_str() << endl;
                             MplusM::OutputDescription(cout, "Description:       ", descriptor._description);
                             MplusM::OutputDescription(cout, "Requests:          ", descriptor._requestsDescription);
                             cout << "Path:              " << descriptor._path.c_str() << endl;
-                            MplusM::OutputDescription(cout, "Secondary inputs:  ", inChannelNames);
-                            MplusM::OutputDescription(cout, "Secondary outputs: ", outChannelNames);
+                            if (0 < inChannelNames.size())
+                            {
+                                MplusM::OutputDescription(cout, "Secondary inputs:  ", inChannelNames);
+                            }
+                            if (0 < outChannelNames.size())
+                            {
+                                MplusM::OutputDescription(cout, "Secondary outputs: ", outChannelNames);
+                            }
                             break;
                             
                     }
