@@ -326,14 +326,9 @@
 				DF06998518ECC06500FF0E93 /* main.cpp */,
 				DFCB229318EF091000358EA5 /* M+MRequestCounterContext.cpp */,
 				DFCB229418EF091000358EA5 /* M+MRequestCounterContext.h */,
-				DF06998618ECC06500FF0E93 /* M+MRequestCounterDefaultRequestHandler.cpp */,
-				DF06998718ECC06500FF0E93 /* M+MRequestCounterDefaultRequestHandler.h */,
 				DF06998818ECC06500FF0E93 /* M+MRequestCounterService.cpp */,
 				DF06998918ECC06500FF0E93 /* M+MRequestCounterService.h */,
-				DF06998A18ECC06500FF0E93 /* M+MResetRequestHandler.cpp */,
-				DF06998B18ECC06500FF0E93 /* M+MResetRequestHandler.h */,
-				DF06998C18ECC06500FF0E93 /* M+MStatsRequestHandler.cpp */,
-				DF06998D18ECC06500FF0E93 /* M+MStatsRequestHandler.h */,
+				DF36EEF31958E0A500E7D889 /* RequestHandlers */,
 			);
 			name = RequestCounterService;
 			sourceTree = "<group>";
@@ -374,18 +369,11 @@
 			children = (
 				DFA86D4E18E1DA1C00A22941 /* CMakeLists.txt */,
 				DFA86D4F18E1DA1C00A22941 /* main.cpp */,
-				DFA86D5018E1DA1C00A22941 /* M+MAddRequestHandler.cpp */,
-				DFA86D5118E1DA1C00A22941 /* M+MAddRequestHandler.h */,
-				DFA86D5218E1DA1C00A22941 /* M+MResetRequestHandler.cpp */,
-				DFA86D5318E1DA1C00A22941 /* M+MResetRequestHandler.h */,
 				DFA86D5418E1DA1C00A22941 /* M+MRunningSumContext.cpp */,
 				DFA86D5518E1DA1C00A22941 /* M+MRunningSumContext.h */,
 				DFA86D5718E1DA1C00A22941 /* M+MRunningSumService.cpp */,
 				DFA86D5818E1DA1C00A22941 /* M+MRunningSumService.h */,
-				DFA86D5918E1DA1C00A22941 /* M+MStartRequestHandler.cpp */,
-				DFA86D5A18E1DA1C00A22941 /* M+MStartRequestHandler.h */,
-				DFA86D5B18E1DA1C00A22941 /* M+MStopRequestHandler.cpp */,
-				DFA86D5C18E1DA1C00A22941 /* M+MStopRequestHandler.h */,
+				DF36EEF51958E11B00E7D889 /* RequestHandlers */,
 			);
 			name = RunningSumService;
 			sourceTree = "<group>";
@@ -477,6 +465,82 @@
 			name = RequestHandlers;
 			sourceTree = "<group>";
 		};
+		DF36EEF31958E0A500E7D889 /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DF06998618ECC06500FF0E93 /* M+MRequestCounterDefaultRequestHandler.cpp */,
+				DF06998718ECC06500FF0E93 /* M+MRequestCounterDefaultRequestHandler.h */,
+				DF06998A18ECC06500FF0E93 /* M+MResetRequestHandler.cpp */,
+				DF06998B18ECC06500FF0E93 /* M+MResetRequestHandler.h */,
+				DF06998C18ECC06500FF0E93 /* M+MStatsRequestHandler.cpp */,
+				DF06998D18ECC06500FF0E93 /* M+MStatsRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DF36EEF41958E0C800E7D889 /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DF95CA19192E8C2F00BDABA1 /* M+MAssociateRequestHandler.cpp */,
+				DF95CA1A192E8C2F00BDABA1 /* M+MAssociateRequestHandler.h */,
+				DF95CA1B192E907E00BDABA1 /* M+MDisassociateRequestHandler.cpp */,
+				DF95CA1C192E907E00BDABA1 /* M+MDisassociateRequestHandler.h */,
+				DF95CA1D192E927700BDABA1 /* M+MGetAssociatesRequestHandler.cpp */,
+				DF95CA1E192E927700BDABA1 /* M+MGetAssociatesRequestHandler.h */,
+				DF27F43A18CE48E000E93C95 /* M+MMatchRequestHandler.cpp */,
+				DF27F43B18CE48E000E93C95 /* M+MMatchRequestHandler.h */,
+				DFA98944195088F8005F10EB /* M+MPingRequestHandler.cpp */,
+				DFA98945195088F8005F10EB /* M+MPingRequestHandler.h */,
+				DFA3434018C91C5A0053B87C /* M+MRegisterRequestHandler.cpp */,
+				DFA3434118C91C5A0053B87C /* M+MRegisterRequestHandler.h */,
+				DFA3434D18C91C5A0053B87C /* M+MUnregisterRequestHandler.cpp */,
+				DFA3434E18C91C5A0053B87C /* M+MUnregisterRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DF36EEF51958E11B00E7D889 /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DFA86D5018E1DA1C00A22941 /* M+MAddRequestHandler.cpp */,
+				DFA86D5118E1DA1C00A22941 /* M+MAddRequestHandler.h */,
+				DFA86D5218E1DA1C00A22941 /* M+MResetRequestHandler.cpp */,
+				DFA86D5318E1DA1C00A22941 /* M+MResetRequestHandler.h */,
+				DFA86D5918E1DA1C00A22941 /* M+MStartRequestHandler.cpp */,
+				DFA86D5A18E1DA1C00A22941 /* M+MStartRequestHandler.h */,
+				DFA86D5B18E1DA1C00A22941 /* M+MStopRequestHandler.cpp */,
+				DFA86D5C18E1DA1C00A22941 /* M+MStopRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DF36EEF61958E13B00E7D889 /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DFA86D4218E1D6FF00A22941 /* M+MRandomRequestHandler.cpp */,
+				DFA86D4318E1D6FF00A22941 /* M+MRandomRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DF36EEF71958E15100E7D889 /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DFA86D3418E1D3FC00A22941 /* M+MEchoRequestHandler.cpp */,
+				DFA86D3518E1D3FC00A22941 /* M+MEchoRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DF36EEF81958E16400E7D889 /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DFA9893C194BA904005F10EB /* M+MChordGeneratorRequestHandler.cpp */,
+				DFA9893D194BA904005F10EB /* M+MChordGeneratorRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
 		DF4CCFD218FD903000713E54 /* RunningSumAltAdapter */ = {
 			isa = PBXGroup;
 			children = (
@@ -544,28 +608,15 @@
 			children = (
 				DF27F42C18CA37E000E93C95 /* CMakeLists.txt */,
 				DFA3431318C91B7E0053B87C /* main.cpp */,
-				DF95CA19192E8C2F00BDABA1 /* M+MAssociateRequestHandler.cpp */,
-				DF95CA1A192E8C2F00BDABA1 /* M+MAssociateRequestHandler.h */,
 				DFA86D1C18E0D3AE00A22941 /* M+MColumnNameValidator.cpp */,
 				DFA86D1D18E0D3AE00A22941 /* M+MColumnNameValidator.h */,
-				DF95CA1B192E907E00BDABA1 /* M+MDisassociateRequestHandler.cpp */,
-				DF95CA1C192E907E00BDABA1 /* M+MDisassociateRequestHandler.h */,
-				DF95CA1D192E927700BDABA1 /* M+MGetAssociatesRequestHandler.cpp */,
-				DF95CA1E192E927700BDABA1 /* M+MGetAssociatesRequestHandler.h */,
-				DF27F43A18CE48E000E93C95 /* M+MMatchRequestHandler.cpp */,
-				DF27F43B18CE48E000E93C95 /* M+MMatchRequestHandler.h */,
-				DFA98944195088F8005F10EB /* M+MPingRequestHandler.cpp */,
-				DFA98945195088F8005F10EB /* M+MPingRequestHandler.h */,
-				DFA3434018C91C5A0053B87C /* M+MRegisterRequestHandler.cpp */,
-				DFA3434118C91C5A0053B87C /* M+MRegisterRequestHandler.h */,
 				DFA9894819523A8A005F10EB /* M+MRegistryCheckThread.cpp */,
 				DFA9894919523A8A005F10EB /* M+MRegistryCheckThread.h */,
 				DFA3434218C91C5A0053B87C /* M+MRegistryService.cpp */,
 				DFA3434318C91C5A0053B87C /* M+MRegistryService.h */,
 				DF2092A018D35D720093D3DC /* M+MRegistryTest.cpp */,
-				DFA3434D18C91C5A0053B87C /* M+MUnregisterRequestHandler.cpp */,
-				DFA3434E18C91C5A0053B87C /* M+MUnregisterRequestHandler.h */,
 				DF2092A118D360DE0093D3DC /* RegistryTests */,
+				DF36EEF41958E0C800E7D889 /* RequestHandlers */,
 			);
 			name = RegistryService;
 			sourceTree = "<group>";
@@ -575,10 +626,9 @@
 			children = (
 				DFA86D3218E1D3FC00A22941 /* CMakeLists.txt */,
 				DFA86D3318E1D3FC00A22941 /* main.cpp */,
-				DFA86D3418E1D3FC00A22941 /* M+MEchoRequestHandler.cpp */,
-				DFA86D3518E1D3FC00A22941 /* M+MEchoRequestHandler.h */,
 				DFA86D3618E1D3FC00A22941 /* M+MEchoService.cpp */,
 				DFA86D3718E1D3FC00A22941 /* M+MEchoService.h */,
+				DF36EEF71958E15100E7D889 /* RequestHandlers */,
 			);
 			name = EchoService;
 			sourceTree = "<group>";
@@ -730,8 +780,7 @@
 				DFA86D3E18E1D6FF00A22941 /* main.cpp */,
 				DFA86D4018E1D6FF00A22941 /* M+MRandomNumberService.cpp */,
 				DFA86D4118E1D6FF00A22941 /* M+MRandomNumberService.h */,
-				DFA86D4218E1D6FF00A22941 /* M+MRandomRequestHandler.cpp */,
-				DFA86D4318E1D6FF00A22941 /* M+MRandomRequestHandler.h */,
+				DF36EEF61958E13B00E7D889 /* RequestHandlers */,
 			);
 			name = RandomNumberService;
 			sourceTree = "<group>";
@@ -786,11 +835,10 @@
 			isa = PBXGroup;
 			children = (
 				DFA98941194BA904005F10EB /* main.cpp */,
-				DFA9893C194BA904005F10EB /* M+MChordGeneratorRequestHandler.cpp */,
-				DFA9893D194BA904005F10EB /* M+MChordGeneratorRequestHandler.h */,
 				DFA9893E194BA904005F10EB /* M+MChordGeneratorRequests.h */,
 				DFA9893F194BA904005F10EB /* M+MChordGeneratorService.cpp */,
 				DFA98940194BA904005F10EB /* M+MChordGeneratorService.h */,
+				DF36EEF81958E16400E7D889 /* RequestHandlers */,
 			);
 			name = ChordGeneratorService;
 			sourceTree = "<group>";
