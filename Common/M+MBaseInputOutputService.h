@@ -129,19 +129,19 @@ namespace MplusM
             
             /*! @brief Set up the input streams.
              @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpInputStreams(void) = 0;
+            virtual bool setUpInputStreams(void);
             
             /*! @brief Set up the output streams.
              @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpOutputStreams(void) = 0;
+            virtual bool setUpOutputStreams(void);
             
             /*! @brief Shut down the input streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownInputStreams(void) = 0;
+            virtual bool shutDownInputStreams(void);
             
             /*! @brief Shut down the output streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownOutputStreams(void) = 0;
+            virtual bool shutDownOutputStreams(void);
             
         private:
             
@@ -162,6 +162,10 @@ namespace MplusM
             
             /*! @brief The request handler for the 'stopStreams' request. */
             StopStreamsRequestHandler *    _stopStreamsHandler;
+            
+            
+            
+            
             
         }; // BaseInputOutputService
         

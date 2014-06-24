@@ -171,8 +171,8 @@ namespace MplusM
                                   Common::StringVector &        outputs);
             
             /*! @brief Fill in a list of secondary output channels for the service.
-             @param channels The list to be filled in. */
-            virtual void fillInSecondaryOutputChannelsList(Common::StringVector & channels);
+             @param channels The list of channels to be filled in. */
+            virtual void fillInSecondaryOutputChannelsList(Common::ChannelVector & channels);
             
             /*! @brief Return @c true if the service is active.
              @returns @c true if the service is active and @c false otherwise. */

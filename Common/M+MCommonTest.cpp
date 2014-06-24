@@ -80,6 +80,8 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+static ChannelStatusReporter gReporter;
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -143,12 +145,8 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
     if (newChannel)
     {
 #if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter reporter;
-#endif // defined(MpM_ReportOnConnections)
-        
-#if defined(MpM_ReportOnConnections)
-        newChannel->setReporter(reporter);
-        newChannel->getReport(reporter);
+        newChannel->setReporter(gReporter);
+        newChannel->getReport(gReporter);
 #endif // defined(MpM_ReportOnConnections)
         if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
         {
@@ -159,6 +157,7 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
                 newChannel->close();
 #endif // defined(MpM_DoExplicitClose)
                 ClientChannel::RelinquishChannel(newChannel);
+                newChannel = NULL;
             }
         }
         else
@@ -201,9 +200,9 @@ static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
     if (theChannel)
     {
 #if defined(MpM_DoExplicitDisconnect)
-        if (! NetworkDisconnectWithRetries(theChannel->getName(), destinationName, STANDARD_WAIT_TIME))
+        if (! NetworkDisconnectWithRetries(theChannel->name(), destinationName, STANDARD_WAIT_TIME))
         {
-            OD_LOG("(! NetworkDisconnectWithRetries(theChannel->getName(), destinationName, "//####
+            OD_LOG("(! NetworkDisconnectWithRetries(theChannel->name(), destinationName, "//####
                    "STANDARD_WAIT_TIME))");//####
         }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -289,9 +288,7 @@ static int doTestConnectToEndpoint(const int argc,
         
         if (stuff)
         {
-            ChannelStatusReporter reporter;
-            
-            if (stuff->open(STANDARD_WAIT_TIME) && stuff->setReporter(reporter, true))
+            if (stuff->open(STANDARD_WAIT_TIME) && stuff->setReporter(gReporter, true))
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
@@ -301,20 +298,21 @@ static int doTestConnectToEndpoint(const int argc,
                 if (outChannel)
                 {
 #if defined(MpM_ReportOnConnections)
-                    outChannel->setReporter(reporter);
-                    outChannel->getReport(reporter);
+                    outChannel->setReporter(gReporter);
+                    outChannel->getReport(gReporter);
 #endif // defined(MpM_ReportOnConnections)
                     if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
-                        outChannel->getReport(reporter);
+                        outChannel->getReport(gReporter);
+                        OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
                         {
                             result = 0;
 #if defined(MpM_DoExplicitDisconnect)
-                            if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName(),
+                            if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
                                                                STANDARD_WAIT_TIME))
                             {
-                                OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
+                                OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), "//####
                                        "stuff->getName(), STANDARD_WAIT_TIME))");//####
                             }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -332,6 +330,7 @@ static int doTestConnectToEndpoint(const int argc,
                         OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
+                    outChannel = NULL;
                 }
                 else
                 {
@@ -340,7 +339,7 @@ static int doTestConnectToEndpoint(const int argc,
             }
             else
             {
-                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME) && stuff->setReporter(reporter, true))");//####
+                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME) && stuff->setReporter(gReporter, true))");//####
             }
             delete stuff;
         }
@@ -378,11 +377,10 @@ static int doTestWriteToEndpoint(const int argc,
         
         if (stuff)
         {
-            ChannelStatusReporter reporter;
-            Test03Handler          handler;
+            Test03Handler handler;
             
             if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) &&
-                stuff->setReporter(reporter, true))
+                stuff->setReporter(gReporter, true))
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
@@ -392,12 +390,12 @@ static int doTestWriteToEndpoint(const int argc,
                 if (outChannel)
                 {
 #if defined(MpM_ReportOnConnections)
-                    outChannel->setReporter(reporter);
-                    outChannel->getReport(reporter);
+                    outChannel->setReporter(gReporter);
+                    outChannel->getReport(gReporter);
 #endif // defined(MpM_ReportOnConnections)
                     if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
-                        outChannel->getReport(reporter);
+                        outChannel->getReport(gReporter);
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
                         {
                             Package message;
@@ -412,10 +410,10 @@ static int doTestWriteToEndpoint(const int argc,
                             {
                                 result = 0;
 # if defined(MpM_DoExplicitDisconnect)
-                                if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName(),
+                                if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
                                                                    STANDARD_WAIT_TIME))
                                 {
-                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
+                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), "//####
                                            "stuff->getName(), STANDARD_WAIT_TIME))");//####
                                 }
 # endif // defined(MpM_DoExplicitDisconnect)
@@ -425,10 +423,10 @@ static int doTestWriteToEndpoint(const int argc,
                             {
                                 result = 0;
 # if defined(MpM_DoExplicitDisconnect)
-                                if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName(),
+                                if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
                                                                    STANDARD_WAIT_TIME))
                                 {
-                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
+                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), "//####
                                            "stuff->getName(), STANDARD_WAIT_TIME))");//####
                                 }
 # endif // defined(MpM_DoExplicitDisconnect)
@@ -455,6 +453,7 @@ static int doTestWriteToEndpoint(const int argc,
                         OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
+                    outChannel = NULL;
                 }
                 else
                 {
@@ -464,7 +463,7 @@ static int doTestWriteToEndpoint(const int argc,
             else
             {
                 OD_LOG("! (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) && "//####
-                       "stuff->setReporter(reporter, true))");//####
+                       "stuff->setReporter(gReporter, true))");//####
             }
             delete stuff;
         }
@@ -502,11 +501,10 @@ static int doTestEchoFromEndpointWithReader(const int argc,
 
         if (stuff)
         {
-            ChannelStatusReporter reporter;
-            Test04Handler          handler;
+            Test04Handler handler;
             
             if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) &&
-                stuff->setReporter(reporter, true))
+                stuff->setReporter(gReporter, true))
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
@@ -516,12 +514,12 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                 if (outChannel)
                 {
 #if defined(MpM_ReportOnConnections)
-                    outChannel->setReporter(reporter);
-                    outChannel->getReport(reporter);
+                    outChannel->setReporter(gReporter);
+                    outChannel->getReport(gReporter);
 #endif // defined(MpM_ReportOnConnections)
                     if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
-                        outChannel->getReport(reporter);
+                        outChannel->getReport(gReporter);
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
                         {
                             Package message;
@@ -534,10 +532,10 @@ static int doTestEchoFromEndpointWithReader(const int argc,
 //                                OD_LOG_S1("got ", response.toString().c_str());//####
                                 result = 0;
 #if defined(MpM_DoExplicitDisconnect)
-                                if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName(),
+                                if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
                                                                    STANDARD_WAIT_TIME))
                                 {
-                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
+                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), "//####
                                            "stuff->getName(), STANDARD_WAIT_TIME))");//####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -563,6 +561,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                         OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
+                    outChannel = NULL;
                 }
                 else
                 {
@@ -572,7 +571,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
             else
             {
                 OD_LOG("! (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) && "//####
-                       "stuff->setReporter(reporter, true))");//####
+                       "stuff->setReporter(gReporter, true))");//####
             }
             delete stuff;
         }
@@ -610,11 +609,10 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
 
         if (stuff)
         {
-            ChannelStatusReporter reporter;
-            Test05HandlerCreator   handlerCreator;
+            Test05HandlerCreator handlerCreator;
             
             if (stuff->setInputHandlerCreator(handlerCreator) && stuff->open(STANDARD_WAIT_TIME) &&
-                stuff->setReporter(reporter, true))
+                stuff->setReporter(gReporter, true))
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
@@ -624,12 +622,12 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                 if (outChannel)
                 {
 #if defined(MpM_ReportOnConnections)
-                    outChannel->setReporter(reporter);
-                    outChannel->getReport(reporter);
+                    outChannel->setReporter(gReporter);
+                    outChannel->getReport(gReporter);
 #endif // defined(MpM_ReportOnConnections)
                     if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
-                        outChannel->getReport(reporter);
+                        outChannel->getReport(gReporter);
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
                         {
                             Package message;
@@ -642,10 +640,10 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
 //                                OD_LOG_S1("got ", response.toString().c_str());//####
                                 result = 0;
 #if defined(MpM_DoExplicitDisconnect)
-                                if (! NetworkDisconnectWithRetries(outChannel->getName(), stuff->getName(),
+                                if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
                                                                    STANDARD_WAIT_TIME))
                                 {
-                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->getName(), "//####
+                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), "//####
                                            "stuff->getName(), STANDARD_WAIT_TIME))");//####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -671,6 +669,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                         OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
+                    outChannel = NULL;
                 }
                 else
                 {
@@ -680,7 +679,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
             else
             {
                 OD_LOG("! (stuff->setInputHandlerCreator(handlerCreator) && stuff->open(STANDARD_WAIT_TIME) && "//####
-                          "stuff->setReporter(reporter, true))");//####
+                          "stuff->setReporter(gReporter, true))");//####
             }
             delete stuff;
         }
@@ -797,11 +796,10 @@ static int doTestRequestEchoFromEndpoint(const int argc,
         
         if (stuff)
         {
-            ChannelStatusReporter reporter;
-            Test08Handler          handler;
+            Test08Handler handler;
             
             if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) &&
-                stuff->setReporter(reporter, true))
+                stuff->setReporter(gReporter, true))
             {
                 ClientChannel * outChannel = doCreateTestChannel(stuff->getName(), "test/requestechofromendpoint_");
                 
@@ -826,6 +824,7 @@ static int doTestRequestEchoFromEndpoint(const int argc,
                         OD_LOG("! (request.send(*outChannel, &response))");//####
                     }
                     doDestroyTestChannel(stuff->getName(), outChannel);
+                    outChannel = NULL;
                 }
                 else
                 {
@@ -835,7 +834,7 @@ static int doTestRequestEchoFromEndpoint(const int argc,
             else
             {
                 OD_LOG("! (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) && "//####
-                       "stuff->setReporter(reporter, true))");//####
+                       "stuff->setReporter(gReporter, true))");//####
             }
             delete stuff;
         }
@@ -898,6 +897,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const int argc,
                         OD_LOG("! (request.send(*outChannel, &response))");//####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
+                    outChannel = NULL;
                 }
                 else
                 {
@@ -970,6 +970,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const int a
                         OD_LOG("! (request.send(*outChannel, &response))");//####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
+                    outChannel = NULL;
                 }
                 else
                 {
@@ -1056,6 +1057,7 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const int argc,
                         OD_LOG("! (request.send(*outChannel, &response))");//####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
+                    outChannel = NULL;
                 }
                 else
                 {
@@ -1301,7 +1303,8 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const int argc,
                     {
                         OD_LOG("! (request.send(*outChannel, &response))");//####
                     }
-                        doDestroyTestChannel(stuff->getEndpoint(), outChannel);
+                    doDestroyTestChannel(stuff->getEndpoint(), outChannel);
+                    outChannel = NULL;
                 }
                 else
                 {

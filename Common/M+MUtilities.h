@@ -138,13 +138,13 @@ namespace MplusM
             yarp::os::ConstString _description;
             
             /*! @brief The set of secondary input channels for the service. */
-            Common::StringVector  _inputChannels;
+            Common::ChannelVector _inputChannels;
             
             /*! @brief The description of the behavioural model for the service. */
             yarp::os::ConstString _kind;
             
             /*! @brief The set of secondary output channels for the service. */
-            Common::StringVector  _outputChannels;
+            Common::ChannelVector _outputChannels;
             
             /*! @brief The name of the input channel for the service. */
             yarp::os::ConstString _path;

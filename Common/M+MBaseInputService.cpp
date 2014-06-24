@@ -125,14 +125,23 @@ BaseInputService::~BaseInputService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool BaseInputService::setUpInputStreams(void)
+void BaseInputService::fillInSecondaryOutputChannelsList(ChannelVector & channels)
 {
     OD_LOG_OBJENTER();//####
-    bool result = true; // always true, as there are no input streams
-    
-    OD_LOG_EXIT_B(result);//####
-    return result;
-} // BaseInputService::setUpInputStreams
+    OD_LOG_P1("channels = ", &channels);//####
+    inherited::fillInSecondaryOutputChannelsList(channels);
+#if 0
+    if (_statusChannel)
+    {
+        ChannelDescription descriptor;
+        
+        descriptor._portName = _statusChannel->name();
+        descriptor._portProtocol = _statusChannel->protocol();
+        descriptor._portMode = kChannelModeTCP;
+    }
+#endif//0
+    OD_LOG_OBJEXIT();//####
+} // BaseInputService::fillInSecondaryOutputChannelsList
 
 bool BaseInputService::setUpOutputStreams(void)
 {
@@ -142,15 +151,6 @@ bool BaseInputService::setUpOutputStreams(void)
     OD_LOG_EXIT_B(result);//####
     return result;
 } // BaseInputService::setUpOutputStreams
-
-bool BaseInputService::shutDownInputStreams(void)
-{
-    OD_LOG_OBJENTER();//####
-    bool result = true; // always true, as there are no input streams
-    
-    OD_LOG_EXIT_B(result);//####
-    return result;
-} // BaseInputService::shutDownInputStreams
 
 bool BaseInputService::shutDownOutputStreams(void)
 {

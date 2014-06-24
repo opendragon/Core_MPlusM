@@ -140,18 +140,18 @@ namespace MplusM
              @param key The client-provided key. */
             void detachClient(const yarp::os::ConstString & key);
             
-            /*! @brief Fill in a list of secondary input channels for the service.
-             @param channels The list to be filled in. */
-            virtual void fillInSecondaryInputChannelsList(StringVector & channels);
-            
-            /*! @brief Fill in a list of secondary output channels for the service.
-             @param channels The list to be filled in. */
-            virtual void fillInSecondaryOutputChannelsList(StringVector & channels);
-            
             /*! @brief Fill in a list of clients for the service.
              @param clients The list to be filled in. */
             void fillInClientList(StringVector & clients);
-
+            
+            /*! @brief Fill in a list of secondary input channels for the service.
+             @param channels The list of channels to be filled in. */
+            virtual void fillInSecondaryInputChannelsList(ChannelVector & channels);
+            
+            /*! @brief Fill in a list of secondary output channels for the service.
+             @param channels The list of channels to be filled in. */
+            virtual void fillInSecondaryOutputChannelsList(ChannelVector & channels);
+            
             /*! @brief Return the associated endpoint.
              @returns The associated endpoint. */
             inline Endpoint & getEndpoint(void)
@@ -210,7 +210,7 @@ namespace MplusM
             } // requestsDescription
             
             /*! @brief Send a 'ping' on behalf of a service. */
-            static bool sendPingForChannel(const yarp::os::ConstString & channelName);
+            static bool SendPingForChannel(const yarp::os::ConstString & channelName);
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
@@ -261,7 +261,7 @@ namespace MplusM
             typedef std::map<yarp::os::ConstString, BaseContext *> ContextMap;
             
             /*! @brief The entry-type for the mapping. */
-            typedef ContextMap::value_type               ContextMapValue;
+            typedef ContextMap::value_type                         ContextMapValue;
             
             /*! @brief Copy constructor.
              

@@ -88,13 +88,6 @@ namespace MplusM
             int count(void)
             const;
             
-            /*! @brief Return an element from the expression list.
-             @param index The zero-origin index of the element.
-             @returns An element of the expression list or @c NULL if the index is outside the range of the expression
-             list. */
-            const MatchConstraint * element(const int index)
-            const;
-            
             /*! @brief Create a pattern matcher if the next substring would be a valid expression.
              @param inString The string being scanned.
              @param inLength The length of the string being scanned.
@@ -107,6 +100,13 @@ namespace MplusM
                                                    const size_t                  startPos,
                                                    size_t &                      endPos,
                                                    BaseNameValidator *           validator = NULL);
+            
+            /*! @brief Return an element from the expression list.
+             @param index The zero-origin index of the element.
+             @returns An element of the expression list or @c NULL if the index is outside the range of the expression
+             list. */
+            const MatchConstraint * element(const int index)
+            const;
             
             /*! @brief The character used between expression list elements.
              @returns The character that separates expression list elements. */

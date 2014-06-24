@@ -280,6 +280,7 @@ void Endpoint::close(void)
                 _channel->close();
 #endif // defined(MpM_DoExplicitClose)
                 ServiceChannel::RelinquishChannel(_channel);
+                _channel = NULL;
             }
             _handler = NULL;
             _handlerCreator = NULL;
@@ -337,7 +338,7 @@ bool Endpoint::open(const double timeToWait)
                 {
                     OD_LOG("Channel could not be opened");//####
                 }
-                OD_LOG_S1("_channel->getName = ", _channel->getName().c_str());//####
+                OD_LOG_S1("_channel->name = ", _channel->name().c_str());//####
             }
             else
             {
@@ -480,7 +481,7 @@ const
     {
         if (_channel)
         {
-            result = _channel->getName();
+            result = _channel->name();
         }
         else
         {

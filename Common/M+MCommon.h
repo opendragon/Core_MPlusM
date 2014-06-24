@@ -216,6 +216,9 @@ namespace MplusM
             /*! @brief The name of the port being connected to. */
             yarp::os::ConstString _portName;
             
+            /*! @brief The protocol of the port. */
+            yarp::os::ConstString _portProtocol;
+            
             /*! @brief The mode of the connection. */
             ChannelMode           _portMode;
         }; // ChannelDescription
@@ -248,7 +251,7 @@ namespace MplusM
             kServiceKindRegistry
         }; // ServiceKind
         
-        /*! @brief The logical connection between a client and a service. */
+        /*! @brief A container for arbitrary data. */
         typedef yarp::os::Bottle                   Package;
         
         /*! @brief A sequence of connections. */

@@ -229,8 +229,11 @@ int main(int      argc,
                             cerr << "Problem creating a channel." << endl;
                         }
                         MplusM::Common::AdapterChannel::RelinquishChannel(controlChannel);
+                        controlChannel = NULL;
                         MplusM::Common::AdapterChannel::RelinquishChannel(dataChannel);
+                        dataChannel = NULL;
                         MplusM::Common::AdapterChannel::RelinquishChannel(outputChannel);
+                        outputChannel = NULL;
                         if (! stuff->disconnectFromService())
                         {
                             OD_LOG("(! stuff->disconnectFromService())");//####

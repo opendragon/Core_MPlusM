@@ -189,6 +189,42 @@ void BaseInputOutputService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // BaseInputOutputService::detachRequestHandlers
 
+bool BaseInputOutputService::setUpInputStreams(void)
+{
+    OD_LOG_OBJENTER();//####
+    bool result = true; // by default, always true
+    
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // BaseInputOutputService::setUpInputStreams
+
+bool BaseInputOutputService::setUpOutputStreams(void)
+{
+    OD_LOG_OBJENTER();//####
+    bool result = true; // by default, always true
+    
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // BaseInputOutputService::setUpOutputStreams
+
+bool BaseInputOutputService::shutDownInputStreams(void)
+{
+    OD_LOG_OBJENTER();//####
+    bool result = true; // by default, always true
+    
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // BaseInputOutputService::shutDownInputStreams
+
+bool BaseInputOutputService::shutDownOutputStreams(void)
+{
+    OD_LOG_OBJENTER();//####
+    bool result = true; // by default, always true
+    
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // BaseInputOutputService::shutDownOutputStreams
+
 bool BaseInputOutputService::start(void)
 {
     OD_LOG_OBJENTER();//####

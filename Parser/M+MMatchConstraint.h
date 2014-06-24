@@ -80,21 +80,14 @@ namespace MplusM
             yarp::os::ConstString asString(void)
             const;
             
+            /*! @brief The character used between constraint list elements.
+             @returns The character that separates constraint list elements. */
+            static char ConstraintSeparatorCharacter(void);
+            
             /*! @brief Return the number of elements in the constraint list.
              @returns The number of elements in the constraint list. */
             int count(void)
             const;
-            
-            /*! @brief Return an element from the constraint list.
-             @param index The zero-origin index of the element.
-             @returns An element of the constraint list or @c NULL if the index is outside the range of the constraint
-             list. */
-            const MatchFieldWithValues * element(const int index)
-            const;
-            
-            /*! @brief The character used between constraint list elements.
-             @returns The character that separates constraint list elements. */
-            static char ConstraintSeparatorCharacter(void);
             
             /*! @brief Create a pattern matcher if the next substring would be a valid constraint.
              @param inString The string being scanned.
@@ -108,6 +101,13 @@ namespace MplusM
                                                    const size_t                  startPos,
                                                    size_t &                      endPos,
                                                    BaseNameValidator *           validator = NULL);
+            
+            /*! @brief Return an element from the constraint list.
+             @param index The zero-origin index of the element.
+             @returns An element of the constraint list or @c NULL if the index is outside the range of the constraint
+             list. */
+            const MatchFieldWithValues * element(const int index)
+            const;
             
         protected:
             

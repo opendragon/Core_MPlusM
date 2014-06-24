@@ -85,12 +85,6 @@ namespace MplusM
             int count(void)
             const;
             
-            /*! @brief Return an element from the value list.
-             @param index The zero-origin index of the element.
-             @returns An element of the value list or @c NULL if the index is outside the range of the value list. */
-            const MatchValue * element(const int index)
-            const;
-            
             /*! @brief Create a pattern matcher if the next substring would be a valid value list.
              @param inString The string being scanned.
              @param inLength The length of the string being scanned.
@@ -101,6 +95,12 @@ namespace MplusM
                                                   const size_t                  inLength,
                                                   const size_t                  startPos,
                                                   size_t &                      endPos);
+            
+            /*! @brief Return an element from the value list.
+             @param index The zero-origin index of the element.
+             @returns An element of the value list or @c NULL if the index is outside the range of the value list. */
+            const MatchValue * element(const int index)
+            const;
             
             /*! @brief The character used to signal the beginning of a value list.
              @returns The character that ends a value list. */

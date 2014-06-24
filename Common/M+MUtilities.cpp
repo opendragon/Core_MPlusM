@@ -42,6 +42,7 @@
 
 #include "M+MUtilities.h"
 #include "M+MBaseClient.h"
+#include "M+MChannelStatusReporter.h"
 #include "M+MClientChannel.h"
 #include "M+MRequests.h"
 #include "M+MServiceRequest.h"
@@ -595,6 +596,7 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
                 OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
+            newChannel = NULL;
         }
     }
     catch (...)
@@ -734,18 +736,50 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                                 {
                                     yarp::os::Value element(inputChannelsAsList->get(ii));
                                     
-                                    if (element.isString())
+                                    if (element.isList())
                                     {
-                                        descriptor._inputChannels.push_back(element.toString());
+                                        Package * inputChannelAsList = element.asList();
+                                        
+                                        if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE == inputChannelAsList->size())
+                                        {
+                                            yarp::os::Value firstValue(inputChannelAsList->get(0));
+                                            yarp::os::Value secondValue(inputChannelAsList->get(1));
+                                            
+                                            if (firstValue.isString() && secondValue.isString())
+                                            {
+                                                ChannelDescription aChannel;
+
+                                                aChannel._portName = firstValue.asString();
+                                                aChannel._portProtocol = secondValue.asString();
+                                                aChannel._portMode = kChannelModeOther;
+                                                descriptor._inputChannels.push_back(aChannel);
+                                            }
+                                        }
                                     }
                                 }
                                 for (int ii = 0, howMany = outputChannelsAsList->size(); ii < howMany; ++ii)
                                 {
                                     yarp::os::Value element(outputChannelsAsList->get(ii));
                                     
-                                    if (element.isString())
+                                    if (element.isList())
                                     {
-                                        descriptor._outputChannels.push_back(element.toString());
+                                        Package * outputChannelAsList = element.asList();
+                                        
+                                        if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE == outputChannelAsList->size())
+                                        {
+                                            yarp::os::Value firstValue(outputChannelAsList->get(0));
+                                            yarp::os::Value secondValue(outputChannelAsList->get(1));
+                                            
+                                            if (firstValue.isString() && secondValue.isString())
+                                            {
+                                                ChannelDescription aChannel;
+                                                
+                                                aChannel._portName = firstValue.asString();
+                                                aChannel._portProtocol = secondValue.asString();
+                                                aChannel._portMode = kChannelModeOther;
+                                                descriptor._outputChannels.push_back(aChannel);
+                                            }
+                                        }
                                     }
                                 }
                             }

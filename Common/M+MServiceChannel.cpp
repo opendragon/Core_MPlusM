@@ -71,6 +71,32 @@ using namespace MplusM::Common;
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
+void ServiceChannel::RelinquishChannel(ServiceChannel * theChannel)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_P1("theChannel = ", theChannel);//####
+#if (! defined(MpM_DontUseTimeouts))
+    SetUpCatcher();
+#endif // ! defined(MpM_DontUseTimeouts)
+    try
+    {
+#if (! defined(MpM_DontUseTimeouts))
+        BailOut bailer(*theChannel, STANDARD_WAIT_TIME);
+#endif // ! defined(MpM_DontUseTimeouts)
+        
+        delete theChannel;
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+#if (! defined(MpM_DontUseTimeouts))
+    ShutDownCatcher();
+#endif // ! defined(MpM_DontUseTimeouts)
+    OD_LOG_EXIT();//####
+} // ServiceChannel::RelinquishChannel
+
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
@@ -167,6 +193,7 @@ bool ServiceChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
             if (result)
             {
                 _name = theChannelName;
+                OD_LOG_S1("_name <- ", _name.c_str());//####
             }
         }
         while ((! result) && (0 < retriesLeft));
@@ -230,6 +257,11 @@ bool ServiceChannel::openWithRetries(yarp::os::Contact & theContactInfo,
                     retryTime *= RETRY_MULTIPLIER;
                 }
             }
+            if (result)
+            {
+                _name = theContactInfo.getName();
+                OD_LOG_S1("_name <- ", _name.c_str());//####
+            }
         }
         while ((! result) && (0 < retriesLeft));
     }
@@ -244,33 +276,6 @@ bool ServiceChannel::openWithRetries(yarp::os::Contact & theContactInfo,
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // ServiceChannel::openWithRetries
-
-void ServiceChannel::RelinquishChannel(ServiceChannel * & theChannel)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("theChannel = ", theChannel);//####
-#if (! defined(MpM_DontUseTimeouts))
-    SetUpCatcher();
-#endif // ! defined(MpM_DontUseTimeouts)
-    try
-    {
-#if (! defined(MpM_DontUseTimeouts))
-        BailOut bailer(*theChannel, STANDARD_WAIT_TIME);
-#endif // ! defined(MpM_DontUseTimeouts)
-        
-        delete theChannel;
-        theChannel = NULL;
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-#if (! defined(MpM_DontUseTimeouts))
-    ShutDownCatcher();
-#endif // ! defined(MpM_DontUseTimeouts)
-    OD_LOG_EXIT();//####
-} // ServiceChannel::RelinquishChannel
 
 #if defined(__APPLE__)
 # pragma mark Accessors

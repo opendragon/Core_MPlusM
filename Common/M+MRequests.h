@@ -116,6 +116,9 @@
 /*! @brief The number of elements expected in the output of an 'associate' request. */
 # define MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE      1
 
+/*! @brief The number of elements expected in a channel description. */
+# define MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE      2
+
 /*! @brief The number of elements expected in the output of a 'channels' request. */
 # define MpM_EXPECTED_CHANNELS_RESPONSE_SIZE       2
 

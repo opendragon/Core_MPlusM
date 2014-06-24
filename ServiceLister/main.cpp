@@ -173,18 +173,23 @@ int main(int      argc,
                         inChannelNames = "[ ";
                         outChannelNames = "[ ";
                     }
-                    for (MplusM::Common::StringVector::const_iterator walker(descriptor._inputChannels.begin());
+                    for (MplusM::Common::ChannelVector::const_iterator walker(descriptor._inputChannels.begin());
                          descriptor._inputChannels.end() != walker; ++walker)
                     {
+                        MplusM::Common::ChannelDescription descriptor(*walker);
+                        
                         if (MplusM::Common::kOutputFlavourJSON == flavour)
                         {
                             if (sawInputs)
                             {
                                 inChannelNames += ", ";
                             }
-                            inChannelNames += CHAR_DOUBLEQUOTE;
-                            inChannelNames += MplusM::SanitizeString(*walker);
-                            inChannelNames += CHAR_DOUBLEQUOTE;
+                            inChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
+                            inChannelNames += MplusM::SanitizeString(descriptor._portName);
+                            inChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Protocol" CHAR_DOUBLEQUOTE ": "
+                                                 CHAR_DOUBLEQUOTE);
+                            inChannelNames += MplusM::SanitizeString(descriptor._portProtocol);
+                            inChannelNames += T_(CHAR_DOUBLEQUOTE " }");
                         }
                         else
                         {
@@ -192,7 +197,7 @@ int main(int      argc,
                             {
                                 inChannelNames += " ";
                             }
-                            inChannelNames += *walker;
+                            inChannelNames += descriptor._portName + "{protocol=" + descriptor._portProtocol + "}";
                         }
                         sawInputs = true;
                     }
@@ -200,18 +205,23 @@ int main(int      argc,
                     {
                         inChannelNames += " ]";
                     }
-                    for (MplusM::Common::StringVector::const_iterator walker(descriptor._outputChannels.begin());
+                    for (MplusM::Common::ChannelVector::const_iterator walker(descriptor._outputChannels.begin());
                          descriptor._outputChannels.end() != walker; ++walker)
                     {
+                        MplusM::Common::ChannelDescription descriptor(*walker);
+                        
                         if (MplusM::Common::kOutputFlavourJSON == flavour)
                         {
                             if (sawOutputs)
                             {
                                 outChannelNames += ", ";
                             }
-                            outChannelNames += CHAR_DOUBLEQUOTE;
-                            outChannelNames += MplusM::SanitizeString(*walker);
-                            outChannelNames += CHAR_DOUBLEQUOTE;
+                            outChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
+                            outChannelNames += MplusM::SanitizeString(descriptor._portName);
+                            outChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Protocol" CHAR_DOUBLEQUOTE
+                                                  ": " CHAR_DOUBLEQUOTE);
+                            outChannelNames += MplusM::SanitizeString(descriptor._portProtocol);
+                            outChannelNames += T_(CHAR_DOUBLEQUOTE " }");
                         }
                         else
                         {
@@ -219,7 +229,7 @@ int main(int      argc,
                             {
                                 outChannelNames += " ";
                             }
-                            outChannelNames += *walker;
+                            outChannelNames += descriptor._portName + "{protocol=" + descriptor._portProtocol + "}";
                         }
                         sawOutputs = true;
                     }

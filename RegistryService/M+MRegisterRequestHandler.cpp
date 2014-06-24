@@ -208,7 +208,8 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                                 {
                                                     OD_LOG("! (processListResponse(argAsString, response))");//####
                                                     reply.addString(MpM_FAILED_RESPONSE);
-                                                    reply.addString("Invalid response to 'list' request");
+                                                    reply.addString("Invalid response to '" MpM_LIST_REQUEST
+                                                                    "' request");
                                                 }
                                             }
                                             else
@@ -225,7 +226,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                         {
                                             OD_LOG("! (processNameResponse(argAsString, response))");//####
                                             reply.addString(MpM_FAILED_RESPONSE);
-                                            reply.addString("Invalid response to 'name' request");
+                                            reply.addString("Invalid response to '" MpM_NAME_REQUEST "' request");
                                         }
                                     }
                                     else
@@ -238,10 +239,10 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
 #endif // defined(MpM_StallOnSendProblem)
                                     }
 #if defined(MpM_DoExplicitDisconnect)
-                                    if (! Common::NetworkDisconnectWithRetries(outChannel->getName(), argAsString,
+                                    if (! Common::NetworkDisconnectWithRetries(outChannel->name(), argAsString,
                                                                                STANDARD_WAIT_TIME))
                                     {
-                                        OD_LOG("(! Common::NetworkDisconnectWithRetries(outChannel->getName(), "//####
+                                        OD_LOG("(! Common::NetworkDisconnectWithRetries(outChannel->name(), "//####
                                                "argAsString, STANDARD_WAIT_TIME))");//####
                                     }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -265,6 +266,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                 reply.addString("Channel could not be opened");
                             }
                             Common::ClientChannel::RelinquishChannel(outChannel);
+                            outChannel = NULL;
                         }
                         else
                         {

@@ -152,27 +152,30 @@ bool ChannelsRequestHandler::processRequest(const yarp::os::ConstString & reques
     {
         if (replyMechanism)
         {
-            Package      reply;
-            StringVector channels;
+            Package       reply;
+            ChannelVector channels;
+            Package &     aList1 = reply.addList();
             
             _service.fillInSecondaryInputChannelsList(channels);
-            Package & aList1 = reply.addList();
-            
-            for (size_t ii = 0, mm = channels.size(); mm > ii; ++ii)
+            for (ChannelVector::const_iterator walker(channels.begin()); channels.end() != walker; ++walker)
             {
-                const yarp::os::ConstString & aString = channels.at(ii);
+                const ChannelDescription & aChannel = *walker;
+                Package &                  newPackage = aList1.addList();
                 
-                aList1.addString(aString.c_str());
+                newPackage.addString(aChannel._portName);
+                newPackage.addString(aChannel._portProtocol);
             }
             // Note that we can't reuse the first list variable; we wind up with duplicate entries for some reason.
             Package & aList2 = reply.addList();
             
             _service.fillInSecondaryOutputChannelsList(channels);
-            for (size_t ii = 0, mm = channels.size(); mm > ii; ++ii)
+            for (ChannelVector::const_iterator walker(channels.begin()); channels.end() != walker; ++walker)
             {
-                const yarp::os::ConstString & aString = channels.at(ii);
+                const ChannelDescription & aChannel = *walker;
+                Package &                  newPackage = aList2.addList();
                 
-                aList2.addString(aString.c_str());
+                newPackage.addString(aChannel._portName);
+                newPackage.addString(aChannel._portProtocol);
             }
             OD_LOG_S1("reply <- ", reply.toString().c_str());
             if (! reply.write(*replyMechanism))

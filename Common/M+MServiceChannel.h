@@ -104,7 +104,7 @@ namespace MplusM
 
             /*! @brief Release an allocated adapter channel.
              @param theChannel A pointer to the channel to be released. */
-            static void RelinquishChannel(ServiceChannel * & theChannel);
+            static void RelinquishChannel(ServiceChannel * theChannel);
             
         protected:
             

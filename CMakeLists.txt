@@ -45,8 +45,8 @@ cmake_minimum_required(VERSION 2.6)
 project(M+M)
 
 set(MpM_VERSION_MAJOR 1)
-set(MpM_VERSION_MINOR 3)
-set(MpM_VERSION_PATCH 2)
+set(MpM_VERSION_MINOR 4)
+set(MpM_VERSION_PATCH 0)
 
 # Make some flags to control the build visible
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)

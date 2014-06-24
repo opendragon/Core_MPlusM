@@ -85,14 +85,6 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~RunningSumService(void);
             
-            /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
-            
-            /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
-            
             /*! @brief Add to the running sum for the given client.
              @param key The client-provided key.
              @param value The value to be added to the running sum.
@@ -104,9 +96,17 @@ namespace MplusM
              @param key The client-provided key. */
             void resetSum(const yarp::os::ConstString & key);
             
+            /*! @brief Start processing requests.
+             @returns @c true if the service was started and @c false if it was not. */
+            virtual bool start(void);
+            
             /*! @brief Start a running sum for the given client.
              @param key The client-provided key. */
             void startSum(const yarp::os::ConstString & key);
+            
+            /*! @brief Stop processing requests.
+             @returns @c true if the service was stopped and @c false it if was not. */
+            virtual bool stop(void);
             
         protected:
             

@@ -288,6 +288,7 @@ bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sou
 #else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::connect(sourceName, destinationName, carrier, true);
 #endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+                OD_LOG("connected?");//####
                 if (! result)
                 {
                     if (0 < --retriesLeft)
@@ -353,6 +354,7 @@ bool MplusM::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString & 
 #else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::disconnect(sourceName, destinationName, true);
 #endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+                OD_LOG("disconnected?");//####
                 if (! result)
                 {
                     if (0 < --retriesLeft)
@@ -441,6 +443,7 @@ void MplusM::Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
 
 void MplusM::Common::SetUpCatcher(void)
 {
+    OD_LOG_ENTER();//####
 #if MAC_OR_LINUX_
     sigset_t         unblocking;
     struct sigaction act;
@@ -456,10 +459,12 @@ void MplusM::Common::SetUpCatcher(void)
     sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
 #else // ! MAC_OR_LINUX_
 #endif // ! MAC_OR_LINUX_
+    OD_LOG_EXIT();//####
 } // MplusM::Common::SetUpCatcher
 
 void MplusM::Common::ShutDownCatcher(void)
 {
+    OD_LOG_ENTER();//####
 #if MAC_OR_LINUX_
     sigset_t         blocking;
     struct sigaction act;
@@ -475,6 +480,7 @@ void MplusM::Common::ShutDownCatcher(void)
     sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
 #else // ! MAC_OR_LINUX_
 #endif // ! MAC_OR_LINUX_
+    OD_LOG_EXIT();//####
 } // MplusM::Common::ShutDownCatcher
 
 void MplusM::Common::Stall(void)

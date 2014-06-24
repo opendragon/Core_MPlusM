@@ -81,6 +81,11 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~Endpoint(void);
             
+            /*! @brief Check the format of an endpoint name.
+             @param channelName The name to be checked.
+             @returns @c true if the name is a valid endpoint name and @c false otherwise. */
+            static bool CheckEndpointName(const yarp::os::ConstString & channelName);
+            
             /*! @brief Stop processing input. */
             void close(void);
             
@@ -124,11 +129,6 @@ namespace MplusM
              @returns @c true if the channel status reporter was attached to the endpoint. */
             bool setReporter(ChannelStatusReporter & reporter,
                              const bool              andReportNow = false);
-            
-            /*! @brief Check the format of an endpoint name.
-             @param channelName The name to be checked.
-             @returns @c true if the name is a valid endpoint name and @c false otherwise. */
-            static bool CheckEndpointName(const yarp::os::ConstString & channelName);
             
         protected:
             

@@ -238,11 +238,11 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
 #endif // defined(MpM_StallOnSendProblem)
                                         }
 #if defined(MpM_DoExplicitDisconnect)
-                                        if (! Common::NetworkDisconnectWithRetries(outChannel->getName(), argAsString,
+                                        if (! Common::NetworkDisconnectWithRetries(outChannel->name(), argAsString,
                                                                                    STANDARD_WAIT_TIME))
                                         {
                                             OD_LOG("(! Common::NetworkDisconnectWithRetries(outChannel->"//####
-                                                   "getName(), argAsString, STANDARD_WAIT_TIME))");//####
+                                                   "name(), argAsString, STANDARD_WAIT_TIME))");//####
                                         }
 #endif // defined(MpM_DoExplicitDisconnect)
                                     }
@@ -265,6 +265,7 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                                     reply.addString("Channel could not be opened");
                                 }
                                 Common::ClientChannel::RelinquishChannel(outChannel);
+                                outChannel = NULL;
                             }
                             else
                             {

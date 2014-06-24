@@ -41,6 +41,7 @@
 
 #include "M+MRegistryService.h"
 #include "M+MAssociateRequestHandler.h"
+#include "M+MChannelStatusReporter.h"
 #include "M+MClientChannel.h"
 #include "M+MColumnNameValidator.h"
 #include "M+MDisassociateRequestHandler.h"
@@ -1644,6 +1645,7 @@ RegistryService::~RegistryService(void)
         _statusChannel->close();
 #endif // defined(MpM_DoExplicitClose)
         Common::GeneralChannel::RelinquishChannel(_statusChannel);
+        _statusChannel = NULL;
     }
     OD_LOG_OBJEXIT();//####
 } // RegistryService::~RegistryService
@@ -2138,12 +2140,20 @@ bool RegistryService::fillInAssociates(const yarp::os::ConstString & channelName
     return okSoFar;
 } // RegistryService::fillInAssociates
 
-void RegistryService::fillInSecondaryOutputChannelsList(StringVector & channels)
+void RegistryService::fillInSecondaryOutputChannelsList(ChannelVector & channels)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("channels = ", &channels);//####
     inherited::fillInSecondaryOutputChannelsList(channels);
-    channels.push_back(SECONDARY_CHANNEL_NAME_);
+    if (_statusChannel)
+    {
+        ChannelDescription descriptor;
+     
+        descriptor._portName = _statusChannel->name();
+        descriptor._portProtocol = _statusChannel->protocol();
+        descriptor._portMode = kChannelModeTCP;
+        channels.push_back(descriptor);
+    }
     OD_LOG_OBJEXIT();//####
 } // RegistryService::fillInSecondaryOutputChannelsList
 
@@ -2449,6 +2459,9 @@ bool RegistryService::setUpStatusChannel(void)
         if (_statusChannel)
         {
             yarp::os::ConstString outputName(SECONDARY_CHANNEL_NAME_);
+#if defined(MpM_ReportOnConnections)
+            ChannelStatusReporter reporter;
+#endif // defined(MpM_ReportOnConnections)
             
 #if defined(MpM_ReportOnConnections)
             _statusChannel->setReporter(reporter);
@@ -2456,6 +2469,7 @@ bool RegistryService::setUpStatusChannel(void)
 #endif // defined(MpM_ReportOnConnections)
             if (_statusChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
             {
+                _statusChannel->setProtocol("s");
                 okSoFar = true;
             }
             else
@@ -2547,6 +2561,7 @@ bool RegistryService::start(void)
                         OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
                     }
                     Common::ClientChannel::RelinquishChannel(newChannel);
+                    newChannel = NULL;
                 }
                 else
                 {

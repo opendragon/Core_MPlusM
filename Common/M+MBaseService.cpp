@@ -89,6 +89,99 @@ using namespace MplusM::Common;
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
+bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_S1("channelName = ", channelName.c_str());//####
+    bool result = false;
+    
+    try
+    {
+        yarp::os::ConstString aName(GetRandomChannelName("_ping_/" DEFAULT_CHANNEL_ROOT));
+        ClientChannel *       newChannel = new ClientChannel;
+        
+        if (newChannel)
+        {
+#if defined(MpM_ReportOnConnections)
+            ChannelStatusReporter reporter;
+#endif // defined(MpM_ReportOnConnections)
+            
+#if defined(MpM_ReportOnConnections)
+            newChannel->setReporter(reporter);
+            newChannel->getReport(reporter);
+#endif // defined(MpM_ReportOnConnections)
+            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+            {
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
+                {
+                    Package         parameters(channelName);
+                    ServiceRequest  request(MpM_PING_REQUEST, parameters);
+                    ServiceResponse response;
+                    
+                    if (request.send(*newChannel, &response))
+                    {
+                        // Check that we got a successful self-registration!
+                        if (1 == response.count())
+                        {
+                            yarp::os::Value theValue = response.element(0);
+                            
+                            if (theValue.isString())
+                            {
+                                result = (theValue.toString() == MpM_OK_RESPONSE);
+                            }
+                            else
+                            {
+                                OD_LOG("! (theValue.isString())");//####
+                            }
+                        }
+                        else
+                        {
+                            OD_LOG("! (1 == response.count())");//####
+                            OD_LOG_S1("response = ", response.asString().c_str());//####
+                        }
+                    }
+                    else
+                    {
+                        OD_LOG("! (request.send(*newChannel, &response))");//####
+                    }
+#if defined(MpM_DoExplicitDisconnect)
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
+                    {
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
+                               "STANDARD_WAIT_TIME))");//####
+                    }
+#endif // defined(MpM_DoExplicitDisconnect)
+                }
+                else
+                {
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
+                           "false))");//####
+                }
+#if defined(MpM_DoExplicitClose)
+                newChannel->close();
+#endif // defined(MpM_DoExplicitClose)
+            }
+            else
+            {
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
+            }
+            ClientChannel::RelinquishChannel(newChannel);
+            newChannel = NULL;
+        }
+        else
+        {
+            OD_LOG("! (newChannel)");//####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // BaseService::SendPingForChannel
+
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
@@ -327,22 +420,6 @@ void BaseService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // BaseService::detachRequestHandlers
 
-void BaseService::fillInSecondaryInputChannelsList(StringVector & channels)
-{
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("channels = ", &channels);//####
-    channels.clear();
-    OD_LOG_OBJEXIT();//####
-} // BaseService::fillInSecondaryInputChannelsList
-
-void BaseService::fillInSecondaryOutputChannelsList(StringVector & channels)
-{
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("channels = ", &channels);//####
-    channels.clear();
-    OD_LOG_OBJEXIT();//####
-} // BaseService::fillInSecondaryOutputChannelsList
-
 void BaseService::fillInClientList(StringVector & clients)
 {
     OD_LOG_OBJENTER();//####
@@ -356,6 +433,22 @@ void BaseService::fillInClientList(StringVector & clients)
     unlockContexts();
     OD_LOG_OBJEXIT();//####
 } // BaseService::fillInClientList
+
+void BaseService::fillInSecondaryInputChannelsList(ChannelVector & channels)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("channels = ", &channels);//####
+    channels.clear();
+    OD_LOG_OBJEXIT();//####
+} // BaseService::fillInSecondaryInputChannelsList
+
+void BaseService::fillInSecondaryOutputChannelsList(ChannelVector & channels)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("channels = ", &channels);//####
+    channels.clear();
+    OD_LOG_OBJEXIT();//####
+} // BaseService::fillInSecondaryOutputChannelsList
 
 BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
 {
@@ -477,98 +570,6 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
     }
     OD_LOG_OBJEXIT();//####
 } // BaseService::removeContext
-
-bool BaseService::sendPingForChannel(const yarp::os::ConstString & channelName)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("channelName = ", channelName.c_str());//####
-    bool result = false;
-    
-    try
-    {
-        yarp::os::ConstString aName(GetRandomChannelName("_ping_/" DEFAULT_CHANNEL_ROOT));
-        ClientChannel *       newChannel = new ClientChannel;
-        
-        if (newChannel)
-        {
-#if defined(MpM_ReportOnConnections)
-            ChannelStatusReporter reporter;
-#endif // defined(MpM_ReportOnConnections)
-            
-#if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(reporter);
-            newChannel->getReport(reporter);
-#endif // defined(MpM_ReportOnConnections)
-            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
-            {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
-                {
-                    Package         parameters(channelName);
-                    ServiceRequest  request(MpM_PING_REQUEST, parameters);
-                    ServiceResponse response;
-                    
-                    if (request.send(*newChannel, &response))
-                    {
-                        // Check that we got a successful self-registration!
-                        if (1 == response.count())
-                        {
-                            yarp::os::Value theValue = response.element(0);
-                            
-                            if (theValue.isString())
-                            {
-                                result = (theValue.toString() == MpM_OK_RESPONSE);
-                            }
-                            else
-                            {
-                                OD_LOG("! (theValue.isString())");//####
-                            }
-                        }
-                        else
-                        {
-                            OD_LOG("! (1 == response.count())");//####
-                            OD_LOG_S1("response = ", response.asString().c_str());//####
-                        }
-                    }
-                    else
-                    {
-                        OD_LOG("! (request.send(*newChannel, &response))");//####
-                    }
-#if defined(MpM_DoExplicitDisconnect)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
-                    {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
-                               "STANDARD_WAIT_TIME))");//####
-                    }
-#endif // defined(MpM_DoExplicitDisconnect)
-                }
-                else
-                {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
-                           "false))");//####
-                }
-#if defined(MpM_DoExplicitClose)
-                newChannel->close();
-#endif // defined(MpM_DoExplicitClose)
-            }
-            else
-            {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
-            }
-            ClientChannel::RelinquishChannel(newChannel);
-        }
-        else
-        {
-            OD_LOG("! (newChannel)");//####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_EXIT_B(result);//####
-    return result;
-} // BaseService::sendPingForChannel
 
 void BaseService::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
@@ -758,6 +759,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
                 OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
+            newChannel = NULL;
         }
         else
         {
@@ -850,6 +852,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
                 OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
+            newChannel = NULL;
         }
         else
         {

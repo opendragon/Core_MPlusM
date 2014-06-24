@@ -77,14 +77,6 @@ namespace MplusM
             yarp::os::ConstString asString(void)
             const;
             
-            /*! @brief Return @c true if the string has wildcard characters.
-             @returns @c true if there are wildcard characters in the string and @c false otherwise. */
-            bool hasWildcardCharacters(void)
-            const
-            {
-                return _hasWildcards;
-            } // hasWildcardCharacters
-            
             /*! @brief Create a pattern matcher if the next substring would be a valid value.
              @param inString The string being scanned.
              @param inLength The length of the string being scanned.
@@ -95,6 +87,14 @@ namespace MplusM
                                               const size_t                  inLength,
                                               const size_t                  startPos,
                                               size_t &                      endPos);
+            
+            /*! @brief Return @c true if the string has wildcard characters.
+             @returns @c true if there are wildcard characters in the string and @c false otherwise. */
+            bool hasWildcardCharacters(void)
+            const
+            {
+                return _hasWildcards;
+            } // hasWildcardCharacters
             
         protected:
             

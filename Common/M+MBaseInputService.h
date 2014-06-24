@@ -100,6 +100,10 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BaseInputService(void);
             
+            /*! @brief Fill in a list of secondary output channels for the service.
+             @param channels The list of channels to be filled in. */
+            virtual void fillInSecondaryOutputChannelsList(ChannelVector & channels);
+            
         protected:
             
         private:
@@ -107,17 +111,9 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseInputOutputService inherited;
             
-            /*! @brief Set up the input channels.
-             @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpInputStreams(void);
-            
             /*! @brief Set up the output channels.
              @returns @c true if the channels were set up and @c false otherwise. */
             virtual bool setUpOutputStreams(void);
-            
-            /*! @brief Shut down the input streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownInputStreams(void);
             
             /*! @brief Shut down the output streams.
              @returns @c true if the channels were shut down and @c false otherwise. */

@@ -214,6 +214,7 @@ BaseClient::~BaseClient(void)
     OD_LOG_OBJENTER();//####
     disconnectFromService();
     ClientChannel::RelinquishChannel(_channel);
+    _channel = NULL;
     delete _baseChannelName;
     OD_LOG_OBJEXIT();//####
 } // BaseClient::~BaseClient
@@ -283,6 +284,7 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
                 OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
+            newChannel = NULL;
         }
     }
     catch (...)
@@ -518,6 +520,7 @@ void BaseClient::removeAssociatedChannels(void)
                 OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
+            newChannel = NULL;
         }
     }
     catch (...)
@@ -649,6 +652,7 @@ Package Common::FindMatchingServices(const char * criteria,
                 OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
+            newChannel = NULL;
         }
     }
     catch (...)
