@@ -208,6 +208,7 @@ namespace MplusM
             
             /*! @brief The connection is neither a TCP nor a UDP connection. */
             kChannelModeOther
+            
         }; // ChannelMode
         
         /*! @brief A description of a channel. */
@@ -221,6 +222,7 @@ namespace MplusM
             
             /*! @brief The mode of the connection. */
             ChannelMode           _portMode;
+            
         }; // ChannelDescription
         
         /*! @brief The format for the output from command-line tools. */
@@ -234,6 +236,7 @@ namespace MplusM
             
             /*! @brief Output in tab-delimited format. Tabs and newlines are replaced with spaces. */
             kOutputFlavourTabs
+            
         }; // OutputFlavour
         
         /*! @brief The behavioural model for the service. */
@@ -241,14 +244,19 @@ namespace MplusM
         {
             /*! @brief The service has no specical characteristics. */
             kServiceKindNormal,
+            
             /*! @brief The service provides a proxy for an input source. */
             kServiceKindInput,
+          
             /*! @brief The service provides a proxy for an output destination. */
             kServiceKindOutput,
+            
             /*! @brief The service provides a proxy for a transformative process. */
             kServiceKindFilter,
+            
             /*! @brief The service is the Registry, which is a specialized 'normal' service. */
             kServiceKindRegistry
+            
         }; // ServiceKind
         
         /*! @brief A container for arbitrary data. */

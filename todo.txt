@@ -14,10 +14,10 @@
 
 * ‘normal’ services can, of course, have secondary inputs and outputs - ’non-normal’ services respond to ‘restartStreams’, ‘startStreams’ and ‘stopStreams’ requests
 
-* random number stream service; start [# per packet [interval]] / stop; output protocol is ‘d’
+* random number stream service; start [# per packet [interval]] / stop; output protocol is ‘d+’
 
-* recorder service; start [file-name] / stop; input protocol is ‘i’
+* recorder service; start [file-name] / stop; input protocol is ‘i+’
 
-* general channels should have protocols -> if not specified (blank) anything goes; the Service Registry status port can have a protocol of ’s’ - protocols are just strings
+* general channels should have protocols -> if not specified (blank) anything goes
 
-* truncate filter; input protocol is ‘d’, output protocol is ‘i’
+* truncate filter service; input protocol is ‘d+’, output protocol is ‘i+’

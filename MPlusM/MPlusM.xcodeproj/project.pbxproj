@@ -135,6 +135,39 @@
 		DF36EEEF1958D17300E7D889 /* M+MStartStreamsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStartStreamsRequestHandler.h"; path = "../Common/M+MStartStreamsRequestHandler.h"; sourceTree = "<group>"; };
 		DF36EEF01958D2DA00E7D889 /* M+MStopStreamsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStopStreamsRequestHandler.cpp"; path = "../Common/M+MStopStreamsRequestHandler.cpp"; sourceTree = "<group>"; };
 		DF36EEF11958D2DA00E7D889 /* M+MStopStreamsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStopStreamsRequestHandler.h"; path = "../Common/M+MStopStreamsRequestHandler.h"; sourceTree = "<group>"; };
+		DF36EEF9195A265B00E7D889 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../examples/RandomOutputStreamClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF36EEFA195A265B00E7D889 /* M+MRandomOutputStreamClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomOutputStreamClient.cpp"; path = "../examples/RandomOutputStreamClient/M+MRandomOutputStreamClient.cpp"; sourceTree = SOURCE_ROOT; };
+		DF36EEFB195A265B00E7D889 /* M+MRandomOutputStreamClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomOutputStreamClient.h"; path = "../examples/RandomOutputStreamClient/M+MRandomOutputStreamClient.h"; sourceTree = SOURCE_ROOT; };
+		DF36EEFC195A265B00E7D889 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../examples/RandomOutputStreamClient/main.cpp; sourceTree = SOURCE_ROOT; };
+		DF36EEFE195A271F00E7D889 /* M+MRandomOutputStreamRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomOutputStreamRequests.h"; path = "../examples/RandomOutputStreamCommon/M+MRandomOutputStreamRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF36EF00195A280200E7D889 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../examples/RandomOutputStreamService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF36EF01195A280200E7D889 /* M+MRandomOutputStreamService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomOutputStreamService.cpp"; path = "../examples/RandomOutputStreamService/M+MRandomOutputStreamService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF36EF02195A280200E7D889 /* M+MRandomOutputStreamService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomOutputStreamService.h"; path = "../examples/RandomOutputStreamService/M+MRandomOutputStreamService.h"; sourceTree = SOURCE_ROOT; };
+		DF36EF03195A280200E7D889 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../examples/RandomOutputStreamService/main.cpp; sourceTree = SOURCE_ROOT; };
+		DF36EF05195A287500E7D889 /* M+MRandomOutputRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomOutputRequestHandler.cpp"; path = "../examples/RandomOutputStreamService/M+MRandomOutputRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF36EF06195A287500E7D889 /* M+MRandomOutputRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomOutputRequestHandler.h"; path = "../examples/RandomOutputStreamService/M+MRandomOutputRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF36EF07195A2D0000E7D889 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../examples/RecordInputStreamClient/CMakeLists.txt; sourceTree = "<group>"; };
+		DF36EF08195A2D0000E7D889 /* M+MRecordInputStreamClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordInputStreamClient.cpp"; path = "../examples/RecordInputStreamClient/M+MRecordInputStreamClient.cpp"; sourceTree = "<group>"; };
+		DF36EF09195A2D0000E7D889 /* M+MRecordInputStreamClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordInputStreamClient.h"; path = "../examples/RecordInputStreamClient/M+MRecordInputStreamClient.h"; sourceTree = "<group>"; };
+		DF36EF0A195A2D0000E7D889 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../examples/RecordInputStreamClient/main.cpp; sourceTree = "<group>"; };
+		DF36EF0C195A2D2F00E7D889 /* M+MRecordInputStreamRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordInputStreamRequests.h"; path = "../examples/RecordInputStreamCommon/M+MRecordInputStreamRequests.h"; sourceTree = "<group>"; };
+		DF36EF0E195A2D5300E7D889 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../examples/RecordInputStreamService/CMakeLists.txt; sourceTree = "<group>"; };
+		DF36EF0F195A2D5300E7D889 /* M+MRecordInputRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordInputRequestHandler.cpp"; path = "../examples/RecordInputStreamService/M+MRecordInputRequestHandler.cpp"; sourceTree = "<group>"; };
+		DF36EF10195A2D5300E7D889 /* M+MRecordInputRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordInputRequestHandler.h"; path = "../examples/RecordInputStreamService/M+MRecordInputRequestHandler.h"; sourceTree = "<group>"; };
+		DF36EF11195A2D5300E7D889 /* M+MRecordInputStreamService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordInputStreamService.cpp"; path = "../examples/RecordInputStreamService/M+MRecordInputStreamService.cpp"; sourceTree = "<group>"; };
+		DF36EF12195A2D5300E7D889 /* M+MRecordInputStreamService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordInputStreamService.h"; path = "../examples/RecordInputStreamService/M+MRecordInputStreamService.h"; sourceTree = "<group>"; };
+		DF36EF13195A2D5300E7D889 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../examples/RecordInputStreamService/main.cpp; sourceTree = "<group>"; };
+		DF36EF15195A2FD200E7D889 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../examples/TruncateFilterStreamClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF36EF16195A2FD200E7D889 /* M+MTruncateFilterStreamClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFilterStreamClient.cpp"; path = "../examples/TruncateFilterStreamClient/M+MTruncateFilterStreamClient.cpp"; sourceTree = SOURCE_ROOT; };
+		DF36EF17195A2FD200E7D889 /* M+MTruncateFilterStreamClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFilterStreamClient.h"; path = "../examples/TruncateFilterStreamClient/M+MTruncateFilterStreamClient.h"; sourceTree = SOURCE_ROOT; };
+		DF36EF18195A2FD200E7D889 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../examples/TruncateFilterStreamClient/main.cpp; sourceTree = SOURCE_ROOT; };
+		DF36EF1A195A300500E7D889 /* M+MTruncateFilterStreamRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFilterStreamRequests.h"; path = "../examples/TruncateFilterStreamCommon/M+MTruncateFilterStreamRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF36EF1C195A302F00E7D889 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../examples/TruncateFilterStreamService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF36EF1D195A302F00E7D889 /* M+MTruncateFilterRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFilterRequestHandler.cpp"; path = "../examples/TruncateFilterStreamService/M+MTruncateFilterRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF36EF1E195A302F00E7D889 /* M+MTruncateFilterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFilterRequestHandler.h"; path = "../examples/TruncateFilterStreamService/M+MTruncateFilterRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF36EF1F195A302F00E7D889 /* M+MTruncateFilterStreamService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFilterStreamService.cpp"; path = "../examples/TruncateFilterStreamService/M+MTruncateFilterStreamService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF36EF20195A302F00E7D889 /* M+MTruncateFilterStreamService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFilterStreamService.h"; path = "../examples/TruncateFilterStreamService/M+MTruncateFilterStreamService.h"; sourceTree = SOURCE_ROOT; };
+		DF36EF21195A302F00E7D889 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../examples/TruncateFilterStreamService/main.cpp; sourceTree = SOURCE_ROOT; };
 		DF4CCFD318FD906100713E54 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../examples/RunningSumAltAdapter/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF4CCFD418FD906100713E54 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../examples/RunningSumAltAdapter/main.cpp; sourceTree = SOURCE_ROOT; };
 		DF4CCFD518FD906100713E54 /* M+MRunningSumInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumInputHandler.cpp"; path = "../examples/RunningSumAltAdapter/M+MRunningSumInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -207,7 +240,7 @@
 		DFA738A819182C3800AFB0B9 /* M+MCountRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MCountRequestHandler.h"; path = "../Common/M+MCountRequestHandler.h"; sourceTree = "<group>"; };
 		DFA86D1C18E0D3AE00A22941 /* M+MColumnNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MColumnNameValidator.cpp"; path = "../RegistryService/M+MColumnNameValidator.cpp"; sourceTree = SOURCE_ROOT; };
 		DFA86D1D18E0D3AE00A22941 /* M+MColumnNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MColumnNameValidator.h"; path = "../RegistryService/M+MColumnNameValidator.h"; sourceTree = SOURCE_ROOT; };
-		DFA86D2618E1D1AC00A22941 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../examples/CMakeLists.txt; sourceTree = "<group>"; };
+		DFA86D2618E1D1AC00A22941 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../examples/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFA86D2718E1D2A600A22941 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../examples/EchoClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFA86D2818E1D2A600A22941 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../examples/EchoClient/main.cpp; sourceTree = SOURCE_ROOT; };
 		DFA86D2918E1D2A600A22941 /* M+MEchoClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MEchoClient.cpp"; path = "../examples/EchoClient/M+MEchoClient.cpp"; sourceTree = SOURCE_ROOT; };
@@ -258,7 +291,7 @@
 		DFA9893F194BA904005F10EB /* M+MChordGeneratorService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChordGeneratorService.cpp"; path = "../examples/ChordGeneratorService/M+MChordGeneratorService.cpp"; sourceTree = "<group>"; };
 		DFA98940194BA904005F10EB /* M+MChordGeneratorService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MChordGeneratorService.h"; path = "../examples/ChordGeneratorService/M+MChordGeneratorService.h"; sourceTree = "<group>"; };
 		DFA98941194BA904005F10EB /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../examples/ChordGeneratorService/main.cpp; sourceTree = "<group>"; };
-		DFA98943194BA94B005F10EB /* CMakeListsStandalone.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeListsStandalone.txt; path = ../examples/CMakeListsStandalone.txt; sourceTree = "<group>"; };
+		DFA98943194BA94B005F10EB /* CMakeListsStandalone.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeListsStandalone.txt; path = ../examples/CMakeListsStandalone.txt; sourceTree = SOURCE_ROOT; };
 		DFA98944195088F8005F10EB /* M+MPingRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MPingRequestHandler.cpp"; path = "../RegistryService/M+MPingRequestHandler.cpp"; sourceTree = "<group>"; };
 		DFA98945195088F8005F10EB /* M+MPingRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MPingRequestHandler.h"; path = "../RegistryService/M+MPingRequestHandler.h"; sourceTree = "<group>"; };
 		DFA9894619522B17005F10EB /* M+MPingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MPingThread.cpp"; path = "../Common/M+MPingThread.cpp"; sourceTree = "<group>"; };
@@ -289,7 +322,7 @@
 				DF20929518D3577D0093D3DC /* RequestCounterService */,
 			);
 			name = RequestCounter;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF06998E18EDD9F100FF0E93 /* SQLite3 */ = {
 			isa = PBXGroup;
@@ -299,7 +332,7 @@
 				DF06999118EDDB1C00FF0E93 /* sqlite3ext.h */,
 			);
 			name = SQLite3;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF20928F18D0DAA50093D3DC /* ServiceLister */ = {
 			isa = PBXGroup;
@@ -308,7 +341,7 @@
 				DF20929118D0DB860093D3DC /* main.cpp */,
 			);
 			name = ServiceLister;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF20929218D241270093D3DC /* RequestInfo */ = {
 			isa = PBXGroup;
@@ -317,7 +350,7 @@
 				DF20929418D241AC0093D3DC /* main.cpp */,
 			);
 			name = RequestInfo;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF20929518D3577D0093D3DC /* RequestCounterService */ = {
 			isa = PBXGroup;
@@ -376,7 +409,7 @@
 				DF36EEF51958E11B00E7D889 /* RequestHandlers */,
 			);
 			name = RunningSumService;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF2092E918D8F6110093D3DC /* RunningSumClient */ = {
 			isa = PBXGroup;
@@ -387,7 +420,7 @@
 				DFA86D4D18E1DA0200A22941 /* M+MRunningSumClient.h */,
 			);
 			name = RunningSumClient;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF27F42718CA357400E93C95 /* Parser */ = {
 			isa = PBXGroup;
@@ -414,7 +447,7 @@
 				DFF9E67518E0CBDE008EC0DD /* M+MTestNameValidator.h */,
 			);
 			name = Parser;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF30062A18E4744400B51C22 /* RandomNumberAdapter */ = {
 			isa = PBXGroup;
@@ -427,7 +460,7 @@
 				DF30063018E4745E00B51C22 /* M+MRandomNumberInputHandler.h */,
 			);
 			name = RandomNumberAdapter;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF30063718E605D400B51C22 /* PortLister */ = {
 			isa = PBXGroup;
@@ -436,7 +469,7 @@
 				DF30063618E605CA00B51C22 /* main.cpp */,
 			);
 			name = PortLister;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF36EEF21958DE9F00E7D889 /* RequestHandlers */ = {
 			isa = PBXGroup;
@@ -541,6 +574,102 @@
 			name = RequestHandlers;
 			sourceTree = "<group>";
 		};
+		DF36EEFD195A266C00E7D889 /* RandomOutputStreamClient */ = {
+			isa = PBXGroup;
+			children = (
+				DF36EEF9195A265B00E7D889 /* CMakeLists.txt */,
+				DF36EEFA195A265B00E7D889 /* M+MRandomOutputStreamClient.cpp */,
+				DF36EEFB195A265B00E7D889 /* M+MRandomOutputStreamClient.h */,
+				DF36EEFC195A265B00E7D889 /* main.cpp */,
+			);
+			name = RandomOutputStreamClient;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF36EEFF195A272800E7D889 /* RandomOutputStreamCommon */ = {
+			isa = PBXGroup;
+			children = (
+				DF36EEFE195A271F00E7D889 /* M+MRandomOutputStreamRequests.h */,
+			);
+			name = RandomOutputStreamCommon;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF36EF04195A280900E7D889 /* RandomOutputStreamService */ = {
+			isa = PBXGroup;
+			children = (
+				DF36EF00195A280200E7D889 /* CMakeLists.txt */,
+				DF36EF05195A287500E7D889 /* M+MRandomOutputRequestHandler.cpp */,
+				DF36EF06195A287500E7D889 /* M+MRandomOutputRequestHandler.h */,
+				DF36EF01195A280200E7D889 /* M+MRandomOutputStreamService.cpp */,
+				DF36EF02195A280200E7D889 /* M+MRandomOutputStreamService.h */,
+				DF36EF03195A280200E7D889 /* main.cpp */,
+			);
+			name = RandomOutputStreamService;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF36EF0B195A2D0A00E7D889 /* RecordInputStreamClient */ = {
+			isa = PBXGroup;
+			children = (
+				DF36EF07195A2D0000E7D889 /* CMakeLists.txt */,
+				DF36EF08195A2D0000E7D889 /* M+MRecordInputStreamClient.cpp */,
+				DF36EF09195A2D0000E7D889 /* M+MRecordInputStreamClient.h */,
+				DF36EF0A195A2D0000E7D889 /* main.cpp */,
+			);
+			name = RecordInputStreamClient;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF36EF0D195A2D3500E7D889 /* RecordInputStreamCommon */ = {
+			isa = PBXGroup;
+			children = (
+				DF36EF0C195A2D2F00E7D889 /* M+MRecordInputStreamRequests.h */,
+			);
+			name = RecordInputStreamCommon;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF36EF14195A2D5A00E7D889 /* RecordInputStreamService */ = {
+			isa = PBXGroup;
+			children = (
+				DF36EF0E195A2D5300E7D889 /* CMakeLists.txt */,
+				DF36EF0F195A2D5300E7D889 /* M+MRecordInputRequestHandler.cpp */,
+				DF36EF10195A2D5300E7D889 /* M+MRecordInputRequestHandler.h */,
+				DF36EF11195A2D5300E7D889 /* M+MRecordInputStreamService.cpp */,
+				DF36EF12195A2D5300E7D889 /* M+MRecordInputStreamService.h */,
+				DF36EF13195A2D5300E7D889 /* main.cpp */,
+			);
+			name = RecordInputStreamService;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF36EF19195A2FDC00E7D889 /* TruncateFilterStreamClient */ = {
+			isa = PBXGroup;
+			children = (
+				DF36EF15195A2FD200E7D889 /* CMakeLists.txt */,
+				DF36EF16195A2FD200E7D889 /* M+MTruncateFilterStreamClient.cpp */,
+				DF36EF17195A2FD200E7D889 /* M+MTruncateFilterStreamClient.h */,
+				DF36EF18195A2FD200E7D889 /* main.cpp */,
+			);
+			name = TruncateFilterStreamClient;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF36EF1B195A300A00E7D889 /* TruncateFilterStreamCommon */ = {
+			isa = PBXGroup;
+			children = (
+				DF36EF1A195A300500E7D889 /* M+MTruncateFilterStreamRequests.h */,
+			);
+			name = TruncateFilterStreamCommon;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF36EF22195A303600E7D889 /* TruncateFilterStreamService */ = {
+			isa = PBXGroup;
+			children = (
+				DF36EF1C195A302F00E7D889 /* CMakeLists.txt */,
+				DF36EF1D195A302F00E7D889 /* M+MTruncateFilterRequestHandler.cpp */,
+				DF36EF1E195A302F00E7D889 /* M+MTruncateFilterRequestHandler.h */,
+				DF36EF1F195A302F00E7D889 /* M+MTruncateFilterStreamService.cpp */,
+				DF36EF20195A302F00E7D889 /* M+MTruncateFilterStreamService.h */,
+				DF36EF21195A302F00E7D889 /* main.cpp */,
+			);
+			name = TruncateFilterStreamService;
+			sourceTree = SOURCE_ROOT;
+		};
 		DF4CCFD218FD903000713E54 /* RunningSumAltAdapter */ = {
 			isa = PBXGroup;
 			children = (
@@ -550,7 +679,7 @@
 				DF4CCFD618FD906100713E54 /* M+MRunningSumInputHandler.h */,
 			);
 			name = RunningSumAltAdapter;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF7784F918ECA5EA00BDC5C1 /* EchoCommon */ = {
 			isa = PBXGroup;
@@ -558,7 +687,7 @@
 				DF7784FD18ECA65200BDC5C1 /* M+MEchoRequests.h */,
 			);
 			name = EchoCommon;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF7784FA18ECA5F400BDC5C1 /* RandomNumberCommon */ = {
 			isa = PBXGroup;
@@ -566,7 +695,7 @@
 				DF7784FE18ECA6D000BDC5C1 /* M+MRandomNumberRequests.h */,
 			);
 			name = RandomNumberCommon;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF7784FB18ECA60600BDC5C1 /* RunningSumCommon */ = {
 			isa = PBXGroup;
@@ -574,7 +703,7 @@
 				DF7784FF18ECA72000BDC5C1 /* M+MRunningSumRequests.h */,
 			);
 			name = RunningSumCommon;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF7784FC18ECA61B00BDC5C1 /* RequestCounterCommon */ = {
 			isa = PBXGroup;
@@ -619,7 +748,7 @@
 				DF36EEF41958E0C800E7D889 /* RequestHandlers */,
 			);
 			name = RegistryService;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFA3431B18C91BD10053B87C /* EchoService */ = {
 			isa = PBXGroup;
@@ -631,7 +760,7 @@
 				DF36EEF71958E15100E7D889 /* RequestHandlers */,
 			);
 			name = EchoService;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFA3432018C91BF40053B87C /* EchoClient */ = {
 			isa = PBXGroup;
@@ -642,7 +771,7 @@
 				DFA86D2A18E1D2A600A22941 /* M+MEchoClient.h */,
 			);
 			name = EchoClient;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFA3432618C91C1C0053B87C /* Logging */ = {
 			isa = PBXGroup;
@@ -656,7 +785,7 @@
 				DF30062718E35E0C00B51C22 /* ODLogging.m */,
 			);
 			name = Logging;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFA3434F18C91C670053B87C /* Common */ = {
 			isa = PBXGroup;
@@ -726,7 +855,7 @@
 				DF36EEF21958DE9F00E7D889 /* RequestHandlers */,
 			);
 			name = Common;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFA3437918C91C940053B87C /* CommonTests */ = {
 			isa = PBXGroup;
@@ -771,7 +900,7 @@
 				DFA86D3C18E1D6E600A22941 /* M+MRandomNumberClient.h */,
 			);
 			name = RandomNumberClient;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFA3438518C91E2C0053B87C /* RandomNumberService */ = {
 			isa = PBXGroup;
@@ -783,7 +912,7 @@
 				DF36EEF61958E13B00E7D889 /* RequestHandlers */,
 			);
 			name = RandomNumberService;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFA4963A18FED31A005A7213 /* Version */ = {
 			isa = PBXGroup;
@@ -792,7 +921,7 @@
 				DFA4963C18FED346005A7213 /* main.cpp */,
 			);
 			name = Version;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFA86D1E18E0E09E00A22941 /* RunningSumAdapter */ = {
 			isa = PBXGroup;
@@ -807,7 +936,7 @@
 				DFA86D4918E1D9EB00A22941 /* M+MRunningSumDataInputHandler.h */,
 			);
 			name = RunningSumAdapter;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFA86D2518E1D13300A22941 /* examples */ = {
 			isa = PBXGroup;
@@ -822,14 +951,23 @@
 				DFA3437E18C91E040053B87C /* RandomNumberClient */,
 				DF7784FA18ECA5F400BDC5C1 /* RandomNumberCommon */,
 				DFA3438518C91E2C0053B87C /* RandomNumberService */,
+				DF36EEFD195A266C00E7D889 /* RandomOutputStreamClient */,
+				DF36EEFF195A272800E7D889 /* RandomOutputStreamCommon */,
+				DF36EF04195A280900E7D889 /* RandomOutputStreamService */,
+				DF36EF0B195A2D0A00E7D889 /* RecordInputStreamClient */,
+				DF36EF0D195A2D3500E7D889 /* RecordInputStreamCommon */,
+				DF36EF14195A2D5A00E7D889 /* RecordInputStreamService */,
 				DFA86D1E18E0E09E00A22941 /* RunningSumAdapter */,
 				DF4CCFD218FD903000713E54 /* RunningSumAltAdapter */,
 				DF2092E918D8F6110093D3DC /* RunningSumClient */,
 				DF7784FB18ECA60600BDC5C1 /* RunningSumCommon */,
+				DF36EF19195A2FDC00E7D889 /* TruncateFilterStreamClient */,
+				DF36EF1B195A300A00E7D889 /* TruncateFilterStreamCommon */,
+				DF36EF22195A303600E7D889 /* TruncateFilterStreamService */,
 				DF2092D918D8DFE60093D3DC /* RunningSumService */,
 			);
 			name = examples;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFA98942194BA92D005F10EB /* ChordGeneratorService */ = {
 			isa = PBXGroup;
@@ -841,7 +979,7 @@
 				DF36EEF81958E16400E7D889 /* RequestHandlers */,
 			);
 			name = ChordGeneratorService;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFCB229718EF23D200358EA5 /* ClientList */ = {
 			isa = PBXGroup;
@@ -850,7 +988,7 @@
 				DFCB229918EF23DF00358EA5 /* main.cpp */,
 			);
 			name = ClientList;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 

@@ -100,10 +100,6 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BaseInputService(void);
             
-            /*! @brief Fill in a list of secondary output channels for the service.
-             @param channels The list of channels to be filled in. */
-            virtual void fillInSecondaryOutputChannelsList(ChannelVector & channels);
-            
         protected:
             
         private:

@@ -74,6 +74,7 @@ namespace MplusM
             
             /*! @brief Both input and output. */
             kInputAndOutputBoth   = 0x3
+            
         }; // InputOutputFlag
         
         /*! @brief The kinds of ports. */
@@ -93,6 +94,7 @@ namespace MplusM
             
             /*! @brief The port is s standard port. */
             kPortKindStandard
+            
         }; // PortKind
         
         /*! @brief The associates of a port. */
@@ -110,6 +112,7 @@ namespace MplusM
             
             /*! @brief @c true if the association data is valid and @c false otherwise. */
             bool                 _valid;
+            
         }; // PortAssociation
         
         /*! @brief The attributes of a port. */
@@ -123,6 +126,7 @@ namespace MplusM
             
             /*! @brief The IP port number for the port. */
             yarp::os::ConstString _portPortNumber;
+            
         }; // PortDescriptor
         
         /*! @brief The attributes of a service. */

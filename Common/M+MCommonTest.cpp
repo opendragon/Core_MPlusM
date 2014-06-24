@@ -80,8 +80,6 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-static ChannelStatusReporter gReporter;
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -145,8 +143,8 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
     if (newChannel)
     {
 #if defined(MpM_ReportOnConnections)
-        newChannel->setReporter(gReporter);
-        newChannel->getReport(gReporter);
+        newChannel->setReporter(ChannelStatusReporter::gReporter);
+        newChannel->getReport(ChannelStatusReporter::gReporter);
 #endif // defined(MpM_ReportOnConnections)
         if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
         {
@@ -288,7 +286,7 @@ static int doTestConnectToEndpoint(const int argc,
         
         if (stuff)
         {
-            if (stuff->open(STANDARD_WAIT_TIME) && stuff->setReporter(gReporter, true))
+            if (stuff->open(STANDARD_WAIT_TIME) && stuff->setReporter(ChannelStatusReporter::gReporter, true))
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
@@ -298,12 +296,12 @@ static int doTestConnectToEndpoint(const int argc,
                 if (outChannel)
                 {
 #if defined(MpM_ReportOnConnections)
-                    outChannel->setReporter(gReporter);
-                    outChannel->getReport(gReporter);
+                    outChannel->setReporter(ChannelStatusReporter::gReporter);
+                    outChannel->getReport(ChannelStatusReporter::gReporter);
 #endif // defined(MpM_ReportOnConnections)
                     if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
-                        outChannel->getReport(gReporter);
+                        outChannel->getReport(ChannelStatusReporter::gReporter);
                         OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
                         {
@@ -339,7 +337,7 @@ static int doTestConnectToEndpoint(const int argc,
             }
             else
             {
-                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME) && stuff->setReporter(gReporter, true))");//####
+                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME) && stuff->setReporter(ChannelStatusReporter::gReporter, true))");//####
             }
             delete stuff;
         }
@@ -380,7 +378,7 @@ static int doTestWriteToEndpoint(const int argc,
             Test03Handler handler;
             
             if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) &&
-                stuff->setReporter(gReporter, true))
+                stuff->setReporter(ChannelStatusReporter::gReporter, true))
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
@@ -390,12 +388,12 @@ static int doTestWriteToEndpoint(const int argc,
                 if (outChannel)
                 {
 #if defined(MpM_ReportOnConnections)
-                    outChannel->setReporter(gReporter);
-                    outChannel->getReport(gReporter);
+                    outChannel->setReporter(ChannelStatusReporter::gReporter);
+                    outChannel->getReport(ChannelStatusReporter::gReporter);
 #endif // defined(MpM_ReportOnConnections)
                     if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
-                        outChannel->getReport(gReporter);
+                        outChannel->getReport(ChannelStatusReporter::gReporter);
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
                         {
                             Package message;
@@ -463,7 +461,7 @@ static int doTestWriteToEndpoint(const int argc,
             else
             {
                 OD_LOG("! (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) && "//####
-                       "stuff->setReporter(gReporter, true))");//####
+                       "stuff->setReporter(ChannelStatusReporter::gReporter, true))");//####
             }
             delete stuff;
         }
@@ -504,7 +502,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
             Test04Handler handler;
             
             if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) &&
-                stuff->setReporter(gReporter, true))
+                stuff->setReporter(ChannelStatusReporter::gReporter, true))
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
@@ -514,12 +512,12 @@ static int doTestEchoFromEndpointWithReader(const int argc,
                 if (outChannel)
                 {
 #if defined(MpM_ReportOnConnections)
-                    outChannel->setReporter(gReporter);
-                    outChannel->getReport(gReporter);
+                    outChannel->setReporter(ChannelStatusReporter::gReporter);
+                    outChannel->getReport(ChannelStatusReporter::gReporter);
 #endif // defined(MpM_ReportOnConnections)
                     if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
-                        outChannel->getReport(gReporter);
+                        outChannel->getReport(ChannelStatusReporter::gReporter);
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
                         {
                             Package message;
@@ -571,7 +569,7 @@ static int doTestEchoFromEndpointWithReader(const int argc,
             else
             {
                 OD_LOG("! (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) && "//####
-                       "stuff->setReporter(gReporter, true))");//####
+                       "stuff->setReporter(ChannelStatusReporter::gReporter, true))");//####
             }
             delete stuff;
         }
@@ -612,7 +610,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
             Test05HandlerCreator handlerCreator;
             
             if (stuff->setInputHandlerCreator(handlerCreator) && stuff->open(STANDARD_WAIT_TIME) &&
-                stuff->setReporter(gReporter, true))
+                stuff->setReporter(ChannelStatusReporter::gReporter, true))
             {
                 OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
                 // Now we try to connect!
@@ -622,12 +620,12 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
                 if (outChannel)
                 {
 #if defined(MpM_ReportOnConnections)
-                    outChannel->setReporter(gReporter);
-                    outChannel->getReport(gReporter);
+                    outChannel->setReporter(ChannelStatusReporter::gReporter);
+                    outChannel->getReport(ChannelStatusReporter::gReporter);
 #endif // defined(MpM_ReportOnConnections)
                     if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
-                        outChannel->getReport(gReporter);
+                        outChannel->getReport(ChannelStatusReporter::gReporter);
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
                         {
                             Package message;
@@ -679,7 +677,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
             else
             {
                 OD_LOG("! (stuff->setInputHandlerCreator(handlerCreator) && stuff->open(STANDARD_WAIT_TIME) && "//####
-                          "stuff->setReporter(gReporter, true))");//####
+                          "stuff->setReporter(ChannelStatusReporter::gReporter, true))");//####
             }
             delete stuff;
         }
@@ -799,7 +797,7 @@ static int doTestRequestEchoFromEndpoint(const int argc,
             Test08Handler handler;
             
             if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) &&
-                stuff->setReporter(gReporter, true))
+                stuff->setReporter(ChannelStatusReporter::gReporter, true))
             {
                 ClientChannel * outChannel = doCreateTestChannel(stuff->getName(), "test/requestechofromendpoint_");
                 
@@ -834,7 +832,7 @@ static int doTestRequestEchoFromEndpoint(const int argc,
             else
             {
                 OD_LOG("! (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) && "//####
-                       "stuff->setReporter(gReporter, true))");//####
+                       "stuff->setReporter(ChannelStatusReporter::gReporter, true))");//####
             }
             delete stuff;
         }

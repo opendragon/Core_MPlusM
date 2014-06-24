@@ -60,6 +60,7 @@ namespace MplusM
 {
     namespace Common
     {
+        class GeneralChannel;
         class RestartStreamsRequestHandler;
         class StartStreamsRequestHandler;
         class StopStreamsRequestHandler;
@@ -127,6 +128,19 @@ namespace MplusM
 
         protected:
             
+            /*! @brief A set of channels. */
+            typedef std::vector<GeneralChannel *> StreamVector;
+            
+            /*! @brief Fill in a set of input channels from a set of descriptions.
+             @param descriptions The descriptions of the channels.
+             @returns @c true if the channels were constructed and @c false otherwise. */
+            bool createInStreamsFromConfiguration(const ChannelVector & descriptions);
+            
+            /*! @brief Fill in a set of output channels from a set of descriptions.
+             @param descriptions The descriptions of the channels.
+             @returns @c true if the channels were constructed and @c false otherwise. */
+            bool createOutStreamsFromConfiguration(const ChannelVector & descriptions);
+            
             /*! @brief Set up the input streams.
              @returns @c true if the channels were set up and @c false otherwise. */
             virtual bool setUpInputStreams(void);
@@ -143,6 +157,12 @@ namespace MplusM
              @returns @c true if the channels were shut down and @c false otherwise. */
             virtual bool shutDownOutputStreams(void);
             
+            /*! @brief The set of input channels. */
+            StreamVector _inStreams;
+            
+            /*! @brief The set of output channels. */
+            StreamVector _outStreams;
+            
         private:
             
             /*! @brief The class that this class is derived from. */
@@ -154,6 +174,14 @@ namespace MplusM
             /*! @brief Disable the standard request handlers. */
             void detachRequestHandlers(void);
             
+            /*! @brief Fill in a list of secondary input channels for the service.
+             @param channels The list of channels to be filled in. */
+            virtual void fillInSecondaryInputChannelsList(ChannelVector & channels);
+
+            /*! @brief Fill in a list of secondary output channels for the service.
+             @param channels The list of channels to be filled in. */
+            virtual void fillInSecondaryOutputChannelsList(ChannelVector & channels);
+            
             /*! @brief The request handler for the 'restartStreams' request. */
             RestartStreamsRequestHandler * _restartStreamsHandler;
 
@@ -162,10 +190,6 @@ namespace MplusM
             
             /*! @brief The request handler for the 'stopStreams' request. */
             StopStreamsRequestHandler *    _stopStreamsHandler;
-            
-            
-            
-            
             
         }; // BaseInputOutputService
         

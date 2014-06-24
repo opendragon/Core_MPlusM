@@ -75,6 +75,8 @@ namespace MplusM
              @param info The event / state information from the endpoint. */
             virtual void report(const yarp::os::PortInfo & info);
             
+            static ChannelStatusReporter gReporter;
+            
         protected:
             
         private:
@@ -83,7 +85,7 @@ namespace MplusM
             typedef yarp::os::PortReport inherited;
             
         }; // ChannelStatusReporter
-        
+
     } // Common
     
 } // MplusM

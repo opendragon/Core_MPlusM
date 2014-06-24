@@ -138,11 +138,7 @@ int main(int      argc,
                 if (stuff->findService("Name RunningSum"))
                 {
 #if defined(MpM_ReportOnConnections)
-                    MplusM::Common::ChannelStatusReporter reporter;
-#endif // defined(MpM_ReportOnConnections)
-                    
-#if defined(MpM_ReportOnConnections)
-                    stuff->setReporter(reporter, true);
+                    stuff->setReporter(ChannelStatusReporter::gReporter, true);
 #endif // defined(MpM_ReportOnConnections)
                     if (stuff->connectToService())
                     {

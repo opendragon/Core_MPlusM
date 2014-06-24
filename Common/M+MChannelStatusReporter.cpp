@@ -71,6 +71,8 @@ using namespace MplusM::Common;
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
+ChannelStatusReporter ChannelStatusReporter::gReporter;
+
 #if defined(__APPLE__)
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)

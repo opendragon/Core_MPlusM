@@ -101,6 +101,7 @@ namespace MplusM
             
             /*! @brief The version of the request. */
             yarp::os::ConstString _version;
+            
         }; // RequestDescription
         
         /*! @brief The M+M Service Registry service. */
@@ -242,6 +243,7 @@ namespace MplusM
                 
                 /*! @brief A service is being removed from the registry. */
                 kRegistryRemoveService
+                
             }; // ServiceStatus
             
             /*! @brief A mapping from strings to time values. */

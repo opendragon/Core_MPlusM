@@ -169,6 +169,7 @@ namespace MplusM
             
             /*! @brief The direction of the associate channel. */
             int                   _direction;
+            
         }; // ChannelAssociateData
         
         /*! @brief The data needed to add a request-keyword entry into the database. */
@@ -182,6 +183,7 @@ namespace MplusM
             
             /*! @brief A keyword for the request. */
             yarp::os::ConstString _key;
+            
         }; // RequestKeywordData
         
         /*! @brief The data needed to add a service entry into the database. */
@@ -201,6 +203,7 @@ namespace MplusM
             
             /*! @brief The description of the requests for the service. */
             yarp::os::ConstString _requestsDescription;
+            
         }; // ServiceData
         
     } // Registry
@@ -2460,12 +2463,8 @@ bool RegistryService::setUpStatusChannel(void)
         {
             yarp::os::ConstString outputName(SECONDARY_CHANNEL_NAME_);
 #if defined(MpM_ReportOnConnections)
-            ChannelStatusReporter reporter;
-#endif // defined(MpM_ReportOnConnections)
-            
-#if defined(MpM_ReportOnConnections)
-            _statusChannel->setReporter(reporter);
-            _statusChannel->getReport(reporter);
+            _statusChannel->setReporter(ChannelStatusReporter::gReporter);
+            _statusChannel->getReport(ChannelStatusReporter::gReporter);
 #endif // defined(MpM_ReportOnConnections)
             if (_statusChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
             {

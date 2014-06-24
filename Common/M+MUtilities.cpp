@@ -551,11 +551,7 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
-            ChannelStatusReporter reporter;
-#endif // defined(MpM_ReportOnConnections)
-            
-#if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(reporter);
+            newChannel->setReporter(ChannelStatusReporter::gReporter);
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, timeToWait))
             {

@@ -133,11 +133,7 @@ int main(int      argc,
                 if (stuff->findService("keyword random"))
                 {
 #if defined(MpM_ReportOnConnections)
-                    MplusM::Common::ChannelStatusReporter reporter;
-#endif // defined(MpM_ReportOnConnections)
-                    
-#if defined(MpM_ReportOnConnections)
-                    stuff->setReporter(reporter, true);
+                    stuff->setReporter(ChannelStatusReporter::gReporter, true);
 #endif // defined(MpM_ReportOnConnections)
                     if (stuff->connectToService())
                     {
@@ -160,10 +156,10 @@ int main(int      argc,
                                 }
                             }
 #if defined(MpM_ReportOnConnections)
-                            inputChannel->setReporter(reporter);
-                            inputChannel->getReport(reporter);
-                            outputChannel->setReporter(reporter);
-                            outputChannel->getReport(reporter);
+                            inputChannel->setReporter(ChannelStatusReporter::gReporter);
+                            inputChannel->getReport(ChannelStatusReporter::gReporter);
+                            outputChannel->setReporter(ChannelStatusReporter::gReporter);
+                            outputChannel->getReport(ChannelStatusReporter::gReporter);
 #endif // defined(MpM_ReportOnConnections)
                             if (inputChannel->openWithRetries(inputName, STANDARD_WAIT_TIME) &&
                                 outputChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))

@@ -144,11 +144,7 @@ int main(int      argc,
                 if (stuff->findService("Name RunningSum"))
                 {
 #if defined(MpM_ReportOnConnections)
-                    MplusM::Common::ChannelStatusReporter reporter;
-#endif // defined(MpM_ReportOnConnections)
-                    
-#if defined(MpM_ReportOnConnections)
-                    stuff->setReporter(reporter, true);
+                    stuff->setReporter(ChannelStatusReporter::gReporter, true);
 #endif // defined(MpM_ReportOnConnections)
                     if (stuff->connectToService())
                     {
@@ -178,12 +174,12 @@ int main(int      argc,
                                 }
                             }
 #if defined(MpM_ReportOnConnections)
-                            controlChannel->setReporter(reporter);
-                            controlChannel->getReport(reporter);
-                            dataChannel->setReporter(reporter);
-                            dataChannel->getReport(reporter);
-                            outputChannel->setReporter(reporter);
-                            outputChannel->getReport(reporter);
+                            controlChannel->setReporter(ChannelStatusReporter::gReporter);
+                            controlChannel->getReport(ChannelStatusReporter::gReporter);
+                            dataChannel->setReporter(ChannelStatusReporter::gReporter);
+                            dataChannel->getReport(ChannelStatusReporter::gReporter);
+                            outputChannel->setReporter(ChannelStatusReporter::gReporter);
+                            outputChannel->getReport(ChannelStatusReporter::gReporter);
 #endif // defined(MpM_ReportOnConnections)
                             if (controlChannel->openWithRetries(controlName, STANDARD_WAIT_TIME) &&
                                 dataChannel->openWithRetries(dataName, STANDARD_WAIT_TIME) &&

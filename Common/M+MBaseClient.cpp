@@ -235,11 +235,7 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
-            ChannelStatusReporter reporter;
-#endif // defined(MpM_ReportOnConnections)
-            
-#if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(reporter);
+            newChannel->setReporter(ChannelStatusReporter::gReporter);
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
@@ -473,11 +469,7 @@ void BaseClient::removeAssociatedChannels(void)
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
-            ChannelStatusReporter reporter;
-#endif // defined(MpM_ReportOnConnections)
-            
-#if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(reporter);
+            newChannel->setReporter(ChannelStatusReporter::gReporter);
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
@@ -604,11 +596,7 @@ Package Common::FindMatchingServices(const char * criteria,
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
-            ChannelStatusReporter reporter;
-#endif // defined(MpM_ReportOnConnections)
-            
-#if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(reporter);
+            newChannel->setReporter(ChannelStatusReporter::gReporter);
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
