@@ -20,6 +20,6 @@
 
 * recorder service; start [file-name] / stop; input protocol is ‘i’
 
-* general channels should have protocols -> if not specified (blank) anything goes; the Service Registry status port can have a protocol of ’s’ - protocols are just strings
+* general channels should have protocols -> if not specified (blank) anything goes; the Service Registry status port can have a protocol of ’s’ - protocols are just strings; get/set protocol, getProtocol request
 
 * truncate filter; input protocol is ‘d’, output protocol is ‘i’
