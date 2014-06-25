@@ -84,13 +84,15 @@ namespace MplusM
                              const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The constructor.
+             @param launchPath The command-line name used to launch the service.
              @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if one handler is used.
              @param canonicalName The channel-independent name of the service.
              @param description The description of the service.
              @param requestsDescription The description of the requests for the service.
              @param argc The number of arguments in 'argv'.
              @param argv The arguments to be used to specify the new service. */
-            BaseInputService(const bool                    useMultipleHandlers,
+            BaseInputService(const char *                  launchPath,
+                             const bool                    useMultipleHandlers,
                              const yarp::os::ConstString & canonicalName,
                              const yarp::os::ConstString & description,
                              const yarp::os::ConstString & requestsDescription,

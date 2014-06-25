@@ -70,6 +70,7 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~RecordInputStreamClient(void);
             
+#if 0
             /*! @brief Get one random number from the service.
              @param result Where to return the number.
              @returns @c true if the number was retrieved successfully and @c false otherwise. */
@@ -81,6 +82,7 @@ namespace MplusM
              @returns @c true if the numbere were retrieved successfully and @c false otherwise. */
             bool getRandomNumbers(const int              howMany,
                                   Common::DoubleVector & result);
+#endif//0
             
         protected:
             

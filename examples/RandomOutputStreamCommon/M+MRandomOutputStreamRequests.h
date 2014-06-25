@@ -59,7 +59,4 @@
 /*! @brief The channel-independent name of the random number service. */
 # define MpM_RANDOMSTREAM_CANONICAL_NAME "RandomStream"
 
-/*! @brief The name for the 'random' request. */
-# define MpM_RANDOM_REQUEST "random"
-
 #endif // ! defined(MpMRandomOutputStreamRequests_H_)

@@ -94,6 +94,7 @@ RandomOutputStreamClient::~RandomOutputStreamClient(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
+#if 0
 bool RandomOutputStreamClient::getOneRandomNumber(double & result)
 {
     OD_LOG_OBJENTER();//####
@@ -141,7 +142,9 @@ bool RandomOutputStreamClient::getOneRandomNumber(double & result)
     OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RandomOutputStreamClient::getOneRandomNumber
+#endif//0
 
+#if 0
 bool RandomOutputStreamClient::getRandomNumbers(const int              howMany,
                                                 Common::DoubleVector & result)
 {
@@ -206,6 +209,7 @@ bool RandomOutputStreamClient::getRandomNumbers(const int              howMany,
     OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RandomOutputStreamClient::getRandomNumbers
+#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Accessors

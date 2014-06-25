@@ -746,7 +746,7 @@ static bool constructTables(sqlite3 * database)
             {
                 static const char * tableSQL[] =
                 {
-#if defined(USE_TEST_DATABASE)
+#if defined(MpM_UseTestDatabase)
                     T_("DROP INDEX IF EXISTS " CHANNELS_CHANNELNAME_I_),
                     T_("DROP INDEX IF EXISTS " CHANNELSASSOCIATES_ASSOCIATES_ID_I_),
                     T_("DROP INDEX IF EXISTS " CHANNELSASSOCIATES_CHANNELS_ID_I_),
@@ -762,7 +762,7 @@ static bool constructTables(sqlite3 * database)
                     T_("DROP TABLE IF EXISTS " REQUESTS_T_),
                     T_("DROP TABLE IF EXISTS " KEYWORDS_T_),
                     T_("DROP TABLE IF EXISTS " SERVICES_T_),
-#endif // defined(USE_TEST_DATABASE)
+#endif // defined(MpM_UseTestDatabase)
                     T_("CREATE TABLE IF NOT EXISTS " SERVICES_T_ "( " CHANNELNAME_C_
                        " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT REPLACE, " NAME_C_
                        " Text NOT NULL DEFAULT _, " DESCRIPTION_C_ " Text NOT NULL DEFAULT _, " EXECUTABLE_C_
@@ -776,8 +776,9 @@ static bool constructTables(sqlite3 * database)
                        DETAILS_C_ " Text, " KEY_C_ " Integer PRIMARY KEY)"),
                     T_("CREATE INDEX IF NOT EXISTS " REQUESTS_REQUEST_I_ " ON " REQUESTS_T_ "(" REQUEST_C_ ")"),
                     T_("CREATE INDEX IF NOT EXISTS " REQUESTS_CHANNELNAME_I_ " ON " REQUESTS_T_ "(" CHANNELNAME_C_ ")"),
-                    T_("CREATE TABLE " REQUESTSKEYWORDS_T_ "( " KEYWORDS_ID_C_ " Text REFERENCES " KEYWORDS_T_ "("
-                       KEYWORD_C_ "), " REQUESTS_ID_C_ " Integer REFERENCES " REQUESTS_T_ "(" KEY_C_ "))"),
+                    T_("CREATE TABLE IF NOT EXISTS " REQUESTSKEYWORDS_T_ "( " KEYWORDS_ID_C_ " Text REFERENCES "
+                       KEYWORDS_T_ "(" KEYWORD_C_ "), " REQUESTS_ID_C_ " Integer REFERENCES " REQUESTS_T_ "(" KEY_C_
+                       "))"),
                     T_("CREATE INDEX IF NOT EXISTS " REQUESTSKEYWORDS_KEYWORDS_ID_I_ " ON " REQUESTSKEYWORDS_T_ "("
                        KEYWORDS_ID_C_ ")"),
                     T_("CREATE INDEX IF NOT EXISTS " REQUESTSKEYWORDS_REQUESTS_ID_I_ " ON " REQUESTSKEYWORDS_T_ "("
@@ -787,9 +788,9 @@ static bool constructTables(sqlite3 * database)
                     T_("CREATE INDEX IF NOT EXISTS " CHANNELS_CHANNELNAME_I_ " ON " CHANNELS_T_ "(" CHANNELNAME_C_ ")"),
                     T_("CREATE TABLE IF NOT EXISTS " ASSOCIATES_T_ "( " ASSOCIATE_C_
                        " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT IGNORE)"),
-                    T_("CREATE TABLE " CHANNELSASSOCIATES_T_ "( " CHANNELS_ID_C_ " Integer REFERENCES " CHANNELS_T_ "("
-                       KEY_C_ "), " ASSOCIATES_ID_C_ " Text REFERENCES " ASSOCIATES_T_ "(" ASSOCIATE_C_ "), "
-                       DIRECTION_C_ " Integer)"),
+                    T_("CREATE TABLE IF NOT EXISTS " CHANNELSASSOCIATES_T_ "( " CHANNELS_ID_C_ " Integer REFERENCES "
+                       CHANNELS_T_ "(" KEY_C_ "), " ASSOCIATES_ID_C_ " Text REFERENCES " ASSOCIATES_T_ "(" ASSOCIATE_C_
+                       "), " DIRECTION_C_ " Integer)"),
                     T_("CREATE INDEX IF NOT EXISTS " CHANNELSASSOCIATES_ASSOCIATES_ID_I_ " ON " CHANNELSASSOCIATES_T_
                        "(" ASSOCIATES_ID_C_ ")"),
                     T_("CREATE INDEX IF NOT EXISTS " CHANNELSASSOCIATES_CHANNELS_ID_I_ " ON " CHANNELSASSOCIATES_T_ "("
@@ -1621,7 +1622,7 @@ RegistryService::RegistryService(const char *                  launchPath,
                   "unregister - remove the information for a service on the given channel", MpM_REGISTRY_CHANNEL_NAME,
                   serviceHostName, servicePortNumber), _db(NULL), _validator(new ColumnNameValidator),
         _associateHandler(NULL), _disassociateHandler(NULL), _getAssociatesHandler(NULL), _matchHandler(NULL),
-        _pingHandler(NULL), _statusChannel(NULL), _registerHandler(NULL), _unregisterHandler(NULL),
+        _pingHandler(NULL), _statusChannel(NULL), _registerHandler(NULL), _unregisterHandler(NULL), _checker(NULL),
         _inMemory(useInMemoryDb), _isActive(false)
 {
     OD_LOG_ENTER();//####
@@ -2593,6 +2594,7 @@ void RegistryService::startChecker(void)
     if (! _checker)
     {
         _checker = new RegistryCheckThread(*this);
+        OD_LOG_P1("_checker <- ", _checker);//####
         _checker->start();
     }
     OD_LOG_OBJEXIT();//####
@@ -2607,7 +2609,12 @@ bool RegistryService::stop(void)
     {
         if (_checker)
         {
+            OD_LOG_P1("_checker = ", _checker);//####
             _checker->stop();
+            for ( ; _checker->isRunning(); )
+            {
+                yarp::os::Time::delay(PING_CHECK_INTERVAL / 3.1);
+            }
             delete _checker;
             _checker = NULL;
         }

@@ -137,6 +137,7 @@ int main(int      argc,
                     {
                         for ( ; lKeepRunning; )
                         {
+#if 0
                             int count;
                             
                             cout << "How many random numbers? ";
@@ -180,6 +181,7 @@ int main(int      argc,
                                     cerr << "Problem getting random numbers from service." << endl;
                                 }
                             }
+#endif//0
                         }
                         if (! stuff->disconnectFromService())
                         {

@@ -92,6 +92,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param theKind The behavioural model for the service.
+             @param launchPath The command-line name used to launch the service.
              @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if one handler is used.
              @param canonicalName The channel-independent name of the service.
              @param description The description of the service.
@@ -99,6 +100,7 @@ namespace MplusM
              @param argc The number of arguments in 'argv'.
              @param argv The arguments to be used to specify the new service. */
             BaseInputOutputService(const ServiceKind             theKind,
+                                   const char *                  launchPath,
                                    const bool                    useMultipleHandlers,
                                    const yarp::os::ConstString & canonicalName,
                                    const yarp::os::ConstString & description,
@@ -108,6 +110,10 @@ namespace MplusM
             
             /*! @brief The destructor. */
             virtual ~BaseInputOutputService(void);
+            
+            /*! @brief Configure the input/output streams.
+             @param details The configuration information for the input/output streams. */
+            virtual void configure(const Package & details) = 0;
             
             /*! @brief Restart the input/output streams. */
             virtual void restartStreams(void) = 0;

@@ -133,61 +133,61 @@ install(FILES
 
 enable_testing()
 
-add_executable(M+MCommonTest
+add_executable(mpmCommonTest
                M+MCommonTest.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
-target_link_libraries(M+MCommonTest
-                      M+MCommonTestSupport
+target_link_libraries(mpmCommonTest
+                      mpmCommonTestSupport
                       mpmParser
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
 
 # Argument order for test 1 = endpoint name [, IP address / name [, port]]
-add_test(NAME TestCreateEndpoint1 COMMAND M+MCommonTest 1 "/service/test/createendpoint_1")
-add_test(NAME TestCreateEndpoint2 COMMAND M+MCommonTest 1 "/service/test/createendpoint_2" "localhost")
-add_test(NAME TestCreateEndpoint3 COMMAND M+MCommonTest 1 "/service/test/createendpoint_3" "localhost" "12340")
+add_test(NAME TestCreateEndpoint1 COMMAND mpmCommonTest 1 "/service/test/createendpoint_1")
+add_test(NAME TestCreateEndpoint2 COMMAND mpmCommonTest 1 "/service/test/createendpoint_2" "localhost")
+add_test(NAME TestCreateEndpoint3 COMMAND mpmCommonTest 1 "/service/test/createendpoint_3" "localhost" "12340")
 # Test connection to endpoints, same arguments as test 1
-add_test(NAME TestConnectToEndpoint1 COMMAND M+MCommonTest 2 "/service/test/connecttoendpoint_1")
-add_test(NAME TestConnectToEndpoint2 COMMAND M+MCommonTest 2 "/service/test/connecttoendpoint_2" "localhost")
-add_test(NAME TestConnectToEndpoint3 COMMAND M+MCommonTest 2 "/service/test/connecttoendpoint_3" "localhost" "12341")
+add_test(NAME TestConnectToEndpoint1 COMMAND mpmCommonTest 2 "/service/test/connecttoendpoint_1")
+add_test(NAME TestConnectToEndpoint2 COMMAND mpmCommonTest 2 "/service/test/connecttoendpoint_2" "localhost")
+add_test(NAME TestConnectToEndpoint3 COMMAND mpmCommonTest 2 "/service/test/connecttoendpoint_3" "localhost" "12341")
 # Test data write to endpoints, same arguments as test 1
-add_test(NAME TestWriteToEndpoint1 COMMAND M+MCommonTest 3 "/service/test/writetoendpoint_1")
-add_test(NAME TestWriteToEndpoint2 COMMAND M+MCommonTest 3 "/service/test/writetoendpoint_2" "localhost")
-add_test(NAME TestWriteToEndpoint3 COMMAND M+MCommonTest 3 "/service/test/writetoendpoint_3" "localhost" "12342")
+add_test(NAME TestWriteToEndpoint1 COMMAND mpmCommonTest 3 "/service/test/writetoendpoint_1")
+add_test(NAME TestWriteToEndpoint2 COMMAND mpmCommonTest 3 "/service/test/writetoendpoint_2" "localhost")
+add_test(NAME TestWriteToEndpoint3 COMMAND mpmCommonTest 3 "/service/test/writetoendpoint_3" "localhost" "12342")
 # Test data echo from endpoints, same arguments as test 1
-add_test(NAME TestEchoFromEndpointWithReader1 COMMAND M+MCommonTest 4 "/service/test/echofromendpointwithreader_1")
-add_test(NAME TestEchoFromEndpointWithReader2 COMMAND M+MCommonTest 4 "/service/test/echofromendpointwithreader_2" "localhost")
-add_test(NAME TestEchoFromEndpointWithReader3 COMMAND M+MCommonTest 4 "/service/test/echofromendpointwithreader_3" "localhost" "12343")
+add_test(NAME TestEchoFromEndpointWithReader1 COMMAND mpmCommonTest 4 "/service/test/echofromendpointwithreader_1")
+add_test(NAME TestEchoFromEndpointWithReader2 COMMAND mpmCommonTest 4 "/service/test/echofromendpointwithreader_2" "localhost")
+add_test(NAME TestEchoFromEndpointWithReader3 COMMAND mpmCommonTest 4 "/service/test/echofromendpointwithreader_3" "localhost" "12343")
 # Test data echo from endpoints, using reader creator, same arguments as test 1
-add_test(NAME TestEchoFromEndpointWithReaderCreator1 COMMAND M+MCommonTest 5 "/service/test/echofromendpointwithreadercreator_1")
-add_test(NAME TestEchoFromEndpointWithReaderCreator2 COMMAND M+MCommonTest 5 "/service/test/echofromendpointwithreadercreator_2" "localhost")
-add_test(NAME TestEchoFromEndpointWithReaderCreator3 COMMAND M+MCommonTest 5 "/service/test/echofromendpointwithreadercreator_3" "localhost" "12344")
+add_test(NAME TestEchoFromEndpointWithReaderCreator1 COMMAND mpmCommonTest 5 "/service/test/echofromendpointwithreadercreator_1")
+add_test(NAME TestEchoFromEndpointWithReaderCreator2 COMMAND mpmCommonTest 5 "/service/test/echofromendpointwithreadercreator_2" "localhost")
+add_test(NAME TestEchoFromEndpointWithReaderCreator3 COMMAND mpmCommonTest 5 "/service/test/echofromendpointwithreadercreator_3" "localhost" "12344")
 # Test service request creation
-add_test(NAME TestCreateRequest1 COMMAND M+MCommonTest 6 "echo")
-add_test(NAME TestCreateRequest2 COMMAND M+MCommonTest 6 "echo" "something")
+add_test(NAME TestCreateRequest1 COMMAND mpmCommonTest 6 "echo")
+add_test(NAME TestCreateRequest2 COMMAND mpmCommonTest 6 "echo" "something")
 # Test service response creation
-add_test(NAME TestCreateResponse1 COMMAND M+MCommonTest 7)
-add_test(NAME TestCreateResponse2 COMMAND M+MCommonTest 7 "back")
-add_test(NAME TestCreateResponse3 COMMAND M+MCommonTest 7 "back" "at" "you")
+add_test(NAME TestCreateResponse1 COMMAND mpmCommonTest 7)
+add_test(NAME TestCreateResponse2 COMMAND mpmCommonTest 7 "back")
+add_test(NAME TestCreateResponse3 COMMAND mpmCommonTest 7 "back" "at" "you")
 # Test echo via request/response, fixed message [echo something to send] but arguments as with test 1
-add_test(NAME TestRequestEchoFromEndpoint1 COMMAND M+MCommonTest 8 "/service/test/requestechofromendpoint_1")
-add_test(NAME TestRequestEchoFromEndpoint2 COMMAND M+MCommonTest 8 "/service/test/requestechofromendpoint_2" "localhost")
-add_test(NAME TestRequestEchoFromEndpoint3 COMMAND M+MCommonTest 8 "/service/test/requestechofromendpoint_3" "localhost" "12345")
+add_test(NAME TestRequestEchoFromEndpoint1 COMMAND mpmCommonTest 8 "/service/test/requestechofromendpoint_1")
+add_test(NAME TestRequestEchoFromEndpoint2 COMMAND mpmCommonTest 8 "/service/test/requestechofromendpoint_2" "localhost")
+add_test(NAME TestRequestEchoFromEndpoint3 COMMAND mpmCommonTest 8 "/service/test/requestechofromendpoint_3" "localhost" "12345")
 # Test echo via service request/response, fixed message [echo something to send] but arguments as with test 1
-add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReader1 COMMAND M+MCommonTest 9 "/service/test/requestechofromserviceusingdefaultwithreader_1")
-add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReader2 COMMAND M+MCommonTest 9 "/service/test/requestechofromserviceusingdefaultwithreader_2" "localhost")
-add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReader3 COMMAND M+MCommonTest 9 "/service/test/requestechofromserviceusingdefaultwithreader_3" "localhost" "12346")
+add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReader1 COMMAND mpmCommonTest 9 "/service/test/requestechofromserviceusingdefaultwithreader_1")
+add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReader2 COMMAND mpmCommonTest 9 "/service/test/requestechofromserviceusingdefaultwithreader_2" "localhost")
+add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReader3 COMMAND mpmCommonTest 9 "/service/test/requestechofromserviceusingdefaultwithreader_3" "localhost" "12346")
 # Test echo via service request/response, fixed message [echo something to send] but arguments as with test 1
-add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReaderCreator1 COMMAND M+MCommonTest 10 "/service/test/requestechofromserviceusingdefaultwithreadercreator_1")
-add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReaderCreator2 COMMAND M+MCommonTest 10 "/service/test/requestechofromserviceusingdefaultwithreadercreator_2" "localhost")
-add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReaderCreator3 COMMAND M+MCommonTest 10 "/service/test/requestechofromserviceusingdefaultwithreadercreator_3" "localhost" "12347")
+add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReaderCreator1 COMMAND mpmCommonTest 10 "/service/test/requestechofromserviceusingdefaultwithreadercreator_1")
+add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReaderCreator2 COMMAND mpmCommonTest 10 "/service/test/requestechofromserviceusingdefaultwithreadercreator_2" "localhost")
+add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReaderCreator3 COMMAND mpmCommonTest 10 "/service/test/requestechofromserviceusingdefaultwithreadercreator_3" "localhost" "12347")
 # Test echo via service request/response, fixed message [echo something to send] but arguments as with test 1
-add_test(NAME TestRequestEchoFromServiceWithRequestHandler1 COMMAND M+MCommonTest 11 "/service/test/requestechofromservicewithrequesthandler_1")
-add_test(NAME TestRequestEchoFromServiceWithRequestHandler2 COMMAND M+MCommonTest 11 "/service/test/requestechofromservicewithrequesthandler_2" "localhost")
-add_test(NAME TestRequestEchoFromServiceWithRequestHandler3 COMMAND M+MCommonTest 11 "/service/test/requestechofromservicewithrequesthandler_3" "localhost" "12348")
+add_test(NAME TestRequestEchoFromServiceWithRequestHandler1 COMMAND mpmCommonTest 11 "/service/test/requestechofromservicewithrequesthandler_1")
+add_test(NAME TestRequestEchoFromServiceWithRequestHandler2 COMMAND mpmCommonTest 11 "/service/test/requestechofromservicewithrequesthandler_2" "localhost")
+add_test(NAME TestRequestEchoFromServiceWithRequestHandler3 COMMAND mpmCommonTest 11 "/service/test/requestechofromservicewithrequesthandler_3" "localhost" "12348")
 # Test list request
-add_test(NAME TestRequestEchoFromServiceWithRequestHandlerAndInfo1 COMMAND M+MCommonTest 12 "/service/test/requestechofromservicewithrequesthandlerandinfo_1")
-add_test(NAME TestRequestEchoFromServiceWithRequestHandlerAndInfo2 COMMAND M+MCommonTest 12 "/service/test/requestechofromservicewithrequesthandlerandinfo_2" "localhost")
-add_test(NAME TestRequestEchoFromServiceWithRequestHandlerAndInfo3 COMMAND M+MCommonTest 12 "/service/test/requestechofromservicewithrequesthandlerandinfo_3" "localhost" "12349")
+add_test(NAME TestRequestEchoFromServiceWithRequestHandlerAndInfo1 COMMAND mpmCommonTest 12 "/service/test/requestechofromservicewithrequesthandlerandinfo_1")
+add_test(NAME TestRequestEchoFromServiceWithRequestHandlerAndInfo2 COMMAND mpmCommonTest 12 "/service/test/requestechofromservicewithrequesthandlerandinfo_2" "localhost")
+add_test(NAME TestRequestEchoFromServiceWithRequestHandlerAndInfo3 COMMAND mpmCommonTest 12 "/service/test/requestechofromservicewithrequesthandlerandinfo_3" "localhost" "12349")

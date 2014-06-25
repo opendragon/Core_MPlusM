@@ -59,7 +59,4 @@
 /*! @brief The channel-independent name of the random number service. */
 # define MpM_TRUNCATE_CANONICAL_NAME "Truncate"
 
-/*! @brief The name for the 'random' request. */
-# define MpM_RANDOM_REQUEST "random"
-
 #endif // ! defined(MpMTruncateFilterStreamRequests_H_)

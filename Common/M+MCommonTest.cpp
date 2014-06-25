@@ -226,11 +226,13 @@ static void doDestroyTestChannel(Endpoint &      anEndpoint,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestCreateEndpoint(const int argc,
-                                char * *  argv) // create endpoint
+static int doTestCreateEndpoint(const char * launchPath,
+                                const int    argc,
+                                char * *     argv) // create endpoint
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -271,11 +273,13 @@ static int doTestCreateEndpoint(const int argc,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestConnectToEndpoint(const int argc,
-                                   char * *  argv) // connect to endpoint
+static int doTestConnectToEndpoint(const char * launchPath,
+                                   const int    argc,
+                                   char * *     argv) // connect to endpoint
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -337,7 +341,8 @@ static int doTestConnectToEndpoint(const int argc,
             }
             else
             {
-                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME) && stuff->setReporter(ChannelStatusReporter::gReporter, true))");//####
+                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME) && "//####
+                       "stuff->setReporter(ChannelStatusReporter::gReporter, true))");//####
             }
             delete stuff;
         }
@@ -360,11 +365,13 @@ static int doTestConnectToEndpoint(const int argc,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestWriteToEndpoint(const int argc,
-                                 char * *  argv) // send to endpoint
+static int doTestWriteToEndpoint(const char * launchPath,
+                                 const int    argc,
+                                 char * *     argv) // send to endpoint
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -484,11 +491,13 @@ static int doTestWriteToEndpoint(const int argc,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestEchoFromEndpointWithReader(const int argc,
-                                            char * *  argv) // send to endpoint
+static int doTestEchoFromEndpointWithReader(const char * launchPath,
+                                            const int    argc,
+                                            char * *     argv) // send to endpoint
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -592,11 +601,13 @@ static int doTestEchoFromEndpointWithReader(const int argc,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestEchoFromEndpointWithReaderCreator(const int argc,
-                                                   char * *  argv) // send to endpoint
+static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
+                                                   const int    argc,
+                                                   char * *     argv) // send to endpoint
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -700,11 +711,13 @@ static int doTestEchoFromEndpointWithReaderCreator(const int argc,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestCreateRequest(const int argc,
-                               char * *  argv) // create request
+static int doTestCreateRequest(const char * launchPath,
+                               const int    argc,
+                               char * *     argv) // create request
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -743,11 +756,13 @@ static int doTestCreateRequest(const int argc,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestCreateResponse(const int argc,
-                                char * *  argv) // create request
+static int doTestCreateResponse(const char * launchPath,
+                                const int    argc,
+                                char * *     argv) // create request
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -779,11 +794,13 @@ static int doTestCreateResponse(const int argc,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestEchoFromEndpoint(const int argc,
-                                         char * *  argv) // create request
+static int doTestRequestEchoFromEndpoint(const char * launchPath,
+                                         const int    argc,
+                                         char * *     argv) // create request
 {
     OD_LOG_ENTER();//####
     int result = 1;
@@ -855,18 +872,20 @@ static int doTestRequestEchoFromEndpoint(const int argc,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestEchoFromServiceUsingDefaultWithReader(const int argc,
-                                                              char * *  argv) // send 'echo' request
+static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
+                                                              const int    argc,
+                                                              char * *     argv) // send 'echo' request
 {
     OD_LOG_ENTER();//####
     int result = 1;
     
     try
     {
-        Test09Service * stuff = new Test09Service(argc, argv);
+        Test09Service * stuff = new Test09Service(launchPath, argc, argv);
         
         if (stuff)
         {
@@ -928,18 +947,20 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const int argc,
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const int argc,
-                                                                     char * *  argv) // send 'echo' request
+static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPath,
+                                                                     const int    argc,
+                                                                     char * *     argv) // send 'echo' request
 {
     OD_LOG_ENTER();//####
     int result = 1;
     
     try
     {
-        Test10Service * stuff = new Test10Service(argc, argv);
+        Test10Service * stuff = new Test10Service(launchPath, argc, argv);
         
         if (stuff)
         {
@@ -1001,18 +1022,20 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const int a
 #endif // defined(__APPLE__)
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestEchoFromServiceWithRequestHandler(const int argc,
-                                                          char * *  argv) // create 'echo' request
+static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
+                                                          const int    argc,
+                                                          char * *     argv) // create 'echo' request
 {
     OD_LOG_ENTER();//####
     int result = 1;
     
     try
     {
-        Test11Service * stuff = new Test11Service(argc, argv);
+        Test11Service * stuff = new Test11Service(launchPath, argc, argv);
         
         if (stuff)
         {
@@ -1256,18 +1279,20 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
 } // checkResponseFromEchoFromServiceWithRequestHandlerAndInfo
 
 /*! @brief Perform a test case.
+ @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const int argc,
-                                                                 char * *  argv) // send 'list' request
+static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
+                                                                 const int    argc,
+                                                                 char * *     argv) // send 'list' request
 {
     OD_LOG_ENTER();//####
     int result = 1;
     
     try
     {
-        Test12Service * stuff = new Test12Service(argc, argv);
+        Test12Service * stuff = new Test12Service(launchPath, argc, argv);
         
         if (stuff)
         {
@@ -1383,51 +1408,51 @@ int main(int      argc,
                         break;
                         
                     case 1:
-                        result = doTestCreateEndpoint(argc - 1, argv + 2);
+                        result = doTestCreateEndpoint(*argv, argc - 1, argv + 2);
                         break;
 
                     case 2:
-                        result = doTestConnectToEndpoint(argc - 1, argv + 2);
+                        result = doTestConnectToEndpoint(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 3:
-                        result = doTestWriteToEndpoint(argc - 1, argv + 2);
+                        result = doTestWriteToEndpoint(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 4:
-                        result = doTestEchoFromEndpointWithReader(argc - 1, argv + 2);
+                        result = doTestEchoFromEndpointWithReader(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 5:
-                        result = doTestEchoFromEndpointWithReaderCreator(argc - 1, argv + 2);
+                        result = doTestEchoFromEndpointWithReaderCreator(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 6:
-                        result = doTestCreateRequest(argc - 1, argv + 2);
+                        result = doTestCreateRequest(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 7:
-                        result = doTestCreateResponse(argc - 1, argv + 2);
+                        result = doTestCreateResponse(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 8:
-                        result = doTestRequestEchoFromEndpoint(argc - 1, argv + 2);
+                        result = doTestRequestEchoFromEndpoint(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 9:
-                        result = doTestRequestEchoFromServiceUsingDefaultWithReader(argc - 1, argv + 2);
+                        result = doTestRequestEchoFromServiceUsingDefaultWithReader(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 10:
-                        result = doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(argc - 1, argv + 2);
+                        result = doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 11:
-                        result = doTestRequestEchoFromServiceWithRequestHandler(argc - 1, argv + 2);
+                        result = doTestRequestEchoFromServiceWithRequestHandler(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 12:
-                        result = doTestRequestEchoFromServiceWithRequestHandlerAndInfo(argc - 1, argv + 2);
+                        result = doTestRequestEchoFromServiceWithRequestHandlerAndInfo(*argv, argc - 1, argv + 2);
                         break;
 
                     default:

@@ -196,7 +196,8 @@ static int doTestRequestRegisterService(const char * launchPath,
                 if (registry->isActive())
                 {
                     // Now we start up another service (Test14Service) and register it
-                    Test14Service * stuff = new Test14Service(1, const_cast<char **>(&secondServiceChannel));
+                    Test14Service * stuff = new Test14Service(launchPath, 1,
+                                                              const_cast<char **>(&secondServiceChannel));
                     
                     if (stuff)
                     {
@@ -301,7 +302,8 @@ static int doTestRequestUnregisterService(const char * launchPath,
                 if (registry->isActive())
                 {
                     // Now we start up another service (Test15Service) and register it
-                    Test15Service * stuff = new Test15Service(1, const_cast<char **>(&secondServiceChannel));
+                    Test15Service * stuff = new Test15Service(launchPath, 1,
+                                                              const_cast<char **>(&secondServiceChannel));
                     
                     if (stuff)
                     {
@@ -397,7 +399,8 @@ static int doTestRequestSearchService(const char * launchPath,
                     {
                         // Now we start up another service (Test16Service) and register it
                         OD_LOG("");//####
-                        Test16Service * stuff = new Test16Service(1, const_cast<char **>(&secondServiceChannel));
+                        Test16Service * stuff = new Test16Service(launchPath, 1,
+                                                                  const_cast<char **>(&secondServiceChannel));
                         
                         if (stuff)
                         {

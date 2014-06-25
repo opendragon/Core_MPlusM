@@ -217,7 +217,7 @@ int main(int      argc,
                 }
                 else
                 {
-                    OD_LOG("! (stuff->findService(\"Name RandomNumber\"))");//####
+                    OD_LOG("! (stuff->findService(\"keyword random\"))");//####
                     cerr << "Problem locating the service." << endl;
                 }
                 delete stuff;

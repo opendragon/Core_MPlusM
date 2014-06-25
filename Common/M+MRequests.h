@@ -68,6 +68,9 @@
 /*! @brief The standard name for the 'clients' request. */
 # define MpM_CLIENTS_REQUEST        "clients"
 
+/*! @brief The standard name for the 'configure' request. */
+# define MpM_CONFIGURE_REQUEST      "configure"
+
 /*! @brief The standard name for the 'count' request. */
 # define MpM_COUNT_REQUEST          "count"
 
@@ -121,6 +124,9 @@
 
 /*! @brief The number of elements expected in the output of a 'channels' request. */
 # define MpM_EXPECTED_CHANNELS_RESPONSE_SIZE       2
+
+/*! @brief The number of elements expected in the output of a 'configure' request. */
+# define MpM_EXPECTED_CONFIGURE_RESPONSE_SIZE      1
 
 /*! @brief The number of elements expected in the output of a 'disassociate' request. */
 # define MpM_EXPECTED_DISASSOCIATE_RESPONSE_SIZE   1

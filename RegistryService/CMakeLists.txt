@@ -74,7 +74,7 @@ install(TARGETS mpmRegistryService DESTINATION bin)
 
 enable_testing()
 
-add_executable(M+MRegistryTest
+add_executable(mpmRegistryTest
                M+MRegistryTest.cpp
                M+MAssociateRequestHandler.cpp
                M+MColumnNameValidator.cpp
@@ -89,31 +89,31 @@ add_executable(M+MRegistryTest
                ${MpM_SQLITE_DIR}/sqlite3.c)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
-target_link_libraries(M+MRegistryTest
-                      M+MRegistryTestSupport
+target_link_libraries(mpmRegistryTest
+                      mpmRegistryTestSupport
                       mpmParser
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
 
 # Test create register service
-add_test(NAME TestCreateRegisterService1 COMMAND M+MRegistryTest 13)
-add_test(NAME TestCreateRegisterService2 COMMAND M+MRegistryTest 13 "localhost")
-add_test(NAME TestCreateRegisterService3 COMMAND M+MRegistryTest 13 "localhost" "12350")
+add_test(NAME TestCreateRegisterService1 COMMAND mpmRegistryTest 13)
+add_test(NAME TestCreateRegisterService2 COMMAND mpmRegistryTest 13 "localhost")
+add_test(NAME TestCreateRegisterService3 COMMAND mpmRegistryTest 13 "localhost" "12350")
 # Test register request, second service
-add_test(NAME TestRequestRegisterService1 COMMAND M+MRegistryTest 14)
-add_test(NAME TestRequestRegisterService2 COMMAND M+MRegistryTest 14 "localhost")
-add_test(NAME TestRequestRegisterService3 COMMAND M+MRegistryTest 14 "localhost" "12351")
+add_test(NAME TestRequestRegisterService1 COMMAND mpmRegistryTest 14)
+add_test(NAME TestRequestRegisterService2 COMMAND mpmRegistryTest 14 "localhost")
+add_test(NAME TestRequestRegisterService3 COMMAND mpmRegistryTest 14 "localhost" "12351")
 # Test unregister request, second service
-add_test(NAME TestRequestUnregisterService1 COMMAND M+MRegistryTest 15)
-add_test(NAME TestRequestUnregisterService2 COMMAND M+MRegistryTest 15 "localhost")
-add_test(NAME TestRequestUnregisterService3 COMMAND M+MRegistryTest 15 "localhost" "12352")
+add_test(NAME TestRequestUnregisterService1 COMMAND mpmRegistryTest 15)
+add_test(NAME TestRequestUnregisterService2 COMMAND mpmRegistryTest 15 "localhost")
+add_test(NAME TestRequestUnregisterService3 COMMAND mpmRegistryTest 15 "localhost" "12352")
 # Test search for request / service - note the change in arguments
-add_test(NAME TestRequestSearchService1 COMMAND M+MRegistryTest 16 0 "" "FAILED \"An error message\"")
-add_test(NAME TestRequestSearchService2 COMMAND M+MRegistryTest 16 0 "Version 42" "OK ()")
-add_test(NAME TestRequestSearchService3 COMMAND M+MRegistryTest 16 0 "Details:Echo*" "OK (/_service_/test/requestsearchservice)")
-add_test(NAME TestRequestSearchService4 COMMAND M+MRegistryTest 16 0 "Details:Echo*,Keyword(requests)" "OK (/_service_/test/requestsearchservice /$ervice)")
-add_test(NAME TestRequestSearchService5 COMMAND M+MRegistryTest 16 0 "Description:*unit\\ tests" "OK (/_service_/test/requestsearchservice)")
-add_test(NAME TestRequestSearchService6 COMMAND M+MRegistryTest 16 1 "Details:Echo*" "OK (Test16)")
-add_test(NAME TestRequestSearchService7 COMMAND M+MRegistryTest 16 1 "Details:Echo*,Keyword(requests)" "OK (Registry Test16)")
-add_test(NAME TestRequestSearchService8 COMMAND M+MRegistryTest 16 1 "Description:*unit\\ tests" "OK (Test16)")
+add_test(NAME TestRequestSearchService1 COMMAND mpmRegistryTest 16 0 "" "FAILED \"An error message\"")
+add_test(NAME TestRequestSearchService2 COMMAND mpmRegistryTest 16 0 "Version 42" "OK ()")
+add_test(NAME TestRequestSearchService3 COMMAND mpmRegistryTest 16 0 "Details:Echo*" "OK (/_service_/test/requestsearchservice)")
+add_test(NAME TestRequestSearchService4 COMMAND mpmRegistryTest 16 0 "Details:Echo*,Keyword(requests)" "OK (/_service_/test/requestsearchservice /$ervice)")
+add_test(NAME TestRequestSearchService5 COMMAND mpmRegistryTest 16 0 "Description:*unit\\ tests" "OK (/_service_/test/requestsearchservice)")
+add_test(NAME TestRequestSearchService6 COMMAND mpmRegistryTest 16 1 "Details:Echo*" "OK (Test16)")
+add_test(NAME TestRequestSearchService7 COMMAND mpmRegistryTest 16 1 "Details:Echo*,Keyword(requests)" "OK (Registry Test16)")
+add_test(NAME TestRequestSearchService8 COMMAND mpmRegistryTest 16 1 "Description:*unit\\ tests" "OK (Test16)")

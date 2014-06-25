@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MRandomOutputRequestHandler.cpp
+//  File:       M+MRecordInputStreamInputHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for a 'random' request.
+//  Contains:   The class definition for the custom data channel input handler used by
+//              the record input stream adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,12 +36,14 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-06-24
+//  Created:    2014-06-25
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MRandomOutputRequestHandler.h"
-#include "M+MRandomOutputStreamRequests.h"
+#include "M+MRecordInputStreamInputHandler.h"
+#include "M+MAdapterChannel.h"
+#include "M+MRecordInputStreamAdapterData.h"
+#include "M+MRecordInputStreamClient.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -51,7 +54,8 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a 'random' request. */
+ @brief The class definition for the custom data channel input handler used by the
+ record input adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -63,9 +67,6 @@ using namespace MplusM::Example;
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-/*! @brief The protocol version number for the 'random' request. */
-#define RANDOM_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -79,117 +80,124 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RandomOutputRequestHandler::RandomOutputRequestHandler(void) :
-        inherited(MpM_RANDOM_REQUEST)
+RecordInputStreamInputHandler::RecordInputStreamInputHandler(RecordInputStreamAdapterData & shared) :
+        inherited(), _shared(shared)
 {
     OD_LOG_ENTER();//####
+    OD_LOG_P1("shared = ", &shared);//####
     OD_LOG_EXIT_P(this);//####
-} // RandomOutputRequestHandler::RandomOutputRequestHandler
+} // RecordInputStreamInputHandler::RecordInputStreamInputHandler
 
-RandomOutputRequestHandler::~RandomOutputRequestHandler(void)
+RecordInputStreamInputHandler::~RecordInputStreamInputHandler(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // RandomOutputRequestHandler::~RandomOutputRequestHandler
+} // RecordInputStreamInputHandler::~RecordInputStreamInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RandomOutputRequestHandler::fillInAliases(Common::StringVector & alternateNames)
-{
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("alternateNames = ", &alternateNames);//####
-    alternateNames.push_back("?");
-    OD_LOG_OBJEXIT();//####
-} // RandomOutputRequestHandler::fillInAliases
-
-void RandomOutputRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                                   yarp::os::Property &          info)
-{
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S1("request = ", request.c_str());//####
-    OD_LOG_P1("info = ", &info);//####
-    try
-    {
-        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_INT MpM_REQREP_0_OR_1);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_DOUBLE MpM_REQREP_1_OR_MORE);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, RANDOM_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Generate one or more random numbers\n"
-                 "Input: the number of random values to generate\n"
-                 "Output one or more random numbers per request");
-        yarp::os::Value   keywords;
-        Common::Package * asList = keywords.asList();
-        
-        asList->addString(request);
-        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // RandomOutputRequestHandler::fillInDescription
-
-bool RandomOutputRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                                const Common::Package &       restOfInput,
+bool RecordInputStreamInputHandler::handleInput(const Common::Package &       input,
                                                 const yarp::os::ConstString & senderChannel,
                                                 yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
-#  pragma unused(request,senderChannel)
+#  pragma unused(senderChannel,replyMechanism)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
-              senderChannel.c_str());//####
+    OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     
     try
     {
-        if (replyMechanism)
+        if (0 < input.size())
         {
-            Common::Package response;
-            int             count;
+            Common::AdapterChannel *  theOutput = _shared.getOutput();
+            RecordInputStreamClient * theClient = (RecordInputStreamClient *) _shared.getClient();
             
-            if (0 < restOfInput.size())
+            if (theClient && theOutput)
             {
-                yarp::os::Value number(restOfInput.get(0));
+#if 0
+                int             count;
+                yarp::os::Value argValue(input.get(0));
                 
-                if (number.isInt())
+                if (argValue.isInt())
                 {
-                    count = number.asInt();
+                    count = argValue.asInt();
+                }
+                else if (argValue.isDouble())
+                {
+                    count = static_cast<int>(argValue.asDouble());
                 }
                 else
                 {
-                    count = -1;
+                    count = 1;
                 }
-            }
-            else
-            {
-                count = 1;
-            }
-            if (count > 0)
-            {
-                for (int ii = 0; ii < count; ++ii)
+                if (0 > count)
                 {
-                    response.addDouble(yarp::os::Random::uniform());
+                    count = 1;
                 }
-            }
-            else
-            {
-                OD_LOG("! (count > 0)");//####
-            }
-            if (! response.write(*replyMechanism))
-            {
-                OD_LOG("(! response.write(*replyMechanism))");//####
+                if (1 < count)
+                {
+                    Common::DoubleVector randResult;
+                    
+                    if (theClient->getRecordInputStreams(count, randResult))
+                    {
+                        Common::Package message;
+                        
+                        for (Common::DoubleVector::const_iterator it(randResult.begin()); randResult.end() != it;
+                             ++it)
+                        {
+                            message.addDouble(*it);
+                        }
+                        _shared.lock();
+                        if (! theOutput->write(message))
+                        {
+                            OD_LOG("(! theOutput->write(message))");//####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                            Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
+                        }
+                        _shared.unlock();
+                    }
+                    else
+                    {
+                        OD_LOG("! (theClient->getRecordInputStreams(count, randResult))");//####
+                    }
+                }
+                else if (0 < count)
+                {
+                    double randResult;
+                    
+                    if (theClient->getOneRecordInputStream(randResult))
+                    {
+                        Common::Package message;
+                        
+                        message.addDouble(randResult);
+                        _shared.lock();
+                        if (! theOutput->write(message))
+                        {
+                            OD_LOG("(! theOutput->write(message))");//####
+#if defined(MpM_StallOnSendProblem)
+                            Common::Stall();
+#endif // defined(MpM_StallOnSendProblem)
+                        }
+                        _shared.unlock();
+                    }
+                    else
+                    {
+                        OD_LOG("! (theClient->getOneRecordInputStream(randResult))");//####
+                    }
+                }
+                else
+                {
+                    _shared.deactivate();
+                }
+#endif//0
             }
         }
     }
@@ -200,7 +208,7 @@ bool RandomOutputRequestHandler::processRequest(const yarp::os::ConstString & re
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RandomOutputRequestHandler::processRequest
+} // RecordInputStreamInputHandler::handleInput
 
 #if defined(__APPLE__)
 # pragma mark Accessors

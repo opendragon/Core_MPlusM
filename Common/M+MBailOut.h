@@ -120,6 +120,9 @@ namespace MplusM
             /*! @brief The bailout thread to use. */
             BailOutThread * _bailer;
             
+            /*! @brief The amount of time to wait for the thread to stop. */
+            double          _stopTime;
+            
         }; // BailOut
         
     } // Common

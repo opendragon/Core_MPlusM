@@ -77,9 +77,10 @@ using namespace MplusM::Test;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-Test12Service::Test12Service(const int argc,
-                             char * *  argv) :
-        inherited(kServiceKindNormal, true, "Test12", "Simple service for unit tests", "", argc, argv),
+Test12Service::Test12Service(const char * launchPath,
+                             const int    argc,
+                             char * *     argv) :
+        inherited(kServiceKindNormal, launchPath, true, "Test12", "Simple service for unit tests", "", argc, argv),
         _echoHandler(NULL)
 {
     OD_LOG_ENTER();//####

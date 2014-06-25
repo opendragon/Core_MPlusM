@@ -46,8 +46,7 @@ include_directories("${MpM_LOGGING_DIR}"
 # Set up our program
 add_executable(mpmRecordInputStreamService
                main.cpp
-               M+MRecordInputStreamService.cpp
-               M+MRecordInputRequestHandler.cpp)
+               M+MRecordInputStreamService.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(mpmRecordInputStreamService

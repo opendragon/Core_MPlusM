@@ -88,28 +88,29 @@ BaseOutputService::BaseOutputService(const char *                  launchPath,
                       requestsDescription, serviceEndpointName, serviceHostName, servicePortNumber)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S1("launchPath = ", launchPath);//####
+    OD_LOG_S4("launchPath = ", launchPath, "canonicalName = ", canonicalName.c_str(), "description = ",//####
+              description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
+    OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
+              serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
-    OD_LOG_S4("canonicalName = ", canonicalName.c_str(), "description = ", description.c_str(),//####
-              "requestsDescription = ", requestsDescription.c_str(), "serviceEndpointName = ",//####
-              serviceEndpointName.c_str());//####
-    OD_LOG_S2("serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
 //    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // BaseOutputService::BaseOutputService
 
-BaseOutputService::BaseOutputService(const bool                    useMultipleHandlers,
+BaseOutputService::BaseOutputService(const char *                  launchPath,
+                                     const bool                    useMultipleHandlers,
                                      const yarp::os::ConstString & canonicalName,
                                      const yarp::os::ConstString & description,
                                      const yarp::os::ConstString & requestsDescription,
                                      const int                     argc,
                                      char * *                      argv) :
-        inherited(kServiceKindOutput, useMultipleHandlers, canonicalName, description, requestsDescription, argc, argv)
+        inherited(kServiceKindOutput, launchPath, useMultipleHandlers, canonicalName, description, requestsDescription,
+                  argc, argv)
 {
     OD_LOG_ENTER();//####
+    OD_LOG_S4("launchPath = ", launchPath, "canonicalName = ", canonicalName.c_str(), "description = ",//####
+              description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
-    OD_LOG_S3("canonicalName = ", canonicalName.c_str(), "description = ", description.c_str(),//####
-              "requestsDescription = ", requestsDescription.c_str());//####
 //    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // BaseOutputService::BaseOutputService

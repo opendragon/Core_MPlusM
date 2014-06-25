@@ -94,6 +94,7 @@ TruncateFilterStreamClient::~TruncateFilterStreamClient(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
+#if 0
 bool TruncateFilterStreamClient::getOneRandomNumber(double & result)
 {
     OD_LOG_OBJENTER();//####
@@ -141,7 +142,9 @@ bool TruncateFilterStreamClient::getOneRandomNumber(double & result)
     OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // TruncateFilterStreamClient::getOneRandomNumber
+#endif//0
 
+#if 0
 bool TruncateFilterStreamClient::getRandomNumbers(const int              howMany,
                                                 Common::DoubleVector & result)
 {
@@ -206,6 +209,7 @@ bool TruncateFilterStreamClient::getRandomNumbers(const int              howMany
     OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // TruncateFilterStreamClient::getRandomNumbers
+#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Accessors

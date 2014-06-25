@@ -41,7 +41,6 @@
 
 #include "M+MRecordInputStreamService.h"
 #include "M+MRecordInputStreamRequests.h"
-#include "M+MRecordInputRequestHandler.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -83,19 +82,17 @@ RecordInputStreamService::RecordInputStreamService(const char *                 
                                                    const yarp::os::ConstString & servicePortNumber) :
         inherited(launchPath, true, MpM_RECORD_CANONICAL_NAME, "An example random number service",
                   "random - return the number of random values requested", serviceEndpointName, serviceHostName,
-                  servicePortNumber), _randomHandler(NULL)
+                  servicePortNumber)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S4("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
               "serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
-    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RecordInputStreamService::RecordInputStreamService
 
 RecordInputStreamService::~RecordInputStreamService(void)
 {
     OD_LOG_OBJENTER();//####
-    detachRequestHandlers();
     OD_LOG_OBJEXIT();//####
 } // RecordInputStreamService::~RecordInputStreamService
 
@@ -103,20 +100,12 @@ RecordInputStreamService::~RecordInputStreamService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RecordInputStreamService::attachRequestHandlers(void)
+void RecordInputStreamService::configure(const Common::Package & details)
 {
     OD_LOG_OBJENTER();//####
     try
     {
-        _randomHandler = new RecordInputRequestHandler;
-        if (_randomHandler)
-        {
-            registerRequestHandler(_randomHandler);
-        }
-        else
-        {
-            OD_LOG("! (_randomHandler)");//####
-        }
+        
     }
     catch (...)
     {
@@ -124,27 +113,7 @@ void RecordInputStreamService::attachRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // RecordInputStreamService::attachRequestHandlers
-
-void RecordInputStreamService::detachRequestHandlers(void)
-{
-    OD_LOG_OBJENTER();//####
-    try
-    {
-        if (_randomHandler)
-        {
-            unregisterRequestHandler(_randomHandler);
-            delete _randomHandler;
-            _randomHandler = NULL;
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // RecordInputStreamService::detachRequestHandlers
+} // RecordInputStreamService::configure
 
 void RecordInputStreamService::restartStreams(void)
 {

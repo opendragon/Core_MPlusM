@@ -50,7 +50,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for a 'reset' request. */
+ @brief The class declaration for the request handler for a 'restartStreams' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

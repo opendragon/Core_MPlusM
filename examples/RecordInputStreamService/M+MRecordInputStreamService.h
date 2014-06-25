@@ -82,6 +82,10 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~RecordInputStreamService(void);
             
+            /*! @brief Configure the input/output streams.
+             @param details The configuration information for the input/output streams. */
+            virtual void configure(const Common::Package & details);
+            
             /*! @brief Restart the input/output streams. */
             virtual void restartStreams(void);
             
@@ -117,15 +121,6 @@ namespace MplusM
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
             RecordInputStreamService & operator=(const RecordInputStreamService & other);
-            
-            /*! @brief Enable the standard request handlers. */
-            void attachRequestHandlers(void);
-            
-            /*! @brief Disable the standard request handlers. */
-            void detachRequestHandlers(void);
-            
-            /*! @brief The request handler for the 'random' request. */
-            RecordInputRequestHandler * _randomHandler;
             
         }; // RecordInputStreamService
         

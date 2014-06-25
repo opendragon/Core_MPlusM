@@ -43,7 +43,7 @@ include_directories("${MpM_LOGGING_DIR}"
                     "${MpM_COMMON_DIR}"
                     “${MpM_PARSER_DIR}”)
 
-add_library(M+MCommonTestSupport
+add_library(mpmCommonTestSupport
             M+MTest03Handler.cpp
             M+MTest04Handler.cpp
             M+MTest05Handler.cpp

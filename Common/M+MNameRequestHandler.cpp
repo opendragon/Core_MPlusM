@@ -167,6 +167,7 @@ bool NameRequestHandler::processRequest(const yarp::os::ConstString & request,
             Package reply;
             
             ACE_OS::realpath(_service.launchPath().c_str(), bigPath);
+            OD_LOG_S1("bigPath <- ", bigPath);//####
             reply.addString(_service.canonicalName());
             reply.addString(_service.description());
             reply.addString(MapServiceKindToString(_service.kind()));

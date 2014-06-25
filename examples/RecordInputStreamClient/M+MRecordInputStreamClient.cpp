@@ -94,6 +94,7 @@ RecordInputStreamClient::~RecordInputStreamClient(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
+#if 0
 bool RecordInputStreamClient::getOneRandomNumber(double & result)
 {
     OD_LOG_OBJENTER();//####
@@ -141,7 +142,9 @@ bool RecordInputStreamClient::getOneRandomNumber(double & result)
     OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RecordInputStreamClient::getOneRandomNumber
+#endif//0
 
+#if 0
 bool RecordInputStreamClient::getRandomNumbers(const int              howMany,
                                                Common::DoubleVector & result)
 {
@@ -206,6 +209,7 @@ bool RecordInputStreamClient::getRandomNumbers(const int              howMany,
     OD_LOG_OBJEXIT_B(okSoFar);//####
     return okSoFar;
 } // RecordInputStreamClient::getRandomNumbers
+#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Accessors

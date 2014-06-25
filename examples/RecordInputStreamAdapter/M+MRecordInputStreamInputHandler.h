@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MTruncateFilterRequestHandler.h
+//  File:       M+MRecordInputStreamInputHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for a 'random' request.
+//  Contains:   The class declaration for the custom data channel input handler used by
+//              the record input stream adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,14 +36,14 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-06-24
+//  Created:    2014-06-25
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MpMTruncateFilterRequestHandler_H_))
-# define MpMTruncateFilterRequestHandler_H_ /* Header guard */
+#if (! defined(MpMRecordInputStreamInputHandler_H_))
+# define MpMRecordInputStreamInputHandler_H_ /* Header guard */
 
-# include "M+MBaseRequestHandler.h"
+# include "M+MInputHandler.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -50,7 +51,8 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for a 'random' request. */
+ @brief The class declaration for the custom data channel input handler used by the
+ record input stream adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -59,51 +61,55 @@ namespace MplusM
 {
     namespace Example
     {
-        /*! @brief The example 'random' request handler.
-         
-         The input for the request is an optional count of the number of random numbers to generate and the output is
-         either a single floating point number, between 0 and 1 or a list of floating point numbers, between 0 and 1. */
-        class TruncateFilterRequestHandler : public Common::BaseRequestHandler
+        class RecordInputStreamAdapterData;
+        
+        /*! @brief A handler for partially-structured input data. */
+        class RecordInputStreamInputHandler : public Common::InputHandler
         {
         public:
             
-            /*! @brief The constructor. */
-            TruncateFilterRequestHandler(void);
+            /*! @brief The constructor.
+             @param shared The data shared between the input handlers and the main thread. */
+            RecordInputStreamInputHandler(RecordInputStreamAdapterData & shared);
             
             /*! @brief The destructor. */
-            virtual ~TruncateFilterRequestHandler(void);
+            virtual ~RecordInputStreamInputHandler(void);
             
-            /*! @brief Fill in a set of aliases for the request.
-             @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(Common::StringVector & alternateNames);
-            
-            /*! @brief Fill in a description dictionary for the request.
-             @param request The actual request name.
-             @param info The dictionary to be filled in. */
-            virtual void fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info);
-            
-            /*! @brief Process a request.
-             @param request The actual request name.
-             @param restOfInput The arguments to the operation.
+            /*! @brief Process partially-structured input data.
+             @param input The partially-structured input data.
              @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-            virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const Common::Package &       restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism);
+             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @returns @c true if the input was correctly structured and successfully processed. */
+            virtual bool handleInput(const Common::Package &       input,
+                                     const yarp::os::ConstString & senderChannel,
+                                     yarp::os::ConnectionWriter *  replyMechanism);
             
         protected:
             
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
+            typedef InputHandler inherited;
             
-        }; // TruncateFilterRequestHandler
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RecordInputStreamInputHandler(const RecordInputStreamInputHandler & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RecordInputStreamInputHandler & operator=(const RecordInputStreamInputHandler & other);
+            
+            /*! @brief The shared data that describes the connection to the service that we are using. */
+            RecordInputStreamAdapterData & _shared;
+            
+        }; // RecordInputStreamInputHandler
         
     } // Example
     
 } // MplusM
 
-#endif // ! defined(MpMTruncateFilterRequestHandler_H_)
+#endif // ! defined(MpMRecordInputStreamInputHandler_H_)

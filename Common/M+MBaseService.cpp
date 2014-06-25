@@ -198,34 +198,34 @@ BaseService::BaseService(const ServiceKind             theKind,
         _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S1("launchPath = ", launchPath);//####
+    OD_LOG_S4("launchPath = ", launchPath, "canonicalName = ", canonicalName.c_str(), "description = ",//####
+              description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
+    OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(),"serviceHostName = ", serviceHostName.c_str(),//####
+              "servicePortNumber = ", servicePortNumber.c_str());//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
-    OD_LOG_S4("canonicalName = ", canonicalName.c_str(), "description = ", description.c_str(),//####
-              "requestsDescription = ", requestsDescription.c_str(), "serviceEndpointName = ",//####
-              serviceEndpointName.c_str());//####
-    OD_LOG_S2("serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     _endpoint = new Endpoint(serviceEndpointName, serviceHostName, servicePortNumber);
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // BaseService::BaseService
 
 BaseService::BaseService(const ServiceKind             theKind,
+                         const char *                  launchPath,
                          const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
                          const yarp::os::ConstString & description,
                          const yarp::os::ConstString & requestsDescription,
                          const int                     argc,
                          char * *                      argv) :
-        _launchPath(*argv), _contextsLock(), _requestHandlers(*this), _contexts(), _canonicalName(canonicalName),
+        _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(), _canonicalName(canonicalName),
         _description(description), _requestCount(0), _channelsHandler(NULL), _clientsHandler(NULL),
         _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL), _endpoint(NULL),
         _handler(NULL), _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _started(false),
         _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER();//####
+    OD_LOG_S4("launchPath = ", launchPath, "canonicalName = ", canonicalName.c_str(), "description = ",//####
+              description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
-    OD_LOG_S3("canonicalName = ", canonicalName.c_str(), "description = ", description.c_str(),//####
-              "requestsDescription = ", requestsDescription.c_str());//####
     switch (argc)
     {
             // Argument order = endpoint name [, IP address / name [, port]]

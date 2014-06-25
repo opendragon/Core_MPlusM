@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MTruncateFilterRequestHandler.cpp
+//  File:       M+MConfigureRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for a 'random' request.
+//  Contains:   The class definition for the request handler for a 'configure' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,12 +35,13 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-06-24
+//  Created:    2014-06-25
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MTruncateFilterRequestHandler.h"
-#include "M+MTruncateFilterStreamRequests.h"
+#include "M+MConfigureRequestHandler.h"
+#include "M+MRequests.h"
+#include "M+MBaseInputOutputService.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -51,21 +52,20 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a 'random' request. */
+ @brief The class definition for the request handler for a 'configure' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'random' request. */
-#define TRUNCATE_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'configure' request. */
+#define CONFIGURE_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -79,33 +79,38 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-TruncateFilterRequestHandler::TruncateFilterRequestHandler(void) :
-        inherited(MpM_RANDOM_REQUEST)
+ConfigureRequestHandler::ConfigureRequestHandler(BaseInputOutputService & service) :
+        inherited(MpM_Configure_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
+    OD_LOG_P1("service = ", &service);//####
     OD_LOG_EXIT_P(this);//####
-} // TruncateFilterRequestHandler::TruncateFilterRequestHandler
+} // ConfigureRequestHandler::ConfigureRequestHandler
 
-TruncateFilterRequestHandler::~TruncateFilterRequestHandler(void)
+ConfigureRequestHandler::~ConfigureRequestHandler(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // TruncateFilterRequestHandler::~TruncateFilterRequestHandler
+} // ConfigureRequestHandler::~ConfigureRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void TruncateFilterRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void ConfigureRequestHandler::fillInAliases(StringVector & alternateNames)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(alternateNames)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
-    alternateNames.push_back("?");
     OD_LOG_OBJEXIT();//####
-} // TruncateFilterRequestHandler::fillInAliases
+} // ConfigureRequestHandler::fillInAliases
 
-void TruncateFilterRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                                     yarp::os::Property &          info)
+void ConfigureRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                                yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("request = ", request.c_str());//####
@@ -113,12 +118,10 @@ void TruncateFilterRequestHandler::fillInDescription(const yarp::os::ConstString
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_INT MpM_REQREP_0_OR_1);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_DOUBLE MpM_REQREP_1_OR_MORE);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, TRUNCATE_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Generate one or more random numbers\n"
-                 "Input: the number of random values to generate\n"
-                 "Output one or more random numbers per request");
+        info.put(MpM_REQREP_DICT_VERSION_KEY, CONFIGURE_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Restart the input/output streams\n"
+                 "Input: nothing\n"
+                 "Output: nothing");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
         
@@ -131,16 +134,16 @@ void TruncateFilterRequestHandler::fillInDescription(const yarp::os::ConstString
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // TruncateFilterRequestHandler::fillInDescription
+} // ConfigureRequestHandler::fillInDescription
 
-bool TruncateFilterRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                                  const Common::Package &       restOfInput,
-                                                  const yarp::os::ConstString & senderChannel,
-                                                  yarp::os::ConnectionWriter *  replyMechanism)
+bool ConfigureRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                             const Package &               restOfInput,
+                                             const yarp::os::ConstString & senderChannel,
+                                             yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
-#  pragma unused(request,senderChannel)
+#  pragma unused(request,restOfInput)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
@@ -148,42 +151,14 @@ bool TruncateFilterRequestHandler::processRequest(const yarp::os::ConstString & 
               senderChannel.c_str());//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
-    
+
     try
     {
+        _service.configure(restOfInput);
         if (replyMechanism)
         {
-            Common::Package response;
-            int             count;
+            Common::Package response(MpM_OK_RESPONSE);
             
-            if (0 < restOfInput.size())
-            {
-                yarp::os::Value number(restOfInput.get(0));
-                
-                if (number.isInt())
-                {
-                    count = number.asInt();
-                }
-                else
-                {
-                    count = -1;
-                }
-            }
-            else
-            {
-                count = 1;
-            }
-            if (count > 0)
-            {
-                for (int ii = 0; ii < count; ++ii)
-                {
-                    response.addDouble(yarp::os::Random::uniform());
-                }
-            }
-            else
-            {
-                OD_LOG("! (count > 0)");//####
-            }
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####
@@ -200,7 +175,7 @@ bool TruncateFilterRequestHandler::processRequest(const yarp::os::ConstString & 
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // TruncateFilterRequestHandler::processRequest
+} // ConfigureRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors

@@ -39,12 +39,9 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(ODDISABLELOGGING_H_))
-# define ODDISABLELOGGING_H_ /* Header guard */
+// Note that this must NOT have a header guard, as it may be included more than once!
 
-# undef OD_ENABLE_LOGGING
+#undef OD_ENABLE_LOGGING
 
 // Allow a reload of the logging macros.
-# undef ODLOGGING_H_
-
-#endif // ! defined(ODDISABLELOGGING_H_)
+#undef ODLOGGING_H_

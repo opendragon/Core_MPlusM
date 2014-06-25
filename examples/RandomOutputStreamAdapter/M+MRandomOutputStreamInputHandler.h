@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MRandomOutputRequestHandler.h
+//  File:       M+MRandomOutputStreamInputHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for a 'random' request.
+//  Contains:   The class declaration for the custom data channel input handler used by
+//              the random output stream adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,14 +36,14 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-06-24
+//  Created:    2014-06-25
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MpMRandomOutputRequestHandler_H_))
-# define MpMRandomOutputRequestHandler_H_ /* Header guard */
+#if (! defined(MpMRandomOutputStreamInputHandler_H_))
+# define MpMRandomOutputStreamInputHandler_H_ /* Header guard */
 
-# include "M+MBaseRequestHandler.h"
+# include "M+MInputHandler.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -50,7 +51,8 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for a 'random' request. */
+ @brief The class declaration for the custom data channel input handler used by the
+ random output stream adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -59,51 +61,55 @@ namespace MplusM
 {
     namespace Example
     {
-        /*! @brief The example 'random' request handler.
-         
-         The input for the request is an optional count of the number of random numbers to generate and the output is
-         either a single floating point number, between 0 and 1 or a list of floating point numbers, between 0 and 1. */
-        class RandomOutputRequestHandler : public Common::BaseRequestHandler
+        class RandomOutputStreamAdapterData;
+        
+        /*! @brief A handler for partially-structured input data. */
+        class RandomOutputStreamInputHandler : public Common::InputHandler
         {
         public:
             
-            /*! @brief The constructor. */
-            RandomOutputRequestHandler(void);
+            /*! @brief The constructor.
+             @param shared The data shared between the input handlers and the main thread. */
+            RandomOutputStreamInputHandler(RandomOutputStreamAdapterData & shared);
             
             /*! @brief The destructor. */
-            virtual ~RandomOutputRequestHandler(void);
+            virtual ~RandomOutputStreamInputHandler(void);
             
-            /*! @brief Fill in a set of aliases for the request.
-             @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(Common::StringVector & alternateNames);
-            
-            /*! @brief Fill in a description dictionary for the request.
-             @param request The actual request name.
-             @param info The dictionary to be filled in. */
-            virtual void fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info);
-            
-            /*! @brief Process a request.
-             @param request The actual request name.
-             @param restOfInput The arguments to the operation.
+            /*! @brief Process partially-structured input data.
+             @param input The partially-structured input data.
              @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-            virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const Common::Package &       restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism);
+             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @returns @c true if the input was correctly structured and successfully processed. */
+            virtual bool handleInput(const Common::Package &       input,
+                                     const yarp::os::ConstString & senderChannel,
+                                     yarp::os::ConnectionWriter *  replyMechanism);
             
         protected:
             
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
+            typedef InputHandler inherited;
             
-        }; // RandomOutputRequestHandler
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RandomOutputStreamInputHandler(const RandomOutputStreamInputHandler & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RandomOutputStreamInputHandler & operator=(const RandomOutputStreamInputHandler & other);
+            
+            /*! @brief The shared data that describes the connection to the service that we are using. */
+            RandomOutputStreamAdapterData & _shared;
+            
+        }; // RandomOutputStreamInputHandler
         
     } // Example
     
 } // MplusM
 
-#endif // ! defined(MpMRandomOutputRequestHandler_H_)
+#endif // ! defined(MpMRandomOutputStreamInputHandler_H_)

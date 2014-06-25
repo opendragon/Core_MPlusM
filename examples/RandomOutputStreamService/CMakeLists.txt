@@ -46,8 +46,7 @@ include_directories("${MpM_LOGGING_DIR}"
 # Set up our program
 add_executable(mpmRandomOutputStreamService
                main.cpp
-               M+MRandomOutputStreamService.cpp
-               M+MRandomOutputRequestHandler.cpp)
+               M+MRandomOutputStreamService.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
 target_link_libraries(mpmRandomOutputStreamService
