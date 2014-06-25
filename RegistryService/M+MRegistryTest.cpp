@@ -110,10 +110,6 @@ static int doTestCreateRegisterService(const char * launchPath,
                     registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv);
                     break;
                     
-                case 2:
-                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv, argv[1]);
-                    break;
-                    
                 default:
                     break;
                     
@@ -177,11 +173,6 @@ static int doTestRequestRegisterService(const char * launchPath,
                 case 1:
                     registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv);
                     secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE "test/requestregisterservice_2");
-                    break;
-                    
-                case 2:
-                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv, argv[1]);
-                    secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE "test/requestregisterservice_3");
                     break;
                     
                 default:
@@ -283,11 +274,6 @@ static int doTestRequestUnregisterService(const char * launchPath,
                 case 1:
                     registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv);
                     secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE "test/requestunregisterservice_2");
-                    break;
-                    
-                case 2:
-                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY, *argv, argv[1]);
-                    secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE "test/requestunregisterservice_3");
                     break;
                     
                 default:

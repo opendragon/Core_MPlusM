@@ -82,17 +82,16 @@ using namespace MplusM::RequestCounter;
 
 RequestCounterService::RequestCounterService(const char *                  launchPath,
                                              const yarp::os::ConstString & serviceEndpointName,
-                                             const yarp::os::ConstString & serviceHostName,
                                              const yarp::os::ConstString & servicePortNumber) :
         inherited(kServiceKindNormal, launchPath, true, MpM_REQUESTCOUNTER_CANONICAL_NAME,
                   "The request counter service", "reset - clear the request counter and the elapsed time\n"
                   "stats - report the request counter and the elapsed time\n"
-                  "<anything else> - simply increment the request counter", serviceEndpointName, serviceHostName,
-                  servicePortNumber), _defaultHandler(NULL), _resetHandler(NULL), _statsHandler(NULL)
+                  "<anything else> - simply increment the request counter", serviceEndpointName, servicePortNumber),
+        _defaultHandler(NULL), _resetHandler(NULL), _statsHandler(NULL)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
-              "serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_S3("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+              "servicePortNumber = ", servicePortNumber.c_str());//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RequestCounterService::RequestCounterService

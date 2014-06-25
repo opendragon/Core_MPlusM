@@ -100,17 +100,13 @@ static Endpoint * doCreateEndpointForTest(const int argc,
         {
             switch (argc)
             {
-                // Argument order for tests = endpoint name [, IP address / name [, port]]
+                // Argument order for tests = endpoint name [, port]
                 case 1:
                     stuff = new Endpoint(*argv);
                     break;
                     
                 case 2:
                     stuff = new Endpoint(*argv, argv[1]);
-                    break;
-                    
-                case 3:
-                    stuff = new Endpoint(*argv, argv[1], argv[2]);
                     break;
                     
                 default:

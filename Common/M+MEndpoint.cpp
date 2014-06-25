@@ -197,13 +197,11 @@ bool Endpoint::CheckEndpointName(const yarp::os::ConstString & channelName)
 #endif // defined(__APPLE__)
 
 Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
-                   const yarp::os::ConstString & hostName,
                    const yarp::os::ConstString & portNumber) :
         _channel(NULL), _contact(), _handler(NULL), _handlerCreator(NULL), _isOpen(false)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S3("endpointName = ", endpointName.c_str(), "hostName = ", hostName.c_str(),//####
-              "portNumber = ", portNumber.c_str());//####
+    OD_LOG_S2("endpointName = ", endpointName.c_str(), "portNumber = ", portNumber.c_str());//####
     if (CheckEndpointName(endpointName))
     {
         int realPort;
@@ -214,7 +212,7 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
 #if defined(MpM_ReportContactDetails)
             DumpContactToLog("after byName", _contact);//####
 #endif // defined(MpM_ReportContactDetails)
-            if (checkHostName(_contact, hostName, realPort))
+            if (checkHostName(_contact, STANDARD_HOST_NAME, realPort))
             {
                 // Ready to be set up... we have a valid port, and either a blank URI or a valid one.
                 _channel = new ServiceChannel;

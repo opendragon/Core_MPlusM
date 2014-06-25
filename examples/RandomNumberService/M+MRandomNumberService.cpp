@@ -79,15 +79,14 @@ using namespace MplusM::Example;
 
 RandomNumberService::RandomNumberService(const char *                  launchPath,
                                          const yarp::os::ConstString & serviceEndpointName,
-                                         const yarp::os::ConstString & serviceHostName,
                                          const yarp::os::ConstString & servicePortNumber) :
         inherited(kServiceKindNormal, launchPath, true, MpM_RANDOM_CANONICAL_NAME, "An example random number service",
-                  "random - return the number of random values requested", serviceEndpointName, serviceHostName,
-                  servicePortNumber), _randomHandler(NULL)
+                  "random - return the number of random values requested", serviceEndpointName, servicePortNumber),
+        _randomHandler(NULL)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
-              "serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_S3("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+              "servicePortNumber = ", servicePortNumber.c_str());//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RandomNumberService::RandomNumberService

@@ -89,7 +89,6 @@ namespace MplusM
              @param description The description of the service.
              @param requestsDescription The description of the requests for the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param serviceHostName The name or IP address of the machine running the service.
              @param servicePortNumber The channel being used by the service. */
             BaseService(const ServiceKind             theKind,
                         const char *                  launchPath,
@@ -98,7 +97,6 @@ namespace MplusM
                         const yarp::os::ConstString & description,
                         const yarp::os::ConstString & requestsDescription,
                         const yarp::os::ConstString & serviceEndpointName,
-                        const yarp::os::ConstString & serviceHostName = "",
                         const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The constructor.

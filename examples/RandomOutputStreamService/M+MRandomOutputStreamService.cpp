@@ -78,15 +78,13 @@ using namespace MplusM::Example;
 
 RandomOutputStreamService::RandomOutputStreamService(const char *                  launchPath,
                                                      const yarp::os::ConstString & serviceEndpointName,
-                                                     const yarp::os::ConstString & serviceHostName,
                                                      const yarp::os::ConstString & servicePortNumber) :
         inherited(launchPath, true, MpM_RANDOMSTREAM_CANONICAL_NAME, "An example random number service",
-                  "random - return the number of random values requested", serviceEndpointName, serviceHostName,
-                  servicePortNumber)
+                  "random - return the number of random values requested", serviceEndpointName, servicePortNumber)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
-              "serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_S3("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+              "servicePortNumber = ", servicePortNumber.c_str());//####
     OD_LOG_EXIT_P(this);//####
 } // RandomOutputStreamService::RandomOutputStreamService
 

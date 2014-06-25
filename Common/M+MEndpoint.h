@@ -72,10 +72,8 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param endpointName The YARP name to be assigned to the new endpoint.
-             @param hostName The name or IP address of the machine holding the endpoint.
              @param portNumber The port being used by the endpoint. */
             Endpoint(const yarp::os::ConstString & endpointName,
-                     const yarp::os::ConstString & hostName = "",
                      const yarp::os::ConstString & portNumber = "");
             
             /*! @brief The destructor. */

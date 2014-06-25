@@ -121,7 +121,6 @@ int main(int      argc,
         {
             yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
             yarp::os::ConstString serviceEndpointName;
-            yarp::os::ConstString serviceHostName;
             yarp::os::ConstString servicePortNumber;
             
             MplusM::Common::Initialize(*argv);
@@ -130,18 +129,14 @@ int main(int      argc,
                 serviceEndpointName = argv[1];
                 if (2 < argc)
                 {
-                    serviceHostName = argv[2];
-                    if (3 < argc)
-                    {
-                        servicePortNumber = argv[3];
-                    }
+                    servicePortNumber = argv[2];
                 }
             }
             else
             {
                 serviceEndpointName = DEFAULT_ECHO_SERVICE_NAME;
             }
-            EchoService * stuff = new EchoService(*argv, serviceEndpointName, serviceHostName, servicePortNumber);
+            EchoService * stuff = new EchoService(*argv, serviceEndpointName, servicePortNumber);
             
             if (stuff)
             {

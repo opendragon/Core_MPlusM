@@ -75,11 +75,9 @@ namespace MplusM
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param serviceHostName The name or IP address of the machine running the service.
              @param servicePortNumber The port being used by the service. */
             RunningSumService(const char *                  launchPath,
                               const yarp::os::ConstString & serviceEndpointName,
-                              const yarp::os::ConstString & serviceHostName = "",
                               const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */

@@ -1609,7 +1609,6 @@ static int setupRemoveFromServices(sqlite3_stmt * statement,
 
 RegistryService::RegistryService(const char *                  launchPath,
                                  const bool                    useInMemoryDb,
-                                 const yarp::os::ConstString & serviceHostName,
                                  const yarp::os::ConstString & servicePortNumber) :
         inherited(kServiceKindRegistry, launchPath, true, MpM_REGISTRY_CANONICAL_NAME, "The Service Registry service",
                   "associate - associate a channel with another channel\n"
@@ -1620,15 +1619,14 @@ RegistryService::RegistryService(const char *                  launchPath,
                       "the given channel\n"
                   "register - record the information for a service on the given channel\n"
                   "unregister - remove the information for a service on the given channel", MpM_REGISTRY_CHANNEL_NAME,
-                  serviceHostName, servicePortNumber), _db(NULL), _validator(new ColumnNameValidator),
-        _associateHandler(NULL), _disassociateHandler(NULL), _getAssociatesHandler(NULL), _matchHandler(NULL),
-        _pingHandler(NULL), _statusChannel(NULL), _registerHandler(NULL), _unregisterHandler(NULL), _checker(NULL),
+                  servicePortNumber), _db(NULL), _validator(new ColumnNameValidator), _associateHandler(NULL),
+        _disassociateHandler(NULL), _getAssociatesHandler(NULL), _matchHandler(NULL), _pingHandler(NULL),
+        _statusChannel(NULL), _registerHandler(NULL), _unregisterHandler(NULL), _checker(NULL),
         _inMemory(useInMemoryDb), _isActive(false)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S1("launchPath = ", launchPath);//####
+    OD_LOG_S2("launchPath = ", launchPath, "servicePortNumber = ", servicePortNumber.c_str());//####
     OD_LOG_B1("useInMemoryDb = ", useInMemoryDb);//####
-    OD_LOG_S2("serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RegistryService::RegistryService

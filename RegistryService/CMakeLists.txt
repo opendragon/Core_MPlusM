@@ -98,16 +98,13 @@ target_link_libraries(mpmRegistryTest
 
 # Test create register service
 add_test(NAME TestCreateRegisterService1 COMMAND mpmRegistryTest 13)
-add_test(NAME TestCreateRegisterService2 COMMAND mpmRegistryTest 13 "localhost")
-add_test(NAME TestCreateRegisterService3 COMMAND mpmRegistryTest 13 "localhost" "12350")
+add_test(NAME TestCreateRegisterService2 COMMAND mpmRegistryTest 13 "12350")
 # Test register request, second service
 add_test(NAME TestRequestRegisterService1 COMMAND mpmRegistryTest 14)
-add_test(NAME TestRequestRegisterService2 COMMAND mpmRegistryTest 14 "localhost")
-add_test(NAME TestRequestRegisterService3 COMMAND mpmRegistryTest 14 "localhost" "12351")
+add_test(NAME TestRequestRegisterService2 COMMAND mpmRegistryTest 14 "12351")
 # Test unregister request, second service
 add_test(NAME TestRequestUnregisterService1 COMMAND mpmRegistryTest 15)
-add_test(NAME TestRequestUnregisterService2 COMMAND mpmRegistryTest 15 "localhost")
-add_test(NAME TestRequestUnregisterService3 COMMAND mpmRegistryTest 15 "localhost" "12352")
+add_test(NAME TestRequestUnregisterService2 COMMAND mpmRegistryTest 15 "12352")
 # Test search for request / service - note the change in arguments
 add_test(NAME TestRequestSearchService1 COMMAND mpmRegistryTest 16 0 "" "FAILED \"An error message\"")
 add_test(NAME TestRequestSearchService2 COMMAND mpmRegistryTest 16 0 "Version 42" "OK ()")

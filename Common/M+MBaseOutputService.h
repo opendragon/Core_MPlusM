@@ -80,7 +80,6 @@ namespace MplusM
                               const yarp::os::ConstString & description,
                               const yarp::os::ConstString & requestsDescription,
                               const yarp::os::ConstString & serviceEndpointName,
-                              const yarp::os::ConstString & serviceHostName = "",
                               const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The constructor.

@@ -189,7 +189,6 @@ BaseService::BaseService(const ServiceKind             theKind,
                          const yarp::os::ConstString & description,
                          const yarp::os::ConstString & requestsDescription,
                          const yarp::os::ConstString & serviceEndpointName,
-                         const yarp::os::ConstString & serviceHostName,
                          const yarp::os::ConstString & servicePortNumber) :
         _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(), _canonicalName(canonicalName),
         _description(description), _requestsDescription(requestsDescription), _requestCount(0), _channelsHandler(NULL),
@@ -200,10 +199,10 @@ BaseService::BaseService(const ServiceKind             theKind,
     OD_LOG_ENTER();//####
     OD_LOG_S4("launchPath = ", launchPath, "canonicalName = ", canonicalName.c_str(), "description = ",//####
               description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
-    OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(),"serviceHostName = ", serviceHostName.c_str(),//####
-              "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_S2("serviceEndpointName = ", serviceEndpointName.c_str(), "servicePortNumber = ",//####
+              servicePortNumber.c_str());//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
-    _endpoint = new Endpoint(serviceEndpointName, serviceHostName, servicePortNumber);
+    _endpoint = new Endpoint(serviceEndpointName, servicePortNumber);
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // BaseService::BaseService
@@ -228,17 +227,13 @@ BaseService::BaseService(const ServiceKind             theKind,
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
     switch (argc)
     {
-            // Argument order = endpoint name [, IP address / name [, port]]
+            // Argument order = endpoint name [, port]
         case 1:
             _endpoint = new Endpoint(*argv);
             break;
             
         case 2:
             _endpoint = new Endpoint(*argv, argv[1]);
-            break;
-            
-        case 3:
-            _endpoint = new Endpoint(*argv, argv[1], argv[2]);
             break;
             
         default:

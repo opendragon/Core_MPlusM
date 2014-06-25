@@ -372,11 +372,11 @@
 			isa = PBXGroup;
 			children = (
 				DF06998418ECC06500FF0E93 /* CMakeLists.txt */,
-				DF06998518ECC06500FF0E93 /* main.cpp */,
 				DFCB229318EF091000358EA5 /* M+MRequestCounterContext.cpp */,
 				DFCB229418EF091000358EA5 /* M+MRequestCounterContext.h */,
 				DF06998818ECC06500FF0E93 /* M+MRequestCounterService.cpp */,
 				DF06998918ECC06500FF0E93 /* M+MRequestCounterService.h */,
+				DF06998518ECC06500FF0E93 /* main.cpp */,
 				DF36EEF31958E0A500E7D889 /* RequestHandlers */,
 			);
 			name = RequestCounterService;
@@ -417,11 +417,11 @@
 			isa = PBXGroup;
 			children = (
 				DFA86D4E18E1DA1C00A22941 /* CMakeLists.txt */,
-				DFA86D4F18E1DA1C00A22941 /* main.cpp */,
 				DFA86D5418E1DA1C00A22941 /* M+MRunningSumContext.cpp */,
 				DFA86D5518E1DA1C00A22941 /* M+MRunningSumContext.h */,
 				DFA86D5718E1DA1C00A22941 /* M+MRunningSumService.cpp */,
 				DFA86D5818E1DA1C00A22941 /* M+MRunningSumService.h */,
+				DFA86D4F18E1DA1C00A22941 /* main.cpp */,
 				DF36EEF51958E11B00E7D889 /* RequestHandlers */,
 			);
 			name = RunningSumService;
@@ -787,7 +787,6 @@
 			isa = PBXGroup;
 			children = (
 				DF27F42C18CA37E000E93C95 /* CMakeLists.txt */,
-				DFA3431318C91B7E0053B87C /* main.cpp */,
 				DFA86D1C18E0D3AE00A22941 /* M+MColumnNameValidator.cpp */,
 				DFA86D1D18E0D3AE00A22941 /* M+MColumnNameValidator.h */,
 				DFA9894819523A8A005F10EB /* M+MRegistryCheckThread.cpp */,
@@ -795,6 +794,7 @@
 				DFA3434218C91C5A0053B87C /* M+MRegistryService.cpp */,
 				DFA3434318C91C5A0053B87C /* M+MRegistryService.h */,
 				DF2092A018D35D720093D3DC /* M+MRegistryTest.cpp */,
+				DFA3431318C91B7E0053B87C /* main.cpp */,
 				DF2092A118D360DE0093D3DC /* RegistryTests */,
 				DF36EEF41958E0C800E7D889 /* RequestHandlers */,
 			);
@@ -805,9 +805,9 @@
 			isa = PBXGroup;
 			children = (
 				DFA86D3218E1D3FC00A22941 /* CMakeLists.txt */,
-				DFA86D3318E1D3FC00A22941 /* main.cpp */,
 				DFA86D3618E1D3FC00A22941 /* M+MEchoService.cpp */,
 				DFA86D3718E1D3FC00A22941 /* M+MEchoService.h */,
+				DFA86D3318E1D3FC00A22941 /* main.cpp */,
 				DF36EEF71958E15100E7D889 /* RequestHandlers */,
 			);
 			name = EchoService;
@@ -959,9 +959,9 @@
 			isa = PBXGroup;
 			children = (
 				DFA86D3D18E1D6FF00A22941 /* CMakeLists.txt */,
-				DFA86D3E18E1D6FF00A22941 /* main.cpp */,
 				DFA86D4018E1D6FF00A22941 /* M+MRandomNumberService.cpp */,
 				DFA86D4118E1D6FF00A22941 /* M+MRandomNumberService.h */,
+				DFA86D3E18E1D6FF00A22941 /* main.cpp */,
 				DF36EEF61958E13B00E7D889 /* RequestHandlers */,
 			);
 			name = RandomNumberService;
@@ -1028,10 +1028,10 @@
 		DFA98942194BA92D005F10EB /* ChordGeneratorService */ = {
 			isa = PBXGroup;
 			children = (
-				DFA98941194BA904005F10EB /* main.cpp */,
 				DFA9893E194BA904005F10EB /* M+MChordGeneratorRequests.h */,
 				DFA9893F194BA904005F10EB /* M+MChordGeneratorService.cpp */,
 				DFA98940194BA904005F10EB /* M+MChordGeneratorService.h */,
+				DFA98941194BA904005F10EB /* main.cpp */,
 				DF36EEF81958E16400E7D889 /* RequestHandlers */,
 			);
 			name = ChordGeneratorService;

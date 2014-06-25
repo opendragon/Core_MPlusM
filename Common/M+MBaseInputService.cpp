@@ -82,16 +82,15 @@ BaseInputService::BaseInputService(const char *                  launchPath,
                                    const yarp::os::ConstString & description,
                                    const yarp::os::ConstString & requestsDescription,
                                    const yarp::os::ConstString & serviceEndpointName,
-                                   const yarp::os::ConstString & serviceHostName,
                                    const yarp::os::ConstString & servicePortNumber) :
             inherited(kServiceKindInput, launchPath, useMultipleHandlers, canonicalName, description,
-                      requestsDescription, serviceEndpointName, serviceHostName, servicePortNumber)
+                      requestsDescription, serviceEndpointName, servicePortNumber)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S4("launchPath = ", launchPath, "canonicalName = ", canonicalName.c_str(), "description = ",//####
               description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
-    OD_LOG_S3("serviceEndpointName = ", serviceEndpointName.c_str(), "serviceHostName = ",//####
-              serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_S2("serviceEndpointName = ", serviceEndpointName.c_str(), "servicePortNumber = ",//####
+              servicePortNumber.c_str());//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
 //    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####

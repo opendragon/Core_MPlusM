@@ -83,18 +83,17 @@ using namespace MplusM::Example;
 
 RunningSumService::RunningSumService(const char *                  launchPath,
                                      const yarp::os::ConstString & serviceEndpointName,
-                                     const yarp::os::ConstString & serviceHostName,
                                      const yarp::os::ConstString & servicePortNumber) :
         inherited(kServiceKindNormal, launchPath, true, MpM_RUNNINGSUM_CANONICAL_NAME, "An example running sum service",
                   "add - add one or more values to the running sum and return the sum\n"
                   "reset - clear the running sum\n"
                   "start - start adding values to the running sum\n"
-                  "stop - stop adding values to the running sum", serviceEndpointName, serviceHostName,
-                  servicePortNumber), _addHandler(NULL), _resetHandler(NULL), _startHandler(NULL), _stopHandler(NULL)
+                  "stop - stop adding values to the running sum", serviceEndpointName, servicePortNumber),
+        _addHandler(NULL), _resetHandler(NULL), _startHandler(NULL), _stopHandler(NULL)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
-              "serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_S3("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+              "servicePortNumber = ", servicePortNumber.c_str());//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RunningSumService::RunningSumService

@@ -79,15 +79,14 @@ using namespace MplusM::Example;
 
 ChordGeneratorService::ChordGeneratorService(const char *                  launchPath,
                                              const yarp::os::ConstString & serviceEndpointName,
-                                             const yarp::os::ConstString & serviceHostName,
                                              const yarp::os::ConstString & servicePortNumber) :
         inherited(kServiceKindNormal, launchPath, true, MpM_CHORD_GENERATOR_NAME, "A service that generates chords",
-                  "returns list of MIDI note numbers defining the chord", serviceEndpointName, serviceHostName,
-				  servicePortNumber), _chordReqHandler(NULL)
+                  "returns list of MIDI note numbers defining the chord", serviceEndpointName, servicePortNumber),
+        _chordReqHandler(NULL)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
-              "serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_S3("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+              "servicePortNumber = ", servicePortNumber.c_str());//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RandomNumberService::RandomNumberService

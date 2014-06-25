@@ -132,17 +132,13 @@ int main(int      argc,
             {
                 switch (argc)
                 {
-                        // Argument order for tests = program name [, IP address / name [, port]]
+                        // Argument order for tests = program name [, port]
                     case 1:
                         stuff = new MplusM::Registry::RegistryService(*argv, USE_INMEMORY);
                         break;
                         
                     case 2:
                         stuff = new MplusM::Registry::RegistryService(*argv, USE_INMEMORY, argv[1]);
-                        break;
-                        
-                    case 3:
-                        stuff = new MplusM::Registry::RegistryService(*argv, USE_INMEMORY, argv[1], argv[2]);
                         break;
                         
                     default:

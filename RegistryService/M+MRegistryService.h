@@ -113,11 +113,9 @@ namespace MplusM
              @param launchPath The command-line name used to launch the service.
              @param useInMemoryDb @c true if the database is in-memory and @c false if a temporary disk file is to be
              used.
-             @param serviceHostName The name or IP address of the machine running the service.
              @param servicePortNumber The port being used by the service. */
             RegistryService(const char *                  launchPath,
                             const bool                    useInMemoryDb = false,
-                            const yarp::os::ConstString & serviceHostName = "",
                             const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */
