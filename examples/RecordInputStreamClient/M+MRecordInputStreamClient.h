@@ -42,7 +42,7 @@
 #if (! defined(MpMRecordInputStreamClient_H_))
 # define MpMRecordInputStreamClient_H_ /* Header guard */
 
-# include "M+MBaseClient.h"
+# include "M+MBaseInputOutputClient.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -59,8 +59,8 @@ namespace MplusM
 {
     namespace Example
     {
-        /*! @brief An example M+M client, for the 'random' service. */
-        class RecordInputStreamClient : public Common::BaseClient
+        /*! @brief An example M+M client, for the 'recordInputStream' service. */
+        class RecordInputStreamClient : public Common::BaseInputOutputClient
         {
         public:
             
@@ -70,26 +70,12 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~RecordInputStreamClient(void);
             
-#if 0
-            /*! @brief Get one random number from the service.
-             @param result Where to return the number.
-             @returns @c true if the number was retrieved successfully and @c false otherwise. */
-            bool getOneRandomNumber(double & result);
-            
-            /*! @brief Get a sequence of random numbers from the service.
-             @param howMany The number of random numbers to retrieve.
-             @param result Where to return the numbers.
-             @returns @c true if the numbere were retrieved successfully and @c false otherwise. */
-            bool getRandomNumbers(const int              howMany,
-                                  Common::DoubleVector & result);
-#endif//0
-            
         protected:
             
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseClient inherited;
+            typedef BaseInputOutputClient inherited;
             
             /*! @brief Copy constructor.
              

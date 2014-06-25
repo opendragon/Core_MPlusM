@@ -55,6 +55,7 @@ add_library(mpmCommon
             M+MBaseClient.cpp
             M+MBaseContext.cpp
             M+MBaseFilterService.cpp
+            M+MBaseInputOutputClient.cpp
             M+MBaseInputOutputService.cpp
             M+MBaseInputService.cpp
             M+MBaseOutputService.cpp
@@ -67,6 +68,7 @@ add_library(mpmCommon
             M+MClientChannel.cpp
             M+MClientsRequestHandler.cpp
             M+MCommon.cpp
+            M+MConfigureRequestHandler.cpp
             M+MCountRequestHandler.cpp
             M+MDetachRequestHandler.cpp
             M+MEndpoint.cpp
@@ -96,6 +98,7 @@ install(FILES
         M+MBaseClient.h
         M+MBaseContext.h
         M+MBaseFilterService.h
+        M+MBaseInputOutputClient.h
         M+MBaseInputOutputService.h
         M+MBaseInputService.h
         M+MBaseOutputService.h
@@ -109,6 +112,7 @@ install(FILES
         M+MClientsRequestHandler.h
         M+MCommon.h
         M+MConfig.h
+        M+MConfigureRequestHandler.h
         M+MCountRequestHandler.h
         M+MDetachRequestHandler.h
         M+MEndpoint.h

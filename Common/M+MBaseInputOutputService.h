@@ -60,6 +60,7 @@ namespace MplusM
 {
     namespace Common
     {
+        class ConfigureRequestHandler;
         class GeneralChannel;
         class RestartStreamsRequestHandler;
         class StartStreamsRequestHandler;
@@ -188,6 +189,9 @@ namespace MplusM
              @param channels The list of channels to be filled in. */
             virtual void fillInSecondaryOutputChannelsList(ChannelVector & channels);
             
+            /*! @brief The request handler for the 'configure' request. */
+            ConfigureRequestHandler *      _configureHandler;
+            
             /*! @brief The request handler for the 'restartStreams' request. */
             RestartStreamsRequestHandler * _restartStreamsHandler;
 
@@ -199,7 +203,7 @@ namespace MplusM
             
         }; // BaseInputOutputService
         
-    } // Test
+    } // Common
     
 } // MplusM
 

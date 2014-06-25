@@ -99,7 +99,7 @@ static bool validateAssociateResponse(const Package & response)
                 }
                 else if (strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))
                 {
-                    OD_LOG("! (! strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))");//####
+                    OD_LOG("strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))");//####
                 }
             }
             else

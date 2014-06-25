@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MRandomOutputStreamClient.h
+//  File:       M+MBaseInputOutputClient.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the client of a simple M+M service.
+//  Contains:   The class declaration for the minimal functionality required for an M+M
+//              input/output client.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,14 +36,14 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-06-24
+//  Created:    2014-06-25
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MpMRandomOutputStreamClient_H_))
-# define MpMRandomOutputStreamClient_H_ /* Header guard */
+#if (! defined(MpMBaseInputOutputClient_H_))
+# define MpMBaseInputOutputClient_H_ /* Header guard */
 
-# include "M+MBaseInputOutputClient.h"
+# include "M+MBaseClient.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -50,49 +51,68 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the client of a simple M+M service. */
+ @brief The class declaration for the minimal functionality required for an M+M
+ input/output client. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MplusM
 {
-    namespace Example
+    namespace Common
     {
-        /*! @brief An example M+M client, for the 'randomOutputStream' service. */
-        class RandomOutputStreamClient : public Common::BaseInputOutputClient
+        /*! @brief An example M+M client, for the 'random' service. */
+        class BaseInputOutputClient : public Common::BaseClient
         {
         public:
             
-            /*! @brief The constructor. */
-            RandomOutputStreamClient(void);
+            /*! @brief The constructor.
+             @param baseChannelName The name to be used as the root for the client channel. */
+            BaseInputOutputClient(const char * baseChannelName = DEFAULT_CHANNEL_ROOT);
             
             /*! @brief The destructor. */
-            virtual ~RandomOutputStreamClient(void);
+            virtual ~BaseInputOutputClient(void);
+            
+            /*! @brief Configure the input/output streams.
+             @param details The configuration information for the input/output streams.
+             @returns @c true if the service was successfully configured and @c false otherwise. */
+            bool configure(const Package & details);
+            
+            /*! @brief Restart the input/output streams.
+             @returns @c true if the input/output streams were successfully restarted and @c false otherwise. */
+            bool restartStreams(void);
+            
+            /*! @brief Start the input/output streams.
+             @returns @c true if the input/output streams were successfully started and @c false otherwise. */
+            bool startStreams(void);
+            
+            /*! @brief Stop the input/output streams.
+             @returns @c true if the input/output streams were successfully stopped and @c false otherwise. */
+            bool stopStreams(void);
             
         protected:
             
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseInputOutputClient inherited;
+            typedef BaseClient inherited;
             
             /*! @brief Copy constructor.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RandomOutputStreamClient(const RandomOutputStreamClient & other);
+            BaseInputOutputClient(const BaseInputOutputClient & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RandomOutputStreamClient & operator=(const RandomOutputStreamClient & other);
+            BaseInputOutputClient & operator=(const BaseInputOutputClient & other);
             
-        }; // RandomOutputStreamClient
+        }; // BaseInputOutputClient
         
-    } // Example
+    } // Common
     
 } // MplusM
 
-#endif // ! defined(MpMRandomOutputStreamClient_H_)
+#endif // ! defined(MpMBaseInputOutputClient_H_)

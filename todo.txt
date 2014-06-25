@@ -30,8 +30,6 @@
 
 * endpoints can only be on the current system, so the ‘host name’ is redundant - it will always be ‘localhost’; remove from argument list, executable argument list, unit tests
 
-* InputOutputClient, which knows about I/O requests, derives from BaseClient
-
 * client auto-launch of service, if at all possible - add match criteria of ‘path’, check for ‘path: */EXECUTABLE’, allow multiple matches [to accommodate I/O]; if no match, launch executable, delay, recheck. If match proceed with normal selection criteria. SHOULD NOT DO THIS FOR THE REGISTRY!
 
 * I/O services need unique channel names, service names (but not canonical names) which the companion client has to know; if there is a way to launch executables, then the client should ALWAYS launch an I/O service, giving it the root name to be used

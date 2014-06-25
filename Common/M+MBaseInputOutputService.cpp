@@ -42,6 +42,7 @@
 
 #include "M+MBaseInputOutputService.h"
 #include "M+MChannelStatusReporter.h"
+#include "M+MConfigureRequestHandler.h"
 #include "M+MGeneralChannel.h"
 #include "M+MRequests.h"
 #include "M+MRestartStreamsRequestHandler.h"
@@ -139,18 +140,20 @@ void BaseInputOutputService::attachRequestHandlers(void)
     OD_LOG_OBJENTER();//####
     try
     {
+        _configureHandler = new ConfigureRequestHandler(*this);
         _restartStreamsHandler = new RestartStreamsRequestHandler(*this);
         _startStreamsHandler = new StartStreamsRequestHandler(*this);
         _stopStreamsHandler = new StopStreamsRequestHandler(*this);
-        if (_restartStreamsHandler && _startStreamsHandler && _stopStreamsHandler)
+        if (_configureHandler && _restartStreamsHandler && _startStreamsHandler && _stopStreamsHandler)
         {
+            registerRequestHandler(_configureHandler);
             registerRequestHandler(_restartStreamsHandler);
             registerRequestHandler(_startStreamsHandler);
             registerRequestHandler(_stopStreamsHandler);
         }
         else
         {
-            OD_LOG("! (_restartStreamsHandler && _startStreamsHandler && _stopStreamsHandler)");
+            OD_LOG("! (_configureHandler && _restartStreamsHandler && _startStreamsHandler && _stopStreamsHandler)");
         }
     }
     catch (...)
@@ -262,6 +265,12 @@ void BaseInputOutputService::detachRequestHandlers(void)
     OD_LOG_OBJENTER();//####
     try
     {
+        if (_configureHandler)
+        {
+            unregisterRequestHandler(_configureHandler);
+            delete _configureHandler;
+            _configureHandler = NULL;
+        }
         if (_restartStreamsHandler)
         {
             unregisterRequestHandler(_restartStreamsHandler);

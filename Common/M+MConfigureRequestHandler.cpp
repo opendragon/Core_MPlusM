@@ -80,7 +80,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 ConfigureRequestHandler::ConfigureRequestHandler(BaseInputOutputService & service) :
-        inherited(MpM_Configure_REQUEST), _service(service)
+        inherited(MpM_CONFIGURE_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("service = ", &service);//####
@@ -119,8 +119,8 @@ void ConfigureRequestHandler::fillInDescription(const yarp::os::ConstString & re
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MpM_REQREP_DICT_VERSION_KEY, CONFIGURE_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Restart the input/output streams\n"
-                 "Input: nothing\n"
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Configure the input/output streams\n"
+                 "Input: configuration details\n"
                  "Output: nothing");
         yarp::os::Value   keywords;
         Common::Package * asList = keywords.asList();
