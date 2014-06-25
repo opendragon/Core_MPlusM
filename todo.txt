@@ -14,17 +14,15 @@
 
 * ‘normal’ services can, of course, have secondary inputs and outputs - ’non-normal’ services respond to ‘restartStreams’, ‘startStreams’ and ‘stopStreams’ requests
 
-* random number stream service; start [# per packet [interval]] / stop; output protocol is ‘d+’
+* random number stream service; output protocol is ‘d+’
 
-* recorder service; start [file-name] / stop; input protocol is ‘i+’
-
-* general channels should have protocols -> if not specified (blank) anything goes
+* recorder service; input protocol is ‘i+’
 
 * truncate filter service; input protocol is ‘d+’, output protocol is ‘i+’
 
 * ‘configure’ request for I/O streams, with package argument - filter [no effect], recorder [path to file], ‘random’ [burst size, period]
 
-* viewer should display service kind, second line on port for ‘protocol = …’ if protocol non-blank
++ viewer should display service kind, second line on port for ‘protocol = …’ if protocol non-blank
 
 + viewer should only allow connections where [s.protocol = d.protocol OR d.protocol = ‘’]
 
