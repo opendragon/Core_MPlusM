@@ -1607,7 +1607,7 @@ static int setupRemoveFromServices(sqlite3_stmt * statement,
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RegistryService::RegistryService(const char *                  launchPath,
+RegistryService::RegistryService(const yarp::os::ConstString & launchPath,
                                  const bool                    useInMemoryDb,
                                  const yarp::os::ConstString & servicePortNumber) :
         inherited(kServiceKindRegistry, launchPath, true, MpM_REGISTRY_CANONICAL_NAME, "The Service Registry service",
@@ -1625,7 +1625,7 @@ RegistryService::RegistryService(const char *                  launchPath,
         _inMemory(useInMemoryDb), _isActive(false)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S2("launchPath = ", launchPath, "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_S2("launchPath = ", launchPath.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
     OD_LOG_B1("useInMemoryDb = ", useInMemoryDb);//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
@@ -2461,6 +2461,7 @@ bool RegistryService::setUpStatusChannel(void)
         if (_statusChannel)
         {
             yarp::os::ConstString outputName(SECONDARY_CHANNEL_NAME_);
+            
 #if defined(MpM_ReportOnConnections)
             _statusChannel->setReporter(ChannelStatusReporter::gReporter);
             _statusChannel->getReport(ChannelStatusReporter::gReporter);
@@ -2502,7 +2503,8 @@ bool RegistryService::start(void)
             if (isStarted() && setUpDatabase() && setUpStatusChannel())
             {
                 // Register ourselves!!!
-                yarp::os::ConstString   aName(Common::GetRandomChannelName(MpM_REGISTRY_CHANNEL_NAME "/_temp_"));
+                yarp::os::ConstString   aName(Common::GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "temp_/"
+                                                                           MpM_REGISTRY_CHANNEL_NAME));
                 Common::ClientChannel * newChannel = new Common::ClientChannel;
                 
                 if (newChannel)
@@ -2559,7 +2561,6 @@ bool RegistryService::start(void)
                         OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
                     }
                     Common::ClientChannel::RelinquishChannel(newChannel);
-                    newChannel = NULL;
                 }
                 else
                 {

@@ -76,7 +76,7 @@ using namespace MplusM::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-BaseInputService::BaseInputService(const char *                  launchPath,
+BaseInputService::BaseInputService(const yarp::os::ConstString & launchPath,
                                    const bool                    useMultipleHandlers,
                                    const yarp::os::ConstString & canonicalName,
                                    const yarp::os::ConstString & description,
@@ -87,7 +87,7 @@ BaseInputService::BaseInputService(const char *                  launchPath,
                       requestsDescription, serviceEndpointName, servicePortNumber)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath, "canonicalName = ", canonicalName.c_str(), "description = ",//####
+    OD_LOG_S4("launchPath = ", launchPath.c_str(), "canonicalName = ", canonicalName.c_str(), "description = ",//####
               description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
     OD_LOG_S2("serviceEndpointName = ", serviceEndpointName.c_str(), "servicePortNumber = ",//####
               servicePortNumber.c_str());//####
@@ -96,7 +96,7 @@ BaseInputService::BaseInputService(const char *                  launchPath,
     OD_LOG_EXIT_P(this);//####
 } // BaseInputService::BaseInputService
 
-BaseInputService::BaseInputService(const char *                  launchPath,
+BaseInputService::BaseInputService(const yarp::os::ConstString & launchPath,
                                    const bool                    useMultipleHandlers,
                                    const yarp::os::ConstString & canonicalName,
                                    const yarp::os::ConstString & description,
@@ -107,7 +107,7 @@ BaseInputService::BaseInputService(const char *                  launchPath,
                   argc, argv)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath, "canonicalName = ", canonicalName.c_str(), "description = ",//####
+    OD_LOG_S4("launchPath = ", launchPath.c_str(), "canonicalName = ", canonicalName.c_str(), "description = ",//####
               description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
 //    attachRequestHandlers();
@@ -128,8 +128,12 @@ BaseInputService::~BaseInputService(void)
 bool BaseInputService::setUpOutputStreams(void)
 {
     OD_LOG_OBJENTER();//####
-    bool result = true;
+    bool result = inherited::setUpOutputStreams();
     
+    if (result)
+    {
+        result = addOutStreamsFromDescriptions(_outDescriptions);
+    }
     OD_LOG_EXIT_B(result);//####
     return result;
 } // BaseInputService::setUpOutputStreams

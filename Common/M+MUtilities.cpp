@@ -316,12 +316,15 @@ static bool processGetAssociatesResponse(const Package &   response,
  Note that each line of the response, except the last, is started with 'registration name'. This is followed by the
  port name, 'ip', the IP address, 'port' and the port number.
  @param received The response to be processed.
+ @param includeHiddenPorts @c true if all ports are returned and @c false is 'hidden' ports are ignored.
  @param ports The list of non-default ports/ipaddress/portnumber found. */
 static void processNameServerResponse(const yarp::os::ConstString & received,
+                                      const bool                    includeHiddenPorts,
                                       PortVector &                  ports)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S1("received = ", received.c_str());//####
+    OD_LOG_B1("includeHiddenPorts = ", includeHiddenPorts);//####
     size_t                lineMakerLength = strlen(kLineMarker);
     yarp::os::ConstString nameServerName(yarp::os::Network::getNameServerName());
     yarp::os::ConstString workingCopy(received);
@@ -391,6 +394,15 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
                     else
                     {
                         pp = strtok_r(NULL, " ", &saved);
+                    }
+                }
+                // Check if this is a 'hidden' port:
+                if (pp && (! includeHiddenPorts))
+                {
+                    if (! strncmp(channelName, HIDDEN_CHANNEL_PREFIX, sizeof(HIDDEN_CHANNEL_PREFIX) - 1))
+                    {
+                        // Skip this one.
+                        pp = NULL;
                     }
                 }
                 if (pp)
@@ -545,7 +557,7 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
     associates._primary = associates._valid = false;
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName("_getassociates_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "getassociates_/" DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -592,7 +604,6 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
                 OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
-            newChannel = NULL;
         }
     }
     catch (...)
@@ -604,10 +615,12 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
     return result;
 } // MplusM::Utilities::GetAssociatedPorts
 
-void MplusM::Utilities::GetDetectedPortList(PortVector & ports)
+void MplusM::Utilities::GetDetectedPortList(PortVector & ports,
+                                            const bool   includeHiddenPorts)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("ports = ", &ports);//####
+    OD_LOG_B1("includeHiddenPorts = ", includeHiddenPorts);//####
     Package                request;
     Package                response;
     yarp::os::ContactStyle contactInfo;
@@ -623,7 +636,7 @@ void MplusM::Utilities::GetDetectedPortList(PortVector & ports)
             
             if (responseValue.isString())
             {
-                processNameServerResponse(responseValue.asString(), ports);
+                processNameServerResponse(responseValue.asString(), includeHiddenPorts, ports);
             }
             else
             {
@@ -652,7 +665,7 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
     OD_LOG_P1("descriptor = ", &descriptor);//####
     OD_LOG_D1("timeToWait = ", timeToWait);//####
     bool                  result = false;
-    yarp::os::ConstString aName(GetRandomChannelName("_servicelister_/" DEFAULT_CHANNEL_ROOT));
+    yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "servicelister_/" DEFAULT_CHANNEL_ROOT));
     ClientChannel *       newChannel = new ClientChannel;
     
     if (newChannel)

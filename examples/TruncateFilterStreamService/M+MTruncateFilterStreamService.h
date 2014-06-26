@@ -73,7 +73,7 @@ namespace MplusM
              @param launchPath The command-line name used to launch the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            TruncateFilterStreamService(const char *                  launchPath,
+            TruncateFilterStreamService(const yarp::os::ConstString & launchPath,
                                         const yarp::os::ConstString & serviceEndpointName,
                                         const yarp::os::ConstString & servicePortNumber = "");
             
@@ -119,6 +119,9 @@ namespace MplusM
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
             TruncateFilterStreamService & operator=(const TruncateFilterStreamService & other);
+            
+            /*! @brief Set up the descriptions that will be used to construct the input/output streams. */
+            virtual bool setUpStreamDescriptions(void);
             
         }; // TruncateFilterStreamService
         

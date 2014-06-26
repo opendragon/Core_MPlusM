@@ -40,6 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "M+MTruncateFilterStreamService.h"
+#include "M+MEndpoint.h"
 #include "M+MTruncateFilterStreamRequests.h"
 
 //#include "ODEnableLogging.h"
@@ -76,14 +77,14 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-TruncateFilterStreamService::TruncateFilterStreamService(const char *                  launchPath,
+TruncateFilterStreamService::TruncateFilterStreamService(const yarp::os::ConstString & launchPath,
                                                          const yarp::os::ConstString & serviceEndpointName,
                                                          const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_TRUNCATE_CANONICAL_NAME, "An example random number service",
-                  "random - return the number of random values requested", serviceEndpointName, servicePortNumber)
+        inherited(launchPath, true, MpM_TRUNCATE_CANONICAL_NAME, "An example truncate filter service", "",
+                  serviceEndpointName, servicePortNumber)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S3("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+    OD_LOG_S3("launchPath = ", launchPath.c_str(), "serviceEndpointName = ", serviceEndpointName.c_str(),//####
               "servicePortNumber = ", servicePortNumber.c_str());//####
     OD_LOG_EXIT_P(this);//####
 } // TruncateFilterStreamService::TruncateFilterStreamService
@@ -103,7 +104,7 @@ void TruncateFilterStreamService::configure(const Common::Package & details)
     OD_LOG_OBJENTER();//####
     try
     {
-        
+        // Nothing needs to be done.
     }
     catch (...)
     {
@@ -118,7 +119,8 @@ void TruncateFilterStreamService::restartStreams(void)
     OD_LOG_OBJENTER();//####
     try
     {
-        
+        // No special processing needed.
+        startStreams();
     }
     catch (...)
     {
@@ -127,6 +129,24 @@ void TruncateFilterStreamService::restartStreams(void)
     }
     OD_LOG_OBJEXIT();//####
 } // TruncateFilterStreamService::restartStreams
+
+bool TruncateFilterStreamService::setUpStreamDescriptions(void)
+{
+    OD_LOG_OBJENTER();//####
+    bool                       result = true;
+    Common::ChannelDescription description;
+    
+    _inDescriptions.clear();
+    description._portName = "example/truncatefilterstream/input_";
+    description._portProtocol = "d+";
+    _inDescriptions.push_back(description);
+    _outDescriptions.clear();
+    description._portName = "example/truncatefilterstream/output_";
+    description._portProtocol = "i+";
+    _outDescriptions.push_back(description);
+    OD_LOG_OBJEXIT_B(result);//####
+    return result;
+} // TruncateFilterStreamService::setUpStreamDescriptions
 
 bool TruncateFilterStreamService::start(void)
 {
@@ -160,7 +180,10 @@ void TruncateFilterStreamService::startStreams(void)
     OD_LOG_OBJENTER();//####
     try
     {
-        
+        if (! isActive())
+        {
+            
+        }
     }
     catch (...)
     {
@@ -169,21 +192,6 @@ void TruncateFilterStreamService::startStreams(void)
     }
     OD_LOG_OBJEXIT();//####
 } // TruncateFilterStreamService::startStreams
-
-void TruncateFilterStreamService::stopStreams(void)
-{
-    OD_LOG_OBJENTER();//####
-    try
-    {
-        
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // TruncateFilterStreamService::stopStreams
 
 bool TruncateFilterStreamService::stop(void)
 {
@@ -202,3 +210,21 @@ bool TruncateFilterStreamService::stop(void)
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // TruncateFilterStreamService::stop
+
+void TruncateFilterStreamService::stopStreams(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        if (isActive())
+        {
+            
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // TruncateFilterStreamService::stopStreams

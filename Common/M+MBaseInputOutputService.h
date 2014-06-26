@@ -81,7 +81,7 @@ namespace MplusM
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The channel being used by the service. */
             BaseInputOutputService(const ServiceKind             theKind,
-                                   const char *                  launchPath,
+                                   const yarp::os::ConstString & launchPath,
                                    const bool                    useMultipleHandlers,
                                    const yarp::os::ConstString & canonicalName,
                                    const yarp::os::ConstString & description,
@@ -99,7 +99,7 @@ namespace MplusM
              @param argc The number of arguments in 'argv'.
              @param argv The arguments to be used to specify the new service. */
             BaseInputOutputService(const ServiceKind             theKind,
-                                   const char *                  launchPath,
+                                   const yarp::os::ConstString & launchPath,
                                    const bool                    useMultipleHandlers,
                                    const yarp::os::ConstString & canonicalName,
                                    const yarp::os::ConstString & description,
@@ -113,6 +113,12 @@ namespace MplusM
             /*! @brief Configure the input/output streams.
              @param details The configuration information for the input/output streams. */
             virtual void configure(const Package & details) = 0;
+            
+            inline bool isActive(void)
+            const
+            {
+                return _active;
+            } // isActive
             
             /*! @brief Restart the input/output streams. */
             virtual void restartStreams(void) = 0;
@@ -136,15 +142,15 @@ namespace MplusM
             /*! @brief A set of channels. */
             typedef std::vector<GeneralChannel *> StreamVector;
             
-            /*! @brief Fill in a set of input channels from a set of descriptions.
+            /*! @brief Add a set of input channels from a set of descriptions.
              @param descriptions The descriptions of the channels.
              @returns @c true if the channels were constructed and @c false otherwise. */
-            bool createInStreamsFromConfiguration(const ChannelVector & descriptions);
+            bool addInStreamsFromDescriptions(const ChannelVector & descriptions);
             
-            /*! @brief Fill in a set of output channels from a set of descriptions.
+            /*! @brief Add a set of output channels from a set of descriptions.
              @param descriptions The descriptions of the channels.
              @returns @c true if the channels were constructed and @c false otherwise. */
-            bool createOutStreamsFromConfiguration(const ChannelVector & descriptions);
+            bool addOutStreamsFromDescriptions(const ChannelVector & descriptions);
             
             /*! @brief Set up the input streams.
              @returns @c true if the channels were set up and @c false otherwise. */
@@ -153,6 +159,10 @@ namespace MplusM
             /*! @brief Set up the output streams.
              @returns @c true if the channels were set up and @c false otherwise. */
             virtual bool setUpOutputStreams(void);
+            
+            /*! @brief Set up the descriptions that will be used to construct the input/output streams.
+             @returns @c true if the descriptions were set up and @c false otherwise. */
+            virtual bool setUpStreamDescriptions(void) = 0;
             
             /*! @brief Shut down the input streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
@@ -199,6 +209,19 @@ namespace MplusM
             /*! @brief The request handler for the 'stopStreams' request. */
             StopStreamsRequestHandler *    _stopStreamsHandler;
             
+            /*! @brief @c true if the streams are processing data and @c false otherwise. */
+            bool                           _active;
+            
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char                           _filler[7];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
         }; // BaseInputOutputService
         
     } // Common

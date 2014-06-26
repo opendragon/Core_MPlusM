@@ -77,9 +77,9 @@ using namespace MplusM::Test;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-Test14Service::Test14Service(const char * launchPath,
-                             const int    argc,
-                             char * *     argv) :
+Test14Service::Test14Service(const yarp::os::ConstString & launchPath,
+                             const int                     argc,
+                             char * *                      argv) :
         inherited(kServiceKindNormal, launchPath, true, "Test14", "Simple service for unit tests", "", argc, argv),
         _echoHandler(NULL)
 {

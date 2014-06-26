@@ -328,7 +328,6 @@ static int doTestConnectToEndpoint(const char * launchPath,
                         OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
-                    outChannel = NULL;
                 }
                 else
                 {
@@ -454,7 +453,6 @@ static int doTestWriteToEndpoint(const char * launchPath,
                         OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
-                    outChannel = NULL;
                 }
                 else
                 {
@@ -564,7 +562,6 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
                         OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
-                    outChannel = NULL;
                 }
                 else
                 {
@@ -674,7 +671,6 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                         OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
-                    outChannel = NULL;
                 }
                 else
                 {

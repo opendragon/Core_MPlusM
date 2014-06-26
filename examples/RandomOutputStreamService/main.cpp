@@ -134,7 +134,7 @@ int main(int      argc,
             }
             else
             {
-                serviceEndpointName = DEFAULT_RANDOM_SERVICE_NAME;
+                serviceEndpointName = DEFAULT_RANDOMSTREAM_SERVICE_NAME;
             }
             RandomOutputStreamService * stuff = new RandomOutputStreamService(*argv, serviceEndpointName,
                                                                               servicePortNumber);

@@ -42,7 +42,7 @@
 #if (! defined(MpMRecordInputStreamService_H_))
 # define MpMRecordInputStreamService_H_ /* Header guard */
 
-# include "M+MBaseInputService.h"
+# include "M+MBaseOutputService.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -65,7 +65,7 @@ namespace MplusM
         class RecordInputRequestHandler;
         
         /*! @brief An example M+M service, handling 'record' requests. */
-        class RecordInputStreamService : public Common::BaseInputService
+        class RecordInputStreamService : public Common::BaseOutputService
         {
         public:
             
@@ -73,7 +73,7 @@ namespace MplusM
              @param launchPath The command-line name used to launch the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            RecordInputStreamService(const char *                  launchPath,
+            RecordInputStreamService(const yarp::os::ConstString & launchPath,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber = "");
             
@@ -106,7 +106,7 @@ namespace MplusM
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseInputService inherited;
+            typedef BaseOutputService inherited;
             
             /*! @brief Copy constructor.
              
@@ -119,6 +119,9 @@ namespace MplusM
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
             RecordInputStreamService & operator=(const RecordInputStreamService & other);
+            
+            /*! @brief Set up the descriptions that will be used to construct the input/output streams. */
+            virtual bool setUpStreamDescriptions(void);
             
         }; // RecordInputStreamService
         

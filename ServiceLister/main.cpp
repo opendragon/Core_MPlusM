@@ -197,7 +197,11 @@ int main(int      argc,
                             {
                                 inChannelNames += " ";
                             }
-                            inChannelNames += descriptor._portName + "{protocol=" + descriptor._portProtocol + "}";
+                            inChannelNames += descriptor._portName;
+                            if (0 < descriptor._portProtocol.size())
+                            {
+                                inChannelNames += "{protocol=" + descriptor._portProtocol + "}";
+                            }
                         }
                         sawInputs = true;
                     }
@@ -229,7 +233,11 @@ int main(int      argc,
                             {
                                 outChannelNames += " ";
                             }
-                            outChannelNames += descriptor._portName + "{protocol=" + descriptor._portProtocol + "}";
+                            outChannelNames += descriptor._portName;
+                            if (0 < descriptor._portProtocol.size())
+                            {
+                                outChannelNames += "{protocol=" + descriptor._portProtocol + "}";
+                            }
                         }
                         sawOutputs = true;
                     }

@@ -77,7 +77,7 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RandomNumberService::RandomNumberService(const char *                  launchPath,
+RandomNumberService::RandomNumberService(const yarp::os::ConstString & launchPath,
                                          const yarp::os::ConstString & serviceEndpointName,
                                          const yarp::os::ConstString & servicePortNumber) :
         inherited(kServiceKindNormal, launchPath, true, MpM_RANDOM_CANONICAL_NAME, "An example random number service",
@@ -85,7 +85,7 @@ RandomNumberService::RandomNumberService(const char *                  launchPat
         _randomHandler(NULL)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S3("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+    OD_LOG_S3("launchPath = ", launchPath.c_str(), "serviceEndpointName = ", serviceEndpointName.c_str(),//####
               "servicePortNumber = ", servicePortNumber.c_str());//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####

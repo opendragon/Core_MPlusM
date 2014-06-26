@@ -73,7 +73,7 @@ namespace MplusM
              @param requestsDescription The description of the requests for the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The channel being used by the service. */
-            BaseOutputService(const char *                  launchPath,
+            BaseOutputService(const yarp::os::ConstString & launchPath,
                               const bool                    useMultipleHandlers,
                               const yarp::os::ConstString & canonicalName,
                               const yarp::os::ConstString & description,
@@ -89,7 +89,7 @@ namespace MplusM
              @param requestsDescription The description of the requests for the service.
              @param argc The number of arguments in 'argv'.
              @param argv The arguments to be used to specify the new service. */
-            BaseOutputService(const char *                  launchPath,
+            BaseOutputService(const yarp::os::ConstString & launchPath,
                               const bool                    useMultipleHandlers,
                               const yarp::os::ConstString & canonicalName,
                               const yarp::os::ConstString & description,
@@ -101,6 +101,9 @@ namespace MplusM
             virtual ~BaseOutputService(void);
             
         protected:
+            
+            /*! @brief The descriptions of the input streams. */
+            ChannelVector _inDescriptions;
             
         private:
             

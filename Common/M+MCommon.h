@@ -127,6 +127,9 @@
 /*! @brief The base of the channel name to use for a service if not provided. */
 # define DEFAULT_SERVICE_NAME_BASE MpM_SERVICE_BASE_NAME
 
+/*! @brief The prefix string to use for internal channels. */
+# define HIDDEN_CHANNEL_PREFIX     "/$$$_"
+
 /*! @brief The basic time interval for retries. */
 # define INITIAL_RETRY_INTERVAL    (0.1 * ONE_SECOND_DELAY)
 

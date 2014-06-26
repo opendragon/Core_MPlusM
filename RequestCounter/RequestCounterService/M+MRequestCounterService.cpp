@@ -80,7 +80,7 @@ using namespace MplusM::RequestCounter;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RequestCounterService::RequestCounterService(const char *                  launchPath,
+RequestCounterService::RequestCounterService(const yarp::os::ConstString & launchPath,
                                              const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & servicePortNumber) :
         inherited(kServiceKindNormal, launchPath, true, MpM_REQUESTCOUNTER_CANONICAL_NAME,
@@ -90,7 +90,7 @@ RequestCounterService::RequestCounterService(const char *                  launc
         _defaultHandler(NULL), _resetHandler(NULL), _statsHandler(NULL)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S3("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+    OD_LOG_S3("launchPath = ", launchPath.c_str(), "serviceEndpointName = ", serviceEndpointName.c_str(),//####
               "servicePortNumber = ", servicePortNumber.c_str());//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####

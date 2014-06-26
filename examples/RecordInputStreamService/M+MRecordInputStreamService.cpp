@@ -40,6 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "M+MRecordInputStreamService.h"
+#include "M+MEndpoint.h"
 #include "M+MRecordInputStreamRequests.h"
 
 //#include "ODEnableLogging.h"
@@ -76,14 +77,14 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RecordInputStreamService::RecordInputStreamService(const char *                  launchPath,
+RecordInputStreamService::RecordInputStreamService(const yarp::os::ConstString & launchPath,
                                                    const yarp::os::ConstString & serviceEndpointName,
                                                    const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_RECORD_CANONICAL_NAME, "An example random number service",
-                  "random - return the number of random values requested", serviceEndpointName, servicePortNumber)
+        inherited(launchPath, true, MpM_RECORD_CANONICAL_NAME, "An example record input stream service", "",
+                  serviceEndpointName, servicePortNumber)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S3("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+    OD_LOG_S3("launchPath = ", launchPath.c_str(), "serviceEndpointName = ", serviceEndpointName.c_str(),//####
               "servicePortNumber = ", servicePortNumber.c_str());//####
     OD_LOG_EXIT_P(this);//####
 } // RecordInputStreamService::RecordInputStreamService
@@ -103,7 +104,10 @@ void RecordInputStreamService::configure(const Common::Package & details)
     OD_LOG_OBJENTER();//####
     try
     {
-        
+        if (! isActive())
+        {
+            
+        }
     }
     catch (...)
     {
@@ -118,7 +122,10 @@ void RecordInputStreamService::restartStreams(void)
     OD_LOG_OBJENTER();//####
     try
     {
-        
+        if (! isActive())
+        {
+            
+        }
     }
     catch (...)
     {
@@ -127,6 +134,20 @@ void RecordInputStreamService::restartStreams(void)
     }
     OD_LOG_OBJEXIT();//####
 } // RecordInputStreamService::restartStreams
+
+bool RecordInputStreamService::setUpStreamDescriptions(void)
+{
+    OD_LOG_OBJENTER();//####
+    bool                       result = true;
+    Common::ChannelDescription description;
+    
+    _inDescriptions.clear();
+    description._portName = "example/recordinputstream/input_";
+    description._portProtocol = "i+";
+    _inDescriptions.push_back(description);
+    OD_LOG_OBJEXIT_B(result);//####
+    return result;
+} // RecordInputStreamService::setUpStreamDescriptions
 
 bool RecordInputStreamService::start(void)
 {
@@ -160,7 +181,10 @@ void RecordInputStreamService::startStreams(void)
     OD_LOG_OBJENTER();//####
     try
     {
-        
+        if (! isActive())
+        {
+            
+        }
     }
     catch (...)
     {
@@ -169,21 +193,6 @@ void RecordInputStreamService::startStreams(void)
     }
     OD_LOG_OBJEXIT();//####
 } // RecordInputStreamService::startStreams
-
-void RecordInputStreamService::stopStreams(void)
-{
-    OD_LOG_OBJENTER();//####
-    try
-    {
-        
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // RecordInputStreamService::stopStreams
 
 bool RecordInputStreamService::stop(void)
 {
@@ -202,3 +211,21 @@ bool RecordInputStreamService::stop(void)
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // RecordInputStreamService::stop
+
+void RecordInputStreamService::stopStreams(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        if (isActive())
+        {
+            
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // RecordInputStreamService::stopStreams

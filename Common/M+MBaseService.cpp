@@ -97,7 +97,7 @@ bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName)
     
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName("_ping_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "ping_/" DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -162,7 +162,6 @@ bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName)
                 OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
-            newChannel = NULL;
         }
         else
         {
@@ -183,7 +182,7 @@ bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName)
 #endif // defined(__APPLE__)
 
 BaseService::BaseService(const ServiceKind             theKind,
-                         const char *                  launchPath,
+                         const yarp::os::ConstString & launchPath,
                          const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
                          const yarp::os::ConstString & description,
@@ -197,7 +196,7 @@ BaseService::BaseService(const ServiceKind             theKind,
         _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath, "canonicalName = ", canonicalName.c_str(), "description = ",//####
+    OD_LOG_S4("launchPath = ", launchPath.c_str(), "canonicalName = ", canonicalName.c_str(), "description = ",//####
               description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
     OD_LOG_S2("serviceEndpointName = ", serviceEndpointName.c_str(), "servicePortNumber = ",//####
               servicePortNumber.c_str());//####
@@ -208,7 +207,7 @@ BaseService::BaseService(const ServiceKind             theKind,
 } // BaseService::BaseService
 
 BaseService::BaseService(const ServiceKind             theKind,
-                         const char *                  launchPath,
+                         const yarp::os::ConstString & launchPath,
                          const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
                          const yarp::os::ConstString & description,
@@ -222,7 +221,7 @@ BaseService::BaseService(const ServiceKind             theKind,
         _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath, "canonicalName = ", canonicalName.c_str(), "description = ",//####
+    OD_LOG_S4("launchPath = ", launchPath.c_str(), "canonicalName = ", canonicalName.c_str(), "description = ",//####
               description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
     switch (argc)
@@ -681,7 +680,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
     
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName("_registerlocal_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "registerlocal_/" DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -746,7 +745,6 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
                 OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
-            newChannel = NULL;
         }
         else
         {
@@ -770,7 +768,8 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
     
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName("_unregisterlocal_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "unregisterlocal_/"
+                                                         DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -835,7 +834,6 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
                 OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
             }
             ClientChannel::RelinquishChannel(newChannel);
-            newChannel = NULL;
         }
         else
         {

@@ -173,7 +173,8 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                     if (Common::Endpoint::CheckEndpointName(argAsString))
                     {
                         // Send a 'list' request to the channel
-                        yarp::os::ConstString   aName(Common::GetRandomChannelName("_register_/" DEFAULT_CHANNEL_ROOT));
+                        yarp::os::ConstString   aName(Common::GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "register_/"
+                                                                                   DEFAULT_CHANNEL_ROOT));
                         Common::ClientChannel * outChannel = new Common::ClientChannel;
                         
                         if (outChannel)
@@ -266,7 +267,6 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                 reply.addString("Channel could not be opened");
                             }
                             Common::ClientChannel::RelinquishChannel(outChannel);
-                            outChannel = NULL;
                         }
                         else
                         {

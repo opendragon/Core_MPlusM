@@ -81,7 +81,7 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RunningSumService::RunningSumService(const char *                  launchPath,
+RunningSumService::RunningSumService(const yarp::os::ConstString & launchPath,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
         inherited(kServiceKindNormal, launchPath, true, MpM_RUNNINGSUM_CANONICAL_NAME, "An example running sum service",
@@ -92,7 +92,7 @@ RunningSumService::RunningSumService(const char *                  launchPath,
         _addHandler(NULL), _resetHandler(NULL), _startHandler(NULL), _stopHandler(NULL)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S3("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
+    OD_LOG_S3("launchPath = ", launchPath.c_str(), "serviceEndpointName = ", serviceEndpointName.c_str(),//####
               "servicePortNumber = ", servicePortNumber.c_str());//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####

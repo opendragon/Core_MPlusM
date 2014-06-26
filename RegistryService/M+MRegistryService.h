@@ -114,7 +114,7 @@ namespace MplusM
              @param useInMemoryDb @c true if the database is in-memory and @c false if a temporary disk file is to be
              used.
              @param servicePortNumber The port being used by the service. */
-            RegistryService(const char *                  launchPath,
+            RegistryService(const yarp::os::ConstString & launchPath,
                             const bool                    useInMemoryDb = false,
                             const yarp::os::ConstString & servicePortNumber = "");
             

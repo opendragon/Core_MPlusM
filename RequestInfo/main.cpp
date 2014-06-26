@@ -333,8 +333,9 @@ int main(int      argc,
                         if (matchesCount)
                         {
                             yarp::os::ConstString           aName =
-                                                                MplusM::Common::GetRandomChannelName("_requestinfo_/"
-                                                                                                DEFAULT_CHANNEL_ROOT);
+                                                            MplusM::Common::GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
+                                                                                                 "requestinfo_/"
+                                                                                                 DEFAULT_CHANNEL_ROOT);
                             MplusM::Common::ClientChannel * newChannel = new MplusM::Common::ClientChannel;
                             
                             if (newChannel)

@@ -178,7 +178,8 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                         else
                         {
                             // Send a 'list' request to the channel
-                            yarp::os::ConstString   aName(Common::GetRandomChannelName("_ping_/" DEFAULT_CHANNEL_ROOT));
+                            yarp::os::ConstString   aName(Common::GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "ping_/"
+                                                                                       DEFAULT_CHANNEL_ROOT));
                             Common::ClientChannel * outChannel = new Common::ClientChannel;
                             
                             if (outChannel)
@@ -265,7 +266,6 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                                     reply.addString("Channel could not be opened");
                                 }
                                 Common::ClientChannel::RelinquishChannel(outChannel);
-                                outChannel = NULL;
                             }
                             else
                             {

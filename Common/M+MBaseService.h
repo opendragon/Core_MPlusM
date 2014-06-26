@@ -91,7 +91,7 @@ namespace MplusM
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The channel being used by the service. */
             BaseService(const ServiceKind             theKind,
-                        const char *                  launchPath,
+                        const yarp::os::ConstString & launchPath,
                         const bool                    useMultipleHandlers,
                         const yarp::os::ConstString & canonicalName,
                         const yarp::os::ConstString & description,
@@ -109,7 +109,7 @@ namespace MplusM
              @param argc The number of arguments in 'argv'.
              @param argv The arguments to be used to specify the new service. */
             BaseService(const ServiceKind             theKind,
-                        const char *                  launchPath,
+                        const yarp::os::ConstString & launchPath,
                         const bool                    useMultipleHandlers,
                         const yarp::os::ConstString & canonicalName,
                         const yarp::os::ConstString & description,

@@ -83,7 +83,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 BaseInputOutputService::BaseInputOutputService(const ServiceKind             theKind,
-                                               const char *                  launchPath,
+                                               const yarp::os::ConstString & launchPath,
                                                const bool                    useMultipleHandlers,
                                                const yarp::os::ConstString & canonicalName,
                                                const yarp::os::ConstString & description,
@@ -91,10 +91,10 @@ BaseInputOutputService::BaseInputOutputService(const ServiceKind             the
                                                const yarp::os::ConstString & serviceEndpointName,
                                                const yarp::os::ConstString & servicePortNumber) :
             inherited(theKind, launchPath, useMultipleHandlers, canonicalName, description, requestsDescription,
-                      serviceEndpointName, servicePortNumber)
+                      serviceEndpointName, servicePortNumber), _active(false)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath, "canonicalName = ", canonicalName.c_str(), "description = ",//####
+    OD_LOG_S4("launchPath = ", launchPath.c_str(), "canonicalName = ", canonicalName.c_str(), "description = ",//####
               description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
     OD_LOG_S2("serviceEndpointName = ", serviceEndpointName.c_str(), "servicePortNumber = ",//####
               servicePortNumber.c_str());//####
@@ -104,17 +104,18 @@ BaseInputOutputService::BaseInputOutputService(const ServiceKind             the
 } // BaseInputOutputService::BaseInputOutputService
 
 BaseInputOutputService::BaseInputOutputService(const ServiceKind             theKind,
-                                               const char *                  launchPath,
+                                               const yarp::os::ConstString & launchPath,
                                                const bool                    useMultipleHandlers,
                                                const yarp::os::ConstString & canonicalName,
                                                const yarp::os::ConstString & description,
                                                const yarp::os::ConstString & requestsDescription,
                                                const int                     argc,
                                                char * *                      argv) :
-        inherited(theKind, launchPath, useMultipleHandlers, canonicalName, description, requestsDescription, argc, argv)
+        inherited(theKind, launchPath, useMultipleHandlers, canonicalName, description, requestsDescription, argc,
+                  argv), _active(false)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath, "canonicalName = ", canonicalName.c_str(), "description = ",//####
+    OD_LOG_S4("launchPath = ", launchPath.c_str(), "canonicalName = ", canonicalName.c_str(), "description = ",//####
               description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
     attachRequestHandlers();
@@ -134,38 +135,10 @@ BaseInputOutputService::~BaseInputOutputService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void BaseInputOutputService::attachRequestHandlers(void)
+bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & descriptions)
 {
     OD_LOG_OBJENTER();//####
-    try
-    {
-        _configureHandler = new ConfigureRequestHandler(*this);
-        _restartStreamsHandler = new RestartStreamsRequestHandler(*this);
-        _startStreamsHandler = new StartStreamsRequestHandler(*this);
-        _stopStreamsHandler = new StopStreamsRequestHandler(*this);
-        if (_configureHandler && _restartStreamsHandler && _startStreamsHandler && _stopStreamsHandler)
-        {
-            registerRequestHandler(_configureHandler);
-            registerRequestHandler(_restartStreamsHandler);
-            registerRequestHandler(_startStreamsHandler);
-            registerRequestHandler(_stopStreamsHandler);
-        }
-        else
-        {
-            OD_LOG("! (_configureHandler && _restartStreamsHandler && _startStreamsHandler && _stopStreamsHandler)");
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
-    OD_LOG_OBJEXIT();//####
-} // BaseInputOutputService::attachRequestHandlers
-
-bool BaseInputOutputService::createInStreamsFromConfiguration(const ChannelVector & descriptions)
-{
-    OD_LOG_OBJENTER();//####
+    OD_LOG_P1("descriptions = ", &descriptions);//####
     bool result = true;
     
     try
@@ -178,6 +151,7 @@ bool BaseInputOutputService::createInStreamsFromConfiguration(const ChannelVecto
             if (newChannel)
             {
                 ChannelDescription    aDescription(*walker);
+                OD_LOG_S1("base name = ", aDescription._portName.c_str());//####
                 yarp::os::ConstString newName(GetRandomChannelName(aDescription._portName.c_str()));
                 
 #if defined(MpM_ReportOnConnections)
@@ -209,11 +183,12 @@ bool BaseInputOutputService::createInStreamsFromConfiguration(const ChannelVecto
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // BaseInputOutputService::createInStreamsFromConfiguration
+} // BaseInputOutputService::addInStreamsFromDescriptions
 
-bool BaseInputOutputService::createOutStreamsFromConfiguration(const ChannelVector & descriptions)
+bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector & descriptions)
 {
     OD_LOG_OBJENTER();//####
+    OD_LOG_P1("descriptions = ", &descriptions);//####
     bool result = true;
     
     try
@@ -226,6 +201,7 @@ bool BaseInputOutputService::createOutStreamsFromConfiguration(const ChannelVect
             if (newChannel)
             {
                 ChannelDescription    aDescription(*walker);
+                OD_LOG_S1("base name = ", aDescription._portName.c_str());//####
                 yarp::os::ConstString newName(GetRandomChannelName(aDescription._portName.c_str()));
                 
 #if defined(MpM_ReportOnConnections)
@@ -257,7 +233,36 @@ bool BaseInputOutputService::createOutStreamsFromConfiguration(const ChannelVect
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // BaseInputOutputService::createOutStreamsFromConfiguration
+} // BaseInputOutputService::addOutStreamsFromDescriptions
+
+void BaseInputOutputService::attachRequestHandlers(void)
+{
+    OD_LOG_OBJENTER();//####
+    try
+    {
+        _configureHandler = new ConfigureRequestHandler(*this);
+        _restartStreamsHandler = new RestartStreamsRequestHandler(*this);
+        _startStreamsHandler = new StartStreamsRequestHandler(*this);
+        _stopStreamsHandler = new StopStreamsRequestHandler(*this);
+        if (_configureHandler && _restartStreamsHandler && _startStreamsHandler && _stopStreamsHandler)
+        {
+            registerRequestHandler(_configureHandler);
+            registerRequestHandler(_restartStreamsHandler);
+            registerRequestHandler(_startStreamsHandler);
+            registerRequestHandler(_stopStreamsHandler);
+        }
+        else
+        {
+            OD_LOG("! (_configureHandler && _restartStreamsHandler && _startStreamsHandler && _stopStreamsHandler)");
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT();//####
+} // BaseInputOutputService::attachRequestHandlers
 
 void BaseInputOutputService::detachRequestHandlers(void)
 {
@@ -308,11 +313,13 @@ void BaseInputOutputService::fillInSecondaryInputChannelsList(ChannelVector & ch
         
         if (aChannel)
         {
+            OD_LOG_S1("aChannel = ", aChannel->name().c_str());//####
             ChannelDescription descriptor;
             
             descriptor._portName = aChannel->name();
             descriptor._portProtocol = aChannel->protocol();
             descriptor._portMode = kChannelModeTCP;
+            channels.push_back(descriptor);
         }
     }
     OD_LOG_OBJEXIT();//####
@@ -329,11 +336,13 @@ void BaseInputOutputService::fillInSecondaryOutputChannelsList(ChannelVector & c
         
         if (aChannel)
         {
+            OD_LOG_S1("aChannel = ", aChannel->name().c_str());//####
             ChannelDescription descriptor;
             
             descriptor._portName = aChannel->name();
             descriptor._portProtocol = aChannel->protocol();
             descriptor._portMode = kChannelModeTCP;
+            channels.push_back(descriptor);
         }
     }
     OD_LOG_OBJEXIT();//####
@@ -342,7 +351,7 @@ void BaseInputOutputService::fillInSecondaryOutputChannelsList(ChannelVector & c
 bool BaseInputOutputService::setUpInputStreams(void)
 {
     OD_LOG_OBJENTER();//####
-    bool result = true; // by default, always true
+    bool result = shutDownInputStreams(); // clear out existing streams first
     
     OD_LOG_EXIT_B(result);//####
     return result;
@@ -351,7 +360,7 @@ bool BaseInputOutputService::setUpInputStreams(void)
 bool BaseInputOutputService::setUpOutputStreams(void)
 {
     OD_LOG_OBJENTER();//####
-    bool result = true; // by default, always true
+    bool result = shutDownOutputStreams(); // clear out existing streams first
     
     OD_LOG_EXIT_B(result);//####
     return result;
@@ -405,13 +414,14 @@ bool BaseInputOutputService::start(void)
         if (! isStarted())
         {
             inherited::start();
-            if (isStarted() && setUpInputStreams() && setUpOutputStreams())
+            if (isStarted() && setUpStreamDescriptions() && setUpInputStreams() && setUpOutputStreams())
             {
 
             }
             else
             {
-                OD_LOG("! (isStarted() && setUpInputStreams() && setUpOutputStreams())");//####
+                OD_LOG("! (isStarted() && setUpStreamDescriptions() && setUpInputStreams() && "//####
+                       "setUpOutputStreams())");//####
             }
         }
         result = isStarted();

@@ -201,8 +201,10 @@ namespace MplusM
                                 const bool                    quiet = false);
         
         /*! @brief Get the set of detected ports.
-         @param ports The set of detected ports. */
-        void GetDetectedPortList(PortVector & ports);
+         @param ports The set of detected ports.
+         @param includeHiddenPorts @c true if all ports are returned and @c false is 'hidden' ports are ignored. */
+        void GetDetectedPortList(PortVector & ports,
+                                 const bool   includeHiddenPorts = false);
 
         /*! @brief Retrieve the details for a service.
          @param serviceChannelName The channel for the service.

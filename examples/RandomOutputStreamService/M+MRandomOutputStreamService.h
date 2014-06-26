@@ -42,7 +42,7 @@
 #if (! defined(MpMRandomOutputStreamService_H_))
 # define MpMRandomOutputStreamService_H_ /* Header guard */
 
-# include "M+MBaseOutputService.h"
+# include "M+MBaseInputService.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -56,7 +56,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_RANDOM_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "example/randomoutputstream")
+# define DEFAULT_RANDOMSTREAM_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "example/randomoutputstream")
 
 namespace MplusM
 {
@@ -65,7 +65,7 @@ namespace MplusM
         class RandomOutputRequestHandler;
         
         /*! @brief An example M+M service, handling 'random' requests. */
-        class RandomOutputStreamService : public Common::BaseOutputService
+        class RandomOutputStreamService : public Common::BaseInputService
         {
         public:
             
@@ -73,7 +73,7 @@ namespace MplusM
              @param launchPath The command-line name used to launch the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            RandomOutputStreamService(const char *                  launchPath,
+            RandomOutputStreamService(const yarp::os::ConstString & launchPath,
                                       const yarp::os::ConstString & serviceEndpointName,
                                       const yarp::os::ConstString & servicePortNumber = "");
             
@@ -106,7 +106,7 @@ namespace MplusM
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseOutputService inherited;
+            typedef BaseInputService inherited;
             
             /*! @brief Copy constructor.
              
@@ -119,6 +119,9 @@ namespace MplusM
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
             RandomOutputStreamService & operator=(const RandomOutputStreamService & other);
+            
+            /*! @brief Set up the descriptions that will be used to construct the input/output streams. */
+            virtual bool setUpStreamDescriptions(void);
             
         }; // RandomOutputStreamService
         

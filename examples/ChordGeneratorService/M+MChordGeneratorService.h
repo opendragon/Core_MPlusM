@@ -74,7 +74,7 @@ namespace MplusM
              @param launchPath The command-line name used to launch the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            ChordGeneratorService(const char *                  launchPath,
+            ChordGeneratorService(const yarp::os::ConstString & launchPath,
                                   const yarp::os::ConstString & serviceEndpointName,
                                   const yarp::os::ConstString & servicePortNumber = "");
             
