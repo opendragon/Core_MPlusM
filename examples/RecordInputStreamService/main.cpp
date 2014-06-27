@@ -63,11 +63,15 @@ using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
 using std::cerr;
+using std::cin;
+using std::cout;
 using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
+
+#define RECORDINPUTSTREAM_OPTIONS "p:"
 
 /*! @brief Run loop control; @c true if the service is to keep going and @c false otherwise. */
 static bool lKeepRunning;
@@ -115,9 +119,33 @@ int main(int      argc,
     OD_LOG_ENTER();//####
     try
     {
-        if (MplusM::CanReadFromStandardInput())
+        bool                  stdinAvailable = MplusM::CanReadFromStandardInput();
+        char                  buff[40]; // Should be more than adequate!
+        int                   cc;
+        int                   randNumb = yarp::os::Random::uniform(0, 10000);
+        yarp::os::ConstString recordPath;
+        
+#if MAC_OR_LINUX_
+        snprintf(buff, sizeof(buff), "/tmp/record_%x", randNumb);
+#else // ! MAC_OR_LINUX_
+        sprintf(buff, "/tmp/record_%x", randNumb);
+#endif // ! MAC_OR_LINUX_
+        recordPath = buff;
+        opterr = 0; // Suppress the error message resulting from an unknown option.
+        for (cc = getopt(argc, argv, RECORDINPUTSTREAM_OPTIONS); -1 != cc;
+             cc = getopt(argc, argv, RECORDINPUTSTREAM_OPTIONS))
         {
-            
+            switch (cc)
+            {
+                case 'p':
+                    recordPath = optarg;
+                    break;
+                    
+                default:
+                    // Ignore unknown options.
+                    break;
+                    
+            }
         }
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
@@ -152,16 +180,109 @@ int main(int      argc,
                     OD_LOG_S1("channelName = ", channelName.c_str());//####
                     if (MplusM::Common::RegisterLocalService(channelName))
                     {
+                        bool                    configured = false;
+                        MplusM::Common::Package configureData;
+                        std::string             inputLine;
+                        
                         lKeepRunning = true;
                         MplusM::Common::SetSignalHandlers(stopRunning);
                         stuff->startPinger();
+                        if (! stdinAvailable)
+                        {
+                            configureData.addString(recordPath);
+                            if (stuff->configure(configureData))
+                            {
+                                stuff->startStreams();
+                            }
+                        }
                         for ( ; lKeepRunning && stuff; )
                         {
+                            if (stdinAvailable)
+                            {
+                                char inChar;
+                                
+                                cout << "Operation: [b c e q r]? ";
+                                cin >> inChar;
+                                switch (inChar)
+                                {
+                                    case 'b':
+                                    case 'B':
+                                        // Start streams
+                                        if (! configured)
+                                        {
+                                            configureData.clear();
+                                            configureData.addString(recordPath);
+                                            if (stuff->configure(configureData))
+                                            {
+                                                configured = true;
+                                            }
+                                        }
+                                        if (configured)
+                                        {
+                                            stuff->startStreams();
+                                        }
+                                        break;
+                                        
+                                    case 'c':
+                                    case 'C':
+                                        // Configure
+                                        cout << "Path: ";
+                                        if (getline(cin, inputLine))
+                                        {
+                                            recordPath = inputLine.c_str();
+                                            configureData.clear();
+                                            configureData.addString(recordPath);
+                                            if (stuff->configure(configureData))
+                                            {
+                                                configured = true;
+                                            }
+                                        }
+                                        break;
+                                        
+                                    case 'e':
+                                    case 'E':
+                                        // Stop streams
+                                        stuff->stopStreams();
+                                        break;
+                                        
+                                    case 'q':
+                                    case 'Q':
+                                        // Quit
+                                        lKeepRunning = false;
+                                        break;
+                                        
+                                    case 'r':
+                                    case 'R':
+                                        // Restart streams
+                                        if (! configured)
+                                        {
+                                            configureData.clear();
+                                            configureData.addString(recordPath);
+                                            if (stuff->configure(configureData))
+                                            {
+                                                configured = true;
+                                            }
+                                        }
+                                        if (configured)
+                                        {
+                                            stuff->restartStreams();
+                                        }
+                                        break;
+                                        
+                                    default:
+                                        cout << "Unrecognized request '" << inChar << "'." << endl;
+                                        break;
+                                        
+                                }
+                            }
+                            else
+                            {
 #if defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                                yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::yield();
+                                yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
+                            }
                         }
                         MplusM::Common::UnregisterLocalService(channelName);
                         stuff->stop();

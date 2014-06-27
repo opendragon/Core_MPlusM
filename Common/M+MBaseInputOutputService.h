@@ -111,8 +111,9 @@ namespace MplusM
             virtual ~BaseInputOutputService(void);
             
             /*! @brief Configure the input/output streams.
-             @param details The configuration information for the input/output streams. */
-            virtual void configure(const Package & details) = 0;
+             @param details The configuration information for the input/output streams.
+             @returns @c true if the service was successfully configured and @c false otherwise. */
+            virtual bool configure(const Package & details) = 0;
             
             /*! @brief Return @c true if the streams are processing data and @c false otherwise.
              @returns @c true if the streams are processing data and @c false otherwise. */

@@ -99,22 +99,38 @@ RandomOutputStreamService::~RandomOutputStreamService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RandomOutputStreamService::configure(const Common::Package & details)
+bool RandomOutputStreamService::configure(const Common::Package & details)
 {
     OD_LOG_OBJENTER();//####
+    bool result = false;
+    
     try
     {
         if (! isActive())
         {
-            
-        }        
+            if (2 == details.size())
+            {
+                yarp::os::Value firstValue(details.get(0));
+                yarp::os::Value secondValue(details.get(1));
+                
+                if (firstValue.isDouble() && secondValue.isInt())
+                {
+                    double burstPeriod = firstValue.asDouble();
+                    int    burstSize = secondValue.asInt();
+                    
+                    OD_LOG_D1("burstPeriod <- ", burstPeriod);//####
+                    OD_LOG_L1("burstSize <- ", burstSize);//####
+                }
+            }
+        }
     }
     catch (...)
     {
         OD_LOG("Exception caught");//####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT_B(result);//####
+    return result;
 } // RandomOutputStreamService::configure
 
 void RandomOutputStreamService::restartStreams(void)

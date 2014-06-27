@@ -29,7 +29,3 @@
 * add ‘quit’ command for services, so that remote connections don’t need to work out how to send a signal
 
 * command-line options for random [-s size{default=1}, -p period{default=1s}] and record [-p path to file{default=/tmp/record_#}]
-
-* test if a command-line program will still receive and process requests [if so, clients and adapters for I/O services are not needed]
-
-* if background operation is detected, autostart service; otherwise, wait for ‘start’ command from terminal

@@ -42,7 +42,7 @@
 #include "M+MEndpoint.h"
 #include "M+MTruncateFilterStreamService.h"
 
-#include "ODEnableLogging.h"
+//#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -63,6 +63,8 @@ using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
 using std::cerr;
+using std::cin;
+using std::cout;
 using std::endl;
 
 #if defined(__APPLE__)
@@ -113,11 +115,10 @@ int main(int      argc,
                 kODLoggingOptionEnableThreadSupport);//####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER();//####
-    if (MplusM::CanReadFromStandardInput())
-    {
-    }
     try
     {
+        bool stdinAvailable = MplusM::CanReadFromStandardInput();
+        
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
@@ -151,98 +152,96 @@ int main(int      argc,
                     OD_LOG_S1("channelName = ", channelName.c_str());//####
                     if (MplusM::Common::RegisterLocalService(channelName))
                     {
+                        bool                    configured = false;
+                        MplusM::Common::Package configureData;
+                        
                         lKeepRunning = true;
                         MplusM::Common::SetSignalHandlers(stopRunning);
-                        //$$$$                        stuff->startPinger();
+                        stuff->startPinger();
+                        if (! stdinAvailable)
+                        {
+                            if (stuff->configure(configureData))
+                            {
+                                stuff->startStreams();
+                            }
+                        }
                         for ( ; lKeepRunning && stuff; )
                         {
-                            
-#if 0
-                            char   inChar;
-                            double newSum;
-                            double value;
-                            
-                            cout << "Operation: [+ r s x]? ";
-                            cin >> inChar;
-                            switch (inChar)
+                            if (stdinAvailable)
                             {
-                                case '+':
-                                    cout << "add: ";
-                                    cin >> value;
-                                    cout << "adding " << value << endl;
-                                    if (stuff->addToSum(value, newSum))
-                                    {
-                                        cout << "running sum = " << newSum << endl;
-                                    }
-                                    else
-                                    {
-                                        OD_LOG("! (stuff->addToSum(value, newSum))");//####
-                                        cerr << "Problem adding to the sum." << endl;
-                                    }
-                                    break;
-                                    
-                                case 'r':
-                                case 'R':
-                                    cout << "Resetting" << endl;
-                                    if (! stuff->resetSum())
-                                    {
-                                        OD_LOG("(! stuff->resetSum())");//####
-                                        cerr << "Problem resetting the sum." << endl;
-                                    }
-                                    break;
-                                    
-                                case 's':
-                                case 'S':
-                                    cout << "Starting" << endl;
-                                    if (! stuff->startSum())
-                                    {
-                                        OD_LOG("(! stuff->startSum())");//####
-                                        cerr << "Problem starting the sum." << endl;
-                                    }
-                                    break;
-                                    
-                                case 'x':
-                                case 'X':
-                                    cout << "Exiting" << endl;
-                                    if (! stuff->stopSum())
-                                    {
-                                        OD_LOG("(! stuff->stopSum())");//####
-                                        cerr << "Problem stopping the sum." << endl;
-                                    }
-                                    lKeepRunning = false;
-                                    break;
-                                    
-                                default:
-                                    cout << "Unrecognized request '" << inChar << "'." << endl;
-                                    break;
-                                    
+                                char inChar;
+                                
+                                cout << "Operation: [b c e q r]? ";
+                                cin >> inChar;
+                                switch (inChar)
+                                {
+                                    case 'b':
+                                    case 'B':
+                                        // Start streams
+                                        if (! configured)
+                                        {
+                                            if (stuff->configure(configureData))
+                                            {
+                                                configured = true;
+                                            }
+                                        }
+                                        if (configured)
+                                        {
+                                            stuff->startStreams();
+                                        }
+                                        break;
+                                        
+                                    case 'c':
+                                    case 'C':
+                                        // Configure - nothing to do for a truncate filter.
+                                        if (stuff->configure(configureData))
+                                        {
+                                            configured = true;
+                                        }
+                                        break;
+                                        
+                                    case 'e':
+                                    case 'E':
+                                        // Stop streams
+                                        stuff->stopStreams();
+                                        break;
+                                        
+                                    case 'q':
+                                    case 'Q':
+                                        // Quit
+                                        lKeepRunning = false;
+                                        break;
+                                        
+                                    case 'r':
+                                    case 'R':
+                                        // Restart streams
+                                        if (! configured)
+                                        {
+                                            if (stuff->configure(configureData))
+                                            {
+                                                configured = true;
+                                            }
+                                        }
+                                        if (configured)
+                                        {
+                                            stuff->restartStreams();
+                                        }
+                                        break;
+                                        
+                                    default:
+                                        cout << "Unrecognized request '" << inChar << "'." << endl;
+                                        break;
+                                        
+                                }
                             }
-                            
-#endif//0
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-                            
+                            else
+                            {
 #if defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                                yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::yield();
+                                yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
+                            }
                         }
                         MplusM::Common::UnregisterLocalService(channelName);
                         stuff->stop();

@@ -173,7 +173,7 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
         char * buff = new char[buffLen];
         int    randNumb = yarp::os::Random::uniform(0, kMaxRandom);
         
-#  if MAC_OR_LINUX_
+#if MAC_OR_LINUX_
         if (hasLeadingSlash)
         {
             snprintf(buff, buffLen, "%s%x", stringToUse, randNumb);
@@ -182,7 +182,7 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
         {
             snprintf(buff, buffLen, "/%s%x", stringToUse, randNumb);
         }
-#  else // ! MAC_OR_LINUX_
+#else // ! MAC_OR_LINUX_
         if (hasLeadingSlash)
         {
             sprintf(buff, "%s%x", stringToUse, randNumb);
@@ -191,7 +191,7 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
         {
             sprintf(buff, "/%s%x", stringToUse, randNumb);
         }
-#  endif // ! MAC_OR_LINUX_
+#endif // ! MAC_OR_LINUX_
         result = buff;
         delete[] buff;
     }

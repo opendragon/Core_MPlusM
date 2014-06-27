@@ -81,8 +81,9 @@ namespace MplusM
             virtual ~RandomOutputStreamService(void);
             
             /*! @brief Configure the input/output streams.
-             @param details The configuration information for the input/output streams. */
-            virtual void configure(const Common::Package & details);
+             @param details The configuration information for the input/output streams.
+             @returns @c true if the service was successfully configured and @c false otherwise. */
+            virtual bool configure(const Common::Package & details);
             
             /*! @brief Restart the input/output streams. */
             virtual void restartStreams(void);

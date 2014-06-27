@@ -99,20 +99,24 @@ TruncateFilterStreamService::~TruncateFilterStreamService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void TruncateFilterStreamService::configure(const Common::Package & details)
+bool TruncateFilterStreamService::configure(const Common::Package & details)
 {
     OD_LOG_OBJENTER();//####
+    bool result = false;
+    
     try
     {
         // Nothing needs to be done.
         std::cerr << "configure" << std::endl;//$$$$
+        result = true;
     }
     catch (...)
     {
         OD_LOG("Exception caught");//####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT_B();//####
+    return result;
 } // TruncateFilterStreamService::configure
 
 void TruncateFilterStreamService::restartStreams(void)

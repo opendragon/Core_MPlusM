@@ -63,11 +63,15 @@ using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
 using std::cerr;
+using std::cin;
+using std::cout;
 using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
+
+#define RANDOMOUTPUTSTREAM_OPTIONS "p:s:"
 
 /*! @brief Run loop control; @c true if the service is to keep going and @c false otherwise. */
 static bool lKeepRunning;
@@ -115,9 +119,45 @@ int main(int      argc,
     OD_LOG_ENTER();//####
     try
     {
-        if (MplusM::CanReadFromStandardInput())
+        bool   stdinAvailable = MplusM::CanReadFromStandardInput();
+        char * endPtr;
+        double burstPeriod = 1;
+        double tempDouble;
+        int    burstSize = 1;
+        int    cc;
+        int    tempInt;
+        
+        opterr = 0; // Suppress the error message resulting from an unknown option.
+        for (cc = getopt(argc, argv, RANDOMOUTPUTSTREAM_OPTIONS); -1 != cc;
+             cc = getopt(argc, argv, RANDOMOUTPUTSTREAM_OPTIONS))
         {
-            
+            switch (cc)
+            {
+                case 'p':
+                    // Burst period
+                    tempDouble = strtod(optarg, &endPtr);
+                    if ((optarg != endPtr) && (0 < tempDouble))
+                    {
+                        // Useable data.
+                        burstPeriod = tempDouble;
+                    }
+                    break;
+                    
+                case 's':
+                    // Burst size
+                    tempInt = strtol(optarg, &endPtr, 10);
+                    if ((optarg != endPtr) && (0 < tempInt))
+                    {
+                        // Useable data.
+                        burstSize = tempInt;
+                    }
+                    break;
+                    
+                default:
+                    // Ignore unknown options.
+                    break;
+                    
+            }
         }
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
@@ -152,16 +192,120 @@ int main(int      argc,
                     OD_LOG_S1("channelName = ", channelName.c_str());//####
                     if (MplusM::Common::RegisterLocalService(channelName))
                     {
+                        bool                    configured = false;
+                        MplusM::Common::Package configureData;
+                        
                         lKeepRunning = true;
                         MplusM::Common::SetSignalHandlers(stopRunning);
                         stuff->startPinger();
+                        if (! stdinAvailable)
+                        {
+                            configureData.addDouble(burstPeriod);
+                            configureData.addInt(burstSize);
+                            if (stuff->configure(configureData))
+                            {
+                                stuff->startStreams();
+                            }
+                        }
                         for ( ; lKeepRunning && stuff; )
                         {
+                            if (stdinAvailable)
+                            {
+                                char inChar;
+                                
+                                cout << "Operation: [b c e q r]? ";
+                                cin >> inChar;
+                                switch (inChar)
+                                {
+                                    case 'b':
+                                    case 'B':
+                                        // Start streams
+                                        if (! configured)
+                                        {
+                                            configureData.clear();
+                                            configureData.addDouble(burstPeriod);
+                                            configureData.addInt(burstSize);
+                                            if (stuff->configure(configureData))
+                                            {
+                                                configured = true;
+                                            }
+                                        }
+                                        if (configured)
+                                        {
+                                            stuff->startStreams();
+                                        }
+                                        break;
+                                        
+                                    case 'c':
+                                    case 'C':
+                                        // Configure
+                                        cout << "Burst size: ";
+                                        cin >> tempInt;
+                                        cout << "Burst period: ";
+                                        cin >> tempDouble;
+                                        if ((0 < tempInt) && (0 < tempDouble))
+                                        {
+                                            burstPeriod = tempDouble;
+                                            burstSize = tempInt;
+                                            configureData.clear();
+                                            configureData.addDouble(burstPeriod);
+                                            configureData.addInt(burstSize);
+                                            if (stuff->configure(configureData))
+                                            {
+                                                configured = true;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            cout << "One or both values out of range." << endl;
+                                        }
+                                        break;
+                                        
+                                    case 'e':
+                                    case 'E':
+                                        // Stop streams
+                                        stuff->stopStreams();
+                                        break;
+                                        
+                                    case 'q':
+                                    case 'Q':
+                                        // Quit
+                                        lKeepRunning = false;
+                                        break;
+                                        
+                                    case 'r':
+                                    case 'R':
+                                        // Restart streams
+                                        if (! configured)
+                                        {
+                                            configureData.clear();
+                                            configureData.addDouble(burstPeriod);
+                                            configureData.addInt(burstSize);
+                                            if (stuff->configure(configureData))
+                                            {
+                                                configured = true;
+                                            }
+                                        }
+                                        if (configured)
+                                        {
+                                            stuff->restartStreams();
+                                        }
+                                        break;
+                                        
+                                    default:
+                                        cout << "Unrecognized request '" << inChar << "'." << endl;
+                                        break;
+                                        
+                                }
+                            }
+                            else
+                            {
 #if defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                                yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::yield();
+                                yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
+                            }
                         }
                         MplusM::Common::UnregisterLocalService(channelName);
                         stuff->stop();

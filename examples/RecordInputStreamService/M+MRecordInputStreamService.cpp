@@ -99,14 +99,26 @@ RecordInputStreamService::~RecordInputStreamService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RecordInputStreamService::configure(const Common::Package & details)
+bool RecordInputStreamService::configure(const Common::Package & details)
 {
     OD_LOG_OBJENTER();//####
+    bool result = false;
+    
     try
     {
         if (! isActive())
         {
-            
+            if (1 == details.size())
+            {
+                yarp::os::Value firstValue(details.get(0));
+                
+                if (firstValue.isString())
+                {
+                    yarp::os::ConstString newPath = firstValue.asString();
+                    
+                    OD_LOG_S1("newPath <- ", newPath);//####
+                }
+            }
         }
     }
     catch (...)
@@ -114,7 +126,8 @@ void RecordInputStreamService::configure(const Common::Package & details)
         OD_LOG("Exception caught");//####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT_B(result);//####
+    return result;
 } // RecordInputStreamService::configure
 
 void RecordInputStreamService::restartStreams(void)

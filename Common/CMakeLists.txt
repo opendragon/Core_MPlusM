@@ -55,7 +55,6 @@ add_library(mpmCommon
             M+MBaseClient.cpp
             M+MBaseContext.cpp
             M+MBaseFilterService.cpp
-            M+MBaseInputOutputClient.cpp
             M+MBaseInputOutputService.cpp
             M+MBaseInputService.cpp
             M+MBaseOutputService.cpp
@@ -98,7 +97,6 @@ install(FILES
         M+MBaseClient.h
         M+MBaseContext.h
         M+MBaseFilterService.h
-        M+MBaseInputOutputClient.h
         M+MBaseInputOutputService.h
         M+MBaseInputService.h
         M+MBaseOutputService.h
