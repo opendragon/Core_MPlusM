@@ -154,12 +154,23 @@ bool ConfigureRequestHandler::processRequest(const yarp::os::ConstString & reque
 
     try
     {
-        _service.configure(restOfInput);
+        bool success = _service.configure(restOfInput);
+        
         if (replyMechanism)
         {
             OD_LOG("(replyMechanism)");//####
-            Common::Package response(MpM_OK_RESPONSE);
+            Common::Package response;
             
+            if (success)
+            {
+                response.addString(MpM_OK_RESPONSE);
+            }
+            else
+            {
+                response.addString(MpM_FAILED_RESPONSE);
+                response.addString("Problem configurating service");
+            }
+            OD_LOG_S1("response <- ", response.toString().c_str());//####
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####

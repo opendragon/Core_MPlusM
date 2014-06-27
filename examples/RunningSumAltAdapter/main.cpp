@@ -72,27 +72,9 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief Run loop control; @c true if the service is to keep going and @c false otherwise. */
-static bool lKeepRunning;
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
-
-/*! @brief The signal handler to catch requests to stop the service.
- @param signal The signal being handled. */
-static void stopRunning(int signal)
-{
-#if (! defined(OD_ENABLE_LOGGING))
-# if MAC_OR_LINUX_
-#  pragma unused(signal)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
-    OD_LOG_ENTER();//####
-    OD_LOG_LL1("signal = ", signal);//####
-    lKeepRunning = false;
-    OD_LOG_EXIT();//####
-} // stopRunning
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -141,8 +123,8 @@ int main(int      argc,
             
             if (stuff)
             {
-                lKeepRunning = true;
-                MplusM::Common::SetSignalHandlers(stopRunning);
+                MplusM::StartRunning();
+                MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
                 if (stuff->findService("Name RunningSum"))
                 {
 #if defined(MpM_ReportOnConnections)
@@ -181,14 +163,14 @@ int main(int      argc,
                                 stuff->addAssociatedChannel(outputChannel);
                                 sharedData.activate();
                                 inputChannel->setReader(*inputHandler);
-                                for ( ; lKeepRunning && sharedData.isActive(); )
+                                for ( ; MplusM::IsRunning() && sharedData.isActive(); )
                                 {
 #if defined(MpM_MainDoesDelayNotYield)
                                     yarp::os::Time::delay(ONE_SECOND_DELAY);
 #else // ! defined(MpM_MainDoesDelayNotYield)
                                     yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
-                                    if (! lKeepRunning)
+                                    if (! MplusM::IsRunning())
                                     {
                                         sharedData.deactivate();
                                     }

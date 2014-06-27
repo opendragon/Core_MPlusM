@@ -140,6 +140,7 @@ bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString &  
         MplusM::Common::Package argsCopy(name());
         
         argsCopy.append(restOfInput);
+        OD_LOG_S1("argsCopy <- ", argsCopy.toString().c_str());//####
         if (! argsCopy.write(*replyMechanism))
         {
             OD_LOG("(! argsCopy.write(*replyMechanism))");//####

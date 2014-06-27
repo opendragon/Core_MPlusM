@@ -187,7 +187,7 @@ void TruncateFilterStreamService::startStreams(void)
     {
         if (! isActive())
         {
-            std::cerr << "startStream" << std::endl;//$$$$
+            std::cerr << "startStreams" << std::endl;//$$$$
             
             
             
@@ -227,7 +227,7 @@ void TruncateFilterStreamService::stopStreams(void)
     {
         if (isActive())
         {
-            std::cerr << "stopStream" << std::endl;//$$$$
+            std::cerr << "stopStreams" << std::endl;//$$$$
             
             
             

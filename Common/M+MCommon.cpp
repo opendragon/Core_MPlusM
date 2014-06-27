@@ -90,6 +90,9 @@ using std::endl;
 /*! @brief The maximum integer that we wish to use for generated random values. */
 static const int kMaxRandom = 123456789;
 
+/*! @brief @c true if the executable is running or ready-to-run and @c false otherwise. */
+static bool lKeepRunning = false;
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -522,6 +525,13 @@ bool MplusM::CanReadFromStandardInput(void)
     return result;
 } // MplusM::CanReadFromStandardInput
 
+bool MplusM::IsRunning(void)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_B(lKeepRunning);//####
+    return lKeepRunning;
+} // MplusM::IsRunning
+
 const char * MplusM::NameOfSignal(const int theSignal)
 {
     const char * result;
@@ -769,3 +779,30 @@ yarp::os::ConstString MplusM::SanitizeString(const yarp::os::ConstString & inStr
     OD_LOG_EXIT_S(outString.c_str());//####
     return outString;
 } // MplusM::SanitizeString
+
+void MplusM::StartRunning(void)
+{
+    OD_LOG_ENTER();//####
+    lKeepRunning = true;
+    OD_LOG_EXIT();//####
+} // MplusM::StartRunning
+
+void MplusM::StopRunning(void)
+{
+    OD_LOG_ENTER();//####
+    lKeepRunning = false;
+    OD_LOG_EXIT();//####
+} // MplusM::StopRunning
+
+void MplusM::SignalRunningStop(int signal)
+{
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(signal)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_ENTER();//####
+    OD_LOG_LL1("signal = ", signal);//####
+    MplusM::StopRunning();
+    OD_LOG_EXIT();//####
+} // MplusM::SignalRunningStop

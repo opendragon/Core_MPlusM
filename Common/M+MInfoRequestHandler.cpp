@@ -166,7 +166,7 @@ bool InfoRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("! (_owner && (1 == restOfInput.size()))");//####
             }
-            OD_LOG_S1("reply <- ", reply.toString().c_str());
+            OD_LOG_S1("reply <- ", reply.toString().c_str());//####
             if (! reply.write(*replyMechanism))
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####

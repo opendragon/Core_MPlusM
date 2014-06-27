@@ -131,13 +131,13 @@
 # define HIDDEN_CHANNEL_PREFIX     "/$$$_"
 
 /*! @brief The basic time interval for retries. */
-# define INITIAL_RETRY_INTERVAL    (0.1 * ONE_SECOND_DELAY)
+# define INITIAL_RETRY_INTERVAL    (0.11 * ONE_SECOND_DELAY)
 
 /*! @brief The base of the channel name to use for an input if not provided. */
 # define INPUT_PORT_NAME_BASE      MpM_INPUT_BASE_NAME
 
 /*! @brief The maximum number of retries before declaring failure, if not using timeouts. */
-# define MAX_RETRIES               5
+# define MAX_RETRIES               7
 
 /*! @brief The delay value corresponding to one second of delay. */
 # define ONE_SECOND_DELAY          1.0
@@ -336,6 +336,10 @@ namespace MplusM
      @returns @c true if standard input can be used and @c false otherwise. */
     bool CanReadFromStandardInput(void);
     
+    /*! @brief Returns @c true if the executable can continue running and @c false otherwise.
+     @returns @c true if the executable can continue running and @c false otherwise. */
+    bool IsRunning(void);
+    
     /*! @brief Return the name of a signal.
      @param theSignal The signal of interest.
      @returns A string description of the signal. */
@@ -355,6 +359,16 @@ namespace MplusM
      @returns A string with special characters escaped. */
     yarp::os::ConstString SanitizeString(const yarp::os::ConstString & inString,
                                          const bool                    allowDoubleQuotes = false);
+    
+    /*! @brief The signal handler to catch requests to stop the service.
+     @param signal The signal being handled. */
+    void SignalRunningStop(int signal);
+
+    /*! @brief Mark the executable as running or ready-to-run. */
+    void StartRunning(void);
+    
+    /*! @brief Indicate that the executable should stop running. */
+    void StopRunning(void);
     
 } // MplusM
 

@@ -207,7 +207,7 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                 reply.addString(MpM_FAILED_RESPONSE);
                 reply.addString("Missing channel name or extra arguments to request");
             }
-            OD_LOG_S1("reply <- ", reply.toString().c_str());
+            OD_LOG_S1("reply <- ", reply.toString().c_str());//####
             if (! reply.write(*replyMechanism))
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####

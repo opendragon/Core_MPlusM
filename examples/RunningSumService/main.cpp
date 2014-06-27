@@ -69,27 +69,9 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief Run loop control; @c true if the service is to keep going and @c false otherwise. */
-static bool lKeepRunning;
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
-
-/*! @brief The signal handler to catch requests to stop the service.
- @param signal The signal being handled. */
-static void stopRunning(int signal)
-{
-#if (! defined(OD_ENABLE_LOGGING))
-# if MAC_OR_LINUX_
-#  pragma unused(signal)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
-    OD_LOG_ENTER();//####
-    OD_LOG_LL1("signal = ", signal);//####
-    lKeepRunning = false;
-    OD_LOG_EXIT();//####
-} // stopRunning
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -147,10 +129,10 @@ int main(int      argc,
                     OD_LOG_S1("channelName = ", channelName.c_str());//####
                     if (MplusM::Common::RegisterLocalService(channelName))
                     {
-                        lKeepRunning = true;
-                        MplusM::Common::SetSignalHandlers(stopRunning);
+                        MplusM::StartRunning();
+                        MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
                         stuff->startPinger();
-                        for ( ; lKeepRunning && stuff; )
+                        for ( ; MplusM::IsRunning() && stuff; )
                         {
 #if defined(MpM_MainDoesDelayNotYield)
                             yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);

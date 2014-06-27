@@ -174,7 +174,7 @@ bool NameRequestHandler::processRequest(const yarp::os::ConstString & request,
             reply.addString(MapServiceKindToString(_service.kind()));
             reply.addString(bigPath);
             reply.addString(_service.requestsDescription());
-            OD_LOG_S1("reply <- ", reply.toString().c_str());
+            OD_LOG_S1("reply <- ", reply.toString().c_str());//####
             if (! reply.write(*replyMechanism))
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####

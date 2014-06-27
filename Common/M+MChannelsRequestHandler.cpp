@@ -178,7 +178,7 @@ bool ChannelsRequestHandler::processRequest(const yarp::os::ConstString & reques
                 newPackage.addString(aChannel._portName);
                 newPackage.addString(aChannel._portProtocol);
             }
-            OD_LOG_S1("reply <- ", reply.toString().c_str());
+            OD_LOG_S1("reply <- ", reply.toString().c_str());//####
             if (! reply.write(*replyMechanism))
             {
                 OD_LOG("(! reply.write(*replyMechanism))");//####

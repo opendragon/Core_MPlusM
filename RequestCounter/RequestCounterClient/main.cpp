@@ -71,27 +71,9 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief Run loop control; @c true if the service is to keep going and @c false otherwise. */
-static bool lKeepRunning;
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
-
-/*! @brief The signal handler to catch requests to stop the service.
- @param signal The signal being handled. */
-static void stopRunning(int signal)
-{
-#if (! defined(OD_ENABLE_LOGGING))
-# if MAC_OR_LINUX_
-#  pragma unused(signal)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
-    OD_LOG_ENTER();//####
-    OD_LOG_LL1("signal = ", signal);//####
-    lKeepRunning = false;
-    OD_LOG_EXIT();//####
-} // stopRunning
 
 /*! @brief Write out a time value in a human-friendly form.
  @param measurement The time value to write out. */
@@ -177,9 +159,9 @@ int main(int      argc,
 #if defined(MpM_ReportOnConnections)
                     stuff->setReporter(ChannelStatusReporter::gReporter, true);
 #endif // defined(MpM_ReportOnConnections)
-                    lKeepRunning = true;
-                    MplusM::Common::SetSignalHandlers(stopRunning);
-                    for ( ; lKeepRunning; )
+                    MplusM::StartRunning();
+                    MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
+                    for ( ; MplusM::IsRunning(); )
                     {
                         int count;
                         

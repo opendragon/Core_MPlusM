@@ -73,27 +73,9 @@ using std::endl;
 # define USE_INMEMORY true
 #endif // ! defined(MpM_UseDiskDatabase)
 
-/*! @brief Run loop control; @c true if the service is to keep going and @c false otherwise. */
-static bool lKeepRunning;
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
-
-/*! @brief The signal handler to catch requests to stop the service.
- @param signal The signal being handled. */
-static void stopRunning(int signal)
-{
-#if (! defined(OD_ENABLE_LOGGING))
-# if MAC_OR_LINUX_
-#  pragma unused(signal)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
-    OD_LOG_ENTER();//####
-    OD_LOG_LL1("signal = ", signal);//####
-    lKeepRunning = false;
-    OD_LOG_EXIT();//####
-} // stopRunning
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -152,10 +134,10 @@ int main(int      argc,
                 {
                     // Note that the Registry Service is self-registering... so we don't need to call
                     // RegisterLocalService() _or_ start a 'pinger'.
-                    lKeepRunning = true;
-                    MplusM::Common::SetSignalHandlers(stopRunning);
+                    MplusM::StartRunning();
+                    MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
                     stuff->startChecker();
-                    for ( ; lKeepRunning && stuff; )
+                    for ( ; MplusM::IsRunning() && stuff; )
                     {
 #if defined(MpM_MainDoesDelayNotYield)
                         yarp::os::Time::delay(ONE_SECOND_DELAY);

@@ -184,16 +184,19 @@ bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("! (tally)");//####
                 response.addString(MpM_FAILED_RESPONSE);
+                response.addString("No numeric values in list");
             }
         }
         else
         {
             OD_LOG("! (1 <= count)");//####
             response.addString(MpM_FAILED_RESPONSE);
+            response.addString("No values provided");
         }
         if (replyMechanism)
         {
             OD_LOG("(replyMechanism)");//####
+            OD_LOG_S1("response <- ", response.toString().c_str());//####
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####

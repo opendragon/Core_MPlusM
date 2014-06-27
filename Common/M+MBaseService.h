@@ -75,6 +75,7 @@ namespace MplusM
         class ListRequestHandler;
         class NameRequestHandler;
         class PingThread;
+        class QuitRequestHandler;
         
         /*! @brief The minimal functionality required for an M+M service. */
         class BaseService
@@ -344,6 +345,9 @@ namespace MplusM
             
             /*! @brief The request handler for the 'name' request. */
             NameRequestHandler *             _nameHandler;
+            
+            /*! @brief The request handler for the 'quit' request. */
+            QuitRequestHandler *             _quitHandler;
             
             /*! @brief The connection point for the service. */
             Endpoint *                       _endpoint;

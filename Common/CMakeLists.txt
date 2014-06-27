@@ -79,6 +79,7 @@ add_library(mpmCommon
             M+MListRequestHandler.cpp
             M+MNameRequestHandler.cpp
             M+MPingThread.cpp
+            M+MQuitRequestHandler.cpp
             M+MRequestMap.cpp
             M+MRestartStreamsRequestHandler.cpp
             M+MServiceChannel.cpp
@@ -122,6 +123,7 @@ install(FILES
         M+MListRequestHandler.h
         M+MNameRequestHandler.h
         M+MPingThread.h
+        M+MQuitRequestHandler.h
         M+MRequestMap.h
         M+MRequests.h
         M+MRestartStreamsRequestHandler.h

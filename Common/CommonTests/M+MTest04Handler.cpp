@@ -111,6 +111,7 @@ bool Test04Handler::handleInput(const MplusM::Common::Package & input,
         OD_LOG("(replyMechanism)");//####
         MplusM::Common::Package inputCopy(input);
         
+        OD_LOG_S1("inputCopy <- ", inputCopy.toString().c_str());//####
         if (! inputCopy.write(*replyMechanism))
         {
             OD_LOG("(! inputCopy.write(*replyMechanism))");//####

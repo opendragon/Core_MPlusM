@@ -105,7 +105,7 @@ void ChordGeneratorRequestHandler::fillInAliases(Common::StringVector & alternat
 } // RandomRequestHandler::fillInAliases
 
 void ChordGeneratorRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                             yarp::os::Property &          info)
+                                                     yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("request = ", request.c_str());//####
@@ -134,9 +134,9 @@ void ChordGeneratorRequestHandler::fillInDescription(const yarp::os::ConstString
 } // RandomRequestHandler::fillInDescription
 
 bool ChordGeneratorRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                          const Common::Package &       restOfInput,
-                                          const yarp::os::ConstString & senderChannel,
-                                          yarp::os::ConnectionWriter *  replyMechanism)
+                                                  const Common::Package &       restOfInput,
+                                                  const yarp::os::ConstString & senderChannel,
+                                                  yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -185,6 +185,7 @@ bool ChordGeneratorRequestHandler::processRequest(const yarp::os::ConstString & 
             {
                 OD_LOG("! (count > 0)");//####
             }
+            OD_LOG_S1("response <- ", response.toString().c_str());//####
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####

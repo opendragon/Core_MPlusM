@@ -117,6 +117,7 @@ bool Test03Handler::handleInput(const MplusM::Common::Package & input,
         OD_LOG("(replyMechanism)");//####
         MplusM::Common::Package dummy;
         
+        OD_LOG_S1("dummy <- ", dummy.toString().c_str());//####
         if (! dummy.write(*replyMechanism))
         {
             OD_LOG("(! dummy.write(*replyMechanism))");//####

@@ -161,6 +161,7 @@ bool StopRequestHandler::processRequest(const yarp::os::ConstString & request,
             OD_LOG("(replyMechanism)");//####
             Common::Package response(MpM_OK_RESPONSE);
             
+            OD_LOG_S1("response <- ", response.toString().c_str());//####
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####

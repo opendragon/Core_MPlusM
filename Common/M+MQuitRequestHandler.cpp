@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MRandomRequestHandler.cpp
+//  File:       M+MQuitRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for a 'random' request.
+//  Contains:   The class definition for the request handler for the standard 'quit'
+//              request.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,12 +36,13 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-03-06
+//  Created:    2014-04-27
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MRandomRequestHandler.h"
-#include "M+MRandomNumberRequests.h"
+#include "M+MQuitRequestHandler.h"
+#include "M+MBaseService.h"
+#include "M+MRequests.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -51,21 +53,20 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a 'random' request. */
+ @brief The class definition for the request handler for the standard 'quit' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'random' request. */
-#define RANDOM_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'quit' request. */
+#define QUIT_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -79,33 +80,33 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RandomRequestHandler::RandomRequestHandler(void) :
-        inherited(MpM_RANDOM_REQUEST)
+QuitRequestHandler::QuitRequestHandler(BaseService & service) :
+        inherited(MpM_QUIT_REQUEST), _service(service)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
-} // RandomRequestHandler::RandomRequestHandler
+} // QuitRequestHandler::QuitRequestHandler
 
-RandomRequestHandler::~RandomRequestHandler(void)
+QuitRequestHandler::~QuitRequestHandler(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // RandomRequestHandler::~RandomRequestHandler
+} // QuitRequestHandler::~QuitRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RandomRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void QuitRequestHandler::fillInAliases(StringVector & alternateNames)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
-    alternateNames.push_back("?");
+    alternateNames.push_back("c");
     OD_LOG_OBJEXIT();//####
-} // RandomRequestHandler::fillInAliases
+} // QuitRequestHandler::fillInAliases
 
-void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                             yarp::os::Property &          info)
+void QuitRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                           yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("request = ", request.c_str());//####
@@ -113,14 +114,12 @@ void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & reque
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_INT MpM_REQREP_0_OR_1);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_DOUBLE MpM_REQREP_1_OR_MORE);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, RANDOM_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Generate one or more random numbers\n"
-                 "Input: the number of random values to generate\n"
-                 "Output one or more random numbers per request");
-        yarp::os::Value   keywords;
-        Common::Package * asList = keywords.asList();
+        info.put(MpM_REQREP_DICT_VERSION_KEY, QUIT_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Stop the service\n"
+                 "Inputs: nothing\n"
+                 "Outputs: nothing");
+        yarp::os::Value keywords;
+        Package *       asList = keywords.asList();
         
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -131,16 +130,16 @@ void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & reque
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // RandomRequestHandler::fillInDescription
+} // QuitRequestHandler::fillInDescription
 
-bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                          const Common::Package &       restOfInput,
-                                          const yarp::os::ConstString & senderChannel,
-                                          yarp::os::ConnectionWriter *  replyMechanism)
+bool QuitRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                        const Package &               restOfInput,
+                                        const yarp::os::ConstString & senderChannel,
+                                        yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
-#  pragma unused(request,senderChannel)
+#  pragma unused(request,restOfInput,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
@@ -151,44 +150,16 @@ bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
     
     try
     {
+        MplusM::StopRunning();
         if (replyMechanism)
         {
             OD_LOG("(replyMechanism)");//####
-            Common::Package response;
-            int             count;
+            Package reply(MpM_OK_RESPONSE);
             
-            if (0 < restOfInput.size())
+            OD_LOG_S1("reply <- ", reply.toString().c_str());//####
+            if (! reply.write(*replyMechanism))
             {
-                yarp::os::Value number(restOfInput.get(0));
-                
-                if (number.isInt())
-                {
-                    count = number.asInt();
-                }
-                else
-                {
-                    count = -1;
-                }
-            }
-            else
-            {
-                count = 1;
-            }
-            if (count > 0)
-            {
-                for (int ii = 0; ii < count; ++ii)
-                {
-                    response.addDouble(yarp::os::Random::uniform());
-                }
-            }
-            else
-            {
-                OD_LOG("! (count > 0)");//####
-            }
-            OD_LOG_S1("response <- ", response.toString().c_str());//####
-            if (! response.write(*replyMechanism))
-            {
-                OD_LOG("(! response.write(*replyMechanism))");//####
+                OD_LOG("(! reply.write(*replyMechanism))");//####
 #if defined(MpM_StallOnSendProblem)
                 Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -199,10 +170,10 @@ bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         OD_LOG("Exception caught");//####
         throw;
-    }
+    }    
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RandomRequestHandler::processRequest
+} // QuitRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Accessors

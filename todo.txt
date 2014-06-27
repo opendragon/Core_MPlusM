@@ -12,20 +12,11 @@
 
 * change signal handling to use platform-neutral mechanisms
 
-* ‘normal’ services can, of course, have secondary inputs and outputs - ’non-normal’ services respond to ‘configure’, ‘restartStreams’, ‘startStreams’ and ‘stopStreams’ requests
-
-* ‘configure’ request for I/O streams, with package argument - filter [no effect], record [path to file], random [burst size, period]
-
 + viewer should only allow connections where [s.protocol = d.protocol OR d.protocol = ‘’]
 
-* client auto-launch of service, if at all possible - add match criteria of ‘path’, check for ‘path: */EXECUTABLE’, allow multiple matches [to accommodate I/O]; if no match, launch executable, delay, recheck. If match proceed with normal selection criteria. SHOULD NOT DO THIS FOR THE REGISTRY!
-
-* I/O services need unique channel names, service names (but not canonical names) which the companion client has to know; if there is a way to launch executables, then the client should ALWAYS launch an I/O service, giving it the root name to be used
-
-* fix ‘doxygen’ descriptions and request/service descriptions for new clients/services
+* fix ‘doxygen’ descriptions and request/service descriptions for new I/O services
 
 * add input handlers to input streams for output and filter services
 
-* add ‘quit’ command for services, so that remote connections don’t need to work out how to send a signal
+* I/O services need to provide some kind of unique identification, so that multiple copies can run at the same time
 
-* command-line options for random [-s size{default=1}, -p period{default=1s}] and record [-p path to file{default=/tmp/record_#}]

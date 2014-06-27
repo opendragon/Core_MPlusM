@@ -152,6 +152,8 @@
 		DF36EF3C195DD4F900E7D889 /* M+MRandomOutputStreamRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomOutputStreamRequests.h"; path = "../examples/RandomOutputStreamService/M+MRandomOutputStreamRequests.h"; sourceTree = "<group>"; };
 		DF36EF3D195DD51200E7D889 /* M+MRecordInputStreamRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordInputStreamRequests.h"; path = "../examples/RecordInputStreamService/M+MRecordInputStreamRequests.h"; sourceTree = "<group>"; };
 		DF36EF3E195DD53A00E7D889 /* M+MTruncateFilterStreamRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFilterStreamRequests.h"; path = "../examples/TruncateFilterStreamService/M+MTruncateFilterStreamRequests.h"; sourceTree = "<group>"; };
+		DF36EF3F195DE7EC00E7D889 /* M+MQuitRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MQuitRequestHandler.cpp"; path = "../Common/M+MQuitRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF36EF40195DE7EC00E7D889 /* M+MQuitRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MQuitRequestHandler.h"; path = "../Common/M+MQuitRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF4CCFD318FD906100713E54 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ../examples/RunningSumAltAdapter/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF4CCFD418FD906100713E54 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../examples/RunningSumAltAdapter/main.cpp; sourceTree = SOURCE_ROOT; };
 		DF4CCFD518FD906100713E54 /* M+MRunningSumInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumInputHandler.cpp"; path = "../examples/RunningSumAltAdapter/M+MRunningSumInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -474,6 +476,8 @@
 				DFA3433F18C91C5A0053B87C /* M+MListRequestHandler.h */,
 				DF2092D518D39D4F0093D3DC /* M+MNameRequestHandler.cpp */,
 				DF2092D618D39D4F0093D3DC /* M+MNameRequestHandler.h */,
+				DF36EF3F195DE7EC00E7D889 /* M+MQuitRequestHandler.cpp */,
+				DF36EF40195DE7EC00E7D889 /* M+MQuitRequestHandler.h */,
 				DF36EEE81958CEC500E7D889 /* M+MRestartStreamsRequestHandler.cpp */,
 				DF36EEE91958CEC500E7D889 /* M+MRestartStreamsRequestHandler.h */,
 				DF36EEEE1958D17300E7D889 /* M+MStartStreamsRequestHandler.cpp */,
