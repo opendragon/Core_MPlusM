@@ -105,6 +105,7 @@ void TruncateFilterStreamService::configure(const Common::Package & details)
     try
     {
         // Nothing needs to be done.
+        std::cerr << "configure" << std::endl;//$$$$
     }
     catch (...)
     {
@@ -182,7 +183,11 @@ void TruncateFilterStreamService::startStreams(void)
     {
         if (! isActive())
         {
+            std::cerr << "startStream" << std::endl;//$$$$
             
+            
+            
+            setActive();
         }
     }
     catch (...)
@@ -218,7 +223,11 @@ void TruncateFilterStreamService::stopStreams(void)
     {
         if (isActive())
         {
+            std::cerr << "stopStream" << std::endl;//$$$$
             
+            
+            
+            clearActive();
         }
     }
     catch (...)

@@ -158,6 +158,7 @@ bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
         _service.resetCounters(senderChannel);
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Common::Package response(MpM_OK_RESPONSE);
             
             if (! response.write(*replyMechanism))

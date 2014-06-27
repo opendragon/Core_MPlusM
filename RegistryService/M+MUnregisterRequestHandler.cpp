@@ -157,6 +157,7 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
     {
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Common::Package reply;
             
             // Validate the name as a channel name

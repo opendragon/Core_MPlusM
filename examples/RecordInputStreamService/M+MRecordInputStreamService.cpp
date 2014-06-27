@@ -125,6 +125,9 @@ void RecordInputStreamService::restartStreams(void)
         if (! isActive())
         {
             
+            
+            
+            setActive();
         }
     }
     catch (...)
@@ -184,6 +187,9 @@ void RecordInputStreamService::startStreams(void)
         if (! isActive())
         {
             
+            
+            
+            setActive();
         }
     }
     catch (...)
@@ -220,6 +226,8 @@ void RecordInputStreamService::stopStreams(void)
         if (isActive())
         {
             
+            
+            clearActive();
         }
     }
     catch (...)

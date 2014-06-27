@@ -193,6 +193,7 @@ bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
         }
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             if (! response.write(*replyMechanism))
             {
                 OD_LOG("(! response.write(*replyMechanism))");//####

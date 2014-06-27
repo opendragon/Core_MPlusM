@@ -125,6 +125,9 @@ void RandomOutputStreamService::restartStreams(void)
         if (! isActive())
         {
             
+            
+            
+            setActive();
         }
     }
     catch (...)
@@ -184,6 +187,9 @@ void RandomOutputStreamService::startStreams(void)
         if (! isActive())
         {
             
+            
+            
+            setActive();
         }
     }
     catch (...)
@@ -220,6 +226,9 @@ void RandomOutputStreamService::stopStreams(void)
         if (isActive())
         {
             
+            
+            
+            clearActive();
         }
     }
     catch (...)

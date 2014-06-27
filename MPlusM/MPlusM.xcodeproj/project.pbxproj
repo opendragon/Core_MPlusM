@@ -406,9 +406,9 @@
 			isa = PBXGroup;
 			children = (
 				DF06997F18ECC02700FF0E93 /* CMakeLists.txt */,
-				DF06998018ECC02700FF0E93 /* main.cpp */,
 				DF06998118ECC02700FF0E93 /* M+MRequestCounterClient.cpp */,
 				DF06998218ECC02700FF0E93 /* M+MRequestCounterClient.h */,
+				DF06998018ECC02700FF0E93 /* main.cpp */,
 			);
 			name = RequestCounterClient;
 			sourceTree = "<group>";
@@ -431,9 +431,9 @@
 			isa = PBXGroup;
 			children = (
 				DFA86D4A18E1DA0200A22941 /* CMakeLists.txt */,
-				DFA86D4B18E1DA0200A22941 /* main.cpp */,
 				DFA86D4C18E1DA0200A22941 /* M+MRunningSumClient.cpp */,
 				DFA86D4D18E1DA0200A22941 /* M+MRunningSumClient.h */,
+				DFA86D4B18E1DA0200A22941 /* main.cpp */,
 			);
 			name = RunningSumClient;
 			sourceTree = SOURCE_ROOT;
@@ -725,9 +725,9 @@
 			isa = PBXGroup;
 			children = (
 				DF4CCFD318FD906100713E54 /* CMakeLists.txt */,
-				DF4CCFD418FD906100713E54 /* main.cpp */,
 				DF4CCFD518FD906100713E54 /* M+MRunningSumInputHandler.cpp */,
 				DF4CCFD618FD906100713E54 /* M+MRunningSumInputHandler.h */,
+				DF4CCFD418FD906100713E54 /* main.cpp */,
 			);
 			name = RunningSumAltAdapter;
 			sourceTree = SOURCE_ROOT;
@@ -817,9 +817,9 @@
 			isa = PBXGroup;
 			children = (
 				DFA86D2718E1D2A600A22941 /* CMakeLists.txt */,
-				DFA86D2818E1D2A600A22941 /* main.cpp */,
 				DFA86D2918E1D2A600A22941 /* M+MEchoClient.cpp */,
 				DFA86D2A18E1D2A600A22941 /* M+MEchoClient.h */,
+				DFA86D2818E1D2A600A22941 /* main.cpp */,
 			);
 			name = EchoClient;
 			sourceTree = SOURCE_ROOT;
@@ -948,9 +948,9 @@
 			isa = PBXGroup;
 			children = (
 				DFA86D3918E1D6E600A22941 /* CMakeLists.txt */,
-				DFA86D3A18E1D6E600A22941 /* main.cpp */,
 				DFA86D3B18E1D6E600A22941 /* M+MRandomNumberClient.cpp */,
 				DFA86D3C18E1D6E600A22941 /* M+MRandomNumberClient.h */,
+				DFA86D3A18E1D6E600A22941 /* main.cpp */,
 			);
 			name = RandomNumberClient;
 			sourceTree = SOURCE_ROOT;
@@ -980,13 +980,13 @@
 			isa = PBXGroup;
 			children = (
 				DFA86D4418E1D9EB00A22941 /* CMakeLists.txt */,
-				DFA86D4518E1D9EB00A22941 /* main.cpp */,
 				DF30062918E37D5500B51C22 /* M+MRunningSumAdapterData.cpp */,
 				DF30062818E3788600B51C22 /* M+MRunningSumAdapterData.h */,
 				DFA86D4618E1D9EB00A22941 /* M+MRunningSumControlInputHandler.cpp */,
 				DFA86D4718E1D9EB00A22941 /* M+MRunningSumControlInputHandler.h */,
 				DFA86D4818E1D9EB00A22941 /* M+MRunningSumDataInputHandler.cpp */,
 				DFA86D4918E1D9EB00A22941 /* M+MRunningSumDataInputHandler.h */,
+				DFA86D4518E1D9EB00A22941 /* main.cpp */,
 			);
 			name = RunningSumAdapter;
 			sourceTree = SOURCE_ROOT;

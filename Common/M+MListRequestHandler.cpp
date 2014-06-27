@@ -157,6 +157,7 @@ bool ListRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Package reply;
             
             if (_owner)

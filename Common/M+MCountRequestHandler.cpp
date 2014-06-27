@@ -152,6 +152,7 @@ bool CountRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             double  elapsedTime;
             int64_t counter;
             Package reply;

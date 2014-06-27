@@ -160,6 +160,7 @@ bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & r
     {
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Common::Package reply;
             
             // Validate the name as a channel name

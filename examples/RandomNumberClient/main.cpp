@@ -115,103 +115,106 @@ int main(int      argc,
     OD_LOG_ENTER();//####
     try
     {
-#if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork())
-#endif // CheckNetworkWorks_
+        if (MplusM::CanReadFromStandardInput())
         {
-            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-            
-            MplusM::Common::Initialize(*argv);
-            RandomNumberClient * stuff = new RandomNumberClient;
-            
-            if (stuff)
+#if CheckNetworkWorks_
+            if (yarp::os::Network::checkNetwork())
+#endif // CheckNetworkWorks_
             {
-                lKeepRunning = true;
-                MplusM::Common::SetSignalHandlers(stopRunning);
-                if (stuff->findService("keyword random"))
+                yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+                
+                MplusM::Common::Initialize(*argv);
+                RandomNumberClient * stuff = new RandomNumberClient;
+                
+                if (stuff)
                 {
-#if defined(MpM_ReportOnConnections)
-                    stuff->setReporter(ChannelStatusReporter::gReporter, true);
-#endif // defined(MpM_ReportOnConnections)
-                    if (stuff->connectToService())
+                    lKeepRunning = true;
+                    MplusM::Common::SetSignalHandlers(stopRunning);
+                    if (stuff->findService("keyword random"))
                     {
-                        for ( ; lKeepRunning; )
+#if defined(MpM_ReportOnConnections)
+                        stuff->setReporter(ChannelStatusReporter::gReporter, true);
+#endif // defined(MpM_ReportOnConnections)
+                        if (stuff->connectToService())
                         {
-                            int count;
-                            
-                            cout << "How many random numbers? ";
-                            cin >> count;
-                            if (0 >= count)
+                            for ( ; lKeepRunning; )
                             {
-                                break;
-                            }
-                            
-                            if (1 == count)
-                            {
-                                double result;
+                                int count;
                                 
-                                if (stuff->getOneRandomNumber(result))
+                                cout << "How many random numbers? ";
+                                cin >> count;
+                                if (0 >= count)
                                 {
-                                    cout << "result = " << result << endl;
+                                    break;
                                 }
-                                else
-                                {
-                                    OD_LOG("! (stuff->getOneRandomNumber(result))");//####
-                                    cerr << "Problem getting random number from service." << endl;
-                                }
-                            }
-                            else
-                            {
-                                MplusM::Common::DoubleVector results;
                                 
-                                if (stuff->getRandomNumbers(count, results))
+                                if (1 == count)
                                 {
-                                    cout << "result = ( ";
-                                    for (MplusM::Common::DoubleVector::const_iterator it(results.begin());
-                                         results.end() != it; ++it)
+                                    double result;
+                                    
+                                    if (stuff->getOneRandomNumber(result))
                                     {
-                                        cout << " " << *it;
+                                        cout << "result = " << result << endl;
                                     }
-                                    cout << " )" << endl;
+                                    else
+                                    {
+                                        OD_LOG("! (stuff->getOneRandomNumber(result))");//####
+                                        cerr << "Problem getting random number from service." << endl;
+                                    }
                                 }
                                 else
                                 {
-                                    OD_LOG("! (stuff->getRandomNumbers(count, results))");//####
-                                    cerr << "Problem getting random numbers from service." << endl;
+                                    MplusM::Common::DoubleVector results;
+                                    
+                                    if (stuff->getRandomNumbers(count, results))
+                                    {
+                                        cout << "result = ( ";
+                                        for (MplusM::Common::DoubleVector::const_iterator it(results.begin());
+                                             results.end() != it; ++it)
+                                        {
+                                            cout << " " << *it;
+                                        }
+                                        cout << " )" << endl;
+                                    }
+                                    else
+                                    {
+                                        OD_LOG("! (stuff->getRandomNumbers(count, results))");//####
+                                        cerr << "Problem getting random numbers from service." << endl;
+                                    }
                                 }
+                            }
+                            if (! stuff->disconnectFromService())
+                            {
+                                OD_LOG("(! stuff->disconnectFromService())");//####
+                                cerr << "Problem disconnecting from the service." << endl;
                             }
                         }
-                        if (! stuff->disconnectFromService())
+                        else
                         {
-                            OD_LOG("(! stuff->disconnectFromService())");//####
-                            cerr << "Problem disconnecting from the service." << endl;
+                            OD_LOG("! (stuff->connectToService())");//####
+                            cerr << "Problem connecting to the service." << endl;
                         }
                     }
                     else
                     {
-                        OD_LOG("! (stuff->connectToService())");//####
-                        cerr << "Problem connecting to the service." << endl;
+                        OD_LOG("! (stuff->findService(\"keyword random\"))");//####
+                        cerr << "Problem finding the service." << endl;
                     }
+                    delete stuff;
                 }
                 else
                 {
-                    OD_LOG("! (stuff->findService(\"keyword random\"))");//####
-                    cerr << "Problem finding the service." << endl;
+                    OD_LOG("! (stuff)");//####
                 }
-                delete stuff;
             }
+#if CheckNetworkWorks_
             else
             {
-                OD_LOG("! (stuff)");//####
+                OD_LOG("! (yarp::os::Network::checkNetwork())");//####
+                cerr << "YARP network not running." << endl;
             }
+#endif // CheckNetworkWorks_            
         }
-#if CheckNetworkWorks_
-        else
-        {
-            OD_LOG("! (yarp::os::Network::checkNetwork())");//####
-            cerr << "YARP network not running." << endl;
-        }
-#endif // CheckNetworkWorks_
     }
     catch (...)
     {

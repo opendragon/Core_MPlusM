@@ -491,6 +491,37 @@ void MplusM::Common::Stall(void)
     }
 } // MplusM::Common::Stall
 
+bool MplusM::CanReadFromStandardInput(void)
+{
+    OD_LOG_ENTER();//####
+#if MAC_OR_LINUX_
+    pid_t fg = tcgetpgrp(STDIN_FILENO);
+#endif // MAC_OR_LINUX_
+    bool  result = false;
+    
+#if MAC_OR_LINUX_
+    if (-1 == fg)
+    {
+        // Piped
+        result = true;
+    }
+    else if (getpgrp() == fg)
+    {
+        // Foreground
+        result = true;
+    }
+    else
+    {
+        // Background
+        result = false;
+    }
+#else // ! MAC_OR_LINUX_
+      // How do we check on Windows??
+#endif // ! MAC_OR_LINUX_
+    OD_LOG_EXIT_B(result);//####
+    return result;
+} // MplusM::CanReadFromStandardInput
+
 const char * MplusM::NameOfSignal(const int theSignal)
 {
     const char * result;

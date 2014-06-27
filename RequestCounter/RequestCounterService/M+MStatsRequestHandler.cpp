@@ -157,6 +157,7 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Common::Package response;
             double          elapsedTime;
             long            counter;

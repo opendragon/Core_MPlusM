@@ -332,6 +332,10 @@ namespace MplusM
         
     } // Common
 
+    /*! @brief Return @c true if standard input can be used and @c false otherwise.
+     @returns @c true if standard input can be used and @c false otherwise. */
+    bool CanReadFromStandardInput(void);
+    
     /*! @brief Return the name of a signal.
      @param theSignal The signal of interest.
      @returns A string description of the signal. */

@@ -108,6 +108,7 @@ bool Test08Handler::handleInput(const MplusM::Common::Package & input,
     
     if (replyMechanism)
     {
+        OD_LOG("(replyMechanism)");//####
         MplusM::Common::Package inputCopy(input);
         
         if (! inputCopy.write(*replyMechanism))

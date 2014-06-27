@@ -136,6 +136,7 @@ bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString &  
     
     if (replyMechanism)
     {
+        OD_LOG("(replyMechanism)");//####
         MplusM::Common::Package argsCopy(name());
         
         argsCopy.append(restOfInput);

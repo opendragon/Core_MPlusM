@@ -159,6 +159,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
     {
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Common::Package reply;
             
             // Validate the name as a channel name

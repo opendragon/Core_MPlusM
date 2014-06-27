@@ -157,6 +157,7 @@ bool EchoRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Common::Package argsCopy(restOfInput);
             
             if (! argsCopy.write(*replyMechanism))

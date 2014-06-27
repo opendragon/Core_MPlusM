@@ -158,6 +158,7 @@ bool StartRequestHandler::processRequest(const yarp::os::ConstString & request,
         _service.startSum(senderChannel);
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Common::Package response(MpM_OK_RESPONSE);
             
             if (! response.write(*replyMechanism))

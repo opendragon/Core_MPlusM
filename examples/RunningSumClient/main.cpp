@@ -122,119 +122,122 @@ int main(int      argc,
     OD_LOG_ENTER();//####
     try
     {
-#if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork())
-#endif // CheckNetworkWorks_
+        if (MplusM::CanReadFromStandardInput())
         {
-            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-            
-            MplusM::Common::Initialize(*argv);
-            RunningSumClient * stuff = new RunningSumClient;
-            
-            if (stuff)
+#if CheckNetworkWorks_
+            if (yarp::os::Network::checkNetwork())
+#endif // CheckNetworkWorks_
             {
-                lKeepRunning = true;
-                MplusM::Common::SetSignalHandlers(stopRunning);
-                if (stuff->findService("Name RunningSum"))
+                yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+                
+                MplusM::Common::Initialize(*argv);
+                RunningSumClient * stuff = new RunningSumClient;
+                
+                if (stuff)
                 {
-#if defined(MpM_ReportOnConnections)
-                    stuff->setReporter(ChannelStatusReporter::gReporter, true);
-#endif // defined(MpM_ReportOnConnections)
-                    if (stuff->connectToService())
+                    lKeepRunning = true;
+                    MplusM::Common::SetSignalHandlers(stopRunning);
+                    if (stuff->findService("Name RunningSum"))
                     {
-                        for ( ; lKeepRunning; )
+#if defined(MpM_ReportOnConnections)
+                        stuff->setReporter(ChannelStatusReporter::gReporter, true);
+#endif // defined(MpM_ReportOnConnections)
+                        if (stuff->connectToService())
                         {
-                            char   inChar;
-                            double newSum;
-                            double value;
-                            
-                            cout << "Operation: [+ r s x]? ";
-                            cin >> inChar;
-                            switch (inChar)
+                            for ( ; lKeepRunning; )
                             {
-                                case '+':
-                                    cout << "add: ";
-                                    cin >> value;
-                                    cout << "adding " << value << endl;
-                                    if (stuff->addToSum(value, newSum))
-                                    {
-                                        cout << "running sum = " << newSum << endl;
-                                    }
-                                    else
-                                    {
-                                        OD_LOG("! (stuff->addToSum(value, newSum))");//####
-                                        cerr << "Problem adding to the sum." << endl;
-                                    }
-                                    break;
-                                    
-                                case 'r':
-                                case 'R':
-                                    cout << "Resetting" << endl;
-                                    if (! stuff->resetSum())
-                                    {
-                                        OD_LOG("(! stuff->resetSum())");//####
-                                        cerr << "Problem resetting the sum." << endl;
-                                    }
-                                    break;
-                                    
-                                case 's':
-                                case 'S':
-                                    cout << "Starting" << endl;
-                                    if (! stuff->startSum())
-                                    {
-                                        OD_LOG("(! stuff->startSum())");//####
-                                        cerr << "Problem starting the sum." << endl;
-                                    }
-                                    break;
-                                    
-                                case 'x':
-                                case 'X':
-                                    cout << "Exiting" << endl;
-                                    if (! stuff->stopSum())
-                                    {
-                                        OD_LOG("(! stuff->stopSum())");//####
-                                        cerr << "Problem stopping the sum." << endl;
-                                    }
-                                    lKeepRunning = false;
-                                    break;
-                                    
-                                default:
-                                    cout << "Unrecognized request '" << inChar << "'." << endl;
-                                    break;
-                                    
+                                char   inChar;
+                                double newSum;
+                                double value;
+                                
+                                cout << "Operation: [+ r s x]? ";
+                                cin >> inChar;
+                                switch (inChar)
+                                {
+                                    case '+':
+                                        cout << "add: ";
+                                        cin >> value;
+                                        cout << "adding " << value << endl;
+                                        if (stuff->addToSum(value, newSum))
+                                        {
+                                            cout << "running sum = " << newSum << endl;
+                                        }
+                                        else
+                                        {
+                                            OD_LOG("! (stuff->addToSum(value, newSum))");//####
+                                            cerr << "Problem adding to the sum." << endl;
+                                        }
+                                        break;
+                                        
+                                    case 'r':
+                                    case 'R':
+                                        cout << "Resetting" << endl;
+                                        if (! stuff->resetSum())
+                                        {
+                                            OD_LOG("(! stuff->resetSum())");//####
+                                            cerr << "Problem resetting the sum." << endl;
+                                        }
+                                        break;
+                                        
+                                    case 's':
+                                    case 'S':
+                                        cout << "Starting" << endl;
+                                        if (! stuff->startSum())
+                                        {
+                                            OD_LOG("(! stuff->startSum())");//####
+                                            cerr << "Problem starting the sum." << endl;
+                                        }
+                                        break;
+                                        
+                                    case 'x':
+                                    case 'X':
+                                        cout << "Exiting" << endl;
+                                        if (! stuff->stopSum())
+                                        {
+                                            OD_LOG("(! stuff->stopSum())");//####
+                                            cerr << "Problem stopping the sum." << endl;
+                                        }
+                                        lKeepRunning = false;
+                                        break;
+                                        
+                                    default:
+                                        cout << "Unrecognized request '" << inChar << "'." << endl;
+                                        break;
+                                        
+                                }
+                            }
+                            if (! stuff->disconnectFromService())
+                            {
+                                OD_LOG("(! stuff->disconnectFromService())");//####
+                                cerr << "Problem disconnecting from the service." << endl;
                             }
                         }
-                        if (! stuff->disconnectFromService())
+                        else
                         {
-                            OD_LOG("(! stuff->disconnectFromService())");//####
-                            cerr << "Problem disconnecting from the service." << endl;
+                            OD_LOG("! (stuff->connectToService())");//####
+                            cerr << "Problem connecting to the service." << endl;
                         }
                     }
                     else
                     {
-                        OD_LOG("! (stuff->connectToService())");//####
-                        cerr << "Problem connecting to the service." << endl;
+                        OD_LOG("! (stuff->findService(\"Name RunningSum\"))");//####
+                        cerr << "Problem locating the service." << endl;
                     }
+                    delete stuff;
                 }
                 else
                 {
-                    OD_LOG("! (stuff->findService(\"Name RunningSum\"))");//####
-                    cerr << "Problem locating the service." << endl;
+                    OD_LOG("! (stuff)");//####
                 }
-                delete stuff;
             }
+#if CheckNetworkWorks_
             else
             {
-                OD_LOG("! (stuff)");//####
+                OD_LOG("! (yarp::os::Network::checkNetwork())");//####
+                cerr << "YARP network not running." << endl;
             }
+#endif // CheckNetworkWorks_            
         }
-#if CheckNetworkWorks_
-        else
-        {
-            OD_LOG("! (yarp::os::Network::checkNetwork())");//####
-            cerr << "YARP network not running." << endl;
-        }
-#endif // CheckNetworkWorks_
     }
     catch (...)
     {

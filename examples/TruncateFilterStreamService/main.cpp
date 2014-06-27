@@ -42,7 +42,7 @@
 #include "M+MEndpoint.h"
 #include "M+MTruncateFilterStreamService.h"
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -113,6 +113,9 @@ int main(int      argc,
                 kODLoggingOptionEnableThreadSupport);//####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER();//####
+    if (MplusM::CanReadFromStandardInput())
+    {
+    }
     try
     {
 #if CheckNetworkWorks_
@@ -150,9 +153,91 @@ int main(int      argc,
                     {
                         lKeepRunning = true;
                         MplusM::Common::SetSignalHandlers(stopRunning);
-                        stuff->startPinger();
+                        //$$$$                        stuff->startPinger();
                         for ( ; lKeepRunning && stuff; )
                         {
+                            
+#if 0
+                            char   inChar;
+                            double newSum;
+                            double value;
+                            
+                            cout << "Operation: [+ r s x]? ";
+                            cin >> inChar;
+                            switch (inChar)
+                            {
+                                case '+':
+                                    cout << "add: ";
+                                    cin >> value;
+                                    cout << "adding " << value << endl;
+                                    if (stuff->addToSum(value, newSum))
+                                    {
+                                        cout << "running sum = " << newSum << endl;
+                                    }
+                                    else
+                                    {
+                                        OD_LOG("! (stuff->addToSum(value, newSum))");//####
+                                        cerr << "Problem adding to the sum." << endl;
+                                    }
+                                    break;
+                                    
+                                case 'r':
+                                case 'R':
+                                    cout << "Resetting" << endl;
+                                    if (! stuff->resetSum())
+                                    {
+                                        OD_LOG("(! stuff->resetSum())");//####
+                                        cerr << "Problem resetting the sum." << endl;
+                                    }
+                                    break;
+                                    
+                                case 's':
+                                case 'S':
+                                    cout << "Starting" << endl;
+                                    if (! stuff->startSum())
+                                    {
+                                        OD_LOG("(! stuff->startSum())");//####
+                                        cerr << "Problem starting the sum." << endl;
+                                    }
+                                    break;
+                                    
+                                case 'x':
+                                case 'X':
+                                    cout << "Exiting" << endl;
+                                    if (! stuff->stopSum())
+                                    {
+                                        OD_LOG("(! stuff->stopSum())");//####
+                                        cerr << "Problem stopping the sum." << endl;
+                                    }
+                                    lKeepRunning = false;
+                                    break;
+                                    
+                                default:
+                                    cout << "Unrecognized request '" << inChar << "'." << endl;
+                                    break;
+                                    
+                            }
+                            
+#endif//0
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
 #if defined(MpM_MainDoesDelayNotYield)
                             yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)

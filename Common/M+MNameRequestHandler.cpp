@@ -163,6 +163,7 @@ bool NameRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             char    bigPath[PATH_MAX * 2];
             Package reply;
             

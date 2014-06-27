@@ -115,6 +115,10 @@ int main(int      argc,
     OD_LOG_ENTER();//####
     try
     {
+        if (MplusM::CanReadFromStandardInput())
+        {
+            
+        }
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_

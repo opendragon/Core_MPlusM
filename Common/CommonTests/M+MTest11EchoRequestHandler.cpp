@@ -137,6 +137,7 @@ bool Test11EchoRequestHandler::processRequest(const yarp::os::ConstString &   re
     
     if (replyMechanism)
     {
+        OD_LOG("(replyMechanism)");//####
         MplusM::Common::Package argsCopy(restOfInput);
         
         if (! argsCopy.write(*replyMechanism))

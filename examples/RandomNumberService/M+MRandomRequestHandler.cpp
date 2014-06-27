@@ -153,6 +153,7 @@ bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Common::Package response;
             int             count;
             

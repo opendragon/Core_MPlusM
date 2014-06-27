@@ -154,6 +154,7 @@ bool ClientsRequestHandler::processRequest(const yarp::os::ConstString & request
     {
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Package      reply;
             StringVector clients;
             

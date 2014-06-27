@@ -164,6 +164,7 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Common::Package reply;
             
             // We are expecting an integer and a string as the parameter

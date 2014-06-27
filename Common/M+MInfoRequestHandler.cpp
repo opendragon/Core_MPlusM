@@ -155,6 +155,7 @@ bool InfoRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Package reply;
             
             if (_owner && (1 == restOfInput.size()))

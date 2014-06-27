@@ -98,8 +98,11 @@
 /*! @brief The standard name for a 'name' request. */
 # define MpM_NAME_REQUEST           "name"
 
-/*! @brief The standard name for a 'name' request. */
+/*! @brief The standard name for a 'ping' request. */
 # define MpM_PING_REQUEST           "ping"
+
+/*! @brief The standard name for a 'quit' request. */
+# define MpM_QUIT_REQUEST           "quit"
 
 /*! @brief The name for a 'register' request. */
 # define MpM_REGISTER_REQUEST       "register"
@@ -139,6 +142,9 @@
 
 /*! @brief The number of elements expected in the output of a 'name' request. */
 # define MpM_EXPECTED_NAME_RESPONSE_SIZE           5
+
+/*! @brief The number of elements expected in the output of a 'quit' request. */
+# define MpM_EXPECTED_QUIT_RESPONSE_SIZE           1
 
 /*! @brief The number of elements expected in the output of a 'register' request. */
 # define MpM_EXPECTED_REGISTER_RESPONSE_SIZE       1

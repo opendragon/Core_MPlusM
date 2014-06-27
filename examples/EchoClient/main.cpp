@@ -114,83 +114,86 @@ int main(int      argc,
     OD_LOG_ENTER();//####
     try
     {
-#if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork())
-#endif // CheckNetworkWorks_
+        if (MplusM::CanReadFromStandardInput())
         {
-            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
-            
-            MplusM::Common::Initialize(*argv);
-            EchoClient * stuff = new EchoClient;
-            
-            if (stuff)
+#if CheckNetworkWorks_
+            if (yarp::os::Network::checkNetwork())
+#endif // CheckNetworkWorks_
             {
-                lKeepRunning = true;
-                MplusM::Common::SetSignalHandlers(stopRunning);
-                if (stuff->findService("details Echo*"))
+                yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+                
+                MplusM::Common::Initialize(*argv);
+                EchoClient * stuff = new EchoClient;
+                
+                if (stuff)
                 {
-#if defined(MpM_ReportOnConnections)
-                    stuff->setReporter(ChannelStatusReporter::gReporter, true);
-#endif // defined(MpM_ReportOnConnections)
-                    if (stuff->connectToService())
+                    lKeepRunning = true;
+                    MplusM::Common::SetSignalHandlers(stopRunning);
+                    if (stuff->findService("details Echo*"))
                     {
-                        for ( ; lKeepRunning; )
+#if defined(MpM_ReportOnConnections)
+                        stuff->setReporter(ChannelStatusReporter::gReporter, true);
+#endif // defined(MpM_ReportOnConnections)
+                        if (stuff->connectToService())
                         {
-                            yarp::os::ConstString incoming;
-                            std::string           inputLine;
-                            
-                            cout << "Type something to be echoed: ";
-                            if (getline(cin, inputLine))
+                            for ( ; lKeepRunning; )
                             {
-                                yarp::os::ConstString outgoing(inputLine.c_str());
+                                yarp::os::ConstString incoming;
+                                std::string           inputLine;
                                 
-                                if (stuff->sendAndReceive(outgoing, incoming))
+                                cout << "Type something to be echoed: ";
+                                if (getline(cin, inputLine))
                                 {
-                                    cout << "Received: '" << incoming.c_str() << "'." << endl;
+                                    yarp::os::ConstString outgoing(inputLine.c_str());
+                                    
+                                    if (stuff->sendAndReceive(outgoing, incoming))
+                                    {
+                                        cout << "Received: '" << incoming.c_str() << "'." << endl;
+                                    }
+                                    else
+                                    {
+                                        OD_LOG("! (stuff->sendAndReceive(outgoing, incoming))");//####
+                                        cerr << "Problem communicating with the service." << endl;
+                                    }
                                 }
                                 else
                                 {
-                                    OD_LOG("! (stuff->sendAndReceive(outgoing, incoming))");//####
-                                    cerr << "Problem communicating with the service." << endl;
+                                    break;
                                 }
+                                
                             }
-                            else
+                            if (! stuff->disconnectFromService())
                             {
-                                break;
+                                OD_LOG("(! stuff->disconnectFromService())");//####
+                                cerr << "Problem disconnecting from the service." << endl;
                             }
-                            
                         }
-                        if (! stuff->disconnectFromService())
+                        else
                         {
-                            OD_LOG("(! stuff->disconnectFromService())");//####
-                            cerr << "Problem disconnecting from the service." << endl;
+                            OD_LOG("! (stuff->connectToService())");//####
+                            cerr << "Problem connecting to the service." << endl;
                         }
                     }
                     else
                     {
-                        OD_LOG("! (stuff->connectToService())");//####
-                        cerr << "Problem connecting to the service." << endl;
+                        OD_LOG("! (stuff->findService(\"details Echo*\"))");//####
+                        cerr << "Problem finding the service." << endl;
                     }
+                    delete stuff;
                 }
                 else
                 {
-                    OD_LOG("! (stuff->findService(\"details Echo*\"))");//####
-                    cerr << "Problem finding the service." << endl;
+                    OD_LOG("! (stuff)");//####
                 }
-                delete stuff;
             }
+#if CheckNetworkWorks_
             else
             {
-                OD_LOG("! (stuff)");//####
+                OD_LOG("! (yarp::os::Network::checkNetwork())");//####
+                cerr << "YARP network not running." << endl;
             }
-        }
-#if CheckNetworkWorks_
-        else
-        {
-            OD_LOG("! (yarp::os::Network::checkNetwork())");//####
-            cerr << "YARP network not running." << endl;
-        }
 #endif // CheckNetworkWorks_
+        }
     }
     catch (...)
     {

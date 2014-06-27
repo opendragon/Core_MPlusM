@@ -153,6 +153,7 @@ bool ChordGeneratorRequestHandler::processRequest(const yarp::os::ConstString & 
     {
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Common::Package response;
             int             count;
             

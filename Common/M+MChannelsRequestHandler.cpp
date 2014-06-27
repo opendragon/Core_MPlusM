@@ -152,6 +152,7 @@ bool ChannelsRequestHandler::processRequest(const yarp::os::ConstString & reques
     {
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Package       reply;
             ChannelVector channels;
             Package &     aList1 = reply.addList();

@@ -114,6 +114,8 @@ namespace MplusM
              @param details The configuration information for the input/output streams. */
             virtual void configure(const Package & details) = 0;
             
+            /*! @brief Return @c true if the streams are processing data and @c false otherwise.
+             @returns @c true if the streams are processing data and @c false otherwise. */
             inline bool isActive(void)
             const
             {
@@ -151,6 +153,18 @@ namespace MplusM
              @param descriptions The descriptions of the channels.
              @returns @c true if the channels were constructed and @c false otherwise. */
             bool addOutStreamsFromDescriptions(const ChannelVector & descriptions);
+            
+            /*! @brief Indicate that the streams are not processing data. */
+            inline void clearActive(void)
+            {
+                _active = false;
+            } // clearActive
+            
+            /*! @brief Indicate that the streams are processing data. */
+            inline void setActive(void)
+            {
+                _active = true;
+            } // setActive
             
             /*! @brief Set up the input streams.
              @returns @c true if the channels were set up and @c false otherwise. */

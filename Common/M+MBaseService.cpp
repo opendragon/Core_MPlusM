@@ -502,6 +502,7 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
             OD_LOG("! (handler)");//####
             if (replyMechanism)
             {
+                OD_LOG("(replyMechanism)");//####
                 Package errorMessage("unrecognized request");
                 
                 if (! errorMessage.write(*replyMechanism))

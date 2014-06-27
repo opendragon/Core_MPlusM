@@ -142,6 +142,7 @@ bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstSt
         _service.countRequest(senderChannel);
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Common::Package response(MpM_OK_RESPONSE);
             
             if (! response.write(*replyMechanism))

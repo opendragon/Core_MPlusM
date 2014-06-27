@@ -114,6 +114,7 @@ bool Test03Handler::handleInput(const MplusM::Common::Package & input,
 #if defined(MpM_ChannelsUseRpc)
     if (replyMechanism)
     {
+        OD_LOG("(replyMechanism)");//####
         MplusM::Common::Package dummy;
         
         if (! dummy.write(*replyMechanism))

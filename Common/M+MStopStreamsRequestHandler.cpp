@@ -43,7 +43,7 @@
 #include "M+MRequests.h"
 #include "M+MBaseInputOutputService.h"
 
-//#include "ODEnableLogging.h"
+#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
@@ -157,6 +157,7 @@ bool StopStreamsRequestHandler::processRequest(const yarp::os::ConstString & req
         _service.stopStreams();
         if (replyMechanism)
         {
+            OD_LOG("(replyMechanism)");//####
             Common::Package response(MpM_OK_RESPONSE);
             
             if (! response.write(*replyMechanism))
