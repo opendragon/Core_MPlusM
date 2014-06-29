@@ -20,3 +20,4 @@
 
 * I/O services need to provide some kind of unique identification, so that multiple copies can run at the same time
 
+* check into using harp logging for ‘background’ services
