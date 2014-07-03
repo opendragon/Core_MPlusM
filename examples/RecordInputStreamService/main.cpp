@@ -62,7 +62,6 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
-using std::cerr;
 using std::cin;
 using std::cout;
 using std::endl;
@@ -99,6 +98,7 @@ int main(int      argc,
                 kODLoggingOptionEnableThreadSupport);//####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER();//####
+    MplusM::Common::SetUpLogger(*argv);
     try
     {
         bool                  stdinAvailable = MplusM::CanReadFromStandardInput();
@@ -110,7 +110,9 @@ int main(int      argc,
 #if MAC_OR_LINUX_
         snprintf(buff, sizeof(buff), "/tmp/record_%x", randNumb);
 #else // ! MAC_OR_LINUX_
-        sprintf(buff, "/tmp/record_%x", randNumb);
+        _snprintf(buff, sizeof(buff) - 1, "/tmp/record_%x", randNumb);
+        // Correct for the weird behaviour of _snprintf
+        buff[sizeof(buff) - 1] = '\0';
 #endif // ! MAC_OR_LINUX_
         recordPath = buff;
         opterr = 0; // Suppress the error message resulting from an unknown option.
@@ -289,7 +291,7 @@ int main(int      argc,
         else
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())");//####
-            cerr << "YARP network not running." << endl;
+            MplusM::Common::GetLogger().fail("YARP network not running.");
         }
 #endif // CheckNetworkWorks_
     }

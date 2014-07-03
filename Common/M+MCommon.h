@@ -72,6 +72,7 @@
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
 # include <yarp/os/all.h>
+# include <yarp/os/impl/Logger.h>
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -283,6 +284,8 @@ namespace MplusM
         void DumpContactToLog(const char *              tag,
                               const yarp::os::Contact & aContact);
         
+        yarp::os::impl::Logger & GetLogger(void);
+        
         /*! @brief Generate a random channel name.
          @returns A randomly-generated channel name. */
         yarp::os::ConstString GetRandomChannelName(const char * channelRoot = DEFAULT_CHANNEL_ROOT);
@@ -319,6 +322,12 @@ namespace MplusM
         
         /*! @brief Set up the signal-handling behaviour so that this thread will catch our signal. */
         void SetUpCatcher(void);
+        
+        /*! @brief Set up the error logger.
+         @param progName The name of the executing program.
+         
+         Should be called in the main() function of each application or service before anything else. */
+        void SetUpLogger(const char * progName);
         
         /*! @brief Restore the normal signal-handling behaviour. */
         void ShutDownCatcher(void);

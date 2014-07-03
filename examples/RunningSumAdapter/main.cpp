@@ -66,8 +66,6 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
-using std::cerr;
-using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -108,6 +106,7 @@ int main(int      argc,
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
+    MplusM::Common::SetUpLogger(*argv);
     try
     {
 #if CheckNetworkWorks_
@@ -192,7 +191,7 @@ int main(int      argc,
                                 OD_LOG("! (controlChannel->openWithRetries(controlName, STANDARD_WAIT_TIME) && "
                                        "dataChannel->openWithRetries(dataName, STANDARD_WAIT_TIME) && "
                                        "outputChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))");//####
-                                cerr << "Problem opening a channel." << endl;
+                                MplusM::Common::GetLogger().fail("Problem opening a channel.");
                             }
 #if defined(MpM_DoExplicitClose)
                             controlChannel->close();
@@ -204,7 +203,7 @@ int main(int      argc,
                         {
                             OD_LOG("! (controlChannel && dataChannel && outputChannel && controlHandler && "//####
                                    "dataHandler)");//####
-                            cerr << "Problem creating a channel." << endl;
+                            MplusM::Common::GetLogger().fail("Problem creating a channel.");
                         }
                         MplusM::Common::AdapterChannel::RelinquishChannel(controlChannel);
                         MplusM::Common::AdapterChannel::RelinquishChannel(dataChannel);
@@ -212,19 +211,19 @@ int main(int      argc,
                         if (! stuff->disconnectFromService())
                         {
                             OD_LOG("(! stuff->disconnectFromService())");//####
-                            cerr << "Problem disconnecting from the service." << endl;
+                            MplusM::Common::GetLogger().fail("Problem disconnecting from the service.");
                         }
                     }
                     else
                     {
                         OD_LOG("! (stuff->connectToService())");//####
-                        cerr << "Problem connecting to the service." << endl;
+                        MplusM::Common::GetLogger().fail("Problem connecting to the service.");
                     }
                 }
                 else
                 {
                     OD_LOG("! (stuff->findService(\"Name RunningSum\"))");//####
-                    cerr << "Problem locating the service." << endl;
+                    MplusM::Common::GetLogger().fail("Problem locating the service.");
                 }
                 delete stuff;
             }
@@ -237,7 +236,7 @@ int main(int      argc,
         else
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())");//####
-            cerr << "YARP network not running." << endl;
+            MplusM::Common::GetLogger().fail("YARP network not running.");
         }
 #endif // CheckNetworkWorks_
     }

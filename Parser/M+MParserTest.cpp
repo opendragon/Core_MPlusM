@@ -66,7 +66,6 @@ using namespace MplusM::Common;
 using namespace MplusM::Parser;
 using namespace MplusM::Test;
 using std::cout;
-using std::cerr;
 using std::endl;
 
 #if defined(__APPLE__)
@@ -380,7 +379,17 @@ static void catchSignal(int signal)
 {
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
-    cerr << "Exiting due to signal " << signal << " = " << MplusM::NameOfSignal(signal) << endl;
+    char numBuff[30];
+    
+#  if MAC_OR_LINUX_
+    snprintf(numBuff, sizeof(numBuff), "%d", signal);
+#  else // ! MAC_OR_LINUX_
+    _snprintf(numBuff, sizeof(numBuff) - 1, "%d", signal);
+    // Correct for the weird behaviour of _snprintf
+    numBuff[sizeof(numBuff) - 1] = '\0';
+#  endif // ! MAC_OR_LINUX_
+    MplusM::Common::GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
+                                      yarp::os::ConstString(" = ") + MplusM::NameOfSignal(signal));
     OD_LOG_EXIT_EXIT(1);//####
     yarp::os::exit(1);
 } // catchSignal

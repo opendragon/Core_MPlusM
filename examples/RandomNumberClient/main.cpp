@@ -64,7 +64,6 @@ using namespace MplusM::Common;
 using namespace MplusM::Example;
 using std::cin;
 using std::cout;
-using std::cerr;
 using std::endl;
 
 #if defined(__APPLE__)
@@ -95,6 +94,7 @@ int main(int      argc,
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
+    MplusM::Common::SetUpLogger(*argv);
     try
     {
         if (MplusM::CanReadFromStandardInput())
@@ -141,7 +141,7 @@ int main(int      argc,
                                     else
                                     {
                                         OD_LOG("! (stuff->getOneRandomNumber(result))");//####
-                                        cerr << "Problem getting random number from service." << endl;
+                                        MplusM::Common::GetLogger().fail("Problem getting random number from service.");
                                     }
                                 }
                                 else
@@ -161,26 +161,27 @@ int main(int      argc,
                                     else
                                     {
                                         OD_LOG("! (stuff->getRandomNumbers(count, results))");//####
-                                        cerr << "Problem getting random numbers from service." << endl;
+                                        MplusM::Common::GetLogger().fail("Problem getting random numbers from "
+                                                                         "service.");
                                     }
                                 }
                             }
                             if (! stuff->disconnectFromService())
                             {
                                 OD_LOG("(! stuff->disconnectFromService())");//####
-                                cerr << "Problem disconnecting from the service." << endl;
+                                MplusM::Common::GetLogger().fail("Problem disconnecting from the service.");
                             }
                         }
                         else
                         {
                             OD_LOG("! (stuff->connectToService())");//####
-                            cerr << "Problem connecting to the service." << endl;
+                            MplusM::Common::GetLogger().fail("Problem connecting to the service.");
                         }
                     }
                     else
                     {
                         OD_LOG("! (stuff->findService(\"keyword random\"))");//####
-                        cerr << "Problem finding the service." << endl;
+                        MplusM::Common::GetLogger().fail("Problem finding the service.");
                     }
                     delete stuff;
                 }
@@ -193,7 +194,7 @@ int main(int      argc,
             else
             {
                 OD_LOG("! (yarp::os::Network::checkNetwork())");//####
-                cerr << "YARP network not running." << endl;
+                MplusM::Common::GetLogger().fail("YARP network not running.");
             }
 #endif // CheckNetworkWorks_            
         }

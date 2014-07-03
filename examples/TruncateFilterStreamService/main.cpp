@@ -62,7 +62,6 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
-using std::cerr;
 using std::cin;
 using std::cout;
 using std::endl;
@@ -97,6 +96,7 @@ int main(int      argc,
                 kODLoggingOptionEnableThreadSupport);//####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER();//####
+    MplusM::Common::SetUpLogger(*argv);
     try
     {
         bool stdinAvailable = MplusM::CanReadFromStandardInput();
@@ -248,7 +248,7 @@ int main(int      argc,
         else
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())");//####
-            cerr << "YARP network not running." << endl;
+            MplusM::Common::GetLogger().fail("YARP network not running.");
         }
 #endif // CheckNetworkWorks_
     }

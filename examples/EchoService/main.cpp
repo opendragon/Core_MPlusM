@@ -62,8 +62,6 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
-using std::cerr;
-using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -95,6 +93,7 @@ int main(int      argc,
                 kODLoggingOptionEnableThreadSupport);//####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER();//####
+    MplusM::Common::SetUpLogger(*argv);
     try
     {
 #if CheckNetworkWorks_
@@ -163,7 +162,7 @@ int main(int      argc,
         else
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())");//####
-            cerr << "YARP network not running." << endl;
+            MplusM::Common::GetLogger().fail("YARP network not running.");
         }
 #endif // CheckNetworkWorks_
     }

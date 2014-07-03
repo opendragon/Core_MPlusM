@@ -82,9 +82,6 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Utilities;
-using std::cout;
-using std::endl;
-using std::cerr;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -520,23 +517,23 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
                 }
                 else if (! quiet)
                 {
-                    cerr << "Could not open route to port." << endl;
+                    MplusM::Common::GetLogger().fail("Could not open route to port.");
                 }
                 delete out;
             }
             else if (! quiet)
             {
-                cerr << "Could not connect to port." << endl;
+                MplusM::Common::GetLogger().fail("Could not connect to port.");
             }
         }
         else if (! quiet)
         {
-            cerr << "Port not using recognized connection type." << endl;
+            MplusM::Common::GetLogger().fail("Port not using recognized connection type.");
         }
     }
     else if (! quiet)
     {
-        cerr << "Port name not recognized." << endl;
+        MplusM::Common::GetLogger().fail("Port name not recognized.");
     }
     OD_LOG_EXIT();//####
 } // MplusM::Utilities::GatherPortConnections
@@ -890,7 +887,7 @@ void MplusM::Utilities::GetServiceNames(StringVector & services,
             {
                 yarp::os::ConstString reason(matches.get(1).toString());
                 
-                cerr << "Failed: " << reason.c_str() << "." << endl;
+                MplusM::Common::GetLogger().fail(yarp::os::ConstString("Failed: ") + reason + ".");
             }
         }
         else
@@ -912,7 +909,7 @@ void MplusM::Utilities::GetServiceNames(StringVector & services,
         OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
         if (! quiet)
         {
-            cerr << "Problem getting information from the Service Registry." << endl;            
+            MplusM::Common::GetLogger().fail("Problem getting information from the Service Registry.");
         }
     }
     OD_LOG_EXIT();//####

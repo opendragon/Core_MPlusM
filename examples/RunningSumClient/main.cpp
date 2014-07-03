@@ -63,7 +63,6 @@ using namespace MplusM::Common;
 using namespace MplusM::Example;
 using std::cin;
 using std::cout;
-using std::cerr;
 using std::endl;
 
 #if defined(__APPLE__)
@@ -102,6 +101,7 @@ int main(int      argc,
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
+    MplusM::Common::SetUpLogger(*argv);
     try
     {
         if (MplusM::CanReadFromStandardInput())
@@ -147,7 +147,7 @@ int main(int      argc,
                                         else
                                         {
                                             OD_LOG("! (stuff->addToSum(value, newSum))");//####
-                                            cerr << "Problem adding to the sum." << endl;
+                                            MplusM::Common::GetLogger().fail("Problem adding to the sum.");
                                         }
                                         break;
                                         
@@ -157,7 +157,7 @@ int main(int      argc,
                                         if (! stuff->resetSum())
                                         {
                                             OD_LOG("(! stuff->resetSum())");//####
-                                            cerr << "Problem resetting the sum." << endl;
+                                            MplusM::Common::GetLogger().fail("Problem resetting the sum.");
                                         }
                                         break;
                                         
@@ -167,7 +167,7 @@ int main(int      argc,
                                         if (! stuff->startSum())
                                         {
                                             OD_LOG("(! stuff->startSum())");//####
-                                            cerr << "Problem starting the sum." << endl;
+                                            MplusM::Common::GetLogger().fail("Problem starting the sum.");
                                         }
                                         break;
                                         
@@ -177,7 +177,7 @@ int main(int      argc,
                                         if (! stuff->stopSum())
                                         {
                                             OD_LOG("(! stuff->stopSum())");//####
-                                            cerr << "Problem stopping the sum." << endl;
+                                            MplusM::Common::GetLogger().fail("Problem stopping the sum.");
                                         }
                                         MplusM::StopRunning();
                                         break;
@@ -191,19 +191,19 @@ int main(int      argc,
                             if (! stuff->disconnectFromService())
                             {
                                 OD_LOG("(! stuff->disconnectFromService())");//####
-                                cerr << "Problem disconnecting from the service." << endl;
+                                MplusM::Common::GetLogger().fail("Problem disconnecting from the service.");
                             }
                         }
                         else
                         {
                             OD_LOG("! (stuff->connectToService())");//####
-                            cerr << "Problem connecting to the service." << endl;
+                            MplusM::Common::GetLogger().fail("Problem connecting to the service.");
                         }
                     }
                     else
                     {
                         OD_LOG("! (stuff->findService(\"Name RunningSum\"))");//####
-                        cerr << "Problem locating the service." << endl;
+                        MplusM::Common::GetLogger().fail("Problem locating the service.");
                     }
                     delete stuff;
                 }
@@ -216,7 +216,7 @@ int main(int      argc,
             else
             {
                 OD_LOG("! (yarp::os::Network::checkNetwork())");//####
-                cerr << "YARP network not running." << endl;
+                MplusM::Common::GetLogger().fail("YARP network not running.");
             }
 #endif // CheckNetworkWorks_            
         }

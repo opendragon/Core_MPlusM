@@ -63,7 +63,6 @@
 #endif // defined(__APPLE__)
 
 using std::cout;
-using std::cerr;
 using std::endl;
 
 #if defined(__APPLE__)
@@ -252,6 +251,7 @@ int main(int      argc,
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
+    MplusM::Common::SetUpLogger(*argv);
     MplusM::Common::OutputFlavour flavour = MplusM::Common::kOutputFlavourNormal;
     int                           cc;
     
@@ -319,7 +319,7 @@ int main(int      argc,
                     OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))");//####
                     yarp::os::ConstString reason(matches.get(1).toString());
                     
-                    cerr << "Failed: " << reason.c_str() << "." << endl;
+                    MplusM::Common::GetLogger().fail(yarp::os::ConstString("Failed: ") + reason + ".");
                 }
                 else
                 {
@@ -382,8 +382,9 @@ int main(int      argc,
                                                 else
                                                 {
                                                     OD_LOG("! (request.send(*newChannel, &response))");//####
-                                                    cerr << "Problem communicating with " << aMatch.c_str() << "." <<
-                                                            endl;
+                                                    MplusM::Common::GetLogger().fail(yarp::os::ConstString("Problem "
+                                                                                            "communicating with ") +
+                                                                                     aMatch + ".");
                                                 }
                                             }
                                             else
@@ -404,8 +405,9 @@ int main(int      argc,
                                                 else
                                                 {
                                                     OD_LOG("! (request.send(*newChannel, &response))");//####
-                                                    cerr << "Problem communicating with " << aMatch.c_str() << "." <<
-                                                            endl;
+                                                    MplusM::Common::GetLogger().fail(yarp::os::ConstString("Problem "
+                                                                                            "communicating with ") +
+                                                                                     aMatch + ".");
                                                 }
                                             }
 #if defined(MpM_DoExplicitDisconnect)
@@ -480,14 +482,14 @@ int main(int      argc,
             else
             {
                 OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
-                cerr << "Problem getting information from the Service Registry." << endl;
+                MplusM::Common::GetLogger().fail("Problem getting information from the Service Registry.");
             }
         }
 #if CheckNetworkWorks_
         else
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())");//####
-            cerr << "YARP network not running." << endl;
+            MplusM::Common::GetLogger().fail("YARP network not running.");
         }
 #endif // CheckNetworkWorks_
     }

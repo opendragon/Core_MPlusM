@@ -61,7 +61,6 @@
 #endif // defined(__APPLE__)
 
 using std::cout;
-using std::cerr;
 using std::endl;
 
 #if defined(__APPLE__)
@@ -646,6 +645,7 @@ int main(int      argc,
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
+    MplusM::Common::SetUpLogger(*argv);
     MplusM::Common::OutputFlavour flavour = MplusM::Common::kOutputFlavourNormal;
     int                           cc;
     
@@ -746,7 +746,7 @@ int main(int      argc,
         else
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())");//####
-            cerr << "YARP network not running." << endl;
+            MplusM::Common::GetLogger().fail("YARP network not running.");
         }
 #endif // CheckNetworkWorks_
     }

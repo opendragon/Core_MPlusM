@@ -64,7 +64,6 @@ using namespace MplusM::Common;
 using namespace MplusM::RequestCounter;
 using std::cin;
 using std::cout;
-using std::cerr;
 using std::endl;
 
 #if defined(__APPLE__)
@@ -141,6 +140,7 @@ int main(int      argc,
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
     OD_LOG_ENTER();//####
+    MplusM::Common::SetUpLogger(*argv);
     try
     {
         if (MplusM::CanReadFromStandardInput())
@@ -182,7 +182,7 @@ int main(int      argc,
                                     {
                                         if (! stuff->pokeService())
                                         {
-                                            cerr << "Problem poking the service." << endl;
+                                            MplusM::Common::GetLogger().fail("Problem poking the service.");
                                             break;
                                         }
                                         
@@ -208,30 +208,31 @@ int main(int      argc,
                                     else
                                     {
                                         OD_LOG("! (stuff->getServiceStatistics(counter, elapsedTime))");//####
-                                        cerr << "Problem getting statistics from the service." << endl;
+                                        MplusM::Common::GetLogger().fail("Problem getting statistics from the "
+                                                                         "service.");
                                     }
                                 }
                                 else
                                 {
                                     OD_LOG("! (stuff->resetServiceCounters())");//####
-                                    cerr << "Problem resetting the service counters." << endl;
+                                    MplusM::Common::GetLogger().fail("Problem resetting the service counters.");
                                 }
                                 if (! stuff->disconnectFromService())
                                 {
                                     OD_LOG("(! stuff->disconnectFromService())");//####
-                                    cerr << "Problem disconnecting from the service." << endl;
+                                    MplusM::Common::GetLogger().fail("Problem disconnecting from the service.");
                                 }
                             }
                             else
                             {
                                 OD_LOG("! (stuff->connectToService())");//####
-                                cerr << "Problem connecting to the service." << endl;
+                                MplusM::Common::GetLogger().fail("Problem connecting to the service.");
                             }
                         }
                         else
                         {
                             OD_LOG("! (stuff->findService(\"name:RequestCounter\"))");//####
-                            cerr << "Problem locating the service." << endl;
+                            MplusM::Common::GetLogger().fail("Problem locating the service.");
                         }
                     }
                     delete stuff;
@@ -245,7 +246,7 @@ int main(int      argc,
             else
             {
                 OD_LOG("! (yarp::os::Network::checkNetwork())");//####
-                cerr << "YARP network not running." << endl;
+                MplusM::Common::GetLogger().fail("YARP network not running.");
             }
 #endif // CheckNetworkWorks_            
         }

@@ -79,9 +79,6 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using std::cerr;
-using std::cout;
-using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -92,6 +89,9 @@ static const int kMaxRandom = 123456789;
 
 /*! @brief @c true if the executable is running or ready-to-run and @c false otherwise. */
 static bool lKeepRunning = false;
+
+/*! @brief The logger to use for reporting problems. */
+static yarp::os::impl::Logger * lLogger = NULL;
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -104,7 +104,20 @@ static void localCatcher(int signal)
 {
     OD_LOG_ENTER();//####
     OD_LOG_LL1("signal = ", signal);//####
-    cerr << "Exiting due to signal " << signal << " = " << MplusM::NameOfSignal(signal) << endl;
+    if (lLogger)
+    {
+        char numBuff[30];
+        
+#  if MAC_OR_LINUX_
+        snprintf(numBuff, sizeof(numBuff), "%d", signal);
+#  else // ! MAC_OR_LINUX_
+        _snprintf(numBuff, sizeof(numBuff) - 1, "%d", signal);
+        // Correct for the weird behaviour of _snprintf
+        numBuff[sizeof(numBuff) - 1] = '\0';
+#  endif // ! MAC_OR_LINUX_
+        lLogger->error(yarp::os::ConstString("Exiting due to signal ") + numBuff + yarp::os::ConstString(" = ") +
+                       MplusM::NameOfSignal(signal));
+    }
     OD_LOG_EXIT_EXIT(1);//####
     yarp::os::exit(1);
 } // localCatcher
@@ -135,12 +148,23 @@ static const char * nullOrString(const char * aString)
 void MplusM::Common::DumpContactToLog(const char *              tag,
                                       const yarp::os::Contact & aContact)
 {
-    OD_LOG_S4("tag = ", tag, "contact.name = ", aContact.getName().c_str(),//####
-              "contact.host = ", aContact.getHost().c_str(), "contact.carrier = ", aContact.getCarrier().c_str());//####
-    OD_LOG_LL1("contact.port = ", aContact.getPort());//####
-    OD_LOG_S1("contact.toString = ", aContact.toString().c_str());//####
-    OD_LOG_B1("contact.isValid = ", aContact.isValid());//####
+    if (lLogger)
+    {
+        lLogger->info(yarp::os::ConstString("tag = ") + tag);
+        lLogger->info(yarp::os::ConstString("contact.name = ") + aContact.getName());
+        lLogger->info(yarp::os::ConstString("contact.host = ") + aContact.getHost());
+        lLogger->info(yarp::os::ConstString("contact.carrier = ") + aContact.getCarrier());
+        lLogger->info(yarp::os::ConstString("contact.isValid = ") + (aContact.isValid() ? "true" : "false"));
+        lLogger->info(yarp::os::ConstString("contact.toString = ") + aContact.toString());
+    }
 } // MplusM::Common::DumpContactToLog
+
+yarp::os::impl::Logger & MplusM::Common::GetLogger(void)
+{
+    OD_LOG_ENTER();//####
+    OD_LOG_EXIT_P(lLogger);
+    return *lLogger;
+} // MplusM::Common::GetLogger
 
 yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelRoot)
 {
@@ -188,12 +212,14 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
 #else // ! MAC_OR_LINUX_
         if (hasLeadingSlash)
         {
-            sprintf(buff, "%s%x", stringToUse, randNumb);
+            _snprintf(buff, sizeof(buff) - 1, "%s%x", stringToUse, randNumb);
         }
         else
         {
-            sprintf(buff, "/%s%x", stringToUse, randNumb);
+            _snprintf(buff, sizeof(buff) - 1, "/%s%x", stringToUse, randNumb);
         }
+        // Correct for the weird behaviour of _snprintf
+        buff[sizeof(buff) - 1] = '\0';
 #endif // ! MAC_OR_LINUX_
         result = buff;
         delete[] buff;
@@ -228,9 +254,12 @@ void MplusM::Common::Initialize(const char * progName)
         int    seed = static_cast<int>(ceil(fraction * kMaxRandom));
         
 #if defined(MpM_ChattyStart)
-        cerr << "Program " << progName << endl;
-        cerr << "Movement And Meaning Version: " << MpM_VERSION << ", YARP Version: " << YARP_VERSION_STRING <<
-                ", ACE Version: " << ACE_VERSION << endl;
+        if (lLogger)
+        {
+            lLogger->info(yarp::os::ConstString("Program ") + progName);
+            lLogger->info("Movement And Meaning Version: " MpM_VERSION ", YARP Version: " YARP_VERSION_STRING
+                          ", ACE Version: " ACE_VERSION);
+        }
 #endif // defined(MpM_ChattyStart)
         OD_LOG_D2("time = ", now, "fraction = ", fraction);//####
         OD_LOG_LL1("seed = ", seed);//####
@@ -464,6 +493,13 @@ void MplusM::Common::SetUpCatcher(void)
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT();//####
 } // MplusM::Common::SetUpCatcher
+
+void MplusM::Common::SetUpLogger(const char * progName)
+{
+    OD_LOG_ENTER();//####
+    lLogger = new yarp::os::impl::Logger(progName, yarp::os::impl::Logger::get());
+    OD_LOG_EXIT();//####
+} // MplusM::Common::SetUpLogger
 
 void MplusM::Common::ShutDownCatcher(void)
 {
@@ -717,14 +753,14 @@ void MplusM::OutputDescription(std::ostream &                outStream,
         {
             yarp::os::ConstString piece(description.substr(pieceStart, ii - pieceStart));
             
-            outStream << indent << piece.c_str() << endl;
+            outStream << indent << piece.c_str() << std::endl;
             pieceStart = ii + 1;
             indent = blanks;
         }
     }
     yarp::os::ConstString piece(description.substr(pieceStart, descriptionLength - pieceStart));
     
-    outStream << indent << piece.c_str() << endl;
+    outStream << indent << piece.c_str() << std::endl;
 } // MplusM::OutputDescription
 
 yarp::os::ConstString MplusM::SanitizeString(const yarp::os::ConstString & inString,
