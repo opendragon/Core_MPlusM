@@ -102,27 +102,17 @@ int main(int      argc,
     try
     {
         bool                  stdinAvailable = MplusM::CanReadFromStandardInput();
-        char                  buff[40]; // Should be more than adequate!
-        int                   cc;
-        int                   randNumb = yarp::os::Random::uniform(0, 10000);
         yarp::os::ConstString recordPath;
         
-#if MAC_OR_LINUX_
-        snprintf(buff, sizeof(buff), "/tmp/record_%x", randNumb);
-#else // ! MAC_OR_LINUX_
-        _snprintf(buff, sizeof(buff) - 1, "/tmp/record_%x", randNumb);
-        // Correct for the weird behaviour of _snprintf
-        buff[sizeof(buff) - 1] = '\0';
-#endif // ! MAC_OR_LINUX_
-        recordPath = buff;
         opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (cc = getopt(argc, argv, RECORDINPUTSTREAM_OPTIONS); -1 != cc;
+        for (int cc = getopt(argc, argv, RECORDINPUTSTREAM_OPTIONS); -1 != cc;
              cc = getopt(argc, argv, RECORDINPUTSTREAM_OPTIONS))
         {
             switch (cc)
             {
                 case 'p':
                     recordPath = optarg;
+                    OD_LOG_S1("recordPath <- ", recordPath.c_str());//####
                     break;
                     
                 default:
@@ -140,17 +130,35 @@ int main(int      argc,
             yarp::os::ConstString servicePortNumber;
             
             MplusM::Common::Initialize(*argv);
-            if (1 < argc)
+            // Note that we can't use Random::uniform util after the seed has been set
+            if (0 == recordPath.size())
             {
-                serviceEndpointName = argv[1];
-                if (2 < argc)
-                {
-                    servicePortNumber = argv[2];
-                }
+                char buff[40]; // Should be more than adequate!
+                int  randNumb = yarp::os::Random::uniform(0, 10000);
+                
+#if MAC_OR_LINUX_
+                snprintf(buff, sizeof(buff), "/tmp/record_%x", randNumb);
+#else // ! MAC_OR_LINUX_
+                _snprintf(buff, sizeof(buff) - 1, "/tmp/record_%x", randNumb);
+                // Correct for the weird behaviour of _snprintf
+                buff[sizeof(buff) - 1] = '\0';
+#endif // ! MAC_OR_LINUX_
+                recordPath = buff;
+                OD_LOG_S1("recordPath <- ", recordPath.c_str());//####
+            }
+            if (optind >= argc)
+            {
+                serviceEndpointName = DEFAULT_RECORD_SERVICE_NAME;
+            }
+            else if ((optind + 1) == argc)
+            {
+                serviceEndpointName = argv[optind];
             }
             else
             {
-                serviceEndpointName = DEFAULT_RECORD_SERVICE_NAME;
+                // 2 args
+                serviceEndpointName = argv[optind];
+                servicePortNumber = argv[optind + 1];
             }
             RecordInputStreamService * stuff = new RecordInputStreamService(*argv, serviceEndpointName,
                                                                             servicePortNumber);
@@ -211,9 +219,13 @@ int main(int      argc,
                                     case 'C':
                                         // Configure
                                         cout << "Path: ";
+                                        // Eat whitespace until we get something useful.
+                                        cin >> inChar;
                                         if (getline(cin, inputLine))
                                         {
-                                            recordPath = inputLine.c_str();
+                                            recordPath = yarp::os::ConstString(1, inChar);
+                                            recordPath += inputLine.c_str();
+                                            OD_LOG_S1("recordPath <-", recordPath.c_str());//!!!!
                                             configureData.clear();
                                             configureData.addString(recordPath);
                                             if (stuff->configure(configureData))

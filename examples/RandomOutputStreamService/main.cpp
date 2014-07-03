@@ -99,18 +99,17 @@ int main(int      argc,
 #endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER();//####
     MplusM::Common::SetUpLogger(*argv);
-    try
-    {
+//    try
+//    {
         bool   stdinAvailable = MplusM::CanReadFromStandardInput();
         char * endPtr;
         double burstPeriod = 1;
         double tempDouble;
         int    burstSize = 1;
-        int    cc;
         int    tempInt;
         
         opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (cc = getopt(argc, argv, RANDOMOUTPUTSTREAM_OPTIONS); -1 != cc;
+        for (int cc = getopt(argc, argv, RANDOMOUTPUTSTREAM_OPTIONS); -1 != cc;
              cc = getopt(argc, argv, RANDOMOUTPUTSTREAM_OPTIONS))
         {
             switch (cc)
@@ -141,6 +140,7 @@ int main(int      argc,
                     
             }
         }
+    OD_LOG_LL2("optind = ", optind, "argc = ", argc);//####
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
@@ -150,17 +150,19 @@ int main(int      argc,
             yarp::os::ConstString servicePortNumber;
             
             MplusM::Common::Initialize(*argv);
-            if (1 < argc)
+            if (optind >= argc)
             {
-                serviceEndpointName = argv[1];
-                if (2 < argc)
-                {
-                    servicePortNumber = argv[2];
-                }
+                serviceEndpointName = DEFAULT_RANDOMSTREAM_SERVICE_NAME;
+            }
+            else if ((optind + 1) == argc)
+            {
+                serviceEndpointName = argv[optind];
             }
             else
             {
-                serviceEndpointName = DEFAULT_RANDOMSTREAM_SERVICE_NAME;
+                // 2 args
+                serviceEndpointName = argv[optind];
+                servicePortNumber = argv[optind + 1];
             }
             RandomOutputStreamService * stuff = new RandomOutputStreamService(*argv, serviceEndpointName,
                                                                               servicePortNumber);
@@ -315,11 +317,11 @@ int main(int      argc,
             MplusM::Common::GetLogger().fail("YARP network not running.");
         }
 #endif // CheckNetworkWorks_
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-    }
+//    }
+//    catch (...)
+//    {
+//        OD_LOG("Exception caught");//####
+//    }
     yarp::os::Network::fini();
     OD_LOG_EXIT_L(0);//####
     return 0;

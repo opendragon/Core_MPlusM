@@ -141,7 +141,7 @@ bool BaseOutputService::setUpInputStreams(void)
 bool BaseOutputService::shutDownInputStreams(void)
 {
     OD_LOG_OBJENTER();//####
-    bool result = true;
+    bool result = inherited::shutDownInputStreams();
     
     OD_LOG_EXIT_B(result);//####
     return result;

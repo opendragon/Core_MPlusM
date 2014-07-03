@@ -87,10 +87,9 @@ int main(int      argc,
     OD_LOG_ENTER();//####
     MplusM::Common::SetUpLogger(*argv);
     MplusM::Common::OutputFlavour flavour = MplusM::Common::kOutputFlavourNormal;
-    int                           cc;
     
     opterr = 0; // Suppress the error message resulting from an unknown option.
-    for (cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc; cc = getopt(argc, argv, STANDARD_OPTIONS))
+    for (int cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc; cc = getopt(argc, argv, STANDARD_OPTIONS))
     {
         switch (cc)
         {

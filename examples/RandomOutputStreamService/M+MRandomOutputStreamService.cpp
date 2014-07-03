@@ -40,8 +40,9 @@
 //--------------------------------------------------------------------------------------
 
 #include "M+MRandomOutputStreamService.h"
-#include "M+MEndpoint.h"
+#include "M+MGeneralChannel.h"
 #include "M+MRandomOutputStreamRequests.h"
+#include "M+MRandomOutputThread.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -81,7 +82,7 @@ RandomOutputStreamService::RandomOutputStreamService(const yarp::os::ConstString
                                                      const yarp::os::ConstString & serviceEndpointName,
                                                      const yarp::os::ConstString & servicePortNumber) :
         inherited(launchPath, true, MpM_RANDOMSTREAM_CANONICAL_NAME, "An example random output stream service", "",
-                  serviceEndpointName, servicePortNumber)
+                  serviceEndpointName, servicePortNumber), _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S3("launchPath = ", launchPath.c_str(), "serviceEndpointName = ", serviceEndpointName.c_str(),//####
@@ -92,6 +93,7 @@ RandomOutputStreamService::RandomOutputStreamService(const yarp::os::ConstString
 RandomOutputStreamService::~RandomOutputStreamService(void)
 {
     OD_LOG_OBJENTER();//####
+    stopStreams();
     OD_LOG_OBJEXIT();//####
 } // RandomOutputStreamService::~RandomOutputStreamService
 
@@ -115,11 +117,15 @@ bool RandomOutputStreamService::configure(const Common::Package & details)
                 
                 if (firstValue.isDouble() && secondValue.isInt())
                 {
-                    double burstPeriod = firstValue.asDouble();
-                    int    burstSize = secondValue.asInt();
+                    double firstNumber = firstValue.asDouble();
+                    int    secondNumber = secondValue.asInt();
                     
-                    OD_LOG_D1("burstPeriod <- ", burstPeriod);//####
-                    OD_LOG_L1("burstSize <- ", burstSize);//####
+                    if ((0 < firstNumber) && (0 < secondNumber))
+                    {
+                        _burstPeriod = firstNumber;
+                        _burstSize = secondNumber;
+                        result = true;
+                    }
                 }
             }
         }
@@ -138,13 +144,8 @@ void RandomOutputStreamService::restartStreams(void)
     OD_LOG_OBJENTER();//####
     try
     {
-        if (! isActive())
-        {
-            
-            
-            
-            setActive();
-        }
+        stopStreams();
+        startStreams();
     }
     catch (...)
     {
@@ -202,9 +203,8 @@ void RandomOutputStreamService::startStreams(void)
     {
         if (! isActive())
         {
-            
-            
-            
+            _generator = new RandomOutputThread(_outStreams.at(0), _burstPeriod, _burstSize);
+            _generator->start();
             setActive();
         }
     }
@@ -241,9 +241,13 @@ void RandomOutputStreamService::stopStreams(void)
     {
         if (isActive())
         {
-            
-            
-            
+            _generator->stop();
+            for ( ; _generator->isRunning(); )
+            {
+                yarp::os::Time::delay(_burstSize / 3.9);
+            }
+            delete _generator;
+            _generator = NULL;
             clearActive();
         }
     }

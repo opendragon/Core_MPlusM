@@ -377,6 +377,7 @@ bool BaseInputOutputService::shutDownInputStreams(void)
         
         if (aChannel)
         {
+            OD_LOG_P1("aChannel = ", aChannel);//####
             delete aChannel;
         }
     }
@@ -396,6 +397,7 @@ bool BaseInputOutputService::shutDownOutputStreams(void)
         
         if (aChannel)
         {
+            OD_LOG_P1("aChannel = ", aChannel);//####
             delete aChannel;
         }
     }

@@ -108,13 +108,13 @@ static void localCatcher(int signal)
     {
         char numBuff[30];
         
-#  if MAC_OR_LINUX_
+#if MAC_OR_LINUX_
         snprintf(numBuff, sizeof(numBuff), "%d", signal);
-#  else // ! MAC_OR_LINUX_
+#else // ! MAC_OR_LINUX_
         _snprintf(numBuff, sizeof(numBuff) - 1, "%d", signal);
         // Correct for the weird behaviour of _snprintf
         numBuff[sizeof(numBuff) - 1] = '\0';
-#  endif // ! MAC_OR_LINUX_
+#endif // ! MAC_OR_LINUX_
         lLogger->error(yarp::os::ConstString("Exiting due to signal ") + numBuff + yarp::os::ConstString(" = ") +
                        MplusM::NameOfSignal(signal));
     }
@@ -198,7 +198,7 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
         }
         buffLen += 32; // allow for a big number...
         char * buff = new char[buffLen];
-        int    randNumb = yarp::os::Random::uniform(0, kMaxRandom);
+        int    randNumb = static_cast<int>(yarp::os::Random::uniform() * kMaxRandom);
         
 #if MAC_OR_LINUX_
         if (hasLeadingSlash)

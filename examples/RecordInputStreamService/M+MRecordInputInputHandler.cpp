@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MBaseInputService.cpp
+//  File:       M+MRecordInputInputHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the minimal functionality required for an M+M
-//              input service.
+//  Contains:   The class definition for the custom data channel input handler used by
+//              the random number adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,12 +36,14 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-06-23
+//  Created:    2014-07-03
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MBaseInputService.h"
-#include "M+MRequests.h"
+#include "M+MRecordInputInputHandler.h"
+//#include "M+MAdapterChannel.h"
+//#include "M+MRandomNumberAdapterData.h"
+//#include "M+MRandomNumberClient.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -52,13 +54,15 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the minimal functionality required for an M+M input service. */
+ @brief The class definition for the custom data channel input handler used by the
+ random number adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
+using namespace MplusM::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -76,76 +80,68 @@ using namespace MplusM::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-BaseInputService::BaseInputService(const yarp::os::ConstString & launchPath,
-                                   const bool                    useMultipleHandlers,
-                                   const yarp::os::ConstString & canonicalName,
-                                   const yarp::os::ConstString & description,
-                                   const yarp::os::ConstString & requestsDescription,
-                                   const yarp::os::ConstString & serviceEndpointName,
-                                   const yarp::os::ConstString & servicePortNumber) :
-            inherited(kServiceKindInput, launchPath, useMultipleHandlers, canonicalName, description,
-                      requestsDescription, serviceEndpointName, servicePortNumber)
+RecordInputInputHandler::RecordInputInputHandler(void) :
+        inherited(), _outFile(NULL)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath.c_str(), "canonicalName = ", canonicalName.c_str(), "description = ",//####
-              description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
-    OD_LOG_S2("serviceEndpointName = ", serviceEndpointName.c_str(), "servicePortNumber = ",//####
-              servicePortNumber.c_str());//####
-    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
-//    attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
-} // BaseInputService::BaseInputService
+} // RecordInputInputHandler::RecordInputInputHandler
 
-BaseInputService::BaseInputService(const yarp::os::ConstString & launchPath,
-                                   const bool                    useMultipleHandlers,
-                                   const yarp::os::ConstString & canonicalName,
-                                   const yarp::os::ConstString & description,
-                                   const yarp::os::ConstString & requestsDescription,
-                                   const int                     argc,
-                                   char * *                      argv) :
-        inherited(kServiceKindInput, launchPath, useMultipleHandlers, canonicalName, description, requestsDescription,
-                  argc, argv)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath.c_str(), "canonicalName = ", canonicalName.c_str(), "description = ",//####
-              description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
-    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
-//    attachRequestHandlers();
-    OD_LOG_EXIT_P(this);//####
-} // BaseInputService::BaseInputService
-
-BaseInputService::~BaseInputService(void)
+RecordInputInputHandler::~RecordInputInputHandler(void)
 {
     OD_LOG_OBJENTER();//####
-//    detachRequestHandlers();
     OD_LOG_OBJEXIT();//####
-} // BaseInputService::~BaseInputService
+} // RecordInputInputHandler::~RecordInputInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool BaseInputService::setUpOutputStreams(void)
+bool RecordInputInputHandler::handleInput(const Common::Package &       input,
+                                          const yarp::os::ConstString & senderChannel,
+                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(senderChannel,replyMechanism)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    bool result = inherited::setUpOutputStreams();
+    OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
+    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
+    bool result = true;
     
-    if (result)
+    try
     {
-        result = addOutStreamsFromDescriptions(_outDescriptions);
+        if (0 < input.size())
+        {
+            yarp::os::ConstString inputAsString(input.toString());
+            
+            if (_outFile)
+            {
+                OD_LOG("(_outFile)");//####
+                fputs(inputAsString.c_str(), _outFile);
+                fputc('\n', _outFile);
+                fflush(_outFile);
+            }
+        }
     }
-    OD_LOG_EXIT_B(result);//####
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // BaseInputService::setUpOutputStreams
+} // RecordInputInputHandler::handleInput
 
-bool BaseInputService::shutDownOutputStreams(void)
+void RecordInputInputHandler::setFile(FILE * outFile)
 {
     OD_LOG_OBJENTER();//####
-    bool result = inherited::shutDownOutputStreams();
-    
-    OD_LOG_EXIT_B(result);//####
-    return result;
-} // BaseInputService::shutDownOutputStreams
+    OD_LOG_P1("outFile = ", outFile);//####
+    _outFile = outFile;
+    OD_LOG_OBJEXIT();//####
+} // RecordInputInputHandler::setFile
 
 #if defined(__APPLE__)
 # pragma mark Accessors

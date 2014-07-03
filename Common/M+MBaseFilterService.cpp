@@ -154,7 +154,7 @@ bool BaseFilterService::setUpOutputStreams(void)
 bool BaseFilterService::shutDownInputStreams(void)
 {
     OD_LOG_OBJENTER();//####
-    bool result = true;
+    bool result = inherited::shutDownInputStreams();
     
     OD_LOG_EXIT_B(result);//####
     return result;
@@ -163,7 +163,7 @@ bool BaseFilterService::shutDownInputStreams(void)
 bool BaseFilterService::shutDownOutputStreams(void)
 {
     OD_LOG_OBJENTER();//####
-    bool result = true;
+    bool result = inherited::shutDownOutputStreams();
     
     OD_LOG_EXIT_B(result);//####
     return result;

@@ -16,6 +16,6 @@
 
 * fix ‘doxygen’ descriptions and request/service descriptions for new I/O services
 
-* add input handlers to input streams for output and filter services
+		* add input handlers to input streams for output and filter services
 
 * I/O services need to provide some kind of unique identification, so that multiple copies can run at the same time

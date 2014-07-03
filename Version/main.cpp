@@ -97,13 +97,12 @@ int main(int      argc,
          char * * argv)
 {
     MplusM::Common::OutputFlavour flavour = MplusM::Common::kOutputFlavourNormal;
-    int                           cc;
     yarp::os::ConstString         aceVersionString;
     yarp::os::ConstString         mpmVersionString;
     yarp::os::ConstString         yarpVersionString;
     
     opterr = 0; // Suppress the error message resulting from an unknown option.
-    for (cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc; cc = getopt(argc, argv, STANDARD_OPTIONS))
+    for (int cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc; cc = getopt(argc, argv, STANDARD_OPTIONS))
     {
         switch (cc)
         {

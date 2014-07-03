@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MBaseInputService.cpp
+//  File:       M+MRandomOutputThread.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the minimal functionality required for an M+M
-//              input service.
+//  Contains:   The class definition for an output-generating thread for M+M.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,12 +35,12 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-06-23
+//  Created:    2014-07-03
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MBaseInputService.h"
-#include "M+MRequests.h"
+#include "M+MRandomOutputThread.h"
+#include "M+MGeneralChannel.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -52,13 +51,13 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the minimal functionality required for an M+M input service. */
+ @brief The class definition for an output-generating thread for M+M. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::Common;
+using namespace MplusM::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -76,76 +75,74 @@ using namespace MplusM::Common;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-BaseInputService::BaseInputService(const yarp::os::ConstString & launchPath,
-                                   const bool                    useMultipleHandlers,
-                                   const yarp::os::ConstString & canonicalName,
-                                   const yarp::os::ConstString & description,
-                                   const yarp::os::ConstString & requestsDescription,
-                                   const yarp::os::ConstString & serviceEndpointName,
-                                   const yarp::os::ConstString & servicePortNumber) :
-            inherited(kServiceKindInput, launchPath, useMultipleHandlers, canonicalName, description,
-                      requestsDescription, serviceEndpointName, servicePortNumber)
+RandomOutputThread::RandomOutputThread(Common::GeneralChannel * outChannel,
+                                       const double             timeToWait,
+                                       const int                numValues) :
+        inherited(), _outChannel(outChannel), _timeToWait(timeToWait), _numValues(numValues)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath.c_str(), "canonicalName = ", canonicalName.c_str(), "description = ",//####
-              description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
-    OD_LOG_S2("serviceEndpointName = ", serviceEndpointName.c_str(), "servicePortNumber = ",//####
-              servicePortNumber.c_str());//####
-    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
-//    attachRequestHandlers();
+    OD_LOG_P1("outChannel = ", outChannel);//####
+    OD_LOG_D1("timeToWait = ", timeToWait);//####
+    OD_LOG_LL1("numValues = ", numValues);//####
     OD_LOG_EXIT_P(this);//####
-} // BaseInputService::BaseInputService
+} // RandomOutputThread::RandomOutputThread
 
-BaseInputService::BaseInputService(const yarp::os::ConstString & launchPath,
-                                   const bool                    useMultipleHandlers,
-                                   const yarp::os::ConstString & canonicalName,
-                                   const yarp::os::ConstString & description,
-                                   const yarp::os::ConstString & requestsDescription,
-                                   const int                     argc,
-                                   char * *                      argv) :
-        inherited(kServiceKindInput, launchPath, useMultipleHandlers, canonicalName, description, requestsDescription,
-                  argc, argv)
-{
-    OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath.c_str(), "canonicalName = ", canonicalName.c_str(), "description = ",//####
-              description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
-    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
-//    attachRequestHandlers();
-    OD_LOG_EXIT_P(this);//####
-} // BaseInputService::BaseInputService
-
-BaseInputService::~BaseInputService(void)
+RandomOutputThread::~RandomOutputThread(void)
 {
     OD_LOG_OBJENTER();//####
-//    detachRequestHandlers();
     OD_LOG_OBJEXIT();//####
-} // BaseInputService::~BaseInputService
+} // RandomOutputThread::~RandomOutputThread
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool BaseInputService::setUpOutputStreams(void)
+void RandomOutputThread::run(void)
 {
     OD_LOG_OBJENTER();//####
-    bool result = inherited::setUpOutputStreams();
-    
-    if (result)
+    for ( ; ! isStopping(); )
     {
-        result = addOutStreamsFromDescriptions(_outDescriptions);
+        if (_nextTime <= yarp::os::Time::now())
+        {
+            OD_LOG("(_nextTime <= yarp::os::Time::now())");//####
+            if (_outChannel)
+            {
+                Common::Package message;
+                
+                for (int ii = 0; ii < _numValues; ++ii)
+                {
+                    message.addDouble(10000 * yarp::os::Random::uniform());
+                }
+                if (! _outChannel->write(message))
+                {
+                    OD_LOG("(! _outChannel->write(message))");//####
+#if defined(MpM_StallOnSendProblem)
+                    Common::Stall();
+#endif // defined(MpM_StallOnSendProblem)
+                }
+            }
+            _nextTime = yarp::os::Time::now() + _timeToWait;
+        }
+        yarp::os::Time::yield();
     }
-    OD_LOG_EXIT_B(result);//####
-    return result;
-} // BaseInputService::setUpOutputStreams
+    OD_LOG_OBJEXIT();//####
+} // RandomOutputThread::run
 
-bool BaseInputService::shutDownOutputStreams(void)
+bool RandomOutputThread::threadInit(void)
 {
     OD_LOG_OBJENTER();//####
-    bool result = inherited::shutDownOutputStreams();
+    bool result = true;
     
-    OD_LOG_EXIT_B(result);//####
+    _nextTime = yarp::os::Time::now() + _timeToWait;
+    OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // BaseInputService::shutDownOutputStreams
+} // RandomOutputThread::threadInit
+
+void RandomOutputThread::threadRelease(void)
+{
+    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJEXIT();//####
+} // RandomOutputThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Accessors

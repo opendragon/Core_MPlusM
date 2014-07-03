@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MRecordInputStreamService.h
+//  File:       M+MRandomOutputThread.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a simple M+M service.
+//  Contains:   The class declaration for an output-generating thread for M+M.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,14 +35,14 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-06-24
+//  Created:    2014-07-03
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MpMRecordInputStreamService_H_))
-# define MpMRecordInputStreamService_H_ /* Header guard */
+#if (! defined(MpMRandomOutputThread_H_))
+# define MpMRandomOutputThread_H_ /* Header guard */
 
-# include "M+MBaseOutputService.h"
+# include "M+MCommon.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -50,94 +50,91 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for a simple M+M service. */
+ @brief The class declaration for an output-generating thread for M+M. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_RECORD_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "example/recordinputstream")
-
 namespace MplusM
 {
-    namespace Example
+    namespace Common
     {
-        class RecordInputInputHandler;
-        class RecordInputRequestHandler;
-        
-        /*! @brief An example M+M service, handling 'record' requests. */
-        class RecordInputStreamService : public Common::BaseOutputService
+        class GeneralChannel;
+    } // Common
+    
+    namespace Example
+    {        
+        /*! @brief A convenience class to timeout objects. */
+        class RandomOutputThread : public yarp::os::Thread
         {
         public:
             
             /*! @brief The constructor.
-             @param launchPath The command-line name used to launch the service.
-             @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param servicePortNumber The port being used by the service. */
-            RecordInputStreamService(const yarp::os::ConstString & launchPath,
-                                     const yarp::os::ConstString & serviceEndpointName,
-                                     const yarp::os::ConstString & servicePortNumber = "");
+             @param outChannel The channel to send data bursts to.
+             @param timeToWait The number of seconds to delay before triggering.
+             @param numValues The number of values to send in each burst. */
+            RandomOutputThread(Common::GeneralChannel * outChannel,
+                               const double             timeToWait,
+                               const int                numValues);
             
             /*! @brief The destructor. */
-            virtual ~RecordInputStreamService(void);
+            virtual ~RandomOutputThread(void);
             
-            /*! @brief Configure the input/output streams.
-             @param details The configuration information for the input/output streams.
-             @returns @c true if the service was successfully configured and @c false otherwise. */
-            virtual bool configure(const Common::Package & details);
+            /*! @brief The thread main body. */
+            virtual void run(void);
             
-            /*! @brief Restart the input/output streams. */
-            virtual void restartStreams(void);
+            /*! @brief The thread initialization method.
+             @returns @c true if the thread is ready to run. */
+            virtual bool threadInit(void);
             
-            /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
-            
-            /*! @brief Start the input/output streams. */
-            virtual void startStreams(void);
-            
-            /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
-            
-            /*! @brief Stop the input/output streams. */
-            virtual void stopStreams(void);
+            /*! @brief The thread termination method. */
+            virtual void threadRelease(void);
             
         protected:
             
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseOutputService inherited;
+            typedef yarp::os::Thread inherited;
             
             /*! @brief Copy constructor.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RecordInputStreamService(const RecordInputStreamService & other);
+            RandomOutputThread(const RandomOutputThread & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RecordInputStreamService & operator=(const RecordInputStreamService & other);
+            RandomOutputThread & operator=(const RandomOutputThread & other);
             
-            /*! @brief Set up the descriptions that will be used to construct the input/output streams. */
-            virtual bool setUpStreamDescriptions(void);
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char             _filler1[7];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
             
-            /*! @brief The path to the output file used for recording. */
-            yarp::os::ConstString     _outPath;
+            /*! @brief The channel to send data bursts to. */
+            Common::GeneralChannel * _outChannel;
             
-            /*! @brief The file output to be written to. */
-            FILE *                    _outFile;
+            /*! @brief The time at which the thread will send data. */
+            double                   _nextTime;
             
-            /*! @brief The handler for input data. */
-            RecordInputInputHandler * _inHandler;
+            /*! @brief The number of seconds to delay before triggering. */
+            double                   _timeToWait;
             
-        }; // RecordInputStreamService
+            /*! @brief The number of values to send in each burst. */
+            int                      _numValues;
+            
+        }; // RandomOutputThread
         
     } // Example
     
 } // MplusM
 
-#endif // ! defined(MpMRecordInputStreamService_H_)
+#endif // ! defined(MpMRandomOutputThread_H_)

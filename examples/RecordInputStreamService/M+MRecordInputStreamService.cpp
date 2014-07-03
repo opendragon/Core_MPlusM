@@ -40,7 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "M+MRecordInputStreamService.h"
-#include "M+MEndpoint.h"
+#include "M+MGeneralChannel.h"
+#include "M+MRecordInputInputHandler.h"
 #include "M+MRecordInputStreamRequests.h"
 
 //#include "ODEnableLogging.h"
@@ -81,7 +82,7 @@ RecordInputStreamService::RecordInputStreamService(const yarp::os::ConstString &
                                                    const yarp::os::ConstString & serviceEndpointName,
                                                    const yarp::os::ConstString & servicePortNumber) :
         inherited(launchPath, true, MpM_RECORD_CANONICAL_NAME, "An example record input stream service", "",
-                  serviceEndpointName, servicePortNumber)
+                  serviceEndpointName, servicePortNumber), _outFile(NULL), _inHandler(new RecordInputInputHandler())
 {
     OD_LOG_ENTER();//####
     OD_LOG_S3("launchPath = ", launchPath.c_str(), "serviceEndpointName = ", serviceEndpointName.c_str(),//####
@@ -92,6 +93,8 @@ RecordInputStreamService::RecordInputStreamService(const yarp::os::ConstString &
 RecordInputStreamService::~RecordInputStreamService(void)
 {
     OD_LOG_OBJENTER();//####
+    stopStreams();
+    delete _inHandler;
     OD_LOG_OBJEXIT();//####
 } // RecordInputStreamService::~RecordInputStreamService
 
@@ -114,9 +117,9 @@ bool RecordInputStreamService::configure(const Common::Package & details)
                 
                 if (firstValue.isString())
                 {
-                    yarp::os::ConstString newPath = firstValue.asString();
-                    
-                    OD_LOG_S1("newPath <- ", newPath);//####
+                    _outPath = firstValue.asString();
+                    OD_LOG_S1("_outPath <- ", _outPath.c_str());//####
+                    result = true;
                 }
             }
         }
@@ -133,21 +136,8 @@ bool RecordInputStreamService::configure(const Common::Package & details)
 void RecordInputStreamService::restartStreams(void)
 {
     OD_LOG_OBJENTER();//####
-    try
-    {
-        if (! isActive())
-        {
-            
-            
-            
-            setActive();
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught");//####
-        throw;
-    }
+    stopStreams();
+    startStreams();
     OD_LOG_OBJEXIT();//####
 } // RecordInputStreamService::restartStreams
 
@@ -199,10 +189,21 @@ void RecordInputStreamService::startStreams(void)
     {
         if (! isActive())
         {
-            
-            
-            
-            setActive();
+            _outFile = fopen(_outPath.c_str(), "w");
+            if (_outFile)
+            {
+                if (_inHandler)
+                {
+                    _inHandler->setFile(_outFile);
+                    _inStreams.at(0)->setReader(*_inHandler);
+                    setActive();
+                }
+                else
+                {
+                    fclose(_outFile);
+                    _outFile = NULL;
+                }
+            }
         }
     }
     catch (...)
@@ -238,8 +239,12 @@ void RecordInputStreamService::stopStreams(void)
     {
         if (isActive())
         {
-            
-            
+            if (_inHandler)
+            {
+                _inHandler->setFile(NULL);
+            }
+            fclose(_outFile);
+            _outFile = NULL;
             clearActive();
         }
     }

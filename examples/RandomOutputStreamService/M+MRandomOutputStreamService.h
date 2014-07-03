@@ -63,6 +63,7 @@ namespace MplusM
     namespace Example
     {
         class RandomOutputRequestHandler;
+        class RandomOutputThread;
         
         /*! @brief An example M+M service, handling 'random' requests. */
         class RandomOutputStreamService : public Common::BaseInputService
@@ -124,6 +125,15 @@ namespace MplusM
             /*! @brief Set up the descriptions that will be used to construct the input/output streams. */
             virtual bool setUpStreamDescriptions(void);
             
+            /*! @brief The output thread to use. */
+            RandomOutputThread * _generator;
+            
+            /*! @brief The number of seconds between data bursts. */
+            double               _burstPeriod;
+            
+            /*! @brief The number of values in each data burst. */
+            int                  _burstSize;
+
         }; // RandomOutputStreamService
         
     } // Example
