@@ -57,6 +57,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the random number service. */
-# define MpM_RECORD_CANONICAL_NAME "Record"
+# define MpM_RECORDINTEGERS_CANONICAL_NAME "RecordIntegers"
 
 #endif // ! defined(MpMRecordIntegersStreamRequests_H_)

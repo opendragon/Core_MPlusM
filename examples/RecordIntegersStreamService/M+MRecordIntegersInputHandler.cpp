@@ -98,8 +98,8 @@ RecordIntegersInputHandler::~RecordIntegersInputHandler(void)
 #endif // defined(__APPLE__)
 
 bool RecordIntegersInputHandler::handleInput(const Common::Package &       input,
-                                          const yarp::os::ConstString & senderChannel,
-                                          yarp::os::ConnectionWriter *  replyMechanism)
+                                             const yarp::os::ConstString & senderChannel,
+                                             yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -113,14 +113,27 @@ bool RecordIntegersInputHandler::handleInput(const Common::Package &       input
     
     try
     {
-        if (0 < input.size())
+        if (_outFile)
         {
-            yarp::os::ConstString inputAsString(input.toString());
+            OD_LOG("(_outFile)");//####
+            bool sawValue = false;
             
-            if (_outFile)
+            for (int ii = 0, mm = input.size(); mm > ii; ++ii)
             {
-                OD_LOG("(_outFile)");//####
-                fputs(inputAsString.c_str(), _outFile);
+                yarp::os::Value aValue(input.get(ii));
+                
+                if (aValue.isInt())
+                {
+                    if (sawValue)
+                    {
+                        fputc(' ', _outFile);
+                    }
+                    fprintf(_outFile, "%d", aValue.asInt());
+                    sawValue = true;
+                }
+            }
+            if (sawValue)
+            {
                 fputc('\n', _outFile);
                 fflush(_outFile);
             }

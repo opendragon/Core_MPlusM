@@ -56,7 +56,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_RECORD_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "example/recordinputstream")
+# define DEFAULT_RECORDINTEGERS_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "example/recordintegersstream")
 
 namespace MplusM
 {
@@ -75,8 +75,8 @@ namespace MplusM
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
             RecordIntegersStreamService(const yarp::os::ConstString & launchPath,
-                                     const yarp::os::ConstString & serviceEndpointName,
-                                     const yarp::os::ConstString & servicePortNumber = "");
+                                        const yarp::os::ConstString & serviceEndpointName,
+                                        const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~RecordIntegersStreamService(void);
@@ -126,10 +126,10 @@ namespace MplusM
             virtual bool setUpStreamDescriptions(void);
             
             /*! @brief The path to the output file used for recording. */
-            yarp::os::ConstString     _outPath;
+            yarp::os::ConstString        _outPath;
             
             /*! @brief The file output to be written to. */
-            FILE *                    _outFile;
+            FILE *                       _outFile;
             
             /*! @brief The handler for input data. */
             RecordIntegersInputHandler * _inHandler;

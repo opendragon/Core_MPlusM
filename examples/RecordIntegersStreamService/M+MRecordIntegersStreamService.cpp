@@ -79,9 +79,9 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RecordIntegersStreamService::RecordIntegersStreamService(const yarp::os::ConstString & launchPath,
-                                                   const yarp::os::ConstString & serviceEndpointName,
-                                                   const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_RECORD_CANONICAL_NAME, "An example record input stream service", "",
+                                                         const yarp::os::ConstString & serviceEndpointName,
+                                                         const yarp::os::ConstString & servicePortNumber) :
+        inherited(launchPath, true, MpM_RECORDINTEGERS_CANONICAL_NAME, "An example record integers stream service", "",
                   serviceEndpointName, servicePortNumber), _outFile(NULL), _inHandler(new RecordIntegersInputHandler())
 {
     OD_LOG_ENTER();//####
@@ -148,7 +148,7 @@ bool RecordIntegersStreamService::setUpStreamDescriptions(void)
     Common::ChannelDescription description;
     
     _inDescriptions.clear();
-    description._portName = "example/recordinputstream/input_";
+    description._portName = "example/recordintegersstream/input_";
     description._portProtocol = "i+";
     _inDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result);//####

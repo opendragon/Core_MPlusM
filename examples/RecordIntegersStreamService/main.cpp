@@ -70,7 +70,7 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-#define RECORDINPUTSTREAM_OPTIONS "p:"
+#define RECORDINTEGERSSTREAM_OPTIONS "p:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -105,8 +105,8 @@ int main(int      argc,
         yarp::os::ConstString recordPath;
         
         opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, RECORDINPUTSTREAM_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, RECORDINPUTSTREAM_OPTIONS))
+        for (int cc = getopt(argc, argv, RECORDINTEGERSSTREAM_OPTIONS); -1 != cc;
+             cc = getopt(argc, argv, RECORDINTEGERSSTREAM_OPTIONS))
         {
             switch (cc)
             {
@@ -148,7 +148,7 @@ int main(int      argc,
             }
             if (optind >= argc)
             {
-                serviceEndpointName = DEFAULT_RECORD_SERVICE_NAME;
+                serviceEndpointName = DEFAULT_RECORDINTEGERS_SERVICE_NAME;
             }
             else if ((optind + 1) == argc)
             {
@@ -161,7 +161,7 @@ int main(int      argc,
                 servicePortNumber = argv[optind + 1];
             }
             RecordIntegersStreamService * stuff = new RecordIntegersStreamService(*argv, serviceEndpointName,
-                                                                            servicePortNumber);
+                                                                                  servicePortNumber);
             
             if (stuff)
             {
