@@ -19,3 +19,5 @@
 		* add input handlers to input streams for output and filter services
 
 * I/O services need to provide some kind of unique identification, so that multiple copies can run at the same time
+
+* record input —> record integers [rename, process input and write out only the integers]
