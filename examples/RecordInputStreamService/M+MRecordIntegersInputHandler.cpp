@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MRecordIntegersInputHandler.cpp
+//  File:       M+MRecordInputInputHandler.cpp
 //
 //  Project:    M+M
 //
@@ -40,7 +40,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MRecordIntegersInputHandler.h"
+#include "M+MRecordInputInputHandler.h"
 //#include "M+MAdapterChannel.h"
 //#include "M+MRandomNumberAdapterData.h"
 //#include "M+MRandomNumberClient.h"
@@ -80,24 +80,24 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RecordIntegersInputHandler::RecordIntegersInputHandler(void) :
+RecordInputInputHandler::RecordInputInputHandler(void) :
         inherited(), _outFile(NULL)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
-} // RecordIntegersInputHandler::RecordIntegersInputHandler
+} // RecordInputInputHandler::RecordInputInputHandler
 
-RecordIntegersInputHandler::~RecordIntegersInputHandler(void)
+RecordInputInputHandler::~RecordInputInputHandler(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // RecordIntegersInputHandler::~RecordIntegersInputHandler
+} // RecordInputInputHandler::~RecordInputInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RecordIntegersInputHandler::handleInput(const Common::Package &       input,
+bool RecordInputInputHandler::handleInput(const Common::Package &       input,
                                           const yarp::os::ConstString & senderChannel,
                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -133,15 +133,15 @@ bool RecordIntegersInputHandler::handleInput(const Common::Package &       input
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RecordIntegersInputHandler::handleInput
+} // RecordInputInputHandler::handleInput
 
-void RecordIntegersInputHandler::setFile(FILE * outFile)
+void RecordInputInputHandler::setFile(FILE * outFile)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("outFile = ", outFile);//####
     _outFile = outFile;
     OD_LOG_OBJEXIT();//####
-} // RecordIntegersInputHandler::setFile
+} // RecordInputInputHandler::setFile
 
 #if defined(__APPLE__)
 # pragma mark Accessors
