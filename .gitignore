@@ -40,12 +40,8 @@ mpmEchoService
 mpmRandomNumberAdapter
 mpmRandomNumberClient
 mpmRandomNumberService
-mpmRandomOutputStreamAdapter
-mpmRandomOutputStreamClient
 mpmRandomOutputStreamService
-mpmRecordInputStreamAdapter
-mpmRecordInputStreamClient
-mpmRecordInputStreamService
+mpmRecordIntegersStreamService
 mpmParserTest
 mpmPortLister
 mpmRegistryService
@@ -58,8 +54,6 @@ mpmRunningSumAltAdapter
 mpmRunningSumClient
 mpmRunningSumService
 mpmServiceLister
-mpmTruncateFilterStreamAdapter
-mpmTruncateFilterStreamClient
 mpmTruncateFilterStreamService
 mpmVersion
 UserInterfaceState.xcuserstate

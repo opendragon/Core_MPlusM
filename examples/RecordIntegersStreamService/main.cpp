@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       RecordInputStreamService/main.cpp
+//  File:       RecordIntegersStreamService/main.cpp
 //
 //  Project:    M+M
 //
@@ -40,7 +40,7 @@
 //--------------------------------------------------------------------------------------
 
 #include "M+MEndpoint.h"
-#include "M+MRecordInputStreamService.h"
+#include "M+MRecordIntegersStreamService.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -53,7 +53,7 @@
  
  @brief The main application for a simple M+M service. */
 
-/*! @dir RecordInputStreamService
+/*! @dir RecordIntegersStreamService
  @brief The set of files that implement a simple M+M service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -160,7 +160,7 @@ int main(int      argc,
                 serviceEndpointName = argv[optind];
                 servicePortNumber = argv[optind + 1];
             }
-            RecordInputStreamService * stuff = new RecordInputStreamService(*argv, serviceEndpointName,
+            RecordIntegersStreamService * stuff = new RecordIntegersStreamService(*argv, serviceEndpointName,
                                                                             servicePortNumber);
             
             if (stuff)

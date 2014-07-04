@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MRecordInputInputHandler.cpp
+//  File:       M+MRecordIntegersInputHandler.cpp
 //
 //  Project:    M+M
 //
@@ -40,7 +40,7 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MRecordInputInputHandler.h"
+#include "M+MRecordIntegersInputHandler.h"
 //#include "M+MAdapterChannel.h"
 //#include "M+MRandomNumberAdapterData.h"
 //#include "M+MRandomNumberClient.h"
@@ -80,24 +80,24 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RecordInputInputHandler::RecordInputInputHandler(void) :
+RecordIntegersInputHandler::RecordIntegersInputHandler(void) :
         inherited(), _outFile(NULL)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
-} // RecordInputInputHandler::RecordInputInputHandler
+} // RecordIntegersInputHandler::RecordIntegersInputHandler
 
-RecordInputInputHandler::~RecordInputInputHandler(void)
+RecordIntegersInputHandler::~RecordIntegersInputHandler(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // RecordInputInputHandler::~RecordInputInputHandler
+} // RecordIntegersInputHandler::~RecordIntegersInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RecordInputInputHandler::handleInput(const Common::Package &       input,
+bool RecordIntegersInputHandler::handleInput(const Common::Package &       input,
                                           const yarp::os::ConstString & senderChannel,
                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -113,14 +113,27 @@ bool RecordInputInputHandler::handleInput(const Common::Package &       input,
     
     try
     {
-        if (0 < input.size())
+        if (_outFile)
         {
-            yarp::os::ConstString inputAsString(input.toString());
+            OD_LOG("(_outFile)");//####
+            bool sawValue = false;
             
-            if (_outFile)
+            for (int ii = 0, mm = input.size(); mm > ii; ++ii)
             {
-                OD_LOG("(_outFile)");//####
-                fputs(inputAsString.c_str(), _outFile);
+                yarp::os::Value aValue(input.get(ii));
+                
+                if (aValue.isInt())
+                {
+                    if (sawValue)
+                    {
+                        fputc(' ', _outFile);
+                    }
+                    fprintf(_outFile, "%d", aValue.asInt());
+                    sawValue = true;
+                }
+            }
+            if (sawValue)
+            {
                 fputc('\n', _outFile);
                 fflush(_outFile);
             }
@@ -133,15 +146,15 @@ bool RecordInputInputHandler::handleInput(const Common::Package &       input,
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RecordInputInputHandler::handleInput
+} // RecordIntegersInputHandler::handleInput
 
-void RecordInputInputHandler::setFile(FILE * outFile)
+void RecordIntegersInputHandler::setFile(FILE * outFile)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_P1("outFile = ", outFile);//####
     _outFile = outFile;
     OD_LOG_OBJEXIT();//####
-} // RecordInputInputHandler::setFile
+} // RecordIntegersInputHandler::setFile
 
 #if defined(__APPLE__)
 # pragma mark Accessors

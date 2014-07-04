@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MRecordInputInputHandler.h
+//  File:       M+MRecordIntegersInputHandler.h
 //
 //  Project:    M+M
 //
@@ -40,8 +40,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MpMRecordInputInputHandler_H_))
-# define MpMRecordInputInputHandler_H_ /* Header guard */
+#if (! defined(MpMRecordIntegersInputHandler_H_))
+# define MpMRecordIntegersInputHandler_H_ /* Header guard */
 
 # include "M+MInputHandler.h"
 
@@ -62,15 +62,15 @@ namespace MplusM
     namespace Example
     {
         /*! @brief A handler for partially-structured input data. */
-        class RecordInputInputHandler : public Common::InputHandler
+        class RecordIntegersInputHandler : public Common::InputHandler
         {
         public:
             
             /*! @brief The constructor. */
-            RecordInputInputHandler(void);
+            RecordIntegersInputHandler(void);
             
             /*! @brief The destructor. */
-            virtual ~RecordInputInputHandler(void);
+            virtual ~RecordIntegersInputHandler(void);
             
             /*! @brief Process partially-structured input data.
              @param input The partially-structured input data.
@@ -96,21 +96,21 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RecordInputInputHandler(const RecordInputInputHandler & other);
+            RecordIntegersInputHandler(const RecordIntegersInputHandler & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RecordInputInputHandler & operator=(const RecordInputInputHandler & other);
+            RecordIntegersInputHandler & operator=(const RecordIntegersInputHandler & other);
             
             /*! @brief The file that is to be written to. */
             FILE * _outFile;
             
-        }; // RecordInputInputHandler
+        }; // RecordIntegersInputHandler
         
     } // Example
     
 } // MplusM
 
-#endif // ! defined(MpMRecordInputInputHandler_H_)
+#endif // ! defined(MpMRecordIntegersInputHandler_H_)

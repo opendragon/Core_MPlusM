@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MRecordInputStreamService.cpp
+//  File:       M+MRecordIntegersStreamService.cpp
 //
 //  Project:    M+M
 //
@@ -39,10 +39,10 @@
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MRecordInputStreamService.h"
+#include "M+MRecordIntegersStreamService.h"
 #include "M+MGeneralChannel.h"
-#include "M+MRecordInputInputHandler.h"
-#include "M+MRecordInputStreamRequests.h"
+#include "M+MRecordIntegersInputHandler.h"
+#include "M+MRecordIntegersStreamRequests.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -78,31 +78,31 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RecordInputStreamService::RecordInputStreamService(const yarp::os::ConstString & launchPath,
+RecordIntegersStreamService::RecordIntegersStreamService(const yarp::os::ConstString & launchPath,
                                                    const yarp::os::ConstString & serviceEndpointName,
                                                    const yarp::os::ConstString & servicePortNumber) :
         inherited(launchPath, true, MpM_RECORD_CANONICAL_NAME, "An example record input stream service", "",
-                  serviceEndpointName, servicePortNumber), _outFile(NULL), _inHandler(new RecordInputInputHandler())
+                  serviceEndpointName, servicePortNumber), _outFile(NULL), _inHandler(new RecordIntegersInputHandler())
 {
     OD_LOG_ENTER();//####
     OD_LOG_S3("launchPath = ", launchPath.c_str(), "serviceEndpointName = ", serviceEndpointName.c_str(),//####
               "servicePortNumber = ", servicePortNumber.c_str());//####
     OD_LOG_EXIT_P(this);//####
-} // RecordInputStreamService::RecordInputStreamService
+} // RecordIntegersStreamService::RecordIntegersStreamService
 
-RecordInputStreamService::~RecordInputStreamService(void)
+RecordIntegersStreamService::~RecordIntegersStreamService(void)
 {
     OD_LOG_OBJENTER();//####
     stopStreams();
     delete _inHandler;
     OD_LOG_OBJEXIT();//####
-} // RecordInputStreamService::~RecordInputStreamService
+} // RecordIntegersStreamService::~RecordIntegersStreamService
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RecordInputStreamService::configure(const Common::Package & details)
+bool RecordIntegersStreamService::configure(const Common::Package & details)
 {
     OD_LOG_OBJENTER();//####
     bool result = false;
@@ -131,17 +131,17 @@ bool RecordInputStreamService::configure(const Common::Package & details)
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RecordInputStreamService::configure
+} // RecordIntegersStreamService::configure
 
-void RecordInputStreamService::restartStreams(void)
+void RecordIntegersStreamService::restartStreams(void)
 {
     OD_LOG_OBJENTER();//####
     stopStreams();
     startStreams();
     OD_LOG_OBJEXIT();//####
-} // RecordInputStreamService::restartStreams
+} // RecordIntegersStreamService::restartStreams
 
-bool RecordInputStreamService::setUpStreamDescriptions(void)
+bool RecordIntegersStreamService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER();//####
     bool                       result = true;
@@ -153,9 +153,9 @@ bool RecordInputStreamService::setUpStreamDescriptions(void)
     _inDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RecordInputStreamService::setUpStreamDescriptions
+} // RecordIntegersStreamService::setUpStreamDescriptions
 
-bool RecordInputStreamService::start(void)
+bool RecordIntegersStreamService::start(void)
 {
     OD_LOG_OBJENTER();//####
     try
@@ -180,9 +180,9 @@ bool RecordInputStreamService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted());//####
     return isStarted();
-} // RecordInputStreamService::start
+} // RecordIntegersStreamService::start
 
-void RecordInputStreamService::startStreams(void)
+void RecordIntegersStreamService::startStreams(void)
 {
     OD_LOG_OBJENTER();//####
     try
@@ -212,9 +212,9 @@ void RecordInputStreamService::startStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // RecordInputStreamService::startStreams
+} // RecordIntegersStreamService::startStreams
 
-bool RecordInputStreamService::stop(void)
+bool RecordIntegersStreamService::stop(void)
 {
     OD_LOG_OBJENTER();//####
     bool result;
@@ -230,9 +230,9 @@ bool RecordInputStreamService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RecordInputStreamService::stop
+} // RecordIntegersStreamService::stop
 
-void RecordInputStreamService::stopStreams(void)
+void RecordIntegersStreamService::stopStreams(void)
 {
     OD_LOG_OBJENTER();//####
     try
@@ -254,4 +254,4 @@ void RecordInputStreamService::stopStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // RecordInputStreamService::stopStreams
+} // RecordIntegersStreamService::stopStreams

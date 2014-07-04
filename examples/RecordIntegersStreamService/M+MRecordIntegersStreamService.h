@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MRecordInputStreamService.h
+//  File:       M+MRecordIntegersStreamService.h
 //
 //  Project:    M+M
 //
@@ -39,8 +39,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MpMRecordInputStreamService_H_))
-# define MpMRecordInputStreamService_H_ /* Header guard */
+#if (! defined(MpMRecordIntegersStreamService_H_))
+# define MpMRecordIntegersStreamService_H_ /* Header guard */
 
 # include "M+MBaseOutputService.h"
 
@@ -62,11 +62,11 @@ namespace MplusM
 {
     namespace Example
     {
-        class RecordInputInputHandler;
-        class RecordInputRequestHandler;
+        class RecordIntegersInputHandler;
+        class RecordIntegersRequestHandler;
         
         /*! @brief An example M+M service, handling 'record' requests. */
-        class RecordInputStreamService : public Common::BaseOutputService
+        class RecordIntegersStreamService : public Common::BaseOutputService
         {
         public:
             
@@ -74,12 +74,12 @@ namespace MplusM
              @param launchPath The command-line name used to launch the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            RecordInputStreamService(const yarp::os::ConstString & launchPath,
+            RecordIntegersStreamService(const yarp::os::ConstString & launchPath,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~RecordInputStreamService(void);
+            virtual ~RecordIntegersStreamService(void);
             
             /*! @brief Configure the input/output streams.
              @param details The configuration information for the input/output streams.
@@ -114,13 +114,13 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RecordInputStreamService(const RecordInputStreamService & other);
+            RecordIntegersStreamService(const RecordIntegersStreamService & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RecordInputStreamService & operator=(const RecordInputStreamService & other);
+            RecordIntegersStreamService & operator=(const RecordIntegersStreamService & other);
             
             /*! @brief Set up the descriptions that will be used to construct the input/output streams. */
             virtual bool setUpStreamDescriptions(void);
@@ -132,12 +132,12 @@ namespace MplusM
             FILE *                    _outFile;
             
             /*! @brief The handler for input data. */
-            RecordInputInputHandler * _inHandler;
+            RecordIntegersInputHandler * _inHandler;
             
-        }; // RecordInputStreamService
+        }; // RecordIntegersStreamService
         
     } // Example
     
 } // MplusM
 
-#endif // ! defined(MpMRecordInputStreamService_H_)
+#endif // ! defined(MpMRecordIntegersStreamService_H_)

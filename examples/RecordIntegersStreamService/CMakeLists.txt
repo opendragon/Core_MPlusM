@@ -1,6 +1,6 @@
 #--------------------------------------------------------------------------------------
 #
-#  File:       RecordInputStreamService/CMakeLists.txt
+#  File:       RecordIntegersStreamService/CMakeLists.txt
 #
 #  Project:    M+M
 #
@@ -43,13 +43,13 @@ include_directories("${MpM_LOGGING_DIR}"
                     "${MpM_COMMON_DIR}")
 
 # Set up our program
-add_executable(mpmRecordInputStreamService
+add_executable(mpmRecordIntegersStreamService
                main.cpp
-               M+MRecordInputInputHandler.cpp
-               M+MRecordInputStreamService.cpp)
+               M+MRecordIntegersInputHandler.cpp
+               M+MRecordIntegersStreamService.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
-target_link_libraries(mpmRecordInputStreamService
+target_link_libraries(mpmRecordIntegersStreamService
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})

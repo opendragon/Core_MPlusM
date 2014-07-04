@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MRecordInputStreamRequests.h
+//  File:       M+MRecordIntegersStreamRequests.h
 //
 //  Project:    M+M
 //
@@ -40,8 +40,8 @@
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MpMRecordInputStreamRequests_H_))
-# define MpMRecordInputStreamRequests_H_ /* Header guard */
+#if (! defined(MpMRecordIntegersStreamRequests_H_))
+# define MpMRecordIntegersStreamRequests_H_ /* Header guard */
 
 # include "M+MRequests.h"
 
@@ -59,4 +59,4 @@
 /*! @brief The channel-independent name of the random number service. */
 # define MpM_RECORD_CANONICAL_NAME "Record"
 
-#endif // ! defined(MpMRecordInputStreamRequests_H_)
+#endif // ! defined(MpMRecordIntegersStreamRequests_H_)
