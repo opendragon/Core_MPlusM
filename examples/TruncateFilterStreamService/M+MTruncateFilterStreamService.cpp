@@ -40,7 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "M+MTruncateFilterStreamService.h"
-#include "M+MEndpoint.h"
+#include "M+MGeneralChannel.h"
+#include "M+MTruncateFilterInputHandler.h"
 #include "M+MTruncateFilterStreamRequests.h"
 
 //#include "ODEnableLogging.h"
@@ -80,8 +81,8 @@ using namespace MplusM::Example;
 TruncateFilterStreamService::TruncateFilterStreamService(const yarp::os::ConstString & launchPath,
                                                          const yarp::os::ConstString & serviceEndpointName,
                                                          const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_TRUNCATE_CANONICAL_NAME, "An example truncate filter service", "",
-                  serviceEndpointName, servicePortNumber)
+        inherited(launchPath, true, MpM_TRUNCATEFILTER_CANONICAL_NAME, "An example truncate filter service", "",
+                  serviceEndpointName, servicePortNumber), _inHandler((new TruncateFilterInputHandler))
 {
     OD_LOG_ENTER();//####
     OD_LOG_S3("launchPath = ", launchPath.c_str(), "serviceEndpointName = ", serviceEndpointName.c_str(),//####
@@ -92,6 +93,8 @@ TruncateFilterStreamService::TruncateFilterStreamService(const yarp::os::ConstSt
 TruncateFilterStreamService::~TruncateFilterStreamService(void)
 {
     OD_LOG_OBJENTER();//####
+    stopStreams();
+    delete _inHandler;
     OD_LOG_OBJEXIT();//####
 } // TruncateFilterStreamService::~TruncateFilterStreamService
 
@@ -107,7 +110,6 @@ bool TruncateFilterStreamService::configure(const Common::Package & details)
     try
     {
         // Nothing needs to be done.
-        std::cerr << "configure" << std::endl;//$$$$
         result = true;
     }
     catch (...)
@@ -125,6 +127,7 @@ void TruncateFilterStreamService::restartStreams(void)
     try
     {
         // No special processing needed.
+        stopStreams();
         startStreams();
     }
     catch (...)
@@ -187,11 +190,12 @@ void TruncateFilterStreamService::startStreams(void)
     {
         if (! isActive())
         {
-            std::cerr << "startStreams" << std::endl;//$$$$
-            
-            
-            
-            setActive();
+            if (_inHandler)
+            {
+                _inHandler->setOutput(_outStreams.at(0));
+                _inStreams.at(0)->setReader(*_inHandler);
+                setActive();
+            }
         }
     }
     catch (...)
@@ -227,10 +231,6 @@ void TruncateFilterStreamService::stopStreams(void)
     {
         if (isActive())
         {
-            std::cerr << "stopStreams" << std::endl;//$$$$
-            
-            
-            
             clearActive();
         }
     }

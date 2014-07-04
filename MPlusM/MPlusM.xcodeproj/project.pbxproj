@@ -177,6 +177,8 @@
 		DF80046C1966F83700579096 /* M+MRecordIntegersStreamService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordIntegersStreamService.cpp"; path = "../examples/RecordIntegersStreamService/M+MRecordIntegersStreamService.cpp"; sourceTree = "<group>"; };
 		DF80046D1966F83700579096 /* M+MRecordIntegersStreamService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordIntegersStreamService.h"; path = "../examples/RecordIntegersStreamService/M+MRecordIntegersStreamService.h"; sourceTree = "<group>"; };
 		DF80046E1966F83700579096 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../examples/RecordIntegersStreamService/main.cpp; sourceTree = "<group>"; };
+		DF80046F1967035D00579096 /* M+MTruncateFilterInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFilterInputHandler.cpp"; path = "../examples/TruncateFilterStreamService/M+MTruncateFilterInputHandler.cpp"; sourceTree = "<group>"; };
+		DF8004701967035D00579096 /* M+MTruncateFilterInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFilterInputHandler.h"; path = "../examples/TruncateFilterStreamService/M+MTruncateFilterInputHandler.h"; sourceTree = "<group>"; };
 		DF95CA19192E8C2F00BDABA1 /* M+MAssociateRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAssociateRequestHandler.cpp"; path = "../RegistryService/M+MAssociateRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF95CA1A192E8C2F00BDABA1 /* M+MAssociateRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAssociateRequestHandler.h"; path = "../RegistryService/M+MAssociateRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF95CA1B192E907E00BDABA1 /* M+MDisassociateRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MDisassociateRequestHandler.cpp"; path = "../RegistryService/M+MDisassociateRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -600,6 +602,8 @@
 			isa = PBXGroup;
 			children = (
 				DF36EF1C195A302F00E7D889 /* CMakeLists.txt */,
+				DF80046F1967035D00579096 /* M+MTruncateFilterInputHandler.cpp */,
+				DF8004701967035D00579096 /* M+MTruncateFilterInputHandler.h */,
 				DF36EF3E195DD53A00E7D889 /* M+MTruncateFilterStreamRequests.h */,
 				DF36EF1F195A302F00E7D889 /* M+MTruncateFilterStreamService.cpp */,
 				DF36EF20195A302F00E7D889 /* M+MTruncateFilterStreamService.h */,

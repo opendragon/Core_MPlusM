@@ -120,7 +120,7 @@ int main(int      argc,
             }
             else
             {
-                serviceEndpointName = DEFAULT_TRUNCATE_SERVICE_NAME;
+                serviceEndpointName = DEFAULT_TRUNCATEFILTER_SERVICE_NAME;
             }
             TruncateFilterStreamService * stuff = new TruncateFilterStreamService(*argv, serviceEndpointName,
                                                                                   servicePortNumber);

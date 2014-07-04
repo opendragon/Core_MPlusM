@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MRecordIntegersInputHandler.cpp
+//  File:       M+MTruncateFilterInputHandler.cpp
 //
 //  Project:    M+M
 //
@@ -36,11 +36,12 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-07-03
+//  Created:    2014-07-04
 //
 //--------------------------------------------------------------------------------------
 
-#include "M+MRecordIntegersInputHandler.h"
+#include "M+MTruncateFilterInputHandler.h"
+#include "M+MGeneralChannel.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -77,24 +78,24 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RecordIntegersInputHandler::RecordIntegersInputHandler(void) :
-        inherited(), _outFile(NULL)
+TruncateFilterInputHandler::TruncateFilterInputHandler(void) :
+        inherited(), _outChannel(NULL)
 {
     OD_LOG_ENTER();//####
     OD_LOG_EXIT_P(this);//####
-} // RecordIntegersInputHandler::RecordIntegersInputHandler
+} // TruncateFilterInputHandler::TruncateFilterInputHandler
 
-RecordIntegersInputHandler::~RecordIntegersInputHandler(void)
+TruncateFilterInputHandler::~TruncateFilterInputHandler(void)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_OBJEXIT();//####
-} // RecordIntegersInputHandler::~RecordIntegersInputHandler
+} // TruncateFilterInputHandler::~TruncateFilterInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RecordIntegersInputHandler::handleInput(const Common::Package &       input,
+bool TruncateFilterInputHandler::handleInput(const Common::Package &       input,
                                              const yarp::os::ConstString & senderChannel,
                                              yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -110,10 +111,10 @@ bool RecordIntegersInputHandler::handleInput(const Common::Package &       input
     
     try
     {
-        if (_outFile)
+        if (_outChannel)
         {
-            OD_LOG("(_outFile)");//####
-            bool sawValue = false;
+            OD_LOG("(_output)");//####
+            Common::Package outPackage;
             
             for (int ii = 0, mm = input.size(); mm > ii; ++ii)
             {
@@ -121,18 +122,22 @@ bool RecordIntegersInputHandler::handleInput(const Common::Package &       input
                 
                 if (aValue.isInt())
                 {
-                    if (sawValue)
-                    {
-                        fputc(' ', _outFile);
-                    }
-                    fprintf(_outFile, "%d", aValue.asInt());
-                    sawValue = true;
+                    outPackage.addInt(aValue.asInt());
+                }
+                else if (aValue.isDouble())
+                {
+                    outPackage.addInt(static_cast<int>(aValue.asDouble()));
                 }
             }
-            if (sawValue)
+            if (0 < outPackage.size())
             {
-                fputc('\n', _outFile);
-                fflush(_outFile);
+                if (! _outChannel->write(outPackage))
+                {
+                    OD_LOG("(! _outChannel->write(message))");//####
+#if defined(MpM_StallOnSendProblem)
+                    Common::Stall();
+#endif // defined(MpM_StallOnSendProblem)
+                }
             }
         }
     }
@@ -143,15 +148,15 @@ bool RecordIntegersInputHandler::handleInput(const Common::Package &       input
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RecordIntegersInputHandler::handleInput
+} // TruncateFilterInputHandler::handleInput
 
-void RecordIntegersInputHandler::setFile(FILE * outFile)
+void TruncateFilterInputHandler::setOutput(Common::GeneralChannel * output)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_P1("outFile = ", outFile);//####
-    _outFile = outFile;
+    OD_LOG_P1("output = ", output);//####
+    _outChannel = output;
     OD_LOG_OBJEXIT();//####
-} // RecordIntegersInputHandler::setFile
+} // TruncateFilterInputHandler::setOutput
 
 #if defined(__APPLE__)
 # pragma mark Accessors

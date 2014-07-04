@@ -99,8 +99,8 @@ int main(int      argc,
 #endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER();//####
     MplusM::Common::SetUpLogger(*argv);
-//    try
-//    {
+    try
+    {
         bool   stdinAvailable = MplusM::CanReadFromStandardInput();
         char * endPtr;
         double burstPeriod = 1;
@@ -140,7 +140,6 @@ int main(int      argc,
                     
             }
         }
-    OD_LOG_LL2("optind = ", optind, "argc = ", argc);//####
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
@@ -317,11 +316,11 @@ int main(int      argc,
             MplusM::Common::GetLogger().fail("YARP network not running.");
         }
 #endif // CheckNetworkWorks_
-//    }
-//    catch (...)
-//    {
-//        OD_LOG("Exception caught");//####
-//    }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+    }
     yarp::os::Network::fini();
     OD_LOG_EXIT_L(0);//####
     return 0;

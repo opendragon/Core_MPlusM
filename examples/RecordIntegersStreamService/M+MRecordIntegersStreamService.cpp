@@ -82,7 +82,7 @@ RecordIntegersStreamService::RecordIntegersStreamService(const yarp::os::ConstSt
                                                          const yarp::os::ConstString & serviceEndpointName,
                                                          const yarp::os::ConstString & servicePortNumber) :
         inherited(launchPath, true, MpM_RECORDINTEGERS_CANONICAL_NAME, "An example record integers stream service", "",
-                  serviceEndpointName, servicePortNumber), _outFile(NULL), _inHandler(new RecordIntegersInputHandler())
+                  serviceEndpointName, servicePortNumber), _outFile(NULL), _inHandler(new RecordIntegersInputHandler)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S3("launchPath = ", launchPath.c_str(), "serviceEndpointName = ", serviceEndpointName.c_str(),//####
@@ -136,8 +136,17 @@ bool RecordIntegersStreamService::configure(const Common::Package & details)
 void RecordIntegersStreamService::restartStreams(void)
 {
     OD_LOG_OBJENTER();//####
-    stopStreams();
-    startStreams();
+    try
+    {
+        // No special processing needed.
+        stopStreams();
+        startStreams();
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught");//####
+        throw;
+    }
     OD_LOG_OBJEXIT();//####
 } // RecordIntegersStreamService::restartStreams
 

@@ -144,6 +144,7 @@ void RandomOutputStreamService::restartStreams(void)
     OD_LOG_OBJENTER();//####
     try
     {
+        // No special processing needed.
         stopStreams();
         startStreams();
     }

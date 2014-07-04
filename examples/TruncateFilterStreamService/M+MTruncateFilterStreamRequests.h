@@ -57,6 +57,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the random number service. */
-# define MpM_TRUNCATE_CANONICAL_NAME "Truncate"
+# define MpM_TRUNCATEFILTER_CANONICAL_NAME "TruncateFilter"
 
 #endif // ! defined(MpMTruncateFilterStreamRequests_H_)

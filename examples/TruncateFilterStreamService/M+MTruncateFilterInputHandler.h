@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------
 //
-//  File:       M+MTruncateFilterStreamService.h
+//  File:       M+MTruncateFilterInputHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a simple M+M service.
+//  Contains:   The class declaration for the custom data channel input handler used by
+//              the random number adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -35,14 +36,14 @@
 //              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 //              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
-//  Created:    2014-06-24
+//  Created:    2014-07-04
 //
 //--------------------------------------------------------------------------------------
 
-#if (! defined(MpMTruncateFilterStreamService_H_))
-# define MpMTruncateFilterStreamService_H_ /* Header guard */
+#if (! defined(MpMTruncateFilterInputHandler_H_))
+# define MpMTruncateFilterInputHandler_H_ /* Header guard */
 
-# include "M+MBaseFilterService.h"
+# include "M+MInputHandler.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -50,88 +51,71 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for a simple M+M service. */
+ @brief The class declaration for the custom data channel input handler used by the
+ random number adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_TRUNCATEFILTER_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "example/truncatefilterstream")
-
 namespace MplusM
 {
+    namespace Common
+    {
+        class GeneralChannel;
+    } // Common
+    
     namespace Example
     {
-        class TruncateFilterInputHandler;
-        class TruncateFilterRequestHandler;
-        
-        /*! @brief An example M+M service, handling 'record' requests. */
-        class TruncateFilterStreamService : public Common::BaseFilterService
+        /*! @brief A handler for partially-structured input data. */
+        class TruncateFilterInputHandler : public Common::InputHandler
         {
         public:
             
-            /*! @brief The constructor.
-             @param launchPath The command-line name used to launch the service.
-             @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param servicePortNumber The port being used by the service. */
-            TruncateFilterStreamService(const yarp::os::ConstString & launchPath,
-                                        const yarp::os::ConstString & serviceEndpointName,
-                                        const yarp::os::ConstString & servicePortNumber = "");
+            /*! @brief The constructor. */
+            TruncateFilterInputHandler(void);
             
             /*! @brief The destructor. */
-            virtual ~TruncateFilterStreamService(void);
+            virtual ~TruncateFilterInputHandler(void);
             
-            /*! @brief Configure the input/output streams.
-             @param details The configuration information for the input/output streams.
-             @returns @c true if the service was successfully configured and @c false otherwise. */
-            virtual bool configure(const Common::Package & details);
+            /*! @brief Process partially-structured input data.
+             @param input The partially-structured input data.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @returns @c true if the input was correctly structured and successfully processed. */
+            virtual bool handleInput(const Common::Package &       input,
+                                     const yarp::os::ConstString & senderChannel,
+                                     yarp::os::ConnectionWriter *  replyMechanism);
             
-            /*! @brief Restart the input/output streams. */
-            virtual void restartStreams(void);
-            
-            /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
-            
-            /*! @brief Start the input/output streams. */
-            virtual void startStreams(void);
-            
-            /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
-            
-            /*! @brief Stop the input/output streams. */
-            virtual void stopStreams(void);
+            /*! @brief Set the channel to be written to.
+             @param output The channel to be written to. */
+            void setOutput(Common::GeneralChannel * output);
             
         protected:
             
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseFilterService inherited;
+            typedef InputHandler inherited;
             
             /*! @brief Copy constructor.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            TruncateFilterStreamService(const TruncateFilterStreamService & other);
+            TruncateFilterInputHandler(const TruncateFilterInputHandler & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            TruncateFilterStreamService & operator=(const TruncateFilterStreamService & other);
+            TruncateFilterInputHandler & operator=(const TruncateFilterInputHandler & other);
             
-            /*! @brief Set up the descriptions that will be used to construct the input/output streams. */
-            virtual bool setUpStreamDescriptions(void);
+            /*! @brief The channel that is to be written to. */
+            Common::GeneralChannel * _outChannel;
             
-            /*! @brief The handler for input data. */
-            TruncateFilterInputHandler * _inHandler;
-            
-        }; // TruncateFilterStreamService
+        }; // TruncateFilterInputHandler
         
     } // Example
     
 } // MplusM
 
-#endif // ! defined(MpMTruncateFilterStreamService_H_)
+#endif // ! defined(MpMTruncateFilterInputHandler_H_)

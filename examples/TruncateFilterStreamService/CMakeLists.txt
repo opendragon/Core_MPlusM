@@ -45,6 +45,7 @@ include_directories("${MpM_LOGGING_DIR}"
 # Set up our program
 add_executable(mpmTruncateFilterStreamService
                main.cpp
+               M+MTruncateFilterInputHandler.cpp
                M+MTruncateFilterStreamService.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
