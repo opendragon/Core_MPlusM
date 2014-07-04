@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for a simple M+M service.
+//  Contains:   The class definition for a simple M+M output service.
 //
 //  Written by: Norman Jaffe
 //
@@ -53,7 +53,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for a simple M+M service. */
+ @brief The class definition for a simple M+M output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -81,7 +81,7 @@ using namespace MplusM::Example;
 RecordIntegersStreamService::RecordIntegersStreamService(const yarp::os::ConstString & launchPath,
                                                          const yarp::os::ConstString & serviceEndpointName,
                                                          const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_RECORDINTEGERS_CANONICAL_NAME, "An example record integers stream service", "",
+        inherited(launchPath, true, MpM_RECORDINTEGERS_CANONICAL_NAME, "An example record integers output service", "",
                   serviceEndpointName, servicePortNumber), _outFile(NULL), _inHandler(new RecordIntegersInputHandler)
 {
     OD_LOG_ENTER();//####

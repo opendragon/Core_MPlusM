@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for a simple M+M service.
+//  Contains:   The class definition for a simple M+M input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -53,7 +53,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for a simple M+M service. */
+ @brief The class definition for a simple M+M input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -81,7 +81,7 @@ using namespace MplusM::Example;
 RandomOutputStreamService::RandomOutputStreamService(const yarp::os::ConstString & launchPath,
                                                      const yarp::os::ConstString & serviceEndpointName,
                                                      const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_RANDOMSTREAM_CANONICAL_NAME, "An example random output stream service", "",
+        inherited(launchPath, true, MpM_RANDOMSTREAM_CANONICAL_NAME, "An example random output input service", "",
                   serviceEndpointName, servicePortNumber), _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER();//####

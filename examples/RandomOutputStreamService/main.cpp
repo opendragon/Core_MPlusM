@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for a simple M+M service.
+//  Contains:   The main application for a simple M+M input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,10 +51,10 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for a simple M+M service. */
+ @brief The main application for a simple M+M input service. */
 
 /*! @dir RandomOutputStreamService
- @brief The set of files that implement a simple M+M service. */
+ @brief The set of files that implement a simple M+M input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -70,6 +70,7 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The accepted command line arguments for the service. */
 #define RANDOMOUTPUTSTREAM_OPTIONS "p:s:"
 
 #if defined(__APPLE__)
@@ -80,10 +81,12 @@ using std::endl;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the example Random Number service.
+/*! @brief The entry point for running the example input service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is the name of the
  channel to be used. There is no output.
+ The option 'p' specifies the burst period, in seconds, while the option 's' specifies the number of random values to
+ generate in each burst.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example service.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -151,7 +154,7 @@ int main(int      argc,
             MplusM::Common::Initialize(*argv);
             if (optind >= argc)
             {
-                serviceEndpointName = DEFAULT_RANDOMSTREAM_SERVICE_NAME;
+                serviceEndpointName = GetRandomChannelName(DEFAULT_RANDOMSTREAM_SERVICE_NAME);
             }
             else if ((optind + 1) == argc)
             {

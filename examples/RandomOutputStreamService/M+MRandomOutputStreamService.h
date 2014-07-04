@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a simple M+M service.
+//  Contains:   The class declaration for a simple M+M input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -50,13 +50,13 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for a simple M+M service. */
+ @brief The class declaration for a simple M+M input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_RANDOMSTREAM_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "example/randomoutputstream")
+/*! @brief The base channel name to use for the service if not provided. */
+# define DEFAULT_RANDOMSTREAM_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "example/randomoutputstream_")
 
 namespace MplusM
 {
@@ -65,7 +65,7 @@ namespace MplusM
         class RandomOutputRequestHandler;
         class RandomOutputThread;
         
-        /*! @brief An example M+M service, handling 'random' requests. */
+        /*! @brief An example M+M input service. */
         class RandomOutputStreamService : public Common::BaseInputService
         {
         public:

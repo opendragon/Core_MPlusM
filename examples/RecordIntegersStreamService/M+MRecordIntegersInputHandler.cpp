@@ -4,8 +4,8 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the custom data channel input handler used by
-//              the random number adapter.
+//  Contains:   The class definition for the input channel input handler used by the
+//              record integers input stream service.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,8 +51,8 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the custom data channel input handler used by the
- random number adapter. */
+ @brief The class definition for the input channel input handler used by the record
+ integers input stream service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

@@ -64,7 +64,7 @@ namespace MplusM
     
     namespace Example
     {        
-        /*! @brief A convenience class to timeout objects. */
+        /*! @brief A convenience class to generate output. */
         class RandomOutputThread : public yarp::os::Thread
         {
         public:

@@ -4,8 +4,8 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the random
-//              output stream service.
+//  Contains:   The common macro definitions for requests and responses for the truncate
+//              filter stream service.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,12 +51,13 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The common macro definitions for requests and responses for the random number service. */
+ @brief The common macro definitions for requests and responses for the truncate filter
+ stream service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the random number service. */
+/*! @brief The channel-independent name of the truncate filter stream service. */
 # define MpM_TRUNCATEFILTER_CANONICAL_NAME "TruncateFilter"
 
 #endif // ! defined(MpMTruncateFilterStreamRequests_H_)

@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a simple M+M service.
+//  Contains:   The class declaration for a simple M+M filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -50,13 +50,13 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for a simple M+M service. */
+ @brief The class declaration for a simple M+M filter service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_TRUNCATEFILTER_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "example/truncatefilterstream")
+/*! @brief The base channel name to use for the service if not provided. */
+# define DEFAULT_TRUNCATEFILTER_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "example/truncatefilterstream_")
 
 namespace MplusM
 {
@@ -65,7 +65,7 @@ namespace MplusM
         class TruncateFilterInputHandler;
         class TruncateFilterRequestHandler;
         
-        /*! @brief An example M+M service, handling 'record' requests. */
+        /*! @brief An example M+M filter service. */
         class TruncateFilterStreamService : public Common::BaseFilterService
         {
         public:

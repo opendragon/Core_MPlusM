@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for a simple M+M service.
+//  Contains:   The class definition for a simple M+M filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -53,7 +53,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for a simple M+M service. */
+ @brief The class definition for a simple M+M filter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -81,7 +81,7 @@ using namespace MplusM::Example;
 TruncateFilterStreamService::TruncateFilterStreamService(const yarp::os::ConstString & launchPath,
                                                          const yarp::os::ConstString & serviceEndpointName,
                                                          const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_TRUNCATEFILTER_CANONICAL_NAME, "An example truncate filter service", "",
+        inherited(launchPath, true, MpM_TRUNCATEFILTER_CANONICAL_NAME, "An example truncate filter stream service", "",
                   serviceEndpointName, servicePortNumber), _inHandler((new TruncateFilterInputHandler))
 {
     OD_LOG_ENTER();//####

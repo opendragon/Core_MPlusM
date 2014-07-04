@@ -4,14 +4,10 @@
 
 + use ‘yarp clean —timeout 3’ logic for port exploration or send the ‘clean’ command to yarp before scanning
 
-+ note that selecting an entity after connecting other entities sometimes causes the new entity to jump!
++ note that selecting an entity after connecting other entities sometimes causes the new entity to jump! [haven’t reproduced this behaviour]
 
 + when copying OGDF files into /usr/local/*, use ‘cp -rp’ so that permissions will allow reading!
 
 + load/save positions, by entity name [optional???]
 
 * change signal handling to use platform-neutral mechanisms
-
-* fix ‘doxygen’ descriptions and request/service descriptions for new I/O services
-
-* I/O services need to provide some kind of unique identification, so that multiple copies can run at the same time
