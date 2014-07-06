@@ -11,3 +11,6 @@
 + load/save positions, by entity name [optional???]
 
 * change signal handling to use platform-neutral mechanisms
+
+* review service descriptions for I/O services
+
