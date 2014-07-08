@@ -1,44 +1,41 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MRunningSumInputHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the custom control channel input handler used by
-//              the running sum alternative adapter.
+//  Contains:   The class definition for the custom control channel input handler used by the
+//              alternative running sum adapter.
 //
 //  Written by: Norman Jaffe
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-04-15
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MRunningSumInputHandler.h"
 #include "M+MAdapterChannel.h"
@@ -56,7 +53,7 @@
 /*! @file
  
  @brief The class definition for the custom control channel input handler used by the
- running sum alternative adapter. */
+ alternative running sum adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -82,24 +79,24 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RunningSumInputHandler::RunningSumInputHandler(RunningSumAdapterData & shared) :
-        inherited(), _shared(shared)
+    inherited(), _shared(shared)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("shared = ", &shared);//####
-    OD_LOG_EXIT_P(this);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("shared = ", &shared); //####
+    OD_LOG_EXIT_P(this); //####
 } // RunningSumInputHandler::RunningSumInputHandler
 
 RunningSumInputHandler::~RunningSumInputHandler(void)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
 } // RunningSumInputHandler::~RunningSumInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RunningSumInputHandler::handleInput(const Common::Package &       input,
+bool RunningSumInputHandler::handleInput(const yarp::os::Bottle &      input,
                                          const yarp::os::ConstString & senderChannel,
                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -108,9 +105,9 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
 #  pragma unused(senderChannel,replyMechanism)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
-    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
+    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
@@ -126,7 +123,8 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
             
             if (theClient && theOutput)
             {
-                // We might have values and commands intermixed; process the whole input, one segment at a time.
+                // We might have values and commands intermixed; process the whole input, one
+                // segment at a time.
                 for (int ii = 0; ii < howMany; ++ii)
                 {
                     yarp::os::Value argValue(input.get(ii));
@@ -134,7 +132,7 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                     if (argValue.isString())
                     {
                         yarp::os::ConstString argString(argValue.asString());
-
+                        
                         if (values.size())
                         {
                             Common::DoubleVector::size_type soFar = values.size();
@@ -144,12 +142,12 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                                 _shared.lock();
                                 if (theClient->addToSum(values[0], outValue))
                                 {
-                                    Common::Package message;
+                                    yarp::os::Bottle message;
                                     
                                     message.addDouble(outValue);
                                     if (! theOutput->write(message))
                                     {
-                                        OD_LOG("(! theOutput->write(message))");//####
+                                        OD_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                                         Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -157,7 +155,7 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                                 }
                                 else
                                 {
-                                    OD_LOG("! (theClient->startSum())");//####
+                                    OD_LOG("! (theClient->startSum())"); //####
                                 }
                                 _shared.unlock();
                             }
@@ -166,12 +164,12 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                                 _shared.lock();
                                 if (theClient->addToSum(values, outValue))
                                 {
-                                    Common::Package message;
+                                    yarp::os::Bottle message;
                                     
                                     message.addDouble(outValue);
                                     if (! theOutput->write(message))
                                     {
-                                        OD_LOG("(! theOutput->write(message))");//####
+                                        OD_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                                         Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -179,7 +177,7 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                                 }
                                 else
                                 {
-                                    OD_LOG("! (theClient->startSum())");//####
+                                    OD_LOG("! (theClient->startSum())"); //####
                                 }
                                 _shared.unlock();
                             }
@@ -190,11 +188,11 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                             _shared.lock();
                             if (theClient->resetSum())
                             {
-                                
+                            
                             }
                             else
                             {
-                                OD_LOG("! (theClient->resetSum())");//####
+                                OD_LOG("! (theClient->resetSum())"); //####
                             }
                             _shared.unlock();
                         }
@@ -207,11 +205,11 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                             _shared.lock();
                             if (theClient->startSum())
                             {
-                                
+                            
                             }
                             else
                             {
-                                OD_LOG("! (theClient->startSum())");//####
+                                OD_LOG("! (theClient->startSum())"); //####
                             }
                             _shared.unlock();
                         }
@@ -220,18 +218,18 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                             _shared.lock();
                             if (theClient->stopSum())
                             {
-                                
+                            
                             }
                             else
                             {
-                                OD_LOG("! (theClient->startSum())");//####
+                                OD_LOG("! (theClient->startSum())"); //####
                             }
                             _shared.unlock();
                         }
                     }
                     else if (argValue.isInt())
                     {
-                        values.push_back(static_cast<double>(argValue.asInt()));
+                        values.push_back(static_cast<double> (argValue.asInt()));
                     }
                     else if (argValue.isDouble())
                     {
@@ -241,18 +239,17 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                 if (values.size())
                 {
                     Common::DoubleVector::size_type soFar = values.size();
-                    
                     if (1 == soFar)
                     {
                         _shared.lock();
                         if (theClient->addToSum(values[0], outValue))
                         {
-                            Common::Package message;
+                            yarp::os::Bottle message;
                             
                             message.addDouble(outValue);
                             if (! theOutput->write(message))
                             {
-                                OD_LOG("(! theOutput->write(message))");//####
+                                OD_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                                 Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -260,7 +257,7 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                         }
                         else
                         {
-                            OD_LOG("! (theClient->startSum())");//####
+                            OD_LOG("! (theClient->startSum())"); //####
                         }
                         _shared.unlock();
                     }
@@ -269,12 +266,12 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                         _shared.lock();
                         if (theClient->addToSum(values, outValue))
                         {
-                            Common::Package message;
+                            yarp::os::Bottle message;
                             
                             message.addDouble(outValue);
                             if (! theOutput->write(message))
                             {
-                                OD_LOG("(! theOutput->write(message))");//####
+                                OD_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                                 Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -282,7 +279,7 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
                         }
                         else
                         {
-                            OD_LOG("! (theClient->startSum())");//####
+                            OD_LOG("! (theClient->startSum())"); //####
                         }
                         _shared.unlock();
                     }
@@ -292,10 +289,10 @@ bool RunningSumInputHandler::handleInput(const Common::Package &       input,
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RunningSumInputHandler::handleInput
 

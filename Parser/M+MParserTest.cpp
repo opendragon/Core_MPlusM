@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MParserTest.cpp
 //
@@ -10,34 +10,31 @@
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-03-07
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MMatchConstraint.h"
 #include "M+MMatchExpression.h"
@@ -87,16 +84,18 @@ using std::endl;
 static int doTestParseValue(const bool   expected,
                             const char * inString) // create value matcher
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_B1("expected = ", expected);//####
-    OD_LOG_S1("inString = ", inString);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_B1("expected = ", expected); //####
+    OD_LOG_S1("inString = ", inString); //####
     int result = 1;
     
     try
     {
         size_t                       endPos;
         size_t                       len = strlen(inString);
-        MplusM::Parser::MatchValue * didMatch = MplusM::Parser::MatchValue::CreateMatcher(inString, len, 0, endPos);
+        MplusM::Parser::MatchValue * didMatch = MplusM::Parser::MatchValue::CreateMatcher(inString,
+                                                                                          len, 0,
+                                                                                          endPos);
         
         if ((NULL != didMatch) == expected)
         {
@@ -104,22 +103,22 @@ static int doTestParseValue(const bool   expected,
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)");//####
+            OD_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
-            OD_LOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                      didMatch->asSQLString().c_str());//####
+            OD_LOG_S2s("didMatch->asString = ", didMatch->asString(), //####
+                       "didMatch->asSQLString = ", didMatch->asSQLString()); //####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestParseValue
 
@@ -134,40 +133,42 @@ static int doTestParseValue(const bool   expected,
 static int doTestParseValueList(const bool   expected,
                                 const char * inString) // create value matcher
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_B1("expected = ", expected);//####
-    OD_LOG_S1("inString = ", inString);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_B1("expected = ", expected); //####
+    OD_LOG_S1("inString = ", inString); //####
     int result = 1;
     
     try
     {
         size_t                           endPos;
         size_t                           len = strlen(inString);
-        MplusM::Parser::MatchValueList * didMatch = MplusM::Parser::MatchValueList::CreateMatcher(inString, len, 0,
-                                                                                                  endPos);
-
+        MplusM::Parser::MatchValueList * didMatch =
+                                            MplusM::Parser::MatchValueList::CreateMatcher(inString,
+                                                                                          len, 0,
+                                                                                          endPos);
+        
         if ((NULL != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)");//####
+            OD_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
-            OD_LOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                      didMatch->asSQLString("field").c_str());//####
+            OD_LOG_S2s("didMatch->asString = ", didMatch->asString(), //####
+                       "didMatch->asSQLString = ", didMatch->asSQLString("field")); //####
             cout << didMatch->asSQLString("field").c_str() << endl;
             delete didMatch;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestParseValueList
 
@@ -182,9 +183,9 @@ static int doTestParseValueList(const bool   expected,
 static int doTestParseFieldName(const bool   expected,
                                 const char * inString) // create value matcher
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_B1("expected = ", expected);//####
-    OD_LOG_S1("inString = ", inString);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_B1("expected = ", expected); //####
+    OD_LOG_S1("inString = ", inString); //####
     int result = 1;
     
     try
@@ -192,21 +193,24 @@ static int doTestParseFieldName(const bool   expected,
         size_t                           endPos;
         size_t                           len = strlen(inString);
         TestNameValidator *              validator = new TestNameValidator;
-        MplusM::Parser::MatchFieldName * didMatch = MplusM::Parser::MatchFieldName::CreateMatcher(inString, len, 0,
-                                                                                                  endPos, validator);
-
+        MplusM::Parser::MatchFieldName * didMatch =
+                                            MplusM::Parser::MatchFieldName::CreateMatcher(inString,
+                                                                                          len, 0,
+                                                                                          endPos,
+                                                                                      validator);
+        
         if ((NULL != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)");//####
+            OD_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
-            OD_LOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                      didMatch->asSQLString().c_str());//####
+            OD_LOG_S2s("didMatch->asString = ", didMatch->asString(), //####
+                       "didMatch->asSQLString = ", didMatch->asSQLString()); //####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
@@ -214,10 +218,10 @@ static int doTestParseFieldName(const bool   expected,
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestParseFieldName
 
@@ -232,9 +236,9 @@ static int doTestParseFieldName(const bool   expected,
 static int doTestParseFieldWithValues(const bool   expected,
                                       const char * inString) // create value matcher
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_B1("expected = ", expected);//####
-    OD_LOG_S1("inString = ", inString);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_B1("expected = ", expected); //####
+    OD_LOG_S1("inString = ", inString); //####
     int result = 1;
     
     try
@@ -243,22 +247,20 @@ static int doTestParseFieldWithValues(const bool   expected,
         size_t                                 len = strlen(inString);
         TestNameValidator *                    validator = new TestNameValidator;
         MplusM::Parser::MatchFieldWithValues * didMatch =
-                                                    MplusM::Parser::MatchFieldWithValues::CreateMatcher(inString, len,
-                                                                                                        0, endPos,
-                                                                                                        validator);
-
+	    MplusM::Parser::MatchFieldWithValues::CreateMatcher(inString, len, 0, endPos, validator);
+        
         if ((NULL != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)");//####
+            OD_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
-            OD_LOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                      didMatch->asSQLString().c_str());//####
+            OD_LOG_S2s("didMatch->asString = ", didMatch->asString(), //####
+                       "didMatch->asSQLString = ", didMatch->asSQLString()); //####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
@@ -266,10 +268,10 @@ static int doTestParseFieldWithValues(const bool   expected,
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestParseFieldWithValues
 
@@ -284,9 +286,9 @@ static int doTestParseFieldWithValues(const bool   expected,
 static int doTestParseConstraintList(const bool   expected,
                                      const char * inString) // create value matcher
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_B1("expected = ", expected);//####
-    OD_LOG_S1("inString = ", inString);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_B1("expected = ", expected); //####
+    OD_LOG_S1("inString = ", inString); //####
     int result = 1;
     
     try
@@ -294,21 +296,24 @@ static int doTestParseConstraintList(const bool   expected,
         size_t                            endPos;
         size_t                            len = strlen(inString);
         TestNameValidator *               validator = new TestNameValidator;
-        MplusM::Parser::MatchConstraint * didMatch = MplusM::Parser::MatchConstraint::CreateMatcher(inString, len, 0,
-                                                                                                    endPos, validator);
-
+        MplusM::Parser::MatchConstraint * didMatch =
+                                            MplusM::Parser::MatchConstraint::CreateMatcher(inString,
+                                                                                           len, 0,
+                                                                                           endPos,
+                                                                                       validator);
+        
         if ((NULL != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)");//####
+            OD_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
-            OD_LOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                      didMatch->asSQLString().c_str());//####
+            OD_LOG_S2s("didMatch->asString = ", didMatch->asString(), //####
+                       "didMatch->asSQLString = ", didMatch->asSQLString()); //####
             cout << didMatch->asSQLString().c_str() << endl;
             delete didMatch;
         }
@@ -316,10 +321,10 @@ static int doTestParseConstraintList(const bool   expected,
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestParseConstraintList
 
@@ -334,9 +339,9 @@ static int doTestParseConstraintList(const bool   expected,
 static int doTestParseExpression(const bool   expected,
                                  const char * inString) // create value matcher
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_B1("expected = ", expected);//####
-    OD_LOG_S1("inString = ", inString);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_B1("expected = ", expected); //####
+    OD_LOG_S1("inString = ", inString); //####
     int result = 1;
     
     try
@@ -344,21 +349,24 @@ static int doTestParseExpression(const bool   expected,
         size_t                            endPos;
         size_t                            len = strlen(inString);
         TestNameValidator *               validator = new TestNameValidator;
-        MplusM::Parser::MatchExpression * didMatch = MplusM::Parser::MatchExpression::CreateMatcher(inString, len, 0,
-                                                                                                    endPos, validator);
-
+        MplusM::Parser::MatchExpression * didMatch =
+                                            MplusM::Parser::MatchExpression::CreateMatcher(inString,
+                                                                                           len, 0,
+                                                                                           endPos,
+                                                                                       validator);
+        
         if ((NULL != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)");//####
+            OD_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
-            OD_LOG_S2("didMatch->asString = ", didMatch->asString().c_str(), "didMatch->asSQLString = ",//####
-                      didMatch->asSQLString("SELECT ").c_str());//####
+            OD_LOG_S2s("didMatch->asString = ", didMatch->asString(), //####
+                       "didMatch->asSQLString = ", didMatch->asSQLString("SELECT ")); //####
             cout << didMatch->asSQLString("SELECT ").c_str() << endl;
             delete didMatch;
         }
@@ -366,10 +374,10 @@ static int doTestParseExpression(const bool   expected,
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestParseExpression
 
@@ -377,8 +385,8 @@ static int doTestParseExpression(const bool   expected,
  @param signal The signal being handled. */
 static void catchSignal(int signal)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_LL1("signal = ", signal);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_LL1("signal = ", signal); //####
     char numBuff[30];
     
 #if MAC_OR_LINUX_
@@ -390,7 +398,7 @@ static void catchSignal(int signal)
 #endif // ! MAC_OR_LINUX_
     MplusM::Common::GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
                                       yarp::os::ConstString(" = ") + MplusM::NameOfSignal(signal));
-    OD_LOG_EXIT_EXIT(1);//####
+    OD_LOG_EXIT_EXIT(1); //####
     yarp::os::exit(1);
 } // catchSignal
 
@@ -400,18 +408,18 @@ static void catchSignal(int signal)
 
 /*! @brief The entry point for unit tests of the M+M Parser classes.
  
- The first argument is the test number, the second argument is either 't' or 'f', to indicate if the the test is
- expected to succeed or fail, respectivelly, and the third argument is the string to be parsed. Output depends on the
- test being run.
+ The first argument is the test number, the second argument is either 't' or 'f', to indicate if the
+ test is expected to succeed or fail, respectivelly, and the third argument is the string to be
+ parsed. Output depends on the test being run.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int main(int     argc,
+         char ** argv)
 {
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
-    OD_LOG_ENTER();//####
+    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
+                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+    OD_LOG_ENTER(); //####
     int result = 1;
     
     try
@@ -422,53 +430,53 @@ int main(int      argc,
             bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));
             
             MplusM::Common::SetSignalHandlers(catchSignal);
-            OD_LOG_LL1("selector <- ", selector);//####
-            OD_LOG_B1("expected <- ", expected);//####
+            OD_LOG_LL1("selector <- ", selector); //####
+            OD_LOG_B1("expected <- ", expected); //####
             switch (selector)
             {
-                case 1:
+                case 1 :
                     result = doTestParseValue(expected, *(argv + 3));
                     break;
                     
-                case 2:
+                case 2 :
                     result = doTestParseValueList(expected, *(argv + 3));
                     break;
                     
-                case 3:
+                case 3 :
                     result = doTestParseFieldName(expected, *(argv + 3));
                     break;
                     
-                case 4:
+                case 4 :
                     result = doTestParseFieldWithValues(expected, *(argv + 3));
                     break;
                     
-                case 5:
+                case 5 :
                     result = doTestParseConstraintList(expected, *(argv + 3));
                     break;
                     
-                case 6:
+                case 6 :
                     result = doTestParseExpression(expected, *(argv + 3));
                     break;
                     
-                default:
+                default :
                     break;
                     
             }
             if (result)
             {
-                OD_LOG_LL1("%%%%%%% unit test failure = ", result);//####
+                OD_LOG_LL1("%%%%%%% unit test failure = ", result); //####
             }
         }
         else
         {
-            OD_LOG("! (2 < --argc)");//####
+            OD_LOG("! (2 < --argc)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // main

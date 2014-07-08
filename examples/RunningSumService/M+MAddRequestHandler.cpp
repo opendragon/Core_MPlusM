@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MAddRequestHandler.cpp
 //
@@ -10,34 +10,31 @@
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-03-18
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MAddRequestHandler.h"
 #include "M+MRunningSumRequests.h"
@@ -81,17 +78,17 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 AddRequestHandler::AddRequestHandler(RunningSumService & service) :
-        inherited(MpM_ADD_REQUEST), _service(service)
+    inherited(MpM_ADD_REQUEST), _service(service)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("service = ", &service);//####
-    OD_LOG_EXIT_P(this);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("service = ", &service); //####
+    OD_LOG_EXIT_P(this); //####
 } // AddRequestHandler::AddRequestHandler
 
 AddRequestHandler::~AddRequestHandler(void)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
 } // AddRequestHandler::~AddRequestHandler
 
 #if defined(__APPLE__)
@@ -100,18 +97,18 @@ AddRequestHandler::~AddRequestHandler(void)
 
 void AddRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("alternateNames = ", &alternateNames);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("alternateNames = ", &alternateNames); //####
     alternateNames.push_back("+");
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // AddRequestHandler::fillInAliases
 
 void AddRequestHandler::fillInDescription(const yarp::os::ConstString & request,
                                           yarp::os::Property &          info)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S1("request = ", request.c_str());//####
-    OD_LOG_P1("info = ", &info);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("request = ", request); //####
+    OD_LOG_P1("info = ", &info); //####
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
@@ -121,22 +118,22 @@ void AddRequestHandler::fillInDescription(const yarp::os::ConstString & request,
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Add to the running sum\n"
                  "Input: one or more numeric values\n"
                  "Output: the current running sum, including the new values");
-        yarp::os::Value   keywords;
-        Common::Package * asList = keywords.asList();
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // AddRequestHandler::fillInDescription
 
 bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                       const Common::Package &       restOfInput,
+                                       const yarp::os::Bottle &      restOfInput,
                                        const yarp::os::ConstString & senderChannel,
                                        yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -145,17 +142,17 @@ bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
 #  pragma unused(request)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
-              senderChannel.c_str());//####
-    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+               "senderChannel = ", senderChannel); //####
+    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-
+    
     try
     {
-        double          total = 0.0;
-        int             count = restOfInput.size();
-        Common::Package response;
+        double           total = 0.0;
+        int              count = restOfInput.size();
+        yarp::os::Bottle response;
         
         if (1 <= count)
         {
@@ -182,24 +179,24 @@ bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
             }
             else
             {
-                OD_LOG("! (tally)");//####
+                OD_LOG("! (tally)"); //####
                 response.addString(MpM_FAILED_RESPONSE);
                 response.addString("No numeric values in list");
             }
         }
         else
         {
-            OD_LOG("! (1 <= count)");//####
+            OD_LOG("! (1 <= count)"); //####
             response.addString(MpM_FAILED_RESPONSE);
             response.addString("No values provided");
         }
         if (replyMechanism)
         {
-            OD_LOG("(replyMechanism)");//####
-            OD_LOG_S1("response <- ", response.toString().c_str());//####
+            OD_LOG("(replyMechanism)"); //####
+            OD_LOG_S1s("response <- ", response.toString()); //####
             if (! response.write(*replyMechanism))
             {
-                OD_LOG("(! response.write(*replyMechanism))");//####
+                OD_LOG("(! response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
                 Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -208,10 +205,10 @@ bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // AddRequestHandler::processRequest
 

@@ -1,44 +1,40 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MUtilities.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The function and variable declarations for utilities for M+M clients and
-//              services.
+//  Contains:   The function and variable declarations for utilities for M+M clients and services.
 //
 //  Written by: Norman Jaffe
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-03-19
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MUtilities.h"
 #include "M+MBaseClient.h"
@@ -108,12 +104,15 @@ static const char * kMagicName = "<!!!>";
 static void checkForInputConnection(const yarp::os::Bottle & response,
                                     ChannelVector &          inputs)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("response = ", response.toString().c_str());//####
-    OD_LOG_P1("inputs = ", &inputs);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("response = ", response.toString()); //####
+    OD_LOG_P1("inputs = ", &inputs); //####
     bool         sawConnection = false;
-    const char * matchString[] = { "There", "is", "an", "input", "connection", "from", NULL, "to", NULL, "using",
-                                    NULL };
+    const char * matchString[] =
+    {
+        "There", "is", "an", "input", "connection", "from", NULL, "to", NULL, "using",
+        NULL
+    };
     int          respLen = response.size();
     int          matchLen = (sizeof(matchString) / sizeof(*matchString));
     
@@ -160,7 +159,7 @@ static void checkForInputConnection(const yarp::os::Bottle & response,
             }
         }
     }
-    OD_LOG_EXIT();//####
+    OD_LOG_EXIT(); //####
 } // checkForInputConnection
 
 /*! @brief Check if the response is for an output connection.
@@ -169,11 +168,14 @@ static void checkForInputConnection(const yarp::os::Bottle & response,
 static void checkForOutputConnection(const yarp::os::Bottle & response,
                                      ChannelVector &          outputs)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("response = ", response.toString().c_str());//####
-    OD_LOG_P1("outputs = ", &outputs);//####
-    const char * matchString[] = { "There", "is", "an", "output", "connection", "from", NULL, "to", NULL, "using",
-                                    NULL };
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("response = ", response.toString()); //####
+    OD_LOG_P1("outputs = ", &outputs); //####
+    const char * matchString[] =
+    {
+        "There", "is", "an", "output", "connection", "from", NULL, "to", NULL, "using",
+        NULL
+    };
     int          respLen = response.size();
     int          matchLen = (sizeof(matchString) / sizeof(*matchString));
     
@@ -198,7 +200,7 @@ static void checkForOutputConnection(const yarp::os::Bottle & response,
             yarp::os::ConstString mode(response.get(matchLen - 1).asString());
             yarp::os::ConstString destination(response.get(matchLen - 3).asString());
             yarp::os::ConstString source(response.get(matchLen - 5).asString());
-
+            
             if ((source != kMagicName) && (destination != kMagicName))
             {
                 ChannelDescription connection;
@@ -220,18 +222,18 @@ static void checkForOutputConnection(const yarp::os::Bottle & response,
             }
         }
     }
-    OD_LOG_EXIT();//####
+    OD_LOG_EXIT(); //####
 } // checkForOutputConnection
 
 /*! @brief Check the response to the 'getAssociates' request for validity.
  @param response The response to be checked.
  @param associates The associated ports for the port.
  @returns @c true if the response was valid and @c false otherwise. */
-static bool processGetAssociatesResponse(const Package &   response,
-                                         PortAssociation & associates)
+static bool processGetAssociatesResponse(const yarp::os::Bottle & response,
+                                         PortAssociation &        associates)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("response = ", response.toString().c_str());//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("response = ", response.toString()); //####
     bool result = false;
     
     try
@@ -255,8 +257,8 @@ static bool processGetAssociatesResponse(const Package &   response,
                     {
                         associates._valid = true;
                         associates._primary = (0 != responseSecond.asInt());
-                        Package * thirdAsList = responseThird.asList();
-                        Package * fourthAsList = responseFourth.asList();
+                        yarp::os::Bottle * thirdAsList = responseThird.asList();
+                        yarp::os::Bottle * fourthAsList = responseFourth.asList();
                         
                         for (int ii = 0, mm = thirdAsList->size(); mm > ii; ++ii)
                         {
@@ -280,53 +282,54 @@ static bool processGetAssociatesResponse(const Package &   response,
                     }
                     else
                     {
-                        OD_LOG("! (responseSecond.isInt() && responseThird.isList() && "//####
-                               "responseFourth.isList())");//####
+                        OD_LOG("! (responseSecond.isInt() && responseThird.isList() && " //####
+                               "responseFourth.isList())"); //####
                     }
                 }
                 else if (strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))
                 {
-                    OD_LOG("strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str())");//####
+                    OD_LOG("strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (responseFirst.isString())");//####
+                OD_LOG("! (responseFirst.isString())"); //####
             }
         }
         else
         {
-            OD_LOG("! (MpM_EXPECTED_GETASSOCIATES_RESPONSE_SIZE <= response.size())");//####
+            OD_LOG("! (MpM_EXPECTED_GETASSOCIATES_RESPONSE_SIZE <= response.size())"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(result);//####
+    OD_LOG_EXIT_B(result); //####
     return result;
 } // processGetAssociatesResponse
 
 /*! @brief Process the response from the name server.
  
- Note that each line of the response, except the last, is started with 'registration name'. This is followed by the
- port name, 'ip', the IP address, 'port' and the port number.
+ Note that each line of the response, except the last, is started with 'registration name'. This is
+ followed by the port name, 'ip', the IP address, 'port' and the port number.
  @param received The response to be processed.
- @param includeHiddenPorts @c true if all ports are returned and @c false is 'hidden' ports are ignored.
+ @param includeHiddenPorts @c true if all ports are returned and @c false is 'hidden' ports are
+ ignored.
  @param ports The list of non-default ports/ipaddress/portnumber found. */
 static void processNameServerResponse(const yarp::os::ConstString & received,
                                       const bool                    includeHiddenPorts,
                                       PortVector &                  ports)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("received = ", received.c_str());//####
-    OD_LOG_B1("includeHiddenPorts = ", includeHiddenPorts);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("received = ", received); //####
+    OD_LOG_B1("includeHiddenPorts = ", includeHiddenPorts); //####
     size_t                lineMakerLength = strlen(kLineMarker);
     yarp::os::ConstString nameServerName(yarp::os::Network::getNameServerName());
     yarp::os::ConstString workingCopy(received);
     
-    OD_LOG_S1("nameServerName = ", nameServerName.c_str());//####
+    OD_LOG_S1s("nameServerName = ", nameServerName); //####
     for (size_t nextPos = 0; yarp::os::ConstString::npos != nextPos; )
     {
         nextPos = workingCopy.find(kLineMarker);
@@ -396,7 +399,8 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
                 // Check if this is a 'hidden' port:
                 if (pp && (! includeHiddenPorts))
                 {
-                    if (! strncmp(channelName, HIDDEN_CHANNEL_PREFIX, sizeof(HIDDEN_CHANNEL_PREFIX) - 1))
+                    if (! strncmp(channelName, HIDDEN_CHANNEL_PREFIX,
+                                  sizeof(HIDDEN_CHANNEL_PREFIX) - 1))
                     {
                         // Skip this one.
                         pp = NULL;
@@ -415,7 +419,7 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
             }
         }
     }
-    OD_LOG_EXIT();//####
+    OD_LOG_EXIT(); //####
 } // processNameServerResponse
 
 #if defined(__APPLE__)
@@ -427,20 +431,20 @@ bool MplusM::Utilities::AddConnection(const yarp::os::ConstString & fromPortName
                                       const double                  timeToWait,
                                       const bool                    isUDP)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S2("fromPortName = ", fromPortName.c_str(), "toPortName = ", toPortName.c_str());//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
-    OD_LOG_B1("isUDP = ", isUDP);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S2s("fromPortName = ", fromPortName, "toPortName = ", toPortName); //####
+    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    OD_LOG_B1("isUDP = ", isUDP); //####
     bool result = NetworkConnectWithRetries(fromPortName, toPortName, timeToWait, isUDP);
     
-    OD_LOG_EXIT_B(result);//####
+    OD_LOG_EXIT_B(result); //####
     return result;
 } // MplusM::Utilities::AddConnection
 
 bool MplusM::Utilities::CheckForRegistryService(const PortVector & ports)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("ports = ", &ports);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("ports = ", &ports); //####
     bool result = false;
     
     for (PortVector::const_iterator walker(ports.begin()); ports.end() != walker; ++walker)
@@ -450,6 +454,7 @@ bool MplusM::Utilities::CheckForRegistryService(const PortVector & ports)
             result = true;
             break;
         }
+        
     }
     return result;
 } // MplusM::Utilities::CheckForRegistryService
@@ -460,10 +465,10 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
                                               const InputOutputFlag         which,
                                               const bool                    quiet)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_P2("inputs = ", &inputs, "outputs = ", &outputs);//####
-    OD_LOG_L1("which = ", static_cast<int>(which));//####
-    OD_LOG_B1("quiet = ", quiet);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("inputs = ", &inputs, "outputs = ", &outputs); //####
+    OD_LOG_L1("which = ", static_cast<int> (which)); //####
+    OD_LOG_B1("quiet = ", quiet); //####
     yarp::os::Contact address = yarp::os::Network::queryName(portName.c_str());
     
     inputs.clear();
@@ -473,10 +478,10 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
         if ((address.getCarrier() == "tcp") || (address.getCarrier() == "fast_tcp") ||
             (address.getCarrier() == "xmlrpc"))
         {
-            // Note that the following connect() call will hang indefinitely if the address given is for an 'output'
-            // port that is connected to another 'output' port. 'yarp ping /port' will hang as well.
+            // Note that the following connect() call will hang indefinitely if the address given is
+            // for an 'output' port that is connected to another 'output' port. 'yarp ping /port'
+            // will hang as well.
             yarp::os::OutputProtocol * out = yarp::os::impl::Carriers::connect(address);
-            
             if (out)
             {
                 yarp::os::Route rr(kMagicName, portName.c_str(), "text_ack");
@@ -510,7 +515,7 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
                             }
                             if (which & kInputAndOutputOutput)
                             {
-                                checkForOutputConnection(resp, outputs);                                
+                                checkForOutputConnection(resp, outputs);
                             }
                         }
                     }
@@ -535,7 +540,7 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
     {
         MplusM::Common::GetLogger().fail("Port name not recognized.");
     }
-    OD_LOG_EXIT();//####
+    OD_LOG_EXIT(); //####
 } // MplusM::Utilities::GatherPortConnections
 
 bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
@@ -543,10 +548,10 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
                                            const double                  timeToWait,
                                            const bool                    quiet)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("portName = ", portName.c_str());//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
-    OD_LOG_B1("quiet = ", quiet);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("portName = ", portName); //####
+    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    OD_LOG_B1("quiet = ", quiet); //####
     bool result = false;
     
     associates._inputs.clear();
@@ -554,7 +559,8 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
     associates._primary = associates._valid = false;
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "getassociates_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "getassociates_/"
+                                                         DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -566,7 +572,7 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
             {
                 if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait, false))
                 {
-                    Package parameters;
+                    yarp::os::Bottle parameters;
                     
                     parameters.addString(portName);
                     ServiceRequest  request(MpM_GETASSOCIATES_REQUEST, parameters);
@@ -574,23 +580,26 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
                     
                     if (request.send(*newChannel, &response))
                     {
-                        OD_LOG_S1("response <- ", response.asString().c_str());//####
+                        OD_LOG_S1s("response <- ", response.asString()); //####
                         result = processGetAssociatesResponse(response.values(), associates);
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, &response))");//####
+                        OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                       timeToWait))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
+                               "MpM_REGISTRY_CHANNEL_NAME, timeToWait))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait, false))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
+                           "timeToWait, false))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -598,28 +607,28 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))"); //####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(result);//####
+    OD_LOG_EXIT_B(result); //####
     return result;
 } // MplusM::Utilities::GetAssociatedPorts
 
 void MplusM::Utilities::GetDetectedPortList(PortVector & ports,
                                             const bool   includeHiddenPorts)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("ports = ", &ports);//####
-    OD_LOG_B1("includeHiddenPorts = ", includeHiddenPorts);//####
-    Package                request;
-    Package                response;
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("ports = ", &ports); //####
+    OD_LOG_B1("includeHiddenPorts = ", includeHiddenPorts); //####
+    yarp::os::Bottle       request;
+    yarp::os::Bottle       response;
     yarp::os::ContactStyle contactInfo;
     
     ports.clear();
@@ -637,32 +646,34 @@ void MplusM::Utilities::GetDetectedPortList(PortVector & ports,
             }
             else
             {
-                OD_LOG("! (responseValue.isString())");//####
+                OD_LOG("! (responseValue.isString())"); //####
             }
         }
         else
         {
-            OD_LOG("! (1 == response.size())");//####
-            OD_LOG_S1("response = ", response.toString().c_str());//####
+            OD_LOG("! (1 == response.size())"); //####
+            OD_LOG_S1s("response = ", response.toString()); //####
         }
     }
     else
     {
-        OD_LOG("! (yarp::os::Network::writeToNameServer(request, response))");//####
+        OD_LOG("! (yarp::os::Network::writeToNameServer(request, response))"); //####
     }
-    OD_LOG_EXIT();//####
+    OD_LOG_EXIT(); //####
 } // MplusM::Utilities::GetDetectedPortList
 
-bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & serviceChannelName,
+bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString &
+                                                                                serviceChannelName,
                                                         ServiceDescriptor &           descriptor,
                                                         const double                  timeToWait)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("serviceChannelName = ", serviceChannelName.c_str());//####
-    OD_LOG_P1("descriptor = ", &descriptor);//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
+    OD_LOG_P1("descriptor = ", &descriptor); //####
+    OD_LOG_D1("timeToWait = ", timeToWait); //####
     bool                  result = false;
-    yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "servicelister_/" DEFAULT_CHANNEL_ROOT));
+    yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "servicelister_/"
+                                                     DEFAULT_CHANNEL_ROOT));
     ClientChannel *       newChannel = new ClientChannel;
     
     if (newChannel)
@@ -671,13 +682,13 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
         {
             if (NetworkConnectWithRetries(aName, serviceChannelName, timeToWait, false))
             {
-                Package         parameters1;
-                ServiceRequest  request1(MpM_NAME_REQUEST, parameters1);
-                ServiceResponse response1;
+                yarp::os::Bottle parameters1;
+                ServiceRequest   request1(MpM_NAME_REQUEST, parameters1);
+                ServiceResponse  response1;
                 
                 if (request1.send(*newChannel, &response1))
                 {
-                    OD_LOG_S1("response1 <- ", response1.asString().c_str());//####
+                    OD_LOG_S1s("response1 <- ", response1.asString()); //####
                     if (MpM_EXPECTED_NAME_RESPONSE_SIZE == response1.count())
                     {
                         yarp::os::Value theCanonicalName(response1.element(0));
@@ -686,12 +697,14 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                         yarp::os::Value thePath(response1.element(3));
                         yarp::os::Value theRequestsDescription(response1.element(4));
                         
-                        OD_LOG_S4("theCanonicalName <- ", theCanonicalName.toString().c_str(),//####
-                                  "theDescription <- ", theDescription.toString().c_str(), "theKind <- ",//####
-                                  theKind.toString().c_str(), "thePath <- ", thePath.toString().c_str());
-                        OD_LOG_S1("theRequestsDescription = ", theRequestsDescription.toString().c_str());//####
-                        if (theCanonicalName.isString() && theDescription.isString() && theKind.isString() &&
-                            thePath.isString() && theRequestsDescription.isString())
+                        OD_LOG_S4s("theCanonicalName <- ", theCanonicalName.toString(), //####
+                                   "theDescription <- ", theDescription.toString(), //####
+                                   "theKind <- ", theKind.toString(), "thePath <- ", //####
+                                   thePath.toString()); //####
+                        OD_LOG_S1s("theRequestsDescription = ", theRequestsDescription.toString()); //####
+                        if (theCanonicalName.isString() && theDescription.isString() &&
+                            theKind.isString() && thePath.isString() &&
+                            theRequestsDescription.isString())
                         {
                             descriptor._channelName = serviceChannelName;
                             descriptor._canonicalName = theCanonicalName.toString();
@@ -703,26 +716,27 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                         }
                         else
                         {
-                            OD_LOG("! (theCanonicalName.isString() && theDescription.isString() && "//####
-                                   "theKind.isString() && thePath.isString() && "//####
-                                   "theRequestsDescription.isString())");//####
+                            OD_LOG("! (theCanonicalName.isString() && " //####
+                                   "theDescription.isString() && " //####
+                                   "theKind.isString() && thePath.isString() && " //####
+                                   "theRequestsDescription.isString())"); //####
                         }
                     }
                     else
                     {
-                        OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE == response1.count())");//####
-                        OD_LOG_S1("response1 = ", response1.asString().c_str());//####
+                        OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE == response1.count())"); //####
+                        OD_LOG_S1s("response1 = ", response1.asString()); //####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (request1.send(*newChannel, &response1))");//####
+                    OD_LOG("! (request1.send(*newChannel, &response1))"); //####
                 }
                 if (result)
                 {
-                    Package         parameters2;
-                    ServiceRequest  request2(MpM_CHANNELS_REQUEST, parameters2);
-                    ServiceResponse response2;
+                    yarp::os::Bottle parameters2;
+                    ServiceRequest   request2(MpM_CHANNELS_REQUEST, parameters2);
+                    ServiceResponse  response2;
                     
                     if (request2.send(*newChannel, &response2))
                     {
@@ -730,23 +744,27 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                         {
                             yarp::os::Value theInputChannels(response2.element(0));
                             yarp::os::Value theOutputChannels(response2.element(1));
-                        
-                            OD_LOG_S2("theInputChannels <- ", theInputChannels.toString().c_str(),//####
-                                      "theOutputChannels <- ", theOutputChannels.toString().c_str());//####
+                            
+                            OD_LOG_S2s("theInputChannels <- ", theInputChannels.toString(), //####
+                                       "theOutputChannels <- ", //####
+                                       theOutputChannels.toString()); //####
                             if (theInputChannels.isList() && theOutputChannels.isList())
                             {
-                                Package * inputChannelsAsList = theInputChannels.asList();
-                                Package * outputChannelsAsList = theOutputChannels.asList();
+                                yarp::os::Bottle * inputChannelsAsList = theInputChannels.asList();
+                                yarp::os::Bottle * outputChannelsAsList =
+                                                                        theOutputChannels.asList();
                                 
-                                for (int ii = 0, howMany = inputChannelsAsList->size(); ii < howMany; ++ii)
+                                for (int ii = 0, howMany = inputChannelsAsList->size();
+                                     ii < howMany; ++ii)
                                 {
                                     yarp::os::Value element(inputChannelsAsList->get(ii));
                                     
                                     if (element.isList())
                                     {
-                                        Package * inputChannelAsList = element.asList();
+                                        yarp::os::Bottle * inputChannelAsList = element.asList();
                                         
-                                        if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE == inputChannelAsList->size())
+                                        if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE ==
+                                                                        inputChannelAsList->size())
                                         {
                                             yarp::os::Value firstValue(inputChannelAsList->get(0));
                                             yarp::os::Value secondValue(inputChannelAsList->get(1));
@@ -754,7 +772,7 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                                             if (firstValue.isString() && secondValue.isString())
                                             {
                                                 ChannelDescription aChannel;
-
+                                                
                                                 aChannel._portName = firstValue.asString();
                                                 aChannel._portProtocol = secondValue.asString();
                                                 aChannel._portMode = kChannelModeOther;
@@ -763,18 +781,21 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                                         }
                                     }
                                 }
-                                for (int ii = 0, howMany = outputChannelsAsList->size(); ii < howMany; ++ii)
+                                for (int ii = 0, howMany = outputChannelsAsList->size();
+                                     ii < howMany; ++ii)
                                 {
                                     yarp::os::Value element(outputChannelsAsList->get(ii));
                                     
                                     if (element.isList())
                                     {
-                                        Package * outputChannelAsList = element.asList();
+                                        yarp::os::Bottle * outputChannelAsList = element.asList();
                                         
-                                        if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE == outputChannelAsList->size())
+                                        if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE ==
+                                                                    outputChannelAsList->size())
                                         {
                                             yarp::os::Value firstValue(outputChannelAsList->get(0));
-                                            yarp::os::Value secondValue(outputChannelAsList->get(1));
+                                            yarp::os::Value secondValue =
+                                                                        outputChannelAsList->get(1);
                                             
                                             if (firstValue.isString() && secondValue.isString())
                                             {
@@ -791,31 +812,35 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                             }
                             else
                             {
-                                OD_LOG("! (theInputChannels.isList() && theOutputChannels.isList())");
+                                OD_LOG("! (theInputChannels.isList() && " //####
+                                       "theOutputChannels.isList())");
                             }
                         }
                         else
                         {
-                            OD_LOG("! (MpM_EXPECTED_CHANNELS_RESPONSE_SIZE == response2.count())");//####
-                            OD_LOG_S1("response2 = ", response2.asString().c_str());//####
+                            OD_LOG("! (MpM_EXPECTED_CHANNELS_RESPONSE_SIZE == " //####
+                                   "response2.count())"); //####
+                            OD_LOG_S1s("response2 = ", response2.asString()); //####
                         }
                     }
                     else
                     {
-                        OD_LOG("! (request2.send(*newChannel, &response2))");//####
+                        OD_LOG("! (request2.send(*newChannel, &response2))"); //####
                         result = false;
                     }
                 }
 #if defined(MpM_DoExplicitDisconnect)
                 if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait))
                 {
-                    OD_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, timeToWait))");//####
+                    OD_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
+                           "timeToWait))"); //####
                 }
 #endif // defined(MpM_DoExplicitDisconnect)
             }
             else
             {
-                OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, false))");//####
+                OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, " //####
+                       "false))"); //####
             }
 #if defined(MpM_DoExplicitClose)
             newChannel->close();
@@ -823,15 +848,15 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
         }
         else
         {
-            OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))");//####
+            OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))"); //####
         }
         delete newChannel;
     }
     else
     {
-        OD_LOG("! (newChannel)");//####
+        OD_LOG("! (newChannel)"); //####
     }
-    OD_LOG_EXIT_B(result);//####
+    OD_LOG_EXIT_B(result); //####
     return result;
 } // MplusM::Utilities::GetNameAndDescriptionForService
 
@@ -869,10 +894,10 @@ MplusM::Utilities::PortKind MplusM::Utilities::GetPortKind(const yarp::os::Const
 void MplusM::Utilities::GetServiceNames(StringVector & services,
                                         const bool     quiet)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("services = ", &services);//####
-    OD_LOG_B1("quiet = ", quiet);//####
-    Package matches(FindMatchingServices(MpM_REQREP_DICT_REQUEST_KEY ":*"));
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("services = ", &services); //####
+    OD_LOG_B1("quiet = ", quiet); //####
+    yarp::os::Bottle matches(FindMatchingServices(MpM_REQREP_DICT_REQUEST_KEY ":*"));
     
     services.clear();
     if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
@@ -882,7 +907,7 @@ void MplusM::Utilities::GetServiceNames(StringVector & services,
         
         if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
         {
-            OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))");//####
+            OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))"); //####
             if (! quiet)
             {
                 yarp::os::ConstString reason(matches.get(1).toString());
@@ -893,7 +918,7 @@ void MplusM::Utilities::GetServiceNames(StringVector & services,
         else
         {
             // Now, process the second element.
-            Package * matchesList = matches.get(1).asList();
+            yarp::os::Bottle * matchesList = matches.get(1).asList();
             
             if (matchesList)
             {
@@ -906,52 +931,54 @@ void MplusM::Utilities::GetServiceNames(StringVector & services,
     }
     else
     {
-        OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())");//####
+        OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())"); //####
         if (! quiet)
         {
-            MplusM::Common::GetLogger().fail("Problem getting information from the Service Registry.");
+            MplusM::Common::GetLogger().fail("Problem getting information from the Service "
+                                             "Registry.");
         }
     }
-    OD_LOG_EXIT();//####
+    OD_LOG_EXIT(); //####
 } // MplusM::Utilities::GetServiceNames
 
 const char * MplusM::Utilities::MapServiceKindToString(const Common::ServiceKind kind)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_L1("kind = ", static_cast<int>(kind));//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_L1("kind = ", static_cast<int> (kind)); //####
     const char * result;
     
     switch (kind)
     {
-        case kServiceKindFilter:
+	    case kServiceKindFilter :
             result = "Filter";
             break;
             
-        case kServiceKindInput:
+	    case kServiceKindInput :
             result = "Input";
             break;
             
-        case kServiceKindOutput:
+	    case kServiceKindOutput :
             result = "Output";
             break;
             
-        case kServiceKindRegistry:
+	    case kServiceKindRegistry :
             result = "Registry";
             break;
             
-        default:
+	    default :
             result = "Normal";
             break;
             
     }
-    OD_LOG_EXIT_S(result);//####
+    OD_LOG_EXIT_S(result); //####
     return result;
 } // MplusM::Utilities::MapServiceKindToString
 
-Common::ServiceKind MplusM::Utilities::MapStringToServiceKind(const yarp::os::ConstString & kindString)
+Common::ServiceKind MplusM::Utilities::MapStringToServiceKind(const yarp::os::ConstString &
+                                                                                        kindString)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("kindString = ", kindString.c_str());//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("kindString = ", kindString); //####
     Common::ServiceKind result;
     const char *        kindStringChars = kindString.c_str();
     
@@ -975,17 +1002,17 @@ Common::ServiceKind MplusM::Utilities::MapStringToServiceKind(const yarp::os::Co
     {
         result = kServiceKindNormal;
     }
-    OD_LOG_EXIT_L(static_cast<int>(result));//####
+    OD_LOG_EXIT_L(static_cast<int> (result)); //####
     return result;
 } // MplusM::Utilities::MapStringToServiceKind
 
 bool MplusM::Utilities::RemoveConnection(const yarp::os::ConstString & fromPortName,
                                          const yarp::os::ConstString & toPortName)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S2("fromPortName = ", fromPortName.c_str(), "toPortName = ", toPortName.c_str());//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S2s("fromPortName = ", fromPortName, "toPortName = ", toPortName); //####
     bool result = NetworkDisconnectWithRetries(fromPortName, toPortName, STANDARD_WAIT_TIME);
-
-    OD_LOG_EXIT_B(result);//####
+    
+    OD_LOG_EXIT_B(result); //####
     return result;
 } // MplusM::Utilities::RemoveConnection

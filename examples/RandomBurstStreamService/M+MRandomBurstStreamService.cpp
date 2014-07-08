@@ -1,48 +1,45 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MRandomBurstStreamService.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for a simple M+M input service.
+//  Contains:   The class definition for the random burst input service.
 //
 //  Written by: Norman Jaffe
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-06-24
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MRandomBurstStreamService.h"
 #include "M+MGeneralChannel.h"
 #include "M+MRandomBurstStreamRequests.h"
-#include "M+MRandomOutputThread.h"
+#include "M+MRandomBurstThread.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -53,7 +50,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for a simple M+M input service. */
+ @brief The class definition for the random burst input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -79,31 +76,34 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RandomBurstStreamService::RandomBurstStreamService(const yarp::os::ConstString & launchPath,
-                                                     const yarp::os::ConstString & serviceEndpointName,
-                                                     const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_RANDOMSTREAM_CANONICAL_NAME, "An example random output input service", "",
-                  serviceEndpointName, servicePortNumber), _generator(NULL), _burstPeriod(1), _burstSize(1)
+                                                   const yarp::os::ConstString &
+                                                                                serviceEndpointName,
+                                                   const yarp::os::ConstString &
+                                                                                servicePortNumber) :
+    inherited(launchPath, true, MpM_RANDOMBURST_CANONICAL_NAME, "The random burst input service",
+              "", serviceEndpointName, servicePortNumber), _generator(NULL), _burstPeriod(1),
+    _burstSize(1)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S3("launchPath = ", launchPath.c_str(), "serviceEndpointName = ", serviceEndpointName.c_str(),//####
-              "servicePortNumber = ", servicePortNumber.c_str());//####
-    OD_LOG_EXIT_P(this);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
+               "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_EXIT_P(this); //####
 } // RandomBurstStreamService::RandomBurstStreamService
 
 RandomBurstStreamService::~RandomBurstStreamService(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     stopStreams();
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // RandomBurstStreamService::~RandomBurstStreamService
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RandomBurstStreamService::configure(const Common::Package & details)
+bool RandomBurstStreamService::configure(const yarp::os::Bottle & details)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     bool result = false;
     
     try
@@ -132,16 +132,16 @@ bool RandomBurstStreamService::configure(const Common::Package & details)
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RandomBurstStreamService::configure
 
 void RandomBurstStreamService::restartStreams(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     try
     {
         // No special processing needed.
@@ -150,29 +150,29 @@ void RandomBurstStreamService::restartStreams(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // RandomBurstStreamService::restartStreams
 
 bool RandomBurstStreamService::setUpStreamDescriptions(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     bool                       result = true;
     Common::ChannelDescription description;
     
     _outDescriptions.clear();
-    description._portName = "example/randomoutputstream/output_";
+    description._portName = "example/randomburststream/output_";
     description._portProtocol = "d+";
     _outDescriptions.push_back(description);
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RandomBurstStreamService::setUpStreamDescriptions
 
 bool RandomBurstStreamService::start(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
@@ -180,46 +180,46 @@ bool RandomBurstStreamService::start(void)
             inherited::start();
             if (isStarted())
             {
-                
+            
             }
             else
             {
-                OD_LOG("! (isStarted())");//####
+                OD_LOG("! (isStarted())"); //####
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(isStarted());//####
+    OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
 } // RandomBurstStreamService::start
 
 void RandomBurstStreamService::startStreams(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     try
     {
         if (! isActive())
         {
-            _generator = new RandomOutputThread(_outStreams.at(0), _burstPeriod, _burstSize);
+            _generator = new RandomBurstThread(_outStreams.at(0), _burstPeriod, _burstSize);
             _generator->start();
             setActive();
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // RandomBurstStreamService::startStreams
 
 bool RandomBurstStreamService::stop(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     bool result;
     
     try
@@ -228,16 +228,16 @@ bool RandomBurstStreamService::stop(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RandomBurstStreamService::stop
 
 void RandomBurstStreamService::stopStreams(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     try
     {
         if (isActive())
@@ -254,8 +254,8 @@ void RandomBurstStreamService::stopStreams(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // RandomBurstStreamService::stopStreams

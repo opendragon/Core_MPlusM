@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MTest09Service.cpp
 //
@@ -10,34 +10,31 @@
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-02-28
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MTest09Service.h"
 #include "M+MTest09DefaultRequestHandler.h"
@@ -79,19 +76,19 @@ using namespace MplusM::Test;
 Test09Service::Test09Service(const yarp::os::ConstString & launchPath,
                              const int                     argc,
                              char * *                      argv) :
-        inherited(kServiceKindNormal, launchPath, false, "Test09", "Simple service for unit tests", "", argc, argv),
-        _defaultHandler(NULL)
+    inherited(kServiceKindNormal, launchPath, false, "Test09", "Simple service for unit tests", "",
+              argc, argv), _defaultHandler(NULL)
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this); //####
 } // Test09Service::Test09Service
 
 Test09Service::~Test09Service(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     detachRequestHandlers();
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // Test09Service::~Test09Service
 
 #if defined(__APPLE__)
@@ -100,7 +97,7 @@ Test09Service::~Test09Service(void)
 
 void Test09Service::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     try
     {
         _defaultHandler = new Test09DefaultRequestHandler;
@@ -110,20 +107,20 @@ void Test09Service::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_defaultHandler)");//####
+            OD_LOG("! (_defaultHandler)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // Test09Service::attachRequestHandlers
 
 void Test09Service::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     try
     {
         if (_defaultHandler)
@@ -135,15 +132,15 @@ void Test09Service::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // Test09Service::detachRequestHandlers
 
 bool Test09Service::start(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     bool result = false;
     
     try
@@ -157,23 +154,23 @@ bool Test09Service::start(void)
             }
             else
             {
-                OD_LOG("! (isStarted())");//####
+                OD_LOG("! (isStarted())"); //####
             }
         }
         result = isStarted();
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Test09Service::start
 
 bool Test09Service::stop(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     bool result = false;
     
     try
@@ -182,10 +179,10 @@ bool Test09Service::stop(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Test09Service::stop
 

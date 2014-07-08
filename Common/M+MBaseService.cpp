@@ -1,44 +1,40 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MBaseService.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the minimal functionality required for an M+M
-//              service.
+//  Contains:   The class definition for the minimal functionality required for an M+M service.
 //
 //  Written by: Norman Jaffe
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-02-06
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MBaseService.h"
 #include "M+MBaseContext.h"
@@ -92,13 +88,14 @@ using namespace MplusM::Common;
 
 bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("channelName = ", channelName.c_str());//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("channelName = ", channelName); //####
     bool result = false;
     
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "ping_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "ping_/"
+                                                         DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -109,11 +106,12 @@ bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName)
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME,
+                                              false))
                 {
-                    Package         parameters(channelName);
-                    ServiceRequest  request(MpM_PING_REQUEST, parameters);
-                    ServiceResponse response;
+                    yarp::os::Bottle parameters(channelName);
+                    ServiceRequest   request(MpM_PING_REQUEST, parameters);
+                    ServiceResponse  response;
                     
                     if (request.send(*newChannel, &response))
                     {
@@ -128,31 +126,32 @@ bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName)
                             }
                             else
                             {
-                                OD_LOG("! (theValue.isString())");//####
+                                OD_LOG("! (theValue.isString())"); //####
                             }
                         }
                         else
                         {
-                            OD_LOG("! (1 == response.count())");//####
-                            OD_LOG_S1("response = ", response.asString().c_str());//####
+                            OD_LOG("! (1 == response.count())"); //####
+                            OD_LOG_S1s("response = ", response.asString()); //####
                         }
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, &response))");//####
+                        OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                       STANDARD_WAIT_TIME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
-                               "STANDARD_WAIT_TIME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
+                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
-                           "false))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
+                           "STANDARD_WAIT_TIME, false))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -160,21 +159,21 @@ bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName)
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }
         else
         {
-            OD_LOG("! (newChannel)");//####
+            OD_LOG("! (newChannel)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(result);//####
+    OD_LOG_EXIT_B(result); //####
     return result;
 } // BaseService::SendPingForChannel
 
@@ -190,21 +189,22 @@ BaseService::BaseService(const ServiceKind             theKind,
                          const yarp::os::ConstString & requestsDescription,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & servicePortNumber) :
-        _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(), _canonicalName(canonicalName),
-        _description(description), _requestsDescription(requestsDescription), _requestCount(0), _channelsHandler(NULL),
-        _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
-        _quitHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL), _kind(theKind),
-        _started(false), _useMultipleHandlers(useMultipleHandlers)
+    _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
+    _canonicalName(canonicalName), _description(description),
+    _requestsDescription(requestsDescription), _requestCount(0), _channelsHandler(NULL),
+    _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL),
+    _nameHandler(NULL), _quitHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
+    _pinger(NULL), _kind(theKind), _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath.c_str(), "canonicalName = ", canonicalName.c_str(), "description = ",//####
-              description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
-    OD_LOG_S2("serviceEndpointName = ", serviceEndpointName.c_str(), "servicePortNumber = ",//####
-              servicePortNumber.c_str());//####
-    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
+               "description = ", description, "requestsDescription = ", requestsDescription); //####
+    OD_LOG_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
+               servicePortNumber); //####
+    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     _endpoint = new Endpoint(serviceEndpointName, servicePortNumber);
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this); //####
 } // BaseService::BaseService
 
 BaseService::BaseService(const ServiceKind             theKind,
@@ -214,47 +214,48 @@ BaseService::BaseService(const ServiceKind             theKind,
                          const yarp::os::ConstString & description,
                          const yarp::os::ConstString & requestsDescription,
                          const int                     argc,
-                         char * *                      argv) :
-        _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(), _canonicalName(canonicalName),
-        _description(description), _requestCount(0), _channelsHandler(NULL), _clientsHandler(NULL),
-        _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL), _quitHandler(NULL),
-        _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _started(false),
-        _useMultipleHandlers(useMultipleHandlers)
+                         char **                       argv) :
+    _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
+    _canonicalName(canonicalName), _description(description), _requestCount(0),
+    _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL),
+    _listHandler(NULL), _nameHandler(NULL), _quitHandler(NULL), _endpoint(NULL), _handler(NULL),
+    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _started(false),
+    _useMultipleHandlers(useMultipleHandlers)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath.c_str(), "canonicalName = ", canonicalName.c_str(), "description = ",//####
-              description.c_str(), "requestsDescription = ", requestsDescription.c_str());//####
-    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
+               "description = ", description, "requestsDescription = ", requestsDescription); //####
+    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     switch (argc)
     {
             // Argument order = endpoint name [, port]
-        case 1:
+	    case 1 :
             _endpoint = new Endpoint(*argv);
             break;
             
-        case 2:
+	    case 2 :
             _endpoint = new Endpoint(*argv, argv[1]);
             break;
             
-        default:
-            OD_LOG_EXIT_THROW_S("Invalid parameters for service endpoint");//####
+	    default :
+            OD_LOG_EXIT_THROW_S("Invalid parameters for service endpoint"); //####
             throw new Exception("Invalid parameters for service endpoint");
             
     }
     attachRequestHandlers();
-    OD_LOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this); //####
 } // BaseService::BaseService
 
 BaseService::~BaseService(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     stop();
     detachRequestHandlers();
     delete _endpoint;
     delete _handler;
     delete _handlerCreator;
     clearContexts();
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::~BaseService
 
 #if defined(__APPLE__)
@@ -264,9 +265,9 @@ BaseService::~BaseService(void)
 void BaseService::addContext(const yarp::os::ConstString & key,
                              BaseContext *                 context)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S1("key = ", key.c_str());//####
-    OD_LOG_P1("context = ", context);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("key = ", key); //####
+    OD_LOG_P1("context = ", context); //####
     try
     {
         if (context)
@@ -278,15 +279,15 @@ void BaseService::addContext(const yarp::os::ConstString & key,
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::addContext
 
 void BaseService::attachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     try
     {
         _channelsHandler = new ChannelsRequestHandler(*this);
@@ -297,8 +298,8 @@ void BaseService::attachRequestHandlers(void)
         _listHandler = new ListRequestHandler;
         _nameHandler = new NameRequestHandler(*this);
         _quitHandler = new QuitRequestHandler(*this);
-        if (_channelsHandler && _clientsHandler && _countHandler &&  _detachHandler && _infoHandler && _listHandler &&
-            _nameHandler && _quitHandler)
+        if (_channelsHandler && _clientsHandler && _countHandler &&  _detachHandler &&
+            _infoHandler && _listHandler && _nameHandler && _quitHandler)
         {
             _requestHandlers.registerRequestHandler(_channelsHandler);
             _requestHandlers.registerRequestHandler(_clientsHandler);
@@ -311,21 +312,22 @@ void BaseService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_channelsHandler && _clientsHandler && _countHandler &&  _detachHandler && "//####
-                   "_infoHandler && _listHandler && _nameHandler && _quitHandler)");//####
+            OD_LOG("! (_channelsHandler && _clientsHandler && _countHandler && " //####
+                   "_detachHandler && _infoHandler && _listHandler && _nameHandler && " //####
+                   "_quitHandler)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::attachRequestHandlers
 
 void BaseService::clearContexts(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     lockContexts();
     for (ContextMap::iterator walker(_contexts.begin()); _contexts.end() != walker; ++walker)
     {
@@ -338,28 +340,28 @@ void BaseService::clearContexts(void)
     }
     _contexts.clear();
     unlockContexts();
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::clearContexts
 
 void BaseService::detachClient(const yarp::os::ConstString & key)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S1("key = ", key.c_str());//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("key = ", key); //####
     try
     {
         removeContext(key);
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::detachClient
 
 void BaseService::detachRequestHandlers(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     try
     {
         if (_channelsHandler)
@@ -413,46 +415,45 @@ void BaseService::detachRequestHandlers(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::detachRequestHandlers
 
 void BaseService::fillInClientList(StringVector & clients)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("clients = ", &clients);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("clients = ", &clients); //####
     lockContexts();
-    
     for (ContextMap::const_iterator walker(_contexts.begin()); _contexts.end() != walker; ++walker)
     {
         clients.push_back(walker->first.c_str());
     }
     unlockContexts();
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::fillInClientList
 
 void BaseService::fillInSecondaryInputChannelsList(ChannelVector & channels)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("channels = ", &channels);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("channels = ", &channels); //####
     channels.clear();
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::fillInSecondaryInputChannelsList
 
 void BaseService::fillInSecondaryOutputChannelsList(ChannelVector & channels)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("channels = ", &channels);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("channels = ", &channels); //####
     channels.clear();
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::fillInSecondaryOutputChannelsList
 
 BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S1("key = ", key.c_str());//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("key = ", key); //####
     BaseContext * result = NULL;
     
     try
@@ -468,32 +469,32 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_P(result);//####
+    OD_LOG_OBJEXIT_P(result); //####
     return result;
 } // BaseService::findContext
 
 void BaseService::getStatistics(long long & count,
                                 double &    currentTime)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P2("count = ", &count, "currentTime = ", &currentTime);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P2("count = ", &count, "currentTime = ", &currentTime); //####
     count = _requestCount;
     currentTime = yarp::os::Time::now();
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::getStatistics
 
 bool BaseService::processRequest(const yarp::os::ConstString & request,
-                                 const Package &               restOfInput,
+                                 const yarp::os::Bottle &      restOfInput,
                                  const yarp::os::ConstString & senderChannel,
                                  yarp::os::ConnectionWriter *  replyMechanism)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
-              senderChannel.c_str());//####
-    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+               "senderChannel = ", senderChannel); //####
+    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
@@ -502,22 +503,22 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
         
         if (handler)
         {
-            OD_LOG("(handler)");//####
+            OD_LOG("(handler)"); //####
             ++_requestCount;
             result = handler->processRequest(request, restOfInput, senderChannel, replyMechanism);
         }
         else
         {
-            OD_LOG("! (handler)");//####
+            OD_LOG("! (handler)"); //####
             if (replyMechanism)
             {
-                OD_LOG("(replyMechanism)");//####
-                Package errorMessage("unrecognized request");
+                OD_LOG("(replyMechanism)"); //####
+                yarp::os::Bottle errorMessage("unrecognized request");
                 
-                OD_LOG_S1("errorMessage <- ", errorMessage.toString().c_str());//####
+                OD_LOG_S1s("errorMessage <- ", errorMessage.toString()); //####
                 if (! errorMessage.write(*replyMechanism))
                 {
-                    OD_LOG("(! errorMessage.write(*replyMechanism))");//####
+                    OD_LOG("(! errorMessage.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
                     Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -528,25 +529,25 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // BaseService::processRequest
 
 void BaseService::registerRequestHandler(BaseRequestHandler * handler)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("handler = ", handler);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("handler = ", handler); //####
     _requestHandlers.registerRequestHandler(handler);
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::registerRequestHandler
 
 void BaseService::removeContext(const yarp::os::ConstString & key)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S1("key = ", key.c_str());//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("key = ", key); //####
     try
     {
         lockContexts();
@@ -566,23 +567,23 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::removeContext
 
 void BaseService::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("handler = ", handler);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("handler = ", handler); //####
     _requestHandlers.setDefaultRequestHandler(handler);
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::setDefaultRequestHandler
 
 bool BaseService::start(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     try
     {
         if (! _started)
@@ -592,21 +593,22 @@ bool BaseService::start(void)
                 _handlerCreator = new BaseServiceInputHandlerCreator(*this);
                 if (_handlerCreator)
                 {
-                    if (_endpoint->setInputHandlerCreator(*_handlerCreator) && _endpoint->open(STANDARD_WAIT_TIME))
+                    if (_endpoint->setInputHandlerCreator(*_handlerCreator) &&
+                        _endpoint->open(STANDARD_WAIT_TIME))
                     {
                         _started = true;
                     }
                     else
                     {
-                        OD_LOG("! (_endpoint->setInputHandlerCreator(*_handlerCreator) && "//####
-                               "_endpoint->open(STANDARD_WAIT_TIME))");//####
+                        OD_LOG("! (_endpoint->setInputHandlerCreator(*_handlerCreator) && " //####
+                               "_endpoint->open(STANDARD_WAIT_TIME))"); //####
                         delete _handlerCreator;
                         _handlerCreator = NULL;
                     }
                 }
                 else
                 {
-                    OD_LOG("! (_handlerCreator)");//####
+                    OD_LOG("! (_handlerCreator)"); //####
                 }
             }
             else
@@ -614,48 +616,49 @@ bool BaseService::start(void)
                 _handler = new BaseServiceInputHandler(*this);
                 if (_handler)
                 {
-                    if (_endpoint->setInputHandler(*_handler) && _endpoint->open(STANDARD_WAIT_TIME))
+                    if (_endpoint->setInputHandler(*_handler) &&
+                        _endpoint->open(STANDARD_WAIT_TIME))
                     {
                         _started = true;
                     }
                     else
                     {
-                        OD_LOG("! (_endpoint->setInputHandler(*_handler) && "//####
-                               "_endpoint->open(STANDARD_WAIT_TIME))");//####
+                        OD_LOG("! (_endpoint->setInputHandler(*_handler) && " //####
+                               "_endpoint->open(STANDARD_WAIT_TIME))"); //####
                         delete _handler;
                         _handler = NULL;
                     }
                 }
                 else
                 {
-                    OD_LOG("! (_handler)");//####
+                    OD_LOG("! (_handler)"); //####
                 }
             }
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(_started);//####
+    OD_LOG_OBJEXIT_B(_started); //####
     return _started;
 } // BaseService::start
 
 void BaseService::startPinger(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     if ((! _pinger) && _endpoint)
     {
         _pinger = new PingThread(_endpoint->getName());
         _pinger->start();
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::startPinger
 
 bool BaseService::stop(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     if (_pinger)
     {
         _pinger->stop();
@@ -663,16 +666,16 @@ bool BaseService::stop(void)
         _pinger = NULL;
     }
     _started = false;
-    OD_LOG_OBJEXIT_B(! _started);//####
-    return (! _started);
+    OD_LOG_OBJEXIT_B(! _started); //####
+    return ! _started;
 } // BaseService::stop
 
 void BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("handler = ", handler);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("handler = ", handler); //####
     _requestHandlers.unregisterRequestHandler(handler);
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseService::unregisterRequestHandler
 
 #if defined(__APPLE__)
@@ -685,13 +688,14 @@ void BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
 
 bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("channelName = ", channelName.c_str());//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("channelName = ", channelName); //####
     bool result = false;
     
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "registerlocal_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "registerlocal_/"
+                                                         DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -702,11 +706,12 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME,
+                                              false))
                 {
-                    Package         parameters(channelName);
-                    ServiceRequest  request(MpM_REGISTER_REQUEST, parameters);
-                    ServiceResponse response;
+                    yarp::os::Bottle parameters(channelName);
+                    ServiceRequest   request(MpM_REGISTER_REQUEST, parameters);
+                    ServiceResponse  response;
                     
                     if (request.send(*newChannel, &response))
                     {
@@ -721,31 +726,33 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
                             }
                             else
                             {
-                                OD_LOG("! (theValue.isString())");//####
+                                OD_LOG("! (theValue.isString())"); //####
                             }
                         }
                         else
                         {
-                            OD_LOG("! (MpM_EXPECTED_REGISTER_RESPONSE_SIZE == response.count())");//####
-                            OD_LOG_S1("response = ", response.asString().c_str());//####
+                            OD_LOG("! (MpM_EXPECTED_REGISTER_RESPONSE_SIZE == " //####
+                                   "response.count())"); //####
+                            OD_LOG_S1s("response = ", response.asString()); //####
                         }
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, &response))");//####
+                        OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                       STANDARD_WAIT_TIME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
-                               "STANDARD_WAIT_TIME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
+                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
-                           "false))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
+                           "STANDARD_WAIT_TIME, false))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -753,28 +760,28 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName)
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }
         else
         {
-            OD_LOG("! (newChannel)");//####
+            OD_LOG("! (newChannel)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(result);//####
+    OD_LOG_EXIT_B(result); //####
     return result;
 } // RegisterLocalService
 
 bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("channelName = ", channelName.c_str());//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("channelName = ", channelName); //####
     bool result = false;
     
     try
@@ -791,11 +798,12 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME,
+                                              false))
                 {
-                    Package         parameters(channelName);
-                    ServiceRequest  request(MpM_UNREGISTER_REQUEST, parameters);
-                    ServiceResponse response;
+                    yarp::os::Bottle parameters(channelName);
+                    ServiceRequest   request(MpM_UNREGISTER_REQUEST, parameters);
+                    ServiceResponse  response;
                     
                     if (request.send(*newChannel, &response))
                     {
@@ -810,31 +818,33 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
                             }
                             else
                             {
-                                OD_LOG("! (theValue.isString())");//####
+                                OD_LOG("! (theValue.isString())"); //####
                             }
                         }
                         else
                         {
-                            OD_LOG("! (MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE == response.count())");//####
-                            OD_LOG_S1("response = ", response.asString().c_str());//####
-                       }
+                            OD_LOG("! (MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE == " //####
+                                   "response.count())"); //####
+                            OD_LOG_S1s("response = ", response.asString()); //####
+                        }
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, &response))");//####
+                        OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                       STANDARD_WAIT_TIME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
-                               "STANDARD_WAIT_TIME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
+                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
-                           "false))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
+                           "STANDARD_WAIT_TIME, false))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -842,20 +852,20 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName)
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }
         else
         {
-            OD_LOG("! (newChannel)");//####
+            OD_LOG("! (newChannel)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(result);//####
+    OD_LOG_EXIT_B(result); //####
     return result;
 } // UnregisterLocalService

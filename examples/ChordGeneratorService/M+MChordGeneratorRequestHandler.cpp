@@ -1,43 +1,40 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MChordGeneratorRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for a 'random' request.
+//  Contains:   The class definition for the request handler for a 'chords' request.
 //
 //  Written by: Norman Jaffe, Johnty Wang
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-06-05
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MChordGeneratorRequestHandler.h"
 #include "M+MChordGeneratorRequests.h"
@@ -51,7 +48,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a chord request. */
+ @brief The class definition for the request handler for a 'chords' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -64,7 +61,7 @@ using namespace MplusM::Example;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'random' request. */
+/*! @brief The protocol version number for the 'chords' request. */
 #define CHORD_GENERATOR_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
@@ -80,16 +77,16 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 ChordGeneratorRequestHandler::ChordGeneratorRequestHandler(void) :
-	inherited(MpM_CHORD_GENERATOR_NAME)
+    inherited(MpM_CHORD_GENERATOR_NAME)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_EXIT_P(this);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_EXIT_P(this); //####
 } // RandomRequestHandler::RandomRequestHandler
 
 ChordGeneratorRequestHandler::~ChordGeneratorRequestHandler(void)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
 } // RandomRequestHandler::~RandomRequestHandler
 
 #if defined(__APPLE__)
@@ -98,43 +95,43 @@ ChordGeneratorRequestHandler::~ChordGeneratorRequestHandler(void)
 
 void ChordGeneratorRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("alternateNames = ", &alternateNames);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("alternateNames = ", &alternateNames); //####
     alternateNames.push_back("?");
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // RandomRequestHandler::fillInAliases
 
 void ChordGeneratorRequestHandler::fillInDescription(const yarp::os::ConstString & request,
                                                      yarp::os::Property &          info)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S1("request = ", request.c_str());//####
-    OD_LOG_P1("info = ", &info);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("request = ", request); //####
+    OD_LOG_P1("info = ", &info); //####
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_INT MpM_REQREP_0_OR_1);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_DOUBLE MpM_REQREP_1_OR_MORE);
-		info.put(MpM_REQREP_DICT_VERSION_KEY, CHORD_GENERATOR_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, CHORD_GENERATOR_VERSION_NUMBER);
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Generate a chord, in MIDI note values\n"
-		         "Input: the root note of chord in MIDI (int)\n"
+                 "Input: the root note of chord in MIDI (int)\n"
                  "Output: a list of MIDI note values of the chord");
-        yarp::os::Value   keywords;
-        Common::Package * asList = keywords.asList();
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // RandomRequestHandler::fillInDescription
 
 bool ChordGeneratorRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                                  const Common::Package &       restOfInput,
+                                                  const yarp::os::Bottle &      restOfInput,
                                                   const yarp::os::ConstString & senderChannel,
                                                   yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -143,19 +140,19 @@ bool ChordGeneratorRequestHandler::processRequest(const yarp::os::ConstString & 
 #  pragma unused(request,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
-              senderChannel.c_str());//####
-    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+               "senderChannel = ", senderChannel); //####
+    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
     {
         if (replyMechanism)
         {
-            OD_LOG("(replyMechanism)");//####
-            Common::Package response;
-            int             count;
+            OD_LOG("(replyMechanism)"); //####
+            yarp::os::Bottle response;
+            int              count;
             
             if (0 < restOfInput.size())
             {
@@ -183,12 +180,12 @@ bool ChordGeneratorRequestHandler::processRequest(const yarp::os::ConstString & 
             }
             else
             {
-                OD_LOG("! (count > 0)");//####
+                OD_LOG("! (count > 0)"); //####
             }
-            OD_LOG_S1("response <- ", response.toString().c_str());//####
+            OD_LOG_S1s("response <- ", response.toString()); //####
             if (! response.write(*replyMechanism))
             {
-                OD_LOG("(! response.write(*replyMechanism))");//####
+                OD_LOG("(! response.write(*replyMechanism))"); //####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
                 Common::Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
@@ -197,10 +194,10 @@ bool ChordGeneratorRequestHandler::processRequest(const yarp::os::ConstString & 
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ChordGeneratorRequestHandler::processRequest
 

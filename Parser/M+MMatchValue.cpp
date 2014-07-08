@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MMatchValue.cpp
 //
@@ -10,34 +10,31 @@
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-03-07
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MMatchValue.h"
 #include "M+MMatchConstraint.h"
@@ -100,31 +97,33 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
                                        const size_t                  startPos,
                                        size_t &                      endPos)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("inString = ", inString.c_str());//####
-    OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("inString = ", inString); //####
+    OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos); //####
     MatchValue * result = NULL;
     
     try
     {
         size_t workPos = SkipWhitespace(inString, inLength, startPos);
-
+        
         if (workPos < inLength)
         {
             // Remember where we began.
             bool                  escapeNextChar = false;
             char                  delimiter;
             char                  scanChar = inString[workPos];
-            const char            constraintSeparator = MatchConstraint::ConstraintSeparatorCharacter();
-            const char            expressionSeparator = MatchExpression::ExpressionSeparatorCharacter();
+            const char            constraintSeparator =
+                                                    MatchConstraint::ConstraintSeparatorCharacter();
+            const char            expressionSeparator =
+                                                    MatchExpression::ExpressionSeparatorCharacter();
             const char            listInitiator = MatchValueList::ListInitiatorCharacter();
             const char            listSeparator = MatchValueList::ListSeparatorCharacter();
             const char            listTerminator = MatchValueList::ListTerminatorCharacter();
             yarp::os::ConstString assembled;
             size_t                startSubPos = workPos;
             
-            // If we have a quote character, scan for the matching character. If we have an illegal starting character,
-            // reject the string.
+            // If we have a quote character, scan for the matching character. If we have an illegal
+            // starting character, reject the string.
             if ((kDoubleQuote == scanChar) || (kSingleQuote == scanChar))
             {
                 // A delimited string.
@@ -155,9 +154,10 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
                 if (escapeNextChar)
                 {
                     escapeNextChar = false;
-                    // If the escaped character is one that will still need to be escaped when converted to SQL, retain
-                    // the escape character.
-                    if ((kEscapeCharacter == scanChar) || (kAsterisk == scanChar) || (kQuestionMark == scanChar))
+                    // If the escaped character is one that will still need to be escaped when
+                    // converted to SQL, retain the escape character.
+                    if ((kEscapeCharacter == scanChar) || (kAsterisk == scanChar) ||
+                        (kQuestionMark == scanChar))
                     {
                         assembled += kEscapeCharacter;
                     }
@@ -173,23 +173,22 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
                     {
                         break;
                     }
-                    
                 }
-                else if (isspace(scanChar) || (listSeparator == scanChar) || (listTerminator == scanChar) ||
+                else if (isspace(scanChar) || (listSeparator == scanChar) ||
+                         (listTerminator == scanChar) ||
                          (constraintSeparator == scanChar) || (expressionSeparator == scanChar))
                 {
                     break;
                 }
-                
                 assembled += scanChar;
             }
-            OD_LOG_S1("assembled = ", assembled.c_str());//####
-            // If we have a delimiter, then we must match before the end of the input string. If we don't have a
-            // delimiter, we can match the rest of the input string.
+            OD_LOG_S1s("assembled = ", assembled); //####
+            // If we have a delimiter, then we must match before the end of the input string. If we
+            // don't have a delimiter, we can match the rest of the input string.
             if (workPos < (inLength + (delimiter ? 0 : 1)))
             {
-                // Either we stopped with a blank or the end of the string, or we saw a matching delimiter before the
-                // end.
+                // Either we stopped with a blank or the end of the string, or we saw a matching
+                // delimiter before the end.
                 if (0 < (workPos - startSubPos))
                 {
                     // If we have a non-empty substring, we have success.
@@ -197,29 +196,29 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
                 }
                 else
                 {
-                    OD_LOG("! (0 < (workPos - startSubPos))");//####
+                    OD_LOG("! (0 < (workPos - startSubPos))"); //####
                 }
             }
             else
             {
-                OD_LOG("! (workPos < (inLength + (delimiter ? 0 : 1)))");//####
+                OD_LOG("! (workPos < (inLength + (delimiter ? 0 : 1)))"); //####
             }
             if (result)
             {
                 endPos = (delimiter ? 1 : 0) + workPos;
-            }        
+            }
         }
         else
         {
-            OD_LOG("! (workPos < inLength)");//####
+            OD_LOG("! (workPos < inLength)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_P(result);//####
+    OD_LOG_EXIT_P(result); //####
     return result;
 } // MatchValue::CreateMatcher
 
@@ -228,13 +227,14 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
 #endif // defined(__APPLE__)
 
 MatchValue::MatchValue(const yarp::os::ConstString & inString) :
-        inherited(), _matchingString(inString), _hasSingleQuotes(false), _hasWildcards(false), _needsEscaping(false)
+    inherited(), _matchingString(inString), _hasSingleQuotes(false), _hasWildcards(false),
+    _needsEscaping(false)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("inString = ", inString.c_str());//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("inString = ", inString); //####
     bool escapeNextChar = false;
     int  len = inString.length();
-    
+
     // Check if we have unescaped wildcards.
     for (size_t ii = 0; len > ii; ++ii)
     {
@@ -250,13 +250,13 @@ MatchValue::MatchValue(const yarp::os::ConstString & inString) :
             {
                 // If there are wildcard characters present, flag this.
                 _hasWildcards = true;
-                OD_LOG_B1("_hasWildcards <- ", _hasWildcards);//####
+                OD_LOG_B1("_hasWildcards <- ", _hasWildcards); //####
             }
             else if (kSingleQuote == walker)
             {
                 // If there are single quote characters present, flag this.
                 _hasSingleQuotes = true;
-                OD_LOG_B1("_hasSingleQuotes <- ", _hasSingleQuotes);//####
+                OD_LOG_B1("_hasSingleQuotes <- ", _hasSingleQuotes); //####
             }
         }
     }
@@ -277,23 +277,24 @@ MatchValue::MatchValue(const yarp::os::ConstString & inString) :
                 }
                 else
                 {
-                    // If there are SQL special characters present, flag this as needing to be escaped.
+                    // If there are SQL special characters present, flag this as needing to be
+                    // escaped.
                     if ((kUnderscore == walker) || (kPercent == walker))
                     {
                         _needsEscaping = true;
-                        OD_LOG_B1("_needsEscaping <- ", _needsEscaping);//####
+                        OD_LOG_B1("_needsEscaping <- ", _needsEscaping); //####
                     }
                 }
             }
         }
     }
-    OD_LOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this); //####
 } // MatchValue::MatchValue
 
 MatchValue::~MatchValue(void)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
 } // MatchValue::~MatchValue
 
 #if defined(__APPLE__)
@@ -303,17 +304,17 @@ MatchValue::~MatchValue(void)
 yarp::os::ConstString MatchValue::asSQLString(void)
 const
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     yarp::os::ConstString converted;
     
     try
     {
         bool escapeNextChar = false;
-
+        
         converted += kSingleQuote;
         if (_hasSingleQuotes || _hasWildcards || _needsEscaping)
         {
-            OD_LOG("(_hasSingleQuotes || _hasWildcards || _needsEscaping)");//####
+            OD_LOG("(_hasSingleQuotes || _hasWildcards || _needsEscaping)"); //####
             bool wasEscaped = false;
             
             for (size_t ii = 0, len = _matchingString.length(); ii < len; ++ii)
@@ -399,22 +400,18 @@ const
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_S(converted.c_str());//####
+    OD_LOG_OBJEXIT_S(converted.c_str()); //####
     return converted;
 } // MatchValue::asSQLString
-#if 0
-SELECT name FROM emp
-WHERE id LIKE '%\%%' ESCAPE '\';
-#endif//0
 
 yarp::os::ConstString MatchValue::asString(void)
 const
 {
     yarp::os::ConstString converted;
-
+    
     try
     {
         bool   sawDoubleQuote = false;
@@ -444,7 +441,8 @@ const
         {
             if (sawDoubleQuote && sawSingleQuote)
             {
-                // If both quotes are present, use double quotes and escape any double quotes that we find.
+                // If both quotes are present, use double quotes and escape any double quotes that
+                // we find.
                 converted += kDoubleQuote;
                 for (size_t ii = 0; ii < len; ++ii)
                 {
@@ -501,3 +499,4 @@ const
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
+

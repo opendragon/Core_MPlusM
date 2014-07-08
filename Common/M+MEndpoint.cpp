@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MEndpoint.cpp
 //
@@ -10,34 +10,31 @@
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-02-07
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MEndpoint.h"
 #include "M+MChannelStatusReporter.h"
@@ -81,7 +78,7 @@ static bool checkHostPort(int &                         realPort,
                           const yarp::os::ConstString & portNumber)
 {
     bool result = true;
-
+    
     try
     {
         size_t portLength = portNumber.length();
@@ -105,7 +102,7 @@ static bool checkHostPort(int &                         realPort,
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
     return result;
@@ -121,7 +118,7 @@ static bool checkHostName(yarp::os::Contact &           workingContact,
                           const int                     portNumber)
 {
 #if defined(MpM_ReportContactDetails)
-    DumpContactToLog("enter checkHostName", workingContact);//####
+    DumpContactToLog("enter checkHostName", workingContact); //####
 #endif // defined(MpM_ReportContactDetails)
     bool result = false;
     
@@ -132,10 +129,11 @@ static bool checkHostName(yarp::os::Contact &           workingContact,
             // Non-empty hostname - check it...
             yarp::os::ConstString ipAddress(yarp::os::Contact::convertHostToIp(hostName.c_str()));
             
-            OD_LOG_S1("ipAddress = ", ipAddress.c_str());//####
-            workingContact = workingContact.addSocket(SERVICE_CHANNEL_CARRIER_, ipAddress, portNumber);
+            OD_LOG_S1s("ipAddress = ", ipAddress); //####
+            workingContact = workingContact.addSocket(SERVICE_CHANNEL_CARRIER_, ipAddress,
+                                                      portNumber);
 #if defined(MpM_ReportContactDetails)
-            DumpContactToLog("after addSocket", workingContact);//####
+            DumpContactToLog("after addSocket", workingContact); //####
 #endif // defined(MpM_ReportContactDetails)
             result = workingContact.isValid();
         }
@@ -147,7 +145,7 @@ static bool checkHostName(yarp::os::Contact &           workingContact,
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
     return result;
@@ -159,10 +157,10 @@ static bool checkHostName(yarp::os::Contact &           workingContact,
 
 bool Endpoint::CheckEndpointName(const yarp::os::ConstString & channelName)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("channelName = ", channelName.c_str());//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("channelName = ", channelName); //####
     bool result = false;
-
+    
     try
     {
         size_t nameLength = channelName.length();
@@ -179,16 +177,16 @@ bool Endpoint::CheckEndpointName(const yarp::os::ConstString & channelName)
         }
         else
         {
-            OD_LOG("! (0 < nameLength)");//####
+            OD_LOG("! (0 < nameLength)"); //####
             result = false;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(result);//####
+    OD_LOG_EXIT_B(result); //####
     return result;
 } // Endpoint::CheckEndpointName
 
@@ -198,19 +196,19 @@ bool Endpoint::CheckEndpointName(const yarp::os::ConstString & channelName)
 
 Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
                    const yarp::os::ConstString & portNumber) :
-        _channel(NULL), _contact(), _handler(NULL), _handlerCreator(NULL), _isOpen(false)
+    _channel(NULL), _contact(), _handler(NULL), _handlerCreator(NULL), _isOpen(false)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S2("endpointName = ", endpointName.c_str(), "portNumber = ", portNumber.c_str());//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S2s("endpointName = ", endpointName, "portNumber = ", portNumber); //####
     if (CheckEndpointName(endpointName))
     {
         int realPort;
-
+        
         if (checkHostPort(realPort, portNumber))
         {
             _contact = yarp::os::Contact::byName(endpointName);
 #if defined(MpM_ReportContactDetails)
-            DumpContactToLog("after byName", _contact);//####
+            DumpContactToLog("after byName", _contact); //####
 #endif // defined(MpM_ReportContactDetails)
             if (checkHostName(_contact, STANDARD_HOST_NAME, realPort))
             {
@@ -218,35 +216,35 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
                 _channel = new ServiceChannel;
                 if (! _channel)
                 {
-                    OD_LOG_EXIT_THROW_S("Could not create channel");//####
+                    OD_LOG_EXIT_THROW_S("Could not create channel"); //####
                     throw new Exception("Could not create channel");
                 }
             }
             else
             {
-                OD_LOG_EXIT_THROW_S("Bad host name");//####
+                OD_LOG_EXIT_THROW_S("Bad host name"); //####
                 throw new Exception("Bad host name");
             }
         }
         else
         {
-            OD_LOG_EXIT_THROW_S("Bad port number");//####
+            OD_LOG_EXIT_THROW_S("Bad port number"); //####
             throw new Exception("Bad port number");
         }
     }
     else
     {
-        OD_LOG_EXIT_THROW_S("Bad endpoint name");//####
+        OD_LOG_EXIT_THROW_S("Bad endpoint name"); //####
         throw new Exception("Bad endpoint name");
     }
-    OD_LOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this); //####
 } // Endpoint::Endpoint
 
 Endpoint::~Endpoint(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     close();
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // Endpoint::~Endpoint
 
 #if defined(__APPLE__)
@@ -255,7 +253,7 @@ Endpoint::~Endpoint(void)
 
 void Endpoint::close(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     try
     {
         if (isOpen())
@@ -287,16 +285,16 @@ void Endpoint::close(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // Endpoint::close
 
 bool Endpoint::open(const double timeToWait)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_D1("timeToWait = ", timeToWait); //####
     bool result = false;
     
     try
@@ -307,71 +305,71 @@ bool Endpoint::open(const double timeToWait)
             {
                 if (0 < _contact.getHost().length())
                 {
-                    OD_LOG("(0 < _contact.getHost().length())");//####
+                    OD_LOG("(0 < _contact.getHost().length())"); //####
                     _contact = yarp::os::Network::registerContact(_contact);
 #if defined(MpM_ReportContactDetails)
-                    DumpContactToLog("after registerContact", _contact);//####
+                    DumpContactToLog("after registerContact", _contact); //####
 #endif // defined(MpM_ReportContactDetails)
                     if (_channel->openWithRetries(_contact, timeToWait))
                     {
                         _isOpen = true;
 #if defined(MpM_ReportContactDetails)
-                        DumpContactToLog("after open", _channel->where());//####
+                        DumpContactToLog("after open", _channel->where()); //####
 #endif // defined(MpM_ReportContactDetails)
                     }
                     else
                     {
-                        OD_LOG("Channel could not be opened");//####
+                        OD_LOG("Channel could not be opened"); //####
                     }
                 }
                 else if (_channel->openWithRetries(_contact.getName(), timeToWait))
                 {
-                    OD_LOG("(_channel->openWithRetries(_contact.getName()))");//####
+                    OD_LOG("(_channel->openWithRetries(_contact.getName()))"); //####
                     _isOpen = true;
 #if defined(MpM_ReportContactDetails)
-                    DumpContactToLog("after open", _channel->where());//####
+                    DumpContactToLog("after open", _channel->where()); //####
 #endif // defined(MpM_ReportContactDetails)
                 }
                 else
                 {
-                    OD_LOG("Channel could not be opened");//####
+                    OD_LOG("Channel could not be opened"); //####
                 }
-                OD_LOG_S1("_channel->name = ", _channel->name().c_str());//####
+                OD_LOG_S1s("_channel->name = ", _channel->name()); //####
             }
             else
             {
-                OD_LOG("! (_channel)");//####
+                OD_LOG("! (_channel)"); //####
             }
         }
         result = isOpen();
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Endpoint::open
 
 bool Endpoint::setInputHandler(InputHandler & handler)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("handler = ", &handler);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("handler = ", &handler); //####
     bool result = false;
     
     try
     {
         if (_handlerCreator)
         {
-            OD_LOG("(_handlerCreator)");//####
+            OD_LOG("(_handlerCreator)"); //####
         }
         else if (_channel)
         {
-            OD_LOG("(_channel)");//####
+            OD_LOG("(_channel)"); //####
             if (isOpen())
             {
-                OD_LOG("(isOpen())");//####
+                OD_LOG("(isOpen())"); //####
             }
             else
             {
@@ -382,35 +380,35 @@ bool Endpoint::setInputHandler(InputHandler & handler)
         }
         else
         {
-            OD_LOG("! (_channel)");//####
+            OD_LOG("! (_channel)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Endpoint::setInputHandler
 
 bool Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("handlerCreator = ", &handlerCreator);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("handlerCreator = ", &handlerCreator); //####
     bool result = false;
     
     try
     {
         if (_handler)
         {
-            OD_LOG("(_handler)");//####
+            OD_LOG("(_handler)"); //####
         }
         else if (_channel)
         {
             if (isOpen())
             {
-                OD_LOG("(isOpen())");//####
+                OD_LOG("(isOpen())"); //####
             }
             else
             {
@@ -421,24 +419,24 @@ bool Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
         }
         else
         {
-            OD_LOG("! (_channel)");//####
+            OD_LOG("! (_channel)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Endpoint::setInputHandlerCreator
 
 bool Endpoint::setReporter(ChannelStatusReporter & reporter,
                            const bool              andReportNow)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("reporter = ", &reporter);//####
-    OD_LOG_B1("andReportNow = ", andReportNow);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("reporter = ", &reporter); //####
+    OD_LOG_B1("andReportNow = ", andReportNow); //####
     bool result = false;
     
     try
@@ -454,15 +452,15 @@ bool Endpoint::setReporter(ChannelStatusReporter & reporter,
         }
         else
         {
-            OD_LOG("! (_channel)");//####
+            OD_LOG("! (_channel)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Endpoint::setReporter
 
@@ -474,7 +472,7 @@ yarp::os::ConstString Endpoint::getName(void)
 const
 {
     yarp::os::ConstString result;
-
+    
     try
     {
         if (_channel)
@@ -488,7 +486,7 @@ const
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
     return result;

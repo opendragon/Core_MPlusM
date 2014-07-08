@@ -1,43 +1,40 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MRunningSumClient.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the client of a simple M+M service with context.
+//  Contains:   The class definition for the running sum client.
 //
 //  Written by: Norman Jaffe
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-03-18
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MRunningSumClient.h"
 #include "M+MEndpoint.h"
@@ -53,7 +50,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the client of a simple M+M service with context. */
+ @brief The class definition for running sum client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -79,16 +76,16 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RunningSumClient::RunningSumClient(void) :
-        inherited("example/runningsum_")
+    inherited("example/runningsum_")
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_EXIT_P(this);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_EXIT_P(this); //####
 } // RunningSumClient::RunningSumClient
 
 RunningSumClient::~RunningSumClient(void)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
 } // RunningSumClient::~RunningSumClient
 
 #if defined(__APPLE__)
@@ -98,13 +95,13 @@ RunningSumClient::~RunningSumClient(void)
 bool RunningSumClient::addToSum(const double value,
                                 double &     newSum)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("newSum = ", &newSum);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("newSum = ", &newSum); //####
     bool okSoFar = false;
     
     try
     {
-        Common::Package         parameters;
+        yarp::os::Bottle        parameters;
         Common::ServiceResponse response;
         
         parameters.addDouble(value);
@@ -127,23 +124,23 @@ bool RunningSumClient::addToSum(const double value,
                 }
                 else
                 {
-                    OD_LOG("! (retrieved.isInt())");//####
+                    OD_LOG("! (retrieved.isInt())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (1 == response.count())");//####
-                OD_LOG_S1("response = ", response.asString().c_str());//####
+                OD_LOG("! (1 == response.count())"); //####
+                OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_ADD_REQUEST, parameters, &response))");//####
+            OD_LOG("! (send(MpM_ADD_REQUEST, parameters, &response))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
     OD_LOG_OBJEXIT_B(okSoFar);
@@ -153,13 +150,13 @@ bool RunningSumClient::addToSum(const double value,
 bool RunningSumClient::addToSum(const Common::DoubleVector & values,
                                 double &                     newSum)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P2("values = ", &values, "newSum = ", &newSum);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P2("values = ", &values, "newSum = ", &newSum); //####
     bool okSoFar = false;
     
     try
     {
-        Common::Package         parameters;
+        yarp::os::Bottle        parameters;
         Common::ServiceResponse response;
         
         for (Common::DoubleVector::const_iterator it(values.begin()); values.end() != it; ++it)
@@ -187,28 +184,28 @@ bool RunningSumClient::addToSum(const Common::DoubleVector & values,
                     }
                     else
                     {
-                        OD_LOG("! (retrieved.isInt())");//####
+                        OD_LOG("! (retrieved.isInt())"); //####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (1 == response.count())");//####
-                    OD_LOG_S1("response = ", response.asString().c_str());//####
+                    OD_LOG("! (1 == response.count())"); //####
+                    OD_LOG_S1s("response = ", response.asString()); //####
                 }
             }
             else
             {
-                OD_LOG("! (send(MpM_ADD_REQUEST, parameters, &response))");//####
+                OD_LOG("! (send(MpM_ADD_REQUEST, parameters, &response))"); //####
             }
         }
         else
         {
-            OD_LOG("! (1 <= parameters.size())");//####
+            OD_LOG("! (1 <= parameters.size())"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
     OD_LOG_OBJEXIT_B(okSoFar);
@@ -217,12 +214,12 @@ bool RunningSumClient::addToSum(const Common::DoubleVector & values,
 
 bool RunningSumClient::resetSum(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     bool okSoFar = false;
-
+    
     try
     {
-        Common::Package parameters;
+        yarp::os::Bottle parameters;
         
         reconnectIfDisconnected();
         if (send(MpM_RESET_REQUEST, parameters))
@@ -231,12 +228,12 @@ bool RunningSumClient::resetSum(void)
         }
         else
         {
-            OD_LOG("! (send(MpM_RESET_REQUEST, parameters))");//####
+            OD_LOG("! (send(MpM_RESET_REQUEST, parameters))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
     OD_LOG_OBJEXIT_B(okSoFar);
@@ -245,12 +242,12 @@ bool RunningSumClient::resetSum(void)
 
 bool RunningSumClient::startSum(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     bool okSoFar = false;
-
+    
     try
     {
-        Common::Package parameters;
+        yarp::os::Bottle parameters;
         
         reconnectIfDisconnected();
         if (send(MpM_START_REQUEST, parameters))
@@ -259,12 +256,12 @@ bool RunningSumClient::startSum(void)
         }
         else
         {
-            OD_LOG("! (send(MpM_START_REQUEST, parameters))");//####
+            OD_LOG("! (send(MpM_START_REQUEST, parameters))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
     OD_LOG_OBJEXIT_B(okSoFar);
@@ -273,12 +270,12 @@ bool RunningSumClient::startSum(void)
 
 bool RunningSumClient::stopSum(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     bool okSoFar = false;
     
     try
     {
-        Common::Package parameters;
+        yarp::os::Bottle parameters;
         
         reconnectIfDisconnected();
         if (send(MpM_STOP_REQUEST, parameters))
@@ -287,12 +284,12 @@ bool RunningSumClient::stopSum(void)
         }
         else
         {
-            OD_LOG("! (send(MpM_STOP_REQUEST, parameters))");//####
+            OD_LOG("! (send(MpM_STOP_REQUEST, parameters))"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
     OD_LOG_OBJEXIT_B(okSoFar);

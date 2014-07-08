@@ -1,6 +1,6 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
-//  File:       RequestCounterService/main.cpp
+//  File:       RequestCounterServiceMain.cpp
 //
 //  Project:    M+M
 //
@@ -10,34 +10,31 @@
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-03-14
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MEndpoint.h"
 #include "M+MRequestCounterService.h"
@@ -53,8 +50,15 @@
  
  @brief The main application for the request counter service. */
 
+/*! @dir RequestCounter
+ @brief The set of files that support counting requests. */
+
+/*! @dir RequestCounterCommon
+ @brief The set of files that are shared between the request counter client and request counter
+ service. */
+
 /*! @dir RequestCounterService
- @brief The RequestCounterService application. */
+ @brief The mpmRequestCounterService application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -77,22 +81,22 @@ using namespace MplusM::RequestCounter;
 
 /*! @brief The entry point for running the Request Counter service.
  
- The second, optional, argument is the port number to be used and the first, optional, argument is the name of the
- channel to be used. There is no output.
+ The second, optional, argument is the port number to be used and the first, optional, argument is
+ the name of the channel to be used. There is no output.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int main(int     argc,
+         char ** argv)
 {
 #if defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
-                kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport);//####
+    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
+                kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
-                kODLoggingOptionEnableThreadSupport);//####
+    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
+                kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     MplusM::Common::SetUpLogger(*argv);
     try
     {
@@ -100,7 +104,8 @@ int main(int      argc,
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
+            yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP
+                                        // infrastructure
             yarp::os::ConstString serviceEndpointName;
             yarp::os::ConstString servicePortNumber;
             
@@ -117,7 +122,8 @@ int main(int      argc,
             {
                 serviceEndpointName = DEFAULT_REQUESTCOUNTER_SERVICE_NAME;
             }
-            RequestCounterService * stuff = new RequestCounterService(*argv, serviceEndpointName, servicePortNumber);
+            RequestCounterService * stuff = new RequestCounterService(*argv, serviceEndpointName,
+                                                                      servicePortNumber);
             
             if (stuff)
             {
@@ -125,7 +131,7 @@ int main(int      argc,
                 {
                     yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
-                    OD_LOG_S1("channelName = ", channelName.c_str());//####
+                    OD_LOG_S1s("channelName = ", channelName); //####
                     if (MplusM::Common::RegisterLocalService(channelName))
                     {
                         MplusM::StartRunning();
@@ -144,34 +150,33 @@ int main(int      argc,
                     }
                     else
                     {
-                        OD_LOG("! (RegisterLocalService(channelName))");//####
+                        OD_LOG("! (RegisterLocalService(channelName))"); //####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (stuff->start())");//####
+                    OD_LOG("! (stuff->start())"); //####
                 }
                 delete stuff;
             }
             else
             {
-                OD_LOG("! (stuff)");//####
+                OD_LOG("! (stuff)"); //####
             }
         }
 #if CheckNetworkWorks_
         else
         {
-            OD_LOG("! (yarp::os::Network::checkNetwork())");//####
+            OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
             MplusM::Common::GetLogger().fail("YARP network not running.");
         }
 #endif // CheckNetworkWorks_
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    OD_LOG_EXIT_L(0);//####
+    OD_LOG_EXIT_L(0); //####
     return 0;
 } // main
-

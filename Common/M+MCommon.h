@@ -1,47 +1,44 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MCommon.h
 //
 //  Project:    M+M
 //
-//  Contains:   The function and variable declarations for common entities for M+M
-//              clients and services.
+//  Contains:   The function and variable declarations for common entities for M+M clients and
+//              services.
 //
 //  Written by: Norman Jaffe
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-02-18
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMCommon_H_))
-# define MpMCommon_H_ /* Header guard */
+# define MpMCommon_H_  /* Header guard */
 
 # include "M+MConfig.h"
 
@@ -85,8 +82,11 @@
  
  @brief The function and variable declarations for common entities for M+M clients and services. */
 
-/*! @dir Common
+/*! @dir /Common
  @brief The set of files that implement the M+M framework. */
+
+/*! @dir /CommonTests
+ @brief The set of files that provide test cases for the M+M framework. */
 
 /*! @namespace MplusM
  @brief The classes that implement the M+M framework. */
@@ -98,8 +98,8 @@
  @brief A set of example classes using features from M+M. */
 
 /*! @namespace MplusM::Parser
- @brief The classes that support parsing of search requests and the generation of SQL @c SELECT strings from the search
- requests. */
+ @brief The classes that support parsing of search requests and the generation of SQL @c SELECT
+ strings from the search requests. */
 
 /*! @namespace MplusM::Registry
  @brief The classes that support registering and unregistering services. */
@@ -193,9 +193,9 @@
 # if defined(MpM_UseTimeoutsInRetryLoops)
 #  if defined(MpM_DontUseTimeouts)
 #   define RETRY_LOOPS_USE_TIMEOUTS FALSE
-#  else // ! defined(MpM_DontUseTimeouts)
+#  else  // ! defined(MpM_DontUseTimeouts)
 #   define RETRY_LOOPS_USE_TIMEOUTS TRUE
-#  endif // ! defined(MpM_DontUseTimeouts)
+#  endif  // ! defined(MpM_DontUseTimeouts)
 # else // ! defined(MpM_UseTimeoutsInRetryLoops)
 #  define RETRY_LOOPS_USE_TIMEOUTS  FALSE
 # endif // ! defined(MpM_UseTimeoutsInRetryLoops)
@@ -228,7 +228,7 @@ namespace MplusM
             yarp::os::ConstString _portProtocol;
             
             /*! @brief The mode of the connection. */
-            ChannelMode           _portMode;
+            ChannelMode _portMode;
             
         }; // ChannelDescription
         
@@ -241,7 +241,8 @@ namespace MplusM
             /*! @brief Output in JSON format. Tabs and newlines are replaced with spaces. */
             kOutputFlavourJSON,
             
-            /*! @brief Output in tab-delimited format. Tabs and newlines are replaced with spaces. */
+            /*! @brief Output in tab-delimited format. Tabs and newlines are replaced with
+             spaces. */
             kOutputFlavourTabs
             
         }; // OutputFlavour
@@ -254,7 +255,7 @@ namespace MplusM
             
             /*! @brief The service provides a proxy for an input source. */
             kServiceKindInput,
-          
+            
             /*! @brief The service provides a proxy for an output destination. */
             kServiceKindOutput,
             
@@ -265,9 +266,6 @@ namespace MplusM
             kServiceKindRegistry
             
         }; // ServiceKind
-        
-        /*! @brief A container for arbitrary data. */
-        typedef yarp::os::Bottle                   Package;
         
         /*! @brief A sequence of connections. */
         typedef std::vector<ChannelDescription>    ChannelVector;
@@ -289,6 +287,13 @@ namespace MplusM
         /*! @brief Generate a random channel name.
          @returns A randomly-generated channel name. */
         yarp::os::ConstString GetRandomChannelName(const char * channelRoot = DEFAULT_CHANNEL_ROOT);
+        
+        /*! @brief Generate a random channel name.
+         @returns A randomly-generated channel name. */
+        inline yarp::os::ConstString GetRandomChannelName(const yarp::os::ConstString & channelRoot)
+        {
+            return GetRandomChannelName(channelRoot.c_str());
+        } // GetRandomChannelName
         
         /*! @brief Perform initialization of internal resources.
          @param progName The name of the executing program.
@@ -320,13 +325,15 @@ namespace MplusM
          @param theHandler The new handler for the signals. */
         void SetSignalHandlers(yarp::os::YarpSignalHandler theHandler);
         
-        /*! @brief Set up the signal-handling behaviour so that this thread will catch our signal. */
+        /*! @brief Set up the signal-handling behaviour so that this thread will catch our 
+         signal. */
         void SetUpCatcher(void);
         
         /*! @brief Set up the error logger.
          @param progName The name of the executing program.
          
-         Should be called in the main() function of each application or service before anything else. */
+         Should be called in the main() function of each application or service before anything
+         else. */
         void SetUpLogger(const char * progName);
         
         /*! @brief Restore the normal signal-handling behaviour. */
@@ -340,7 +347,7 @@ namespace MplusM
 # endif // ! MAC_OR_LINUX_
         
     } // Common
-
+    
     /*! @brief Return @c true if standard input can be used and @c false otherwise.
      @returns @c true if standard input can be used and @c false otherwise. */
     bool CanReadFromStandardInput(void);
@@ -361,7 +368,7 @@ namespace MplusM
     void OutputDescription(std::ostream &                outStream,
                            const char *                  heading,
                            const yarp::os::ConstString & description);
-
+    
     /*! @brief Return a string with special characters escaped.
      @param inString The string to be processed.
      @param allowDoubleQuotes @c true if double quotes aren't escaped and @c false otherwise.
@@ -372,7 +379,7 @@ namespace MplusM
     /*! @brief The signal handler to catch requests to stop the service.
      @param signal The signal being handled. */
     void SignalRunningStop(int signal);
-
+    
     /*! @brief Mark the executable as running or ready-to-run. */
     void StartRunning(void);
     

@@ -1,44 +1,40 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
-//  File:       Version/main.cpp
+//  File:       VersionMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   A utility application to report the version numbers of M+M and its
-//              dependencies.
+//  Contains:   A utility application to report the version numbers of M+M and its dependencies.
 //
 //  Written by: Norman Jaffe
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-04-16
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MCommon.h"
 
@@ -66,8 +62,8 @@
  
  @brief A utility application to report the version numbers of M+M and its dependencies. */
 
-/*! @dir ClientList
- @brief The ClientList application. */
+/*! @dir Version
+ @brief The set of files that implement the version application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -93,8 +89,8 @@ using std::endl;
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int main(int     argc,
+         char ** argv)
 {
     MplusM::Common::OutputFlavour flavour = MplusM::Common::kOutputFlavourNormal;
     yarp::os::ConstString         aceVersionString;
@@ -102,19 +98,20 @@ int main(int      argc,
     yarp::os::ConstString         yarpVersionString;
     
     opterr = 0; // Suppress the error message resulting from an unknown option.
-    for (int cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc; cc = getopt(argc, argv, STANDARD_OPTIONS))
+    for (int cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc;
+         cc = getopt(argc, argv, STANDARD_OPTIONS))
     {
         switch (cc)
         {
-            case 'j':
+            case 'j' :
                 flavour = MplusM::Common::kOutputFlavourJSON;
                 break;
                 
-            case 't':
+            case 't' :
                 flavour = MplusM::Common::kOutputFlavourTabs;
                 break;
                 
-            default:
+            default :
                 // Ignore unknown options.
                 break;
                 
@@ -122,31 +119,34 @@ int main(int      argc,
     }
     switch (flavour)
     {
-        case MplusM::Common::kOutputFlavourTabs:
+	    case MplusM::Common::kOutputFlavourTabs :
             aceVersionString = MplusM::SanitizeString(ACE_VERSION, true);
             mpmVersionString = MplusM::SanitizeString(MpM_VERSION, true);
             yarpVersionString = MplusM::SanitizeString(YARP_VERSION_STRING, true);
-            cout << mpmVersionString.c_str() << "\t" << yarpVersionString.c_str() << "\t" << aceVersionString.c_str() <<
-                    endl;
+            cout << mpmVersionString.c_str() << "\t" << yarpVersionString.c_str() << "\t" <<
+                    aceVersionString.c_str() <<
+            endl;
             break;
             
-        case MplusM::Common::kOutputFlavourJSON:
+	    case MplusM::Common::kOutputFlavourJSON :
             aceVersionString = MplusM::SanitizeString(ACE_VERSION);
             mpmVersionString = MplusM::SanitizeString(MpM_VERSION);
             yarpVersionString = MplusM::SanitizeString(YARP_VERSION_STRING);
             cout << T_("{ " CHAR_DOUBLEQUOTE "M+M" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                    mpmVersionString.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "YARP" CHAR_DOUBLEQUOTE ": "
-                                                   CHAR_DOUBLEQUOTE) << yarpVersionString.c_str() <<
-                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "ACE" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                    mpmVersionString.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "YARP"
+                                                   CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                    yarpVersionString.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "ACE"
+                                                    CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
                     aceVersionString.c_str() << T_(CHAR_DOUBLEQUOTE " }") << endl;
             break;
             
-        default:
+	    default :
             aceVersionString = MplusM::SanitizeString(ACE_VERSION, true);
             mpmVersionString = MplusM::SanitizeString(MpM_VERSION, true);
             yarpVersionString = MplusM::SanitizeString(YARP_VERSION_STRING, true);
-            cout << "Movement And Meaning Version: " << mpmVersionString.c_str() << ", YARP Version: " <<
-                    yarpVersionString.c_str() << ", ACE Version: " << aceVersionString.c_str() << endl;
+            cout << "Movement And Meaning Version: " << mpmVersionString.c_str() <<
+                    ", YARP Version: " << yarpVersionString.c_str() << ", ACE Version: " <<
+                    aceVersionString.c_str() << endl;
             break;
             
     }

@@ -1,6 +1,6 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MRandomOutputThread.cpp
+//  File:       M+MRandomBurstThread.cpp
 //
 //  Project:    M+M
 //
@@ -10,36 +10,33 @@
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-07-03
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
-#include "M+MRandomOutputThread.h"
+#include "M+MRandomBurstThread.h"
 #include "M+MGeneralChannel.h"
 
 //#include "ODEnableLogging.h"
@@ -75,39 +72,39 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RandomOutputThread::RandomOutputThread(Common::GeneralChannel * outChannel,
-                                       const double             timeToWait,
-                                       const int                numValues) :
-        inherited(), _outChannel(outChannel), _timeToWait(timeToWait), _numValues(numValues)
+RandomBurstThread::RandomBurstThread(Common::GeneralChannel * outChannel,
+                                     const double             timeToWait,
+                                     const int                numValues) :
+    inherited(), _outChannel(outChannel), _timeToWait(timeToWait), _numValues(numValues)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("outChannel = ", outChannel);//####
-    OD_LOG_D1("timeToWait = ", timeToWait);//####
-    OD_LOG_LL1("numValues = ", numValues);//####
-    OD_LOG_EXIT_P(this);//####
-} // RandomOutputThread::RandomOutputThread
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("outChannel = ", outChannel); //####
+    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    OD_LOG_LL1("numValues = ", numValues); //####
+    OD_LOG_EXIT_P(this); //####
+} // RandomBurstThread::RandomBurstThread
 
-RandomOutputThread::~RandomOutputThread(void)
+RandomBurstThread::~RandomBurstThread(void)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_OBJEXIT();//####
-} // RandomOutputThread::~RandomOutputThread
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
+} // RandomBurstThread::~RandomBurstThread
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RandomOutputThread::run(void)
+void RandomBurstThread::run(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
         if (_nextTime <= yarp::os::Time::now())
         {
-            OD_LOG("(_nextTime <= yarp::os::Time::now())");//####
+            OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
             if (_outChannel)
             {
-                Common::Package message;
+                yarp::os::Bottle message;
                 
                 for (int ii = 0; ii < _numValues; ++ii)
                 {
@@ -115,7 +112,7 @@ void RandomOutputThread::run(void)
                 }
                 if (! _outChannel->write(message))
                 {
-                    OD_LOG("(! _outChannel->write(message))");//####
+                    OD_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                     Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -125,24 +122,24 @@ void RandomOutputThread::run(void)
         }
         yarp::os::Time::yield();
     }
-    OD_LOG_OBJEXIT();//####
-} // RandomOutputThread::run
+    OD_LOG_OBJEXIT(); //####
+} // RandomBurstThread::run
 
-bool RandomOutputThread::threadInit(void)
+bool RandomBurstThread::threadInit(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     bool result = true;
     
     _nextTime = yarp::os::Time::now() + _timeToWait;
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RandomOutputThread::threadInit
+} // RandomBurstThread::threadInit
 
-void RandomOutputThread::threadRelease(void)
+void RandomBurstThread::threadRelease(void)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_OBJEXIT();//####
-} // RandomOutputThread::threadRelease
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
+} // RandomBurstThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Accessors

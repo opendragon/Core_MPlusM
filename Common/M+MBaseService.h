@@ -1,47 +1,43 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MBaseService.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the minimal functionality required for an M+M
-//              service.
+//  Contains:   The class declaration for the minimal functionality required for an M+M service.
 //
 //  Written by: Norman Jaffe
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-02-06
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMBaseService_H_))
-# define MpMBaseService_H_ /* Header guard */
+# define MpMBaseService_H_  /* Header guard */
 
 # include "M+MRequestMap.h"
 
@@ -85,7 +81,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param theKind The behavioural model for the service.
              @param launchPath The command-line name used to launch the service.
-             @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if one handler is used.
+             @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if
+             one handler is used.
              @param canonicalName The channel-independent name of the service.
              @param description The description of the service.
              @param requestsDescription The description of the requests for the service.
@@ -103,7 +100,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param theKind The behavioural model for the service.
              @param launchPath The command-line name used to launch the service.
-             @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if one handler is used.
+             @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if
+             one handler is used.
              @param canonicalName The channel-independent name of the service.
              @param description The description of the service.
              @param requestsDescription The description of the requests for the service.
@@ -116,7 +114,7 @@ namespace MplusM
                         const yarp::os::ConstString & description,
                         const yarp::os::ConstString & requestsDescription,
                         const int                     argc,
-                        char * *                      argv);
+                        char **                       argv);
             
             /*! @brief The destructor. */
             virtual ~BaseService(void);
@@ -198,7 +196,7 @@ namespace MplusM
              @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
              @returns @c true if the input was correctly structured and successfully processed. */
             bool processRequest(const yarp::os::ConstString & request,
-                                const Package &               restOfInput,
+                                const yarp::os::Bottle &      restOfInput,
                                 const yarp::os::ConstString & senderChannel,
                                 yarp::os::ConnectionWriter *  replyMechanism);
             
@@ -237,7 +235,8 @@ namespace MplusM
             
             /*! @brief Locate the context corresponding to a name.
              @param key The name of the context.
-             @returns @c NULL if the named context could not be found or a pointer to the context if found. */
+             @returns @c NULL if the named context could not be found or a pointer to the context if
+             found. */
             BaseContext * findContext(const yarp::os::ConstString & key);
             
             /*! @brief Remember the function to be used to handle a particular request.
@@ -262,7 +261,7 @@ namespace MplusM
             typedef std::map<yarp::os::ConstString, BaseContext *> ContextMap;
             
             /*! @brief The entry-type for the mapping. */
-            typedef ContextMap::value_type                         ContextMapValue;
+            typedef ContextMap::value_type ContextMapValue;
             
             /*! @brief Copy constructor.
              
@@ -274,7 +273,7 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            BaseService & operator=(const BaseService & other);
+            BaseService & operator =(const BaseService & other);
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);
@@ -302,80 +301,82 @@ namespace MplusM
             } // unlockContexts
             
             /*! @brief The command-line name used to launch the service. */
-            yarp::os::ConstString            _launchPath;
+            yarp::os::ConstString _launchPath;
             
             /*! @brief The contention lock used to avoid inconsistencies. */
-            yarp::os::Mutex                  _contextsLock;
+            yarp::os::Mutex _contextsLock;
             
             /*! @brief The map between requests and request handlers. */
-            RequestMap                       _requestHandlers;
+            RequestMap _requestHandlers;
             
             /*! @brief The map between requests and request handlers. */
-            ContextMap                       _contexts;
+            ContextMap _contexts;
             
             /*! @brief The channel-independent name of the service. */
-            yarp::os::ConstString            _canonicalName;
+            yarp::os::ConstString _canonicalName;
             
             /*! @brief The description of the service. */
-            yarp::os::ConstString            _description;
+            yarp::os::ConstString _description;
             
             /*! @brief The description of the requests for the service. */
-            yarp::os::ConstString            _requestsDescription;
+            yarp::os::ConstString _requestsDescription;
             
             /*! @brief The number of requests seen. */
-            int64_t                          _requestCount;
+            int64_t _requestCount;
             
             /*! @brief The request handler for the 'channels' request. */
-            ChannelsRequestHandler *         _channelsHandler;
+            ChannelsRequestHandler * _channelsHandler;
             
             /*! @brief The request handler for the 'clients' request. */
-            ClientsRequestHandler *          _clientsHandler;
+            ClientsRequestHandler * _clientsHandler;
             
             /*! @brief The request handler for the 'count' request. */
-            CountRequestHandler *            _countHandler;
-
+            CountRequestHandler * _countHandler;
+            
             /*! @brief The request handler for the 'detach' request. */
-            DetachRequestHandler *           _detachHandler;
+            DetachRequestHandler * _detachHandler;
             
             /*! @brief The request handler for the 'info' request. */
-            InfoRequestHandler *             _infoHandler;
+            InfoRequestHandler * _infoHandler;
             
             /*! @brief The request handler for the 'list' request. */
-            ListRequestHandler *             _listHandler;
+            ListRequestHandler * _listHandler;
             
             /*! @brief The request handler for the 'name' request. */
-            NameRequestHandler *             _nameHandler;
+            NameRequestHandler * _nameHandler;
             
             /*! @brief The request handler for the 'quit' request. */
-            QuitRequestHandler *             _quitHandler;
+            QuitRequestHandler * _quitHandler;
             
             /*! @brief The connection point for the service. */
-            Endpoint *                       _endpoint;
+            Endpoint * _endpoint;
             
             /*! @brief The input handler for the service. */
-            BaseServiceInputHandler *        _handler;
+            BaseServiceInputHandler * _handler;
             
             /*! @brief The input handler creator for the service. */
             BaseServiceInputHandlerCreator * _handlerCreator;
             
             /*! @brief The object used to generate 'pings' for the service. */
-            PingThread *                     _pinger;
+            PingThread * _pinger;
             
             /*! @brief The kind of service. */
-            ServiceKind                      _kind;
+            ServiceKind _kind;
             
-            /*! @brief The current state of the service - @c true if active and @c false otherwise. */
-            bool                             _started;
+            /*! @brief The current state of the service - @c true if active and @c false
+             otherwise. */
+            bool _started;
             
-            /*! @brief Whether to use a handler creator or a handler - @c true for a creator and @c false otherwise. */
-            bool                             _useMultipleHandlers;
+            /*! @brief Whether to use a handler creator or a handler - @c true for a creator and
+             @c false otherwise. */
+            bool _useMultipleHandlers;
             
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char                             _filler[6];
+            char _filler[6];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

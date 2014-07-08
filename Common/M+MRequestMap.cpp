@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MRequestMap.cpp
 //
@@ -10,34 +10,31 @@
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-02-28
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MRequestMap.h"
 #include "M+MBaseRequestHandler.h"
@@ -76,31 +73,30 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 RequestMap::RequestMap(BaseService & owner) :
-        _defaultHandler(NULL), _handlers(), _owner(owner)
+    _defaultHandler(NULL), _handlers(), _owner(owner)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("owner = ", &owner);//####
-    OD_LOG_EXIT_P(this);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("owner = ", &owner); //####
+    OD_LOG_EXIT_P(this); //####
 } // RequestMap::RequestMap
 
 RequestMap::~RequestMap(void)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
 } // RequestMap::~RequestMap
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RequestMap::fillInListReply(Package & reply)
+void RequestMap::fillInListReply(yarp::os::Bottle & reply)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     try
     {
         lock();
         RequestHandlerMap::const_iterator walker(_handlers.begin());
-        
         for ( ; _handlers.end() != walker; ++walker)
         {
             yarp::os::Property & aDict = reply.addDict();
@@ -112,16 +108,16 @@ void RequestMap::fillInListReply(Package & reply)
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // RequestMap::fillInListReply
 
-void RequestMap::fillInRequestInfo(Package &                     reply,
+void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
                                    const yarp::os::ConstString & requestName)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     try
     {
         lock();
@@ -129,7 +125,7 @@ void RequestMap::fillInRequestInfo(Package &                     reply,
         
         if (_handlers.end() == match)
         {
-            OD_LOG("(_handlers.end() == match)");//####
+            OD_LOG("(_handlers.end() == match)"); //####
         }
         else
         {
@@ -142,48 +138,48 @@ void RequestMap::fillInRequestInfo(Package &                     reply,
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // RequestMap::fillInRequestInfo
 
 BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstString & request)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S1("request = ", request.c_str());//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("request = ", request); //####
     BaseRequestHandler * result = NULL;
     
     try
     {
         lock();
         RequestHandlerMap::const_iterator match(_handlers.find(request));
-
+        
         if (_handlers.end() == match)
         {
-            OD_LOG("(_handlers.end() == match)");//####
+            OD_LOG("(_handlers.end() == match)"); //####
             result = _defaultHandler;
         }
         else
         {
-            OD_LOG("! (_handlers.end() == match)");//####
+            OD_LOG("! (_handlers.end() == match)"); //####
             result = match->second;
         }
         unlock();
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_P(result);//####
+    OD_LOG_OBJEXIT_P(result); //####
     return result;
 } // RequestMap::lookupRequestHandler
 
 void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("handler = ", handler);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("handler = ", handler); //####
     try
     {
         if (handler)
@@ -193,7 +189,8 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
             handler->fillInAliases(aliases);
             lock();
             _handlers.insert(RequestHandlerMapValue(handler->name(), handler));
-            for (StringVector::const_iterator walker(aliases.begin()); aliases.end() != walker; ++walker)
+            for (StringVector::const_iterator walker(aliases.begin()); aliases.end() != walker;
+                 ++walker)
             {
                 _handlers.insert(RequestHandlerMapValue(*walker, handler));
             }
@@ -203,26 +200,26 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // RequestMap::registerRequestHandler
 
 void RequestMap::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("handler = ", handler);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("handler = ", handler); //####
     lock();
     _defaultHandler = handler;
     unlock();
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // RequestMap::setDefaultRequestHandler
 
 void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("handler = ", handler);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("handler = ", handler); //####
     try
     {
         if (handler)
@@ -232,7 +229,8 @@ void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
             handler->fillInAliases(aliases);
             lock();
             _handlers.erase(handler->name());
-            for (StringVector::const_iterator walker(aliases.begin()); aliases.end() != walker; ++walker)
+            for (StringVector::const_iterator walker(aliases.begin()); aliases.end() != walker;
+                 ++walker)
             {
                 _handlers.erase(*walker);
             }
@@ -241,10 +239,10 @@ void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // RequestMap::unregisterRequestHandler
 
 #if defined(__APPLE__)

@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       ODLogging.h
 //
@@ -10,37 +10,34 @@
 //
 //  Copyright:  (c) 2013 by OpenDragon.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2013-04-07
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #if (! defined(ODLOGGING_H_))
-# define ODLOGGING_H_ /* Header guard */
+# define ODLOGGING_H_  /* Header guard */
 
 # include <stdint.h>
 # if defined(__OBJC__)
@@ -62,7 +59,8 @@
 # endif // defined(__APPLE__)
 
 # if (! defined(MAC_OR_LINUX_))
-#  define MAC_OR_LINUX_ (defined(__APPLE__) || defined(__linux__)) /* @c TRUE if non-Windows, @c FALSE if Windows. */
+  /* @c TRUE if non-Windows, @c FALSE if Windows. */
+#  define MAC_OR_LINUX_ (defined(__APPLE__) || defined(__linux__))
 # endif // ! defined(MAC_OR_LINUX_)
 
 // Note that the following values could be in an enumeration, but C/C++ is not happy
@@ -164,22 +162,26 @@
 # undef OD_LOG_PACKET
 # undef OD_LOG_RECT
 # undef OD_LOG_S1
+# undef OD_LOG_S1s
 # undef OD_LOG_S2
+# undef OD_LOG_S2s
 # undef OD_LOG_S3
+# undef OD_LOG_S3s
 # undef OD_LOG_S4
+# undef OD_LOG_S4s
 # undef OD_LOG_Sp
 # undef OD_LOG_Ti
 
 # if defined(OD_ENABLE_LOGGING)
 #  if defined(__OBJC__)
-#   define OD_OBJPOINTER               self /* The pointer to the calling object for a method. */
+#   define OD_OBJPOINTER               self  /* The pointer to the calling object for a method. */
 #   define OD_OBJPRINTABLE_STRING(xx)  (xx ? [[xx description] UTF8String] : "<>") \
-                                            /* Return the string description for an Objective-C object. */
+/* Return the string description for an Objective-C object. */
 #  elif defined(__cplusplus)
-#   define OD_OBJPOINTER               this /* The pointer to the calling object for a method. */
-#  else // ! defined(__cplusplus)
-#   define OD_OBJPOINTER               NULL /* The pointer to the calling object for a method. */
-#  endif // defined(__cplusplus)
+#   define OD_OBJPOINTER               this  /* The pointer to the calling object for a method. */
+#  else  // ! defined(__cplusplus)
+#   define OD_OBJPOINTER               NULL  /* The pointer to the calling object for a method. */
+#  endif  // defined(__cplusplus)
 
 /*! @brief Write a string to the log.
  @param text The string to be written. */
@@ -208,7 +210,8 @@
  @param text3 The caption for the third value to be written.
  @param val3 The third value to be written. */
 #  define OD_LOG_B3(text1, val1, text2, val2, text3, val3)  \
-        ODLogB3_(__FILE__, __func__, __LINE__, text1, (long) (val1), text2, (long) (val2), text3, (long) (val3))
+        ODLogB3_(__FILE__, __func__, __LINE__, text1, (long) (val1), text2, (long) (val2), text3, \
+                    (long) (val3))
 
 /*! @brief Write four boolean values to the log.
  @param text1 The caption for the first value to be written.
@@ -220,8 +223,8 @@
  @param text4 The caption for the fourth value to be written.
  @param val4 The fourth value to be written. */
 #  define OD_LOG_B4(text1, val1, text2, val2, text3, val3, text4, val4)  \
-        ODLogB4_(__FILE__, __func__, __LINE__, text1, (long) (val1), text2, (long) (val2), text3, (long) (val3), text4,\
-                    (long) (val4))
+        ODLogB4_(__FILE__, __func__, __LINE__, text1, (long) (val1), text2, (long) (val2), text3, \
+                    (long) (val3), text4, (long) (val4))
 
 /*! @brief Write a character value to the log.
  @param text1 The caption for the value to be written.
@@ -245,7 +248,8 @@
  @param text3 The caption for the third value to be written.
  @param val3 The third value to be written. */
 #  define OD_LOG_C3(text1, val1, text2, val2, text3, val3)  \
-        ODLogC3_(__FILE__, __func__, __LINE__, text1, (char) (val1), text2, (char) (val2), text3, (char) (val3))
+        ODLogC3_(__FILE__, __func__, __LINE__, text1, (char) (val1), text2, (char) (val2), text3, \
+                    (char) (val3))
 
 /*! @brief Write four character values to the log.
  @param text1 The caption for the first value to be written.
@@ -257,8 +261,8 @@
  @param text4 The caption for the fourth value to be written.
  @param val4 The fourth value to be written. */
 #  define OD_LOG_C4(text1, val1, text2, val2, text3, val3, text4, val4)  \
-        ODLogC4_(__FILE__, __func__, __LINE__, text1, (char) (val1), text2, (char) (val2), text3, (char) (val3), text4,\
-                    (char) (val4))
+        ODLogC4_(__FILE__, __func__, __LINE__, text1, (char) (val1), text2, (char) (val2), text3, \
+                    (char) (val3), text4, (char) (val4))
 
 /*! @brief Write a double value to the log.
  @param text1 The caption for the value to be written.
@@ -333,24 +337,26 @@
  @param val The value being returned by the function. */
 #  define OD_LOG_EXIT_LL(val) \
         ODLogExitLL_(__FILE__, __func__, __LINE__, val)
+
 #  if defined(__OBJC__)
 /*! @brief Write an object function exit string to the log.
  @param val The value being returned by the function. */
 #   define OD_LOG_EXIT_O(val) \
         ODLogExitO_(__FILE__, __func__, __LINE__, val)
-#  endif // defined(__OBJC__)
+#  endif  // defined(__OBJC__)
 
 /*! @brief Write a pointer function exit string to the log.
  @param val The value being returned by the function. */
 #  define OD_LOG_EXIT_P(val) \
         ODLogExitP_(__FILE__, __func__, __LINE__, val)
+
 #  if defined(__APPLE__)
 
 /*! @brief Write a rectangle function exit string to the log.
  @param val The value being returned by the function. */
 #   define OD_LOG_EXIT_R(val) \
         ODLogExitR_(__FILE__, __func__, __LINE__, val)
-#  endif // defined(__APPLE__)
+#  endif  // defined(__APPLE__)
 
 /*! @brief Write a string function exit string to the log.
  @param val The value being returned by the function. */
@@ -402,7 +408,8 @@
  @param text3 The caption for the third value to be written.
  @param val3 The third value to be written. */
 #  define OD_LOG_L3(text1, val1, text2, val2, text3, val3)  \
-        ODLogL3_(__FILE__, __func__, __LINE__, text1, (long) (val1), text2, (long) (val2), text3, (long) (val3))
+        ODLogL3_(__FILE__, __func__, __LINE__, text1, (long) (val1), text2, (long) (val2), text3, \
+                    (long) (val3))
 
 /*! @brief Write four long values to the log.
  @param text1 The caption for the first value to be written.
@@ -414,8 +421,8 @@
  @param text4 The caption for the fourth value to be written.
  @param val4 The fourth value to be written. */
 #  define OD_LOG_L4(text1, val1, text2, val2, text3, val3, text4, val4)  \
-        ODLogL4_(__FILE__, __func__, __LINE__, text1, (long) (val1), text2, (long) (val2), text3, (long) (val3), text4,\
-                    (long) (val4))
+        ODLogL4_(__FILE__, __func__, __LINE__, text1, (long) (val1), text2, (long) (val2), text3, \
+                    (long) (val3), text4, (long) (val4))
 
 /*! @brief Write a long long value to the log.
  @param text1 The caption for the value to be written.
@@ -439,8 +446,8 @@
  @param text3 The caption for the third value to be written.
  @param val3 The third value to be written. */
 #  define OD_LOG_LL3(text1, val1, text2, val2, text3, val3)  \
-        ODLogLL3_(__FILE__, __func__, __LINE__, text1, (long int) (val1), text2, (long int) (val2), text3,\
-                    (long int) (val3))
+        ODLogLL3_(__FILE__, __func__, __LINE__, text1, (long int) (val1), text2, \
+                    (long int) (val2), text3, (long int) (val3))
 
 /*! @brief Write four long long values to the log.
  @param text1 The caption for the first value to be written.
@@ -452,14 +459,15 @@
  @param text4 The caption for the fourth value to be written.
  @param val4 The fourth value to be written. */
 #  define OD_LOG_LL4(text1, val1, text2, val2, text3, val3, text4, val4)  \
-        ODLogLL4_(__FILE__, __func__, __LINE__, text1, (long int) (val1), text2, (long int) (val2), text3,\
-                    (long int) (val3), text4, (long int) (val4))
+        ODLogLL4_(__FILE__, __func__, __LINE__, text1, (long int) (val1), text2, \
+                    (long int) (val2), text3, (long int) (val3), text4, (long int) (val4))
 
 /*! @brief Write a long string value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
 #  define OD_LOG_LS(text1, val1)  \
         ODLogLS_(__FILE__, __func__, __LINE__, text1, val1)
+
 #  if defined(__OBJC__)
 /*! @brief Write an object value to the log.
  @param text1 The caption for the value to be written.
@@ -496,7 +504,7 @@
  @param obj4 The fourth value to be written. */
 #   define OD_LOG_O4(text1, obj1, text2, obj2, text3, obj3, text4, obj4)  \
         ODLogO4_(__FILE__, __func__, __LINE__, text1, obj1, text2, obj2, text3, obj3, text4, obj4)
-#  endif // defined(__OBJC__)
+#  endif  // defined(__OBJC__)
 
 /*! @brief Write a method entry string to the log. */
 #  define OD_LOG_OBJENTER()  \
@@ -535,23 +543,25 @@
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_LL(val) \
         ODLogObjExitLL_(__FILE__, __func__, __LINE__, OD_OBJPOINTER, val)
+
 #  if defined(__OBJC__)
 /*! @brief Write an object method exit string to the log.
  @param val The value being returned by the method. */
 #   define OD_LOG_OBJEXIT_O(val) \
         ODLogObjExitO_(__FILE__, __func__, __LINE__, OD_OBJPOINTER, val)
-#  endif // defined(__OBJC__)
+#  endif  // defined(__OBJC__)
 
 /*! @brief Write a pointer method exit string to the log.
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_P(val) \
         ODLogObjExitP_(__FILE__, __func__, __LINE__, OD_OBJPOINTER, val)
+
 #  if defined(__APPLE__)
 /*! @brief Write a rectangle method exit string to the log.
  @param val The value being returned by the method. */
 #   define OD_LOG_OBJEXIT_R(val) \
         ODLogObjExitR_(__FILE__, __func__, __LINE__, OD_OBJPOINTER, val)
-#  endif // defined(__APPLE__)
+#  endif  // defined(__APPLE__)
 
 /*! @brief Write a string method exit string to the log.
  @param val The value being returned by the method. */
@@ -580,7 +590,8 @@
  @param text2 The caption for the second value to be written.
  @param ptr2 The second value to be written. */
 #  define OD_LOG_P2(text1, ptr1, text2, ptr2)  \
-        ODLogP2_(__FILE__, __func__, __LINE__, text1, (const void *) (ptr1), text2, (const void *) (ptr2))
+        ODLogP2_(__FILE__, __func__, __LINE__, text1, (const void *) (ptr1), text2, \
+                    (const void *) (ptr2))
 
 /*! @brief Write three pointer values to the log.
  @param text1 The caption for the first value to be written.
@@ -590,8 +601,8 @@
  @param text3 The caption for the third value to be written.
  @param ptr3 The third value to be written. */
 #  define OD_LOG_P3(text1, ptr1, text2, ptr2, text3, ptr3)  \
-        ODLogP3_(__FILE__, __func__, __LINE__, text1, (const void *) (ptr1), text2, (const void *) (ptr2), text3,\
-                    (const void *) (ptr3))
+        ODLogP3_(__FILE__, __func__, __LINE__, text1, (const void *) (ptr1), text2, \
+                    (const void *) (ptr2), text3, (const void *) (ptr3))
 
 /*! @brief Write four pointer values to the log.
  @param text1 The caption for the first value to be written.
@@ -603,8 +614,9 @@
  @param text4 The caption for the fourth value to be written.
  @param ptr4 The fourth value to be written. */
 #  define OD_LOG_P4(text1, ptr1, text2, ptr2, text3, ptr3, text4, ptr4)  \
-        ODLogP4_(__FILE__, __func__, __LINE__, text1, (const void *) (ptr1), text2, (const void *) (ptr2), text3,\
-                    (const void *) (ptr3), text4, (const void *) (ptr4))
+        ODLogP4_(__FILE__, __func__, __LINE__, text1, (const void *) (ptr1), text2, \
+                    (const void *) (ptr2), text3, (const void *) (ptr3), text4, \
+                    (const void *) (ptr4))
 
 /*! @brief Write a region of memory to the log.
  @param caption The caption for the region to be written.
@@ -612,13 +624,14 @@
  @param size The number of bytes to be written. */
 #  define OD_LOG_PACKET(caption, buffer, size)  \
         ODLogPacket_(__FILE__, __func__,  __LINE__, caption, buffer, size)
+
 #  if defined(__APPLE__)
 /*! @brief Write a rectangle to the log.
  @param caption The caption for the value to be written.
  @param rect The value to be written. */
 #   define OD_LOG_RECT(caption, rect)  \
         ODLogRect_(__FILE__, __func__,  __LINE__, caption, rect)
-#  endif // defined(__APPLE__)
+#  endif  // defined(__APPLE__)
 
 /*! @brief Write a string value to the log.
  @param text1 The caption for the value to be written.
@@ -662,19 +675,20 @@
  @param val The value to be written. */
 #  define OD_LOG_Sp(text, len, val)  \
         ODLogSp_(__FILE__, __func__, __LINE__, text, (long) len, val)
+
 #  if MAC_OR_LINUX_
 /*! @brief Write a time value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
 #   define OD_LOG_Ti(text1, val1)  \
         ODLogTi_(__FILE__, __func__, __LINE__, text1, val1)
-#  endif // MAC_OR_LINUX_
+#  endif  // MAC_OR_LINUX_
 
 #  if defined(__cplusplus)
 extern "C"
 {
-#  endif // defined(__cplusplus)
-
+#  endif  // defined(__cplusplus)
+    
     /*! @brief Write a string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -684,7 +698,7 @@ extern "C"
                 const char * funcName,
                 const int    lineNumber,
                 const char * text);
-
+    
     /*! @brief Write a boolean value to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -696,7 +710,7 @@ extern "C"
                   const int    lineNumber,
                   const char * text1,
                   const bool   val1);
-
+    
     /*! @brief Write two boolean values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -732,7 +746,7 @@ extern "C"
                   const bool   val2,
                   const char * text3,
                   const bool   val3);
-
+    
     /*! @brief Write four boolean values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -756,7 +770,7 @@ extern "C"
                   const bool   val3,
                   const char * text4,
                   const bool   val4);
-
+    
     /*! @brief Write a character value to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -768,7 +782,7 @@ extern "C"
                   const int    lineNumber,
                   const char * text1,
                   const char   val1);
-
+    
     /*! @brief Write two character values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -784,7 +798,7 @@ extern "C"
                   const char   val1,
                   const char * text2,
                   const char   val2);
-
+    
     /*! @brief Write three character values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -804,7 +818,7 @@ extern "C"
                   const char   val2,
                   const char * text3,
                   const char   val3);
-
+    
     /*! @brief Write four character values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -828,7 +842,7 @@ extern "C"
                   const char   val3,
                   const char * text4,
                   const char   val4);
-
+    
     /*! @brief Write a double value to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -840,7 +854,7 @@ extern "C"
                   const int    lineNumber,
                   const char * text1,
                   const double val1);
-
+    
     /*! @brief Write two double values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -856,7 +870,7 @@ extern "C"
                   const double val1,
                   const char * text2,
                   const double val2);
-
+    
     /*! @brief Write three double values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -876,7 +890,7 @@ extern "C"
                   const double val2,
                   const char * text3,
                   const double val3);
-
+    
     /*! @brief Write four double values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -900,7 +914,7 @@ extern "C"
                   const double val3,
                   const char * text4,
                   const double val4);
-
+    
     /*! @brief Write a function entry string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -908,7 +922,7 @@ extern "C"
     void ODLogEnter_(const char * fileName,
                      const char * funcName,
                      const int    lineNumber);
-
+    
     /*! @brief Write a void function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -916,7 +930,7 @@ extern "C"
     void ODLogExit_(const char * fileName,
                     const char * funcName,
                     const int    lineNumber);
-
+    
     /*! @brief Write a boolean function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -926,7 +940,7 @@ extern "C"
                      const char * funcName,
                      const int    lineNumber,
                      const bool   val);
-
+    
     /*! @brief Write a character function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -936,7 +950,7 @@ extern "C"
                      const char * funcName,
                      const int    lineNumber,
                      const char   val);
-
+    
     /*! @brief Write a double function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -946,7 +960,7 @@ extern "C"
                      const char * funcName,
                      const int    lineNumber,
                      const double val);
-
+    
     /*! @brief Write an exit function string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -956,7 +970,7 @@ extern "C"
                         const char * funcName,
                         const int    lineNumber,
                         const long   val);
-
+    
     /*! @brief Write a long function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -966,7 +980,7 @@ extern "C"
                      const char *  funcName,
                      const int     lineNumber,
                      const int32_t val);
-
+    
     /*! @brief Write a long long function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -976,7 +990,7 @@ extern "C"
                       const char *  funcName,
                       const int     lineNumber,
                       const int64_t val);
-
+    
 #  if defined(__OBJC__)
     /*! @brief Write an object function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -987,8 +1001,8 @@ extern "C"
                      const char * funcName,
                      const int    lineNumber,
                      const id     val);
-#  endif // defined(__OBJC__)
-
+#  endif  // defined(__OBJC__)
+    
     /*! @brief Write a pointer function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -998,7 +1012,7 @@ extern "C"
                      const char * funcName,
                      const int    lineNumber,
                      const void * val);
-
+    
 #  if defined(__APPLE__)
     /*! @brief Write a rectangle function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1009,8 +1023,8 @@ extern "C"
                      const char * funcName,
                      const int    lineNumber,
                      const CGRect val);
-#  endif // defined(__APPLE__)
-
+#  endif  // defined(__APPLE__)
+    
     /*! @brief Write a string function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1020,7 +1034,7 @@ extern "C"
                      const char * funcName,
                      const int    lineNumber,
                      const char * val);
-
+    
     /*! @brief Write a throw/long function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1040,7 +1054,7 @@ extern "C"
                           const char * funcName,
                           const int    lineNumber,
                           const char * val);
-
+    
     /*! @brief Set up the logging state.
      @param prefix The output prefix string to be applied.
      @param options The logging options to be applied.
@@ -1052,7 +1066,7 @@ extern "C"
                     const char * fileName,
                     const char * funcName,
                     const int    lineNumber);
-
+    
     /*! @brief Write an IP address to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1066,7 +1080,7 @@ extern "C"
                   const char *  text1,
                   const int32_t val1,
                   const int     val2);
-
+    
     /*! @brief Write a long value to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1078,7 +1092,7 @@ extern "C"
                   const int     lineNumber,
                   const char *  text1,
                   const int32_t val1);
-
+    
     /*! @brief Write two long values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1094,7 +1108,7 @@ extern "C"
                   const int32_t val1,
                   const char *  text2,
                   const int32_t val2);
-
+    
     /*! @brief Write three long values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1114,7 +1128,7 @@ extern "C"
                   const int32_t val2,
                   const char *  text3,
                   const int32_t val3);
-
+    
     /*! @brief Write four long values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1138,7 +1152,7 @@ extern "C"
                   const int32_t val3,
                   const char *  text4,
                   const int32_t val4);
-
+    
     /*! @brief Write a long long value to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1150,7 +1164,7 @@ extern "C"
                    const int     lineNumber,
                    const char *  text1,
                    const int64_t val1);
-
+    
     /*! @brief Write two long long values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1166,7 +1180,7 @@ extern "C"
                    const int64_t val1,
                    const char *  text2,
                    const int64_t val2);
-
+    
     /*! @brief Write three long long values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1186,7 +1200,7 @@ extern "C"
                    const int64_t val2,
                    const char *  text3,
                    const int64_t val3);
-
+    
     /*! @brief Write four long long values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1210,7 +1224,7 @@ extern "C"
                    const int64_t val3,
                    const char *  text4,
                    const int64_t val4);
-
+    
     /*! @brief Write a long string value to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1222,7 +1236,7 @@ extern "C"
                   const int    lineNumber,
                   const char * text1,
                   const char * val1);
-
+    
 #  if defined(__OBJC__)
     /*! @brief Write an object value to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1235,7 +1249,7 @@ extern "C"
                   const int    lineNumber,
                   const char * text1,
                   const id     obj1);
-
+    
     /*! @brief Write two object values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1251,7 +1265,7 @@ extern "C"
                   const id     obj1,
                   const char * text2,
                   const id     obj2);
-
+    
     /*! @brief Write three object values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1271,7 +1285,7 @@ extern "C"
                   const id     obj2,
                   const char * text3,
                   const id     obj3);
-
+    
     /*! @brief Write four object values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1295,8 +1309,8 @@ extern "C"
                   const id     obj3,
                   const char * text4,
                   const id     obj4);
-#  endif // defined(__OBJC__)
-
+#  endif  // defined(__OBJC__)
+    
     /*! @brief Write a method entry string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1306,7 +1320,7 @@ extern "C"
                         const char * funcName,
                         const int    lineNumber,
                         const void * objPtr);
-
+    
     /*! @brief Write a void method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1316,7 +1330,7 @@ extern "C"
                        const char * funcName,
                        const int    lineNumber,
                        const void * objPtr);
-
+    
     /*! @brief Write a boolean method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1328,7 +1342,7 @@ extern "C"
                         const int    lineNumber,
                         const void * objPtr,
                         const bool   val);
-
+    
     /*! @brief Write a character method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1340,7 +1354,7 @@ extern "C"
                         const int    lineNumber,
                         const void * objPtr,
                         const char   val);
-
+    
     /*! @brief Write a double method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1352,7 +1366,7 @@ extern "C"
                         const int    lineNumber,
                         const void * objPtr,
                         const double val);
-
+    
     /*! @brief Write an exit method string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1364,7 +1378,7 @@ extern "C"
                            const int    lineNumber,
                            const void * objPtr,
                            const long   val);
-
+    
     /*! @brief Write a long method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1376,7 +1390,7 @@ extern "C"
                         const int     lineNumber,
                         const void *  objPtr,
                         const int32_t val);
-
+    
     /*! @brief Write a long long method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1388,7 +1402,7 @@ extern "C"
                          const int     lineNumber,
                          const void *  objPtr,
                          const int64_t val);
-
+    
 #  if defined(__OBJC__)
     /*! @brief Write an object method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1401,8 +1415,8 @@ extern "C"
                         const int    lineNumber,
                         const void * objPtr,
                         const id     val);
-#  endif // defined(__OBJC__)
-
+#  endif  // defined(__OBJC__)
+    
     /*! @brief Write a pointer method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1414,7 +1428,7 @@ extern "C"
                         const int    lineNumber,
                         const void * objPtr,
                         const void * val);
-
+    
 #  if defined(__APPLE__)
     /*! @brief Write a rectangle method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1427,8 +1441,8 @@ extern "C"
                         const int    lineNumber,
                         const void * objPtr,
                         const CGRect val);
-#  endif // defined(__APPLE__)
-
+#  endif  // defined(__APPLE__)
+    
     /*! @brief Write a string method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1440,7 +1454,7 @@ extern "C"
                         const int    lineNumber,
                         const void * objPtr,
                         const char * val);
-
+    
     /*! @brief Write a throw/long method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1452,7 +1466,7 @@ extern "C"
                              const int     lineNumber,
                              const void *  objPtr,
                              const int32_t val);
-
+    
     /*! @brief Write a throw/string method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1476,7 +1490,7 @@ extern "C"
                   const int    lineNumber,
                   const char * text1,
                   const void * ptr1);
-
+    
     /*! @brief Write two pointer values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1492,7 +1506,7 @@ extern "C"
                   const void * ptr1,
                   const char * text2,
                   const void * ptr2);
-
+    
     /*! @brief Write three pointer values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1512,7 +1526,7 @@ extern "C"
                   const void * ptr2,
                   const char * text3,
                   const void * ptr3);
-
+    
     /*! @brief Write four pointer values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1536,7 +1550,7 @@ extern "C"
                   const void * ptr3,
                   const char * text4,
                   const void * ptr4);
-
+    
     /*! @brief Write a region of memory to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1550,7 +1564,7 @@ extern "C"
                       const char * caption,
                       const char * buffer,
                       const int    size);
-
+    
 #  if defined(__APPLE__)
     /*! @brief Write a rectangle to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1563,8 +1577,8 @@ extern "C"
                     const int    lineNumber,
                     const char * caption,
                     const CGRect rect);
-#  endif // defined(__APPLE__)
-
+#  endif  // defined(__APPLE__)
+    
     /*! @brief Write a string value to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1576,7 +1590,7 @@ extern "C"
                   const int    lineNumber,
                   const char * text1,
                   const char * val1);
-
+    
     /*! @brief Write two string values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1592,7 +1606,7 @@ extern "C"
                   const char * val1,
                   const char * text2,
                   const char * val2);
-
+    
     /*! @brief Write three string values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1612,7 +1626,7 @@ extern "C"
                   const char * val2,
                   const char * text3,
                   const char * val3);
-
+    
     /*! @brief Write four string values to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1636,7 +1650,7 @@ extern "C"
                   const char * val3,
                   const char * text4,
                   const char * val4);
-
+    
     /*! @brief Write a (possibly unterminated) string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1650,7 +1664,7 @@ extern "C"
                   const char * text,
                   const int    len,
                   const char * val);
-
+    
 #  if MAC_OR_LINUX_
     /*! @brief Write a time value to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1663,15 +1677,16 @@ extern "C"
                   const int              lineNumber,
                   const char *           text1,
                   const struct timeval * val1);
-#  endif // MAC_OR_LINUX_
-
+#  endif  // MAC_OR_LINUX_
+    
 #  if defined(__cplusplus)
 }
-#  endif // defined(__cplusplus)
+#  endif  // defined(__cplusplus)
 # else // ! defined(OD_ENABLE_LOGGING)
 #  if defined(__OBJC__)
-#   define OD_OBJPRINTABLE_STRING(xx) "" /* Return the string description for an Objective-C object. */
-#  endif // defined(__OBJC__)
+ /* Return the string description of an Objective-C object. */
+#   define OD_OBJPRINTABLE_STRING(xx) ""
+#  endif  // defined(__OBJC__)
 
 /*! @brief Write a string to the log.
  @param text The string to be written. */
@@ -1680,14 +1695,14 @@ extern "C"
 /*! @brief Write a boolean value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
-#  define OD_LOG_B1(text1, val1)  /* */
+#  define OD_LOG_B1(text1, val1) /* */
 
 /*! @brief Write two boolean values to the log.
  @param text1 The caption for the first value to be written.
  @param val1 The first value to be written.
  @param text2 The caption for the second value to be written.
  @param val2 The second value to be written. */
-#  define OD_LOG_B2(text1, val1, text2, val2)  /* */
+#  define OD_LOG_B2(text1, val1, text2, val2) /* */
 
 /*! @brief Write three boolean values to the log.
  @param text1 The caption for the first value to be written.
@@ -1696,7 +1711,7 @@ extern "C"
  @param val2 The second value to be written.
  @param text3 The caption for the third value to be written.
  @param val3 The third value to be written. */
-#  define OD_LOG_B3(text1, val1, text2, val2, text3, val3)  /* */
+#  define OD_LOG_B3(text1, val1, text2, val2, text3, val3) /* */
 
 /*! @brief Write four boolean values to the log.
  @param text1 The caption for the first value to be written.
@@ -1707,19 +1722,19 @@ extern "C"
  @param val3 The third value to be written.
  @param text4 The caption for the fourth value to be written.
  @param val4 The fourth value to be written. */
-#  define OD_LOG_B4(text1, val1, text2, val2, text3, val3, text4, val4)  /* */
+#  define OD_LOG_B4(text1, val1, text2, val2, text3, val3, text4, val4) /* */
 
 /*! @brief Write a character value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
-#  define OD_LOG_C1(text1, val1)  /* */
+#  define OD_LOG_C1(text1, val1) /* */
 
 /*! @brief Write two character values to the log.
  @param text1 The caption for the first value to be written.
  @param val1 The first value to be written.
  @param text2 The caption for the second value to be written.
  @param val2 The second value to be written. */
-#  define OD_LOG_C2(text1, val1, text2, val2)  /* */
+#  define OD_LOG_C2(text1, val1, text2, val2) /* */
 
 /*! @brief Write three character values to the log.
  @param text1 The caption for the first value to be written.
@@ -1728,7 +1743,7 @@ extern "C"
  @param val2 The second value to be written.
  @param text3 The caption for the third value to be written.
  @param val3 The third value to be written. */
-#  define OD_LOG_C3(text1, val1, text2, val2, text3, val3)  /* */
+#  define OD_LOG_C3(text1, val1, text2, val2, text3, val3) /* */
 
 /*! @brief Write four character values to the log.
  @param text1 The caption for the first value to be written.
@@ -1739,19 +1754,19 @@ extern "C"
  @param val3 The third value to be written.
  @param text4 The caption for the fourth value to be written.
  @param val4 The fourth value to be written. */
-#  define OD_LOG_C4(text1, val1, text2, val2, text3, val3, text4, val4)  /* */
+#  define OD_LOG_C4(text1, val1, text2, val2, text3, val3, text4, val4) /* */
 
 /*! @brief Write a double value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
-#  define OD_LOG_D1(text1, val1)  /* */
+#  define OD_LOG_D1(text1, val1) /* */
 
 /*! @brief Write two double values to the log.
  @param text1 The caption for the first value to be written.
  @param val1 The first value to be written.
  @param text2 The caption for the second value to be written.
  @param val2 The second value to be written. */
-#  define OD_LOG_D2(text1, val1, text2, val2)  /* */
+#  define OD_LOG_D2(text1, val1, text2, val2) /* */
 
 /*! @brief Write three double values to the log.
  @param text1 The caption for the first value to be written.
@@ -1760,7 +1775,7 @@ extern "C"
  @param val2 The second value to be written.
  @param text3 The caption for the third value to be written.
  @param val3 The third value to be written. */
-#  define OD_LOG_D3(text1, val1, text2, val2, text3, val3)  /* */
+#  define OD_LOG_D3(text1, val1, text2, val2, text3, val3) /* */
 
 /*! @brief Write four double values to the log.
  @param text1 The caption for the first value to be written.
@@ -1771,13 +1786,13 @@ extern "C"
  @param val3 The third value to be written.
  @param text4 The caption for the fourth value to be written.
  @param val4 The fourth value to be written. */
-#  define OD_LOG_D4(text1, val1, text2, val2, text3, val3, text4, val4)  /* */
+#  define OD_LOG_D4(text1, val1, text2, val2, text3, val3, text4, val4) /* */
 
 /*! @brief Write a function entry string to the log. */
-#  define OD_LOG_ENTER()  /* */
+#  define OD_LOG_ENTER() /* */
 
 /*! @brief Write a void function exit string to the log. */
-#  define OD_LOG_EXIT()  /* */
+#  define OD_LOG_EXIT() /* */
 
 /*! @brief Write a boolean function exit string to the log.
  @param val The value being returned by the function. */
@@ -1806,7 +1821,7 @@ extern "C"
 /*! @brief Write an object function exit string to the log.
  @param val The value being returned by the function. */
 #   define OD_LOG_EXIT_O(val) /* */
-#  endif // defined(__OBJC__)
+#  endif  // defined(__OBJC__)
 
 /*! @brief Write a pointer function exit string to the log.
  @param val The value being returned by the function. */
@@ -1815,7 +1830,7 @@ extern "C"
 /*! @brief Write a rectangle function exit string to the log.
  @param val The value being returned by the function. */
 #   define OD_LOG_EXIT_R(val) /* */
-#  endif // defined(__APPLE__)
+#  endif  // defined(__APPLE__)
 
 /*! @brief Write a string function exit string to the log.
  @param val The value being returned by the function. */
@@ -1843,14 +1858,14 @@ extern "C"
 /*! @brief Write a long value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
-#  define OD_LOG_L1(text1, val1)  /* */
+#  define OD_LOG_L1(text1, val1) /* */
 
 /*! @brief Write two long values to the log.
  @param text1 The caption for the first value to be written.
  @param val1 The first value to be written.
  @param text2 The caption for the second value to be written.
  @param val2 The second value to be written. */
-#  define OD_LOG_L2(text1, val1, text2, val2)  /* */
+#  define OD_LOG_L2(text1, val1, text2, val2) /* */
 
 /*! @brief Write three long values to the log.
  @param text1 The caption for the first value to be written.
@@ -1859,7 +1874,7 @@ extern "C"
  @param val2 The second value to be written.
  @param text3 The caption for the third value to be written.
  @param val3 The third value to be written. */
-#  define OD_LOG_L3(text1, val1, text2, val2, text3, val3)  /* */
+#  define OD_LOG_L3(text1, val1, text2, val2, text3, val3) /* */
 
 /*! @brief Write four long values to the log.
  @param text1 The caption for the first value to be written.
@@ -1870,19 +1885,19 @@ extern "C"
  @param val3 The third value to be written.
  @param text4 The caption for the fourth value to be written.
  @param val4 The fourth value to be written. */
-#  define OD_LOG_L4(text1, val1, text2, val2, text3, val3, text4, val4)  /* */
+#  define OD_LOG_L4(text1, val1, text2, val2, text3, val3, text4, val4) /* */
 
 /*! @brief Write a long long value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
-#  define OD_LOG_LL1(text1, val1)  /* */
+#  define OD_LOG_LL1(text1, val1) /* */
 
 /*! @brief Write two long long values to the log.
  @param text1 The caption for the first value to be written.
  @param val1 The first value to be written.
  @param text2 The caption for the second value to be written.
  @param val2 The second value to be written. */
-#  define OD_LOG_LL2(text1, val1, text2, val2)  /* */
+#  define OD_LOG_LL2(text1, val1, text2, val2) /* */
 
 /*! @brief Write three long long values to the log.
  @param text1 The caption for the first value to be written.
@@ -1891,7 +1906,7 @@ extern "C"
  @param val2 The second value to be written.
  @param text3 The caption for the third value to be written.
  @param val3 The third value to be written. */
-#  define OD_LOG_LL3(text1, val1, text2, val2, text3, val3)  /* */
+#  define OD_LOG_LL3(text1, val1, text2, val2, text3, val3) /* */
 
 /*! @brief Write four long long values to the log.
  @param text1 The caption for the first value to be written.
@@ -1902,24 +1917,24 @@ extern "C"
  @param val3 The third value to be written.
  @param text4 The caption for the fourth value to be written.
  @param val4 The fourth value to be written. */
-#  define OD_LOG_LL4(text1, val1, text2, val2, text3, val3, text4, val4)  /* */
+#  define OD_LOG_LL4(text1, val1, text2, val2, text3, val3, text4, val4) /* */
 
 /*! @brief Write a long string value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
-#  define OD_LOG_LS(text1, val1)  /* */
+#  define OD_LOG_LS(text1, val1) /* */
 #  if defined(__OBJC__)
 /*! @brief Write an object value to the log.
  @param text1 The caption for the value to be written.
  @param obj1 The value to be written. */
-#   define OD_LOG_O1(text1, obj1)  /* */
+#   define OD_LOG_O1(text1, obj1) /* */
 
 /*! @brief Write two object values to the log.
  @param text1 The caption for the first value to be written.
  @param obj1 The value to be written.
  @param text2 The caption for the second value to be written.
  @param obj2 The second value to be written. */
-#   define OD_LOG_O2(text1, obj1, text2, obj2)  /* */
+#   define OD_LOG_O2(text1, obj1, text2, obj2) /* */
 
 /*! @brief Write three object values to the log.
  @param text1 The caption for the first value to be written.
@@ -1928,7 +1943,7 @@ extern "C"
  @param obj2 The second value to be written.
  @param text3 The caption for the third value to be written.
  @param obj3 The third value to be written. */
-#   define OD_LOG_O3(text1, obj1, text2, obj2, text3, obj3)  /* */
+#   define OD_LOG_O3(text1, obj1, text2, obj2, text3, obj3) /* */
 
 /*! @brief Write four object values to the log.
  @param text1 The caption for the first value to be written.
@@ -1939,14 +1954,14 @@ extern "C"
  @param obj3 The third value to be written.
  @param text4 The caption for the fourth value to be written.
  @param obj4 The fourth value to be written. */
-#   define OD_LOG_O4(text1, obj1, text2, obj2, text3, obj3, text4, obj4)  /* */
-#  endif // defined(__OBJC__)
+#   define OD_LOG_O4(text1, obj1, text2, obj2, text3, obj3, text4, obj4) /* */
+#  endif  // defined(__OBJC__)
 
 /*! @brief Write a method entry string to the log. */
-#  define OD_LOG_OBJENTER()  /* */
+#  define OD_LOG_OBJENTER() /* */
 
 /*! @brief Write a void method exit string to the log. */
-#  define OD_LOG_OBJEXIT()  /* */
+#  define OD_LOG_OBJEXIT() /* */
 
 /*! @brief Write a boolean method exit string to the log.
  @param val The value being returned by the method. */
@@ -1975,7 +1990,7 @@ extern "C"
 /*! @brief Write an object method exit string to the log.
  @param val The value being returned by the method. */
 #   define OD_LOG_OBJEXIT_O(val) /* */
-#  endif // defined(__OBJC__)
+#  endif  // defined(__OBJC__)
 
 /*! @brief Write a pointer method exit string to the log.
  @param val The value being returned by the method. */
@@ -1984,7 +1999,7 @@ extern "C"
 /*! @brief Write a rectangle method exit string to the log.
  @param val The value being returned by the method. */
 #   define OD_LOG_OBJEXIT_R(val) /* */
-#  endif // defined(__APPLE__)
+#  endif  // defined(__APPLE__)
 
 /*! @brief Write a string method exit string to the log.
  @param val The value being returned by the method. */
@@ -2001,14 +2016,14 @@ extern "C"
 /*! @brief Write a pointer value to the log.
  @param text1 The caption for the value to be written.
  @param ptr1 The value to be written. */
-#  define OD_LOG_P1(text1, ptr1)  /* */
+#  define OD_LOG_P1(text1, ptr1) /* */
 
 /*! @brief Write two pointer values to the log.
  @param text1 The caption for the first value to be written.
  @param ptr1 The value to be written.
  @param text2 The caption for the second value to be written.
  @param ptr2 The second value to be written. */
-#  define OD_LOG_P2(text1, ptr1, text2, ptr2)  /* */
+#  define OD_LOG_P2(text1, ptr1, text2, ptr2) /* */
 
 /*! @brief Write three pointer values to the log.
  @param text1 The caption for the first value to be written.
@@ -2017,7 +2032,7 @@ extern "C"
  @param ptr2 The second value to be written.
  @param text3 The caption for the third value to be written.
  @param ptr3 The third value to be written. */
-#  define OD_LOG_P3(text1, ptr1, text2, ptr2, text3, ptr3)  /* */
+#  define OD_LOG_P3(text1, ptr1, text2, ptr2, text3, ptr3) /* */
 
 /*! @brief Write four pointer values to the log.
  @param text1 The caption for the first value to be written.
@@ -2028,31 +2043,31 @@ extern "C"
  @param ptr3 The third value to be written.
  @param text4 The caption for the fourth value to be written.
  @param ptr4 The fourth value to be written. */
-#  define OD_LOG_P4(text1, ptr1, text2, ptr2, text3, ptr3, text4, ptr4)  /* */
+#  define OD_LOG_P4(text1, ptr1, text2, ptr2, text3, ptr3, text4, ptr4) /* */
 
 /*! @brief Write a region of memory to the log.
  @param caption The caption for the region to be written.
  @param buffer The starting address of the region.
  @param size The number of bytes to be written. */
-#  define OD_LOG_PACKET(caption, buffer, size)  /* */
+#  define OD_LOG_PACKET(caption, buffer, size) /* */
 #  if defined(__APPLE__)
 /*! @brief Write a rectangle to the log.
  @param caption The caption for the value to be written.
  @param rect The value to be written. */
-#   define OD_LOG_RECT(caption, rect)  /* */
-#  endif // defined(__APPLE__)
+#   define OD_LOG_RECT(caption, rect) /* */
+#  endif  // defined(__APPLE__)
 
 /*! @brief Write a string value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
-#  define OD_LOG_S1(text1, val1)  /* */
+#  define OD_LOG_S1(text1, val1) /* */
 
 /*! @brief Write two string values to the log.
  @param text1 The caption for the first value to be written.
  @param val1 The first value to be written.
  @param text2 The caption for the second value to be written.
  @param val2 The second value to be written. */
-#  define OD_LOG_S2(text1, val1, text2, val2)  /* */
+#  define OD_LOG_S2(text1, val1, text2, val2) /* */
 
 /*! @brief Write three string values to the log.
  @param text1 The caption for the first value to be written.
@@ -2061,7 +2076,7 @@ extern "C"
  @param val2 The second value to be written.
  @param text3 The caption for the third value to be written.
  @param val3 The third value to be written. */
-#  define OD_LOG_S3(text1, val1, text2, val2, text3, val3)  /* */
+#  define OD_LOG_S3(text1, val1, text2, val2, text3, val3) /* */
 
 /*! @brief Write four string values to the log.
  @param text1 The caption for the first value to be written.
@@ -2078,12 +2093,50 @@ extern "C"
  @param text The caption for the value to be written.
  @param len The number of bytes to be written.
  @param val The value to be written. */
-#  define OD_LOG_Sp(text, len, val)  /* */
+#  define OD_LOG_Sp(text, len, val) /* */
 #  if MAC_OR_LINUX_
 /*! @brief Write a time value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
-#   define OD_LOG_Ti(text1, val1)  /* */
-#  endif // MAC_OR_LINUX_
+#   define OD_LOG_Ti(text1, val1) /* */
+#  endif  // MAC_OR_LINUX_
 # endif // ! defined(OD_ENABLE_LOGGING)
+
+/*! @brief Write a string value to the log.
+ @param text1 The caption for the value to be written.
+ @param val1 The value to be written. */
+# define OD_LOG_S1s(text1, val1) \
+        OD_LOG_S1(text1, val1.c_str())
+
+/*! @brief Write two string values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written. */
+# define OD_LOG_S2s(text1, val1, text2, val2) \
+        OD_LOG_S2(text1, val1.c_str(), text2, val2.c_str())
+
+/*! @brief Write three string values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written.
+ @param text3 The caption for the third value to be written.
+ @param val3 The third value to be written. */
+# define OD_LOG_S3s(text1, val1, text2, val2, text3, val3) \
+        OD_LOG_S3(text1, val1.c_str(), text2, val2.c_str(), text3, val3.c_str())
+
+/*! @brief Write four string values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written.
+ @param text3 The caption for the third value to be written.
+ @param val3 The third value to be written.
+ @param text4 The caption for the fourth value to be written.
+ @param val4 The fourth value to be written. */
+# define OD_LOG_S4s(text1, val1, text2, val2, text3, val3, text4, val4) \
+        OD_LOG_S4(text1, val1.c_str(), text2, val2.c_str(), text3, val3.c_str(), text4,\
+                    val4.c_str())
+
 #endif // ! defined(ODLOGGING_H_)

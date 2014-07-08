@@ -1,44 +1,41 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MRecordIntegersInputHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the input channel input handler used by the
-//              record integers input stream service.
+//  Contains:   The class definition for the input channel input handler used by the record integers
+//              output stream service.
 //
 //  Written by: Norman Jaffe
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-07-03
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MRecordIntegersInputHandler.h"
 
@@ -52,7 +49,7 @@
 /*! @file
  
  @brief The class definition for the input channel input handler used by the record
- integers input stream service. */
+ integers output stream service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -78,23 +75,23 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RecordIntegersInputHandler::RecordIntegersInputHandler(void) :
-        inherited(), _outFile(NULL)
+    inherited(), _outFile(NULL)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_EXIT_P(this);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_EXIT_P(this); //####
 } // RecordIntegersInputHandler::RecordIntegersInputHandler
 
 RecordIntegersInputHandler::~RecordIntegersInputHandler(void)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
 } // RecordIntegersInputHandler::~RecordIntegersInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-bool RecordIntegersInputHandler::handleInput(const Common::Package &       input,
+bool RecordIntegersInputHandler::handleInput(const yarp::os::Bottle &      input,
                                              const yarp::os::ConstString & senderChannel,
                                              yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -103,16 +100,16 @@ bool RecordIntegersInputHandler::handleInput(const Common::Package &       input
 #  pragma unused(senderChannel,replyMechanism)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S2("senderChannel = ", senderChannel.c_str(), "got ", input.toString().c_str());//####
-    OD_LOG_P1("replyMechanism = ", replyMechanism);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
+    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
     {
         if (_outFile)
         {
-            OD_LOG("(_outFile)");//####
+            OD_LOG("(_outFile)"); //####
             bool sawValue = false;
             
             for (int ii = 0, mm = input.size(); mm > ii; ++ii)
@@ -138,19 +135,19 @@ bool RecordIntegersInputHandler::handleInput(const Common::Package &       input
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RecordIntegersInputHandler::handleInput
 
 void RecordIntegersInputHandler::setFile(FILE * outFile)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("outFile = ", outFile);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("outFile = ", outFile); //####
     _outFile = outFile;
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // RecordIntegersInputHandler::setFile
 
 #if defined(__APPLE__)

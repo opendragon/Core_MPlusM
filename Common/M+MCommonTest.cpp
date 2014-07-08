@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MCommonTest.cpp
 //
@@ -10,34 +10,31 @@
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-02-06
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "CommonTests/M+MTest03Handler.h"
 #include "CommonTests/M+MTest04Handler.h"
@@ -87,9 +84,9 @@ using namespace MplusM::Test;
  @param argv The arguments to be used with the endpoint constructor.
  @returns A newly created endpoint, or @c NULL if one could not be created. */
 static Endpoint * doCreateEndpointForTest(const int argc,
-                                          char * *  argv)
+                                          char **   argv)
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     Endpoint * stuff = NULL;
     
     try
@@ -98,16 +95,16 @@ static Endpoint * doCreateEndpointForTest(const int argc,
         {
             switch (argc)
             {
-                // Argument order for tests = endpoint name [, port]
-                case 1:
+                    // Argument order for tests = endpoint name [, port]
+                case 1 :
                     stuff = new Endpoint(*argv);
                     break;
                     
-                case 2:
+                case 2 :
                     stuff = new Endpoint(*argv, argv[1]);
                     break;
                     
-                default:
+                default :
                     break;
                     
             }
@@ -115,10 +112,10 @@ static Endpoint * doCreateEndpointForTest(const int argc,
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_P(stuff);//####
+    OD_LOG_EXIT_P(stuff); //####
     return stuff;
 } // doCreateEndpointForTest
 
@@ -129,8 +126,8 @@ static Endpoint * doCreateEndpointForTest(const int argc,
 static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destinationName,
                                            const char *                  channelPath)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S2("destinationName = ", destinationName.c_str(), "channelPath = ", channelPath);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S2("destinationName = ", destinationName.c_str(), "channelPath = ", channelPath); //####
     yarp::os::ConstString aName(GetRandomChannelName(channelPath));
     ClientChannel *       newChannel = new ClientChannel;
     
@@ -144,7 +141,8 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
         {
             if (! NetworkConnectWithRetries(aName, destinationName, STANDARD_WAIT_TIME, false))
             {
-                OD_LOG("(! NetworkConnectWithRetries(aName, destinationName, STANDARD_WAIT_TIME, false))");//####
+                OD_LOG("(! NetworkConnectWithRetries(aName, destinationName, " //####
+                       "STANDARD_WAIT_TIME, false))"); //####
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
 #endif // defined(MpM_DoExplicitClose)
@@ -154,14 +152,14 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
         }
         else
         {
-            OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
+            OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
         }
     }
     else
     {
-        OD_LOG("! (newChannel)");//####
+        OD_LOG("! (newChannel)"); //####
     }
-    OD_LOG_EXIT_P(newChannel);//####
+    OD_LOG_EXIT_P(newChannel); //####
     return newChannel;
 } // doCreateTestChannel
 
@@ -186,16 +184,15 @@ static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
 #  pragma unused(destinationName)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(MpM_DoExplicitDisconnect)
-    OD_LOG_ENTER();//####
-    OD_LOG_P1("theChannel = ", theChannel);//####
-    
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("theChannel = ", theChannel); //####
     if (theChannel)
     {
 #if defined(MpM_DoExplicitDisconnect)
         if (! NetworkDisconnectWithRetries(theChannel->name(), destinationName, STANDARD_WAIT_TIME))
         {
-            OD_LOG("(! NetworkDisconnectWithRetries(theChannel->name(), destinationName, "//####
-                   "STANDARD_WAIT_TIME))");//####
+            OD_LOG("(! NetworkDisconnectWithRetries(theChannel->name(), destinationName, " //####
+                   "STANDARD_WAIT_TIME))"); //####
         }
 #endif // defined(MpM_DoExplicitDisconnect)
 #if defined(MpM_DoExplicitClose)
@@ -203,7 +200,7 @@ static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
 #endif // defined(MpM_DoExplicitClose)
         ClientChannel::RelinquishChannel(theChannel);
     }
-    OD_LOG_EXIT();//####
+    OD_LOG_EXIT(); //####
 } // doDestroyTestChannel
 
 /*! @brief Destroy a temporary channel that was used with a test.
@@ -226,9 +223,9 @@ static void doDestroyTestChannel(Endpoint &      anEndpoint,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestCreateEndpoint(const char * launchPath,
                                 const int    argc,
-                                char * *     argv) // create endpoint
+                                char **      argv) // create endpoint
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     int result = 1;
     
     try
@@ -239,26 +236,26 @@ static int doTestCreateEndpoint(const char * launchPath,
         {
             if (stuff->open(STANDARD_WAIT_TIME))
             {
-                OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                OD_LOG_S1s("endpoint name = ", stuff->getName());
                 result = 0;
             }
             else
             {
-                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME))");//####
+                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME))"); //####
             }
             delete stuff;
         }
         else
         {
-            OD_LOG("! (stuff)");//####
+            OD_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestCreateEndpoint
 
@@ -273,9 +270,9 @@ static int doTestCreateEndpoint(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestConnectToEndpoint(const char * launchPath,
                                    const int    argc,
-                                   char * *     argv) // connect to endpoint
+                                   char **      argv) // connect to endpoint
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     int result = 1;
     
     try
@@ -284,9 +281,10 @@ static int doTestConnectToEndpoint(const char * launchPath,
         
         if (stuff)
         {
-            if (stuff->open(STANDARD_WAIT_TIME) && stuff->setReporter(ChannelStatusReporter::gReporter, true))
+            if (stuff->open(STANDARD_WAIT_TIME) &&
+                stuff->setReporter(ChannelStatusReporter::gReporter, true))
             {
-                OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                OD_LOG_S1s("endpoint name = ", stuff->getName());
                 // Now we try to connect!
                 yarp::os::ConstString aName(GetRandomChannelName("_test_/connecttoendpoint_"));
                 ClientChannel *       outChannel = new ClientChannel;
@@ -300,7 +298,7 @@ static int doTestConnectToEndpoint(const char * launchPath,
                     if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
                         outChannel->getReport(ChannelStatusReporter::gReporter);
-                        OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                        OD_LOG_S1s("endpoint name = ", stuff->getName());
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
                         {
                             result = 0;
@@ -308,14 +306,15 @@ static int doTestConnectToEndpoint(const char * launchPath,
                             if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
                                                                STANDARD_WAIT_TIME))
                             {
-                                OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), "//####
-                                       "stuff->getName(), STANDARD_WAIT_TIME))");//####
+                                OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), " //####
+                                       "stuff->getName(), STANDARD_WAIT_TIME))"); //####
                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                         }
                         else
                         {
-                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))");//####
+                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
+                                   "STANDARD_WAIT_TIME))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         outChannel->close();
@@ -323,7 +322,7 @@ static int doTestConnectToEndpoint(const char * launchPath,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
+                        OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
                 }
@@ -334,22 +333,22 @@ static int doTestConnectToEndpoint(const char * launchPath,
             }
             else
             {
-                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME) && "//####
-                       "stuff->setReporter(ChannelStatusReporter::gReporter, true))");//####
+                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME) && " //####
+                       "stuff->setReporter(ChannelStatusReporter::gReporter, true))"); //####
             }
             delete stuff;
         }
         else
         {
-            OD_LOG("! (stuff)");//####
+            OD_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestConnectToEndpoint
 
@@ -364,9 +363,9 @@ static int doTestConnectToEndpoint(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestWriteToEndpoint(const char * launchPath,
                                  const int    argc,
-                                 char * *     argv) // send to endpoint
+                                 char **      argv) // send to endpoint
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     int result = 1;
     
     try
@@ -380,7 +379,7 @@ static int doTestWriteToEndpoint(const char * launchPath,
             if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) &&
                 stuff->setReporter(ChannelStatusReporter::gReporter, true))
             {
-                OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                OD_LOG_S1s("endpoint name = ", stuff->getName());
                 // Now we try to connect!
                 yarp::os::ConstString aName(GetRandomChannelName("_test_/writetoendpoint_"));
                 ClientChannel *       outChannel = new ClientChannel;
@@ -396,9 +395,9 @@ static int doTestWriteToEndpoint(const char * launchPath,
                         outChannel->getReport(ChannelStatusReporter::gReporter);
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
                         {
-                            Package message;
+                            yarp::os::Bottle message;
 #if defined(MpM_ChannelsUseRpc)
-                            Package response;
+                            yarp::os::Bottle response;
 #endif // defined(MpM_ChannelsUseRpc)
                             
                             message.addString(aName);
@@ -408,11 +407,12 @@ static int doTestWriteToEndpoint(const char * launchPath,
                             {
                                 result = 0;
 # if defined(MpM_DoExplicitDisconnect)
-                                if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
+                                if (! NetworkDisconnectWithRetries(outChannel->name(),
+                                                                   stuff->getName(),
                                                                    STANDARD_WAIT_TIME))
                                 {
-                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), "//####
-                                           "stuff->getName(), STANDARD_WAIT_TIME))");//####
+                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
+                                           "name(), stuff->getName(), STANDARD_WAIT_TIME))"); //####
                                 }
 # endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -421,18 +421,19 @@ static int doTestWriteToEndpoint(const char * launchPath,
                             {
                                 result = 0;
 # if defined(MpM_DoExplicitDisconnect)
-                                if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
+                                if (! NetworkDisconnectWithRetries(outChannel->name(),
+                                                                   stuff->getName(),
                                                                    STANDARD_WAIT_TIME))
                                 {
-                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), "//####
-                                           "stuff->getName(), STANDARD_WAIT_TIME))");//####
+                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
+                                           "name(), stuff->getName(), STANDARD_WAIT_TIME))"); //####
                                 }
 # endif // defined(MpM_DoExplicitDisconnect)
                             }
 #endif // ! defined(MpM_ChannelsUseRpc)
                             else
                             {
-                                OD_LOG("! (outChannel->write(message))");//####
+                                OD_LOG("! (outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
                                 Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -440,7 +441,8 @@ static int doTestWriteToEndpoint(const char * launchPath,
                         }
                         else
                         {
-                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))");//####
+                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
+                                   "STANDARD_WAIT_TIME))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         outChannel->close();
@@ -448,7 +450,7 @@ static int doTestWriteToEndpoint(const char * launchPath,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
+                        OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
                 }
@@ -459,22 +461,23 @@ static int doTestWriteToEndpoint(const char * launchPath,
             }
             else
             {
-                OD_LOG("! (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) && "//####
-                       "stuff->setReporter(ChannelStatusReporter::gReporter, true))");//####
+                OD_LOG("! (stuff->setInputHandler(handler) && " //####
+                       "stuff->open(STANDARD_WAIT_TIME) && " //####
+                       "stuff->setReporter(ChannelStatusReporter::gReporter, true))"); //####
             }
             delete stuff;
         }
         else
         {
-            OD_LOG("! (stuff)");//####
+            OD_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestWriteToEndpoint
 
@@ -489,15 +492,15 @@ static int doTestWriteToEndpoint(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestEchoFromEndpointWithReader(const char * launchPath,
                                             const int    argc,
-                                            char * *     argv) // send to endpoint
+                                            char **      argv) // send to endpoint
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     int result = 1;
     
     try
     {
         Endpoint * stuff = doCreateEndpointForTest(argc, argv);
-
+        
         if (stuff)
         {
             Test04Handler handler;
@@ -505,9 +508,10 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
             if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) &&
                 stuff->setReporter(ChannelStatusReporter::gReporter, true))
             {
-                OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                OD_LOG_S1s("endpoint name = ", stuff->getName());
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomChannelName("_test_/echofromendpointwithreader_"));
+                yarp::os::ConstString aName(GetRandomChannelName("_test_/echofromendpoint"
+                                                                 "withreader_"));
                 ClientChannel *       outChannel = new ClientChannel;
                 
                 if (outChannel)
@@ -521,27 +525,30 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
                         outChannel->getReport(ChannelStatusReporter::gReporter);
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
                         {
-                            Package message;
-                            Package response;
+                            yarp::os::Bottle message;
+                            yarp::os::Bottle response;
                             
                             message.addString(aName);
                             message.addString("howdi");
                             if (outChannel->write(message, response))
                             {
-//                                OD_LOG_S1("got ", response.toString().c_str());//####
+#if 0
+                                OD_LOG_S1s("got ", response.toString());//####
+#endif // 0
                                 result = 0;
 #if defined(MpM_DoExplicitDisconnect)
-                                if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
+                                if (! NetworkDisconnectWithRetries(outChannel->name(),
+                                                                   stuff->getName(),
                                                                    STANDARD_WAIT_TIME))
                                 {
-                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), "//####
-                                           "stuff->getName(), STANDARD_WAIT_TIME))");//####
+                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
+                                           "name(), stuff->getName(), STANDARD_WAIT_TIME))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }
                             else
                             {
-                                OD_LOG("! (outChannel->write(message, response))");//####
+                                OD_LOG("! (outChannel->write(message, response))"); //####
 #if defined(MpM_StallOnSendProblem)
                                 Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -549,7 +556,8 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
                         }
                         else
                         {
-                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))");//####
+                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
+                                   "STANDARD_WAIT_TIME))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         outChannel->close();
@@ -557,7 +565,7 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
+                        OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
                 }
@@ -568,22 +576,23 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
             }
             else
             {
-                OD_LOG("! (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) && "//####
-                       "stuff->setReporter(ChannelStatusReporter::gReporter, true))");//####
+                OD_LOG("! (stuff->setInputHandler(handler) && " //####
+                       "stuff->open(STANDARD_WAIT_TIME) && " //####
+                       "stuff->setReporter(ChannelStatusReporter::gReporter, true))"); //####
             }
             delete stuff;
         }
         else
         {
-            OD_LOG("! (stuff)");//####
+            OD_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestEchoFromEndpointWithReader
 
@@ -598,15 +607,15 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                                                    const int    argc,
-                                                   char * *     argv) // send to endpoint
+                                                   char **      argv) // send to endpoint
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     int result = 1;
     
     try
     {
         Endpoint * stuff = doCreateEndpointForTest(argc, argv);
-
+        
         if (stuff)
         {
             Test05HandlerCreator handlerCreator;
@@ -614,9 +623,10 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
             if (stuff->setInputHandlerCreator(handlerCreator) && stuff->open(STANDARD_WAIT_TIME) &&
                 stuff->setReporter(ChannelStatusReporter::gReporter, true))
             {
-                OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
+                OD_LOG_S1s("endpoint name = ", stuff->getName());
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomChannelName("_test_/echofromendpointwithreadercreator_"));
+                yarp::os::ConstString aName(GetRandomChannelName("_test_/echofromendpoint"
+                                                                 "withreadercreator_"));
                 ClientChannel *       outChannel = new ClientChannel;
                 
                 if (outChannel)
@@ -630,27 +640,30 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                         outChannel->getReport(ChannelStatusReporter::gReporter);
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
                         {
-                            Package message;
-                            Package response;
+                            yarp::os::Bottle message;
+                            yarp::os::Bottle response;
                             
                             message.addString(aName);
                             message.addString("howdi");
                             if (outChannel->write(message, response))
                             {
-//                                OD_LOG_S1("got ", response.toString().c_str());//####
+#if 0
+                                OD_LOG_S1("got ", response.toString());//####
+#endif // 0
                                 result = 0;
 #if defined(MpM_DoExplicitDisconnect)
-                                if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
+                                if (! NetworkDisconnectWithRetries(outChannel->name(),
+                                                                   stuff->getName(),
                                                                    STANDARD_WAIT_TIME))
                                 {
-                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), "//####
-                                           "stuff->getName(), STANDARD_WAIT_TIME))");//####
+                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
+                                           "name(), stuff->getName(), STANDARD_WAIT_TIME))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }
                             else
                             {
-                                OD_LOG("! (outChannel->write(message, response))");//####
+                                OD_LOG("! (outChannel->write(message, response))"); //####
 #if defined(MpM_StallOnSendProblem)
                                 Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -658,7 +671,8 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                         }
                         else
                         {
-                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))");//####
+                            OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
+                                   "STANDARD_WAIT_TIME))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         outChannel->close();
@@ -666,7 +680,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
+                        OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
                     }
                     ClientChannel::RelinquishChannel(outChannel);
                 }
@@ -677,22 +691,23 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
             }
             else
             {
-                OD_LOG("! (stuff->setInputHandlerCreator(handlerCreator) && stuff->open(STANDARD_WAIT_TIME) && "//####
-                          "stuff->setReporter(ChannelStatusReporter::gReporter, true))");//####
+                OD_LOG("! (stuff->setInputHandlerCreator(handlerCreator) && " //####
+                       "stuff->open(STANDARD_WAIT_TIME) && " //####
+                       "stuff->setReporter(ChannelStatusReporter::gReporter, true))"); //####
             }
             delete stuff;
         }
         else
         {
-            OD_LOG("! (stuff)");//####
+            OD_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestEchoFromEndpointWithReaderCreator
 
@@ -707,20 +722,20 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestCreateRequest(const char * launchPath,
                                const int    argc,
-                               char * *     argv) // create request
+                               char **      argv) // create request
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     int result = 1;
     
     try
     {
         if (0 == argc)
         {
-            OD_LOG("0 == argc");//####
+            OD_LOG("0 == argc"); //####
         }
         else
         {
-            Package parameters;
+            yarp::os::Bottle parameters;
             
             for (int ii = 1; ii < argc; ++ii)
             {
@@ -734,10 +749,10 @@ static int doTestCreateRequest(const char * launchPath,
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestCreateRequest
 
@@ -752,14 +767,14 @@ static int doTestCreateRequest(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestCreateResponse(const char * launchPath,
                                 const int    argc,
-                                char * *     argv) // create request
+                                char **      argv) // create request
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     int result = 1;
     
     try
     {
-        Package parameters;
+        yarp::os::Bottle parameters;
         
         for (int ii = 0; ii < argc; ++ii)
         {
@@ -772,10 +787,10 @@ static int doTestCreateResponse(const char * launchPath,
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestCreateResponse
 
@@ -790,9 +805,9 @@ static int doTestCreateResponse(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromEndpoint(const char * launchPath,
                                          const int    argc,
-                                         char * *     argv) // create request
+                                         char **      argv) // create request
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     int result = 1;
     
     try
@@ -806,54 +821,56 @@ static int doTestRequestEchoFromEndpoint(const char * launchPath,
             if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) &&
                 stuff->setReporter(ChannelStatusReporter::gReporter, true))
             {
-                ClientChannel * outChannel = doCreateTestChannel(stuff->getName(), "test/requestechofromendpoint_");
+                ClientChannel * outChannel = doCreateTestChannel(stuff->getName(),
+                                                                 "test/requestechofromendpoint_");
                 
                 if (outChannel)
                 {
-                    OD_LOG_S1("endpoint name = ", stuff->getName().c_str());//####
-                    Package         parameters("some to send");
-                    ServiceRequest  request(MpM_ECHO_REQUEST, parameters);
-                    ServiceResponse response;
+                    OD_LOG_S1s("endpoint name = ", stuff->getName());
+                    yarp::os::Bottle parameters("some to send");
+                    ServiceRequest   request(MpM_ECHO_REQUEST, parameters);
+                    ServiceResponse  response;
                     
                     if (request.send(*outChannel, &response))
                     {
-                        OD_LOG_LL1("response size = ", response.count());//####
+                        OD_LOG_LL1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
-                            OD_LOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                            OD_LOG_S1s("response value = ", response.element(ii).toString()); //####
                         }
                         result = 0;
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, &response))");//####
+                        OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getName(), outChannel);
                     outChannel = NULL;
                 }
                 else
                 {
-                    OD_LOG("! (outChannel)");//####
+                    OD_LOG("! (outChannel)"); //####
                 }
             }
             else
             {
-                OD_LOG("! (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) && "//####
-                       "stuff->setReporter(ChannelStatusReporter::gReporter, true))");//####
+                OD_LOG("! (stuff->setInputHandler(handler) && " //####
+                       "stuff->open(STANDARD_WAIT_TIME) && " //####
+                       "stuff->setReporter(ChannelStatusReporter::gReporter, true))"); //####
             }
             delete stuff;
         }
         else
         {
-            OD_LOG("! (stuff)");//####
+            OD_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestRequestEchoFromEndpoint
 
@@ -868,9 +885,10 @@ static int doTestRequestEchoFromEndpoint(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
                                                               const int    argc,
-                                                              char * *     argv) // send 'echo' request
+                                                              char **      argv) // send 'echo'
+                                                                                 // request
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     int result = 1;
     
     try
@@ -882,53 +900,54 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launc
             if (stuff->start())
             {
                 ClientChannel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
-                                                                 "test/requestechofromserviceusingdefaultwithreader");
+                                                                 "test/requestechofromservice"
+                                                                 "usingdefaultwithreader");
                 
                 if (outChannel)
                 {
-                    Package         parameters("some to send");
-                    ServiceRequest  request(MpM_ECHO_REQUEST, parameters);
-                    ServiceResponse response;
+                    yarp::os::Bottle parameters("some to send");
+                    ServiceRequest   request(MpM_ECHO_REQUEST, parameters);
+                    ServiceResponse  response;
                     
                     if (request.send(*outChannel, &response))
                     {
-                        OD_LOG_LL1("response size = ", response.count());//####
+                        OD_LOG_LL1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
-                            OD_LOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                            OD_LOG_S1s("response value = ", response.element(ii).toString()); //####
                         }
                         result = 0;
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, &response))");//####
+                        OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
                     outChannel = NULL;
                 }
                 else
                 {
-                    OD_LOG("! (outChannel)");//####
+                    OD_LOG("! (outChannel)"); //####
                 }
                 stuff->stop();
             }
             else
             {
-                OD_LOG("! (stuff->start())");//####
+                OD_LOG("! (stuff->start())"); //####
             }
             delete stuff;
         }
         else
         {
-            OD_LOG("! (stuff)");//####
+            OD_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestRequestEchoFromServiceUsingDefaultWithReader
 
@@ -943,9 +962,11 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launc
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPath,
                                                                      const int    argc,
-                                                                     char * *     argv) // send 'echo' request
+                                                                     char **      argv) // send
+                                                                                        // 'echo'
+                                                                                        // request
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     int result = 1;
     
     try
@@ -957,53 +978,54 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char 
             if (stuff->start())
             {
                 ClientChannel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
-                                                           "test/requestechofromserviceusingdefaultwithreadercreator_");
+                                                                 "test/requestechofromservice"
+                                                                 "usingdefaultwithreadercreator_");
                 
                 if (outChannel)
                 {
-                    Package         parameters("some to send");
-                    ServiceRequest  request(MpM_ECHO_REQUEST, parameters);
-                    ServiceResponse response;
+                    yarp::os::Bottle parameters("some to send");
+                    ServiceRequest   request(MpM_ECHO_REQUEST, parameters);
+                    ServiceResponse  response;
                     
                     if (request.send(*outChannel, &response))
                     {
-                        OD_LOG_LL1("response size = ", response.count());//####
+                        OD_LOG_LL1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
-                            OD_LOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                            OD_LOG_S1s("response value = ", response.element(ii).toString()); //####
                         }
                         result = 0;
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, &response))");//####
+                        OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
                     outChannel = NULL;
                 }
                 else
                 {
-                    OD_LOG("! (outChannel)");//####
+                    OD_LOG("! (outChannel)"); //####
                 }
                 stuff->stop();
             }
             else
             {
-                OD_LOG("! (stuff->start())");//####
+                OD_LOG("! (stuff->start())"); //####
             }
             delete stuff;
         }
         else
         {
-            OD_LOG("! (stuff)");//####
+            OD_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestRequestEchoFromServiceUsingDefaultWithReaderCreator
 
@@ -1018,9 +1040,10 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char 
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
                                                           const int    argc,
-                                                          char * *     argv) // create 'echo' request
+                                                          char **      argv) // create 'echo'
+                                                                             // request
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     int result = 1;
     
     try
@@ -1032,67 +1055,71 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
             if (stuff->start())
             {
                 ClientChannel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
-                                                           "test/requestechofromservicewithrequesthandler_");
+                                                                 "test/requestechofromservice"
+                                                                 "withrequesthandler_");
                 
                 if (outChannel)
                 {
-                    Package         parameters("some to send");
-                    ServiceRequest  request(MpM_ECHO_REQUEST, parameters);
-                    ServiceResponse response;
+                    yarp::os::Bottle parameters("some to send");
+                    ServiceRequest   request(MpM_ECHO_REQUEST, parameters);
+                    ServiceResponse  response;
                     
                     if (request.send(*outChannel, &response))
                     {
                         if (3 == response.count())
                         {
-                            yarp::os::ConstString expected[] = { "some", "to", "send" };
+                            yarp::os::ConstString expected[] =
+                            {
+                                "some", "to", "send"
+                            };
                             
                             result = 0;
                             for (int ii = 0; (! result) && (ii < response.count()); ++ii)
                             {
                                 if (expected[ii] != response.element(ii).toString())
                                 {
-                                    OD_LOG_S2("expected[ii] = ", expected[ii].c_str(),//####
-                                              "response.element(ii).toString() = ",//####
-                                              response.element(ii).toString().c_str());//####
+                                    OD_LOG_S2s("expected[ii] = ", expected[ii], //####
+                                               "response.element(ii).toString() = ", //####
+                                               response.element(ii).toString()); //####
                                     result = 1;
                                 }
                             }
                         }
                         else
                         {
-                            OD_LOG("! (3 == response.count())");//####
+                            OD_LOG("! (3 == response.count())"); //####
                         }
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, &response))");//####
+                        OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
                     outChannel = NULL;
                 }
                 else
                 {
-                    OD_LOG("! (outChannel)");//####
+                    OD_LOG("! (outChannel)"); //####
                 }
                 stuff->stop();
             }
             else
             {
-                OD_LOG("! (stuff->start())");//####
+                OD_LOG("! (stuff->start())"); //####
             }
             delete stuff;
         }
         else
         {
-            OD_LOG("! (stuff)");//####
+            OD_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestRequestEchoFromServiceWithRequestHandler
 
@@ -1102,10 +1129,12 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
 
 /*! @brief Check the response from the 'list' request for this test.
  @param response The response to be analyzed.
- @returns @c true if the expected values are all present and @c false if they are not or if unexpected values appear. */
-static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const ServiceResponse & response)
+ @returns @c true if the expected values are all present and @c false if they are not or if
+ unexpected values appear. */
+static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const ServiceResponse &
+                                                                                        response)
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     bool result = false;
     
     try
@@ -1134,7 +1163,8 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                     
                     if (asDict->check(MpM_REQREP_DICT_REQUEST_KEY))
                     {
-                        yarp::os::ConstString aName(asDict->find(MpM_REQREP_DICT_REQUEST_KEY).asString());
+                        yarp::os::ConstString aName =
+                                            asDict->find(MpM_REQREP_DICT_REQUEST_KEY).asString();
                         
                         if (aName == MpM_CHANNELS_REQUEST)
                         {
@@ -1144,7 +1174,8 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                             }
                             else if ((! hasInput) && hasOutput)
                             {
-                                yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                                yarp::os::ConstString itsOutput =
+                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
                                 
                                 sawChannels = (itsOutput == "(s*)(s*)");
                             }
@@ -1157,7 +1188,8 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                             }
                             else if ((! hasInput) && hasOutput)
                             {
-                                yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                                yarp::os::ConstString itsOutput =
+                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
                                 
                                 sawClients = (itsOutput == "(s*)");
                             }
@@ -1170,7 +1202,8 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                             }
                             else if ((! hasInput) && hasOutput)
                             {
-                                yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                                yarp::os::ConstString itsOutput =
+                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
                                 
                                 sawCount = (itsOutput == "id");
                             }
@@ -1194,8 +1227,10 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                             }
                             else if (hasInput && hasOutput)
                             {
-                                yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
-                                yarp::os::ConstString itsInput(asDict->find(MpM_REQREP_DICT_INPUT_KEY).asString());
+                                yarp::os::ConstString itsOutput =
+                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
+                                yarp::os::ConstString itsInput =
+                                                asDict->find(MpM_REQREP_DICT_INPUT_KEY).asString();
                                 
                                 sawEcho = ((itsInput == ".*") && (itsOutput == ".*"));
                             }
@@ -1208,8 +1243,10 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                             }
                             else if (hasInput && hasOutput)
                             {
-                                yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
-                                yarp::os::ConstString itsInput(asDict->find(MpM_REQREP_DICT_INPUT_KEY).asString());
+                                yarp::os::ConstString itsOutput =
+                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
+                                yarp::os::ConstString itsInput =
+                                                asDict->find(MpM_REQREP_DICT_INPUT_KEY).asString();
                                 
                                 sawInfo = ((itsInput == ".") && (itsOutput == "([]?)"));
                             }
@@ -1222,7 +1259,8 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                             }
                             else if ((! hasInput) && hasOutput)
                             {
-                                yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                                yarp::os::ConstString itsOutput =
+                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
                                 
                                 sawList = (itsOutput == "([]+)");
                             }
@@ -1235,7 +1273,8 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                             }
                             else if ((! hasInput) && hasOutput)
                             {
-                                yarp::os::ConstString itsOutput(asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                                yarp::os::ConstString itsOutput =
+                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
                                 
                                 sawName = (itsOutput == "sssss");
                             }
@@ -1251,20 +1290,21 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                     result = false;
                 }
             }
-            result &= (sawChannels && sawClients && sawCount && sawDetach && sawEcho && sawInfo && sawList && sawName);
+            result &= (sawChannels && sawClients && sawCount && sawDetach && sawEcho && sawInfo &&
+                       sawList && sawName);
         }
         else
         {
             // Wrong number of values in the response.
-            OD_LOG("! (3 <= response.count())");//####
+            OD_LOG("! (3 <= response.count())"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(result);//####
+    OD_LOG_EXIT_B(result); //####
     return result;
 } // checkResponseFromEchoFromServiceWithRequestHandlerAndInfo
 
@@ -1275,9 +1315,10 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
                                                                  const int    argc,
-                                                                 char * *     argv) // send 'list' request
+                                                                 char **      argv) // send 'list'
+                                                                                    // request
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     int result = 1;
     
     try
@@ -1289,7 +1330,8 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
             if (stuff->start())
             {
                 ClientChannel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
-                                                           "test/requestechofromservicewithrequesthandlerandinfo_");
+                                                                 "test/requestechofromservice"
+                                                                 "withrequesthandlerandinfo_");
                 
                 if (outChannel)
                 {
@@ -1298,10 +1340,10 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
                     
                     if (request.send(*outChannel, &response))
                     {
-                        OD_LOG_LL1("response size = ", response.count());//####
+                        OD_LOG_LL1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
                         {
-                            OD_LOG_S1("response value = ", response.element(ii).toString().c_str());//####
+                            OD_LOG_S1s("response value = ", response.element(ii).toString()); //####
                         }
                         if (checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(response))
                         {
@@ -1309,39 +1351,40 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
                         }
                         else
                         {
-                            OD_LOG("! (checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(response))");//####
+                            OD_LOG("! (checkResponseFromEchoFromServiceWithRequestHandler" //####
+                                   "AndInfo(response))"); //####
                         }
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, &response))");//####
+                        OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
                     outChannel = NULL;
                 }
                 else
                 {
-                    OD_LOG("! (outChannel)");//####
+                    OD_LOG("! (outChannel)"); //####
                 }
                 stuff->stop();
             }
             else
             {
-                OD_LOG("! (stuff->start())");//####
+                OD_LOG("! (stuff->start())"); //####
             }
             delete stuff;
         }
         else
         {
-            OD_LOG("! (stuff)");//####
+            OD_LOG("! (stuff)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestRequestEchoFromServiceWithRequestHandlerAndInfo
 
@@ -1349,8 +1392,8 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
  @param signal The signal being handled. */
 static void catchSignal(int signal)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_LL1("signal = ", signal);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_LL1("signal = ", signal); //####
     char numBuff[30];
     
 #if MAC_OR_LINUX_
@@ -1362,7 +1405,7 @@ static void catchSignal(int signal)
 #endif // ! MAC_OR_LINUX_
     MplusM::Common::GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
                                       yarp::os::ConstString(" = ") + MplusM::NameOfSignal(signal));
-    OD_LOG_EXIT_EXIT(1);//####
+    OD_LOG_EXIT_EXIT(1); //####
     yarp::os::exit(1);
 } // catchSignal
 
@@ -1372,28 +1415,29 @@ static void catchSignal(int signal)
 
 /*! @brief The entry point for unit tests of the M+M common classes.
  
- The first argument is the test number, the second argument is the name of the channel to be used with the test, the
- optional third argument is the machine to connect to and the optional fourth argument is the port number to be used.
- Output depends on the test being run.
+ The first argument is the test number, the second argument is the name of the channel to be used
+ with the test, the optional third argument is the machine to connect to and the optional fourth
+ argument is the port number to be used. Output depends on the test being run.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int main(int     argc,
+         char ** argv)
 {
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID |//####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr);//####
-    OD_LOG_ENTER();//####
+    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
+                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+    OD_LOG_ENTER(); //####
     MplusM::Common::SetUpLogger(*argv);
     int result = 1;
-
+    
     try
     {
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP infrastructure
+            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP
+                                    // infrastructure
             
             MplusM::Common::Initialize(*argv);
             if (0 < --argc)
@@ -1403,86 +1447,92 @@ int main(int      argc,
                 MplusM::Common::SetSignalHandlers(catchSignal);
                 switch (selector)
                 {
-                    case 0:
+                    case 0 :
                         // Just used to validate the random number seed.
                         result = 0;
                         break;
                         
-                    case 1:
+                    case 1 :
                         result = doTestCreateEndpoint(*argv, argc - 1, argv + 2);
                         break;
-
-                    case 2:
+                        
+                    case 2 :
                         result = doTestConnectToEndpoint(*argv, argc - 1, argv + 2);
                         break;
                         
-                    case 3:
+                    case 3 :
                         result = doTestWriteToEndpoint(*argv, argc - 1, argv + 2);
                         break;
                         
-                    case 4:
+                    case 4 :
                         result = doTestEchoFromEndpointWithReader(*argv, argc - 1, argv + 2);
                         break;
                         
-                    case 5:
+                    case 5 :
                         result = doTestEchoFromEndpointWithReaderCreator(*argv, argc - 1, argv + 2);
                         break;
                         
-                    case 6:
+                    case 6 :
                         result = doTestCreateRequest(*argv, argc - 1, argv + 2);
                         break;
                         
-                    case 7:
+                    case 7 :
                         result = doTestCreateResponse(*argv, argc - 1, argv + 2);
                         break;
                         
-                    case 8:
+                    case 8 :
                         result = doTestRequestEchoFromEndpoint(*argv, argc - 1, argv + 2);
                         break;
                         
-                    case 9:
-                        result = doTestRequestEchoFromServiceUsingDefaultWithReader(*argv, argc - 1, argv + 2);
+                    case 9 :
+                        result = doTestRequestEchoFromServiceUsingDefaultWithReader(*argv, argc - 1,
+                                                                                    argv + 2);
                         break;
                         
-                    case 10:
-                        result = doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(*argv, argc - 1, argv + 2);
+                    case 10 :
+                        result = doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(*argv,
+                                                                                           argc - 1,
+                                                                                       argv + 2);
                         break;
                         
-                    case 11:
-                        result = doTestRequestEchoFromServiceWithRequestHandler(*argv, argc - 1, argv + 2);
+                    case 11 :
+                        result = doTestRequestEchoFromServiceWithRequestHandler(*argv, argc - 1,
+                                                                                argv + 2);
                         break;
                         
-                    case 12:
-                        result = doTestRequestEchoFromServiceWithRequestHandlerAndInfo(*argv, argc - 1, argv + 2);
+                    case 12 :
+                        result = doTestRequestEchoFromServiceWithRequestHandlerAndInfo(*argv,
+                                                                                       argc - 1,
+                                                                                       argv + 2);
                         break;
-
-                    default:
+                        
+                    default :
                         break;
                         
                 }
                 if (result)
                 {
-                    OD_LOG_LL1("%%%%%%% unit test failure = ", result);//####
+                    OD_LOG_LL1("%%%%%%% unit test failure = ", result); //####
                 }
             }
             else
             {
-                OD_LOG("! (0 < --argc)");//####
+                OD_LOG("! (0 < --argc)"); //####
             }
         }
 #if CheckNetworkWorks_
         else
         {
-            OD_LOG("! (yarp::os::Network::checkNetwork())");//####
+            OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
             MplusM::Common::GetLogger().fail("YARP network not running.");
         }
 #endif // CheckNetworkWorks_
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
     }
     yarp::os::Network::fini();
-    OD_LOG_EXIT_L(result);//####
+    OD_LOG_EXIT_L(result); //####
     return result;
 } // main

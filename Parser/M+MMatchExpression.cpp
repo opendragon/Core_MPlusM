@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MMatchExpression.cpp
 //
@@ -10,34 +10,31 @@
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-03-10
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MMatchExpression.h"
 #include "M+MMatchConstraint.h"
@@ -81,15 +78,15 @@ MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & i
                                                  size_t &                      endPos,
                                                  BaseNameValidator *           validator)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("inString = ", inString.c_str());//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("inString = ", inString); //####
     OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos);
     MatchExpression * result = NULL;
     
     try
     {
         size_t workPos = SkipWhitespace(inString, inLength, startPos);
-
+        
         if (workPos < inLength)
         {
             // We potentially have a constraint list.
@@ -100,12 +97,14 @@ MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & i
             for ( ; okSoFar && (! done); )
             {
                 size_t            nextElementPos;
-                MatchConstraint * element = MatchConstraint::CreateMatcher(inString, inLength, workPos, nextElementPos,
+                MatchConstraint * element = MatchConstraint::CreateMatcher(inString, inLength,
+                                                                           workPos, nextElementPos,
                                                                            validator);
                 
                 if (element)
                 {
-                    // Skip over any trailing whitespace, to find if the constraint list is complete or more coming.
+                    // Skip over any trailing whitespace, to find if the constraint list is complete
+                    // or more coming.
                     workPos = SkipWhitespace(inString, inLength, nextElementPos);
                     if (workPos < inLength)
                     {
@@ -119,7 +118,7 @@ MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & i
                         }
                         else
                         {
-                            OD_LOG("! (kComma == scanChar)");//####
+                            OD_LOG("! (kComma == scanChar)"); //####
                             // Something unexpected has appeared.
                             okSoFar = false;
                         }
@@ -133,7 +132,7 @@ MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & i
                 }
                 else
                 {
-                    OD_LOG("! (element)");//####
+                    OD_LOG("! (element)"); //####
                     // We have a malformed constraint list.
                     okSoFar = false;
                 }
@@ -150,15 +149,15 @@ MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & i
         }
         else
         {
-            OD_LOG("! (workPos < inLength)");//####
+            OD_LOG("! (workPos < inLength)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_P(result);//####
+    OD_LOG_EXIT_P(result); //####
     return result;
 } // MatchExpression::CreateMatcher
 
@@ -172,17 +171,17 @@ char MatchExpression::ExpressionSeparatorCharacter(void)
 #endif // defined(__APPLE__)
 
 MatchExpression::MatchExpression(void) :
-        inherited(), _constraints()
+    inherited(), _constraints()
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_EXIT_P(this);//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_EXIT_P(this); //####
 } // MatchExpression::MatchExpression
 
 MatchExpression::~MatchExpression(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     empty();
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // MatchExpression::~MatchExpression
 
 #if defined(__APPLE__)
@@ -193,8 +192,8 @@ yarp::os::ConstString MatchExpression::asSQLString(const char * prefixString,
                                                    const char * suffixString)
 const
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S2("prefixString = ", prefixString, "suffixString = ", suffixString);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S2("prefixString = ", prefixString, "suffixString = ", suffixString); //####
     yarp::os::ConstString result;
     
     try
@@ -224,10 +223,10 @@ const
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_S(result.c_str());//####
+    OD_LOG_OBJEXIT_S(result.c_str()); //####
     return result;
 } // MatchExpression::asSQLString
 
@@ -252,7 +251,7 @@ const
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
     return result;
@@ -261,7 +260,7 @@ const
 int MatchExpression::count(void)
 const
 {
-    return static_cast<int>(_constraints.size());
+    return static_cast<int> (_constraints.size());
 } // MatchExpression::count
 
 const MatchConstraint * MatchExpression::element(const int index)
@@ -271,19 +270,19 @@ const
     
     try
     {
-        if ((index >= 0) && (index < static_cast<int>(_constraints.size())))
+        if ((index >= 0) && (index < static_cast<int> (_constraints.size())))
         {
-            result = _constraints[static_cast<MatchExpressionListSize>(index)];
+            result = _constraints[static_cast<MatchExpressionListSize> (index)];
         }
         else
         {
-            OD_LOG("! ((index >= 0) && (index < static_cast<int>(_constraints.size())))");//####
+            OD_LOG("! ((index >= 0) && (index < static_cast<int>(_constraints.size())))"); //####
             result = NULL;
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
     return result;
@@ -291,7 +290,7 @@ const
 
 void MatchExpression::empty(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     try
     {
         for (MatchExpressionListSize ii = 0, maxI = _constraints.size(); ii < maxI; ++ii)
@@ -304,10 +303,10 @@ void MatchExpression::empty(void)
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // MatchExpression::empty
 
 #if defined(__APPLE__)

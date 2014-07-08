@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 //
 //  File:       M+MBaseClient.cpp
 //
@@ -11,34 +11,31 @@
 //
 //  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 //
-//              All rights reserved. Redistribution and use in source and binary forms,
-//              with or without modification, are permitted provided that the following
-//              conditions are met:
-//                * Redistributions of source code must retain the above copyright
-//                  notice, this list of conditions and the following disclaimer.
-//                * Redistributions in binary form must reproduce the above copyright
-//                  notice, this list of conditions and the following disclaimer in the
-//                  documentation and/or other materials provided with the
-//                  distribution.
-//                * Neither the name of the copyright holders nor the names of its
-//                  contributors may be used to endorse or promote products derived
-//                  from this software without specific prior written permission.
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and/or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
 //
-//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-//              "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-//              LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-//              PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-//              OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-//              SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-//              LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-//              DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-//              THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-//              (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-//              OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
 //
 //  Created:    2014-02-06
 //
-//--------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 #include "M+MBaseClient.h"
 #include "M+MAdapterChannel.h"
@@ -76,10 +73,10 @@ using namespace MplusM::Common;
 /*! @brief Check the response to the 'associate' request for validity.
  @param response The response to be checked.
  @returns The original response, if it is valid, or an empty response if it is not. */
-static bool validateAssociateResponse(const Package & response)
+static bool validateAssociateResponse(const yarp::os::Bottle & response)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("response = ", response.toString().c_str());//####
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("response = ", response.toString()); //####
     bool result = false;
     
     try
@@ -99,43 +96,43 @@ static bool validateAssociateResponse(const Package & response)
                 }
                 else if (strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))
                 {
-                    OD_LOG("strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))");//####
+                    OD_LOG("strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))"); //####
                 }
             }
             else
             {
-                OD_LOG("! (responseFirst.isString())");//####
+                OD_LOG("! (responseFirst.isString())"); //####
             }
         }
         else
         {
-            OD_LOG("! (MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE < response.size())");//####
+            OD_LOG("! (MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE < response.size())"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_B(result);//####
+    OD_LOG_EXIT_B(result); //####
     return result;
 } // validateAssociateResponse
 
 /*! @brief Check the response to the 'match' request for validity.
  @param response The response to be checked.
  @returns The original response, if it is valid, or an empty response if it is not. */
-static Package validateMatchResponse(const Package & response)
+static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("response = ", response.toString().c_str());//####
-    Package result;
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("response = ", response.toString()); //####
+    yarp::os::Bottle result;
     
     try
     {
         if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == response.size())
         {
-            // The first element of the response should be 'OK' or 'FAILED'; if 'OK', the second element should be a
-            // list of service port names.
+            // The first element of the response should be 'OK' or 'FAILED'; if 'OK', the second
+            // element should be a list of service port names.
             yarp::os::Value responseFirst(response.get(0));
             
             if (responseFirst.isString())
@@ -153,7 +150,7 @@ static Package validateMatchResponse(const Package & response)
                     }
                     else
                     {
-                        OD_LOG("! (responseSecond.isList())");//####
+                        OD_LOG("! (responseSecond.isList())"); //####
                     }
                 }
                 else if (! strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))
@@ -162,25 +159,26 @@ static Package validateMatchResponse(const Package & response)
                 }
                 else
                 {
-                    OD_LOG("! (! strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))");//####
+                    OD_LOG("! (! strcmp(MpM_FAILED_RESPONSE, " //####
+                           "responseFirstAsString.c_str()))"); //####
                 }
             }
             else
             {
-                OD_LOG("! (responseFirst.isString())");//####
+                OD_LOG("! (responseFirst.isString())"); //####
             }
         }
         else
         {
-            OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == response.size())");//####
+            OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == response.size())"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT();//####
+    OD_LOG_EXIT(); //####
     return result;
 } // validateMatchResponse
 
@@ -193,10 +191,10 @@ static Package validateMatchResponse(const Package & response)
 #endif // defined(__APPLE__)
 
 BaseClient::BaseClient(const char * baseChannelName) :
-        _reporter(NULL), _channel(NULL), _channelName(), _serviceChannelName(), _baseChannelName(NULL),
-        _connected(false), _reportImmediately(false)
+    _reporter(NULL), _channel(NULL), _channelName(), _serviceChannelName(), _baseChannelName(NULL),
+    _connected(false), _reportImmediately(false)
 {
-    OD_LOG_ENTER();//####
+    OD_LOG_ENTER(); //####
     const size_t baseLen = sizeof(CLIENT_PORT_NAME_BASE) - 1;
     size_t       len = (baseChannelName ? strlen(baseChannelName) : 0);
     
@@ -206,17 +204,17 @@ BaseClient::BaseClient(const char * baseChannelName) :
     {
         memcpy(_baseChannelName + baseLen, baseChannelName, len + 1);
     }
-    OD_LOG_EXIT_P(this);//####
+    OD_LOG_EXIT_P(this); //####
 } // BaseClient::BaseClient
 
 BaseClient::~BaseClient(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     disconnectFromService();
     ClientChannel::RelinquishChannel(_channel);
     _channel = NULL;
     delete _baseChannelName;
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseClient::~BaseClient
 
 #if defined(__APPLE__)
@@ -225,11 +223,12 @@ BaseClient::~BaseClient(void)
 
 void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("aChannel = ", aChannel);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("aChannel = ", aChannel); //####
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "associate_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "associate_/"
+                                                         DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -239,9 +238,10 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME,
+                                              false))
                 {
-                    Package parameters;
+                    yarp::os::Bottle parameters;
                     
                     parameters.addString(_channelName);
                     parameters.addInt(aChannel->isOutput() ? 1 : 0);
@@ -251,25 +251,26 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
                     
                     if (request.send(*newChannel, &response))
                     {
-                        OD_LOG_S1("response <- ", response.asString().c_str());//####
+                        OD_LOG_S1s("response <- ", response.asString()); //####
                         validateAssociateResponse(response.values());
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, &response))");//####
+                        OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                       STANDARD_WAIT_TIME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
-                               "STANDARD_WAIT_TIME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
+                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
-                           "false))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
+                           "STANDARD_WAIT_TIME, false))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -277,22 +278,22 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseClient::addAssociatedInputChannel
 
 bool BaseClient::connectToService(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     if (! _connected)
     {
         try
@@ -314,47 +315,49 @@ bool BaseClient::connectToService(void)
             {
                 if (_channel->openWithRetries(_channelName, STANDARD_WAIT_TIME))
                 {
-                    if (NetworkConnectWithRetries(_channelName, _serviceChannelName, STANDARD_WAIT_TIME, false))
+                    if (NetworkConnectWithRetries(_channelName, _serviceChannelName,
+                                                  STANDARD_WAIT_TIME, false))
                     {
                         _connected = true;
                     }
                     else
                     {
-                        OD_LOG("! (NetworkConnectWithRetries(_channelName, _serviceChannelName, "//####
-                               "STANDARD_WAIT_TIME, false))");//####
+                        OD_LOG("! (NetworkConnectWithRetries(_channelName, " //####
+                               "_serviceChannelName, STANDARD_WAIT_TIME, false))"); //####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (_channel->openWithRetries(_channelName, STANDARD_WAIT_TIME))");//####
+                    OD_LOG("! (_channel->openWithRetries(_channelName, " //####
+                           "STANDARD_WAIT_TIME))"); //####
                 }
             }
             else
             {
-                OD_LOG("! (_channel)");//####
+                OD_LOG("! (_channel)"); //####
             }
         }
         catch (...)
         {
-            OD_LOG("Exception caught");//####
+            OD_LOG("Exception caught"); //####
             throw;
         }
     }
-    OD_LOG_OBJEXIT_B(_connected);//####
+    OD_LOG_OBJEXIT_B(_connected); //####
     return _connected;
 } // BaseClient::connectToService
 
 bool BaseClient::disconnectFromService(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     if (_connected)
     {
-        Package parameters;
+        yarp::os::Bottle parameters;
         
         reconnectIfDisconnected();
         if (! send(MpM_DETACH_REQUEST, parameters))
         {
-            OD_LOG("! (send(MpM_DETACH_REQUEST, parameters))");//####
+            OD_LOG("! (send(MpM_DETACH_REQUEST, parameters))"); //####
         }
         if (NetworkDisconnectWithRetries(_channelName, _serviceChannelName, STANDARD_WAIT_TIME))
         {
@@ -362,26 +365,27 @@ bool BaseClient::disconnectFromService(void)
         }
         else
         {
-            OD_LOG("! (NetworkDisconnectWithRetries(_channelName, _serviceChannelName, STANDARD_WAIT_TIME))");//####
+            OD_LOG("! (NetworkDisconnectWithRetries(_channelName, _serviceChannelName, " //####
+                   "STANDARD_WAIT_TIME))"); //####
         }
     }
-    OD_LOG_OBJEXIT_B(! _connected);//####
-    return (! _connected);
+    OD_LOG_OBJEXIT_B(! _connected); //####
+    return ! _connected;
 } // BaseClient::disconnectFromService
 
 bool BaseClient::findService(const char * criteria,
                              const bool   allowOnlyOneMatch)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S1("criteria = ", criteria);//####
-    OD_LOG_B1("allowOnlyOneMatch = ", allowOnlyOneMatch);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1("criteria = ", criteria); //####
+    OD_LOG_B1("allowOnlyOneMatch = ", allowOnlyOneMatch); //####
     bool result = false;
     
     try
     {
-        Package candidates(FindMatchingServices(criteria));
-
-        OD_LOG_S1("candidates <- ", candidates.toString().c_str());//####
+        yarp::os::Bottle candidates(FindMatchingServices(criteria));
+        
+        OD_LOG_S1s("candidates <- ", candidates.toString()); //####
         if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())
         {
             // First, check if the search succeeded.
@@ -390,7 +394,7 @@ bool BaseClient::findService(const char * criteria,
             if (! strcmp(MpM_OK_RESPONSE, candidatesFirstString.c_str()))
             {
                 // Now, process the second element.
-                Package * candidateList = candidates.get(1).asList();
+                yarp::os::Bottle * candidateList = candidates.get(1).asList();
                 
                 if (candidateList)
                 {
@@ -400,69 +404,70 @@ bool BaseClient::findService(const char * criteria,
                     if ((! allowOnlyOneMatch) || (1 == candidateCount))
                     {
                         _serviceChannelName = candidateList->get(0).toString();
-                        OD_LOG_S1("_serviceChannelName <- ", _serviceChannelName.c_str());
+                        OD_LOG_S1s("_serviceChannelName <- ", _serviceChannelName);
                         result = true;
                     }
                     else
                     {
-                        OD_LOG("! ((! allowOnlyOneMatch) || (1 == candidateCount))");//####
+                        OD_LOG("! ((! allowOnlyOneMatch) || (1 == candidateCount))"); //####
                     }
                 }
                 else
                 {
-                    OD_LOG("! (candidateList)");//####
+                    OD_LOG("! (candidateList)"); //####
                 }
             }
             else
             {
-                OD_LOG("! (! strcmp(MpM_OK_RESPONSE, candidatesFirstString.c_str()))");//####
+                OD_LOG("! (! strcmp(MpM_OK_RESPONSE, candidatesFirstString.c_str()))"); //####
             }
         }
         else
         {
-            OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())");//####
+            OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())"); //####
         }
         if (! result)
         {
             _serviceChannelName = "";
-            OD_LOG_S1("_serviceChannelName <- ", _serviceChannelName.c_str());
+            OD_LOG_S1s("_serviceChannelName <- ", _serviceChannelName);
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // BaseClient::findService
 
 void BaseClient::reconnectIfDisconnected(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     if (_channel)
     {
         if (0 >= _channel->getOutputCount())
         {
             if (! connectToService())
             {
-                OD_LOG("(! connectToService())");//####
+                OD_LOG("(! connectToService())"); //####
             }
         }
     }
     else if (! connectToService())
     {
-        OD_LOG("(! connectToService())");//####
+        OD_LOG("(! connectToService())"); //####
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseClient::reconnectIfDisconnected
 
 void BaseClient::removeAssociatedChannels(void)
 {
-    OD_LOG_OBJENTER();//####
+    OD_LOG_OBJENTER(); //####
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "disassociate_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "disassociate_/"
+                                                         DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -472,9 +477,10 @@ void BaseClient::removeAssociatedChannels(void)
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME,
+                                              false))
                 {
-                    Package parameters;
+                    yarp::os::Bottle parameters;
                     
                     parameters.addString(_channelName);
                     ServiceRequest  request(MpM_DISASSOCIATE_REQUEST, parameters);
@@ -482,25 +488,26 @@ void BaseClient::removeAssociatedChannels(void)
                     
                     if (request.send(*newChannel, &response))
                     {
-                        OD_LOG_S1("response <- ", response.asString().c_str());//####
+                        OD_LOG_S1s("response <- ", response.asString()); //####
                         validateAssociateResponse(response.values());
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, &response))");//####
+                        OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                       STANDARD_WAIT_TIME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
-                               "STANDARD_WAIT_TIME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
+                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
-                           "false))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
+                           "STANDARD_WAIT_TIME, false))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -508,28 +515,28 @@ void BaseClient::removeAssociatedChannels(void)
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseClient::removeAssociatedChannels
 
-bool BaseClient::send(const char *      request,
-                      const Package &   parameters,
-                      ServiceResponse * response)
+bool BaseClient::send(const char *             request,
+                      const yarp::os::Bottle & parameters,
+                      ServiceResponse *        response)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_S2("request = ", request, "parameters = ", parameters.toString().c_str());//####
-    OD_LOG_P1("response = ", response);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S2("request = ", request, "parameters = ", parameters.toString().c_str()); //####
+    OD_LOG_P1("response = ", response); //####
     bool result = false;
-
+    
     try
     {
         if (_connected)
@@ -542,32 +549,32 @@ bool BaseClient::send(const char *      request,
             }
             else
             {
-                OD_LOG("! (0 < _serviceChannelName.length())");//####
+                OD_LOG("! (0 < _serviceChannelName.length())"); //####
             }
         }
         else
         {
-            OD_LOG("! (_connected)");//####
+            OD_LOG("! (_connected)"); //####
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(result);//####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // BaseClient::send
 
 void BaseClient::setReporter(ChannelStatusReporter & reporter,
                              const bool              andReportNow)
 {
-    OD_LOG_OBJENTER();//####
-    OD_LOG_P1("reporter = ", &reporter);//####
-    OD_LOG_B1("andReportNow = ", andReportNow);//####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("reporter = ", &reporter); //####
+    OD_LOG_B1("andReportNow = ", andReportNow); //####
     _reporter = &reporter;
     _reportImmediately = andReportNow;
-    OD_LOG_OBJEXIT();//####
+    OD_LOG_OBJEXIT(); //####
 } // BaseClient::setReporter
 
 #if defined(__APPLE__)
@@ -578,17 +585,18 @@ void BaseClient::setReporter(ChannelStatusReporter & reporter,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-Package Common::FindMatchingServices(const char * criteria,
-                                     const bool   getNames)
+yarp::os::Bottle Common::FindMatchingServices(const char * criteria,
+                                              const bool   getNames)
 {
-    OD_LOG_ENTER();//####
-    OD_LOG_S1("criteria = ", criteria);//####
-    OD_LOG_B1("getNames = ", getNames);//####
-    Package result;
-
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1("criteria = ", criteria); //####
+    OD_LOG_B1("getNames = ", getNames); //####
+    yarp::os::Bottle result;
+    
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "findmatch_/" DEFAULT_CHANNEL_ROOT));
+        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "findmatch_/"
+                                                         DEFAULT_CHANNEL_ROOT));
         ClientChannel *       newChannel = new ClientChannel;
         
         if (newChannel)
@@ -598,9 +606,10 @@ Package Common::FindMatchingServices(const char * criteria,
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME,
+                                              false))
                 {
-                    Package parameters;
+                    yarp::os::Bottle parameters;
                     
                     parameters.addInt(getNames ? 1 : 0);
                     parameters.addString(criteria);
@@ -609,25 +618,26 @@ Package Common::FindMatchingServices(const char * criteria,
                     
                     if (request.send(*newChannel, &response))
                     {
-                        OD_LOG_S1("response <- ", response.asString().c_str());//####
+                        OD_LOG_S1s("response <- ", response.asString()); //####
                         result = validateMatchResponse(response.values());
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, &response))");//####
+                        OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                       STANDARD_WAIT_TIME))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, "//####
-                               "STANDARD_WAIT_TIME))");//####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
+                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, "//####
-                           "false))");//####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
+                           "STANDARD_WAIT_TIME, false))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -635,16 +645,16 @@ Package Common::FindMatchingServices(const char * criteria,
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))");//####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
             }
             ClientChannel::RelinquishChannel(newChannel);
         }
     }
     catch (...)
     {
-        OD_LOG("Exception caught");//####
+        OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT();//####
+    OD_LOG_EXIT(); //####
     return result;
 } // MplusM::FindMatchingServices
