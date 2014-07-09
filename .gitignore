@@ -37,10 +37,10 @@ mpmClientList
 mpmCommonTest
 mpmEchoClient
 mpmEchoService
+mpmRandomBurstStreamService
 mpmRandomNumberAdapter
 mpmRandomNumberClient
 mpmRandomNumberService
-mpmRandomOutputStreamService
 mpmRecordIntegersStreamService
 mpmParserTest
 mpmPortLister
