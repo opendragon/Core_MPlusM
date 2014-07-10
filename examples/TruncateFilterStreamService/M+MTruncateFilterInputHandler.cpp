@@ -49,8 +49,8 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the input channel input handler used by the truncate
- filter stream service. */
+ @brief The class definition for the input channel input handler used by the truncate filter stream
+ service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

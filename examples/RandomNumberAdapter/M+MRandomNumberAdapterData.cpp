@@ -49,8 +49,8 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the data shared between the input handlers and main
- thread of the random number adapter. */
+ @brief The class definition for the data shared between the input handlers and main thread of the
+ random number adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

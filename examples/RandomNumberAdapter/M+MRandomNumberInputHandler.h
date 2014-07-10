@@ -48,8 +48,8 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the custom data channel input handler used by the
- random number adapter. */
+ @brief The class declaration for the custom data channel input handler used by the random number
+ adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

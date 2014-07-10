@@ -48,8 +48,8 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the minimal functionality required for the data shared
- between the input handlers and main thread of an M+M adapter. */
+ @brief The class declaration for the minimal functionality required for the data shared between the
+ input handlers and main thread of an M+M adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
