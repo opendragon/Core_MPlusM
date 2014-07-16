@@ -1,3 +1,3 @@
 #!/bin/sh
 
-sloccount ClientList Common Logging Parser PortLister RegistryService RequestCounter RequestInfo ServiceLister examples
+sloccount ClientList Common examples Logging Parser PortLister RegistryService RequestCounter RequestInfo ServiceLister Version
