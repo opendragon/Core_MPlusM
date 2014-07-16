@@ -11,3 +11,5 @@
 * change signal handling to use platform-neutral mechanisms
 
 + explore JUCE, SDL (or Processing) as an alternative platform for the viewer
+
++ ofPoint -> Point<>; set containers visible, but don’t add them to panel - render them during paint
