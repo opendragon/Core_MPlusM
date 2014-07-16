@@ -100,7 +100,7 @@ MatchValueList * MatchValueList::CreateMatcher(const yarp::os::ConstString & inS
                 bool done = false;
                 bool okSoFar = true;
                 
-                result = new MatchValueList();
+                result = new MatchValueList;
                 for (++workPos; okSoFar && (! done); )
                 {
                     size_t       nextElementPos;

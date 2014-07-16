@@ -100,7 +100,7 @@ MatchConstraint * MatchConstraint::CreateMatcher(const yarp::os::ConstString & i
             bool       okSoFar = true;
             const char expressionSeparator = MatchExpression::ExpressionSeparatorCharacter();
             
-            result = new MatchConstraint();
+            result = new MatchConstraint;
             for ( ; okSoFar && (! done); )
             {
                 size_t                 nextElementPos;

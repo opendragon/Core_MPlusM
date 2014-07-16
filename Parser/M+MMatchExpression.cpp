@@ -93,7 +93,7 @@ MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & i
             bool done = false;
             bool okSoFar = true;
             
-            result = new MatchExpression();
+            result = new MatchExpression;
             for ( ; okSoFar && (! done); )
             {
                 size_t            nextElementPos;
