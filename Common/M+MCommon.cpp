@@ -209,14 +209,14 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
 #else // ! MAC_OR_LINUX_
         if (hasLeadingSlash)
         {
-            _snprintf(buff, sizeof(buff) - 1, "%s%x", stringToUse, randNumb);
+            _snprintf(buff, buffLen - 1, "%s%x", stringToUse, randNumb);
         }
         else
         {
-            _snprintf(buff, sizeof(buff) - 1, "/%s%x", stringToUse, randNumb);
+            _snprintf(buff, buffLen - 1, "/%s%x", stringToUse, randNumb);
         }
         // Correct for the weird behaviour of _snprintf
-        buff[sizeof(buff) - 1] = '\0';
+        buff[buffLen - 1] = '\0';
 #endif // ! MAC_OR_LINUX_
         result = buff;
         delete[] buff;
