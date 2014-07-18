@@ -42,6 +42,10 @@
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
+#if (!MAC_OR_LINUX) //ASSUME WINDOWS
+#include "getopt.h"
+#endif //(!MAC_OR_LINUX)
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -102,7 +106,15 @@ int main(int     argc,
     {
         bool                  stdinAvailable = MplusM::CanReadFromStandardInput();
         yarp::os::ConstString recordPath;
-        
+
+#if (!MAC_OR_LINUX) //ASSUME WINDOWS
+	int opterr = 1,             /* if error message should be printed */
+		optind = 1,             /* index into parent argv vector */
+        optopt,                 /* character checked for validity */
+        optreset;               /* reset getopt */
+	char *optarg;                /* argument associated with option */
+#endif //(!MAC_OR_LINUX)
+
         opterr = 0; // Suppress the error message resulting from an unknown option.
         for (int cc = getopt(argc, argv, RECORDINTEGERSSTREAM_OPTIONS); -1 != cc;
              cc = getopt(argc, argv, RECORDINTEGERSSTREAM_OPTIONS))

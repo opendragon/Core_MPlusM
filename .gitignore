@@ -9,6 +9,8 @@ install_manifest.txt
 #VS/Windows related
 *.ilk
 *.lastbuildstate
+*.unsuccessfulbuild
+*.opensdf
 *.vcxproj
 *.filters
 *.lib
