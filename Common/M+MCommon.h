@@ -159,7 +159,7 @@
 # define RETRY_MULTIPLIER          1.2
 
 /*! @brief The hostname to use to refer to the machine on which we are executing. */
-# define STANDARD_HOST_NAME        "localhost"
+# define STANDARD_HOST_NAME        "127.0.0.1"/*"localhost"*/
 
 /*! @brief The standard command-line options. */
 # define STANDARD_OPTIONS          "jt"

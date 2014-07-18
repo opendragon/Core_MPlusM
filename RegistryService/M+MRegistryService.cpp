@@ -2484,6 +2484,7 @@ bool RegistryService::setUpDatabase(void)
     try
     {
         int sqlRes;
+        
         if (! _db)
         {
             const char * dbFileName;
