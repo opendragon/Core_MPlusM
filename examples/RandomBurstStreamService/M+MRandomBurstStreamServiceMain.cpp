@@ -152,13 +152,7 @@ int main(int     argc,
                                         // infrastructure
             yarp::os::ConstString serviceEndpointName;
             yarp::os::ConstString servicePortNumber;
-#if (!MAC_OR_LINUX) //ASSUME WINDOWS
-	    	int opterr = 1,             /* if error message should be printed */
-	          optind = 1,             /* index into parent argv vector */
-	          optopt,                 /* character checked for validity */
-	          optreset;               /* reset getopt */
-		char *optarg;                /* argument associated with option */
-#endif //(!MAC_OR_LINUX)    
+ 
             MplusM::Common::Initialize(*argv);
             if (optind >= argc)
             {

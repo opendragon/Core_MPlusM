@@ -555,6 +555,11 @@ bool MplusM::CanReadFromStandardInput(void)
     }
 #else // ! MAC_OR_LINUX_
       // How do we check on Windows??
+	HWND wind = GetConsoleWindow();
+	if (wind == NULL)
+		result = false;
+	else
+		result = true;
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT_B(result); //####
     return result;
