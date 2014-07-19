@@ -11,7 +11,7 @@
 
 * change signal handling to use platform-neutral mechanisms
 
-+ ofPoint -> Point<>; set containers visible, but don’t add them to panel - render them during paint
++ put connections on a separate layer, as distinct objects; layer should be above the existing one and have the same dimensions - this way, rendering is automatic and searching entities in the existing layer won’t ‘see’ the connections; each connector knows it’s start / end entities [or their names?] => initially just draw straight lines
 
 Notes from Johnty:
 
