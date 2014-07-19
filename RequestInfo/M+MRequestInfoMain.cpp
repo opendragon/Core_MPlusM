@@ -41,12 +41,13 @@
 #include "M+MRequests.h"
 #include "M+MServiceRequest.h"
 #include "M+MServiceResponse.h"
-#if (!MAC_OR_LINUX) //ASSUME WINDOWS
-#include "getopt.h"
-#endif //(!MAC_OR_LINUX)
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
+
+#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
+# include "getopt.h"
+#endif //(! MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

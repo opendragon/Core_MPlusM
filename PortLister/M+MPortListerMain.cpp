@@ -42,17 +42,15 @@
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
-#if (!MAC_OR_LINUX) //ASSUME WINDOWS
-#include "getopt.h"
-#endif //(!MAC_OR_LINUX)
+
+#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
+# include "getopt.h"
+#endif //(! MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-
-
-
 /*! @file
  
  @brief A utility application to list the available ports. */

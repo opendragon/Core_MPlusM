@@ -38,6 +38,10 @@
 
 #include "M+MCommon.h"
 
+#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
+# include "getopt.h"
+#endif //(! MAC_OR_LINUX_)
+
 #include <ace/Version.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -53,11 +57,7 @@
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
-
-#if (!MAC_OR_LINUX) //ASSUME WINDOWS
-#include "getopt.h"
-#endif //(!MAC_OR_LINUX)
-
+		
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
