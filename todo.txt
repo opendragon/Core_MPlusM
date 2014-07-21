@@ -1,4 +1,4 @@
-[notation: ‘=‘ universal, ‘+’ service viewer, ‘*’ M+M]
+[notation: ‘=‘ universal, ‘+’ service viewer / channel manager, ‘*’ M+M]
 
 = use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
 
