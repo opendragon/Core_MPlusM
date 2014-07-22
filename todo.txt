@@ -13,6 +13,8 @@
 
 + put connections on a separate layer, as distinct objects; layer should be above the existing one and have the same dimensions - this way, rendering is automatic and searching entities in the existing layer won’t ‘see’ the connections; each connector knows it’s start / end entities [or their names?] => initially just draw straight lines
 
++ due to the clipping involved in drawing the entities, draw both the outgoing and incoming connections; double-check the coordinates, and make sure that the stroke is solid; port entries should pass on clicks to their ‘parent’, so that dragging will work - later on, this can be changed to handle option-click and control-click
+
 Notes from Johnty:
 
 - in terms of having a background thread communicate with the GUI elements, here's the basic outline i followed:
