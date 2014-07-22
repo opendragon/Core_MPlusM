@@ -383,7 +383,7 @@ static void odWriteTime_(FILE * outFile)
     time_t rawtime;
     
     time(&rawtime);
-    strftime(buffer, sizeof(buffer), "%F %T ", localtime(&rawtime));
+    strftime(buffer, sizeof(buffer), "%x %X ", localtime(&rawtime));
     fputs(buffer, outFile);
 } // odWriteTime_
 
