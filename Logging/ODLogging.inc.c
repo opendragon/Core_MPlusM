@@ -383,7 +383,11 @@ static void odWriteTime_(FILE * outFile)
     time_t rawtime;
     
     time(&rawtime);
+#  if MAC_OR_LINUX_
+    strftime(buffer, sizeof(buffer), "%F %T ", localtime(&rawtime));
+#  else // ! MAC_OR_LINUX_
     strftime(buffer, sizeof(buffer), "%x %X ", localtime(&rawtime));
+#  endif // ! MAC_OR_LINUX_
     fputs(buffer, outFile);
 } // odWriteTime_
 

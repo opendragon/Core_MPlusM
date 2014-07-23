@@ -58,6 +58,7 @@
 # pragma clang diagnostic ignored "-Wweak-vtables"
 #endif // defined(__APPLE__)
 #include <yarp/conf/version.h>
+#include <yarp/os/impl/Logger.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

@@ -69,7 +69,7 @@
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
 # include <yarp/os/all.h>
-# include <yarp/os/impl/Logger.h>
+//# include <yarp/os/impl/Logger.h>
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -199,6 +199,17 @@
 # else // ! defined(MpM_UseTimeoutsInRetryLoops)
 #  define RETRY_LOOPS_USE_TIMEOUTS  FALSE
 # endif // ! defined(MpM_UseTimeoutsInRetryLoops)
+
+namespace yarp
+{
+    namespace os
+    {
+        namespace impl
+        {
+            class Logger;
+        } // impl
+    } // os
+} // yarp
 
 namespace MplusM
 {
