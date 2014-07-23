@@ -69,7 +69,7 @@
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
 # include <yarp/os/all.h>
-# if defined(MAC_OR_LINUX_)
+# if MAC_OR_LINUX_
 #  include <yarp/os/impl/Logger.h>
 # endif // defined(MAC_OR_LINUX_)
 # if defined(__APPLE__)
