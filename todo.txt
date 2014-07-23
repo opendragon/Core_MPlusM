@@ -11,14 +11,4 @@
 
 * change signal handling to use platform-neutral mechanisms
 
-Notes from Johnty:
-
-- in terms of having a background thread communicate with the GUI elements, here's the basic outline i followed:
-
-- - i inherited from ChangeListener and had the thread class inherit from ChangeBroadcaster. 
-
-- - then i made a callback for in the GUI class to force an draw update (repaint) on the GUI elements, and triggered a change in the thread class when an event occurs
-
--- finally, add the GUI class as a listener to the thread using addChangeListener()
-
-- - in terms of synchronisation, i used a basic non-reentrant lock for synchronisation of the shared memory access between the thread and the gui. 
++ switch to a scrolling view or implement scrolling via the scrollbars
