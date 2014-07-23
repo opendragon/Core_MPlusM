@@ -45,20 +45,6 @@
 #if (! MAC_OR_LINUX_) //ASSUME WINDOWS
 # include "getopt.h"
 #endif //(! MAC_OR_LINUX_)
-#if defined(__APPLE__)
-# pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Wc++11-extensions"
-# pragma clang diagnostic ignored "-Wdocumentation"
-# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-# pragma clang diagnostic ignored "-Wpadded"
-# pragma clang diagnostic ignored "-Wshadow"
-# pragma clang diagnostic ignored "-Wunused-parameter"
-# pragma clang diagnostic ignored "-Wweak-vtables"
-#endif // defined(__APPLE__)
-#include <yarp/os/impl/Logger.h>
-#if defined(__APPLE__)
-# pragma clang diagnostic pop
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -115,7 +101,9 @@ int main(int     argc,
                 kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER(); //####
+#if MAC_OR_LINUX_
     MplusM::Common::SetUpLogger(*argv);
+#endif // MAC_OR_LINUX_
     try
     {
         bool                  stdinAvailable = MplusM::CanReadFromStandardInput();
@@ -322,7 +310,9 @@ int main(int     argc,
         else
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
+# if MAC_OR_LINUX_
             MplusM::Common::GetLogger().fail("YARP network not running.");
+# endif // MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
     }

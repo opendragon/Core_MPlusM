@@ -69,7 +69,9 @@
 #  pragma clang diagnostic ignored "-Wweak-vtables"
 # endif // defined(__APPLE__)
 # include <yarp/os/all.h>
-//# include <yarp/os/impl/Logger.h>
+# if defined(MAC_OR_LINUX_)
+#  include <yarp/os/impl/Logger.h>
+# endif // defined(MAC_OR_LINUX_)
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -200,17 +202,6 @@
 #  define RETRY_LOOPS_USE_TIMEOUTS  FALSE
 # endif // ! defined(MpM_UseTimeoutsInRetryLoops)
 
-namespace yarp
-{
-    namespace os
-    {
-        namespace impl
-        {
-            class Logger;
-        } // impl
-    } // os
-} // yarp
-
 namespace MplusM
 {
     namespace Common
@@ -293,8 +284,12 @@ namespace MplusM
         void DumpContactToLog(const char *              tag,
                               const yarp::os::Contact & aContact);
         
+# if MAC_OR_LINUX_
+        /*! @brief Return the YARP logging object.
+         @returns The YARP logging object. */
         yarp::os::impl::Logger & GetLogger(void);
-        
+# endif // MAC_OR_LINUX_
+
         /*! @brief Generate a random channel name.
          @returns A randomly-generated channel name. */
         yarp::os::ConstString GetRandomChannelName(const char * channelRoot = DEFAULT_CHANNEL_ROOT);
@@ -340,13 +335,15 @@ namespace MplusM
          signal. */
         void SetUpCatcher(void);
         
+# if MAC_OR_LINUX_
         /*! @brief Set up the error logger.
          @param progName The name of the executing program.
          
          Should be called in the main() function of each application or service before anything
          else. */
         void SetUpLogger(const char * progName);
-        
+# endif // MAC_OR_LINUX_
+
         /*! @brief Restore the normal signal-handling behaviour. */
         void ShutDownCatcher(void);
         

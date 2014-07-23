@@ -45,21 +45,6 @@
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
-#if defined(__APPLE__)
-# pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Wc++11-extensions"
-# pragma clang diagnostic ignored "-Wdocumentation"
-# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-# pragma clang diagnostic ignored "-Wpadded"
-# pragma clang diagnostic ignored "-Wshadow"
-# pragma clang diagnostic ignored "-Wunused-parameter"
-# pragma clang diagnostic ignored "-Wweak-vtables"
-#endif // defined(__APPLE__)
-#include <yarp/os/impl/Logger.h>
-#if defined(__APPLE__)
-# pragma clang diagnostic pop
-#endif // defined(__APPLE__)
-
 #if (! MAC_OR_LINUX_) //ASSUME WINDOWS
 # include "getopt.h"
 #endif //(! MAC_OR_LINUX_)
@@ -282,7 +267,9 @@ int main(int     argc,
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
+#if MAC_OR_LINUX_
     MplusM::Common::SetUpLogger(*argv);
+#endif // MAC_OR_LINUX_
     MplusM::Common::OutputFlavour flavour = MplusM::Common::kOutputFlavourNormal;
 
     opterr = 0; // Suppress the error message resulting from an unknown option.
@@ -349,10 +336,12 @@ int main(int     argc,
                 if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
                 {
                     OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))"); //####
+#if MAC_OR_LINUX_
                     yarp::os::ConstString reason(matches.get(1).toString());
                     
                     MplusM::Common::GetLogger().fail(yarp::os::ConstString("Failed: ") + reason +
                                                      ".");
+#endif // MAC_OR_LINUX_
                 }
                 else
                 {
@@ -423,6 +412,7 @@ int main(int     argc,
                                                 {
                                                     OD_LOG("! (request.send(*newChannel, " //####
                                                            "&response))"); //####
+#if MAC_OR_LINUX_
                                                     yarp::os::impl::Logger & theLogger =
                                                                         MplusM::Common::GetLogger();
                                                     
@@ -430,6 +420,7 @@ int main(int     argc,
                                                                                  "communicating "
                                                                                          "with ") +
                                                                    aMatch + ".");
+#endif // MAC_OR_LINUX_
                                                 }
                                             }
                                             else
@@ -454,6 +445,7 @@ int main(int     argc,
                                                 {
                                                     OD_LOG("! (request.send(*newChannel, " //####
                                                            "&response))"); //####
+#if MAC_OR_LINUX_
                                                     yarp::os::impl::Logger & theLogger =
                                                                         MplusM::Common::GetLogger();
                                                     
@@ -461,6 +453,7 @@ int main(int     argc,
                                                                                  "communicating "
                                                                                          "with ") +
                                                                    aMatch + ".");
+#endif // MAC_OR_LINUX_
                                                 }
                                             }
 #if defined(MpM_DoExplicitDisconnect)
@@ -539,15 +532,19 @@ int main(int     argc,
             else
             {
                 OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())"); //####
+#if MAC_OR_LINUX_
                 MplusM::Common::GetLogger().fail("Problem getting information from the Service "
                                                  "Registry.");
+#endif // MAC_OR_LINUX_
             }
         }
 #if CheckNetworkWorks_
         else
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
+# if MAC_OR_LINUX_
             MplusM::Common::GetLogger().fail("YARP network not running.");
+# endif // MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
     }

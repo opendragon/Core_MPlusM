@@ -58,7 +58,6 @@
 # pragma clang diagnostic ignored "-Wweak-vtables"
 #endif // defined(__APPLE__)
 #include <yarp/conf/version.h>
-#include <yarp/os/impl/Logger.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -87,8 +86,10 @@ static const int kMaxRandom = 123456789;
 /*! @brief @c true if the executable is running or ready-to-run and @c false otherwise. */
 static bool lKeepRunning = false;
 
+#if MAC_OR_LINUX_
 /*! @brief The logger to use for reporting problems. */
 static yarp::os::impl::Logger * lLogger = NULL;
+#endif // MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -105,13 +106,7 @@ static void localCatcher(int signal)
     {
         char numBuff[30];
         
-# if MAC_OR_LINUX_
         snprintf(numBuff, sizeof(numBuff), "%d", signal);
-# else // ! MAC_OR_LINUX_
-        _snprintf(numBuff, sizeof(numBuff) - 1, "%d", signal);
-        // Correct for the weird behaviour of _snprintf
-        numBuff[sizeof(numBuff) - 1] = '\0';
-# endif // ! MAC_OR_LINUX_
         lLogger->error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
                        yarp::os::ConstString(" = ") + MplusM::NameOfSignal(signal));
     }
@@ -145,6 +140,7 @@ static const char * nullOrString(const char * aString)
 void MplusM::Common::DumpContactToLog(const char *              tag,
                                       const yarp::os::Contact & aContact)
 {
+#if MAC_OR_LINUX_
     if (lLogger)
     {
         lLogger->info(yarp::os::ConstString("tag = ") + tag);
@@ -155,14 +151,17 @@ void MplusM::Common::DumpContactToLog(const char *              tag,
                       (aContact.isValid() ? "true" : "false"));
         lLogger->info(yarp::os::ConstString("contact.toString = ") + aContact.toString());
     }
+#endif // MAC_OR_LINUX_
 } // MplusM::Common::DumpContactToLog
 
+#if MAC_OR_LINUX_
 yarp::os::impl::Logger & MplusM::Common::GetLogger(void)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(lLogger);
     return *lLogger;
 } // MplusM::Common::GetLogger
+#endif // MAC_OR_LINUX_
 
 yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelRoot)
 {
@@ -252,12 +251,14 @@ void MplusM::Common::Initialize(const char * progName)
         int    seed = static_cast<int> (ceil(fraction * kMaxRandom));
         
 #if defined(MpM_ChattyStart)
+# if MAC_OR_LINUX_
         if (lLogger)
         {
             lLogger->info(yarp::os::ConstString("Program ") + progName);
             lLogger->info("Movement And Meaning Version: " MpM_VERSION ", YARP Version: "
                           YARP_VERSION_STRING ", ACE Version: " ACE_VERSION);
         }
+# endif // MAC_OR_LINUX_
 #endif // defined(MpM_ChattyStart)
         OD_LOG_D2("time = ", now, "fraction = ", fraction); //####
         OD_LOG_LL1("seed = ", seed); //####
@@ -494,12 +495,14 @@ void MplusM::Common::SetUpCatcher(void)
     OD_LOG_EXIT(); //####
 } // MplusM::Common::SetUpCatcher
 
+#if MAC_OR_LINUX_
 void MplusM::Common::SetUpLogger(const char * progName)
 {
     OD_LOG_ENTER(); //####
     lLogger = new yarp::os::impl::Logger(progName, yarp::os::impl::Logger::get());
     OD_LOG_EXIT(); //####
 } // MplusM::Common::SetUpLogger
+#endif // MAC_OR_LINUX_
 
 void MplusM::Common::ShutDownCatcher(void)
 {

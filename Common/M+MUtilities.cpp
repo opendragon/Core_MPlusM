@@ -522,23 +522,31 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
                 }
                 else if (! quiet)
                 {
+#if MAC_OR_LINUX_
                     MplusM::Common::GetLogger().fail("Could not open route to port.");
+#endif // MAC_OR_LINUX_
                 }
                 delete out;
             }
             else if (! quiet)
             {
+#if MAC_OR_LINUX_
                 MplusM::Common::GetLogger().fail("Could not connect to port.");
+#endif // MAC_OR_LINUX_
             }
         }
         else if (! quiet)
         {
+#if MAC_OR_LINUX_
             MplusM::Common::GetLogger().fail("Port not using recognized connection type.");
+#endif // MAC_OR_LINUX_
         }
     }
     else if (! quiet)
     {
+#if MAC_OR_LINUX_
         MplusM::Common::GetLogger().fail("Port name not recognized.");
+#endif // MAC_OR_LINUX_
     }
     OD_LOG_EXIT(); //####
 } // MplusM::Utilities::GatherPortConnections
@@ -910,9 +918,11 @@ void MplusM::Utilities::GetServiceNames(StringVector & services,
             OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))"); //####
             if (! quiet)
             {
+#if MAC_OR_LINUX_
                 yarp::os::ConstString reason(matches.get(1).toString());
                 
                 MplusM::Common::GetLogger().fail(yarp::os::ConstString("Failed: ") + reason + ".");
+#endif // MAC_OR_LINUX_
             }
         }
         else
@@ -934,8 +944,10 @@ void MplusM::Utilities::GetServiceNames(StringVector & services,
         OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())"); //####
         if (! quiet)
         {
+#if MAC_OR_LINUX_
             MplusM::Common::GetLogger().fail("Problem getting information from the Service "
                                              "Registry.");
+#endif // MAC_OR_LINUX_
         }
     }
     OD_LOG_EXIT(); //####

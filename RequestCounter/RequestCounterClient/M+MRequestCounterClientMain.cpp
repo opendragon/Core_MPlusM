@@ -44,21 +44,6 @@
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Wc++11-extensions"
-# pragma clang diagnostic ignored "-Wdocumentation"
-# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-# pragma clang diagnostic ignored "-Wpadded"
-# pragma clang diagnostic ignored "-Wshadow"
-# pragma clang diagnostic ignored "-Wunused-parameter"
-# pragma clang diagnostic ignored "-Wweak-vtables"
-#endif // defined(__APPLE__)
-#include <yarp/os/impl/Logger.h>
-#if defined(__APPLE__)
-# pragma clang diagnostic pop
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
@@ -152,7 +137,9 @@ int main(int     argc,
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
+#if MAC_OR_LINUX_
     MplusM::Common::SetUpLogger(*argv);
+#endif // MAC_OR_LINUX_
     try
     {
         if (MplusM::CanReadFromStandardInput())
@@ -195,8 +182,10 @@ int main(int     argc,
                                     {
                                         if (! stuff->pokeService())
                                         {
+#if MAC_OR_LINUX_
                                             MplusM::Common::GetLogger().fail("Problem poking the "
                                                                              "service.");
+#endif // MAC_OR_LINUX_
                                             break;
                                         }
                                         
@@ -223,35 +212,45 @@ int main(int     argc,
                                     {
                                         OD_LOG("! (stuff->getServiceStatistics(counter, " //####
                                                "elapsedTime))"); //####
+#if MAC_OR_LINUX_
                                         MplusM::Common::GetLogger().fail("Problem getting "
                                                                          "statistics from the "
                                                                          "service.");
+#endif // MAC_OR_LINUX_
                                     }
                                 }
                                 else
                                 {
                                     OD_LOG("! (stuff->resetServiceCounters())"); //####
+#if MAC_OR_LINUX_
                                     MplusM::Common::GetLogger().fail("Problem resetting the "
                                                                      "service counters.");
+#endif // MAC_OR_LINUX_
                                 }
                                 if (! stuff->disconnectFromService())
                                 {
                                     OD_LOG("(! stuff->disconnectFromService())"); //####
+#if MAC_OR_LINUX_
                                     MplusM::Common::GetLogger().fail("Problem disconnecting from "
                                                                      "the service.");
+#endif // MAC_OR_LINUX_
                                 }
                             }
                             else
                             {
                                 OD_LOG("! (stuff->connectToService())"); //####
+#if MAC_OR_LINUX_
                                 MplusM::Common::GetLogger().fail("Problem connecting to the "
                                                                  "service.");
+#endif // MAC_OR_LINUX_
                             }
                         }
                         else
                         {
                             OD_LOG("! (stuff->findService(\"name:RequestCounter\"))"); //####
+#if MAC_OR_LINUX_
                             MplusM::Common::GetLogger().fail("Problem locating the service.");
+#endif // MAC_OR_LINUX_
                         }
                     }
                     delete stuff;
@@ -265,7 +264,9 @@ int main(int     argc,
             else
             {
                 OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
+# if MAC_OR_LINUX_
                 MplusM::Common::GetLogger().fail("YARP network not running.");
+# endif // MAC_OR_LINUX_
             }
 #endif // CheckNetworkWorks_
         }
