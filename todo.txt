@@ -12,3 +12,33 @@
 * change signal handling to use platform-neutral mechanisms
 
 + switch to a scrolling view or implement scrolling via the scrollbars
+
++ fill in the background of channel containers with grey [test with gold]
+
++ for the size of the content area -
+  1) if max < 0, use a min’ of min - gutter and a size of (2 * gutter) + max - min
+  2) if max > 0, min < gutter, use a min’ of min - gutter and a size of (2 * gutter) + max - min
+  3) if min > gutter, use a min’ of 0 and a size of max + gutter
+
+
+Johnty -
+Hi Norm,
+
+Just to let you know the updated code works. Just some minor notes:
+
+- in M+MCommon.h I changed 
+
+#if defined( MAC_OR_LINUX_)
+#include yarp logger...
+
+to
+
+#if MAC_OR_LINUX_
+
+as the former still causes the include in windows.
+
+- ScannerThread and ChannelManagerApp.cpp files still had the #include for yarp logger; I've windows-commented them out using #if ! mac_or_linux_, but we can probably take it out completely? (since I see it's included in M+MCommon.h and has the appropriate check in place already)
+
+
+
+
