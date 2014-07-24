@@ -118,7 +118,7 @@ bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName,
                     
                     if (request.send(*newChannel, &response))
                     {
-                        // Check that we got a successful self-registration!
+                        // Check that we got a successful ping!
                         if (1 == response.count())
                         {
                             yarp::os::Value theValue = response.element(0);

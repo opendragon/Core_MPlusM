@@ -209,6 +209,7 @@ namespace MplusM
             } // requestsDescription
             
             /*! @brief Send a 'ping' on behalf of a service.
+             @param channelName The service channel to report with the ping.
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function. */
             static bool SendPingForChannel(const yarp::os::ConstString & channelName,
