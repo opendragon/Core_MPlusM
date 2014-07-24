@@ -478,13 +478,15 @@ void MplusM::Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
 #else // ! MAC_OR_LINUX_
 # if (defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE))
-    yarp::os::signal(SIGABRT, theHandler);
+    //yarp::os::signal(SIGABRT, theHandler);
+	signal(SIGABRT, theHandler); //windows doesn't like the yarp signals for some reason
 # endif // defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
 # if (defined(SIGHUP) && (SIGHUP != STANDARD_SIGNAL_TO_USE))
     yarp::os::signal(SIGHUP, theHandler);
 # endif // defined(SIGHUP) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
 # if (defined(SIGINT) && (SIGINT != STANDARD_SIGNAL_TO_USE))
-    yarp::os::signal(SIGINT, theHandler);
+    //yarp::os::signal(SIGINT, theHandler);
+	signal(SIGINT, theHandler); //windows doesn't like the yarp signals for some reason
 # endif // defined(SIGINT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
 # if (defined(SIGQUIT) && (SIGQUIT != STANDARD_SIGNAL_TO_USE))
     yarp::os::signal(SIGQUIT, theHandler);
