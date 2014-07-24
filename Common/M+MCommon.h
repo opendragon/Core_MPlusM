@@ -71,7 +71,7 @@
 # include <yarp/os/all.h>
 # if MAC_OR_LINUX_
 #  include <yarp/os/impl/Logger.h>
-# endif // defined(MAC_OR_LINUX_)
+# endif // MAC_OR_LINUX_
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

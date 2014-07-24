@@ -103,7 +103,7 @@ int main(int     argc,
 #endif // CheckNetworkWorks_
         {
             yarp::os::Network                   yarp; // This is necessary to establish any
-                                                      // connection to the YARP infrastructure
+                                                      // connections to the YARP infrastructure
             MplusM::Registry::RegistryService * stuff = NULL;
             
             MplusM::Common::Initialize(*argv);

@@ -63,7 +63,7 @@
 #endif // defined(__APPLE__)
 
 #if (! MAC_OR_LINUX_)
-#include <Windows.h>
+# include <Windows.h>
 #endif //! MAC_OR_LINUX_
 
 #if defined(__APPLE__)

@@ -187,8 +187,8 @@ int main(int     argc,
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP
-                                        // infrastructure
+            yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                        // YARP infrastructure
             yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
             
             MplusM::Common::Initialize(*argv);
