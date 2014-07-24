@@ -210,7 +210,7 @@ BaseClient::BaseClient(const char * baseChannelName) :
 BaseClient::~BaseClient(void)
 {
     OD_LOG_OBJENTER(); //####
-    disconnectFromService();
+    disconnectFromService(NULL, NULL);
     ClientChannel::RelinquishChannel(_channel);
     _channel = NULL;
     delete _baseChannelName;
@@ -221,10 +221,12 @@ BaseClient::~BaseClient(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
+void BaseClient::addAssociatedChannel(AdapterChannel * aChannel,
+                                      CheckFunction    checker,
+                                      void *           checkStuff)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("aChannel = ", aChannel); //####
+    OD_LOG_P2("aChannel = ", aChannel, "checkStuff = ", checkStuff); //####
     try
     {
         yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "associate_/"
@@ -239,7 +241,7 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
                 if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME,
-                                              false))
+                                              false, checker, checkStuff))
                 {
                     yarp::os::Bottle parameters;
                     
@@ -260,17 +262,18 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
                     }
 #if defined(MpM_DoExplicitDisconnect)
                     if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
-                                                       STANDARD_WAIT_TIME))
+                                                       STANDARD_WAIT_TIME, checker, checkStuff))
                     {
                         OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))"); //####
+                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, checker, " //####
+                               "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
-                           "STANDARD_WAIT_TIME, false))"); //####
+                           "STANDARD_WAIT_TIME, false, checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -291,9 +294,11 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel)
     OD_LOG_OBJEXIT(); //####
 } // BaseClient::addAssociatedInputChannel
 
-bool BaseClient::connectToService(void)
+bool BaseClient::connectToService(CheckFunction checker,
+                                  void *        checkStuff)
 {
     OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
     if (! _connected)
     {
         try
@@ -316,14 +321,15 @@ bool BaseClient::connectToService(void)
                 if (_channel->openWithRetries(_channelName, STANDARD_WAIT_TIME))
                 {
                     if (NetworkConnectWithRetries(_channelName, _serviceChannelName,
-                                                  STANDARD_WAIT_TIME, false))
+                                                  STANDARD_WAIT_TIME, false, checker, checkStuff))
                     {
                         _connected = true;
                     }
                     else
                     {
                         OD_LOG("! (NetworkConnectWithRetries(_channelName, " //####
-                               "_serviceChannelName, STANDARD_WAIT_TIME, false))"); //####
+                               "_serviceChannelName, STANDARD_WAIT_TIME, false, checker, " //####
+                               "checkStuff))"); //####
                     }
                 }
                 else
@@ -347,43 +353,49 @@ bool BaseClient::connectToService(void)
     return _connected;
 } // BaseClient::connectToService
 
-bool BaseClient::disconnectFromService(void)
+bool BaseClient::disconnectFromService(CheckFunction checker,
+                                       void *        checkStuff)
 {
     OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
     if (_connected)
     {
         yarp::os::Bottle parameters;
         
-        reconnectIfDisconnected();
+        reconnectIfDisconnected(checker, checkStuff);
         if (! send(MpM_DETACH_REQUEST, parameters))
         {
             OD_LOG("! (send(MpM_DETACH_REQUEST, parameters))"); //####
         }
-        if (NetworkDisconnectWithRetries(_channelName, _serviceChannelName, STANDARD_WAIT_TIME))
+        if (NetworkDisconnectWithRetries(_channelName, _serviceChannelName, STANDARD_WAIT_TIME,
+                                         checker, checkStuff))
         {
             _connected = false;
         }
         else
         {
             OD_LOG("! (NetworkDisconnectWithRetries(_channelName, _serviceChannelName, " //####
-                   "STANDARD_WAIT_TIME))"); //####
+                   "STANDARD_WAIT_TIME, checker, checkStuff))"); //####
         }
     }
     OD_LOG_OBJEXIT_B(! _connected); //####
     return ! _connected;
 } // BaseClient::disconnectFromService
 
-bool BaseClient::findService(const char * criteria,
-                             const bool   allowOnlyOneMatch)
+bool BaseClient::findService(const char *  criteria,
+                             const bool    allowOnlyOneMatch,
+                             CheckFunction checker,
+                             void *        checkStuff)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1("criteria = ", criteria); //####
     OD_LOG_B1("allowOnlyOneMatch = ", allowOnlyOneMatch); //####
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
     bool result = false;
     
     try
     {
-        yarp::os::Bottle candidates(FindMatchingServices(criteria));
+        yarp::os::Bottle candidates(FindMatchingServices(criteria, false, checker, checkStuff));
         
         OD_LOG_S1s("candidates <- ", candidates.toString()); //####
         if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())
@@ -441,27 +453,30 @@ bool BaseClient::findService(const char * criteria,
     return result;
 } // BaseClient::findService
 
-void BaseClient::reconnectIfDisconnected(void)
+void BaseClient::reconnectIfDisconnected(CheckFunction checker,
+                                         void *        checkStuff)
 {
     OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
     if (_channel)
     {
         if (0 >= _channel->getOutputCount())
         {
-            if (! connectToService())
+            if (! connectToService(checker, checkStuff))
             {
-                OD_LOG("(! connectToService())"); //####
+                OD_LOG("(! connectToService(checker, checkStuff))"); //####
             }
         }
     }
-    else if (! connectToService())
+    else if (! connectToService(checker, checkStuff))
     {
-        OD_LOG("(! connectToService())"); //####
+        OD_LOG("(! connectToService(checker, checkStuff))"); //####
     }
     OD_LOG_OBJEXIT(); //####
 } // BaseClient::reconnectIfDisconnected
 
-void BaseClient::removeAssociatedChannels(void)
+void BaseClient::removeAssociatedChannels(CheckFunction checker,
+                                          void *        checkStuff)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -478,7 +493,7 @@ void BaseClient::removeAssociatedChannels(void)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
                 if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME,
-                                              false))
+                                              false, checker, checkStuff))
                 {
                     yarp::os::Bottle parameters;
                     
@@ -497,17 +512,18 @@ void BaseClient::removeAssociatedChannels(void)
                     }
 #if defined(MpM_DoExplicitDisconnect)
                     if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
-                                                       STANDARD_WAIT_TIME))
+                                                       STANDARD_WAIT_TIME, checker, checkStuff))
                     {
                         OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))"); //####
+                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, checker, " //####
+                               "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
-                           "STANDARD_WAIT_TIME, false))"); //####
+                           "STANDARD_WAIT_TIME, false, checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -585,12 +601,15 @@ void BaseClient::setReporter(ChannelStatusReporter & reporter,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-yarp::os::Bottle Common::FindMatchingServices(const char * criteria,
-                                              const bool   getNames)
+yarp::os::Bottle Common::FindMatchingServices(const char *  criteria,
+                                              const bool    getNames,
+                                              CheckFunction checker,
+                                              void *        checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("criteria = ", criteria); //####
     OD_LOG_B1("getNames = ", getNames); //####
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
     yarp::os::Bottle result;
     
     try
@@ -607,7 +626,7 @@ yarp::os::Bottle Common::FindMatchingServices(const char * criteria,
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
                 if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME,
-                                              false))
+                                              false, checker, checkStuff))
                 {
                     yarp::os::Bottle parameters;
                     
@@ -627,17 +646,18 @@ yarp::os::Bottle Common::FindMatchingServices(const char * criteria,
                     }
 #if defined(MpM_DoExplicitDisconnect)
                     if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
-                                                       STANDARD_WAIT_TIME))
+                                                       STANDARD_WAIT_TIME, checker, checkStuff))
                     {
                         OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))"); //####
+                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, checker, " //####
+                               "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
-                           "STANDARD_WAIT_TIME, false))"); //####
+                           "STANDARD_WAIT_TIME, false, checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -657,4 +677,12 @@ yarp::os::Bottle Common::FindMatchingServices(const char * criteria,
     }
     OD_LOG_EXIT(); //####
     return result;
+} // MplusM::FindMatchingServices
+
+yarp::os::Bottle MplusM::Common::FindMatchingServices(const yarp::os::ConstString & criteria,
+                                                      const bool                    getNames,
+                                                      CheckFunction                 checker,
+                                                      void *                        checkStuff)
+{
+    return FindMatchingServices(criteria.c_str(), getNames, checker, checkStuff);
 } // MplusM::FindMatchingServices

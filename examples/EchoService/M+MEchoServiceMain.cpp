@@ -129,7 +129,7 @@ int main(int     argc,
                     yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
                     OD_LOG_S1s("channelName = ", channelName); //####
-                    if (MplusM::Common::RegisterLocalService(channelName))
+                    if (MplusM::Common::RegisterLocalService(channelName, NULL, NULL))
                     {
                         MplusM::StartRunning();
                         MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
@@ -142,12 +142,13 @@ int main(int     argc,
                             yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
                         }
-                        MplusM::Common::UnregisterLocalService(channelName);
+                        MplusM::Common::UnregisterLocalService(channelName, NULL, NULL);
                         stuff->stop();
                     }
                     else
                     {
-                        OD_LOG("! (MplusM::Common::::RegisterLocalService(channelName))"); //####
+                        OD_LOG("! (MplusM::Common::::RegisterLocalService(channelName, " //####
+                               "NULL, NULL))"); //####
                     }
                 }
                 else

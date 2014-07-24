@@ -153,8 +153,8 @@ namespace MplusM
          @param stuff The source of data that is to be bound.
          @returns The SQLite error from the bind operation. */
         typedef int (*BindFunction)
-	    (sqlite3_stmt * statement,
-	    const void *    stuff);
+            (sqlite3_stmt * statement,
+            const void *    stuff);
         
         /*! @brief The data needed to add a channel-associates entry into the database. */
         struct ChannelAssociateData
@@ -2595,7 +2595,8 @@ bool RegistryService::start(void)
                     if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
                         if (Common::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
-                                                              STANDARD_WAIT_TIME, false))
+                                                              STANDARD_WAIT_TIME, false, NULL,
+                                                              NULL))
                         {
                             yarp::os::Bottle        parameters(MpM_REGISTRY_CHANNEL_NAME);
                             Common::ServiceRequest  request(MpM_REGISTER_REQUEST, parameters);
@@ -2634,7 +2635,8 @@ bool RegistryService::start(void)
                         else
                         {
                             OD_LOG("! (Common::NetworkConnectWithRetries(aName, " //####
-                                   "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false))"); //####
+                                   "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, " //####
+                                   "NULL, NULL))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         newChannel->close();

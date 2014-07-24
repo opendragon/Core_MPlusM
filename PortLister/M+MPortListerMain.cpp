@@ -74,12 +74,17 @@ using std::endl;
 
 /*! @brief Report the connections for a given port.
  @param flavour The format for the output.
- @param portName The port to be inspected. */
+ @param portName The port to be inspected.
+ @param checker A function that provides for early exit from loops.
+ @param checkStuff The private data for the early exit function. */
 static void reportConnections(const MplusM::Common::OutputFlavour flavour,
-                              const yarp::os::ConstString &       portName)
+                              const yarp::os::ConstString &       portName,
+                              MplusM::Common::CheckFunction       checker,
+                              void *                              checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("portName = ", portName); //####
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
     bool                          sawInputs = false;
     bool                          sawOutputs = false;
     MplusM::Common::ChannelVector inputs;
@@ -88,7 +93,8 @@ static void reportConnections(const MplusM::Common::OutputFlavour flavour,
     yarp::os::ConstString         outputsAsString;
     
     MplusM::Utilities::GatherPortConnections(portName, inputs, outputs,
-                                             MplusM::Utilities::kInputAndOutputBoth, false);
+                                             MplusM::Utilities::kInputAndOutputBoth, false, checker,
+                                             checkStuff);
     for (MplusM::Common::ChannelVector::const_iterator walker(inputs.begin());
          inputs.end() != walker; ++walker)
     {
@@ -450,7 +456,7 @@ static void reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
         yarp::os::ConstString request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
         
         request += aDescriptor._portName;
-        yarp::os::Bottle matches(MplusM::Common::FindMatchingServices(request, true));
+        yarp::os::Bottle matches(MplusM::Common::FindMatchingServices(request, true, NULL, NULL));
         
         OD_LOG_S1s("matches <- ", matches.toString()); //####
         if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
@@ -564,7 +570,7 @@ static void reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
                 
         }
         MplusM::Utilities::GetAssociatedPorts(aDescriptor._portName, associates, STANDARD_WAIT_TIME,
-                                              true);
+                                              true, NULL, NULL);
     }
     else
     {
@@ -628,7 +634,7 @@ static void reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
             break;
             
     }
-    reportConnections(flavour, aDescriptor._portName);
+    reportConnections(flavour, aDescriptor._portName, NULL, NULL);
     switch (flavour)
     {
 	    case MplusM::Common::kOutputFlavourTabs :

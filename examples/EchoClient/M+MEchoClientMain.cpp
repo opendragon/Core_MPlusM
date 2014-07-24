@@ -111,12 +111,12 @@ int main(int     argc,
                 {
                     MplusM::StartRunning();
                     MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
-                    if (stuff->findService("details Echo*"))
+                    if (stuff->findService("details Echo*", false, NULL, NULL))
                     {
 #if defined(MpM_ReportOnConnections)
                         stuff->setReporter(ChannelStatusReporter::gReporter, true);
 #endif // defined(MpM_ReportOnConnections)
-                        if (stuff->connectToService())
+                        if (stuff->connectToService(NULL, NULL))
                         {
                             for ( ; MplusM::IsRunning(); )
                             {
@@ -147,9 +147,9 @@ int main(int     argc,
                                 }
                                 
                             }
-                            if (! stuff->disconnectFromService())
+                            if (! stuff->disconnectFromService(NULL, NULL))
                             {
-                                OD_LOG("(! stuff->disconnectFromService())"); //####
+                                OD_LOG("(! stuff->disconnectFromService(NULL, NULL))"); //####
 #if MAC_OR_LINUX_
                                 MplusM::Common::GetLogger().fail("Problem disconnecting from the "
                                                                  "service.");
@@ -158,7 +158,7 @@ int main(int     argc,
                         }
                         else
                         {
-                            OD_LOG("! (stuff->connectToService())"); //####
+                            OD_LOG("! (stuff->connectToService(NULL, NULL))"); //####
 #if MAC_OR_LINUX_
                             MplusM::Common::GetLogger().fail("Problem connecting to the service.");
 #endif // MAC_OR_LINUX_
@@ -166,7 +166,8 @@ int main(int     argc,
                     }
                     else
                     {
-                        OD_LOG("! (stuff->findService(\"details Echo*\"))"); //####
+                        OD_LOG("! (stuff->findService(\"details Echo*\", false, NULL, " //####
+                               "NULL))"); //####
 #if MAC_OR_LINUX_
                         MplusM::Common::GetLogger().fail("Problem finding the service.");
 #endif // MAC_OR_LINUX_

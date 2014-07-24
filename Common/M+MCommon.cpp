@@ -234,6 +234,12 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
     return result;
 } // MplusM::Common::GetRandomChannelName
 
+yarp::os::ConstString MplusM::Common::GetRandomChannelName(const yarp::os::ConstString &
+                                                                                        channelRoot)
+{
+    return GetRandomChannelName(channelRoot.c_str());
+} // MplusM::Common::GetRandomChannelName
+
 void MplusM::Common::Initialize(const char * progName)
 {
 #if (! defined(MpM_ChattyStart))
@@ -279,7 +285,9 @@ void MplusM::Common::Initialize(const char * progName)
 bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
                                                const yarp::os::ConstString & destinationName,
                                                const double                  timeToWait,
-                                               const bool                    isUDP)
+                                               const bool                    isUDP,
+                                               CheckFunction                 checker,
+                                               void *                        checkStuff)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
 # if MAC_OR_LINUX_
@@ -290,6 +298,7 @@ bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sou
     OD_LOG_S2s("sourceName = ", sourceName, "destinationName = ", destinationName); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     OD_LOG_B1("isUDP = ", isUDP); //####
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
     bool result = false;
     
     if (yarp::os::Network::exists(sourceName) && yarp::os::Network::exists(destinationName))
@@ -317,6 +326,11 @@ bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sou
             }
             do
             {
+                if (checker && checker(checkStuff))
+                {
+                    break;
+                }
+                
                 OD_LOG("about to connect"); //####
 #if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::connect(sourceName, destinationName, carrier, false);
@@ -356,7 +370,9 @@ bool MplusM::Common::NetworkConnectWithRetries(const yarp::os::ConstString & sou
 
 bool MplusM::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
                                                   const yarp::os::ConstString & destinationName,
-                                                  const double                  timeToWait)
+                                                  const double                  timeToWait,
+                                                  CheckFunction                 checker,
+                                                  void *                        checkStuff)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
 # if MAC_OR_LINUX_
@@ -366,6 +382,7 @@ bool MplusM::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString & 
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("sourceName = ", sourceName, "destinationName = ", destinationName); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
     bool result = false;
     
     if (yarp::os::Network::exists(sourceName) && yarp::os::Network::exists(destinationName))
@@ -384,6 +401,11 @@ bool MplusM::Common::NetworkDisconnectWithRetries(const yarp::os::ConstString & 
             
             do
             {
+                if (checker && checker(checkStuff))
+                {
+                    break;
+                }
+                
                 OD_LOG("about to disconnect"); //####
 #if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::disconnect(sourceName, destinationName, false);

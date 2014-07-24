@@ -429,13 +429,17 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
 bool MplusM::Utilities::AddConnection(const yarp::os::ConstString & fromPortName,
                                       const yarp::os::ConstString & toPortName,
                                       const double                  timeToWait,
-                                      const bool                    isUDP)
+                                      const bool                    isUDP,
+                                      Common::CheckFunction         checker,
+                                      void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("fromPortName = ", fromPortName, "toPortName = ", toPortName); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     OD_LOG_B1("isUDP = ", isUDP); //####
-    bool result = NetworkConnectWithRetries(fromPortName, toPortName, timeToWait, isUDP);
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
+    bool result = NetworkConnectWithRetries(fromPortName, toPortName, timeToWait, isUDP, checker,
+                                            checkStuff);
     
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -460,13 +464,15 @@ bool MplusM::Utilities::CheckForRegistryService(const PortVector & ports)
 } // MplusM::Utilities::CheckForRegistryService
 
 void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
-                                              ChannelVector &               inputs,
-                                              ChannelVector &               outputs,
+                                              Common::ChannelVector &       inputs,
+                                              Common::ChannelVector &       outputs,
                                               const InputOutputFlag         which,
-                                              const bool                    quiet)
+                                              const bool                    quiet,
+                                              Common::CheckFunction         checker,
+                                              void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("inputs = ", &inputs, "outputs = ", &outputs); //####
+    OD_LOG_P3("inputs = ", &inputs, "outputs = ", &outputs, "checkStuff = ", checkStuff); //####
     OD_LOG_L1("which = ", static_cast<int> (which)); //####
     OD_LOG_B1("quiet = ", quiet); //####
     yarp::os::Contact address = yarp::os::Network::queryName(portName.c_str());
@@ -482,6 +488,7 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
             // for an 'output' port that is connected to another 'output' port. 'yarp ping /port'
             // will hang as well.
             yarp::os::OutputProtocol * out = yarp::os::impl::Carriers::connect(address);
+            
             if (out)
             {
                 yarp::os::Route rr(kMagicName, portName.c_str(), "text_ack");
@@ -500,6 +507,11 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
                     reader.reset(is, NULL, rr, 0, true);
                     for (bool done = false; ! done; )
                     {
+                        if (checker && checker(checkStuff))
+                        {
+                            break;
+                        }
+                            
                         resp.read(reader);
                         yarp::os::ConstString checkString(resp.get(0).asString());
                         
@@ -554,12 +566,15 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
 bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
                                            PortAssociation &             associates,
                                            const double                  timeToWait,
-                                           const bool                    quiet)
+                                           const bool                    quiet,
+                                           Common::CheckFunction         checker,
+                                           void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("portName = ", portName); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     OD_LOG_B1("quiet = ", quiet); //####
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
     bool result = false;
     
     associates._inputs.clear();
@@ -578,7 +593,8 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, timeToWait))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait, false))
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait, false,
+                                              checker, checkStuff))
                 {
                     yarp::os::Bottle parameters;
                     
@@ -597,17 +613,18 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
                     }
 #if defined(MpM_DoExplicitDisconnect)
                     if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
-                                                       timeToWait))
+                                                       timeToWait, checker, checkStuff))
                     {
                         OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_CHANNEL_NAME, timeToWait))"); //####
+                               "MpM_REGISTRY_CHANNEL_NAME, timeToWait, checker, " //####
+                               "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
-                           "timeToWait, false))"); //####
+                           "timeToWait, false, checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -673,11 +690,13 @@ void MplusM::Utilities::GetDetectedPortList(PortVector & ports,
 bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString &
                                                                                 serviceChannelName,
                                                         ServiceDescriptor &           descriptor,
-                                                        const double                  timeToWait)
+                                                        const double                  timeToWait,
+                                                        Common::CheckFunction         checker,
+                                                        void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
-    OD_LOG_P1("descriptor = ", &descriptor); //####
+    OD_LOG_P2("descriptor = ", &descriptor, "checkStuff = ", checkStuff); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     bool                  result = false;
     yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "servicelister_/"
@@ -688,7 +707,8 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
     {
         if (newChannel->openWithRetries(aName, timeToWait))
         {
-            if (NetworkConnectWithRetries(aName, serviceChannelName, timeToWait, false))
+            if (NetworkConnectWithRetries(aName, serviceChannelName, timeToWait, false, checker,
+                                          checkStuff))
             {
                 yarp::os::Bottle parameters1;
                 ServiceRequest   request1(MpM_NAME_REQUEST, parameters1);
@@ -838,17 +858,18 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                     }
                 }
 #if defined(MpM_DoExplicitDisconnect)
-                if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait))
+                if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait, checker,
+                                                   checkStuff))
                 {
                     OD_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
-                           "timeToWait))"); //####
+                           "timeToWait, checker, checkStuff))"); //####
                 }
 #endif // defined(MpM_DoExplicitDisconnect)
             }
             else
             {
                 OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, " //####
-                       "false))"); //####
+                       "false, checker, checkStuff))"); //####
             }
 #if defined(MpM_DoExplicitClose)
             newChannel->close();
@@ -899,13 +920,16 @@ MplusM::Utilities::PortKind MplusM::Utilities::GetPortKind(const yarp::os::Const
     return result;
 } // MplusM::Utilities::GetPortKind
 
-void MplusM::Utilities::GetServiceNames(StringVector & services,
-                                        const bool     quiet)
+void MplusM::Utilities::GetServiceNames(StringVector &        services,
+                                        const bool            quiet,
+                                        Common::CheckFunction checker,
+                                        void *                checkStuff)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("services = ", &services); //####
+    OD_LOG_P2("services = ", &services, "checkStuff = ", checkStuff); //####
     OD_LOG_B1("quiet = ", quiet); //####
-    yarp::os::Bottle matches(FindMatchingServices(MpM_REQREP_DICT_REQUEST_KEY ":*"));
+    yarp::os::Bottle matches(FindMatchingServices(MpM_REQREP_DICT_REQUEST_KEY ":*", false,
+                                                  checker, checkStuff));
     
     services.clear();
     if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
@@ -1019,11 +1043,15 @@ Common::ServiceKind MplusM::Utilities::MapStringToServiceKind(const yarp::os::Co
 } // MplusM::Utilities::MapStringToServiceKind
 
 bool MplusM::Utilities::RemoveConnection(const yarp::os::ConstString & fromPortName,
-                                         const yarp::os::ConstString & toPortName)
+                                         const yarp::os::ConstString & toPortName,
+                                         Common::CheckFunction         checker,
+                                         void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("fromPortName = ", fromPortName, "toPortName = ", toPortName); //####
-    bool result = NetworkDisconnectWithRetries(fromPortName, toPortName, STANDARD_WAIT_TIME);
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
+    bool result = NetworkDisconnectWithRetries(fromPortName, toPortName, STANDARD_WAIT_TIME,
+                                               checker, checkStuff);
     
     OD_LOG_EXIT_B(result); //####
     return result;

@@ -100,7 +100,7 @@ void PingThread::run(void)
         if (_pingTime <= now)
         {
             // Send a ping!
-            MplusM::Common::BaseService::SendPingForChannel(_channelName);
+            MplusM::Common::BaseService::SendPingForChannel(_channelName, NULL, NULL);
             _pingTime = now + PING_INTERVAL;
         }
         yarp::os::Time::delay(PING_INTERVAL / 10.0);

@@ -326,7 +326,8 @@ int main(int     argc,
                     requestName = NULL;
                 }
             }
-            yarp::os::Bottle matches(MplusM::Common::FindMatchingServices(channelNameRequest));
+            yarp::os::Bottle matches(MplusM::Common::FindMatchingServices(channelNameRequest,
+                                                                          false, NULL, NULL));
             
             if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
@@ -383,7 +384,8 @@ int main(int     argc,
                                         
                                         if (MplusM::Common::NetworkConnectWithRetries(aName, aMatch,
                                                                               STANDARD_WAIT_TIME,
-                                                                                      false))
+                                                                                      false, NULL,
+                                                                                      NULL))
                                         {
                                             MplusM::Common::ServiceResponse response;
                                             
@@ -459,11 +461,13 @@ int main(int     argc,
 #if defined(MpM_DoExplicitDisconnect)
                                         if (! MplusM::Common::NetworkDisconnectWithRetries(aName,
                                                                                            aMatch,
-                                                                               STANDARD_WAIT_TIME))
+                                                                               STANDARD_WAIT_TIME,
+                                                                                           NULL,
+                                                                                           NULL))
                                             {
                                                 OD_LOG("(! MplusM::Common::NetworkDisconnect" //####
                                                        "WithRetries(aName, aMatch, " //####
-                                                       "STANDARD_WAIT_TIME))"); //####
+                                                       "STANDARD_WAIT_TIME, NULL, NULL))"); //####
                                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                                         }
@@ -471,7 +475,8 @@ int main(int     argc,
                                         {
                                             OD_LOG("! (MplusM::Common::NetworkConnect" //####
                                                    "WithRetries(aName, aMatch, " //####
-                                                   "STANDARD_WAIT_TIME, false))"); //####
+                                                   "STANDARD_WAIT_TIME, false, NULL, " //####
+                                                   "NULL))"); //####
                                         }
                                     }
                                     if (MplusM::Common::kOutputFlavourJSON == flavour)

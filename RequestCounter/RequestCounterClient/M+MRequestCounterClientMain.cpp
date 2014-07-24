@@ -172,9 +172,9 @@ int main(int     argc,
                             break;
                         }
                         
-                        if (stuff->findService("name:RequestCounter"))
+                        if (stuff->findService("name:RequestCounter", false, NULL, NULL))
                         {
-                            if (stuff->connectToService())
+                            if (stuff->connectToService(NULL, NULL))
                             {
                                 if (stuff->resetServiceCounters())
                                 {
@@ -227,9 +227,9 @@ int main(int     argc,
                                                                      "service counters.");
 #endif // MAC_OR_LINUX_
                                 }
-                                if (! stuff->disconnectFromService())
+                                if (! stuff->disconnectFromService(NULL, NULL))
                                 {
-                                    OD_LOG("(! stuff->disconnectFromService())"); //####
+                                    OD_LOG("(! stuff->disconnectFromService(NULL, NULL))"); //####
 #if MAC_OR_LINUX_
                                     MplusM::Common::GetLogger().fail("Problem disconnecting from "
                                                                      "the service.");
@@ -238,7 +238,7 @@ int main(int     argc,
                             }
                             else
                             {
-                                OD_LOG("! (stuff->connectToService())"); //####
+                                OD_LOG("! (stuff->connectToService(NULL, NULL))"); //####
 #if MAC_OR_LINUX_
                                 MplusM::Common::GetLogger().fail("Problem connecting to the "
                                                                  "service.");
@@ -247,7 +247,8 @@ int main(int     argc,
                         }
                         else
                         {
-                            OD_LOG("! (stuff->findService(\"name:RequestCounter\"))"); //####
+                            OD_LOG("! (stuff->findService(\"name:RequestCounter\", false, " //####
+                                   "NULL, NULL))"); //####
 #if MAC_OR_LINUX_
                             MplusM::Common::GetLogger().fail("Problem locating the service.");
 #endif // MAC_OR_LINUX_

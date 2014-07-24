@@ -124,7 +124,7 @@ int main(int     argc,
             bool                         reported = false;
             MplusM::Common::StringVector services;
             
-            MplusM::Utilities::GetServiceNames(services);
+            MplusM::Utilities::GetServiceNames(services, false, NULL, NULL);
             if (MplusM::Common::kOutputFlavourJSON == flavour)
             {
                 cout << "[ ";
@@ -135,7 +135,8 @@ int main(int     argc,
                 MplusM::Utilities::ServiceDescriptor descriptor;
                 
                 if (MplusM::Utilities::GetNameAndDescriptionForService(*walker, descriptor,
-                                                                       STANDARD_WAIT_TIME))
+                                                                       STANDARD_WAIT_TIME, NULL,
+                                                                       NULL))
                 {
                     bool                  sawInputs = false;
                     bool                  sawOutputs = false;

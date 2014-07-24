@@ -278,6 +278,12 @@ namespace MplusM
         /*! @brief A sequence of strings. */
         typedef std::vector<yarp::os::ConstString> StringVector;
         
+        /*! @brief A function that checks for early exit from loops.
+         @param stuff Private data for the function.
+         @returns @c true if the caller should exit any loops and @c false otherwise. */
+        typedef bool (*CheckFunction)
+            (void * stuff);
+        
         /*! @brief Dump out a description of the provided connection information to the log.
          @param tag A unique string used to identify the call point for the output.
          @param aContact The connection information to be reported. */
@@ -296,10 +302,7 @@ namespace MplusM
         
         /*! @brief Generate a random channel name.
          @returns A randomly-generated channel name. */
-        inline yarp::os::ConstString GetRandomChannelName(const yarp::os::ConstString & channelRoot)
-        {
-            return GetRandomChannelName(channelRoot.c_str());
-        } // GetRandomChannelName
+        yarp::os::ConstString GetRandomChannelName(const yarp::os::ConstString & channelRoot);
         
         /*! @brief Perform initialization of internal resources.
          @param progName The name of the executing program.
@@ -312,20 +315,28 @@ namespace MplusM
          @param destinationName The name of the destination channel.
          @param timeToWait The number of seconds allowed before a failure is considered.
          @param isUDP @c true if the connection is to be UDP and @c false otherwise.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
          @returns @c true if the connection was established and @ false otherwise. */
         bool NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
                                        const yarp::os::ConstString & destinationName,
                                        const double                  timeToWait,
-                                       const bool                    isUDP);
+                                       const bool                    isUDP,
+                                       CheckFunction                 checker,
+                                       void *                        checkStuff);
         
         /*! @brief Disconnect two channels, using a backoff strategy with retries.
          @param sourceName The name of the source channel.
          @param destinationName The name of the destination channel.
          @param timeToWait The number of seconds allowed before a failure is considered.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
          @returns @c true if the connection was removed and @ false otherwise. */
         bool NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
                                           const yarp::os::ConstString & destinationName,
-                                          const double                  timeToWait);
+                                          const double                  timeToWait,
+                                          CheckFunction                 checker,
+                                          void *                        checkStuff);
         
         /*! @brief Connect the standard signals to a handler.
          @param theHandler The new handler for the signals. */

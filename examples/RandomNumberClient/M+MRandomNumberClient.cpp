@@ -102,7 +102,7 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
         yarp::os::Bottle         parameters;
         Common::ServiceResponse response;
         
-        reconnectIfDisconnected();
+        reconnectIfDisconnected(NULL, NULL);
         if (send(MpM_RANDOM_REQUEST, parameters, &response))
         {
             if (1 == response.count())
@@ -155,7 +155,7 @@ bool RandomNumberClient::getRandomNumbers(const int              howMany,
             Common::ServiceResponse response;
             
             parameters.addInt(howMany);
-            reconnectIfDisconnected();
+            reconnectIfDisconnected(NULL, NULL);
             if (send(MpM_RANDOM_REQUEST, parameters, &response))
             {
                 if (howMany == response.count())

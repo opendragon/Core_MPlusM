@@ -74,29 +74,46 @@ namespace MplusM
             virtual ~BaseClient(void);
             
             /*! @brief Record an associated channel.
-             @param aChannel The channel to remember. */
-            void addAssociatedChannel(AdapterChannel * aChannel);
+             @param aChannel The channel to remember.
+             @param checker A function that provides for early exit from loops.
+             @param checkStuff The private data for the early exit function. */
+            void addAssociatedChannel(AdapterChannel * aChannel,
+                                      CheckFunction    checker,
+                                      void *           checkStuff);
             
             /*! @brief Create a connection with the service.
+             @param checker A function that provides for early exit from loops.
+             @param checkStuff The private data for the early exit function.
              @returns @c true if the client is connected to the service and @c false otherwise. */
-            bool connectToService(void);
+            bool connectToService(CheckFunction checker,
+                                  void *        checkStuff);
             
             /*! @brief Disconnect from the service.
+             @param checker A function that provides for early exit from loops.
+             @param checkStuff The private data for the early exit function.
              @returns @c true if the client is no longer connected to the service and @ false
              otherwise. */
-            bool disconnectFromService(void);
+            bool disconnectFromService(CheckFunction checker,
+                                       void *        checkStuff);
             
             /*! @brief Find a matching service and prepare to send requests to it.
              @param criteria The criteria to use to locate the service.
              @param allowOnlyOneMatch @c true if only one match is allowed and @c false if the first
              match will be used.
+             @param checker A function that provides for early exit from loops.
+             @param checkStuff The private data for the early exit function.
              @returns @c true if a matching service was found and @c false if no matching service or
              too many services were found. */
-            bool findService(const char * criteria,
-                             const bool   allowOnlyOneMatch = false);
+            bool findService(const char *  criteria,
+                             const bool    allowOnlyOneMatch,
+                             CheckFunction checker,
+                             void *        checkStuff);
             
-            /*! @brief Remove all the associated channels. */
-            void removeAssociatedChannels(void);
+            /*! @brief Remove all the associated channels.
+             @param checker A function that provides for early exit from loops.
+             @param checkStuff The private data for the early exit function. */
+            void removeAssociatedChannels(CheckFunction checker,
+                                          void *        checkStuff);
             
             /*! @brief Set the channel status reporter for the private channel.
              @param reporter The channel status reporter to be used by the private channel.
@@ -107,8 +124,11 @@ namespace MplusM
             
         protected:
             
-            /*! @brief Re-establish the service connection if it has dropped. */
-            void reconnectIfDisconnected(void);
+            /*! @brief Re-establish the service connection if it has dropped.
+             @param checker A function that provides for early exit from loops.
+             @param checkStuff The private data for the early exit function. */
+            void reconnectIfDisconnected(CheckFunction checker,
+                                         void *        checkStuff);
             
             /*! @brief Send a request to the service associated with the client.
              @param request The name of the request.
@@ -173,21 +193,26 @@ namespace MplusM
          @param criteria The matching conditions.
          @param getNames @c true if service names are to be returned and @c false if service ports
          are to be returned.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
          @returns A (possibly empty) list of matching service ports or service names. */
-        yarp::os::Bottle FindMatchingServices(const char * criteria,
-                                              const bool   getNames = false);
+        yarp::os::Bottle FindMatchingServices(const char *  criteria,
+                                              const bool    getNames,
+                                              CheckFunction checker,
+                                              void *        checkStuff);
         
         /*! @brief Find one or more matching services that are registered with a running Service
          Registry service.
          @param criteria The matching conditions.
          @param getNames @c true if service names are to be returned and @c false if service ports
          are to be returned.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
          @returns A (possibly empty) list of matching service ports or service names. */
-        inline yarp::os::Bottle FindMatchingServices(const yarp::os::ConstString & criteria,
-                                                     const bool                    getNames = false)
-        {
-            return FindMatchingServices(criteria.c_str(), getNames);
-        } // FindMatchingServices
+        yarp::os::Bottle FindMatchingServices(const yarp::os::ConstString & criteria,
+                                              const bool                    getNames,
+                                              CheckFunction                 checker,
+                                              void *                        checkStuff);
         
     } // Common
     

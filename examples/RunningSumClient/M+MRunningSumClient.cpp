@@ -105,7 +105,7 @@ bool RunningSumClient::addToSum(const double value,
         Common::ServiceResponse response;
         
         parameters.addDouble(value);
-        reconnectIfDisconnected();
+        reconnectIfDisconnected(NULL, NULL);
         if (send(MpM_ADD_REQUEST, parameters, &response))
         {
             if (1 == response.count())
@@ -165,7 +165,7 @@ bool RunningSumClient::addToSum(const Common::DoubleVector & values,
         }
         if (1 <= parameters.size())
         {
-            reconnectIfDisconnected();
+            reconnectIfDisconnected(NULL, NULL);
             if (send(MpM_ADD_REQUEST, parameters, &response))
             {
                 if (1 == response.count())
@@ -221,7 +221,7 @@ bool RunningSumClient::resetSum(void)
     {
         yarp::os::Bottle parameters;
         
-        reconnectIfDisconnected();
+        reconnectIfDisconnected(NULL, NULL);
         if (send(MpM_RESET_REQUEST, parameters))
         {
             okSoFar = true;
@@ -249,7 +249,7 @@ bool RunningSumClient::startSum(void)
     {
         yarp::os::Bottle parameters;
         
-        reconnectIfDisconnected();
+        reconnectIfDisconnected(NULL, NULL);
         if (send(MpM_START_REQUEST, parameters))
         {
             okSoFar = true;
@@ -277,7 +277,7 @@ bool RunningSumClient::stopSum(void)
     {
         yarp::os::Bottle parameters;
         
-        reconnectIfDisconnected();
+        reconnectIfDisconnected(NULL, NULL);
         if (send(MpM_STOP_REQUEST, parameters))
         {
             okSoFar = true;

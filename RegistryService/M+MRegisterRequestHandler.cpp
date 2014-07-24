@@ -247,11 +247,12 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
 #if defined(MpM_DoExplicitDisconnect)
                                     if (! Common::NetworkDisconnectWithRetries(outChannel->name(),
                                                                                argAsString,
-                                                                               STANDARD_WAIT_TIME))
+                                                                               STANDARD_WAIT_TIME,
+                                                                               NULL, NULL))
                                     {
                                         OD_LOG("(! Common::NetworkDisconnectWithRetries(" //####
                                                "outChannel->name(), argAsString, " //####
-                                               "STANDARD_WAIT_TIME))"); //####
+                                               "STANDARD_WAIT_TIME, NULL, NULL))"); //####
                                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                                 }

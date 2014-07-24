@@ -198,14 +198,14 @@ static int doTestRequestRegisterService(const char * launchPath,
                         {
                             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (MplusM::Common::RegisterLocalService(channelName))
+                            if (MplusM::Common::RegisterLocalService(channelName, NULL, NULL))
                             {
                                 result = 0;
                             }
                             else
                             {
                                 OD_LOG("! (MplusM::Common::RegisterLocalService(" //####
-                                       "channelName))"); //####
+                                       "channelName, NULL, NULL))"); //####
                             }
                             stuff->stop();
                         }
@@ -303,22 +303,22 @@ static int doTestRequestUnregisterService(const char * launchPath,
                         {
                             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (MplusM::Common::RegisterLocalService(channelName))
+                            if (MplusM::Common::RegisterLocalService(channelName, NULL, NULL))
                             {
-                                if (MplusM::Common::UnregisterLocalService(channelName))
+                                if (MplusM::Common::UnregisterLocalService(channelName, NULL, NULL))
                                 {
                                     result = 0;
                                 }
                                 else
                                 {
                                     OD_LOG("! (MplusM::Common::UnregisterLocalService(" //####
-                                           "channelName))"); //####
+                                           "channelName, NULL, NULL))"); //####
                                 }
                             }
                             else
                             {
                                 OD_LOG("! (MplusM::Common::RegisterLocalService(" //####
-                                       "channelName))"); //####
+                                       "channelName, NULL, NULL))"); //####
                             }
                             stuff->stop();
                         }
@@ -405,14 +405,16 @@ static int doTestRequestSearchService(const char * launchPath,
                                 OD_LOG("(stuff->start())"); //####
                                 yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                                 
-                                if (MplusM::Common::RegisterLocalService(channelName))
+                                if (MplusM::Common::RegisterLocalService(channelName, NULL, NULL))
                                 {
                                     OD_LOG("(MplusM::Common::RegisterLocalService(" //####
-                                           "channelName))"); //####
+                                           "channelName, NULL, NULL))"); //####
                                     // Search for the service that we just registered.
                                     yarp::os::Bottle matches =
                                                     MplusM::Common::FindMatchingServices(argv[1],
-                                                                                     getNamesFlag);
+                                                                                     getNamesFlag,
+                                                                                         NULL,
+                                                                                         NULL);
                                     
                                     OD_LOG_S3("criteria <- ", argv[1], "expected <- ", //####
                                               argv[2], "matches <- ", //####
@@ -539,16 +541,17 @@ static int doTestRequestSearchService(const char * launchPath,
                                                "(MpM_EXPECTED_MATCH_RESPONSE_SIZE == " //####
                                                "matches.size()))"); //####
                                     }
-                                    if (! MplusM::Common::UnregisterLocalService(channelName))
+                                    if (! MplusM::Common::UnregisterLocalService(channelName, NULL,
+                                                                                 NULL))
                                     {
                                         OD_LOG("(! MplusM::Common::UnregisterLocalService(" //####
-                                               "channelName))"); //####
+                                               "channelName, NULL, NULL))"); //####
                                     }
                                 }
                                 else
                                 {
                                     OD_LOG("! (MplusM::Common::RegisterLocalService(" //####
-                                           "channelName))"); //####
+                                           "channelName, NULL, NULL))"); //####
                                 }
                                 stuff->stop();
                             }
