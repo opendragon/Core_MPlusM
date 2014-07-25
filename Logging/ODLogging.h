@@ -132,6 +132,9 @@
 # undef OD_LOG_EXIT_S
 # undef OD_LOG_EXIT_THROW_L
 # undef OD_LOG_EXIT_THROW_S
+# undef OD_LOG_EXIT_THROW_X
+# undef OD_LOG_EXIT_X
+# undef OD_LOG_EXIT_XL
 # undef OD_LOG_INIT
 # undef OD_LOG_IP
 # undef OD_LOG_L1
@@ -161,6 +164,9 @@
 # undef OD_LOG_OBJEXIT_S
 # undef OD_LOG_OBJEXIT_THROW_L
 # undef OD_LOG_OBJEXIT_THROW_S
+# undef OD_LOG_OBJEXIT_THROW_X
+# undef OD_LOG_OBJEXIT_X
+# undef OD_LOG_OBJEXIT_XL
 # undef OD_LOG_P1
 # undef OD_LOG_P2
 # undef OD_LOG_P3
@@ -177,6 +183,14 @@
 # undef OD_LOG_S4s
 # undef OD_LOG_Sp
 # undef OD_LOG_Ti
+# undef OD_LOG_X1
+# undef OD_LOG_X2
+# undef OD_LOG_X3
+# undef OD_LOG_X4
+# undef OD_LOG_XL1
+# undef OD_LOG_XL2
+# undef OD_LOG_XL3
+# undef OD_LOG_XL4
 
 # if defined(OD_ENABLE_LOGGING)
 #  if defined(__OBJC__)
@@ -379,6 +393,21 @@
  @param val The value being thrown by the function. */
 #  define OD_LOG_EXIT_THROW_S(val) \
         ODLogExitThrowS_(__FILE__, OD_FUNC_NAME_, __LINE__, val)
+
+/*! @brief Write a throw/long hexadecimal function exit string to the log.
+ @param val The value being thrown by the function. */
+#  define OD_LOG_EXIT_THROW_X(val) \
+        ODLogExitThrowX_(__FILE__, OD_FUNC_NAME_, __LINE__, val)
+
+/*! @brief Write a long hexadecimal function exit string to the log.
+ @param val The value being returned by the function. */
+#  define OD_LOG_EXIT_X(val) \
+        ODLogExitX_(__FILE__, OD_FUNC_NAME_, __LINE__, val)
+
+/*! @brief Write a long long hexadecimal function exit string to the log.
+ @param val The value being returned by the function. */
+#  define OD_LOG_EXIT_XL(val) \
+        ODLogExitXL_(__FILE__, OD_FUNC_NAME_, __LINE__, val)
 
 /*! @brief Set up the logging state.
  @param prefix The output prefix string to be applied.
@@ -587,6 +616,21 @@
 #  define OD_LOG_OBJEXIT_THROW_S(val) \
         ODLogObjExitThrowS_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
 
+/*! @brief Write a throw/long hexadecimal method exit string to the log.
+ @param val The value being thrown by the method. */
+#  define OD_LOG_OBJEXIT_THROW_X(val) \
+        ODLogObjExitThrowX_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+
+/*! @brief Write a long hexadecimal method exit string to the log.
+ @param val The value being returned by the method. */
+#  define OD_LOG_OBJEXIT_X(val) \
+        ODLogObjExitX_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+
+/*! @brief Write a long long hexadecimal method exit string to the log.
+ @param val The value being returned by the method. */
+#  define OD_LOG_OBJEXIT_XL(val) \
+        ODLogObjExitXL_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+
 /*! @brief Write a pointer value to the log.
  @param text1 The caption for the value to be written.
  @param ptr1 The value to be written. */
@@ -693,6 +737,83 @@
 #   define OD_LOG_Ti(text1, val1)  \
         ODLogTi_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, val1)
 #  endif  // MAC_OR_LINUX_
+
+/*! @brief Write a long hexadecimal value to the log.
+ @param text1 The caption for the value to be written.
+ @param val1 The value to be written. */
+#  define OD_LOG_X1(text1, val1)  \
+        ODLogX1_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, (long) (val1))
+
+/*! @brief Write two long hexadecimal values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written. */
+#  define OD_LOG_X2(text1, val1, text2, val2)  \
+        ODLogX2_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, (long) (val1), text2, (long) (val2))
+
+/*! @brief Write three long hexadecimal values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written.
+ @param text3 The caption for the third value to be written.
+ @param val3 The third value to be written. */
+#  define OD_LOG_X3(text1, val1, text2, val2, text3, val3)  \
+        ODLogX3_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, (long) (val1), text2, (long) (val2),\
+                    text3, (long) (val3))
+
+/*! @brief Write four long hexadecimal values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written.
+ @param text3 The caption for the third value to be written.
+ @param val3 The third value to be written.
+ @param text4 The caption for the fourth value to be written.
+ @param val4 The fourth value to be written. */
+#  define OD_LOG_X4(text1, val1, text2, val2, text3, val3, text4, val4)  \
+        ODLogX4_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, (long) (val1), text2, (long) (val2),\
+                    text3, (long) (val3), text4, (long) (val4))
+
+/*! @brief Write a long long hexadecimal value to the log.
+ @param text1 The caption for the value to be written.
+ @param val1 The value to be written. */
+#  define OD_LOG_XL1(text1, val1)  \
+        ODLogXL1_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, (long int) (val1))
+
+/*! @brief Write two long long hexadecimal values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written. */
+#  define OD_LOG_XL2(text1, val1, text2, val2)  \
+        ODLogXL2_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, (long int) (val1), text2,\
+                    (long int) (val2))
+
+/*! @brief Write three long long hexadecimal values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written.
+ @param text3 The caption for the third value to be written.
+ @param val3 The third value to be written. */
+#  define OD_LOG_XL3(text1, val1, text2, val2, text3, val3)  \
+        ODLogXL3_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, (long int) (val1), text2, \
+                    (long int) (val2), text3, (long int) (val3))
+
+/*! @brief Write four long long hexadecimal values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written.
+ @param text3 The caption for the third value to be written.
+ @param val3 The third value to be written.
+ @param text4 The caption for the fourth value to be written.
+ @param val4 The fourth value to be written. */
+#  define OD_LOG_XL4(text1, val1, text2, val2, text3, val3, text4, val4)  \
+        ODLogXL4_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, (long int) (val1), text2, \
+                    (long int) (val2), text3, (long int) (val3), text4, (long int) (val4))
 
 #  if defined(__cplusplus)
 extern "C"
@@ -1064,6 +1185,36 @@ extern "C"
                           const char * funcName,
                           const int    lineNumber,
                           const char * val);
+    
+    /*! @brief Write a throw/long hexadecimal function exit string to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param val The value being thrown by the function. */
+    void ODLogExitThrowX_(const char *  fileName,
+                          const char *  funcName,
+                          const int     lineNumber,
+                          const int32_t val);
+    
+    /*! @brief Write a long hexadecimal function exit string to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param val The value being returned by the function. */
+    void ODLogExitX_(const char *  fileName,
+                     const char *  funcName,
+                     const int     lineNumber,
+                     const int32_t val);
+    
+    /*! @brief Write a long long hexadecimal function exit string to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param val The value being returned by the function. */
+    void ODLogExitXL_(const char *  fileName,
+                      const char *  funcName,
+                      const int     lineNumber,
+                      const int64_t val);
     
     /*! @brief Set up the logging state.
      @param prefix The output prefix string to be applied.
@@ -1489,6 +1640,42 @@ extern "C"
                              const void * objPtr,
                              const char * val);
     
+    /*! @brief Write a throw/long hexadecimal method exit string to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param objPtr The this/self pointer for the caller.
+     @param val The value being thrown by the method. */
+    void ODLogObjExitThrowX_(const char *  fileName,
+                             const char *  funcName,
+                             const int     lineNumber,
+                             const void *  objPtr,
+                             const int32_t val);
+    
+    /*! @brief Write a long hexadecimal method exit string to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param objPtr The this/self pointer for the caller.
+     @param val The value being returned by the method. */
+    void ODLogObjExitX_(const char *  fileName,
+                        const char *  funcName,
+                        const int     lineNumber,
+                        const void *  objPtr,
+                        const int32_t val);
+    
+    /*! @brief Write a long long hexadecimal method exit string to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param objPtr The this/self pointer for the caller.
+     @param val The value being returned by the method. */
+    void ODLogObjExitXL_(const char *  fileName,
+                         const char *  funcName,
+                         const int     lineNumber,
+                         const void *  objPtr,
+                         const int64_t val);
+    
     /*! @brief Write a pointer value to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1689,6 +1876,150 @@ extern "C"
                   const struct timeval * val1);
 #  endif  // MAC_OR_LINUX_
     
+    /*! @brief Write a long hexadecimal value to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param text1 The caption for the value to be written.
+     @param val1 The value to be written. */
+    void ODLogX1_(const char *  fileName,
+                  const char *  funcName,
+                  const int     lineNumber,
+                  const char *  text1,
+                  const int32_t val1);
+    
+    /*! @brief Write two long hexadecimal values to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param text1 The caption for the first value to be written.
+     @param val1 The first value to be written.
+     @param text2 The caption for the second value to be written.
+     @param val2 The second value to be written. */
+    void ODLogX2_(const char *  fileName,
+                  const char *  funcName,
+                  const int     lineNumber,
+                  const char *  text1,
+                  const int32_t val1,
+                  const char *  text2,
+                  const int32_t val2);
+    
+    /*! @brief Write three long hexadecimal values to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param text1 The caption for the first value to be written.
+     @param val1 The first value to be written.
+     @param text2 The caption for the second value to be written.
+     @param val2 The second value to be written.
+     @param text3 The caption for the third value to be written.
+     @param val3 The third value to be written. */
+    void ODLogX3_(const char *  fileName,
+                  const char *  funcName,
+                  const int     lineNumber,
+                  const char *  text1,
+                  const int32_t val1,
+                  const char *  text2,
+                  const int32_t val2,
+                  const char *  text3,
+                  const int32_t val3);
+    
+    /*! @brief Write four long hexadecimal values to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param text1 The caption for the first value to be written.
+     @param val1 The first value to be written.
+     @param text2 The caption for the second value to be written.
+     @param val2 The second value to be written.
+     @param text3 The caption for the third value to be written.
+     @param val3 The third value to be written.
+     @param text4 The caption for the fourth value to be written.
+     @param val4 The fourth value to be written. */
+    void ODLogX4_(const char *  fileName,
+                  const char *  funcName,
+                  const int     lineNumber,
+                  const char *  text1,
+                  const int32_t val1,
+                  const char *  text2,
+                  const int32_t val2,
+                  const char *  text3,
+                  const int32_t val3,
+                  const char *  text4,
+                  const int32_t val4);
+    
+    /*! @brief Write a long long hexadecimal value to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param text1 The caption for the value to be written.
+     @param val1 The value to be written. */
+    void ODLogXL1_(const char *  fileName,
+                   const char *  funcName,
+                   const int     lineNumber,
+                   const char *  text1,
+                   const int64_t val1);
+    
+    /*! @brief Write two long long hexadecimal values to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param text1 The caption for the first value to be written.
+     @param val1 The first value to be written.
+     @param text2 The caption for the second value to be written.
+     @param val2 The second value to be written. */
+    void ODLogXL2_(const char *  fileName,
+                   const char *  funcName,
+                   const int     lineNumber,
+                   const char *  text1,
+                   const int64_t val1,
+                   const char *  text2,
+                   const int64_t val2);
+    
+    /*! @brief Write three long long hexadecimal values to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param text1 The caption for the first value to be written.
+     @param val1 The first value to be written.
+     @param text2 The caption for the second value to be written.
+     @param val2 The second value to be written.
+     @param text3 The caption for the third value to be written.
+     @param val3 The third value to be written. */
+    void ODLogXL3_(const char *  fileName,
+                   const char *  funcName,
+                   const int     lineNumber,
+                   const char *  text1,
+                   const int64_t val1,
+                   const char *  text2,
+                   const int64_t val2,
+                   const char *  text3,
+                   const int64_t val3);
+    
+    /*! @brief Write four long long hexadecimal values to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param text1 The caption for the first value to be written.
+     @param val1 The first value to be written.
+     @param text2 The caption for the second value to be written.
+     @param val2 The second value to be written.
+     @param text3 The caption for the third value to be written.
+     @param val3 The third value to be written.
+     @param text4 The caption for the fourth value to be written.
+     @param val4 The fourth value to be written. */
+    void ODLogXL4_(const char *  fileName,
+                   const char *  funcName,
+                   const int     lineNumber,
+                   const char *  text1,
+                   const int64_t val1,
+                   const char *  text2,
+                   const int64_t val2,
+                   const char *  text3,
+                   const int64_t val3,
+                   const char *  text4,
+                   const int64_t val4);
+    
 #  if defined(__cplusplus)
 }
 #  endif  // defined(__cplusplus)
@@ -1827,6 +2158,7 @@ extern "C"
 /*! @brief Write a long long function exit string to the log.
  @param val The value being returned by the function. */
 #  define OD_LOG_EXIT_LL(val) /* */
+
 #  if defined(__OBJC__)
 /*! @brief Write an object function exit string to the log.
  @param val The value being returned by the function. */
@@ -1836,6 +2168,7 @@ extern "C"
 /*! @brief Write a pointer function exit string to the log.
  @param val The value being returned by the function. */
 #  define OD_LOG_EXIT_P(val) /* */
+
 #  if defined(__APPLE__)
 /*! @brief Write a rectangle function exit string to the log.
  @param val The value being returned by the function. */
@@ -1853,6 +2186,18 @@ extern "C"
 /*! @brief Write a throw/string function exit string to the log.
  @param val The value being thrown by the function. */
 #  define OD_LOG_EXIT_THROW_S(val) /* */
+
+/*! @brief Write a throw/long hexadecimal function exit string to the log.
+ @param val The value being thrown by the function. */
+#  define OD_LOG_EXIT_THROW_X(val) /* */
+
+/*! @brief Write a long hexadecimal function exit string to the log.
+ @param val The value being returned by the function. */
+#  define OD_LOG_EXIT_X(val) /* */
+
+/*! @brief Write a long long hexadecimal function exit string to the log.
+ @param val The value being returned by the function. */
+#  define OD_LOG_EXIT_XL(val) /* */
 
 /*! @brief Set up the logging state.
  @param prefix The output prefix string to be applied.
@@ -1933,6 +2278,7 @@ extern "C"
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
 #  define OD_LOG_LS(text1, val1) /* */
+
 #  if defined(__OBJC__)
 /*! @brief Write an object value to the log.
  @param text1 The caption for the value to be written.
@@ -1996,6 +2342,7 @@ extern "C"
 /*! @brief Write a long long method exit string to the log.
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_LL(val) /* */
+
 #  if defined(__OBJC__)
 /*! @brief Write an object method exit string to the log.
  @param val The value being returned by the method. */
@@ -2005,6 +2352,7 @@ extern "C"
 /*! @brief Write a pointer method exit string to the log.
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_P(val) /* */
+
 #  if defined(__APPLE__)
 /*! @brief Write a rectangle method exit string to the log.
  @param val The value being returned by the method. */
@@ -2022,6 +2370,18 @@ extern "C"
 /*! @brief Write a throw/string method exit string to the log.
  @param val The value being thrown by the method. */
 #  define OD_LOG_OBJEXIT_THROW_S(val) /* */
+
+/*! @brief Write a throw/long hexadecimal method exit string to the log.
+ @param val The value being thrown by the method. */
+#  define OD_LOG_OBJEXIT_THROW_X(val) /* */
+
+/*! @brief Write a long hexadecimal method exit string to the log.
+ @param val The value being returned by the method. */
+#  define OD_LOG_OBJEXIT_X(val) /* */
+
+/*! @brief Write a long long hexadecimal method exit string to the log.
+ @param val The value being returned by the method. */
+#  define OD_LOG_OBJEXIT_XL(val) /* */
 
 /*! @brief Write a pointer value to the log.
  @param text1 The caption for the value to be written.
@@ -2060,6 +2420,7 @@ extern "C"
  @param buffer The starting address of the region.
  @param size The number of bytes to be written. */
 #  define OD_LOG_PACKET(caption, buffer, size) /* */
+
 #  if defined(__APPLE__)
 /*! @brief Write a rectangle to the log.
  @param caption The caption for the value to be written.
@@ -2104,12 +2465,78 @@ extern "C"
  @param len The number of bytes to be written.
  @param val The value to be written. */
 #  define OD_LOG_Sp(text, len, val) /* */
+
 #  if MAC_OR_LINUX_
 /*! @brief Write a time value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
 #   define OD_LOG_Ti(text1, val1) /* */
 #  endif  // MAC_OR_LINUX_
+
+/*! @brief Write a long hexadecimal value to the log.
+ @param text1 The caption for the value to be written.
+ @param val1 The value to be written. */
+#  define OD_LOG_X1(text1, val1) /* */
+
+/*! @brief Write two long hexadecimal values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written. */
+#  define OD_LOG_X2(text1, val1, text2, val2) /* */
+
+/*! @brief Write three long hexadecimal values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written.
+ @param text3 The caption for the third value to be written.
+ @param val3 The third value to be written. */
+#  define OD_LOG_X3(text1, val1, text2, val2, text3, val3) /* */
+
+/*! @brief Write four long hexadecimal values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written.
+ @param text3 The caption for the third value to be written.
+ @param val3 The third value to be written.
+ @param text4 The caption for the fourth value to be written.
+ @param val4 The fourth value to be written. */
+#  define OD_LOG_X4(text1, val1, text2, val2, text3, val3, text4, val4) /* */
+
+/*! @brief Write a long long hexadecimal value to the log.
+ @param text1 The caption for the value to be written.
+ @param val1 The value to be written. */
+#  define OD_LOG_XL1(text1, val1) /* */
+
+/*! @brief Write two long long hexadecimal values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written. */
+#  define OD_LOG_XL2(text1, val1, text2, val2) /* */
+
+/*! @brief Write three long long hexadecimal values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written.
+ @param text3 The caption for the third value to be written.
+ @param val3 The third value to be written. */
+#  define OD_LOG_XL3(text1, val1, text2, val2, text3, val3) /* */
+
+/*! @brief Write four long long hexadecimal values to the log.
+ @param text1 The caption for the first value to be written.
+ @param val1 The first value to be written.
+ @param text2 The caption for the second value to be written.
+ @param val2 The second value to be written.
+ @param text3 The caption for the third value to be written.
+ @param val3 The third value to be written.
+ @param text4 The caption for the fourth value to be written.
+ @param val4 The fourth value to be written. */
+#  define OD_LOG_XL4(text1, val1, text2, val2, text3, val3, text4, val4) /* */
+
 # endif // ! defined(OD_ENABLE_LOGGING)
 
 /*! @brief Write a string value to the log.
