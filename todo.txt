@@ -10,5 +10,3 @@
 + load/save positions, by entity name [optional???]
 
 * change signal handling to use platform-neutral mechanisms
-
-+ switch to a scrolling view or implement scrolling via the scrollbars
