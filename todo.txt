@@ -10,5 +10,3 @@
 + load/save positions, by entity name [optional???]
 
 * change signal handling to use platform-neutral mechanisms
-
-+ only update horizontal scrollbar if something has change; same for vertical scrollbar - check if switching the update order causes the horizontal scrollbar to reset
