@@ -706,6 +706,7 @@ int main(int     argc,
             bool                          found = false;
             MplusM::Utilities::PortVector ports;
             
+            MplusM::Utilities::RemoveStalePorts();
             MplusM::Utilities::GetDetectedPortList(ports, true);
             bool serviceRegistryPresent = MplusM::Utilities::CheckForRegistryService(ports);
             if (MplusM::Common::kOutputFlavourJSON == flavour)

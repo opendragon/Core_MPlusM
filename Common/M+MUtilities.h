@@ -263,6 +263,10 @@ namespace MplusM
                               Common::CheckFunction         checker,
                               void *                        checkStuff);
         
+        /*! @brief Remove any ports that YARP considers to be stale.
+         @param timeout The number of seconds to allow YARP to check a port. */
+        void RemoveStalePorts(const float timeout = 3);
+        
     } // Utilities
     
 } // MplusM

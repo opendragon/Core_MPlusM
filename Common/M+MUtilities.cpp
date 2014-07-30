@@ -58,8 +58,10 @@
 # pragma clang diagnostic ignored "-Wweak-vtables"
 #endif // defined(__APPLE__)
 #include <yarp/os/impl/BufferedConnectionWriter.h>
+#include <yarp/os/impl/NameConfig.h>
 #include <yarp/os/impl/PortCommand.h>
 #include <yarp/os/impl/Protocol.h>
+#include <yarp/os/impl/String.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -1056,3 +1058,73 @@ bool MplusM::Utilities::RemoveConnection(const yarp::os::ConstString & fromPortN
     OD_LOG_EXIT_B(result); //####
     return result;
 } // MplusM::Utilities::RemoveConnection
+
+void MplusM::Utilities::RemoveStalePorts(const float timeout)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_D1("timeout = ", timeout); //####
+    yarp::os::impl::NameConfig nc;
+    yarp::os::impl::String     name = nc.getNamespace();
+    yarp::os::Bottle           msg;
+    yarp::os::Bottle           reply;
+    
+    msg.addString("bot");
+    msg.addString("list");
+    yarp::os::NetworkBase::write(name.c_str(), msg, reply);
+    for (int ii = 1; reply.size() > ii; ++ii)
+    {
+        yarp::os::Bottle * entry = reply.get(ii).asList();
+        
+        if (entry)
+        {
+            yarp::os::ConstString port = entry->check("name", yarp::os::Value("")).asString();
+            
+            OD_LOG_S1s("port = ", port); //####
+            if ((port != "") && (port != "fallback") && (port != name.c_str()))
+            {
+                yarp::os::Contact cc = yarp::os::Contact::byConfig(*entry);
+                
+                if (cc.getCarrier() == "mcast")
+                {
+                    OD_LOG("Skipping mcast port."); //####
+                }
+                else
+                {
+                    yarp::os::Contact addr = cc;
+                    
+                    OD_LOG_S1s("Testing at ", addr.toURI()); //####
+                    if (addr.isValid())
+                    {
+                        if (0 <= timeout)
+                        {
+                            addr.setTimeout(timeout);
+                        }
+                        yarp::os::OutputProtocol * out = yarp::os::impl::Carriers::connect(addr);
+                        
+                        if (out)
+                        {
+                            delete out;
+                        }
+                        else
+                        {
+                            OD_LOG("No respose, removing port."); //####
+                            yarp::os::NetworkBase::unregisterName(port.c_str());
+                        }
+                    }
+                }
+            }
+            else if (port != "")
+            {
+                OD_LOG("Ignoring port"); //####
+            }
+        }
+    }
+    OD_LOG("Giving name server a chance to do garbage collection."); //####
+    yarp::os::ConstString serverName = yarp::os::NetworkBase::getNameServerName();
+    yarp::os::Bottle      cmd2("gc");
+    yarp::os::Bottle      reply2;
+    
+    yarp::os::NetworkBase::write(serverName, cmd2, reply2);
+    OD_LOG_S1s("Name server says: ", reply2.toString()); //####
+    OD_LOG_EXIT(); //####
+} // MplusM::Utilities::RemoveStalePorts
