@@ -37,12 +37,13 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MRunningSumClient.h"
-#include "M+MEndpoint.h"
 #include "M+MRunningSumRequests.h"
-#include "M+MServiceResponse.h"
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+#include <mpm/M+MEndpoint.h>
+#include <mpm/M+MServiceResponse.h>
+
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -159,9 +160,12 @@ bool RunningSumClient::addToSum(const Common::DoubleVector & values,
         yarp::os::Bottle        parameters;
         Common::ServiceResponse response;
         
-        for (Common::DoubleVector::const_iterator it(values.begin()); values.end() != it; ++it)
+        if (0 < values.size())
         {
-            parameters.addDouble(*it);
+            for (Common::DoubleVector::const_iterator it(values.begin()); values.end() != it; ++it)
+            {
+                parameters.addDouble(*it);
+            }
         }
         if (1 <= parameters.size())
         {

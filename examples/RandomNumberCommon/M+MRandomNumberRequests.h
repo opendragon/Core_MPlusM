@@ -40,7 +40,7 @@
 #if (! defined(MpMRandomNumberRequests_H_))
 # define MpMRandomNumberRequests_H_  /* Header guard */
 
-# include "M+MRequests.h"
+# include <mpm/M+MRequests.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

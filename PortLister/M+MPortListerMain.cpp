@@ -36,12 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MBaseClient.h"
-#include "M+MRequests.h"
-#include "M+MUtilities.h"
+#include <mpm/M+MBaseClient.h>
+#include <mpm/M+MRequests.h>
+#include <mpm/M+MUtilities.h>
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if (! MAC_OR_LINUX_) //ASSUME WINDOWS
 # include "getopt.h"
@@ -95,18 +95,20 @@ static void reportConnections(const MplusM::Common::OutputFlavour flavour,
     MplusM::Utilities::GatherPortConnections(portName, inputs, outputs,
                                              MplusM::Utilities::kInputAndOutputBoth, false, checker,
                                              checkStuff);
-    for (MplusM::Common::ChannelVector::const_iterator walker(inputs.begin());
-         inputs.end() != walker; ++walker)
+    if (0 < inputs.size())
     {
-        switch (flavour)
+        for (MplusM::Common::ChannelVector::const_iterator walker(inputs.begin());
+             inputs.end() != walker; ++walker)
         {
-            case MplusM::Common::kOutputFlavourTabs :
-                if (sawInputs)
-                {
-                    inputsAsString += ", ";
-                }
-                inputsAsString += MplusM::SanitizeString(walker->_portName, true);
-                switch (walker->_portMode)
+            switch (flavour)
+            {
+                case MplusM::Common::kOutputFlavourTabs :
+                    if (sawInputs)
+                    {
+                        inputsAsString += ", ";
+                    }
+                    inputsAsString += MplusM::SanitizeString(walker->_portName, true);
+                    switch (walker->_portMode)
                 {
                     case MplusM::Common::kChannelModeTCP :
                         inputsAsString += " TCP";
@@ -121,19 +123,19 @@ static void reportConnections(const MplusM::Common::OutputFlavour flavour,
                         break;
                         
                 }
-                break;
-                
-            case MplusM::Common::kOutputFlavourJSON :
-                if (sawInputs)
-                {
-                    inputsAsString += ", ";
-                }
-                inputsAsString += T_("{ " CHAR_DOUBLEQUOTE "Port" CHAR_DOUBLEQUOTE ": "
-                                     CHAR_DOUBLEQUOTE);
-                inputsAsString += MplusM::SanitizeString(walker->_portName);
-                inputsAsString += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Mode" CHAR_DOUBLEQUOTE
-                                     ": " CHAR_DOUBLEQUOTE);
-                switch (walker->_portMode)
+                    break;
+                    
+                case MplusM::Common::kOutputFlavourJSON :
+                    if (sawInputs)
+                    {
+                        inputsAsString += ", ";
+                    }
+                    inputsAsString += T_("{ " CHAR_DOUBLEQUOTE "Port" CHAR_DOUBLEQUOTE ": "
+                                         CHAR_DOUBLEQUOTE);
+                    inputsAsString += MplusM::SanitizeString(walker->_portName);
+                    inputsAsString += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Mode"
+                                         CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
+                    switch (walker->_portMode)
                 {
                     case MplusM::Common::kChannelModeTCP :
                         inputsAsString += "TCP";
@@ -148,13 +150,13 @@ static void reportConnections(const MplusM::Common::OutputFlavour flavour,
                         break;
                         
                 }
-                inputsAsString += T_(CHAR_DOUBLEQUOTE " }");
-                break;
-                
-            default :
-                inputsAsString += "   Input from ";
-                inputsAsString += MplusM::SanitizeString(walker->_portName, true);
-                switch (walker->_portMode)
+                    inputsAsString += T_(CHAR_DOUBLEQUOTE " }");
+                    break;
+                    
+                default :
+                    inputsAsString += "   Input from ";
+                    inputsAsString += MplusM::SanitizeString(walker->_portName, true);
+                    switch (walker->_portMode)
                 {
                     case MplusM::Common::kChannelModeTCP :
                         inputsAsString += " via TCP.";
@@ -169,24 +171,27 @@ static void reportConnections(const MplusM::Common::OutputFlavour flavour,
                         break;
                         
                 }
-                inputsAsString += "\n";
-                break;
-                
+                    inputsAsString += "\n";
+                    break;
+                    
+            }
+            sawInputs = true;
         }
-        sawInputs = true;
     }
-    for (MplusM::Common::ChannelVector::const_iterator walker(outputs.begin());
-         outputs.end() != walker; ++walker)
+    if (0 < outputs.size())
     {
-        switch (flavour)
+        for (MplusM::Common::ChannelVector::const_iterator walker(outputs.begin());
+             outputs.end() != walker; ++walker)
         {
-            case MplusM::Common::kOutputFlavourTabs :
-                if (sawOutputs)
-                {
-                    outputsAsString += ", ";
-                }
-                outputsAsString += MplusM::SanitizeString(walker->_portName, true);
-                switch (walker->_portMode)
+            switch (flavour)
+            {
+                case MplusM::Common::kOutputFlavourTabs :
+                    if (sawOutputs)
+                    {
+                        outputsAsString += ", ";
+                    }
+                    outputsAsString += MplusM::SanitizeString(walker->_portName, true);
+                    switch (walker->_portMode)
                 {
                     case MplusM::Common::kChannelModeTCP :
                         outputsAsString += " TCP";
@@ -201,19 +206,19 @@ static void reportConnections(const MplusM::Common::OutputFlavour flavour,
                         break;
                         
                 }
-                break;
-                
-            case MplusM::Common::kOutputFlavourJSON :
-                if (sawOutputs)
-                {
-                    outputsAsString += ", ";
-                }
-                outputsAsString += T_("{ " CHAR_DOUBLEQUOTE "Port" CHAR_DOUBLEQUOTE ": "
-                                      CHAR_DOUBLEQUOTE);
-                outputsAsString += MplusM::SanitizeString(walker->_portName);
-                outputsAsString += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Mode" CHAR_DOUBLEQUOTE
-                                      ": " CHAR_DOUBLEQUOTE);
-                switch (walker->_portMode)
+                    break;
+                    
+                case MplusM::Common::kOutputFlavourJSON :
+                    if (sawOutputs)
+                    {
+                        outputsAsString += ", ";
+                    }
+                    outputsAsString += T_("{ " CHAR_DOUBLEQUOTE "Port" CHAR_DOUBLEQUOTE ": "
+                                          CHAR_DOUBLEQUOTE);
+                    outputsAsString += MplusM::SanitizeString(walker->_portName);
+                    outputsAsString += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Mode"
+                                          CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
+                    switch (walker->_portMode)
                 {
                     case MplusM::Common::kChannelModeTCP :
                         outputsAsString += "TCP";
@@ -228,13 +233,13 @@ static void reportConnections(const MplusM::Common::OutputFlavour flavour,
                         break;
                         
                 }
-                outputsAsString += T_(CHAR_DOUBLEQUOTE " }");
-                break;
-                
-            default :
-                outputsAsString += "   Output to ";
-                outputsAsString += MplusM::SanitizeString(walker->_portName, true);
-                switch (walker->_portMode)
+                    outputsAsString += T_(CHAR_DOUBLEQUOTE " }");
+                    break;
+                    
+                default :
+                    outputsAsString += "   Output to ";
+                    outputsAsString += MplusM::SanitizeString(walker->_portName, true);
+                    switch (walker->_portMode)
                 {
                     case MplusM::Common::kChannelModeTCP :
                         outputsAsString += " via TCP.";
@@ -249,11 +254,12 @@ static void reportConnections(const MplusM::Common::OutputFlavour flavour,
                         break;
                         
                 }
-                outputsAsString += "\n";
-                break;
-                
+                    outputsAsString += "\n";
+                    break;
+                    
+            }
+            sawOutputs = true;
         }
-        sawOutputs = true;
     }
     switch (flavour)
     {
@@ -304,46 +310,54 @@ static void reportAssociates(const MplusM::Common::OutputFlavour        flavour,
         
         if (associates._primary)
         {
-            bool sawInput = false;
-            bool sawOutput = false;
+            bool                                 sawInput = false;
+            bool                                 sawOutput = false;
+            const MplusM::Common::StringVector & assocInputs = associates._inputs;
+            const MplusM::Common::StringVector & assocOutputs = associates._outputs;
             
-            for (MplusM::Common::StringVector::const_iterator walker(associates._inputs.begin());
-                 associates._inputs.end() != walker; ++walker)
+            if (0 < assocInputs.size())
             {
-                if (sawInput)
+                for (MplusM::Common::StringVector::const_iterator walker(assocInputs.begin());
+                     assocInputs.end() != walker; ++walker)
                 {
-                    inputAssociates += ", ";
+                    if (sawInput)
+                    {
+                        inputAssociates += ", ";
+                    }
+                    if (MplusM::Common::kOutputFlavourJSON == flavour)
+                    {
+                        inputAssociates += CHAR_DOUBLEQUOTE;
+                        inputAssociates += MplusM::SanitizeString(*walker);
+                        inputAssociates += CHAR_DOUBLEQUOTE;
+                    }
+                    else
+                    {
+                        inputAssociates += MplusM::SanitizeString(*walker, true);
+                    }
+                    sawInput = true;
                 }
-                if (MplusM::Common::kOutputFlavourJSON == flavour)
-                {
-                    inputAssociates += CHAR_DOUBLEQUOTE;
-                    inputAssociates += MplusM::SanitizeString(*walker);
-                    inputAssociates += CHAR_DOUBLEQUOTE;
-                }
-                else
-                {
-                    inputAssociates += MplusM::SanitizeString(*walker, true);
-                }
-                sawInput = true;
             }
-            for (MplusM::Common::StringVector::const_iterator walker(associates._outputs.begin());
-                 associates._outputs.end() != walker; ++walker)
+            if (0 < assocOutputs.size())
             {
-                if (sawOutput)
+                for (MplusM::Common::StringVector::const_iterator walker(assocOutputs.begin());
+                     assocOutputs.end() != walker; ++walker)
                 {
-                    outputAssociates += ", ";
+                    if (sawOutput)
+                    {
+                        outputAssociates += ", ";
+                    }
+                    if (MplusM::Common::kOutputFlavourJSON == flavour)
+                    {
+                        outputAssociates += CHAR_DOUBLEQUOTE;
+                        outputAssociates += MplusM::SanitizeString(*walker);
+                        outputAssociates += CHAR_DOUBLEQUOTE;
+                    }
+                    else
+                    {
+                        outputAssociates += MplusM::SanitizeString(*walker, true);
+                    }
+                    sawOutput = true;
                 }
-                if (MplusM::Common::kOutputFlavourJSON == flavour)
-                {
-                    outputAssociates += CHAR_DOUBLEQUOTE;
-                    outputAssociates += MplusM::SanitizeString(*walker);
-                    outputAssociates += CHAR_DOUBLEQUOTE;
-                }
-                else
-                {
-                    outputAssociates += MplusM::SanitizeString(*walker, true);
-                }
-                sawOutput = true;
             }
             switch (flavour)
             {
@@ -713,35 +727,38 @@ int main(int     argc,
             {
                 cout << "[ ";
             }
-            for (MplusM::Utilities::PortVector::const_iterator walker(ports.begin());
-                 ports.end() != walker; ++walker)
+            if (0 < ports.size())
             {
-                switch (flavour)
+                for (MplusM::Utilities::PortVector::const_iterator walker(ports.begin());
+                     ports.end() != walker; ++walker)
                 {
-                    case MplusM::Common::kOutputFlavourJSON :
-                        if (found)
-                        {
-                            cout << "," << endl;
-                        }
-                        break;
-                        
-                    case MplusM::Common::kOutputFlavourTabs :
-                        if (found)
-                        {
-                            cout << endl;
-                        }
-                        break;
-                        
-                    default :
-                        if (! found)
-                        {
-                            cout << "Ports:" << endl << endl;
-                        }
-                        break;
-                        
+                    switch (flavour)
+                    {
+                        case MplusM::Common::kOutputFlavourJSON :
+                            if (found)
+                            {
+                                cout << "," << endl;
+                            }
+                            break;
+                            
+                        case MplusM::Common::kOutputFlavourTabs :
+                            if (found)
+                            {
+                                cout << endl;
+                            }
+                            break;
+                            
+                        default :
+                            if (! found)
+                            {
+                                cout << "Ports:" << endl << endl;
+                            }
+                            break;
+                            
+                    }
+                    found = true;
+                    reportPortStatus(flavour, *walker, serviceRegistryPresent);
                 }
-                found = true;
-                reportPortStatus(flavour, *walker, serviceRegistryPresent);
             }
             switch (flavour)
             {

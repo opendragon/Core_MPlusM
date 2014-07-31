@@ -36,11 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MChannelStatusReporter.h"
 #include "M+MRandomNumberClient.h"
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+#include <mpm/M+MChannelStatusReporter.h>
+
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -152,14 +153,17 @@ int main(int     argc,
                                     
                                     if (stuff->getRandomNumbers(count, results))
                                     {
-                                        cout << "result = ( ";
-                                        for (MplusM::Common::DoubleVector::const_iterator it =
-                                                                                    results.begin();
-                                             results.end() != it; ++it)
+                                        cout << "result = (";
+                                        if (0 < results.size())
                                         {
-                                            cout << " " << *it;
+                                            for (MplusM::Common::DoubleVector::const_iterator it =
+                                                                                    results.begin();
+                                                 results.end() != it; ++it)
+                                            {
+                                                cout << " " << *it;
+                                            }
+                                            cout << " )" << endl;
                                         }
-                                        cout << " )" << endl;
                                     }
                                     else
                                     {

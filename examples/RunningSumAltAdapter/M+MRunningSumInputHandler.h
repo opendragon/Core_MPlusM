@@ -40,7 +40,7 @@
 #if (! defined(MpMRunningSumInputHandler_H_))
 # define MpMRunningSumInputHandler_H_  /* Header guard */
 
-# include "M+MInputHandler.h"
+# include <mpm/M+MInputHandler.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

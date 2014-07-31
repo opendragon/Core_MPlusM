@@ -36,11 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MChannelStatusReporter.h"
+#include <mpm/M+MChannelStatusReporter.h>
+
 #include "M+MRequestCounterClient.h"
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

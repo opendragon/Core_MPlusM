@@ -39,7 +39,7 @@
 #if (! defined(MpMRegisterRequestHandler_H_))
 # define MpMRegisterRequestHandler_H_  /* Header guard */
 
-# include "M+MBaseRequestHandler.h"
+# include <mpm/M+MBaseRequestHandler.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

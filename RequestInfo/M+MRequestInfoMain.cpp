@@ -36,14 +36,14 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MBaseClient.h"
-#include "M+MClientChannel.h"
-#include "M+MRequests.h"
-#include "M+MServiceRequest.h"
-#include "M+MServiceResponse.h"
+#include <mpm/M+MBaseClient.h>
+#include <mpm/M+MClientChannel.h>
+#include <mpm/M+MRequests.h>
+#include <mpm/M+MServiceRequest.h>
+#include <mpm/M+MServiceResponse.h>
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if (! MAC_OR_LINUX_) //ASSUME WINDOWS
 # include "getopt.h"

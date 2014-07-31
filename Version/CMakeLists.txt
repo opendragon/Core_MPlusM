@@ -36,8 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-include_directories("${MpM_LOGGING_DIR}"
-                    "${MpM_COMMON_DIR}")
+include_directories("${MpM_SOURCE_DIR}")
 
 # Set up our program
 add_executable(mpmVersion

@@ -36,14 +36,10 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-set(MpM_REGISTRYTESTSUPPORT_DIR "${MpM_COMMON_DIR}/RegistryTests")
-
 add_subdirectory(RegistryTests)
 
-include_directories("${MpM_LOGGING_DIR}"
-                    “${MpM_COMMON_DIR}”
-                    "${MpM_SQLITE_DIR}"
-                    "${MpM_REGISTRYTESTSUPPORT_DIR}")
+include_directories("${MpM_SOURCE_DIR}"
+                    "${MpM_SQLITE_DIR}")
 
 # Set up our program
 add_executable(mpmRegistryService
@@ -63,7 +59,6 @@ add_executable(mpmRegistryService
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(mpmRegistryService
-                      mpmParser
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
@@ -90,7 +85,6 @@ add_executable(mpmRegistryTest
 # processed once.
 target_link_libraries(mpmRegistryTest
                       mpmRegistryTestSupport
-                      mpmParser
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})

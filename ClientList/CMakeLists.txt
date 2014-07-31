@@ -36,8 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-include_directories("${MpM_LOGGING_DIR}"
-                    "${MpM_COMMON_DIR}")
+include_directories("${MpM_SOURCE_DIR}")
 
 # Set up our program
 add_executable(mpmClientList
@@ -47,7 +46,6 @@ add_executable(mpmClientList
 # processed once.
 target_link_libraries(mpmClientList
                       mpmCommon
-                      mpmParser
                       odLogging
                       ${YARP_LIBRARIES})
 

@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MUtilities.h"
+#include <mpm/M+MUtilities.h>
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if (! MAC_OR_LINUX_) //ASSUME WINDOWS
 # include "getopt.h"
@@ -129,197 +129,205 @@ int main(int     argc,
             {
                 cout << "[ ";
             }
-            for (MplusM::Common::StringVector::const_iterator walker(services.begin());
-                 services.end() != walker; ++walker)
+            if (0 < services.size())
             {
-                MplusM::Utilities::ServiceDescriptor descriptor;
-                
-                if (MplusM::Utilities::GetNameAndDescriptionForService(*walker, descriptor,
-                                                                       STANDARD_WAIT_TIME, NULL,
-                                                                       NULL))
+                for (MplusM::Common::StringVector::const_iterator walker(services.begin());
+                     services.end() != walker; ++walker)
                 {
-                    bool                  sawInputs = false;
-                    bool                  sawOutputs = false;
-                    yarp::os::ConstString description;
-                    yarp::os::ConstString inChannelNames;
-                    yarp::os::ConstString outChannelNames;
-                    yarp::os::ConstString requests;
-                    yarp::os::ConstString serviceName;
-                    yarp::os::ConstString servicePortName;
+                    MplusM::Utilities::ServiceDescriptor descriptor;
                     
-                    switch (flavour)
+                    if (MplusM::Utilities::GetNameAndDescriptionForService(*walker, descriptor,
+                                                                           STANDARD_WAIT_TIME, NULL,
+                                                                           NULL))
                     {
-                        case MplusM::Common::kOutputFlavourTabs :
-                            if (reported)
-                            {
+                        bool                  sawInputs = false;
+                        bool                  sawOutputs = false;
+                        yarp::os::ConstString description;
+                        yarp::os::ConstString inChannelNames;
+                        yarp::os::ConstString outChannelNames;
+                        yarp::os::ConstString requests;
+                        yarp::os::ConstString serviceName;
+                        yarp::os::ConstString servicePortName;
+                        
+                        switch (flavour)
+                        {
+                            case MplusM::Common::kOutputFlavourTabs :
+                                if (reported)
+                                {
+                                    cout << endl;
+                                }
+                                break;
+                                
+                            case MplusM::Common::kOutputFlavourJSON :
+                                if (reported)
+                                {
+                                    cout << "," << endl;
+                                }
+                                cout << "{ ";
+                                break;
+                                
+                            default :
+                                if (! reported)
+                                {
+                                    cout << "Services: " << endl;
+                                }
                                 cout << endl;
-                            }
-                            break;
-                            
-                        case MplusM::Common::kOutputFlavourJSON :
-                            if (reported)
-                            {
-                                cout << "," << endl;
-                            }
-                            cout << "{ ";
-                            break;
-                            
-                        default :
-                            if (! reported)
-                            {
-                                cout << "Services: " << endl;
-                            }
-                            cout << endl;
-                            break;
-                            
-                    }
-                    reported = true;
-                    if (MplusM::Common::kOutputFlavourJSON == flavour)
-                    {
-                        inChannelNames = "[ ";
-                        outChannelNames = "[ ";
-                    }
-                    for (MplusM::Common::ChannelVector::const_iterator walker =
-                                                                descriptor._inputChannels.begin();
-                         descriptor._inputChannels.end() != walker; ++walker)
-                    {
-                        MplusM::Common::ChannelDescription descriptor(*walker);
-                        
+                                break;
+                                
+                        }
+                        reported = true;
                         if (MplusM::Common::kOutputFlavourJSON == flavour)
                         {
-                            if (sawInputs)
-                            {
-                                inChannelNames += ", ";
-                            }
-                            inChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name" CHAR_DOUBLEQUOTE ": "
-                                                 CHAR_DOUBLEQUOTE);
-                            inChannelNames += MplusM::SanitizeString(descriptor._portName);
-                            inChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Protocol"
-                                                 CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
-                            inChannelNames += MplusM::SanitizeString(descriptor._portProtocol);
-                            inChannelNames += T_(CHAR_DOUBLEQUOTE " }");
+                            inChannelNames = "[ ";
+                            outChannelNames = "[ ";
                         }
-                        else
+                        for (MplusM::Common::ChannelVector::const_iterator walker =
+                             descriptor._inputChannels.begin();
+                             descriptor._inputChannels.end() != walker; ++walker)
                         {
-                            if (sawInputs)
+                            MplusM::Common::ChannelDescription descriptor(*walker);
+                            
+                            if (MplusM::Common::kOutputFlavourJSON == flavour)
                             {
-                                inChannelNames += " ";
+                                if (sawInputs)
+                                {
+                                    inChannelNames += ", ";
+                                }
+                                inChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name" CHAR_DOUBLEQUOTE
+                                                     ": " CHAR_DOUBLEQUOTE);
+                                inChannelNames += MplusM::SanitizeString(descriptor._portName);
+                                inChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
+                                                     "Protocol" CHAR_DOUBLEQUOTE ": "
+                                                     CHAR_DOUBLEQUOTE);
+                                inChannelNames += MplusM::SanitizeString(descriptor._portProtocol);
+                                inChannelNames += T_(CHAR_DOUBLEQUOTE " }");
                             }
-                            inChannelNames += descriptor._portName;
-                            if (0 < descriptor._portProtocol.size())
+                            else
                             {
-                                inChannelNames += "{protocol=" + descriptor._portProtocol + "}";
+                                if (sawInputs)
+                                {
+                                    inChannelNames += " ";
+                                }
+                                inChannelNames += descriptor._portName;
+                                if (0 < descriptor._portProtocol.size())
+                                {
+                                    inChannelNames += "{protocol=" + descriptor._portProtocol + "}";
+                                }
                             }
+                            sawInputs = true;
                         }
-                        sawInputs = true;
-                    }
-                    if (MplusM::Common::kOutputFlavourJSON == flavour)
-                    {
-                        inChannelNames += " ]";
-                    }
-                    for (MplusM::Common::ChannelVector::const_iterator walker =
-                                                                descriptor._outputChannels.begin();
-                         descriptor._outputChannels.end() != walker; ++walker)
-                    {
-                        MplusM::Common::ChannelDescription descriptor(*walker);
-                        
                         if (MplusM::Common::kOutputFlavourJSON == flavour)
                         {
-                            if (sawOutputs)
-                            {
-                                outChannelNames += ", ";
-                            }
-                            outChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name" CHAR_DOUBLEQUOTE ": "
-                                                  CHAR_DOUBLEQUOTE);
-                            outChannelNames += MplusM::SanitizeString(descriptor._portName);
-                            outChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Protocol"
-                                                  CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
-                            outChannelNames += MplusM::SanitizeString(descriptor._portProtocol);
-                            outChannelNames += T_(CHAR_DOUBLEQUOTE " }");
+                            inChannelNames += " ]";
                         }
-                        else
+                        for (MplusM::Common::ChannelVector::const_iterator walker =
+                             descriptor._outputChannels.begin();
+                             descriptor._outputChannels.end() != walker; ++walker)
                         {
-                            if (sawOutputs)
+                            MplusM::Common::ChannelDescription descriptor(*walker);
+                            
+                            if (MplusM::Common::kOutputFlavourJSON == flavour)
                             {
-                                outChannelNames += " ";
+                                if (sawOutputs)
+                                {
+                                    outChannelNames += ", ";
+                                }
+                                outChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name" CHAR_DOUBLEQUOTE
+                                                      ": " CHAR_DOUBLEQUOTE);
+                                outChannelNames += MplusM::SanitizeString(descriptor._portName);
+                                outChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
+                                                      "Protocol" CHAR_DOUBLEQUOTE ": "
+                                                      CHAR_DOUBLEQUOTE);
+                                outChannelNames += MplusM::SanitizeString(descriptor._portProtocol);
+                                outChannelNames += T_(CHAR_DOUBLEQUOTE " }");
                             }
-                            outChannelNames += descriptor._portName;
-                            if (0 < descriptor._portProtocol.size())
+                            else
                             {
-                                outChannelNames += "{protocol=" + descriptor._portProtocol + "}";
+                                if (sawOutputs)
+                                {
+                                    outChannelNames += " ";
+                                }
+                                outChannelNames += descriptor._portName;
+                                if (0 < descriptor._portProtocol.size())
+                                {
+                                    outChannelNames += "{protocol=" + descriptor._portProtocol +
+                                                        "}";
+                                }
                             }
+                            sawOutputs = true;
                         }
-                        sawOutputs = true;
-                    }
-                    if (MplusM::Common::kOutputFlavourJSON == flavour)
-                    {
-                        outChannelNames += " ]";
-                    }
-                    servicePortName = MplusM::SanitizeString(*walker,
+                        if (MplusM::Common::kOutputFlavourJSON == flavour)
+                        {
+                            outChannelNames += " ]";
+                        }
+                        servicePortName = MplusM::SanitizeString(*walker,
                                                      MplusM::Common::kOutputFlavourJSON != flavour);
-                    serviceName = MplusM::SanitizeString(descriptor._canonicalName,
+                        serviceName = MplusM::SanitizeString(descriptor._canonicalName,
                                                      MplusM::Common::kOutputFlavourJSON != flavour);
-                    switch (flavour)
-                    {
-                        case MplusM::Common::kOutputFlavourJSON :
-                            cout << T_(CHAR_DOUBLEQUOTE "ServicePort" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << servicePortName.c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", ");
-                            cout << T_(CHAR_DOUBLEQUOTE "ServiceName" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << serviceName.c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", ");
-                            cout << T_(CHAR_DOUBLEQUOTE "ServiceKind" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << descriptor._kind.c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", ");
-                            description = MplusM::SanitizeString(descriptor._description);
-                            cout << T_(CHAR_DOUBLEQUOTE "Description" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << description.c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", ");
-                            requests = MplusM::SanitizeString(descriptor._requestsDescription);
-                            cout << T_(CHAR_DOUBLEQUOTE "Requests" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << requests.c_str() << T_(CHAR_DOUBLEQUOTE
-                                                                                   ", ");
-                            cout << T_(CHAR_DOUBLEQUOTE "Path" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << descriptor._path.c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", ");
-                            cout << T_(CHAR_DOUBLEQUOTE "SecondaryInputs" CHAR_DOUBLEQUOTE ": ") <<
-                                    inChannelNames.c_str() << ", ";
-                            cout << T_(CHAR_DOUBLEQUOTE "SecondaryOutputs" CHAR_DOUBLEQUOTE ": ") <<
-                                    outChannelNames.c_str() << " }";
-                            break;
-                            
-                        case MplusM::Common::kOutputFlavourTabs :
-                            cout << servicePortName.c_str() << "\t";
-                            cout << serviceName.c_str() << "\t";
-                            cout << descriptor._kind.c_str() << "\t";
-                            description = MplusM::SanitizeString(descriptor._description, true);
-                            cout << description.c_str() << "\t";
-                            requests = MplusM::SanitizeString(descriptor._requestsDescription, true);
-                            cout << requests.c_str() << "\t" << descriptor._path.c_str() << "\t" <<
-                                    inChannelNames.c_str() << "\t" << outChannelNames.c_str();
-                            break;
-                            
-                        default :
-                            cout << "Service port:      " << servicePortName.c_str() << endl;
-                            cout << "Service name:      " << serviceName.c_str() << endl;
-                            cout << "Service kind:      " << descriptor._kind.c_str() << endl;
-                            MplusM::OutputDescription(cout, "Description:       ",
-                                                      descriptor._description);
-                            MplusM::OutputDescription(cout, "Requests:          ",
-                                                      descriptor._requestsDescription);
-                            cout << "Path:              " << descriptor._path.c_str() << endl;
-                            if (0 < inChannelNames.size())
-                            {
-                                MplusM::OutputDescription(cout, "Secondary inputs:  ",
-                                                          inChannelNames);
-                            }
-                            if (0 < outChannelNames.size())
-                            {
-                                MplusM::OutputDescription(cout, "Secondary outputs: ",
-                                                          outChannelNames);
-                            }
-                            break;
-                            
+                        switch (flavour)
+                        {
+                            case MplusM::Common::kOutputFlavourJSON :
+                                cout << T_(CHAR_DOUBLEQUOTE "ServicePort" CHAR_DOUBLEQUOTE ": "
+                                           CHAR_DOUBLEQUOTE) << servicePortName.c_str() <<
+                                        T_(CHAR_DOUBLEQUOTE ", ");
+                                cout << T_(CHAR_DOUBLEQUOTE "ServiceName" CHAR_DOUBLEQUOTE ": "
+                                           CHAR_DOUBLEQUOTE) << serviceName.c_str() <<
+                                        T_(CHAR_DOUBLEQUOTE ", ");
+                                cout << T_(CHAR_DOUBLEQUOTE "ServiceKind" CHAR_DOUBLEQUOTE ": "
+                                           CHAR_DOUBLEQUOTE) << descriptor._kind.c_str() <<
+                                        T_(CHAR_DOUBLEQUOTE ", ");
+                                description = MplusM::SanitizeString(descriptor._description);
+                                cout << T_(CHAR_DOUBLEQUOTE "Description" CHAR_DOUBLEQUOTE ": "
+                                           CHAR_DOUBLEQUOTE) << description.c_str() <<
+                                        T_(CHAR_DOUBLEQUOTE ", ");
+                                requests = MplusM::SanitizeString(descriptor._requestsDescription);
+                                cout << T_(CHAR_DOUBLEQUOTE "Requests" CHAR_DOUBLEQUOTE ": "
+                                           CHAR_DOUBLEQUOTE) << requests.c_str() <<
+                                        T_(CHAR_DOUBLEQUOTE ", ");
+                                cout << T_(CHAR_DOUBLEQUOTE "Path" CHAR_DOUBLEQUOTE ": "
+                                           CHAR_DOUBLEQUOTE) << descriptor._path.c_str() <<
+                                        T_(CHAR_DOUBLEQUOTE ", ");
+                                cout << T_(CHAR_DOUBLEQUOTE "SecondaryInputs" CHAR_DOUBLEQUOTE
+                                           ": ") << inChannelNames.c_str() << ", ";
+                                cout << T_(CHAR_DOUBLEQUOTE "SecondaryOutputs" CHAR_DOUBLEQUOTE
+                                           ": ") << outChannelNames.c_str() << " }";
+                                break;
+                                
+                            case MplusM::Common::kOutputFlavourTabs :
+                                cout << servicePortName.c_str() << "\t";
+                                cout << serviceName.c_str() << "\t";
+                                cout << descriptor._kind.c_str() << "\t";
+                                description = MplusM::SanitizeString(descriptor._description, true);
+                                cout << description.c_str() << "\t";
+                                requests = MplusM::SanitizeString(descriptor._requestsDescription,
+                                                                  true);
+                                cout << requests.c_str() << "\t" << descriptor._path.c_str() <<
+                                        "\t" << inChannelNames.c_str() << "\t" <<
+                                        outChannelNames.c_str();
+                                break;
+                                
+                            default :
+                                cout << "Service port:      " << servicePortName.c_str() << endl;
+                                cout << "Service name:      " << serviceName.c_str() << endl;
+                                cout << "Service kind:      " << descriptor._kind.c_str() << endl;
+                                MplusM::OutputDescription(cout, "Description:       ",
+                                                          descriptor._description);
+                                MplusM::OutputDescription(cout, "Requests:          ",
+                                                          descriptor._requestsDescription);
+                                cout << "Path:              " << descriptor._path.c_str() << endl;
+                                if (0 < inChannelNames.size())
+                                {
+                                    MplusM::OutputDescription(cout, "Secondary inputs:  ",
+                                                              inChannelNames);
+                                }
+                                if (0 < outChannelNames.size())
+                                {
+                                    MplusM::OutputDescription(cout, "Secondary outputs: ",
+                                                              outChannelNames);
+                                }
+                                break;
+                                
+                        }
                     }
                 }
             }

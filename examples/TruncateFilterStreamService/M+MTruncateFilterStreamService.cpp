@@ -37,12 +37,13 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MTruncateFilterStreamService.h"
-#include "M+MGeneralChannel.h"
 #include "M+MTruncateFilterInputHandler.h"
 #include "M+MTruncateFilterStreamRequests.h"
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+#include <mpm/M+MGeneralChannel.h>
+
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

@@ -39,7 +39,7 @@
 #if (! defined(MpMRandomBurstStreamService_H_))
 # define MpMRandomBurstStreamService_H_  /* Header guard */
 
-# include "M+MBaseInputService.h"
+# include <mpm/M+MBaseInputService.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

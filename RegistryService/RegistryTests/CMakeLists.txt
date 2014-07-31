@@ -36,9 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-include_directories("${MpM_LOGGING_DIR}"
-                    "${MpM_COMMON_DIR}"
-                    “${MpM_PARSER_DIR}”)
+include_directories("${MpM_SOURCE_DIR}")
 
 add_library(mpmRegistryTestSupport
             M+MTest14EchoRequestHandler.cpp

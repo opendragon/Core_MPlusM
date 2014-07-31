@@ -1,0 +1,1090 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384F67198A9A5A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/ChordGeneratorService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384F68198A9A5A00A0414E /* M+MChordGeneratorRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChordGeneratorRequestHandler.cpp"; path = "examples/ChordGeneratorService/M+MChordGeneratorRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F69198A9A5A00A0414E /* M+MChordGeneratorRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MChordGeneratorRequestHandler.h"; path = "examples/ChordGeneratorService/M+MChordGeneratorRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384F6A198A9A5A00A0414E /* M+MChordGeneratorRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MChordGeneratorRequests.h"; path = "examples/ChordGeneratorService/M+MChordGeneratorRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF384F6B198A9A5A00A0414E /* M+MChordGeneratorService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChordGeneratorService.cpp"; path = "examples/ChordGeneratorService/M+MChordGeneratorService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F6C198A9A5A00A0414E /* M+MChordGeneratorService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MChordGeneratorService.h"; path = "examples/ChordGeneratorService/M+MChordGeneratorService.h"; sourceTree = SOURCE_ROOT; };
+		DF384F6D198A9A5A00A0414E /* M+MChordGeneratorServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChordGeneratorServiceMain.cpp"; path = "examples/ChordGeneratorService/M+MChordGeneratorServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F6E198A9A7F00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/CMakeLists.txt; sourceTree = "<group>"; };
+		DF384F6F198A9A7F00A0414E /* CMakeListsStandalone.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeListsStandalone.txt; path = examples/CMakeListsStandalone.txt; sourceTree = "<group>"; };
+		DF384F70198A9AAA00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/EchoClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384F71198A9AAA00A0414E /* M+MEchoClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MEchoClient.cpp"; path = "examples/EchoClient/M+MEchoClient.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F72198A9AAA00A0414E /* M+MEchoClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MEchoClient.h"; path = "examples/EchoClient/M+MEchoClient.h"; sourceTree = SOURCE_ROOT; };
+		DF384F73198A9AAA00A0414E /* M+MEchoClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MEchoClientMain.cpp"; path = "examples/EchoClient/M+MEchoClientMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F74198A9ACC00A0414E /* M+MEchoRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MEchoRequests.h"; path = "examples/EchoCommon/M+MEchoRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF384F75198A9ACC00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/EchoService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384F76198A9ACC00A0414E /* M+MEchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MEchoRequestHandler.cpp"; path = "examples/EchoService/M+MEchoRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F77198A9ACC00A0414E /* M+MEchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MEchoRequestHandler.h"; path = "examples/EchoService/M+MEchoRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384F78198A9ACC00A0414E /* M+MEchoService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MEchoService.cpp"; path = "examples/EchoService/M+MEchoService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F79198A9ACC00A0414E /* M+MEchoService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MEchoService.h"; path = "examples/EchoService/M+MEchoService.h"; sourceTree = SOURCE_ROOT; };
+		DF384F7A198A9ACC00A0414E /* M+MEchoServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MEchoServiceMain.cpp"; path = "examples/EchoService/M+MEchoServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F7B198A9B0900A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RandomBurstStreamService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384F7C198A9B0900A0414E /* M+MRandomBurstStreamRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomBurstStreamRequests.h"; path = "examples/RandomBurstStreamService/M+MRandomBurstStreamRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF384F7D198A9B0900A0414E /* M+MRandomBurstStreamService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomBurstStreamService.cpp"; path = "examples/RandomBurstStreamService/M+MRandomBurstStreamService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F7E198A9B0900A0414E /* M+MRandomBurstStreamService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomBurstStreamService.h"; path = "examples/RandomBurstStreamService/M+MRandomBurstStreamService.h"; sourceTree = SOURCE_ROOT; };
+		DF384F7F198A9B0900A0414E /* M+MRandomBurstStreamServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomBurstStreamServiceMain.cpp"; path = "examples/RandomBurstStreamService/M+MRandomBurstStreamServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F80198A9B0900A0414E /* M+MRandomBurstThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomBurstThread.cpp"; path = "examples/RandomBurstStreamService/M+MRandomBurstThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F81198A9B0900A0414E /* M+MRandomBurstThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomBurstThread.h"; path = "examples/RandomBurstStreamService/M+MRandomBurstThread.h"; sourceTree = SOURCE_ROOT; };
+		DF384F82198A9B3100A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RandomNumberAdapter/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384F83198A9B3100A0414E /* M+MRandomNumberAdapterData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomNumberAdapterData.cpp"; path = "examples/RandomNumberAdapter/M+MRandomNumberAdapterData.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F84198A9B3100A0414E /* M+MRandomNumberAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomNumberAdapterData.h"; path = "examples/RandomNumberAdapter/M+MRandomNumberAdapterData.h"; sourceTree = SOURCE_ROOT; };
+		DF384F85198A9B3100A0414E /* M+MRandomNumberAdapterMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomNumberAdapterMain.cpp"; path = "examples/RandomNumberAdapter/M+MRandomNumberAdapterMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F86198A9B3100A0414E /* M+MRandomNumberInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomNumberInputHandler.cpp"; path = "examples/RandomNumberAdapter/M+MRandomNumberInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F87198A9B3100A0414E /* M+MRandomNumberInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomNumberInputHandler.h"; path = "examples/RandomNumberAdapter/M+MRandomNumberInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384F88198A9B4B00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RandomNumberClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384F89198A9B4B00A0414E /* M+MRandomNumberClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomNumberClient.cpp"; path = "examples/RandomNumberClient/M+MRandomNumberClient.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F8A198A9B4B00A0414E /* M+MRandomNumberClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomNumberClient.h"; path = "examples/RandomNumberClient/M+MRandomNumberClient.h"; sourceTree = SOURCE_ROOT; };
+		DF384F8B198A9B4B00A0414E /* M+MRandomNumberClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomNumberClientMain.cpp"; path = "examples/RandomNumberClient/M+MRandomNumberClientMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F8C198A9B6800A0414E /* M+MRandomNumberRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomNumberRequests.h"; path = "examples/RandomNumberCommon/M+MRandomNumberRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF384F8D198A9B6800A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RandomNumberService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384F8E198A9B6800A0414E /* M+MRandomNumberService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomNumberService.cpp"; path = "examples/RandomNumberService/M+MRandomNumberService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F8F198A9B6800A0414E /* M+MRandomNumberService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomNumberService.h"; path = "examples/RandomNumberService/M+MRandomNumberService.h"; sourceTree = SOURCE_ROOT; };
+		DF384F90198A9B6800A0414E /* M+MRandomNumberServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomNumberServiceMain.cpp"; path = "examples/RandomNumberService/M+MRandomNumberServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F91198A9B6800A0414E /* M+MRandomRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomRequestHandler.cpp"; path = "examples/RandomNumberService/M+MRandomRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F92198A9B6800A0414E /* M+MRandomRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomRequestHandler.h"; path = "examples/RandomNumberService/M+MRandomRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384F93198A9B9A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RecordIntegersStreamService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384F94198A9B9A00A0414E /* M+MRecordIntegersInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordIntegersInputHandler.cpp"; path = "examples/RecordIntegersStreamService/M+MRecordIntegersInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F95198A9B9A00A0414E /* M+MRecordIntegersInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordIntegersInputHandler.h"; path = "examples/RecordIntegersStreamService/M+MRecordIntegersInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384F96198A9B9A00A0414E /* M+MRecordIntegersStreamRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordIntegersStreamRequests.h"; path = "examples/RecordIntegersStreamService/M+MRecordIntegersStreamRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF384F97198A9B9A00A0414E /* M+MRecordIntegersStreamService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordIntegersStreamService.cpp"; path = "examples/RecordIntegersStreamService/M+MRecordIntegersStreamService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F98198A9B9A00A0414E /* M+MRecordIntegersStreamService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordIntegersStreamService.h"; path = "examples/RecordIntegersStreamService/M+MRecordIntegersStreamService.h"; sourceTree = SOURCE_ROOT; };
+		DF384F99198A9B9A00A0414E /* M+MRecordIntegersStreamServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordIntegersStreamServiceMain.cpp"; path = "examples/RecordIntegersStreamService/M+MRecordIntegersStreamServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F9A198A9BB400A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RunningSumAdapter/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384F9B198A9BB400A0414E /* M+MRunningSumAdapterData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumAdapterData.cpp"; path = "examples/RunningSumAdapter/M+MRunningSumAdapterData.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F9C198A9BB400A0414E /* M+MRunningSumAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumAdapterData.h"; path = "examples/RunningSumAdapter/M+MRunningSumAdapterData.h"; sourceTree = SOURCE_ROOT; };
+		DF384F9D198A9BB400A0414E /* M+MRunningSumAdapterMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumAdapterMain.cpp"; path = "examples/RunningSumAdapter/M+MRunningSumAdapterMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F9E198A9BB400A0414E /* M+MRunningSumControlInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumControlInputHandler.cpp"; path = "examples/RunningSumAdapter/M+MRunningSumControlInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F9F198A9BB400A0414E /* M+MRunningSumControlInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumControlInputHandler.h"; path = "examples/RunningSumAdapter/M+MRunningSumControlInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FA0198A9BB400A0414E /* M+MRunningSumDataInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumDataInputHandler.cpp"; path = "examples/RunningSumAdapter/M+MRunningSumDataInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FA1198A9BB400A0414E /* M+MRunningSumDataInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumDataInputHandler.h"; path = "examples/RunningSumAdapter/M+MRunningSumDataInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FA2198A9BCF00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RunningSumAltAdapter/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384FA3198A9BCF00A0414E /* M+MRunningSumAltAdapterMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumAltAdapterMain.cpp"; path = "examples/RunningSumAltAdapter/M+MRunningSumAltAdapterMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FA4198A9BCF00A0414E /* M+MRunningSumInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumInputHandler.cpp"; path = "examples/RunningSumAltAdapter/M+MRunningSumInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FA5198A9BCF00A0414E /* M+MRunningSumInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumInputHandler.h"; path = "examples/RunningSumAltAdapter/M+MRunningSumInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FA6198A9BE800A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RunningSumClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384FA7198A9BE800A0414E /* M+MRunningSumClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumClient.cpp"; path = "examples/RunningSumClient/M+MRunningSumClient.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FA8198A9BE800A0414E /* M+MRunningSumClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumClient.h"; path = "examples/RunningSumClient/M+MRunningSumClient.h"; sourceTree = SOURCE_ROOT; };
+		DF384FA9198A9BE800A0414E /* M+MRunningSumClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumClientMain.cpp"; path = "examples/RunningSumClient/M+MRunningSumClientMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FAA198A9C0500A0414E /* M+MRunningSumRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumRequests.h"; path = "examples/RunningSumCommon/M+MRunningSumRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF384FAB198A9C0500A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RunningSumService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384FAC198A9C0500A0414E /* M+MAddRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddRequestHandler.cpp"; path = "examples/RunningSumService/M+MAddRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FAD198A9C0500A0414E /* M+MAddRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAddRequestHandler.h"; path = "examples/RunningSumService/M+MAddRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FAE198A9C0500A0414E /* M+MResetRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MResetRequestHandler.cpp"; path = "examples/RunningSumService/M+MResetRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FAF198A9C0500A0414E /* M+MResetRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MResetRequestHandler.h"; path = "examples/RunningSumService/M+MResetRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FB0198A9C0500A0414E /* M+MRunningSumContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumContext.cpp"; path = "examples/RunningSumService/M+MRunningSumContext.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FB1198A9C0500A0414E /* M+MRunningSumContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumContext.h"; path = "examples/RunningSumService/M+MRunningSumContext.h"; sourceTree = SOURCE_ROOT; };
+		DF384FB2198A9C0500A0414E /* M+MRunningSumService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumService.cpp"; path = "examples/RunningSumService/M+MRunningSumService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FB3198A9C0500A0414E /* M+MRunningSumService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumService.h"; path = "examples/RunningSumService/M+MRunningSumService.h"; sourceTree = SOURCE_ROOT; };
+		DF384FB4198A9C0500A0414E /* M+MRunningSumServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumServiceMain.cpp"; path = "examples/RunningSumService/M+MRunningSumServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FB5198A9C0500A0414E /* M+MStartRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStartRequestHandler.cpp"; path = "examples/RunningSumService/M+MStartRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FB6198A9C0500A0414E /* M+MStartRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStartRequestHandler.h"; path = "examples/RunningSumService/M+MStartRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FB7198A9C0500A0414E /* M+MStopRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStopRequestHandler.cpp"; path = "examples/RunningSumService/M+MStopRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FB8198A9C0500A0414E /* M+MStopRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStopRequestHandler.h"; path = "examples/RunningSumService/M+MStopRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FB9198A9C4D00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/TruncateFilterStreamService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384FBA198A9C4D00A0414E /* M+MTruncateFilterInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFilterInputHandler.cpp"; path = "examples/TruncateFilterStreamService/M+MTruncateFilterInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FBB198A9C4D00A0414E /* M+MTruncateFilterInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFilterInputHandler.h"; path = "examples/TruncateFilterStreamService/M+MTruncateFilterInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FBC198A9C4D00A0414E /* M+MTruncateFilterStreamRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFilterStreamRequests.h"; path = "examples/TruncateFilterStreamService/M+MTruncateFilterStreamRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF384FBD198A9C4D00A0414E /* M+MTruncateFilterStreamService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFilterStreamService.cpp"; path = "examples/TruncateFilterStreamService/M+MTruncateFilterStreamService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FBE198A9C4D00A0414E /* M+MTruncateFilterStreamService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFilterStreamService.h"; path = "examples/TruncateFilterStreamService/M+MTruncateFilterStreamService.h"; sourceTree = SOURCE_ROOT; };
+		DF384FBF198A9C4D00A0414E /* M+MTruncateFilterStreamServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFilterStreamServiceMain.cpp"; path = "examples/TruncateFilterStreamService/M+MTruncateFilterStreamServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FC2198A9C7A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = odl/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384FC3198A9C7A00A0414E /* ODDisableLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODDisableLogging.h; path = odl/ODDisableLogging.h; sourceTree = SOURCE_ROOT; };
+		DF384FC4198A9C7A00A0414E /* ODEnableLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODEnableLogging.h; path = odl/ODEnableLogging.h; sourceTree = SOURCE_ROOT; };
+		DF384FC5198A9C7A00A0414E /* ODLogging.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ODLogging.cpp; path = odl/ODLogging.cpp; sourceTree = SOURCE_ROOT; };
+		DF384FC6198A9C7A00A0414E /* ODLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ODLogging.h; path = odl/ODLogging.h; sourceTree = SOURCE_ROOT; };
+		DF384FC7198A9C7A00A0414E /* ODLogging.inc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ODLogging.inc.c; path = odl/ODLogging.inc.c; sourceTree = SOURCE_ROOT; };
+		DF384FC8198A9C7A00A0414E /* ODLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODLogging.m; path = odl/ODLogging.m; sourceTree = SOURCE_ROOT; };
+		DF384FDD198A9CA600A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = PortLister/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384FDE198A9CA600A0414E /* M+MPortListerMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MPortListerMain.cpp"; path = "PortLister/M+MPortListerMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FDF198A9CC500A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RegistryService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384FE0198A9CC500A0414E /* M+MAssociateRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAssociateRequestHandler.cpp"; path = "RegistryService/M+MAssociateRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FE1198A9CC500A0414E /* M+MAssociateRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAssociateRequestHandler.h"; path = "RegistryService/M+MAssociateRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FE2198A9CC500A0414E /* M+MColumnNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MColumnNameValidator.cpp"; path = "RegistryService/M+MColumnNameValidator.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FE3198A9CC500A0414E /* M+MColumnNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MColumnNameValidator.h"; path = "RegistryService/M+MColumnNameValidator.h"; sourceTree = SOURCE_ROOT; };
+		DF384FE4198A9CC500A0414E /* M+MDisassociateRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MDisassociateRequestHandler.cpp"; path = "RegistryService/M+MDisassociateRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FE5198A9CC500A0414E /* M+MDisassociateRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MDisassociateRequestHandler.h"; path = "RegistryService/M+MDisassociateRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FE6198A9CC500A0414E /* M+MGetAssociatesRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MGetAssociatesRequestHandler.cpp"; path = "RegistryService/M+MGetAssociatesRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FE7198A9CC500A0414E /* M+MGetAssociatesRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MGetAssociatesRequestHandler.h"; path = "RegistryService/M+MGetAssociatesRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FE8198A9CC500A0414E /* M+MMatchRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMatchRequestHandler.cpp"; path = "RegistryService/M+MMatchRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FE9198A9CC500A0414E /* M+MMatchRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMatchRequestHandler.h"; path = "RegistryService/M+MMatchRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FEA198A9CC500A0414E /* M+MPingRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MPingRequestHandler.cpp"; path = "RegistryService/M+MPingRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FEB198A9CC500A0414E /* M+MPingRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MPingRequestHandler.h"; path = "RegistryService/M+MPingRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FEC198A9CC500A0414E /* M+MRegisterRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegisterRequestHandler.cpp"; path = "RegistryService/M+MRegisterRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FED198A9CC500A0414E /* M+MRegisterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRegisterRequestHandler.h"; path = "RegistryService/M+MRegisterRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FEE198A9CC500A0414E /* M+MRegistryCheckThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegistryCheckThread.cpp"; path = "RegistryService/M+MRegistryCheckThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FEF198A9CC500A0414E /* M+MRegistryCheckThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRegistryCheckThread.h"; path = "RegistryService/M+MRegistryCheckThread.h"; sourceTree = SOURCE_ROOT; };
+		DF384FF0198A9CC500A0414E /* M+MRegistryService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegistryService.cpp"; path = "RegistryService/M+MRegistryService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FF1198A9CC500A0414E /* M+MRegistryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRegistryService.h"; path = "RegistryService/M+MRegistryService.h"; sourceTree = SOURCE_ROOT; };
+		DF384FF2198A9CC500A0414E /* M+MRegistryServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegistryServiceMain.cpp"; path = "RegistryService/M+MRegistryServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FF3198A9CC500A0414E /* M+MRegistryTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegistryTest.cpp"; path = "RegistryService/M+MRegistryTest.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FF4198A9CC500A0414E /* M+MUnregisterRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUnregisterRequestHandler.cpp"; path = "RegistryService/M+MUnregisterRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FF5198A9CC500A0414E /* M+MUnregisterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUnregisterRequestHandler.h"; path = "RegistryService/M+MUnregisterRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FF6198A9D0E00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RegistryService/RegistryTests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384FF7198A9D0E00A0414E /* M+MTest14EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest14EchoRequestHandler.cpp"; path = "RegistryService/RegistryTests/M+MTest14EchoRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FF8198A9D0E00A0414E /* M+MTest14EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest14EchoRequestHandler.h"; path = "RegistryService/RegistryTests/M+MTest14EchoRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FF9198A9D0E00A0414E /* M+MTest14Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest14Service.cpp"; path = "RegistryService/RegistryTests/M+MTest14Service.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FFA198A9D0E00A0414E /* M+MTest14Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest14Service.h"; path = "RegistryService/RegistryTests/M+MTest14Service.h"; sourceTree = SOURCE_ROOT; };
+		DF384FFB198A9D0E00A0414E /* M+MTest15EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest15EchoRequestHandler.cpp"; path = "RegistryService/RegistryTests/M+MTest15EchoRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FFC198A9D0E00A0414E /* M+MTest15EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest15EchoRequestHandler.h"; path = "RegistryService/RegistryTests/M+MTest15EchoRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FFD198A9D0E00A0414E /* M+MTest15Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest15Service.cpp"; path = "RegistryService/RegistryTests/M+MTest15Service.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FFE198A9D0E00A0414E /* M+MTest15Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest15Service.h"; path = "RegistryService/RegistryTests/M+MTest15Service.h"; sourceTree = SOURCE_ROOT; };
+		DF384FFF198A9D0E00A0414E /* M+MTest16EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest16EchoRequestHandler.cpp"; path = "RegistryService/RegistryTests/M+MTest16EchoRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385000198A9D0E00A0414E /* M+MTest16EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest16EchoRequestHandler.h"; path = "RegistryService/RegistryTests/M+MTest16EchoRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF385001198A9D0E00A0414E /* M+MTest16Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest16Service.cpp"; path = "RegistryService/RegistryTests/M+MTest16Service.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385002198A9D0E00A0414E /* M+MTest16Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest16Service.h"; path = "RegistryService/RegistryTests/M+MTest16Service.h"; sourceTree = SOURCE_ROOT; };
+		DF385003198A9D2800A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RequestCounter/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF385004198A9D4A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RequestCounter/RequestCounterClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF385005198A9D4A00A0414E /* M+MRequestCounterClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterClient.cpp"; path = "RequestCounter/RequestCounterClient/M+MRequestCounterClient.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385006198A9D4A00A0414E /* M+MRequestCounterClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequestCounterClient.h"; path = "RequestCounter/RequestCounterClient/M+MRequestCounterClient.h"; sourceTree = SOURCE_ROOT; };
+		DF385007198A9D4A00A0414E /* M+MRequestCounterClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterClientMain.cpp"; path = "RequestCounter/RequestCounterClient/M+MRequestCounterClientMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385008198A9D6A00A0414E /* M+MRequestCounterRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequestCounterRequests.h"; path = "RequestCounter/RequestCounterCommon/M+MRequestCounterRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF385009198A9D6A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RequestCounter/RequestCounterService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF38500A198A9D6A00A0414E /* M+MRequestCounterContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterContext.cpp"; path = "RequestCounter/RequestCounterService/M+MRequestCounterContext.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38500B198A9D6A00A0414E /* M+MRequestCounterContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequestCounterContext.h"; path = "RequestCounter/RequestCounterService/M+MRequestCounterContext.h"; sourceTree = SOURCE_ROOT; };
+		DF38500C198A9D6A00A0414E /* M+MRequestCounterDefaultRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterDefaultRequestHandler.cpp"; path = "RequestCounter/RequestCounterService/M+MRequestCounterDefaultRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38500D198A9D6A00A0414E /* M+MRequestCounterDefaultRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequestCounterDefaultRequestHandler.h"; path = "RequestCounter/RequestCounterService/M+MRequestCounterDefaultRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF38500E198A9D6A00A0414E /* M+MRequestCounterService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterService.cpp"; path = "RequestCounter/RequestCounterService/M+MRequestCounterService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38500F198A9D6A00A0414E /* M+MRequestCounterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequestCounterService.h"; path = "RequestCounter/RequestCounterService/M+MRequestCounterService.h"; sourceTree = SOURCE_ROOT; };
+		DF385010198A9D6A00A0414E /* M+MRequestCounterServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterServiceMain.cpp"; path = "RequestCounter/RequestCounterService/M+MRequestCounterServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385011198A9D6A00A0414E /* M+MResetRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MResetRequestHandler.cpp"; path = "RequestCounter/RequestCounterService/M+MResetRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385012198A9D6A00A0414E /* M+MResetRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MResetRequestHandler.h"; path = "RequestCounter/RequestCounterService/M+MResetRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF385013198A9D6A00A0414E /* M+MStatsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStatsRequestHandler.cpp"; path = "RequestCounter/RequestCounterService/M+MStatsRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385014198A9D6A00A0414E /* M+MStatsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStatsRequestHandler.h"; path = "RequestCounter/RequestCounterService/M+MStatsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF385015198A9DA800A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RequestInfo/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF385016198A9DA800A0414E /* M+MRequestInfoMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestInfoMain.cpp"; path = "RequestInfo/M+MRequestInfoMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385017198A9DBE00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ServiceLister/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF385018198A9DBE00A0414E /* M+MServiceListerMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MServiceListerMain.cpp"; path = "ServiceLister/M+MServiceListerMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385019198A9DD500A0414E /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = SQLite3/sqlite3.c; sourceTree = SOURCE_ROOT; };
+		DF38501A198A9DD500A0414E /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3.h; path = SQLite3/sqlite3.h; sourceTree = SOURCE_ROOT; };
+		DF38501B198A9DD500A0414E /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3ext.h; path = SQLite3/sqlite3ext.h; sourceTree = SOURCE_ROOT; };
+		DF38501C198A9DEB00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Version/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF38501D198A9DEB00A0414E /* M+MVersionMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MVersionMain.cpp"; path = "Version/M+MVersionMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38503E198ABBBB00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = CommonTests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF38503F198ABBBB00A0414E /* M+MTest03Handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest03Handler.cpp"; path = "CommonTests/M+MTest03Handler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385040198ABBBB00A0414E /* M+MTest03Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest03Handler.h"; path = "CommonTests/M+MTest03Handler.h"; sourceTree = SOURCE_ROOT; };
+		DF385041198ABBBB00A0414E /* M+MTest04Handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest04Handler.cpp"; path = "CommonTests/M+MTest04Handler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385042198ABBBB00A0414E /* M+MTest04Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest04Handler.h"; path = "CommonTests/M+MTest04Handler.h"; sourceTree = SOURCE_ROOT; };
+		DF385043198ABBBB00A0414E /* M+MTest05Handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest05Handler.cpp"; path = "CommonTests/M+MTest05Handler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385044198ABBBB00A0414E /* M+MTest05Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest05Handler.h"; path = "CommonTests/M+MTest05Handler.h"; sourceTree = SOURCE_ROOT; };
+		DF385045198ABBBB00A0414E /* M+MTest05HandlerCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest05HandlerCreator.cpp"; path = "CommonTests/M+MTest05HandlerCreator.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385046198ABBBB00A0414E /* M+MTest05HandlerCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest05HandlerCreator.h"; path = "CommonTests/M+MTest05HandlerCreator.h"; sourceTree = SOURCE_ROOT; };
+		DF385047198ABBBB00A0414E /* M+MTest08Handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest08Handler.cpp"; path = "CommonTests/M+MTest08Handler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385048198ABBBB00A0414E /* M+MTest08Handler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest08Handler.h"; path = "CommonTests/M+MTest08Handler.h"; sourceTree = SOURCE_ROOT; };
+		DF385049198ABBBB00A0414E /* M+MTest09DefaultRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest09DefaultRequestHandler.cpp"; path = "CommonTests/M+MTest09DefaultRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38504A198ABBBB00A0414E /* M+MTest09DefaultRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest09DefaultRequestHandler.h"; path = "CommonTests/M+MTest09DefaultRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF38504B198ABBBB00A0414E /* M+MTest09Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest09Service.cpp"; path = "CommonTests/M+MTest09Service.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38504C198ABBBB00A0414E /* M+MTest09Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest09Service.h"; path = "CommonTests/M+MTest09Service.h"; sourceTree = SOURCE_ROOT; };
+		DF38504D198ABBBB00A0414E /* M+MTest10DefaultRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest10DefaultRequestHandler.cpp"; path = "CommonTests/M+MTest10DefaultRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38504E198ABBBB00A0414E /* M+MTest10DefaultRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest10DefaultRequestHandler.h"; path = "CommonTests/M+MTest10DefaultRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF38504F198ABBBB00A0414E /* M+MTest10Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest10Service.cpp"; path = "CommonTests/M+MTest10Service.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385050198ABBBB00A0414E /* M+MTest10Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest10Service.h"; path = "CommonTests/M+MTest10Service.h"; sourceTree = SOURCE_ROOT; };
+		DF385051198ABBBB00A0414E /* M+MTest11EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest11EchoRequestHandler.cpp"; path = "CommonTests/M+MTest11EchoRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385052198ABBBB00A0414E /* M+MTest11EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest11EchoRequestHandler.h"; path = "CommonTests/M+MTest11EchoRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF385053198ABBBB00A0414E /* M+MTest11Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest11Service.cpp"; path = "CommonTests/M+MTest11Service.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385054198ABBBB00A0414E /* M+MTest11Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest11Service.h"; path = "CommonTests/M+MTest11Service.h"; sourceTree = SOURCE_ROOT; };
+		DF385055198ABBBB00A0414E /* M+MTest12EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest12EchoRequestHandler.cpp"; path = "CommonTests/M+MTest12EchoRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385056198ABBBB00A0414E /* M+MTest12EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest12EchoRequestHandler.h"; path = "CommonTests/M+MTest12EchoRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF385057198ABBBB00A0414E /* M+MTest12Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest12Service.cpp"; path = "CommonTests/M+MTest12Service.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385058198ABBBB00A0414E /* M+MTest12Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest12Service.h"; path = "CommonTests/M+MTest12Service.h"; sourceTree = SOURCE_ROOT; };
+		DF385059198ABC2000A0414E /* M+MCommonTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MCommonTest.cpp"; path = "CommonTests/M+MCommonTest.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38507A198AC50200A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ParserTest/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF38507B198AC50200A0414E /* M+MParserTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MParserTest.cpp"; path = "ParserTest/M+MParserTest.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38507C198AC50200A0414E /* M+MTestNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestNameValidator.cpp"; path = "ParserTest/M+MTestNameValidator.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38507D198AC50200A0414E /* M+MTestNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTestNameValidator.h"; path = "ParserTest/M+MTestNameValidator.h"; sourceTree = SOURCE_ROOT; };
+		DF3850BE198ACCFE00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = mpm/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF3850BF198ACCFE00A0414E /* getopt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = getopt.cpp; path = mpm/getopt.cpp; sourceTree = SOURCE_ROOT; };
+		DF3850C0198ACCFE00A0414E /* getopt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = getopt.h; path = mpm/getopt.h; sourceTree = SOURCE_ROOT; };
+		DF3850C1198ACCFE00A0414E /* M+MAdapterChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAdapterChannel.cpp"; path = "mpm/M+MAdapterChannel.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850C2198ACCFE00A0414E /* M+MAdapterChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAdapterChannel.h"; path = "mpm/M+MAdapterChannel.h"; sourceTree = SOURCE_ROOT; };
+		DF3850C3198ACCFE00A0414E /* M+MBailOut.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBailOut.cpp"; path = "mpm/M+MBailOut.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850C4198ACCFE00A0414E /* M+MBailOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBailOut.h"; path = "mpm/M+MBailOut.h"; sourceTree = SOURCE_ROOT; };
+		DF3850C5198ACCFE00A0414E /* M+MBailOutThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBailOutThread.cpp"; path = "mpm/M+MBailOutThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850C6198ACCFE00A0414E /* M+MBailOutThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBailOutThread.h"; path = "mpm/M+MBailOutThread.h"; sourceTree = SOURCE_ROOT; };
+		DF3850C7198ACCFE00A0414E /* M+MBaseAdapterData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseAdapterData.cpp"; path = "mpm/M+MBaseAdapterData.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850C8198ACCFE00A0414E /* M+MBaseAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseAdapterData.h"; path = "mpm/M+MBaseAdapterData.h"; sourceTree = SOURCE_ROOT; };
+		DF3850C9198ACCFE00A0414E /* M+MBaseClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseClient.cpp"; path = "mpm/M+MBaseClient.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850CA198ACCFE00A0414E /* M+MBaseClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseClient.h"; path = "mpm/M+MBaseClient.h"; sourceTree = SOURCE_ROOT; };
+		DF3850CB198ACCFE00A0414E /* M+MBaseContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseContext.cpp"; path = "mpm/M+MBaseContext.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850CC198ACCFE00A0414E /* M+MBaseContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseContext.h"; path = "mpm/M+MBaseContext.h"; sourceTree = SOURCE_ROOT; };
+		DF3850CD198ACCFE00A0414E /* M+MBaseFilterService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseFilterService.cpp"; path = "mpm/M+MBaseFilterService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850CE198ACCFE00A0414E /* M+MBaseFilterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseFilterService.h"; path = "mpm/M+MBaseFilterService.h"; sourceTree = SOURCE_ROOT; };
+		DF3850CF198ACCFE00A0414E /* M+MBaseInputOutputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseInputOutputService.cpp"; path = "mpm/M+MBaseInputOutputService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850D0198ACCFE00A0414E /* M+MBaseInputOutputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseInputOutputService.h"; path = "mpm/M+MBaseInputOutputService.h"; sourceTree = SOURCE_ROOT; };
+		DF3850D1198ACCFE00A0414E /* M+MBaseInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseInputService.cpp"; path = "mpm/M+MBaseInputService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850D2198ACCFE00A0414E /* M+MBaseInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseInputService.h"; path = "mpm/M+MBaseInputService.h"; sourceTree = SOURCE_ROOT; };
+		DF3850D3198ACCFE00A0414E /* M+MBaseMatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseMatcher.cpp"; path = "mpm/M+MBaseMatcher.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850D4198ACCFE00A0414E /* M+MBaseMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseMatcher.h"; path = "mpm/M+MBaseMatcher.h"; sourceTree = SOURCE_ROOT; };
+		DF3850D5198ACCFE00A0414E /* M+MBaseNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseNameValidator.cpp"; path = "mpm/M+MBaseNameValidator.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850D6198ACCFE00A0414E /* M+MBaseNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseNameValidator.h"; path = "mpm/M+MBaseNameValidator.h"; sourceTree = SOURCE_ROOT; };
+		DF3850D7198ACCFE00A0414E /* M+MBaseOutputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseOutputService.cpp"; path = "mpm/M+MBaseOutputService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850D8198ACCFE00A0414E /* M+MBaseOutputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseOutputService.h"; path = "mpm/M+MBaseOutputService.h"; sourceTree = SOURCE_ROOT; };
+		DF3850D9198ACCFE00A0414E /* M+MBaseRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseRequestHandler.cpp"; path = "mpm/M+MBaseRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850DA198ACCFE00A0414E /* M+MBaseRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseRequestHandler.h"; path = "mpm/M+MBaseRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF3850DB198ACCFE00A0414E /* M+MBaseService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseService.cpp"; path = "mpm/M+MBaseService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850DC198ACCFE00A0414E /* M+MBaseService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseService.h"; path = "mpm/M+MBaseService.h"; sourceTree = SOURCE_ROOT; };
+		DF3850DD198ACCFE00A0414E /* M+MBaseServiceInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseServiceInputHandler.cpp"; path = "mpm/M+MBaseServiceInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850DE198ACCFE00A0414E /* M+MBaseServiceInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseServiceInputHandler.h"; path = "mpm/M+MBaseServiceInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF3850DF198ACCFE00A0414E /* M+MBaseServiceInputHandlerCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseServiceInputHandlerCreator.cpp"; path = "mpm/M+MBaseServiceInputHandlerCreator.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850E0198ACCFE00A0414E /* M+MBaseServiceInputHandlerCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseServiceInputHandlerCreator.h"; path = "mpm/M+MBaseServiceInputHandlerCreator.h"; sourceTree = SOURCE_ROOT; };
+		DF3850E1198ACCFE00A0414E /* M+MChannelsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChannelsRequestHandler.cpp"; path = "mpm/M+MChannelsRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850E2198ACCFE00A0414E /* M+MChannelsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MChannelsRequestHandler.h"; path = "mpm/M+MChannelsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF3850E3198ACCFE00A0414E /* M+MChannelStatusReporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChannelStatusReporter.cpp"; path = "mpm/M+MChannelStatusReporter.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850E4198ACCFE00A0414E /* M+MChannelStatusReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MChannelStatusReporter.h"; path = "mpm/M+MChannelStatusReporter.h"; sourceTree = SOURCE_ROOT; };
+		DF3850E5198ACCFE00A0414E /* M+MClientChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MClientChannel.cpp"; path = "mpm/M+MClientChannel.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850E6198ACCFE00A0414E /* M+MClientChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MClientChannel.h"; path = "mpm/M+MClientChannel.h"; sourceTree = SOURCE_ROOT; };
+		DF3850E7198ACCFE00A0414E /* M+MClientsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MClientsRequestHandler.cpp"; path = "mpm/M+MClientsRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850E8198ACCFE00A0414E /* M+MClientsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MClientsRequestHandler.h"; path = "mpm/M+MClientsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF3850E9198ACCFE00A0414E /* M+MCommon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MCommon.cpp"; path = "mpm/M+MCommon.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850EA198ACCFE00A0414E /* M+MCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MCommon.h"; path = "mpm/M+MCommon.h"; sourceTree = SOURCE_ROOT; };
+		DF3850EB198ACCFE00A0414E /* M+MConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MConfig.h"; path = "mpm/M+MConfig.h"; sourceTree = SOURCE_ROOT; };
+		DF3850EC198ACCFE00A0414E /* M+MConfig.h.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "M+MConfig.h.in"; path = "mpm/M+MConfig.h.in"; sourceTree = SOURCE_ROOT; };
+		DF3850ED198ACCFE00A0414E /* M+MConfigureRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MConfigureRequestHandler.cpp"; path = "mpm/M+MConfigureRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850EE198ACCFE00A0414E /* M+MConfigureRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MConfigureRequestHandler.h"; path = "mpm/M+MConfigureRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF3850EF198ACCFE00A0414E /* M+MCountRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MCountRequestHandler.cpp"; path = "mpm/M+MCountRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850F0198ACCFE00A0414E /* M+MCountRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MCountRequestHandler.h"; path = "mpm/M+MCountRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF3850F1198ACCFE00A0414E /* M+MDetachRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MDetachRequestHandler.cpp"; path = "mpm/M+MDetachRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850F2198ACCFE00A0414E /* M+MDetachRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MDetachRequestHandler.h"; path = "mpm/M+MDetachRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF3850F3198ACCFE00A0414E /* M+MEndpoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MEndpoint.cpp"; path = "mpm/M+MEndpoint.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850F4198ACCFE00A0414E /* M+MEndpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MEndpoint.h"; path = "mpm/M+MEndpoint.h"; sourceTree = SOURCE_ROOT; };
+		DF3850F5198ACCFE00A0414E /* M+MException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MException.cpp"; path = "mpm/M+MException.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850F6198ACCFE00A0414E /* M+MException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MException.h"; path = "mpm/M+MException.h"; sourceTree = SOURCE_ROOT; };
+		DF3850F7198ACCFE00A0414E /* M+MGeneralChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MGeneralChannel.cpp"; path = "mpm/M+MGeneralChannel.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850F8198ACCFE00A0414E /* M+MGeneralChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MGeneralChannel.h"; path = "mpm/M+MGeneralChannel.h"; sourceTree = SOURCE_ROOT; };
+		DF3850F9198ACCFE00A0414E /* M+MInfoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MInfoRequestHandler.cpp"; path = "mpm/M+MInfoRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850FA198ACCFE00A0414E /* M+MInfoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MInfoRequestHandler.h"; path = "mpm/M+MInfoRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF3850FB198ACCFE00A0414E /* M+MInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MInputHandler.cpp"; path = "mpm/M+MInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850FC198ACCFE00A0414E /* M+MInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MInputHandler.h"; path = "mpm/M+MInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF3850FD198ACCFE00A0414E /* M+MInputHandlerCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MInputHandlerCreator.cpp"; path = "mpm/M+MInputHandlerCreator.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850FE198ACCFE00A0414E /* M+MInputHandlerCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MInputHandlerCreator.h"; path = "mpm/M+MInputHandlerCreator.h"; sourceTree = SOURCE_ROOT; };
+		DF3850FF198ACCFE00A0414E /* M+MListRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MListRequestHandler.cpp"; path = "mpm/M+MListRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385100198ACCFE00A0414E /* M+MListRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MListRequestHandler.h"; path = "mpm/M+MListRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF385101198ACCFE00A0414E /* M+MMatchConstraint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMatchConstraint.cpp"; path = "mpm/M+MMatchConstraint.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385102198ACCFE00A0414E /* M+MMatchConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMatchConstraint.h"; path = "mpm/M+MMatchConstraint.h"; sourceTree = SOURCE_ROOT; };
+		DF385103198ACCFE00A0414E /* M+MMatchExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMatchExpression.cpp"; path = "mpm/M+MMatchExpression.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385104198ACCFE00A0414E /* M+MMatchExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMatchExpression.h"; path = "mpm/M+MMatchExpression.h"; sourceTree = SOURCE_ROOT; };
+		DF385105198ACCFE00A0414E /* M+MMatchFieldName.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMatchFieldName.cpp"; path = "mpm/M+MMatchFieldName.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385106198ACCFE00A0414E /* M+MMatchFieldName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMatchFieldName.h"; path = "mpm/M+MMatchFieldName.h"; sourceTree = SOURCE_ROOT; };
+		DF385107198ACCFE00A0414E /* M+MMatchFieldWithValues.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMatchFieldWithValues.cpp"; path = "mpm/M+MMatchFieldWithValues.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385108198ACCFE00A0414E /* M+MMatchFieldWithValues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMatchFieldWithValues.h"; path = "mpm/M+MMatchFieldWithValues.h"; sourceTree = SOURCE_ROOT; };
+		DF385109198ACCFE00A0414E /* M+MMatchValue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMatchValue.cpp"; path = "mpm/M+MMatchValue.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38510A198ACCFE00A0414E /* M+MMatchValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMatchValue.h"; path = "mpm/M+MMatchValue.h"; sourceTree = SOURCE_ROOT; };
+		DF38510B198ACCFE00A0414E /* M+MMatchValueList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMatchValueList.cpp"; path = "mpm/M+MMatchValueList.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38510C198ACCFE00A0414E /* M+MMatchValueList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMatchValueList.h"; path = "mpm/M+MMatchValueList.h"; sourceTree = SOURCE_ROOT; };
+		DF38510D198ACCFE00A0414E /* M+MNameRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNameRequestHandler.cpp"; path = "mpm/M+MNameRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38510E198ACCFE00A0414E /* M+MNameRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNameRequestHandler.h"; path = "mpm/M+MNameRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF38510F198ACCFE00A0414E /* M+MPingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MPingThread.cpp"; path = "mpm/M+MPingThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385110198ACCFE00A0414E /* M+MPingThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MPingThread.h"; path = "mpm/M+MPingThread.h"; sourceTree = SOURCE_ROOT; };
+		DF385111198ACCFE00A0414E /* M+MQuitRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MQuitRequestHandler.cpp"; path = "mpm/M+MQuitRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385112198ACCFE00A0414E /* M+MQuitRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MQuitRequestHandler.h"; path = "mpm/M+MQuitRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF385113198ACCFE00A0414E /* M+MRequestMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestMap.cpp"; path = "mpm/M+MRequestMap.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385114198ACCFE00A0414E /* M+MRequestMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequestMap.h"; path = "mpm/M+MRequestMap.h"; sourceTree = SOURCE_ROOT; };
+		DF385115198ACCFE00A0414E /* M+MRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequests.h"; path = "mpm/M+MRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF385116198ACCFE00A0414E /* M+MRestartStreamsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRestartStreamsRequestHandler.cpp"; path = "mpm/M+MRestartStreamsRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385117198ACCFE00A0414E /* M+MRestartStreamsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRestartStreamsRequestHandler.h"; path = "mpm/M+MRestartStreamsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF385118198ACCFE00A0414E /* M+MServiceChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MServiceChannel.cpp"; path = "mpm/M+MServiceChannel.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385119198ACCFE00A0414E /* M+MServiceChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MServiceChannel.h"; path = "mpm/M+MServiceChannel.h"; sourceTree = SOURCE_ROOT; };
+		DF38511A198ACCFE00A0414E /* M+MServiceRequest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MServiceRequest.cpp"; path = "mpm/M+MServiceRequest.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38511B198ACCFE00A0414E /* M+MServiceRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MServiceRequest.h"; path = "mpm/M+MServiceRequest.h"; sourceTree = SOURCE_ROOT; };
+		DF38511C198ACCFE00A0414E /* M+MServiceResponse.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MServiceResponse.cpp"; path = "mpm/M+MServiceResponse.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38511D198ACCFE00A0414E /* M+MServiceResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MServiceResponse.h"; path = "mpm/M+MServiceResponse.h"; sourceTree = SOURCE_ROOT; };
+		DF38511E198ACCFE00A0414E /* M+MStartStreamsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStartStreamsRequestHandler.cpp"; path = "mpm/M+MStartStreamsRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF38511F198ACCFE00A0414E /* M+MStartStreamsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStartStreamsRequestHandler.h"; path = "mpm/M+MStartStreamsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF385120198ACCFE00A0414E /* M+MStopStreamsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStopStreamsRequestHandler.cpp"; path = "mpm/M+MStopStreamsRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385121198ACCFE00A0414E /* M+MStopStreamsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStopStreamsRequestHandler.h"; path = "mpm/M+MStopStreamsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF385122198ACCFE00A0414E /* M+MUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUtilities.cpp"; path = "mpm/M+MUtilities.cpp"; sourceTree = SOURCE_ROOT; };
+		DF385123198ACCFE00A0414E /* M+MUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUtilities.h"; path = "mpm/M+MUtilities.h"; sourceTree = SOURCE_ROOT; };
+		DFCB229818EF23DF00358EA5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ClientList/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFCB229918EF23DF00358EA5 /* M+MClientListMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MClientListMain.cpp"; path = "ClientList/M+MClientListMain.cpp"; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		DF06997C18ECBFB900FF0E93 /* RequestCounter */ = {
+			isa = PBXGroup;
+			children = (
+				DF385003198A9D2800A0414E /* CMakeLists.txt */,
+				DF2092CD18D371CB0093D3DC /* RequestCounterClient */,
+				DF7784FC18ECA61B00BDC5C1 /* RequestCounterCommon */,
+				DF20929518D3577D0093D3DC /* RequestCounterService */,
+			);
+			name = RequestCounter;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF06998E18EDD9F100FF0E93 /* SQLite3 */ = {
+			isa = PBXGroup;
+			children = (
+				DF385019198A9DD500A0414E /* sqlite3.c */,
+				DF38501A198A9DD500A0414E /* sqlite3.h */,
+				DF38501B198A9DD500A0414E /* sqlite3ext.h */,
+			);
+			name = SQLite3;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF20928F18D0DAA50093D3DC /* ServiceLister */ = {
+			isa = PBXGroup;
+			children = (
+				DF385017198A9DBE00A0414E /* CMakeLists.txt */,
+				DF385018198A9DBE00A0414E /* M+MServiceListerMain.cpp */,
+			);
+			name = ServiceLister;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF20929218D241270093D3DC /* RequestInfo */ = {
+			isa = PBXGroup;
+			children = (
+				DF385015198A9DA800A0414E /* CMakeLists.txt */,
+				DF385016198A9DA800A0414E /* M+MRequestInfoMain.cpp */,
+			);
+			name = RequestInfo;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF20929518D3577D0093D3DC /* RequestCounterService */ = {
+			isa = PBXGroup;
+			children = (
+				DF385009198A9D6A00A0414E /* CMakeLists.txt */,
+				DF38500A198A9D6A00A0414E /* M+MRequestCounterContext.cpp */,
+				DF38500B198A9D6A00A0414E /* M+MRequestCounterContext.h */,
+				DF38500E198A9D6A00A0414E /* M+MRequestCounterService.cpp */,
+				DF38500F198A9D6A00A0414E /* M+MRequestCounterService.h */,
+				DF385010198A9D6A00A0414E /* M+MRequestCounterServiceMain.cpp */,
+				DF36EEF31958E0A500E7D889 /* RequestHandlers */,
+			);
+			name = RequestCounterService;
+			sourceTree = "<group>";
+		};
+		DF2092A118D360DE0093D3DC /* RegistryTests */ = {
+			isa = PBXGroup;
+			children = (
+				DF384FF6198A9D0E00A0414E /* CMakeLists.txt */,
+				DF384FF7198A9D0E00A0414E /* M+MTest14EchoRequestHandler.cpp */,
+				DF384FF8198A9D0E00A0414E /* M+MTest14EchoRequestHandler.h */,
+				DF384FF9198A9D0E00A0414E /* M+MTest14Service.cpp */,
+				DF384FFA198A9D0E00A0414E /* M+MTest14Service.h */,
+				DF384FFB198A9D0E00A0414E /* M+MTest15EchoRequestHandler.cpp */,
+				DF384FFC198A9D0E00A0414E /* M+MTest15EchoRequestHandler.h */,
+				DF384FFD198A9D0E00A0414E /* M+MTest15Service.cpp */,
+				DF384FFE198A9D0E00A0414E /* M+MTest15Service.h */,
+				DF384FFF198A9D0E00A0414E /* M+MTest16EchoRequestHandler.cpp */,
+				DF385000198A9D0E00A0414E /* M+MTest16EchoRequestHandler.h */,
+				DF385001198A9D0E00A0414E /* M+MTest16Service.cpp */,
+				DF385002198A9D0E00A0414E /* M+MTest16Service.h */,
+			);
+			name = RegistryTests;
+			sourceTree = "<group>";
+		};
+		DF2092CD18D371CB0093D3DC /* RequestCounterClient */ = {
+			isa = PBXGroup;
+			children = (
+				DF385004198A9D4A00A0414E /* CMakeLists.txt */,
+				DF385005198A9D4A00A0414E /* M+MRequestCounterClient.cpp */,
+				DF385006198A9D4A00A0414E /* M+MRequestCounterClient.h */,
+				DF385007198A9D4A00A0414E /* M+MRequestCounterClientMain.cpp */,
+			);
+			name = RequestCounterClient;
+			sourceTree = "<group>";
+		};
+		DF2092D918D8DFE60093D3DC /* RunningSumService */ = {
+			isa = PBXGroup;
+			children = (
+				DF384FAB198A9C0500A0414E /* CMakeLists.txt */,
+				DF384FB0198A9C0500A0414E /* M+MRunningSumContext.cpp */,
+				DF384FB1198A9C0500A0414E /* M+MRunningSumContext.h */,
+				DF384FB2198A9C0500A0414E /* M+MRunningSumService.cpp */,
+				DF384FB3198A9C0500A0414E /* M+MRunningSumService.h */,
+				DF384FB4198A9C0500A0414E /* M+MRunningSumServiceMain.cpp */,
+				DF36EEF51958E11B00E7D889 /* RequestHandlers */,
+			);
+			name = RunningSumService;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF2092E918D8F6110093D3DC /* RunningSumClient */ = {
+			isa = PBXGroup;
+			children = (
+				DF384FA6198A9BE800A0414E /* CMakeLists.txt */,
+				DF384FA7198A9BE800A0414E /* M+MRunningSumClient.cpp */,
+				DF384FA8198A9BE800A0414E /* M+MRunningSumClient.h */,
+				DF384FA9198A9BE800A0414E /* M+MRunningSumClientMain.cpp */,
+			);
+			name = RunningSumClient;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF27F42718CA357400E93C95 /* ParserTest */ = {
+			isa = PBXGroup;
+			children = (
+				DF38507A198AC50200A0414E /* CMakeLists.txt */,
+				DF38507B198AC50200A0414E /* M+MParserTest.cpp */,
+				DF38507C198AC50200A0414E /* M+MTestNameValidator.cpp */,
+				DF38507D198AC50200A0414E /* M+MTestNameValidator.h */,
+			);
+			name = ParserTest;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF30062A18E4744400B51C22 /* RandomNumberAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				DF384F82198A9B3100A0414E /* CMakeLists.txt */,
+				DF384F83198A9B3100A0414E /* M+MRandomNumberAdapterData.cpp */,
+				DF384F84198A9B3100A0414E /* M+MRandomNumberAdapterData.h */,
+				DF384F85198A9B3100A0414E /* M+MRandomNumberAdapterMain.cpp */,
+				DF384F86198A9B3100A0414E /* M+MRandomNumberInputHandler.cpp */,
+				DF384F87198A9B3100A0414E /* M+MRandomNumberInputHandler.h */,
+			);
+			name = RandomNumberAdapter;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF30063718E605D400B51C22 /* PortLister */ = {
+			isa = PBXGroup;
+			children = (
+				DF384FDD198A9CA600A0414E /* CMakeLists.txt */,
+				DF384FDE198A9CA600A0414E /* M+MPortListerMain.cpp */,
+			);
+			name = PortLister;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF36EEF21958DE9F00E7D889 /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DF3850E1198ACCFE00A0414E /* M+MChannelsRequestHandler.cpp */,
+				DF3850E2198ACCFE00A0414E /* M+MChannelsRequestHandler.h */,
+				DF3850E7198ACCFE00A0414E /* M+MClientsRequestHandler.cpp */,
+				DF3850E8198ACCFE00A0414E /* M+MClientsRequestHandler.h */,
+				DF3850ED198ACCFE00A0414E /* M+MConfigureRequestHandler.cpp */,
+				DF3850EE198ACCFE00A0414E /* M+MConfigureRequestHandler.h */,
+				DF3850EF198ACCFE00A0414E /* M+MCountRequestHandler.cpp */,
+				DF3850F0198ACCFE00A0414E /* M+MCountRequestHandler.h */,
+				DF3850F1198ACCFE00A0414E /* M+MDetachRequestHandler.cpp */,
+				DF3850F2198ACCFE00A0414E /* M+MDetachRequestHandler.h */,
+				DF3850F9198ACCFE00A0414E /* M+MInfoRequestHandler.cpp */,
+				DF3850FA198ACCFE00A0414E /* M+MInfoRequestHandler.h */,
+				DF3850FF198ACCFE00A0414E /* M+MListRequestHandler.cpp */,
+				DF385100198ACCFE00A0414E /* M+MListRequestHandler.h */,
+				DF38510D198ACCFE00A0414E /* M+MNameRequestHandler.cpp */,
+				DF38510E198ACCFE00A0414E /* M+MNameRequestHandler.h */,
+				DF385111198ACCFE00A0414E /* M+MQuitRequestHandler.cpp */,
+				DF385112198ACCFE00A0414E /* M+MQuitRequestHandler.h */,
+				DF385116198ACCFE00A0414E /* M+MRestartStreamsRequestHandler.cpp */,
+				DF385117198ACCFE00A0414E /* M+MRestartStreamsRequestHandler.h */,
+				DF38511E198ACCFE00A0414E /* M+MStartStreamsRequestHandler.cpp */,
+				DF38511F198ACCFE00A0414E /* M+MStartStreamsRequestHandler.h */,
+				DF385120198ACCFE00A0414E /* M+MStopStreamsRequestHandler.cpp */,
+				DF385121198ACCFE00A0414E /* M+MStopStreamsRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DF36EEF31958E0A500E7D889 /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DF38500C198A9D6A00A0414E /* M+MRequestCounterDefaultRequestHandler.cpp */,
+				DF38500D198A9D6A00A0414E /* M+MRequestCounterDefaultRequestHandler.h */,
+				DF385011198A9D6A00A0414E /* M+MResetRequestHandler.cpp */,
+				DF385012198A9D6A00A0414E /* M+MResetRequestHandler.h */,
+				DF385013198A9D6A00A0414E /* M+MStatsRequestHandler.cpp */,
+				DF385014198A9D6A00A0414E /* M+MStatsRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DF36EEF41958E0C800E7D889 /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DF384FE0198A9CC500A0414E /* M+MAssociateRequestHandler.cpp */,
+				DF384FE1198A9CC500A0414E /* M+MAssociateRequestHandler.h */,
+				DF384FE4198A9CC500A0414E /* M+MDisassociateRequestHandler.cpp */,
+				DF384FE5198A9CC500A0414E /* M+MDisassociateRequestHandler.h */,
+				DF384FE6198A9CC500A0414E /* M+MGetAssociatesRequestHandler.cpp */,
+				DF384FE7198A9CC500A0414E /* M+MGetAssociatesRequestHandler.h */,
+				DF384FE8198A9CC500A0414E /* M+MMatchRequestHandler.cpp */,
+				DF384FE9198A9CC500A0414E /* M+MMatchRequestHandler.h */,
+				DF384FEA198A9CC500A0414E /* M+MPingRequestHandler.cpp */,
+				DF384FEB198A9CC500A0414E /* M+MPingRequestHandler.h */,
+				DF384FEC198A9CC500A0414E /* M+MRegisterRequestHandler.cpp */,
+				DF384FED198A9CC500A0414E /* M+MRegisterRequestHandler.h */,
+				DF384FF4198A9CC500A0414E /* M+MUnregisterRequestHandler.cpp */,
+				DF384FF5198A9CC500A0414E /* M+MUnregisterRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DF36EEF51958E11B00E7D889 /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DF384FAC198A9C0500A0414E /* M+MAddRequestHandler.cpp */,
+				DF384FAD198A9C0500A0414E /* M+MAddRequestHandler.h */,
+				DF384FAE198A9C0500A0414E /* M+MResetRequestHandler.cpp */,
+				DF384FAF198A9C0500A0414E /* M+MResetRequestHandler.h */,
+				DF384FB5198A9C0500A0414E /* M+MStartRequestHandler.cpp */,
+				DF384FB6198A9C0500A0414E /* M+MStartRequestHandler.h */,
+				DF384FB7198A9C0500A0414E /* M+MStopRequestHandler.cpp */,
+				DF384FB8198A9C0500A0414E /* M+MStopRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DF36EEF61958E13B00E7D889 /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DF384F91198A9B6800A0414E /* M+MRandomRequestHandler.cpp */,
+				DF384F92198A9B6800A0414E /* M+MRandomRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DF36EEF71958E15100E7D889 /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DF384F76198A9ACC00A0414E /* M+MEchoRequestHandler.cpp */,
+				DF384F77198A9ACC00A0414E /* M+MEchoRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DF36EEF81958E16400E7D889 /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DF384F68198A9A5A00A0414E /* M+MChordGeneratorRequestHandler.cpp */,
+				DF384F69198A9A5A00A0414E /* M+MChordGeneratorRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DF36EF04195A280900E7D889 /* RandomBurstStreamService */ = {
+			isa = PBXGroup;
+			children = (
+				DF384F7B198A9B0900A0414E /* CMakeLists.txt */,
+				DF384F7C198A9B0900A0414E /* M+MRandomBurstStreamRequests.h */,
+				DF384F7D198A9B0900A0414E /* M+MRandomBurstStreamService.cpp */,
+				DF384F7E198A9B0900A0414E /* M+MRandomBurstStreamService.h */,
+				DF384F7F198A9B0900A0414E /* M+MRandomBurstStreamServiceMain.cpp */,
+				DF384F80198A9B0900A0414E /* M+MRandomBurstThread.cpp */,
+				DF384F81198A9B0900A0414E /* M+MRandomBurstThread.h */,
+			);
+			name = RandomBurstStreamService;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF36EF14195A2D5A00E7D889 /* RecordIntegersStreamService */ = {
+			isa = PBXGroup;
+			children = (
+				DF384F93198A9B9A00A0414E /* CMakeLists.txt */,
+				DF384F94198A9B9A00A0414E /* M+MRecordIntegersInputHandler.cpp */,
+				DF384F95198A9B9A00A0414E /* M+MRecordIntegersInputHandler.h */,
+				DF384F96198A9B9A00A0414E /* M+MRecordIntegersStreamRequests.h */,
+				DF384F97198A9B9A00A0414E /* M+MRecordIntegersStreamService.cpp */,
+				DF384F98198A9B9A00A0414E /* M+MRecordIntegersStreamService.h */,
+				DF384F99198A9B9A00A0414E /* M+MRecordIntegersStreamServiceMain.cpp */,
+			);
+			name = RecordIntegersStreamService;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF36EF22195A303600E7D889 /* TruncateFilterStreamService */ = {
+			isa = PBXGroup;
+			children = (
+				DF384FB9198A9C4D00A0414E /* CMakeLists.txt */,
+				DF384FBA198A9C4D00A0414E /* M+MTruncateFilterInputHandler.cpp */,
+				DF384FBB198A9C4D00A0414E /* M+MTruncateFilterInputHandler.h */,
+				DF384FBC198A9C4D00A0414E /* M+MTruncateFilterStreamRequests.h */,
+				DF384FBD198A9C4D00A0414E /* M+MTruncateFilterStreamService.cpp */,
+				DF384FBE198A9C4D00A0414E /* M+MTruncateFilterStreamService.h */,
+				DF384FBF198A9C4D00A0414E /* M+MTruncateFilterStreamServiceMain.cpp */,
+			);
+			name = TruncateFilterStreamService;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF38503D198ABBA000A0414E /* CommonTests */ = {
+			isa = PBXGroup;
+			children = (
+				DF38503E198ABBBB00A0414E /* CMakeLists.txt */,
+				DF385059198ABC2000A0414E /* M+MCommonTest.cpp */,
+				DF38503F198ABBBB00A0414E /* M+MTest03Handler.cpp */,
+				DF385040198ABBBB00A0414E /* M+MTest03Handler.h */,
+				DF385041198ABBBB00A0414E /* M+MTest04Handler.cpp */,
+				DF385042198ABBBB00A0414E /* M+MTest04Handler.h */,
+				DF385043198ABBBB00A0414E /* M+MTest05Handler.cpp */,
+				DF385044198ABBBB00A0414E /* M+MTest05Handler.h */,
+				DF385045198ABBBB00A0414E /* M+MTest05HandlerCreator.cpp */,
+				DF385046198ABBBB00A0414E /* M+MTest05HandlerCreator.h */,
+				DF385047198ABBBB00A0414E /* M+MTest08Handler.cpp */,
+				DF385048198ABBBB00A0414E /* M+MTest08Handler.h */,
+				DF385049198ABBBB00A0414E /* M+MTest09DefaultRequestHandler.cpp */,
+				DF38504A198ABBBB00A0414E /* M+MTest09DefaultRequestHandler.h */,
+				DF38504B198ABBBB00A0414E /* M+MTest09Service.cpp */,
+				DF38504C198ABBBB00A0414E /* M+MTest09Service.h */,
+				DF38504D198ABBBB00A0414E /* M+MTest10DefaultRequestHandler.cpp */,
+				DF38504E198ABBBB00A0414E /* M+MTest10DefaultRequestHandler.h */,
+				DF38504F198ABBBB00A0414E /* M+MTest10Service.cpp */,
+				DF385050198ABBBB00A0414E /* M+MTest10Service.h */,
+				DF385051198ABBBB00A0414E /* M+MTest11EchoRequestHandler.cpp */,
+				DF385052198ABBBB00A0414E /* M+MTest11EchoRequestHandler.h */,
+				DF385053198ABBBB00A0414E /* M+MTest11Service.cpp */,
+				DF385054198ABBBB00A0414E /* M+MTest11Service.h */,
+				DF385055198ABBBB00A0414E /* M+MTest12EchoRequestHandler.cpp */,
+				DF385056198ABBBB00A0414E /* M+MTest12EchoRequestHandler.h */,
+				DF385057198ABBBB00A0414E /* M+MTest12Service.cpp */,
+				DF385058198ABBBB00A0414E /* M+MTest12Service.h */,
+			);
+			name = CommonTests;
+			sourceTree = "<group>";
+		};
+		DF4CCFD218FD903000713E54 /* RunningSumAltAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				DF384FA2198A9BCF00A0414E /* CMakeLists.txt */,
+				DF384FA3198A9BCF00A0414E /* M+MRunningSumAltAdapterMain.cpp */,
+				DF384FA4198A9BCF00A0414E /* M+MRunningSumInputHandler.cpp */,
+				DF384FA5198A9BCF00A0414E /* M+MRunningSumInputHandler.h */,
+			);
+			name = RunningSumAltAdapter;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF7784F918ECA5EA00BDC5C1 /* EchoCommon */ = {
+			isa = PBXGroup;
+			children = (
+				DF384F74198A9ACC00A0414E /* M+MEchoRequests.h */,
+			);
+			name = EchoCommon;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF7784FA18ECA5F400BDC5C1 /* RandomNumberCommon */ = {
+			isa = PBXGroup;
+			children = (
+				DF384F8C198A9B6800A0414E /* M+MRandomNumberRequests.h */,
+			);
+			name = RandomNumberCommon;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF7784FB18ECA60600BDC5C1 /* RunningSumCommon */ = {
+			isa = PBXGroup;
+			children = (
+				DF384FAA198A9C0500A0414E /* M+MRunningSumRequests.h */,
+			);
+			name = RunningSumCommon;
+			sourceTree = SOURCE_ROOT;
+		};
+		DF7784FC18ECA61B00BDC5C1 /* RequestCounterCommon */ = {
+			isa = PBXGroup;
+			children = (
+				DF385008198A9D6A00A0414E /* M+MRequestCounterRequests.h */,
+			);
+			name = RequestCounterCommon;
+			sourceTree = "<group>";
+		};
+		DFA3430618C91B4F0053B87C = {
+			isa = PBXGroup;
+			children = (
+				DF27F42B18CA377A00E93C95 /* CMakeLists.txt */,
+				DFCB229718EF23D200358EA5 /* ClientList */,
+				DF38503D198ABBA000A0414E /* CommonTests */,
+				DFA86D2518E1D13300A22941 /* examples */,
+				DFA3434F18C91C670053B87C /* mpm */,
+				DFA3432618C91C1C0053B87C /* odl */,
+				DF27F42718CA357400E93C95 /* ParserTest */,
+				DF30063718E605D400B51C22 /* PortLister */,
+				DFA3431418C91B8B0053B87C /* RegistryService */,
+				DF06997C18ECBFB900FF0E93 /* RequestCounter */,
+				DF20929218D241270093D3DC /* RequestInfo */,
+				DF20928F18D0DAA50093D3DC /* ServiceLister */,
+				DF06998E18EDD9F100FF0E93 /* SQLite3 */,
+				DFA4963A18FED31A005A7213 /* Version */,
+			);
+			sourceTree = "<group>";
+		};
+		DFA3431418C91B8B0053B87C /* RegistryService */ = {
+			isa = PBXGroup;
+			children = (
+				DF384FDF198A9CC500A0414E /* CMakeLists.txt */,
+				DF384FE2198A9CC500A0414E /* M+MColumnNameValidator.cpp */,
+				DF384FE3198A9CC500A0414E /* M+MColumnNameValidator.h */,
+				DF384FEE198A9CC500A0414E /* M+MRegistryCheckThread.cpp */,
+				DF384FEF198A9CC500A0414E /* M+MRegistryCheckThread.h */,
+				DF384FF0198A9CC500A0414E /* M+MRegistryService.cpp */,
+				DF384FF1198A9CC500A0414E /* M+MRegistryService.h */,
+				DF384FF2198A9CC500A0414E /* M+MRegistryServiceMain.cpp */,
+				DF384FF3198A9CC500A0414E /* M+MRegistryTest.cpp */,
+				DF2092A118D360DE0093D3DC /* RegistryTests */,
+				DF36EEF41958E0C800E7D889 /* RequestHandlers */,
+			);
+			name = RegistryService;
+			sourceTree = SOURCE_ROOT;
+		};
+		DFA3431B18C91BD10053B87C /* EchoService */ = {
+			isa = PBXGroup;
+			children = (
+				DF384F75198A9ACC00A0414E /* CMakeLists.txt */,
+				DF384F78198A9ACC00A0414E /* M+MEchoService.cpp */,
+				DF384F79198A9ACC00A0414E /* M+MEchoService.h */,
+				DF384F7A198A9ACC00A0414E /* M+MEchoServiceMain.cpp */,
+				DF36EEF71958E15100E7D889 /* RequestHandlers */,
+			);
+			name = EchoService;
+			sourceTree = SOURCE_ROOT;
+		};
+		DFA3432018C91BF40053B87C /* EchoClient */ = {
+			isa = PBXGroup;
+			children = (
+				DF384F70198A9AAA00A0414E /* CMakeLists.txt */,
+				DF384F71198A9AAA00A0414E /* M+MEchoClient.cpp */,
+				DF384F72198A9AAA00A0414E /* M+MEchoClient.h */,
+				DF384F73198A9AAA00A0414E /* M+MEchoClientMain.cpp */,
+			);
+			name = EchoClient;
+			sourceTree = SOURCE_ROOT;
+		};
+		DFA3432618C91C1C0053B87C /* odl */ = {
+			isa = PBXGroup;
+			children = (
+				DF384FC2198A9C7A00A0414E /* CMakeLists.txt */,
+				DF384FC3198A9C7A00A0414E /* ODDisableLogging.h */,
+				DF384FC4198A9C7A00A0414E /* ODEnableLogging.h */,
+				DF384FC5198A9C7A00A0414E /* ODLogging.cpp */,
+				DF384FC6198A9C7A00A0414E /* ODLogging.h */,
+				DF384FC7198A9C7A00A0414E /* ODLogging.inc.c */,
+				DF384FC8198A9C7A00A0414E /* ODLogging.m */,
+			);
+			name = odl;
+			sourceTree = SOURCE_ROOT;
+		};
+		DFA3434F18C91C670053B87C /* mpm */ = {
+			isa = PBXGroup;
+			children = (
+				DF3850BE198ACCFE00A0414E /* CMakeLists.txt */,
+				DF3850BF198ACCFE00A0414E /* getopt.cpp */,
+				DF3850C0198ACCFE00A0414E /* getopt.h */,
+				DF3850C1198ACCFE00A0414E /* M+MAdapterChannel.cpp */,
+				DF3850C2198ACCFE00A0414E /* M+MAdapterChannel.h */,
+				DF3850C3198ACCFE00A0414E /* M+MBailOut.cpp */,
+				DF3850C4198ACCFE00A0414E /* M+MBailOut.h */,
+				DF3850C5198ACCFE00A0414E /* M+MBailOutThread.cpp */,
+				DF3850C6198ACCFE00A0414E /* M+MBailOutThread.h */,
+				DF3850C7198ACCFE00A0414E /* M+MBaseAdapterData.cpp */,
+				DF3850C8198ACCFE00A0414E /* M+MBaseAdapterData.h */,
+				DF3850C9198ACCFE00A0414E /* M+MBaseClient.cpp */,
+				DF3850CA198ACCFE00A0414E /* M+MBaseClient.h */,
+				DF3850CB198ACCFE00A0414E /* M+MBaseContext.cpp */,
+				DF3850CC198ACCFE00A0414E /* M+MBaseContext.h */,
+				DF3850CD198ACCFE00A0414E /* M+MBaseFilterService.cpp */,
+				DF3850CE198ACCFE00A0414E /* M+MBaseFilterService.h */,
+				DF3850CF198ACCFE00A0414E /* M+MBaseInputOutputService.cpp */,
+				DF3850D0198ACCFE00A0414E /* M+MBaseInputOutputService.h */,
+				DF3850D1198ACCFE00A0414E /* M+MBaseInputService.cpp */,
+				DF3850D2198ACCFE00A0414E /* M+MBaseInputService.h */,
+				DF3850D3198ACCFE00A0414E /* M+MBaseMatcher.cpp */,
+				DF3850D4198ACCFE00A0414E /* M+MBaseMatcher.h */,
+				DF3850D5198ACCFE00A0414E /* M+MBaseNameValidator.cpp */,
+				DF3850D6198ACCFE00A0414E /* M+MBaseNameValidator.h */,
+				DF3850D7198ACCFE00A0414E /* M+MBaseOutputService.cpp */,
+				DF3850D8198ACCFE00A0414E /* M+MBaseOutputService.h */,
+				DF3850D9198ACCFE00A0414E /* M+MBaseRequestHandler.cpp */,
+				DF3850DA198ACCFE00A0414E /* M+MBaseRequestHandler.h */,
+				DF3850DB198ACCFE00A0414E /* M+MBaseService.cpp */,
+				DF3850DC198ACCFE00A0414E /* M+MBaseService.h */,
+				DF3850DD198ACCFE00A0414E /* M+MBaseServiceInputHandler.cpp */,
+				DF3850DE198ACCFE00A0414E /* M+MBaseServiceInputHandler.h */,
+				DF3850DF198ACCFE00A0414E /* M+MBaseServiceInputHandlerCreator.cpp */,
+				DF3850E0198ACCFE00A0414E /* M+MBaseServiceInputHandlerCreator.h */,
+				DF3850E3198ACCFE00A0414E /* M+MChannelStatusReporter.cpp */,
+				DF3850E4198ACCFE00A0414E /* M+MChannelStatusReporter.h */,
+				DF3850E5198ACCFE00A0414E /* M+MClientChannel.cpp */,
+				DF3850E6198ACCFE00A0414E /* M+MClientChannel.h */,
+				DF3850E9198ACCFE00A0414E /* M+MCommon.cpp */,
+				DF3850EA198ACCFE00A0414E /* M+MCommon.h */,
+				DF3850EB198ACCFE00A0414E /* M+MConfig.h */,
+				DF3850EC198ACCFE00A0414E /* M+MConfig.h.in */,
+				DF3850F3198ACCFE00A0414E /* M+MEndpoint.cpp */,
+				DF3850F4198ACCFE00A0414E /* M+MEndpoint.h */,
+				DF3850F5198ACCFE00A0414E /* M+MException.cpp */,
+				DF3850F6198ACCFE00A0414E /* M+MException.h */,
+				DF3850F7198ACCFE00A0414E /* M+MGeneralChannel.cpp */,
+				DF3850F8198ACCFE00A0414E /* M+MGeneralChannel.h */,
+				DF3850FB198ACCFE00A0414E /* M+MInputHandler.cpp */,
+				DF3850FC198ACCFE00A0414E /* M+MInputHandler.h */,
+				DF3850FD198ACCFE00A0414E /* M+MInputHandlerCreator.cpp */,
+				DF3850FE198ACCFE00A0414E /* M+MInputHandlerCreator.h */,
+				DF385101198ACCFE00A0414E /* M+MMatchConstraint.cpp */,
+				DF385102198ACCFE00A0414E /* M+MMatchConstraint.h */,
+				DF385103198ACCFE00A0414E /* M+MMatchExpression.cpp */,
+				DF385104198ACCFE00A0414E /* M+MMatchExpression.h */,
+				DF385105198ACCFE00A0414E /* M+MMatchFieldName.cpp */,
+				DF385106198ACCFE00A0414E /* M+MMatchFieldName.h */,
+				DF385107198ACCFE00A0414E /* M+MMatchFieldWithValues.cpp */,
+				DF385108198ACCFE00A0414E /* M+MMatchFieldWithValues.h */,
+				DF385109198ACCFE00A0414E /* M+MMatchValue.cpp */,
+				DF38510A198ACCFE00A0414E /* M+MMatchValue.h */,
+				DF38510B198ACCFE00A0414E /* M+MMatchValueList.cpp */,
+				DF38510C198ACCFE00A0414E /* M+MMatchValueList.h */,
+				DF38510F198ACCFE00A0414E /* M+MPingThread.cpp */,
+				DF385110198ACCFE00A0414E /* M+MPingThread.h */,
+				DF385113198ACCFE00A0414E /* M+MRequestMap.cpp */,
+				DF385114198ACCFE00A0414E /* M+MRequestMap.h */,
+				DF385115198ACCFE00A0414E /* M+MRequests.h */,
+				DF385118198ACCFE00A0414E /* M+MServiceChannel.cpp */,
+				DF385119198ACCFE00A0414E /* M+MServiceChannel.h */,
+				DF38511A198ACCFE00A0414E /* M+MServiceRequest.cpp */,
+				DF38511B198ACCFE00A0414E /* M+MServiceRequest.h */,
+				DF38511C198ACCFE00A0414E /* M+MServiceResponse.cpp */,
+				DF38511D198ACCFE00A0414E /* M+MServiceResponse.h */,
+				DF385122198ACCFE00A0414E /* M+MUtilities.cpp */,
+				DF385123198ACCFE00A0414E /* M+MUtilities.h */,
+				DF36EEF21958DE9F00E7D889 /* RequestHandlers */,
+			);
+			name = mpm;
+			sourceTree = SOURCE_ROOT;
+		};
+		DFA3437E18C91E040053B87C /* RandomNumberClient */ = {
+			isa = PBXGroup;
+			children = (
+				DF384F88198A9B4B00A0414E /* CMakeLists.txt */,
+				DF384F89198A9B4B00A0414E /* M+MRandomNumberClient.cpp */,
+				DF384F8A198A9B4B00A0414E /* M+MRandomNumberClient.h */,
+				DF384F8B198A9B4B00A0414E /* M+MRandomNumberClientMain.cpp */,
+			);
+			name = RandomNumberClient;
+			sourceTree = SOURCE_ROOT;
+		};
+		DFA3438518C91E2C0053B87C /* RandomNumberService */ = {
+			isa = PBXGroup;
+			children = (
+				DF384F8D198A9B6800A0414E /* CMakeLists.txt */,
+				DF384F8E198A9B6800A0414E /* M+MRandomNumberService.cpp */,
+				DF384F8F198A9B6800A0414E /* M+MRandomNumberService.h */,
+				DF384F90198A9B6800A0414E /* M+MRandomNumberServiceMain.cpp */,
+				DF36EEF61958E13B00E7D889 /* RequestHandlers */,
+			);
+			name = RandomNumberService;
+			sourceTree = SOURCE_ROOT;
+		};
+		DFA4963A18FED31A005A7213 /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				DF38501C198A9DEB00A0414E /* CMakeLists.txt */,
+				DF38501D198A9DEB00A0414E /* M+MVersionMain.cpp */,
+			);
+			name = Version;
+			sourceTree = SOURCE_ROOT;
+		};
+		DFA86D1E18E0E09E00A22941 /* RunningSumAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				DF384F9A198A9BB400A0414E /* CMakeLists.txt */,
+				DF384F9B198A9BB400A0414E /* M+MRunningSumAdapterData.cpp */,
+				DF384F9C198A9BB400A0414E /* M+MRunningSumAdapterData.h */,
+				DF384F9D198A9BB400A0414E /* M+MRunningSumAdapterMain.cpp */,
+				DF384F9E198A9BB400A0414E /* M+MRunningSumControlInputHandler.cpp */,
+				DF384F9F198A9BB400A0414E /* M+MRunningSumControlInputHandler.h */,
+				DF384FA0198A9BB400A0414E /* M+MRunningSumDataInputHandler.cpp */,
+				DF384FA1198A9BB400A0414E /* M+MRunningSumDataInputHandler.h */,
+			);
+			name = RunningSumAdapter;
+			sourceTree = SOURCE_ROOT;
+		};
+		DFA86D2518E1D13300A22941 /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				DFA98942194BA92D005F10EB /* ChordGeneratorService */,
+				DF384F6E198A9A7F00A0414E /* CMakeLists.txt */,
+				DF384F6F198A9A7F00A0414E /* CMakeListsStandalone.txt */,
+				DFA3432018C91BF40053B87C /* EchoClient */,
+				DF7784F918ECA5EA00BDC5C1 /* EchoCommon */,
+				DFA3431B18C91BD10053B87C /* EchoService */,
+				DF36EF04195A280900E7D889 /* RandomBurstStreamService */,
+				DF30062A18E4744400B51C22 /* RandomNumberAdapter */,
+				DFA3437E18C91E040053B87C /* RandomNumberClient */,
+				DF7784FA18ECA5F400BDC5C1 /* RandomNumberCommon */,
+				DFA3438518C91E2C0053B87C /* RandomNumberService */,
+				DF36EF14195A2D5A00E7D889 /* RecordIntegersStreamService */,
+				DFA86D1E18E0E09E00A22941 /* RunningSumAdapter */,
+				DF4CCFD218FD903000713E54 /* RunningSumAltAdapter */,
+				DF2092E918D8F6110093D3DC /* RunningSumClient */,
+				DF7784FB18ECA60600BDC5C1 /* RunningSumCommon */,
+				DF2092D918D8DFE60093D3DC /* RunningSumService */,
+				DF36EF22195A303600E7D889 /* TruncateFilterStreamService */,
+			);
+			name = examples;
+			sourceTree = SOURCE_ROOT;
+		};
+		DFA98942194BA92D005F10EB /* ChordGeneratorService */ = {
+			isa = PBXGroup;
+			children = (
+				DF384F67198A9A5A00A0414E /* CMakeLists.txt */,
+				DF384F6A198A9A5A00A0414E /* M+MChordGeneratorRequests.h */,
+				DF384F6B198A9A5A00A0414E /* M+MChordGeneratorService.cpp */,
+				DF384F6C198A9A5A00A0414E /* M+MChordGeneratorService.h */,
+				DF384F6D198A9A5A00A0414E /* M+MChordGeneratorServiceMain.cpp */,
+				DF36EEF81958E16400E7D889 /* RequestHandlers */,
+			);
+			name = ChordGeneratorService;
+			sourceTree = SOURCE_ROOT;
+		};
+		DFCB229718EF23D200358EA5 /* ClientList */ = {
+			isa = PBXGroup;
+			children = (
+				DFCB229818EF23DF00358EA5 /* CMakeLists.txt */,
+				DFCB229918EF23DF00358EA5 /* M+MClientListMain.cpp */,
+			);
+			name = ClientList;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		DFA3430B18C91B4F0053B87C /* MPlusM */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = DFA3430E18C91B4F0053B87C /* Build configuration list for PBXLegacyTarget "MPlusM" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			dependencies = (
+			);
+			name = MPlusM;
+			passBuildSettingsInEnvironment = 1;
+			productName = YarpPlusPlus;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		DFA3430718C91B4F0053B87C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Movement Meaning";
+			};
+			buildConfigurationList = DFA3430A18C91B4F0053B87C /* Build configuration list for PBXProject "MPlusM" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DFA3430618C91B4F0053B87C;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DFA3430B18C91B4F0053B87C /* MPlusM */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		DFA3430C18C91B4F0053B87C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DFA3430D18C91B4F0053B87C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		DFA3430F18C91B4F0053B87C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = MPlusM;
+			};
+			name = Debug;
+		};
+		DFA3431018C91B4F0053B87C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = MPlusM;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DFA3430A18C91B4F0053B87C /* Build configuration list for PBXProject "MPlusM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DFA3430C18C91B4F0053B87C /* Debug */,
+				DFA3430D18C91B4F0053B87C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DFA3430E18C91B4F0053B87C /* Build configuration list for PBXLegacyTarget "MPlusM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DFA3430F18C91B4F0053B87C /* Debug */,
+				DFA3431018C91B4F0053B87C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DFA3430718C91B4F0053B87C /* Project object */;
+}

@@ -37,11 +37,12 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MTest14Service.h"
-#include "M+MRequests.h"
 #include "M+MTest14EchoRequestHandler.h"
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+#include <mpm/M+MRequests.h>
+
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

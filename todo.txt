@@ -10,3 +10,9 @@
 * change signal handling to use platform-neutral mechanisms
 
 * document the architecture, philosophy and API of the non-viewer code
+
++ change the display of port entries from “In” / “Out” / “I/O” to “C” / “S” / “In” / “Out” / “I/O”
+
++ add locks on entities?
+
++ on dragging, do an adjustSize() without repaint?

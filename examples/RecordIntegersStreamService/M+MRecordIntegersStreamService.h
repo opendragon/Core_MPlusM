@@ -39,7 +39,7 @@
 #if (! defined(MpMRecordIntegersStreamService_H_))
 # define MpMRecordIntegersStreamService_H_  /* Header guard */
 
-# include "M+MBaseOutputService.h"
+# include <mpm/M+MBaseOutputService.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

@@ -62,7 +62,7 @@ endif(APPLE)
 
 
 include_directories("../EchoCommon" "../EchoService")
-#                    "${MpM_COMMON_DIR}"
+#                    "${MpM_SOURCE_DIR}"
 #                    "${MpM_EXAMPLES_DIR}/EchoCommon")
 
 # Set up our program

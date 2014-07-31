@@ -36,11 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MEndpoint.h"
 #include "M+MRequestCounterService.h"
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+#include <mpm/M+MEndpoint.h>
+
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

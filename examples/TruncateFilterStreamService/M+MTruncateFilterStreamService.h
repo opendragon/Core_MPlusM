@@ -39,7 +39,7 @@
 #if (! defined(MpMTruncateFilterStreamService_H_))
 # define MpMTruncateFilterStreamService_H_  /* Header guard */
 
-# include "M+MBaseFilterService.h"
+# include <mpm/M+MBaseFilterService.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

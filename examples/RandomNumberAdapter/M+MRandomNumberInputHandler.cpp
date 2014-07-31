@@ -38,12 +38,13 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MRandomNumberInputHandler.h"
-#include "M+MAdapterChannel.h"
 #include "M+MRandomNumberAdapterData.h"
 #include "M+MRandomNumberClient.h"
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+#include <mpm/M+MAdapterChannel.h>
+
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -145,10 +146,13 @@ bool RandomNumberInputHandler::handleInput(const yarp::os::Bottle &      input,
                     {
                         yarp::os::Bottle message;
                         
-                        for (Common::DoubleVector::const_iterator it(randResult.begin());
-                             randResult.end() != it; ++it)
+                        if (0 < randResult.size())
                         {
-                            message.addDouble(*it);
+                            for (Common::DoubleVector::const_iterator it(randResult.begin());
+                                 randResult.end() != it; ++it)
+                            {
+                                message.addDouble(*it);
+                            }
                         }
                         _shared.lock();
                         if (! theOutput->write(message))

@@ -40,7 +40,7 @@
 #if (! defined(MpMRunningSumAdapterData_H_))
 # define MpMRunningSumAdapterData_H_  /* Header guard */
 
-# include "M+MBaseAdapterData.h"
+# include <mpm/M+MBaseAdapterData.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

@@ -39,7 +39,7 @@
 #if (! defined(MpMEchoClient_H_))
 # define MpMEchoClient_H_  /* Header guard */
 
-# include "M+MBaseClient.h"
+# include <mpm/M+MBaseClient.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

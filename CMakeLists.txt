@@ -43,7 +43,7 @@ project(M+M)
 
 set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 4)
-set(MpM_VERSION_PATCH 6)
+set(MpM_VERSION_PATCH 7)
 
 # Make some flags to control the build visible
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
@@ -99,23 +99,20 @@ set(MpM_INPUT_BASE_NAME "/_input_/")
 set(MpM_OUTPUT_BASE_NAME "/_output_/")
 set(MpM_SERVICE_BASE_NAME "/_service_/")
 
-set(MpM_COMMON_DIR "${PROJECT_SOURCE_DIR}/Common")
-set(MpM_LOGGING_DIR "${PROJECT_SOURCE_DIR}/Logging")
-set(MpM_PARSER_DIR "${PROJECT_SOURCE_DIR}/Parser")
+set(MpM_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 set(MpM_SQLITE_DIR "${PROJECT_SOURCE_DIR}/SQLite3")
 
-configure_file("${MpM_COMMON_DIR}/M+MConfig.h.in"
-                "${MpM_COMMON_DIR}/M+MConfig.h")
+configure_file("${MpM_SOURCE_DIR}/mpm/M+MConfig.h.in"
+                "${MpM_SOURCE_DIR}/mpm/M+MConfig.h")
 
-include_directories("${MpM_COMMON_DIR}"
-                    "${MpM_LOGGING_DIR}"
-                    "${MpM_PARSER_DIR}")
+include_directories("${MpM_SOURCE_DIR}")
 
 add_subdirectory(ClientList)
-add_subdirectory(Common)
+add_subdirectory(CommonTests)
 add_subdirectory(examples)
-add_subdirectory(Logging)
-add_subdirectory(Parser)
+add_subdirectory(mpm)
+add_subdirectory(odl)
+add_subdirectory(ParserTest)
 add_subdirectory(PortLister)
 add_subdirectory(RegistryService)
 add_subdirectory(RequestCounter)

@@ -36,11 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MEndpoint.h"
 #include "M+MRecordIntegersStreamService.h"
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+#include <mpm/M+MEndpoint.h>
+
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if (! MAC_OR_LINUX_) //ASSUME WINDOWS
 # include "getopt.h"

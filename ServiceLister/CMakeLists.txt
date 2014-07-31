@@ -36,8 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-include_directories("${MpM_LOGGING_DIR}"
-                    "${MpM_COMMON_DIR}")
+include_directories("${MpM_SOURCE_DIR}")
 
 # Set up our program
 add_executable(mpmServiceLister
@@ -46,7 +45,6 @@ add_executable(mpmServiceLister
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(mpmServiceLister
-                      mpmParser
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})

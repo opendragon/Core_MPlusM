@@ -36,15 +36,16 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MAdapterChannel.h"
-#include "M+MChannelStatusReporter.h"
 #include "M+MRunningSumAdapterData.h"
 #include "M+MRunningSumClient.h"
 #include "M+MRunningSumControlInputHandler.h"
 #include "M+MRunningSumDataInputHandler.h"
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+#include <mpm/M+MAdapterChannel.h>
+#include <mpm/M+MChannelStatusReporter.h>
+
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

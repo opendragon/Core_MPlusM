@@ -37,12 +37,13 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MGetAssociatesRequestHandler.h"
-#include "M+MEndpoint.h"
 #include "M+MRegistryService.h"
-#include "M+MRequests.h"
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+#include <mpm/M+MEndpoint.h>
+#include <mpm/M+MRequests.h>
+
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -181,19 +182,25 @@ bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & r
                             reply.addInt(isPrimary ? 1 : 0);
                             yarp::os::Bottle & aList1 = reply.addList();
                             
-                            for (StringVector::const_iterator walker(associatedInputs.begin());
-                                 associatedInputs.end() != walker; ++walker)
+                            if (0 < associatedInputs.size())
                             {
-                                aList1.addString(*walker);
+                                for (StringVector::const_iterator walker(associatedInputs.begin());
+                                     associatedInputs.end() != walker; ++walker)
+                                {
+                                    aList1.addString(*walker);
+                                }
                             }
                             // Note that we can't reuse the first list variable; we wind up with
                             // duplicate entries for some reason.
                             yarp::os::Bottle & aList2 = reply.addList();
                             
-                            for (StringVector::const_iterator walker(associatedOutputs.begin());
-                                 associatedOutputs.end() != walker; ++walker)
+                            if (0 < associatedOutputs.size())
                             {
-                                aList2.addString(*walker);
+                                for (StringVector::const_iterator walker(associatedOutputs.begin());
+                                     associatedOutputs.end() != walker; ++walker)
+                                {
+                                    aList2.addString(*walker);
+                                }
                             }
                         }
                         else

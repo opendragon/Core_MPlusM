@@ -39,7 +39,7 @@
 #if (! defined(MpMRunningSumContext_H_))
 # define MpMRunningSumContext_H_  /* Header guard */
 
-# include "M+MBaseContext.h"
+# include <mpm/M+MBaseContext.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

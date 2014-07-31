@@ -37,14 +37,15 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MRegisterRequestHandler.h"
-#include "M+MClientChannel.h"
-#include "M+MEndpoint.h"
 #include "M+MRegistryService.h"
-#include "M+MRequests.h"
-#include "M+MServiceResponse.h"
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+#include <mpm/M+MClientChannel.h>
+#include <mpm/M+MEndpoint.h>
+#include <mpm/M+MRequests.h>
+#include <mpm/M+MServiceResponse.h>
+
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

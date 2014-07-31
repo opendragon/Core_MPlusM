@@ -42,8 +42,8 @@
 #include "M+MRunningSumClient.h"
 #include "M+MRunningSumRequests.h"
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

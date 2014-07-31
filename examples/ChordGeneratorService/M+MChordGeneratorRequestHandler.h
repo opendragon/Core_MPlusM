@@ -40,7 +40,7 @@
 /*! @brief Header guard. */
 # define MpMChordGeneratorRequestHandler_H_  /* */
 
-# include "M+MBaseRequestHandler.h"
+# include <mpm/M+MBaseRequestHandler.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

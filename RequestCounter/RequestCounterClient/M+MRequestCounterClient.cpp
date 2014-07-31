@@ -38,10 +38,11 @@
 
 #include "M+MRequestCounterClient.h"
 #include "M+MRequestCounterRequests.h"
-#include "M+MServiceResponse.h"
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+#include <mpm/M+MServiceResponse.h>
+
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

@@ -40,7 +40,7 @@
 #if (! defined(MpMColumnNameValidator_H_))
 # define MpMColumnNameValidator_H_  /* Header guard */
 
-# include "M+MBaseNameValidator.h"
+# include <mpm/M+MBaseNameValidator.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

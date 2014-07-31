@@ -38,24 +38,25 @@
 
 #include "M+MRegistryService.h"
 #include "M+MAssociateRequestHandler.h"
-#include "M+MChannelStatusReporter.h"
-#include "M+MClientChannel.h"
 #include "M+MColumnNameValidator.h"
 #include "M+MDisassociateRequestHandler.h"
-#include "M+MGeneralChannel.h"
 #include "M+MGetAssociatesRequestHandler.h"
-#include "M+MMatchExpression.h"
 #include "M+MMatchRequestHandler.h"
 #include "M+MPingRequestHandler.h"
 #include "M+MRegisterRequestHandler.h"
 #include "M+MRegistryCheckThread.h"
-#include "M+MRequests.h"
-#include "M+MServiceRequest.h"
-#include "M+MServiceResponse.h"
 #include "M+MUnregisterRequestHandler.h"
 
-//#include "ODEnableLogging.h"
-#include "ODLogging.h"
+#include <mpm/M+MChannelStatusReporter.h>
+#include <mpm/M+MClientChannel.h>
+#include <mpm/M+MGeneralChannel.h>
+#include <mpm/M+MMatchExpression.h>
+#include <mpm/M+MRequests.h>
+#include <mpm/M+MServiceRequest.h>
+#include <mpm/M+MServiceResponse.h>
+
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -1979,22 +1980,29 @@ void RegistryService::checkServiceTimes(void)
     
     // Build a list of expired services.
     _checkedTimeLock.lock();
-    for (TimeMap::const_iterator walker(_lastCheckedTime.begin()); _lastCheckedTime.end() != walker;
-         ++walker)
+    if (0 < _lastCheckedTime.size())
     {
-        double check = walker->second;
-        
-        if (now > check)
+        for (TimeMap::const_iterator walker(_lastCheckedTime.begin());
+             _lastCheckedTime.end() != walker; ++walker)
         {
-            expired.push_back(walker->first);
+            double check = walker->second;
+            
+            if (now > check)
+            {
+                expired.push_back(walker->first);
+            }
         }
     }
     _checkedTimeLock.unlock();
-    for (StringVector::const_iterator walker(expired.begin()); expired.end() != walker; ++walker)
+    if (0 < expired.size())
     {
-        if (removeServiceRecord(*walker))
+        for (StringVector::const_iterator walker(expired.begin()); expired.end() != walker;
+             ++walker)
         {
-            removeCheckedTimeForChannel(*walker);
+            if (removeServiceRecord(*walker))
+            {
+                removeCheckedTimeForChannel(*walker);
+            }
         }
     }
     OD_LOG_OBJEXIT(); //####

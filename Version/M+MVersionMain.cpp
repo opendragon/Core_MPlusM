@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MCommon.h"
+#include <mpm/M+MCommon.h>
 
 #if (! MAC_OR_LINUX_) //ASSUME WINDOWS
 # include "getopt.h"
