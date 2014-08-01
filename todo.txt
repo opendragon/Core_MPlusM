@@ -12,3 +12,5 @@
 * document the architecture, philosophy and API of the non-viewer code
 
 + on dragging, do an adjustSize() without repaint?
+
++ move the ‘update’ code from the scanner thread to the repaint for the content panel; add interlocks like service viewer does - rule #1 is don’t allocate or delete in a different thread, so the repaint does not delete the data collected by the scanner, the scanner builds its entities panel, sets the flags and triggers a repaint of the content panel; the content panel repaint checks if there is new data available, updates if there is and continues on if there isn’t
