@@ -96,6 +96,11 @@ CountRequestHandler::~CountRequestHandler(void)
 
 void CountRequestHandler::fillInAliases(StringVector & alternateNames)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(alternateNames)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
@@ -137,7 +142,7 @@ bool CountRequestHandler::processRequest(const yarp::os::ConstString & request,
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
-#  pragma unused(request,senderChannel)
+#  pragma unused(request,restOfInput,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####

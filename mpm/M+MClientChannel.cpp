@@ -118,6 +118,11 @@ ClientChannel::~ClientChannel(void)
 bool ClientChannel::addOutputWithRetries(const yarp::os::ConstString & theChannelToBeAdded,
                                          const double                  timeToWait)
 {
+#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+# if MAC_OR_LINUX_
+#  pragma unused(timeToWait)
+# endif // MAC_OR_LINUX_
+#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("theChannelToBeAdded = ", theChannelToBeAdded); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####

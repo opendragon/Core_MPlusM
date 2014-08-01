@@ -121,7 +121,8 @@ static bool processResponse(MplusM::Common::OutputFlavour           flavour,
                             MplusM::SanitizeString(clientString).c_str() << endl;
                     break;
                     
-                default :
+                case MplusM::Common::kOutputFlavourNormal :
+                case MplusM::Common::kOutputFlavourUnknown :
                     if (! result)
                     {
                         cout << "Service: " << cleanServiceName.c_str() << endl << "Clients: " <<
@@ -322,7 +323,8 @@ int main(int     argc,
                                             case MplusM::Common::kOutputFlavourTabs :
                                                 break;
                                                 
-                                            default :
+                                            case MplusM::Common::kOutputFlavourNormal :
+                                            case MplusM::Common::kOutputFlavourUnknown :
                                                 cout << "No client connections found." << endl;
                                                 break;
                                                 
@@ -352,7 +354,8 @@ int main(int     argc,
                                 case MplusM::Common::kOutputFlavourTabs :
                                     break;
                                     
-                                default :
+                                case MplusM::Common::kOutputFlavourNormal :
+                                case MplusM::Common::kOutputFlavourUnknown :
                                     cout << "No services found." << endl;
                                     break;
                                     

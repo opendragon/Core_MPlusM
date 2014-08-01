@@ -141,7 +141,7 @@ bool ConfigureRequestHandler::processRequest(const yarp::os::ConstString & reque
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
-#  pragma unused(request,restOfInput)
+#  pragma unused(request,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####

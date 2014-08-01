@@ -133,7 +133,7 @@ int main(int     argc,
                     
                 case 's' :
                     // Burst size
-                    tempInt = strtol(optarg, &endPtr, 10);
+                    tempInt = static_cast<int>(strtol(optarg, &endPtr, 10));
                     if ((optarg != endPtr) && (0 < tempInt))
                     {
                         // Useable data.

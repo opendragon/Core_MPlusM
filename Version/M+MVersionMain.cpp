@@ -144,7 +144,8 @@ int main(int     argc,
                     aceVersionString.c_str() << T_(CHAR_DOUBLEQUOTE " }") << endl;
             break;
             
-	    default :
+	    case MplusM::Common::kOutputFlavourNormal :
+        case MplusM::Common::kOutputFlavourUnknown :
             aceVersionString = MplusM::SanitizeString(ACE_VERSION, true);
             mpmVersionString = MplusM::SanitizeString(MpM_VERSION, true);
             yarpVersionString = MplusM::SanitizeString(YARP_VERSION_STRING, true);

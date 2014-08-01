@@ -106,6 +106,7 @@ RecordIntegersStreamService::~RecordIntegersStreamService(void)
 bool RecordIntegersStreamService::configure(const yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("details = ", &details); //####
     bool result = false;
     
     try

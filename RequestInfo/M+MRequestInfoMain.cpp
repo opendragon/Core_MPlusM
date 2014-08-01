@@ -190,11 +190,11 @@ static bool processResponse(MplusM::Common::OutputFlavour           flavour,
                                     MplusM::SanitizeString(theDetailsString, true).c_str() <<
                                     T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Keywords"
                                        CHAR_DOUBLEQUOTE ": [ ");
-                            for (int ii = 0, mm = keywordList.size(); mm > ii; ++ii)
+                            for (int jj = 0, mm = keywordList.size(); mm > jj; ++jj)
                             {
-                                yarp::os::Value aKeyword(keywordList.get(ii));
+                                yarp::os::Value aKeyword(keywordList.get(jj));
                                 
-                                if (ii)
+                                if (jj)
                                 {
                                     cout << ", ";
                                 }
@@ -209,7 +209,8 @@ static bool processResponse(MplusM::Common::OutputFlavour           flavour,
                                     theOutputsString.c_str() << T_(CHAR_DOUBLEQUOTE " }");
                             break;
                             
-                        default :
+                        case MplusM::Common::kOutputFlavourNormal :
+                        case MplusM::Common::kOutputFlavourUnknown :
                             cout << "Service Port: " << cleanServiceName.c_str() << endl;
                             cout << "Request:      " << theRequest.c_str() << endl;
                             if (0 < theVersionString.length())
@@ -491,7 +492,8 @@ int main(int     argc,
                                             case MplusM::Common::kOutputFlavourTabs :
                                                 break;
                                                 
-                                            default :
+                                            case MplusM::Common::kOutputFlavourNormal :
+                                            case MplusM::Common::kOutputFlavourUnknown :
                                                 cout << "No matching request found." << endl;
                                                 break;
                                                 
@@ -521,7 +523,8 @@ int main(int     argc,
                                 case MplusM::Common::kOutputFlavourTabs :
                                     break;
                                     
-                                default :
+                                case MplusM::Common::kOutputFlavourNormal :
+                                case MplusM::Common::kOutputFlavourUnknown :
                                     cout << "No services found." << endl;
                                     break;
                                     

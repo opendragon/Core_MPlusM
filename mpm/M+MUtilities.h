@@ -54,6 +54,11 @@
 
 namespace MplusM
 {
+    namespace Common
+    {
+        class ChannelStatusReporter;
+    } // Common
+    
     namespace Utilities
     {
         /*! @brief Which combination of input and output to use. */
@@ -69,7 +74,10 @@ namespace MplusM
             kInputAndOutputOutput = 0x2,
             
             /*! @brief Both input and output. */
-            kInputAndOutputBoth   = 0x3
+            kInputAndOutputBoth   = 0x3,
+            
+            /*! @brief Force the enumeration to be 4 bytes. */
+            kInputAndOutputUnknown = 0x80000000
             
         }; // InputOutputFlag
         
@@ -89,7 +97,10 @@ namespace MplusM
             kPortKindServiceRegistry,
             
             /*! @brief The port is s standard port. */
-            kPortKindStandard
+            kPortKindStandard,
+            
+            /*! @brief Force the enumeration to be 4 bytes. */
+            kPortKindUnknown = 0x80000000
             
         }; // PortKind
         
@@ -108,6 +119,16 @@ namespace MplusM
             
             /*! @brief @c true if the association data is valid and @c false otherwise. */
             bool _valid;
+            
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler[6];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
             
         }; // PortAssociation
         
@@ -197,14 +218,12 @@ namespace MplusM
          @param portName The port to be inspected.
          @param associates The associated ports for the port.
          @param timeToWait The number of seconds allowed before a failure is considered.
-         @param quiet @c true if status output is to be suppressed and @c false otherwise.
          @param checker A function that provides for early exit from loops.
          @param checkStuff The private data for the early exit function.
          @returns @c true if there is association data for the port and @c false otherwise. */
         bool GetAssociatedPorts(const yarp::os::ConstString & portName,
                                 PortAssociation &             associates,
                                 const double                  timeToWait,
-                                const bool                    quiet,
                                 Common::CheckFunction         checker,
                                 void *                        checkStuff);
         
@@ -214,6 +233,10 @@ namespace MplusM
          are ignored. */
         void GetDetectedPortList(PortVector & ports,
                                  const bool   includeHiddenPorts = false);
+        
+        /*! @brief Return the global status reporter.
+         @returns The global status reporter. */
+        Common::ChannelStatusReporter * GetGlobalStatusReporter(void);
         
         /*! @brief Retrieve the details for a service.
          @param serviceChannelName The channel for the service.
@@ -266,6 +289,12 @@ namespace MplusM
         /*! @brief Remove any ports that YARP considers to be stale.
          @param timeout The number of seconds to allow YARP to check a port. */
         void RemoveStalePorts(const float timeout = 3);
+        
+        /*! @brief Set up the global status reporter. */
+        void SetUpGlobalStatusReporter(void);
+        
+        /*! @brief Shut down the global status reporter. */
+        void ShutDownGlobalStatusReporter(void);
         
     } // Utilities
     

@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MChannelStatusReporter.h>
-
 #include "M+MRequestCounterClient.h"
+
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -143,6 +143,11 @@ int main(int     argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        MplusM::Utilities::SetUpGlobalStatusReporter();
+#if defined(MpM_ReportOnConnections)
+        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+
         if (MplusM::CanReadFromStandardInput())
         {
 #if CheckNetworkWorks_
@@ -158,7 +163,7 @@ int main(int     argc,
                 if (stuff)
                 {
 #if defined(MpM_ReportOnConnections)
-                    stuff->setReporter(ChannelStatusReporter::gReporter, true);
+                    stuff->setReporter(reporter, true);
 #endif // defined(MpM_ReportOnConnections)
                     MplusM::StartRunning();
                     MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
@@ -272,6 +277,7 @@ int main(int     argc,
             }
 #endif // CheckNetworkWorks_
         }
+        MplusM::Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {

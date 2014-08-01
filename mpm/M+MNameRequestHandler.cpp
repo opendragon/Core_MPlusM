@@ -45,7 +45,16 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wconversion"
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# pragma clang diagnostic ignored "-Wsign-conversion"
+#endif // defined(__APPLE__)
 #include <ace/OS.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push

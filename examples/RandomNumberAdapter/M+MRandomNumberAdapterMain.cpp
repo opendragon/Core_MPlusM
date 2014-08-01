@@ -41,7 +41,7 @@
 #include "M+MRandomNumberInputHandler.h"
 
 #include <mpm/M+MAdapterChannel.h>
-#include <mpm/M+MChannelStatusReporter.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -98,6 +98,11 @@ int main(int     argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        MplusM::Utilities::SetUpGlobalStatusReporter();
+#if defined(MpM_ReportOnConnections)
+        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
@@ -115,7 +120,7 @@ int main(int     argc,
                 if (stuff->findService("keyword random", false, NULL, NULL))
                 {
 #if defined(MpM_ReportOnConnections)
-                    stuff->setReporter(ChannelStatusReporter::gReporter, true);
+                    stuff->setReporter(reporter, true);
 #endif // defined(MpM_ReportOnConnections)
                     if (stuff->connectToService(NULL, NULL))
                     {
@@ -143,10 +148,10 @@ int main(int     argc,
                                 }
                             }
 #if defined(MpM_ReportOnConnections)
-                            inputChannel->setReporter(ChannelStatusReporter::gReporter);
-                            inputChannel->getReport(ChannelStatusReporter::gReporter);
-                            outputChannel->setReporter(ChannelStatusReporter::gReporter);
-                            outputChannel->getReport(ChannelStatusReporter::gReporter);
+                            inputChannel->setReporter(reporter);
+                            inputChannel->getReport(reporter);
+                            outputChannel->setReporter(reporter);
+                            outputChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
                             if (inputChannel->openWithRetries(inputName, STANDARD_WAIT_TIME) &&
                                 outputChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
@@ -234,6 +239,7 @@ int main(int     argc,
 # endif // MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
+        MplusM::Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {

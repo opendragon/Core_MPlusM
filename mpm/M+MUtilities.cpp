@@ -50,10 +50,13 @@
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
+# pragma clang diagnostic ignored "-Wconversion"
 # pragma clang diagnostic ignored "-Wdocumentation"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# pragma clang diagnostic ignored "-Wextra-semi"
 # pragma clang diagnostic ignored "-Wpadded"
 # pragma clang diagnostic ignored "-Wshadow"
+# pragma clang diagnostic ignored "-Wsign-conversion"
 # pragma clang diagnostic ignored "-Wunused-parameter"
 # pragma clang diagnostic ignored "-Wweak-vtables"
 #endif // defined(__APPLE__)
@@ -85,6 +88,8 @@ using namespace MplusM::Utilities;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+static ChannelStatusReporter * lReporter = NULL;
+
 /*! @brief The indicator string for the beginning of new information received. */
 static const char * kLineMarker = "registration name ";
 
@@ -109,7 +114,6 @@ static void checkForInputConnection(const yarp::os::Bottle & response,
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("response = ", response.toString()); //####
     OD_LOG_P1("inputs = ", &inputs); //####
-    bool         sawConnection = false;
     const char * matchString[] =
     {
         "There", "is", "an", "input", "connection", "from", NULL, "to", NULL, "using",
@@ -342,10 +346,10 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
             
             if (yarp::os::ConstString::npos != chopPos)
             {
-                char *                channelName;
+                char *                channelName = NULL;
                 yarp::os::ConstString chopped(workingCopy.substr(0, chopPos));
                 char *                choppedAsChars = strdup(chopped.c_str());
-                char *                ipAddress;
+                char *                ipAddress = NULL;
                 char *                saved;
                 char *                pp = strtok_r(choppedAsChars, " ", &saved);
                 
@@ -399,7 +403,7 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
                     }
                 }
                 // Check if this is a 'hidden' port:
-                if (pp && (! includeHiddenPorts))
+                if (pp && (! includeHiddenPorts) && channelName)
                 {
                     if (! strncmp(channelName, HIDDEN_CHANNEL_PREFIX,
                                   sizeof(HIDDEN_CHANNEL_PREFIX) - 1))
@@ -571,14 +575,12 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
 bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
                                            PortAssociation &             associates,
                                            const double                  timeToWait,
-                                           const bool                    quiet,
                                            Common::CheckFunction         checker,
                                            void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("portName = ", portName); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_B1("quiet = ", quiet); //####
     OD_LOG_P1("checkStuff = ", checkStuff); //####
     bool result = false;
     
@@ -587,14 +589,17 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
     associates._primary = associates._valid = false;
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "getassociates_/"
-                                                         DEFAULT_CHANNEL_ROOT));
-        ClientChannel *       newChannel = new ClientChannel;
+        yarp::os::ConstString   aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "getassociates_/"
+                                                           DEFAULT_CHANNEL_ROOT));
+        ClientChannel *         newChannel = new ClientChannel;
+#if defined(MpM_ReportOnConnections)
+        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
         
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(ChannelStatusReporter::gReporter);
+            newChannel->setReporter(reporter);
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, timeToWait))
             {
@@ -1006,7 +1011,8 @@ const char * MplusM::Utilities::MapServiceKindToString(const Common::ServiceKind
             result = "Registry";
             break;
             
-	    default :
+        case kServiceKindNormal :
+        case kServiceKindUnknown :
             result = "Normal";
             break;
             
@@ -1131,3 +1137,22 @@ void MplusM::Utilities::RemoveStalePorts(const float timeout)
     OD_LOG_S1s("Name server says: ", reply2.toString()); //####
     OD_LOG_EXIT(); //####
 } // MplusM::Utilities::RemoveStalePorts
+
+Common::ChannelStatusReporter * MplusM::Utilities::GetGlobalStatusReporter(void)
+{
+    return lReporter;
+} // MplusM::Utilities::GetGlobalStatusReporter
+
+void MplusM::Utilities::SetUpGlobalStatusReporter(void)
+{
+    if (! lReporter)
+    {
+        lReporter = new ChannelStatusReporter;
+    }
+} // MplusM::Utilities::SetUpGlobalStatusReporter
+
+void MplusM::Utilities::ShutDownGlobalStatusReporter(void)
+{
+    delete lReporter;
+    lReporter = NULL;
+} // MplusM::Utilities::ShutDownGlobalStatusReporter

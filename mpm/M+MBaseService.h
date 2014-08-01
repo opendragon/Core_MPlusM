@@ -162,8 +162,8 @@ namespace MplusM
             /*! @brief Return the request statistics.
              @param count The number of requests since the service started.
              @param currentTime The current service time. */
-            void getStatistics(long long & count,
-                               double &    currentTime);
+            void getStatistics(int64_t & count,
+                               double &  currentTime);
             
             /*! @brief Return the state of the service.
              @returns @c true if the service has been started and @c false otherwise. */
@@ -381,7 +381,7 @@ namespace MplusM
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char _filler[6];
+            char _filler[2];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

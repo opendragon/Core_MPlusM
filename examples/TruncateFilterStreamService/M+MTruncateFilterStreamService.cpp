@@ -105,7 +105,13 @@ TruncateFilterStreamService::~TruncateFilterStreamService(void)
 
 bool TruncateFilterStreamService::configure(const yarp::os::Bottle & details)
 {
+#if (! defined(MpM_DoExplicitDisconnect))
+# if MAC_OR_LINUX_
+#  pragma unused(details)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(MpM_DoExplicitDisconnect)
     OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("details = ", &details); //####
     bool result = false;
     
     try

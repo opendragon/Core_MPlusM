@@ -109,20 +109,21 @@ static void reportConnections(const MplusM::Common::OutputFlavour flavour,
                     }
                     inputsAsString += MplusM::SanitizeString(walker->_portName, true);
                     switch (walker->_portMode)
-                {
-                    case MplusM::Common::kChannelModeTCP :
-                        inputsAsString += " TCP";
-                        break;
-                        
-                    case MplusM::Common::kChannelModeUDP :
-                        inputsAsString += " UDP";
-                        break;
-                        
-                    default :
-                        inputsAsString += " unknown";
-                        break;
-                        
-                }
+                    {
+                        case MplusM::Common::kChannelModeTCP :
+                            inputsAsString += " TCP";
+                            break;
+                            
+                        case MplusM::Common::kChannelModeUDP :
+                            inputsAsString += " UDP";
+                            break;
+                            
+                        case MplusM::Common::kChannelModeOther :
+                        case MplusM::Common::kChannelModeUnknown :
+                            inputsAsString += " unknown";
+                            break;
+                            
+                    }
                     break;
                     
                 case MplusM::Common::kOutputFlavourJSON :
@@ -136,41 +137,44 @@ static void reportConnections(const MplusM::Common::OutputFlavour flavour,
                     inputsAsString += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Mode"
                                          CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
                     switch (walker->_portMode)
-                {
-                    case MplusM::Common::kChannelModeTCP :
-                        inputsAsString += "TCP";
-                        break;
-                        
-                    case MplusM::Common::kChannelModeUDP :
-                        inputsAsString += "UDP";
-                        break;
-                        
-                    default :
-                        inputsAsString += "unknown";
-                        break;
-                        
-                }
+                    {
+                        case MplusM::Common::kChannelModeTCP :
+                            inputsAsString += "TCP";
+                            break;
+                            
+                        case MplusM::Common::kChannelModeUDP :
+                            inputsAsString += "UDP";
+                            break;
+                            
+                        case MplusM::Common::kChannelModeOther :
+                        case MplusM::Common::kChannelModeUnknown :
+                            inputsAsString += "unknown";
+                            break;
+                            
+                    }
                     inputsAsString += T_(CHAR_DOUBLEQUOTE " }");
                     break;
                     
-                default :
+                case MplusM::Common::kOutputFlavourNormal :
+                case MplusM::Common::kOutputFlavourUnknown :
                     inputsAsString += "   Input from ";
                     inputsAsString += MplusM::SanitizeString(walker->_portName, true);
                     switch (walker->_portMode)
-                {
-                    case MplusM::Common::kChannelModeTCP :
-                        inputsAsString += " via TCP.";
-                        break;
-                        
-                    case MplusM::Common::kChannelModeUDP :
-                        inputsAsString += " via UDP.";
-                        break;
-                        
-                    default :
-                        inputsAsString += " via non-TCP/non-UDP.";
-                        break;
-                        
-                }
+                    {
+                        case MplusM::Common::kChannelModeTCP :
+                            inputsAsString += " via TCP.";
+                            break;
+                            
+                        case MplusM::Common::kChannelModeUDP :
+                            inputsAsString += " via UDP.";
+                            break;
+                            
+                        case MplusM::Common::kChannelModeOther :
+                        case MplusM::Common::kChannelModeUnknown :
+                            inputsAsString += " via non-TCP/non-UDP.";
+                            break;
+                            
+                    }
                     inputsAsString += "\n";
                     break;
                     
@@ -192,20 +196,21 @@ static void reportConnections(const MplusM::Common::OutputFlavour flavour,
                     }
                     outputsAsString += MplusM::SanitizeString(walker->_portName, true);
                     switch (walker->_portMode)
-                {
-                    case MplusM::Common::kChannelModeTCP :
-                        outputsAsString += " TCP";
-                        break;
-                        
-                    case MplusM::Common::kChannelModeUDP :
-                        outputsAsString += " UDP";
-                        break;
-                        
-                    default :
-                        outputsAsString += " unknown";
-                        break;
-                        
-                }
+                    {
+                        case MplusM::Common::kChannelModeTCP :
+                            outputsAsString += " TCP";
+                            break;
+                            
+                        case MplusM::Common::kChannelModeUDP :
+                            outputsAsString += " UDP";
+                            break;
+                            
+                        case MplusM::Common::kChannelModeOther :
+                        case MplusM::Common::kChannelModeUnknown :
+                            outputsAsString += " unknown";
+                            break;
+                            
+                    }
                     break;
                     
                 case MplusM::Common::kOutputFlavourJSON :
@@ -219,41 +224,44 @@ static void reportConnections(const MplusM::Common::OutputFlavour flavour,
                     outputsAsString += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Mode"
                                           CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
                     switch (walker->_portMode)
-                {
-                    case MplusM::Common::kChannelModeTCP :
-                        outputsAsString += "TCP";
-                        break;
-                        
-                    case MplusM::Common::kChannelModeUDP :
-                        outputsAsString += "UDP";
-                        break;
-                        
-                    default :
-                        outputsAsString += "unknown";
-                        break;
-                        
-                }
+                    {
+                        case MplusM::Common::kChannelModeTCP :
+                            outputsAsString += "TCP";
+                            break;
+                            
+                        case MplusM::Common::kChannelModeUDP :
+                            outputsAsString += "UDP";
+                            break;
+                            
+                        case MplusM::Common::kChannelModeOther :
+                        case MplusM::Common::kChannelModeUnknown :
+                            outputsAsString += "unknown";
+                            break;
+                            
+                    }
                     outputsAsString += T_(CHAR_DOUBLEQUOTE " }");
                     break;
                     
-                default :
+                case MplusM::Common::kOutputFlavourNormal :
+                case MplusM::Common::kOutputFlavourUnknown :
                     outputsAsString += "   Output to ";
                     outputsAsString += MplusM::SanitizeString(walker->_portName, true);
                     switch (walker->_portMode)
-                {
-                    case MplusM::Common::kChannelModeTCP :
-                        outputsAsString += " via TCP.";
-                        break;
-                        
-                    case MplusM::Common::kChannelModeUDP :
-                        outputsAsString += " via UDP.";
-                        break;
-                        
-                    default :
-                        outputsAsString += " via non-TCP/non-UDP.";
-                        break;
-                        
-                }
+                    {
+                        case MplusM::Common::kChannelModeTCP :
+                            outputsAsString += " via TCP.";
+                            break;
+                            
+                        case MplusM::Common::kChannelModeUDP :
+                            outputsAsString += " via UDP.";
+                            break;
+                            
+                        case MplusM::Common::kChannelModeOther :
+                        case MplusM::Common::kChannelModeUnknown :
+                            outputsAsString += " via non-TCP/non-UDP.";
+                            break;
+                            
+                    }
                     outputsAsString += "\n";
                     break;
                     
@@ -273,7 +281,8 @@ static void reportConnections(const MplusM::Common::OutputFlavour flavour,
                                                  ": [ ") << outputsAsString.c_str() << " ]";
             break;
             
-	    default :
+	    case MplusM::Common::kOutputFlavourNormal :
+	    case MplusM::Common::kOutputFlavourUnknown :
             if (sawInputs || sawOutputs)
             {
                 if (sawInputs)
@@ -375,7 +384,8 @@ static void reportAssociates(const MplusM::Common::OutputFlavour        flavour,
                             outputAssociates.c_str() << " ], ";
                     break;
                     
-                default :
+                case MplusM::Common::kOutputFlavourNormal :
+                case MplusM::Common::kOutputFlavourUnknown :
                     cout << " Primary port with inputs (" << inputAssociates.c_str() <<
                             ") and outputs (" <<
                     outputAssociates.c_str() << ").";
@@ -401,7 +411,8 @@ static void reportAssociates(const MplusM::Common::OutputFlavour        flavour,
                                CHAR_DOUBLEQUOTE ": [ ], ");
                     break;
                     
-                default :
+                case MplusM::Common::kOutputFlavourNormal :
+                case MplusM::Common::kOutputFlavourUnknown :
                     cout << " Port associated with " << inputAssociates.c_str() << ".";
                     break;
                     
@@ -423,7 +434,8 @@ static void reportAssociates(const MplusM::Common::OutputFlavour        flavour,
                            ": [ ], " CHAR_DOUBLEQUOTE "AssocOutputs" CHAR_DOUBLEQUOTE ": [ ], ");
                 break;
                 
-            default :
+            case MplusM::Common::kOutputFlavourNormal :
+            case MplusM::Common::kOutputFlavourUnknown :
                 break;
                 
         }
@@ -460,7 +472,8 @@ static void reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
                     portName.c_str() << T_(CHAR_DOUBLEQUOTE ", ");
             break;
             
-	    default :
+	    case MplusM::Common::kOutputFlavourNormal :
+	    case MplusM::Common::kOutputFlavourUnknown :
             cout << portName.c_str() << ": ";
             break;
             
@@ -504,6 +517,9 @@ static void reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
                         portClass += aDescriptor._portIpAddress;
                         portClass += ":";
                         portClass += aDescriptor._portPortNumber;
+                        break;
+                        
+                    case MplusM::Utilities::kPortKindUnknown:
                         break;
                         
                 }
@@ -562,6 +578,9 @@ static void reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
                                 portClass += aDescriptor._portPortNumber;
                                 break;
                                 
+                            case MplusM::Utilities::kPortKindUnknown:
+                                break;
+                                
                         }
                     }
                 }
@@ -578,13 +597,14 @@ static void reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
                         MplusM::SanitizeString(portClass).c_str() << T_(CHAR_DOUBLEQUOTE ", ");
                 break;
                 
-            default :
+            case MplusM::Common::kOutputFlavourNormal :
+            case MplusM::Common::kOutputFlavourUnknown :
                 cout << MplusM::SanitizeString(portClass, true).c_str() << ".";
                 break;
                 
         }
         MplusM::Utilities::GetAssociatedPorts(aDescriptor._portName, associates, STANDARD_WAIT_TIME,
-                                              true, NULL, NULL);
+                                              NULL, NULL);
     }
     else
     {
@@ -615,6 +635,9 @@ static void reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
                 portClass += ":";
                 portClass += aDescriptor._portPortNumber;
                 break;
+         
+            case MplusM::Utilities::kPortKindUnknown:
+                break;
                 
         }
         switch (flavour)
@@ -628,7 +651,8 @@ static void reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
                         MplusM::SanitizeString(portClass).c_str() << T_(CHAR_DOUBLEQUOTE ", ");
                 break;
                 
-            default :
+            case MplusM::Common::kOutputFlavourNormal :
+            case MplusM::Common::kOutputFlavourUnknown :
                 cout << MplusM::SanitizeString(portClass, true).c_str() << ".";
                 break;
                 
@@ -643,7 +667,8 @@ static void reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
 	    case MplusM::Common::kOutputFlavourJSON :
             break;
             
-	    default :
+	    case MplusM::Common::kOutputFlavourNormal :
+	    case MplusM::Common::kOutputFlavourUnknown :
             cout << endl;
             break;
             
@@ -658,7 +683,8 @@ static void reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
             cout << " }";
             break;
             
-	    default :
+	    case MplusM::Common::kOutputFlavourNormal :
+	    case MplusM::Common::kOutputFlavourUnknown :
             break;
             
     }
@@ -701,7 +727,8 @@ int main(int     argc,
                 flavour = MplusM::Common::kOutputFlavourTabs;
                 break;
                 
-            default :
+            case MplusM::Common::kOutputFlavourNormal :
+            case MplusM::Common::kOutputFlavourUnknown :
                 // Ignore unknown options.
                 break;
                 
@@ -748,7 +775,8 @@ int main(int     argc,
                             }
                             break;
                             
-                        default :
+                        case MplusM::Common::kOutputFlavourNormal :
+                        case MplusM::Common::kOutputFlavourUnknown :
                             if (! found)
                             {
                                 cout << "Ports:" << endl << endl;
@@ -773,7 +801,8 @@ int main(int     argc,
                     cout << " ]" << endl;
                     break;
                     
-                default :
+                case MplusM::Common::kOutputFlavourNormal :
+                case MplusM::Common::kOutputFlavourUnknown :
                     if (found)
                     {
                         cout << endl;

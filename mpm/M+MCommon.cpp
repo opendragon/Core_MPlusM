@@ -119,24 +119,6 @@ static void localCatcher(int signal)
 } // localCatcher
 #endif // MAC_OR_LINUX_
 
-/*! @brief Returns a printable string, even for null strings.
- @param aString The string to be checked.
- @returns The input string, if non-@c NULL, or a fixed string if it is @c NULL. */
-static const char * nullOrString(const char * aString)
-{
-    const char * result;
-    
-    if (aString)
-    {
-        result = aString;
-    }
-    else
-    {
-        result = "<>";
-    }
-    return result;
-} // nullOrString
-
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -809,7 +791,7 @@ yarp::os::ConstString MplusM::SanitizeString(const yarp::os::ConstString & inStr
     
     try
     {
-        for (int ii = 0, mm = inString.size(); mm > ii; )
+        for (size_t ii = 0, mm = inString.size(); mm > ii; )
         {
             char cc = inString[ii++];
             

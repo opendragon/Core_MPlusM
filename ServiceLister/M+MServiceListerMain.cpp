@@ -166,7 +166,8 @@ int main(int     argc,
                                 cout << "{ ";
                                 break;
                                 
-                            default :
+                            case MplusM::Common::kOutputFlavourNormal :
+                            case MplusM::Common::kOutputFlavourUnknown :
                                 if (! reported)
                                 {
                                     cout << "Services: " << endl;
@@ -181,11 +182,13 @@ int main(int     argc,
                             inChannelNames = "[ ";
                             outChannelNames = "[ ";
                         }
-                        for (MplusM::Common::ChannelVector::const_iterator walker =
-                             descriptor._inputChannels.begin();
-                             descriptor._inputChannels.end() != walker; ++walker)
+                        MplusM::Common::ChannelVector & inChannels = descriptor._inputChannels;
+                        
+                        for (MplusM::Common::ChannelVector::const_iterator iWalker =
+                                                                            inChannels.begin();
+                             inChannels.end() != iWalker; ++iWalker)
                         {
-                            MplusM::Common::ChannelDescription descriptor(*walker);
+                            MplusM::Common::ChannelDescription iDescriptor(*iWalker);
                             
                             if (MplusM::Common::kOutputFlavourJSON == flavour)
                             {
@@ -195,11 +198,11 @@ int main(int     argc,
                                 }
                                 inChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name" CHAR_DOUBLEQUOTE
                                                      ": " CHAR_DOUBLEQUOTE);
-                                inChannelNames += MplusM::SanitizeString(descriptor._portName);
+                                inChannelNames += MplusM::SanitizeString(iDescriptor._portName);
                                 inChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
                                                      "Protocol" CHAR_DOUBLEQUOTE ": "
                                                      CHAR_DOUBLEQUOTE);
-                                inChannelNames += MplusM::SanitizeString(descriptor._portProtocol);
+                                inChannelNames += MplusM::SanitizeString(iDescriptor._portProtocol);
                                 inChannelNames += T_(CHAR_DOUBLEQUOTE " }");
                             }
                             else
@@ -208,10 +211,10 @@ int main(int     argc,
                                 {
                                     inChannelNames += " ";
                                 }
-                                inChannelNames += descriptor._portName;
-                                if (0 < descriptor._portProtocol.size())
+                                inChannelNames += iDescriptor._portName;
+                                if (0 < iDescriptor._portProtocol.size())
                                 {
-                                    inChannelNames += "{protocol=" + descriptor._portProtocol + "}";
+                                    inChannelNames += "{protocol=" + iDescriptor._portProtocol + "}";
                                 }
                             }
                             sawInputs = true;
@@ -220,11 +223,13 @@ int main(int     argc,
                         {
                             inChannelNames += " ]";
                         }
-                        for (MplusM::Common::ChannelVector::const_iterator walker =
-                             descriptor._outputChannels.begin();
-                             descriptor._outputChannels.end() != walker; ++walker)
+                        MplusM::Common::ChannelVector & outChannels = descriptor._outputChannels;
+                        
+                        for (MplusM::Common::ChannelVector::const_iterator oWalker =
+                                                                            outChannels.begin();
+                             outChannels.end() != oWalker; ++oWalker)
                         {
-                            MplusM::Common::ChannelDescription descriptor(*walker);
+                            MplusM::Common::ChannelDescription oDescriptor(*oWalker);
                             
                             if (MplusM::Common::kOutputFlavourJSON == flavour)
                             {
@@ -234,11 +239,12 @@ int main(int     argc,
                                 }
                                 outChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name" CHAR_DOUBLEQUOTE
                                                       ": " CHAR_DOUBLEQUOTE);
-                                outChannelNames += MplusM::SanitizeString(descriptor._portName);
+                                outChannelNames += MplusM::SanitizeString(oDescriptor._portName);
                                 outChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
                                                       "Protocol" CHAR_DOUBLEQUOTE ": "
                                                       CHAR_DOUBLEQUOTE);
-                                outChannelNames += MplusM::SanitizeString(descriptor._portProtocol);
+                                outChannelNames +=
+                                                MplusM::SanitizeString(oDescriptor._portProtocol);
                                 outChannelNames += T_(CHAR_DOUBLEQUOTE " }");
                             }
                             else
@@ -247,10 +253,10 @@ int main(int     argc,
                                 {
                                     outChannelNames += " ";
                                 }
-                                outChannelNames += descriptor._portName;
-                                if (0 < descriptor._portProtocol.size())
+                                outChannelNames += oDescriptor._portName;
+                                if (0 < oDescriptor._portProtocol.size())
                                 {
-                                    outChannelNames += "{protocol=" + descriptor._portProtocol +
+                                    outChannelNames += "{protocol=" + oDescriptor._portProtocol +
                                                         "}";
                                 }
                             }
@@ -306,7 +312,8 @@ int main(int     argc,
                                         outChannelNames.c_str();
                                 break;
                                 
-                            default :
+                            case MplusM::Common::kOutputFlavourNormal :
+                            case MplusM::Common::kOutputFlavourUnknown :
                                 cout << "Service port:      " << servicePortName.c_str() << endl;
                                 cout << "Service name:      " << serviceName.c_str() << endl;
                                 cout << "Service kind:      " << descriptor._kind.c_str() << endl;
@@ -344,7 +351,8 @@ int main(int     argc,
                     cout << " ]" << endl;
                     break;
                     
-                default :
+                case MplusM::Common::kOutputFlavourNormal :
+                case MplusM::Common::kOutputFlavourUnknown :
                     if (reported)
                     {
                         cout << endl;

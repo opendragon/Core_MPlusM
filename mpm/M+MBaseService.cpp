@@ -99,15 +99,18 @@ bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName,
     
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "ping_/"
-                                                         DEFAULT_CHANNEL_ROOT));
-        ClientChannel *       newChannel = new ClientChannel;
+        yarp::os::ConstString   aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "ping_/"
+                                                           DEFAULT_CHANNEL_ROOT));
+        ClientChannel *         newChannel = new ClientChannel;
+#if defined(MpM_ReportOnConnections)
+        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
         
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(ChannelStatusReporter::gReporter);
-            newChannel->getReport(ChannelStatusReporter::gReporter);
+            newChannel->setReporter(reporter);
+            newChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
@@ -228,6 +231,11 @@ BaseService::BaseService(const ServiceKind             theKind,
     _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _started(false),
     _useMultipleHandlers(useMultipleHandlers)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(requestsDescription)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
                "description = ", description, "requestsDescription = ", requestsDescription); //####
@@ -489,8 +497,8 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
     return result;
 } // BaseService::findContext
 
-void BaseService::getStatistics(long long & count,
-                                double &    currentTime)
+void BaseService::getStatistics(int64_t & count,
+                                double &  currentTime)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P2("count = ", &count, "currentTime = ", &currentTime); //####
@@ -710,15 +718,19 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
     
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "registerlocal_/"
-                                                         DEFAULT_CHANNEL_ROOT));
-        ClientChannel *       newChannel = new ClientChannel;
+        yarp::os::ConstString   aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "registerlocal_/"
+                                                           DEFAULT_CHANNEL_ROOT));
+        ClientChannel *         newChannel = new ClientChannel;
+#if defined(MpM_ReportOnConnections)
+        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+        
         
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(ChannelStatusReporter::gReporter);
-            newChannel->getReport(ChannelStatusReporter::gReporter);
+            newChannel->setReporter(reporter);
+            newChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
@@ -806,15 +818,19 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
     
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "unregisterlocal_/"
-                                                         DEFAULT_CHANNEL_ROOT));
-        ClientChannel *       newChannel = new ClientChannel;
+        yarp::os::ConstString   aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "unregisterlocal_/"
+                                                           DEFAULT_CHANNEL_ROOT));
+        ClientChannel *         newChannel = new ClientChannel;
+#if defined(MpM_ReportOnConnections)
+        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+        
         
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(ChannelStatusReporter::gReporter);
-            newChannel->getReport(ChannelStatusReporter::gReporter);
+            newChannel->setReporter(reporter);
+            newChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {

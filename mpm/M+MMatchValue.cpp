@@ -232,8 +232,8 @@ MatchValue::MatchValue(const yarp::os::ConstString & inString) :
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
-    bool escapeNextChar = false;
-    int  len = inString.length();
+    bool   escapeNextChar = false;
+    size_t len = inString.length();
 
     // Check if we have unescaped wildcards.
     for (size_t ii = 0; len > ii; ++ii)

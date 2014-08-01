@@ -141,7 +141,7 @@ bool StartStreamsRequestHandler::processRequest(const yarp::os::ConstString & re
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
-#  pragma unused(request,restOfInput)
+#  pragma unused(request,restOfInput,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####

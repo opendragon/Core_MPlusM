@@ -67,6 +67,11 @@
 #  pragma clang diagnostic ignored "-Wshadow"
 #  pragma clang diagnostic ignored "-Wunused-parameter"
 #  pragma clang diagnostic ignored "-Wweak-vtables"
+#  pragma clang diagnostic ignored "-Wmissing-noreturn"
+#  pragma clang diagnostic ignored "-Wsign-conversion"
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+#  pragma clang diagnostic ignored "-Wunreachable-code"
+#  pragma clang diagnostic ignored "-Wshorten-64-to-32"
 # endif // defined(__APPLE__)
 # include <yarp/os/all.h>
 # if MAC_OR_LINUX_
@@ -216,7 +221,10 @@ namespace MplusM
             kChannelModeUDP,
             
             /*! @brief The connection is neither a TCP nor a UDP connection. */
-            kChannelModeOther
+            kChannelModeOther,
+            
+            /*! @brief Force the enumeration to be 4 bytes. */
+            kChannelModeUnknown = 0x80000000
             
         }; // ChannelMode
         
@@ -232,6 +240,16 @@ namespace MplusM
             /*! @brief The mode of the connection. */
             ChannelMode _portMode;
             
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler[4];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+            
         }; // ChannelDescription
         
         /*! @brief The format for the output from command-line tools. */
@@ -245,7 +263,10 @@ namespace MplusM
             
             /*! @brief Output in tab-delimited format. Tabs and newlines are replaced with
              spaces. */
-            kOutputFlavourTabs
+            kOutputFlavourTabs,
+            
+            /*! @brief Force the enumeration to be 4 bytes. */
+            kOutputFlavourUnknown = 0x80000000
             
         }; // OutputFlavour
         
@@ -265,7 +286,10 @@ namespace MplusM
             kServiceKindFilter,
             
             /*! @brief The service is the Registry, which is a specialized 'normal' service. */
-            kServiceKindRegistry
+            kServiceKindRegistry,
+            
+            /*! @brief Force the enumeration to be 4 bytes. */
+            kServiceKindUnknown = 0x80000000
             
         }; // ServiceKind
         

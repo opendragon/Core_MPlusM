@@ -240,7 +240,10 @@ namespace MplusM
                 kRegistryAddService,
                 
                 /*! @brief A service is being removed from the registry. */
-                kRegistryRemoveService
+                kRegistryRemoveService,
+                
+                /*! @brief Force the enumeration to be 4 bytes. */
+                kRegistryUnknown = 0x80000000
                 
             }; // ServiceStatus
             

@@ -169,6 +169,16 @@ namespace MplusM
             /*! @brief The direction of the associate channel. */
             int _direction;
             
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler[4];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+            
         }; // ChannelAssociateData
         
         /*! @brief The data needed to add a request-keyword entry into the database. */
@@ -2448,6 +2458,7 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
     {
         yarp::os::Bottle message;
         
+        message.addString(canonicalName());
         switch (newStatus)
         {
             case kRegistryStarted :
@@ -2468,7 +2479,7 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
                 message.addString(channelName);
                 break;
                 
-            default :
+            case kRegistryUnknown :
                 message.addString(MpM_REGISTRY_STATUS_UNKNOWN);
                 break;
                 
@@ -2549,11 +2560,14 @@ bool RegistryService::setUpStatusChannel(void)
         _statusChannel = new Common::GeneralChannel(true);
         if (_statusChannel)
         {
-            yarp::os::ConstString outputName(SECONDARY_CHANNEL_NAME_);
+            yarp::os::ConstString   outputName(SECONDARY_CHANNEL_NAME_);
+#if defined(MpM_ReportOnConnections)
+            ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
             
 #if defined(MpM_ReportOnConnections)
-            _statusChannel->setReporter(ChannelStatusReporter::gReporter);
-            _statusChannel->getReport(ChannelStatusReporter::gReporter);
+            _statusChannel->setReporter(reporter);
+            _statusChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
             if (_statusChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
             {

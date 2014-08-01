@@ -236,7 +236,7 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel,
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(ChannelStatusReporter::gReporter);
+            newChannel->setReporter(MplusM::Utilities::GetGlobalStatusReporter());
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
@@ -488,7 +488,7 @@ void BaseClient::removeAssociatedChannels(CheckFunction checker,
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(ChannelStatusReporter::gReporter);
+            newChannel->setReporter(MplusM::Utilities::GetGlobalStatusReporter());
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
@@ -621,7 +621,7 @@ yarp::os::Bottle Common::FindMatchingServices(const char *  criteria,
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(ChannelStatusReporter::gReporter);
+            newChannel->setReporter(MplusM::Utilities::GetGlobalStatusReporter());
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {

@@ -144,6 +144,10 @@ bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & 
     {
         if (0 < descriptions.size())
         {
+#if defined(MpM_ReportOnConnections)
+            ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+
             for (ChannelVector::const_iterator walker(descriptions.begin());
                  result && (descriptions.end() != walker); ++walker)
             {
@@ -157,8 +161,8 @@ bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & 
                     yarp::os::ConstString newName(GetRandomChannelName(aDescription._portName));
                     
 #if defined(MpM_ReportOnConnections)
-                    newChannel->setReporter(ChannelStatusReporter::gReporter);
-                    newChannel->getReport(ChannelStatusReporter::gReporter);
+                    newChannel->setReporter(reporter);
+                    newChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
                     if (newChannel->openWithRetries(newName, STANDARD_WAIT_TIME))
                     {
@@ -198,6 +202,10 @@ bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector &
     {
         if (0 < descriptions.size())
         {
+#if defined(MpM_ReportOnConnections)
+            ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+            
             for (ChannelVector::const_iterator walker(descriptions.begin());
                  result && (descriptions.end() != walker); ++walker)
             {
@@ -211,8 +219,8 @@ bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector &
                     yarp::os::ConstString newName(GetRandomChannelName(aDescription._portName));
                     
 #if defined(MpM_ReportOnConnections)
-                    newChannel->setReporter(ChannelStatusReporter::gReporter);
-                    newChannel->getReport(ChannelStatusReporter::gReporter);
+                    newChannel->setReporter(reporter);
+                    newChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
                     if (newChannel->openWithRetries(newName, STANDARD_WAIT_TIME))
                     {

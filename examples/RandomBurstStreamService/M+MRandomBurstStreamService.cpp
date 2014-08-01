@@ -105,6 +105,7 @@ RandomBurstStreamService::~RandomBurstStreamService(void)
 bool RandomBurstStreamService::configure(const yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("details = ", &details); //####
     bool result = false;
     
     try
