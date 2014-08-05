@@ -2474,6 +2474,12 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
                 message.addString(channelName);
                 break;
                 
+            case kRegistryPingFromService:
+                message.addString(MpM_REGISTRY_STATUS_PINGED);
+                message.addString("by");
+                message.addString(channelName);
+                break;
+                
             case kRegistryRemoveService :
                 message.addString(MpM_REGISTRY_STATUS_REMOVING);
                 message.addString(channelName);

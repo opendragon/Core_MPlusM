@@ -106,6 +106,29 @@ namespace MplusM
         {
         public:
             
+            /*! @brief The current state of the service. */
+            enum ServiceStatus
+            {
+                /*! @brief The registry has just started. */
+                kRegistryStarted,
+                
+                /*! @brief The registry is stopping. */
+                kRegistryStopped,
+                
+                /*! @brief A service is being added to the registry. */
+                kRegistryAddService,
+                
+                /*! @brief A service has pinged the registry. */
+                kRegistryPingFromService,
+                
+                /*! @brief A service is being removed from the registry. */
+                kRegistryRemoveService,
+                
+                /*! @brief Force the enumeration to be 4 bytes. */
+                kRegistryUnknown = 0x80000000
+                
+            }; // ServiceStatus
+            
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
              @param useInMemoryDb @c true if the database is in-memory and @c false if a temporary
@@ -205,6 +228,12 @@ namespace MplusM
              @returns @c true if the service was successfully removed and @c false otherwise. */
             bool removeServiceRecord(const yarp::os::ConstString & serviceChannelName);
             
+            /*! @brief Report a change to a service.
+             @param channelName The service channel for the service.
+             @param newStatus The updated state of the service. */
+            void reportStatusChange(const yarp::os::ConstString & channelName,
+                                    const ServiceStatus           newStatus);
+            
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
             virtual bool start(void);
@@ -226,26 +255,6 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef BaseService inherited;
-            
-            /*! @brief The current state of the service. */
-            enum ServiceStatus
-            {
-                /*! @brief The registry has just started. */
-                kRegistryStarted,
-                
-                /*! @brief The registry is stopping. */
-                kRegistryStopped,
-                
-                /*! @brief A service is being added to the registry. */
-                kRegistryAddService,
-                
-                /*! @brief A service is being removed from the registry. */
-                kRegistryRemoveService,
-                
-                /*! @brief Force the enumeration to be 4 bytes. */
-                kRegistryUnknown = 0x80000000
-                
-            }; // ServiceStatus
             
             /*! @brief A mapping from strings to time values. */
             typedef std::map<yarp::os::ConstString, double> TimeMap;
@@ -273,12 +282,6 @@ namespace MplusM
             
             /*! @brief Disable the standard request handlers. */
             void detachRequestHandlers(void);
-            
-            /*! @brief Report a change to a service.
-             @param channelName The service channel for the service.
-             @param newStatus The updated state of the service. */
-            void reportStatusChange(const yarp::os::ConstString & channelName,
-                                    const ServiceStatus           newStatus);
             
             /*! @brief Set up the service registry database.
              @returns @c true if the database was set up and @c false otherwise. */

@@ -167,6 +167,9 @@
 /*! @brief A service is being added to the registry. */
 # define MpM_REGISTRY_STATUS_ADDING   "adding"
 
+/*! @brief A service has pinged the registry. */
+# define MpM_REGISTRY_STATUS_PINGED "pinged"
+
 /*! @brief A service is being removed from the registry. */
 # define MpM_REGISTRY_STATUS_REMOVING "removing"
 
