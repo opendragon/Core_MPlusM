@@ -95,7 +95,7 @@
 
 /* #undef MpM_ReportOnConnections */
 
-/* #undef MpM_ServicesLogToStandardError */
+#define MpM_ServicesLogToStandardError /* Enable logging to stderr as well as the system log. */
 
 /* #undef MpM_StallOnSendProblem */
 
