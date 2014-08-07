@@ -101,7 +101,7 @@ size_t BaseMatcher::SkipWhitespace(const yarp::os::ConstString & inString,
 } // BaseMatcher::SkipWhitespace
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 BaseMatcher::BaseMatcher(void)
@@ -117,11 +117,7 @@ BaseMatcher::~BaseMatcher(void)
 } // BaseMatcher::~BaseMatcher
 
 #if defined(__APPLE__)
-# pragma mark Actions
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma mark Accessors
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)

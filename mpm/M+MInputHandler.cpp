@@ -68,7 +68,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 InputHandler::InputHandler(void) :
@@ -86,7 +86,7 @@ InputHandler::~InputHandler(void)
 } // InputHandler::~InputHandler
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool InputHandler::read(yarp::os::ConnectionReader & connection)
@@ -126,10 +126,6 @@ void InputHandler::stopProcessing(void)
     _canProcessInput = false;
     OD_LOG_OBJEXIT(); //####
 } // InputHandler::stopProcessing
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

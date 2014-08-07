@@ -71,7 +71,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName) :
@@ -103,7 +103,7 @@ ServiceRequest::~ServiceRequest(void)
 } // ServiceRequest::~ServiceRequest
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool ServiceRequest::send(ClientChannel &   usingChannel,
@@ -184,10 +184,6 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ServiceRequest::send
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

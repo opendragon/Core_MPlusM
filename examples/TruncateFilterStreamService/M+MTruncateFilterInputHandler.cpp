@@ -73,7 +73,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 TruncateFilterInputHandler::TruncateFilterInputHandler(void) :
@@ -90,7 +90,7 @@ TruncateFilterInputHandler::~TruncateFilterInputHandler(void)
 } // TruncateFilterInputHandler::~TruncateFilterInputHandler
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool TruncateFilterInputHandler::handleInput(const yarp::os::Bottle &      input,
@@ -155,10 +155,6 @@ void TruncateFilterInputHandler::setOutput(Common::GeneralChannel * output)
     _outChannel = output;
     OD_LOG_OBJEXIT(); //####
 } // TruncateFilterInputHandler::setOutput
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

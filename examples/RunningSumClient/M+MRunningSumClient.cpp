@@ -73,7 +73,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 RunningSumClient::RunningSumClient(void) :
@@ -90,7 +90,7 @@ RunningSumClient::~RunningSumClient(void)
 } // RunningSumClient::~RunningSumClient
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool RunningSumClient::addToSum(const double value,
@@ -299,10 +299,6 @@ bool RunningSumClient::stopSum(void)
     OD_LOG_OBJEXIT_B(okSoFar);
     return okSoFar;
 } // RunningSumClient::stopSum
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

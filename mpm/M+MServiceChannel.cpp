@@ -95,7 +95,7 @@ void ServiceChannel::RelinquishChannel(ServiceChannel * theChannel)
 } // ServiceChannel::RelinquishChannel
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 ServiceChannel::ServiceChannel(void) :
@@ -112,7 +112,7 @@ ServiceChannel::~ServiceChannel(void)
 } // ServiceChannel::~ServiceChannel
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void ServiceChannel::close(void)
@@ -273,10 +273,6 @@ bool ServiceChannel::openWithRetries(yarp::os::Contact & theContactInfo,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ServiceChannel::openWithRetries
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

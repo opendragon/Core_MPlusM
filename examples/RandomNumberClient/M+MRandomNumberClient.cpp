@@ -72,7 +72,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 RandomNumberClient::RandomNumberClient(void) :
@@ -89,7 +89,7 @@ RandomNumberClient::~RandomNumberClient(void)
 } // RandomNumberClient::~RandomNumberClient
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool RandomNumberClient::getOneRandomNumber(double & result)
@@ -204,10 +204,6 @@ bool RandomNumberClient::getRandomNumbers(const int              howMany,
     OD_LOG_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // RandomNumberClient::getRandomNumbers
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

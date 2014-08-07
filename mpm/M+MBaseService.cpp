@@ -187,7 +187,7 @@ bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName,
 } // BaseService::SendPingForChannel
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 BaseService::BaseService(const ServiceKind             theKind,
@@ -273,7 +273,7 @@ BaseService::~BaseService(void)
 } // BaseService::~BaseService
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void BaseService::addContext(const yarp::os::ConstString & key,
@@ -698,10 +698,6 @@ void BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
     _requestHandlers.unregisterRequestHandler(handler);
     OD_LOG_OBJEXIT(); //####
 } // BaseService::unregisterRequestHandler
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

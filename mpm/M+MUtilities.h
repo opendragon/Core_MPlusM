@@ -288,7 +288,7 @@ namespace MplusM
         
         /*! @brief Remove any ports that YARP considers to be stale.
          @param timeout The number of seconds to allow YARP to check a port. */
-        void RemoveStalePorts(const float timeout = 3);
+        void RemoveStalePorts(const float timeout = 5);
         
         /*! @brief Set up the global status reporter. */
         void SetUpGlobalStatusReporter(void);

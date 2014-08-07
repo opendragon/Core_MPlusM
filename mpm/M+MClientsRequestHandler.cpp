@@ -74,7 +74,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 ClientsRequestHandler::ClientsRequestHandler(BaseService & service) :

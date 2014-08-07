@@ -75,7 +75,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 RandomNumberInputHandler::RandomNumberInputHandler(RandomNumberAdapterData & shared) :
@@ -93,7 +93,7 @@ RandomNumberInputHandler::~RandomNumberInputHandler(void)
 } // RandomNumberInputHandler::~RandomNumberInputHandler
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool RandomNumberInputHandler::handleInput(const yarp::os::Bottle &      input,
@@ -208,10 +208,6 @@ bool RandomNumberInputHandler::handleInput(const yarp::os::Bottle &      input,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RandomNumberInputHandler::handleInput
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

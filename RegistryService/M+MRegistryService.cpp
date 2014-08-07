@@ -1637,7 +1637,7 @@ static int setupRemoveFromServices(sqlite3_stmt * statement,
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 RegistryService::RegistryService(const yarp::os::ConstString & launchPath,
@@ -1688,7 +1688,7 @@ RegistryService::~RegistryService(void)
 } // RegistryService::~RegistryService
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool RegistryService::addAssociation(const yarp::os::ConstString & primaryChannelName,
@@ -2756,10 +2756,6 @@ void RegistryService::updateCheckedTimeForChannel(const yarp::os::ConstString & 
     _checkedTimeLock.unlock();
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::updateCheckedTimeForChannel
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

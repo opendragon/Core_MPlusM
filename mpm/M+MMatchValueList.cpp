@@ -195,7 +195,7 @@ char MatchValueList::ListTerminatorCharacter(void)
 } // MatchValueList::ListTerminatorCharacter
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 MatchValueList::MatchValueList(void) :
@@ -213,7 +213,7 @@ MatchValueList::~MatchValueList(void)
 } // MatchValueList::~MatchValueList
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 yarp::os::ConstString MatchValueList::asSQLString(const char * fieldName)
@@ -430,10 +430,6 @@ void MatchValueList::empty(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // MatchValueList::empty
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

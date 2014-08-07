@@ -69,7 +69,7 @@ using namespace MplusM::Test;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 Test10DefaultRequestHandler::Test10DefaultRequestHandler(void) :
@@ -86,7 +86,7 @@ Test10DefaultRequestHandler::~Test10DefaultRequestHandler(void)
 } // Test10DefaultRequestHandler::~Test10DefaultRequestHandler
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void Test10DefaultRequestHandler::fillInAliases(MplusM::Common::StringVector & alternateNames)
@@ -149,10 +149,6 @@ bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString & r
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Test10DefaultRequestHandler::processRequest
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

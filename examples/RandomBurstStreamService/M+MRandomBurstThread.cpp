@@ -70,7 +70,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 RandomBurstThread::RandomBurstThread(Common::GeneralChannel * outChannel,
@@ -92,7 +92,7 @@ RandomBurstThread::~RandomBurstThread(void)
 } // RandomBurstThread::~RandomBurstThread
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void RandomBurstThread::run(void)
@@ -141,10 +141,6 @@ void RandomBurstThread::threadRelease(void)
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
 } // RandomBurstThread::threadRelease
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

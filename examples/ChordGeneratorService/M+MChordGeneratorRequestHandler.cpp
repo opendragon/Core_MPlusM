@@ -73,7 +73,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 ChordGeneratorRequestHandler::ChordGeneratorRequestHandler(void) :
@@ -90,7 +90,7 @@ ChordGeneratorRequestHandler::~ChordGeneratorRequestHandler(void)
 } // RandomRequestHandler::~RandomRequestHandler
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void ChordGeneratorRequestHandler::fillInAliases(Common::StringVector & alternateNames)
@@ -200,10 +200,6 @@ bool ChordGeneratorRequestHandler::processRequest(const yarp::os::ConstString & 
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ChordGeneratorRequestHandler::processRequest
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

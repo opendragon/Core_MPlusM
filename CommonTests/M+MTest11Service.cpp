@@ -71,7 +71,7 @@ using namespace MplusM::Test;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 Test11Service::Test11Service(const yarp::os::ConstString & launchPath,
@@ -93,7 +93,7 @@ Test11Service::~Test11Service(void)
 } // Test11Service::~Test11Service
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void Test11Service::attachRequestHandlers(void)
@@ -186,10 +186,6 @@ bool Test11Service::stop(void)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Test11Service::stop
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

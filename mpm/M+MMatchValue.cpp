@@ -223,7 +223,7 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
 } // MatchValue::CreateMatcher
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 MatchValue::MatchValue(const yarp::os::ConstString & inString) :
@@ -298,7 +298,7 @@ MatchValue::~MatchValue(void)
 } // MatchValue::~MatchValue
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 yarp::os::ConstString MatchValue::asSQLString(void)
@@ -493,10 +493,5 @@ const
 } // MatchValue::asString
 
 #if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
-

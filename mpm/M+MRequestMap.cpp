@@ -69,7 +69,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 RequestMap::RequestMap(BaseService & owner) :
@@ -87,7 +87,7 @@ RequestMap::~RequestMap(void)
 } // RequestMap::~RequestMap
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void RequestMap::fillInListReply(yarp::os::Bottle & reply)
@@ -253,10 +253,6 @@ void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
     }
     OD_LOG_OBJEXIT(); //####
 } // RequestMap::unregisterRequestHandler
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

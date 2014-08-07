@@ -74,7 +74,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 StopRequestHandler::StopRequestHandler(RunningSumService & service) :
@@ -92,7 +92,7 @@ StopRequestHandler::~StopRequestHandler(void)
 } // StopRequestHandler::~StopRequestHandler
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void StopRequestHandler::fillInAliases(Common::StringVector & alternateNames)
@@ -176,10 +176,6 @@ bool StopRequestHandler::processRequest(const yarp::os::ConstString & request,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // StopRequestHandler::processRequest
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

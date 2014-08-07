@@ -99,7 +99,7 @@ void AdapterChannel::RelinquishChannel(AdapterChannel * theChannel)
 } // AdapterChannel::RelinquishChannel
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 AdapterChannel::AdapterChannel(const bool isOutput) :
@@ -116,7 +116,7 @@ AdapterChannel::~AdapterChannel(void)
 } // AdapterChannel::~AdapterChannel
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void AdapterChannel::close(void)
@@ -208,10 +208,6 @@ bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // AdapterChannel::openWithRetries
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

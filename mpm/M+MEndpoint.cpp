@@ -191,7 +191,7 @@ bool Endpoint::CheckEndpointName(const yarp::os::ConstString & channelName)
 } // Endpoint::CheckEndpointName
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
@@ -248,7 +248,7 @@ Endpoint::~Endpoint(void)
 } // Endpoint::~Endpoint
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void Endpoint::close(void)
@@ -290,6 +290,30 @@ void Endpoint::close(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // Endpoint::close
+
+yarp::os::ConstString Endpoint::getName(void)
+const
+{
+    yarp::os::ConstString result;
+    
+    try
+    {
+        if (_channel)
+        {
+            result = _channel->name();
+        }
+        else
+        {
+            result = "";
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    return result;
+} // Endpoint::getName
 
 bool Endpoint::open(const double timeToWait)
 {
@@ -463,34 +487,6 @@ bool Endpoint::setReporter(ChannelStatusReporter & reporter,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Endpoint::setReporter
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
-
-yarp::os::ConstString Endpoint::getName(void)
-const
-{
-    yarp::os::ConstString result;
-    
-    try
-    {
-        if (_channel)
-        {
-            result = _channel->name();
-        }
-        else
-        {
-            result = "";
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    return result;
-} // Endpoint::getName
 
 #if defined(__APPLE__)
 # pragma mark Global functions

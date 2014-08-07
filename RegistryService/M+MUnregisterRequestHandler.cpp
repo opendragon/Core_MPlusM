@@ -76,7 +76,7 @@ using namespace MplusM::Registry;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 UnregisterRequestHandler::UnregisterRequestHandler(RegistryService & service) :
@@ -94,7 +94,7 @@ UnregisterRequestHandler::~UnregisterRequestHandler(void)
 } // UnregisterRequestHandler::~UnregisterRequestHandler
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void UnregisterRequestHandler::fillInAliases(Common::StringVector & alternateNames)
@@ -223,10 +223,6 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // UnregisterRequestHandler::processRequest
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

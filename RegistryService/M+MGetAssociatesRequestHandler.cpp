@@ -76,7 +76,7 @@ using namespace MplusM::Registry;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 GetAssociatesRequestHandler::GetAssociatesRequestHandler(RegistryService & service) :
@@ -94,7 +94,7 @@ GetAssociatesRequestHandler::~GetAssociatesRequestHandler(void)
 } // GetAssociatesRequestHandler::~GetAssociatesRequestHandler
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void GetAssociatesRequestHandler::fillInAliases(Common::StringVector & alternateNames)
@@ -249,10 +249,6 @@ bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & r
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // GetAssociatesRequestHandler::processRequest
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

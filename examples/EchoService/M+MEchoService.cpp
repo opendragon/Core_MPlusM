@@ -71,7 +71,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 EchoService::EchoService(const yarp::os::ConstString & launchPath,
@@ -96,7 +96,7 @@ EchoService::~EchoService(void)
 } // EchoService::~EchoService
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void EchoService::attachRequestHandlers(void)
@@ -186,3 +186,7 @@ bool EchoService::stop(void)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // EchoService::stop
+
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

@@ -73,7 +73,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 TruncateFilterStreamService::TruncateFilterStreamService(const yarp::os::ConstString & launchPath,
@@ -100,7 +100,7 @@ TruncateFilterStreamService::~TruncateFilterStreamService(void)
 } // TruncateFilterStreamService::~TruncateFilterStreamService
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool TruncateFilterStreamService::configure(const yarp::os::Bottle & details)
@@ -248,3 +248,7 @@ void TruncateFilterStreamService::stopStreams(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // TruncateFilterStreamService::stopStreams
+
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

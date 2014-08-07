@@ -98,7 +98,7 @@ void GeneralChannel::RelinquishChannel(GeneralChannel * theChannel)
 } // GeneralChannel::RelinquishChannel
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 GeneralChannel::GeneralChannel(const bool isOutput) :
@@ -115,7 +115,7 @@ GeneralChannel::~GeneralChannel(void)
 } // GeneralChannel::~GeneralChannel
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void GeneralChannel::close(void)
@@ -207,10 +207,6 @@ bool GeneralChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // GeneralChannel::openWithRetries
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

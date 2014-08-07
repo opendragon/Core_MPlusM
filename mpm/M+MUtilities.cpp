@@ -1099,6 +1099,7 @@ void MplusM::Utilities::RemoveStalePorts(const float timeout)
                 }
                 else
                 {
+                    OD_LOG("! (cc.getCarrier() == \"mcast\")"); //####
                     yarp::os::Contact addr = cc;
                     
                     OD_LOG_S1s("Testing at ", addr.toURI()); //####
@@ -1116,8 +1117,8 @@ void MplusM::Utilities::RemoveStalePorts(const float timeout)
                         }
                         else
                         {
-                            OD_LOG("No respose, removing port."); //####
-                            yarp::os::NetworkBase::unregisterName(port.c_str());
+                            OD_LOG("No response, removing port."); //####
+                            yarp::os::NetworkBase::unregisterName(port);
                         }
                     }
                 }

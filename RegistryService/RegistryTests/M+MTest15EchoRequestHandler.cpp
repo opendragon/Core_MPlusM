@@ -74,7 +74,7 @@ using namespace MplusM::Test;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 Test15EchoRequestHandler::Test15EchoRequestHandler(void) :
@@ -91,7 +91,7 @@ Test15EchoRequestHandler::~Test15EchoRequestHandler(void)
 } // Test15EchoRequestHandler::~Test15EchoRequestHandler
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void Test15EchoRequestHandler::fillInAliases(Common::StringVector & alternateNames)
@@ -174,10 +174,6 @@ bool Test15EchoRequestHandler::processRequest(const yarp::os::ConstString & requ
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Test15EchoRequestHandler::processRequest
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

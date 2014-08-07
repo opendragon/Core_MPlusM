@@ -78,7 +78,7 @@ using namespace MplusM::Registry;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 PingRequestHandler::PingRequestHandler(RegistryService & service) :
@@ -96,7 +96,7 @@ PingRequestHandler::~PingRequestHandler(void)
 } // PingRequestHandler::~PingRequestHandler
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void PingRequestHandler::fillInAliases(Common::StringVector & alternateNames)
@@ -542,10 +542,6 @@ bool PingRequestHandler::processNameResponse(const yarp::os::ConstString &   cha
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // PingRequestHandler::processNameResponse
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

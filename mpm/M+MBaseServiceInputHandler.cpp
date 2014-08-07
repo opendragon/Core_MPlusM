@@ -70,7 +70,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 BaseServiceInputHandler::BaseServiceInputHandler(BaseService & service) :
@@ -88,7 +88,7 @@ BaseServiceInputHandler::~BaseServiceInputHandler(void)
 } // BaseServiceInputHandler::~BaseServiceInputHandler
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &      input,
@@ -116,10 +116,6 @@ bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &      input,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // BaseServiceInputHandler::handleInput
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

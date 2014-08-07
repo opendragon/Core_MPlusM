@@ -74,7 +74,7 @@ using namespace MplusM::RequestCounter;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 RequestCounterService::RequestCounterService(const yarp::os::ConstString & launchPath,
@@ -102,7 +102,7 @@ RequestCounterService::~RequestCounterService(void)
 } // RequestCounterService::~RequestCounterService
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void RequestCounterService::attachRequestHandlers(void)
@@ -281,3 +281,7 @@ bool RequestCounterService::stop(void)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RequestCounterService::stop
+
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

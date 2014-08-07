@@ -167,7 +167,7 @@ char MatchExpression::ExpressionSeparatorCharacter(void)
 } // MatchExpression::ExpressionSeparatorCharacter
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 MatchExpression::MatchExpression(void) :
@@ -185,7 +185,7 @@ MatchExpression::~MatchExpression(void)
 } // MatchExpression::~MatchExpression
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 yarp::os::ConstString MatchExpression::asSQLString(const char * prefixString,
@@ -308,10 +308,6 @@ void MatchExpression::empty(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // MatchExpression::empty
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

@@ -72,7 +72,7 @@ using namespace MplusM::RequestCounter;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 RequestCounterDefaultRequestHandler::RequestCounterDefaultRequestHandler(RequestCounterService &
@@ -90,7 +90,7 @@ RequestCounterDefaultRequestHandler::~RequestCounterDefaultRequestHandler(void)
 } // RequestCounterDefaultRequestHandler::~RequestCounterDefaultRequestHandler
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void RequestCounterDefaultRequestHandler::fillInAliases(Common::StringVector & alternateNames)
@@ -163,10 +163,6 @@ bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstSt
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RequestCounterDefaultRequestHandler::processRequest
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

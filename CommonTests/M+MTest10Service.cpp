@@ -70,7 +70,7 @@ using namespace MplusM::Test;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 Test10Service::Test10Service(const yarp::os::ConstString & launchPath,
@@ -92,7 +92,7 @@ Test10Service::~Test10Service(void)
 } // Test10Service::~Test10Service
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void Test10Service::attachRequestHandlers(void)
@@ -185,10 +185,6 @@ bool Test10Service::stop(void)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Test10Service::stop
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

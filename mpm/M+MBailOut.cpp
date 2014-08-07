@@ -69,7 +69,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 BailOut::BailOut(const double timeToWait) :
@@ -147,11 +147,7 @@ BailOut::~BailOut(void)
 } // BailOut::~BailOut
 
 #if defined(__APPLE__)
-# pragma mark Actions
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma mark Accessors
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)

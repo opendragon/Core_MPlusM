@@ -73,7 +73,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 RecordIntegersStreamService::RecordIntegersStreamService(const yarp::os::ConstString & launchPath,
@@ -100,7 +100,7 @@ RecordIntegersStreamService::~RecordIntegersStreamService(void)
 } // RecordIntegersStreamService::~RecordIntegersStreamService
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool RecordIntegersStreamService::configure(const yarp::os::Bottle & details)
@@ -266,3 +266,7 @@ void RecordIntegersStreamService::stopStreams(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // RecordIntegersStreamService::stopStreams
+
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

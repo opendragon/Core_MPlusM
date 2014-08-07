@@ -71,7 +71,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 BaseServiceInputHandlerCreator::BaseServiceInputHandlerCreator(BaseService & service) :
@@ -89,7 +89,7 @@ BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator(void)
 } // BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 InputHandler * BaseServiceInputHandlerCreator::create(void)
@@ -100,10 +100,6 @@ InputHandler * BaseServiceInputHandlerCreator::create(void)
     OD_LOG_OBJEXIT_P(result); //####
     return result;
 } // BaseServiceInputHandlerCreator::create
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

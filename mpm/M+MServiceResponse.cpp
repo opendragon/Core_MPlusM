@@ -68,7 +68,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 ServiceResponse::ServiceResponse(void) :
@@ -104,7 +104,7 @@ ServiceResponse & ServiceResponse::operator =(const yarp::os::Bottle & values)
 } // ServiceResponse::operator=
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 /*! @brief Return a printable version of the response.
@@ -144,10 +144,6 @@ const
     OD_LOG_OBJEXIT_S(result.toString().c_str()); //####
     return result;
 } // ServiceResponse::element
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

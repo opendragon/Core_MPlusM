@@ -176,7 +176,7 @@ MatchConstraint * MatchConstraint::CreateMatcher(const yarp::os::ConstString & i
 } // MatchConstraint::CreateMatcher
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 MatchConstraint::MatchConstraint(void) :
@@ -194,7 +194,7 @@ MatchConstraint::~MatchConstraint(void)
 } // MatchConstraint::~MatchConstraint
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 yarp::os::ConstString MatchConstraint::asSQLString(void)
@@ -305,10 +305,6 @@ void MatchConstraint::empty(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // MatchConstraint::empty
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

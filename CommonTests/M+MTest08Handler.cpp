@@ -69,7 +69,7 @@ using namespace MplusM::Test;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 Test08Handler::Test08Handler(void) :
@@ -86,7 +86,7 @@ Test08Handler::~Test08Handler(void)
 } // Test08Handler::~Test08Handler
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool Test08Handler::handleInput(const yarp::os::Bottle &      input,
@@ -120,10 +120,6 @@ bool Test08Handler::handleInput(const yarp::os::Bottle &      input,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Test08Handler::handleInput
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

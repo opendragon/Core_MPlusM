@@ -72,7 +72,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 BailOutThread::BailOutThread(const double timeToWait) :
@@ -135,7 +135,7 @@ BailOutThread::~BailOutThread(void)
 } // BailOutThread::~BailOutThread
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void BailOutThread::run(void)
@@ -192,10 +192,6 @@ void BailOutThread::threadRelease(void)
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
 } // BailOutThread::threadRelease
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

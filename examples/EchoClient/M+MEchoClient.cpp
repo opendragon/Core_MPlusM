@@ -72,7 +72,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 EchoClient::EchoClient(void) :
@@ -89,7 +89,7 @@ EchoClient::~EchoClient(void)
 } // EchoClient::~EchoClient
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool EchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
@@ -124,10 +124,6 @@ bool EchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
     OD_LOG_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // EchoClient::sendAndReceive
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

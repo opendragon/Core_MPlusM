@@ -68,7 +68,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 ChannelStatusReporter::ChannelStatusReporter(void) :
@@ -85,7 +85,7 @@ ChannelStatusReporter::~ChannelStatusReporter(void)
 } // ChannelStatusReporter::~ChannelStatusReporter
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void ChannelStatusReporter::report(const yarp::os::PortInfo & info)
@@ -115,10 +115,6 @@ void ChannelStatusReporter::report(const yarp::os::PortInfo & info)
                "targetName = ", info.targetName, "carrierName = ", info.carrierName); //####
     OD_LOG_S1s("message = ", info.message); //####
 } // ChannelStatusReporter::report
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

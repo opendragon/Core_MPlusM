@@ -113,7 +113,7 @@ static const size_t kColumnNamesCount = (sizeof(kColumnNames) / sizeof(*kColumnN
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 ColumnNameValidator::ColumnNameValidator(void) :
@@ -130,7 +130,7 @@ ColumnNameValidator::~ColumnNameValidator(void)
 } // ColumnNameValidator::~ColumnNameValidator
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool ColumnNameValidator::checkName(const char * aString)
@@ -196,10 +196,6 @@ const char * ColumnNameValidator::getPrefixAndSuffix(const char *   aString,
     OD_LOG_EXIT_P(result); //####
     return result;
 } // ColumnNameValidator::getPrefixAndSuffix
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

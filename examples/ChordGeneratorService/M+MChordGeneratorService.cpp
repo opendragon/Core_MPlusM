@@ -71,7 +71,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 ChordGeneratorService::ChordGeneratorService(const yarp::os::ConstString & launchPath,
@@ -97,7 +97,7 @@ ChordGeneratorService::~ChordGeneratorService(void)
 } // RandomNumberService::~RandomNumberService
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void ChordGeneratorService::attachRequestHandlers(void)
@@ -188,3 +188,7 @@ bool ChordGeneratorService::stop(void)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RandomNumberService::stop
+
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

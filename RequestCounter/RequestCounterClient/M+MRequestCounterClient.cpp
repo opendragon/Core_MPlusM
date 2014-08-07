@@ -72,7 +72,7 @@ using namespace MplusM::RequestCounter;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 RequestCounterClient::RequestCounterClient(void) :
@@ -89,7 +89,7 @@ RequestCounterClient::~RequestCounterClient(void)
 } // RequestCounterClient::~RequestCounterClient
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool RequestCounterClient::getServiceStatistics(long &   counter,
@@ -197,10 +197,6 @@ bool RequestCounterClient::resetServiceCounters(void)
     OD_LOG_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // RequestCounterClient::resetServiceCounters
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

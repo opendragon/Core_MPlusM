@@ -70,7 +70,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 BaseOutputService::BaseOutputService(const yarp::os::ConstString & launchPath,
@@ -109,23 +109,17 @@ BaseOutputService::BaseOutputService(const yarp::os::ConstString & launchPath,
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
                "description = ", description, "requestsDescription = ", requestsDescription); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
-#if 0
-    attachRequestHandlers();
-#endif // 0
     OD_LOG_EXIT_P(this); //####
 } // BaseOutputService::BaseOutputService
 
 BaseOutputService::~BaseOutputService(void)
 {
     OD_LOG_OBJENTER(); //####
-#if 0
-    detachRequestHandlers();
-#endif // 0
     OD_LOG_OBJEXIT(); //####
 } // BaseOutputService::~BaseOutputService
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 bool BaseOutputService::setUpInputStreams(void)
@@ -149,10 +143,6 @@ bool BaseOutputService::shutDownInputStreams(void)
     OD_LOG_EXIT_B(result); //####
     return result;
 } // BaseOutputService::shutDownInputStreams
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions

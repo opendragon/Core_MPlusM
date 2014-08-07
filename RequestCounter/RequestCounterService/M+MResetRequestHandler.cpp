@@ -74,7 +74,7 @@ using namespace MplusM::RequestCounter;
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
-# pragma mark Constructors and destructors
+# pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 ResetRequestHandler::ResetRequestHandler(RequestCounterService & service) :
@@ -92,7 +92,7 @@ ResetRequestHandler::~ResetRequestHandler(void)
 } // ResetRequestHandler::~ResetRequestHandler
 
 #if defined(__APPLE__)
-# pragma mark Actions
+# pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
 void ResetRequestHandler::fillInAliases(Common::StringVector & alternateNames)
@@ -176,10 +176,6 @@ bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ResetRequestHandler::processRequest
-
-#if defined(__APPLE__)
-# pragma mark Accessors
-#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Global functions
