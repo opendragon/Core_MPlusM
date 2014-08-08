@@ -95,6 +95,9 @@
 /*! @dir /CommonTests
  @brief The set of files that provide test cases for the M+M framework. */
 
+/*! @dir /ParserTest
+ @brief The set of files that support testing the parsing of search requests. */
+
 /*! @namespace MplusM
  @brief The classes that implement the M+M framework. */
 

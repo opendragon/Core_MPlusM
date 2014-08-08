@@ -50,9 +50,6 @@
 /*! @file
  
  @brief The class definition for the minimal functionality required for an M+M pattern matcher. */
-
-/*! @dir Parser
- @brief The set of files that support parsing of search requests. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

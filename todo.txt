@@ -12,3 +12,5 @@
 * document the architecture, philosophy and API of the non-viewer code
 
 + on dragging, do an adjustSize() without repaint?
+
++ if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity

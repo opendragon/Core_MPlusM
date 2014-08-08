@@ -49,7 +49,7 @@
  
  @brief The C++ variation of the debugging facility. */
 
-/*! @dir Logging
+/*! @dir /odl
  @brief The set of files that implement the logging facility. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
