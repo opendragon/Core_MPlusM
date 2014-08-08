@@ -230,8 +230,9 @@ namespace MplusM
         /*! @brief Get the set of detected ports.
          @param ports The set of detected ports.
          @param includeHiddenPorts @c true if all ports are returned and @c false is 'hidden' ports
-         are ignored. */
-        void GetDetectedPortList(PortVector & ports,
+         are ignored.
+         @returns @c true if the list of ports is valid and @c false otherwise. */
+        bool GetDetectedPortList(PortVector & ports,
                                  const bool   includeHiddenPorts = false);
         
         /*! @brief Return the global status reporter.

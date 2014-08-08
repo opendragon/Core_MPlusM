@@ -656,12 +656,13 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
     return result;
 } // MplusM::Utilities::GetAssociatedPorts
 
-void MplusM::Utilities::GetDetectedPortList(PortVector & ports,
+bool MplusM::Utilities::GetDetectedPortList(PortVector & ports,
                                             const bool   includeHiddenPorts)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("ports = ", &ports); //####
     OD_LOG_B1("includeHiddenPorts = ", includeHiddenPorts); //####
+    bool                   okSoFar = false;
     yarp::os::Bottle       request;
     yarp::os::Bottle       response;
     yarp::os::ContactStyle contactInfo;
@@ -678,6 +679,7 @@ void MplusM::Utilities::GetDetectedPortList(PortVector & ports,
             if (responseValue.isString())
             {
                 processNameServerResponse(responseValue.asString(), includeHiddenPorts, ports);
+                okSoFar = true;
             }
             else
             {
@@ -694,7 +696,8 @@ void MplusM::Utilities::GetDetectedPortList(PortVector & ports,
     {
         OD_LOG("! (yarp::os::Network::writeToNameServer(request, response))"); //####
     }
-    OD_LOG_EXIT(); //####
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
 } // MplusM::Utilities::GetDetectedPortList
 
 bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString &

@@ -748,71 +748,81 @@ int main(int     argc,
             MplusM::Utilities::PortVector ports;
             
             MplusM::Utilities::RemoveStalePorts();
-            MplusM::Utilities::GetDetectedPortList(ports, true);
-            bool serviceRegistryPresent = MplusM::Utilities::CheckForRegistryService(ports);
-            if (MplusM::Common::kOutputFlavourJSON == flavour)
+            if (MplusM::Utilities::GetDetectedPortList(ports, true))
             {
-                cout << "[ ";
-            }
-            if (0 < ports.size())
-            {
-                for (MplusM::Utilities::PortVector::const_iterator walker(ports.begin());
-                     ports.end() != walker; ++walker)
+                bool serviceRegistryPresent = MplusM::Utilities::CheckForRegistryService(ports);
+                
+                if (MplusM::Common::kOutputFlavourJSON == flavour)
                 {
-                    switch (flavour)
+                    cout << "[ ";
+                }
+                if (0 < ports.size())
+                {
+                    for (MplusM::Utilities::PortVector::const_iterator walker(ports.begin());
+                         ports.end() != walker; ++walker)
                     {
-                        case MplusM::Common::kOutputFlavourJSON :
-                            if (found)
-                            {
-                                cout << "," << endl;
-                            }
-                            break;
-                            
-                        case MplusM::Common::kOutputFlavourTabs :
-                            if (found)
-                            {
-                                cout << endl;
-                            }
-                            break;
-                            
-                        case MplusM::Common::kOutputFlavourNormal :
-                        case MplusM::Common::kOutputFlavourUnknown :
-                            if (! found)
-                            {
-                                cout << "Ports:" << endl << endl;
-                            }
-                            break;
-                            
+                        switch (flavour)
+                        {
+                            case MplusM::Common::kOutputFlavourJSON :
+                                if (found)
+                                {
+                                    cout << "," << endl;
+                                }
+                                break;
+                                
+                            case MplusM::Common::kOutputFlavourTabs :
+                                if (found)
+                                {
+                                    cout << endl;
+                                }
+                                break;
+                                
+                            case MplusM::Common::kOutputFlavourNormal :
+                            case MplusM::Common::kOutputFlavourUnknown :
+                                if (! found)
+                                {
+                                    cout << "Ports:" << endl << endl;
+                                }
+                                break;
+                                
+                        }
+                        found = true;
+                        reportPortStatus(flavour, *walker, serviceRegistryPresent);
                     }
-                    found = true;
-                    reportPortStatus(flavour, *walker, serviceRegistryPresent);
+                }
+                switch (flavour)
+                {
+                    case MplusM::Common::kOutputFlavourTabs :
+                        if (found)
+                        {
+                            cout << endl;
+                        }
+                        break;
+                        
+                    case MplusM::Common::kOutputFlavourJSON :
+                        cout << " ]" << endl;
+                        break;
+                        
+                    case MplusM::Common::kOutputFlavourNormal :
+                    case MplusM::Common::kOutputFlavourUnknown :
+                        if (found)
+                        {
+                            cout << endl;
+                        }
+                        else
+                        {
+                            cout << "No ports found." << endl;
+                        }
+                        break;
+                        
                 }
             }
-            switch (flavour)
+            else
             {
-                case MplusM::Common::kOutputFlavourTabs :
-                    if (found)
-                    {
-                        cout << endl;
-                    }
-                    break;
-                    
-                case MplusM::Common::kOutputFlavourJSON :
-                    cout << " ]" << endl;
-                    break;
-                    
-                case MplusM::Common::kOutputFlavourNormal :
-                case MplusM::Common::kOutputFlavourUnknown :
-                    if (found)
-                    {
-                        cout << endl;
-                    }
-                    else
-                    {
-                        cout << "No ports found." << endl;
-                    }
-                    break;
-                    
+                OD_LOG("! (MplusM::Utilities::GetDetectedPortList(ports, true))"); //####
+#if MAC_OR_LINUX_
+                MplusM::Common::GetLogger().fail("Could not get port list.");
+#endif // MAC_OR_LINUX_
             }
         }
 #if CheckNetworkWorks_
