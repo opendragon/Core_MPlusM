@@ -14,3 +14,45 @@
 + on dragging, do an adjustSize() without repaint?
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
+
+[[[ router stuff
+
+Hi Johnty:
+
+Yes, I should be able to change the settings, using the PC tower to access the router. I expect to be in on Monday, and I'll send you an e-mail when I've made the change.
+
+On Aug 15, 2014, at 21:08, Johnty Wang <johntywang@gmail.com> wrote:
+
+Hi Norm,
+
+Thanks for setting up the VPN. Unfortunately, the QuickVPN configuration you used doesn't seem to work for some reason - I've tried it at a few different locations and with different settings, to no avail. Would you be able to set it according to the instructions originally created, using PPTP instead?
+
+Thanks,
+
+Johnty
+
+
+On Tue, Aug 5, 2014 at 8:58 PM, Johnty Wang <johntywang@gmail.com> wrote:
+Hi Norm,
+
+When you get the chance, could you please connect to the 192.168.102.1 router, and add a PPTP VPN user with the following info:
+
+username: johnty
+password: meaning2013
+
+(The instructions are [https://docs.google.com/document/d/1A7So_FJli3dTGPXMEOdAzrIwoywQwOv4IHOSVHCcqz4/view#bookmark=id.g5zocdb6mfps] in case you need them)
+
+and also, please confirm that the WAN IP of that router is still 142.58.249.222.
+
+Please let me know when this is active. Thanks!
+
+Johnty
+
+
+==========================================================
+Norman Jaffe (<turing@shaw.ca>, <turing@icloud.com>)
+(also <turing@mac.com>, <turing@me.com>, <turing@starfleet.com>, <turing@alumni.sfu.ca>,
+<churchoflambda@gmail.com>, <churchoflambda@yahoo.com>)
+http://www.OpenDragon.com Vancouver, B.C., Canada
+
+]]]
