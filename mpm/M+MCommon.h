@@ -157,13 +157,13 @@
 # define OUTPUT_PORT_NAME_BASE     MpM_OUTPUT_BASE_NAME
 
 /*! @brief The time between checking for 'stale' registry entries. */
-# define PING_CHECK_INTERVAL       (4.3 * ONE_SECOND_DELAY)
+# define PING_CHECK_INTERVAL       (5.5 * ONE_SECOND_DELAY)
 
 /*! @brief The number of missing pings before a service is declared 'dead'. */
 # define PING_COUNT_MAX            4
 
 /*! @brief The time between ping requests that a service should use. */
-# define PING_INTERVAL             (6.3 * ONE_SECOND_DELAY)
+# define PING_INTERVAL             (7.7 * ONE_SECOND_DELAY)
 
 /*! @brief The retry interval multiplier. */
 # define RETRY_MULTIPLIER          1.2
@@ -194,7 +194,7 @@
 # endif // ! MAC_OR_LINUX_
 
 /*! @brief The default timeout duration in seconds. */
-# define STANDARD_WAIT_TIME        (5.0 * ONE_SECOND_DELAY)
+# define STANDARD_WAIT_TIME        (5.3 * ONE_SECOND_DELAY)
 
 /*! @brief A simple macro to hold the pieces of a string together. */
 # define T_(xx)                    xx
