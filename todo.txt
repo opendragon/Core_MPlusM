@@ -14,3 +14,15 @@
 + on dragging, do an adjustSize() without repaint?
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
+
+
+
+Hi Dhruv,
+
+Sure, tomorrow at 1pm at your office downtown.
+
+My current assumption is that my web application will be accessible by the Rails default method of a JSON API. I will provide API keys and publish the available resources to your team, and then some kind of compliant "hook" (following your standard approach) in the mplusm middleware will be written. Obviously, we can discuss the details tomorrow, but I wanted to set out my current high-level assumption.
+
+Michael Nixon
+BSc (Computer Science), MSc (IAT), PhD candidate (IAT)
+School of Interactive Arts and Technology | SFU
