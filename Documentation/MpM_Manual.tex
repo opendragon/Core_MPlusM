@@ -1,0 +1,532 @@
+\ProvidesFile{MpM_Manual.tex}
+
+\documentclass[letterpaper,titlepage,twoside]{report}
+
+% Begin Preamble:
+
+%\usepackage[T1]{fontenc}
+%\usepackage{palatino}
+\usepackage{times}
+%\usepackage{bookman}
+%\usepackage{newcent}
+
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{ifthen}
+\usepackage{alltt}
+\usepackage{calc}
+\usepackage{shortvrb}
+\usepackage{varioref}
+\usepackage[dvips]{graphicx}
+\usepackage[dvips,usenames]{color}
+\usepackage{makeidx}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[section]{tocbibind}
+
+% Control the code, depending on whether a hyper-linked PDF is being generated:
+\newboolean{generatingHyperPDF}
+\setboolean{generatingHyperPDF}{true}
+
+% If the package 'hyperref' is disabled by commenting out the following lines,
+% be sure to set the boolean 'generatingHyperPDF' to false.
+\ifthenelse{\boolean{generatingHyperPDF}}%
+ {\usepackage[dvips,
+    colorlinks=true,
+    linkcolor=webgreen,
+    filecolor=webbrown,
+    citecolor=webgreen,
+    urlcolor=webblue,
+    pdftitle={Movement And Meaning Middleware},
+    pdfauthor={Norman Jaffe},
+    pdfkeywords={movement,middleware,YARP,ACE},
+    pdfsubject={Middleware},
+    bookmarks,
+    raiselinks=true,
+    plainpages=false,
+    bookmarksopen=true,
+    pdfstartview=Fit,
+    pdfpagemode=UseOutlines]{hyperref}}
+ {\newcommand{\hyperpage}[1]{#1}}
+
+\usepackage{mysects}
+
+% Adjust the paper edges:
+\setlength{\parindent}{0em}
+\setlength{\textwidth}{\paperwidth-144pt}% 2"
+\setlength{\marginparsep}{0pt}
+\setlength{\marginparwidth}{0pt}
+\setlength{\evensidemargin}{-18pt}% 0.25"
+\setlength{\oddsidemargin}{-18pt}% 0.25"
+
+% Some colours for the web:
+\definecolor{webgreen}{rgb}{0,0.5,0}
+\definecolor{webbrown}{rgb}{0.6,0,0}
+\definecolor{webblue}{rgb}{0,0,0.5}
+
+% Set up the page layout:
+\pagestyle{fancyplain}
+\newcommand{\mymark}{}
+\lhead[]{\fancyplain{}{\textsc{\mymark}}}
+\chead[]{}
+\rhead[\fancyplain{}{\textsc{\mymark}}]{}
+\lfoot[Page \thepage]{\today}
+\cfoot[Movement~And~Meaning~Middleware]{Movement~And~Meaning~Middleware}
+\rfoot[\today]{Page \thepage}
+\renewcommand{\headrulewidth}{0.5bp}
+\pagenumbering{roman}
+
+% Set the float behaviour:
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+
+% Suppress the normal numbering of sections, et cetera:
+\setcounter{secnumdepth}{-2}
+\setcounter{tocdepth}{1}
+
+% A couple of useful commands to handle italic-to-normal transitions:
+\newcommand{\textitcorr}[1]{\textit{#1}\/}
+\newcommand{\emphcorr}[1]{\emph{#1}\/}
+\newcommand{\nothing}{\ }
+
+% The optional argument is used to control indexing:
+%   D = Define the object (emphasize the index, create a label);
+%   E = End of the object definition (close the index, no text);
+%   R = Refer to the object in the index (the default);
+%   S = Reference to a standard object and
+%   X = Don't add a reference for the object to the index (any letter except D or
+%         R could be used, X is preferred for mnemonic value)
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\entityNameTagINT}[3]{%  command if generatingHyperPDF
+  \ifthenelse{\equal{#1}{D}}%
+    {\textitcorr{\color{webgreen}#3}}%   if first argument is 'D'
+    {\ifthenelse{\equal{#1}{E}}%
+      {}%  if first argument is 'E'
+      {\ifthenelse{\equal{#1}{S}}%
+        {\textitcorr{#3}}%  if first argument is 'S'
+        {\hyperlink{hyper.#2.#3}{\textitcorr{#3}}}}}}}%  if first argument isn't 'D', 'E', or 'S'
+  {\newcommand{\entityNameTagINT}[3]{%  command if not generatingHyperPDF
+  \ifthenelse{\equal{#1}{D}}%
+    {\textitcorr{\color{webgreen}#3}}%  if first argument is 'D'
+    {\ifthenelse{\equal{#1}{E}}%
+      {}%  if first argument is 'E'
+      {\textitcorr{#3}}}}}%  if first argument isn't 'D' or 'E'
+
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\entityNameIndexINT}[3]{%  command if generatingHyperPDF
+   \ifthenelse{\equal{#1}{D}}%
+    {\label{#2:#3}}%  if first argument is 'D'
+    {\ifthenelse{\equal{#1}{R}\or\equal{#1}{S}}%
+       {\ifthenelse{\equal{#2}{#3}}%
+         {}% if second and third argument match
+         {\index{#2!#3}}}%  if first argument is 'R' or 'S' and 2nd argument different from 3rd
+       {\ifthenelse{\equal{#1}{E}}%
+         {}%  if first argument is 'E'
+         {}}}%  if first argument isn't 'D', 'E', 'R', or 'S'
+   \ifthenelse{\equal{#1}{R}}%
+     {\ref{#2:#3}}%  if first argument is 'R'
+     {}}}%  if first argument isn't 'R'
+  {\newcommand{\entityNameIndexINT}[3]{%  command if not generatingHyperPDF
+   \ifthenelse{\equal{#1}{D}}%
+    {\index{#2!#3|(textbf}\label{#2:#3}}%  if first argument is 'D'
+    {\ifthenelse{\equal{#1}{R}\or\equal{#1}{S}}%
+       {\ifthenelse{\equal{#2}{#3}}%
+         {}% if second and third argument match
+         {\index{#2!#3}}}%  if first argument is 'R' or 'S'
+       {\ifthenelse{\equal{#1}{E}}%
+         {\ifthenelse{\equal{#2}{#3}}%
+           {}% if second and third argument match
+           {\index{#2!#3|)textbf}}}%  if first argument is 'E' and 2nd argument different from 3rd
+         {}}}%  if first argument isn't 'D', 'E', 'R', or 'S'
+   \ifthenelse{\equal{#1}{R}}%
+     {\ref{#2:#3}}%  if first argument is 'R'
+     {}}}%  if first argument isn't 'R'
+
+\newcommand{\entityName}[3][R]{\entityNameTagINT{#1}{#2}{#3}\entityNameIndexINT{#1}{#2}{#3}}
+% The net effect is as follows:
+%  generatingHyperPDF
+%   'D' \textitcorr{\color{webgreen}#3}  \label{#2:#3}  {}
+%   'E' {}  {}  {}
+%   'R' \hyperlink{hyper.#2.#3}{\textitcorr{#3}}  \index{#2!#3}  \ref{#2:#3}
+%   'S' \textitcorr{#3}  \index{#2!#3}  {}
+%   'X' \hyperlink{hyper.#2.#3}{\textitcorr{#3}}  {}  {}
+%  not generatingHyperPDF
+%   'D' \textitcorr{\color{webgreen}#3}  \index{#2!#3|(textbf}\label{#2:#3}  {}
+%   'E' {}  \index{#2!#3|)textbf}  {}
+%   'R' \textitcorr{#3}  \index{#2!#3}  \ref{#2:#3}
+%   'S' \textitcorr{#3}  \index{#2!#3}  {}
+%   'X' \textitcorr{#3}  {}  {}
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\companyReference}[2]{\href{#1}{#2}}}%  command if generatingHyperPDF
+  {\newcommand{\companyReference}[2]{#2}}% command if not generatingHyperPDF
+
+% Shortcuts to allow the use of \entityName within optional arguments:
+\newcommand{\objName}[1]{\entityName{Objects}{#1}}% shortcut
+\newcommand{\objNameD}[1]{\entityName[D]{Objects}{#1}}% shortcut
+\newcommand{\objNameE}[1]{\entityName[E]{Objects}{#1}}% shortcut
+\newcommand{\objNameS}[1]{\entityName[S]{Objects}{#1}}% shortcut
+\newcommand{\objNameX}[1]{\entityName[X]{Objects}{#1}}% shortcut
+\newcommand{\pluginName}[2]{\entityName{#1}{#2}}% shortcut
+\newcommand{\pluginNameD}[2]{\entityName[D]{#1}{#2}}% shortcut
+\newcommand{\pluginNameE}[2]{\entityName[E]{#1}{#2}}% shortcut
+\newcommand{\pluginNameS}[2]{\entityName[S]{#1}{#2}}% shortcut
+\newcommand{\pluginNameX}[2]{\entityName[X]{#1}{#2}}% shortcut
+
+% Use \objReference, rather than \entityName, for the first mention of an object within
+% another object, so that page ranges will be present.
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\entityReference}[2]{\entityName[R]{#1}{#2}}}%  command if generatingHyperPDF
+  {\newcommand{\entityReference}[2]{\entityName[R]{#1}{#2} \vpageref[(][(]{#1:#2})}}%  command if not generatingHyperPDF
+
+\newcommand{\objReference}[1]{\entityReference{Objects}{#1}}
+\newcommand{\pluginReference}[2]{\entityReference{#1}{#2}}
+
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\objImageReference}[1]{\ref{#1}}}%  command if generatingHyperPDF
+  {\newcommand{\objImageReference}[1]{\vref{#1}}}%  command if not generatingHyperPDF
+
+%  Note that we need to fool vpageref into inserting an open round bracket
+%  before the text that it generates, as it inserts a space ahead of its
+%  text otherwise, which would leave a space between the open round
+%  bracket and the generated text.
+
+\newcommand*{\objCmd}[1]{\textbf{#1}}
+\newcommand*{\objCmdQ}[1]{`\objCmd{#1}'\xspace}
+\newcommand*{\objCmdArg}[1]{\textbf{\textsf{#1}}}
+\newcommand*{\objArgType}[1]{\textitcorr{#1}}
+\newcommand*{\objIOType}[1]{\textbf{#1}}
+
+\newcommand*{\compLang}[1]{\emphcorr{#1}}
+
+\newcommand*{\MaxName}{\compLang{Max}}
+\newcommand*{\MaxMSPName}{\compLang{Max/MSP}}
+
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand*{\startEntity}[5][!-!-!]{\clearpage\section{#5\texorpdfstring{#2}{#4}}%
+   \renewcommand{\mymark}{#4}%
+   \ifthenelse{\equal{#1}{!-!-!}}%
+    {\hypertarget{hyper.#3.#4}{}}%
+    {\hypertarget{hyper.#3.#1}{}}}}%
+  {\newcommand*{\startEntity}[5][!-!-!]{\clearpage\section{#5#2}\renewcommand{\mymark}{#4}}}
+
+\newcommand*{\entityEnd}[1]{#1} % just a notational convenience
+
+\newcommand*{\startObject}[3][!-!-!]{%
+\ifthenelse{\equal{#1}{!-!-!}}%
+  {\startEntity{#2}{Objects}{#3}{}}%
+  {\startEntity[#1]{#2}{Objects}{#3}{}}}
+
+\newcommand*{\objEnd}[1]{#1} % just a notational convenience
+
+\newcommand*{\insertpart}[2]{\clearpage\renewcommand{\mymark}{#1}#2}
+
+\newcommand{\objLineLayout}[2]{\begin{tabbing}%
+    \hspace*{144pt}\=\kill\textbf{#1}:\>\parbox[t]{324pt}{#2}\end{tabbing}}% 2", 4.5"
+
+\newcommand{\objItemDescription}[1]{\objLineLayout{Description~of~object}{#1}}
+\newcommand*{\objItemCreated}[1]{\objLineLayout{Object~created}{#1}}
+\newcommand*{\objItemVersion}[1]{\objLineLayout{Current~version}{#1}}
+\newcommand*{\objItemHelp}[1]{\objLineLayout{Online~help~file}{#1}}
+\newcommand*{\objItemTheme}[1]{\objLineLayout{Object~theme}{#1}}
+\newcommand*{\objItemClass}[1]{\objLineLayout{Object~class(es)}{#1}}
+\newcommand{\objItemArgs}[1]{\objLineLayout{Argument(s)}{#1}}
+\newcommand{\objItemInlet}[1]{\objLineLayout{Inlet(s)}{#1}}
+\newcommand{\objItemOutlet}[1]{\objLineLayout{Outlet(s)}{#1}}
+\newcommand{\objItemCompanion}[1]{\objLineLayout{Companion~object(s)}{#1}}
+\newcommand*{\objItemStandalone}[1]{\objLineLayout{Standalone}{#1}}
+\newcommand*{\objItemRetainsState}[1]{\objLineLayout{Retains~state}{#1}}
+\newcommand*{\objItemFat}[1]{\objLineLayout{Fat,~PPC-only~or~68k-only}{#1}}
+\newcommand*{\objItemCompatibility}[1]{\objLineLayout{Compatibility}{#1}}
+\newcommand{\objItemCommands}[1][!-!-!]{%
+  \ifthenelse{\equal{#1}{!-!-!}}%
+    {}%
+    {\objLineLayout{Command~language~syntax}{#1}}}
+\newcommand{\objItemFile}[1][!-!-!]{%
+  \ifthenelse{\equal{#1}{!-!-!}}%
+    {}%
+    {\objLineLayout{File~format}{#1}}}
+\newcommand{\objItemMessage}[1][!-!-!]{%
+  \ifthenelse{\equal{#1}{!-!-!}}%
+    {}%
+    {\objLineLayout{Message~format}{#1}}}
+\newcommand{\objItemComments}[1][!-!-!]{%
+  \ifthenelse{\equal{#1}{!-!-!}}%
+    {}%
+    {\objLineLayout{Comments}{#1}}}
+
+\newenvironment{objArgList}
+  {\begin{list}
+    {}
+    {\setlength{\labelwidth}{72pt}% 1"
+    \setlength{\leftmargin}{\labelwidth+\labelsep}
+    \setlength{\parsep}{0ex}
+    \setlength{\itemsep}{0.5ex}
+    }}
+  {\end{list}}
+\newcommand*{\objListArgBegin}{\begin{objArgList}}
+\newcommand*{\objListArgEnd}{\end{objArgList}}
+\newcommand{\objListArgItem}[3]{\item[\textbf{\objArgType{#1}}] \objIOType{#2}, #3}
+
+\newcounter{objIO}
+\newenvironment{objIOList}
+  {\begin{list}
+    {\textbf{\arabic{objIO}}}
+    {\usecounter{objIO}
+    \setlength{\labelwidth}{36pt}% 0.5"
+    \setlength{\leftmargin}{\labelwidth+\labelsep}
+    \setlength{\parsep}{0ex}
+    \setlength{\itemsep}{0.5ex}
+    }}
+  {\end{list}}
+\newcommand*{\objListIOBegin}{\begin{objIOList}}
+\newcommand*{\objListIOEnd}{\end{objIOList}}
+\newlength{\objListIOArgLen}
+\newcommand{\objListIOItem}[3][!-!-!]{%
+\settowidth{\objListIOArgLen}{#3}%
+\ifthenelse{\equal{#1}{!-!-!}}%
+	{%
+	\ifthenelse{\lengthtest{\objListIOArgLen > 0cm}}%
+	  {\item \objIOType{#2}, #3}%
+	  {\item \objIOType{#2}}
+	 }%
+	 {%
+	\ifthenelse{\lengthtest{\objListIOArgLen > 0cm}}%
+	  {\item[#1] \objIOType{#2}, #3}%
+	  {\item[#1] \objIOType{#2}}
+	 }%
+ }
+
+\newenvironment{objCmdList}
+  {\begin{list}
+    {}
+    {\setlength{\labelwidth}{0ex}
+    \setlength{\leftmargin}{36pt}% 0.5"
+    \setlength{\itemindent}{-18pt}% 0.25"
+    \setlength{\parsep}{0ex}
+    \setlength{\itemsep}{0.5ex}
+    }}
+  {\end{list}}
+\newcommand*{\objListCmdBegin}{\begin{objCmdList}}
+\newcommand*{\objListCmdEnd}{\end{objCmdList}}
+\newcommand{\objListCmdItem}[2]{\item[]\objCmd{#1} \objCmdArg{#2}\newline}
+
+\newenvironment{objHistList}
+  {\begin{list}
+    {}
+    {\setlength{\labelwidth}{108pt}% 1.5"
+    \setlength{\leftmargin}{\labelwidth+\labelsep}
+    \setlength{\rightmargin}{36pt}% 0.5"
+    \setlength{\parsep}{0ex}
+    \renewcommand{\makelabel}[1]{\textbf{##1}\hfill}
+    }}
+  {\end{list}}
+\newcommand*{\objListHistBegin}{\begin{objHistList}}
+\newcommand*{\objListHistEnd}{\end{objHistList}}
+\newcommand{\objListHistItem}[1]{\item[#1]}
+
+\newcommand{\objCaption}[1]{\caption{#1\ }}
+% Create a framed box as a figure, centred horizontally (note that we can't use \textttt{}, as the third argument
+% could be quite large):
+\newcommand{\objFileDescription}[4][0.75]{\begin{figure}[!ht]%
+\setlength{\fboxsep}{3pt}\setlength{\fboxrule}{0.75bp}%
+\begin{center}\fbox{\begin{minipage}[t]{#1\textwidth}\begin{flushleft}\footnotesize\ttfamily #4\end{flushleft}%
+\end{minipage}}\objCaption{#2}\label{file:#3}\end{center}\end{figure}}
+
+\newcommand*{\objPicture}[1]{\begin{center}\includegraphics{#1}\end{center}}
+\newcommand*{\objDiagram}[3]{\begin{figure}[!ht]\objPicture{#1}\objCaption{#3}\label{diagram:#2}\end{figure}}
+
+\newcommand{\creditPictureAndText}[2]{\begin{flushleft}\parbox{5cm}{\hfill\includegraphics{#1}}%
+\hspace{2ex}\parbox[][\height][t]{10cm}{\small #2}\end{flushleft}}
+
+\newcommand{\emphFootnoteMark}{{\color{red}\footnotemark}}
+
+% Plugin entries:
+
+\newcommand{\pluginLineLayout}[2]{\begin{tabbing}%
+    \hspace*{144pt}\=\kill\textbf{#1}:\>\parbox[t]{324pt}{#2}\end{tabbing}}% 2", 4.5"
+
+\newcommand{\pluginItemDescription}[1]{\pluginLineLayout{Description~of~plugin}{#1}}
+\newcommand*{\pluginItemCreated}[1]{\pluginLineLayout{Plugin~created}{#1}}
+\newcommand*{\pluginItemVersion}[1]{\pluginLineLayout{Current~version}{#1}}
+\newcommand{\pluginItemCommands}[1][!-!-!]{%
+  \ifthenelse{\equal{#1}{!-!-!}}%
+    {}%
+    {\pluginLineLayout{Command~language~syntax}{#1}}}
+\newcommand{\pluginItemComments}[1][!-!-!]{%
+  \ifthenelse{\equal{#1}{!-!-!}}%
+    {}%
+    {\pluginLineLayout{Comments}{#1}}}
+
+\newcommand*{\pluginCmd}[1]{\textbf{#1}}
+\newcommand*{\pluginCmdQ}[1]{`\pluginCmd{#1}'\xspace}
+\newcommand*{\pluginCmdArg}[1]{\textbf{\textsf{#1}}}
+
+\newenvironment{pluginCmdList}
+  {\begin{list}
+    {}
+    {\setlength{\labelwidth}{0ex}
+    \setlength{\leftmargin}{36pt}% 0.5"
+    \setlength{\itemindent}{-18pt}% 0.25"
+    \setlength{\parsep}{0ex}
+    \setlength{\itemsep}{0.5ex}
+    }}
+  {\end{list}}
+\newcommand*{\pluginListCmdBegin}{\begin{pluginCmdList}}
+\newcommand*{\pluginListCmdEnd}{\end{pluginCmdList}}
+\newcommand{\pluginListCmdItem}[2]{\item[]\pluginCmd{#1} \pluginCmdArg{#2}\newline}
+
+\newcommand*{\startAppendix}[4][!-!-!]{%
+\ifthenelse{\equal{#1}{!-!-!}}%
+  {\startEntity{#2}{#3}{#4}{\appendixname{}~}}%
+  {\startEntity[#1]{#2}{#3}{#4}{\appendixname{}~}}}
+
+\newcommand*{\appendixEnd}[1]{#1} % just a notational convenience
+
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand*{\startPlugin}[4][!-!-!]{\subsection{\texorpdfstring{\color{magenta}#2}{#4}}%
+   \renewcommand{\mymark}{#4}%
+   \ifthenelse{\equal{#1}{!-!-!}}%
+    {\hypertarget{hyper.#3.#4}{}}%
+    {\hypertarget{hyper.#3.#1}{}}}}%
+  {\newcommand*{\startPlugin}[4][!-!-!]{\subsection{\color{magenta}#2}\renewcommand{\mymark}{#4}}}
+
+\newcommand*{\pluginEnd}[1]{#1} % just a notational convenience
+
+% Define hyphenation points:
+
+\title{\cal\Huge\textitcorr{Movement~And~Meaning~Middleware}\\
+\vspace{1ex}
+\objPicture{ChannelManager.eps}}
+\author{HPlus Technologies Ltd. and Simon Fraser University\\
+Vancouver, British~Columbia, Canada}
+
+\makeindex
+
+%\listfiles
+% End Preamble
+
+\begin{document}
+
+% Begin front matter
+
+\maketitle
+
+\insertpart{Contents}{\tableofcontents}
+\insertpart{List~of~Figures}{\listoffigures}
+
+\input{documentationHistory.tex}
+
+\input{frontispiece.tex}
+\clearpage\pagenumbering{arabic}
+
+% End of front matter
+% Begin contents
+
+\input{overview.tex}
+
+\input{utilities.tex}
+
+\input{services.tex}
+
+\input{classes.tex}
+
+%\input{bqt.tex}
+
+%\input{caseShift.tex}
+%\input{changes.tex}
+%\input{compares.tex}
+
+%\input{dataType.tex}
+
+%\input{fidget.tex}
+%\input{fileLogger.tex}
+
+%\input{gcd.tex}
+%\input{gvp100.tex}
+
+%\input{ldp1550.tex}
+%\input{listen.tex}
+%\input{listType.tex}
+
+%\input{map1d.tex}
+%\input{map2d.tex}
+%\input{map3d.tex}
+%\input{memory.tex}
+%\input{mtc.tex}
+%\input{mtcTrack.tex}
+
+%\input{notX.tex}
+
+%\input{pfsm.tex}
+
+%\input{queue.tex}
+
+%\input{rcx.tex}
+
+%\input{senseX.tex}
+%\input{serialX.tex}
+%\input{shotgun.tex}
+%\input{spaceball.tex}
+%\input{speak.tex}
+%\input{stack.tex}
+%\input{sysLogger.tex}
+
+%\input{tcpClient.tex}
+%\input{tcpLocate.tex}
+%\input{tcpMultiServer.tex}
+%\input{tcpServer.tex}
+
+%\input{udpPort.tex}
+
+%\input{Vabs.tex}
+%\input{Vassemble.tex}
+%\input{Vceiling.tex}
+%\input{Vcollect.tex}
+%\input{Vcos.tex}
+%\input{Vdecode.tex}
+%\input{Vdistance.tex}
+%\input{Vdrop.tex}
+%\input{Vencode.tex}
+%\input{Vexp.tex}
+%\input{Vfloor.tex}
+%\input{Vinvert.tex}
+%\input{Vjet.tex}
+%\input{Vlength.tex}
+%\input{Vlog.tex}
+%\input{Vltrim.tex}
+%\input{Vmean.tex}
+%\input{Vnegate.tex}
+%\input{Vreduce.tex}
+%\input{Vreverse.tex}
+%\input{Vrotate.tex}
+%\input{Vround.tex}
+%\input{Vrtrim.tex}
+%\input{Vscan.tex}
+%\input{Vsegment.tex}
+%\input{Vsin.tex}
+%\input{Vsplit.tex}
+%\input{Vsqrt.tex}
+%\input{Vtake.tex}
+%\input{Vtokenize.tex}
+%\input{Vtrim.tex}
+%\input{Vtruncate.tex}
+%\input{Vunspell.tex}
+
+%\input{wqt.tex}
+
+%\input{x10.tex}
+%\input{x10units.tex}
+
+\appendix
+
+||TBD TBD TBD||
+
+%\input{Phidgets.tex}
+
+||/TBD TBD TBD||
+
+% End of contents
+
+\insertpart{Index}{\printindex}
+\end{document}
+\end
