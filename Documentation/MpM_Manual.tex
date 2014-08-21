@@ -51,8 +51,6 @@
 
 \usepackage{mysects}
 
-\newcommand{\mplusm}{Movement~and~Meaning~Middleware}
-
 % Adjust the paper edges:
 \setlength{\parindent}{0em}
 \setlength{\textwidth}{\paperwidth-144pt}% 2"
@@ -73,7 +71,7 @@
 \chead[]{}
 \rhead[\fancyplain{}{\textsc{\mymark}}]{}
 \lfoot[Page \thepage]{\today}
-\cfoot[\mplusm{}]{\mplusm{}}
+\cfoot[Movement~and~Meaning~Middleware]{Movement~and~Meaning~Middleware}
 \rfoot[\today]{Page \thepage}
 \renewcommand{\headrulewidth}{0.5bp}
 \pagenumbering{roman}
@@ -90,8 +88,56 @@
 \newcommand{\textitcorr}[1]{\textit{#1}\/}
 \newcommand{\emphcorr}[1]{\emph{#1}\/}
 \newcommand{\nothing}{\ }
+\newcommand{\textbfcorr}[1]{\textbf{#1}\/}
+\newcommand{\textsfcorr}[1]{\textsf{#1}\/}
 
-% The optional argument is used to control indexing:
+\newcommand{\mplusm}{\textbfcorr{M+M}}
+\newcommand{\yarp}{\begin{footnotesize}\textsfcorr{YARP}\end{footnotesize}}
+
+% First argument: index category
+% Second argument: index subcategory
+% Third argument: alternate index subcategory
+% Fourth argument: index name
+% Fifth argument: index suffix 
+\newcommand{\multiindex}[5]{%
+  \ifthenelse{\equal{#2}{!-!-!}}%
+    {\index{#1!#4#5}}%
+    {\index{#1!#2!#4#5}}}
+
+% First argument: label category
+% Second argument: label subcategory
+% Third argument: alternate label subcategory
+% Fourth argument: label name
+\newcommand{\multilabel}[4]{%
+  \ifthenelse{\equal{#3}{!-!-!}}%
+    {\label{#1:#4}}%
+    {\label{#1:#3:#4}}}
+
+% First argument: reference category
+% Second argument: reference subcategory
+% Third argument: alternate reference subcategory
+% Fourth argument: reference name
+\newcommand{\multiref}[4]{%
+  \ifthenelse{\equal{#3}{!-!-!}}%
+    {\ref{#1:#4}}%
+    {\ref{#1:#3:#4}}}
+
+% The net effect is as follows:
+%  generatingHyperPDF
+%   'D' \textitcorr{\color{webgreen}#3}  \hypertarget{hyper.#2.#3}{}\label{#2:#3}  {}
+%   'E' {}  {}  {}
+%	'M' {} \hypertarget{hyper.#2.#3}{}\label{#2:#3} {}
+%   'R' \hyperlink{hyper.#2.#3}{\textitcorr{#3}}  \index{#2!#3}  \ref{#2:#3}
+%   'S' \textitcorr{#3}  \index{#2!#3}  {}
+%   'X' \hyperlink{hyper.#2.#3}{\textitcorr{#3}}  {}  {}
+%  not generatingHyperPDF
+%   'D' \textitcorr{\color{webgreen}#3}  \index{#2!#3|(textbf}\label{#2:#3}  {}
+%   'E' {}  \index{#2!#3|)textbf}  {}
+%   'M' {}  \index{#2!#3|(textbf}\label{#2:#3}  {}
+%   'R' \textitcorr{#3}  \index{#2!#3}  \ref{#2:#3}
+%   'S' \textitcorr{#3}  \index{#2!#3}  {}
+%   'X' \textitcorr{#3}  {}  {}
+
 %   D = Define the object (emphasize the index, create a label);
 %   E = End of the object definition (close the index, no text);
 %	M = Define the object (no visible text)
@@ -99,420 +145,181 @@
 %   S = Reference to a standard object and
 %   X = Don't add a reference for the object to the index (any letter except D or
 %         R could be used, X is preferred for mnemonic value)
-%\ifthenelse{\boolean{generatingHyperPDF}}%
-%  {\newcommand{\entityNameTagINT}[3]{%  command if generatingHyperPDF
-%  \ifthenelse{\equal{#1}{D}}%
-%    {\textitcorr{\color{webgreen}#3}}%   if first argument is 'D'
-%    {\ifthenelse{\equal{#1}{E}\or\equal{#1}{M}}%
-%      {}%  if first argument is 'E' or 'M'
-%      {\ifthenelse{\equal{#1}{S}}%
-%        {\textitcorr{#3}}%  if first argument is 'S'
-%        {\hyperlink{hyper.#2.#3}{\textitcorr{#3}}}}}}}%  if first argument isn't 'D', 'E', 'M' or 'S'
-%  {\newcommand{\entityNameTagINT}[3]{%  command if not generatingHyperPDF
-%  \ifthenelse{\equal{#1}{D}}%
-%    {\textitcorr{\color{webgreen}#3}}%  if first argument is 'D'
-%    {\ifthenelse{\equal{#1}{E}\or\equal{#1}{M}}%
-%      {}%  if first argument is 'E' or 'M'
-%      {\textitcorr{#3}}}}}%  if first argument isn't 'D', 'E' or 'M'
 
-%\ifthenelse{\boolean{generatingHyperPDF}}%
-%  {\newcommand{\entityNameIndexINT}[3]{%  command if generatingHyperPDF
-%   \ifthenelse{\equal{#1}{D}\or\equal{#1}{M}}%
-%    {\hypertarget{hyper.#2.#3}{}\label{#2:#3}}%  if first argument is 'D' or 'M'
-%    {\ifthenelse{\equal{#1}{R}\or\equal{#1}{S}}%
-%       {\ifthenelse{\equal{#2}{#3}}%
-%         {}% if second and third argument match
-%         {\index{#2!#3}}}%  if first argument is 'R' or 'S' and 2nd argument different from 3rd
-%       {\ifthenelse{\equal{#1}{E}}%
-%         {}%  if first argument is 'E'
-%         {}}}%  if first argument isn't 'D', 'E', 'M', 'R', or 'S'
-%   \ifthenelse{\equal{#1}{R}}%
-%     {\ref{#2:#3}}%  if first argument is 'R'
-%     {}}}%  if first argument isn't 'R'
-%  {\newcommand{\entityNameIndexINT}[3]{%  command if not generatingHyperPDF
-%   \ifthenelse{\equal{#1}{D}\or\equal{#1}{M}}%
-%    {\index{#2!#3|(textbf}\label{#2:#3}}%  if first argument is 'D' or 'M'
-%    {\ifthenelse{\equal{#1}{R}\or\equal{#1}{S}}%
-%       {\ifthenelse{\equal{#2}{#3}}%
-%         {}% if second and third argument match
-%         {\index{#2!#3}}}%  if first argument is 'R' or 'S'
-%       {\ifthenelse{\equal{#1}{E}}%
-%         {\ifthenelse{\equal{#2}{#3}}%
-%           {}% if second and third argument match
-%           {\index{#2!#3|)textbf}}}%  if first argument is 'E' and 2nd argument different from 3rd
-%         {}}}%  if first argument isn't 'D', 'E', 'M', 'R', or 'S'
-%   \ifthenelse{\equal{#1}{R}}%
-%     {\ref{#2:#3}}%  if first argument is 'R'
-%     {}}}%  if first argument isn't 'R'
-
-%\newcommand{\entityName}[3][R]{\entityNameTagINT{#1}{#2}{#3}\entityNameIndexINT{#1}{#2}{#3}}
-% The net effect is as follows:
-%  generatingHyperPDF
-%   'D' \textitcorr{\color{webgreen}#3}  \hypertarget{hyper.#2.#3}{}\label{#2:#3}  {}
-%   'E' {}  {}  {}
-%	'M' {} \hypertarget{hyper.#2.#3}{}\label{#2:#3} {}
-%   'R' \hyperlink{hyper.#2.#3}{\textitcorr{#3}}  \index{#2!#3}  \ref{#2:#3}
-%   'S' \textitcorr{#3}  \index{#2!#3}  {}
-%   'X' \hyperlink{hyper.#2.#3}{\textitcorr{#3}}  {}  {}
-%  not generatingHyperPDF
-%   'D' \textitcorr{\color{webgreen}#3}  \index{#2!#3|(textbf}\label{#2:#3}  {}
-%   'E' {}  \index{#2!#3|)textbf}  {}
-%   'M' {}  \index{#2!#3|(textbf}\label{#2:#3}  {}
-%   'R' \textitcorr{#3}  \index{#2!#3}  \ref{#2:#3}
-%   'S' \textitcorr{#3}  \index{#2!#3}  {}
-%   'X' \textitcorr{#3}  {}  {}
-%\ifthenelse{\boolean{generatingHyperPDF}}%
-%  {\newcommand{\companyReference}[2]{\href{#1}{#2}}}%  command if generatingHyperPDF
-%  {\newcommand{\companyReference}[2]{#2}}% command if not generatingHyperPDF
-
-% Shortcuts to allow the use of \entityName within optional arguments:
-%\newcommand{\objName}[1]{\entityName{Objects}{#1}}% shortcut
-%\newcommand{\objNameD}[1]{\entityName[D]{Objects}{#1}}% shortcut
-%\newcommand{\objNameE}[1]{\entityName[E]{Objects}{#1}}% shortcut
-%\newcommand{\objNameM}[1]{\entityName[M]{Objects}{#1}}% shortcut
-%\newcommand{\objNameS}[1]{\entityName[S]{Objects}{#1}}% shortcut
-%\newcommand{\objNameX}[1]{\entityName[X]{Objects}{#1}}% shortcut
-%\newcommand{\pluginName}[2]{\entityName{#1}{#2}}% shortcut
-%\newcommand{\pluginNameD}[2]{\entityName[D]{#1}{#2}}% shortcut
-%\newcommand{\pluginNameE}[2]{\entityName[E]{#1}{#2}}% shortcut
-%\newcommand{\pluginNameM}[2]{\entityName[M]{#1}{#2}}% shortcut
-%\newcommand{\pluginNameS}[2]{\entityName[S]{#1}{#2}}% shortcut
-%\newcommand{\pluginNameX}[2]{\entityName[X]{#1}{#2}}% shortcut
-
-% Use \objReference, rather than \entityName, for the first mention of an object within
-% another object, so that page ranges will be present.
-%\ifthenelse{\boolean{generatingHyperPDF}}%
-%  {\newcommand{\entityReference}[2]{\entityName[R]{#1}{#2}}}%  command if generatingHyperPDF
-%  {\newcommand{\entityReference}[2]{\entityName[R]{#1}{#2} \vpageref[(][(]{#1:#2})}}%  command if not generatingHyperPDF
-
-%\newcommand{\objReference}[1]{\entityReference{Objects}{#1}}
-%\newcommand{\pluginReference}[2]{\entityReference{#1}{#2}}
-
-%\ifthenelse{\boolean{generatingHyperPDF}}%
-%  {\newcommand{\objImageReference}[1]{\ref{#1}}}%  command if generatingHyperPDF
-%  {\newcommand{\objImageReference}[1]{\vref{#1}}}%  command if not generatingHyperPDF
-
-%  Note that we need to fool vpageref into inserting an open round bracket
-%  before the text that it generates, as it inserts a space ahead of its
-%  text otherwise, which would leave a space between the open round
-%  bracket and the generated text.
-
-%\newcommand*{\objCmd}[1]{\textbf{#1}}
-%\newcommand*{\objCmdQ}[1]{`\objCmd{#1}'\xspace}
-%\newcommand*{\objCmdArg}[1]{\textbf{\textsf{#1}}}
-%\newcommand*{\objArgType}[1]{\textitcorr{#1}}
-%\newcommand*{\objIOType}[1]{\textbf{#1}}
-
-%\newcommand*{\compLang}[1]{\emphcorr{#1}}
-
-%\newcommand*{\MaxName}{\compLang{Max}}
-%\newcommand*{\MaxMSPName}{\compLang{Max/MSP}}
-
-%\ifthenelse{\boolean{generatingHyperPDF}}%
-%  {\newcommand*{\startEntity}[5][!-!-!]{\clearpage\section{#5\texorpdfstring{#2}{#4}}%
-%   \renewcommand{\mymark}{#4}%
-%   \ifthenelse{\equal{#1}{!-!-!}}%
-%    {\hypertarget{hyper.#3.#4}{}}%
-%    {\hypertarget{hyper.#3.#1}{}}}}%
-%  {\newcommand*{\startEntity}[5][!-!-!]{\clearpage\section{#5#2}\renewcommand{\mymark}{#4}}}
-
-%\newcommand*{\entityEnd}[1]{#1} % just a notational convenience
-
-%\newcommand*{\startObject}[3][!-!-!]{%
-%\ifthenelse{\equal{#1}{!-!-!}}%
-%  {\startEntity{#2}{Objects}{#3}{}}%
-%  {\startEntity[#1]{#2}{Objects}{#3}{}}}
-
-%\newcommand*{\objEnd}[1]{#1} % just a notational convenience
-
-%\newcommand*{\insertpart}[2]{\clearpage\renewcommand{\mymark}{#1}#2}
-
-%\newcommand{\objLineLayout}[2]{\begin{tabbing}%
-%    \hspace*{144pt}\=\kill\textbf{#1}:\>\parbox[t]{324pt}{#2}\end{tabbing}}% 2", 4.5"
-
-%\newcommand{\objItemDescription}[1]{\objLineLayout{Description~of~object}{#1}}
-%\newcommand*{\objItemCreated}[1]{\objLineLayout{Object~created}{#1}}
-%\newcommand*{\objItemVersion}[1]{\objLineLayout{Current~version}{#1}}
-%\newcommand*{\objItemHelp}[1]{\objLineLayout{Online~help~file}{#1}}
-%\newcommand*{\objItemTheme}[1]{\objLineLayout{Object~theme}{#1}}
-%\newcommand*{\objItemClass}[1]{\objLineLayout{Object~class(es)}{#1}}
-%\newcommand{\objItemArgs}[1]{\objLineLayout{Argument(s)}{#1}}
-%\newcommand{\objItemInlet}[1]{\objLineLayout{Inlet(s)}{#1}}
-%\newcommand{\objItemOutlet}[1]{\objLineLayout{Outlet(s)}{#1}}
-%\newcommand{\objItemCompanion}[1]{\objLineLayout{Companion~object(s)}{#1}}
-%\newcommand*{\objItemStandalone}[1]{\objLineLayout{Standalone}{#1}}
-%\newcommand*{\objItemRetainsState}[1]{\objLineLayout{Retains~state}{#1}}
-%\newcommand*{\objItemFat}[1]{\objLineLayout{Fat,~PPC-only~or~68k-only}{#1}}
-%\newcommand*{\objItemCompatibility}[1]{\objLineLayout{Compatibility}{#1}}
-%\newcommand{\objItemCommands}[1][!-!-!]{%
-%  \ifthenelse{\equal{#1}{!-!-!}}%
-%    {}%
-%    {\objLineLayout{Command~language~syntax}{#1}}}
-%\newcommand{\objItemFile}[1][!-!-!]{%
-%  \ifthenelse{\equal{#1}{!-!-!}}%
-%    {}%
-%    {\objLineLayout{File~format}{#1}}}
-%\newcommand{\objItemMessage}[1][!-!-!]{%
-%  \ifthenelse{\equal{#1}{!-!-!}}%
-%    {}%
-%    {\objLineLayout{Message~format}{#1}}}
-%\newcommand{\objItemComments}[1][!-!-!]{%
-%  \ifthenelse{\equal{#1}{!-!-!}}%
-%    {}%
-%    {\objLineLayout{Comments}{#1}}}
-
-%\newenvironment{objArgList}
-%  {\begin{list}
-%    {}
-%    {\setlength{\labelwidth}{72pt}% 1"
-%    \setlength{\leftmargin}{\labelwidth+\labelsep}
-%    \setlength{\parsep}{0ex}
-%    \setlength{\itemsep}{0.5ex}
-%    }}
-%  {\end{list}}
-%\newcommand*{\objListArgBegin}{\begin{objArgList}}
-%\newcommand*{\objListArgEnd}{\end{objArgList}}
-%\newcommand{\objListArgItem}[3]{\item[\textbf{\objArgType{#1}}] \objIOType{#2}, #3}
-
-%\newcounter{objIO}
-%\newenvironment{objIOList}
-%  {\begin{list}
-%    {\textbf{\arabic{objIO}}}
-%    {\usecounter{objIO}
-%    \setlength{\labelwidth}{36pt}% 0.5"
-%    \setlength{\leftmargin}{\labelwidth+\labelsep}
-%    \setlength{\parsep}{0ex}
-%    \setlength{\itemsep}{0.5ex}
-%    }}
-%  {\end{list}}
-%\newcommand*{\objListIOBegin}{\begin{objIOList}}
-%\newcommand*{\objListIOEnd}{\end{objIOList}}
-%\newlength{\objListIOArgLen}
-%\newcommand{\objListIOItem}[3][!-!-!]{%
-%\settowidth{\objListIOArgLen}{#3}%
-%\ifthenelse{\equal{#1}{!-!-!}}%
-%	{%
-%	\ifthenelse{\lengthtest{\objListIOArgLen > 0cm}}%
-%	  {\item \objIOType{#2}, #3}%
-%	  {\item \objIOType{#2}}
-%	 }%
-%	 {%
-%	\ifthenelse{\lengthtest{\objListIOArgLen > 0cm}}%
-%	  {\item[#1] \objIOType{#2}, #3}%
-%	  {\item[#1] \objIOType{#2}}
-%	 }%
-% }
-
-%\newenvironment{objCmdList}
-%  {\begin{list}
-%    {}
-%    {\setlength{\labelwidth}{0ex}
-%    \setlength{\leftmargin}{36pt}% 0.5"
-%    \setlength{\itemindent}{-18pt}% 0.25"
-%    \setlength{\parsep}{0ex}
-%    \setlength{\itemsep}{0.5ex}
-%    }}
-%  {\end{list}}
-%\newcommand*{\objListCmdBegin}{\begin{objCmdList}}
-%\newcommand*{\objListCmdEnd}{\end{objCmdList}}
-%\newcommand{\objListCmdItem}[2]{\item[]\objCmd{#1} \objCmdArg{#2}\newline}
-
-%\newenvironment{objHistList}
-%  {\begin{list}
-%    {}
-%    {\setlength{\labelwidth}{108pt}% 1.5"
-%    \setlength{\leftmargin}{\labelwidth+\labelsep}
-%    \setlength{\rightmargin}{36pt}% 0.5"
-%    \setlength{\parsep}{0ex}
-%    \renewcommand{\makelabel}[1]{\textbf{##1}\hfill}
-%    }}
-%  {\end{list}}
-%\newcommand*{\objListHistBegin}{\begin{objHistList}}
-%\newcommand*{\objListHistEnd}{\end{objHistList}}
-%\newcommand{\objListHistItem}[1]{\item[#1]}
-
-%\newcommand{\objCaption}[1]{\caption{#1\ }}
-% Create a framed box as a figure, centred horizontally (note that we can't use \textttt{}, as the third argument
-% could be quite large):
-%\newcommand{\objFileDescription}[4][0.75]{\begin{figure}[!ht]%
-%\setlength{\fboxsep}{3pt}\setlength{\fboxrule}{0.75bp}%
-%\begin{center}\fbox{\begin{minipage}[t]{#1\textwidth}\begin{flushleft}\footnotesize\ttfamily #4\end{flushleft}%
-%\end{minipage}}\objCaption{#2}\label{file:#3}\end{center}\end{figure}}
-
-%\newcommand*{\objPicture}[1]{\begin{center}\includegraphics{#1}\end{center}}
-%\newcommand*{\objDiagram}[3]{\begin{figure}[!ht]\objPicture{#1}\objCaption{#3}\label{diagram:#2}\end{figure}}
-
-%\newcommand{\creditPictureAndText}[2]{\begin{flushleft}\parbox{5cm}{\hfill\includegraphics{#1}}%
-%\hspace{2ex}\parbox[][\height][t]{10cm}{\small #2}\end{flushleft}}
-
-%\newcommand{\emphFootnoteMark}{{\color{red}\footnotemark}}
-
-% Plugin entries:
-
-%\newcommand{\pluginLineLayout}[2]{\begin{tabbing}%
-%    \hspace*{144pt}\=\kill\textbf{#1}:\>\parbox[t]{324pt}{#2}\end{tabbing}}% 2", 4.5"
-
-%\newcommand{\pluginItemDescription}[1]{\pluginLineLayout{Description~of~plugin}{#1}}
-%\newcommand*{\pluginItemCreated}[1]{\pluginLineLayout{Plugin~created}{#1}}
-%\newcommand*{\pluginItemVersion}[1]{\pluginLineLayout{Current~version}{#1}}
-%\newcommand{\pluginItemCommands}[1][!-!-!]{%
-%  \ifthenelse{\equal{#1}{!-!-!}}%
-%    {}%
-%    {\pluginLineLayout{Command~language~syntax}{#1}}}
-%\newcommand{\pluginItemComments}[1][!-!-!]{%
-%  \ifthenelse{\equal{#1}{!-!-!}}%
-%    {}%
-%    {\pluginLineLayout{Comments}{#1}}}
-
-%\newcommand*{\pluginCmd}[1]{\textbf{#1}}
-%\newcommand*{\pluginCmdQ}[1]{`\pluginCmd{#1}'\xspace}
-%\newcommand*{\pluginCmdArg}[1]{\textbf{\textsf{#1}}}
-
-%\newenvironment{pluginCmdList}
-%  {\begin{list}
-%    {}
-%    {\setlength{\labelwidth}{0ex}
-%    \setlength{\leftmargin}{36pt}% 0.5"
-%    \setlength{\itemindent}{-18pt}% 0.25"
-%    \setlength{\parsep}{0ex}
-%    \setlength{\itemsep}{0.5ex}
-%    }}
-%  {\end{list}}
-%\newcommand*{\pluginListCmdBegin}{\begin{pluginCmdList}}
-%\newcommand*{\pluginListCmdEnd}{\end{pluginCmdList}}
-%\newcommand{\pluginListCmdItem}[2]{\item[]\pluginCmd{#1} \pluginCmdArg{#2}\newline}
-
-%\newcommand*{\startAppendix}[4][!-!-!]{%
-%\ifthenelse{\equal{#1}{!-!-!}}%
-%  {\startEntity{#2}{#3}{#4}{\appendixname{}~}}%
-%  {\startEntity[#1]{#2}{#3}{#4}{\appendixname{}~}}}
-
-%\ifthenelse{\boolean{generatingHyperPDF}}%
-%  {\newcommand*{\startPlugin}[4][!-!-!]{\subsection{\texorpdfstring{\color{magenta}#2}{#4}}%
-%   \renewcommand{\mymark}{#4}%
-%   \ifthenelse{\equal{#1}{!-!-!}}%
-%    {\hypertarget{hyper.#3.#4}{}}%
-%    {\hypertarget{hyper.#3.#1}{}}}}%
-%  {\newcommand*{\startPlugin}[4][!-!-!]{\subsection{\color{magenta}#2}\renewcommand{\mymark}{#4}}}
-%
-%\newcommand*{\pluginEnd}[1]{#1} % just a notational convenience
-
-% The net effect is as follows:
-%  generatingHyperPDF
-%   'D' \textitcorr{\color{webgreen}#3}  \hypertarget{hyper.#2.#3}{}\label{#2:#3}  {}
-%   'E' {}  {}  {}
-%	'M' {} \hypertarget{hyper.#2.#3}{}\label{#2:#3} {}
-%   'R' \hyperlink{hyper.#2.#3}{\textitcorr{#3}}  \index{#2!#3}  \ref{#2:#3}
-%   'S' \textitcorr{#3}  \index{#2!#3}  {}
-%   'X' \hyperlink{hyper.#2.#3}{\textitcorr{#3}}  {}  {}
-%  not generatingHyperPDF
-%   'D' \textitcorr{\color{webgreen}#3}  \index{#2!#3|(textbf}\label{#2:#3}  {}
-%   'E' {}  \index{#2!#3|)textbf}  {}
-%   'M' {}  \index{#2!#3|(textbf}\label{#2:#3}  {}
-%   'R' \textitcorr{#3}  \index{#2!#3}  \ref{#2:#3}
-%   'S' \textitcorr{#3}  \index{#2!#3}  {}
-%   'X' \textitcorr{#3}  {}  {}
-
-\newcommand{\entityNameTagINTD}[3]{%
-  \ifthenelse{\equal{#3}{!-!-!}}%
-	{\textitcorr{\color{webgreen}#2}}%
-	{\textitcorr{\color{webgreen}#3}}}
-\newcommand{\entityNameTagINTE}[3]{}
-\newcommand{\entityNameTagINTM}[3]{}
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index subcategory
+% Third argument: alternate hyperlink/index subcategory
+% Fourth argument: hyperlink/index name
+% Fifth argument: alternate hyperlink/index name
 \ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\entityNameTagINTR}[3]{%  command if generatingHyperPDF
-	\ifthenelse{\equal{#3}{!-!-!}}%
-	  {\hyperlink{hyper.#1.#2}{\textitcorr{#2}}}%
-	  {\hyperlink{hyper.#1.#2}{\textitcorr{#3}}}}}
-  {\newcommand{\entityNameTagINTR}[3]{%  command if not generatingHyperPDF
-  	\ifthenelse{\equal{#3}{!-!-!}}%
-	  {\textitcorr{#2}}%
-	  {\textitcorr{#3}}}}
-\newcommand{\entityNameTagINTS}[3]{%
-  \ifthenelse{\equal{#3}{!-!-!}}%
-	{\textitcorr{#2}}%
-	{\textitcorr{#3}}}
-\ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\entityNameTagINTX}[3]{%  command if generatingHyperPDF
-	\ifthenelse{\equal{#3}{!-!-!}}%
-	  {\hyperlink{hyper.#1.#2}{\textitcorr{#2}}}%
-	  {\hyperlink{hyper.#1.#2}{\textitcorr{#3}}}}}
-  {\newcommand{\entityNameTagINTX}[3]{%  command if not generatingHyperPDF
-  \ifthenelse{\equal{#3}{!-!-!}}%
-	{\textitcorr{#2}}%
-	{\textitcorr{#3}}}}
+  {\newcommand{\entityNameD}[5]{%  command if generatingHyperPDF
+    \hypertarget{hyper.#1.#4}{}%
+	\ifthenelse{\equal{#5}{!-!-!}}%
+	  {\textitcorr{\color{webgreen}#4}\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
+	  {\textitcorr{\color{webgreen}#5}\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
+    \multilabel{#1}{#2}{#3}{#4}}}
+  {\newcommand{\entityNameD}[5]{%  command if not generatingHyperPDF
+	\ifthenelse{\equal{#5}{!-!-!}}%
+	  {\textitcorr{\color{webgreen}#4}\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
+	  {\textitcorr{\color{webgreen}#5}\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
+    \multilabel{#1}{#2}{#3}{#4}}}
 
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index subcategory
+% Third argument: alternate hyperlink/index subcategory
+% Fourth argument: hyperlink/index name
+% Fifth argument: alternate hyperlink/index name
 \ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\entityNameIndexINTD}[3]{%  command if generatingHyperPDF
-	\hypertarget{hyper.#1.#2}{}%
-	\ifthenelse{\equal{#3}{!-!-!}}%
-	  {\index{#1!#2|(textbf}}%
-	  {\index{#1!#3|(textbf}}%
-    \label{#1:#2}}}
-  {\newcommand{\entityNameIndexINTD}[3]{%  command if not generatingHyperPDF
-	\ifthenelse{\equal{#3}{!-!-!}}%
-	  {\index{#1!#2|(textbf}}%
-	  {\index{#1!#3|(textbf}}%
-    \label{#1:#2}}}
-\newcommand{\entityNameIndexINTE}[3]{
-	\ifthenelse{\equal{#3}{!-!-!}}%
-	  {\index{#1!#2|)textbf}}%
-	  {\index{#1!#3|)textbf}}}
+  {\newcommand{\entityNameE}[5]{}}%
+  {\newcommand{\entityNameE}[5]{%
+    \ifthenelse{\equal{#1}{#4}}%
+    {}% if first and fourth argument match
+    {\ifthenelse{\equal{#5}{!-!-!}}%
+      {\multiindex{#1}{#2}{#3}{#4}{|)textbf}}%
+      {\multiindex{#1}{#2}{#3}{#5}{|)textbf}}}}}
+
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index subcategory
+% Third argument: alternate hyperlink/index subcategory
+% Fourth argument: hyperlink/index name
+% Fifth argument: alternate hyperlink/index name
 \ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\entityNameIndexINTM}[3]{%  command if generatingHyperPDF
-	\hypertarget{hyper.#1.#2}{}%
-	\ifthenelse{\equal{#3}{!-!-!}}%
-	  {\index{#1!#2|(textbf}}%
-	  {\index{#1!#3|(textbf}}%
-  	\label{#1:#2}}}
-  {\newcommand{\entityNameIndexINTM}[3]{%  command if not generatingHyperPDF
-	\ifthenelse{\equal{#3}{!-!-!}}%
-	  {\index{#1!#2|(textbf}}%
-	  {\index{#1!#3|(textbf}}%
-    \label{#1:#2}}}
-\newcommand{\entityNameIndexINTR}[3]{%  command if generatingHyperPDF
-	\ifthenelse{\equal{#3}{!-!-!}}%
-	  {\index{#1!#2}}%
-	  {\index{#1!#3}}%
-	\ref{#1:#2}}
-\newcommand{\entityNameIndexINTS}[3]{\index{#1!#2}}
-\newcommand{\entityNameIndexINTX}[3]{}
+  {\newcommand{\entityNameM}[5]{%  command if generatingHyperPDF
+	\hypertarget{hyper.#1.#4}{}%
+	\ifthenelse{\equal{#5}{!-!-!}}%
+	  {\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
+	  {\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
+  	\multilabel{#1}{#2}{#3}{#4}}}
+  {\newcommand{\entityNameM}[5]{%  command if not generatingHyperPDF
+	\ifthenelse{\equal{#5}{!-!-!}}%
+	  {\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
+	  {\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
+    \multilabel{#1}{#2}{#3}{#4}}}
 
-\newcommand{\entityNameD}[3]{\entityNameTagINTD{#1}{#2}{#3}\entityNameIndexINTD{#1}{#2}{#3}}
-\newcommand{\entityNameE}[3]{\entityNameTagINTE{#1}{#2}{#3}\entityNameIndexINTE{#1}{#2}{#3}}
-\newcommand{\entityNameM}[3]{\entityNameTagINTM{#1}{#2}{#3}\entityNameIndexINTM{#1}{#2}{#3}}
-\newcommand{\entityNameR}[3]{\entityNameTagINTR{#1}{#2}{#3}\entityNameIndexINTR{#1}{#2}{#3}}
-\newcommand{\entityNameS}[3]{\entityNameTagINTS{#1}{#2}{#3}\entityNameIndexINTS{#1}{#2}{#3}}
-\newcommand{\entityNameX}[3]{\entityNameTagINTX{#1}{#2}{#3}\entityNameIndexINTX{#1}{#2}{#3}}
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index subcategory
+% Third argument: alternate hyperlink/index subcategory
+% Fourth argument: hyperlink/index name
+% Fifth argument: alternate hyperlink/index name
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\entityNameR}[5]{%  command if generatingHyperPDF
+	\ifthenelse{\equal{#5}{!-!-!}}%
+	  {\hyperlink{hyper.#1.#4}{\textitcorr{#4}}%
+	  \ifthenelse{\equal{#1}{#4}}%
+	    {}% if first and fourth argument match
+	    {\multiindex{#1}{#2}{#3}{#4}{}}}%
+	  {\hyperlink{hyper.#1.#4}{\textitcorr{#5}}%
+	  \ifthenelse{\equal{#1}{#4}}%
+	    {}% if first and fourth argument match
+	    {\multiindex{#1}{#2}{#3}{#5}{}}}%
+  	\multiref{#1}{#2}{#3}{#4}}}
+  {\newcommand{\entityNameR}[5]{%  command if not generatingHyperPDF
+  	\ifthenelse{\equal{#5}{!-!-!}}%
+	  {\textitcorr{#4}%
+	  \ifthenelse{\equal{#1}{#4}}%
+	    {}% if first and fourth argument match
+	    {\multiindex{#1}{#2}{#3}{#4}{}}}%
+	  {\textitcorr{#5}%
+	  \ifthenelse{\equal{#1}{#4}}%
+	    {}% if first and fourth argument match
+	    {\multiindex{#1}{#2}{#3}{#5}{}}}%
+    \multiref{#1}{#2}{#3}{#4}}}
 
-% Use \objReference, rather than \entityName, for the first mention of an object within
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index subcategory
+% Third argument: alternate hyperlink/index subcategory
+% Fourth argument: hyperlink/index name
+% Fifth argument: alternate hyperlink/index name
+\newcommand{\entityNameS}[5]{%
+  \ifthenelse{\equal{#5}{!-!-!}}%
+	{\textitcorr{#4}}%
+	{\textitcorr{#5}}%
+  \ifthenelse{\equal{#1}{#4}}%
+    {}% if first and fourth argument match
+    {\multiindex{#1}{#2}{#3}{#4}{}}}
+
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index subcategory
+% Third argument: alternate hyperlink/index subcategory
+% Fourth argument: hyperlink/index name
+% Fifth argument: alternate hyperlink/index name
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\entityNameX}[5]{%  command if generatingHyperPDF
+	\ifthenelse{\equal{#5}{!-!-!}}%
+	  {\hyperlink{hyper.#1.#4}{\textitcorr{#4}}}%
+	  {\hyperlink{hyper.#1.#5}{\textitcorr{#5}}}}}
+  {\newcommand{\entityNameX}[5]{%  command if not generatingHyperPDF
+  \ifthenelse{\equal{#5}{!-!-!}}%
+	{\textitcorr{#4}}%
+	{\textitcorr{#5}}}}
+
+% Use \entityReference, rather than \entityName, for the first mention of an object within
 % another object, so that page ranges will be present.
 \ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\entityReference}[2]{\entityNameR{#1}{#2}{!-!-!}}}%  command if generatingHyperPDF
-  {\newcommand{\entityReference}[2]{\entityNameR{#1}{#2}{!-!-!} \vpageref[(][(]{#1:#2})}}%  command if not generatingHyperPDF
+  {\newcommand{\entityReference}[2]{\entityNameR{#1}{!-!-!}{!-!-!}{#2}{!-!-!}}}%  command if generatingHyperPDF
+  {\newcommand{\entityReference}[2]{\entityNameR{#1}{!-!-!}{!-!-!}{#2}{!-!-!} \vpageref[(][(]{#1:#2})}}%  command if not generatingHyperPDF
 
 \ifthenelse{\boolean{generatingHyperPDF}}%
   {\newcommand{\companyReference}[2]{\href{#1}{#2}}}%  command if generatingHyperPDF
   {\newcommand{\companyReference}[2]{#2}}% command if not generatingHyperPDF
 
-\newcommand{\clientNameD}[2][!-!-!]{\entityNameD{Clients}{#2}{#1}}% shortcut
-\newcommand{\clientNameE}[2][!-!-!]{\entityNameE{Clients}{#2}{#1}}% shortcut
-\newcommand{\clientNameM}[2][!-!-!]{\entityNameM{Clients}{#2}{#1}}% shortcut
-\newcommand{\clientNameR}[2][!-!-!]{\entityNameR{Clients}{#2}{#1}}% shortcut
-\newcommand{\clientNameS}[2][!-!-!]{\entityNameS{Clients}{#2}{#1}}% shortcut
-\newcommand{\clientNameX}[2][!-!-!]{\entityNameX{Clients}{#2}{#1}}% shortcut
+% First argument [optional]: alternate name
+% Second argument: entity name
+\newcommand{\clientNameD}[2][!-!-!]{\entityNameD{Clients}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\clientNameE}[2][!-!-!]{\entityNameE{Clients}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\clientNameM}[2][!-!-!]{\entityNameM{Clients}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\clientNameR}[2][!-!-!]{\entityNameR{Clients}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\clientNameS}[2][!-!-!]{\entityNameS{Clients}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\clientNameX}[2][!-!-!]{\entityNameX{Clients}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
 
-\newcommand{\serviceNameD}[2][!-!-!]{\entityNameD{Services}{#2}{#1}}% shortcut
-\newcommand{\serviceNameE}[2][!-!-!]{\entityNameE{Services}{#2}{#1}}% shortcut
-\newcommand{\serviceNameM}[2][!-!-!]{\entityNameM{Services}{#2}{#1}}% shortcut
-\newcommand{\serviceNameR}[2][!-!-!]{\entityNameR{Services}{#2}{#1}}% shortcut
-\newcommand{\serviceNameS}[2][!-!-!]{\entityNameS{Services}{#2}{#1}}% shortcut
-\newcommand{\serviceNameX}[2][!-!-!]{\entityNameX{Services}{#2}{#1}}% shortcut
+% First argument [optional]: alternate name
+% Second argument: entity name
+\newcommand{\serviceNameD}[2][!-!-!]{\entityNameD{Services}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\serviceNameE}[2][!-!-!]{\entityNameE{Services}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\serviceNameM}[2][!-!-!]{\entityNameM{Services}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\serviceNameR}[2][!-!-!]{\entityNameR{Services}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\serviceNameS}[2][!-!-!]{\entityNameS{Services}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\serviceNameX}[2][!-!-!]{\entityNameX{Services}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
 
 \newcommand{\serviceReference}[1]{\entityReference{Services}{#1}}
 
+% First argument [optional]: alternate name
+% Second argument: entity name
+\newcommand{\utilityNameD}[2][!-!-!]{\entityNameD{Utilities}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\utilityNameE}[2][!-!-!]{\entityNameE{Utilities}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\utilityNameM}[2][!-!-!]{\entityNameM{Utilities}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\utilityNameR}[2][!-!-!]{\entityNameR{Utilities}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\utilityNameS}[2][!-!-!]{\entityNameS{Utilities}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+\newcommand{\utilityNameX}[2][!-!-!]{\entityNameX{Utilities}{!-!-!}{!-!-!}{#2}{#1}}% shortcut
+
+% First argument [optional]: alternate name
+% Second argument: Subcategory
+% Third argument: entity name
+\newcommand{\examplesNameD}[3][!-!-!]{\entityNameD{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameE}[3][!-!-!]{\entityNameE{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameM}[3][!-!-!]{\entityNameM{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameR}[3][!-!-!]{\entityNameR{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameS}[3][!-!-!]{\entityNameS{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameX}[3][!-!-!]{\entityNameX{Examples}{#2}{#2}{#3}{#1}}% shortcut
+
+% First argument [optional]: alternate name
+% Second argument: Subcategory
+% Third argument: Alternate subcategory name
+% Fourth argument: entity name
+\newcommand{\requestsNameD}[4][!-!-!]{\entityNameD{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameE}[4][!-!-!]{\entityNameE{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameM}[4][!-!-!]{\entityNameM{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameR}[4][!-!-!]{\entityNameR{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameS}[4][!-!-!]{\entityNameS{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameX}[4][!-!-!]{\entityNameX{Requests}{#2}{#3}{#4}{#1}}% shortcut
+
 \newcommand*{\insertpart}[2]{\clearpage\renewcommand{\mymark}{#1}#2}
 
+% First argument [optional]: alternate hyperlink name
+% Second argument: section title
+% Third argument: hyperlink section
+% Fourth argument: simplified version of title
+% Fifth argument: prefix to display before title
 \ifthenelse{\boolean{generatingHyperPDF}}%
   {\newcommand*{\sectionStart}[5][!-!-!]{\clearpage\section{#5\texorpdfstring{#2}{#4}}%
    \renewcommand{\mymark}{#4}%
@@ -523,6 +330,10 @@
 
 \newcommand*{\sectionEnd}[1]{#1} % just a notational convenience
 
+% First argument: [optional] alternate hypertarget name
+% Second argument: subsection title
+% Third argument: hypertarget section
+% Fourth argument: simplified version of title
 \ifthenelse{\boolean{generatingHyperPDF}}%
   {\newcommand*{\subsectionStart}[4][!-!-!]{\subsection{\texorpdfstring{#2}{#4}}%
    \ifthenelse{\equal{#1}{!-!-!}}%
@@ -532,6 +343,10 @@
     
 \newcommand*{\subsectionEnd}[1]{#1} % just a notational convenience
 
+% First argument: [optional] alternate hypertarget name
+% Second argument: subsubsection title
+% Third argument: hypertarget section
+% Fourth argument: simplified version of title
 \ifthenelse{\boolean{generatingHyperPDF}}%
   {\newcommand*{\subsubsectionStart}[4][!-!-!]{\subsubsection{\texorpdfstring{#2}{#4}}%
    \ifthenelse{\equal{#1}{!-!-!}}%
@@ -541,31 +356,31 @@
     
 \newcommand*{\subsubsectionEnd}[1]{#1} % just a notational convenience
 
+% First argument: [optional] alternate section name
+% Second argument: section title
 \newcommand*{\primaryStart}[2][!-!-!]{%
-\ifthenelse{\equal{#1}{!-!-!}}%
-  {\sectionStart{#2}{Primary}{#2}{}}%
-  {\sectionStart[#1]{#2}{Primary}{#2}{}}}
+  \sectionStart[#1]{#2}{Primary}{#2}{}}
 
 \newcommand*{\primaryEnd}[1]{#1} % just a notational convenience
 
+% First argument: [optional] alternate subsection name
+% Second argument: subsection title
 \newcommand*{\secondaryStart}[2][!-!-!]{%
-\ifthenelse{\equal{#1}{!-!-!}}%
-  {\subsectionStart{#2}{Secondary}{#2}}%
-  {\subsectionStart[#1]{#2}{Secondary}{#2}}}
+  \subsectionStart[#1]{#2}{Secondary}{#2}}
 
 \newcommand*{\secondaryEnd}[1]{#1} % just a notational convenience
 
+% First argument: [optional] alternate subsubsection name
+% Second argument: subsubsection title
 \newcommand*{\tertiaryStart}[2][!-!-!]{%
-\ifthenelse{\equal{#1}{!-!-!}}%
-  {\subsubsectionStart{#2}{Tertiary}{#2}}%
-  {\subsubsectionStart[#1]{#2}{Tertiary}{#2}}}
+  \subsubsectionStart[#1]{#2}{Tertiary}{#2}}
 
 \newcommand*{\tertiaryEnd}[1]{#1} % just a notational convenience
 
+% First argument: [optional] alternate appendix name
+% Second argument: appendix title
 \newcommand*{\appendixStart}[2][!-!-!]{%
-\ifthenelse{\equal{#1}{!-!-!}}%
-  {\sectionStart{#2}{Appendix}{#2}{\appendixname{}:~}}%
-  {\sectionStart[#1]{#2}{Appendix}{#2}{\appendixname{}:~}}}
+  \sectionStart[#1]{#2}{Appendix}{#2}{\appendixname{}:~}}
 
 \newcommand*{\appendixEnd}[1]{#1} % just a notational convenience
 
@@ -585,9 +400,8 @@
 
 % Define hyphenation points:
 
-\title{\cal\Huge\textitcorr{\mplusm{}}\\
+\title{\cal\Huge\textitcorr{Movement~and~Meaning~Middleware}\\
 \vspace{1ex}
-%\objPicture{ChannelManager.eps}}
 \begin{center}\includegraphics{ChannelManager.eps}\end{center}}
 \author{HPlus~Technologies~Ltd. and Simon~Fraser~University\\
 Vancouver, British~Columbia, Canada}
