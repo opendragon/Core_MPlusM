@@ -14,3 +14,5 @@
 + on dragging, do an adjustSize() without repaint?
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
+
+/ change …M to …D for requests and remove extra text; check if !-!-! can be replaced with a macro; shortcuts for request definitions?
