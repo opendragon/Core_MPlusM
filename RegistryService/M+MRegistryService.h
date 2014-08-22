@@ -109,20 +109,29 @@ namespace MplusM
             /*! @brief The current state of the service. */
             enum ServiceStatus
             {
-                /*! @brief The registry has just started. */
-                kRegistryStarted,
-                
-                /*! @brief The registry is stopping. */
-                kRegistryStopped,
-                
                 /*! @brief A service is being added to the registry. */
                 kRegistryAddService,
                 
                 /*! @brief A service has pinged the registry. */
                 kRegistryPingFromService,
                 
+                /*! @brief A service is being registered in the registry. */
+                kRegistryRegisterService,
+                
                 /*! @brief A service is being removed from the registry. */
                 kRegistryRemoveService,
+                
+                /*! @brief A service has not pinged the registry recently. */
+                kRegistryStaleService,
+                
+                /*! @brief The registry has just started. */
+                kRegistryStarted,
+                
+                /*! @brief The registry is stopping. */
+                kRegistryStopped,
+                
+                /*! @brief A service is being unregistered from the registry. */
+                kRegistryUnregisterService,
                 
                 /*! @brief Force the enumeration to be 4 bytes. */
                 kRegistryUnknown = 0x80000000

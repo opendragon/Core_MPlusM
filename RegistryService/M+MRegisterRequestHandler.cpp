@@ -171,6 +171,8 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                     
                     if (Common::Endpoint::CheckEndpointName(argAsString))
                     {
+                        _service.reportStatusChange(argAsString,
+                                                    RegistryService::kRegistryRegisterService);
                         // Send a 'list' request to the channel
                         yarp::os::ConstString   aName =
                                                 Common::GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
@@ -441,6 +443,12 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &  
                             requestDescriptor._request = theRequest;
                             result = _service.addRequestRecord(keywordList, requestDescriptor);
                             OD_LOG_B1("result <- ", result); //####
+                            if (! result)
+                            {
+                                // We need to remove any values that we've recorded for this
+                                // channel!
+                                _service.removeServiceRecord(channelName);
+                            }
                         }
                     }
                     else
@@ -463,11 +471,6 @@ bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &  
             OD_LOG("! (0 < count)"); //####
             // Wrong number of values in the response.
             result = false;
-        }
-        if (! result)
-        {
-            // We need to remove any values that we've recorded for this channel!
-            _service.removeServiceRecord(channelName);
         }
     }
     catch (...)
@@ -502,6 +505,11 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString &  
                 result = _service.addServiceRecord(channelName, theCanonicalName.toString(),
                                                    theDescription.toString(), thePath.toString(),
                                                    theRequestsDescription.toString());
+                if (! result)
+                {
+                    // We need to remove any values that we've recorded for this channel!
+                    _service.removeServiceRecord(channelName);
+                }
             }
             else
             {
@@ -517,11 +525,6 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString &  
             OD_LOG_S1s("response = ", response.asString()); //####
             // Wrong number of values in the response.
             result = false;
-        }
-        if (! result)
-        {
-            // We need to remove any values that we've recorded for this channel!
-            _service.removeServiceRecord(channelName);
         }
     }
     catch (...)

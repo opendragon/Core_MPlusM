@@ -2009,9 +2009,12 @@ void RegistryService::checkServiceTimes(void)
         for (StringVector::const_iterator walker(expired.begin()); expired.end() != walker;
              ++walker)
         {
-            if (removeServiceRecord(*walker))
+            yarp::os::ConstString channelName(*walker);
+            
+            reportStatusChange(channelName, kRegistryStaleService);
+            if (removeServiceRecord(channelName))
             {
-                removeCheckedTimeForChannel(*walker);
+                removeCheckedTimeForChannel(channelName);
             }
         }
     }
@@ -2461,14 +2464,6 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
         message.addString(canonicalName());
         switch (newStatus)
         {
-            case kRegistryStarted :
-                message.addString(MpM_REGISTRY_STATUS_STARTING);
-                break;
-                
-            case kRegistryStopped :
-                message.addString(MpM_REGISTRY_STATUS_STOPPING);
-                break;
-                
             case kRegistryAddService :
                 message.addString(MpM_REGISTRY_STATUS_ADDING);
                 message.addString(channelName);
@@ -2480,8 +2475,32 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
                 message.addString(channelName);
                 break;
                 
+            case kRegistryRegisterService :
+                message.addString(MpM_REGISTRY_STATUS_REGISTERING);
+                message.addString(channelName);
+                break;
+                
             case kRegistryRemoveService :
                 message.addString(MpM_REGISTRY_STATUS_REMOVING);
+                message.addString(channelName);
+                break;
+                
+            case kRegistryStaleService :
+                message.addString(MpM_REGISTRY_STATUS_STALE);
+                message.addString(channelName);
+                message.addString("detected");
+                break;
+                
+            case kRegistryStarted :
+                message.addString(MpM_REGISTRY_STATUS_STARTING);
+                break;
+                
+            case kRegistryStopped :
+                message.addString(MpM_REGISTRY_STATUS_STOPPING);
+                break;
+                
+            case kRegistryUnregisterService :
+                message.addString(MpM_REGISTRY_STATUS_UNREGISTERING);
                 message.addString(channelName);
                 break;
                 

@@ -451,6 +451,12 @@ bool PingRequestHandler::processListResponse(const yarp::os::ConstString &   cha
                             requestDescriptor._request = theRequest;
                             result = _service.addRequestRecord(keywordList, requestDescriptor);
                             OD_LOG_B1("result <- ", result); //####
+                            if (! result)
+                            {
+                                // We need to remove any values that we've recorded for this
+                                // channel!
+                                _service.removeServiceRecord(channelName);
+                            }
                         }
                     }
                     else
@@ -473,11 +479,6 @@ bool PingRequestHandler::processListResponse(const yarp::os::ConstString &   cha
             OD_LOG("! (0 < count)"); //####
             // Wrong number of values in the response.
             result = false;
-        }
-        if (! result)
-        {
-            // We need to remove any values that we've recorded for this channel!
-            _service.removeServiceRecord(channelName);
         }
     }
     catch (...)
@@ -512,6 +513,11 @@ bool PingRequestHandler::processNameResponse(const yarp::os::ConstString &   cha
                 result = _service.addServiceRecord(channelName, theCanonicalName.toString(),
                                                    theDescription.toString(), thePath.toString(),
                                                    theRequestsDescription.toString());
+                if (! result)
+                {
+                    // We need to remove any values that we've recorded for this channel!
+                    _service.removeServiceRecord(channelName);
+                }
             }
             else
             {
@@ -527,11 +533,6 @@ bool PingRequestHandler::processNameResponse(const yarp::os::ConstString &   cha
             OD_LOG_S1s("response = ", response.asString()); //####
             // Wrong number of values in the response.
             result = false;
-        }
-        if (! result)
-        {
-            // We need to remove any values that we've recorded for this channel!
-            _service.removeServiceRecord(channelName);
         }
     }
     catch (...)

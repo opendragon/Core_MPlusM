@@ -2,95 +2,173 @@
 \primaryStart{Utilities}
 
 The utility programs that are provided with \mplusm{} provide access to the processes that
-are running in the \mplusm{} installation. Although \yarp{} commands can also be used to
-manage the network connections, it is recommended that the more specialized \mplusm{}
-tools be used, to avoid inconsistencies.
+are running in the \mplusm{} installation.
+Although command--line \yarp{} commands can also be used to manage the network
+connections, it is recommended that the more specialized \mplusm{} tools be used, to avoid
+inconsistencies.
 
 \secondaryStart{GUI~Tools}
 
-||TBD TBD TBD||
+Currently there is one GUI--based tool, \utilityNameR[Channel~Manager]{ChannelManager},
+which provides a view of the state of connections within an \mplusm{} installation, as
+well as managing non--\mplusm{} \yarp{} network connections.
 
-||/TBD TBD TBD||
+\tertiaryStart{\utilityNameP[Channel~Manager]{ChannelManager}}
 
-\tertiaryStart{Channel~Manager\utilityNameM[Channel~Manager]{ChannelManager}}
+The Channel~Manager application displays a single window view of the connections within a
+\yarp{} network, with features designed to make management of an \mplusm{} installation
+easier.\\
 
-||TBD TBD TBD||
+Simple \yarp{} network ports are shown as rectangles with a title consisting of the IP
+address and port number of the port, and the \yarp{} name for the port as the body of the
+rectangle, prefixed with `In' for input--only ports, `Out' for output--only ports and
+`I/O' for general ports.\\
 
-||/TBD TBD TBD||
+\mplusm{} services are shown as rectangles with a title consisting of the name provided by
+the service, with the primary \yarp{} network connection as the first row in the body of
+the rectangle, prefixed with `S' to indicate that it is a service connection.
+Secondary \yarp{} network connections appear as rows below the primary connection,
+prefixed with `In' for input--only connections and `Out' for output--only connections.
+\mplusm{} Input~/~Output services do not have a visual appearance that is distinct from
+other \mplusm{} services -- the connections that are allowed, however, are more
+restricted.\\
+
+\mplusm{} simple clients are shown as rectangles with a title consisting of the IP address
+and port number of their connection to a service, with a row containing the \yarp{}
+network connection prefixed with `C'.\\
+
+Both \mplusm{} services and clients can have multiple secondary \yarp{} network ports.\\
+
+\mplusm{} adapters are similar to \mplusm{} simple clients, except that they have
+additional rows above the client--service \yarp{} network connection for the secondary
+\yarp{} network connections, with prefixes of `In' for input--only connections and `Out'
+for output--only connections.\\
+
+Connections between ports are shown as lines with one of three thicknesses and one of
+three colours.
+The thinnest lines represent simple \yarp{} network connections, which have no explicit
+behaviours.
+The next thicker lines represent connections between Input~/~Output services; these
+connections have specific behaviours.
+The thickest lines represent connections between clients and services, which are not
+modifiable by this tool.
+TCP/IP connections, which are the default, are shown in teal, UDP connections are shown in
+purple and other connections are shown in orange.
+Note that the tool can only create TCP/IP or UDP connections.\\
+
+To create a connection between two ports, click on the source port with the `Option' /
+`Alt' key held down and either drag the mouse to the destination port or click on the
+destination port.
+If the `Shift' is held down at the same time as the `Option' / `Alt' key, the new
+network connection will be UDP rather than TCP/IP.
+While an `add' operation is active, the source port will be overlaid with a small filled
+yellow circle.
+To clear a pending `add' operation, either click on the source port a second time or click
+somewhere other than a port.
+Note that it is not possible to add a connection from an input--only port, from a client
+port to a non--service port, or from an output--only port of an Input~/~Output service to
+an input--only port of another Input~/~Output service if the ports do not have matching
+protocols.\\
+
+To remove a connection between two ports, click on the source port with the `Command' key
+held down and then click on the destination port.
+While a `remove' operation is active, the source port will be overlaid with a small
+hollow yellow circle.
+To clear a pending `remove' operation, either click on the source port a second time or
+click on a port that is not connected to the source port or somewhere other than a port.
+Note that is is not possible to remove a connection from a client to a service.\\
+
+If one of the rectangular objects is clicked on with the `Control' key held down, an
+information window will be presented.
+If the title of the rectangle is clicked on, the information will be about the
+object in general while, if a port is clicked on, the information will be about the
+specific port.\\
+
+Clicking on a rectangular object with no modifier key held down allows the user to drag
+the object around in the window.
+Note that connections cannot be selected by clicking on them.
 
 \tertiaryEnd{\utilityNameE[Channel~Manager]{ChannelManager}}
 
 \secondaryEnd{}
 
-\secondaryStart{Utility~Services~and~Clients}
+\secondaryStart{Command--Line~Utilities}
 
-||TBD TBD TBD||
+\mplusm{} includes a number of command--line tools that provide some of the functionality
+of the GUI--based tool, \utilityNameR[Channel~Manager]{ChannelManager}.
+As well, the native \yarp{} command--line tools to create and remove connections can be
+used with \mplusm{}, but it is very easy to create a non--functional installation if care
+is not taken.
 
-||/TBD TBD TBD||
+\tertiaryStart{\utilityNameP{mpmClientList}}
 
-\tertiaryStart{mpmRequestCounterService\utilityNameM{mpmRequestCounterService}}
+			||TBD TBD TBD||
 
-||TBD TBD TBD||
-
-||/TBD TBD TBD||
-
-\tertiaryEnd{\utilityNameE{mpmRequestCounterService}}
-
-\tertiaryStart{mpmRequestCounterClient\utilityNameM{mpmRequestCounterClient}}
-
-||TBD TBD TBD||
-
-||/TBD TBD TBD||
-
-\tertiaryEnd{\utilityNameE{mpmRequestCounterClient}}
-
-\secondaryEnd{}
-
-\secondaryStart{Command~Line~Utilities}
-
-||TBD TBD TBD||
-
-||/TBD TBD TBD||
-
-\tertiaryStart{mpmClientList\utilityNameM{mpmClientList}}
-
-||TBD TBD TBD||
-
-||/TBD TBD TBD||
+			||/TBD TBD TBD||
 
 \tertiaryEnd{\utilityNameE{mpmClientList}}
 
-\tertiaryStart{mpmPortLister\utilityNameM{mpmPortLister}}
+\tertiaryStart{\utilityNameP{mpmPortLister}}
 
-||TBD TBD TBD||
+			||TBD TBD TBD||
 
-||/TBD TBD TBD||
+			||/TBD TBD TBD||
 
 \tertiaryEnd{\utilityNameE{mpmPortLister}}
 
-\tertiaryStart{mpmRequestInfo\utilityNameM{mpmRequestInfo}}
+\tertiaryStart{\utilityNameP{mpmRequestInfo}}
 
-||TBD TBD TBD||
+			||TBD TBD TBD||
 
-||/TBD TBD TBD||
+			||/TBD TBD TBD||
 
 \tertiaryEnd{\utilityNameE{mpmRequestInfo}}
 
-\tertiaryStart{mpmServiceLister\utilityNameM{mpmServiceLister}}
+\tertiaryStart{\utilityNameP{mpmServiceLister}}
 
-||TBD TBD TBD||
+			||TBD TBD TBD||
 
-||/TBD TBD TBD||
+			||/TBD TBD TBD||
 
 \tertiaryEnd{\utilityNameE{mpmServiceLister}}
 
-\tertiaryStart{mpmVersion\utilityNameM{mpmVersion}}
+\tertiaryStart{\utilityNameP{mpmVersion}}
 
-||TBD TBD TBD||
+The program \utilityNameR{mpmVersion} displays the version numbers for \mplusm{}, \yarp{}
+and ACE, the low--level networking layer used by \mplusm{} and \yarp{}.
+It has two command--line options:
+\begin{itemize}
+\item --j generate JSON--formatted output
+\item --t generate output in tab--delimited form
+\end{itemize}
 
-||/TBD TBD TBD||
+If neither option is present, the output is written as a simple text.
 
 \tertiaryEnd{\utilityNameE{mpmVersion}}
+
+\secondaryEnd{}
+
+\secondaryStart{Utility~Services~and~Clients}
+
+			||TBD TBD TBD||
+
+			||/TBD TBD TBD||
+
+\tertiaryStart{\utilityNameP{mpmRequestCounterService}}
+
+			||TBD TBD TBD||
+
+			||/TBD TBD TBD||
+
+\tertiaryEnd{\utilityNameE{mpmRequestCounterService}}
+
+\tertiaryStart{\utilityNameP{mpmRequestCounterClient}}
+
+			||TBD TBD TBD||
+
+			||/TBD TBD TBD||
+
+\tertiaryEnd{\utilityNameE{mpmRequestCounterClient}}
 
 \secondaryEnd{}
 

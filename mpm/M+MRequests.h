@@ -165,22 +165,31 @@
 # define MpM_OK_RESPONSE     "OK"
 
 /*! @brief A service is being added to the registry. */
-# define MpM_REGISTRY_STATUS_ADDING   "adding"
+# define MpM_REGISTRY_STATUS_ADDING        "adding"
 
 /*! @brief A service has pinged the registry. */
-# define MpM_REGISTRY_STATUS_PINGED "pinged"
+# define MpM_REGISTRY_STATUS_PINGED        "pinged"
+
+/*! @brief A service is being registered in the registry. */
+# define MpM_REGISTRY_STATUS_REGISTERING   "registering"
 
 /*! @brief A service is being removed from the registry. */
-# define MpM_REGISTRY_STATUS_REMOVING "removing"
+# define MpM_REGISTRY_STATUS_REMOVING      "removing"
+
+/*! @brief A service has not pinged the registry recently. */
+# define MpM_REGISTRY_STATUS_STALE         "stale"
 
 /*! @brief The registry has just started. */
-# define MpM_REGISTRY_STATUS_STARTING "starting"
+# define MpM_REGISTRY_STATUS_STARTING      "starting"
 
 /*! @brief The registry is stopping. */
-# define MpM_REGISTRY_STATUS_STOPPING "stopping"
+# define MpM_REGISTRY_STATUS_STOPPING      "stopping"
 
 /*! @brief The registry status is unknown. */
-# define MpM_REGISTRY_STATUS_UNKNOWN  "<unknown>"
+# define MpM_REGISTRY_STATUS_UNKNOWN       "<unknown>"
+
+/*! @brief A service is being unregistered from the registry. */
+# define MpM_REGISTRY_STATUS_UNREGISTERING "unregistering"
 
 /*! @brief Request/response specification character - zero or one repetitions of preceding. */
 # define MpM_REQREP_0_OR_1     "?"
