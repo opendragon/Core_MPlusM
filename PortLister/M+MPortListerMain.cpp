@@ -314,15 +314,15 @@ static void reportAssociates(const MplusM::Common::OutputFlavour        flavour,
     OD_LOG_P1("associates = ", &associates); //####
     if (associates._valid)
     {
-        yarp::os::ConstString inputAssociates;
-        yarp::os::ConstString outputAssociates;
+        yarp::os::ConstString                inputAssociates;
+        yarp::os::ConstString                outputAssociates;
+        const MplusM::Common::StringVector & assocInputs = associates._inputs;
+        const MplusM::Common::StringVector & assocOutputs = associates._outputs;
         
         if (associates._primary)
         {
-            bool                                 sawInput = false;
-            bool                                 sawOutput = false;
-            const MplusM::Common::StringVector & assocInputs = associates._inputs;
-            const MplusM::Common::StringVector & assocOutputs = associates._outputs;
+            bool sawInput = false;
+            bool sawOutput = false;
             
             if (0 < assocInputs.size())
             {
@@ -395,27 +395,30 @@ static void reportAssociates(const MplusM::Common::OutputFlavour        flavour,
         }
         else
         {
-            inputAssociates = MplusM::SanitizeString(associates._inputs[0],
-                                                     MplusM::Common::kOutputFlavourJSON != flavour);
-            switch (flavour)
+            if (0 < assocInputs.size())
             {
-                case MplusM::Common::kOutputFlavourTabs :
-                    cout << "\tAssociate\t" << inputAssociates.c_str() << "\t";
-                    break;
-                    
-                case MplusM::Common::kOutputFlavourJSON :
-                    cout << T_(CHAR_DOUBLEQUOTE "Primary" CHAR_DOUBLEQUOTE ": false, "
-                               CHAR_DOUBLEQUOTE "AssocInputs" CHAR_DOUBLEQUOTE ": [ "
-                               CHAR_DOUBLEQUOTE) << inputAssociates.c_str() <<
-                            T_(CHAR_DOUBLEQUOTE " ], " CHAR_DOUBLEQUOTE "AssocOutputs"
-                               CHAR_DOUBLEQUOTE ": [ ], ");
-                    break;
-                    
-                case MplusM::Common::kOutputFlavourNormal :
-                case MplusM::Common::kOutputFlavourUnknown :
-                    cout << " Port associated with " << inputAssociates.c_str() << ".";
-                    break;
-                    
+                inputAssociates = MplusM::SanitizeString(assocInputs[0],
+                                                     MplusM::Common::kOutputFlavourJSON != flavour);
+                switch (flavour)
+                {
+                    case MplusM::Common::kOutputFlavourTabs :
+                        cout << "\tAssociate\t" << inputAssociates.c_str() << "\t";
+                        break;
+                        
+                    case MplusM::Common::kOutputFlavourJSON :
+                        cout << T_(CHAR_DOUBLEQUOTE "Primary" CHAR_DOUBLEQUOTE ": false, "
+                                   CHAR_DOUBLEQUOTE "AssocInputs" CHAR_DOUBLEQUOTE ": [ "
+                                   CHAR_DOUBLEQUOTE) << inputAssociates.c_str() <<
+                        T_(CHAR_DOUBLEQUOTE " ], " CHAR_DOUBLEQUOTE "AssocOutputs"
+                           CHAR_DOUBLEQUOTE ": [ ], ");
+                        break;
+                        
+                    case MplusM::Common::kOutputFlavourNormal :
+                    case MplusM::Common::kOutputFlavourUnknown :
+                        cout << " Port associated with " << inputAssociates.c_str() << ".";
+                        break;
+                        
+                }
             }
         }
     }
@@ -447,248 +450,264 @@ static void reportAssociates(const MplusM::Common::OutputFlavour        flavour,
  @param flavour The format for the output.
  @param aDescriptor The attributes of the port of interest.
  @param checkWithRegistry @c true if the Service Registry is available for requests and @c false
- otherwise. */
-static void reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
+ otherwise.
+ @returns @c true if information was written out and @c false otherwise. */
+static bool reportPortStatus(const MplusM::Common::OutputFlavour       flavour,
                              const MplusM::Utilities::PortDescriptor & aDescriptor,
                              const bool                                checkWithRegistry)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("aDescriptor = ", &aDescriptor); //####
     OD_LOG_B1("checkWithRegistry = ", checkWithRegistry); //####
+    bool                               result;
     MplusM::Utilities::PortAssociation associates;
     yarp::os::ConstString              portName;
     yarp::os::ConstString              portClass;
     
     portName = MplusM::SanitizeString(aDescriptor._portName,
                                       MplusM::Common::kOutputFlavourJSON != flavour);
-    switch (flavour)
+    if (strncmp(portName.c_str(), HIDDEN_CHANNEL_PREFIX, sizeof(HIDDEN_CHANNEL_PREFIX) - 1))
     {
-	    case MplusM::Common::kOutputFlavourTabs :
-            cout << portName.c_str() << "\t";
-            break;
-            
-	    case MplusM::Common::kOutputFlavourJSON :
-            cout << T_("{ " CHAR_DOUBLEQUOTE "PortName" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                    portName.c_str() << T_(CHAR_DOUBLEQUOTE ", ");
-            break;
-            
-	    case MplusM::Common::kOutputFlavourNormal :
-	    case MplusM::Common::kOutputFlavourUnknown :
-            cout << portName.c_str() << ": ";
-            break;
-            
-    }
-    if (checkWithRegistry)
-    {
-        yarp::os::ConstString request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
-        
-        request += aDescriptor._portName;
-        yarp::os::Bottle matches(MplusM::Common::FindMatchingServices(request, true, NULL, NULL));
-        
-        OD_LOG_S1s("matches <- ", matches.toString()); //####
-        if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+        // Only process non-hidden ports.
+        switch (flavour)
         {
-            yarp::os::ConstString matchesFirstString(matches.get(0).toString());
-            
-            if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
-            {
-                // Didn't match - use a simpler check, in case it's unregistered or is an adapter or
-                // client.
-                switch (MplusM::Utilities::GetPortKind(aDescriptor._portName))
-                {
-                    case MplusM::Utilities::kPortKindAdapter :
-                        portClass = "Adapter port";
-                        break;
-                        
-                    case MplusM::Utilities::kPortKindClient :
-                        portClass = "Client port";
-                        break;
-                        
-                    case MplusM::Utilities::kPortKindService :
-                        portClass = "Unregistered service port";
-                        break;
-                        
-                    case MplusM::Utilities::kPortKindServiceRegistry :
-                        portClass = "Service Registry port";
-                        break;
-                        
-                    case MplusM::Utilities::kPortKindStandard :
-                        portClass = "Standard port at ";
-                        portClass += aDescriptor._portIpAddress;
-                        portClass += ":";
-                        portClass += aDescriptor._portPortNumber;
-                        break;
-                        
-                    case MplusM::Utilities::kPortKindUnknown:
-                        break;
-                        
-                }
-            }
-            else
-            {
-                yarp::os::Value secondValue(matches.get(1));
+            case MplusM::Common::kOutputFlavourTabs :
+                cout << portName.c_str() << "\t";
+                break;
                 
-                if (secondValue.isList())
+            case MplusM::Common::kOutputFlavourJSON :
+                cout << T_("{ " CHAR_DOUBLEQUOTE "PortName" CHAR_DOUBLEQUOTE ": "
+                           CHAR_DOUBLEQUOTE) << portName.c_str() << T_(CHAR_DOUBLEQUOTE ", ");
+                break;
+                
+            case MplusM::Common::kOutputFlavourNormal :
+            case MplusM::Common::kOutputFlavourUnknown :
+                cout << portName.c_str() << ": ";
+                break;
+                
+        }
+        if (checkWithRegistry)
+        {
+            yarp::os::ConstString request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
+            
+            request += aDescriptor._portName;
+            yarp::os::Bottle matches(MplusM::Common::FindMatchingServices(request, true, NULL,
+                                                                          NULL));
+            
+            OD_LOG_S1s("matches <- ", matches.toString()); //####
+            if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+            {
+                yarp::os::ConstString matchesFirstString(matches.get(0).toString());
+                
+                if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
                 {
-                    yarp::os::Bottle * secondList = secondValue.asList();
-                    
-                    if (secondList && secondList->size())
+                    // Didn't match - use a simpler check, in case it's unregistered or is an
+                    // adapter or client.
+                    switch (MplusM::Utilities::GetPortKind(aDescriptor._portName))
                     {
-                        yarp::os::ConstString serviceName(matches.get(1).toString());
+                        case MplusM::Utilities::kPortKindAdapter :
+                            portClass = "Adapter port";
+                            break;
+                            
+                        case MplusM::Utilities::kPortKindClient :
+                            portClass = "Client port";
+                            break;
+                            
+                        case MplusM::Utilities::kPortKindService :
+                            portClass = "Unregistered service port";
+                            break;
+                            
+                        case MplusM::Utilities::kPortKindServiceRegistry :
+                            portClass = "Service Registry port";
+                            break;
+                            
+                        case MplusM::Utilities::kPortKindStandard :
+                            portClass = "Standard port at ";
+                            portClass += aDescriptor._portIpAddress;
+                            portClass += ":";
+                            portClass += aDescriptor._portPortNumber;
+                            break;
+                            
+                        case MplusM::Utilities::kPortKindUnknown:
+                            break;
+                            
+                    }
+                }
+                else
+                {
+                    yarp::os::Value secondValue(matches.get(1));
+                    
+                    if (secondValue.isList())
+                    {
+                        yarp::os::Bottle * secondList = secondValue.asList();
                         
-                        if (aDescriptor._portName == MpM_REGISTRY_CHANNEL_NAME)
+                        if (secondList && secondList->size())
                         {
-                            portClass = "Service registry port for '";
-                            portClass += serviceName;
-                            portClass += "'";
+                            yarp::os::ConstString serviceName(matches.get(1).toString());
+                            
+                            if (aDescriptor._portName == MpM_REGISTRY_CHANNEL_NAME)
+                            {
+                                portClass = "Service registry port for '";
+                                portClass += serviceName;
+                                portClass += "'";
+                            }
+                            else
+                            {
+                                portClass = "Service port for '";
+                                portClass += serviceName;
+                                portClass += "'";
+                            }
                         }
                         else
                         {
-                            portClass = "Service port for '";
-                            portClass += serviceName;
-                            portClass += "'";
-                        }
-                    }
-                    else
-                    {
-                        // Didn't match - use a simpler check, in case it's unregistered or is an
-                        // adapter or client.
-                        switch (MplusM::Utilities::GetPortKind(aDescriptor._portName))
-                        {
-                            case MplusM::Utilities::kPortKindAdapter :
-                                portClass = "Adapter port";
-                                break;
-                                
-                            case MplusM::Utilities::kPortKindClient :
-                                portClass = "Client port";
-                                break;
-                                
-                            case MplusM::Utilities::kPortKindService :
-                                portClass = "Unregistered service port";
-                                break;
-                                
-                            case MplusM::Utilities::kPortKindServiceRegistry :
-                                portClass = "Service Registry port";
-                                break;
-                                
-                            case MplusM::Utilities::kPortKindStandard :
-                                portClass = "Standard port at ";
-                                portClass += aDescriptor._portIpAddress;
-                                portClass += ":";
-                                portClass += aDescriptor._portPortNumber;
-                                break;
-                                
-                            case MplusM::Utilities::kPortKindUnknown:
-                                break;
-                                
+                            // Didn't match - use a simpler check, in case it's unregistered or is
+                            // an adapter or client.
+                            switch (MplusM::Utilities::GetPortKind(aDescriptor._portName))
+                            {
+                                case MplusM::Utilities::kPortKindAdapter :
+                                    portClass = "Adapter port";
+                                    break;
+                                    
+                                case MplusM::Utilities::kPortKindClient :
+                                    portClass = "Client port";
+                                    break;
+                                    
+                                case MplusM::Utilities::kPortKindService :
+                                    portClass = "Unregistered service port";
+                                    break;
+                                    
+                                case MplusM::Utilities::kPortKindServiceRegistry :
+                                    portClass = "Service Registry port";
+                                    break;
+                                    
+                                case MplusM::Utilities::kPortKindStandard :
+                                    portClass = "Standard port at ";
+                                    portClass += aDescriptor._portIpAddress;
+                                    portClass += ":";
+                                    portClass += aDescriptor._portPortNumber;
+                                    break;
+                                    
+                                case MplusM::Utilities::kPortKindUnknown:
+                                    break;
+                                    
+                            }
                         }
                     }
                 }
             }
+            switch (flavour)
+            {
+                case MplusM::Common::kOutputFlavourTabs :
+                    cout << MplusM::SanitizeString(portClass, true).c_str() << "\t";
+                    break;
+                    
+                case MplusM::Common::kOutputFlavourJSON :
+                    cout << T_(CHAR_DOUBLEQUOTE "PortClass" CHAR_DOUBLEQUOTE ": "
+                               CHAR_DOUBLEQUOTE) << MplusM::SanitizeString(portClass).c_str() <<
+                            T_(CHAR_DOUBLEQUOTE ", ");
+                    break;
+                    
+                case MplusM::Common::kOutputFlavourNormal :
+                case MplusM::Common::kOutputFlavourUnknown :
+                    cout << MplusM::SanitizeString(portClass, true).c_str() << ".";
+                    break;
+                    
+            }
+            MplusM::Utilities::GetAssociatedPorts(aDescriptor._portName, associates,
+                                                  STANDARD_WAIT_TIME, NULL, NULL);
         }
+        else
+        {
+            // We can't interrogate the service registry, so use a simple heuristic to identify
+            // clients, services and adapters.
+            // Didn't match - use a simpler check, in case it's unregistered or is an adapter or
+            // client.
+            switch (MplusM::Utilities::GetPortKind(aDescriptor._portName))
+            {
+                case MplusM::Utilities::kPortKindAdapter :
+                    portClass = "Adapter port";
+                    break;
+                    
+                case MplusM::Utilities::kPortKindClient :
+                    portClass = "Client port";
+                    break;
+                    
+                case MplusM::Utilities::kPortKindService :
+                    portClass = "Unregistered service port";
+                    break;
+                    
+                case MplusM::Utilities::kPortKindServiceRegistry :
+                    portClass = "Service Registry port";
+                    break;
+                    
+                case MplusM::Utilities::kPortKindStandard :
+                    portClass = "Standard port at ";
+                    portClass += aDescriptor._portIpAddress;
+                    portClass += ":";
+                    portClass += aDescriptor._portPortNumber;
+                    break;
+                    
+                case MplusM::Utilities::kPortKindUnknown:
+                    break;
+                    
+            }
+            switch (flavour)
+            {
+                case MplusM::Common::kOutputFlavourTabs :
+                    cout << MplusM::SanitizeString(portClass, true).c_str() << "\t";
+                    break;
+                    
+                case MplusM::Common::kOutputFlavourJSON :
+                    cout << T_(CHAR_DOUBLEQUOTE "PortClass" CHAR_DOUBLEQUOTE ": "
+                               CHAR_DOUBLEQUOTE) << MplusM::SanitizeString(portClass).c_str() <<
+                            T_(CHAR_DOUBLEQUOTE ", ");
+                    break;
+                    
+                case MplusM::Common::kOutputFlavourNormal :
+                case MplusM::Common::kOutputFlavourUnknown :
+                    cout << MplusM::SanitizeString(portClass, true).c_str() << ".";
+                    break;
+                    
+            }
+        }
+        reportAssociates(flavour, associates);
         switch (flavour)
         {
             case MplusM::Common::kOutputFlavourTabs :
-                cout << MplusM::SanitizeString(portClass, true).c_str() << "\t";
                 break;
                 
             case MplusM::Common::kOutputFlavourJSON :
-                cout << T_(CHAR_DOUBLEQUOTE "PortClass" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                        MplusM::SanitizeString(portClass).c_str() << T_(CHAR_DOUBLEQUOTE ", ");
                 break;
                 
             case MplusM::Common::kOutputFlavourNormal :
             case MplusM::Common::kOutputFlavourUnknown :
-                cout << MplusM::SanitizeString(portClass, true).c_str() << ".";
+                cout << endl;
                 break;
                 
         }
-        MplusM::Utilities::GetAssociatedPorts(aDescriptor._portName, associates, STANDARD_WAIT_TIME,
-                                              NULL, NULL);
+        reportConnections(flavour, aDescriptor._portName, NULL, NULL);
+        switch (flavour)
+        {
+            case MplusM::Common::kOutputFlavourTabs :
+                break;
+                
+            case MplusM::Common::kOutputFlavourJSON :
+                cout << " }";
+                break;
+                
+            case MplusM::Common::kOutputFlavourNormal :
+            case MplusM::Common::kOutputFlavourUnknown :
+                break;
+                
+        }
+        result = true;
     }
     else
     {
-        // We can't interrogate the service registry, so use a simple heuristic to identify clients,
-        // services and adapters.
-        // Didn't match - use a simpler check, in case it's unregistered or is an adapter or client.
-        switch (MplusM::Utilities::GetPortKind(aDescriptor._portName))
-        {
-            case MplusM::Utilities::kPortKindAdapter :
-                portClass = "Adapter port";
-                break;
-                
-            case MplusM::Utilities::kPortKindClient :
-                portClass = "Client port";
-                break;
-                
-            case MplusM::Utilities::kPortKindService :
-                portClass = "Unregistered service port";
-                break;
-                
-            case MplusM::Utilities::kPortKindServiceRegistry :
-                portClass = "Service Registry port";
-                break;
-                
-            case MplusM::Utilities::kPortKindStandard :
-                portClass = "Standard port at ";
-                portClass += aDescriptor._portIpAddress;
-                portClass += ":";
-                portClass += aDescriptor._portPortNumber;
-                break;
-         
-            case MplusM::Utilities::kPortKindUnknown:
-                break;
-                
-        }
-        switch (flavour)
-        {
-            case MplusM::Common::kOutputFlavourTabs :
-                cout << MplusM::SanitizeString(portClass, true).c_str() << "\t";
-                break;
-                
-            case MplusM::Common::kOutputFlavourJSON :
-                cout << T_(CHAR_DOUBLEQUOTE "PortClass" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                        MplusM::SanitizeString(portClass).c_str() << T_(CHAR_DOUBLEQUOTE ", ");
-                break;
-                
-            case MplusM::Common::kOutputFlavourNormal :
-            case MplusM::Common::kOutputFlavourUnknown :
-                cout << MplusM::SanitizeString(portClass, true).c_str() << ".";
-                break;
-                
-        }
+        result = false;
     }
-    reportAssociates(flavour, associates);
-    switch (flavour)
-    {
-	    case MplusM::Common::kOutputFlavourTabs :
-            break;
-            
-	    case MplusM::Common::kOutputFlavourJSON :
-            break;
-            
-	    case MplusM::Common::kOutputFlavourNormal :
-	    case MplusM::Common::kOutputFlavourUnknown :
-            cout << endl;
-            break;
-            
-    }
-    reportConnections(flavour, aDescriptor._portName, NULL, NULL);
-    switch (flavour)
-    {
-	    case MplusM::Common::kOutputFlavourTabs :
-            break;
-            
-	    case MplusM::Common::kOutputFlavourJSON :
-            cout << " }";
-            break;
-            
-	    case MplusM::Common::kOutputFlavourNormal :
-	    case MplusM::Common::kOutputFlavourUnknown :
-            break;
-            
-    }
-    OD_LOG_EXIT(); //####
+    OD_LOG_EXIT_B(result); //####
+    return result;
 } // reportPortStatus
 
 #if defined(__APPLE__)
@@ -752,9 +771,20 @@ int main(int     argc,
             {
                 bool serviceRegistryPresent = MplusM::Utilities::CheckForRegistryService(ports);
                 
-                if (MplusM::Common::kOutputFlavourJSON == flavour)
+                switch (flavour)
                 {
-                    cout << "[ ";
+                    case MplusM::Common::kOutputFlavourTabs :
+                        break;
+                        
+                    case MplusM::Common::kOutputFlavourJSON :
+                        cout << "[ ";
+                        break;
+                        
+                    case MplusM::Common::kOutputFlavourNormal :
+                    case MplusM::Common::kOutputFlavourUnknown :
+                        cout << "Ports:" << endl;
+                        break;
+                        
                 }
                 if (0 < ports.size())
                 {
@@ -779,15 +809,10 @@ int main(int     argc,
                                 
                             case MplusM::Common::kOutputFlavourNormal :
                             case MplusM::Common::kOutputFlavourUnknown :
-                                if (! found)
-                                {
-                                    cout << "Ports:" << endl << endl;
-                                }
                                 break;
                                 
                         }
-                        found = true;
-                        reportPortStatus(flavour, *walker, serviceRegistryPresent);
+                        found = reportPortStatus(flavour, *walker, serviceRegistryPresent);
                     }
                 }
                 switch (flavour)
@@ -811,7 +836,7 @@ int main(int     argc,
                         }
                         else
                         {
-                            cout << "No ports found." << endl;
+                            cout << "   No ports found." << endl;
                         }
                         break;
                         

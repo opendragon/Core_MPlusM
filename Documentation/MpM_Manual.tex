@@ -67,9 +67,9 @@
 % Define some common strings:
 \newcommand{\default}{!-!-!}
 \newcommand{\MMM}{Movement~and~Meaning~Middleware}
-\newcommand{\mplusm}{\textbfcorr{M+M}}
+\newcommand{\mplusm}{\textbf{M+M}}
 \newcommand{\nothing}{\ }
-\newcommand{\yarp}{\begin{footnotesize}\textsfcorr{YARP}\end{footnotesize}}
+\newcommand{\yarp}{\begin{footnotesize}\textsf{YARP}\end{footnotesize}}
 
 % Set up the page layout:
 \pagestyle{fancyplain}
@@ -94,8 +94,14 @@
 % A couple of useful commands to handle italic-to-normal transitions:
 \newcommand{\textitcorr}[1]{\textit{#1}\/}
 \newcommand{\emphcorr}[1]{\emph{#1}\/}
-\newcommand{\textbfcorr}[1]{\textbf{#1}\/}
-\newcommand{\textsfcorr}[1]{\textsf{#1}\/}
+
+% Some commands to make examples match actual output more closely:
+\newcommand{\pseudotab}{ \boldmath{$\vdash$} }
+\newcommand{\dquote}{\texttt{"}}
+\newcommand{\squote}{\texttt{'}}
+\newcommand{\clientName}{\textunderscore{}client\textunderscore{}}
+\newcommand{\serviceName}{\textunderscore{}service\textunderscore{}}
+\newlength{\utilLen}
 
 % First argument: index category
 % Second argument: index subcategory
