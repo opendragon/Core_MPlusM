@@ -260,7 +260,7 @@ const
 int MatchExpression::count(void)
 const
 {
-    return static_cast<int> (_constraints.size());
+    return static_cast<int>(_constraints.size());
 } // MatchExpression::count
 
 const MatchConstraint * MatchExpression::element(const int index)
@@ -270,9 +270,9 @@ const
     
     try
     {
-        if ((index >= 0) && (index < static_cast<int> (_constraints.size())))
+        if ((index >= 0) && (index < static_cast<int>(_constraints.size())))
         {
-            result = _constraints[static_cast<MatchExpressionListSize> (index)];
+            result = _constraints[static_cast<MatchExpressionListSize>(index)];
         }
         else
         {

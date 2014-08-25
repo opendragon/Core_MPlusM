@@ -181,7 +181,7 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
         }
         buffLen += 32; // allow for a big number...
         char * buff = new char[buffLen];
-        int    randNumb = static_cast<int> (yarp::os::Random::uniform() * kMaxRandom);
+        int    randNumb = static_cast<int>(yarp::os::Random::uniform() * kMaxRandom);
         
 #if MAC_OR_LINUX_
         if (hasLeadingSlash)
@@ -240,7 +240,7 @@ void MplusM::Common::Initialize(const char * progName)
         double intPart;
         double now = yarp::os::Time::now();
         double fraction = modf(now, &intPart);
-        int    seed = static_cast<int> (ceil(fraction * kMaxRandom));
+        int    seed = static_cast<int>(ceil(fraction * kMaxRandom));
         
 #if defined(MpM_ChattyStart)
 # if MAC_OR_LINUX_

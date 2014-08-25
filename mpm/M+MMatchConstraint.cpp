@@ -256,7 +256,7 @@ const
 int MatchConstraint::count(void)
 const
 {
-    return static_cast<int> (_fieldsWithValues.size());
+    return static_cast<int>(_fieldsWithValues.size());
 } // MatchConstraint::count
 
 const MatchFieldWithValues * MatchConstraint::element(const int index)
@@ -266,9 +266,9 @@ const
     
     try
     {
-        if ((index >= 0) && (index < static_cast<int> (_fieldsWithValues.size())))
+        if ((index >= 0) && (index < static_cast<int>(_fieldsWithValues.size())))
         {
-            result = _fieldsWithValues[static_cast<MatchConstraintListSize> (index)];
+            result = _fieldsWithValues[static_cast<MatchConstraintListSize>(index)];
         }
         else
         {

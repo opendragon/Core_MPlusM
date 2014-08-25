@@ -482,7 +482,7 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("inputs = ", &inputs, "outputs = ", &outputs, "checkStuff = ", checkStuff); //####
-    OD_LOG_L1("which = ", static_cast<int> (which)); //####
+    OD_LOG_L1("which = ", static_cast<int>(which)); //####
     OD_LOG_B1("quiet = ", quiet); //####
     yarp::os::Contact address = yarp::os::Network::queryName(portName.c_str());
     
@@ -993,7 +993,7 @@ void MplusM::Utilities::GetServiceNames(StringVector &        services,
 const char * MplusM::Utilities::MapServiceKindToString(const Common::ServiceKind kind)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_L1("kind = ", static_cast<int> (kind)); //####
+    OD_LOG_L1("kind = ", static_cast<int>(kind)); //####
     const char * result;
     
     switch (kind)
@@ -1052,7 +1052,7 @@ Common::ServiceKind MplusM::Utilities::MapStringToServiceKind(const yarp::os::Co
     {
         result = kServiceKindNormal;
     }
-    OD_LOG_EXIT_L(static_cast<int> (result)); //####
+    OD_LOG_EXIT_L(static_cast<int>(result)); //####
     return result;
 } // MplusM::Utilities::MapStringToServiceKind
 

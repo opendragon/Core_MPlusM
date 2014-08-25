@@ -122,7 +122,7 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
                         // Convert the copy of the string to lower-case:
                         for (size_t ii = 0, len = strlen(tempAsChars); ii < len; ++ii)
                         {
-                            tempAsChars[ii] = static_cast<char> (tolower(tempAsChars[ii]));
+                            tempAsChars[ii] = static_cast<char>(tolower(tempAsChars[ii]));
                         }
                         if (validator->checkName(tempAsChars))
                         {

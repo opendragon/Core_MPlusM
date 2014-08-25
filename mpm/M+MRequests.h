@@ -188,6 +188,9 @@
 /*! @brief The registry status is unknown. */
 # define MpM_REGISTRY_STATUS_UNKNOWN       "<unknown>"
 
+/*! @brief The service is not recognized. */
+# define MpM_REGISTRY_STATUS_UNRECOGNIZED  "unrecognized"
+
 /*! @brief A service is being unregistered from the registry. */
 # define MpM_REGISTRY_STATUS_UNREGISTERING "unregistering"
 

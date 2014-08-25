@@ -230,7 +230,7 @@ bool RunningSumInputHandler::handleInput(const yarp::os::Bottle &      input,
                     }
                     else if (argValue.isInt())
                     {
-                        values.push_back(static_cast<double> (argValue.asInt()));
+                        values.push_back(static_cast<double>(argValue.asInt()));
                     }
                     else if (argValue.isDouble())
                     {
