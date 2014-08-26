@@ -1,20 +1,15 @@
 \ProvidesFile{utilities.tex}[v1.0.0]
 \primaryStart{Utilities}
-
 The utility programs that are provided with \mplusm{} provide access to the processes that
 are running in the \mplusm{} installation.
 Although command--line \yarp{} commands can also be used to manage the network
 connections, it is recommended that the more specialized \mplusm{} tools be used, to avoid
 inconsistencies.
-
-\secondaryStart{GUI~Tools}
-
+\secondaryStart[GUITools]{GUI~Tools}
 Currently there is one GUI--based tool, \utilityNameR[Channel~Manager]{ChannelManager},
 which provides a view of the state of connections within an \mplusm{} installation, as
 well as managing non--\mplusm{} \yarp{} network connections.
-
 \tertiaryStart{\utilityNameP[Channel~Manager]{ChannelManager}}
-
 The Channel~Manager application displays a single window view of the connections within a
 \yarp{} network, with features designed to make management of an \mplusm{} installation
 easier.\\
@@ -87,22 +82,16 @@ specific port.\\
 Clicking on a rectangular object with no modifier key held down allows the user to drag
 the object around in the window.
 Note that connections cannot be selected by clicking on them.
-
 \tertiaryEnd{\utilityNameE[Channel~Manager]{ChannelManager}}
-
 \secondaryEnd{}
-
 \newpage
-\secondaryStart{Command--Line~Utilities}
-
+\secondaryStart[CommandLineUtilities]{Command--Line~Utilities}
 \mplusm{} includes a number of command--line tools that provide some of the functionality
 of the GUI--based tool, \utilityNameR[Channel~Manager]{ChannelManager}.
 As well, the native \yarp{} command--line tools to create and remove connections can be
 used with \mplusm{}, but it is very easy to create a non--functional installation if care
 is not taken.
-
 \tertiaryStart{\utilityNameP{mpmClientList}}
-
 The program \utilityNameR{mpmClientList} displays the clients for services that have
 connections with state.
 A service that has persistent state for its connections retains information from each
@@ -110,50 +99,52 @@ request for the following request.
 An example service with persistent state is
 \examplesNameR{Services}{mpmRunningSumService}, where the information that is kept is the
 running sum for the connected client.
-The program takes an optional argument for the name of the primary channel of the service;
-if no argument is provided, all services are checked for connections with persistent
-state.
+The program takes an optional argument for the \yarp{} network port of the service; if no
+argument is provided, all services are checked for connections with persistent state.
 It has two command--line options:
 \begin{itemize}
 \item \textbf{--j} generate JSON--formatted output
 \item \textbf{--t} generate output in tab--delimited form
 \end{itemize}
+If neither option is present, the output is written as simple text.\\
 
-If neither option is present, the output is written as simple text.
-The default output is:
-\begin{quote}
-Service: /\serviceName/example/runningSum\\
-\settowidth{\utilLen}{Service: }%
+The output specifies the \yarp{} network port of a service with persistent state and the
+\yarp{} network ports that are connected to it.\\
+
+For example, the default output could be:
+\outputBegin{}
+Service:\ /\serviceName/example/runningSum\\
+\settowidth{\utilLen}{Service:\ }%
 Clients:\\
 \hspace*{\utilLen}/\clientName/example/runningsum\textunderscore{}4896162
-\end{quote}
+\outputEnd{}
 or, if JSON--formatted output is requested:
-\begin{quote}
-[ \textbraceleft{} \dquote{}Service\dquote{}:
-\dquote{}/\serviceName/example/runningSum\dquote{},
- \dquote{}Client\dquote{}:
- \dquote{}/\clientName/example/runningsum\textunderscore{}4896162\dquote{}
- \textbraceright{} ]
-\end{quote}
-or, if tab--delimited output is requested:
-\begin{quote}
+\outputBegin{}
+[ \textbraceleft{} "Service":\ "/\serviceName/example/runningSum", "Client":\ \\
+"/\clientName/example/runningsum\textunderscore{}4896162" \textbraceright{} ]
+\outputEnd{}
+or, if tab--delimited output is requested, with tabs shown as
+'\texttt{\boldmath{$\vdash$}}':
+\outputBegin{}
 /\serviceName/example/runningSum\pseudotab{}%
 /\clientName/example/runningsum\textunderscore{}4896162
-\end{quote}
+\outputEnd{}
 Note that, if no clients are found, the JSON--formatted output would be:
-\begin{quote}
+\outputBegin{}
 [  ]
-\end{quote}
+\outputEnd{}
 while the default output would be:
-\begin{quote}
+\outputBegin{}
 No client connections found.
-\end{quote}
+\outputEnd{}
 and the tab--delimited output would be empty.
-
+If no matching service is found, the default output would be:
+\outputBegin{}
+No services found.
+\outputEnd{}
+and the JSON--formatted and tab--delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{mpmClientList}}
-
 \tertiaryStart{\utilityNameP{mpmPortLister}}
-
 The program \utilityNameR{mpmPortLister} displays the active \yarp{} ports and \mplusm{}
 entities.
 For each \yarp{} port, its role in the \mplusm{} installation is shown as well as any
@@ -165,90 +156,173 @@ It has two command--line options:
 \item \textbf{--j} generate JSON--formatted output
 \item \textbf{--t} generate output in tab--delimited form
 \end{itemize}
+If neither option is present, the output is written as simple text.\\
 
-If neither option is present, the output is written as simple text.
-The default output is:
-\begin{quote}
+The output specifies the all the active \yarp{} network ports along with their input and
+output \yarp{} network ports; regular \yarp{} network ports are tagged as 'Standard',
+while \mplusm{} adapter ports are tagged as 'Adapter', \mplusm{} client ports are tagged
+as 'Client' and \mplusm{} service ports are tagged as 'Service' or 'Service registry'.\\
+
+'Standard' ports report their IP address and network port while 'Adapter' ports report
+the \mplusm{} port of their client application, 'Client' ports report their attached
+'Adapter' ports, if any are present and 'Service' ports report the name of the \mplusm{}
+service that they provide.
+The connections indicate their direction relative to the \yarp{} network port that is
+being listed, along with the \yarp{} network port that is being connected to and the mode
+of the connection, such as TCP or UDP.\\
+
+For example, the default output could be:
+\outputBegin{}
 Ports:\\
 \settowidth{\utilLen}{Por}%
-/\textdollar{}ervice: Service registry port for \squote{}Registry\squote{}.\\
+/\textdollar{}ervice:\ Service registry port for 'Registry'.\\
 \hspace*{\utilLen}No active connections.\\
-/\textdollar{}ervice/status: Standard port at 10.0.1.2:10008.\\
+/\textdollar{}ervice/status:\ Standard port at 10.0.1.2:10008.\\
 \hspace*{\utilLen}Output to /reader via UDP.\\
-/reader: Standard port at 10.0.1.2:10003.\\
+/reader:\ Standard port at 10.0.1.2:10003.\\
 \hspace*{\utilLen}Input from /writer2 via TCP.\\
 \hspace*{\utilLen}Input from /writer via TCP.\\
 \hspace*{\utilLen}Input from /\textdollar{}ervice/status via UDP.\\
-/writer: Standard port at 10.0.1.2:10002.\\
+/writer:\ Standard port at 10.0.1.2:10002.\\
 \hspace*{\utilLen}Output to /reader via TCP.\\
-/writer2: Standard port at 10.0.1.2:10004.\\
+/writer2:\ Standard port at 10.0.1.2:10004.\\
 \hspace*{\utilLen}Output to /reader via TCP.
-\end{quote}
+\outputEnd{}
 or, if JSON--formatted output is requested:
-\begin{quote}
-[ \textbraceleft{} \dquote{}PortName\dquote{}: \dquote{}/\textdollar{}ervice\dquote{},
-\dquote{}PortClass\dquote{}: \dquote{}Service~registry~port~for
-\squote{}Registry\squote{}\dquote{}, \\
-\dquote{}Inputs\dquote{}: [  ], \dquote{}Outputs\dquote{}: [  ] \textbraceright{},
-\textbraceleft{} \dquote{}PortName\dquote{}:
-\dquote{}/\textdollar{}ervice/status\dquote{}, \dquote{}PortClass\dquote{}:\\
-\dquote{}Standard~port~at~10.0.1.2:10008\dquote{}, \dquote{}Inputs\dquote{}: [  ],
-\dquote{}Outputs\dquote{}: [ \textbraceleft{} \dquote{}Port\dquote{}:
-\dquote{}/reader\dquote{}, \\
-\dquote{}Mode\dquote{}: \dquote{}UDP\dquote{} \textbraceright{} ] \textbraceright{},
-\textbraceleft{} \dquote{}PortName\dquote{}: \dquote{}/reader\dquote{},
-\dquote{}PortClass\dquote{}: \dquote{}Standard~port~at~10.0.1.2:10003\dquote{},\\
-\dquote{}Inputs\dquote{}: [ \textbraceleft{} \dquote{}Port\dquote{}:
-\dquote{}/writer2\dquote{}, \dquote{}Mode\dquote{}: \dquote{}TCP\dquote{}
-\textbraceright{}, \textbraceleft{} \dquote{}Port\dquote{}: \dquote{}/writer\dquote{},
-\dquote{}Mode\dquote{}: \dquote{}TCP\dquote{} \textbraceright{},\\
-\textbraceleft{} \dquote{}Port\dquote{}: \dquote{}/\textdollar{}ervice/status\dquote{},
-\dquote{}Mode\dquote{}: \dquote{}UDP\dquote{} \textbraceright{} ],
-\dquote{}Outputs\dquote{}: [  ] \textbraceright{}, \textbraceleft{}
-\dquote{}PortName\dquote{}: \dquote{}/writer\dquote{},\\
-\dquote{}PortClass\dquote{}: \dquote{}Standard~port~at~10.0.1.2:10002\dquote{},
-\dquote{}Inputs\dquote{}: [  ], \dquote{}Outputs\dquote{}: [ \textbraceleft{}
-\dquote{}Port\dquote{}: \dquote{}/reader\dquote{},\\
-\dquote{}Mode\dquote{}: \dquote{}TCP\dquote{} \textbraceright{} ] \textbraceright{},
-\textbraceleft{} \dquote{}PortName\dquote{}: \dquote{}/writer2\dquote{},
-\dquote{}PortClass\dquote{}: \dquote{}Standard~port~at~10.0.1.2:10004\dquote{},\\
-\dquote{}Inputs\dquote{}: [  ], \dquote{}Outputs\dquote{}: [ \textbraceleft{}
-\dquote{}Port\dquote{}: \dquote{}/reader\dquote{}, \dquote{}Mode\dquote{}:
-\dquote{}TCP\dquote{} \textbraceright{} ] \textbraceright{} ]
-\end{quote}
-or, if tab--delimited output is requested:
-\begin{quote}
-/\textdollar{}ervice\pseudotab{}Service~registry~port~for~\squote{}Registry\squote{}\\		
-/\textdollar{}ervice/status\pseudotab{}Standard~port~at~10.0.1.2:10008\pseudotab{}/reader~UDP\\
-/reader\pseudotab{}Standard~port~at~10.0.1.2:10003\pseudotab{}/writer2~TCP,
-/writer~TCP, /\textdollar{}ervice/status~UDP\\
-/writer\pseudotab{}Standard~port~at~10.0.1.2:10002\pseudotab{}/reader~TCP\\
-/writer2\pseudotab{}Standard~port~at~10.0.1.2:10004\pseudotab{}/reader~TCP
-\end{quote}
+\outputBegin{}
+[ \textbraceleft{} "PortName":\ "/\textdollar{}ervice",
+"PortClass":\ "Service~registry~port~for~'Registry'", "Inputs":\ [  ], "Outputs":\ [  ]
+\textbraceright{}, \textbraceleft{} "PortName":\ "/\textdollar{}ervice/status",
+"PortClass":\ \\
+"Standard~port~at~10.0.1.2:10008", "Inputs":\ [  ], "Outputs":\ [ \textbraceleft{}
+"Port":\ "/reader", "Mode":\ "UDP" \textbraceright{} ] \textbraceright{}, \textbraceleft{}
+"PortName":\ "/reader", "PortClass":\ \\
+"Standard~port~at~10.0.1.2:10003", "Inputs":\ [ \textbraceleft{} "Port":\ "/writer2",
+"Mode":\ "TCP" \textbraceright{}, \textbraceleft{} "Port":\ "/writer", "Mode":\ "TCP"
+\textbraceright, \textbraceleft{} "Port":\ "/\textdollar{}ervice/status", "Mode":\ "UDP"
+\textbraceright{} ], "Outputs":\ [  ] \textbraceright, \textbraceleft{}
+"PortName":\ "/writer", "PortClass":\ \\
+"Standard~port~at~10.0.1.2:10002", "Inputs":\ [  ], "Outputs":\ [ \textbraceleft{}
+"Port":\ "/reader", "Mode":\ "TCP" \textbraceright{} ] \textbraceright{}, \textbraceleft{}
+"PortName":\ "/writer2", "PortClass":\ \\
+"Standard~port~at~10.0.1.2:10004", "Inputs":\ [  ], "Outputs":\ [ \textbraceleft{}
+"Port":\ "/reader", "Mode":\ "TCP" \textbraceright{} ] \textbraceright{} ]
+\outputEnd{}
+or, if tab--delimited output is requested, with tabs shown as
+'\texttt{\boldmath{$\vdash$}}':
+\outputBegin{}
+/\textdollar{}ervice\pseudotab{}Service~registry~port~for~'Registry'\\		
+/\textdollar{}ervice/status\pseudotab{}Standard~port~at~10.0.1.2:10008\pseudotab/%
+reader~UDP\\
+/reader\pseudotab{}Standard~port~at~10.0.1.2:10003\pseudotab/writer2~TCP,
+/writer~TCP,\\
+\hspace*{2em}/\textdollar{}ervice/status~UDP\\
+/writer\pseudotab{}Standard~port~at~10.0.1.2:10002\pseudotab/reader~TCP\\
+/writer2\pseudotab{}Standard~port~at~10.0.1.2:10004\pseudotab/reader~TCP
+\outputEnd{}
 Note that, if no ports are found, the JSON--formatted output would be:
-\begin{quote}
+\outputBegin{}
 [  ]
-\end{quote}
+\outputEnd{}
 while the default output would be:
-\begin{quote}
+\outputBegin{}
 Ports:\\
 \settowidth{\utilLen}{Por}%
 \hspace*{\utilLen}No ports found.
-\end{quote}
+\outputEnd{}
 and the tab--delimited output would be empty.
-
 \tertiaryEnd{\utilityNameE{mpmPortLister}}
-
 \tertiaryStart{\utilityNameP{mpmRequestInfo}}
+The program \utilityNameR{mpmRequestInfo} displays information on requests for one or more
+active services in the \mplusm{} installation.
+It lists each request, along with the \yarp{} network port for the service that handles
+the request and details about the request.
+The program takes two optional arguments for the \yarp{} network port of the service and
+the request to get information on; if the request is not specified, all requests for the
+given service are shown and, if no port is specified, all requests for all services are
+displayed.
+It has two command--line options:
+\begin{itemize}
+\item \textbf{--j} generate JSON--formatted output
+\item \textbf{--t} generate output in tab--delimited form
+\end{itemize}
+If neither option is present, the output is written as simple text.\\
 
-			||TBD TBD TBD||
+The output consists of the \yarp{} network port that is used by the service, the name of
+the request, its version number, a description of the request, including its expected
+input and expected output, as well as alternate names for the request and the format of
+its inputs and outputs.\\
 
-			||/TBD TBD TBD||
+The input and output formats have a symbolic representation, which is currently used for
+descriptive purposes and not actually validated by the services.\\
 
+An 'i' represents an integer value, a 'd' represents a floating--point ('double') value,
+an 'n' represents a numeric value (either an integer or a floating--point number), an 's'
+represents a string and a '.' represents an arbitrary value.\\
+
+Values can be grouped in lists by being preceded by a '(' and followed by a ')';
+concatenation of values indicates sequential appearance of the values.
+That is, 'sis' indicates a sequence consisting of a string, and integer and another
+string.\\
+
+A ':' indicates a key / value pair and a dictionary is indicated by a leading '[' and a
+trailing ']'.\\
+
+'?' after an item indicates that the item is optional, '*' indicates that the preceding
+item may appear zero or more times and '+' indicates that the preceding item may appear
+one or more times.\\
+
+For example, the default output when both the service and the request are specified could
+be:
+\outputBegin{}
+\begin{tabular}{lp{12.75cm}}
+Service Port:\ & /\textdollar{}ervice\\
+Request:\ & register\\
+Version:\ & 1.0\\
+Details:\ & Register the service and its requests\\
+ & Input:\ the channel used by the service\\
+ & Output:\ OK or FAILED, with a description of the problem encountered\\
+Keywords:\ & register add\\
+Inputs:\ & s\\
+Outputs:\ & s\\
+\end{tabular}
+\outputEnd{}
+or, if JSON--formatted output is requested:
+\outputBegin{}
+[ \textbraceleft{} "Port":\ "//\textdollar{}ervice", "Request":\ "register",
+"Version":\ "1.0", "Details":\ \\
+"Register the service and its requests\textbackslash{}nInput:\ the channel used by the\\
+service\textbackslash{}nOutput:\ OK or FAILED, with a description of the problem
+encountered", "Keywords":\ [ "register", "add" ], "Inputs":\ "s", "Outputs":\ "s"
+\textbraceright{} ]
+\outputEnd{}
+or, if tab--delimited output is requested, with tabs shown as
+'\texttt{\boldmath{$\vdash$}}':
+\outputBegin{}
+/\textdollar{}ervice\pseudotab{}register\pseudotab{}1.0\pseudotab{}Register the service
+and its requests\textbackslash{}nInput:\ the channel used by the
+service\textbackslash{}nOutput:\ OK or FAILED, with a description of the problem\\
+encountered\pseudotab{}register add\pseudotab{}s\pseudotab{}s
+\outputEnd{}
+For the default output, multiple entries will be separated by a blank line; for
+tab--delimited output each entry is on a line by itself and for JSON--formatted output,
+the entries are objects within an array.
+Note that, if no matching request is found, the JSON--formatted output would be:
+\outputBegin{}
+[  ]
+\outputEnd{}
+while the default output would be:
+\outputBegin{}
+No matching request found.
+\outputEnd{}
+and the tab--delimited output would be empty.
+If no matching service is found, the default output would be:
+\outputBegin{}
+No services found.
+\outputEnd{}
+and the JSON--formatted and tab--delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{mpmRequestInfo}}
-
 \tertiaryStart{\utilityNameP{mpmServiceLister}}
-
 The program \utilityNameR{mpmServiceLister} displays the active services in the \mplusm{}
 installation.
 It lists each service, along with the service description and requests, as well as the
@@ -259,161 +333,168 @@ It has two command--line options:
 \item \textbf{--j} generate JSON--formatted output
 \item \textbf{--t} generate output in tab--delimited form
 \end{itemize}
+If neither option is present, the output is written as simple text.\\
 
-If neither option is present, the output is written as simple text.
-The default output is:
-\begin{quote}
+The output consists of the \yarp{} network port for the service, the 'canonical' name of
+the service, the kind of service ('Filter', 'Input', 'Output', 'Normal' or 'Registry'), a
+short description of the service, a short description of the requests supported by the
+service, the path to the executable for the service and any secondary input or output
+\yarp{} network ports attached to the service.\\
 
-Services:\\
+Note that the description of requests supported by the service does not include the
+\secondaryRef{BasicRequests}{'basic'} requests handled by all services or, in the case of
+Input~/~Output services, the \secondaryRef{InputOutputRequests}{'input~/~output'}
+requests.\\
+
+For each secondary input or output \yarp{} network port, the protocol supported by the
+port is shown.
+Note that secondary port protocols have no specific format -- they are simple strings that
+must match in order for a connection to be established with the port.
+By convention, protocol strings can have formats similar to the input and output formats
+for requests, but there is no requirement that the protocol strings have any particular
+structure.\\
+
+If a protocol is not specified for a secondary input port, then it will accept any data;
+if no protocol is specified for a secondary output port, then its output data has no
+particular structure and can only be connected to a \yarp{} network port that has no
+protocol.
+\newpage
+For example, the default output could be:
+\outputBegin{}
+\begin{tabular}{lp{12.5cm}}
+Services:\ & \\
 \\
-%Service port:      /\textdollar{}ervice
-%Service name:      Registry
-%Service kind:      Registry
-%Description:       The Service Registry service
-%Requests:          associate - associate a channel with another channel
-%                   disassociate - remove all associations for a channel
-%                   getAssociates - return the associations of a channel
-%                   match - return the channels for services matching the criteria provided
-%                   ping - update the last-pinged information for a channel or record the information for a service on the given channel
-%                   register - record the information for a service on the given channel
-%                   unregister - remove the information for a service on the given channel
-%Path:              /Users/\textellipsis{}/mpmRegistryService
-%Secondary outputs: /\textdollar{}ervice/status{protocol=s}
-%
-%Service port:      /\serviceName/example/randomburststream\textunderscore{}5580745
-%Service name:      RandomBurst
-%Service kind:      Input
-%Description:       The random burst input service
-%Requests:          
-%Path:              /Users/\textellipsis{}/mpmRandomBurstStreamService
-%Secondary outputs: /example/randomburststream/output\textunderscore{}29511ad{protocol=d+}
-%
-%Service port:      /\serviceName/example/recordintegersstream\textunderscore{}10efc07
-%Service name:      RecordIntegers
-%Service kind:      Output
-%Description:       The record integers output service
-%Requests:          
-%Path:              /Users/\textellipsis{}/mpmRecordIntegersStreamService
-%Secondary inputs:  /example/recordintegersstream/input\textunderscore{}5090e26{protocol=i+}
-%
-%Service port:      /\serviceName/example/truncatefilterstream\textunderscore{}2ee58eb
-%Service name:      TruncateFilter
-%Service kind:      Filter
-%Description:       The truncate filter stream service
-%Requests:          
-%Path:              /Users/\textellipsis{}/mpmTruncateFilterStreamService
-%Secondary inputs:  /example/truncatefilterstream/input\textunderscore{}39b1d9f{protocol=d+}
-%Secondary outputs: /example/truncatefilterstream/output\textunderscore{}6a7d189{protocol=i+}
-
-%Service: /\serviceName/example/runningSum\\
-%\settowidth{\utilLen}{Service: }%
-%Clients:\\
-%\hspace*{\utilLen}/\clientName/example/runningsum\textunderscore{}4896162
-
-\end{quote}
+Service port:\ & /\textdollar{}ervice\\
+Service name:\ & Registry\\
+Service kind:\ & Registry\\
+Description:\ & The Service Registry service\\
+Requests:\ & associate - associate a channel with another channel\\
+ & disassociate - remove all associations for a channel\\
+ & getAssociates - return the associations of a channel\\
+ & match - return the channels for services matching the criteria provided\\
+ & ping - update the last-pinged information for a channel or record the information for a
+ service on the given channel\\
+ & register - record the information for a service on the given channel\\
+ & unregister - remove the information for a service on the given channel\\
+Path:\ & \textellipsis/mpmRegistryService\\
+Secondary outputs:\ & /\textdollar{}ervice/status\textbraceleft{}protocol=s%
+\textbraceright\\
+\\
+Service port:\ & /\serviceName/example/randomburststream\textunderscore{}5580745\\
+Service name:\ & RandomBurst\\
+Service kind:\ & Input\\
+Description:\ & The random burst input service\\
+Requests:\ & \\
+Path:\ & \textellipsis/mpmRandomBurstStreamService\\
+Secondary outputs:\ & /example/randomburststream/output\textunderscore{}29511ad%
+\textbraceleft{}protocol=d+\textbraceright\\
+\\
+Service port:\ & /\serviceName/example/recordintegersstream\textunderscore{}10efc07\\
+Service name:\ & RecordIntegers\\
+Service kind:\ & Output\\
+Description:\ & The record integers output service\\
+Requests:\ & \\
+Path:\ & \textellipsis/mpmRecordIntegersStreamService\\
+Secondary inputs:\ & /example/recordintegersstream/input\textunderscore{}5090e26%
+\textbraceleft{}protocol=i+\textbraceright\\
+\\
+Service port:\ & /\serviceName/example/truncatefilterstream\textunderscore{}2ee58eb\\
+Service name:\ & TruncateFilter\\
+Service kind:\ & Filter\\
+Description:\ & The truncate filter stream service\\
+Requests:\ & \\
+Path:\ & \textellipsis/mpmTruncateFilterStreamService\\
+Secondary inputs:\ & /example/truncatefilterstream/input\textunderscore{}39b1d9f%
+\textbraceleft{}protocol=d+\textbraceright\\
+Secondary outputs:\ & /example/truncatefilterstream/output\textunderscore{}6a7d189%
+\textbraceleft{}protocol=i+\textbraceright
+\end{tabular}
+\outputEnd{}
 or, if JSON--formatted output is requested:
-\begin{quote}
-[ \textbraceleft{} \dquote{}ServicePort\dquote{}: \dquote{}/\textdollar{}ervice\dquote{},
-\dquote{}ServiceName\dquote{}: \dquote{}Registry\dquote{}, \dquote{}ServiceKind\dquote{}:
-\dquote{}Registry\dquote{}, \dquote{}Description\dquote{}: \dquote{}The Service Registry
-service\dquote{}, \dquote{}Requests\dquote{}: \dquote{}associate -- associate a channel
-with another channel\textbackslash{}n\\
-disassociate -- remove all associations for a channel\textbackslash{}ngetAssociates --
-return the associations of a\\
-channel\textbackslash{}nmatch -- return the channels for services matching the criteria
-provided\textbackslash{}nping -- update the last--pinged information for a channel or
-record the information for a service on the given channel\textbackslash{}nregister --
-record the information for a service on the given channel\textbackslash{}nunregister --
-remove the information for a service on the given channel\dquote{}, \dquote{}Path%
-\dquote{}: \dquote{}/Users/\textellipsis{}/mpmRegistryService\dquote{}, \dquote{}%
-SecondaryInputs\dquote{}: [  ], \dquote{}SecondaryOutputs\dquote{}:
-[ \textbraceleft{} \dquote{}Name\dquote{}: \dquote{}/\textdollar{}ervice/status\dquote{},
-\dquote{}Protocol\dquote{}: \dquote{}s\dquote{} \textbraceright{} ] \textbraceright{},\\
-\textbraceleft{} \dquote{}ServicePort\dquote{}: \dquote{}/\serviceName/example/%
-randomburststream\textunderscore{}5580745\dquote{}, \dquote{}ServiceName\dquote{}:
-\dquote{}RandomBurst\dquote{}, \dquote{}ServiceKind\dquote{}: \dquote{}Input\dquote{},
-\dquote{}Description\dquote{}: \dquote{}The random burst input service\dquote{},
-\dquote{}Requests\dquote{}: \dquote{}\dquote{}, \dquote{}Path\dquote{}:
-\dquote{}/Users/\textellipsis{}/mpmRandomBurstStreamService\dquote{},
-\dquote{}SecondaryInputs\dquote{}: [  ], \dquote{}SecondaryOutputs\dquote{}: [
-\textbraceleft{} \dquote{}Name\dquote{}: \dquote{}%
-/example/randomburststream/output\textunderscore{}29511ad\dquote{},
-\dquote{}Protocol\dquote{}: \dquote{}d+\dquote{} \textbraceright{} ] \textbraceright{},\\
-\textbraceleft{} \dquote{}ServicePort\dquote{}:
-\dquote{}/\serviceName/example/recordintegersstream\textunderscore{}10efc07\dquote{},
-\dquote{}ServiceName\dquote{}: \dquote{}RecordIntegers\dquote{},
-\dquote{}ServiceKind\dquote{}: \dquote{}Output\dquote{}, \dquote{}Description\dquote{}:
-\dquote{}The record integers output service\dquote{}, \dquote{}Requests\dquote{}:
-\dquote{}\dquote{}, \dquote{}Path\dquote{}: \dquote{}/Users/\textellipsis{}/%
-mpmRecordIntegersStreamService\dquote{}, \dquote{}SecondaryInputs\dquote{}: [
-\textbraceleft{} \dquote{}Name\dquote{}:\\
-\dquote{}/example/recordintegersstream/input\textunderscore{}5090e26\dquote{},
-\dquote{}Protocol\dquote{}: \dquote{}i+\dquote{}
-\textbraceright{} ], \dquote{}SecondaryOutputs\dquote{}: [  ] \textbraceright{},\\
-\textbraceleft{} \dquote{}ServicePort\dquote{}:
-\dquote{}/\serviceName/example/truncatefilterstream\textunderscore{}2ee58eb\dquote{},
-\dquote{}ServiceName\dquote{}: \dquote{}TruncateFilter\dquote{},
-\dquote{}ServiceKind\dquote{}: \dquote{}Filter\dquote{}, \dquote{}Description\dquote{}:
-\dquote{}The truncate filter stream service\dquote{}, \dquote{}Requests\dquote{}:
-\dquote{}\dquote{}, \dquote{}Path\dquote{}: \dquote{}/Users/\textellipsis{}/%
-mpmTruncateFilterStreamService\dquote{}, \dquote{}SecondaryInputs\dquote{}: [
-\textbraceleft{} \dquote{}Name\dquote{}:\\
-\dquote{}/example/truncatefilterstream/input\textunderscore{}39b1d9f\dquote{},
-\dquote{}Protocol\dquote{}: \dquote{}d+\dquote{} \textbraceright{} ],
-\dquote{}SecondaryOutputs\dquote{}: [ \textbraceleft{} \dquote{}Name\dquote{}:\\
-\dquote{}/example/truncatefilterstream/output\textunderscore{}6a7d189\dquote{},
-\dquote{}Protocol\dquote{}: \dquote{}i+\dquote{} \textbraceright{} ] \textbraceright{} ]
-\end{quote}
-or, if tab--delimited output is requested:
-\begin{quote}
+\outputBegin{}
+[ \textbraceleft{} "ServicePort":\ "/\textdollar{}ervice", "ServiceName":\ "Registry",
+"ServiceKind":\ "Registry", "Description":\ "The Service Registry service",
+"Requests":\ "associate - associate a channel with another channel\textbackslash{}%
+ndisassociate - remove all associations for a\\
+channel\textbackslash{}ngetAssociates - return the associations of a channel%
+\textbackslash{}nmatch - return the channels for services matching the criteria
+provided\textbackslash{}nping - update the last-pinged information for a channel or record
+the information for a service on the given channel\textbackslash{}nregister - record the
+information for a service on the given\\
+channel\textbackslash{}nunregister - remove the information for a service on the given channel",
+"Path":\ "\textellipsis/mpmRegistryService", "SecondaryInputs":\ [  ],
+"SecondaryOutputs":\ [ \textbraceleft{} "Name":\ "/\textdollar{}ervice/status",
+"Protocol":\ "s" \textbraceright{} ] \textbraceright, \textbraceleft{} "ServicePort":\ \\
+"/\serviceName/example/randomburststream\textunderscore{}5580745", "ServiceName":\ %
+"RandomBurst",\\
+"ServiceKind":\ "Input", "Description":\ "The random burst input service",\\
+"Requests":\ "", "Path":\ "\textellipsis/mpmRandomBurstStreamService",
+"SecondaryInputs":\ [  ], "SecondaryOutputs":\ [ \textbraceleft{}
+"Name":\ "/example/randomburststream/output\textunderscore{}29511ad", "Protocol":\ "d+"
+\textbraceright{} ] \textbraceright, \textbraceleft{} "ServicePort":\  \\
+"/\serviceName/example/recordintegersstream\textunderscore{}10efc07",
+"ServiceName":\ "RecordIntegers", "ServiceKind":\ "Output",
+"Description":\ "The record integers output service",\\
+"Requests":\ "", "Path":\ "\textellipsis/mpmRecordIntegersStreamService",
+"SecondaryInputs":\ [ \textbraceleft{}
+"Name":\ "/example/recordintegersstream/input\textunderscore{}5090e26", "Protocol":\ "i+"
+\textbraceright{} ], "SecondaryOutputs":\ [  ] \textbraceright, \textbraceleft{}
+"ServicePort":\ \\
+"/\serviceName/example/truncatefilterstream\textunderscore{}2ee58eb",
+"ServiceName":\ "TruncateFilter", "ServiceKind":\ "Filter",
+"Description":\ "The truncate filter stream service",\\
+"Requests":\ "", "Path":\ "\textellipsis/mpmTruncateFilterStreamService",
+"SecondaryInputs":\ [ \textbraceleft{}
+"Name":\ "/example/truncatefilterstream/input\textunderscore{}39b1d9f", "Protocol":\ "d+"
+\textbraceright{} ], "SecondaryOutputs":\ [ \textbraceleft{}
+"Name":\ "/example/truncatefilterstream/output\textunderscore{}6a7d189", "Protocol":\ "i+"
+\textbraceright{} ] \textbraceright{} ]
+\outputEnd{}
+or, if tab--delimited output is requested, with tabs shown as
+'\texttt{\boldmath{$\vdash$}}':
+\outputBegin{}
 /\textdollar{}ervice\pseudotab{}Registry\pseudotab{}Registry\pseudotab{}The Service
-Registry service\pseudotab{}associate -- associate a channel with another
-channel\textbackslash{}ndisassociate -- remove all associations for a
-channel\textbackslash{}ngetAssociates -- return the\\
-associations of a channel\textbackslash{}nmatch -- return the channels for services
-matching the criteria provided\textbackslash{}nping\\
--- update the last--pinged information for a channel or record the information for a
-service on the given\\
-channel\textbackslash{}nregister --record the information for a service on the given
-channel\textbackslash{}nunregister -- remove the\\
-information for a service on the given channel\pseudotab{}%
-/Users/\textellipsis{}/mpmRegistryService\pseudotab{}%
-\pseudotab{}\\
-/\textdollar{}ervice/status\textbraceleft{}protocol=s\textbraceright{}\\
+Registry service\pseudotab{}associate - associate a channel with another
+channel\textbackslash{}ndisassociate - remove all associations for a\\
+channel\textbackslash{}ngetAssociates - return the associations of a channel
+\textbackslash{}nmatch - return the channels for services matching the criteria
+provided\textbackslash{}nping - update the last-pinged information for a channel or record
+the information for a service on the given channel\textbackslash{}nregister - record the
+information for a service on the given\\
+channel\textbackslash{}nunregister - remove the information for a service on the given
+channel\pseudotab\\
+\textellipsis/mpmRegistryService\pseudotwotabs/\textdollar{}ervice/status%
+\textbraceleft{}protocol=s\textbraceright\\
 
 /\serviceName/example/randomburststream\textunderscore{}5580745\pseudotab{}%
-RandomBurst\pseudotab{}Input\pseudotab{}The random burst input\\
-service\pseudotab{}\pseudotab{}%
-/Users/\textellipsis{}/mpmRandomBurstStreamService\pseudotab{}\pseudotab{}\\
+RandomBurst\pseudotab{}Input\pseudotab\\
+The random burst input service\pseudotwotabs\textellipsis/mpmRandomBurstStreamService%
+\pseudotwotabs\\
 /example/randomburststream/output\textunderscore{}29511ad\textbraceleft{}protocol=d+%
-\textbraceright{}\\
+\textbraceright\\
 
 /\serviceName/example/recordintegersstream\textunderscore{}10efc07\pseudotab{}%
-RecordIntegers\pseudotab{}Output\pseudotab{}The record integers\\
-output service\pseudotab{}\pseudotab{}/Users/\textellipsis{}%
-/mpmRecordIntegersStreamService\pseudotab{}\\
+RecordIntegers\pseudotab{}Output\pseudotab\\
+The record integers output service\pseudotwotabs\textellipsis/%
+mpmRecordIntegersStreamService\pseudotab\\
 /example/recordintegersstream/input\textunderscore{}5090e26\textbraceleft{}%
-protocol=i+\textbraceright{}\\
+protocol=i+\textbraceright\\
 
 /\serviceName/example/truncatefilterstream\textunderscore{}2ee58eb\pseudotab{}%
-TruncateFilter\pseudotab{}Filter\pseudotab{}The truncate filter stream\\
-service\pseudotab{}\pseudotab{}/Users/\textellipsis{}/mpmTruncateFilterStreamService%
-\pseudotab{}\\
+TruncateFilter\pseudotab{}Filter\pseudotab\\
+The truncate filter stream service\pseudotwotabs\textellipsis/%
+mpmTruncateFilterStreamService\pseudotab\\
 /example/truncatefilterstream/input\textunderscore{}39b1d9f\textbraceleft{}%
-protocol=d+\textbraceright{}\pseudotab{}\\
+protocol=d+\textbraceright\pseudotab\\
 /example/truncatefilterstream/output\textunderscore{}6a7d189\textbraceleft{}%
-protocol=i+\textbraceright{}
-\end{quote}
-
+protocol=i+\textbraceright
+\outputEnd{}
 For clarity, the full paths to the executables have been shortened and blank lines have
 been added; in the actual output the paths would be absolute paths and there would be no
 blank lines between the output rows.
 Note that, if no services are found, the output would be empty.
-
 \tertiaryEnd{\utilityNameE{mpmServiceLister}}
-
 \tertiaryStart{\utilityNameP{mpmVersion}}
-
 The program \utilityNameR{mpmVersion} displays the version numbers for \mplusm{}, \yarp{}
 and ACE, the low--level networking layer used by \mplusm{} and \yarp{}.
 It has two command--line options:
@@ -421,51 +502,62 @@ It has two command--line options:
 \item \textbf{--j} generate JSON--formatted output
 \item \textbf{--t} generate output in tab--delimited form
 \end{itemize}
+If neither option is present, the output is written as simple text.\\
 
-If neither option is present, the output is written as simple text.
-The default output is:
-\begin{quote}
-Movement And Meaning Version: 1.4.8, YARP Version: 2.3.61, ACE Version: 6.2.6
-\end{quote}
+For example, the default output could be:
+\outputBegin{}
+Movement And Meaning Version:\ 1.4.8, YARP Version:\ 2.3.61, ACE Version:\ 6.2.6
+\outputEnd{}
 or, if JSON--formatted output is requested:
-\begin{quote}
-\textbraceleft{} \dquote{}M+M\dquote{}: \dquote{}1.4.8\dquote{}, \dquote{}YARP\dquote{}:
- \dquote{}2.3.61\dquote{}, \dquote{}ACE\dquote{}: \dquote{}6.2.6\dquote{}
- \textbraceright{}
-\end{quote}
-or, if tab--delimited output is requested:
-\begin{quote}
+\outputBegin{}
+\textbraceleft{} "M+M":\ "1.4.8", "YARP":\ "2.3.61", "ACE":\ "6.2.6" \textbraceright
+\outputEnd{}
+or, if tab--delimited output is requested, with tabs shown as
+'\texttt{\boldmath{$\vdash$}}':
+\outputBegin{}
 1.4.8\pseudotab{}2.3.61\pseudotab{}6.2.6
-\end{quote}
-
+\outputEnd{}
 \tertiaryEnd{\utilityNameE{mpmVersion}}
-
 \secondaryEnd{}
-
 \newpage
-
-\secondaryStart{Utility~Services~and~Clients}
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+\secondaryStart[UtilityServicesAndClients]{Utility~Services~and~Clients}
 \tertiaryStart{\utilityNameP{mpmRequestCounterService}}
+The \utilityNameR{mpmRequestCounterService} application is a background service that is
+used to determine the average time to send a simple request, process it and return a
+response.\\
 
-			||TBD TBD TBD||
+It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{reset} and
+\requestsNameR{Miscellaneous}{Miscellaneous}{stats} requests sent by the
+companion application \utilityNameR{mpmRequestCounterService} to manage the statistics
+that it gathers.\\
 
-			||/TBD TBD TBD||
-
+Note that only one copy of the \utilityNameR{mpmRequestCounterService} application can be
+running at a time in an \mplusm{} installation, due to its fixed \yarp{} network port.
 \tertiaryEnd{\utilityNameE{mpmRequestCounterService}}
-
 \tertiaryStart{\utilityNameP{mpmRequestCounterClient}}
+The \utilityNameR{mpmRequestCounterClient} application is a command--line tool to
+measure the average time to process a simple request.\\
 
-			||TBD TBD TBD||
+It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{reset} and
+\requestsNameR{Miscellaneous}{Miscellaneous}{stats} requests sent to the
+\utilityNameR{mpmRequestCounterService} application to gather the statistics, and a
+'dummy' request to provide the requests that are being measured.\\
 
-			||/TBD TBD TBD||
-
+The program has no arguments or options; it asks for the number of requests to send via
+the prompt:
+\outputBegin{}
+How many requests?
+\outputEnd{}
+Entering a zero value will exit the program.
+An example execution of the program, with the \utilityNameR{mpmRequestCounterService}
+application running in the background, could be:
+\outputBegin{}
+How many requests? 10000\\
+count = 10000, elapsed time = 2.2 seconds, average time = 0.22 milliseconds.\\
+How many requests? 300000\\
+count = 300000, elapsed time = 1.20052 minutes, average time = 0.240104 milliseconds.\\
+How many requests? 0\\
+\outputEnd{}
 \tertiaryEnd{\utilityNameE{mpmRequestCounterClient}}
-
 \secondaryEnd{}
-
 \primaryEnd{}

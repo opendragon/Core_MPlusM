@@ -394,6 +394,12 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                             // This service is already known, so just update the last-checked time.
                             _service.updateCheckedTimeForChannel(argAsString);
                         }
+                        else if (_service.checkForExistingService(argAsString))
+                        {
+                            // Second try - something happened with the first call.
+                            // This service is already known, so just update the last-checked time.
+                            _service.updateCheckedTimeForChannel(argAsString);
+                        }
                         else
                         {
                             // Send a 'list' request to the channel

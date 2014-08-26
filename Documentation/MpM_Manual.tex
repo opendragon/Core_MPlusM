@@ -96,12 +96,13 @@
 \newcommand{\emphcorr}[1]{\emph{#1}\/}
 
 % Some commands to make examples match actual output more closely:
-\newcommand{\pseudotab}{ \boldmath{$\vdash$} }
-\newcommand{\dquote}{\texttt{"}}
-\newcommand{\squote}{\texttt{'}}
+\newcommand{\pseudotab}{\thinspace\boldmath{$\vdash$}\thinspace}
+\newcommand{\pseudotwotabs}{\thinspace\boldmath{$\vdash$}\thinspace\boldmath{$\vdash$}\thinspace}
 \newcommand{\clientName}{\textunderscore{}client\textunderscore{}}
 \newcommand{\serviceName}{\textunderscore{}service\textunderscore{}}
 \newlength{\utilLen}
+
+\newcommand*{\compLang}[1]{\emphcorr{#1}}
 
 % First argument: index category
 % Second argument: index subcategory
@@ -362,6 +363,13 @@
 
 \newcommand*{\sectionEnd}[1]{#1} % just a notational convenience
 
+% First argument: hyperlink section
+% Second argument: hyperlink name
+% Third argument: simplified version of title
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\sectionRef}[3]{\hyperlink{hyper.#1.#2}{\textitcorr{#3}}}}%
+  {\newcommand{\sectionRef}[3]{}}
+
 % First argument: [optional] alternate hypertarget name
 % Second argument: subsection title
 % Third argument: hypertarget section
@@ -395,12 +403,20 @@
 
 \newcommand*{\primaryEnd}[1]{#1} % just a notational convenience
 
+% First argument: subsubsection name
+% Second argument: link title
+\newcommand{\primaryRef}[2]{\sectionRef{Primary}{#1}{#2}}
+
 % First argument: [optional] alternate subsection name
 % Second argument: subsection title
 \newcommand*{\secondaryStart}[2][\default{}]{%
   \subsectionStart[#1]{#2}{Secondary}{#2}}
 
 \newcommand*{\secondaryEnd}[1]{#1} % just a notational convenience
+
+% First argument: subsubsection name
+% Second argument: link title
+\newcommand{\secondaryRef}[2]{\sectionRef{Secondary}{#1}{#2}}
 
 % First argument: [optional] alternate subsubsection name
 % Second argument: subsubsection title
@@ -409,12 +425,20 @@
 
 \newcommand*{\tertiaryEnd}[1]{#1} % just a notational convenience
 
+% First argument: subsubsection name
+% Second argument: link title
+\newcommand{\tertiaryRef}[2]{\sectionRef{Tertiary}{#1}{#2}}
+
 % First argument: [optional] alternate appendix name
 % Second argument: appendix title
 \newcommand*{\appendixStart}[2][\default{}]{%
   \sectionStart[#1]{#2}{Appendix}{#2}{\appendixname{}:~}}
 
 \newcommand*{\appendixEnd}[1]{#1} % just a notational convenience
+
+% First argument: appendix name
+% Second argument: link title
+\newcommand{\appendixRef}[2]{\sectionRef{Appendix}{#1}{#2}}
 
 \newenvironment{histList}
   {\begin{list}
@@ -429,6 +453,9 @@
 \newcommand*{\histListBegin}{\begin{histList}}
 \newcommand*{\histListEnd}{\end{histList}}
 \newcommand{\histListItem}[1]{\item[#1]}
+
+\newcommand*{\outputBegin}{\begin{quote}\begin{ttfamily}\begin{small}}
+\newcommand*{\outputEnd}{\end{small}\end{ttfamily}\end{quote}}
 
 % Define hyphenation points:
 
@@ -453,7 +480,6 @@ Vancouver, British~Columbia, Canada}
 \insertpart{List~of~Figures}{\listoffigures}
 
 \input{documentationHistory.tex}
-
 \input{frontispiece.tex}
 \clearpage\pagenumbering{arabic}
 
@@ -481,7 +507,6 @@ Vancouver, British~Columbia, Canada}
 \appendix
 
 \input{internalDb.tex}
-
 \input{registrationSequence.tex}
 
 % End of contents

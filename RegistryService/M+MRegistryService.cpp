@@ -58,6 +58,7 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#include <ctime>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-long-long"
@@ -2534,8 +2535,23 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
     OD_LOG_S1s("channelName = ", channelName); //####
     if (_statusChannel)
     {
+        char             buffer1[20];
+        char             buffer2[20];
         yarp::os::Bottle message;
+        time_t           rawtime;
         
+        time(&rawtime);
+        struct tm * locTime = localtime(&rawtime);
+        
+#if MAC_OR_LINUX_
+        strftime(buffer1, sizeof(buffer1), "%F", locTime);
+        strftime(buffer2, sizeof(buffer2), "%T", locTime);
+#else // ! MAC_OR_LINUX_
+        strftime(buffer1, sizeof(buffer1), "%x", locTime);
+        strftime(buffer2, sizeof(buffer2), "%X", locTime);
+#endif // ! MAC_OR_LINUX_
+        message.addString(buffer1);
+        message.addString(buffer2);
         message.addString(canonicalName());
         switch (newStatus)
         {
