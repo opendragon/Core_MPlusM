@@ -157,16 +157,16 @@
 # define OUTPUT_PORT_NAME_BASE     MpM_OUTPUT_BASE_NAME
 
 /*! @brief The time between checking for 'stale' registry entries. */
-# define PING_CHECK_INTERVAL       (5.5 * ONE_SECOND_DELAY)
+# define PING_CHECK_INTERVAL       (7.3 * ONE_SECOND_DELAY)
 
 /*! @brief The number of missing pings before a service is declared 'dead'. */
-# define PING_COUNT_MAX            4
+# define PING_COUNT_MAX            5
 
 /*! @brief The time between ping requests that a service should use. */
-# define PING_INTERVAL             (7.7 * ONE_SECOND_DELAY)
+# define PING_INTERVAL             (9.7 * ONE_SECOND_DELAY)
 
 /*! @brief The retry interval multiplier. */
-# define RETRY_MULTIPLIER          1.2
+# define RETRY_MULTIPLIER          1.21
 
 /*! @brief The hostname to use to refer to the machine on which we are executing. */
 # define STANDARD_HOST_NAME        "127.0.0.1"/*"localhost"*/
