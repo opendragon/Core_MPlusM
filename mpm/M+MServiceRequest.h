@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMServiceRequest_H_))
-# define MpMServiceRequest_H_  /* Header guard */
+# define MpMServiceRequest_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
 

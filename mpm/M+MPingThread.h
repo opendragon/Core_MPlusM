@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMPingThread_H_))
-# define MpMPingThread_H_  /* Header guard */
+# define MpMPingThread_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
 

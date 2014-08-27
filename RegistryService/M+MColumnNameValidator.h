@@ -38,7 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMColumnNameValidator_H_))
-# define MpMColumnNameValidator_H_  /* Header guard */
+# define MpMColumnNameValidator_H_ /* Header guard */
 
 # include <mpm/M+MBaseNameValidator.h>
 

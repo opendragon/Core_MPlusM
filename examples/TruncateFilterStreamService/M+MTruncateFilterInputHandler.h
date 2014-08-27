@@ -38,7 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMTruncateFilterInputHandler_H_))
-# define MpMTruncateFilterInputHandler_H_  /* Header guard */
+# define MpMTruncateFilterInputHandler_H_ /* Header guard */
 
 # include <mpm/M+MInputHandler.h>
 

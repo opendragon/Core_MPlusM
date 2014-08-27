@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 # if (! defined(MpMRequestCounterContext_H_))
-# define MpMRequestCounterContext_H_  /* Header guard */
+# define MpMRequestCounterContext_H_ /* Header guard */
 
 # include <mpm/M+MBaseContext.h>
 

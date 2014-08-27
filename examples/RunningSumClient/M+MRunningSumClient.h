@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRunningSumClient_H_))
-# define MpMRunningSumClient_H_  /* Header guard */
+# define MpMRunningSumClient_H_ /* Header guard */
 
 # include <mpm/M+MBaseClient.h>
 

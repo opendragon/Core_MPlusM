@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMGeneralChannel_H_))
-# define MpMGeneralChannel_H_  /* Header guard */
+# define MpMGeneralChannel_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
 

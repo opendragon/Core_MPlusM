@@ -38,7 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMBaseAdapterData_H_))
-# define MpMBaseAdapterData_H_  /* Header guard */
+# define MpMBaseAdapterData_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
 

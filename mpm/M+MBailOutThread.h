@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMBailOutThread_H_))
-# define MpMBailOutThread_H_  /* Header guard */
+# define MpMBailOutThread_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
 

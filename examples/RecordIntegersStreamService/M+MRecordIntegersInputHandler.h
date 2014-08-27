@@ -38,7 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRecordIntegersInputHandler_H_))
-# define MpMRecordIntegersInputHandler_H_  /* Header guard */
+# define MpMRecordIntegersInputHandler_H_ /* Header guard */
 
 # include <mpm/M+MInputHandler.h>
 

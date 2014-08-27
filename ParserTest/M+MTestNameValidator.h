@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMTestNameValidator_H_))
-# define MpMTestNameValidator_H_  /* Header guard */
+# define MpMTestNameValidator_H_ /* Header guard */
 
 # include <mpm/M+MBaseNameValidator.h>
 

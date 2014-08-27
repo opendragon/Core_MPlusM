@@ -100,6 +100,9 @@
 \newcommand{\pseudotwotabs}{\thinspace\boldmath{$\vdash$}\thinspace\boldmath{$\vdash$}\thinspace}
 \newcommand{\clientName}{\textunderscore{}client\textunderscore{}}
 \newcommand{\serviceName}{\textunderscore{}service\textunderscore{}}
+\newcommand{\openSq}{\boldmath{$\lbrack$}}
+\newcommand{\closeSq}{\boldmath{$\rbrack$}}
+\newcommand{\sqPair}{\boldmath{$\lbrack{}\ \rbrack$}}
 \newlength{\utilLen}
 
 \newcommand*{\compLang}[1]{\emphcorr{#1}}
@@ -137,13 +140,15 @@
 %   'D' \textitcorr{\color{webgreen}#3}  \hypertarget{hyper.#2.#3}{}\label{#2:#3}  {}
 %   'E' {}  {}  {}
 %	'M' {} \hypertarget{hyper.#2.#3}{}\label{#2:#3} {}
+%   'P' {} \hypertarget{hyper.#2.#3}{}\label{#2:#3} \index{#2!#3}
 %   'R' \hyperlink{hyper.#2.#3}{\textitcorr{#3}}  \index{#2!#3}  \ref{#2:#3}
 %   'S' \textitcorr{#3}  \index{#2!#3}  {}
 %   'X' \hyperlink{hyper.#2.#3}{\textitcorr{#3}}  {}  {}
 %  not generatingHyperPDF
-%   'D' \textitcorr{\color{webgreen}#3}  \index{#2!#3|(textbf}\label{#2:#3}  {}
-%   'E' {}  \index{#2!#3|)textbf}  {}
-%   'M' {}  \index{#2!#3|(textbf}\label{#2:#3}  {}
+%   'D' \textitcorr{\color{webgreen}#3} \index{#2!#3|(textbf}\label{#2:#3}  {}
+%   'E' {} \index{#2!#3|)textbf}  {}
+%   'M' {} \index{#2!#3|(textbf}\label{#2:#3}  {}
+%   'P' {} \label{#2:#3} \index{#2!#3}
 %   'R' \textitcorr{#3}  \index{#2!#3}  \ref{#2:#3}
 %   'S' \textitcorr{#3}  \index{#2!#3}  {}
 %   'X' \textitcorr{#3}  {}  {}
@@ -151,6 +156,7 @@
 %   D = Define the object (emphasize the index, create a label);
 %   E = End of the object definition (close the index, no text);
 %	M = Define the object (no visible text)
+%   P = 
 %   R = Refer to the object in the index (the default);
 %   S = Reference to a standard object and
 %   X = Don't add a reference for the object to the index (any letter except D or
@@ -179,14 +185,12 @@
 % Third argument: alternate hyperlink/index subcategory
 % Fourth argument: hyperlink/index name
 % Fifth argument: alternate hyperlink/index name
-\ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\entityNameE}[5]{}}%
-  {\newcommand{\entityNameE}[5]{%
-    \ifthenelse{\equal{#1}{#4}}%
+\newcommand{\entityNameE}[5]{%
+  \ifthenelse{\equal{#1}{#4}}%
     {}% if first and fourth argument match
     {\ifthenelse{\equal{#5}{\default{}}}%
       {\multiindex{#1}{#2}{#3}{#4}{|)textbf}}%
-      {\multiindex{#1}{#2}{#3}{#5}{|)textbf}}}}}
+      {\multiindex{#1}{#2}{#3}{#5}{|)textbf}}}}
 
 % First argument: hyperlink/index category
 % Second argument: hyperlink/index subcategory
@@ -197,8 +201,8 @@
   {\newcommand{\entityNameM}[5]{%  command if generatingHyperPDF
 	\hypertarget{hyper.#1.#4}{}%
 	\ifthenelse{\equal{#5}{\default{}}}%
-	  {\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
-	  {\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
+	  {\multiindex{#1}{#2}{#3}{#4}{}}%
+	  {\multiindex{#1}{#2}{#3}{#5}{}}%
   	\multilabel{#1}{#2}{#3}{#4}}}
   {\newcommand{\entityNameM}[5]{%  command if not generatingHyperPDF
 	\ifthenelse{\equal{#5}{\default{}}}%
@@ -310,8 +314,6 @@
 \newcommand{\serviceNameR}[2][\default{}]{\entityNameR{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
 \newcommand{\serviceNameS}[2][\default{}]{\entityNameS{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
 \newcommand{\serviceNameX}[2][\default{}]{\entityNameX{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
-
-\newcommand{\serviceReference}[1]{\entityReference{Services}{#1}}
 
 % First argument [optional]: alternate name
 % Second argument: entity name
@@ -488,26 +490,22 @@ Vancouver, British~Columbia, Canada}
 
 \input{overview.tex}
 
-\input{utilities.tex}
-
 %% section for each of the utilities
 
-\input{services.tex}
+\input{utilities.tex}
 
 %% section for each of the core services
 
-\input{examples.tex}
-
-%% section for each of the examples
-
-\input{classes.tex}
+\input{services.tex}
 
 %% section for each of the core classes
 
-\appendix
+\input{classes.tex}
 
-\input{internalDb.tex}
+\appendix
 \input{registrationSequence.tex}
+\input{examples.tex}
+\input{internalDb.tex}
 
 % End of contents
 

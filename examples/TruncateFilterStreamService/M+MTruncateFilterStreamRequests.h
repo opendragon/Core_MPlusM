@@ -38,7 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMTruncateFilterStreamRequests_H_))
-# define MpMTruncateFilterStreamRequests_H_  /* Header guard */
+# define MpMTruncateFilterStreamRequests_H_ /* Header guard */
 
 # include <mpm/M+MRequests.h>
 

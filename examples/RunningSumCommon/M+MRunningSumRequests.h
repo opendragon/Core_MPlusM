@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRunningSumRequests_H_))
-# define MpMRunningSumRequests_H_  /* Header guard */
+# define MpMRunningSumRequests_H_ /* Header guard */
 
 # include <mpm/M+MRequests.h>
 

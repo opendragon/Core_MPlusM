@@ -78,7 +78,6 @@ add_library(mpmCommon
             "${MpM_SOURCE_DIR}/mpm/M+MMatchValueList.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MNameRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MPingThread.cpp"
-            "${MpM_SOURCE_DIR}/mpm/M+MQuitRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MRequestMap.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MRestartStreamsRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MServiceChannel.cpp"

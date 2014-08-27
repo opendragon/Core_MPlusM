@@ -38,7 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRandomBurstStreamRequests_H_))
-# define MpMRandomBurstStreamRequests_H_  /* Header guard */
+# define MpMRandomBurstStreamRequests_H_ /* Header guard */
 
 # include <mpm/M+MRequests.h>
 

@@ -38,7 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMCommon_H_))
-# define MpMCommon_H_  /* Header guard */
+# define MpMCommon_H_ /* Header guard */
 
 # include <mpm/M+MConfig.h>
 

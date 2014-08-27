@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMException_H_))
-# define MpMException_H_  /* Header guard */
+# define MpMException_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
 

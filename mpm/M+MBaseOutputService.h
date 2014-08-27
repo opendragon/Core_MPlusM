@@ -38,7 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMBaseOutputService_H_))
-# define MpMBaseOutputService_H_  /* Header guard */
+# define MpMBaseOutputService_H_ /* Header guard */
 
 # include <mpm/M+MBaseInputOutputService.h>
 

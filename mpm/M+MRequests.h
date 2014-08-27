@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRequests_H_))
-# define MpMRequests_H_  /* Header guard */
+# define MpMRequests_H_ /* Header guard */
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -97,9 +97,6 @@
 
 /*! @brief The standard name for a 'ping' request. */
 # define MpM_PING_REQUEST           "ping"
-
-/*! @brief The standard name for a 'quit' request. */
-# define MpM_QUIT_REQUEST           "quit"
 
 /*! @brief The name for a 'register' request. */
 # define MpM_REGISTER_REQUEST       "register"

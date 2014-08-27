@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRandomBurstThread_H_))
-# define MpMRandomBurstThread_H_  /* Header guard */
+# define MpMRandomBurstThread_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
 

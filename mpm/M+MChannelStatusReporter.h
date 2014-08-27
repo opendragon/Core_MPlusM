@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMChannelStatusReporter_H_))
-# define MpMChannelStatusReporter_H_  /* Header guard */
+# define MpMChannelStatusReporter_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
 

@@ -1,6 +1,17 @@
 \ProvidesFile{registrationSequence.tex}[v1.0.0]
 \appendixStart[RegistrationSequence]{\textitcorr{Registration~Sequence}}%
 
+A \requestsNameR{Service~Registry}{ServiceRegistry}{register} or
+\requestsNameR{Service~Registry}{ServiceRegistry}{ping} request sent to the
+\serviceNameR[Service~Registry]{ServiceRegistry} triggers the following sequence of
+requests to the service that sent the original request --
+\begin{enumerate}
+\item \textbf{\requestsNameR{Basic}{Basic}{name}} collect basic information about the
+service
+\item \textbf{\requestsNameR{Basic}{Basic}{list}} gather information about the requests
+available from the service
+\end{enumerate}
+
 			||TBD TBD TBD||
 
 			||/TBD TBD TBD||

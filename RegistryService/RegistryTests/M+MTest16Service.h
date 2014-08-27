@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMTest16Service_H_))
-# define MpMTest16Service_H_  /* Header guard */
+# define MpMTest16Service_H_ /* Header guard */
 
 # include <mpm/M+MBaseService.h>
 

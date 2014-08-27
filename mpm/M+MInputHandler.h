@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMInputHandler_H_))
-# define MpMInputHandler_H_  /* Header guard */
+# define MpMInputHandler_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
 

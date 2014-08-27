@@ -38,7 +38,7 @@
 
 #if (! defined(MpMChordGeneratorService_H_))
 /*! @brief Header guard. */
-# define MpMChordGeneratorService_H_  /* */
+# define MpMChordGeneratorService_H_ /* */
 
 # include <mpm/M+MBaseService.h>
 

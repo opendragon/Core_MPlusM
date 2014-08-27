@@ -38,7 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRunningSumAdapterData_H_))
-# define MpMRunningSumAdapterData_H_  /* Header guard */
+# define MpMRunningSumAdapterData_H_ /* Header guard */
 
 # include <mpm/M+MBaseAdapterData.h>
 

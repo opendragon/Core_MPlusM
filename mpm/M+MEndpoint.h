@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMEndpoint_H_))
-# define MpMEndpoint_H_  /* Header guard */
+# define MpMEndpoint_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
 
