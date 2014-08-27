@@ -98,7 +98,7 @@ void QuitRequestHandler::fillInAliases(StringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
-    alternateNames.push_back("c");
+    alternateNames.push_back("q");
     OD_LOG_OBJEXIT(); //####
 } // QuitRequestHandler::fillInAliases
 

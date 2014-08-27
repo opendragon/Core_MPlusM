@@ -469,6 +469,7 @@ bool MplusM::Utilities::CheckForRegistryService(const PortVector & ports)
             
         }
     }
+    OD_LOG_EXIT_B(result); //####
     return result;
 } // MplusM::Utilities::CheckForRegistryService
 
@@ -672,29 +673,43 @@ bool MplusM::Utilities::GetDetectedPortList(PortVector & ports,
     contactInfo.timeout = 5.0;
     if (yarp::os::Network::writeToNameServer(request, response, contactInfo))
     {
-        if (1 == response.size())
-        {
-            yarp::os::Value responseValue(response.get(0));
-            
-            if (responseValue.isString())
-            {
-                processNameServerResponse(responseValue.asString(), includeHiddenPorts, ports);
-                okSoFar = true;
-            }
-            else
-            {
-                OD_LOG("! (responseValue.isString())"); //####
-            }
-        }
-        else
-        {
-            OD_LOG("! (1 == response.size())"); //####
-            OD_LOG_S1s("response = ", response.toString()); //####
-        }
+        okSoFar = (1 == response.size());
+        OD_LOG_B1("okSoFar <- ", okSoFar); //####
+        OD_LOG_S1s("response = ", response.toString()); //####
     }
     else
     {
-        OD_LOG("! (yarp::os::Network::writeToNameServer(request, response))"); //####
+        OD_LOG("! (yarp::os::Network::writeToNameServer(request, response, contactInfo))"); //####
+    }
+    if (! okSoFar)
+    {
+        // Try again, in case of a network 'glitch'.
+        response.clear();
+        if (yarp::os::Network::writeToNameServer(request, response, contactInfo))
+        {
+            okSoFar = (1 == response.size());
+            OD_LOG_B1("okSoFar <- ", okSoFar); //####
+            OD_LOG_S1s("response = ", response.toString()); //####
+        }
+        else
+        {
+            OD_LOG("! (yarp::os::Network::writeToNameServer(request, response, " //####
+                   "contactInfo))"); //####
+        }
+    }
+    if (okSoFar)
+    {
+        yarp::os::Value responseValue(response.get(0));
+        
+        if (responseValue.isString())
+        {
+            processNameServerResponse(responseValue.asString(), includeHiddenPorts, ports);
+        }
+        else
+        {
+            OD_LOG("! (responseValue.isString())"); //####
+            okSoFar = false;
+        }
     }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
@@ -1075,6 +1090,7 @@ void MplusM::Utilities::RemoveStalePorts(const float timeout)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_D1("timeout = ", timeout); //####
+    bool                       okSoFar;
     yarp::os::impl::NameConfig nc;
     yarp::os::impl::String     name = nc.getNamespace();
     yarp::os::Bottle           msg;
@@ -1082,53 +1098,72 @@ void MplusM::Utilities::RemoveStalePorts(const float timeout)
     
     msg.addString("bot");
     msg.addString("list");
-    yarp::os::NetworkBase::write(name.c_str(), msg, reply);
-    for (int ii = 1; reply.size() > ii; ++ii)
+    okSoFar = yarp::os::NetworkBase::write(name.c_str(), msg, reply);
+    if (okSoFar)
     {
-        yarp::os::Bottle * entry = reply.get(ii).asList();
-        
-        if (entry)
+        okSoFar = (0 < reply.size());
+    }
+    if (! okSoFar)
+    {
+        // Try again, in case of a network 'glitch'.
+        okSoFar = yarp::os::NetworkBase::write(name.c_str(), msg, reply);
+        if (okSoFar)
         {
-            yarp::os::ConstString port = entry->check("name", yarp::os::Value("")).asString();
+            okSoFar = (0 < reply.size());
+        }
+    }
+    if (okSoFar)
+    {
+        for (int ii = 1; reply.size() > ii; ++ii)
+        {
+            yarp::os::Bottle * entry = reply.get(ii).asList();
             
-            OD_LOG_S1s("port = ", port); //####
-            if ((port != "") && (port != "fallback") && (port != name.c_str()))
+            if (entry)
             {
-                yarp::os::Contact cc = yarp::os::Contact::byConfig(*entry);
+                yarp::os::ConstString port = entry->check("name", yarp::os::Value("")).asString();
                 
-                if (cc.getCarrier() == "mcast")
+                OD_LOG_S1s("port = ", port); //####
+                if ((port != "") && (port != "fallback") && (port != name.c_str()))
                 {
-                    OD_LOG("Skipping mcast port."); //####
-                }
-                else
-                {
-                    OD_LOG("! (cc.getCarrier() == \"mcast\")"); //####
-                    yarp::os::Contact addr = cc;
+                    yarp::os::Contact cc = yarp::os::Contact::byConfig(*entry);
                     
-                    OD_LOG_S1s("Testing at ", addr.toURI()); //####
-                    if (addr.isValid())
+                    if (cc.getCarrier() == "mcast")
                     {
-                        if (0 <= timeout)
-                        {
-                            addr.setTimeout(timeout);
-                        }
-                        yarp::os::OutputProtocol * out = yarp::os::impl::Carriers::connect(addr);
+                        OD_LOG("Skipping mcast port."); //####
+                    }
+                    else
+                    {
+                        OD_LOG("! (cc.getCarrier() == \"mcast\")"); //####
+                        yarp::os::Contact addr = cc;
                         
-                        if (out)
+                        OD_LOG_S1s("Testing at ", addr.toURI()); //####
+                        if (addr.isValid())
                         {
-                            delete out;
-                        }
-                        else
-                        {
-                            OD_LOG("No response, removing port."); //####
-                            yarp::os::NetworkBase::unregisterName(port);
+                            if (0 <= timeout)
+                            {
+                                addr.setTimeout(timeout);
+                            }
+                            yarp::os::OutputProtocol * out =
+                                                            yarp::os::impl::Carriers::connect(addr);
+                            
+                            if (out)
+                            {
+                                delete out;
+                            }
+                            else
+                            {
+                                OD_LOG("No response, removing port."); //####
+                                yarp::os::NetworkBase::unregisterName(port);
+                                std::cerr << "Removing stale port '" << port.c_str() << "'." <<
+                                                endl;
+                            }
                         }
                     }
                 }
-            }
-            else if (port != "")
-            {
-                OD_LOG("Ignoring port"); //####
+                else if (port != "")
+                {
+                    OD_LOG("Ignoring port"); //####
+                }
             }
         }
     }
@@ -1137,8 +1172,14 @@ void MplusM::Utilities::RemoveStalePorts(const float timeout)
     yarp::os::Bottle      cmd2("gc");
     yarp::os::Bottle      reply2;
     
-    yarp::os::NetworkBase::write(serverName, cmd2, reply2);
-    OD_LOG_S1s("Name server says: ", reply2.toString()); //####
+    if (yarp::os::NetworkBase::write(serverName, cmd2, reply2))
+    {
+        OD_LOG_S1s("Name server says: ", reply2.toString()); //####
+    }
+    else
+    {
+        OD_LOG("! (yarp::os::NetworkBase::write(serverName, cmd2, reply2))"); //####
+    }
     OD_LOG_EXIT(); //####
 } // MplusM::Utilities::RemoveStalePorts
 
