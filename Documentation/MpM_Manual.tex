@@ -1,5 +1,4 @@
 \ProvidesFile{MpM_Manual.tex}
-
 \documentclass[letterpaper,titlepage,twoside]{report}
 
 % Begin Preamble:
@@ -106,6 +105,17 @@
 \newlength{\utilLen}
 
 \newcommand*{\compLang}[1]{\emphcorr{#1}}
+
+\newcommand{\objCaption}[1]{\caption{#1\ }}
+% Create a framed box as a figure, centred horizontally (note that we can't use \textttt{}, as the third argument
+% could be quite large):
+\newcommand{\objFileDescription}[4][0.75]{\begin{figure}[!ht]%
+\setlength{\fboxsep}{3pt}\setlength{\fboxrule}{0.75bp}%
+\begin{center}\fbox{\begin{minipage}[t]{#1\textwidth}\begin{flushleft}\footnotesize\ttfamily #4\end{flushleft}%
+\end{minipage}}\objCaption{#2}\label{file:#3}\end{center}\end{figure}}
+
+\newcommand*{\objPicture}[1]{\begin{center}\includegraphics{#1}\end{center}}
+\newcommand*{\objDiagram}[3]{\begin{figure}[!ht]\objPicture{#1}\objCaption{#3}\label{diagram:#2}\end{figure}}
 
 % First argument: index category
 % Second argument: index subcategory
@@ -463,7 +473,7 @@
 
 \title{\cal\Huge\textitcorr{\MMM}\\
 \vspace{1ex}
-\begin{center}\includegraphics{ChannelManager.eps}\end{center}}
+\objPicture{ChannelManager.eps}}
 \author{HPlus~Technologies~Ltd. and Simon~Fraser~University\\
 Vancouver, British~Columbia, Canada}
 
@@ -506,6 +516,7 @@ Vancouver, British~Columbia, Canada}
 \input{registrationSequence.tex}
 \input{examples.tex}
 \input{internalDb.tex}
+\input{matchSyntax.tex}
 
 % End of contents
 

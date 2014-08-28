@@ -161,38 +161,55 @@ between \yarp{} network connections.
 \tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{getAssociates}}
 \tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{match}, alias:\ %
 \requestsNameD{Service~Registry}{ServiceRegistry}{find}}
-The \requestsNameX{Service~Registry}{ServiceRegistry}{match} request
+The \requestsNameX{Service~Registry}{ServiceRegistry}{match} request returns a list of
+input \yarp{} network connections or service names for services that match the criteria
+provided as an argument to the request.\\
 
-			||TBD TBD TBD||
+It is used by all client and adapter applications to identify the service to which they
+need to connect as well as by the \utilityNameR{mpmClientList},
+\utilityNameR{mpmPortLister}, \utilityNameR{mpmRequestInfo},
+\utilityNameR{mpmServiceLister} and \utilityNameR[Channel~Manager]{ChannelManager}
+utilities to identify services in order to gather information about them.\\
 
-			||/TBD TBD TBD||
-
+For details on the syntax used with the criteria, see the 
+\appendixRef{ServiceMatchSyntax}{Service~Match~Syntax} appendix.
 \tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{match}}
 \tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{ping}}
-The \requestsNameX{Service~Registry}{ServiceRegistry}{ping} request
+The \requestsNameX{Service~Registry}{ServiceRegistry}{ping} request is sent by each
+active service (except the \serviceNameR[Service~Registry]{ServiceRegistry}) to indicate
+that it is still 'alive'.\\
 
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+Sending a \requestsNameX{Service~Registry}{ServiceRegistry}{ping} request results in a
+sequence of requests being sent from the \serviceNameR[Service~Registry]{ServiceRegistry}
+to the active service if the information on the service is no longer in the internal
+database.
+This will happen if the service is considered to be 'stale' -- it has not sent a
+\requestsNameX{Service~Registry}{ServiceRegistry}{ping} request often enough to be
+remembered.
+The sequence of requests sent to the active service is described in the 
+\appendixRef{RegistrationSequence}{Registration~Sequence} appendix.
 \tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{ping}}
 \tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{register}, alias:\ %
 \requestsNameD{Service~Registry}{ServiceRegistry}{remember}}
-The \requestsNameX{Service~Registry}{ServiceRegistry}{register} request
+The \requestsNameX{Service~Registry}{ServiceRegistry}{register} request is sent by each
+active service (except the \serviceNameR[Service~Registry]{ServiceRegistry}) when it
+starts execution.\\
 
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+Sending a \requestsNameX{Service~Registry}{ServiceRegistry}{register} request results in a
+sequence of requests being sent from the \serviceNameR[Service~Registry]{ServiceRegistry}
+to the active service.
+The sequence of requests sent to the active service is described in the 
+\appendixRef{RegistrationSequence}{Registration~Sequence} appendix.
 \tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{register}}
 \tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{unregister}, alias:\ %
 \requestsNameD{Service~Registry}{ServiceRegistry}{forget}}
-The \requestsNameX{Service~Registry}{ServiceRegistry}{unregister} request
+The \requestsNameX{Service~Registry}{ServiceRegistry}{unregister} request is sent by each
+service (except the \serviceNameR[Service~Registry]{ServiceRegistry}) just before it stops
+execution.\\
 
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+Upon receiving the \requestsNameX{Service~Registry}{ServiceRegistry}{unregister} request,
+the \serviceNameR[Service~Registry]{ServiceRegistry} removes all entries from the internal
+database that are related to the service being removed.
 \tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{unregister}}
 \secondaryEnd{}
 \secondaryStart[InputOutputRequests]{Input~/~Output~Requests}

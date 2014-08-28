@@ -1,13 +1,13 @@
 
-#psfiles = Vabssymbol.ps Vassemblesymbol.ps Vceilingsymbol.ps
-psfiles =
+psfiles = matchSyntaxrails.ps
 
-imagefiles = ChannelManager.eps
+imagefiles = ChannelManager.eps dbDiagram.eps
 
 mainsource = MpM_Manual.tex
 
 secondarysources = classes.tex documentationHistory.tex examples.tex frontispiece.tex \
-	internalDb.tex overview.tex registrationSequence.tex services.tex utilities.tex
+	internalDb.tex matchSyntax.tex overview.tex registrationSequence.tex services.tex \
+	utilities.tex
 
 maindvi = $(mainsource:.tex=.dvi)
 
@@ -25,7 +25,7 @@ target = $(HOME)/$(mainpdf)
 	mpost -interaction=batchmode $<
 
 #$(maindvi) : $(imagefiles) $(psfiles) $(texfiles) $(mainsource) $(secondarysources)
-$(maindvi) : $(imagefiles) $(mainsource) $(secondarysources)
+$(maindvi) : $(imagefiles) $(psfiles) $(mainsource) $(secondarysources)
 	latex -interaction=batchmode $(mainsource)
 	latex -interaction=batchmode $(mainsource)
 	latex -interaction=batchmode $(mainsource)
