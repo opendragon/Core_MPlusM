@@ -1154,8 +1154,7 @@ void MplusM::Utilities::RemoveStalePorts(const float timeout)
                             {
                                 OD_LOG("No response, removing port."); //####
                                 yarp::os::NetworkBase::unregisterName(port);
-                                std::cerr << "Removing stale port '" << port.c_str() << "'." <<
-                                                endl;
+                                std::cerr << "Removing stale port '" << port.c_str() << "'." <<std::endl;
                             }
                         }
                     }
