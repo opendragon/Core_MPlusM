@@ -90,6 +90,7 @@ add_library(mpmCommon
 install(TARGETS mpmCommon DESTINATION lib)
 
 install(FILES
+        "${MpM_SOURCE_DIR}/mpm/getopt.h"
         "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOut.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.h"

@@ -44,7 +44,7 @@
 #include <odl/ODLogging.h>
 
 #if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-#include "mpm/getopt.h"
+# include <mpm/getopt.h>
 #endif //(! MAC_OR_LINUX_)
 
 #if defined(__APPLE__)

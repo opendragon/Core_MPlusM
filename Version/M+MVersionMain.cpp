@@ -39,7 +39,7 @@
 #include <mpm/M+MCommon.h>
 
 #if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-#include "mpm/getopt.h"
+# include <mpm/getopt.h>
 #endif //(! MAC_OR_LINUX_)
 
 #include <ace/Version.h>

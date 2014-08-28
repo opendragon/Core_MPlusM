@@ -42,7 +42,7 @@
 #include <odl/ODLogging.h>
 
 #if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-#include "mpm/getopt.h"
+# include <mpm/getopt.h>
 #endif //(! MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
@@ -214,7 +214,8 @@ int main(int     argc,
                                 inChannelNames += iDescriptor._portName;
                                 if (0 < iDescriptor._portProtocol.size())
                                 {
-                                    inChannelNames += "{protocol=" + iDescriptor._portProtocol + "}";
+                                    inChannelNames += "{protocol=";
+                                    inChannelNames += iDescriptor._portProtocol + "}";
                                 }
                             }
                             sawInputs = true;
@@ -256,8 +257,8 @@ int main(int     argc,
                                 outChannelNames += oDescriptor._portName;
                                 if (0 < oDescriptor._portProtocol.size())
                                 {
-                                    outChannelNames += "{protocol=" + oDescriptor._portProtocol +
-                                                        "}";
+                                    outChannelNames += "{protocol=";
+                                    outChannelNames += oDescriptor._portProtocol + "}";
                                 }
                             }
                             sawOutputs = true;
