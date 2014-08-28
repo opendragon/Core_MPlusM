@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRegistryService_H_))
-# define MpMRegistryService_H_  /* Header guard */
+# define MpMRegistryService_H_ /* Header guard */
 
 # include <mpm/M+MBaseService.h>
 
@@ -111,6 +111,9 @@ namespace MplusM
             {
                 /*! @brief A service is being added to the registry. */
                 kRegistryAddService,
+                
+                /*! @brief A service was not recognized. */
+                kRegistryNotAnExistingService,
                 
                 /*! @brief A service has pinged the registry. */
                 kRegistryPingFromService,

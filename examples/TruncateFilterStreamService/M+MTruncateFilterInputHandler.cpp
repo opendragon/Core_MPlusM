@@ -124,7 +124,7 @@ bool TruncateFilterInputHandler::handleInput(const yarp::os::Bottle &      input
                 }
                 else if (aValue.isDouble())
                 {
-                    outBottle.addInt(static_cast<int> (aValue.asDouble()));
+                    outBottle.addInt(static_cast<int>(aValue.asDouble()));
                 }
             }
             if (0 < outBottle.size())

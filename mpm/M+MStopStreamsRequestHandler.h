@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMStopStreamsRequestHandler_H_))
-# define MpMStopStreamsRequestHandler_H_  /* Header guard */
+# define MpMStopStreamsRequestHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseRequestHandler.h>
 

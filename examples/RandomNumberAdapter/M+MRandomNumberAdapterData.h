@@ -38,7 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRandomNumberAdapterData_H_))
-# define MpMRandomNumberAdapterData_H_  /* Header guard */
+# define MpMRandomNumberAdapterData_H_ /* Header guard */
 
 # include <mpm/M+MBaseAdapterData.h>
 

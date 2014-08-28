@@ -382,7 +382,7 @@ const
 int MatchValueList::count(void)
 const
 {
-    return static_cast<int> (_values.size());
+    return static_cast<int>(_values.size());
 } // MatchValueList::count
 
 const MatchValue * MatchValueList::element(const int index)
@@ -392,9 +392,9 @@ const
     
     try
     {
-        if ((index >= 0) && (index < static_cast<int> (_values.size())))
+        if ((index >= 0) && (index < static_cast<int>(_values.size())))
         {
-            result = _values[static_cast<MatchValueListSize> (index)];
+            result = _values[static_cast<MatchValueListSize>(index)];
         }
         else
         {

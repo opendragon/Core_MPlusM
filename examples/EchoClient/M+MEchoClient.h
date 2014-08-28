@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMEchoClient_H_))
-# define MpMEchoClient_H_  /* Header guard */
+# define MpMEchoClient_H_ /* Header guard */
 
 # include <mpm/M+MBaseClient.h>
 

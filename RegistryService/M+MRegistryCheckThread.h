@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRegistryCheckThread_H_))
-# define MpMRegistryCheckThread_H_  /* Header guard */
+# define MpMRegistryCheckThread_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
 

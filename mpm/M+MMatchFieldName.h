@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMMatchFieldName_H_))
-# define MpMMatchFieldName_H_  /* Header guard */
+# define MpMMatchFieldName_H_ /* Header guard */
 
 # include <mpm/M+MBaseMatcher.h>
 

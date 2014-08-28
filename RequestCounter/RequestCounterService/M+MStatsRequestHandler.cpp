@@ -161,7 +161,7 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
             long             counter;
             
             _service.getStatistics(senderChannel, counter, elapsedTime);
-            response.addInt(static_cast<int> (counter));
+            response.addInt(static_cast<int>(counter));
             response.addDouble(elapsedTime);
             OD_LOG_S1s("response <- ", response.toString()); //####
             if (! response.write(*replyMechanism))

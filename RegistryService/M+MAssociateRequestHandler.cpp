@@ -101,7 +101,6 @@ void AssociateRequestHandler::fillInAliases(Common::StringVector & alternateName
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
-    alternateNames.push_back("remember");
     OD_LOG_OBJEXIT(); //####
 } // AssociateRequestHandler::fillInAliases
 

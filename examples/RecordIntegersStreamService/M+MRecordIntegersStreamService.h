@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRecordIntegersStreamService_H_))
-# define MpMRecordIntegersStreamService_H_  /* Header guard */
+# define MpMRecordIntegersStreamService_H_ /* Header guard */
 
 # include <mpm/M+MBaseOutputService.h>
 

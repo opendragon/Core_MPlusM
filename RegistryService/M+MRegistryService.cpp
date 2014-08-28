@@ -58,6 +58,7 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#include <ctime>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-long-long"
@@ -135,15 +136,6 @@ using namespace MplusM::Registry;
 
 /*! @brief The name of the index for the 'name' column of the 'Services' table. */
 #define SERVICES_NAME_I_                    "Services_name_idx"
-
-/*! @brief The command to initiate an SQL transaction. */
-static const char * kBeginTransaction = "BEGIN TRANSACTION";
-
-/*! @brief The command to successfully complete an SQL transaction. */
-static const char * kEndTransaction = "END TRANSACTION";
-
-/*! @brief The command to undo an SQL transaction. */
-static const char * kRollbackTransaction = "ROLLBACK TRANSACTION";
 
 namespace MplusM
 {
@@ -374,8 +366,8 @@ static const char * mapStatusToStringForSQL(const int sqlRes)
  @returns @c true if the operation was successfully performed and @c false otherwise. */
 static bool performSQLstatementWithNoResults(sqlite3 *    database,
                                              const char * sqlStatement,
-                                             BindFunction doBinds = NULL,
-                                             const void * data = NULL)
+                                             BindFunction doBinds,
+                                             const void * data)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("database = ", database, "data = ", data); //####
@@ -388,7 +380,7 @@ static bool performSQLstatementWithNoResults(sqlite3 *    database,
         {
             sqlite3_stmt * prepared = NULL;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
-                                                       static_cast<int> (strlen(sqlStatement)),
+                                                       static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
@@ -444,16 +436,12 @@ static bool performSQLstatementWithNoResults(sqlite3 *    database,
     return okSoFar;
 } // performSQLstatementWithNoResults
 
-/*! @brief Perform a simple operation on the database, ignoring constraint errors.
+/*! @brief Perform a simple operation on the database.
  @param database The database to be modified.
  @param sqlStatement The operation to be performed.
- @param doBinds A function that will fill in any parameters in the statement.
- @param data The custom information used with the binding function.
  @returns @c true if the operation was successfully performed and @c false otherwise. */
-static bool performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
-                                                            const char * sqlStatement,
-                                                            BindFunction doBinds = NULL,
-                                                            const void * data = NULL)
+static bool performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
+                                                   const char * sqlStatement)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("database = ", database, "data = ", data); //####
@@ -466,7 +454,78 @@ static bool performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    databas
         {
             sqlite3_stmt * prepared = NULL;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
-                                                       static_cast<int> (strlen(sqlStatement)),
+                                                       static_cast<int>(strlen(sqlStatement)),
+                                                       &prepared, NULL);
+            
+            OD_LOG_LL1("sqlRes <- ", sqlRes); //####
+            OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+            if ((SQLITE_OK == sqlRes) && prepared)
+            {
+                if (okSoFar)
+                {
+                    do
+                    {
+                        sqlRes = sqlite3_step(prepared);
+                        OD_LOG_LL1("sqlRes <- ", sqlRes); //####
+                        OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
+                        if (SQLITE_BUSY == sqlRes)
+                        {
+                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                        }
+                    }
+                    while (SQLITE_BUSY == sqlRes);
+                    if (SQLITE_DONE != sqlRes)
+                    {
+                        OD_LOG("(SQLITE_DONE != sqlRes)"); //####
+                        okSoFar = false;
+                    }
+                }
+                sqlite3_finalize(prepared);
+            }
+            else
+            {
+                OD_LOG("! ((SQLITE_OK == sqlRes) && prepared)"); //####
+                okSoFar = false;
+            }
+        }
+        else
+        {
+            OD_LOG("! (database)"); //####
+            okSoFar = false;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // performSQLstatementWithNoResultsNoArgs
+
+/*! @brief Perform a simple operation on the database, ignoring constraint errors.
+ @param database The database to be modified.
+ @param sqlStatement The operation to be performed.
+ @param doBinds A function that will fill in any parameters in the statement.
+ @param data The custom information used with the binding function.
+ @returns @c true if the operation was successfully performed and @c false otherwise. */
+static bool performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
+                                                            const char * sqlStatement,
+                                                            BindFunction doBinds,
+                                                            const void * data)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("database = ", database, "data = ", data); //####
+    OD_LOG_S1("sqlStatement = ", sqlStatement); //####
+    bool okSoFar = true;
+    
+    try
+    {
+        if (database)
+        {
+            sqlite3_stmt * prepared = NULL;
+            int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
+                                                       static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
@@ -534,10 +593,10 @@ static bool performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    databas
 static bool performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                                                        yarp::os::Bottle & resultList,
                                                        const char *       sqlStatement,
-                                                       const int          columnOfInterest1 = 0,
-                                                       const int          columnOfInterest2 = 0,
-                                                       BindFunction       doBinds = NULL,
-                                                       const void *       data = NULL)
+                                                       const int          columnOfInterest1,
+                                                       const int          columnOfInterest2,
+                                                       BindFunction       doBinds,
+                                                       const void *       data)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("database = ", database, "resultList = ", &resultList, "data = ", data); //####
@@ -552,7 +611,7 @@ static bool performSQLstatementWithDoubleColumnResults(sqlite3 *          databa
         {
             sqlite3_stmt * prepared = NULL;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
-                                                       static_cast<int> (strlen(sqlStatement)),
+                                                       static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
@@ -592,7 +651,7 @@ static bool performSQLstatementWithDoubleColumnResults(sqlite3 *          databa
                             {
                                 yarp::os::Bottle & subList = resultList.addList();
                                 const char *       value =
-                                    reinterpret_cast<const char *> (sqlite3_column_text(prepared,
+                                    reinterpret_cast<const char *>(sqlite3_column_text(prepared,
                                                                                 columnOfInterest1));
                                 
                                 OD_LOG_S1("value <- ", value); //####
@@ -601,7 +660,7 @@ static bool performSQLstatementWithDoubleColumnResults(sqlite3 *          databa
                                     subList.addString(value);
                                 }
                                 value =
-                                    reinterpret_cast<const char *> (sqlite3_column_text(prepared,
+                                    reinterpret_cast<const char *>(sqlite3_column_text(prepared,
                                                                                 columnOfInterest2));
                                 OD_LOG_S1("value <- ", value); //####
                                 if (value)
@@ -654,7 +713,7 @@ static bool performSQLstatementWithSingleColumnResults(sqlite3 *          databa
                                                        const char *       sqlStatement,
                                                        const int          columnOfInterest = 0,
                                                        BindFunction       doBinds = NULL,
-                                                       const void *      data = NULL)
+                                                       const void *       data = NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("database = ", database, "resultList = ", &resultList, "data = ", data); //####
@@ -668,7 +727,7 @@ static bool performSQLstatementWithSingleColumnResults(sqlite3 *          databa
         {
             sqlite3_stmt * prepared = NULL;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
-                                                       static_cast<int> (strlen(sqlStatement)),
+                                                       static_cast<int>(strlen(sqlStatement)),
                                                        &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
@@ -706,7 +765,7 @@ static bool performSQLstatementWithSingleColumnResults(sqlite3 *          databa
                             if ((0 < colCount) && (columnOfInterest < colCount))
                             {
                                 const char * value =
-                                    reinterpret_cast<const char *> (sqlite3_column_text(prepared,
+                                    reinterpret_cast<const char *>(sqlite3_column_text(prepared,
                                                                                 columnOfInterest));
                                 
                                 OD_LOG_S1("value <- ", value); //####
@@ -747,6 +806,75 @@ static bool performSQLstatementWithSingleColumnResults(sqlite3 *          databa
     return okSoFar;
 } // performSQLstatementWithSingleColumnResults
 
+/*! @brief Start a transaction.
+ @param database The database to be modified.
+ @returns @c true if the transaction was initiated and @c false otherwise. */
+static bool doBeginTransaction(sqlite3 * database)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("database = ", database); //####
+    bool okSoFar = true;
+    
+    try
+    {
+        if (database)
+        {
+            static const char * beginTransaction = "BEGIN TRANSACTION";
+            
+            okSoFar = performSQLstatementWithNoResultsNoArgs(database, beginTransaction);
+        }
+        else
+        {
+            OD_LOG("! (database)"); //####
+            okSoFar = false;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // doBeginTransaction
+
+/*! @brief End a transaction.
+ @param database The database to be modified.
+ @param wasOK @c true if the transaction was successful and @c false otherwise.
+ @returns @c true if the transaction was closed successfully and @c false otherwise. */
+static bool doEndTransaction(sqlite3 *  database,
+                             const bool wasOK)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("database = ", database); //####
+    OD_LOG_B1("wasOK = ", wasOK); //####
+    bool okSoFar = true;
+    
+    try
+    {
+        if (database)
+        {
+            static const char * abortTransaction = "ROLLBACK TRANSACTION";
+            static const char * commitTransaction = "END TRANSACTION";
+            
+            okSoFar = performSQLstatementWithNoResultsNoArgs(database, wasOK ? commitTransaction :
+                                                             abortTransaction);
+        }
+        else
+        {
+            OD_LOG("! (database)"); //####
+            okSoFar = false;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // doCommitTransaction
+
 /*! @brief Construct the tables needed in the database.
  @param database The database to be modified.
  @returns @c true if the tables were successfully built and @c false otherwise. */
@@ -760,7 +888,7 @@ static bool constructTables(sqlite3 * database)
     {
         if (database)
         {
-            if (performSQLstatementWithNoResults(database, kBeginTransaction))
+            if (doBeginTransaction(database))
             {
                 static const char * tableSQL[] =
                 {
@@ -821,21 +949,14 @@ static bool constructTables(sqlite3 * database)
                     T_("CREATE INDEX IF NOT EXISTS " CHANNELSASSOCIATES_CHANNELS_ID_I_ " ON "
                        CHANNELSASSOCIATES_T_ "(" CHANNELS_ID_C_ ")")
                 };
-                int numTables = (sizeof(tableSQL) / sizeof(*tableSQL));
+                static const size_t numTables = (sizeof(tableSQL) / sizeof(*tableSQL));
                 
                 okSoFar = true;
-                for (int ii = 0; okSoFar && (ii < numTables); ++ii)
+                for (size_t ii = 0; okSoFar && (ii < numTables); ++ii)
                 {
-                    okSoFar = performSQLstatementWithNoResults(database, tableSQL[ii]);
+                    okSoFar = performSQLstatementWithNoResultsNoArgs(database, tableSQL[ii]);
                 }
-                if (okSoFar)
-                {
-                    okSoFar = performSQLstatementWithNoResults(database, kEndTransaction);
-                }
-                else
-                {
-                    performSQLstatementWithNoResults(database, kRollbackTransaction);
-                }
+                okSoFar = doEndTransaction(database, okSoFar);
             }
         }
         else
@@ -867,13 +988,14 @@ static int setupCheckChannel(sqlite3_stmt * statement,
     try
     {
         int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
+        
         if (0 < channelNameIndex)
         {
-            const char * channelNameString = static_cast<const char *> (stuff);
+            const char * channelNameString = static_cast<const char *>(stuff);
             
             OD_LOG_S1("channelNameString <- ", channelNameString); //####
             result = sqlite3_bind_text(statement, channelNameIndex, channelNameString,
-                                       static_cast<int> (strlen(channelNameString)),
+                                       static_cast<int>(strlen(channelNameString)),
                                        SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
@@ -908,13 +1030,14 @@ static int setupCollectAssociates(sqlite3_stmt * statement,
     try
     {
         int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
+        
         if (0 < channelNameIndex)
         {
-            const char * channelNameString = static_cast<const char *> (stuff);
+            const char * channelNameString = static_cast<const char *>(stuff);
             
             OD_LOG_S1("channelNameString <- ", channelNameString); //####
             result = sqlite3_bind_text(statement, channelNameIndex, channelNameString,
-                                       static_cast<int> (strlen(channelNameString)),
+                                       static_cast<int>(strlen(channelNameString)),
                                        SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
@@ -949,13 +1072,14 @@ static int setupCollectPrimaries(sqlite3_stmt * statement,
     try
     {
         int associatesIdIndex = sqlite3_bind_parameter_index(statement, "@" ASSOCIATES_ID_C_);
+        
         if (0 < associatesIdIndex)
         {
-            const char * associatesIdString = static_cast<const char *> (stuff);
+            const char * associatesIdString = static_cast<const char *>(stuff);
             
             OD_LOG_S1("associatesIdString <- ", associatesIdString); //####
             result = sqlite3_bind_text(statement, associatesIdIndex, associatesIdString,
-                                       static_cast<int> (strlen(associatesIdString)),
+                                       static_cast<int>(strlen(associatesIdString)),
                                        SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
@@ -990,13 +1114,14 @@ static int setupInsertIntoAssociates(sqlite3_stmt * statement,
     try
     {
         int associateIndex = sqlite3_bind_parameter_index(statement, "@" ASSOCIATE_C_);
+        
         if (0 < associateIndex)
         {
-            const char * associateString = static_cast<const char *> (stuff);
+            const char * associateString = static_cast<const char *>(stuff);
             
             OD_LOG_S1("associateString <- ", associateString); //####
             result = sqlite3_bind_text(statement, associateIndex, associateString,
-                                       static_cast<int> (strlen(associateString)),
+                                       static_cast<int>(strlen(associateString)),
                                        SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
@@ -1031,13 +1156,14 @@ static int setupInsertIntoChannels(sqlite3_stmt * statement,
     try
     {
         int channelIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
+        
         if (0 < channelIndex)
         {
-            const char * channelString = static_cast<const char *> (stuff);
+            const char * channelString = static_cast<const char *>(stuff);
             
             OD_LOG_S1("channelString <- ", channelString); //####
             result = sqlite3_bind_text(statement, channelIndex, channelString,
-                                       static_cast<int> (strlen(channelString)), SQLITE_TRANSIENT);
+                                       static_cast<int>(strlen(channelString)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
                 OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
@@ -1077,19 +1203,19 @@ static int setupInsertIntoChannelsAssociates(sqlite3_stmt * statement,
         if ((0 < associateIndex) && (0 < channelIndex) && (0 < directionIndex))
         {
             const ChannelAssociateData * descriptor =
-                                                static_cast<const ChannelAssociateData *> (stuff);
+                                                static_cast<const ChannelAssociateData *>(stuff);
             const char *                 channelName = descriptor->_channel.c_str();
             
             OD_LOG_S1("channelName <- ", channelName); //####
             result = sqlite3_bind_text(statement, channelIndex, channelName,
-                                       static_cast<int> (strlen(channelName)), SQLITE_TRANSIENT);
+                                       static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK == result)
             {
                 const char * associateName = descriptor->_associate.c_str();
                 
                 OD_LOG_S1("associateName <- ", associateName); //####
                 result = sqlite3_bind_text(statement, associateIndex, associateName,
-                                           static_cast<int> (strlen(associateName)),
+                                           static_cast<int>(strlen(associateName)),
                                            SQLITE_TRANSIENT);
             }
             if (SQLITE_OK == result)
@@ -1098,7 +1224,7 @@ static int setupInsertIntoChannelsAssociates(sqlite3_stmt * statement,
                 
                 OD_LOG_S1("directionString <- ", directionString); //####
                 result = sqlite3_bind_text(statement, directionIndex, directionString,
-                                           static_cast<int> (strlen(directionString)),
+                                           static_cast<int>(strlen(directionString)),
                                            SQLITE_TRANSIENT);
             }
         }
@@ -1133,11 +1259,11 @@ static int setupInsertIntoKeywords(sqlite3_stmt * statement,
         
         if (0 < keywordIndex)
         {
-            const char * nameString = static_cast<const char *> (stuff);
+            const char * nameString = static_cast<const char *>(stuff);
             
             OD_LOG_S1("nameString <- ", nameString); //####
             result = sqlite3_bind_text(statement, keywordIndex, nameString,
-                                       static_cast<int> (strlen(nameString)), SQLITE_TRANSIENT);
+                                       static_cast<int>(strlen(nameString)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
                 OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
@@ -1180,19 +1306,19 @@ static int setupInsertIntoRequests(sqlite3_stmt * statement,
         if ((0 < channelNameIndex) && (0 < detailsIndex) && (0 < inputIndex) && (0 < outputIndex) &&
             (0 < requestIndex) && (0 < versionIndex))
         {
-            const RequestDescription * descriptor = static_cast<const RequestDescription *> (stuff);
+            const RequestDescription * descriptor = static_cast<const RequestDescription *>(stuff);
             const char *               channelName = descriptor->_channel.c_str();
             
             OD_LOG_S1("channelName <- ", channelName); //####
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
-                                       static_cast<int> (strlen(channelName)), SQLITE_TRANSIENT);
+                                       static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK == result)
             {
                 const char * request = descriptor->_request.c_str();
                 
                 OD_LOG_S1("request <- ", request); //####
                 result = sqlite3_bind_text(statement, requestIndex, request,
-                                           static_cast<int> (strlen(request)), SQLITE_TRANSIENT);
+                                           static_cast<int>(strlen(request)), SQLITE_TRANSIENT);
             }
             if (SQLITE_OK == result)
             {
@@ -1200,7 +1326,7 @@ static int setupInsertIntoRequests(sqlite3_stmt * statement,
                 
                 OD_LOG_S1("input <- ", input); //####
                 result = sqlite3_bind_text(statement, inputIndex, input,
-                                           static_cast<int> (strlen(input)), SQLITE_TRANSIENT);
+                                           static_cast<int>(strlen(input)), SQLITE_TRANSIENT);
             }
             if (SQLITE_OK == result)
             {
@@ -1208,7 +1334,7 @@ static int setupInsertIntoRequests(sqlite3_stmt * statement,
                 
                 OD_LOG_S1("output <- ", output); //####
                 result = sqlite3_bind_text(statement, outputIndex, output,
-                                           static_cast<int> (strlen(output)), SQLITE_TRANSIENT);
+                                           static_cast<int>(strlen(output)), SQLITE_TRANSIENT);
             }
             if (SQLITE_OK == result)
             {
@@ -1216,7 +1342,7 @@ static int setupInsertIntoRequests(sqlite3_stmt * statement,
                 
                 OD_LOG_S1("version <- ", version); //####
                 result = sqlite3_bind_text(statement, versionIndex, version,
-                                           static_cast<int> (strlen(version)), SQLITE_TRANSIENT);
+                                           static_cast<int>(strlen(version)), SQLITE_TRANSIENT);
             }
             if (SQLITE_OK == result)
             {
@@ -1224,7 +1350,7 @@ static int setupInsertIntoRequests(sqlite3_stmt * statement,
                 
                 OD_LOG_S1("details <- ", details); //####
                 result = sqlite3_bind_text(statement, detailsIndex, details,
-                                           static_cast<int> (strlen(details)), SQLITE_TRANSIENT);
+                                           static_cast<int>(strlen(details)), SQLITE_TRANSIENT);
             }
             if (SQLITE_OK != result)
             {
@@ -1265,19 +1391,19 @@ static int setupInsertIntoRequestsKeywords(sqlite3_stmt * statement,
         
         if ((0 < channelNameIndex) && (0 < keywordIndex) && (0 < requestIndex))
         {
-            const RequestKeywordData * descriptor = static_cast<const RequestKeywordData *> (stuff);
+            const RequestKeywordData * descriptor = static_cast<const RequestKeywordData *>(stuff);
             const char *               keyword = descriptor->_key.c_str();
             
             OD_LOG_S1("keyword <- ", keyword); //####
             result = sqlite3_bind_text(statement, keywordIndex, keyword,
-                                       static_cast<int> (strlen(keyword)), SQLITE_TRANSIENT);
+                                       static_cast<int>(strlen(keyword)), SQLITE_TRANSIENT);
             if (SQLITE_OK == result)
             {
                 const char * request = descriptor->_request.c_str();
                 
                 OD_LOG_S1("request <- ", request); //####
                 result = sqlite3_bind_text(statement, requestIndex, request,
-                                           static_cast<int> (strlen(request)), SQLITE_TRANSIENT);
+                                           static_cast<int>(strlen(request)), SQLITE_TRANSIENT);
             }
             if (SQLITE_OK == result)
             {
@@ -1285,7 +1411,7 @@ static int setupInsertIntoRequestsKeywords(sqlite3_stmt * statement,
                 
                 OD_LOG_S1("channelName <- ", channelName); //####
                 result = sqlite3_bind_text(statement, channelNameIndex, channelName,
-                                           static_cast<int> (strlen(channelName)),
+                                           static_cast<int>(strlen(channelName)),
                                            SQLITE_TRANSIENT);
             }
             if (SQLITE_OK != result)
@@ -1330,19 +1456,19 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
         if ((0 < channelNameIndex) && (0 < descriptionIndex) && (0 < executableIndex) &&
             (0 < nameIndex) && (0 < requestsDescriptionIndex))
         {
-            const ServiceData * descriptor = static_cast<const ServiceData *> (stuff);
+            const ServiceData * descriptor = static_cast<const ServiceData *>(stuff);
             const char *        channelName = descriptor->_channel.c_str();
             
             OD_LOG_S1("channelName <- ", channelName); //####
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
-                                       static_cast<int> (strlen(channelName)), SQLITE_TRANSIENT);
+                                       static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK == result)
             {
                 const char * name = descriptor->_name.c_str();
                 
                 OD_LOG_S1("name <- ", name); //####
                 result = sqlite3_bind_text(statement, nameIndex, name,
-                                           static_cast<int> (strlen(name)), SQLITE_TRANSIENT);
+                                           static_cast<int>(strlen(name)), SQLITE_TRANSIENT);
             }
             if (SQLITE_OK == result)
             {
@@ -1350,7 +1476,7 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
                 
                 OD_LOG_S1("description <- ", description); //####
                 result = sqlite3_bind_text(statement, descriptionIndex, description,
-                                           static_cast<int> (strlen(description)),
+                                           static_cast<int>(strlen(description)),
                                            SQLITE_TRANSIENT);
             }
             if (SQLITE_OK == result)
@@ -1359,7 +1485,7 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
                 
                 OD_LOG_S1("executable <- ", executable); //####
                 result = sqlite3_bind_text(statement, executableIndex, executable,
-                                           static_cast<int> (strlen(executable)),
+                                           static_cast<int>(strlen(executable)),
                                            SQLITE_TRANSIENT);
             }
             if (SQLITE_OK == result)
@@ -1368,7 +1494,7 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
                 
                 OD_LOG_S1("requestsDescription <- ", requestsDescription); //####
                 result = sqlite3_bind_text(statement, requestsDescriptionIndex, requestsDescription,
-                                           static_cast<int> (strlen(requestsDescription)),
+                                           static_cast<int>(strlen(requestsDescription)),
                                            SQLITE_TRANSIENT);
             }
             if (SQLITE_OK != result)
@@ -1409,10 +1535,10 @@ static int setupRemoveFromAssociates(sqlite3_stmt * statement,
         
         if (0 < associateIndex)
         {
-            const char * anAssociate = static_cast<const char *> (stuff);
+            const char * anAssociate = static_cast<const char *>(stuff);
             
             result = sqlite3_bind_text(statement, associateIndex, anAssociate,
-                                       static_cast<int> (strlen(anAssociate)), SQLITE_TRANSIENT);
+                                       static_cast<int>(strlen(anAssociate)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
                 OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
@@ -1449,10 +1575,10 @@ static int setupRemoveFromChannels(sqlite3_stmt * statement,
         
         if (0 < channelNameIndex)
         {
-            const char * channelName = static_cast<const char *> (stuff);
+            const char * channelName = static_cast<const char *>(stuff);
             
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
-                                       static_cast<int> (strlen(channelName)), SQLITE_TRANSIENT);
+                                       static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
                 OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
@@ -1489,10 +1615,10 @@ static int setupRemoveFromChannelsAssociates(sqlite3_stmt * statement,
         
         if (0 < channelNameIndex)
         {
-            const char * channelName = static_cast<const char *> (stuff);
+            const char * channelName = static_cast<const char *>(stuff);
             
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
-                                       static_cast<int> (strlen(channelName)), SQLITE_TRANSIENT);
+                                       static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
                 OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
@@ -1529,10 +1655,10 @@ static int setupRemoveFromRequests(sqlite3_stmt * statement,
         
         if (0 < channelNameIndex)
         {
-            const char * channelName = static_cast<const char *> (stuff);
+            const char * channelName = static_cast<const char *>(stuff);
             
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
-                                       static_cast<int> (strlen(channelName)), SQLITE_TRANSIENT);
+                                       static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
                 OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
@@ -1569,10 +1695,10 @@ static int setupRemoveFromRequestsKeywords(sqlite3_stmt * statement,
         
         if (0 < channelNameIndex)
         {
-            const char * channelName = static_cast<const char *> (stuff);
+            const char * channelName = static_cast<const char *>(stuff);
             
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
-                                       static_cast<int> (strlen(channelName)), SQLITE_TRANSIENT);
+                                       static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
                 OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
@@ -1609,10 +1735,10 @@ static int setupRemoveFromServices(sqlite3_stmt * statement,
         
         if (0 < channelNameIndex)
         {
-            const char * channelName = static_cast<const char *> (stuff);
+            const char * channelName = static_cast<const char *>(stuff);
             
             result = sqlite3_bind_text(statement, channelNameIndex, channelName,
-                                       static_cast<int> (strlen(channelName)), SQLITE_TRANSIENT);
+                                       static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
             if (SQLITE_OK != result)
             {
                 OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
@@ -1703,7 +1829,7 @@ bool RegistryService::addAssociation(const yarp::os::ConstString & primaryChanne
     
     try
     {
-        if (performSQLstatementWithNoResults(_db, kBeginTransaction))
+        if (doBeginTransaction(_db))
         {
             static const char * insertIntoAssociates = T_("INSERT INTO " ASSOCIATES_T_ "("
                                                           ASSOCIATE_C_ ") VALUES(@" ASSOCIATE_C_
@@ -1711,7 +1837,7 @@ bool RegistryService::addAssociation(const yarp::os::ConstString & primaryChanne
             
             okSoFar = performSQLstatementWithNoResults(_db, insertIntoAssociates,
                                                        setupInsertIntoAssociates,
-                                       static_cast<const void *> (secondaryChannelName.c_str()));
+                                       static_cast<const void *>(secondaryChannelName.c_str()));
             if (okSoFar)
             {
                 static const char * insertIntoChannels = T_("INSERT INTO " CHANNELS_T_ "("
@@ -1720,7 +1846,7 @@ bool RegistryService::addAssociation(const yarp::os::ConstString & primaryChanne
                 
                 okSoFar = performSQLstatementWithNoResultsAllowConstraint(_db, insertIntoChannels,
                                                                           setupInsertIntoChannels,
-                                          static_cast<const void *> (primaryChannelName.c_str()));
+                                          static_cast<const void *>(primaryChannelName.c_str()));
             }
             if (okSoFar)
             {
@@ -1743,14 +1869,7 @@ bool RegistryService::addAssociation(const yarp::os::ConstString & primaryChanne
                                                            setupInsertIntoChannelsAssociates,
                                                            &chanAssocData);
             }
-            if (okSoFar)
-            {
-                okSoFar = performSQLstatementWithNoResults(_db, kEndTransaction);
-            }
-            else
-            {
-                performSQLstatementWithNoResults(_db, kRollbackTransaction);
-            }
+            okSoFar = doEndTransaction(_db, okSoFar);
         }
     }
     catch (...)
@@ -1770,7 +1889,7 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &    keywordList,
     
     try
     {
-        if (performSQLstatementWithNoResults(_db, kBeginTransaction))
+        if (doBeginTransaction(_db))
         {
             static const char * insertIntoRequests = T_("INSERT INTO " REQUESTS_T_ "("
                                                         CHANNELNAME_C_ "," REQUEST_C_ "," INPUT_C_
@@ -1782,7 +1901,7 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &    keywordList,
             // Add the request.
             okSoFar = performSQLstatementWithNoResults(_db, insertIntoRequests,
                                                        setupInsertIntoRequests,
-                                                       static_cast<const void *> (&description));
+                                                       static_cast<const void *>(&description));
             if (okSoFar)
             {
                 // Add the keywords.
@@ -1815,7 +1934,7 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &    keywordList,
                         reqKeyData._key = aKeyword.toString();
                         okSoFar = performSQLstatementWithNoResults(_db, insertIntoKeywords,
                                                                    setupInsertIntoKeywords,
-                                               static_cast<const void *> (reqKeyData._key.c_str()));
+                                               static_cast<const void *>(reqKeyData._key.c_str()));
                         if (okSoFar)
                         {
                             okSoFar = performSQLstatementWithNoResults(_db,
@@ -1831,14 +1950,7 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &    keywordList,
                     }
                 }
             }
-            if (okSoFar)
-            {
-                okSoFar = performSQLstatementWithNoResults(_db, kEndTransaction);
-            }
-            else
-            {
-                performSQLstatementWithNoResults(_db, kRollbackTransaction);
-            }
+            okSoFar = doEndTransaction(_db, okSoFar);
         }
     }
     catch (...)
@@ -1864,7 +1976,7 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
     
     try
     {
-        if (performSQLstatementWithNoResults(_db, kBeginTransaction))
+        if (doBeginTransaction(_db))
         {
             // Add the service channel name.
             static const char * insertIntoServices = T_("INSERT INTO " SERVICES_T_ "("
@@ -1883,15 +1995,8 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
             servData._requestsDescription = requestsDescription;
             okSoFar = performSQLstatementWithNoResults(_db, insertIntoServices,
                                                        setupInsertIntoServices,
-                                                       static_cast<const void *> (&servData));
-            if (okSoFar)
-            {
-                okSoFar = performSQLstatementWithNoResults(_db, kEndTransaction);
-            }
-            else
-            {
-                performSQLstatementWithNoResults(_db, kRollbackTransaction);
-            }
+                                                       static_cast<const void *>(&servData));
+            okSoFar = doEndTransaction(_db, okSoFar);
             reportStatusChange(channelName, kRegistryAddService);
         }
     }
@@ -1950,26 +2055,23 @@ bool RegistryService::checkForExistingService(const yarp::os::ConstString & chan
     
     try
     {
-        if (performSQLstatementWithNoResults(_db, kBeginTransaction))
+        if (doBeginTransaction(_db))
         {
-            yarp::os::Bottle dummy;
-            const char *     checkName = T_("SELECT DISTINCT " NAME_C_ " FROM " SERVICES_T_
-                                            " WHERE " CHANNELNAME_C_ " = @" CHANNELNAME_C_);
+            yarp::os::Bottle    dummy;
+            static const char * checkName = T_("SELECT DISTINCT " NAME_C_ " FROM " SERVICES_T_
+                                               " WHERE " CHANNELNAME_C_ " = @" CHANNELNAME_C_);
             
             okSoFar = performSQLstatementWithSingleColumnResults(_db, dummy, checkName, 0,
                                                                  setupCheckChannel,
-                                                 static_cast<const void *> (channelName.c_str()));
-            if (okSoFar)
-            {
-                okSoFar = performSQLstatementWithNoResults(_db, kEndTransaction);
-            }
-            else
-            {
-                performSQLstatementWithNoResults(_db, kRollbackTransaction);
-            }
+                                                 static_cast<const void *>(channelName.c_str()));
+            okSoFar = doEndTransaction(_db, okSoFar);
             if (okSoFar)
             {
                 okSoFar = (1 <= dummy.size());
+                if (! okSoFar)
+                {
+                    reportStatusChange(channelName, kRegistryNotAnExistingService);
+                }
             }
         }
     }
@@ -2092,35 +2194,36 @@ bool RegistryService::fillInAssociates(const yarp::os::ConstString & channelName
         isPrimary = false;
         inputs.clear();
         outputs.clear();
-        if (performSQLstatementWithNoResults(_db, kBeginTransaction))
+        if (doBeginTransaction(_db))
         {
             // First, check if the channel name is a primary:
-            yarp::os::Bottle dummy;
-            const char *     collectPrimaries1 = T_("SELECT " KEY_C_ " FROM " CHANNELS_T_ " WHERE "
-                                                    CHANNELNAME_C_ " = @" CHANNELNAME_C_);
+            yarp::os::Bottle    dummy;
+            static const char * collectPrimaries1 = T_("SELECT " KEY_C_ " FROM " CHANNELS_T_
+                                                       " WHERE " CHANNELNAME_C_ " = @"
+                                                       CHANNELNAME_C_);
             
             okSoFar = performSQLstatementWithSingleColumnResults(_db, dummy, collectPrimaries1, 0,
                                                                  setupCollectAssociates,
-                                                 static_cast<const void *> (channelName.c_str()));
+                                                 static_cast<const void *>(channelName.c_str()));
             if (okSoFar)
             {
                 isPrimary = (0 < dummy.size());
                 if (isPrimary)
                 {
                     // Second, gather a list of the associated channels:
-                    yarp::os::Bottle associatesList;
-                    const char *     collectAssociates = T_("SELECT " ASSOCIATES_ID_C_ ", "
-                                                            DIRECTION_C_ " FROM "
-                                                            CHANNELSASSOCIATES_T_ " WHERE "
-                                                            CHANNELS_ID_C_ " IN (SELECT " KEY_C_
-                                                            " FROM " CHANNELS_T_ " WHERE "
-                                                            CHANNELNAME_C_ " = @" CHANNELNAME_C_
-                                                            ")");
+                    yarp::os::Bottle    associatesList;
+                    static const char * collectAssociates = T_("SELECT " ASSOCIATES_ID_C_ ", "
+                                                               DIRECTION_C_ " FROM "
+                                                               CHANNELSASSOCIATES_T_ " WHERE "
+                                                               CHANNELS_ID_C_ " IN (SELECT " KEY_C_
+                                                               " FROM " CHANNELS_T_ " WHERE "
+                                                               CHANNELNAME_C_ " = @" CHANNELNAME_C_
+                                                               ")");
                     
                     okSoFar = performSQLstatementWithDoubleColumnResults(_db, associatesList,
                                                                          collectAssociates, 0, 1,
                                                                          setupCollectAssociates,
-                                                 static_cast<const void *> (channelName.c_str()));
+                                                 static_cast<const void *>(channelName.c_str()));
                     if (okSoFar)
                     {
                         for (int ii = 0, numAssociates = associatesList.size();
@@ -2171,17 +2274,17 @@ bool RegistryService::fillInAssociates(const yarp::os::ConstString & channelName
                 }
                 else
                 {
-                    const char * collectPrimaries2 = T_("SELECT " CHANNELNAME_C_ " FROM "
-                                                        CHANNELS_T_ " WHERE " KEY_C_ " IN (SELECT "
-                                                        CHANNELS_ID_C_ " FROM "
-                                                        CHANNELSASSOCIATES_T_ " WHERE "
-                                                        ASSOCIATES_ID_C_ " = @" ASSOCIATES_ID_C_
-                                                        ")");
+                    static const char * collectPrimaries2 = T_("SELECT " CHANNELNAME_C_ " FROM "
+                                                               CHANNELS_T_ " WHERE " KEY_C_
+                                                               " IN (SELECT " CHANNELS_ID_C_
+                                                               " FROM " CHANNELSASSOCIATES_T_
+                                                               " WHERE " ASSOCIATES_ID_C_ " = @"
+                                                               ASSOCIATES_ID_C_ ")");
                     
                     okSoFar = performSQLstatementWithSingleColumnResults(_db, dummy,
                                                                          collectPrimaries2, 0,
                                                                          setupCollectPrimaries,
-                                                 static_cast<const void *> (channelName.c_str()));
+                                                 static_cast<const void *>(channelName.c_str()));
                     if (okSoFar)
                     {
                         if (1 == dummy.size())
@@ -2206,14 +2309,7 @@ bool RegistryService::fillInAssociates(const yarp::os::ConstString & channelName
                     }
                 }
             }
-            if (okSoFar)
-            {
-                okSoFar = performSQLstatementWithNoResults(_db, kEndTransaction);
-            }
-            else
-            {
-                performSQLstatementWithNoResults(_db, kRollbackTransaction);
-            }
+            okSoFar = doEndTransaction(_db, okSoFar);
         }
     }
     catch (...)
@@ -2255,30 +2351,23 @@ bool RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
     {
         if (matcher)
         {
-            if (performSQLstatementWithNoResults(_db, kBeginTransaction))
+            if (doBeginTransaction(_db))
             {
                 yarp::os::Bottle &    subList = reply.addList();
-                const char *          sqlStart = (getNames ? T_("SELECT DISTINCT " NAME_C_ " FROM "
-                                                                SERVICES_T_ " WHERE " CHANNELNAME_C_
-                                                                " IN (SELECT DISTINCT "
-                                                                CHANNELNAME_C_ " FROM " REQUESTS_T_
-                                                                " WHERE ") :
-                                               T_("SELECT DISTINCT " CHANNELNAME_C_ " FROM "
-                                                  REQUESTS_T_ " WHERE "));
+                static const char *   sqlStartGetNames = T_("SELECT DISTINCT " NAME_C_ " FROM "
+                                                            SERVICES_T_ " WHERE " CHANNELNAME_C_
+                                                            " IN (SELECT DISTINCT " CHANNELNAME_C_
+                                                            " FROM " REQUESTS_T_ " WHERE ");
+                static const char *   sqlStartNoNames = T_("SELECT DISTINCT " CHANNELNAME_C_
+                                                           " FROM " REQUESTS_T_ " WHERE ");
+                const char *          sqlStart = (getNames ?  sqlStartGetNames : sqlStartNoNames);
                 const char *          sqlEnd = (getNames ? T_(")") : T_(""));
                 yarp::os::ConstString requestAsSQL(matcher->asSQLString(sqlStart, sqlEnd));
                 
                 OD_LOG_S1s("requestAsSQL <- ", requestAsSQL); //####
                 okSoFar = performSQLstatementWithSingleColumnResults(_db, subList,
                                                                      requestAsSQL.c_str());
-                if (okSoFar)
-                {
-                    okSoFar = performSQLstatementWithNoResults(_db, kEndTransaction);
-                }
-                else
-                {
-                    performSQLstatementWithNoResults(_db, kRollbackTransaction);
-                }
+                okSoFar = doEndTransaction(_db, okSoFar);
             }
         }
         else
@@ -2303,20 +2392,21 @@ bool RegistryService::removeAllAssociations(const yarp::os::ConstString & primar
     
     try
     {
-        if (performSQLstatementWithNoResults(_db, kBeginTransaction))
+        if (doBeginTransaction(_db))
         {
             // First, gather a list of the associated channels:
             yarp::os::Bottle associatesList;
-            const char *     collectAssociates = T_("SELECT " ASSOCIATES_ID_C_ " FROM "
-                                                    CHANNELSASSOCIATES_T_ " WHERE " CHANNELS_ID_C_
-                                                    " IN (SELECT " KEY_C_ " FROM " CHANNELS_T_
-                                                    " WHERE " CHANNELNAME_C_ " = @" CHANNELNAME_C_
-                                                    ")");
+            static const char *     collectAssociates = T_("SELECT " ASSOCIATES_ID_C_ " FROM "
+                                                           CHANNELSASSOCIATES_T_ " WHERE "
+                                                           CHANNELS_ID_C_ " IN (SELECT " KEY_C_
+                                                           " FROM " CHANNELS_T_ " WHERE "
+                                                           CHANNELNAME_C_ " = @" CHANNELNAME_C_
+                                                           ")");
             
             okSoFar = performSQLstatementWithSingleColumnResults(_db, associatesList,
                                                                  collectAssociates, 0,
                                                                  setupCollectAssociates,
-                                         static_cast<const void *> (primaryChannelName.c_str()));
+                                         static_cast<const void *>(primaryChannelName.c_str()));
             if (okSoFar)
             {
                 static const char * removeFromChannelsAssociates = T_("DELETE FROM "
@@ -2329,7 +2419,7 @@ bool RegistryService::removeAllAssociations(const yarp::os::ConstString & primar
                 
                 okSoFar = performSQLstatementWithNoResults(_db, removeFromChannelsAssociates,
                                                            setupRemoveFromChannelsAssociates,
-                                           static_cast<const void *> (primaryChannelName.c_str()));
+                                           static_cast<const void *>(primaryChannelName.c_str()));
             }
             if (okSoFar)
             {
@@ -2346,7 +2436,7 @@ bool RegistryService::removeAllAssociations(const yarp::os::ConstString & primar
                         
                         okSoFar = performSQLstatementWithNoResults(_db, removeFromAssociates,
                                                                    setupRemoveFromAssociates,
-                                       static_cast<const void *> (anAssociate.toString().c_str()));
+                                       static_cast<const void *>(anAssociate.toString().c_str()));
                     }
                     else
                     {
@@ -2362,16 +2452,9 @@ bool RegistryService::removeAllAssociations(const yarp::os::ConstString & primar
                 
                 okSoFar = performSQLstatementWithNoResults(_db, removeFromChannels,
                                                            setupRemoveFromChannels,
-                                           static_cast<const void *> (primaryChannelName.c_str()));
+                                           static_cast<const void *>(primaryChannelName.c_str()));
             }
-            if (okSoFar)
-            {
-                okSoFar = performSQLstatementWithNoResults(_db, kEndTransaction);
-            }
-            else
-            {
-                performSQLstatementWithNoResults(_db, kRollbackTransaction);
-            }
+            okSoFar = doEndTransaction(_db, okSoFar);
         }
     }
     catch (...)
@@ -2400,7 +2483,7 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceC
     
     try
     {
-        if (performSQLstatementWithNoResults(_db, kBeginTransaction))
+        if (doBeginTransaction(_db))
         {
             // Remove the service channel requests.
             static const char * removeFromRequestsKeywords = T_("DELETE FROM " REQUESTSKEYWORDS_T_
@@ -2411,7 +2494,7 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceC
             
             okSoFar = performSQLstatementWithNoResults(_db, removeFromRequestsKeywords,
                                                        setupRemoveFromRequestsKeywords,
-                                           static_cast<const void *> (serviceChannelName.c_str()));
+                                           static_cast<const void *>(serviceChannelName.c_str()));
             if (okSoFar)
             {
                 // Remove the service channel requests.
@@ -2420,7 +2503,7 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceC
                 
                 okSoFar = performSQLstatementWithNoResults(_db, removeFromRequests,
                                                            setupRemoveFromRequests,
-                                           static_cast<const void *> (serviceChannelName.c_str()));
+                                           static_cast<const void *>(serviceChannelName.c_str()));
             }
             if (okSoFar)
             {
@@ -2430,16 +2513,9 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceC
                 
                 okSoFar = performSQLstatementWithNoResults(_db, removeFromServices,
                                                            setupRemoveFromServices,
-                                           static_cast<const void *> (serviceChannelName.c_str()));
+                                           static_cast<const void *>(serviceChannelName.c_str()));
             }
-            if (okSoFar)
-            {
-                okSoFar = performSQLstatementWithNoResults(_db, kEndTransaction);
-            }
-            else
-            {
-                performSQLstatementWithNoResults(_db, kRollbackTransaction);
-            }
+            okSoFar = doEndTransaction(_db, okSoFar);
             reportStatusChange(serviceChannelName, kRegistryRemoveService);
         }
     }
@@ -2459,8 +2535,23 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
     OD_LOG_S1s("channelName = ", channelName); //####
     if (_statusChannel)
     {
+        char             buffer1[20];
+        char             buffer2[20];
         yarp::os::Bottle message;
+        time_t           rawtime;
         
+        time(&rawtime);
+        struct tm * locTime = localtime(&rawtime);
+        
+#if MAC_OR_LINUX_
+        strftime(buffer1, sizeof(buffer1), "%F", locTime);
+        strftime(buffer2, sizeof(buffer2), "%T", locTime);
+#else // ! MAC_OR_LINUX_
+        strftime(buffer1, sizeof(buffer1), "%x", locTime);
+        strftime(buffer2, sizeof(buffer2), "%X", locTime);
+#endif // ! MAC_OR_LINUX_
+        message.addString(buffer1);
+        message.addString(buffer2);
         message.addString(canonicalName());
         switch (newStatus)
         {
@@ -2469,7 +2560,12 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
                 message.addString(channelName);
                 break;
                 
-            case kRegistryPingFromService:
+            case kRegistryNotAnExistingService :
+                message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED);
+                message.addString(channelName);
+                break;
+                
+            case kRegistryPingFromService :
                 message.addString(MpM_REGISTRY_STATUS_PINGED);
                 message.addString("by");
                 message.addString(channelName);

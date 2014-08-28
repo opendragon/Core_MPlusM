@@ -46,7 +46,6 @@
 #include "M+MListRequestHandler.h"
 #include "M+MNameRequestHandler.h"
 #include "M+MPingThread.h"
-#include "M+MQuitRequestHandler.h"
 
 #include <mpm/M+MBaseContext.h>
 #include <mpm/M+MBaseServiceInputHandler.h>
@@ -202,8 +201,8 @@ BaseService::BaseService(const ServiceKind             theKind,
     _canonicalName(canonicalName), _description(description),
     _requestsDescription(requestsDescription), _requestCount(0), _channelsHandler(NULL),
     _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL),
-    _nameHandler(NULL), _quitHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
-    _pinger(NULL), _kind(theKind), _started(false), _useMultipleHandlers(useMultipleHandlers)
+    _nameHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL),
+    _kind(theKind), _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
@@ -227,9 +226,8 @@ BaseService::BaseService(const ServiceKind             theKind,
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _canonicalName(canonicalName), _description(description), _requestCount(0),
     _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL),
-    _listHandler(NULL), _nameHandler(NULL), _quitHandler(NULL), _endpoint(NULL), _handler(NULL),
-    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _started(false),
-    _useMultipleHandlers(useMultipleHandlers)
+    _listHandler(NULL), _nameHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
+    _pinger(NULL), _kind(theKind), _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -311,9 +309,8 @@ void BaseService::attachRequestHandlers(void)
         _infoHandler = new InfoRequestHandler;
         _listHandler = new ListRequestHandler;
         _nameHandler = new NameRequestHandler(*this);
-        _quitHandler = new QuitRequestHandler(*this);
         if (_channelsHandler && _clientsHandler && _countHandler &&  _detachHandler &&
-            _infoHandler && _listHandler && _nameHandler && _quitHandler)
+            _infoHandler && _listHandler && _nameHandler)
         {
             _requestHandlers.registerRequestHandler(_channelsHandler);
             _requestHandlers.registerRequestHandler(_clientsHandler);
@@ -322,13 +319,11 @@ void BaseService::attachRequestHandlers(void)
             _requestHandlers.registerRequestHandler(_infoHandler);
             _requestHandlers.registerRequestHandler(_listHandler);
             _requestHandlers.registerRequestHandler(_nameHandler);
-            _requestHandlers.registerRequestHandler(_quitHandler);
         }
         else
         {
             OD_LOG("! (_channelsHandler && _clientsHandler && _countHandler && " //####
-                   "_detachHandler && _infoHandler && _listHandler && _nameHandler && " //####
-                   "_quitHandler)"); //####
+                   "_detachHandler && _infoHandler && _listHandler && _nameHandler)"); //####
         }
     }
     catch (...)
@@ -422,12 +417,6 @@ void BaseService::detachRequestHandlers(void)
             _requestHandlers.unregisterRequestHandler(_nameHandler);
             delete _nameHandler;
             _nameHandler = NULL;
-        }
-        if (_quitHandler)
-        {
-            _requestHandlers.unregisterRequestHandler(_quitHandler);
-            delete _quitHandler;
-            _quitHandler = NULL;
         }
     }
     catch (...)

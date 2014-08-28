@@ -38,7 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMBaseServiceInputHandlerCreator_H_))
-# define MpMBaseServiceInputHandlerCreator_H_  /* Header guard */
+# define MpMBaseServiceInputHandlerCreator_H_ /* Header guard */
 
 # include <mpm/M+MInputHandlerCreator.h>
 

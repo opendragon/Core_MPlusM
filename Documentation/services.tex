@@ -1,212 +1,276 @@
 \ProvidesFile{services.tex}[v1.0.0]
-\primaryStart{Services~and~Their~Protocols}
+\primaryStart[ServicesAndTheirProtocols]{Services~and~Their~Protocols}
+An \mplusm{} installation consists of a number of service applications and their companion
+client applications, communicating via \mplusm{} requests and responses on a \yarp{}
+network.\\
 
-			||TBD TBD TBD||
+There is one special service, the \serviceNameR[Service~Registry]{ServiceRegistry}, which
+manages information about all other active services; all services register themselves
+with the \serviceNameR[Service~Registry]{ServiceRegistry} so that client applications and
+utilities can get information about the service.\\
 
-			||/TBD TBD TBD||
+All services and clients utilize a request / response protocol that is defined by the
+\mplusm{} \compLang{C++} core classes.\\
 
-\secondaryStart{Standard~Services}
+The standard requests are in 4 groups:
+\begin{itemize}
+\item \textbf{\secondaryRef{BasicRequests}{Basic~Requests:}} requests that support the
+fundamental \mplusm{} service mechanisms
+\item \textbf{\secondaryRef{ServiceRegistryRequests}{Service~Registry~Requests:}} requests
+that are specific to the \serviceNameR[Service~Registry]{ServiceRegistry}
+\item \textbf{\secondaryRef{InputOutputRequests}{Input~/~Output~Requests:}} requests that
+are specific to Input~/~Output services
+\item \textbf{\secondaryRef{MiscellaneousRequests}{Miscellaneous~Requests:}} other
+requests
+\end{itemize}
+Note that the \secondaryRef{BasicRequests}{Basic~Requests} are part of every service and
+automatically supported in the base class of all services,
+\begin{Large}\textbf{TBD--Base Service--TBD}\end{Large}.\\
 
-			||TBD TBD TBD||
+When a client sends a request to a service, it can optionally request a response from the
+service.
+If no response is requested, the request is processed but no response is sent.
+\secondaryStart[StandardServices]{Standard~Services}
+Their are two standard services that are always part of an \mplusm{} installation.
+\utilityNameR{mpmRequestCounterService} and its companion application
+\utilityNameR{mpmRequestCounterClient} are described elsewhere, and the
+\serviceNameR[Service~Registry]{ServiceRegistry} is described in the following section.
+\tertiaryStart{mpmRegistryService (also known as the
+\serviceNameD[Service~Registry]{ServiceRegistry})}
+The \serviceNameX[Service~Registry]{ServiceRegistry} application is a background service
+that is used to manage other services and their connections.
+Its primary purpose is to serve as a repository of information on the active services in
+an \mplusm{} installation.\\
 
-			||/TBD TBD TBD||
+It uses an internal database, as described in the
+\appendixRef{InternalDatabaseStructure}{Internal~Database~Structure} appendix.
+It responds to the requests in the
+\secondaryRef{ServiceRegistryRequests}{Service~Registry~Requests} group.\\
 
-\tertiaryStart{mpmRegistryService (also known as the \serviceNameD[Service~Registry]{ServiceRegistry})}
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
-\tertiaryEnd{\serviceNameE{mpmRegistryService}}
-
+Note that only one copy of the \serviceNameX[Service~Registry]{ServiceRegistry}
+application can be running at a time in an \mplusm{} installation, due to its fixed
+\yarp{} network port.
+\tertiaryEnd{\serviceNameE[Service~Registry]{mpmRegistryService}}
 \secondaryEnd{}
-
-\secondaryStart{Basic~Requests}
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+\secondaryStart[BasicRequests]{Basic~Requests}
+These requests are implemented in all \mplusm{} services.
+They constitute the fundamental mechanism that is used by the
+\serviceNameR[Service~Registry]{ServiceRegistry} to identify each active service.
+The base class for request handlers is
+\begin{Large}\textbf{TBD--Base Request Handler--TBD}\end{Large}.
 \tertiaryStart{\requestsNameD{Basic}{Basic}{channels}}
+The \requestsNameX{Basic}{Basic}{channels} request returns a list of the secondary input
+channels and a list of the secondary output channels for its service.\\
 
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+It is used by the \utilityNameR{mpmServiceLister} and
+\utilityNameR[Channel~Manager]{ChannelManager} utilities to determine the active \yarp{}
+network connections for each service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{channels}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{clients}, alias:\ %
+\requestsNameD{Basic}{Basic}{c}}
+The \requestsNameX{Basic}{Basic}{clients} request returns a list of the active clients of
+its service, if the service has \yarp{} network connections with persistent state.\\
 
-\tertiaryStart{\requestsNameD{Basic}{Basic}{clients}}
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+It is used by the \utilityNameR{mpmClientList} utility to display a list of the clients
+of services that have \yarp{} network connections with state.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{clients}}
-
 \tertiaryStart{\requestsNameD{Basic}{Basic}{detach}}
+The \requestsNameX{Basic}{Basic}{detach} request is used by clients of a service to
+indicate that they are no longer actively communicating with the service.\\
 
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+It is used by all client applications and adapters, such as
+\examplesNameR{Clients}{mpmEchoClient},
+\examplesNameR{Adapters}{mpmRandomNumberAdapter},\\
+\examplesNameR{Clients}{mpmRandomNumberClient}, \utilityNameR{mpmRequestCounterClient},
+\examplesNameR{Adapters}{mpmRunningSumAdapter},
+\examplesNameR{Adapters}{mpmRunningSumAltAdapter} and
+\examplesNameR{Clients}{mpmRunningSumClient}, to cleanly disconnect from their
+corresponding service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{detach}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{info}, alias:\ %
+\requestsNameD{Basic}{Basic}{i}}
+The \requestsNameX{Basic}{Basic}{info} request returns details about a single request
+handled by a service.
+The request details include the standard name of the request, the version number of the
+request handler for the request, search keywords that can be used when matching requests,
+a description of the request as well as representations of the expected arguments for the
+request and output of the request.\\
 
-\tertiaryStart{\requestsNameD{Basic}{Basic}{info}}
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+It is used by the \utilityNameR{mpmRequestInfo} utility to gather information about a
+request available from an active service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{info}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{list}, alias:\ %
+\requestsNameD{Basic}{Basic}{l}}
+The \requestsNameX{Basic}{Basic}{list} request returns details about one or more requests
+handled by a service.
+The request details include the standard name of the request, the version number of the
+request handler for the request, search keywords that can be used when matching requests,
+a description of the request as well as representations of the expected arguments for the
+request and output of the request.\\
 
-\tertiaryStart{\requestsNameD{Basic}{Basic}{list}}
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+It is used by the \serviceNameR[Service~Registry]{ServiceRegistry} and the
+\utilityNameR{mpmRequestInfo} utility to gather information about the requests available
+from each active service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{list}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{name}, alias:\ %
+\requestsNameD{Basic}{Basic}{n}}
+The \requestsNameX{Basic}{Basic}{name} request returns details about its service, in the
+form of the canonical name of the service, its description, its kind, the path to the
+executable for the service and a description of the requests for the service.\\
 
-\tertiaryStart{\requestsNameD{Basic}{Basic}{name}}
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+It is used by the \serviceNameR[Service~Registry]{ServiceRegistry} and the
+\utilityNameR{mpmServiceLister} and \utilityNameR[Channel~Manager]{ChannelManager}
+utilities to collect basic information about each service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{name}}
-
-\tertiaryStart{\requestsNameD{Basic}{Basic}{quit}}
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
-\tertiaryEnd{\requestsNameE{Basic}{Basic}{quit}}
-
 \secondaryEnd{}
-
-\secondaryStart{Service~Registry~Requests}
-
+\secondaryStart[ServiceRegistryRequests]{Service~Registry~Requests}
+The requests in this group are used exclusively by the
+\serviceNameR[Service~Registry]{ServiceRegistry} application to manage its internal
+database and to respond to information requests from client applications.
 \tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{associate}}
+The \requestsNameX{Service~Registry}{ServiceRegistry}{associate} request is sent by
+adapter applications to indicate that a particular \yarp{} network connection is part of
+the same process as the client connection that sent the request.\\
 
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+It is used by the adapter applications \examplesNameR{Adapters}{mpmRandomNumberAdapter},
+\examplesNameR{Adapters}{mpmRunningSumAdapter} and\\
+\examplesNameR{Adapters}{mpmRunningSumAltAdapter} to indicate the input and output
+\yarp{} network connections that are part of the application.
 \tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{associate}}
-
 \tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{disassociate}}
+The \requestsNameX{Service~Registry}{ServiceRegistry}{disassociate} request is sent by
+adapter applications to indicate that a particular \yarp{} network connection is no
+longer part of the same process as the client connection that sent the request.
+This is normally done as part of the shutdown process for the application.\\
 
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+It is used by the adapter applications \examplesNameR{Adapters}{mpmRandomNumberAdapter},
+\examplesNameR{Adapters}{mpmRunningSumAdapter} and\\
+\examplesNameR{Adapters}{mpmRunningSumAltAdapter} to indicate that all the input and
+output \yarp{} network connections that are part of the application are no longer active.
 \tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{disassociate}}
-
 \tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{getAssociates}}
+The \requestsNameX{Service~Registry}{ServiceRegistry}{getAssociates} request returns
+a list of the input \yarp{} network connections and a list of the output \yarp{} network
+connections for a given connection; if the requested port corresponds to a secondary
+\yarp{} network connection, then the request returns the client connection that it is
+associated with.\\
 
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+It is used by the \utilityNameR{mpmPortLister} and
+\utilityNameR[Channel~Manager]{ChannelManager} utilities to identify relationships
+between \yarp{} network connections.
 \tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{getAssociates}}
-
-\tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{match}}
+\tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{match}, alias:\ %
+\requestsNameD{Service~Registry}{ServiceRegistry}{find}}
+The \requestsNameX{Service~Registry}{ServiceRegistry}{match} request
 
 			||TBD TBD TBD||
 
 			||/TBD TBD TBD||
 
 \tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{match}}
-
 \tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{ping}}
+The \requestsNameX{Service~Registry}{ServiceRegistry}{ping} request
 
 			||TBD TBD TBD||
 
 			||/TBD TBD TBD||
 
 \tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{ping}}
-
-\tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{register}}
+\tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{register}, alias:\ %
+\requestsNameD{Service~Registry}{ServiceRegistry}{remember}}
+The \requestsNameX{Service~Registry}{ServiceRegistry}{register} request
 
 			||TBD TBD TBD||
 
 			||/TBD TBD TBD||
 
 \tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{register}}
-
-\tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{unregister}}
+\tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{unregister}, alias:\ %
+\requestsNameD{Service~Registry}{ServiceRegistry}{forget}}
+The \requestsNameX{Service~Registry}{ServiceRegistry}{unregister} request
 
 			||TBD TBD TBD||
 
 			||/TBD TBD TBD||
 
 \tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{unregister}}
-
 \secondaryEnd{}
-
-\secondaryStart{Input~/~Output~Requests}
+\secondaryStart[InputOutputRequests]{Input~/~Output~Requests}
 
 			||TBD TBD TBD||
 
 			||/TBD TBD TBD||
 
 \tertiaryStart{\requestsNameD{Input~/~Output}{InputOutput}{configure}}
+The \requestsNameX{Input~/~Output}{InputOutput}{configure} request
 
 			||TBD TBD TBD||
 
 			||/TBD TBD TBD||
 
 \tertiaryEnd{}
-
 \tertiaryStart{\requestsNameD{Input~/~Output}{InputOutput}{restartStreams}}
+The \requestsNameX{Input~/~Output}{InputOutput}{restartStreams} request
 
 			||TBD TBD TBD||
 
 			||/TBD TBD TBD||
 
 \tertiaryEnd{\requestsNameE{Input~/~Output}{InputOutput}{restartStreams}}
-
 \tertiaryStart{\requestsNameD{Input~/~Output}{InputOutput}{startStreams}}
+The \requestsNameX{Input~/~Output}{InputOutput}{startStreams} request
 
 			||TBD TBD TBD||
 
 			||/TBD TBD TBD||
 
 \tertiaryEnd{\requestsNameE{Input~/~Output}{InputOutput}{startStreams}}
-
 \tertiaryStart{\requestsNameD{Input~/~Output}{InputOutput}{stopStreams}}
+The \requestsNameX{Input~/~Output}{InputOutput}{stopStreams} request
 
 			||TBD TBD TBD||
 
 			||/TBD TBD TBD||
 
 \tertiaryEnd{\requestsNameE{Input~/~Output}{InputOutput}{stopStreams}}
-
 \secondaryEnd{}
-
-\secondaryStart{Miscellaneous~Requests}
+\secondaryStart[MiscellaneousRequests]{Miscellaneous~Requests}
 
 			||TBD TBD TBD||
 
 			||/TBD TBD TBD||
 
 \tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{count}}
+The \requestsNameX{Miscellaneous}{Miscellaneous}{count} request
 
 			||TBD TBD TBD||
 
 			||/TBD TBD TBD||
 
 \tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{count}}
-
 \tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{echo}}
+The \requestsNameX{Miscellaneous}{Miscellaneous}{echo} request
 
 			||TBD TBD TBD||
 
 			||/TBD TBD TBD||
 
 \tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{echo}}
+\tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{reset}}
+The \requestsNameX{Miscellaneous}{Miscellaneous}{reset} request
 
+			||TBD TBD TBD||
+
+			||/TBD TBD TBD||
+
+\tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{reset}}
+\tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{stats}}
+The \requestsNameX{Miscellaneous}{Miscellaneous}{stats} request
+
+			||TBD TBD TBD||
+
+			||/TBD TBD TBD||
+
+\tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{stats}}
 \secondaryEnd{}
-
 \primaryEnd{}

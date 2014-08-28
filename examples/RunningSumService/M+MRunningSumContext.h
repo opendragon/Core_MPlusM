@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRunningSumContext_H_))
-# define MpMRunningSumContext_H_  /* Header guard */
+# define MpMRunningSumContext_H_ /* Header guard */
 
 # include <mpm/M+MBaseContext.h>
 

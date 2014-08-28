@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMMatchConstraint_H_))
-# define MpMMatchConstraint_H_  /* Header guard */
+# define MpMMatchConstraint_H_ /* Header guard */
 
 # include <mpm/M+MBaseMatcher.h>
 

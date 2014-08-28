@@ -284,8 +284,6 @@
 		DF38510E198ACCFE00A0414E /* M+MNameRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNameRequestHandler.h"; path = "mpm/M+MNameRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF38510F198ACCFE00A0414E /* M+MPingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MPingThread.cpp"; path = "mpm/M+MPingThread.cpp"; sourceTree = SOURCE_ROOT; };
 		DF385110198ACCFE00A0414E /* M+MPingThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MPingThread.h"; path = "mpm/M+MPingThread.h"; sourceTree = SOURCE_ROOT; };
-		DF385111198ACCFE00A0414E /* M+MQuitRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MQuitRequestHandler.cpp"; path = "mpm/M+MQuitRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF385112198ACCFE00A0414E /* M+MQuitRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MQuitRequestHandler.h"; path = "mpm/M+MQuitRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF385113198ACCFE00A0414E /* M+MRequestMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestMap.cpp"; path = "mpm/M+MRequestMap.cpp"; sourceTree = SOURCE_ROOT; };
 		DF385114198ACCFE00A0414E /* M+MRequestMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequestMap.h"; path = "mpm/M+MRequestMap.h"; sourceTree = SOURCE_ROOT; };
 		DF385115198ACCFE00A0414E /* M+MRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequests.h"; path = "mpm/M+MRequests.h"; sourceTree = SOURCE_ROOT; };
@@ -469,8 +467,6 @@
 				DF385100198ACCFE00A0414E /* M+MListRequestHandler.h */,
 				DF38510D198ACCFE00A0414E /* M+MNameRequestHandler.cpp */,
 				DF38510E198ACCFE00A0414E /* M+MNameRequestHandler.h */,
-				DF385111198ACCFE00A0414E /* M+MQuitRequestHandler.cpp */,
-				DF385112198ACCFE00A0414E /* M+MQuitRequestHandler.h */,
 				DF385116198ACCFE00A0414E /* M+MRestartStreamsRequestHandler.cpp */,
 				DF385117198ACCFE00A0414E /* M+MRestartStreamsRequestHandler.h */,
 				DF38511E198ACCFE00A0414E /* M+MStartStreamsRequestHandler.cpp */,

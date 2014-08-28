@@ -15,4 +15,6 @@
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
 
-@ check if !-!-! can be replaced with a macro; shortcuts for request definitions?
+
+db integration - start on Tuesday, add a database service to accept file name, attributes and store in a MySQL database [if MySQL is too far from SQLite, use SQLite for now]; client class simply generates the ‘accept’ call; a command-line tool can then package the file name and attributes for the client object. An adapter could gather sequential data and write to a disk file, using a client object to push the data to the service
+

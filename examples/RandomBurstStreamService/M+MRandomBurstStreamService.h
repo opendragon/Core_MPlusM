@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRandomBurstStreamService_H_))
-# define MpMRandomBurstStreamService_H_  /* Header guard */
+# define MpMRandomBurstStreamService_H_ /* Header guard */
 
 # include <mpm/M+MBaseInputService.h>
 

@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMMatchRequestHandler_H_))
-# define MpMMatchRequestHandler_H_  /* Header guard */
+# define MpMMatchRequestHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseRequestHandler.h>
 

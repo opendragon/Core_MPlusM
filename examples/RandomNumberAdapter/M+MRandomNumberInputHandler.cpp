@@ -128,7 +128,7 @@ bool RandomNumberInputHandler::handleInput(const yarp::os::Bottle &      input,
                 }
                 else if (argValue.isDouble())
                 {
-                    count = static_cast<int> (argValue.asDouble());
+                    count = static_cast<int>(argValue.asDouble());
                 }
                 else
                 {

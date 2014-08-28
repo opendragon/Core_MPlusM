@@ -38,7 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMBaseFilterService_H_))
-# define MpMBaseFilterService_H_  /* Header guard */
+# define MpMBaseFilterService_H_ /* Header guard */
 
 # include <mpm/M+MBaseInputOutputService.h>
 

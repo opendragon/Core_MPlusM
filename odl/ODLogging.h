@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(ODLOGGING_H_))
-# define ODLOGGING_H_  /* Header guard */
+# define ODLOGGING_H_ /* Header guard */
 
 # include <stdint.h>
 # if defined(__OBJC__)

@@ -161,8 +161,8 @@ bool CountRequestHandler::processRequest(const yarp::os::ConstString & request,
             yarp::os::Bottle reply;
             
             _service.getStatistics(counter, elapsedTime);
-            reply.addInt(static_cast<int> (counter >> 32));
-            reply.addInt(static_cast<int> (counter));
+            reply.addInt(static_cast<int>(counter >> 32));
+            reply.addInt(static_cast<int>(counter));
             reply.addDouble(elapsedTime);
             OD_LOG_S1s("reply <- ", reply.toString()); //####
             if (! reply.write(*replyMechanism))

@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMConfig_H_))
-# define MpMConfig_H_  /* Header guard */
+# define MpMConfig_H_ /* Header guard */
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -57,10 +57,10 @@
 # define MpM_VERSION_MINOR 4
 
 /*! @brief The patch part of the version number. */
-# define MpM_VERSION_PATCH 8
+# define MpM_VERSION_PATCH 9
 
 /*! @brief The version number as a string. */
-# define MpM_VERSION "1.4.8"
+# define MpM_VERSION "1.4.9"
 
 /*! @brief The base of the channel name to use for an adapter. */
 # define MpM_ADAPTER_BASE_NAME "/_adapter_/"

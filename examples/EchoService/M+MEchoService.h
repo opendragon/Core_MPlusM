@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMEchoService_H_))
-# define MpMEchoService_H_  /* Header guard */
+# define MpMEchoService_H_ /* Header guard */
 
 # include <mpm/M+MBaseService.h>
 

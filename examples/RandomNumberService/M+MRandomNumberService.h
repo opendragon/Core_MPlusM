@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRandomNumberService_H_))
-# define MpMRandomNumberService_H_  /* Header guard */
+# define MpMRandomNumberService_H_ /* Header guard */
 
 # include <mpm/M+MBaseService.h>
 

@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMTruncateFilterStreamService_H_))
-# define MpMTruncateFilterStreamService_H_  /* Header guard */
+# define MpMTruncateFilterStreamService_H_ /* Header guard */
 
 # include <mpm/M+MBaseFilterService.h>
 

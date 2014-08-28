@@ -38,7 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRandomNumberInputHandler_H_))
-# define MpMRandomNumberInputHandler_H_  /* Header guard */
+# define MpMRandomNumberInputHandler_H_ /* Header guard */
 
 # include <mpm/M+MInputHandler.h>
 

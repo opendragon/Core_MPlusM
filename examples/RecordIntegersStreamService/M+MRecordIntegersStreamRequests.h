@@ -38,7 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMRecordIntegersStreamRequests_H_))
-# define MpMRecordIntegersStreamRequests_H_  /* Header guard */
+# define MpMRecordIntegersStreamRequests_H_ /* Header guard */
 
 # include <mpm/M+MRequests.h>
 

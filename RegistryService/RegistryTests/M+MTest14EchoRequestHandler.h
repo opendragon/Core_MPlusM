@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMTest14EchoRequestHandler_H_))
-# define MpMTest14EchoRequestHandler_H_  /* Header guard */
+# define MpMTest14EchoRequestHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseRequestHandler.h>
 

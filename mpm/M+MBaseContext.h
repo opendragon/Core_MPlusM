@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMBaseContext_H_))
-# define MpMBaseContext_H_  /* Header guard */
+# define MpMBaseContext_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
 

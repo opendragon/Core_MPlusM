@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMUtilities_H_))
-# define MpMUtilities_H_  /* Header guard */
+# define MpMUtilities_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
 
