@@ -87,8 +87,8 @@
 /*! @brief The named parameter for the 'request' column. */
 # define REQUEST_C_             "request"
 
-/*! @brief The named parameter for the 'requestsDesciption' column. */
-# define REQUESTSDESCRIPTION_C_ "requestsDescription"
+/*! @brief The named parameter for the 'requestsdesciption' column. */
+# define REQUESTSDESCRIPTION_C_ "requestsdescription"
 
 /*! @brief The named parameter for the 'requests_id' column. */
 # define REQUESTS_ID_C_         "requests_id"

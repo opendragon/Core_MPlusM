@@ -102,6 +102,7 @@
 \newcommand{\openSq}{\boldmath{$\lbrack$}}
 \newcommand{\closeSq}{\boldmath{$\rbrack$}}
 \newcommand{\sqPair}{\boldmath{$\lbrack{}\ \rbrack$}}
+\newcommand{\fatUnderscore}{\begin{Large}\textbf{\textunderscore}\end{Large}}
 \newlength{\utilLen}
 
 \newcommand*{\compLang}[1]{\emphcorr{#1}}
@@ -145,6 +146,19 @@
     {\ref{#1:#4}}%
     {\ref{#1:#3:#4}}}
 
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index name
+% Third argument: alternate hyperlink/index name
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\genTag}[3]{\hyperlink{hyper.#1.#2}{\textitcorr{#3}}}}%  command if generatingHyperPDF
+  {\newcommand{\genTag}[3]{\textitcorr{#3}}}%  command if not generatingHyperPDF
+  
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index name
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\genTarget}[2]{\hypertarget{hyper.#1.#2}{}}}%  command if generatingHyperPDF
+  {\newcommand{\genTarget}[2]{}}%  command if not generatingHyperPDF
+
 % The net effect is as follows:
 %  generatingHyperPDF
 %   'D' \textitcorr{\color{webgreen}#3}  \hypertarget{hyper.#2.#3}{}\label{#2:#3}  {}
@@ -177,18 +191,12 @@
 % Third argument: alternate hyperlink/index subcategory
 % Fourth argument: hyperlink/index name
 % Fifth argument: alternate hyperlink/index name
-\ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\entityNameD}[5]{%  command if generatingHyperPDF
-    \hypertarget{hyper.#1.#4}{}%
-	\ifthenelse{\equal{#5}{\default{}}}%
-	  {\textitcorr{\color{webgreen}#4}\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
-	  {\textitcorr{\color{webgreen}#5}\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
-    \multilabel{#1}{#2}{#3}{#4}}}
-  {\newcommand{\entityNameD}[5]{%  command if not generatingHyperPDF
-	\ifthenelse{\equal{#5}{\default{}}}%
-	  {\textitcorr{\color{webgreen}#4}\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
-	  {\textitcorr{\color{webgreen}#5}\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
-    \multilabel{#1}{#2}{#3}{#4}}}
+\newcommand{\entityNameD}[5]{%
+  \genTarget{#1}{#4}%
+  \ifthenelse{\equal{#5}{\default{}}}%
+    {\textitcorr{\color{webgreen}#4}\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
+    {\textitcorr{\color{webgreen}#5}\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
+  \multilabel{#1}{#2}{#3}{#4}}
 
 % First argument: hyperlink/index category
 % Second argument: hyperlink/index subcategory
@@ -207,65 +215,41 @@
 % Third argument: alternate hyperlink/index subcategory
 % Fourth argument: hyperlink/index name
 % Fifth argument: alternate hyperlink/index name
-\ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\entityNameM}[5]{%  command if generatingHyperPDF
-	\hypertarget{hyper.#1.#4}{}%
-	\ifthenelse{\equal{#5}{\default{}}}%
-	  {\multiindex{#1}{#2}{#3}{#4}{}}%
-	  {\multiindex{#1}{#2}{#3}{#5}{}}%
-  	\multilabel{#1}{#2}{#3}{#4}}}
-  {\newcommand{\entityNameM}[5]{%  command if not generatingHyperPDF
-	\ifthenelse{\equal{#5}{\default{}}}%
-	  {\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
-	  {\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
-    \multilabel{#1}{#2}{#3}{#4}}}
+\newcommand{\entityNameM}[5]{%  command if not generatingHyperPDF
+  \genTarget{#1}{#4}%
+  \ifthenelse{\equal{#5}{\default{}}}%
+    {\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
+    {\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
+  \multilabel{#1}{#2}{#3}{#4}}
 
 % First argument: hyperlink/index category
 % Second argument: hyperlink/index subcategory
 % Third argument: alternate hyperlink/index subcategory
 % Fourth argument: hyperlink/index name
 % Fifth argument: alternate hyperlink/index name
-\ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\entityNameP}[5]{%  command if generatingHyperPDF
-    \hypertarget{hyper.#1.#4}{}%
-	\ifthenelse{\equal{#5}{\default{}}}%
-	  {#4\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
-	  {#5\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
-    \multilabel{#1}{#2}{#3}{#4}}}
-  {\newcommand{\entityNameP}[5]{%  command if not generatingHyperPDF
-	\ifthenelse{\equal{#5}{\default{}}}%
-	  {#4\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
-	  {#5\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
-    \multilabel{#1}{#2}{#3}{#4}}}
+\newcommand{\entityNameP}[5]{%  command if generatingHyperPDF
+  \genTarget{#1}{#4}%
+  \ifthenelse{\equal{#5}{\default{}}}%
+	{#4\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
+	{#5\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
+  \multilabel{#1}{#2}{#3}{#4}}
 
 % First argument: hyperlink/index category
 % Second argument: hyperlink/index subcategory
 % Third argument: alternate hyperlink/index subcategory
 % Fourth argument: hyperlink/index name
 % Fifth argument: alternate hyperlink/index name
-\ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\entityNameR}[5]{%  command if generatingHyperPDF
-	\ifthenelse{\equal{#5}{\default{}}}%
-	  {\hyperlink{hyper.#1.#4}{\textitcorr{#4}}%
-	  \ifthenelse{\equal{#1}{#4}}%
-	    {}% if first and fourth argument match
-	    {\multiindex{#1}{#2}{#3}{#4}{}}}%
-	  {\hyperlink{hyper.#1.#4}{\textitcorr{#5}}%
-	  \ifthenelse{\equal{#1}{#4}}%
-	    {}% if first and fourth argument match
-	    {\multiindex{#1}{#2}{#3}{#5}{}}}%
-  	\multiref{#1}{#2}{#3}{#4}}}
-  {\newcommand{\entityNameR}[5]{%  command if not generatingHyperPDF
-  	\ifthenelse{\equal{#5}{\default{}}}%
-	  {\textitcorr{#4}%
-	  \ifthenelse{\equal{#1}{#4}}%
-	    {}% if first and fourth argument match
-	    {\multiindex{#1}{#2}{#3}{#4}{}}}%
-	  {\textitcorr{#5}%
-	  \ifthenelse{\equal{#1}{#4}}%
-	    {}% if first and fourth argument match
-	    {\multiindex{#1}{#2}{#3}{#5}{}}}%
-    \multiref{#1}{#2}{#3}{#4}}}
+\newcommand{\entityNameR}[5]{%  command if generatingHyperPDF
+  \ifthenelse{\equal{#5}{\default{}}}%
+    {\genTag{#1}{#4}{#4}%
+    \ifthenelse{\equal{#1}{#4}}%
+      {}% if first and fourth argument match
+      {\multiindex{#1}{#2}{#3}{#4}{}}}%
+    {\genTag{#1}{#4}{#5}%
+    \ifthenelse{\equal{#1}{#4}}%
+      {}% if first and fourth argument match
+      {\multiindex{#1}{#2}{#3}{#5}{}}}%
+  \multiref{#1}{#2}{#3}{#4}}
 
 % First argument: hyperlink/index category
 % Second argument: hyperlink/index subcategory
@@ -285,21 +269,20 @@
 % Third argument: alternate hyperlink/index subcategory
 % Fourth argument: hyperlink/index name
 % Fifth argument: alternate hyperlink/index name
-\ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\entityNameX}[5]{%  command if generatingHyperPDF
-	\ifthenelse{\equal{#5}{\default{}}}%
-	  {\hyperlink{hyper.#1.#4}{\textitcorr{#4}}}%
-	  {\hyperlink{hyper.#1.#5}{\textitcorr{#5}}}}}
-  {\newcommand{\entityNameX}[5]{%  command if not generatingHyperPDF
+\newcommand{\entityNameX}[5]{%  command if generatingHyperPDF
   \ifthenelse{\equal{#5}{\default{}}}%
-	{\textitcorr{#4}}%
-	{\textitcorr{#5}}}}
+    {\genTag{#1}{#4}{#4}}%
+    {\genTag{#1}{#4}{#5}}}%
 
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index name
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\doVpage}[2]{}}%  command if generatingHyperPDF
+  {\newcommand{\doVpage}[2]{ \vpageref[(][(]{#1:#2}}}%  command if not generatingHyperPDF
+  
 % Use \entityReference, rather than \entityName, for the first mention of an object within
 % another object, so that page ranges will be present.
-\ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\entityReference}[2]{\entityNameR{#1}{\default{}}{\default{}}{#2}{\default{}}}}%  command if generatingHyperPDF
-  {\newcommand{\entityReference}[2]{\entityNameR{#1}{\default{}}{\default{}}{#2}{\default{}} \vpageref[(][(]{#1:#2})}}%  command if not generatingHyperPDF
+\newcommand{\entityReference}[2]{\entityNameR{#1}{\default{}}{\default{}}{#2}{\default{}}\doVpage{#1}{#2}}%  command if generatingHyperPDF
 
 \ifthenelse{\boolean{generatingHyperPDF}}%
   {\newcommand{\companyReference}[2]{\href{#1}{#2}}}%  command if generatingHyperPDF

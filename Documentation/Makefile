@@ -1,7 +1,7 @@
 
-psfiles = matchSyntaxrails.ps
+psfiles = dbDiagram.ps matchSyntaxrails.ps
 
-imagefiles = ChannelManager.eps dbDiagram.eps
+imagefiles = ChannelManager.eps
 
 mainsource = MpM_Manual.tex
 
