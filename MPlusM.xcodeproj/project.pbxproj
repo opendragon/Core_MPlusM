@@ -303,6 +303,24 @@
 		DF385123198ACCFE00A0414E /* M+MUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUtilities.h"; path = "mpm/M+MUtilities.h"; sourceTree = SOURCE_ROOT; };
 		DFCB229818EF23DF00358EA5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ClientList/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCB229918EF23DF00358EA5 /* M+MClientListMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MClientListMain.cpp"; path = "ClientList/M+MClientListMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbClient.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.cpp"; sourceTree = "<group>"; };
+		DFE83AD119B671D1003A7EDE /* M+MMovementDbClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbClient.h"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.h"; sourceTree = "<group>"; };
+		DFE83AD219B671D1003A7EDE /* M+MMovementDbClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbClientMain.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClientMain.cpp"; sourceTree = "<group>"; };
+		DFE83AD319B671D1003A7EDE /* M+MMovementDbRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbRequests.h"; path = "MovementDb/MovementDbCommon/M+MMovementDbRequests.h"; sourceTree = "<group>"; };
+		DFE83AD419B671D1003A7EDE /* M+MMovementDbContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbContext.cpp"; path = "MovementDb/MovementDbService/M+MMovementDbContext.cpp"; sourceTree = "<group>"; };
+		DFE83AD519B671D1003A7EDE /* M+MMovementDbContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbContext.h"; path = "MovementDb/MovementDbService/M+MMovementDbContext.h"; sourceTree = "<group>"; };
+		DFE83AD619B671D1003A7EDE /* M+MMovementDbDefaultRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbDefaultRequestHandler.cpp"; path = "MovementDb/MovementDbService/M+MMovementDbDefaultRequestHandler.cpp"; sourceTree = "<group>"; };
+		DFE83AD719B671D1003A7EDE /* M+MMovementDbDefaultRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbDefaultRequestHandler.h"; path = "MovementDb/MovementDbService/M+MMovementDbDefaultRequestHandler.h"; sourceTree = "<group>"; };
+		DFE83AD819B671D1003A7EDE /* M+MMovementDbService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbService.cpp"; path = "MovementDb/MovementDbService/M+MMovementDbService.cpp"; sourceTree = "<group>"; };
+		DFE83AD919B671D1003A7EDE /* M+MMovementDbService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbService.h"; path = "MovementDb/MovementDbService/M+MMovementDbService.h"; sourceTree = "<group>"; };
+		DFE83ADA19B671D1003A7EDE /* M+MMovementDbServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbServiceMain.cpp"; path = "MovementDb/MovementDbService/M+MMovementDbServiceMain.cpp"; sourceTree = "<group>"; };
+		DFE83ADB19B671D1003A7EDE /* M+MResetRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MResetRequestHandler.cpp"; path = "MovementDb/MovementDbService/M+MResetRequestHandler.cpp"; sourceTree = "<group>"; };
+		DFE83ADC19B671D1003A7EDE /* M+MResetRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MResetRequestHandler.h"; path = "MovementDb/MovementDbService/M+MResetRequestHandler.h"; sourceTree = "<group>"; };
+		DFE83ADD19B671D1003A7EDE /* M+MStatsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStatsRequestHandler.cpp"; path = "MovementDb/MovementDbService/M+MStatsRequestHandler.cpp"; sourceTree = "<group>"; };
+		DFE83ADE19B671D1003A7EDE /* M+MStatsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStatsRequestHandler.h"; path = "MovementDb/MovementDbService/M+MStatsRequestHandler.h"; sourceTree = "<group>"; };
+		DFE83ADF19B671F8003A7EDE /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = MovementDb/CMakeLists.txt; sourceTree = "<group>"; };
+		DFE83AE019B67207003A7EDE /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = MovementDb/MovementDbClient/CMakeLists.txt; sourceTree = "<group>"; };
+		DFE83AE119B67214003A7EDE /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = MovementDb/MovementDbService/CMakeLists.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -679,6 +697,7 @@
 				DF27F42B18CA377A00E93C95 /* CMakeLists.txt */,
 				DFCB229718EF23D200358EA5 /* ClientList */,
 				DF38503D198ABBA000A0414E /* CommonTests */,
+				DFE83ABA19B661EB003A7EDE /* MovementDb */,
 				DFA86D2518E1D13300A22941 /* examples */,
 				DFA3434F18C91C670053B87C /* mpm */,
 				DFA3432618C91C1C0053B87C /* odl */,
@@ -927,6 +946,55 @@
 			);
 			name = ClientList;
 			sourceTree = SOURCE_ROOT;
+		};
+		DFE83ABA19B661EB003A7EDE /* MovementDb */ = {
+			isa = PBXGroup;
+			children = (
+				DFE83ADF19B671F8003A7EDE /* CMakeLists.txt */,
+				DFE83ABB19B661FB003A7EDE /* MovementDbClient */,
+				DFE83ABC19B66206003A7EDE /* MovementDbCommon */,
+				DFE83ABD19B66212003A7EDE /* MovementDbService */,
+			);
+			name = MovementDb;
+			sourceTree = "<group>";
+		};
+		DFE83ABB19B661FB003A7EDE /* MovementDbClient */ = {
+			isa = PBXGroup;
+			children = (
+				DFE83AE019B67207003A7EDE /* CMakeLists.txt */,
+				DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */,
+				DFE83AD119B671D1003A7EDE /* M+MMovementDbClient.h */,
+				DFE83AD219B671D1003A7EDE /* M+MMovementDbClientMain.cpp */,
+			);
+			name = MovementDbClient;
+			sourceTree = "<group>";
+		};
+		DFE83ABC19B66206003A7EDE /* MovementDbCommon */ = {
+			isa = PBXGroup;
+			children = (
+				DFE83AD319B671D1003A7EDE /* M+MMovementDbRequests.h */,
+			);
+			name = MovementDbCommon;
+			sourceTree = "<group>";
+		};
+		DFE83ABD19B66212003A7EDE /* MovementDbService */ = {
+			isa = PBXGroup;
+			children = (
+				DFE83AE119B67214003A7EDE /* CMakeLists.txt */,
+				DFE83AD419B671D1003A7EDE /* M+MMovementDbContext.cpp */,
+				DFE83AD519B671D1003A7EDE /* M+MMovementDbContext.h */,
+				DFE83AD619B671D1003A7EDE /* M+MMovementDbDefaultRequestHandler.cpp */,
+				DFE83AD719B671D1003A7EDE /* M+MMovementDbDefaultRequestHandler.h */,
+				DFE83AD819B671D1003A7EDE /* M+MMovementDbService.cpp */,
+				DFE83AD919B671D1003A7EDE /* M+MMovementDbService.h */,
+				DFE83ADA19B671D1003A7EDE /* M+MMovementDbServiceMain.cpp */,
+				DFE83ADB19B671D1003A7EDE /* M+MResetRequestHandler.cpp */,
+				DFE83ADC19B671D1003A7EDE /* M+MResetRequestHandler.h */,
+				DFE83ADD19B671D1003A7EDE /* M+MStatsRequestHandler.cpp */,
+				DFE83ADE19B671D1003A7EDE /* M+MStatsRequestHandler.h */,
+			);
+			name = MovementDbService;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
