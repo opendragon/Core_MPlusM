@@ -974,11 +974,64 @@ static bool constructTables(sqlite3 * database)
     return okSoFar;
 } // constructTables
 
+/*! @brief Bind the values that are to be gathered from the Associates table.
+ @param statement The prepared statement that is to be updated.
+ @param stuff The source of data that is to be bound.
+ @returns The SQLite error from the bind operation. */
+static int setupCheckAssociation(sqlite3_stmt * statement,
+                                 const void *   stuff)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
+    int result = SQLITE_MISUSE;
+    
+    try
+    {
+        int channelIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
+        int associateIndex = sqlite3_bind_parameter_index(statement, "@" ASSOCIATES_ID_C_);
+        
+        if ((0 < channelIndex) && (0 < associateIndex))
+        {
+            const ChannelAssociateData * descriptor =
+                                                static_cast<const ChannelAssociateData *>(stuff);
+            const char *                 channelName = descriptor->_channel.c_str();
+            
+            OD_LOG_S1("channelName <- ", channelName); //####
+            result = sqlite3_bind_text(statement, channelIndex, channelName,
+                                       static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
+            if (SQLITE_OK == result)
+            {
+                const char * associateName = descriptor->_associate.c_str();
+                
+                OD_LOG_S1("associateName <- ", associateName); //####
+                result = sqlite3_bind_text(statement, associateIndex, associateName,
+                                           static_cast<int>(strlen(associateName)),
+                                           SQLITE_TRANSIENT);
+            }
+            if (SQLITE_OK != result)
+            {
+                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
+            }
+        }
+        else
+        {
+            OD_LOG("! ((0 < channelIndex) && (0 < associateIndex))"); //####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_EXIT_LL(result);
+    return result;
+} // setupCheckAssociation
+
 /*! @brief Bind the values that are to be gathered from the Services table.
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
  @returns The SQLite error from the bind operation. */
-static int setupCheckChannel(sqlite3_stmt * statement,
+static int setupCheckService(sqlite3_stmt * statement,
                              const void *   stuff)
 {
     OD_LOG_ENTER(); //####
@@ -1014,7 +1067,7 @@ static int setupCheckChannel(sqlite3_stmt * statement,
     }
     OD_LOG_EXIT_LL(result);
     return result;
-} // setupCheckChannel
+} // setupCheckService
 
 /*! @brief Bind the values that are to be gathered from the Associates table.
  @param statement The prepared statement that is to be updated.
@@ -2047,6 +2100,55 @@ void RegistryService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::attachRequestHandlers
 
+bool RegistryService::checkForExistingAssociation(const yarp::os::ConstString & primaryChannelName,
+                                                  const yarp::os::ConstString &
+                                                                            secondaryChannelName)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("primaryChannelName = ", primaryChannelName); //####
+    OD_LOG_S1s("secondaryChannelName = ", secondaryChannelName); //####
+    bool okSoFar = false;
+    
+    try
+    {
+        if (doBeginTransaction(_db))
+        {
+            yarp::os::Bottle     dummy;
+            ChannelAssociateData chanAssocData;
+            static const char *  checkAssociation = T_("SELECT " DIRECTION_C_ " FROM "
+                                                       CHANNELSASSOCIATES_T_ " WHERE "
+                                                       CHANNELS_ID_C_ " IN (SELECT " KEY_C_
+                                                       " FROM " CHANNELS_T_ " WHERE "
+                                                       CHANNELNAME_C_ " = @" CHANNELNAME_C_
+                                                       ") AND " ASSOCIATES_ID_C_ " = @"
+                                                       ASSOCIATES_ID_C_);
+            
+            chanAssocData._channel = primaryChannelName;
+            chanAssocData._associate = secondaryChannelName;
+            okSoFar = performSQLstatementWithSingleColumnResults(_db, dummy, checkAssociation, 0,
+                                                                 setupCheckAssociation,
+                                                     static_cast<const void *>(&chanAssocData));
+
+            okSoFar = doEndTransaction(_db, okSoFar);
+            if (okSoFar)
+            {
+                okSoFar = (1 <= dummy.size());
+                if (! okSoFar)
+                {
+                    reportStatusChange(secondaryChannelName, kRegistryNotAnExistingAssociation);
+                }
+            }
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(okSoFar); //####
+    return okSoFar;
+} // RegistryService::checkForExistingAssociation
+
 bool RegistryService::checkForExistingService(const yarp::os::ConstString & channelName)
 {
     OD_LOG_OBJENTER(); //####
@@ -2058,11 +2160,11 @@ bool RegistryService::checkForExistingService(const yarp::os::ConstString & chan
         if (doBeginTransaction(_db))
         {
             yarp::os::Bottle    dummy;
-            static const char * checkName = T_("SELECT DISTINCT " NAME_C_ " FROM " SERVICES_T_
-                                               " WHERE " CHANNELNAME_C_ " = @" CHANNELNAME_C_);
+            static const char * checkService = T_("SELECT DISTINCT " NAME_C_ " FROM " SERVICES_T_
+                                                  " WHERE " CHANNELNAME_C_ " = @" CHANNELNAME_C_);
             
-            okSoFar = performSQLstatementWithSingleColumnResults(_db, dummy, checkName, 0,
-                                                                 setupCheckChannel,
+            okSoFar = performSQLstatementWithSingleColumnResults(_db, dummy, checkService, 0,
+                                                                 setupCheckService,
                                                  static_cast<const void *>(channelName.c_str()));
             okSoFar = doEndTransaction(_db, okSoFar);
             if (okSoFar)
@@ -2557,6 +2659,11 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
         {
             case kRegistryAddService :
                 message.addString(MpM_REGISTRY_STATUS_ADDING);
+                message.addString(channelName);
+                break;
+                
+            case kRegistryNotAnExistingAssociation :
+                message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED);
                 message.addString(channelName);
                 break;
                 

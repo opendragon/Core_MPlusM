@@ -167,6 +167,8 @@ int main(int     argc,
                             if (inputChannel->openWithRetries(inputName, STANDARD_WAIT_TIME) &&
                                 outputChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
                             {
+                                double announcedTime = yarp::os::Time::now();
+                                
                                 stuff->addAssociatedChannel(inputChannel, NULL, NULL);
                                 stuff->addAssociatedChannel(outputChannel, NULL, NULL);
                                 sharedData.activate();
@@ -178,7 +180,20 @@ int main(int     argc,
 #else // ! defined(MpM_MainDoesDelayNotYield)
                                     yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
-                                    if (! MplusM::IsRunning())
+                                    if (MplusM::IsRunning())
+                                    {
+                                        double now = yarp::os::Time::now();
+                                        
+                                        if ((announcedTime + ANNOUNCE_INTERVAL) <= now)
+                                        {
+                                            // Report associated channels again, in case the Service
+                                            // Registry has been restarted.
+                                            announcedTime = now;
+                                            stuff->addAssociatedChannel(inputChannel, NULL, NULL);
+                                            stuff->addAssociatedChannel(outputChannel, NULL, NULL);
+                                        }
+                                    }
+                                    else
                                     {
                                         sharedData.deactivate();
                                     }

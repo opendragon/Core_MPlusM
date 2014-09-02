@@ -129,6 +129,9 @@
 /*! @brief The base of the channel name to use for an adapter if not provided. */
 # define ADAPTER_PORT_NAME_BASE    MpM_ADAPTER_BASE_NAME
 
+/*! @brief The time between client announcements of associated channels. */
+# define ANNOUNCE_INTERVAL         (17.1 * ONE_SECOND_DELAY)
+
 /*! @brief The base of the channel name to use for a client if not provided. */
 # define CLIENT_PORT_NAME_BASE     MpM_CLIENT_BASE_NAME
 

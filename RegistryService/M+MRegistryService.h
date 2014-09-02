@@ -112,6 +112,9 @@ namespace MplusM
                 /*! @brief A service is being added to the registry. */
                 kRegistryAddService,
                 
+                /*! @brief An association was not recognized. */
+                kRegistryNotAnExistingAssociation,
+                
                 /*! @brief A service was not recognized. */
                 kRegistryNotAnExistingService,
                 
@@ -181,6 +184,13 @@ namespace MplusM
                                   const yarp::os::ConstString & description,
                                   const yarp::os::ConstString & executable,
                                   const yarp::os::ConstString & requestsDescription);
+            
+            /*! @brief Check if an association between channels is already in the registry.
+             @param primaryChannelName The name of the primary channel.
+             @param secondaryChannelName The name of the associated channel.
+             @returns @c true if the association is present and @c false otherwise.*/
+            bool checkForExistingAssociation(const yarp::os::ConstString & primaryChannelName,
+                                             const yarp::os::ConstString & secondaryChannelName);
             
             /*! @brief Check if a service is already in the registry.
              @param channelName The service channel for the service.

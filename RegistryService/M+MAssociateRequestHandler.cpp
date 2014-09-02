@@ -173,8 +173,14 @@ bool AssociateRequestHandler::processRequest(const yarp::os::ConstString & reque
                     if (Common::Endpoint::CheckEndpointName(primaryAsString) &&
                         Common::Endpoint::CheckEndpointName(secondaryAsString))
                     {
-                        if (_service.addAssociation(primaryAsString, 0 != direction.asInt(),
-                                                    secondaryAsString))
+                        if (_service.checkForExistingAssociation(primaryAsString,
+                                                                 secondaryAsString))
+                        {
+                            // This association is already known.
+                            reply.addString(MpM_OK_RESPONSE);
+                        }
+                        else if (_service.addAssociation(primaryAsString, 0 != direction.asInt(),
+                                                         secondaryAsString))
                         {
                             reply.addString(MpM_OK_RESPONSE);
                         }
