@@ -568,9 +568,6 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
                             message.addString("howdi");
                             if (outChannel->write(message, response))
                             {
-#if 0
-                                OD_LOG_S1s("got ", response.toString());//####
-#endif // 0
                                 result = 0;
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
@@ -691,9 +688,6 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                             message.addString("howdi");
                             if (outChannel->write(message, response))
                             {
-#if 0
-                                OD_LOG_S1("got ", response.toString());//####
-#endif // 0
                                 result = 0;
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),

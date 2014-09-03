@@ -37,11 +37,8 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MMovementDbService.h"
-#include "M+MMovementDbContext.h"
-#include "M+MMovementDbDefaultRequestHandler.h"
+#include "M+MAddFileRequestHandler.h"
 #include "M+MMovementDbRequests.h"
-#include "M+MResetRequestHandler.h"
-#include "M+MStatsRequestHandler.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -78,17 +75,17 @@ using namespace MplusM::MovementDb;
 #endif // defined(__APPLE__)
 
 MovementDbService::MovementDbService(const yarp::os::ConstString & launchPath,
+                                     const yarp::os::ConstString & databaseServerAddress,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, true, MpM_MOVEMENTDB_CANONICAL_NAME,
-              "The request counter service",
-              "reset - clear the request counter and the elapsed time\n"
-              "stats - report the request counter and the elapsed time\n"
-              "<anything else> - simply increment the request counter", serviceEndpointName,
-              servicePortNumber), _defaultHandler(NULL), _resetHandler(NULL), _statsHandler(NULL)
+              "The Movement database service",
+              "reset - clear the request counter and the elapsed time" , serviceEndpointName,
+              servicePortNumber), _databaseAddress(databaseServerAddress), _addFileHandler(NULL)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
+    OD_LOG_S4s("launchPath = ", launchPath, "databaseServerAddress = ", //####
+               databaseServerAddress, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
@@ -105,23 +102,42 @@ MovementDbService::~MovementDbService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+bool MovementDbService::addFileToDb(const yarp::os::ConstString & emailAddress,
+                                    const yarp::os::ConstString & dataTrack,
+                                    const yarp::os::ConstString & filePath)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S3s("emailAddress = ", emailAddress, "dataTrack = ", dataTrack, "filePath = ", //####
+               filePath); //####
+    bool okSoFar = false;
+    
+    try
+    {
+        // TBD!!!!
+        okSoFar = true;
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(); //####
+    return okSoFar;
+} // MovementDbService::addFileToDb
+
 void MovementDbService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
-        _defaultHandler = new MovementDbDefaultRequestHandler(*this);
-        _resetHandler = new ResetRequestHandler(*this);
-        _statsHandler = new StatsRequestHandler(*this);
-        if (_defaultHandler && _resetHandler && _statsHandler)
+        _addFileHandler = new AddFileRequestHandler(*this);
+        if (_addFileHandler)
         {
-            registerRequestHandler(_resetHandler);
-            registerRequestHandler(_statsHandler);
-            setDefaultRequestHandler(_defaultHandler);
+            registerRequestHandler(_addFileHandler);
         }
         else
         {
-            OD_LOG("! (_defaultHandler && _resetHandler && _statsHandler)"); //####
+            OD_LOG("! (_addFileHandler)"); //####
         }
     }
     catch (...)
@@ -132,50 +148,16 @@ void MovementDbService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // MovementDbService::attachRequestHandlers
 
-void MovementDbService::countRequest(const yarp::os::ConstString & key)
-{
-    OD_LOG_OBJENTER(); //####
-    try
-    {
-        MovementDbContext * context = (MovementDbContext *) findContext(key);
-        
-        if (! context)
-        {
-            context = new MovementDbContext;
-            addContext(key, context);
-        }
-        context->counter() += 1;
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT(); //####
-} // MovementDbService::countRequest
-
 void MovementDbService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
-        if (_defaultHandler)
+        if (_addFileHandler)
         {
-            setDefaultRequestHandler(NULL);
-            delete _defaultHandler;
-            _defaultHandler = NULL;
-        }
-        if (_resetHandler)
-        {
-            unregisterRequestHandler(_resetHandler);
-            delete _resetHandler;
-            _resetHandler = NULL;
-        }
-        if (_statsHandler)
-        {
-            unregisterRequestHandler(_statsHandler);
-            delete _statsHandler;
-            _statsHandler = NULL;
+            unregisterRequestHandler(_addFileHandler);
+            delete _addFileHandler;
+            _addFileHandler = NULL;
         }
     }
     catch (...)
@@ -185,54 +167,6 @@ void MovementDbService::detachRequestHandlers(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // MovementDbService::detachRequestHandlers
-
-void MovementDbService::getStatistics(const yarp::os::ConstString & key,
-                                      long &                        counter,
-                                      double &                      elapsedTime)
-{
-    OD_LOG_OBJENTER(); //####
-    try
-    {
-        MovementDbContext * context = (MovementDbContext *) findContext(key);
-        
-        if (! context)
-        {
-            context = new MovementDbContext;
-            addContext(key, context);
-        }
-        counter = context->counter();
-        elapsedTime = yarp::os::Time::now() - context->lastReset();
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT(); //####
-} // MovementDbService::getStatistics
-
-void MovementDbService::resetCounters(const yarp::os::ConstString & key)
-{
-    OD_LOG_OBJENTER(); //####
-    try
-    {
-        MovementDbContext * context = (MovementDbContext *) findContext(key);
-        
-        if (! context)
-        {
-            context = new MovementDbContext;
-            addContext(key, context);
-        }
-        context->counter() = 0;
-        context->lastReset() = yarp::os::Time::now();
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT(); //####
-} // MovementDbService::resetCounters
 
 bool MovementDbService::start(void)
 {

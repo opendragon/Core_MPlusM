@@ -133,6 +133,7 @@ int main(int     argc,
                                 if (getline(cin, inputLine))
                                 {
                                     yarp::os::ConstString outgoing(inputLine.c_str());
+                                    
                                     if (stuff->sendAndReceive(outgoing, incoming))
                                     {
                                         cout << "Received: '" << incoming.c_str() << "'." << endl;

@@ -80,14 +80,6 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~RequestCounterService(void);
             
-            /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
-            
-            /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
-            
             /*! @brief Record a request.
              @param key The client-provided key. */
             void countRequest(const yarp::os::ConstString & key);
@@ -103,6 +95,14 @@ namespace MplusM
             /*! @brief Reset the request statistics counters.
              @param key The client-provided key. */
             void resetCounters(const yarp::os::ConstString & key);
+            
+            /*! @brief Start processing requests.
+             @returns @c true if the service was started and @c false if it was not. */
+            virtual bool start(void);
+            
+            /*! @brief Stop processing requests.
+             @returns @c true if the service was stopped and @c false it if was not. */
+            virtual bool stop(void);
             
         protected:
             

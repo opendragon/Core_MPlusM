@@ -57,9 +57,6 @@
 # define MpM_MOVEMENTDB_CANONICAL_NAME "MovementDb"
 
 /*! @brief The name for the 'reset' request. */
-# define MpM_RESET_REQUEST  "reset"
-
-/*! @brief The name for the 'stats' request. */
-# define MpM_STATS_REQUEST  "stats"
+# define MpM_ADDFILE_REQUEST  "addfile"
 
 #endif // ! defined(MpMMovementDbRequests_H_)

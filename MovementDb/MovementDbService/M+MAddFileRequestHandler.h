@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MMovementDbDefaultRequestHandler.h
+//  File:       M+MAddFileRequestHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a default request handler used by the movement database
-//              service.
+//  Contains:   The class declaration for the request handler for an 'addfile' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -37,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMMovementDbDefaultRequestHandler_H_))
-# define MpMMovementDbDefaultRequestHandler_H_ /* Header guard */
+#if (! defined(MpMAddFileRequestHandler_H_))
+# define MpMAddFileRequestHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseRequestHandler.h>
 
@@ -48,8 +47,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for a default request handler used by the movement database
- service. */
+ @brief The class declaration for the request handler for an 'addfile' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -60,17 +58,19 @@ namespace MplusM
     {
         class MovementDbService;
         
-        /*! @brief A test request handler. */
-        class MovementDbDefaultRequestHandler : public Common::BaseRequestHandler
+        /*! @brief The 'addfile' request handler for the movement database service.
+         
+         There is no input or output for the request. */
+        class AddFileRequestHandler : public Common::BaseRequestHandler
         {
         public:
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            MovementDbDefaultRequestHandler(MovementDbService & service);
+            AddFileRequestHandler(MovementDbService & service);
             
             /*! @brief The destructor. */
-            virtual ~MovementDbDefaultRequestHandler(void);
+            virtual ~AddFileRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -99,13 +99,13 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-            /*! @brief The service that will manages the statistics. */
+            /*! @brief The service that will manages the backend database. */
             MovementDbService & _service;
             
-        }; // MovementDbDefaultRequestHandler
+        }; // AddFileRequestHandler
         
     } // MovementDb
     
 } // MplusM
 
-#endif // ! defined(MpMMovementDbDefaultRequestHandler_H_)
+#endif // ! defined(MpMAddFileRequestHandler_H_)

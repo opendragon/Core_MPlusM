@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MResetRequestHandler.cpp
+//  File:       M+MAddFileRequestHandler.cpp
 //
 //  Project:    M+M
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MResetRequestHandler.h"
+#include "M+MAddFileRequestHandler.h"
 #include "M+MMovementDbRequests.h"
 #include "M+MMovementDbService.h"
 
@@ -63,7 +63,7 @@ using namespace MplusM::MovementDb;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'reset' request. */
-#define RESET_REQUEST_VERSION_NUMBER "1.0"
+#define ADDFILE_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -77,25 +77,25 @@ using namespace MplusM::MovementDb;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ResetRequestHandler::ResetRequestHandler(MovementDbService & service) :
-    inherited(MpM_RESET_REQUEST), _service(service)
+AddFileRequestHandler::AddFileRequestHandler(MovementDbService & service) :
+    inherited(MpM_ADDFILE_REQUEST), _service(service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
-} // ResetRequestHandler::ResetRequestHandler
+} // AddFileRequestHandler::AddFileRequestHandler
 
-ResetRequestHandler::~ResetRequestHandler(void)
+AddFileRequestHandler::~AddFileRequestHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // ResetRequestHandler::~ResetRequestHandler
+} // AddFileRequestHandler::~AddFileRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ResetRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void AddFileRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -105,10 +105,10 @@ void ResetRequestHandler::fillInAliases(Common::StringVector & alternateNames)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
-} // ResetRequestHandler::fillInAliases
+} // AddFileRequestHandler::fillInAliases
 
-void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                            yarp::os::Property &          info)
+void AddFileRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                              yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -116,8 +116,8 @@ void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & reques
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, RESET_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Reset the request statistics\n"
+        info.put(MpM_REQREP_DICT_VERSION_KEY, ADDFILE_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Add a file to the backend database\n"
                  "Input: nothing\n"
                  "Output: nothing");
         yarp::os::Value    keywords;
@@ -132,12 +132,12 @@ void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // ResetRequestHandler::fillInDescription
+} // AddFileRequestHandler::fillInDescription
 
-bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const yarp::os::Bottle &      restOfInput,
-                                         const yarp::os::ConstString & senderChannel,
-                                         yarp::os::ConnectionWriter *  replyMechanism)
+bool AddFileRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                           const yarp::os::Bottle &      restOfInput,
+                                           const yarp::os::ConstString & senderChannel,
+                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -152,16 +152,53 @@ bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
     
     try
     {
-        _service.resetCounters(senderChannel);
+        yarp::os::Bottle reply;
+
+        // Add the file to the backend database
+        if (3 == restOfInput.size())
+        {
+            yarp::os::Value firstValue(restOfInput.get(0));
+            yarp::os::Value secondValue(restOfInput.get(1));
+            yarp::os::Value thirdValue(restOfInput.get(2));
+            
+            if (firstValue.isString() && secondValue.isString() && thirdValue.isString())
+            {
+                yarp::os::ConstString emailAddress(firstValue.toString());
+                yarp::os::ConstString dataTrack(secondValue.toString());
+                yarp::os::ConstString filePath(thirdValue.toString());
+
+                if (_service.addFileToDb(emailAddress, dataTrack, filePath))
+                {
+                    reply.addString(MpM_OK_RESPONSE);
+                }
+                else
+                {
+                    OD_LOG("! (_service.addFileToDb(emailAddress, dataTrack, filePath))"); //####
+                    reply.addString(MpM_FAILED_RESPONSE);
+                    reply.addString("Could not add file to database");
+                }
+            }
+            else
+            {
+                OD_LOG("! (firstValue.isString() && secondValue.isString() && " //####
+                       "thirdValue.isString())"); //####
+                reply.addString(MpM_FAILED_RESPONSE);
+                reply.addString("Invalid arguments");
+            }
+        }
+        else
+        {
+            OD_LOG("! (3 == restOfInput.size())"); //####
+            reply.addString(MpM_FAILED_RESPONSE);
+            reply.addString("Missing or extra arguments to request");
+        }
         if (replyMechanism)
         {
             OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle response(MpM_OK_RESPONSE);
-            
-            OD_LOG_S1s("response <- ", response.toString()); //####
-            if (! response.write(*replyMechanism))
+            OD_LOG_S1s("response <- ", reply.toString()); //####
+            if (! reply.write(*replyMechanism))
             {
-                OD_LOG("(! response.write(*replyMechanism))"); //####
+                OD_LOG("(! reply(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
                 Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -175,7 +212,7 @@ bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ResetRequestHandler::processRequest
+} // AddFileRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Global functions

@@ -40,12 +40,9 @@ include_directories("../MovementDbCommon")
 
 # Set up our program
 add_executable(mpmMovementDbService
+               M+MAddFileRequestHandler.cpp
                M+MMovementDbServiceMain.cpp
-               M+MMovementDbContext.cpp
-               M+MMovementDbDefaultRequestHandler.cpp
-               M+MMovementDbService.cpp
-               M+MResetRequestHandler.cpp
-               M+MStatsRequestHandler.cpp)
+               M+MMovementDbService.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

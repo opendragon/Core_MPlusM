@@ -59,10 +59,7 @@ namespace MplusM
 {
     namespace MovementDb
     {
-        class DetachRequestHandler;
-        class MovementDbDefaultRequestHandler;
-        class ResetRequestHandler;
-        class StatsRequestHandler;
+        class AddFileRequestHandler;
         
         /*! @brief The request counter service. */
         class MovementDbService : public Common::BaseService
@@ -71,14 +68,25 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
+             @param databaseServerAddress The IP address of the database server.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
             MovementDbService(const yarp::os::ConstString & launchPath,
+                              const yarp::os::ConstString & databaseServerAddress,
                               const yarp::os::ConstString & serviceEndpointName,
                               const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~MovementDbService(void);
+            
+            /*! @brief Add a file entry to the backend database.
+             @param emailAddress The e-mail address of the user that owns the file.
+             @param dataTrack The data track for the file.
+             @param filePath The filesystem path to the file.
+             @returns @c true if the file entry was added successfully and @c false otherwise. */
+            bool addFileToDb(const yarp::os::ConstString & emailAddress,
+                             const yarp::os::ConstString & dataTrack,
+                             const yarp::os::ConstString & filePath);
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
@@ -87,22 +95,6 @@ namespace MplusM
             /*! @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */
             virtual bool stop(void);
-            
-            /*! @brief Record a request.
-             @param key The client-provided key. */
-            void countRequest(const yarp::os::ConstString & key);
-            
-            /*! @brief Return the request statistics.
-             @param key The client-provided key.
-             @param counter The number of requests since the last reset.
-             @param elapsedTime The number of seconds since the last reset. */
-            void getStatistics(const yarp::os::ConstString & key,
-                               long &                        counter,
-                               double &                      elapsedTime);
-            
-            /*! @brief Reset the request statistics counters.
-             @param key The client-provided key. */
-            void resetCounters(const yarp::os::ConstString & key);
             
         protected:
             
@@ -129,14 +121,11 @@ namespace MplusM
             /*! @brief Disable the standard request handlers. */
             void detachRequestHandlers(void);
             
-            /*! @brief The request handler for unrecognized requests. */
-            MovementDbDefaultRequestHandler * _defaultHandler;
+            /*! @brief The IP address of the backend database server. */
+            yarp::os::ConstString _databaseAddress;
             
-            /*! @brief The request handler for the 'reset' request. */
-            ResetRequestHandler * _resetHandler;
-            
-            /*! @brief The request handler for the 'stats' request. */
-            StatsRequestHandler * _statsHandler;
+            /*! @brief The request handler for the 'addfile' request. */
+            AddFileRequestHandler * _addFileHandler;
             
         }; // MovementDbService
         

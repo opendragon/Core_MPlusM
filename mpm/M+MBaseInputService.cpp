@@ -89,9 +89,6 @@ BaseInputService::BaseInputService(const yarp::os::ConstString & launchPath,
     OD_LOG_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
                servicePortNumber); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
-#if 0
-    attachRequestHandlers();
-#endif // 0
     OD_LOG_EXIT_P(this); //####
 } // BaseInputService::BaseInputService
 

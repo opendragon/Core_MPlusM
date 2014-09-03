@@ -89,9 +89,6 @@ BaseFilterService::BaseFilterService(const yarp::os::ConstString & launchPath,
     OD_LOG_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
                servicePortNumber); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
-#if 0
-    attachRequestHandlers();
-#endif // 0
     OD_LOG_EXIT_P(this); //####
 } // BaseFilterService::BaseFilterService
 
@@ -109,18 +106,12 @@ BaseFilterService::BaseFilterService(const yarp::os::ConstString & launchPath,
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
                "description = ", description, "requestsDescription = ", requestsDescription); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
-#if 0
-    attachRequestHandlers();
-#endif // 0
     OD_LOG_EXIT_P(this); //####
 } // BaseFilterService::BaseFilterService
 
 BaseFilterService::~BaseFilterService(void)
 {
     OD_LOG_OBJENTER(); //####
-#if 0
-    detachRequestHandlers();
-#endif // 0
     OD_LOG_OBJEXIT(); //####
 } // BaseFilterService::~BaseFilterService
 

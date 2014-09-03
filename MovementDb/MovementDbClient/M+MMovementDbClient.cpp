@@ -92,40 +92,41 @@ MovementDbClient::~MovementDbClient(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool MovementDbClient::getServiceStatistics(long &   counter,
-                                            double & elapsedTime)
+bool MovementDbClient::addFileToDb(const yarp::os::ConstString & emailAddress,
+                                   const yarp::os::ConstString & dataTrack,
+                                   const yarp::os::ConstString & filePath)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P2("counter = ", &counter, "elapsedTime = ", &elapsedTime); //####
     bool okSoFar = false;
     
     try
     {
         yarp::os::Bottle        parameters;
         Common::ServiceResponse response;
-        
+
         reconnectIfDisconnected(NULL, NULL);
-        if (send(MpM_STATS_REQUEST, parameters, &response))
+        parameters.addString(emailAddress);
+        parameters.addString(dataTrack);
+        parameters.addString(filePath);
+        if (send(MpM_ADDFILE_REQUEST, parameters, &response))
         {
-            if (2 == response.count())
+            // Check that we got a successful add!
+            if (1 == response.count())
             {
-                yarp::os::Value retrievedCounter(response.element(0));
-                yarp::os::Value retrievedElapsed(response.element(1));
+                yarp::os::Value theValue = response.element(0);
                 
-                if (retrievedCounter.isInt() && retrievedElapsed.isDouble())
+                if (theValue.isString())
                 {
-                    counter = retrievedCounter.asInt();
-                    elapsedTime = retrievedElapsed.asDouble();
-                    okSoFar = true;
+                    okSoFar = (theValue.toString() == MpM_OK_RESPONSE);
                 }
                 else
                 {
-                    OD_LOG("! (retrievedCounter.isInt() && retrievedElapsed.isDouble())"); //####
+                    OD_LOG("! (theValue.isString())"); //####
                 }
             }
             else
             {
-                OD_LOG("! (2 == response.count())"); //####
+                OD_LOG("! (1 == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
@@ -141,62 +142,7 @@ bool MovementDbClient::getServiceStatistics(long &   counter,
     }
     OD_LOG_OBJEXIT_B(okSoFar); //####
     return okSoFar;
-} // MovementDbClient::getServiceStatistics
-
-bool MovementDbClient::pokeService(void)
-{
-    OD_LOG_OBJENTER(); //####
-    bool okSoFar = false;
-    
-    try
-    {
-        yarp::os::Bottle parameters;
-        
-        if (send("blarg_blerg_blirg_blorg_blurg", parameters))
-        {
-            okSoFar = true;
-        }
-        else
-        {
-            OD_LOG("! (send(\"blarg_blerg_blirg_blorg_blurg\", parameters))"); //####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
-    return okSoFar;
-} // MovementDbClient::pokeService
-
-bool MovementDbClient::resetServiceCounters(void)
-{
-    OD_LOG_OBJENTER(); //####
-    bool okSoFar = false;
-    
-    try
-    {
-        yarp::os::Bottle parameters;
-        
-        reconnectIfDisconnected(NULL, NULL);
-        if (send(MpM_RESET_REQUEST, parameters))
-        {
-            okSoFar = true;
-        }
-        else
-        {
-            OD_LOG("! (send(MpM_RESET_REQUEST, parameters))"); //####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
-    return okSoFar;
-} // MovementDbClient::resetServiceCounters
+} // MovementDbClient::addFileToDb
 
 #if defined(__APPLE__)
 # pragma mark Global functions

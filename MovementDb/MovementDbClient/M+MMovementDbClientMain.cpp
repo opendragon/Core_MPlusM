@@ -167,98 +167,115 @@ int main(int     argc,
 #endif // defined(MpM_ReportOnConnections)
                     MplusM::StartRunning();
                     MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
-                    for ( ; MplusM::IsRunning(); )
+                    if (stuff->findService("name:MovementDb", false, NULL, NULL))
                     {
-                        int count;
-                        
-                        cout << "How many requests? ";
-                        cin >> count;
-                        if (0 >= count)
+                        if (stuff->connectToService(NULL, NULL))
                         {
-                            break;
-                        }
-                        
-                        if (stuff->findService("name:MovementDb", false, NULL, NULL))
-                        {
-                            if (stuff->connectToService(NULL, NULL))
+                            std::string inputLine;
+                            
+                            std::cout << "Path to the file: ";
+                            if (getline(cin, inputLine))
                             {
-                                if (stuff->resetServiceCounters())
+                                yarp::os::ConstString filePath(inputLine.c_str());
+                                yarp::os::ConstString emailAddress;
+                                yarp::os::ConstString dataTrack;
+                                
+                                std::cout << "e-mail address: ";
+                                getline(cin, inputLine);
+                                emailAddress = inputLine;
+                                std::cout << "Data track: ";
+                                getline(cin, inputLine);
+                                dataTrack = inputLine;
+                                if (stuff->addFileToDb(emailAddress, dataTrack, filePath))
                                 {
-                                    for (int ii = 0; ii < count; ++ii)
-                                    {
-                                        if (! stuff->pokeService())
-                                        {
-#if MAC_OR_LINUX_
-                                            MplusM::Common::GetLogger().fail("Problem poking the "
-                                                                             "service.");
-#endif // MAC_OR_LINUX_
-                                            break;
-                                        }
-                                        
-                                    }
-                                    long   counter;
-                                    double elapsedTime;
                                     
-                                    if (stuff->getServiceStatistics(counter, elapsedTime))
-                                    {
-                                        if (0 < counter)
-                                        {
-                                            cout << "count = " << counter << ", elapsed time = ";
-                                            reportTimeInReasonableUnits(elapsedTime);
-                                            cout << ", average time = ";
-                                            reportTimeInReasonableUnits(elapsedTime / counter);
-                                            cout << "." << endl;
-                                        }
-                                        else
-                                        {
-                                            cout << "Service reports zero requests." << endl;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        OD_LOG("! (stuff->getServiceStatistics(counter, " //####
-                                               "elapsedTime))"); //####
-#if MAC_OR_LINUX_
-                                        MplusM::Common::GetLogger().fail("Problem getting "
-                                                                         "statistics from the "
-                                                                         "service.");
-#endif // MAC_OR_LINUX_
-                                    }
                                 }
                                 else
                                 {
-                                    OD_LOG("! (stuff->resetServiceCounters())"); //####
-#if MAC_OR_LINUX_
-                                    MplusM::Common::GetLogger().fail("Problem resetting the "
-                                                                     "service counters.");
-#endif // MAC_OR_LINUX_
+                                    
                                 }
-                                if (! stuff->disconnectFromService(NULL, NULL))
-                                {
-                                    OD_LOG("(! stuff->disconnectFromService(NULL, NULL))"); //####
-#if MAC_OR_LINUX_
-                                    MplusM::Common::GetLogger().fail("Problem disconnecting from "
-                                                                     "the service.");
-#endif // MAC_OR_LINUX_
-                                }
+                                
                             }
                             else
                             {
-                                OD_LOG("! (stuff->connectToService(NULL, NULL))"); //####
+                                std::cerr << "Empty file path provided." << endl;
+                            }
+//                                if (stuff->resetServiceCounters())
+//                                {
+//                                    for (int ii = 0; ii < count; ++ii)
+//                                    {
+//                                        if (! stuff->pokeService())
+//                                        {
+//#if MAC_OR_LINUX_
+//                                            MplusM::Common::GetLogger().fail("Problem poking the "
+//                                                                             "service.");
+//#endif // MAC_OR_LINUX_
+//                                            break;
+//                                        }
+//                                        
+//                                    }
+//                                    long   counter;
+//                                    double elapsedTime;
+//                                    
+//                                    if (stuff->getServiceStatistics(counter, elapsedTime))
+//                                    {
+//                                        if (0 < counter)
+//                                        {
+//                                            cout << "count = " << counter << ", elapsed time = ";
+//                                            reportTimeInReasonableUnits(elapsedTime);
+//                                            cout << ", average time = ";
+//                                            reportTimeInReasonableUnits(elapsedTime / counter);
+//                                            cout << "." << endl;
+//                                        }
+//                                        else
+//                                        {
+//                                            cout << "Service reports zero requests." << endl;
+//                                        }
+//                                    }
+//                                    else
+//                                    {
+//                                        OD_LOG("! (stuff->getServiceStatistics(counter, " //####
+//                                               "elapsedTime))"); //####
+//#if MAC_OR_LINUX_
+//                                        MplusM::Common::GetLogger().fail("Problem getting "
+//                                                                         "statistics from the "
+//                                                                         "service.");
+//#endif // MAC_OR_LINUX_
+//                                    }
+//                                }
+//                                else
+//                                {
+//                                    OD_LOG("! (stuff->resetServiceCounters())"); //####
+//#if MAC_OR_LINUX_
+//                                    MplusM::Common::GetLogger().fail("Problem resetting the "
+//                                                                     "service counters.");
+//#endif // MAC_OR_LINUX_
+//                                }
+                            if (! stuff->disconnectFromService(NULL, NULL))
+                            {
+                                OD_LOG("(! stuff->disconnectFromService(NULL, NULL))"); //####
 #if MAC_OR_LINUX_
-                                MplusM::Common::GetLogger().fail("Problem connecting to the "
-                                                                 "service.");
+                                MplusM::Common::GetLogger().fail("Problem disconnecting from "
+                                                                 "the service.");
 #endif // MAC_OR_LINUX_
                             }
                         }
                         else
                         {
-                            OD_LOG("! (stuff->findService(\"name:RequestCounter\", false, " //####
-                                   "NULL, NULL))"); //####
+                            OD_LOG("! (stuff->connectToService(NULL, NULL))"); //####
 #if MAC_OR_LINUX_
-                            MplusM::Common::GetLogger().fail("Problem locating the service.");
+                            MplusM::Common::GetLogger().fail("Problem connecting to the "
+                                                             "service.");
 #endif // MAC_OR_LINUX_
                         }
+                    }
+                    else
+                    {
+                        OD_LOG("! (stuff->findService(\"name:RequestCounter\", false, " //####
+                               "NULL, NULL))"); //####
+#if MAC_OR_LINUX_
+                        MplusM::Common::GetLogger().fail("Problem locating the service.");
+#endif // MAC_OR_LINUX_
                     }
                     delete stuff;
                 }

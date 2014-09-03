@@ -67,21 +67,14 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~MovementDbClient(void);
             
-            /*! @brief Get the statistics from the service.
-             @param counter The number of requests since the last reset.
-             @param elapsedTime The number of seconds since the last reset.
-             @returns @c true if the statistics were retrieved successfully and @c false
-             otherwise. */
-            bool getServiceStatistics(long &   counter,
-                                      double & elapsedTime);
-            
-            /*! @brief Trigger the service counter.
-             @returns @c true if the service handled the request and @c false otherwise. */
-            bool pokeService(void);
-            
-            /*! @brief Reset the service counters.
-             @returns @c true if the service handled the request and @c false otherwise. */
-            bool resetServiceCounters(void);
+            /*! @brief Add a file entry to the backend database.
+             @param emailAddress The e-mail address of the user that owns the file.
+             @param dataTrack The data track for the file.
+             @param filePath The filesystem path to the file.
+             @returns @c true if the file entry was added successfully and @c false otherwise. */
+            bool addFileToDb(const yarp::os::ConstString & emailAddress,
+                             const yarp::os::ConstString & dataTrack,
+                             const yarp::os::ConstString & filePath);
             
         protected:
             

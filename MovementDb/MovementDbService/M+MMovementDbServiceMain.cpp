@@ -80,9 +80,10 @@ using namespace MplusM::MovementDb;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Request Counter service.
+/*! @brief The entry point for running the Movement Database service.
  
- The second, optional, argument is the port number to be used and the first, optional, argument is
+ The first argument is the IP address of the database server to be connected to.
+ The third, optional, argument is the port number to be used and the second, optional, argument is
  the name of the channel to be used. There is no output.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example service.
@@ -107,64 +108,74 @@ int main(int     argc,
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network     yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
-            yarp::os::ConstString serviceEndpointName;
-            yarp::os::ConstString servicePortNumber;
+            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
+                                    // infrastructure
             
             MplusM::Common::Initialize(*argv);
             if (1 < argc)
             {
-                serviceEndpointName = argv[1];
+                yarp::os::ConstString databaseAddress(argv[1]);
+                yarp::os::ConstString serviceEndpointName;
+                yarp::os::ConstString servicePortNumber;
+
                 if (2 < argc)
                 {
-                    servicePortNumber = argv[2];
-                }
-            }
-            else
-            {
-                serviceEndpointName = DEFAULT_MOVEMENTDB_SERVICE_NAME;
-            }
-            MovementDbService * stuff = new MovementDbService(*argv, serviceEndpointName,
-                                                              servicePortNumber);
-            
-            if (stuff)
-            {
-                if (stuff->start())
-                {
-                    yarp::os::ConstString channelName(stuff->getEndpoint().getName());
-                    
-                    OD_LOG_S1s("channelName = ", channelName); //####
-                    if (MplusM::Common::RegisterLocalService(channelName, NULL, NULL))
+                    serviceEndpointName = argv[2];
+                    if (3 < argc)
                     {
-                        MplusM::StartRunning();
-                        MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
-                        stuff->startPinger();
-                        for ( ; MplusM::IsRunning() && stuff; )
-                        {
-#if defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-                        }
-                        MplusM::Common::UnregisterLocalService(channelName, NULL, NULL);
-                        stuff->stop();
-                    }
-                    else
-                    {
-                        OD_LOG("! (RegisterLocalService(channelName, NULL, NULL))"); //####
+                        servicePortNumber = argv[3];
                     }
                 }
                 else
                 {
-                    OD_LOG("! (stuff->start())"); //####
+                    serviceEndpointName = DEFAULT_MOVEMENTDB_SERVICE_NAME;
                 }
-                delete stuff;
+                MovementDbService * stuff = new MovementDbService(*argv, databaseAddress,
+                                                                  serviceEndpointName,
+                                                                  servicePortNumber);
+                
+                if (stuff)
+                {
+                    if (stuff->start())
+                    {
+                        yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+                        
+                        OD_LOG_S1s("channelName = ", channelName); //####
+                        if (MplusM::Common::RegisterLocalService(channelName, NULL, NULL))
+                        {
+                            MplusM::StartRunning();
+                            MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
+                            stuff->startPinger();
+                            for ( ; MplusM::IsRunning() && stuff; )
+                            {
+#if defined(MpM_MainDoesDelayNotYield)
+                                yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+                                yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+                            }
+                            MplusM::Common::UnregisterLocalService(channelName, NULL, NULL);
+                            stuff->stop();
+                        }
+                        else
+                        {
+                            OD_LOG("! (RegisterLocalService(channelName, NULL, NULL))"); //####
+                        }
+                    }
+                    else
+                    {
+                        OD_LOG("! (stuff->start())"); //####
+                    }
+                    delete stuff;
+                }
+                else
+                {
+                    OD_LOG("! (stuff)"); //####
+                }
             }
             else
             {
-                OD_LOG("! (stuff)"); //####
+                std::cerr << "Missing database network address." << std::endl;
             }
         }
 #if CheckNetworkWorks_

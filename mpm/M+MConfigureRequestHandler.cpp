@@ -117,6 +117,7 @@ void ConfigureRequestHandler::fillInDescription(const yarp::os::ConstString & re
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MpM_REQREP_DICT_VERSION_KEY, CONFIGURE_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_ANYTHING);
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Configure the input/output streams\n"
                  "Input: configuration details\n"
                  "Output: nothing");
