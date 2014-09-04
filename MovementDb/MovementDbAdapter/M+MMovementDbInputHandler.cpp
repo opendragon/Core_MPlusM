@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MRunningSumControlInputHandler.cpp
+//  File:       M+MMovementDbInputHandler.cpp
 //
 //  Project:    M+M
 //
 //  Contains:   The class definition for the custom control channel input handler used by the
-//              running sum adapter.
+//              movement database adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,14 +33,16 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-24
+//  Created:    2014-09-04
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MRunningSumControlInputHandler.h"
-#include "M+MRunningSumAdapterData.h"
-#include "M+MRunningSumClient.h"
-#include "M+MRunningSumRequests.h"
+#include "M+MMovementDbInputHandler.h"
+#include "M+MMovementDbAdapterData.h"
+#include "M+MMovementDbClient.h"
+#include "M+MMovementDbRequests.h"
+
+#include <mpm/M+MAdapterChannel.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -51,15 +53,15 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the custom control channel input handler used by the running sum
- adapter. */
+ @brief The class definition for the custom control channel input handler used by the movement
+ database adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Example;
+using namespace MplusM::MovementDb;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -77,27 +79,27 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-RunningSumControlInputHandler::RunningSumControlInputHandler(RunningSumAdapterData & shared) :
+MovementDbInputHandler::MovementDbInputHandler(MovementDbAdapterData & shared) :
     inherited(), _shared(shared)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("shared = ", &shared); //####
     OD_LOG_EXIT_P(this); //####
-} // RunningSumControlInputHandler::RunningSumControlInputHandler
+} // MovementDbInputHandler::MovementDbInputHandler
 
-RunningSumControlInputHandler::~RunningSumControlInputHandler(void)
+MovementDbInputHandler::~MovementDbInputHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // RunningSumControlInputHandler::~RunningSumControlInputHandler
+} // MovementDbInputHandler::~MovementDbInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                                const yarp::os::ConstString & senderChannel,
-                                                yarp::os::ConnectionWriter *  replyMechanism)
+bool MovementDbInputHandler::handleInput(const yarp::os::Bottle &      input,
+                                         const yarp::os::ConstString & senderChannel,
+                                         yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -111,61 +113,89 @@ bool RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &      in
     
     try
     {
-        if (0 < input.size())
+        int howMany = input.size();
+        
+        if (0 < howMany)
         {
             Common::AdapterChannel * theOutput = _shared.getOutput();
-            RunningSumClient *       theClient = (RunningSumClient *) _shared.getClient();
+            yarp::os::ConstString    command;
+            double                   outValue;
+            MovementDbClient *       theClient = (MovementDbClient *) _shared.getClient();
             
             if (theClient && theOutput)
             {
-                yarp::os::Value argValue(input.get(0));
-                
-                if (argValue.isString())
+                // Process the whole input, one segment at a time.
+                for (int ii = 0; ii < howMany; ++ii)
                 {
-                    yarp::os::ConstString argString(argValue.asString());
+                    yarp::os::Value argValue(input.get(ii));
                     
-                    if (argString == MpM_RESETSUM_REQUEST)
+                    if (argValue.isString())
                     {
-                        _shared.lock();
-                        if (theClient->resetSum())
-                        {
+                        yarp::os::ConstString argString(argValue.asString());
                         
-                        }
-                        else
+                        if (0 < command.length())
                         {
-                            OD_LOG("! (theClient->resetSum())"); //####
+                            if (command == MpM_ADDFILE_REQUEST)
+                            {
+                                _shared.lock();
+                                if (theClient->addFileToDb(argString))
+                                {
+
+                                }
+                                else
+                                {
+                                    OD_LOG("! (theClient->addFileToDb(argString))"); //####
+                                }
+                                _shared.unlock();
+                            }
+                            else if (command == MpM_SETDATATRACK_REQUEST)
+                            {
+                                _shared.lock();
+                                if (theClient->setDataTrackForDb(argString))
+                                {
+                                    
+                                }
+                                else
+                                {
+                                    OD_LOG("! (theClient->setDataTrackForDb(argString))"); //####
+                                }
+                                _shared.unlock();
+                            }
+                            else if (command == MpM_SETEMAIL_REQUEST)
+                            {
+                                _shared.lock();
+                                if (theClient->setEmailAddressForDb(argString))
+                                {
+                                    
+                                }
+                                else
+                                {
+                                    OD_LOG("! (theClient->setEmailAddressForDb(argString))"); //####
+                                }
+                                _shared.unlock();
+                            }
+                            command = "";
                         }
-                        _shared.unlock();
-                    }
-                    else if (argString == MpM_QUIT_REQUEST)
-                    {
-                        _shared.deactivate();
-                    }
-                    else if (argString == MpM_STARTSUM_REQUEST)
-                    {
-                        _shared.lock();
-                        if (theClient->startSum())
+                        else if ((argString == MpM_ADDFILE_REQUEST) ||
+                                 (argString == MpM_SETDATATRACK_REQUEST) ||
+                                 (argString == MpM_SETEMAIL_REQUEST))
                         {
-                        
+                            // Remember the command.
+                            command = argString;
                         }
-                        else
+                        else if (argString == MpM_STOPDB_REQUEST)
                         {
-                            OD_LOG("! (theClient->startSum())"); //####
+                            _shared.lock();
+                            if (theClient->stopDbConnection())
+                            {
+
+                            }
+                            else
+                            {
+                                OD_LOG("! (theClient->stopDbConnection())"); //####
+                            }
+                            _shared.unlock();
                         }
-                        _shared.unlock();
-                    }
-                    else if (argString == MpM_STOPSUM_REQUEST)
-                    {
-                        _shared.lock();
-                        if (theClient->stopSum())
-                        {
-                        
-                        }
-                        else
-                        {
-                            OD_LOG("! (theClient->startSum())"); //####
-                        }
-                        _shared.unlock();
                     }
                 }
             }
@@ -178,7 +208,7 @@ bool RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &      in
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RunningSumControlInputHandler::handleInput
+} // MovementDbInputHandler::handleInput
 
 #if defined(__APPLE__)
 # pragma mark Global functions

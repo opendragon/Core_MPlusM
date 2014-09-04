@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MStopRequestHandler.cpp
+//  File:       M+MSetEmailRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for a 'stop' request.
+//  Contains:   The class definition for the request handler for an 'setemail' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,13 +32,13 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-18
+//  Created:    2014-09-04
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MStopRequestHandler.h"
-#include "M+MRunningSumRequests.h"
-#include "M+MRunningSumService.h"
+#include "M+MSetEmailRequestHandler.h"
+#include "M+MMovementDbRequests.h"
+#include "M+MMovementDbService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -49,21 +49,21 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a 'stop' request. */
+ @brief The class definition for the request handler for a 'setemail' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Example;
+using namespace MplusM::MovementDb;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'stop' request. */
-#define STOP_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'setemail' request. */
+#define SETEMAIL_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -77,25 +77,25 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-StopRequestHandler::StopRequestHandler(RunningSumService & service) :
-    inherited(MpM_STOP_REQUEST), _service(service)
+SetEmailRequestHandler::SetEmailRequestHandler(MovementDbService & service) :
+    inherited(MpM_SETEMAIL_REQUEST), _service(service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
-} // StopRequestHandler::StopRequestHandler
+} // SetEmailRequestHandler::SetEmailRequestHandler
 
-StopRequestHandler::~StopRequestHandler(void)
+SetEmailRequestHandler::~SetEmailRequestHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // StopRequestHandler::~StopRequestHandler
+} // SetEmailRequestHandler::~SetEmailRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void StopRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void SetEmailRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -105,10 +105,10 @@ void StopRequestHandler::fillInAliases(Common::StringVector & alternateNames)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
-} // StopRequestHandler::fillInAliases
+} // SetEmailRequestHandler::fillInAliases
 
-void StopRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info)
+void SetEmailRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                               yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -116,9 +116,10 @@ void StopRequestHandler::fillInDescription(const yarp::os::ConstString & request
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, STOP_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Stop the running sum\n"
-                 "Input: nothing\n"
+        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_STRING);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, SETEMAIL_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Set the e-mail address for the backend database\n"
+                 "Input: e-mail address\n"
                  "Output: nothing");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
@@ -132,12 +133,12 @@ void StopRequestHandler::fillInDescription(const yarp::os::ConstString & request
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // StopRequestHandler::fillInDescription
+} // SetEmailRequestHandler::fillInDescription
 
-bool StopRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                        const yarp::os::Bottle &      restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism)
+bool SetEmailRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                            const yarp::os::Bottle &      restOfInput,
+                                            const yarp::os::ConstString & senderChannel,
+                                            yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -152,16 +153,48 @@ bool StopRequestHandler::processRequest(const yarp::os::ConstString & request,
     
     try
     {
-        _service.detachClient(senderChannel);
+        yarp::os::Bottle reply;
+
+        // Set the e-mail address for the backend database
+        if (1 == restOfInput.size())
+        {
+            yarp::os::Value firstValue(restOfInput.get(0));
+            
+            if (firstValue.isString())
+            {
+                yarp::os::ConstString emailAddress(firstValue.toString());
+                
+                if (_service.setEmailAddress(senderChannel, emailAddress))
+                {
+                    reply.addString(MpM_OK_RESPONSE);
+                }
+                else
+                {
+                    OD_LOG("! (_service.setEmailAddress(senderChannel, emailAddress))"); //####
+                    reply.addString(MpM_FAILED_RESPONSE);
+                    reply.addString("Could not set the e-mail address");
+                }
+            }
+            else
+            {
+                OD_LOG("! (firstValue.isString())"); //####
+                reply.addString(MpM_FAILED_RESPONSE);
+                reply.addString("Invalid argument");
+            }
+        }
+        else
+        {
+            OD_LOG("! (1 == restOfInput.size())"); //####
+            reply.addString(MpM_FAILED_RESPONSE);
+            reply.addString("Missing or extra arguments to request");
+        }
         if (replyMechanism)
         {
             OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle response(MpM_OK_RESPONSE);
-            
-            OD_LOG_S1s("response <- ", response.toString()); //####
-            if (! response.write(*replyMechanism))
+            OD_LOG_S1s("response <- ", reply.toString()); //####
+            if (! reply.write(*replyMechanism))
             {
-                OD_LOG("(! response.write(*replyMechanism))"); //####
+                OD_LOG("(! reply(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
                 Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -175,7 +208,7 @@ bool StopRequestHandler::processRequest(const yarp::os::ConstString & request,
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // StopRequestHandler::processRequest
+} // SetEmailRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Global functions

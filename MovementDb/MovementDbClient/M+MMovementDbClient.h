@@ -68,13 +68,23 @@ namespace MplusM
             virtual ~MovementDbClient(void);
             
             /*! @brief Add a file entry to the backend database.
-             @param emailAddress The e-mail address of the user that owns the file.
-             @param dataTrack The data track for the file.
              @param filePath The filesystem path to the file.
              @returns @c true if the file entry was added successfully and @c false otherwise. */
-            bool addFileToDb(const yarp::os::ConstString & emailAddress,
-                             const yarp::os::ConstString & dataTrack,
-                             const yarp::os::ConstString & filePath);
+            bool addFileToDb(const yarp::os::ConstString & filePath);
+            
+            /*! @brief Set the active data track.
+             @param dataTrack The data track to use with subsequent files.
+             @returns @c true if the data track was successfully set and @c false otherwise. */
+            bool setDataTrackForDb(const yarp::os::ConstString & dataTrack);
+            
+            /*! @brief Set the active e-mail address.
+             @param emailAddress The e-mail address of the user that will own subsequent files.
+             @returns @c true if the e-mail address was successfully set and @c false otherwise. */
+            bool setEmailAddressForDb(const yarp::os::ConstString & emailAddress);
+            
+            /*! @brief Stop the database connection for this client.
+             @returns @c true if the service handled the request and @c false otherwise. */
+            bool stopDbConnection(void);
             
         protected:
             

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MResetRequestHandler.h
+//  File:       M+MAddToSumRequestHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for a 'reset' request.
+//  Contains:   The class declaration for the request handler for an 'addtosum' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMResetRequestHandler_H_))
-# define MpMResetRequestHandler_H_ /* Header guard */
+#if (! defined(MpMAddToSumRequestHandler_H_))
+# define MpMAddToSumRequestHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseRequestHandler.h>
 
@@ -47,7 +47,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for a 'reset' request. */
+ @brief The class declaration for the request handler for an 'addtosum' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -58,19 +58,20 @@ namespace MplusM
     {
         class RunningSumService;
         
-        /*! @brief The example 'reset' request handler.
+        /*! @brief The example 'addtosum' request handler.
          
-         There is no input for the request and there is no output. */
-        class ResetRequestHandler : public Common::BaseRequestHandler
+         The input for the request is a single floating point number, and the output is a single
+         floating point number. */
+        class AddToSumRequestHandler : public Common::BaseRequestHandler
         {
         public:
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            ResetRequestHandler(RunningSumService & service);
+            AddToSumRequestHandler(RunningSumService & service);
             
             /*! @brief The destructor. */
-            virtual ~ResetRequestHandler(void);
+            virtual ~AddToSumRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -99,13 +100,13 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-            /*! @brief The service that will manages the statistics. */
+            /*! @brief The service that manages the statistics. */
             RunningSumService & _service;
             
-        }; // ResetRequestHandler
+        }; // AddToSumRequestHandler
         
     } // Example
     
 } // MplusM
 
-#endif // ! defined(MpMResetRequestHandler_H_)
+#endif // ! defined(MpMAddToSumRequestHandler_H_)

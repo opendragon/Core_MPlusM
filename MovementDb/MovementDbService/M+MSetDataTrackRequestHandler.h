@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MResetRequestHandler.h
+//  File:       M+MSetDataTrackRequestHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for a 'reset' request.
+//  Contains:   The class declaration for the request handler for a 'setdatatrack' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,12 +32,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2014-09-04
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMResetRequestHandler_H_))
-# define MpMResetRequestHandler_H_ /* Header guard */
+#if (! defined(MpMSetDataTrackRequestHandler_H_))
+# define MpMSetDataTrackRequestHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseRequestHandler.h>
 
@@ -47,30 +47,31 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for a 'reset' request. */
+ @brief The class declaration for the request handler for a 'setdatatrack' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MplusM
 {
-    namespace RequestCounter
+    namespace MovementDb
     {
-        class RequestCounterService;
+        class MovementDbService;
         
-        /*! @brief The 'reset' request handler for the request counter service.
+        /*! @brief The 'setdatatrack' request handler for the movement database service.
          
-         There is no input or output for the request. */
-        class ResetRequestHandler : public Common::BaseRequestHandler
+         The input for the request is the data track to use for subsequent files; there is no output
+         for the request. */
+        class SetDataTrackRequestHandler : public Common::BaseRequestHandler
         {
         public:
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            ResetRequestHandler(RequestCounterService & service);
+            SetDataTrackRequestHandler(MovementDbService & service);
             
             /*! @brief The destructor. */
-            virtual ~ResetRequestHandler(void);
+            virtual ~SetDataTrackRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -88,7 +89,7 @@ namespace MplusM
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
             virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const yarp::os::Bottle &       restOfInput,
+                                        const yarp::os::Bottle &      restOfInput,
                                         const yarp::os::ConstString & senderChannel,
                                         yarp::os::ConnectionWriter *  replyMechanism);
             
@@ -99,13 +100,13 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-            /*! @brief The service that will manages the statistics. */
-            RequestCounterService & _service;
+            /*! @brief The service that manages the backend database. */
+            MovementDbService & _service;
             
-        }; // ResetRequestHandler
+        }; // SetDataTrackRequestHandler
         
-    } // RequestCounter
+    } // MovementDb
     
 } // MplusM
 
-#endif // ! defined(MpMResetRequestHandler_H_)
+#endif // ! defined(MpMSetDataTrackRequestHandler_H_)

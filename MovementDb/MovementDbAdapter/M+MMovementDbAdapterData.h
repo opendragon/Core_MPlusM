@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MMovementDbRequests.h
+//  File:       M+MMovementDbAdapterData.h
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the movement database
-//              service.
+//  Contains:   The class declaration for the data shared between the input handlers and main thread
+//              of the movement database adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,14 +33,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-02
+//  Created:    2014-09-04
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMMovementDbRequests_H_))
-# define MpMMovementDbRequests_H_ /* Header guard */
+#if (! defined(MpMMovementDbAdapterData_H_))
+# define MpMMovementDbAdapterData_H_ /* Header guard */
 
-# include <mpm/M+MRequests.h>
+# include <mpm/M+MBaseAdapterData.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -48,24 +48,60 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The common macro definitions for requests and responses for the request counter service. */
+ @brief The class declaration for the data shared between the input handlers and main thread of the
+ movement database adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the example echo service. */
-# define MpM_MOVEMENTDB_CANONICAL_NAME "MovementDb"
+namespace MplusM
+{
+    namespace Common
+    {
+        class AdapterChannel;
+    } // Common
+    
+    namespace MovementDb
+    {
+        class MovementDbClient;
+        
+        /*! @brief A handler for partially-structured input data. */
+        class MovementDbAdapterData : public Common::BaseAdapterData
+        {
+        public:
+            
+            /*! @brief The constructor.
+             @param client The client connection that is used to communicate with the service.
+             @param output The output channel that will receive the service responses. */
+            MovementDbAdapterData(MovementDbClient *       client,
+                                  Common::AdapterChannel * output);
+            
+            /*! @brief The destructor. */
+            virtual ~MovementDbAdapterData(void);
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseAdapterData inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MovementDbAdapterData(const MovementDbAdapterData & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MovementDbAdapterData & operator =(const MovementDbAdapterData & other);
+            
+        }; // MovementDbAdapterData
+        
+    } // MovementDb
+    
+} // MplusM
 
-/*! @brief The name for the 'addfile' request. */
-# define MpM_ADDFILE_REQUEST  "addfile"
-
-/*! @brief The name for the 'setemail' request. */
-# define MpM_SETDATATRACK_REQUEST  "setdatatrack"
-
-/*! @brief The name for the 'setemail' request. */
-# define MpM_SETEMAIL_REQUEST  "setemail"
-
-/*! @brief The name for the 'stopdb' request. */
-# define MpM_STOPDB_REQUEST  "stopdb"
-
-#endif // ! defined(MpMMovementDbRequests_H_)
+#endif // ! defined(MpMMovementDbAdapterData_H_)

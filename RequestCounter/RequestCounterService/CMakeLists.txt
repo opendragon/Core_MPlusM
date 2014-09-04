@@ -45,7 +45,7 @@ add_executable(mpmRequestCounterService
                M+MRequestCounterContext.cpp
                M+MRequestCounterDefaultRequestHandler.cpp
                M+MRequestCounterService.cpp
-               M+MResetRequestHandler.cpp
+               M+MResetCounterRequestHandler.cpp
                M+MStatsRequestHandler.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

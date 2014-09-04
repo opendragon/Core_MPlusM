@@ -42,12 +42,12 @@ include_directories("${MpM_SOURCE_DIR}"
 # Set up our program
 add_executable(mpmRunningSumService
                M+MRunningSumServiceMain.cpp
-               M+MAddRequestHandler.cpp
+               M+MAddToSumRequestHandler.cpp
                M+MRunningSumContext.cpp
                M+MRunningSumService.cpp
-               M+MResetRequestHandler.cpp
-               M+MStartRequestHandler.cpp
-               M+MStopRequestHandler.cpp)
+               M+MResetSumRequestHandler.cpp
+               M+MStartSumRequestHandler.cpp
+               M+MStopSumRequestHandler.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

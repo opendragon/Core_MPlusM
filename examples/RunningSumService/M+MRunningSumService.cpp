@@ -37,12 +37,12 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MRunningSumService.h"
-#include "M+MAddRequestHandler.h"
-#include "M+MResetRequestHandler.h"
+#include "M+MAddToSumRequestHandler.h"
+#include "M+MResetSumRequestHandler.h"
 #include "M+MRunningSumContext.h"
 #include "M+MRunningSumRequests.h"
-#include "M+MStartRequestHandler.h"
-#include "M+MStopRequestHandler.h"
+#include "M+MStartSumRequestHandler.h"
+#include "M+MStopSumRequestHandler.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -87,8 +87,8 @@ RunningSumService::RunningSumService(const yarp::os::ConstString & launchPath,
               "reset - clear the running sum\n"
               "start - start adding values to the running sum\n"
               "stop - stop adding values to the running sum", serviceEndpointName,
-              servicePortNumber), _addHandler(NULL), _resetHandler(NULL), _startHandler(NULL),
-    _stopHandler(NULL)
+              servicePortNumber), _addToSumHandler(NULL), _resetSumHandler(NULL),
+    _startSumHandler(NULL), _stopSumHandler(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
@@ -142,20 +142,21 @@ void RunningSumService::attachRequestHandlers(void)
     OD_LOG_OBJENTER(); //####
     try
     {
-        _addHandler = new AddRequestHandler(*this);
-        _resetHandler = new ResetRequestHandler(*this);
-        _startHandler = new StartRequestHandler(*this);
-        _stopHandler = new StopRequestHandler(*this);
-        if (_addHandler && _resetHandler && _startHandler && _stopHandler)
+        _addToSumHandler = new AddToSumRequestHandler(*this);
+        _resetSumHandler = new ResetSumRequestHandler(*this);
+        _startSumHandler = new StartSumRequestHandler(*this);
+        _stopSumHandler = new StopSumRequestHandler(*this);
+        if (_addToSumHandler && _resetSumHandler && _startSumHandler && _stopSumHandler)
         {
-            registerRequestHandler(_addHandler);
-            registerRequestHandler(_resetHandler);
-            registerRequestHandler(_startHandler);
-            registerRequestHandler(_stopHandler);
+            registerRequestHandler(_addToSumHandler);
+            registerRequestHandler(_resetSumHandler);
+            registerRequestHandler(_startSumHandler);
+            registerRequestHandler(_stopSumHandler);
         }
         else
         {
-            OD_LOG("! (_addHandler && _resetHandler && _startHandler && _stopHandler)"); //####
+            OD_LOG("! (_addToSumHandler && _resetSumHandler && _startSumHandler && " //####
+                   "_stopSumHandler)"); //####
         }
     }
     catch (...)
@@ -171,29 +172,29 @@ void RunningSumService::detachRequestHandlers(void)
     OD_LOG_OBJENTER(); //####
     try
     {
-        if (_addHandler)
+        if (_addToSumHandler)
         {
-            unregisterRequestHandler(_addHandler);
-            delete _addHandler;
-            _addHandler = NULL;
+            unregisterRequestHandler(_addToSumHandler);
+            delete _addToSumHandler;
+            _addToSumHandler = NULL;
         }
-        if (_resetHandler)
+        if (_resetSumHandler)
         {
-            unregisterRequestHandler(_resetHandler);
-            delete _resetHandler;
-            _resetHandler = NULL;
+            unregisterRequestHandler(_resetSumHandler);
+            delete _resetSumHandler;
+            _resetSumHandler = NULL;
         }
-        if (_startHandler)
+        if (_startSumHandler)
         {
-            unregisterRequestHandler(_startHandler);
-            delete _startHandler;
-            _startHandler = NULL;
+            unregisterRequestHandler(_startSumHandler);
+            delete _startSumHandler;
+            _startSumHandler = NULL;
         }
-        if (_stopHandler)
+        if (_stopSumHandler)
         {
-            unregisterRequestHandler(_stopHandler);
-            delete _stopHandler;
-            _stopHandler = NULL;
+            unregisterRequestHandler(_stopSumHandler);
+            delete _stopSumHandler;
+            _stopSumHandler = NULL;
         }
     }
     catch (...)

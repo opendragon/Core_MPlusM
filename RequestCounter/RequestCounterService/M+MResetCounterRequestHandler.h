@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MRequestCounterDefaultRequestHandler.h
+//  File:       M+MResetCounterRequestHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a default request handler used by the request counter
-//              service.
+//  Contains:   The class declaration for the request handler for a 'resetcounter' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -37,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMRequestCounterDefaultRequestHandler_H_))
-# define MpMRequestCounterDefaultRequestHandler_H_ /* Header guard */
+#if (! defined(MpMResetCounterRequestHandler_H_))
+# define MpMResetCounterRequestHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseRequestHandler.h>
 
@@ -48,7 +47,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for a default request handler used by the request counter service. */
+ @brief The class declaration for the request handler for a 'resetcounter' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -59,17 +58,19 @@ namespace MplusM
     {
         class RequestCounterService;
         
-        /*! @brief A test request handler. */
-        class RequestCounterDefaultRequestHandler : public Common::BaseRequestHandler
+        /*! @brief The 'resetcounter' request handler for the request counter service.
+         
+         There is no input or output for the request. */
+        class ResetCounterRequestHandler : public Common::BaseRequestHandler
         {
         public:
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            RequestCounterDefaultRequestHandler(RequestCounterService & service);
+            ResetCounterRequestHandler(RequestCounterService & service);
             
             /*! @brief The destructor. */
-            virtual ~RequestCounterDefaultRequestHandler(void);
+            virtual ~ResetCounterRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -87,7 +88,7 @@ namespace MplusM
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
             virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const yarp::os::Bottle &      restOfInput,
+                                        const yarp::os::Bottle &       restOfInput,
                                         const yarp::os::ConstString & senderChannel,
                                         yarp::os::ConnectionWriter *  replyMechanism);
             
@@ -101,10 +102,10 @@ namespace MplusM
             /*! @brief The service that will manages the statistics. */
             RequestCounterService & _service;
             
-        }; // RequestCounterDefaultRequestHandler
+        }; // ResetCounterRequestHandler
         
     } // RequestCounter
     
 } // MplusM
 
-#endif // ! defined(MpMRequestCounterDefaultRequestHandler_H_)
+#endif // ! defined(MpMResetCounterRequestHandler_H_)

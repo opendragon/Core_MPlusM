@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MResetRequestHandler.cpp
+//  File:       M+MStopDbRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for a 'reset' request.
+//  Contains:   The class definition for the request handler for a 'stop' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,13 +32,13 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-18
+//  Created:    2014-09-04
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MResetRequestHandler.h"
-#include "M+MRunningSumRequests.h"
-#include "M+MRunningSumService.h"
+#include "M+MStopDbRequestHandler.h"
+#include "M+MMovementDbRequests.h"
+#include "M+MMovementDbService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -49,21 +49,21 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a 'reset' request. */
+ @brief The class definition for the request handler for a 'stop' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Example;
+using namespace MplusM::MovementDb;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'reset' request. */
-#define RESET_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'stopdb' request. */
+#define STOPDB_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -77,25 +77,25 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ResetRequestHandler::ResetRequestHandler(RunningSumService & service) :
-    inherited(MpM_RESET_REQUEST), _service(service)
+StopDbRequestHandler::StopDbRequestHandler(MovementDbService & service) :
+    inherited(MpM_STOPDB_REQUEST), _service(service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
-} // ResetRequestHandler::ResetRequestHandler
+} // StopDbRequestHandler::StopDbRequestHandler
 
-ResetRequestHandler::~ResetRequestHandler(void)
+StopDbRequestHandler::~StopDbRequestHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // ResetRequestHandler::~ResetRequestHandler
+} // StopDbRequestHandler::~StopDbRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ResetRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void StopDbRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -105,10 +105,10 @@ void ResetRequestHandler::fillInAliases(Common::StringVector & alternateNames)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
-} // ResetRequestHandler::fillInAliases
+} // StopDbRequestHandler::fillInAliases
 
-void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                            yarp::os::Property &          info)
+void StopDbRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                             yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -116,8 +116,8 @@ void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & reques
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, RESET_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Reset the running sum\n"
+        info.put(MpM_REQREP_DICT_VERSION_KEY, STOPDB_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Stop the client connection\n"
                  "Input: nothing\n"
                  "Output: nothing");
         yarp::os::Value    keywords;
@@ -132,12 +132,12 @@ void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // ResetRequestHandler::fillInDescription
+} // StopDbRequestHandler::fillInDescription
 
-bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const yarp::os::Bottle &      restOfInput,
-                                         const yarp::os::ConstString & senderChannel,
-                                         yarp::os::ConnectionWriter *  replyMechanism)
+bool StopDbRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                          const yarp::os::Bottle &      restOfInput,
+                                          const yarp::os::ConstString & senderChannel,
+                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -152,7 +152,7 @@ bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
     
     try
     {
-        _service.resetSum(senderChannel);
+        _service.detachClient(senderChannel);
         if (replyMechanism)
         {
             OD_LOG("(replyMechanism)"); //####
@@ -175,7 +175,7 @@ bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ResetRequestHandler::processRequest
+} // StopDbRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Global functions

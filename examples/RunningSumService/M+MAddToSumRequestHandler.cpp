@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MAddFileRequestHandler.cpp
+//  File:       M+MAddToSumRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for an 'addfile' request.
+//  Contains:   The class definition for the request handler for an 'addtosum' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,13 +32,13 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-02
+//  Created:    2014-03-18
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MAddFileRequestHandler.h"
-#include "M+MMovementDbRequests.h"
-#include "M+MMovementDbService.h"
+#include "M+MAddToSumRequestHandler.h"
+#include "M+MRunningSumRequests.h"
+#include "M+MRunningSumService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -49,21 +49,21 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for an 'addfile' request. */
+ @brief The class definition for the request handler for an 'addtosum' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::MovementDb;
+using namespace MplusM::Example;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'addfile' request. */
-#define ADDFILE_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'reset' request. */
+#define ADD_REQUEST_VERSION_NUMBER "1.1"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -77,38 +77,34 @@ using namespace MplusM::MovementDb;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-AddFileRequestHandler::AddFileRequestHandler(MovementDbService & service) :
-    inherited(MpM_ADDFILE_REQUEST), _service(service)
+AddToSumRequestHandler::AddToSumRequestHandler(RunningSumService & service) :
+    inherited(MpM_ADDTOSUM_REQUEST), _service(service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
-} // AddFileRequestHandler::AddFileRequestHandler
+} // AddToSumRequestHandler::AddToSumRequestHandler
 
-AddFileRequestHandler::~AddFileRequestHandler(void)
+AddToSumRequestHandler::~AddToSumRequestHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // AddFileRequestHandler::~AddFileRequestHandler
+} // AddToSumRequestHandler::~AddToSumRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void AddFileRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void AddToSumRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
-#if (! defined(OD_ENABLE_LOGGING))
-# if MAC_OR_LINUX_
-#  pragma unused(alternateNames)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
+    alternateNames.push_back("+");
     OD_LOG_OBJEXIT(); //####
-} // AddFileRequestHandler::fillInAliases
+} // AddToSumRequestHandler::fillInAliases
 
-void AddFileRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                              yarp::os::Property &          info)
+void AddToSumRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                               yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -116,11 +112,12 @@ void AddFileRequestHandler::fillInDescription(const yarp::os::ConstString & requ
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_STRING);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, ADDFILE_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Add a file to the backend database\n"
-                 "Input: the path to the file\n"
-                 "Output: nothing");
+        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_NUMBER MpM_REQREP_1_OR_MORE);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_DOUBLE);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, ADD_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Add to the running sum\n"
+                 "Input: one or more numeric values\n"
+                 "Output: the current running sum, including the new values");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
@@ -133,16 +130,16 @@ void AddFileRequestHandler::fillInDescription(const yarp::os::ConstString & requ
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // AddFileRequestHandler::fillInDescription
+} // AddToSumRequestHandler::fillInDescription
 
-bool AddFileRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                           const yarp::os::Bottle &      restOfInput,
-                                           const yarp::os::ConstString & senderChannel,
-                                           yarp::os::ConnectionWriter *  replyMechanism)
+bool AddToSumRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                            const yarp::os::Bottle &      restOfInput,
+                                            const yarp::os::ConstString & senderChannel,
+                                            yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
-#  pragma unused(request,restOfInput)
+#  pragma unused(request)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####
@@ -153,48 +150,53 @@ bool AddFileRequestHandler::processRequest(const yarp::os::ConstString & request
     
     try
     {
-        yarp::os::Bottle reply;
-
-        // Add the file to the backend database
-        if (1 == restOfInput.size())
+        double           total = 0.0;
+        int              count = restOfInput.size();
+        yarp::os::Bottle response;
+        
+        if (1 <= count)
         {
-            yarp::os::Value firstValue(restOfInput.get(0));
+            int tally = 0;
             
-            if (firstValue.isString())
+            for (int ii = 0; ii < count; ++ii)
             {
-                yarp::os::ConstString filePath(firstValue.toString());
-
-                if (_service.addFileToDb(senderChannel, filePath))
+                yarp::os::Value incoming(restOfInput.get(ii));
+                
+                if (incoming.isInt())
                 {
-                    reply.addString(MpM_OK_RESPONSE);
+                    ++tally;
+                    total = _service.addToSum(senderChannel, incoming.asInt());
                 }
-                else
+                else if (incoming.isDouble())
                 {
-                    OD_LOG("! (_service.addFileToDb(senderChannel, filePath))"); //####
-                    reply.addString(MpM_FAILED_RESPONSE);
-                    reply.addString("Could not add file to database");
+                    ++tally;
+                    total = _service.addToSum(senderChannel, incoming.asDouble());
                 }
+            }
+            if (tally)
+            {
+                response.addDouble(total);
             }
             else
             {
-                OD_LOG("! (firstValue.isString())"); //####
-                reply.addString(MpM_FAILED_RESPONSE);
-                reply.addString("Invalid arguments");
+                OD_LOG("! (tally)"); //####
+                response.addString(MpM_FAILED_RESPONSE);
+                response.addString("No numeric values in list");
             }
         }
         else
         {
-            OD_LOG("! (1 == restOfInput.size())"); //####
-            reply.addString(MpM_FAILED_RESPONSE);
-            reply.addString("Missing or extra arguments to request");
+            OD_LOG("! (1 <= count)"); //####
+            response.addString(MpM_FAILED_RESPONSE);
+            response.addString("No values provided");
         }
         if (replyMechanism)
         {
             OD_LOG("(replyMechanism)"); //####
-            OD_LOG_S1s("response <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
+            OD_LOG_S1s("response <- ", response.toString()); //####
+            if (! response.write(*replyMechanism))
             {
-                OD_LOG("(! reply(*replyMechanism))"); //####
+                OD_LOG("(! response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
                 Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -208,7 +210,7 @@ bool AddFileRequestHandler::processRequest(const yarp::os::ConstString & request
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // AddFileRequestHandler::processRequest
+} // AddToSumRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Global functions

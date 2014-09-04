@@ -60,7 +60,8 @@ namespace MplusM
         
         /*! @brief The 'addfile' request handler for the movement database service.
          
-         There is no input or output for the request. */
+         The inputs for the request is the file-system path to the file; there is no output for the
+         request. */
         class AddFileRequestHandler : public Common::BaseRequestHandler
         {
         public:
@@ -88,7 +89,7 @@ namespace MplusM
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
             virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const yarp::os::Bottle &       restOfInput,
+                                        const yarp::os::Bottle &      restOfInput,
                                         const yarp::os::ConstString & senderChannel,
                                         yarp::os::ConnectionWriter *  replyMechanism);
             
@@ -99,7 +100,7 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-            /*! @brief The service that will manages the backend database. */
+            /*! @brief The service that manages the backend database. */
             MovementDbService & _service;
             
         }; // AddFileRequestHandler

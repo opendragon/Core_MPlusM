@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MMovementDbRequests.h
+//  File:       M+MMovementDbContext.h
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the movement database
-//              service.
+//  Contains:   The class declaration for a context used with the movement database service.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-02
+//  Created:    2014-09-04
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMMovementDbRequests_H_))
-# define MpMMovementDbRequests_H_ /* Header guard */
+#if (! defined(MpMMovementDbContext_H_))
+# define MpMMovementDbContext_H_ /* Header guard */
 
-# include <mpm/M+MRequests.h>
+# include <mpm/M+MBaseContext.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -48,24 +47,68 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The common macro definitions for requests and responses for the request counter service. */
+ @brief The class declaration for a context used with the movement database service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the example echo service. */
-# define MpM_MOVEMENTDB_CANONICAL_NAME "MovementDb"
+namespace MplusM
+{
+    namespace MovementDb
+    {
+        /*! @brief A convenience class to provide context objects for the movement database
+         service. */
+        class MovementDbContext : public Common::BaseContext
+        {
+        public:
+            
+            /*! @brief The constructor. */
+            MovementDbContext(void);
+            
+            /*! @brief The destructor. */
+            virtual ~MovementDbContext(void);
+            
+            /*! @brief An accessor for the data track. */
+            inline yarp::os::ConstString & dataTrack(void)
+            {
+                return _dataTrack;
+            } // dataTrack
+            
+            /*! @brief An accessor for the e-mail address. */
+            inline yarp::os::ConstString & emailAddress(void)
+            {
+                return _emailAddress;
+            } // emailAddress
+            
+        protected:
+            
+        private:
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseContext inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MovementDbContext(const MovementDbContext & other);
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MovementDbContext & operator =(const MovementDbContext & other);
+            
+            /*! @brief The data track to use. */
+            yarp::os::ConstString _dataTrack;
+            
+            /*! @brief The e-mail address to use. */
+            yarp::os::ConstString _emailAddress;
+            
+        }; // MovementDbContext
+        
+    } // MovementDb
+    
+} // MplusM
 
-/*! @brief The name for the 'addfile' request. */
-# define MpM_ADDFILE_REQUEST  "addfile"
-
-/*! @brief The name for the 'setemail' request. */
-# define MpM_SETDATATRACK_REQUEST  "setdatatrack"
-
-/*! @brief The name for the 'setemail' request. */
-# define MpM_SETEMAIL_REQUEST  "setemail"
-
-/*! @brief The name for the 'stopdb' request. */
-# define MpM_STOPDB_REQUEST  "stopdb"
-
-#endif // ! defined(MpMMovementDbRequests_H_)
+#endif // ! defined(MpMMovementDbContext_H_)

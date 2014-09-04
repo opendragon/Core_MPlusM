@@ -92,21 +92,21 @@ MovementDbClient::~MovementDbClient(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool MovementDbClient::addFileToDb(const yarp::os::ConstString & emailAddress,
-                                   const yarp::os::ConstString & dataTrack,
-                                   const yarp::os::ConstString & filePath)
+/*! @brief Add a file entry to the backend database.
+ @param filePath The filesystem path to the file.
+ @returns @c true if the file entry was added successfully and @c false otherwise. */
+bool MovementDbClient::addFileToDb(const yarp::os::ConstString & filePath)
 {
     OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("filePath = ", filePath); //####
     bool okSoFar = false;
     
     try
     {
         yarp::os::Bottle        parameters;
         Common::ServiceResponse response;
-
+        
         reconnectIfDisconnected(NULL, NULL);
-        parameters.addString(emailAddress);
-        parameters.addString(dataTrack);
         parameters.addString(filePath);
         if (send(MpM_ADDFILE_REQUEST, parameters, &response))
         {
@@ -132,7 +132,7 @@ bool MovementDbClient::addFileToDb(const yarp::os::ConstString & emailAddress,
         }
         else
         {
-            OD_LOG("! (send(MpM_STATS_REQUEST, parameters, &response))"); //####
+            OD_LOG("! (send(MpM_ADDFILE_REQUEST, parameters, &response))"); //####
         }
     }
     catch (...)
@@ -143,6 +143,133 @@ bool MovementDbClient::addFileToDb(const yarp::os::ConstString & emailAddress,
     OD_LOG_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // MovementDbClient::addFileToDb
+
+bool MovementDbClient::setDataTrackForDb(const yarp::os::ConstString & dataTrack)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("dataTrack = ", dataTrack); //####
+    bool okSoFar = false;
+    
+    try
+    {
+        yarp::os::Bottle        parameters;
+        Common::ServiceResponse response;
+        
+        reconnectIfDisconnected(NULL, NULL);
+        parameters.addString(dataTrack);
+        if (send(MpM_SETDATATRACK_REQUEST, parameters, &response))
+        {
+            // Check that we got a successful set!
+            if (1 == response.count())
+            {
+                yarp::os::Value theValue = response.element(0);
+                
+                if (theValue.isString())
+                {
+                    okSoFar = (theValue.toString() == MpM_OK_RESPONSE);
+                }
+                else
+                {
+                    OD_LOG("! (theValue.isString())"); //####
+                }
+            }
+            else
+            {
+                OD_LOG("! (1 == response.count())"); //####
+                OD_LOG_S1s("response = ", response.asString()); //####
+            }
+        }
+        else
+        {
+            OD_LOG("! (send(MpM_SETDATATRACK_REQUEST, parameters, &response))"); //####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(okSoFar); //####
+    return okSoFar;
+} // MovementDbClient::setDataTrackForDb
+
+bool MovementDbClient::setEmailAddressForDb(const yarp::os::ConstString & emailAddress)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("emailAddress = ", emailAddress); //####
+    bool okSoFar = false;
+    
+    try
+    {
+        yarp::os::Bottle        parameters;
+        Common::ServiceResponse response;
+        
+        reconnectIfDisconnected(NULL, NULL);
+        parameters.addString(emailAddress);
+        if (send(MpM_SETEMAIL_REQUEST, parameters, &response))
+        {
+            // Check that we got a successful set!
+            if (1 == response.count())
+            {
+                yarp::os::Value theValue = response.element(0);
+                
+                if (theValue.isString())
+                {
+                    okSoFar = (theValue.toString() == MpM_OK_RESPONSE);
+                }
+                else
+                {
+                    OD_LOG("! (theValue.isString())"); //####
+                }
+            }
+            else
+            {
+                OD_LOG("! (1 == response.count())"); //####
+                OD_LOG_S1s("response = ", response.asString()); //####
+            }
+        }
+        else
+        {
+            OD_LOG("! (send(MpM_SETEMAIL_REQUEST, parameters, &response))"); //####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(okSoFar); //####
+    return okSoFar;
+} // MovementDbClient::setEmailAddressForDb
+
+bool MovementDbClient::stopDbConnection(void)
+{
+    OD_LOG_OBJENTER(); //####
+    bool okSoFar = false;
+    
+    try
+    {
+        yarp::os::Bottle parameters;
+        
+        reconnectIfDisconnected(NULL, NULL);
+        if (send(MpM_STOPDB_REQUEST, parameters))
+        {
+            okSoFar = true;
+        }
+        else
+        {
+            OD_LOG("! (send(MpM_STOPDB_REQUEST, parameters))"); //####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(okSoFar);
+    return okSoFar;
+} // MovementDbClient::stopDbConnection
+
 
 #if defined(__APPLE__)
 # pragma mark Global functions

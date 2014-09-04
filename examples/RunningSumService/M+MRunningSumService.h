@@ -59,10 +59,10 @@ namespace MplusM
 {
     namespace Example
     {
-        class AddRequestHandler;
-        class ResetRequestHandler;
-        class StartRequestHandler;
-        class StopRequestHandler;
+        class AddToSumRequestHandler;
+        class ResetSumRequestHandler;
+        class StartSumRequestHandler;
+        class StopSumRequestHandler;
         
         /*! @brief The running sum service. */
         class RunningSumService : public Common::BaseService
@@ -128,17 +128,17 @@ namespace MplusM
             /*! @brief Disable the standard request handlers. */
             void detachRequestHandlers(void);
             
-            /*! @brief The request handler for the 'add' request. */
-            AddRequestHandler * _addHandler;
+            /*! @brief The request handler for the 'addtosum' request. */
+            AddToSumRequestHandler * _addToSumHandler;
             
-            /*! @brief The request handler for the 'reset' request. */
-            ResetRequestHandler * _resetHandler;
+            /*! @brief The request handler for the 'resetsum' request. */
+            ResetSumRequestHandler * _resetSumHandler;
             
-            /*! @brief The request handler for the 'start' request. */
-            StartRequestHandler * _startHandler;
+            /*! @brief The request handler for the 'startsum' request. */
+            StartSumRequestHandler * _startSumHandler;
             
-            /*! @brief The request handler for the 'stop' request. */
-            StopRequestHandler * _stopHandler;
+            /*! @brief The request handler for the 'stopsum' request. */
+            StopSumRequestHandler * _stopSumHandler;
             
         }; // RunningSumService
         

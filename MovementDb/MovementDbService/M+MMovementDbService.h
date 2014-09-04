@@ -60,6 +60,9 @@ namespace MplusM
     namespace MovementDb
     {
         class AddFileRequestHandler;
+        class SetDataTrackRequestHandler;
+        class SetEmailRequestHandler;
+        class StopDbRequestHandler;
         
         /*! @brief The request counter service. */
         class MovementDbService : public Common::BaseService
@@ -80,14 +83,26 @@ namespace MplusM
             virtual ~MovementDbService(void);
             
             /*! @brief Add a file entry to the backend database.
-             @param emailAddress The e-mail address of the user that owns the file.
-             @param dataTrack The data track for the file.
+             @param key The client-provided key.
              @param filePath The filesystem path to the file.
              @returns @c true if the file entry was added successfully and @c false otherwise. */
-            bool addFileToDb(const yarp::os::ConstString & emailAddress,
-                             const yarp::os::ConstString & dataTrack,
+            bool addFileToDb(const yarp::os::ConstString & key,
                              const yarp::os::ConstString & filePath);
             
+            /*! @brief Set the active data track.
+             @param key The client-provided key.
+             @param dataTrack The data track to use with subsequent files.
+             @returns @c true if the data track was successfully set and @c false otherwise. */
+            bool setDataTrack(const yarp::os::ConstString & key,
+                              const yarp::os::ConstString & dataTrack);
+
+            /*! @brief Set the active e-mail address.
+             @param key The client-provided key.
+             @param emailAddress The e-mail address of the user that will own subsequent files.
+             @returns @c true if the e-mail address was successfully set and @c false otherwise. */
+            bool setEmailAddress(const yarp::os::ConstString & key,
+                                 const yarp::os::ConstString & emailAddress);
+
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
             virtual bool start(void);
@@ -126,6 +141,15 @@ namespace MplusM
             
             /*! @brief The request handler for the 'addfile' request. */
             AddFileRequestHandler * _addFileHandler;
+            
+            /*! @brief The request handler for the 'setdatatrack' request. */
+            SetDataTrackRequestHandler * _setDataTrackHandler;
+            
+            /*! @brief The request handler for the 'setemail' request. */
+            SetEmailRequestHandler * _setEmailHandler;
+            
+            /*! @brief The request handler for the 'stop' request. */
+            StopDbRequestHandler * _stopDbHandler;
             
         }; // MovementDbService
         

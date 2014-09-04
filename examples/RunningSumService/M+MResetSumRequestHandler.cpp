@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MRunningSumControlInputHandler.cpp
+//  File:       M+MResetSumRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the custom control channel input handler used by the
-//              running sum adapter.
+//  Contains:   The class definition for the request handler for a 'resetsum' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,14 +32,13 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-24
+//  Created:    2014-03-18
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MRunningSumControlInputHandler.h"
-#include "M+MRunningSumAdapterData.h"
-#include "M+MRunningSumClient.h"
+#include "M+MResetSumRequestHandler.h"
 #include "M+MRunningSumRequests.h"
+#include "M+MRunningSumService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -51,8 +49,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the custom control channel input handler used by the running sum
- adapter. */
+ @brief The class definition for the request handler for a 'resetsum' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -64,6 +61,9 @@ using namespace MplusM::Example;
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
+
+/*! @brief The protocol version number for the 'resetsum' request. */
+#define RESETSUM_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -77,97 +77,94 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-RunningSumControlInputHandler::RunningSumControlInputHandler(RunningSumAdapterData & shared) :
-    inherited(), _shared(shared)
+ResetSumRequestHandler::ResetSumRequestHandler(RunningSumService & service) :
+    inherited(MpM_RESETSUM_REQUEST), _service(service)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("shared = ", &shared); //####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
-} // RunningSumControlInputHandler::RunningSumControlInputHandler
+} // ResetSumRequestHandler::ResetSumRequestHandler
 
-RunningSumControlInputHandler::~RunningSumControlInputHandler(void)
+ResetSumRequestHandler::~ResetSumRequestHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // RunningSumControlInputHandler::~RunningSumControlInputHandler
+} // ResetSumRequestHandler::~ResetSumRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                                const yarp::os::ConstString & senderChannel,
-                                                yarp::os::ConnectionWriter *  replyMechanism)
+void ResetSumRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
-#  pragma unused(senderChannel,replyMechanism)
+#  pragma unused(alternateNames)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
+    OD_LOG_P1("alternateNames = ", &alternateNames); //####
+    OD_LOG_OBJEXIT(); //####
+} // ResetSumRequestHandler::fillInAliases
+
+void ResetSumRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                               yarp::os::Property &          info)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("request = ", request); //####
+    OD_LOG_P1("info = ", &info); //####
+    try
+    {
+        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, RESETSUM_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Reset the running sum\n"
+                 "Input: nothing\n"
+                 "Output: nothing");
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
+        
+        asList->addString(request);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT(); //####
+} // ResetSumRequestHandler::fillInDescription
+
+bool ResetSumRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                            const yarp::os::Bottle &      restOfInput,
+                                            const yarp::os::ConstString & senderChannel,
+                                            yarp::os::ConnectionWriter *  replyMechanism)
+{
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(request,restOfInput)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+               "senderChannel = ", senderChannel); //####
     OD_LOG_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
     try
     {
-        if (0 < input.size())
+        _service.resetSum(senderChannel);
+        if (replyMechanism)
         {
-            Common::AdapterChannel * theOutput = _shared.getOutput();
-            RunningSumClient *       theClient = (RunningSumClient *) _shared.getClient();
+            OD_LOG("(replyMechanism)"); //####
+            yarp::os::Bottle response(MpM_OK_RESPONSE);
             
-            if (theClient && theOutput)
+            OD_LOG_S1s("response <- ", response.toString()); //####
+            if (! response.write(*replyMechanism))
             {
-                yarp::os::Value argValue(input.get(0));
-                
-                if (argValue.isString())
-                {
-                    yarp::os::ConstString argString(argValue.asString());
-                    
-                    if (argString == MpM_RESETSUM_REQUEST)
-                    {
-                        _shared.lock();
-                        if (theClient->resetSum())
-                        {
-                        
-                        }
-                        else
-                        {
-                            OD_LOG("! (theClient->resetSum())"); //####
-                        }
-                        _shared.unlock();
-                    }
-                    else if (argString == MpM_QUIT_REQUEST)
-                    {
-                        _shared.deactivate();
-                    }
-                    else if (argString == MpM_STARTSUM_REQUEST)
-                    {
-                        _shared.lock();
-                        if (theClient->startSum())
-                        {
-                        
-                        }
-                        else
-                        {
-                            OD_LOG("! (theClient->startSum())"); //####
-                        }
-                        _shared.unlock();
-                    }
-                    else if (argString == MpM_STOPSUM_REQUEST)
-                    {
-                        _shared.lock();
-                        if (theClient->stopSum())
-                        {
-                        
-                        }
-                        else
-                        {
-                            OD_LOG("! (theClient->startSum())"); //####
-                        }
-                        _shared.unlock();
-                    }
-                }
+                OD_LOG("(! response.write(*replyMechanism))"); //####
+#if defined(MpM_StallOnSendProblem)
+                Common::Stall();
+#endif // defined(MpM_StallOnSendProblem)
             }
         }
     }
@@ -178,7 +175,7 @@ bool RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &      in
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RunningSumControlInputHandler::handleInput
+} // ResetSumRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Global functions

@@ -107,7 +107,7 @@ bool RunningSumClient::addToSum(const double value,
         
         parameters.addDouble(value);
         reconnectIfDisconnected(NULL, NULL);
-        if (send(MpM_ADD_REQUEST, parameters, &response))
+        if (send(MpM_ADDTOSUM_REQUEST, parameters, &response))
         {
             if (1 == response.count())
             {
@@ -136,7 +136,7 @@ bool RunningSumClient::addToSum(const double value,
         }
         else
         {
-            OD_LOG("! (send(MpM_ADD_REQUEST, parameters, &response))"); //####
+            OD_LOG("! (send(MpM_ADDTOSUM_REQUEST, parameters, &response))"); //####
         }
     }
     catch (...)
@@ -170,7 +170,7 @@ bool RunningSumClient::addToSum(const Common::DoubleVector & values,
         if (1 <= parameters.size())
         {
             reconnectIfDisconnected(NULL, NULL);
-            if (send(MpM_ADD_REQUEST, parameters, &response))
+            if (send(MpM_ADDTOSUM_REQUEST, parameters, &response))
             {
                 if (1 == response.count())
                 {
@@ -199,7 +199,7 @@ bool RunningSumClient::addToSum(const Common::DoubleVector & values,
             }
             else
             {
-                OD_LOG("! (send(MpM_ADD_REQUEST, parameters, &response))"); //####
+                OD_LOG("! (send(MpM_ADDTOSUM_REQUEST, parameters, &response))"); //####
             }
         }
         else
@@ -226,13 +226,13 @@ bool RunningSumClient::resetSum(void)
         yarp::os::Bottle parameters;
         
         reconnectIfDisconnected(NULL, NULL);
-        if (send(MpM_RESET_REQUEST, parameters))
+        if (send(MpM_RESETSUM_REQUEST, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MpM_RESET_REQUEST, parameters))"); //####
+            OD_LOG("! (send(MpM_RESETSUM_REQUEST, parameters))"); //####
         }
     }
     catch (...)
@@ -254,13 +254,13 @@ bool RunningSumClient::startSum(void)
         yarp::os::Bottle parameters;
         
         reconnectIfDisconnected(NULL, NULL);
-        if (send(MpM_START_REQUEST, parameters))
+        if (send(MpM_STARTSUM_REQUEST, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MpM_START_REQUEST, parameters))"); //####
+            OD_LOG("! (send(MpM_STARTSUM_REQUEST, parameters))"); //####
         }
     }
     catch (...)
@@ -282,13 +282,13 @@ bool RunningSumClient::stopSum(void)
         yarp::os::Bottle parameters;
         
         reconnectIfDisconnected(NULL, NULL);
-        if (send(MpM_STOP_REQUEST, parameters))
+        if (send(MpM_STOPSUM_REQUEST, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MpM_STOP_REQUEST, parameters))"); //####
+            OD_LOG("! (send(MpM_STOPSUM_REQUEST, parameters))"); //####
         }
     }
     catch (...)

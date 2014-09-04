@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MRequestCounterDefaultRequestHandler.h
+//  File:       M+MMovementDbInputHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a default request handler used by the request counter
-//              service.
+//  Contains:   The class declaration for the custom control channel input handler used by the
+//              movement database adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,14 +33,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2014-09-04
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMRequestCounterDefaultRequestHandler_H_))
-# define MpMRequestCounterDefaultRequestHandler_H_ /* Header guard */
+#if (! defined(MpMMovementDbInputHandler_H_))
+# define MpMMovementDbInputHandler_H_ /* Header guard */
 
-# include <mpm/M+MBaseRequestHandler.h>
+# include <mpm/M+MInputHandler.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -48,63 +48,68 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for a default request handler used by the request counter service. */
+ @brief The class declaration for the custom control channel input handler used by the movement
+ database adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MplusM
 {
-    namespace RequestCounter
+    namespace MovementDb
     {
-        class RequestCounterService;
+        class MovementDbAdapterData;
         
-        /*! @brief A test request handler. */
-        class RequestCounterDefaultRequestHandler : public Common::BaseRequestHandler
+        /*! @brief A handler for partially-structured input data.
+         
+         The data is expected to be in the form of a sequence of commands. */
+        class MovementDbInputHandler : public Common::InputHandler
         {
         public:
             
             /*! @brief The constructor.
-             @param service The service that has registered this request. */
-            RequestCounterDefaultRequestHandler(RequestCounterService & service);
+             @param shared The data shared between the input handlers and the main thread. */
+            MovementDbInputHandler(MovementDbAdapterData & shared);
             
             /*! @brief The destructor. */
-            virtual ~RequestCounterDefaultRequestHandler(void);
+            virtual ~MovementDbInputHandler(void);
             
-            /*! @brief Fill in a set of aliases for the request.
-             @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(Common::StringVector & alternateNames);
-            
-            /*! @brief Fill in a description dictionary for the request.
-             @param request The actual request name.
-             @param info The dictionary to be filled in. */
-            virtual void fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info);
-            
-            /*! @brief Process a request.
-             @param request The actual request name.
-             @param restOfInput The arguments to the operation.
+            /*! @brief Process partially-structured input data.
+             @param input The partially-structured input data.
              @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-            virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const yarp::os::Bottle &      restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism);
+             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @returns @c true if the input was correctly structured and successfully processed. */
+            virtual bool handleInput(const yarp::os::Bottle &      input,
+                                     const yarp::os::ConstString & senderChannel,
+                                     yarp::os::ConnectionWriter *  replyMechanism);
             
         protected:
             
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
+            typedef InputHandler inherited;
             
-            /*! @brief The service that will manages the statistics. */
-            RequestCounterService & _service;
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MovementDbInputHandler(const MovementDbInputHandler & other);
             
-        }; // RequestCounterDefaultRequestHandler
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MovementDbInputHandler & operator =(const MovementDbInputHandler & other);
+            
+            /*! @brief The shared data that describes the connection to the service that we are
+             using. */
+            MovementDbAdapterData & _shared;
+            
+        }; // MovementDbInputHandler
         
-    } // RequestCounter
+    } // MovementDb
     
 } // MplusM
 
-#endif // ! defined(MpMRequestCounterDefaultRequestHandler_H_)
+#endif // ! defined(MpMMovementDbInputHandler_H_)

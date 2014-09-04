@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MRequestCounterDefaultRequestHandler.h
+//  File:       M+MResetSumRequestHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a default request handler used by the request counter
-//              service.
+//  Contains:   The class declaration for the request handler for a 'resetsum' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,12 +32,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2014-03-18
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMRequestCounterDefaultRequestHandler_H_))
-# define MpMRequestCounterDefaultRequestHandler_H_ /* Header guard */
+#if (! defined(MpMResetSumRequestHandler_H_))
+# define MpMResetSumRequestHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseRequestHandler.h>
 
@@ -48,28 +47,30 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for a default request handler used by the request counter service. */
+ @brief The class declaration for the request handler for a 'resetsum' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MplusM
 {
-    namespace RequestCounter
+    namespace Example
     {
-        class RequestCounterService;
+        class RunningSumService;
         
-        /*! @brief A test request handler. */
-        class RequestCounterDefaultRequestHandler : public Common::BaseRequestHandler
+        /*! @brief The example 'resetsum' request handler.
+         
+         There is no input for the request and there is no output. */
+        class ResetSumRequestHandler : public Common::BaseRequestHandler
         {
         public:
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            RequestCounterDefaultRequestHandler(RequestCounterService & service);
+            ResetSumRequestHandler(RunningSumService & service);
             
             /*! @brief The destructor. */
-            virtual ~RequestCounterDefaultRequestHandler(void);
+            virtual ~ResetSumRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -98,13 +99,13 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-            /*! @brief The service that will manages the statistics. */
-            RequestCounterService & _service;
+            /*! @brief The service that manages the statistics. */
+            RunningSumService & _service;
             
-        }; // RequestCounterDefaultRequestHandler
+        }; // ResetSumRequestHandler
         
-    } // RequestCounter
+    } // Example
     
 } // MplusM
 
-#endif // ! defined(MpMRequestCounterDefaultRequestHandler_H_)
+#endif // ! defined(MpMResetSumRequestHandler_H_)

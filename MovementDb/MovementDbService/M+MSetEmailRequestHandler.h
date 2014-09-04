@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MRequestCounterDefaultRequestHandler.h
+//  File:       M+MSetEmailRequestHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a default request handler used by the request counter
-//              service.
+//  Contains:   The class declaration for the request handler for a 'setemail' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,12 +32,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2014-09-04
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMRequestCounterDefaultRequestHandler_H_))
-# define MpMRequestCounterDefaultRequestHandler_H_ /* Header guard */
+#if (! defined(MpMSetEmailRequestHandler_H_))
+# define MpMSetEmailRequestHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseRequestHandler.h>
 
@@ -48,28 +47,31 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for a default request handler used by the request counter service. */
+ @brief The class declaration for the request handler for a 'setemail' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MplusM
 {
-    namespace RequestCounter
+    namespace MovementDb
     {
-        class RequestCounterService;
+        class MovementDbService;
         
-        /*! @brief A test request handler. */
-        class RequestCounterDefaultRequestHandler : public Common::BaseRequestHandler
+        /*! @brief The 'setemail' request handler for the movement database service.
+         
+         The input for the request is the e-mail address to use for subsequent files; there is no
+         output for the request. */
+        class SetEmailRequestHandler : public Common::BaseRequestHandler
         {
         public:
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            RequestCounterDefaultRequestHandler(RequestCounterService & service);
+            SetEmailRequestHandler(MovementDbService & service);
             
             /*! @brief The destructor. */
-            virtual ~RequestCounterDefaultRequestHandler(void);
+            virtual ~SetEmailRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -98,13 +100,13 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-            /*! @brief The service that will manages the statistics. */
-            RequestCounterService & _service;
+            /*! @brief The service that manages the backend database. */
+            MovementDbService & _service;
             
-        }; // RequestCounterDefaultRequestHandler
+        }; // SetEmailRequestHandler
         
-    } // RequestCounter
+    } // MovementDb
     
 } // MplusM
 
-#endif // ! defined(MpMRequestCounterDefaultRequestHandler_H_)
+#endif // ! defined(MpMSetEmailRequestHandler_H_)

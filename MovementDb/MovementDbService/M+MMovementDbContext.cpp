@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MMovementDbRequests.h
+//  File:       M+MMovementDbContext.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the movement database
-//              service.
+//  Contains:   The class definition for a contexts used with the movement database service.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,39 +32,63 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-02
+//  Created:    2014-09-04
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMMovementDbRequests_H_))
-# define MpMMovementDbRequests_H_ /* Header guard */
+#include "M+MMovementDbContext.h"
 
-# include <mpm/M+MRequests.h>
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-# endif // defined(__APPLE__)
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
 /*! @file
  
- @brief The common macro definitions for requests and responses for the request counter service. */
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
+ @brief The class definition for a context used with the movement database service. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the example echo service. */
-# define MpM_MOVEMENTDB_CANONICAL_NAME "MovementDb"
+using namespace MplusM;
+using namespace MplusM::Common;
+using namespace MplusM::MovementDb;
 
-/*! @brief The name for the 'addfile' request. */
-# define MpM_ADDFILE_REQUEST  "addfile"
+#if defined(__APPLE__)
+# pragma mark Private structures, constants and variables
+#endif // defined(__APPLE__)
 
-/*! @brief The name for the 'setemail' request. */
-# define MpM_SETDATATRACK_REQUEST  "setdatatrack"
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
 
-/*! @brief The name for the 'setemail' request. */
-# define MpM_SETEMAIL_REQUEST  "setemail"
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
 
-/*! @brief The name for the 'stopdb' request. */
-# define MpM_STOPDB_REQUEST  "stopdb"
+#if defined(__APPLE__)
+# pragma mark Constructors and Destructors
+#endif // defined(__APPLE__)
 
-#endif // ! defined(MpMMovementDbRequests_H_)
+MovementDbContext::MovementDbContext(void) :
+    inherited()
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_EXIT_P(this); //####
+} // MovementDbContext::MovementDbContext
+
+MovementDbContext::~MovementDbContext(void)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
+} // MovementDbContext::~MovementDbContext
+
+#if defined(__APPLE__)
+# pragma mark Actions and Accessors
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

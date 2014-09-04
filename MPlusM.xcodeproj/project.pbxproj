@@ -63,33 +63,33 @@
 		DF384F9B198A9BB400A0414E /* M+MRunningSumAdapterData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumAdapterData.cpp"; path = "examples/RunningSumAdapter/M+MRunningSumAdapterData.cpp"; sourceTree = SOURCE_ROOT; };
 		DF384F9C198A9BB400A0414E /* M+MRunningSumAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumAdapterData.h"; path = "examples/RunningSumAdapter/M+MRunningSumAdapterData.h"; sourceTree = SOURCE_ROOT; };
 		DF384F9D198A9BB400A0414E /* M+MRunningSumAdapterMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumAdapterMain.cpp"; path = "examples/RunningSumAdapter/M+MRunningSumAdapterMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384F9E198A9BB400A0414E /* M+MRunningSumControlInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumControlInputHandler.cpp"; path = "examples/RunningSumAdapter/M+MRunningSumControlInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384F9E198A9BB400A0414E /* M+MRunningSumControlInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MRunningSumControlInputHandler.cpp"; path = "examples/RunningSumAdapter/M+MRunningSumControlInputHandler.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF384F9F198A9BB400A0414E /* M+MRunningSumControlInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumControlInputHandler.h"; path = "examples/RunningSumAdapter/M+MRunningSumControlInputHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF384FA0198A9BB400A0414E /* M+MRunningSumDataInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumDataInputHandler.cpp"; path = "examples/RunningSumAdapter/M+MRunningSumDataInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF384FA1198A9BB400A0414E /* M+MRunningSumDataInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumDataInputHandler.h"; path = "examples/RunningSumAdapter/M+MRunningSumDataInputHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF384FA2198A9BCF00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RunningSumAltAdapter/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384FA3198A9BCF00A0414E /* M+MRunningSumAltAdapterMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumAltAdapterMain.cpp"; path = "examples/RunningSumAltAdapter/M+MRunningSumAltAdapterMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FA4198A9BCF00A0414E /* M+MRunningSumInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumInputHandler.cpp"; path = "examples/RunningSumAltAdapter/M+MRunningSumInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FA4198A9BCF00A0414E /* M+MRunningSumInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MRunningSumInputHandler.cpp"; path = "examples/RunningSumAltAdapter/M+MRunningSumInputHandler.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF384FA5198A9BCF00A0414E /* M+MRunningSumInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumInputHandler.h"; path = "examples/RunningSumAltAdapter/M+MRunningSumInputHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF384FA6198A9BE800A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RunningSumClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF384FA7198A9BE800A0414E /* M+MRunningSumClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumClient.cpp"; path = "examples/RunningSumClient/M+MRunningSumClient.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FA7198A9BE800A0414E /* M+MRunningSumClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MRunningSumClient.cpp"; path = "examples/RunningSumClient/M+MRunningSumClient.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF384FA8198A9BE800A0414E /* M+MRunningSumClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumClient.h"; path = "examples/RunningSumClient/M+MRunningSumClient.h"; sourceTree = SOURCE_ROOT; };
 		DF384FA9198A9BE800A0414E /* M+MRunningSumClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumClientMain.cpp"; path = "examples/RunningSumClient/M+MRunningSumClientMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF384FAA198A9C0500A0414E /* M+MRunningSumRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumRequests.h"; path = "examples/RunningSumCommon/M+MRunningSumRequests.h"; sourceTree = SOURCE_ROOT; };
-		DF384FAB198A9C0500A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RunningSumService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF384FAC198A9C0500A0414E /* M+MAddRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddRequestHandler.cpp"; path = "examples/RunningSumService/M+MAddRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FAD198A9C0500A0414E /* M+MAddRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAddRequestHandler.h"; path = "examples/RunningSumService/M+MAddRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF384FAE198A9C0500A0414E /* M+MResetRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MResetRequestHandler.cpp"; path = "examples/RunningSumService/M+MResetRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FAF198A9C0500A0414E /* M+MResetRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MResetRequestHandler.h"; path = "examples/RunningSumService/M+MResetRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FAB198A9C0500A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = examples/RunningSumService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF384FAC198A9C0500A0414E /* M+MAddToSumRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddToSumRequestHandler.cpp"; path = "examples/RunningSumService/M+MAddToSumRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FAD198A9C0500A0414E /* M+MAddToSumRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAddToSumRequestHandler.h"; path = "examples/RunningSumService/M+MAddToSumRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FAE198A9C0500A0414E /* M+MResetSumRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MResetSumRequestHandler.cpp"; path = "examples/RunningSumService/M+MResetSumRequestHandler.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DF384FAF198A9C0500A0414E /* M+MResetSumRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "M+MResetSumRequestHandler.h"; path = "examples/RunningSumService/M+MResetSumRequestHandler.h"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DF384FB0198A9C0500A0414E /* M+MRunningSumContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumContext.cpp"; path = "examples/RunningSumService/M+MRunningSumContext.cpp"; sourceTree = SOURCE_ROOT; };
 		DF384FB1198A9C0500A0414E /* M+MRunningSumContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumContext.h"; path = "examples/RunningSumService/M+MRunningSumContext.h"; sourceTree = SOURCE_ROOT; };
-		DF384FB2198A9C0500A0414E /* M+MRunningSumService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumService.cpp"; path = "examples/RunningSumService/M+MRunningSumService.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FB3198A9C0500A0414E /* M+MRunningSumService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumService.h"; path = "examples/RunningSumService/M+MRunningSumService.h"; sourceTree = SOURCE_ROOT; };
+		DF384FB2198A9C0500A0414E /* M+MRunningSumService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MRunningSumService.cpp"; path = "examples/RunningSumService/M+MRunningSumService.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DF384FB3198A9C0500A0414E /* M+MRunningSumService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "M+MRunningSumService.h"; path = "examples/RunningSumService/M+MRunningSumService.h"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DF384FB4198A9C0500A0414E /* M+MRunningSumServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumServiceMain.cpp"; path = "examples/RunningSumService/M+MRunningSumServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FB5198A9C0500A0414E /* M+MStartRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStartRequestHandler.cpp"; path = "examples/RunningSumService/M+MStartRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FB6198A9C0500A0414E /* M+MStartRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStartRequestHandler.h"; path = "examples/RunningSumService/M+MStartRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF384FB7198A9C0500A0414E /* M+MStopRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStopRequestHandler.cpp"; path = "examples/RunningSumService/M+MStopRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FB8198A9C0500A0414E /* M+MStopRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStopRequestHandler.h"; path = "examples/RunningSumService/M+MStopRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FB5198A9C0500A0414E /* M+MStartSumRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStartSumRequestHandler.cpp"; path = "examples/RunningSumService/M+MStartSumRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF384FB6198A9C0500A0414E /* M+MStartSumRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStartSumRequestHandler.h"; path = "examples/RunningSumService/M+MStartSumRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FB7198A9C0500A0414E /* M+MStopSumRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MStopSumRequestHandler.cpp"; path = "examples/RunningSumService/M+MStopSumRequestHandler.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DF384FB8198A9C0500A0414E /* M+MStopSumRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStopSumRequestHandler.h"; path = "examples/RunningSumService/M+MStopSumRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF384FB9198A9C4D00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/TruncateFilterStreamService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384FBA198A9C4D00A0414E /* M+MTruncateFilterInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFilterInputHandler.cpp"; path = "examples/TruncateFilterStreamService/M+MTruncateFilterInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF384FBB198A9C4D00A0414E /* M+MTruncateFilterInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFilterInputHandler.h"; path = "examples/TruncateFilterStreamService/M+MTruncateFilterInputHandler.h"; sourceTree = SOURCE_ROOT; };
@@ -148,16 +148,16 @@
 		DF385006198A9D4A00A0414E /* M+MRequestCounterClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequestCounterClient.h"; path = "RequestCounter/RequestCounterClient/M+MRequestCounterClient.h"; sourceTree = SOURCE_ROOT; };
 		DF385007198A9D4A00A0414E /* M+MRequestCounterClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterClientMain.cpp"; path = "RequestCounter/RequestCounterClient/M+MRequestCounterClientMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF385008198A9D6A00A0414E /* M+MRequestCounterRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequestCounterRequests.h"; path = "RequestCounter/RequestCounterCommon/M+MRequestCounterRequests.h"; sourceTree = SOURCE_ROOT; };
-		DF385009198A9D6A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RequestCounter/RequestCounterService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF385009198A9D6A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = RequestCounter/RequestCounterService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF38500A198A9D6A00A0414E /* M+MRequestCounterContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterContext.cpp"; path = "RequestCounter/RequestCounterService/M+MRequestCounterContext.cpp"; sourceTree = SOURCE_ROOT; };
 		DF38500B198A9D6A00A0414E /* M+MRequestCounterContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequestCounterContext.h"; path = "RequestCounter/RequestCounterService/M+MRequestCounterContext.h"; sourceTree = SOURCE_ROOT; };
 		DF38500C198A9D6A00A0414E /* M+MRequestCounterDefaultRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterDefaultRequestHandler.cpp"; path = "RequestCounter/RequestCounterService/M+MRequestCounterDefaultRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF38500D198A9D6A00A0414E /* M+MRequestCounterDefaultRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequestCounterDefaultRequestHandler.h"; path = "RequestCounter/RequestCounterService/M+MRequestCounterDefaultRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF38500E198A9D6A00A0414E /* M+MRequestCounterService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterService.cpp"; path = "RequestCounter/RequestCounterService/M+MRequestCounterService.cpp"; sourceTree = SOURCE_ROOT; };
-		DF38500F198A9D6A00A0414E /* M+MRequestCounterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRequestCounterService.h"; path = "RequestCounter/RequestCounterService/M+MRequestCounterService.h"; sourceTree = SOURCE_ROOT; };
+		DF38500E198A9D6A00A0414E /* M+MRequestCounterService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MRequestCounterService.cpp"; path = "RequestCounter/RequestCounterService/M+MRequestCounterService.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DF38500F198A9D6A00A0414E /* M+MRequestCounterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "M+MRequestCounterService.h"; path = "RequestCounter/RequestCounterService/M+MRequestCounterService.h"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DF385010198A9D6A00A0414E /* M+MRequestCounterServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterServiceMain.cpp"; path = "RequestCounter/RequestCounterService/M+MRequestCounterServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DF385011198A9D6A00A0414E /* M+MResetRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MResetRequestHandler.cpp"; path = "RequestCounter/RequestCounterService/M+MResetRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF385012198A9D6A00A0414E /* M+MResetRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MResetRequestHandler.h"; path = "RequestCounter/RequestCounterService/M+MResetRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF385011198A9D6A00A0414E /* M+MResetCounterRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MResetCounterRequestHandler.cpp"; path = "RequestCounter/RequestCounterService/M+MResetCounterRequestHandler.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DF385012198A9D6A00A0414E /* M+MResetCounterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "M+MResetCounterRequestHandler.h"; path = "RequestCounter/RequestCounterService/M+MResetCounterRequestHandler.h"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DF385013198A9D6A00A0414E /* M+MStatsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStatsRequestHandler.cpp"; path = "RequestCounter/RequestCounterService/M+MStatsRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF385014198A9D6A00A0414E /* M+MStatsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStatsRequestHandler.h"; path = "RequestCounter/RequestCounterService/M+MStatsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF385015198A9DA800A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RequestInfo/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -303,18 +303,32 @@
 		DF385123198ACCFE00A0414E /* M+MUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUtilities.h"; path = "mpm/M+MUtilities.h"; sourceTree = SOURCE_ROOT; };
 		DFCB229818EF23DF00358EA5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ClientList/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCB229918EF23DF00358EA5 /* M+MClientListMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MClientListMain.cpp"; path = "ClientList/M+MClientListMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbClient.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.cpp"; sourceTree = "<group>"; };
+		DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MMovementDbClient.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.cpp"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DFE83AD119B671D1003A7EDE /* M+MMovementDbClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbClient.h"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.h"; sourceTree = "<group>"; };
 		DFE83AD219B671D1003A7EDE /* M+MMovementDbClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbClientMain.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClientMain.cpp"; sourceTree = "<group>"; };
 		DFE83AD319B671D1003A7EDE /* M+MMovementDbRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbRequests.h"; path = "MovementDb/MovementDbCommon/M+MMovementDbRequests.h"; sourceTree = "<group>"; };
-		DFE83AD819B671D1003A7EDE /* M+MMovementDbService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbService.cpp"; path = "MovementDb/MovementDbService/M+MMovementDbService.cpp"; sourceTree = "<group>"; };
-		DFE83AD919B671D1003A7EDE /* M+MMovementDbService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbService.h"; path = "MovementDb/MovementDbService/M+MMovementDbService.h"; sourceTree = "<group>"; };
+		DFE83AD819B671D1003A7EDE /* M+MMovementDbService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MMovementDbService.cpp"; path = "MovementDb/MovementDbService/M+MMovementDbService.cpp"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DFE83AD919B671D1003A7EDE /* M+MMovementDbService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "M+MMovementDbService.h"; path = "MovementDb/MovementDbService/M+MMovementDbService.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DFE83ADA19B671D1003A7EDE /* M+MMovementDbServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbServiceMain.cpp"; path = "MovementDb/MovementDbService/M+MMovementDbServiceMain.cpp"; sourceTree = "<group>"; };
 		DFE83ADB19B671D1003A7EDE /* M+MAddFileRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddFileRequestHandler.cpp"; path = "MovementDb/MovementDbService/M+MAddFileRequestHandler.cpp"; sourceTree = "<group>"; };
 		DFE83ADC19B671D1003A7EDE /* M+MAddFileRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAddFileRequestHandler.h"; path = "MovementDb/MovementDbService/M+MAddFileRequestHandler.h"; sourceTree = "<group>"; };
 		DFE83ADF19B671F8003A7EDE /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = MovementDb/CMakeLists.txt; sourceTree = "<group>"; };
 		DFE83AE019B67207003A7EDE /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = MovementDb/MovementDbClient/CMakeLists.txt; sourceTree = "<group>"; };
-		DFE83AE119B67214003A7EDE /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = MovementDb/MovementDbService/CMakeLists.txt; sourceTree = "<group>"; };
+		DFE83AE119B67214003A7EDE /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = MovementDb/MovementDbService/CMakeLists.txt; sourceTree = "<group>"; };
+		DFE83AE319B8AB39003A7EDE /* M+MSetEmailRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MSetEmailRequestHandler.cpp"; path = "MovementDb/MovementDbService/M+MSetEmailRequestHandler.cpp"; sourceTree = "<group>"; };
+		DFE83AE419B8AB39003A7EDE /* M+MSetEmailRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MSetEmailRequestHandler.h"; path = "MovementDb/MovementDbService/M+MSetEmailRequestHandler.h"; sourceTree = "<group>"; };
+		DFE83AE519B8ABF8003A7EDE /* M+MSetDataTrackRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MSetDataTrackRequestHandler.cpp"; path = "MovementDb/MovementDbService/M+MSetDataTrackRequestHandler.cpp"; sourceTree = "<group>"; };
+		DFE83AE619B8ABF8003A7EDE /* M+MSetDataTrackRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MSetDataTrackRequestHandler.h"; path = "MovementDb/MovementDbService/M+MSetDataTrackRequestHandler.h"; sourceTree = "<group>"; };
+		DFE83AE719B8AE4B003A7EDE /* M+MMovementDbContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbContext.cpp"; path = "MovementDb/MovementDbService/M+MMovementDbContext.cpp"; sourceTree = "<group>"; };
+		DFE83AE819B8AE4B003A7EDE /* M+MMovementDbContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbContext.h"; path = "MovementDb/MovementDbService/M+MMovementDbContext.h"; sourceTree = "<group>"; };
+		DFE83AE919B8B912003A7EDE /* M+MStopDbRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MStopDbRequestHandler.cpp"; path = "MovementDb/MovementDbService/M+MStopDbRequestHandler.cpp"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		DFE83AEA19B8B912003A7EDE /* M+MStopDbRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStopDbRequestHandler.h"; path = "MovementDb/MovementDbService/M+MStopDbRequestHandler.h"; sourceTree = "<group>"; };
+		DFE83AEC19B8C58B003A7EDE /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = MovementDb/MovementDbAdapter/CMakeLists.txt; sourceTree = "<group>"; };
+		DFE83AED19B8C58B003A7EDE /* M+MMovementDbAdapterMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbAdapterMain.cpp"; path = "MovementDb/MovementDbAdapter/M+MMovementDbAdapterMain.cpp"; sourceTree = "<group>"; };
+		DFE83AEE19B8C58B003A7EDE /* M+MMovementDbInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbInputHandler.cpp"; path = "MovementDb/MovementDbAdapter/M+MMovementDbInputHandler.cpp"; sourceTree = "<group>"; };
+		DFE83AEF19B8C58B003A7EDE /* M+MMovementDbInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbInputHandler.h"; path = "MovementDb/MovementDbAdapter/M+MMovementDbInputHandler.h"; sourceTree = "<group>"; };
+		DFE83AF019B8C7D0003A7EDE /* M+MMovementDbAdapterData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbAdapterData.cpp"; path = "MovementDb/MovementDbAdapter/M+MMovementDbAdapterData.cpp"; sourceTree = "<group>"; };
+		DFE83AF119B8C7D0003A7EDE /* M+MMovementDbAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbAdapterData.h"; path = "MovementDb/MovementDbAdapter/M+MMovementDbAdapterData.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -494,8 +508,8 @@
 			children = (
 				DF38500C198A9D6A00A0414E /* M+MRequestCounterDefaultRequestHandler.cpp */,
 				DF38500D198A9D6A00A0414E /* M+MRequestCounterDefaultRequestHandler.h */,
-				DF385011198A9D6A00A0414E /* M+MResetRequestHandler.cpp */,
-				DF385012198A9D6A00A0414E /* M+MResetRequestHandler.h */,
+				DF385011198A9D6A00A0414E /* M+MResetCounterRequestHandler.cpp */,
+				DF385012198A9D6A00A0414E /* M+MResetCounterRequestHandler.h */,
 				DF385013198A9D6A00A0414E /* M+MStatsRequestHandler.cpp */,
 				DF385014198A9D6A00A0414E /* M+MStatsRequestHandler.h */,
 			);
@@ -526,14 +540,14 @@
 		DF36EEF51958E11B00E7D889 /* RequestHandlers */ = {
 			isa = PBXGroup;
 			children = (
-				DF384FAC198A9C0500A0414E /* M+MAddRequestHandler.cpp */,
-				DF384FAD198A9C0500A0414E /* M+MAddRequestHandler.h */,
-				DF384FAE198A9C0500A0414E /* M+MResetRequestHandler.cpp */,
-				DF384FAF198A9C0500A0414E /* M+MResetRequestHandler.h */,
-				DF384FB5198A9C0500A0414E /* M+MStartRequestHandler.cpp */,
-				DF384FB6198A9C0500A0414E /* M+MStartRequestHandler.h */,
-				DF384FB7198A9C0500A0414E /* M+MStopRequestHandler.cpp */,
-				DF384FB8198A9C0500A0414E /* M+MStopRequestHandler.h */,
+				DF384FAC198A9C0500A0414E /* M+MAddToSumRequestHandler.cpp */,
+				DF384FAD198A9C0500A0414E /* M+MAddToSumRequestHandler.h */,
+				DF384FAE198A9C0500A0414E /* M+MResetSumRequestHandler.cpp */,
+				DF384FAF198A9C0500A0414E /* M+MResetSumRequestHandler.h */,
+				DF384FB5198A9C0500A0414E /* M+MStartSumRequestHandler.cpp */,
+				DF384FB6198A9C0500A0414E /* M+MStartSumRequestHandler.h */,
+				DF384FB7198A9C0500A0414E /* M+MStopSumRequestHandler.cpp */,
+				DF384FB8198A9C0500A0414E /* M+MStopSumRequestHandler.h */,
 			);
 			name = RequestHandlers;
 			sourceTree = "<group>";
@@ -945,6 +959,7 @@
 			isa = PBXGroup;
 			children = (
 				DFE83ADF19B671F8003A7EDE /* CMakeLists.txt */,
+				DFE83AEB19B8C563003A7EDE /* MovementDbAdapter */,
 				DFE83ABB19B661FB003A7EDE /* MovementDbClient */,
 				DFE83ABC19B66206003A7EDE /* MovementDbCommon */,
 				DFE83ABD19B66212003A7EDE /* MovementDbService */,
@@ -975,13 +990,42 @@
 			isa = PBXGroup;
 			children = (
 				DFE83AE119B67214003A7EDE /* CMakeLists.txt */,
-				DFE83ADB19B671D1003A7EDE /* M+MAddFileRequestHandler.cpp */,
-				DFE83ADC19B671D1003A7EDE /* M+MAddFileRequestHandler.h */,
+				DFE83AE719B8AE4B003A7EDE /* M+MMovementDbContext.cpp */,
+				DFE83AE819B8AE4B003A7EDE /* M+MMovementDbContext.h */,
 				DFE83AD819B671D1003A7EDE /* M+MMovementDbService.cpp */,
 				DFE83AD919B671D1003A7EDE /* M+MMovementDbService.h */,
 				DFE83ADA19B671D1003A7EDE /* M+MMovementDbServiceMain.cpp */,
+				DFE83AE219B8AB1A003A7EDE /* RequestHandlers */,
 			);
 			name = MovementDbService;
+			sourceTree = "<group>";
+		};
+		DFE83AE219B8AB1A003A7EDE /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DFE83ADB19B671D1003A7EDE /* M+MAddFileRequestHandler.cpp */,
+				DFE83ADC19B671D1003A7EDE /* M+MAddFileRequestHandler.h */,
+				DFE83AE519B8ABF8003A7EDE /* M+MSetDataTrackRequestHandler.cpp */,
+				DFE83AE619B8ABF8003A7EDE /* M+MSetDataTrackRequestHandler.h */,
+				DFE83AE319B8AB39003A7EDE /* M+MSetEmailRequestHandler.cpp */,
+				DFE83AE419B8AB39003A7EDE /* M+MSetEmailRequestHandler.h */,
+				DFE83AE919B8B912003A7EDE /* M+MStopDbRequestHandler.cpp */,
+				DFE83AEA19B8B912003A7EDE /* M+MStopDbRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DFE83AEB19B8C563003A7EDE /* MovementDbAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				DFE83AEC19B8C58B003A7EDE /* CMakeLists.txt */,
+				DFE83AF019B8C7D0003A7EDE /* M+MMovementDbAdapterData.cpp */,
+				DFE83AF119B8C7D0003A7EDE /* M+MMovementDbAdapterData.h */,
+				DFE83AED19B8C58B003A7EDE /* M+MMovementDbAdapterMain.cpp */,
+				DFE83AEE19B8C58B003A7EDE /* M+MMovementDbInputHandler.cpp */,
+				DFE83AEF19B8C58B003A7EDE /* M+MMovementDbInputHandler.h */,
+			);
+			name = MovementDbAdapter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

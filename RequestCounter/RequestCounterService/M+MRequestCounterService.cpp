@@ -40,7 +40,7 @@
 #include "M+MRequestCounterContext.h"
 #include "M+MRequestCounterDefaultRequestHandler.h"
 #include "M+MRequestCounterRequests.h"
-#include "M+MResetRequestHandler.h"
+#include "M+MResetCounterRequestHandler.h"
 #include "M+MStatsRequestHandler.h"
 
 //#include <odl/ODEnableLogging.h>
@@ -85,7 +85,7 @@ RequestCounterService::RequestCounterService(const yarp::os::ConstString & launc
               "reset - clear the request counter and the elapsed time\n"
               "stats - report the request counter and the elapsed time\n"
               "<anything else> - simply increment the request counter", serviceEndpointName,
-              servicePortNumber), _defaultHandler(NULL), _resetHandler(NULL), _statsHandler(NULL)
+              servicePortNumber), _defaultHandler(NULL), _resetSumHandler(NULL), _statsHandler(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
@@ -111,17 +111,17 @@ void RequestCounterService::attachRequestHandlers(void)
     try
     {
         _defaultHandler = new RequestCounterDefaultRequestHandler(*this);
-        _resetHandler = new ResetRequestHandler(*this);
+        _resetSumHandler = new ResetCounterRequestHandler(*this);
         _statsHandler = new StatsRequestHandler(*this);
-        if (_defaultHandler && _resetHandler && _statsHandler)
+        if (_defaultHandler && _resetSumHandler && _statsHandler)
         {
-            registerRequestHandler(_resetHandler);
+            registerRequestHandler(_resetSumHandler);
             registerRequestHandler(_statsHandler);
             setDefaultRequestHandler(_defaultHandler);
         }
         else
         {
-            OD_LOG("! (_defaultHandler && _resetHandler && _statsHandler)"); //####
+            OD_LOG("! (_defaultHandler && _resetSumHandler && _statsHandler)"); //####
         }
     }
     catch (...)
@@ -165,11 +165,11 @@ void RequestCounterService::detachRequestHandlers(void)
             delete _defaultHandler;
             _defaultHandler = NULL;
         }
-        if (_resetHandler)
+        if (_resetSumHandler)
         {
-            unregisterRequestHandler(_resetHandler);
-            delete _resetHandler;
-            _resetHandler = NULL;
+            unregisterRequestHandler(_resetSumHandler);
+            delete _resetSumHandler;
+            _resetSumHandler = NULL;
         }
         if (_statsHandler)
         {

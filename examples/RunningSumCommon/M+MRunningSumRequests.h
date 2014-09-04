@@ -55,19 +55,19 @@
 /*! @brief The channel-independent name of the running sum service. */
 # define MpM_RUNNINGSUM_CANONICAL_NAME "RunningSum"
 
-/*! @brief The name for the 'add' request. */
-# define MpM_ADD_REQUEST   "add"
+/*! @brief The name for the 'addtosum' request. */
+# define MpM_ADDTOSUM_REQUEST   "addtosum"
 
 /*! @brief The name for the 'quit' request. */
 # define MpM_QUIT_REQUEST  "quit"
 
-/*! @brief The name for the 'reset' request. */
-# define MpM_RESET_REQUEST "reset"
+/*! @brief The name for the 'resetsum' request. */
+# define MpM_RESETSUM_REQUEST "resetsum"
 
-/*! @brief The name for the 'start' request. */
-# define MpM_START_REQUEST "start"
+/*! @brief The name for the 'startsum' request. */
+# define MpM_STARTSUM_REQUEST "startsum"
 
-/*! @brief The name for the 'stop' request. */
-# define MpM_STOP_REQUEST  "stop"
+/*! @brief The name for the 'stopsum' request. */
+# define MpM_STOPSUM_REQUEST  "stopsum"
 
 #endif // ! defined(MpMRunningSumRequests_H_)

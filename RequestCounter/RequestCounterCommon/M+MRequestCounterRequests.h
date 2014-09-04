@@ -56,8 +56,8 @@
 /*! @brief The channel-independent name of the example echo service. */
 # define MpM_REQUESTCOUNTER_CANONICAL_NAME "RequestCounter"
 
-/*! @brief The name for the 'reset' request. */
-# define MpM_RESET_REQUEST  "reset"
+/*! @brief The name for the 'resetcounter' request. */
+# define MpM_RESETCOUNTER_REQUEST  "resetcounter"
 
 /*! @brief The name for the 'stats' request. */
 # define MpM_STATS_REQUEST  "stats"

@@ -61,7 +61,7 @@ namespace MplusM
     {
         class DetachRequestHandler;
         class RequestCounterDefaultRequestHandler;
-        class ResetRequestHandler;
+        class ResetCounterRequestHandler;
         class StatsRequestHandler;
         
         /*! @brief The request counter service. */
@@ -133,7 +133,7 @@ namespace MplusM
             RequestCounterDefaultRequestHandler * _defaultHandler;
             
             /*! @brief The request handler for the 'reset' request. */
-            ResetRequestHandler * _resetHandler;
+            ResetCounterRequestHandler * _resetSumHandler;
             
             /*! @brief The request handler for the 'stats' request. */
             StatsRequestHandler * _statsHandler;

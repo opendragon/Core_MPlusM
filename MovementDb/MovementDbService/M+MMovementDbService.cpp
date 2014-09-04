@@ -38,7 +38,11 @@
 
 #include "M+MMovementDbService.h"
 #include "M+MAddFileRequestHandler.h"
+#include "M+MMovementDbContext.h"
 #include "M+MMovementDbRequests.h"
+#include "M+MSetDataTrackRequestHandler.h"
+#include "M+MSetEmailRequestHandler.h"
+#include "M+MStopDbRequestHandler.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -81,7 +85,8 @@ MovementDbService::MovementDbService(const yarp::os::ConstString & launchPath,
     inherited(kServiceKindNormal, launchPath, true, MpM_MOVEMENTDB_CANONICAL_NAME,
               "The Movement database service",
               "reset - clear the request counter and the elapsed time" , serviceEndpointName,
-              servicePortNumber), _databaseAddress(databaseServerAddress), _addFileHandler(NULL)
+              servicePortNumber), _databaseAddress(databaseServerAddress), _addFileHandler(NULL),
+    _setDataTrackHandler(NULL), _setEmailHandler(NULL), _stopDbHandler(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "databaseServerAddress = ", //####
@@ -102,17 +107,23 @@ MovementDbService::~MovementDbService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool MovementDbService::addFileToDb(const yarp::os::ConstString & emailAddress,
-                                    const yarp::os::ConstString & dataTrack,
+bool MovementDbService::addFileToDb(const yarp::os::ConstString & key,
                                     const yarp::os::ConstString & filePath)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("emailAddress = ", emailAddress, "dataTrack = ", dataTrack, "filePath = ", //####
-               filePath); //####
+    OD_LOG_S2s("key = ", key, "filePath = ", filePath); //####
     bool okSoFar = false;
     
     try
     {
+        MovementDbContext * context = (MovementDbContext *) findContext(key);
+        
+        if (! context)
+        {
+            context = new MovementDbContext;
+            addContext(key, context);
+        }
+        // Add file using context->dataTrack(), context->emailAddress() and filePath.
         // TBD!!!!
         okSoFar = true;
     }
@@ -131,13 +142,20 @@ void MovementDbService::attachRequestHandlers(void)
     try
     {
         _addFileHandler = new AddFileRequestHandler(*this);
-        if (_addFileHandler)
+        _setDataTrackHandler = new SetDataTrackRequestHandler(*this);
+        _setEmailHandler = new SetEmailRequestHandler(*this);
+        _stopDbHandler = new StopDbRequestHandler(*this);
+        if (_addFileHandler && _setDataTrackHandler && _setEmailHandler && _stopDbHandler)
         {
             registerRequestHandler(_addFileHandler);
+            registerRequestHandler(_setDataTrackHandler);
+            registerRequestHandler(_setEmailHandler);
+            registerRequestHandler(_stopDbHandler);
         }
         else
         {
-            OD_LOG("! (_addFileHandler)"); //####
+            OD_LOG("! (_addFileHandler && _setDataTrackHandler && _setEmailHandler && " //####
+                   " _stopDbHandler)"); //####
         }
     }
     catch (...)
@@ -159,6 +177,24 @@ void MovementDbService::detachRequestHandlers(void)
             delete _addFileHandler;
             _addFileHandler = NULL;
         }
+        if (_setDataTrackHandler)
+        {
+            unregisterRequestHandler(_setDataTrackHandler);
+            delete _setDataTrackHandler;
+            _setDataTrackHandler = NULL;
+        }
+        if (_setEmailHandler)
+        {
+            unregisterRequestHandler(_setEmailHandler);
+            delete _setEmailHandler;
+            _setEmailHandler = NULL;
+        }
+        if (_stopDbHandler)
+        {
+            unregisterRequestHandler(_stopDbHandler);
+            delete _stopDbHandler;
+            _stopDbHandler = NULL;
+        }
     }
     catch (...)
     {
@@ -167,6 +203,62 @@ void MovementDbService::detachRequestHandlers(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // MovementDbService::detachRequestHandlers
+
+bool MovementDbService::setDataTrack(const yarp::os::ConstString & key,
+                                     const yarp::os::ConstString & dataTrack)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S2s("key = ", key, "dataTrack = ", dataTrack); //####
+    bool okSoFar = false;
+    
+    try
+    {
+        MovementDbContext * context = (MovementDbContext *) findContext(key);
+        
+        if (! context)
+        {
+            context = new MovementDbContext;
+            addContext(key, context);
+        }
+        context->dataTrack() = dataTrack;
+        okSoFar = true;
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(); //####
+    return okSoFar;
+} // MovementDbService::setDataTrack
+
+bool MovementDbService::setEmailAddress(const yarp::os::ConstString & key,
+                                        const yarp::os::ConstString & emailAddress)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S2s("key = ", key, "emailAddress = ", emailAddress); //####
+    bool okSoFar = false;
+    
+    try
+    {
+        MovementDbContext * context = (MovementDbContext *) findContext(key);
+        
+        if (! context)
+        {
+            context = new MovementDbContext;
+            addContext(key, context);
+        }
+        context->emailAddress() = emailAddress;
+        okSoFar = true;
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(); //####
+    return okSoFar;
+} // MovementDbService::setEmailAddress
 
 bool MovementDbService::start(void)
 {

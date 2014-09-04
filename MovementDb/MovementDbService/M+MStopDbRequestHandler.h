@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MStartRequestHandler.h
+//  File:       M+MStopDbRequestHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for a 'start' request.
+//  Contains:   The class declaration for the request handler for a 'stop' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,12 +32,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-18
+//  Created:    2014-09-04
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMStartRequestHandler_H_))
-# define MpMStartRequestHandler_H_ /* Header guard */
+#if (! defined(MpMStopDbRequestHandler_H_))
+# define MpMStopDbRequestHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseRequestHandler.h>
 
@@ -47,30 +47,30 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for a 'start' request. */
+ @brief The class declaration for the request handler for a 'stop' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MplusM
 {
-    namespace Example
+    namespace MovementDb
     {
-        class RunningSumService;
+        class MovementDbService;
         
-        /*! @brief The example 'start' request handler.
+        /*! @brief The example 'stop' request handler.
          
          There is no input for the request and there is no output. */
-        class StartRequestHandler : public Common::BaseRequestHandler
+        class StopDbRequestHandler : public Common::BaseRequestHandler
         {
         public:
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            StartRequestHandler(RunningSumService & service);
+            StopDbRequestHandler(MovementDbService & service);
             
             /*! @brief The destructor. */
-            virtual ~StartRequestHandler(void);
+            virtual ~StopDbRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -99,13 +99,13 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-            /*! @brief The service that will manages the statistics. */
-            RunningSumService & _service;
+            /*! @brief The service that manages the statistics. */
+            MovementDbService & _service;
             
-        }; // StartRequestHandler
+        }; // StopDbRequestHandler
         
-    } // Example
+    } // MovementDb
     
 } // MplusM
 
-#endif // ! defined(MpMStartRequestHandler_H_)
+#endif // ! defined(MpMStopDbRequestHandler_H_)

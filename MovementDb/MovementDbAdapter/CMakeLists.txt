@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       MovementDb/CMakeLists.txt
+#  File:       MovementDbAdapter/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the database applications.
+#  Contains:   The CMAKE definitions for a movement database adapter.
 #
 #  Written by: Norman Jaffe
 #
@@ -32,44 +32,25 @@
 #              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 #              DAMAGE.
 #
-#  Created:    2014-09-02
+#  Created:    2014-09-04
 #
 #--------------------------------------------------------------------------------------------------
 
-# YARP needs CMake 2.6 or greater
-cmake_minimum_required(VERSION 2.6)
+include_directories("../MovementDbCommon"
+                    "../MovementDbClient")
 
-project(M+MMovementDb)
+# Set up our program
+add_executable(mpmMovementDbAdapter
+               M+MMovementDbAdapterMain.cpp
+               M+MMovementDbAdapterData.cpp
+               M+MMovementDbInputHandler.cpp
+               ../MovementDbClient/M+MMovementDbClient.cpp)
 
-# Make some flags to control the build visible
-mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
-mark_as_advanced(CLEAR CMAKE_OSX_ARCHITECTURES)
-
-if(APPLE)
-	set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
-	set(CMAKE_CXX_FLAGS "-stdlib=libstdc++" CACHE STRING "Fixes linking error for M+M/ACE" FORCE)
-endif(APPLE)
-
-# Find YARP
-find_package(YARP REQUIRED)
-list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
-
-# Add YARP include directories
-include_directories(${YARP_INCLUDE_DIRS})
-
-# Find ACE
-find_package(ACE REQUIRED)
-list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
-
-# Add ACE include directories
-include_directories(${ACE_INCLUDE_DIRS})
-
-set(MpMDb_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
-
-include_directories("${MpMDb_SOURCE_DIR}")
-
-add_subdirectory(MovementDbAdapter)
-add_subdirectory(MovementDbClient)
-add_subdirectory(MovementDbService)
+# Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
+# processed once.
+target_link_libraries(mpmMovementDbAdapter
+                      mpmCommon
+                      odLogging
+                      ${YARP_LIBRARIES})
 
 enable_testing()

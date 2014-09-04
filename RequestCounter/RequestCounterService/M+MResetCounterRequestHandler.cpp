@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MAddRequestHandler.cpp
+//  File:       M+MResetCounterRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for an 'add' request.
+//  Contains:   The class definition for the request handler for a 'resetcounter' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,13 +32,13 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-18
+//  Created:    2014-03-14
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MAddRequestHandler.h"
-#include "M+MRunningSumRequests.h"
-#include "M+MRunningSumService.h"
+#include "M+MResetCounterRequestHandler.h"
+#include "M+MRequestCounterRequests.h"
+#include "M+MRequestCounterService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -49,21 +49,21 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for an 'add' request. */
+ @brief The class definition for the request handler for a 'resetcounter' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Example;
+using namespace MplusM::RequestCounter;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'reset' request. */
-#define ADD_REQUEST_VERSION_NUMBER "1.1"
+/*! @brief The protocol version number for the 'resetcounter' request. */
+#define RESETCOUNTER_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -77,34 +77,38 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-AddRequestHandler::AddRequestHandler(RunningSumService & service) :
-    inherited(MpM_ADD_REQUEST), _service(service)
+ResetCounterRequestHandler::ResetCounterRequestHandler(RequestCounterService & service) :
+    inherited(MpM_RESETCOUNTER_REQUEST), _service(service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
-} // AddRequestHandler::AddRequestHandler
+} // ResetCounterRequestHandler::ResetCounterRequestHandler
 
-AddRequestHandler::~AddRequestHandler(void)
+ResetCounterRequestHandler::~ResetCounterRequestHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // AddRequestHandler::~AddRequestHandler
+} // ResetCounterRequestHandler::~ResetCounterRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void AddRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void ResetCounterRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(alternateNames)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
-    alternateNames.push_back("+");
     OD_LOG_OBJEXIT(); //####
-} // AddRequestHandler::fillInAliases
+} // ResetCounterRequestHandler::fillInAliases
 
-void AddRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                          yarp::os::Property &          info)
+void ResetCounterRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                                   yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -112,12 +116,10 @@ void AddRequestHandler::fillInDescription(const yarp::os::ConstString & request,
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_NUMBER MpM_REQREP_1_OR_MORE);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_DOUBLE);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, ADD_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Add to the running sum\n"
-                 "Input: one or more numeric values\n"
-                 "Output: the current running sum, including the new values");
+        info.put(MpM_REQREP_DICT_VERSION_KEY, RESETCOUNTER_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Reset the request statistics\n"
+                 "Input: nothing\n"
+                 "Output: nothing");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
@@ -130,16 +132,16 @@ void AddRequestHandler::fillInDescription(const yarp::os::ConstString & request,
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // AddRequestHandler::fillInDescription
+} // ResetCounterRequestHandler::fillInDescription
 
-bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                       const yarp::os::Bottle &      restOfInput,
-                                       const yarp::os::ConstString & senderChannel,
-                                       yarp::os::ConnectionWriter *  replyMechanism)
+bool ResetCounterRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                                const yarp::os::Bottle &      restOfInput,
+                                                const yarp::os::ConstString & senderChannel,
+                                                yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
-#  pragma unused(request)
+#  pragma unused(request,restOfInput)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####
@@ -150,49 +152,12 @@ bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
     
     try
     {
-        double           total = 0.0;
-        int              count = restOfInput.size();
-        yarp::os::Bottle response;
-        
-        if (1 <= count)
-        {
-            int tally = 0;
-            
-            for (int ii = 0; ii < count; ++ii)
-            {
-                yarp::os::Value incoming(restOfInput.get(ii));
-                
-                if (incoming.isInt())
-                {
-                    ++tally;
-                    total = _service.addToSum(senderChannel, incoming.asInt());
-                }
-                else if (incoming.isDouble())
-                {
-                    ++tally;
-                    total = _service.addToSum(senderChannel, incoming.asDouble());
-                }
-            }
-            if (tally)
-            {
-                response.addDouble(total);
-            }
-            else
-            {
-                OD_LOG("! (tally)"); //####
-                response.addString(MpM_FAILED_RESPONSE);
-                response.addString("No numeric values in list");
-            }
-        }
-        else
-        {
-            OD_LOG("! (1 <= count)"); //####
-            response.addString(MpM_FAILED_RESPONSE);
-            response.addString("No values provided");
-        }
+        _service.resetCounters(senderChannel);
         if (replyMechanism)
         {
             OD_LOG("(replyMechanism)"); //####
+            yarp::os::Bottle response(MpM_OK_RESPONSE);
+            
             OD_LOG_S1s("response <- ", response.toString()); //####
             if (! response.write(*replyMechanism))
             {
@@ -210,7 +175,7 @@ bool AddRequestHandler::processRequest(const yarp::os::ConstString & request,
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // AddRequestHandler::processRequest
+} // ResetCounterRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Global functions

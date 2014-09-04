@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MStartRequestHandler.cpp
+//  File:       M+MStartSumRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for a 'start' request.
+//  Contains:   The class definition for the request handler for a 'startsum' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MStartRequestHandler.h"
+#include "M+MStartSumRequestHandler.h"
 #include "M+MRunningSumRequests.h"
 #include "M+MRunningSumService.h"
 
@@ -49,7 +49,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a 'start' request. */
+ @brief The class definition for the request handler for a 'startsum' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -62,8 +62,8 @@ using namespace MplusM::Example;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'start' request. */
-#define START_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'startsum' request. */
+#define STARTSUM_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -77,25 +77,25 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-StartRequestHandler::StartRequestHandler(RunningSumService & service) :
-    inherited(MpM_START_REQUEST), _service(service)
+StartSumRequestHandler::StartSumRequestHandler(RunningSumService & service) :
+    inherited(MpM_STARTSUM_REQUEST), _service(service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
-} // StartRequestHandler::StartRequestHandler
+} // StartSumRequestHandler::StartSumRequestHandler
 
-StartRequestHandler::~StartRequestHandler(void)
+StartSumRequestHandler::~StartSumRequestHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // StartRequestHandler::~StartRequestHandler
+} // StartSumRequestHandler::~StartSumRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void StartRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void StartSumRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -105,10 +105,10 @@ void StartRequestHandler::fillInAliases(Common::StringVector & alternateNames)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
-} // StartRequestHandler::fillInAliases
+} // StartSumRequestHandler::fillInAliases
 
-void StartRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                            yarp::os::Property &          info)
+void StartSumRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                               yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -116,7 +116,7 @@ void StartRequestHandler::fillInDescription(const yarp::os::ConstString & reques
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, START_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, STARTSUM_REQUEST_VERSION_NUMBER);
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Start the running sum\n"
                  "Input: nothing\n"
                  "Output: nothing");
@@ -132,12 +132,12 @@ void StartRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // StartRequestHandler::fillInDescription
+} // StartSumRequestHandler::fillInDescription
 
-bool StartRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const yarp::os::Bottle &      restOfInput,
-                                         const yarp::os::ConstString & senderChannel,
-                                         yarp::os::ConnectionWriter *  replyMechanism)
+bool StartSumRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                            const yarp::os::Bottle &      restOfInput,
+                                            const yarp::os::ConstString & senderChannel,
+                                            yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -175,7 +175,7 @@ bool StartRequestHandler::processRequest(const yarp::os::ConstString & request,
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // StartRequestHandler::processRequest
+} // StartSumRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Global functions

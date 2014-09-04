@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MResetRequestHandler.cpp
+//  File:       M+MSetDataTrackRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for a 'reset' request.
+//  Contains:   The class definition for the request handler for an 'setemail' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,13 +32,13 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2014-09-04
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MResetRequestHandler.h"
-#include "M+MRequestCounterRequests.h"
-#include "M+MRequestCounterService.h"
+#include "M+MSetDataTrackRequestHandler.h"
+#include "M+MMovementDbRequests.h"
+#include "M+MMovementDbService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -49,21 +49,21 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a 'reset' request. */
+ @brief The class definition for the request handler for a 'setdatatrack' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::RequestCounter;
+using namespace MplusM::MovementDb;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'reset' request. */
-#define RESET_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'setdatatrack' request. */
+#define SETDATATRACK_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -77,25 +77,25 @@ using namespace MplusM::RequestCounter;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ResetRequestHandler::ResetRequestHandler(RequestCounterService & service) :
-    inherited(MpM_RESET_REQUEST), _service(service)
+SetDataTrackRequestHandler::SetDataTrackRequestHandler(MovementDbService & service) :
+    inherited(MpM_SETDATATRACK_REQUEST), _service(service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
-} // ResetRequestHandler::ResetRequestHandler
+} // SetDataTrackRequestHandler::SetDataTrackRequestHandler
 
-ResetRequestHandler::~ResetRequestHandler(void)
+SetDataTrackRequestHandler::~SetDataTrackRequestHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // ResetRequestHandler::~ResetRequestHandler
+} // SetDataTrackRequestHandler::~SetDataTrackRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ResetRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void SetDataTrackRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -105,10 +105,10 @@ void ResetRequestHandler::fillInAliases(Common::StringVector & alternateNames)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
-} // ResetRequestHandler::fillInAliases
+} // SetDataTrackRequestHandler::fillInAliases
 
-void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                            yarp::os::Property &          info)
+void SetDataTrackRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                                   yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -116,9 +116,10 @@ void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & reques
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, RESET_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Reset the request statistics\n"
-                 "Input: nothing\n"
+        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_STRING);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, SETDATATRACK_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Set the data track for the backend database\n"
+                 "Input: data track\n"
                  "Output: nothing");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
@@ -132,12 +133,12 @@ void ResetRequestHandler::fillInDescription(const yarp::os::ConstString & reques
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // ResetRequestHandler::fillInDescription
+} // SetDataTrackRequestHandler::fillInDescription
 
-bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const yarp::os::Bottle &      restOfInput,
-                                         const yarp::os::ConstString & senderChannel,
-                                         yarp::os::ConnectionWriter *  replyMechanism)
+bool SetDataTrackRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                                const yarp::os::Bottle &      restOfInput,
+                                                const yarp::os::ConstString & senderChannel,
+                                                yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -152,16 +153,48 @@ bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
     
     try
     {
-        _service.resetCounters(senderChannel);
+        yarp::os::Bottle reply;
+
+        // Set the data track for the backend database
+        if (1 == restOfInput.size())
+        {
+            yarp::os::Value firstValue(restOfInput.get(0));
+            
+            if (firstValue.isString())
+            {
+                yarp::os::ConstString dataTrack(firstValue.toString());
+
+                if (_service.setDataTrack(senderChannel, dataTrack))
+                {
+                    reply.addString(MpM_OK_RESPONSE);
+                }
+                else
+                {
+                    OD_LOG("! (_service.setDataTrack(senderChannel, dataTrack))"); //####
+                    reply.addString(MpM_FAILED_RESPONSE);
+                    reply.addString("Could not set the data track");
+                }
+            }
+            else
+            {
+                OD_LOG("! (firstValue.isString())"); //####
+                reply.addString(MpM_FAILED_RESPONSE);
+                reply.addString("Invalid argument");
+            }
+        }
+        else
+        {
+            OD_LOG("! (1 == restOfInput.size())"); //####
+            reply.addString(MpM_FAILED_RESPONSE);
+            reply.addString("Missing or extra arguments to request");
+        }
         if (replyMechanism)
         {
             OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle response(MpM_OK_RESPONSE);
-            
-            OD_LOG_S1s("response <- ", response.toString()); //####
-            if (! response.write(*replyMechanism))
+            OD_LOG_S1s("response <- ", reply.toString()); //####
+            if (! reply.write(*replyMechanism))
             {
-                OD_LOG("(! response.write(*replyMechanism))"); //####
+                OD_LOG("(! reply(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
                 Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
@@ -175,7 +208,7 @@ bool ResetRequestHandler::processRequest(const yarp::os::ConstString & request,
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ResetRequestHandler::processRequest
+} // SetDataTrackRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Global functions

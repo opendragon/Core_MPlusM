@@ -180,13 +180,13 @@ bool RequestCounterClient::resetServiceCounters(void)
         yarp::os::Bottle parameters;
         
         reconnectIfDisconnected(NULL, NULL);
-        if (send(MpM_RESET_REQUEST, parameters))
+        if (send(MpM_RESETCOUNTER_REQUEST, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MpM_RESET_REQUEST, parameters))"); //####
+            OD_LOG("! (send(MpM_RESETCOUNTER_REQUEST, parameters))"); //####
         }
     }
     catch (...)

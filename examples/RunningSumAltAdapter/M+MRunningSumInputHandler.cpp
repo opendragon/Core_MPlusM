@@ -184,7 +184,7 @@ bool RunningSumInputHandler::handleInput(const yarp::os::Bottle &      input,
                             }
                             values.clear();
                         }
-                        if (argString == MpM_RESET_REQUEST)
+                        if (argString == MpM_RESETSUM_REQUEST)
                         {
                             _shared.lock();
                             if (theClient->resetSum())
@@ -201,7 +201,7 @@ bool RunningSumInputHandler::handleInput(const yarp::os::Bottle &      input,
                         {
                             _shared.deactivate();
                         }
-                        else if (argString == MpM_START_REQUEST)
+                        else if (argString == MpM_STARTSUM_REQUEST)
                         {
                             _shared.lock();
                             if (theClient->startSum())
@@ -214,7 +214,7 @@ bool RunningSumInputHandler::handleInput(const yarp::os::Bottle &      input,
                             }
                             _shared.unlock();
                         }
-                        else if (argString == MpM_STOP_REQUEST)
+                        else if (argString == MpM_STOPSUM_REQUEST)
                         {
                             _shared.lock();
                             if (theClient->stopSum())
@@ -240,6 +240,7 @@ bool RunningSumInputHandler::handleInput(const yarp::os::Bottle &      input,
                 if (values.size())
                 {
                     Common::DoubleVector::size_type soFar = values.size();
+                    
                     if (1 == soFar)
                     {
                         _shared.lock();
