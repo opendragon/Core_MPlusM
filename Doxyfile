@@ -835,7 +835,37 @@ EXCLUDE                = CMakeFiles \
                          Testing \
                          Parser/CMakeFiles \
                          Parser/Testing \
-                         SQLite3
+                         SQLite3 \
+                         CommonTests/CMakeFiles \
+                         examples/CMakeFiles \
+                         examples/ChordGeneratorService/CMakeFiles \
+                         examples/EchoClient/CMakeFiles \
+                         examples/EchoService/CMakeFiles \
+                         examples/RandomBurstStreamService/CMakeFiles \
+                         examples/RandomNumberAdapter/CMakeFiles \
+                         examples/RandomNumberClient/CMakeFiles \
+                         examples/RandomNumberService/CMakeFiles \
+                         examples/RecordIntegersStreamService/CMakeFiles \
+                         examples/RunningSumAdapter/CMakeFiles \
+                         examples/RunningSumAltAdapter/CMakeFiles \
+                         examples/RunningSumClient/CMakeFiles \
+                         examples/RunningSumService/CMakeFiles \
+                         examples/TruncateFilterStreamService/CMakeFiles \
+                         MovementDb/CMakeFiles \
+                         MovementDb/MovementDbAdapter/CMakeFiles \
+                         MovementDb/MovementDbClient/CMakeFiles \
+                         MovementDb/MovementDbService/CMakeFiles \
+                         mpm/CMakeFiles \
+                         odl/CMakeFiles \
+                         PortLister/CMakeFiles \
+                         RegistryService/CMakeFiles \
+                         RegistryService/RegistryTests/CMakeFiles \
+                         RequestCounter/CMakeFiles \
+                         RequestCounter/RequestCounterClient/CMakeFiles \
+                         RequestCounter/RequestCounterService/CMakeFiles \
+                         RequestInfo/CMakeFiles \
+                         ServiceLister/CMakeFiles \
+                         Version/CMakeFiles
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
