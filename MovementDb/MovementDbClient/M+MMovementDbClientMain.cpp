@@ -178,107 +178,118 @@ int main(int     argc,
                                 yarp::os::ConstString inputString;
                                 
                                 cout << "Operation: [+ d e x]? ";
-                                cin >> inChar;
-                                switch (inChar)
+                                if (getline(cin, inputLine))
                                 {
-                                    case '+' :
-                                        cout << "add file: ";
-                                        if (getline(cin, inputLine))
-                                        {
-                                            inputString = inputLine.c_str();
-                                            if (stuff->addFileToDb(inputString))
+                                    inChar = inputLine[0];
+                                    switch (inChar)
+                                    {
+                                        case '+' :
+                                            cout << "add file: ";
+                                            cout.flush();
+                                            if (getline(cin, inputLine))
                                             {
-                                                cout << "File added to database." << endl;
+                                                inputString = inputLine.c_str();
+                                                if (stuff->addFileToDb(inputString))
+                                                {
+                                                    cout << "File added to database." << endl;
+                                                }
+                                                else
+                                                {
+                                                    OD_LOG("! (stuff->addFileToDb(" //####
+                                                           "inputString))"); //####
+#if MAC_OR_LINUX_
+                                                    MplusM::Common::GetLogger().fail("Problem "
+                                                                                     "adding file "
+                                                                                     "to "
+                                                                                     "database.");
+#endif // MAC_OR_LINUX_
+                                                    cout << "File not added to database." << endl;
+                                                }
                                             }
                                             else
                                             {
-                                                OD_LOG("! (stuff->addFileToDb(" //####
+                                                cout << "Empty file path provided." << endl;
+                                            }
+                                            break;
+                                            
+                                        case 'd' :
+                                        case 'D' :
+                                            cout << "set data track: ";
+                                            cout.flush();
+                                            getline(cin, inputLine);
+                                            inputString = inputLine.c_str();
+                                            if (stuff->setDataTrackForDb(inputString))
+                                            {
+                                                cout << "Data track set for database." << endl;
+                                            }
+                                            else
+                                            {
+                                                OD_LOG("! (stuff->setDataTrackForDb(" //####
                                                        "inputString))"); //####
 #if MAC_OR_LINUX_
-                                                MplusM::Common::GetLogger().fail("Problem adding "
-                                                                                 "file to "
+                                                MplusM::Common::GetLogger().fail("Problem setting "
+                                                                                 "data track for "
                                                                                  "database.");
 #endif // MAC_OR_LINUX_
-                                                cout << "File not added to database." << endl;
+                                                cout << "Data track not set for database." << endl;
                                             }
-                                        }
-                                        else
-                                        {
-                                            cout << "Empty file path provided." << endl;
-                                        }
-                                        break;
-                                        
-                                    case 'd' :
-                                    case 'D' :
-                                        cout << "set data track: ";
-                                        getline(cin, inputLine);
-                                        inputString = inputLine.c_str();
-                                        if (stuff->setDataTrackForDb(inputString))
-                                        {
-                                            cout << "Data track set for database." << endl;
-                                        }
-                                        else
-                                        {
-                                            OD_LOG("! (stuff->setDataTrackForDb(" //####
-                                                   "inputString))"); //####
+                                            break;
+                                            
+                                        case 'e' :
+                                        case 'E' :
+                                            cout << "set e-mail address: ";
+                                            cout.flush();
+                                            getline(cin, inputLine);
+                                            inputString = inputLine.c_str();
+                                            if (stuff->setEmailAddressForDb(inputString))
+                                            {
+                                                cout << "E-mail address set for database." << endl;
+                                            }
+                                            else
+                                            {
+                                                OD_LOG("! (stuff->setEmailAddressForDb(" //####
+                                                       "inputString))"); //####
 #if MAC_OR_LINUX_
-                                            MplusM::Common::GetLogger().fail("Problem setting "
-                                                                             "data track for "
-                                                                             "database.");
+                                                MplusM::Common::GetLogger().fail("Problem setting "
+                                                                                 "e-mail address "
+                                                                                 "for database.");
 #endif // MAC_OR_LINUX_
-                                            cout << "Data track not set for database." << endl;
-                                        }
-                                        break;
-                                        
-                                    case 'e' :
-                                    case 'E' :
-                                        cout << "set e-mail address: ";
-                                        getline(cin, inputLine);
-                                        inputString = inputLine.c_str();
-                                        if (stuff->setEmailAddressForDb(inputString))
-                                        {
-                                            cout << "E-mail address set for database." << endl;
-                                        }
-                                        else
-                                        {
-                                            OD_LOG("! (stuff->setEmailAddressForDb(" //####
-                                                   "inputString))"); //####
+                                                cout << "E-mail address not set for database." <<
+                                                        endl;
+                                            }
+                                            break;
+                                            
+                                        case 'x' :
+                                        case 'X' :
+                                            cout << "Exiting" << endl;
+                                            cout.flush();
+                                            if (! stuff->stopDbConnection())
+                                            {
+                                                OD_LOG("(! stuff->stopDbConnection())"); //####
 #if MAC_OR_LINUX_
-                                            MplusM::Common::GetLogger().fail("Problem setting "
-                                                                             "e-mail address for "
-                                                                             "database.");
+                                                MplusM::Common::GetLogger().fail("Problem stopping "
+                                                                                 "the database "
+                                                                                 "connection.");
 #endif // MAC_OR_LINUX_
-                                            cout << "E-mail address not set for database." << endl;
-                                        }
-                                        break;
-                                        
-                                    case 'x' :
-                                    case 'X' :
-                                        cout << "Exiting" << endl;
-                                        if (! stuff->stopDbConnection())
-                                        {
-                                            OD_LOG("(! stuff->stopDbConnection())"); //####
-#if MAC_OR_LINUX_
-                                            MplusM::Common::GetLogger().fail("Problem stopping the "
-                                                                             "database "
-                                                                             "connection.");
-#endif // MAC_OR_LINUX_
-                                        }
-                                        MplusM::StopRunning();
-                                        break;
-                                        
-                                    default :
-                                        cout << "Unrecognized request '" << inChar << "'." << endl;
-                                        break;
-                                        
+                                            }
+                                            MplusM::StopRunning();
+                                            break;
+                                            
+                                        default :
+                                            cout << "Unrecognized request '" << inChar << "'." <<
+                                                    endl;
+                                            cout.flush();
+                                            break;
+                                            
+                                    }
                                 }
                             }
                             if (! stuff->disconnectFromService(NULL, NULL))
                             {
                                 OD_LOG("(! stuff->disconnectFromService(NULL, NULL))"); //####
 #if MAC_OR_LINUX_
-                                MplusM::Common::GetLogger().fail("Problem disconnecting from "
-                                                                 "the service.");
+                                MplusM::Common::GetLogger().fail("Problem disconnecting from the "
+                                                                 "service.");
 #endif // MAC_OR_LINUX_
                             }
                         }
@@ -286,8 +297,7 @@ int main(int     argc,
                         {
                             OD_LOG("! (stuff->connectToService(NULL, NULL))"); //####
 #if MAC_OR_LINUX_
-                            MplusM::Common::GetLogger().fail("Problem connecting to the "
-                                                             "service.");
+                            MplusM::Common::GetLogger().fail("Problem connecting to the service.");
 #endif // MAC_OR_LINUX_
                         }
                     }
