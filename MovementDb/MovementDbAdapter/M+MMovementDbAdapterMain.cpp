@@ -54,7 +54,7 @@
  
  @brief The main application for the movement database adapter. */
 
-/*! @dir MovementDbAltAdapter
+/*! @dir MovementAltAdapter
  @brief The set of files that implement the movement database adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
