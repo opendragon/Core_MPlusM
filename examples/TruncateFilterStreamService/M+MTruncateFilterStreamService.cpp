@@ -238,6 +238,10 @@ void TruncateFilterStreamService::stopStreams(void)
     {
         if (isActive())
         {
+            if (_inHandler)
+            {
+                _inHandler->setOutput(NULL);
+            }
             clearActive();
         }
     }

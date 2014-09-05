@@ -9,6 +9,25 @@ manages information about all other active services; all services register thems
 with the \serviceNameR[Service~Registry]{ServiceRegistry} so that client applications and
 utilities can get information about the service.\\
 
+Other services can be, broadly, characterized as either \inputOutput{} services or normal
+services.
+\inputOutput{} services can be further divided into Input services, Output services and
+Filter services.
+Input services act as intermediaries between external data sources and the \mplusm{}
+infrastructure, Output services act as intermediaries between an \mplusm{}
+installation and external presentation systems and Filter services act as translators
+between data formats.\\
+
+\inputOutput{} services respond to a special set of requests, the
+\secondaryRef{InputOutputRequests}{\inputOutput{}~Requests}, and have secondary \yarp{}
+ports that provide access to the information that they process.
+Input services have one or more secondary output \yarp{} network ports, Output services
+have one or more secondary input \yarp{} network ports and Filter services have both
+secondary input and output \yarp{} network ports.\\
+
+Note that an Input service can also have secondary output \yarp{} network ports and an
+Output service can also have secondary input \yarp{} network ports, but this is uncommon.
+
 All services and clients utilize a request / response protocol that is defined by the
 \mplusm{} \compLang{C++} core classes.\\
 
@@ -18,14 +37,16 @@ The standard requests are in 4 groups:
 fundamental \mplusm{} service mechanisms
 \item \textbf{\secondaryRef{ServiceRegistryRequests}{Service~Registry~Requests:}} requests
 that are specific to the \serviceNameR[Service~Registry]{ServiceRegistry}
-\item \textbf{\secondaryRef{InputOutputRequests}{Input~/~Output~Requests:}} requests that
-are specific to Input~/~Output services
+\item \textbf{\secondaryRef{InputOutputRequests}{\inputOutput{}~Requests:}} requests that
+are specific to \inputOutput{} services
 \item \textbf{\secondaryRef{MiscellaneousRequests}{Miscellaneous~Requests:}} other
 requests
 \end{itemize}
+Requests are handled by derived classes of the base class for request handlers,
+\secondaryRef{BaseRequestHandler}{Base~Request~Handler}.
 Note that the \secondaryRef{BasicRequests}{Basic~Requests} are part of every service and
 automatically supported in the base class of all services,
-\begin{Large}\textbf{TBD--Base Service--TBD}\end{Large}.\\
+\secondaryRef{BaseService}{Base~Service}.\\
 
 When a client sends a request to a service, it can optionally request a response from the
 service.
@@ -53,11 +74,10 @@ application can be running at a time in an \mplusm{} installation, due to its fi
 \tertiaryEnd{\serviceNameE[Service~Registry]{mpmRegistryService}}
 \secondaryEnd{}
 \secondaryStart[BasicRequests]{Basic~Requests}
-These requests are implemented in all \mplusm{} services.
+These requests are implemented in all \mplusm{} services, via the
+\secondaryRef{BaseService}{Base~Service} class.
 They constitute the fundamental mechanism that is used by the
 \serviceNameR[Service~Registry]{ServiceRegistry} to identify each active service.
-The base class for request handlers is
-\begin{Large}\textbf{TBD--Base Request Handler--TBD}\end{Large}.
 \tertiaryStart{\requestsNameD{Basic}{Basic}{channels}}
 The \requestsNameX{Basic}{Basic}{channels} request returns a list of the secondary input
 channels and a list of the secondary output channels for its service.\\
@@ -177,13 +197,13 @@ For details on the syntax used with the criteria, see the
 \tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{ping}}
 The \requestsNameX{Service~Registry}{ServiceRegistry}{ping} request is sent by each
 active service (except the \serviceNameR[Service~Registry]{ServiceRegistry}) to indicate
-that it is still 'alive'.\\
+that it is still `alive'.\\
 
 Sending a \requestsNameX{Service~Registry}{ServiceRegistry}{ping} request results in a
 sequence of requests being sent from the \serviceNameR[Service~Registry]{ServiceRegistry}
 to the active service if the information on the service is no longer in the internal
 database.
-This will happen if the service is considered to be 'stale' -- it has not sent a
+This will happen if the service is considered to be `stale' -- it has not sent a
 \requestsNameX{Service~Registry}{ServiceRegistry}{ping} request often enough to be
 remembered.
 The sequence of requests sent to the active service is described in the 
@@ -212,82 +232,96 @@ the \serviceNameR[Service~Registry]{ServiceRegistry} removes all entries from th
 database that are related to the service being removed.
 \tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{unregister}}
 \secondaryEnd{}
-\secondaryStart[InputOutputRequests]{Input~/~Output~Requests}
+\secondaryStart[InputOutputRequests]{\inputOutput{}~Requests}
+These requests are implemented in all \mplusm{} \inputOutput{} services, via the
+\secondaryRef{BaseInputOutputService}{Base~Input~Output~Service} class.
+\tertiaryStart{\requestsNameD{\inputOutput{}}{InputOutput}{configure}}
+The \requestsNameX{\inputOutput{}}{InputOutput}{configure} request is available for
+\inputOutput{} services that require special setup information, such as a device
+identifier or file--system path.
+It is the responsibility of derived classes of the
+\secondaryRef{BaseInputOutputService}{Base~Input~Output~Service} class to provide a method
+that handles the data provided in the
+\requestsNameX{\inputOutput{}}{InputOutput}{configure} request.\\
 
-			||TBD TBD TBD||
+For the \examplesNameR{Services}{mpmRandomBurstStreamService} service, the configuration
+data consists of a floating--point number (the burst period) and an integer (the burst
+size); for the \examplesNameR{Services}{mpmRecordIntegersStreamService} service, the
+configuration data consists of the file--system path for the service output file.\\
 
-			||/TBD TBD TBD||
-
-\tertiaryStart{\requestsNameD{Input~/~Output}{InputOutput}{configure}}
-The \requestsNameX{Input~/~Output}{InputOutput}{configure} request
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+\requestsNameX{\inputOutput{}}{InputOutput}{configure} requests should be sent by
+client applications before sending
+\requestsNameR{\inputOutput{}}{InputOutput}{startStreams} requests.
 \tertiaryEnd{}
-\tertiaryStart{\requestsNameD{Input~/~Output}{InputOutput}{restartStreams}}
-The \requestsNameX{Input~/~Output}{InputOutput}{restartStreams} request
+\tertiaryStart{\requestsNameD{\inputOutput{}}{InputOutput}{restartStreams}}
+The \requestsNameX{\inputOutput{}}{InputOutput}{restartStreams} request allows client
+applications to `rewind' all input and output streams, if this is a meaningful operation.
+It is roughly equivalent to a \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams}
+request followed by a \requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request,
+but it may perform some extra work between the two requests.
+\tertiaryEnd{\requestsNameE{\inputOutput{}}{InputOutput}{restartStreams}}
+\tertiaryStart{\requestsNameD{\inputOutput{}}{InputOutput}{startStreams}}
+The \requestsNameX{\inputOutput{}}{InputOutput}{startStreams} request initiates activity
+on the input and output ports associated with an \inputOutput{} service.
+That is, for Input services, data will now be sent out the output \yarp{} network ports,
+for Output services, data will be processed from the input \yarp{} network ports and, for
+Filter services, data will flow from the input \yarp{} network ports to the output \yarp{}
+network ports.\\
 
-			||TBD TBD TBD||
+Note that an Output service can be `always on', as it can defer the external
+representation of its input data until the first data arrives at its input \yarp{}
+network port.\\
 
-			||/TBD TBD TBD||
+For the \examplesNameR{Services}{mpmRandomBurstStreamService} service, starting the
+streams corresponds to initiating an asynchronous random number generator; for the
+\examplesNameR{Services}{mpmRecordIntegersStreamService} service, starting the streams
+involves opening the service output file and for the
+\examplesNameR{Services}{mpmTruncateFilterStreamService} service, starting the streams
+simply allows data to flow through.
+\tertiaryEnd{\requestsNameE{\inputOutput{}}{InputOutput}{startStreams}}
+\tertiaryStart{\requestsNameD{\inputOutput{}}{InputOutput}{stopStreams}}
+The \requestsNameX{\inputOutput{}}{InputOutput}{stopStreams} request stops activity on
+the input and output ports associated with an \inputOutput{} service.
+That is, for Input services, data will no longer be sent out the output \yarp{} network
+ports, for Output services, data from the input \yarp{} network ports will be ignored and,
+for Filter services, data will no longer flow from the input \yarp{} network ports to the
+output \yarp{} network ports.\\
 
-\tertiaryEnd{\requestsNameE{Input~/~Output}{InputOutput}{restartStreams}}
-\tertiaryStart{\requestsNameD{Input~/~Output}{InputOutput}{startStreams}}
-The \requestsNameX{Input~/~Output}{InputOutput}{startStreams} request
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
-\tertiaryEnd{\requestsNameE{Input~/~Output}{InputOutput}{startStreams}}
-\tertiaryStart{\requestsNameD{Input~/~Output}{InputOutput}{stopStreams}}
-The \requestsNameX{Input~/~Output}{InputOutput}{stopStreams} request
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
-\tertiaryEnd{\requestsNameE{Input~/~Output}{InputOutput}{stopStreams}}
+Note that an `always on' Output service can ignore
+\requestsNameX{\inputOutput{}}{InputOutput}{stopStreams} requests, if the external
+representation of its input data is not affected by the lack of input data.
+\tertiaryEnd{\requestsNameE{\inputOutput{}}{InputOutput}{stopStreams}}
 \secondaryEnd{}
 \secondaryStart[MiscellaneousRequests]{Miscellaneous~Requests}
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+Requests in this group are used with the \utilityNameR{mpmRequestCounterClient} client
+application and \utilityNameR{mpmRequestCounterService} service or are requests that are
+common.
 \tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{count}}
-The \requestsNameX{Miscellaneous}{Miscellaneous}{count} request
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+The \requestsNameX{Miscellaneous}{Miscellaneous}{count} request returns the number of
+requests processed by a service and the current time.
+It's provided for the benefit of applications that need to measure the performance of a
+general service, but is distinct from the mechanisms used by the
+\utilityNameR{mpmRequestCounterClient} client application and
+\utilityNameR{mpmRequestCounterService} service, which have use a custom set of requests
+to allow repetitive testing.
 \tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{count}}
 \tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{echo}}
-The \requestsNameX{Miscellaneous}{Miscellaneous}{echo} request
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+The \requestsNameX{Miscellaneous}{Miscellaneous}{echo} request simply returns whatever
+as provided as arguments to the request.
+It is used by the unit testing framework of \mplusm{} to provide a simple request that
+can be validated, as well as by the \examplesNameR{Clients}{mpmEchoClient} application
+and \examplesNameR{Services}{mpmEchoService} service to implement an `echo' mechanism.
 \tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{echo}}
-\tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{reset}}
-The \requestsNameX{Miscellaneous}{Miscellaneous}{reset} request
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
-\tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{reset}}
+\tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{resetcounter}}
+The \requestsNameX{Miscellaneous}{Miscellaneous}{resetcounter} request is used by the
+\utilityNameR{mpmRequestCounterClient} application to request that the
+\utilityNameR{mpmRequestCounterService} service is to clear its request counter and
+elapsed time data.
+\tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{resetcounter}}
 \tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{stats}}
-The \requestsNameX{Miscellaneous}{Miscellaneous}{stats} request
-
-			||TBD TBD TBD||
-
-			||/TBD TBD TBD||
-
+The \requestsNameX{Miscellaneous}{Miscellaneous}{stats} request is used by the
+\utilityNameR{mpmRequestCounterClient} application to retrieve the request counter and
+elapsed time data from the \utilityNameR{mpmRequestCounterService} service.
 \tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{stats}}
 \secondaryEnd{}
 \primaryEnd{}

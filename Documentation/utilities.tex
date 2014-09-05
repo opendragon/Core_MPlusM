@@ -24,7 +24,7 @@ the service, with the primary \yarp{} network connection as the first row in the
 the rectangle, prefixed with `S' to indicate that it is a service connection.
 Secondary \yarp{} network connections appear as rows below the primary connection,
 prefixed with `In' for input--only connections and `Out' for output--only connections.
-\mplusm{} Input~/~Output services do not have a visual appearance that is distinct from
+\mplusm{} \inputOutput{} services do not have a visual appearance that is distinct from
 other \mplusm{} services -- the connections that are allowed, however, are more
 restricted.\\
 
@@ -43,7 +43,7 @@ Connections between ports are shown as lines with one of three thicknesses and o
 three colours.
 The thinnest lines represent simple \yarp{} network connections, which have no explicit
 behaviours.
-The next thicker lines represent connections between Input~/~Output services; these
+The next thicker lines represent connections between \inputOutput{} services; these
 connections have specific behaviours.
 The thickest lines represent connections between clients and services, which are not
 modifiable by this tool.
@@ -61,8 +61,8 @@ yellow circle.
 To clear a pending `add' operation, either click on the source port a second time or click
 somewhere other than a port.
 Note that it is not possible to add a connection from an input--only port, from a client
-port to a non--service port, or from an output--only port of an Input~/~Output service to
-an input--only port of another Input~/~Output service if the ports do not have matching
+port to a non--service port, or from an output--only port of an \inputOutput{} service to
+an input--only port of another \inputOutput{} service if the ports do not have matching
 protocols.\\
 
 To remove a connection between two ports, click on the source port with the `Command' key
@@ -124,7 +124,7 @@ or, if JSON--formatted output is requested:
 "/\clientName/example/runningsum\textunderscore{}4896162" \textbraceright{} \closeSq
 \outputEnd{}
 or, if tab--delimited output is requested, with tabs shown as
-'\texttt{\boldmath{$\vdash$}}':
+`\texttt{\boldmath{$\vdash$}}':
 \outputBegin{}
 /\serviceName/example/runningSum\pseudotab{}%
 /\clientName/example/runningsum\textunderscore{}4896162
@@ -159,13 +159,13 @@ It has two command--line options:
 If neither option is present, the output is written as simple text.\\
 
 The output specifies the all the active \yarp{} network ports along with their input and
-output \yarp{} network ports; regular \yarp{} network ports are tagged as 'Standard',
-while \mplusm{} adapter ports are tagged as 'Adapter', \mplusm{} client ports are tagged
-as 'Client' and \mplusm{} service ports are tagged as 'Service' or 'Service registry'.\\
+output \yarp{} network ports; regular \yarp{} network ports are tagged as `Standard',
+while \mplusm{} adapter ports are tagged as `Adapter', \mplusm{} client ports are tagged
+as `Client' and \mplusm{} service ports are tagged as `Service' or `Service registry'.\\
 
-'Standard' ports report their IP address and network port while 'Adapter' ports report
-the \mplusm{} port of their client application, 'Client' ports report their attached
-'Adapter' ports, if any are present and 'Service' ports report the name of the \mplusm{}
+`Standard' ports report their IP address and network port while `Adapter' ports report
+the \mplusm{} port of their client application, `Client' ports report their attached
+`Adapter' ports, if any are present and `Service' ports report the name of the \mplusm{}
 service that they provide.
 The connections indicate their direction relative to the \yarp{} network port that is
 being listed, along with the \yarp{} network port that is being connected to and the mode
@@ -213,7 +213,7 @@ or, if JSON--formatted output is requested:
 "/reader", "Mode":\ "TCP" \textbraceright{} \closeSq{} \textbraceright{} \closeSq
 \outputEnd{}
 or, if tab--delimited output is requested, with tabs shown as
-'\texttt{\boldmath{$\vdash$}}':
+`\texttt{\boldmath{$\vdash$}}':
 \outputBegin{}
 /\textdollar{}ervice\pseudotab{}Service~registry~port~for~'Registry'\\		
 /\textdollar{}ervice/status\pseudotab{}Standard~port~at~10.0.1.2:10008\pseudotab/%
@@ -260,26 +260,26 @@ its inputs and outputs.\\
 The input and output formats have a symbolic representation, which is currently used for
 descriptive purposes and not actually validated by the services.\\
 
-An 'i' represents an integer value, a 'd' represents a floating--point ('double') value,
-an 'n' represents a numeric value (either an integer or a floating--point number), an 's'
-represents a string and a '.' represents an arbitrary value.\\
+An `i' represents an integer value, a `d' represents a floating--point (`double') value,
+an `n' represents a numeric value (either an integer or a floating--point number), an `s'
+represents a string and a `.' represents an arbitrary value.\\
 
-Values can be grouped in lists by being preceded by a '(' and followed by a ')';
+Values can be grouped in lists by being preceded by a `(' and followed by a `)';
 concatenation of values indicates sequential appearance of the values.
-That is, 'sis' indicates a sequence consisting of a string, and integer and another
+That is, `sis' indicates a sequence consisting of a string, and integer and another
 string.\\
 
-A ':' indicates a key / value pair and a dictionary is indicated by a leading '[' and a
-trailing ']'.\\
+A `:' indicates a key / value pair and a dictionary is indicated by a leading `[' and a
+trailing `]'.\\
 
-'?' after an item indicates that the item is optional, '*' indicates that the preceding
-item may appear zero or more times and '+' indicates that the preceding item may appear
+`?' after an item indicates that the item is optional, `*' indicates that the preceding
+item may appear zero or more times and `+' indicates that the preceding item may appear
 one or more times.\\
 
 For example, the default output when both the service and the request are specified could
 be:
 \outputBegin{}
-\begin{tabular}{lp{12.8cm}}
+\begin{tabular}{l@{\ }p{12.8cm}}
 Service Port:\ & /\textdollar{}ervice\\
 Request:\ & register\\
 Version:\ & 1.0\\
@@ -303,7 +303,7 @@ encountered", "Keywords":\ \openSq{} "register", "add" \closeSq, "Inputs":\ "s",
 "s" \textbraceright{} \closeSq
 \outputEnd{}
 or, if tab--delimited output is requested, with tabs shown as
-'\texttt{\boldmath{$\vdash$}}':
+`\texttt{\boldmath{$\vdash$}}':
 \outputBegin{}
 /\textdollar{}ervice\pseudotab{}register\pseudotab{}1.0\pseudotab{}Register the service
 and its requests\textbackslash{}nInput:\ the\\
@@ -342,15 +342,15 @@ It has two command--line options:
 \end{itemize}
 If neither option is present, the output is written as simple text.\\
 
-The output consists of the \yarp{} network port for the service, the 'canonical' name of
-the service, the kind of service ('Filter', 'Input', 'Output', 'Normal' or 'Registry'), a
+The output consists of the \yarp{} network port for the service, the `canonical' name of
+the service, the kind of service (`Filter', `Input', `Output', `Normal' or `Registry'), a
 short description of the service, a short description of the requests supported by the
 service, the path to the executable for the service and any secondary input or output
 \yarp{} network ports attached to the service.\\
 
 Note that the description of requests supported by the service does not include the
-\secondaryRef{BasicRequests}{'basic'} requests handled by all services or, in the case of
-Input~/~Output services, the \secondaryRef{InputOutputRequests}{'input~/~output'}
+\secondaryRef{BasicRequests}{`basic'} requests handled by all services or, in the case of
+\inputOutput{} services, the \secondaryRef{InputOutputRequests}{`input~/~output'}
 requests.\\
 
 For each secondary input or output \yarp{} network port, the protocol supported by the
@@ -368,7 +368,7 @@ protocol.
 \newpage
 For example, the default output could be:
 \outputBegin{}
-\begin{tabular}{lp{12.8cm}}
+\begin{tabular}{l@{\ }p{12.8cm}}
 Services:\ & \\
 \\
 Service port:\ & /\textdollar{}ervice\\
@@ -469,7 +469,7 @@ filter stream service", "Requests":\ "", "Path":\ \\
 \textbraceright{} \closeSq{} \textbraceright{} \closeSq
 \outputEnd{}
 or, if tab--delimited output is requested, with tabs shown as
-'\texttt{\boldmath{$\vdash$}}':
+`\texttt{\boldmath{$\vdash$}}':
 \outputBegin{}
 /\textdollar{}ervice\pseudotab{}Registry\pseudotab{}Registry\pseudotab{}The Service
 Registry service\pseudotab{}associate - \\
@@ -531,7 +531,7 @@ or, if JSON--formatted output is requested:
 \textbraceleft{} "M+M":\ "1.4.9", "YARP":\ "2.3.61", "ACE":\ "6.2.6" \textbraceright
 \outputEnd{}
 or, if tab--delimited output is requested, with tabs shown as
-'\texttt{\boldmath{$\vdash$}}':
+`\texttt{\boldmath{$\vdash$}}':
 \outputBegin{}
 1.4.9\pseudotab{}2.3.61\pseudotab{}6.2.6
 \outputEnd{}
@@ -544,7 +544,7 @@ The \utilityNameX{mpmRequestCounterService} application is a background service 
 used to determine the average time to send a simple request, process it and return a
 response.\\
 
-It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{reset} and
+It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{resetcounter} and
 \requestsNameR{Miscellaneous}{Miscellaneous}{stats} requests sent by the
 companion application \utilityNameR{mpmRequestCounterClient} to manage the statistics
 that it gathers.\\
@@ -556,10 +556,10 @@ running at a time in an \mplusm{} installation, due to its fixed \yarp{} network
 The \utilityNameX{mpmRequestCounterClient} application is a command--line tool to
 measure the average time to process a simple request.\\
 
-It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{reset} and
+It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{resetcounter} and
 \requestsNameR{Miscellaneous}{Miscellaneous}{stats} requests sent to the
 \utilityNameR{mpmRequestCounterService} application to gather the statistics, and a
-'dummy' request to provide the requests that are being measured.\\
+`dummy' request to provide the requests that are being measured.\\
 
 The program has no arguments or options; it asks for the number of requests to send via
 the prompt:

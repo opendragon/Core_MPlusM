@@ -132,7 +132,7 @@ namespace MplusM
             /*! @brief The request handler for unrecognized requests. */
             RequestCounterDefaultRequestHandler * _defaultHandler;
             
-            /*! @brief The request handler for the 'reset' request. */
+            /*! @brief The request handler for the 'resetcounter' request. */
             ResetCounterRequestHandler * _resetSumHandler;
             
             /*! @brief The request handler for the 'stats' request. */

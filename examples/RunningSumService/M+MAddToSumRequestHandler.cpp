@@ -62,7 +62,7 @@ using namespace MplusM::Example;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'reset' request. */
+/*! @brief The protocol version number for the 'addtosum' request. */
 #define ADD_REQUEST_VERSION_NUMBER "1.1"
 
 #if defined(__APPLE__)
