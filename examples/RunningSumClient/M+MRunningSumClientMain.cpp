@@ -140,11 +140,13 @@ int main(int     argc,
                                 double value;
                                 
                                 cout << "Operation: [+ r s x]? ";
+                                cout.flush();
                                 cin >> inChar;
                                 switch (inChar)
                                 {
                                     case '+' :
                                         cout << "add: ";
+                                        cout.flush();
                                         cin >> value;
                                         cout << "adding " << value << endl;
                                         if (stuff->addToSum(value, newSum))

@@ -156,6 +156,7 @@ int main(int     argc,
                                 char inChar;
                                 
                                 cout << "Operation: [b c e q r]? ";
+                                cout.flush();
                                 cin >> inChar;
                                 switch (inChar)
                                 {

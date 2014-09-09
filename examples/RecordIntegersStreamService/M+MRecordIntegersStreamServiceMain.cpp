@@ -202,6 +202,7 @@ int main(int     argc,
                                 char inChar;
                                 
                                 cout << "Operation: [b c e q r]? ";
+                                cout.flush();
                                 cin >> inChar;
                                 switch (inChar)
                                 {
@@ -227,6 +228,7 @@ int main(int     argc,
                                     case 'C' :
                                         // Configure
                                         cout << "Path: ";
+                                        cout.flush();
                                         // Eat whitespace until we get something useful.
                                         cin >> inChar;
                                         if (getline(cin, inputLine))

@@ -70,7 +70,10 @@ It responds to the requests in the
 
 Note that only one copy of the \serviceNameX[Service~Registry]{ServiceRegistry}
 application can be running at a time in an \mplusm{} installation, due to its fixed
-\yarp{} network port.
+\yarp{} network port.\\
+
+The \serviceNameX[Service~Registry]{ServiceRegistry} application responds to a `HUP'
+signal and will exit gracefully when one is sent to it.
 \tertiaryEnd{\serviceNameE[Service~Registry]{mpmRegistryService}}
 \secondaryEnd{}
 \secondaryStart[BasicRequests]{Basic~Requests}

@@ -1,16 +1,37 @@
 \ProvidesFile{examples.tex}[v1.0.0]
 \appendixStart{\textitcorr{Examples}}%
+The examples that are part of the \mplusm{} set of source files are provided to support
+the development of custom applications.
+There are example clients, services, adapters as well as examples of the more specialized
+Input, Output and Filter services.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
-
+All the example applications respond to a `HUP' signal and will exit gracefully when one
+is sent to them.
 \secondaryStart{Example~Services}
+The set of example services include a pair of simple services
+[\examplesNameR{Services}{mpmEchoService} and
+\examplesNameR{Services}{mpmRandomNumberService}], a service with client context
+[\examplesNameR{Services}{mpmRunningSumService}] as well as an input service
+[\examplesNameR{Services}{mpmRandomBurstStreamService}], an output service
+[\examplesNameR{Services}{mpmRecordIntegersStreamService}] and a filter service
+[\examplesNameR{Services}{mpmTruncateFilterStreamService}].\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
-
+Note that services normally have no direct interface.
+That is, they are `faceless' applications and perform their operations without user
+interaction.
 \tertiaryStart{\examplesNameP{Services}{mpmEchoService}}
+The \examplesNameX{Services}{mpmEchoService} application responds to
+\requestsNameR{Miscellaneous}{Miscellaneous}{echo} requests from the
+\examplesNameR{Clients}{mpmEchoClient} application; it simply returns any arguments
+sent with the request.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
+Note that the application will exit if the
+\serviceNameR[Service~Registry]{ServiceRegistry} is not running.\\
 
+The application has two optional arguments -- an alternative endpoint name to be used and
+the port number to be used, if a non--default port is desired; the matching client
+application does not directly use the endpoint name to establish a connection to the
+service.
 \tertiaryEnd{\examplesNameE{Services}{mpmEchoService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRandomBurstStreamService}}
 
@@ -18,9 +39,22 @@
 
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomBurstStreamService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRandomNumberService}}
+The \examplesNameX{Services}{mpmRandomNumberService} application responds to
+\requestsNameR{Examples}{Examples}{random} requests from the
+\examplesNameR{Clients}{mpmRandomNumberClient} application; it simply returns any arguments
+sent with the request.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
+Note that the application will exit if the
+\serviceNameR[Service~Registry]{ServiceRegistry} is not running.\\
 
+The application has two optional arguments -- an alternative endpoint name to be used and
+the port number to be used, if a non--default port is desired; the matching client
+application does not directly use the endpoint name to establish a connection to the
+service.\\
+
+The \requestsNameD{Examples}{Examples}{random} request has an argument of the
+count of floating--point random numbers to be returned as a response to the request.
+\requestsNameE{Examples}{Examples}{random}%
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomNumberService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRecordIntegersStreamService}}
 
@@ -28,9 +62,39 @@
 
 \tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersStreamService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRunningSumService}}
+The \examplesNameX{Services}{mpmRunningSumService} application responds to
+requests from the \examplesNameR{Clients}{mpmRunningSumClient} application or\\
+\examplesNameR{Adapters}{mpmRunningSumAdapter} or
+\examplesNameR{Adapters}{mpmRunningSumAltAdapter} adapters; it returns the running sum
+associated with the requesting application or adapter.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
+Note that the application will exit if the
+\serviceNameR[Service~Registry]{ServiceRegistry} is not running.\\
 
+The application has two optional arguments -- an alternative endpoint name to be used and
+the port number to be used, if a non--default port is desired; the matching client
+application does not directly use the endpoint name to establish a connection to the
+service.\\
+
+The \requestsNameD{Examples}{Examples}{addtosum} request updates the running sum
+corresponding to the requesting application or adapter and returns the resulting value.
+Note that an \requestsNameX{Examples}{Examples}{addtosum} request implicitly starts the
+calculation.\\
+\requestsNameE{Examples}{Examples}{addtosum}%
+
+The \requestsNameD{Examples}{Examples}{resetsum} request clears the running sum
+corresponding to the requesting application or adapter.\\
+\requestsNameE{Examples}{Examples}{resetsum}%
+
+The \requestsNameD{Examples}{Examples}{startsum} request starts the running sum
+calculation for the requesting application or adapter.
+Note that a \requestsNameX{Examples}{Examples}{startsum} request implicitly resets the
+calculation, if it has already been started.\\
+\requestsNameE{Examples}{Examples}{startsum}%
+
+The \requestsNameD{Examples}{Examples}{stopsum} request stops the running sum
+calculation for the requesting application or adapter.
+\requestsNameE{Examples}{Examples}{stopsum}%
 \tertiaryEnd{\examplesNameE{Services}{mpmRunningSumService}}
 \tertiaryStart{\examplesNameP{Services}{mpmTruncateFilterStreamService}}
 
@@ -39,43 +103,137 @@
 \tertiaryEnd{\examplesNameE{Services}{mpmTruncateFilterStreamService}}
 \secondaryEnd{}
 \secondaryStart{Example~Clients}
-
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
-
+The example client applications provided use simple terminal--based interfaces to
+generate requests for their matching service applications.
 \tertiaryStart{\examplesNameP{Clients}{mpmEchoClient}}
+The \examplesNameX{Clients}{mpmEchoClient} application reads input from a terminal and
+sends it to the \examplesNameR{Services}{mpmEchoService} application using an
+\requestsNameR{Miscellaneous}{Miscellaneous}{echo} request; it exits when an empty line is
+entered.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
-
+Note that the application will also exit if the
+\serviceNameR[Service~Registry]{ServiceRegistry} or the
+\examplesNameR{Services}{mpmEchoService} application are not running or if the application
+is not running from an interactive terminal.
 \tertiaryEnd{\examplesNameE{Clients}{mpmEchoClient}}
 \tertiaryStart{\examplesNameP{Clients}{mpmRandomNumberClient}}
+The \examplesNameX{Clients}{mpmRandomNumberClient} application reads the count of
+random numbers desired from a terminal and sends a
+\requestsNameR{Examples}{Examples}{random} request to the
+\examplesNameR{Services}{mpmRandomNumberService} application; it exits when a zero is
+entered for the count of random numbers desired.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
-
+Note that the application will also exit if the
+\serviceNameR[Service~Registry]{ServiceRegistry} or the
+\examplesNameR{Services}{mpmRandomNumberService} application are not running or if the
+application is not running from an interactive terminal.
 \tertiaryEnd{\examplesNameE{Clients}{mpmRandomNumberClient}}
 \tertiaryStart{\examplesNameP{Clients}{mpmRunningSumClient}}
+The \examplesNameX{Clients}{mpmRunningSumClient} application reads commands from a
+terminal and sends corresponding requests to the
+\examplesNameR{Services}{mpmRunningSumService} application.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
+The commands are:
+\begin{itemize}
+\item \textbf{+:} read a number from the terminal and send it to the service via an
+\requestsNameR{Examples}{Examples}{addtosum} request, to update the running sum for this
+client.
+\item \textbf{r:} send a \requestsNameR{Examples}{Examples}{resetsum} request to the
+service so that it will reset the running sum for this client.
+\item \textbf{s:} send a \requestsNameR{Examples}{Examples}{startsum} request to the
+service so that it will start calculating the running sum for this client.
+\item \textbf{x:} send a \requestsNameR{Examples}{Examples}{stopsum} request to the
+service so that it will stop calculating the running sum for this client and then exit the
+application.
+\end{itemize}
 
+Note that the application will also exit if the
+\serviceNameR[Service~Registry]{ServiceRegistry} or the
+\examplesNameR{Services}{mpmRunningSumService} application are not running or if the
+application is not running from an interactive terminal.
 \tertiaryEnd{\examplesNameE{Clients}{mpmRunningSumClient}}
 \secondaryEnd{}
 \secondaryStart{Example~Adapters}
+Adapters are applications that use a client object to connect to an \mplusm{} service,
+routing input from one or more input \yarp{} network connection via the client object to
+the service and returning results from the client to one or more output \yarp{} network
+connections.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
+The example adapters demonstrate using a single input \yarp{} network connection
+[\examplesNameR{Adapters}{mpmRandomNumberAdapter} and
+\examplesNameR{Adapters}{mpmRunningSumAltAdapter}] or multiple input \yarp{} network
+connections [\examplesNameR{Adapters}{mpmRunningSumAdapter}].\\
 
+Note that adapters normally have no direct interface.
+That is, they are `faceless' applications and perform their operations without user
+interaction.
 \tertiaryStart{\examplesNameP{Adapters}{mpmRandomNumberAdapter}}
+The \examplesNameX{Adapters}{mpmRandomNumberAdapter} application reads the count of
+random numbers desired from an input \yarp{} network connection and sends a
+\requestsNameR{Examples}{Examples}{random} request to the
+\examplesNameR{Services}{mpmRandomNumberService} application.
+The random numbers returned from the service are sent out an output \yarp{} network
+connection.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
-
+Note that the application will also exit if the
+\serviceNameR[Service~Registry]{ServiceRegistry} or the
+\examplesNameR{Services}{mpmRandomNumberService} application are not running.
 \tertiaryEnd{\examplesNameE{Adapters}{mpmRandomNumberAdapter}}
 \tertiaryStart{\examplesNameP{Adapters}{mpmRunningSumAdapter}}
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
+The \examplesNameX{Adapters}{mpmRunningSumAdapter} application reads  values from an input
+`data' \yarp{} network connection and commands from an input `control' \yarp{} network
+connection and sends corresponding requests to the
+\examplesNameR{Services}{mpmRunningSumService} application.\\
 
+If a numeric value is read from the `data' input \yarp{} network connection, it is sent to
+the service via an \requestsNameR{Examples}{Examples}{addtosum} request, to update the
+running sum for this adapter.
+If a string is read from the `control' input \yarp{} network connection, is is considered
+to be one of the following commands:
+\begin{itemize}
+\item \textbf{q:} exit the application.
+\item \textbf{r:} send a \requestsNameR{Examples}{Examples}{resetsum} request to the
+service so that it will reset the running sum for this adapter.
+\item \textbf{s:} send a \requestsNameR{Examples}{Examples}{startsum} request to the
+service so that it will start calculating the running sum for this adapter.
+\item \textbf{x:} send a \requestsNameR{Examples}{Examples}{stopsum} request to the
+service so that it will stop calculating the running sum for this adapter.
+\end{itemize}
+
+The running sums returned from the service are sent out an output \yarp{} network
+connection.\\
+
+Note that the application will also exit if the
+\serviceNameR[Service~Registry]{ServiceRegistry} or the
+\examplesNameR{Services}{mpmRunningSumService} application are not running.
 \tertiaryEnd{\examplesNameE{Adapters}{mpmRunningSumAdapter}}
 \tertiaryStart{\examplesNameP{Adapters}{mpmRunningSumAltAdapter}}
+The \examplesNameX{Adapters}{mpmRunningSumAltAdapter} application reads  values and
+commands from an input \yarp{} network connection and sends corresponding requests to the
+\examplesNameR{Services}{mpmRunningSumService} application.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
+If a numeric value is read from the input \yarp{} network connection, it is sent to the
+service via an \requestsNameR{Examples}{Examples}{addtosum} request, to update the running
+sum for this adapter.
+If a string is read from the input \yarp{} network connection, is is considered to be one
+of the following commands:
+\begin{itemize}
+\item \textbf{q:} exit the application.
+\item \textbf{r:} send a \requestsNameR{Examples}{Examples}{resetsum} request to the
+service so that it will reset the running sum for this adapter.
+\item \textbf{s:} send a \requestsNameR{Examples}{Examples}{startsum} request to the
+service so that it will start calculating the running sum for this adapter.
+\item \textbf{x:} send a \requestsNameR{Examples}{Examples}{stopsum} request to the
+service so that it will stop calculating the running sum for this adapter.
+\end{itemize}
 
+The running sums returned from the service are sent out an output \yarp{} network
+connection.\\
+
+Note that the application will also exit if the
+\serviceNameR[Service~Registry]{ServiceRegistry} or the
+\examplesNameR{Services}{mpmRunningSumService} application are not running.
 \tertiaryEnd{\examplesNameE{Adapters}{mpmRunningSumAltAdapter}}
 \secondaryEnd{}
 \appendixEnd{}

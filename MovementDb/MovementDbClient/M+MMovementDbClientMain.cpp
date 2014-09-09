@@ -178,6 +178,7 @@ int main(int     argc,
                                 yarp::os::ConstString inputString;
                                 
                                 cout << "Operation: [+ d e x]? ";
+                                cout.flush();
                                 if (getline(cin, inputLine))
                                 {
                                     inChar = inputLine[0];

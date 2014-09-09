@@ -172,6 +172,7 @@ int main(int     argc,
                         int count;
                         
                         cout << "How many requests? ";
+                        cout.flush();
                         cin >> count;
                         if (0 >= count)
                         {

@@ -130,6 +130,7 @@ int main(int     argc,
                                 int count;
                                 
                                 cout << "How many random numbers? ";
+                                cout.flush();
                                 cin >> count;
                                 if (0 >= count)
                                 {
@@ -139,6 +140,7 @@ int main(int     argc,
                                 if (1 == count)
                                 {
                                     double result;
+                                    
                                     if (stuff->getOneRandomNumber(result))
                                     {
                                         cout << "result = " << result << endl;

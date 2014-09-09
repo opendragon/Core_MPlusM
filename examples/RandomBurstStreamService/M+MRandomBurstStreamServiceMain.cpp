@@ -206,6 +206,7 @@ int main(int     argc,
                                 char inChar;
                                 
                                 cout << "Operation: [b c e q r]? ";
+                                cout.flush();
                                 cin >> inChar;
                                 switch (inChar)
                                 {
@@ -232,8 +233,10 @@ int main(int     argc,
                                     case 'C' :
                                         // Configure
                                         cout << "Burst size: ";
+                                        cout.flush();
                                         cin >> tempInt;
                                         cout << "Burst period: ";
+                                        cout.flush();
                                         cin >> tempDouble;
                                         if ((0 < tempInt) && (0 < tempDouble))
                                         {

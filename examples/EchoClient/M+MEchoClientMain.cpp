@@ -130,6 +130,7 @@ int main(int     argc,
                                 std::string           inputLine;
                                 
                                 cout << "Type something to be echoed: ";
+                                cout.flush();
                                 if (getline(cin, inputLine))
                                 {
                                     yarp::os::ConstString outgoing(inputLine.c_str());
