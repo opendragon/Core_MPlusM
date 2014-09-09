@@ -1,5 +1,5 @@
 
-psfiles = dbDiagram.ps matchSyntaxrails.ps
+psfiles = dbDiagram.ps matchSyntaxrails.ps cmDiagram.ps mpmDiagram.ps
 
 imagefiles = ChannelManager.eps
 
