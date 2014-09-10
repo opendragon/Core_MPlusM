@@ -657,6 +657,29 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
     return result;
 } // MplusM::Utilities::GetAssociatedPorts
 
+void MplusM::Utilities::GetDateAndTime(char *       dateBuffer,
+                                       const size_t dateBufferSize,
+                                       char *       timeBuffer,
+                                       const size_t timeBufferSize)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("dateBuffer = ", dateBuffer, "timeBuffer = ", timeBuffer); //####
+    OD_LOG_L2("dateBufferSize = ", dateBufferSize, "timeBufferSize = ", timeBufferSize); //####
+    time_t rawtime;
+    
+    time(&rawtime);
+    struct tm * locTime = localtime(&rawtime);
+    
+#if MAC_OR_LINUX_
+    strftime(dateBuffer, dateBufferSize, "%F", locTime);
+    strftime(timeBuffer, timeBufferSize, "%T", locTime);
+#else // ! MAC_OR_LINUX_
+    strftime(dateBuffer, dateBufferSize, "%x", locTime);
+    strftime(timeBuffer, timeBufferSize, "%X", locTime);
+#endif // ! MAC_OR_LINUX_
+    OD_LOG_EXIT(); //####
+} // MplusM::Utilities::GetDateAndTime
+
 bool MplusM::Utilities::GetDetectedPortList(PortVector & ports,
                                             const bool   includeHiddenPorts)
 {
@@ -711,9 +734,22 @@ bool MplusM::Utilities::GetDetectedPortList(PortVector & ports,
             okSoFar = false;
         }
     }
+    if (! okSoFar)
+    {
+        char buffer1[DATE_TIME_BUFFER_SIZE];
+        char buffer2[DATE_TIME_BUFFER_SIZE];
+        
+        MplusM::Utilities::GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
+        std::cerr << buffer1 << " " << buffer2 << "Problem getting list of ports." << std::endl;
+    }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
 } // MplusM::Utilities::GetDetectedPortList
+
+Common::ChannelStatusReporter * MplusM::Utilities::GetGlobalStatusReporter(void)
+{
+    return lReporter;
+} // MplusM::Utilities::GetGlobalStatusReporter
 
 bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString &
                                                                                 serviceChannelName,
@@ -948,7 +984,29 @@ MplusM::Utilities::PortKind MplusM::Utilities::GetPortKind(const yarp::os::Const
     return result;
 } // MplusM::Utilities::GetPortKind
 
-void MplusM::Utilities::GetServiceNames(StringVector &        services,
+yarp::os::ConstString MplusM::Utilities::GetPortLocation(const yarp::os::ConstString & portName)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("portName = ", portName); //####
+    yarp::os::ConstString result;
+    yarp::os::Contact     whereItIs = yarp::os::NetworkBase::queryName(portName);
+
+    if (whereItIs.isValid())
+    {
+        char numBuff[30];
+        
+        snprintf(numBuff, sizeof(numBuff), ":%d", whereItIs.getPort());
+        result = whereItIs.getHost() + numBuff;
+    }
+    else
+    {
+        result = "<unknown>";
+    }
+    OD_LOG_EXIT_S(result.c_str()); //####
+    return result;
+} // MplusM::Utilities::GetPortLocation
+
+bool MplusM::Utilities::GetServiceNames(StringVector &        services,
                                         const bool            quiet,
                                         Common::CheckFunction checker,
                                         void *                checkStuff)
@@ -956,10 +1014,10 @@ void MplusM::Utilities::GetServiceNames(StringVector &        services,
     OD_LOG_ENTER(); //####
     OD_LOG_P2("services = ", &services, "checkStuff = ", checkStuff); //####
     OD_LOG_B1("quiet = ", quiet); //####
+    bool             okSoFar = false;
     yarp::os::Bottle matches(FindMatchingServices(MpM_REQREP_DICT_REQUEST_KEY ":*", false,
                                                   checker, checkStuff));
     
-    services.clear();
     if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
     {
         // First, check if the search succeeded.
@@ -988,6 +1046,7 @@ void MplusM::Utilities::GetServiceNames(StringVector &        services,
                 {
                     services.push_back(matchesList->get(ii).toString());
                 }
+                okSoFar = true;
             }
         }
     }
@@ -1002,7 +1061,17 @@ void MplusM::Utilities::GetServiceNames(StringVector &        services,
 #endif // MAC_OR_LINUX_
         }
     }
-    OD_LOG_EXIT(); //####
+    if (! okSoFar)
+    {
+        char buffer1[DATE_TIME_BUFFER_SIZE];
+        char buffer2[DATE_TIME_BUFFER_SIZE];
+        
+        MplusM::Utilities::GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
+        std::cerr << buffer1 << " " << buffer2 << " Problem getting list of service names." <<
+                    std::endl;
+    }
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
 } // MplusM::Utilities::GetServiceNames
 
 const char * MplusM::Utilities::MapServiceKindToString(const Common::ServiceKind kind)
@@ -1153,8 +1222,14 @@ void MplusM::Utilities::RemoveStalePorts(const float timeout)
                             else
                             {
                                 OD_LOG("No response, removing port."); //####
+                                char buffer1[DATE_TIME_BUFFER_SIZE];
+                                char buffer2[DATE_TIME_BUFFER_SIZE];
+                                
+                                MplusM::Utilities::GetDateAndTime(buffer1, sizeof(buffer1), buffer2,
+                                                                  sizeof(buffer2));
                                 yarp::os::NetworkBase::unregisterName(port);
-                                std::cerr << "Removing stale port '" << port.c_str() << "'." <<
+                                std::cerr << buffer1 << " " << buffer2 <<
+                                            " Removing stale port '" << port.c_str() << "'." <<
                                             std::endl;
                             }
                         }
@@ -1182,11 +1257,6 @@ void MplusM::Utilities::RemoveStalePorts(const float timeout)
     }
     OD_LOG_EXIT(); //####
 } // MplusM::Utilities::RemoveStalePorts
-
-Common::ChannelStatusReporter * MplusM::Utilities::GetGlobalStatusReporter(void)
-{
-    return lReporter;
-} // MplusM::Utilities::GetGlobalStatusReporter
 
 void MplusM::Utilities::SetUpGlobalStatusReporter(void)
 {

@@ -135,7 +135,7 @@ int main(int     argc,
                     MplusM::StartRunning();
                     MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
                     stuff->startChecker();
-                    for ( ; MplusM::IsRunning() && stuff; )
+                    for ( ; MplusM::IsRunning(); )
                     {
 #if defined(MpM_MainDoesDelayNotYield)
                         yarp::os::Time::delay(ONE_SECOND_DELAY);

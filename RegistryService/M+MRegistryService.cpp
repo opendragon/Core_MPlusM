@@ -54,6 +54,7 @@
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -1934,7 +1935,7 @@ bool RegistryService::addAssociation(const yarp::os::ConstString & primaryChanne
     return okSoFar;
 } // RegistryService::::addAssociation
 
-bool RegistryService::addRequestRecord(const yarp::os::Bottle &    keywordList,
+bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
                                        const RequestDescription & description)
 {
     OD_LOG_OBJENTER(); //####
@@ -2011,6 +2012,11 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &    keywordList,
         OD_LOG("Exception caught"); //####
         throw;
     }
+    if (! okSoFar)
+    {
+        reportStatusChange(description._channel, kRegistryProblemAddingRequest,
+                           description._request);
+    }
     OD_LOG_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // RegistryService::addRequestRecord
@@ -2050,13 +2056,18 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
                                                        setupInsertIntoServices,
                                                        static_cast<const void *>(&servData));
             okSoFar = doEndTransaction(_db, okSoFar);
-            reportStatusChange(channelName, kRegistryAddService);
+            reportStatusChange(channelName, kRegistryAddService,
+                               MplusM::Utilities::GetPortLocation(channelName));
         }
     }
     catch (...)
     {
         OD_LOG("Exception caught"); //####
         throw;
+    }
+    if (! okSoFar)
+    {
+        reportStatusChange(channelName, kRegistryProblemAddingService, name);
     }
     OD_LOG_OBJEXIT_B(okSoFar); //####
     return okSoFar;
@@ -2631,27 +2642,18 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceC
 } // RegistryService::removeServiceRecord
 
 void RegistryService::reportStatusChange(const yarp::os::ConstString & channelName,
-                                         const ServiceStatus           newStatus)
+                                         const ServiceStatus           newStatus,
+                                         const yarp::os::ConstString & details)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("channelName = ", channelName); //####
+    OD_LOG_S2s("channelName = ", channelName, "details = ", details); //####
     if (_statusChannel)
     {
-        char             buffer1[20];
-        char             buffer2[20];
+        char             buffer1[DATE_TIME_BUFFER_SIZE];
+        char             buffer2[DATE_TIME_BUFFER_SIZE];
         yarp::os::Bottle message;
-        time_t           rawtime;
         
-        time(&rawtime);
-        struct tm * locTime = localtime(&rawtime);
-        
-#if MAC_OR_LINUX_
-        strftime(buffer1, sizeof(buffer1), "%F", locTime);
-        strftime(buffer2, sizeof(buffer2), "%T", locTime);
-#else // ! MAC_OR_LINUX_
-        strftime(buffer1, sizeof(buffer1), "%x", locTime);
-        strftime(buffer2, sizeof(buffer2), "%X", locTime);
-#endif // ! MAC_OR_LINUX_
+        MplusM::Utilities::GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
         message.addString(buffer1);
         message.addString(buffer2);
         message.addString(canonicalName());
@@ -2660,6 +2662,8 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
             case kRegistryAddService :
                 message.addString(MpM_REGISTRY_STATUS_ADDING);
                 message.addString(channelName);
+                message.addString("at");
+                message.addString(details);
                 break;
                 
             case kRegistryNotAnExistingAssociation :
@@ -2675,6 +2679,24 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
             case kRegistryPingFromService :
                 message.addString(MpM_REGISTRY_STATUS_PINGED);
                 message.addString("by");
+                message.addString(channelName);
+                break;
+                
+            case kRegistryProblemAddingRequest :
+                message.addString(MpM_REGISTRY_STATUS_PROBLEM);
+                message.addString("adding");
+                message.addString("request");
+                message.addString(details);
+                message.addString("for");
+                message.addString(channelName);
+                break;
+                
+            case kRegistryProblemAddingService :
+                message.addString(MpM_REGISTRY_STATUS_PROBLEM);
+                message.addString("adding");
+                message.addString("service");
+                message.addString(details);
+                message.addString("for");
                 message.addString(channelName);
                 break;
                 

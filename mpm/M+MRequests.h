@@ -167,6 +167,9 @@
 /*! @brief A service has pinged the registry. */
 # define MpM_REGISTRY_STATUS_PINGED        "pinged"
 
+/*! @brief A service or request could not be added to the registry. */
+# define MpM_REGISTRY_STATUS_PROBLEM       "problem"
+
 /*! @brief A service is being registered in the registry. */
 # define MpM_REGISTRY_STATUS_REGISTERING   "registering"
 

@@ -195,7 +195,7 @@ int main(int     argc,
                                 stuff->startStreams();
                             }
                         }
-                        for ( ; MplusM::IsRunning() && stuff; )
+                        for ( ; MplusM::IsRunning(); )
                         {
                             if (stdinAvailable)
                             {

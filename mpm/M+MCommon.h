@@ -135,6 +135,9 @@
 /*! @brief The base of the channel name to use for a client if not provided. */
 # define CLIENT_PORT_NAME_BASE     MpM_CLIENT_BASE_NAME
 
+/*! @brief The size of the buffer used to display the date or the time. */
+# define DATE_TIME_BUFFER_SIZE     20
+
 /*! @brief The default name for the root part of a channel name. */
 # define DEFAULT_CHANNEL_ROOT      "channel_"
 

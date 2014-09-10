@@ -121,6 +121,12 @@ namespace MplusM
                 /*! @brief A service has pinged the registry. */
                 kRegistryPingFromService,
                 
+                /*! @brief A request could not be added to the registry. */
+                kRegistryProblemAddingRequest,
+                
+                /*! @brief A service could not be added to the registry. */
+                kRegistryProblemAddingService,
+                
                 /*! @brief A service is being registered in the registry. */
                 kRegistryRegisterService,
                 
@@ -252,9 +258,11 @@ namespace MplusM
             
             /*! @brief Report a change to a service.
              @param channelName The service channel for the service.
-             @param newStatus The updated state of the service. */
+             @param newStatus The updated state of the service.
+             @param details Details on the change. */
             void reportStatusChange(const yarp::os::ConstString & channelName,
-                                    const ServiceStatus           newStatus);
+                                    const ServiceStatus           newStatus,
+                                    const yarp::os::ConstString & details = "");
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */

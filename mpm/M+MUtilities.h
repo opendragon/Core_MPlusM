@@ -227,6 +227,16 @@ namespace MplusM
                                 Common::CheckFunction         checker,
                                 void *                        checkStuff);
         
+        /*! @brief Fill buffers with the current date and time as strings.
+         @param dateBuffer The buffer to fill with the date.
+         @param dateBufferSize The size of the buffer for the date.
+         @param timeBuffer The buffer to fill with the time.
+         @param timeBufferSize The size of the buffer for the time. */
+        void GetDateAndTime(char *       dateBuffer,
+                            const size_t dateBufferSize,
+                            char *       timeBuffer,
+                            const size_t timeBufferSize);
+        
         /*! @brief Get the set of detected ports.
          @param ports The set of detected ports.
          @param includeHiddenPorts @c true if all ports are returned and @c false is 'hidden' ports
@@ -257,12 +267,19 @@ namespace MplusM
          @returns The kind of the port. */
         PortKind GetPortKind(const yarp::os::ConstString & portName);
         
+        /*! @brief Return the IP address and port number for a port.
+         @param portName The port to be located.
+         @returns The IP address and port number of the port. */
+        yarp::os::ConstString GetPortLocation(const yarp::os::ConstString & portName);
+        
         /*! @brief Retrieve the set of known services.
          @param services The set of registered services.
          @param quiet @c true if status output is to be suppressed and @c false otherwise.
          @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function. */
-        void GetServiceNames(Common::StringVector & services,
+         @param checkStuff The private data for the early exit function.
+         @returns @c true if the set of known services was updated successfully and @c false
+         otherwise.*/
+        bool GetServiceNames(Common::StringVector & services,
                              const bool             quiet,
                              Common::CheckFunction  checker,
                              void *                 checkStuff);

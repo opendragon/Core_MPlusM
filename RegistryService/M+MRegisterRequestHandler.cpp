@@ -137,193 +137,6 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
     OD_LOG_OBJEXIT(); //####
 } // RegisterRequestHandler::fillInDescription
 
-bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                            const yarp::os::Bottle &      restOfInput,
-                                            const yarp::os::ConstString & senderChannel,
-                                            yarp::os::ConnectionWriter *  replyMechanism)
-{
-#if (! defined(OD_ENABLE_LOGGING))
-# if MAC_OR_LINUX_
-#  pragma unused(request,senderChannel)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
-    bool result = true;
-    
-    try
-    {
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle reply;
-            
-            // Validate the name as a channel name
-            if (1 == restOfInput.size())
-            {
-                yarp::os::Value argument(restOfInput.get(0));
-                
-                if (argument.isString())
-                {
-                    yarp::os::ConstString argAsString(argument.toString());
-                    
-                    if (Common::Endpoint::CheckEndpointName(argAsString))
-                    {
-                        _service.reportStatusChange(argAsString,
-                                                    RegistryService::kRegistryRegisterService);
-                        // Send a 'list' request to the channel
-                        yarp::os::ConstString   aName =
-                                                Common::GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
-                                                                             "register_/"
-                                                                             DEFAULT_CHANNEL_ROOT);
-                        Common::ClientChannel * outChannel = new Common::ClientChannel;
-                        
-                        if (outChannel)
-                        {
-                            if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
-                            {
-                                if (outChannel->addOutputWithRetries(argAsString,
-                                                                     STANDARD_WAIT_TIME))
-                                {
-                                    yarp::os::Bottle message1(MpM_NAME_REQUEST);
-                                    yarp::os::Bottle response;
-                                    
-                                    if (outChannel->write(message1, response))
-                                    {
-                                        if (processNameResponse(argAsString, response))
-                                        {
-                                            yarp::os::Bottle message2(MpM_LIST_REQUEST);
-                                            
-                                            if (outChannel->write(message2, response))
-                                            {
-                                                if (processListResponse(argAsString, response))
-                                                {
-                                                    // Remember the response
-                                                    reply.addString(MpM_OK_RESPONSE);
-                                                    // If we're registering the Service Registry, we
-                                                    // don't care about timeouts!
-                                                    if (argAsString != MpM_REGISTRY_CHANNEL_NAME)
-                                                    {
-                                                _service.updateCheckedTimeForChannel(argAsString);
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    OD_LOG("! (processListResponse(" //####
-                                                           "argAsString, response))"); //####
-                                                    reply.addString(MpM_FAILED_RESPONSE);
-                                                    reply.addString("Invalid response to '"
-                                                                    MpM_LIST_REQUEST "' request");
-                                                }
-                                            }
-                                            else
-                                            {
-                                                OD_LOG("! (outChannel->write(message2, " //####
-                                                       "response))"); //####
-                                                reply.addString(MpM_FAILED_RESPONSE);
-                                                reply.addString("Could not write to channel");
-#if defined(MpM_StallOnSendProblem)
-                                                Common::Stall();
-#endif // defined(MpM_StallOnSendProblem)
-                                            }
-                                        }
-                                        else
-                                        {
-                                            OD_LOG("! (processNameResponse(argAsString, " //####
-                                                   "response))"); //####
-                                            reply.addString(MpM_FAILED_RESPONSE);
-                                            reply.addString("Invalid response to '"
-                                                            MpM_NAME_REQUEST "' request");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        OD_LOG("! (outChannel->write(message1, response))"); //####
-                                        reply.addString(MpM_FAILED_RESPONSE);
-                                        reply.addString("Could not write to channel");
-#if defined(MpM_StallOnSendProblem)
-                                        Common::Stall();
-#endif // defined(MpM_StallOnSendProblem)
-                                    }
-#if defined(MpM_DoExplicitDisconnect)
-                                    if (! Common::NetworkDisconnectWithRetries(outChannel->name(),
-                                                                               argAsString,
-                                                                               STANDARD_WAIT_TIME,
-                                                                               NULL, NULL))
-                                    {
-                                        OD_LOG("(! Common::NetworkDisconnectWithRetries(" //####
-                                               "outChannel->name(), argAsString, " //####
-                                               "STANDARD_WAIT_TIME, NULL, NULL))"); //####
-                                    }
-#endif // defined(MpM_DoExplicitDisconnect)
-                                }
-                                else
-                                {
-                                    OD_LOG("! (outChannel->addOutputWithRetries(argAsString, " //####
-                                           "STANDARD_WAIT_TIME))"); //####
-                                    reply.addString(MpM_FAILED_RESPONSE);
-                                    reply.addString("Could not connect to channel");
-                                    reply.addString(argAsString);
-                                }
-#if defined(MpM_DoExplicitClose)
-                                outChannel->close();
-#endif // defined(MpM_DoExplicitClose)
-                            }
-                            else
-                            {
-                                OD_LOG("! (outChannel->openWithRetries(aName, " //####
-                                       "STANDARD_WAIT_TIME))"); //####
-                                reply.addString(MpM_FAILED_RESPONSE);
-                                reply.addString("Channel could not be opened");
-                            }
-                            Common::ClientChannel::RelinquishChannel(outChannel);
-                        }
-                        else
-                        {
-                            OD_LOG("! (outChannel)");
-                        }
-                    }
-                    else
-                    {
-                        OD_LOG("! (Common::Endpoint::CheckEndpointName(argAsString))"); //####
-                        reply.addString(MpM_FAILED_RESPONSE);
-                        reply.addString("Invalid channel name");
-                    }
-                }
-                else
-                {
-                    OD_LOG("! (argument.isString())"); //####
-                    reply.addString(MpM_FAILED_RESPONSE);
-                    reply.addString("Invalid channel name");
-                }
-            }
-            else
-            {
-                OD_LOG("! (1 == restOfInput.size())"); //####
-                reply.addString(MpM_FAILED_RESPONSE);
-                reply.addString("Missing channel name or extra arguments to request");
-            }
-            OD_LOG_S1s("reply <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Common::Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(result); //####
-    return result;
-} // RegisterRequestHandler::processRequest
-
 bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &   channelName,
                                                  const Common::ServiceResponse & response)
 {
@@ -535,6 +348,193 @@ bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString &  
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RegisterRequestHandler::processNameResponse
+
+bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                            const yarp::os::Bottle &      restOfInput,
+                                            const yarp::os::ConstString & senderChannel,
+                                            yarp::os::ConnectionWriter *  replyMechanism)
+{
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(request,senderChannel)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
+               "senderChannel = ", senderChannel); //####
+    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    bool result = true;
+    
+    try
+    {
+        if (replyMechanism)
+        {
+            OD_LOG("(replyMechanism)"); //####
+            yarp::os::Bottle reply;
+            
+            // Validate the name as a channel name
+            if (1 == restOfInput.size())
+            {
+                yarp::os::Value argument(restOfInput.get(0));
+                
+                if (argument.isString())
+                {
+                    yarp::os::ConstString argAsString(argument.toString());
+                    
+                    if (Common::Endpoint::CheckEndpointName(argAsString))
+                    {
+                        _service.reportStatusChange(argAsString,
+                                                    RegistryService::kRegistryRegisterService);
+                        // Send a 'list' request to the channel
+                        yarp::os::ConstString   aName =
+                        Common::GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
+                                                     "register_/"
+                                                     DEFAULT_CHANNEL_ROOT);
+                        Common::ClientChannel * outChannel = new Common::ClientChannel;
+                        
+                        if (outChannel)
+                        {
+                            if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+                            {
+                                if (outChannel->addOutputWithRetries(argAsString,
+                                                                     STANDARD_WAIT_TIME))
+                                {
+                                    yarp::os::Bottle message1(MpM_NAME_REQUEST);
+                                    yarp::os::Bottle response;
+                                    
+                                    if (outChannel->write(message1, response))
+                                    {
+                                        if (processNameResponse(argAsString, response))
+                                        {
+                                            yarp::os::Bottle message2(MpM_LIST_REQUEST);
+                                            
+                                            if (outChannel->write(message2, response))
+                                            {
+                                                if (processListResponse(argAsString, response))
+                                                {
+                                                    // Remember the response
+                                                    reply.addString(MpM_OK_RESPONSE);
+                                                    // If we're registering the Service Registry, we
+                                                    // don't care about timeouts!
+                                                    if (argAsString != MpM_REGISTRY_CHANNEL_NAME)
+                                                    {
+                                                        _service.updateCheckedTimeForChannel(argAsString);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    OD_LOG("! (processListResponse(" //####
+                                                           "argAsString, response))"); //####
+                                                    reply.addString(MpM_FAILED_RESPONSE);
+                                                    reply.addString("Invalid response to '"
+                                                                    MpM_LIST_REQUEST "' request");
+                                                }
+                                            }
+                                            else
+                                            {
+                                                OD_LOG("! (outChannel->write(message2, " //####
+                                                       "response))"); //####
+                                                reply.addString(MpM_FAILED_RESPONSE);
+                                                reply.addString("Could not write to channel");
+#if defined(MpM_StallOnSendProblem)
+                                                Common::Stall();
+#endif // defined(MpM_StallOnSendProblem)
+                                            }
+                                        }
+                                        else
+                                        {
+                                            OD_LOG("! (processNameResponse(argAsString, " //####
+                                                   "response))"); //####
+                                            reply.addString(MpM_FAILED_RESPONSE);
+                                            reply.addString("Invalid response to '"
+                                                            MpM_NAME_REQUEST "' request");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        OD_LOG("! (outChannel->write(message1, response))"); //####
+                                        reply.addString(MpM_FAILED_RESPONSE);
+                                        reply.addString("Could not write to channel");
+#if defined(MpM_StallOnSendProblem)
+                                        Common::Stall();
+#endif // defined(MpM_StallOnSendProblem)
+                                    }
+#if defined(MpM_DoExplicitDisconnect)
+                                    if (! Common::NetworkDisconnectWithRetries(outChannel->name(),
+                                                                               argAsString,
+                                                                               STANDARD_WAIT_TIME,
+                                                                               NULL, NULL))
+                                    {
+                                        OD_LOG("(! Common::NetworkDisconnectWithRetries(" //####
+                                               "outChannel->name(), argAsString, " //####
+                                               "STANDARD_WAIT_TIME, NULL, NULL))"); //####
+                                    }
+#endif // defined(MpM_DoExplicitDisconnect)
+                                }
+                                else
+                                {
+                                    OD_LOG("! (outChannel->addOutputWithRetries(argAsString, " //####
+                                           "STANDARD_WAIT_TIME))"); //####
+                                    reply.addString(MpM_FAILED_RESPONSE);
+                                    reply.addString("Could not connect to channel");
+                                    reply.addString(argAsString);
+                                }
+#if defined(MpM_DoExplicitClose)
+                                outChannel->close();
+#endif // defined(MpM_DoExplicitClose)
+                            }
+                            else
+                            {
+                                OD_LOG("! (outChannel->openWithRetries(aName, " //####
+                                       "STANDARD_WAIT_TIME))"); //####
+                                reply.addString(MpM_FAILED_RESPONSE);
+                                reply.addString("Channel could not be opened");
+                            }
+                            Common::ClientChannel::RelinquishChannel(outChannel);
+                        }
+                        else
+                        {
+                            OD_LOG("! (outChannel)");
+                        }
+                    }
+                    else
+                    {
+                        OD_LOG("! (Common::Endpoint::CheckEndpointName(argAsString))"); //####
+                        reply.addString(MpM_FAILED_RESPONSE);
+                        reply.addString("Invalid channel name");
+                    }
+                }
+                else
+                {
+                    OD_LOG("! (argument.isString())"); //####
+                    reply.addString(MpM_FAILED_RESPONSE);
+                    reply.addString("Invalid channel name");
+                }
+            }
+            else
+            {
+                OD_LOG("! (1 == restOfInput.size())"); //####
+                reply.addString(MpM_FAILED_RESPONSE);
+                reply.addString("Missing channel name or extra arguments to request");
+            }
+            OD_LOG_S1s("reply <- ", reply.toString()); //####
+            if (! reply.write(*replyMechanism))
+            {
+                OD_LOG("(! reply.write(*replyMechanism))"); //####
+#if defined(MpM_StallOnSendProblem)
+                Common::Stall();
+#endif // defined(MpM_StallOnSendProblem)
+            }
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // RegisterRequestHandler::processRequest
 
 #if defined(__APPLE__)
 # pragma mark Global functions
