@@ -54,11 +54,6 @@
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class ServiceResponse;
-    } // Common
-    
     namespace Registry
     {
         class RegistryService;
@@ -116,22 +111,6 @@ namespace MplusM
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
             RegisterRequestHandler & operator =(const RegisterRequestHandler & other);
-            
-            /*! @brief Check the response from the 'list' request.
-             @param channelName The channel that sent the response.
-             @param response The response to be analyzed.
-             @returns @c true if the expected values are all present and @c false if they are not or
-             if unexpected values appear. */
-            bool processListResponse(const yarp::os::ConstString &   channelName,
-                                     const Common::ServiceResponse & response);
-            
-            /*! @brief Check the response from the 'name' request.
-             @param channelName The channel that sent the response.
-             @param response The response to be analyzed.
-             @returns @c true if the expected values are all present and @c false if they are not or
-             if unexpected values appear. */
-            bool processNameResponse(const yarp::os::ConstString &   channelName,
-                                     const Common::ServiceResponse & response);
             
             /*! @brief The service that will handle the registration operation. */
             RegistryService & _service;

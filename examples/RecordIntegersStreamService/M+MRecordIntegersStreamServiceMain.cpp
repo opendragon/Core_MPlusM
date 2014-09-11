@@ -146,7 +146,7 @@ int main(int     argc,
 #if MAC_OR_LINUX_
                 snprintf(buff, sizeof(buff), "/tmp/record_%x", randNumb);
 #else // ! MAC_OR_LINUX_
-                _snprintf(buff, sizeof(buff) - 1, "/tmp/record_%x", randNumb);
+                _snprintf(buff, sizeof(buff) - 1, "\\tmp\\record_%x", randNumb);
                 // Correct for the weird behaviour of _snprintf
                 buff[sizeof(buff) - 1] = '\0';
 #endif // ! MAC_OR_LINUX_

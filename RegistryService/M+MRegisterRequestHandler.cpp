@@ -137,218 +137,6 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
     OD_LOG_OBJEXIT(); //####
 } // RegisterRequestHandler::fillInDescription
 
-bool RegisterRequestHandler::processListResponse(const yarp::os::ConstString &   channelName,
-                                                 const Common::ServiceResponse & response)
-{
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("channelName = ", channelName, "response = ", response.asString()); //####
-    bool result = false;
-    
-    try
-    {
-        int count = response.count();
-        
-        if (0 < count)
-        {
-            result = true;
-            for (int ii = 0; result && (ii < count); ++ii)
-            {
-                yarp::os::Value anElement(response.element(ii));
-                
-                if (anElement.isDict())
-                {
-                    yarp::os::Property * asDict = anElement.asDict();
-                    
-                    if (asDict->check(MpM_REQREP_DICT_REQUEST_KEY))
-                    {
-                        yarp::os::ConstString theRequest =
-                                            asDict->find(MpM_REQREP_DICT_REQUEST_KEY).asString();
-                        yarp::os::Bottle      keywordList;
-                        RequestDescription    requestDescriptor;
-                        
-                        OD_LOG_S1s("theRequest <- ", theRequest); //####
-                        if (asDict->check(MpM_REQREP_DICT_DETAILS_KEY))
-                        {
-                            yarp::os::Value theDetails = asDict->find(MpM_REQREP_DICT_DETAILS_KEY);
-                            
-                            OD_LOG_S1s("theDetails <- ", theDetails.toString()); //####
-                            if (theDetails.isString())
-                            {
-                                requestDescriptor._details = theDetails.toString();
-                            }
-                            else
-                            {
-                                OD_LOG("! (theDetails.isString())"); //####
-                                // The details field is present, but it's not a string.
-                                result = false;
-                            }
-                        }
-                        if (asDict->check(MpM_REQREP_DICT_INPUT_KEY))
-                        {
-                            yarp::os::Value theInputs = asDict->find(MpM_REQREP_DICT_INPUT_KEY);
-                            
-                            OD_LOG_S1s("theInputs <- ", theInputs.toString()); //####
-                            if (theInputs.isString())
-                            {
-                                requestDescriptor._inputs = theInputs.toString();
-                            }
-                            else
-                            {
-                                OD_LOG("! (theInputs.isString())"); //####
-                                // The inputs descriptor is present, but it's not a string
-                                result = false;
-                            }
-                        }
-                        if (asDict->check(MpM_REQREP_DICT_KEYWORDS_KEY))
-                        {
-                            yarp::os::Value theKeywords =
-                                                        asDict->find(MpM_REQREP_DICT_KEYWORDS_KEY);
-                            
-                            OD_LOG_S1s("theKeywords <- ", theKeywords.toString()); //####
-                            if (theKeywords.isList())
-                            {
-                                keywordList = *theKeywords.asList();
-                            }
-                            else
-                            {
-                                OD_LOG("! (theKeywords.isList())"); //####
-                                // The keywords entry is present, but it's not a list
-                                result = false;
-                            }
-                        }
-                        if (asDict->check(MpM_REQREP_DICT_OUTPUT_KEY))
-                        {
-                            yarp::os::Value theOutputs = asDict->find(MpM_REQREP_DICT_OUTPUT_KEY);
-                            
-                            OD_LOG_S1s("theOutputs <- ", theOutputs.toString()); //####
-                            if (theOutputs.isString())
-                            {
-                                requestDescriptor._outputs = theOutputs.toString();
-                            }
-                            else
-                            {
-                                OD_LOG("! (theOutputs.isString())"); //####
-                                // The outputs descriptor is present, but it's not a string
-                                result = false;
-                            }
-                        }
-                        if (asDict->check(MpM_REQREP_DICT_VERSION_KEY))
-                        {
-                            yarp::os::Value theVersion = asDict->find(MpM_REQREP_DICT_VERSION_KEY);
-                            
-                            OD_LOG_S1s("theVersion <- ", theVersion.toString()); //####
-                            if (theVersion.isString() || theVersion.isInt() ||
-                                theVersion.isDouble())
-                            {
-                                requestDescriptor._version = theVersion.toString();
-                            }
-                            else
-                            {
-                                OD_LOG("! (theVersion.isString() || theVersion.isInt() || " //####
-                                       "theVersion.isDouble())"); //####
-                                // The version entry is present, but it's not a simple value
-                                result = false;
-                            }
-                        }
-                        if (result)
-                        {
-                            requestDescriptor._channel = channelName;
-                            requestDescriptor._request = theRequest;
-                            result = _service.addRequestRecord(keywordList, requestDescriptor);
-                            OD_LOG_B1("result <- ", result); //####
-                            if (! result)
-                            {
-                                // We need to remove any values that we've recorded for this
-                                // channel!
-                                _service.removeServiceRecord(channelName);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        OD_LOG("! (asDict->check(MpM_REQREP_DICT_REQUEST_KEY))"); //####
-                        // There is no 'name' entry in this dictionary
-                        result = false;
-                    }
-                }
-                else
-                {
-                    OD_LOG("! (anElement.isDict())"); //####
-                    // One of the values is not a dictionary
-                    result = false;
-                }
-            }
-        }
-        else
-        {
-            OD_LOG("! (0 < count)"); //####
-            // Wrong number of values in the response.
-            result = false;
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(result); //####
-    return result;
-} // RegisterRequestHandler::processListResponse
-
-bool RegisterRequestHandler::processNameResponse(const yarp::os::ConstString &   channelName,
-                                                 const Common::ServiceResponse & response)
-{
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("channelName = ", channelName, "response = ", response.asString()); //####
-    bool result = false;
-    
-    try
-    {
-        if (MpM_EXPECTED_NAME_RESPONSE_SIZE == response.count())
-        {
-            yarp::os::Value theCanonicalName(response.element(0));
-            yarp::os::Value theDescription(response.element(1));
-            yarp::os::Value theKind(response.element(2));
-            yarp::os::Value thePath(response.element(3));
-            yarp::os::Value theRequestsDescription(response.element(4));
-            
-            if (theCanonicalName.isString() && theDescription.isString() && theKind.isString() &&
-                thePath.isString() && theRequestsDescription.isString())
-            {
-                result = _service.addServiceRecord(channelName, theCanonicalName.toString(),
-                                                   theDescription.toString(), thePath.toString(),
-                                                   theRequestsDescription.toString());
-                if (! result)
-                {
-                    // We need to remove any values that we've recorded for this channel!
-                    _service.removeServiceRecord(channelName);
-                }
-            }
-            else
-            {
-                OD_LOG("! (theCanonicalName.isString() && theDescription.isString() && " //####
-                       "theKind.isString() && thePath.isString() && " //####
-                       "theRequestsDescription.isString())"); //####
-                result = false;
-            }
-        }
-        else
-        {
-            OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE == response.count())"); //####
-            OD_LOG_S1s("response = ", response.asString()); //####
-            // Wrong number of values in the response.
-            result = false;
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(result); //####
-    return result;
-} // RegisterRequestHandler::processNameResponse
-
 bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & request,
                                             const yarp::os::Bottle &      restOfInput,
                                             const yarp::os::ConstString & senderChannel,
@@ -385,11 +173,11 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                     {
                         _service.reportStatusChange(argAsString,
                                                     RegistryService::kRegistryRegisterService);
-                        // Send a 'list' request to the channel
+                        // Send a 'name' request to the channel
                         yarp::os::ConstString   aName =
-                        Common::GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
-                                                     "register_/"
-                                                     DEFAULT_CHANNEL_ROOT);
+                                                Common::GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
+                                                                             "register_/"
+                                                                             DEFAULT_CHANNEL_ROOT);
                         Common::ClientChannel * outChannel = new Common::ClientChannel;
                         
                         if (outChannel)
@@ -404,13 +192,14 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                     
                                     if (outChannel->write(message1, response))
                                     {
-                                        if (processNameResponse(argAsString, response))
+                                        if (_service.processNameResponse(argAsString, response))
                                         {
                                             yarp::os::Bottle message2(MpM_LIST_REQUEST);
                                             
                                             if (outChannel->write(message2, response))
                                             {
-                                                if (processListResponse(argAsString, response))
+                                                if (_service.processListResponse(argAsString,
+                                                                                 response))
                                                 {
                                                     // Remember the response
                                                     reply.addString(MpM_OK_RESPONSE);
@@ -418,12 +207,12 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                                     // don't care about timeouts!
                                                     if (argAsString != MpM_REGISTRY_CHANNEL_NAME)
                                                     {
-                                                        _service.updateCheckedTimeForChannel(argAsString);
+                                                _service.updateCheckedTimeForChannel(argAsString);
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    OD_LOG("! (processListResponse(" //####
+                                                    OD_LOG("! (_service.processListResponse(" //####
                                                            "argAsString, response))"); //####
                                                     reply.addString(MpM_FAILED_RESPONSE);
                                                     reply.addString("Invalid response to '"
@@ -443,8 +232,8 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                         }
                                         else
                                         {
-                                            OD_LOG("! (processNameResponse(argAsString, " //####
-                                                   "response))"); //####
+                                            OD_LOG("! (_service.processNameResponse(" //####
+                                                   "argAsString, response))"); //####
                                             reply.addString(MpM_FAILED_RESPONSE);
                                             reply.addString("Invalid response to '"
                                                             MpM_NAME_REQUEST "' request");
@@ -473,8 +262,8 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                 }
                                 else
                                 {
-                                    OD_LOG("! (outChannel->addOutputWithRetries(argAsString, " //####
-                                           "STANDARD_WAIT_TIME))"); //####
+                                    OD_LOG("! (outChannel->addOutputWithRetries(" //####
+                                           "argAsString, STANDARD_WAIT_TIME))"); //####
                                     reply.addString(MpM_FAILED_RESPONSE);
                                     reply.addString("Could not connect to channel");
                                     reply.addString(argAsString);

@@ -34,9 +34,54 @@ application does not directly use the endpoint name to establish a connection to
 service.
 \tertiaryEnd{\examplesNameE{Services}{mpmEchoService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRandomBurstStreamService}}
+The \examplesNameX{Services}{mpmRandomBurstStreamService} application is an Input service,
+generating a stream of random floating--point values, with a given `burst size' -- the
+number of values sent in a group, and a `burst perdiod' -- the number of seconds between
+groups.
+The application responds to the standard Input service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
+The \requestsNameR{\inputOutput{}}{InputOutput}{configure} request has two arguments -- a
+floating--point value for the `burst period' and an integer value for the `burst size'.
+These values will be applied when the output stream is started or restarted.\\
 
+The \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request stops and then
+starts the output stream.\\
+
+The \requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request starts a random
+number generator for the output stream, using the configured `burst period' and
+`burst size'.
+Once started, the random number generator will send groups of random floating--point
+values via the output \yarp{} network connection.\\
+
+The \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request stops the random
+number generator, which stops the output \yarp{} network connection.\\ 
+
+Note that the application will exit if the
+\serviceNameR[Service~Registry]{ServiceRegistry} is not running.\\
+
+The application has two optional arguments -- an alternative endpoint name to be used and
+the port number to be used, if a non--default port is desired.\\
+
+The application also has two optional parameters:
+\begin{itemize}
+\item \textbf{-p:} specifies the burst period, in seconds, to be used. 
+\item \textbf{-s:} specifies the burst size to be used.
+\end{itemize}
+These parameters provide the initial burst period and size; if not specified, a burst
+period of 1 second and burst size of 1 will be used.
+Note that the burst period and size can also be set via commands, if the application is
+running from a terminal.\\
+
+If the application is running from a terminal, the following commands are available:
+\begin{itemize}
+\item \textbf{b:} start the output stream, sending bursts of data of the specified size
+and period. 
+\item \textbf{c:} configure the service by providing the burst size and period. 
+\item \textbf{e:} stop the output stream. 
+\item \textbf{q:} quit the application. 
+\item \textbf{r:} restart the output stream. 
+\end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomBurstStreamService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRandomNumberService}}
 The \examplesNameX{Services}{mpmRandomNumberService} application responds to
@@ -57,9 +102,51 @@ count of floating--point random numbers to be returned as a response to the requ
 \requestsNameE{Examples}{Examples}{random}%
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomNumberService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRecordIntegersStreamService}}
+The \examplesNameX{Services}{mpmRecordIntegersStreamService} application is an Output
+service, recording a stream of integer values to an external file.
+The application responds to the standard Output service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
+The \requestsNameR{\inputOutput{}}{InputOutput}{configure} request has a single argument,
+the file--system path to use for the output file.
+The path will be used when the input stream is started or restarted.
 
+The \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request stops and then
+starts the input stream.\\
+
+The \requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request opens a file to be
+used for output, using the configured output file path.\\
+
+The \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request closes the output
+file that is being used.\\
+
+Note that the application will exit if the
+\serviceNameR[Service~Registry]{ServiceRegistry} is not running.\\
+
+The application has two optional arguments -- an alternative endpoint name to be used and
+the port number to be used, if a non--default port is desired.\\
+
+The application also has one optional parameter:
+\begin{itemize}
+\item \textbf{-p:} specifies the output file path to be used. 
+\end{itemize}
+This parameter provides the initial output file path; if not specified, a random path in
+the temporary directory will be used.
+For Windows, the temporary directory being used is ``\textbackslash{}tmp'' while, on the
+Mac, it will be ``/tmp''.
+Note that the output file path can also be set via commands, if the application is
+running from a terminal.\\
+
+If the application is running from a terminal, the following commands are available:
+\begin{itemize}
+\item \textbf{b:} start the input stream, using the specified output file path to record
+the input data. 
+\item \textbf{c:} configure the service by providing the output file path to be used. 
+\item \textbf{e:} stop the input stream, which will close the output file. 
+\item \textbf{q:} quit the application. 
+\item \textbf{r:} restart the input stream, which will cause the current output file to be
+closed and a new output file to be opened. 
+\end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersStreamService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRunningSumService}}
 The \examplesNameX{Services}{mpmRunningSumService} application responds to
@@ -97,9 +184,39 @@ calculation for the requesting application or adapter.
 \requestsNameE{Examples}{Examples}{stopsum}%
 \tertiaryEnd{\examplesNameE{Services}{mpmRunningSumService}}
 \tertiaryStart{\examplesNameP{Services}{mpmTruncateFilterStreamService}}
+The \examplesNameX{Services}{mpmRecordIntegersStreamService} application is a Filter
+service, converting a stream of floating--point values into a stream of integers.
+The application responds to the standard Filter service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
+The \requestsNameR{\inputOutput{}}{InputOutput}{configure} request has no arguments and
+does nothing.\\
 
+The \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request stops and then
+starts the input and output streams.\\
+
+The \requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request initiates listening
+on the input stream; the output stream is only written to when input is seen, so nothing
+special is done with it.\\
+
+The \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request terminates listening
+on the input stream, which will cause sending on the output stream to cease as well.\\
+
+Note that the application will exit if the
+\serviceNameR[Service~Registry]{ServiceRegistry} is not running.\\
+
+The application has two optional arguments -- an alternative endpoint name to be used and
+the port number to be used, if a non--default port is desired.\\
+
+If the application is running from a terminal, the following commands are available:
+\begin{itemize}
+\item \textbf{b:} start the input and output streams. 
+\item \textbf{c:} configure the service; this has no effect, as the service has no
+configurable parameters. 
+\item \textbf{e:} stop the input and output streams. 
+\item \textbf{q:} quit the application. 
+\item \textbf{r:} restart the input and output streams. 
+\end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmTruncateFilterStreamService}}
 \secondaryEnd{}
 \secondaryStart{Example~Clients}
@@ -109,8 +226,7 @@ generate requests for their matching service applications.
 The \examplesNameX{Clients}{mpmEchoClient} application reads input from a terminal and
 sends it to the \examplesNameR{Services}{mpmEchoService} application using an
 \requestsNameR{Miscellaneous}{Miscellaneous}{echo} request; it exits when an empty line is
-entered.\\
-
+entered.
 Note that the application will also exit if the
 \serviceNameR[Service~Registry]{ServiceRegistry} or the
 \examplesNameR{Services}{mpmEchoService} application are not running or if the application
@@ -121,8 +237,7 @@ The \examplesNameX{Clients}{mpmRandomNumberClient} application reads the count o
 random numbers desired from a terminal and sends a
 \requestsNameR{Examples}{Examples}{random} request to the
 \examplesNameR{Services}{mpmRandomNumberService} application; it exits when a zero is
-entered for the count of random numbers desired.\\
-
+entered for the count of random numbers desired.
 Note that the application will also exit if the
 \serviceNameR[Service~Registry]{ServiceRegistry} or the
 \examplesNameR{Services}{mpmRandomNumberService} application are not running or if the
@@ -146,7 +261,6 @@ service so that it will start calculating the running sum for this client.
 service so that it will stop calculating the running sum for this client and then exit the
 application.
 \end{itemize}
-
 Note that the application will also exit if the
 \serviceNameR[Service~Registry]{ServiceRegistry} or the
 \examplesNameR{Services}{mpmRunningSumService} application are not running or if the
@@ -173,8 +287,7 @@ random numbers desired from an input \yarp{} network connection and sends a
 \requestsNameR{Examples}{Examples}{random} request to the
 \examplesNameR{Services}{mpmRandomNumberService} application.
 The random numbers returned from the service are sent out an output \yarp{} network
-connection.\\
-
+connection.
 Note that the application will also exit if the
 \serviceNameR[Service~Registry]{ServiceRegistry} or the
 \examplesNameR{Services}{mpmRandomNumberService} application are not running.
@@ -200,7 +313,6 @@ service so that it will start calculating the running sum for this adapter.
 \item \textbf{x:} send a \requestsNameR{Examples}{Examples}{stopsum} request to the
 service so that it will stop calculating the running sum for this adapter.
 \end{itemize}
-
 The running sums returned from the service are sent out an output \yarp{} network
 connection.\\
 
@@ -227,7 +339,6 @@ service so that it will start calculating the running sum for this adapter.
 \item \textbf{x:} send a \requestsNameR{Examples}{Examples}{stopsum} request to the
 service so that it will stop calculating the running sum for this adapter.
 \end{itemize}
-
 The running sums returned from the service are sent out an output \yarp{} network
 connection.\\
 

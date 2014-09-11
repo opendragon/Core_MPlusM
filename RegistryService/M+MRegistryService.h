@@ -59,6 +59,7 @@ namespace MplusM
     namespace Common
     {
         class GeneralChannel;
+        class ServiceResponse;
     } // Common
     
     namespace Parser
@@ -171,26 +172,6 @@ namespace MplusM
                                 const bool                    isOutput,
                                 const yarp::os::ConstString & secondaryChannelName);
             
-            /*! @brief Add a request to the registry.
-             @param keywordList The list of keywords associated with the request.
-             @param description The attributes of the request.
-             @returns @c true if the request was successfully added and @c false otherwise. */
-            bool addRequestRecord(const yarp::os::Bottle &   keywordList,
-                                  const RequestDescription & description);
-            
-            /*! @brief Add a service to the registry.
-             @param channelName The service channel for the service.
-             @param name The canonical name for the service.
-             @param description The description of the service.
-             @param executable The path to the executable for the service.
-             @param requestsDescription The description of the requests for the service.
-             @returns @c true if the request was successfully added and @c false otherwise. */
-            bool addServiceRecord(const yarp::os::ConstString & channelName,
-                                  const yarp::os::ConstString & name,
-                                  const yarp::os::ConstString & description,
-                                  const yarp::os::ConstString & executable,
-                                  const yarp::os::ConstString & requestsDescription);
-            
             /*! @brief Check if an association between channels is already in the registry.
              @param primaryChannelName The name of the primary channel.
              @param secondaryChannelName The name of the associated channel.
@@ -231,6 +212,14 @@ namespace MplusM
                 return _isActive;
             } // isActive
             
+            /*! @brief Check the response from the 'list' request.
+             @param channelName The channel that sent the response.
+             @param response The response to be analyzed.
+             @returns @c true if the expected values are all present and @c false if they are not or
+             if unexpected values appear. */
+            bool processListResponse(const yarp::os::ConstString &   channelName,
+                                     const Common::ServiceResponse & response);
+            
             /*! @brief Convert a match expression into SQL and process it.
              @param matcher The match expression to be processed.
              @param getNames @c true if service names are to be returned and @c false if service
@@ -241,6 +230,14 @@ namespace MplusM
             bool processMatchRequest(Parser::MatchExpression * matcher,
                                      const bool                getNames,
                                      yarp::os::Bottle &        reply);
+            
+            /*! @brief Check the response from the 'name' request.
+             @param channelName The channel that sent the response.
+             @param response The response to be analyzed.
+             @returns @c true if the expected values are all present and @c false if they are not or
+             if unexpected values appear. */
+            bool processNameResponse(const yarp::os::ConstString &   channelName,
+                                     const Common::ServiceResponse & response);
             
             /*! @brief Remove all associations for a channel.
              @param primaryChannelName The name of the primary channel.
@@ -306,6 +303,26 @@ namespace MplusM
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
             RegistryService & operator =(const RegistryService & other);
+            
+            /*! @brief Add a request to the registry.
+             @param keywordList The list of keywords associated with the request.
+             @param description The attributes of the request.
+             @returns @c true if the request was successfully added and @c false otherwise. */
+            bool addRequestRecord(const yarp::os::Bottle &   keywordList,
+                                  const RequestDescription & description);
+            
+            /*! @brief Add a service to the registry.
+             @param channelName The service channel for the service.
+             @param name The canonical name for the service.
+             @param description The description of the service.
+             @param executable The path to the executable for the service.
+             @param requestsDescription The description of the requests for the service.
+             @returns @c true if the request was successfully added and @c false otherwise. */
+            bool addServiceRecord(const yarp::os::ConstString & channelName,
+                                  const yarp::os::ConstString & name,
+                                  const yarp::os::ConstString & description,
+                                  const yarp::os::ConstString & executable,
+                                  const yarp::os::ConstString & requestsDescription);
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);

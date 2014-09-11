@@ -11,7 +11,32 @@ service
 \item \textbf{\requestsNameR{Basic}{Basic}{list}} gather information about the requests
 available from the service
 \end{enumerate}
+The \serviceNameR[Service~Registry]{ServiceRegistry} plays the r\^ole of a client of the
+service that sent the original \requestsNameR{Service~Registry}{ServiceRegistry}{register}
+or \requestsNameR{Service~Registry}{ServiceRegistry}{ping} request, in order to obtain the
+information required to manage its internal database, which is described in the
+\appendixRef{InternalDatabaseStructure}{Internal~Database~Structure} appendix.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
+The \requestsNameR{Basic}{Basic}{name} request is used to populate the `Services' table
+and the \requestsNameR{Basic}{Basic}{list} request is used to populate the `Requests',
+`Keywords' and `RequestsKeywords' tables; the `Associates', `ChannelsAssociates' and
+`Channels' tables are filled in from clients sending 
+\requestsNameR{Service~Registry}{ServiceRegistry}{associate} requests to the
+\serviceNameR[Service~Registry]{ServiceRegistry}.\\
 
+Note that a \requestsNameR{Service~Registry}{ServiceRegistry}{ping} request will not
+send \requestsNameR{Basic}{Basic}{name} or \requestsNameR{Basic}{Basic}{list} to the
+\serviceNameR[Service~Registry]{ServiceRegistry} if the requesting service is recognized
+as being registered already.
+As a consequence, services are not allowed to make changes that would impact their
+connectivity after they are registered.\\
+
+In particular, the names of \yarp{} network connections, supported requests (or their
+descriptions) or the kind or name of a service cannot be changed after the service
+registers.
+If such a change is necessary, the service should be unregistered and then registered, so
+that the internal database is consistent with the active services.\\
+
+Note that unregistering a service does not break connections between the service and its
+clients, so it may also be necessary to have the service drop its connections as well.
 \appendixEnd{}
