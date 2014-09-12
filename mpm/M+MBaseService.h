@@ -80,6 +80,7 @@ namespace MplusM
             /*! @brief The constructor.
              @param theKind The behavioural model for the service.
              @param launchPath The command-line name used to launch the service.
+             @param tag The modifier for the service name.
              @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if
              one handler is used.
              @param canonicalName The channel-independent name of the service.
@@ -89,6 +90,7 @@ namespace MplusM
              @param servicePortNumber The channel being used by the service. */
             BaseService(const ServiceKind             theKind,
                         const yarp::os::ConstString & launchPath,
+                        const yarp::os::ConstString & tag,
                         const bool                    useMultipleHandlers,
                         const yarp::os::ConstString & canonicalName,
                         const yarp::os::ConstString & description,
@@ -99,6 +101,7 @@ namespace MplusM
             /*! @brief The constructor.
              @param theKind The behavioural model for the service.
              @param launchPath The command-line name used to launch the service.
+             @param tag The modifier for the service name.
              @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if
              one handler is used.
              @param canonicalName The channel-independent name of the service.
@@ -108,6 +111,7 @@ namespace MplusM
              @param argv The arguments to be used to specify the new service. */
             BaseService(const ServiceKind             theKind,
                         const yarp::os::ConstString & launchPath,
+                        const yarp::os::ConstString & tag,
                         const bool                    useMultipleHandlers,
                         const yarp::os::ConstString & canonicalName,
                         const yarp::os::ConstString & description,
@@ -117,14 +121,6 @@ namespace MplusM
             
             /*! @brief The destructor. */
             virtual ~BaseService(void);
-            
-            /*! @brief Return the standard name of the service.
-             @returns The standard name of the service. */
-            inline yarp::os::ConstString canonicalName(void)
-            const
-            {
-                return _canonicalName;
-            } // canonicalName
             
             /*! @brief Return the description of the service.
              @returns The description of the service. */
@@ -214,6 +210,14 @@ namespace MplusM
             static bool SendPingForChannel(const yarp::os::ConstString & channelName,
                                            CheckFunction                 checker,
                                            void *                        checkStuff);
+            
+            /*! @brief Return the working name of the service.
+             @returns The working name of the service. */
+            inline yarp::os::ConstString serviceName(void)
+            const
+            {
+                return _serviceName;
+            } // serviceName
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
@@ -316,14 +320,14 @@ namespace MplusM
             /*! @brief The map between requests and request handlers. */
             ContextMap _contexts;
             
-            /*! @brief The channel-independent name of the service. */
-            yarp::os::ConstString _canonicalName;
-            
             /*! @brief The description of the service. */
             yarp::os::ConstString _description;
             
             /*! @brief The description of the requests for the service. */
             yarp::os::ConstString _requestsDescription;
+            
+            /*! @brief The channel-independent name of the service. */
+            yarp::os::ConstString _serviceName;
             
             /*! @brief The number of requests seen. */
             int64_t _requestCount;

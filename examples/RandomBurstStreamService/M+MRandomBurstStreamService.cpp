@@ -77,17 +77,18 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RandomBurstStreamService::RandomBurstStreamService(const yarp::os::ConstString & launchPath,
+                                                   const yarp::os::ConstString & tag,
                                                    const yarp::os::ConstString &
                                                                                 serviceEndpointName,
                                                    const yarp::os::ConstString &
                                                                                 servicePortNumber) :
-    inherited(launchPath, true, MpM_RANDOMBURST_CANONICAL_NAME, "The random burst input service",
-              "", serviceEndpointName, servicePortNumber), _generator(NULL), _burstPeriod(1),
-    _burstSize(1)
+    inherited(launchPath, tag, true, MpM_RANDOMBURST_CANONICAL_NAME,
+              "The random burst input service", "", serviceEndpointName, servicePortNumber),
+    _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_EXIT_P(this); //####
 } // RandomBurstStreamService::RandomBurstStreamService
 

@@ -799,7 +799,7 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                             theRequestsDescription.isString())
                         {
                             descriptor._channelName = serviceChannelName;
-                            descriptor._canonicalName = theCanonicalName.toString();
+                            descriptor._serviceName = theCanonicalName.toString();
                             descriptor._description = theDescription.toString();
                             descriptor._kind = theKind.toString();
                             descriptor._path = thePath.toString();

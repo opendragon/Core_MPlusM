@@ -191,6 +191,7 @@ bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName,
 
 BaseService::BaseService(const ServiceKind             theKind,
                          const yarp::os::ConstString & launchPath,
+                         const yarp::os::ConstString & tag,
                          const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
                          const yarp::os::ConstString & description,
@@ -198,11 +199,10 @@ BaseService::BaseService(const ServiceKind             theKind,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & servicePortNumber) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
-    _canonicalName(canonicalName), _description(description),
-    _requestsDescription(requestsDescription), _requestCount(0), _channelsHandler(NULL),
-    _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL),
-    _nameHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL),
-    _kind(theKind), _started(false), _useMultipleHandlers(useMultipleHandlers)
+    _description(description), _requestsDescription(requestsDescription), _requestCount(0),
+    _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL),
+    _listHandler(NULL), _nameHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
+    _pinger(NULL), _kind(theKind), _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
@@ -210,6 +210,14 @@ BaseService::BaseService(const ServiceKind             theKind,
     OD_LOG_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
                servicePortNumber); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
+    if (0 < tag.size())
+    {
+        _serviceName = canonicalName + " " + tag;
+    }
+    else
+    {
+        _serviceName = canonicalName;
+    }
     _endpoint = new Endpoint(serviceEndpointName, servicePortNumber);
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
@@ -217,6 +225,7 @@ BaseService::BaseService(const ServiceKind             theKind,
 
 BaseService::BaseService(const ServiceKind             theKind,
                          const yarp::os::ConstString & launchPath,
+                         const yarp::os::ConstString & tag,
                          const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
                          const yarp::os::ConstString & description,
@@ -224,10 +233,10 @@ BaseService::BaseService(const ServiceKind             theKind,
                          const int                     argc,
                          char **                       argv) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
-    _canonicalName(canonicalName), _description(description), _requestCount(0),
-    _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL),
-    _listHandler(NULL), _nameHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
-    _pinger(NULL), _kind(theKind), _started(false), _useMultipleHandlers(useMultipleHandlers)
+    _description(description), _requestCount(0), _channelsHandler(NULL), _clientsHandler(NULL),
+    _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
+    _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL), _kind(theKind),
+    _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -238,6 +247,14 @@ BaseService::BaseService(const ServiceKind             theKind,
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
                "description = ", description, "requestsDescription = ", requestsDescription); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
+    if (0 < tag.size())
+    {
+        _serviceName = canonicalName + " " + tag;
+    }
+    else
+    {
+        _serviceName = canonicalName;
+    }
     switch (argc)
     {
             // Argument order = endpoint name [, port]

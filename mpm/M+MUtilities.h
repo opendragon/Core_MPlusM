@@ -150,7 +150,7 @@ namespace MplusM
         struct ServiceDescriptor
         {
             /*! @brief The standard name for the service. */
-            yarp::os::ConstString _canonicalName;
+            yarp::os::ConstString _serviceName;
             
             /*! @brief The standard channel for the service. */
             yarp::os::ConstString _channelName;

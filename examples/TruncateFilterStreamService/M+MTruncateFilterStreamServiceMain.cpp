@@ -68,6 +68,9 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The accepted command line arguments for the service. */
+#define TRUNCATEFILTERSTREAM_OPTIONS "t:"
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -99,8 +102,27 @@ int main(int     argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool stdinAvailable = MplusM::CanReadFromStandardInput();
+        bool                  stdinAvailable = MplusM::CanReadFromStandardInput();
+        yarp::os::ConstString tag;
         
+        opterr = 0; // Suppress the error message resulting from an unknown option.
+        for (int cc = getopt(argc, argv, TRUNCATEFILTERSTREAM_OPTIONS); -1 != cc;
+             cc = getopt(argc, argv, TRUNCATEFILTERSTREAM_OPTIONS))
+        {
+            switch (cc)
+            {
+                case 't' :
+                    // Tag
+                    tag = optarg;
+                    OD_LOG_S1s("tag <- ", tag); //####
+                    break;
+                    
+                default :
+                    // Ignore unknown options.
+                    break;
+                    
+            }
+        }
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
@@ -111,19 +133,21 @@ int main(int     argc,
             yarp::os::ConstString servicePortNumber;
             
             MplusM::Common::Initialize(*argv);
-            if (1 < argc)
-            {
-                serviceEndpointName = argv[1];
-                if (2 < argc)
-                {
-                    servicePortNumber = argv[2];
-                }
-            }
-            else
+            if (optind >= argc)
             {
                 serviceEndpointName = GetRandomChannelName(DEFAULT_TRUNCATEFILTER_SERVICE_NAME);
             }
-            TruncateFilterStreamService * stuff = new TruncateFilterStreamService(*argv,
+            else if ((optind + 1) == argc)
+            {
+                serviceEndpointName = argv[optind];
+            }
+            else
+            {
+                // 2 args
+                serviceEndpointName = argv[optind];
+                servicePortNumber = argv[optind + 1];
+            }
+            TruncateFilterStreamService * stuff = new TruncateFilterStreamService(*argv, tag,
                                                                               serviceEndpointName,
                                                                               servicePortNumber);
             

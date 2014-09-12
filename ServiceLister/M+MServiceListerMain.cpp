@@ -273,7 +273,7 @@ int main(int     argc,
                             }
                             servicePortName = MplusM::SanitizeString(*walker,
                                                      MplusM::Common::kOutputFlavourJSON != flavour);
-                            serviceName = MplusM::SanitizeString(descriptor._canonicalName,
+                            serviceName = MplusM::SanitizeString(descriptor._serviceName,
                                                      MplusM::Common::kOutputFlavourJSON != flavour);
                             switch (flavour)
                             {

@@ -73,7 +73,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define RECORDINTEGERSSTREAM_OPTIONS "p:"
+#define RECORDINTEGERSSTREAM_OPTIONS "p:t:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -109,6 +109,7 @@ int main(int     argc,
     {
         bool                  stdinAvailable = MplusM::CanReadFromStandardInput();
         yarp::os::ConstString recordPath;
+        yarp::os::ConstString tag;
 
         opterr = 0; // Suppress the error message resulting from an unknown option.
         for (int cc = getopt(argc, argv, RECORDINTEGERSSTREAM_OPTIONS); -1 != cc;
@@ -119,6 +120,12 @@ int main(int     argc,
                 case 'p' :
                     recordPath = optarg;
                     OD_LOG_S1s("recordPath <- ", recordPath); //####
+                    break;
+                    
+                case 't' :
+                    // Tag
+                    tag = optarg;
+                    OD_LOG_S1s("tag <- ", tag); //####
                     break;
                     
                 default :
@@ -137,7 +144,7 @@ int main(int     argc,
             yarp::os::ConstString servicePortNumber;
             
             MplusM::Common::Initialize(*argv);
-            // Note that we can't use Random::uniform util after the seed has been set
+            // Note that we can't use Random::uniform until after the seed has been set
             if (0 == recordPath.size())
             {
                 char buff[40]; // Should be more than adequate!
@@ -167,7 +174,7 @@ int main(int     argc,
                 serviceEndpointName = argv[optind];
                 servicePortNumber = argv[optind + 1];
             }
-            RecordIntegersStreamService * stuff = new RecordIntegersStreamService(*argv,
+            RecordIntegersStreamService * stuff = new RecordIntegersStreamService(*argv, tag,
                                                                               serviceEndpointName,
                                                                               servicePortNumber);
             

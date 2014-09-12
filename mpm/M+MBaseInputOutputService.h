@@ -72,6 +72,7 @@ namespace MplusM
             /*! @brief The constructor.
              @param theKind The behavioural model for the service.
              @param launchPath The command-line name used to launch the service.
+             @param tag The modifier for the service name.
              @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if
              one handler is used.
              @param canonicalName The channel-independent name of the service.
@@ -81,6 +82,7 @@ namespace MplusM
              @param servicePortNumber The channel being used by the service. */
             BaseInputOutputService(const ServiceKind             theKind,
                                    const yarp::os::ConstString & launchPath,
+                                   const yarp::os::ConstString & tag,
                                    const bool                    useMultipleHandlers,
                                    const yarp::os::ConstString & canonicalName,
                                    const yarp::os::ConstString & description,
@@ -91,6 +93,7 @@ namespace MplusM
             /*! @brief The constructor.
              @param theKind The behavioural model for the service.
              @param launchPath The command-line name used to launch the service.
+             @param tag The modifier for the service name.
              @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if
              one handler is used.
              @param canonicalName The channel-independent name of the service.
@@ -100,6 +103,7 @@ namespace MplusM
              @param argv The arguments to be used to specify the new service. */
             BaseInputOutputService(const ServiceKind             theKind,
                                    const yarp::os::ConstString & launchPath,
+                                   const yarp::os::ConstString & tag,
                                    const bool                    useMultipleHandlers,
                                    const yarp::os::ConstString & canonicalName,
                                    const yarp::os::ConstString & description,

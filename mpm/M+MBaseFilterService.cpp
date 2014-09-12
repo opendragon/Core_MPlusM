@@ -74,37 +74,40 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 BaseFilterService::BaseFilterService(const yarp::os::ConstString & launchPath,
+                                     const yarp::os::ConstString & tag,
                                      const bool                    useMultipleHandlers,
                                      const yarp::os::ConstString & canonicalName,
                                      const yarp::os::ConstString & description,
                                      const yarp::os::ConstString & requestsDescription,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
-    inherited(kServiceKindFilter, launchPath, useMultipleHandlers, canonicalName, description,
+    inherited(kServiceKindFilter, launchPath, tag, useMultipleHandlers, canonicalName, description,
               requestsDescription, serviceEndpointName, servicePortNumber)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
-               "description = ", description, "requestsDescription = ", requestsDescription); //####
-    OD_LOG_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
-               servicePortNumber); //####
+    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
+               "description = ", description); //####
+    OD_LOG_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     OD_LOG_EXIT_P(this); //####
 } // BaseFilterService::BaseFilterService
 
 BaseFilterService::BaseFilterService(const yarp::os::ConstString & launchPath,
+                                     const yarp::os::ConstString & tag,
                                      const bool                    useMultipleHandlers,
                                      const yarp::os::ConstString & canonicalName,
                                      const yarp::os::ConstString & description,
                                      const yarp::os::ConstString & requestsDescription,
                                      const int                     argc,
                                      char **                       argv) :
-    inherited(kServiceKindFilter, launchPath, useMultipleHandlers, canonicalName, description,
+    inherited(kServiceKindFilter, launchPath, tag, useMultipleHandlers, canonicalName, description,
               requestsDescription, argc, argv)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
-               "description = ", description, "requestsDescription = ", requestsDescription); //####
+    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
+               "description = ", description);
+    OD_LOG_S1s("requestsDescription = ", requestsDescription); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     OD_LOG_EXIT_P(this); //####
 } // BaseFilterService::BaseFilterService

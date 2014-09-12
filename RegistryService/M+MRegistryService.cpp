@@ -1823,7 +1823,7 @@ static int setupRemoveFromServices(sqlite3_stmt * statement,
 RegistryService::RegistryService(const yarp::os::ConstString & launchPath,
                                  const bool                    useInMemoryDb,
                                  const yarp::os::ConstString & servicePortNumber) :
-    inherited(kServiceKindRegistry, launchPath, true, MpM_REGISTRY_CANONICAL_NAME,
+    inherited(kServiceKindRegistry, launchPath, "", true, MpM_REGISTRY_CANONICAL_NAME,
               "The Service Registry service",
               "associate - associate a channel with another channel\n"
               "disassociate - remove all associations for a channel\n"
@@ -2868,7 +2868,7 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
         MplusM::Utilities::GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
         message.addString(buffer1);
         message.addString(buffer2);
-        message.addString(canonicalName());
+        message.addString(serviceName());
         switch (newStatus)
         {
             case kRegistryAddService :

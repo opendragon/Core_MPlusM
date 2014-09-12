@@ -73,7 +73,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define RANDOMBURSTSTREAM_OPTIONS "p:s:"
+#define RANDOMBURSTSTREAM_OPTIONS "p:s:t:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -108,12 +108,13 @@ int main(int     argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool   stdinAvailable = MplusM::CanReadFromStandardInput();
-        char * endPtr;
-        double burstPeriod = 1;
-        double tempDouble;
-        int    burstSize = 1;
-        int    tempInt;
+        bool                  stdinAvailable = MplusM::CanReadFromStandardInput();
+        char *                endPtr;
+        double                burstPeriod = 1;
+        double                tempDouble;
+        int                   burstSize = 1;
+        int                   tempInt;
+        yarp::os::ConstString tag;
 
         opterr = 0; // Suppress the error message resulting from an unknown option.
         for (int cc = getopt(argc, argv, RANDOMBURSTSTREAM_OPTIONS); -1 != cc;
@@ -139,6 +140,12 @@ int main(int     argc,
                         // Useable data.
                         burstSize = tempInt;
                     }
+                    break;
+                    
+                case 't' :
+                    // Tag
+                    tag = optarg;
+                    OD_LOG_S1s("tag <- ", tag); //####
                     break;
                     
                 default :
@@ -171,7 +178,7 @@ int main(int     argc,
                 serviceEndpointName = argv[optind];
                 servicePortNumber = argv[optind + 1];
             }
-            RandomBurstStreamService * stuff = new RandomBurstStreamService(*argv,
+            RandomBurstStreamService * stuff = new RandomBurstStreamService(*argv, tag,
                                                                             serviceEndpointName,
                                                                             servicePortNumber);
             

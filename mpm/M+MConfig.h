@@ -57,10 +57,10 @@
 # define MpM_VERSION_MINOR 4
 
 /*! @brief The patch part of the version number. */
-# define MpM_VERSION_PATCH 9
+# define MpM_VERSION_PATCH 10
 
 /*! @brief The version number as a string. */
-# define MpM_VERSION "1.4.9"
+# define MpM_VERSION "1.4.10"
 
 /*! @brief The base of the channel name to use for an adapter. */
 # define MpM_ADAPTER_BASE_NAME "/_adapter_/"
