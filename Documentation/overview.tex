@@ -17,9 +17,10 @@ Clients use a formalized protocol to connect to services and utilities manage or
 the aggregate state of an \mplusm{} configuration.
 There is a unique service, the \serviceNameR[Service~Registry]{ServiceRegistry}, that
 maintains information on all the active services that are accessible to clients within an
-\mplusm{} installation. The primary utility is
-\utilityNameR[Channel~Manager]{ChannelManager}, which provides a GUI--based view of the
-state of connections within the installation.\\
+\mplusm{} installation.
+The primary utility is the \utilityNameR[Channel~Manager]{ChannelManager} application,
+which provides a GUI--based view of the state of connections, services and clients within
+the installation.\\
 
 Each service can support multiple client connections, and the client functionality can be
 embedded in command--line tools, GUI--based applications or headless background
@@ -28,19 +29,21 @@ processes.\\
 There are subtypes of services as well as of clients, distinguished by the presence of
 additional \yarp{} network connections and their characteristics.\\
 
-Basic services have only the client / service \yarp{} connection and provide a central
+Basic services have only the client~/~service \yarp{} connection and provide a central
 resource--sharing facility; simple services, such as the
 \serviceNameR[Service~Registry]{ServiceRegistry}, have one or more additional \yarp{}
 network connections that have no special properties and \inputOutput{} services have one
-more more additional \yarp{} network connections with specific protocols.
+or more additional \yarp{} network connections with specific protocols.
 \inputOutput{} services provide a mechanism for `packaging' sensors and actuators as
 \mplusm{} resources.\\
 
-Basic clients have only the client / service \yarp{} network connection while adapters
-have one or more additional \yarp{} network connections. Note that connections to services
-or clients that don't involve the \yarp{} network are considered to be intrinsic to the
-process involved and are not `visible' to \mplusm{} applications. Adapters provide a
-mechanism for non--\mplusm{} applications to make requests of \mplusm{} services via
-\yarp{} network connections.
+Basic clients have only the client~/~service \yarp{} network connection while adapters
+have one or more additional \yarp{} network connections.
+Note that connections to services or clients that don't involve the \yarp{} network are
+considered to be intrinsic to the process involved and are not `visible' to \mplusm{}
+applications.\\
+
+Adapters provide a mechanism for non--\mplusm{} applications to make requests of \mplusm{}
+services via \yarp{} network connections.
 \objDiagram{mpmDiagram.ps}{mpmDiagram}{\mplusm{} structure}
 \primaryEnd{}

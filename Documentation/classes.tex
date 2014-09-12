@@ -1,20 +1,96 @@
 \ProvidesFile{classes.tex}[v1.0.0]
 \primaryStart[ClassesAndTheirInterfaces]{Classes~and~Their~Interfaces}
-
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
-
+The \mplusm{} classes are organized into seven namespaces:
+\begin{itemize}
+\item \textbf{\mplusm{}::Common} classes that support all the \mplusm{} activities
+\item \textbf{\mplusm{}::Example} classes that demonstrate features of \mplusm{}
+\item \textbf{\mplusm{}::Parser} classes that are used by the
+\requestsNameR{Service~Registry}{ServiceRegistry}{match} request of the
+\serviceNameR[Service~Registry]{ServiceRegistry}
+\item \textbf{\mplusm{}::Registry} classes that work with the internal database to manage
+the \mplusm{} services
+\item \textbf{\mplusm{}::RequestCounter} classes that support measuring the performance
+of an \mplusm{} installation
+\item \textbf{\mplusm{}::Test} classes that are used during unit--testing of the \mplusm{}
+source code
+\item \textbf{\mplusm{}::Utilities} classes that are used only with the \mplusm{}
+utility programs
+\end{itemize}
+There are 38 classes or structures in the \textbf{\mplusm{}::Common} namespace, 27 in
+\textbf{\mplusm{}::Example}, 8 in \textbf{\mplusm{}::Parser}, 14 in
+\textbf{\mplusm{}::Registry}, 6 in \textbf{\mplusm{}::RequestCounter}, 20 in
+\textbf{\mplusm{}::Test} and 3 in \textbf{\mplusm{}::Utilities}.
+The following sections describe the most critical of the classes in the
+\textbf{\mplusm{}::Common} namespace -- many of the other classes, in all the namespaces,
+derive from these classes. 
 \secondaryStart{BaseClient}
+Instances of derived classes of \secondaryRef{BaseClient}{BaseClient} are responsible to
+mediate \mplusm{} communication with corresponding instances of derived classes of
+\secondaryRef{BaseService}{BaseService}.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
+The bulk of the mechanisms needed to perform this are provided by the
+\secondaryRef{BaseClient}{BaseClient} class itself, and the derived classes need only
+provide service--specific routines, such as \asCode{getOneRandomNumber()},
+which is a method of the \asCode{M+M::Example::RandomNumberClient} class.\\
 
+The following methods are available to code that uses
+\secondaryRef{BaseClient}{BaseClient} classes:
+\begin{itemize}
+\item \textbf{\asCode{FindMatchingService}} This static function is provided for the use
+of utility programs that need to identify active services
+\item \textbf{\asCode{addAssociatedChannel}} Adapter applications use this method to
+inform the \serviceNameR[Service~Registry]{ServiceRegistry} about their input and output
+\yarp{} network connections
+\item \textbf{\asCode{connectToService}} This method is use by clients to establish a
+connection to the endpoint of their companion service
+\item \textbf{\asCode{disconnectFromService}} This method is used by clients to release
+the connection to their companion service
+\item \textbf{\asCode{findService}} This method is used by clients to locate the channel
+to be used for communication with their companion service
+\item \textbf{\asCode{reconnectIfDisconnected}} This method is used by clients to
+re--establish a dropped connection with their companion service
+\item \textbf{\asCode{removeAssociatedChannels}} Adapter applications use this method to
+inform the \serviceNameR[Service~Registry]{ServiceRegistry} that their input and output
+\yarp{} network connections are no longer available
+\item \textbf{\asCode{send}} This method is used by clients to send a request to their
+companion service
+\end{itemize}
 \secondaryEnd{}
 \secondaryStart{BaseContext}
-
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
-
+Instances of derived classes of \secondaryRef{BaseService}{BaseService} that have \yarp{}
+network connections with persistent state use instances of
+derived classes of \secondaryRef{BaseContext}{BaseContext} to track the information that
+is retained from each request for the following request.
+The \secondaryRef{BaseContext}{BaseContext} class itself provides no functionality.
 \secondaryEnd{}
 \secondaryStart{BaseInputOutputService}
+The \secondaryRef{BaseInputOutputService}{BaseInputOutputService} class is designed to
+support easy access to multiple instances of the same service, each of which can be used
+to provide an interface to an external device or to a simple flow--through operation.\\
 
+Classes derived from \secondaryRef{BaseInputOutputService}{BaseInputOutputService} are
+required to provide implementations of the following methods:
+\begin{itemize}
+\item \textbf{\asCode{configure}} This method is invoked when a
+\requestsNameR{\inputOutput{}}{InputOutput}{configure} request is sent to the service; it
+is responsible for setting attributes of the input and output streams of the service
+\item \textbf{\asCode{restartStreams}} This method is invoked when a
+\requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request is sent to the
+service; it is responsible for stopping and then starting the input and output streams of
+the service
+\item \textbf{\asCode{setUpStreamDescriptions}} This method is invoked when the service is
+started and it is responsible for providing a list of port names and protocols for use by
+the current instance of the service
+\item \textbf{\asCode{startStreams}} This method is invoked when a
+\requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request is sent to the service;
+it is responsible for starting the input and output streams of the service
+\item \textbf{\asCode{stopStreams}} This method is invoked when a
+\requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request is sent to the service;
+it is responsible for stopping the input and output streams of the service
+\end{itemize}
+The \asCode{configure}, \asCode{restartStreams}, \asCode{startStreams} and
+\asCode{stopStreams} methods can also be invoked by code that instantiates the service.
+			
 			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
 
 \secondaryEnd{}
@@ -48,5 +124,4 @@
 			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
 
 \secondaryEnd{}
-
 \primaryEnd{}
