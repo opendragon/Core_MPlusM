@@ -24,8 +24,8 @@ The following sections describe the most critical of the classes in the
 \textbf{\mplusm{}::Common} namespace -- many of the other classes, in all the namespaces,
 derive from these classes. 
 \secondaryStart{BaseClient}
-Instances of derived classes of \secondaryRef{BaseClient}{BaseClient} are responsible to
-mediate \mplusm{} communication with corresponding instances of derived classes of
+Instances of derived classes of \secondaryRef{BaseClient}{BaseClient} are responsible for
+mediating \mplusm{} communication with corresponding instances of derived classes of
 \secondaryRef{BaseService}{BaseService}.\\
 
 The bulk of the mechanisms needed to perform this are provided by the
@@ -90,38 +90,101 @@ it is responsible for stopping the input and output streams of the service
 \end{itemize}
 The \asCode{configure}, \asCode{restartStreams}, \asCode{startStreams} and
 \asCode{stopStreams} methods can also be invoked by code that instantiates the service.
-			
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
-
 \secondaryEnd{}
 \secondaryStart{BaseMatcher}
-
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
-
+The \secondaryRef{BaseMatcher}{BaseMatcher} class represents a `handle' to a top--down
+pattern matcher used by the \serviceNameR[Service~Registry]{ServiceRegistry} to convert
+the arguments of \requestsNameR{Service~Registry}{ServiceRegistry}{match} requests into
+\asCode{SQL} operations.
+The `outermost' matcher that is parsed from the original request is used to generate the
+\asCode{SQL} -- the \secondaryRef{BaseMatcher}{BaseMatcher} class acts as a placeholder.
 \secondaryEnd{}
+\newpage
 \secondaryStart{BaseRequestHandler}
+The \secondaryRef{BaseRequestHandler}{BaseRequestHandler} class is designed to provide a
+consistent request handling mechanism for \mplusm{} services.\\
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
-
+Classes derived from \secondaryRef{BaseRequestHandler}{BaseRequestHandler} are required to
+provide implementations of the following methods:
+\begin{itemize}
+\item \textbf{\asCode{fillInAliases}} This method is invoked when a service is registering
+its request handlers; it is responsible for providing a list of alternative names for the
+request
+\item \textbf{\asCode{fillInDescription}} This method is invoked when a service is
+responding to an \requestsNameR{Basic}{Basic}{info} or a
+\requestsNameR{Basic}{Basic}{list} request; it is responsible for providing a detailed
+description of the request
+\item \textbf{\asCode{processRequest}} This method is invoked with the request is seen by
+the service and it is responsible for performing the operations that correspond to the
+request
+\end{itemize}
 \secondaryEnd{}
 \secondaryStart{BaseService}
+Instances of derived classes of \secondaryRef{BaseService}{BaseService} are responsible
+for responding to requests from corresponding instances of derived classes of
+\secondaryRef{BaseClient}{BaseClient}.
+As well, they can respond on their secondary \yarp{} network connections to requests or
+process data from the secondary connections.
 
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
+Requests are mainly handled by instances of derived classes of the
+\secondaryRef{BaseRequestHandler}{BaseRequestHandler} class that are owned by the service
+instance; the \secondaryRef{BaseService}{BaseService} class manages the standard request
+handlers.\\
 
+Classes derived from \secondaryRef{BaseService}{BaseService} should implement the
+following methods:
+\begin{itemize}
+\item \textbf{\asCode{attachRequestHandlers}} This method should be called in the
+constructor for the service class and should register handlers for its custom requests
+\item \textbf{\asCode{detachRequestHandlers}} This method should be called in the
+destructor for the service class and should unregister handlers for its custom requests
+\item \textbf{\asCode{start}} This method is invoked by the service application and should
+invoke the same method of its parent class; it should set up any special conditions that
+are needed by the service
+\item \textbf{\asCode{stop}} This method is invoked by the service application and should
+invoke the same method of its parent class; it should release any resources used by the
+service
+\end{itemize}
+The following methods are available to code that uses
+\secondaryRef{BaseService}{BaseService} classes:
+\begin{itemize}
+\item \textbf{\asCode{getEndpoint}} This method provides access to the
+\secondaryRef{Endpoint}{Endpoint} that is provided for the service and is useful for
+establishing a connection to an `embedded' service
+\item \textbf{\asCode{getStatistics}} This method returns the call statistics for the
+service
+\end{itemize}
+The following convenience methods are available to derived classes of
+\secondaryRef{BaseService}{BaseService}:
+\begin{itemize}
+\item \textbf{\asCode{addContext}} This method is used to record the data that holds the
+persistent state for a connection
+\item \textbf{\asCode{clearContexts}} This method is used to remove all the persistent
+state for connections
+\item \textbf{\asCode{findContext}} This method is used to retrieve the data that holds
+the persistent state of a connection
+\item \textbf{\asCode{registerRequestHandler}} This method is used to register the
+object that will handle a request
+\item \textbf{\asCode{removeContext}} This method is used to remove the persistent state
+of a connection
+\item \textbf{\asCode{setDefaultRequestHandler}} This method is used to register the
+object that will handle unknown requests
+\item \textbf{\asCode{unregisterRequestHandler}} This method is used to unregister a
+request handler
+\end{itemize}
 \secondaryEnd{}
 \secondaryStart{Endpoint}
-
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
-
+Instances of the \secondaryRef{Endpoint}{Endpoint} class manage a \yarp{} network
+connection for a service.
+They are used to simplify the communication mechanisms that each service must provide and
+to standardize on the mid--level protocols that \mplusm{} services and clients share.
 \secondaryEnd{}
 \secondaryStart{ServiceRequest}
-
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
-
+Instances of the \secondaryRef{ServiceRequest}{ServiceRequest} class are used to represent
+requests in the mid--level protocols of \mplusm{} services in a uniform format.
 \secondaryEnd{}
 \secondaryStart{ServiceResponse}
-
-			\begin{Large}\textbf{TBD--TBD--TBD}\end{Large}.
-
+Instances of the \secondaryRef{ServiceRequest}{ServiceRequest} class are used to represent
+responses in the mid--level protocols of \mplusm{} services in a uniform format.
 \secondaryEnd{}
 \primaryEnd{}

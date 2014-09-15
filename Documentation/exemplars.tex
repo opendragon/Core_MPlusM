@@ -55,7 +55,8 @@ The files in \exemplarsNameX{ExemplarService} are based on the source files for 
 The files \asCode{M+MRandomNumberXXX.YYY} correspond to the files
 \asCode{M+MExemplarXXX.YYY}, where \asCode{XXX} is \asCode{Service} or
 \asCode{ServiceMain} and the files \asCode{M+MRandomRequestHandler.YYY} correspond to the
-files \asCode{M+MSimpleRequestHandler.YYY}.
+files\\
+\asCode{M+MSimpleRequestHandler.YYY}.
 \tertiaryEnd{\exemplarsNameE{ExemplarService}}
 \secondaryEnd{}
 \secondaryStart{Creating~a~custom~application}
@@ -82,7 +83,7 @@ namespace -- this will need to be changed to avoid conflicts with other uses of 
 exemplar files.
 Choose a name that describes the purpose of the custom application, such as
 asCode{Tracker} for an input service to communicate with a tracking device.
-For the purposes of this section, we will use the name asCode{Foo}.
+For the purposes of this section, we will use the name \asCode{Foo}.
 \tertiaryEnd{}
 \tertiaryStart{Copy the source files}
 Copy the full directories from \asCode{Exemplars}; note that it isn't strictly necessary
@@ -93,7 +94,7 @@ the directory are still needed.
 The description of the relationships between the example directories and the exemplar
 directories indicate how this renaming should be done.
 For example, the file \asCode{M+MExemplarFilterInputHandler.cpp} would be renamed to
-asCode{M+MFooFilterInputHandler.cpp}.
+\asCode{M+MFooFilterInputHandler.cpp}.
 Doing the renaming at this point will help avoid duplicate files or incorrect file
 inclusion.
 \tertiaryEnd{}
@@ -182,7 +183,9 @@ that is desired.
 \begin{itemize}
 \item For \inputOutput{} services, any custom configuration data should be gathered from
 the command line or requested interactively (in the main files for the service
-application) and processed in the \asCode{configure} method of the class for the service
+application) and processed in the \asCode{configure} method of the class for the service;
+for an Input or Output service, a typical configuration value might be a device
+identifier or a file--system path
 \item For Filter services, the processing of its input is done in the \asCode{handleInput}
 method in the\\
 \asCode{M+MFooFilterInputHandler.cpp} file
