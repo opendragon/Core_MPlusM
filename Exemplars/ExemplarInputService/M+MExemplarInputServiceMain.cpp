@@ -73,7 +73,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define EXEMPLARINPUTSTREAM_OPTIONS "p:s:t:"
+#define EXEMPLARINPUT_OPTIONS "p:s:t:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -117,8 +117,8 @@ int main(int     argc,
         yarp::os::ConstString tag;
 
         opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, EXEMPLARINPUTSTREAM_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, EXEMPLARINPUTSTREAM_OPTIONS))
+        for (int cc = getopt(argc, argv, EXEMPLARINPUT_OPTIONS); -1 != cc;
+             cc = getopt(argc, argv, EXEMPLARINPUT_OPTIONS))
         {
             switch (cc)
             {

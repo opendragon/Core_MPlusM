@@ -61,7 +61,6 @@ namespace MplusM
     namespace Exemplars
     {
         class ExemplarFilterInputHandler;
-        class ExemplarFilterRequestHandler;
         
         /*! @brief The truncate filter stream service. */
         class ExemplarFilterService : public Common::BaseFilterService
