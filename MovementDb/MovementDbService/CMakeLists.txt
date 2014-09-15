@@ -40,9 +40,9 @@ include_directories("../MovementDbCommon")
 
 # Set up our program
 add_executable(mpmMovementDbService
+               M+MMovementDbServiceMain.cpp
                M+MAddFileRequestHandler.cpp
                M+MMovementDbContext.cpp
-               M+MMovementDbServiceMain.cpp
                M+MMovementDbService.cpp
                M+MSetDataTrackRequestHandler.cpp
                M+MSetEmailRequestHandler.cpp

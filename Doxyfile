@@ -865,7 +865,14 @@ EXCLUDE                = CMakeFiles \
                          RequestCounter/RequestCounterService/CMakeFiles \
                          RequestInfo/CMakeFiles \
                          ServiceLister/CMakeFiles \
-                         Version/CMakeFiles
+                         Version/CMakeFiles \
+                         Exemplars/CMakeFiles \
+                         Exemplars/ExemplarAdapter/CMakeFiles \
+                         Exemplars/ExemplarClient/CMakeFiles \
+                         Exemplars/ExemplarFilterService/CMakeFiles \
+                         Exemplars/ExemplarInputService/CMakeFiles \
+                         Exemplars/ExemplarOutputService/CMakeFiles \
+                         Exemplars/ExemplarService/CMakeFiles
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded

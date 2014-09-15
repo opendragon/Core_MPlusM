@@ -78,12 +78,13 @@ using namespace MplusM::Example;
 
 /*! @brief The entry point for creating the random number adapter.
  
- The program creates two YARP ports: an output port and an input port. Integers received in the input port are sent to
- the service as the number of random numbers to generate, with zero indicating that the program is to exit.
- The first, optional, argument is the port name to be used for the input port and the second, optional, argument is the
- name to be used for the output port. If the first argument is missing, the input port will be named
- ADAPTER_PORT_NAME_BASE+input/randomnumber and if the second argument is missing, the output port will be named
- ADAPTER_PORT_NAME_BASE+output/randomnumber.
+ The program creates two YARP ports: an output port and an input port. Integers received in the
+ input port are sent to the service as the number of random numbers to generate, with zero
+ indicating that the program is to exit.
+ The first, optional, argument is the port name to be used for the input port and the second,
+ optional, argument is the name to be used for the output port. If the first argument is missing,
+ the input port will be named ADAPTER_PORT_NAME_BASE+input/randomnumber and if the second argument
+ is missing, the output port will be named ADAPTER_PORT_NAME_BASE+output/randomnumber.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */

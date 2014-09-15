@@ -5,9 +5,9 @@ imagefiles = ChannelManager.eps
 
 mainsource = MpM_Manual.tex
 
-secondarysources = classes.tex documentationHistory.tex examples.tex frontispiece.tex \
-	internalDb.tex matchSyntax.tex overview.tex registrationSequence.tex services.tex \
-	utilities.tex
+secondarysources = classes.tex documentationHistory.tex examples.tex exemplars.tex \
+	frontispiece.tex internalDb.tex matchSyntax.tex overview.tex \
+	registrationSequence.tex services.tex utilities.tex
 
 maindvi = $(mainsource:.tex=.dvi)
 

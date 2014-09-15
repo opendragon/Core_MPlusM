@@ -53,4 +53,6 @@ target_link_libraries(mpmMovementDbAdapter
                       odLogging
                       ${YARP_LIBRARIES})
 
+install(TARGETS mpmMovementDbAdapter DESTINATION bin)
+
 enable_testing()

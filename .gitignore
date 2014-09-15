@@ -76,3 +76,12 @@ mpxerr.tex
 MovementDb/MovementDbAdapter/mpmMovementDbAdapter
 MovementDb/MovementDbClient/mpmMovementDbClient
 MovementDb/MovementDbService/mpmMovementDbService
+mpmRandomBurstService
+mpmRecordIntegersService
+mpmTruncateFilterService
+mpmExemplarAdapter
+mpmExemplarClient
+mpmExemplarFilterService
+mpmExemplarInputService
+mpmExemplarOutputService
+mpmExemplarService

@@ -76,7 +76,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RandomNumberClient::RandomNumberClient(void) :
-    inherited("example/randomnumber_")
+    inherited("examples/randomnumber_")
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
@@ -100,7 +100,7 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
     
     try
     {
-        yarp::os::Bottle         parameters;
+        yarp::os::Bottle        parameters;
         Common::ServiceResponse response;
         
         reconnectIfDisconnected(NULL, NULL);

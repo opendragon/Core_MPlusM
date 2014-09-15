@@ -12,9 +12,9 @@ The set of example services include a pair of simple services
 [\examplesNameR{Services}{mpmEchoService} and
 \examplesNameR{Services}{mpmRandomNumberService}], a service with client context
 [\examplesNameR{Services}{mpmRunningSumService}] as well as an input service
-[\examplesNameR{Services}{mpmRandomBurstStreamService}], an output service
-[\examplesNameR{Services}{mpmRecordIntegersStreamService}] and a filter service
-[\examplesNameR{Services}{mpmTruncateFilterStreamService}].\\
+[\examplesNameR{Services}{mpmRandomBurstService}], an output service
+[\examplesNameR{Services}{mpmRecordIntegersService}] and a filter service
+[\examplesNameR{Services}{mpmTruncateFilterService}].\\
 
 Note that services normally have no direct interface.
 That is, they are `faceless' applications and perform their operations without user
@@ -33,8 +33,8 @@ the port number to be used, if a non--default port is desired; the matching clie
 application does not directly use the endpoint name to establish a connection to the
 service.
 \tertiaryEnd{\examplesNameE{Services}{mpmEchoService}}
-\tertiaryStart{\examplesNameP{Services}{mpmRandomBurstStreamService}}
-The \examplesNameX{Services}{mpmRandomBurstStreamService} application is an Input service,
+\tertiaryStart{\examplesNameP{Services}{mpmRandomBurstService}}
+The \examplesNameX{Services}{mpmRandomBurstService} application is an Input service,
 generating a stream of random floating--point values, with a given `burst size' -- the
 number of values sent in a group, and a `burst perdiod' -- the number of seconds between
 groups.
@@ -89,7 +89,7 @@ and period.
 \item \textbf{q:} quit the application. 
 \item \textbf{r:} restart the output stream. 
 \end{itemize}
-\tertiaryEnd{\examplesNameE{Services}{mpmRandomBurstStreamService}}
+\tertiaryEnd{\examplesNameE{Services}{mpmRandomBurstService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRandomNumberService}}
 The \examplesNameX{Services}{mpmRandomNumberService} application responds to
 \requestsNameR{Examples}{Examples}{random} requests from the
@@ -108,8 +108,8 @@ The \requestsNameD{Examples}{Examples}{random} request has an argument of the
 count of floating--point random numbers to be returned as a response to the request.
 \requestsNameE{Examples}{Examples}{random}%
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomNumberService}}
-\tertiaryStart{\examplesNameP{Services}{mpmRecordIntegersStreamService}}
-The \examplesNameX{Services}{mpmRecordIntegersStreamService} application is an Output
+\tertiaryStart{\examplesNameP{Services}{mpmRecordIntegersService}}
+The \examplesNameX{Services}{mpmRecordIntegersService} application is an Output
 service, recording a stream of integer values to an external file.
 The application responds to the standard Output service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
@@ -161,7 +161,7 @@ the input data.
 \item \textbf{r:} restart the input stream, which will cause the current output file to be
 closed and a new output file to be opened. 
 \end{itemize}
-\tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersStreamService}}
+\tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRunningSumService}}
 The \examplesNameX{Services}{mpmRunningSumService} application responds to
 requests from the \examplesNameR{Clients}{mpmRunningSumClient} application or\\
@@ -197,8 +197,8 @@ The \requestsNameD{Examples}{Examples}{stopsum} request stops the running sum
 calculation for the requesting application or adapter.
 \requestsNameE{Examples}{Examples}{stopsum}%
 \tertiaryEnd{\examplesNameE{Services}{mpmRunningSumService}}
-\tertiaryStart{\examplesNameP{Services}{mpmTruncateFilterStreamService}}
-The \examplesNameX{Services}{mpmRecordIntegersStreamService} application is a Filter
+\tertiaryStart{\examplesNameP{Services}{mpmTruncateFilterService}}
+The \examplesNameX{Services}{mpmTruncateFilterService} application is a Filter
 service, converting a stream of floating--point values into a stream of integers.
 The application responds to the standard Filter service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
@@ -240,7 +240,7 @@ configurable parameters.
 \item \textbf{q:} quit the application. 
 \item \textbf{r:} restart the input and output streams. 
 \end{itemize}
-\tertiaryEnd{\examplesNameE{Services}{mpmTruncateFilterStreamService}}
+\tertiaryEnd{\examplesNameE{Services}{mpmTruncateFilterService}}
 \secondaryEnd{}
 \secondaryStart{Example~Clients}
 The example client applications provided use simple terminal--based interfaces to

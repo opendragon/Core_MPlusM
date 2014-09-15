@@ -54,7 +54,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_CHORDGENERATOR_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "example/chordGenerator")
+# define DEFAULT_CHORDGENERATOR_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/chordGenerator")
 
 namespace MplusM
 {

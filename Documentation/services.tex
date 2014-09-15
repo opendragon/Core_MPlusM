@@ -247,9 +247,9 @@ It is the responsibility of derived classes of the
 that handles the data provided in the
 \requestsNameX{\inputOutput{}}{InputOutput}{configure} request.\\
 
-For the \examplesNameR{Services}{mpmRandomBurstStreamService} service, the configuration
+For the \examplesNameR{Services}{mpmRandomBurstService} service, the configuration
 data consists of a floating--point number (the burst period) and an integer (the burst
-size); for the \examplesNameR{Services}{mpmRecordIntegersStreamService} service, the
+size); for the \examplesNameR{Services}{mpmRecordIntegersService} service, the
 configuration data consists of the file--system path for the service output file.\\
 
 \requestsNameX{\inputOutput{}}{InputOutput}{configure} requests should be sent by
@@ -275,11 +275,11 @@ Note that an Output service can be `always on', as it can defer the external
 representation of its input data until the first data arrives at its input \yarp{}
 network port.\\
 
-For the \examplesNameR{Services}{mpmRandomBurstStreamService} service, starting the
+For the \examplesNameR{Services}{mpmRandomBurstService} service, starting the
 streams corresponds to initiating an asynchronous random number generator; for the
-\examplesNameR{Services}{mpmRecordIntegersStreamService} service, starting the streams
+\examplesNameR{Services}{mpmRecordIntegersService} service, starting the streams
 involves opening the service output file and for the
-\examplesNameR{Services}{mpmTruncateFilterStreamService} service, starting the streams
+\examplesNameR{Services}{mpmTruncateFilterService} service, starting the streams
 simply allows data to flow through.
 \tertiaryEnd{\requestsNameE{\inputOutput{}}{InputOutput}{startStreams}}
 \tertiaryStart{\requestsNameD{\inputOutput{}}{InputOutput}{stopStreams}}
