@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       LEAP/CMakeLists.txt
+#  File:       LeapMotion/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The common CMAKE definitions for the M+M LEAP files.
+#  Contains:   The common CMAKE definitions for the M+M Leap Motion files.
 #
 #  Written by: Norman Jaffe
 #
@@ -39,7 +39,7 @@
 # YARP needs CMake 2.6 or greater
 cmake_minimum_required(VERSION 2.6)
 
-project(M+MLEAP)
+project(M+MLeapMotion)
 
 # Make some flags to control the build visible
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
@@ -64,11 +64,11 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 # Add ACE include directories
 include_directories(${ACE_INCLUDE_DIRS})
 
-set(MpMLEAP_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
+set(MpMLEAPMOTION_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
-include_directories("${MpMLEAP_SOURCE_DIR}")
+include_directories("${MpMLEAPMOTION_SOURCE_DIR}")
 
 # Add the subdirectories for input / output services
-add_subdirectory(LEAPInputService)
+add_subdirectory(LeapMotionInputService)
 
 enable_testing()

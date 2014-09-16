@@ -1,6 +1,6 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       LEAPInputService/CMakeLists.txt
+#  File:       LeapMotionInputService/CMakeLists.txt
 #
 #  Project:    M+M
 #
@@ -37,18 +37,18 @@
 #--------------------------------------------------------------------------------------------------
 
 # Set up our program
-add_executable(mpmLEAPInputService
-               M+MLEAPInputServiceMain.cpp
-               M+MLEAPInputService.cpp
-               M+MLEAPInputThread.cpp)
+add_executable(mpmLeapMotionInputService
+               M+MLeapMotionInputServiceMain.cpp
+               M+MLeapMotionInputService.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(mpmLEAPInputService
+target_link_libraries(mpmLeapMotionInputService
+                      "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib"
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
 
-install(TARGETS mpmLEAPInputService DESTINATION bin)
+install(TARGETS mpmLeapMotionInputService DESTINATION bin)
 
 enable_testing()

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MLEAPInputRequests.h
+//  File:       M+MLeapMotionInputRequests.h
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the LEAP input
+//  Contains:   The common macro definitions for requests and responses for the Leap Motion input
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMLEAPInputRequests_H_))
-# define MpMLEAPInputRequests_H_ /* Header guard */
+#if (! defined(MpMLeapMotionInputRequests_H_))
+# define MpMLeapMotionInputRequests_H_ /* Header guard */
 
 # include <mpm/M+MRequests.h>
 
@@ -48,12 +48,13 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The common macro definitions for requests and responses for the LEAP input service. */
+ @brief The common macro definitions for requests and responses for the Leap Motion input
+ service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the LEAP input service. */
-# define MpM_LEAPINPUT_CANONICAL_NAME "LEAPInput"
+/*! @brief The channel-independent name of the Leap Motion input service. */
+# define MpM_LEAPMOTIONINPUT_CANONICAL_NAME "LeapMotionInput"
 
-#endif // ! defined(MpMLEAPInputRequests_H_)
+#endif // ! defined(MpMLeapMotionInputRequests_H_)

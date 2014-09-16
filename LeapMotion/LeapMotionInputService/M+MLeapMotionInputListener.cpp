@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MLEAPInputThread.cpp
+//  File:       M+MLeapMotionInputListener.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for an output-generating thread for M+M.
+//  Contains:   The class definition for a Leap Motion listener.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,11 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MLEAPInputThread.h"
+#include <mpm/M+MLeapMotionInputListener.h>
 
-#include <mpm/M+MGeneralChannel.h>
-
-//#include <odl/ODEnableLogging.h>
+#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
@@ -49,13 +47,13 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for an output-generating thread for M+M. */
+ @brief The class definition for a Leap Motion listener. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::LEAP;
+using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -73,81 +71,92 @@ using namespace MplusM::LEAP;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-LEAPInputThread::LEAPInputThread(Common::GeneralChannel * outChannel,
-                                 const double             timeToWait,
-                                 const int                numValues) :
-    inherited(), _outChannel(outChannel), _timeToWait(timeToWait), _numValues(numValues)
+LeapMotionInputListener::LeapMotionInputListener(void) :
+    inherited()
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("outChannel = ", outChannel); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_LL1("numValues = ", numValues); //####
     OD_LOG_EXIT_P(this); //####
-} // LEAPInputThread::LEAPInputThread
+} // LeapMotionInputListener::LeapMotionInputListener
 
-LEAPInputThread::~LEAPInputThread(void)
+LeapMotionInputListener::~LeapMotionInputListener(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // LEAPInputThread::~LEAPInputThread
+} // LeapMotionInputListener::~LeapMotionInputListener
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void LEAPInputThread::clearOutputChannel(void)
+void LeapMotionInputListener::onConnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = NULL;
+    OD_LOG_P1("theController = ", theController); //####
     OD_LOG_OBJEXIT(); //####
-} // LEAPInputThread::clearOutputChannel
+} // LeapMotionInputListener::onConnect
 
-void LEAPInputThread::run(void)
+void LeapMotionInputListener::onDeviceChange(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
-    for ( ; ! isStopping(); )
-    {
-        if (_nextTime <= yarp::os::Time::now())
-        {
-            OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
-            if (_outChannel)
-            {
-                yarp::os::Bottle message;
-                
-                for (int ii = 0; ii < _numValues; ++ii)
-                {
-                    message.addDouble(10000 * yarp::os::Random::uniform());
-                }
-                if (! _outChannel->write(message))
-                {
-                    OD_LOG("(! _outChannel->write(message))"); //####
-#if defined(MpM_StallOnSendProblem)
-                    Common::Stall();
-#endif // defined(MpM_StallOnSendProblem)
-                }
-            }
-            _nextTime = yarp::os::Time::now() + _timeToWait;
-        }
-        yarp::os::Time::yield();
-    }
+    OD_LOG_P1("theController = ", theController); //####
     OD_LOG_OBJEXIT(); //####
-} // LEAPInputThread::run
+} // LeapMotionInputListener::onDeviceChange
 
-bool LEAPInputThread::threadInit(void)
+void LeapMotionInputListener::onDisconnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
-    bool result = true;
-    
-    _nextTime = yarp::os::Time::now() + _timeToWait;
-    OD_LOG_OBJEXIT_B(result); //####
-    return result;
-} // LEAPInputThread::threadInit
-
-void LEAPInputThread::threadRelease(void)
-{
-    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("theController = ", theController); //####
     OD_LOG_OBJEXIT(); //####
-} // LEAPInputThread::threadRelease
+} // LeapMotionInputListener::onDisconnect
+
+void LeapMotionInputListener::onExit(const Leap::Controller & theController)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_OBJEXIT(); //####
+} // LeapMotionInputListener::onExit
+
+void LeapMotionInputListener::onFocusGained(const Leap::Controller & theController)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_OBJEXIT(); //####
+} // LeapMotionInputListener::onFocusGained
+
+void LeapMotionInputListener::onFocusLost(const Leap::Controller & theController)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_OBJEXIT(); //####
+} // LeapMotionInputListener::onFocusLost
+
+void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_OBJEXIT(); //####
+} // LeapMotionInputListener::onFrame
+
+void LeapMotionInputListener::onInit(const Leap::Controller & theController)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_OBJEXIT(); //####
+} // LeapMotionInputListener::onInit
+
+void LeapMotionInputListener::onServiceConnect(const Leap::Controller & theController)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_OBJEXIT(); //####
+} // LeapMotionInputListener::onServiceConnect
+
+void LeapMotionInputListener::onServiceDisconnect(const Leap::Controller & theController)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_OBJEXIT(); //####
+} // LeapMotionInputListener::onServiceDisconnect
 
 #if defined(__APPLE__)
 # pragma mark Global functions

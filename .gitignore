@@ -85,4 +85,4 @@ mpmExemplarFilterService
 mpmExemplarInputService
 mpmExemplarOutputService
 mpmExemplarService
-mpmLEAPInputService
+mpmLeapMotionInputService

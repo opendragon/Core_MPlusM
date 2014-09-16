@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MLEAPInputService.cpp
+//  File:       M+MLeapMotionInputService.cpp
 //
 //  Project:    M+M
 //
@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MLEAPInputService.h"
-#include "M+MLEAPInputRequests.h"
-#include "M+MLEAPInputThread.h"
+#include "M+MLeapMotionInputService.h"
+#include "M+MLeapMotionInputListener.h"
+#include "M+MLeapMotionInputRequests.h"
 
 #include <mpm/M+MGeneralChannel.h>
 
@@ -58,7 +58,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::LEAP;
+using namespace MplusM::LeapMotion;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -76,32 +76,37 @@ using namespace MplusM::LEAP;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-LEAPInputService::LEAPInputService(const yarp::os::ConstString & launchPath,
-                                           const yarp::os::ConstString & tag,
-                                           const yarp::os::ConstString & serviceEndpointName,
-                                           const yarp::os::ConstString & servicePortNumber) :
-    inherited(launchPath, tag, true, MpM_LEAPINPUT_CANONICAL_NAME,
-              "The LEAP input service", "", serviceEndpointName, servicePortNumber),
-    _generator(NULL), _burstPeriod(1), _burstSize(1)
+LeapMotionInputService::LeapMotionInputService(const yarp::os::ConstString & launchPath,
+                                               const yarp::os::ConstString & tag,
+                                               const yarp::os::ConstString & serviceEndpointName,
+                                               const yarp::os::ConstString & servicePortNumber) :
+    inherited(launchPath, tag, true, MpM_LEAPMOTIONINPUT_CANONICAL_NAME,
+              "The Leap Motion input service", "", serviceEndpointName, servicePortNumber),
+    _controller(new Leap::Controller)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_EXIT_P(this); //####
-} // LEAPInputService::LEAPInputService
+} // LeapMotionInputService::LeapMotionInputService
 
-LEAPInputService::~LEAPInputService(void)
+LeapMotionInputService::~LeapMotionInputService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
+    if (_controller)
+    {
+        delete _controller;
+        _controller = NULL;
+    }
     OD_LOG_OBJEXIT(); //####
-} // LEAPInputService::~LEAPInputService
+} // LeapMotionInputService::~LeapMotionInputService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool LEAPInputService::configure(const yarp::os::Bottle & details)
+bool LeapMotionInputService::configure(const yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -109,27 +114,8 @@ bool LEAPInputService::configure(const yarp::os::Bottle & details)
     
     try
     {
-        if (! isActive())
-        {
-            if (2 == details.size())
-            {
-                yarp::os::Value firstValue(details.get(0));
-                yarp::os::Value secondValue(details.get(1));
-                
-                if (firstValue.isDouble() && secondValue.isInt())
-                {
-                    double firstNumber = firstValue.asDouble();
-                    int    secondNumber = secondValue.asInt();
-                    
-                    if ((0 < firstNumber) && (0 < secondNumber))
-                    {
-                        _burstPeriod = firstNumber;
-                        _burstSize = secondNumber;
-                        result = true;
-                    }
-                }
-            }
-        }
+        // Nothing needs to be done.
+        result = true;
     }
     catch (...)
     {
@@ -138,9 +124,9 @@ bool LEAPInputService::configure(const yarp::os::Bottle & details)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LEAPInputService::configure
+} // LeapMotionInputService::configure
 
-void LEAPInputService::restartStreams(void)
+void LeapMotionInputService::restartStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -155,9 +141,9 @@ void LEAPInputService::restartStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // LEAPInputService::restartStreams
+} // LeapMotionInputService::restartStreams
 
-bool LEAPInputService::setUpStreamDescriptions(void)
+bool LeapMotionInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
     bool                       result = true;
@@ -169,22 +155,22 @@ bool LEAPInputService::setUpStreamDescriptions(void)
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LEAPInputService::setUpStreamDescriptions
+} // LeapMotionInputService::setUpStreamDescriptions
 
-bool LEAPInputService::shutDownOutputStreams(void)
+bool LeapMotionInputService::shutDownOutputStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
-    if (_generator)
-    {
-        _generator->clearOutputChannel();
-    }
+//    if (_generator)
+//    {
+//        _generator->clearOutputChannel();
+//    }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // LEAPInputService::shutDownOutputStreams
+} // LeapMotionInputService::shutDownOutputStreams
 
-bool LEAPInputService::start(void)
+bool LeapMotionInputService::start(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -209,17 +195,17 @@ bool LEAPInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // LEAPInputService::start
+} // LeapMotionInputService::start
 
-void LEAPInputService::startStreams(void)
+void LeapMotionInputService::startStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isActive())
         {
-            _generator = new LEAPInputThread(_outStreams.at(0), _burstPeriod, _burstSize);
-            _generator->start();
+//            _generator = new LEAPInputThread(_outStreams.at(0), _burstPeriod, _burstSize);
+//            _generator->start();
             setActive();
         }
     }
@@ -229,9 +215,9 @@ void LEAPInputService::startStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // LEAPInputService::startStreams
+} // LeapMotionInputService::startStreams
 
-bool LEAPInputService::stop(void)
+bool LeapMotionInputService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -247,22 +233,22 @@ bool LEAPInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LEAPInputService::stop
+} // LeapMotionInputService::stop
 
-void LEAPInputService::stopStreams(void)
+void LeapMotionInputService::stopStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (isActive())
         {
-            _generator->stop();
-            for ( ; _generator->isRunning(); )
-            {
-                yarp::os::Time::delay(_burstSize / 3.9);
-            }
-            delete _generator;
-            _generator = NULL;
+//            _generator->stop();
+//            for ( ; _generator->isRunning(); )
+//            {
+//                yarp::os::Time::delay(_burstSize / 3.9);
+//            }
+//            delete _generator;
+//            _generator = NULL;
             clearActive();
         }
     }
@@ -272,7 +258,7 @@ void LEAPInputService::stopStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // LEAPInputService::stopStreams
+} // LeapMotionInputService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

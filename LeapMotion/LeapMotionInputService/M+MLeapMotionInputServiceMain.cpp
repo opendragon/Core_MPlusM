@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       LEAPInputServiceMain.cpp
+//  File:       LeapMotionInputServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the LEAP input service.
+//  Contains:   The main application for the Leap Motion input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,9 +36,11 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MLEAPInputService.h"
+#include "M+MLeapMotionInputService.h"
 
 #include <mpm/M+MEndpoint.h>
+
+#include "Leap.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -53,17 +55,17 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for the LEAP input service. */
+ @brief The main application for the Leap Motion input service. */
 
-/*! @dir LEAPInputService
- @brief The set of files that implement the LEAP input service. */
+/*! @dir LeapMotionInputService
+ @brief The set of files that implement the Leap Motion input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::LEAP;
+using namespace MplusM::LeapMotion;
 using std::cin;
 using std::cout;
 using std::endl;
@@ -73,7 +75,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define LEAPINPUT_OPTIONS "p:s:t:"
+#define LEAPMOTIONINPUT_OPTIONS "t:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -83,7 +85,7 @@ using std::endl;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the random burst input service.
+/*! @brief The entry point for running the Leap Motion input service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
@@ -110,38 +112,16 @@ int main(int     argc,
     {
         bool                  stdinAvailable = MplusM::CanReadFromStandardInput();
         char *                endPtr;
-        double                burstPeriod = 1;
         double                tempDouble;
-        int                   burstSize = 1;
         int                   tempInt;
         yarp::os::ConstString tag;
 
         opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, LEAPINPUT_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, LEAPINPUT_OPTIONS))
+        for (int cc = getopt(argc, argv, LEAPMOTIONINPUT_OPTIONS); -1 != cc;
+             cc = getopt(argc, argv, LEAPMOTIONINPUT_OPTIONS))
         {
             switch (cc)
             {
-                case 'p' :
-                    // Burst period
-                    tempDouble = strtod(optarg, &endPtr);
-                    if ((optarg != endPtr) && (0 < tempDouble))
-                    {
-                        // Useable data.
-                        burstPeriod = tempDouble;
-                    }
-                    break;
-                    
-                case 's' :
-                    // Burst size
-                    tempInt = static_cast<int>(strtol(optarg, &endPtr, 10));
-                    if ((optarg != endPtr) && (0 < tempInt))
-                    {
-                        // Useable data.
-                        burstSize = tempInt;
-                    }
-                    break;
-                    
                 case 't' :
                     // Tag
                     tag = optarg;
@@ -166,7 +146,7 @@ int main(int     argc,
             MplusM::Common::Initialize(*argv);
             if (optind >= argc)
             {
-                serviceEndpointName = GetRandomChannelName(DEFAULT_LEAPINPUT_SERVICE_NAME);
+                serviceEndpointName = GetRandomChannelName(DEFAULT_LEAPMOTIONINPUT_SERVICE_NAME);
             }
             else if ((optind + 1) == argc)
             {
@@ -178,8 +158,9 @@ int main(int     argc,
                 serviceEndpointName = argv[optind];
                 servicePortNumber = argv[optind + 1];
             }
-            LEAPInputService * stuff = new LEAPInputService(*argv, tag, serviceEndpointName,
-                                                                    servicePortNumber);
+            LeapMotionInputService * stuff = new LeapMotionInputService(*argv, tag,
+                                                                        serviceEndpointName,
+                                                                        servicePortNumber);
             
             if (stuff)
             {
@@ -198,8 +179,6 @@ int main(int     argc,
                         stuff->startPinger();
                         if (! stdinAvailable)
                         {
-                            configureData.addDouble(burstPeriod);
-                            configureData.addInt(burstSize);
                             if (stuff->configure(configureData))
                             {
                                 stuff->startStreams();
@@ -211,7 +190,7 @@ int main(int     argc,
                             {
                                 char inChar;
                                 
-                                cout << "Operation: [b c e q r]? ";
+                                cout << "Operation: [b e q r]? ";
                                 cout.flush();
                                 cin >> inChar;
                                 switch (inChar)
@@ -221,9 +200,6 @@ int main(int     argc,
                                         // Start streams
                                         if (! configured)
                                         {
-                                            configureData.clear();
-                                            configureData.addDouble(burstPeriod);
-                                            configureData.addInt(burstSize);
                                             if (stuff->configure(configureData))
                                             {
                                                 configured = true;
@@ -238,27 +214,9 @@ int main(int     argc,
                                     case 'c' :
                                     case 'C' :
                                         // Configure
-                                        cout << "Burst size: ";
-                                        cout.flush();
-                                        cin >> tempInt;
-                                        cout << "Burst period: ";
-                                        cout.flush();
-                                        cin >> tempDouble;
-                                        if ((0 < tempInt) && (0 < tempDouble))
+                                        if (stuff->configure(configureData))
                                         {
-                                            burstPeriod = tempDouble;
-                                            burstSize = tempInt;
-                                            configureData.clear();
-                                            configureData.addDouble(burstPeriod);
-                                            configureData.addInt(burstSize);
-                                            if (stuff->configure(configureData))
-                                            {
-                                                configured = true;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            cout << "One or both values out of range." << endl;
+                                            configured = true;
                                         }
                                         break;
                                         
@@ -279,9 +237,6 @@ int main(int     argc,
                                         // Restart streams
                                         if (! configured)
                                         {
-                                            configureData.clear();
-                                            configureData.addDouble(burstPeriod);
-                                            configureData.addInt(burstSize);
                                             if (stuff->configure(configureData))
                                             {
                                                 configured = true;

@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MLEAPInputService.h
+//  File:       M+MLeapMotionInputService.h
 //
 //  Project:    M+M
 //
@@ -36,10 +36,12 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMLEAPInputService_H_))
-# define MpMLEAPInputService_H_ /* Header guard */
+#if (! defined(MpMLeapMotionInputService_H_))
+# define MpMLeapMotionInputService_H_ /* Header guard */
 
 # include <mpm/M+MBaseInputService.h>
+
+# include "Leap.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -53,17 +55,17 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_LEAPINPUT_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "leap/leapinput_")
+# define DEFAULT_LEAPMOTIONINPUT_SERVICE_NAME T_( \
+        DEFAULT_SERVICE_NAME_BASE "leapmotion/leapinput_")
 
 namespace MplusM
 {
-    namespace LEAP
+    namespace LeapMotion
     {
-        class LEAPInputThread;
+        class LeapMotionInputListener;
         
         /*! @brief The LEAP input service. */
-        class LEAPInputService : public Common::BaseInputService
+        class LeapMotionInputService : public Common::BaseInputService
         {
         public:
             
@@ -72,13 +74,13 @@ namespace MplusM
              @param tag The modifier for the service name.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            LEAPInputService(const yarp::os::ConstString & launchPath,
-                                 const yarp::os::ConstString & tag,
-                                 const yarp::os::ConstString & serviceEndpointName,
-                                 const yarp::os::ConstString & servicePortNumber = "");
+            LeapMotionInputService(const yarp::os::ConstString & launchPath,
+                                   const yarp::os::ConstString & tag,
+                                   const yarp::os::ConstString & serviceEndpointName,
+                                   const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~LEAPInputService(void);
+            virtual ~LeapMotionInputService(void);
             
             /*! @brief Configure the input/output streams.
              @param details The configuration information for the input/output streams.
@@ -117,41 +119,35 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            LEAPInputService(const LEAPInputService & other);
+            LeapMotionInputService(const LeapMotionInputService & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            LEAPInputService & operator =(const LEAPInputService & other);
+            LeapMotionInputService & operator =(const LeapMotionInputService & other);
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
             virtual bool setUpStreamDescriptions(void);
             
-            /*! @brief The output thread to use. */
-            LEAPInputThread * _generator;
-            
-            /*! @brief The number of seconds between data bursts. */
-            double _burstPeriod;
-            
-            /*! @brief The number of values in each data burst. */
-            int _burstSize;
+            /*! @brief The connection to the Leap device. */
+            Leap::Controller * _controller;
             
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char _filler[4];
+//            char _filler[4];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-        }; // LEAPInputService
+        }; // LeapMotionInputService
         
-    } // LEAP
+    } // LeapMotion
     
 } // MplusM
 
-#endif // ! defined(MpMLEAPInputService_H_)
+#endif // ! defined(MpMLeapMotionInputService_H_)
