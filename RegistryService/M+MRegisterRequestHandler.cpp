@@ -249,12 +249,12 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
 #endif // defined(MpM_StallOnSendProblem)
                                     }
 #if defined(MpM_DoExplicitDisconnect)
-                                    if (! Common::NetworkDisconnectWithRetries(outChannel->name(),
-                                                                               argAsString,
-                                                                               STANDARD_WAIT_TIME,
-                                                                               NULL, NULL))
+                                if (! Utilities::NetworkDisconnectWithRetries(outChannel->name(),
+                                                                              argAsString,
+                                                                              STANDARD_WAIT_TIME,
+                                                                              NULL, NULL))
                                     {
-                                        OD_LOG("(! Common::NetworkDisconnectWithRetries(" //####
+                                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(" //####
                                                "outChannel->name(), argAsString, " //####
                                                "STANDARD_WAIT_TIME, NULL, NULL))"); //####
                                     }

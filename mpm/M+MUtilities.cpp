@@ -1140,6 +1140,167 @@ Common::ServiceKind MplusM::Utilities::MapStringToServiceKind(const yarp::os::Co
     return result;
 } // MplusM::Utilities::MapStringToServiceKind
 
+bool MplusM::Utilities::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
+                                                  const yarp::os::ConstString & destinationName,
+                                                  const double                  timeToWait,
+                                                  const bool                    isUDP,
+                                                  Common::CheckFunction         checker,
+                                                  void *                        checkStuff)
+{
+#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+# if MAC_OR_LINUX_
+#  pragma unused(timeToWait)
+# endif // MAC_OR_LINUX_
+#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
+    OD_LOG_ENTER(); //####
+    OD_LOG_S2s("sourceName = ", sourceName, "destinationName = ", destinationName); //####
+    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    OD_LOG_B1("isUDP = ", isUDP); //####
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
+    bool result = false;
+    
+    if (yarp::os::Network::exists(sourceName) && yarp::os::Network::exists(destinationName))
+    {
+        double retryTime = INITIAL_RETRY_INTERVAL;
+        int    retriesLeft = MAX_RETRIES;
+        
+#if RETRY_LOOPS_USE_TIMEOUTS
+        SetUpCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
+        try
+        {
+#if RETRY_LOOPS_USE_TIMEOUTS
+            BailOut bailer(timeToWait);
+#endif // RETRY_LOOPS_USE_TIMEOUTS
+            const char * carrier;
+            
+            if (isUDP)
+            {
+                carrier = "udp";
+            }
+            else
+            {
+                carrier = "tcp";
+            }
+            do
+            {
+                if (checker && checker(checkStuff))
+                {
+                    break;
+                }
+                
+                OD_LOG("about to connect"); //####
+#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+                result = yarp::os::Network::connect(sourceName, destinationName, carrier, false);
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+                result = yarp::os::Network::connect(sourceName, destinationName, carrier, true);
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+                OD_LOG("connected?"); //####
+                if (! result)
+                {
+                    if (0 < --retriesLeft)
+                    {
+                        OD_LOG("%%retry%%"); //####
+                        yarp::os::Time::delay(retryTime);
+                        retryTime *= RETRY_MULTIPLIER;
+                    }
+                }
+            }
+            while ((! result) && (0 < retriesLeft));
+        }
+        catch (...)
+        {
+            OD_LOG("Exception caught"); //####
+            throw;
+        }
+#if RETRY_LOOPS_USE_TIMEOUTS
+        ShutDownCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
+    }
+    else
+    {
+        OD_LOG("! (yarp::os::Network::exists(sourceName) && " //####
+               "yarp::os::Network::exists(destinationName))"); //####
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // MplusM::Utilities::NetworkConnectWithRetries
+
+bool MplusM::Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
+                                                     const yarp::os::ConstString & destinationName,
+                                                     const double                  timeToWait,
+                                                     Common::CheckFunction         checker,
+                                                     void *                        checkStuff)
+{
+#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+# if MAC_OR_LINUX_
+#  pragma unused(timeToWait)
+# endif // MAC_OR_LINUX_
+#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
+    OD_LOG_ENTER(); //####
+    OD_LOG_S2s("sourceName = ", sourceName, "destinationName = ", destinationName); //####
+    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
+    bool result = false;
+    
+    if (yarp::os::Network::exists(sourceName) && yarp::os::Network::exists(destinationName))
+    {
+        double retryTime = INITIAL_RETRY_INTERVAL;
+        int    retriesLeft = MAX_RETRIES;
+        
+#if RETRY_LOOPS_USE_TIMEOUTS
+        SetUpCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
+        try
+        {
+#if RETRY_LOOPS_USE_TIMEOUTS
+            BailOut bailer(timeToWait);
+#endif // RETRY_LOOPS_USE_TIMEOUTS
+            
+            do
+            {
+                if (checker && checker(checkStuff))
+                {
+                    break;
+                }
+                
+                OD_LOG("about to disconnect"); //####
+#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+                result = yarp::os::Network::disconnect(sourceName, destinationName, false);
+#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+                result = yarp::os::Network::disconnect(sourceName, destinationName, true);
+#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+                OD_LOG("disconnected?"); //####
+                if (! result)
+                {
+                    if (0 < --retriesLeft)
+                    {
+                        OD_LOG("%%retry%%"); //####
+                        yarp::os::Time::delay(retryTime);
+                        retryTime *= RETRY_MULTIPLIER;
+                    }
+                }
+            }
+            while ((! result) && (0 < retriesLeft));
+        }
+        catch (...)
+        {
+            OD_LOG("Exception caught"); //####
+            throw;
+        }
+#if RETRY_LOOPS_USE_TIMEOUTS
+        ShutDownCatcher();
+#endif // RETRY_LOOPS_USE_TIMEOUTS
+    }
+    else
+    {
+        OD_LOG("! (yarp::os::Network::exists(sourceName) && " //####
+               "yarp::os::exists(destinationName))"); //####
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // MplusM::Utilities::NetworkDisconnectWithRetries
+
 bool MplusM::Utilities::RemoveConnection(const yarp::os::ConstString & fromPortName,
                                          const yarp::os::ConstString & toPortName,
                                          Common::CheckFunction         checker,

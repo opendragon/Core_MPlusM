@@ -294,6 +294,34 @@ namespace MplusM
          @returns The service kind corresponding to a string. */
         Common::ServiceKind MapStringToServiceKind(const yarp::os::ConstString & kindString);
         
+        /*! @brief Connect two channels, using a backoff strategy with retries.
+         @param sourceName The name of the source channel.
+         @param destinationName The name of the destination channel.
+         @param timeToWait The number of seconds allowed before a failure is considered.
+         @param isUDP @c true if the connection is to be UDP and @c false otherwise.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
+         @returns @c true if the connection was established and @ false otherwise. */
+        bool NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
+                                       const yarp::os::ConstString & destinationName,
+                                       const double                  timeToWait,
+                                       const bool                    isUDP,
+                                       Common::CheckFunction          checker,
+                                       void *                        checkStuff);
+        
+        /*! @brief Disconnect two channels, using a backoff strategy with retries.
+         @param sourceName The name of the source channel.
+         @param destinationName The name of the destination channel.
+         @param timeToWait The number of seconds allowed before a failure is considered.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
+         @returns @c true if the connection was removed and @ false otherwise. */
+        bool NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
+                                          const yarp::os::ConstString & destinationName,
+                                          const double                  timeToWait,
+                                          Common::CheckFunction         checker,
+                                          void *                        checkStuff);
+        
         /*! @brief Remove a connection between two ports.
          @param fromPortName The name of the source port.
          @param toPortName The name of the destination port.

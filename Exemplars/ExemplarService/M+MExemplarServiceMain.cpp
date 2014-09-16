@@ -51,7 +51,7 @@
  
  @brief The main application for the exemplar service. */
 
-/*! @dir TemplateCommon
+/*! @dir ExemplarCommon
  @brief The set of files that are shared between the exemplar client and the exemplar service. */
 
 /*! @dir ExemplarService

@@ -145,10 +145,10 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
 #endif // defined(MpM_ReportOnConnections)
         if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
         {
-            if (! NetworkConnectWithRetries(aName, destinationName, STANDARD_WAIT_TIME, false,
-                                            NULL, NULL))
+            if (! Utilities::NetworkConnectWithRetries(aName, destinationName, STANDARD_WAIT_TIME,
+                                                       false, NULL, NULL))
             {
-                OD_LOG("(! NetworkConnectWithRetries(aName, destinationName, " //####
+                OD_LOG("(! Utilities::NetworkConnectWithRetries(aName, destinationName, " //####
                        "STANDARD_WAIT_TIME, false, NULL, NULL))"); //####
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -196,11 +196,11 @@ static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
     if (theChannel)
     {
 #if defined(MpM_DoExplicitDisconnect)
-        if (! NetworkDisconnectWithRetries(theChannel->name(), destinationName, STANDARD_WAIT_TIME,
-                                           NULL, NULL))
+        if (! Utilities::NetworkDisconnectWithRetries(theChannel->name(), destinationName,
+                                                      STANDARD_WAIT_TIME, NULL, NULL))
         {
-            OD_LOG("(! NetworkDisconnectWithRetries(theChannel->name(), destinationName, " //####
-                   "STANDARD_WAIT_TIME, NULL, NULL))"); //####
+            OD_LOG("(! Utilities::NetworkDisconnectWithRetries(theChannel->name(), " //####
+                   "destinationName, STANDARD_WAIT_TIME, NULL, NULL))"); //####
         }
 #endif // defined(MpM_DoExplicitDisconnect)
 #if defined(MpM_DoExplicitClose)

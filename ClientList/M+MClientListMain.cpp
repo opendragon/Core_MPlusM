@@ -41,6 +41,7 @@
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -253,10 +254,12 @@ int main(int     argc,
                                         yarp::os::ConstString aMatch =
                                                                     matchesList->get(ii).toString();
                                         
-                                        if (MplusM::Common::NetworkConnectWithRetries(aName, aMatch,
-                                                                              STANDARD_WAIT_TIME,
-                                                                                      false, NULL,
-                                                                                      NULL))
+                                        if (MplusM::Utilities::NetworkConnectWithRetries(aName,
+                                                                                         aMatch,
+                                                                                 STANDARD_WAIT_TIME,
+                                                                                         false,
+                                                                                         NULL,
+                                                                                         NULL))
                                         {
                                             MplusM::Common::ServiceRequest
                                                                         request(MpM_CLIENTS_REQUEST,
@@ -291,21 +294,22 @@ int main(int     argc,
 #endif // MAC_OR_LINUX_
                                             }
 #if defined(MpM_DoExplicitDisconnect)
-                                        if (! MplusM::Common::NetworkDisconnectWithRetries(aName,
-                                                                                           aMatch,
-                                                                               STANDARD_WAIT_TIME,
-                                                                                           NULL,
-                                                                                           NULL))
+                                        if (! MplusM::Utilities::NetworkDisconnectWithRetries(aName,
+                                                                                          aMatch,
+                                                                              STANDARD_WAIT_TIME,
+                                                                                              NULL,
+                                                                                              NULL))
                                             {
-                                                OD_LOG("(! MplusM::Common::NetworkDisconnect" //####
-                                                       "WithRetries(aName, aMatch, " //####
-                                                       "STANDARD_WAIT_TIME, NULL, NULL))"); //####
+                                                OD_LOG("(! MplusM::Utilities::Network" //####
+                                                       "DisconnectWithRetries(aName, " //####
+                                                       "aMatch, STANDARD_WAIT_TIME, NULL, " //####
+                                                       "NULL))"); //####
                                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                                         }
                                         else
                                         {
-                                            OD_LOG("! (MplusM::Common::NetworkConnectWith" //####
+                                            OD_LOG("! (MplusM::Utilities::NetworkConnectWith" //####
                                                    "Retries(aName, aMatch, " //####
                                                    "STANDARD_WAIT_TIME, false, NULL, " //####
                                                    "NULL))"); //####

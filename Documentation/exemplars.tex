@@ -117,47 +117,26 @@ ports from other services and clients
 \item In the files \asCode{M+MFooRequests.h} and \asCode{M+MFooService.cpp}, replace
 \asCode{MpM\textunderscore{}EXEMPLAR\textunderscore{}CANONICAL\textunderscore{}NAME} with
 \asCode{MpM\textunderscore{}FOO\textunderscore{}CANONICAL\textunderscore{}NAME}
-\item In the files \asCode{M+MFooFilterService.h} and
-\asCode{M+MFooFilterServiceMain.cpp}, replace\\
-\asCode{DEFAULT\textunderscore{}EXEMPLARFILTER\textunderscore{}SERVICE\textunderscore{}%
+\item In the files \asCode{M+MFooXXXService.h} and
+\asCode{M+MFooXXXServiceMain.cpp}, replace\\
+\asCode{DEFAULT\textunderscore{}EXEMPLARxxx\textunderscore{}SERVICE\textunderscore{}%
 NAME} with
-\asCode{DEFAULT\textunderscore{}FOOFILTER\textunderscore{}SERVICE\textunderscore{}NAME}
-\item In the files \asCode{M+MFooInputService.h} and \asCode{M+MFooInputServiceMain.cpp},
-replace\\
-\asCode{DEFAULT\textunderscore{}EXEMPLARINPUT\textunderscore{}SERVICE\textunderscore{}%
-NAME} with
-\asCode{DEFAULT\textunderscore{}FOOINPUT\textunderscore{}SERVICE\textunderscore{}NAME}
-\item In the files \asCode{M+MFooOutputService.h} and
-\asCode{M+MFooOutputServiceMain.cpp}, replace\\
-\asCode{DEFAULT\textunderscore{}EXEMPLAROUTPUT\textunderscore{}SERVICE\textunderscore{}%
-NAME} with
-\asCode{DEFAULT\textunderscore{}FOOOUTPUT\textunderscore{}SERVICE\textunderscore{}NAME}
+\asCode{DEFAULT\textunderscore{}FOOxxx\textunderscore{}SERVICE\textunderscore{}NAME},
+where \asCode{xxx} is \asCode{FILTER}, \asCode{INPUT} or \asCode{OUTPUT}
 \item In the files \asCode{M+MFooService.h} and \asCode{M+MFooServiceMain.cpp}, replace
 \asCode{DEFAULT\textunderscore{}EXEMPLAR\textunderscore{}SERVICE\textunderscore{}NAME}
 with \asCode{DEFAULT\textunderscore{}FOO\textunderscore{}SERVICE\textunderscore{}NAME}
-\item In the files \asCode{M+MFooFilterRequests.h} and \asCode{M+MFooFilterService.cpp},
+\item In the files \asCode{M+MFooXXXRequests.h} and \asCode{M+MFooXXXService.cpp},
 replace\\
-\asCode{MpM\textunderscore{}EXEMPLARFILTER\textunderscore{}CANONICAL\textunderscore{}NAME}
-with \asCode{MpM\textunderscore{}FOOFILTER\textunderscore{}CANONICAL\textunderscore{}NAME}
-\item In the files \asCode{M+MFooInputRequests.h} and \asCode{M+MFooInputService.cpp},
-replace\\
-\asCode{MpM\textunderscore{}EXEMPLARINPUT\textunderscore{}CANONICAL\textunderscore{}NAME}
-with \asCode{MpM\textunderscore{}FOOINPUT\textunderscore{}CANONICAL\textunderscore{}NAME}
-\item In the files \asCode{M+MFooOutputRequests.h} and \asCode{M+MFooOutputService.cpp},
-replace\\
-\asCode{MpM\textunderscore{}EXEMPLAROUTPUT\textunderscore{}CANONICAL\textunderscore{}NAME}
-with \asCode{MpM\textunderscore{}FOOOUTPUT\textunderscore{}CANONICAL\textunderscore{}NAME}
-\item In the file \asCode{M+MFooFilterServiceMain.cpp}, replace
-\asCode{EXEMPLARFILTER\textunderscore{}OPTIONS} with\\
-\asCode{FOOFILTER\textunderscore{}OPTIONS}
-\item In the file \asCode{M+MFooInputServiceMain.cpp}, replace
-\asCode{EXEMPLARINPUT\textunderscore{}OPTIONS} with\\
-\asCode{FOOINPUT\textunderscore{}OPTIONS}
-\item In the file \asCode{M+MFooOutputServiceMain.cpp}, replace
-\asCode{EXEMPLAROUTPUT\textunderscore{}OPTIONS} with\\
-\asCode{FOOOUTPUT\textunderscore{}OPTIONS}
+\asCode{MpM\textunderscore{}EXEMPLARXXX\textunderscore{}CANONICAL\textunderscore{}NAME}
+with \asCode{MpM\textunderscore{}FOOXXX\textunderscore{}CANONICAL\textunderscore{}NAME},
+where \asCode{XXX} is \asCode{FILTER}, \asCode{INPUT} or \asCode{OUTPUT}
+\item In the file \asCode{M+MFooXXXServiceMain.cpp}, replace
+\asCode{EXEMPLARXXX\textunderscore{}OPTIONS} with\\
+\asCode{FOOXXX\textunderscore{}OPTIONS}, where \asCode{XXX} is \asCode{FILTER},
+\asCode{INPUT} or \asCode{OUTPUT}
 \item In the top--level file \asCode{CMakeLists.txt}, comment out the directories that are
-not being built, by putting a hash--mark (or pound sign), `\asCode{\#}' at the beginning
+not being built, by putting a hash--mark (or pound sign), `\asCode{\#}', at the beginning
 of the \asCode{add\textunderscore{}subdirectory} statement for the directory.
 \end{itemize}
 \tertiaryEnd{}
@@ -182,7 +161,7 @@ Once the applications have successfully built, it's time to add the custom funct
 that is desired.
 \begin{itemize}
 \item For \inputOutput{} services, any custom configuration data should be gathered from
-the command line or requested interactively (in the main files for the service
+the command line or requested interactively (in the main file for the service
 application) and processed in the \asCode{configure} method of the class for the service;
 for an Input or Output service, a typical configuration value might be a device
 identifier or a file--system path
@@ -190,7 +169,7 @@ identifier or a file--system path
 method in the\\
 \asCode{M+MFooFilterInputHandler.cpp} file
 \item For Input services, the \asCode{run} method in the \asCode{M+MFooInputThread.cpp}
-file is an asynchronous -- relative to \mplusm{} -- to gather input and route it to the
+file is asynchronous -- relative to \mplusm{} -- to gather input and route it to the
 \yarp{} network connections for the service
 \item For Output services, the processing of its input is done in the \asCode{handlInput}
 method in the\\

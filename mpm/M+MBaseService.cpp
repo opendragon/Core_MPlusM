@@ -57,6 +57,7 @@
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -113,8 +114,9 @@ bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName,
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME,
-                                              false, checker, checkStuff))
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                         STANDARD_WAIT_TIME, false, checker,
+                                                         checkStuff))
                 {
                     yarp::os::Bottle parameters(channelName);
                     ServiceRequest   request(MpM_PING_REQUEST, parameters);
@@ -147,10 +149,11 @@ bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName,
                         OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
-                                                       STANDARD_WAIT_TIME, checker, checkStuff))
+                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                                  STANDARD_WAIT_TIME, checker,
+                                                                  checkStuff))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
+                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
                                "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, checker, " //####
                                "checkStuff))"); //####
                     }
@@ -158,8 +161,9 @@ bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName,
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
-                           "STANDARD_WAIT_TIME, false, checker, checkStuff))"); //####
+                    OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
+                           "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, checker, " //####
+                           "checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -736,8 +740,9 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME,
-                                              false, checker, checkStuff))
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                         STANDARD_WAIT_TIME, false, checker,
+                                                         checkStuff))
                 {
                     yarp::os::Bottle parameters(channelName);
                     ServiceRequest   request(MpM_REGISTER_REQUEST, parameters);
@@ -771,10 +776,11 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
                         OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
-                                                       STANDARD_WAIT_TIME, checker, checkStuff))
+                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                                  STANDARD_WAIT_TIME, checker,
+                                                                  checkStuff))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
+                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
                                "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, checker, " //####
                                "checkStuff))"); //####
                     }
@@ -782,8 +788,9 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
-                           "STANDARD_WAIT_TIME, false, checker, checkStuff))"); //####
+                    OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
+                           "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, checker, " //####
+                           "checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -836,8 +843,9 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME,
-                                              false, checker, checkStuff))
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                         STANDARD_WAIT_TIME, false, checker,
+                                                         checkStuff))
                 {
                     yarp::os::Bottle parameters(channelName);
                     ServiceRequest   request(MpM_UNREGISTER_REQUEST, parameters);
@@ -871,10 +879,11 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
                         OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
-                                                       STANDARD_WAIT_TIME, checker, checkStuff))
+                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                                  STANDARD_WAIT_TIME, checker,
+                                                                  checkStuff))
                     {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
+                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
                                "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, checker, " //####
                                "checkStuff))"); //####
                     }
@@ -882,8 +891,9 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
-                           "STANDARD_WAIT_TIME, false, checker, checkStuff))"); //####
+                    OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
+                           "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, checker, " //####
+                           "checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();

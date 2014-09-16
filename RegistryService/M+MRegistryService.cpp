@@ -132,9 +132,6 @@ using namespace MplusM::Registry;
 /*! @brief The name of the index for the 'requests_id' column of the 'RequestsKeywords' table. */
 #define REQUESTSKEYWORDS_REQUESTS_ID_I_     "RequestsKeywords_Requests_id_idx"
 
-/*! @brief The name of the secondary port for the service. */
-#define SECONDARY_CHANNEL_NAME_             T_(MpM_REGISTRY_CHANNEL_NAME "/status")
-
 /*! @brief The name of the index for the 'name' column of the 'Services' table. */
 #define SERVICES_NAME_I_                    "Services_name_idx"
 
@@ -3022,7 +3019,7 @@ bool RegistryService::setUpStatusChannel(void)
         _statusChannel = new Common::GeneralChannel(true);
         if (_statusChannel)
         {
-            yarp::os::ConstString   outputName(SECONDARY_CHANNEL_NAME_);
+            yarp::os::ConstString   outputName(MpM_REGISTRY_STATUS_NAME);
 #if defined(MpM_ReportOnConnections)
             ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
@@ -3078,9 +3075,9 @@ bool RegistryService::start(void)
                 {
                     if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
-                        if (Common::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
-                                                              STANDARD_WAIT_TIME, false, NULL,
-                                                              NULL))
+                        if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                                 STANDARD_WAIT_TIME, false, NULL,
+                                                                 NULL))
                         {
                             yarp::os::Bottle        parameters(MpM_REGISTRY_CHANNEL_NAME);
                             Common::ServiceRequest  request(MpM_REGISTER_REQUEST, parameters);
@@ -3118,7 +3115,7 @@ bool RegistryService::start(void)
                         }
                         else
                         {
-                            OD_LOG("! (Common::NetworkConnectWithRetries(aName, " //####
+                            OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
                                    "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, " //####
                                    "NULL, NULL))"); //####
                         }
