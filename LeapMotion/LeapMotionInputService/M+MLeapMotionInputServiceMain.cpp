@@ -42,7 +42,7 @@
 
 #include "Leap.h"
 
-//#include <odl/ODEnableLogging.h>
+#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if (! MAC_OR_LINUX_) //ASSUME WINDOWS

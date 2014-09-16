@@ -134,6 +134,9 @@ namespace MplusM
             /*! @brief The connection to the Leap device. */
             Leap::Controller * _controller;
             
+            /*! @brief The Leap Motion event handler. */
+            LeapMotionInputListener * _listener;
+            
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"

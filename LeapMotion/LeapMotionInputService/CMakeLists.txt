@@ -39,6 +39,7 @@
 # Set up our program
 add_executable(mpmLeapMotionInputService
                M+MLeapMotionInputServiceMain.cpp
+               M+MLeapMotionInputListener.cpp
                M+MLeapMotionInputService.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

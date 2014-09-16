@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MLeapMotionInputListener.h>
+#include "M+MLeapMotionInputListener.h"
 
 #include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -54,6 +54,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
+using namespace MplusM::LeapMotion;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -91,70 +92,70 @@ LeapMotionInputListener::~LeapMotionInputListener(void)
 void LeapMotionInputListener::onConnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onConnect
 
 void LeapMotionInputListener::onDeviceChange(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onDeviceChange
 
 void LeapMotionInputListener::onDisconnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onDisconnect
 
 void LeapMotionInputListener::onExit(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onExit
 
 void LeapMotionInputListener::onFocusGained(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onFocusGained
 
 void LeapMotionInputListener::onFocusLost(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onFocusLost
 
 void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onFrame
 
 void LeapMotionInputListener::onInit(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onInit
 
 void LeapMotionInputListener::onServiceConnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onServiceConnect
 
 void LeapMotionInputListener::onServiceDisconnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("theController = ", theController); //####
+    OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onServiceDisconnect
 

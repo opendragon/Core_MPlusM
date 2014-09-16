@@ -42,7 +42,7 @@
 
 #include <mpm/M+MGeneralChannel.h>
 
-//#include <odl/ODEnableLogging.h>
+#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
@@ -82,7 +82,7 @@ LeapMotionInputService::LeapMotionInputService(const yarp::os::ConstString & lau
                                                const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_LEAPMOTIONINPUT_CANONICAL_NAME,
               "The Leap Motion input service", "", serviceEndpointName, servicePortNumber),
-    _controller(new Leap::Controller)
+    _controller(new Leap::Controller), _listener(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -204,9 +204,12 @@ void LeapMotionInputService::startStreams(void)
     {
         if (! isActive())
         {
-//            _generator = new LEAPInputThread(_outStreams.at(0), _burstPeriod, _burstSize);
-//            _generator->start();
-            setActive();
+            if (_controller)
+            {
+                _listener = new LeapMotionInputListener;
+                _controller->addListener(*_listener);
+                setActive();
+            }
         }
     }
     catch (...)
@@ -242,13 +245,12 @@ void LeapMotionInputService::stopStreams(void)
     {
         if (isActive())
         {
-//            _generator->stop();
-//            for ( ; _generator->isRunning(); )
-//            {
-//                yarp::os::Time::delay(_burstSize / 3.9);
-//            }
-//            delete _generator;
-//            _generator = NULL;
+            if (_controller && _listener)
+            {
+                _controller->removeListener(*_listener);
+                delete _listener;
+                _listener = NULL;
+            }
             clearActive();
         }
     }
