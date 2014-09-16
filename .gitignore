@@ -73,9 +73,9 @@ Documentation/MpM_Manual.pdf
 Documentation/MpM_Manual.toc
 !Documentation/makefile
 mpxerr.tex
-MovementDb/MovementDbAdapter/mpmMovementDbAdapter
-MovementDb/MovementDbClient/mpmMovementDbClient
-MovementDb/MovementDbService/mpmMovementDbService
+mpmMovementDbAdapter
+mpmMovementDbClient
+mpmMovementDbService
 mpmRandomBurstService
 mpmRecordIntegersService
 mpmTruncateFilterService
@@ -85,3 +85,4 @@ mpmExemplarFilterService
 mpmExemplarInputService
 mpmExemplarOutputService
 mpmExemplarService
+mpmLEAPInputService
