@@ -339,6 +339,14 @@
 		DF824BB419C755AD004D13AC /* M+MExemplarServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MExemplarServiceMain.cpp"; path = "Exemplars/ExemplarService/M+MExemplarServiceMain.cpp"; sourceTree = "<group>"; };
 		DF824BB519C755AD004D13AC /* M+MSimpleRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MSimpleRequestHandler.cpp"; path = "Exemplars/ExemplarService/M+MSimpleRequestHandler.cpp"; sourceTree = "<group>"; };
 		DF824BB619C755AD004D13AC /* M+MSimpleRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MSimpleRequestHandler.h"; path = "Exemplars/ExemplarService/M+MSimpleRequestHandler.h"; sourceTree = "<group>"; };
+		DF824BBB19C8B0EC004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = LEAP/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF824BBD19C8B104004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = LEAP/LEAPInputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF824BBE19C8B104004D13AC /* M+MLEAPInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MLEAPInputRequests.h"; path = "LEAP/LEAPInputService/M+MLEAPInputRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF824BBF19C8B104004D13AC /* M+MLEAPInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLEAPInputService.cpp"; path = "LEAP/LEAPInputService/M+MLEAPInputService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF824BC019C8B104004D13AC /* M+MLEAPInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MLEAPInputService.h"; path = "LEAP/LEAPInputService/M+MLEAPInputService.h"; sourceTree = SOURCE_ROOT; };
+		DF824BC119C8B104004D13AC /* M+MLEAPInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLEAPInputServiceMain.cpp"; path = "LEAP/LEAPInputService/M+MLEAPInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF824BC219C8B104004D13AC /* M+MLEAPInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLEAPInputThread.cpp"; path = "LEAP/LEAPInputService/M+MLEAPInputThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DF824BC319C8B104004D13AC /* M+MLEAPInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MLEAPInputThread.h"; path = "LEAP/LEAPInputService/M+MLEAPInputThread.h"; sourceTree = SOURCE_ROOT; };
 		DFCB229818EF23DF00358EA5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ClientList/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCB229918EF23DF00358EA5 /* M+MClientListMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MClientListMain.cpp"; path = "ClientList/M+MClientListMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MMovementDbClient.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -839,6 +847,29 @@
 			name = ExemplarService;
 			sourceTree = SOURCE_ROOT;
 		};
+		DF824BBA19C8B0B1004D13AC /* LEAP */ = {
+			isa = PBXGroup;
+			children = (
+				DF824BBB19C8B0EC004D13AC /* CMakeLists.txt */,
+				DF824BBC19C8B0F2004D13AC /* LEAPInputService */,
+			);
+			name = LEAP;
+			sourceTree = "<group>";
+		};
+		DF824BBC19C8B0F2004D13AC /* LEAPInputService */ = {
+			isa = PBXGroup;
+			children = (
+				DF824BBD19C8B104004D13AC /* CMakeLists.txt */,
+				DF824BBE19C8B104004D13AC /* M+MLEAPInputRequests.h */,
+				DF824BBF19C8B104004D13AC /* M+MLEAPInputService.cpp */,
+				DF824BC019C8B104004D13AC /* M+MLEAPInputService.h */,
+				DF824BC119C8B104004D13AC /* M+MLEAPInputServiceMain.cpp */,
+				DF824BC219C8B104004D13AC /* M+MLEAPInputThread.cpp */,
+				DF824BC319C8B104004D13AC /* M+MLEAPInputThread.h */,
+			);
+			name = LEAPInputService;
+			sourceTree = "<group>";
+		};
 		DFA3430618C91B4F0053B87C = {
 			isa = PBXGroup;
 			children = (
@@ -848,6 +879,7 @@
 				DFE83ABA19B661EB003A7EDE /* MovementDb */,
 				DFA86D2518E1D13300A22941 /* examples */,
 				DF824B1719C7304F004D13AC /* Exemplars */,
+				DF824BBA19C8B0B1004D13AC /* LEAP */,
 				DFA3434F18C91C670053B87C /* mpm */,
 				DFA3432618C91C1C0053B87C /* odl */,
 				DF27F42718CA357400E93C95 /* ParserTest */,

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MRandomBurstService.cpp
+//  File:       M+MLEAPInputService.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the random burst input service.
+//  Contains:   The class definition for the LEAP input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,13 +32,13 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-06-24
+//  Created:    2014-09-16
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MRandomBurstService.h"
-#include "M+MRandomBurstRequests.h"
-#include "M+MRandomBurstThread.h"
+#include "M+MLEAPInputService.h"
+#include "M+MLEAPInputRequests.h"
+#include "M+MLEAPInputThread.h"
 
 #include <mpm/M+MGeneralChannel.h>
 
@@ -51,14 +51,14 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the random burst input service. */
+ @brief The class definition for the LEAP input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Example;
+using namespace MplusM::LEAP;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -76,32 +76,32 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-RandomBurstService::RandomBurstService(const yarp::os::ConstString & launchPath,
-                                       const yarp::os::ConstString & tag,
-                                       const yarp::os::ConstString & serviceEndpointName,
-                                       const yarp::os::ConstString & servicePortNumber) :
-    inherited(launchPath, tag, true, MpM_RANDOMBURST_CANONICAL_NAME,
-              "The random burst input service", "", serviceEndpointName, servicePortNumber),
+LEAPInputService::LEAPInputService(const yarp::os::ConstString & launchPath,
+                                           const yarp::os::ConstString & tag,
+                                           const yarp::os::ConstString & serviceEndpointName,
+                                           const yarp::os::ConstString & servicePortNumber) :
+    inherited(launchPath, tag, true, MpM_LEAPINPUT_CANONICAL_NAME,
+              "The LEAP input service", "", serviceEndpointName, servicePortNumber),
     _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_EXIT_P(this); //####
-} // RandomBurstService::RandomBurstService
+} // LEAPInputService::LEAPInputService
 
-RandomBurstService::~RandomBurstService(void)
+LEAPInputService::~LEAPInputService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
     OD_LOG_OBJEXIT(); //####
-} // RandomBurstService::~RandomBurstService
+} // LEAPInputService::~LEAPInputService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool RandomBurstService::configure(const yarp::os::Bottle & details)
+bool LEAPInputService::configure(const yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -138,9 +138,9 @@ bool RandomBurstService::configure(const yarp::os::Bottle & details)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RandomBurstService::configure
+} // LEAPInputService::configure
 
-void RandomBurstService::restartStreams(void)
+void LEAPInputService::restartStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -155,23 +155,23 @@ void RandomBurstService::restartStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // RandomBurstService::restartStreams
+} // LEAPInputService::restartStreams
 
-bool RandomBurstService::setUpStreamDescriptions(void)
+bool LEAPInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
     bool                       result = true;
     Common::ChannelDescription description;
     
     _outDescriptions.clear();
-    description._portName = "examples/randomburst/output_";
+    description._portName = "leap/leapinput/output_";
     description._portProtocol = "d+";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RandomBurstService::setUpStreamDescriptions
+} // LEAPInputService::setUpStreamDescriptions
 
-bool RandomBurstService::shutDownOutputStreams(void)
+bool LEAPInputService::shutDownOutputStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -182,9 +182,9 @@ bool RandomBurstService::shutDownOutputStreams(void)
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // RandomBurstService::shutDownOutputStreams
+} // LEAPInputService::shutDownOutputStreams
 
-bool RandomBurstService::start(void)
+bool LEAPInputService::start(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -209,16 +209,16 @@ bool RandomBurstService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // RandomBurstService::start
+} // LEAPInputService::start
 
-void RandomBurstService::startStreams(void)
+void LEAPInputService::startStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isActive())
         {
-            _generator = new RandomBurstThread(_outStreams.at(0), _burstPeriod, _burstSize);
+            _generator = new LEAPInputThread(_outStreams.at(0), _burstPeriod, _burstSize);
             _generator->start();
             setActive();
         }
@@ -229,9 +229,9 @@ void RandomBurstService::startStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // RandomBurstService::startStreams
+} // LEAPInputService::startStreams
 
-bool RandomBurstService::stop(void)
+bool LEAPInputService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -247,9 +247,9 @@ bool RandomBurstService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RandomBurstService::stop
+} // LEAPInputService::stop
 
-void RandomBurstService::stopStreams(void)
+void LEAPInputService::stopStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -272,7 +272,7 @@ void RandomBurstService::stopStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // RandomBurstService::stopStreams
+} // LEAPInputService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

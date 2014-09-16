@@ -58,7 +58,7 @@
 
 namespace MplusM
 {
-    namespace Exemplars
+    namespace Exemplar
     {
         class ExemplarOutputInputHandler;
         
@@ -136,7 +136,7 @@ namespace MplusM
             
         }; // ExemplarOutputService
         
-    } // Exemplars
+    } // Exemplar
     
 } // MplusM
 

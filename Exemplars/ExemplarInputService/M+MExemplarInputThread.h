@@ -59,7 +59,7 @@ namespace MplusM
         class GeneralChannel;
     } // Common
     
-    namespace Exemplars
+    namespace Exemplar
     {
         /*! @brief A convenience class to generate output. */
         class ExemplarInputThread : public yarp::os::Thread
@@ -76,6 +76,9 @@ namespace MplusM
             
             /*! @brief The destructor. */
             virtual ~ExemplarInputThread(void);
+            
+            /*! @brief Stop using the output channel. */
+            void clearOutputChannel(void);
             
             /*! @brief The thread main body. */
             virtual void run(void);
@@ -140,7 +143,7 @@ namespace MplusM
             
         }; // ExemplarInputThread
         
-    } // Exemplars
+    } // Exemplar
     
 } // MplusM
 

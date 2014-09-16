@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MExemplarFilterInputHandler.h
+//  File:       M+MLEAPInputThread.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the input channel input handler used by the exemplar
-//              filter service.
+//  Contains:   The class declaration for an output-generating thread for M+M.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-15
+//  Created:    2014-09-16
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMExemplarFilterInputHandler_H_))
-# define MpMExemplarFilterInputHandler_H_ /* Header guard */
+#if (! defined(MpMLEAPInputThread_H_))
+# define MpMLEAPInputThread_H_ /* Header guard */
 
-# include <mpm/M+MInputHandler.h>
+# include <mpm/M+MCommon.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -48,8 +47,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the input channel input handler used by the exemplar filter
- service. */
+ @brief The class declaration for an output-generating thread for M+M. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -61,61 +59,92 @@ namespace MplusM
         class GeneralChannel;
     } // Common
     
-    namespace Exemplar
+    namespace LEAP
     {
-        /*! @brief A handler for partially-structured input data.
-         
-         The data is expected to be in the form of a sequence of integer or floating point
-         values. */
-        class ExemplarFilterInputHandler : public Common::InputHandler
+        /*! @brief A convenience class to generate output. */
+        class LEAPInputThread : public yarp::os::Thread
         {
         public:
             
-            /*! @brief The constructor. */
-            ExemplarFilterInputHandler(void);
+            /*! @brief The constructor.
+             @param outChannel The channel to send data bursts to.
+             @param timeToWait The number of seconds to delay before triggering.
+             @param numValues The number of values to send in each burst. */
+            LEAPInputThread(Common::GeneralChannel * outChannel,
+                            const double             timeToWait,
+                            const int                numValues);
             
             /*! @brief The destructor. */
-            virtual ~ExemplarFilterInputHandler(void);
+            virtual ~LEAPInputThread(void);
             
-            /*! @brief Process partially-structured input data.
-             @param input The partially-structured input data.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-             @returns @c true if the input was correctly structured and successfully processed. */
-            virtual bool handleInput(const yarp::os::Bottle &      input,
-                                     const yarp::os::ConstString & senderChannel,
-                                     yarp::os::ConnectionWriter *  replyMechanism);
+            /*! @brief Stop using the output channel. */
+            void clearOutputChannel(void);
             
-            /*! @brief Set the channel to be written to.
-             @param output The channel to be written to. */
-            void setOutput(Common::GeneralChannel * output);
+            /*! @brief The thread main body. */
+            virtual void run(void);
+            
+            /*! @brief The thread initialization method.
+             @returns @c true if the thread is ready to run. */
+            virtual bool threadInit(void);
+            
+            /*! @brief The thread termination method. */
+            virtual void threadRelease(void);
             
         protected:
             
         private:
             
             /*! @brief The class that this class is derived from. */
-            typedef InputHandler inherited;
+            typedef yarp::os::Thread inherited;
             
             /*! @brief Copy constructor.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarFilterInputHandler(const ExemplarFilterInputHandler & other);
+            LEAPInputThread(const LEAPInputThread & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarFilterInputHandler & operator =(const ExemplarFilterInputHandler & other);
+            LEAPInputThread & operator =(const LEAPInputThread & other);
             
-            /*! @brief The channel that is to be written to. */
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler1[7];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+            
+            /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
             
-        }; // ExemplarFilterInputHandler
+            /*! @brief The time at which the thread will send data. */
+            double _nextTime;
+            
+            /*! @brief The number of seconds to delay before triggering. */
+            double _timeToWait;
+            
+            /*! @brief The number of values to send in each burst. */
+            int _numValues;
+            
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler[4];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+            
+        }; // LEAPInputThread
         
-    } // Exemplar
+    } // LEAP
     
 } // MplusM
 
-#endif // ! defined(MpMExemplarFilterInputHandler_H_)
+#endif // ! defined(MpMLEAPInputThread_H_)

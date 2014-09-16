@@ -58,7 +58,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Exemplars;
+using namespace MplusM::Exemplar;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -170,6 +170,19 @@ bool ExemplarInputService::setUpStreamDescriptions(void)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ExemplarInputService::setUpStreamDescriptions
+
+bool ExemplarInputService::shutDownOutputStreams(void)
+{
+    OD_LOG_OBJENTER(); //####
+    bool result = inherited::shutDownOutputStreams();
+    
+    if (_generator)
+    {
+        _generator->clearOutputChannel();
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // ExemplarInputService::shutDownOutputStreams
 
 bool ExemplarInputService::start(void)
 {

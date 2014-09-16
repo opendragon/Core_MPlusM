@@ -61,7 +61,7 @@ namespace MplusM
         class AdapterChannel;
     } // Common
     
-    namespace Exemplars
+    namespace Exemplar
     {
         class ExemplarClient;
         
@@ -101,7 +101,7 @@ namespace MplusM
             
         }; // ExemplarAdapterData
         
-    } // Exemplars
+    } // Exemplar
     
 } // MplusM
 

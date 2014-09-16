@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MRandomBurstService.h
+//  File:       M+MLEAPInputService.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the random burst input service.
+//  Contains:   The class declaration for the LEAP input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,12 +32,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-06-24
+//  Created:    2014-09-16
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMRandomBurstService_H_))
-# define MpMRandomBurstService_H_ /* Header guard */
+#if (! defined(MpMLEAPInputService_H_))
+# define MpMLEAPInputService_H_ /* Header guard */
 
 # include <mpm/M+MBaseInputService.h>
 
@@ -47,23 +47,23 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the random burst input service. */
+ @brief The class declaration for the LEAP input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_RANDOMBURST_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "examples/randomburst_")
+# define DEFAULT_LEAPINPUT_SERVICE_NAME T_( \
+        DEFAULT_SERVICE_NAME_BASE "leap/leapinput_")
 
 namespace MplusM
 {
-    namespace Example
+    namespace LEAP
     {
-        class RandomBurstThread;
+        class LEAPInputThread;
         
-        /*! @brief The random burst input service. */
-        class RandomBurstService : public Common::BaseInputService
+        /*! @brief The LEAP input service. */
+        class LEAPInputService : public Common::BaseInputService
         {
         public:
             
@@ -72,13 +72,13 @@ namespace MplusM
              @param tag The modifier for the service name.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            RandomBurstService(const yarp::os::ConstString & launchPath,
-                               const yarp::os::ConstString & tag,
-                               const yarp::os::ConstString & serviceEndpointName,
-                               const yarp::os::ConstString & servicePortNumber = "");
+            LEAPInputService(const yarp::os::ConstString & launchPath,
+                                 const yarp::os::ConstString & tag,
+                                 const yarp::os::ConstString & serviceEndpointName,
+                                 const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~RandomBurstService(void);
+            virtual ~LEAPInputService(void);
             
             /*! @brief Configure the input/output streams.
              @param details The configuration information for the input/output streams.
@@ -117,20 +117,20 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RandomBurstService(const RandomBurstService & other);
+            LEAPInputService(const LEAPInputService & other);
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RandomBurstService & operator =(const RandomBurstService & other);
+            LEAPInputService & operator =(const LEAPInputService & other);
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
             virtual bool setUpStreamDescriptions(void);
             
             /*! @brief The output thread to use. */
-            RandomBurstThread * _generator;
+            LEAPInputThread * _generator;
             
             /*! @brief The number of seconds between data bursts. */
             double _burstPeriod;
@@ -148,10 +148,10 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-        }; // RandomBurstService
+        }; // LEAPInputService
         
-    } // Example
+    } // LEAP
     
 } // MplusM
 
-#endif // ! defined(MpMRandomBurstService_H_)
+#endif // ! defined(MpMLEAPInputService_H_)

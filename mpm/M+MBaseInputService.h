@@ -108,6 +108,10 @@ namespace MplusM
             /*! @brief The descriptions of the output streams. */
             ChannelVector _outDescriptions;
             
+            /*! @brief Shut down the output streams.
+             @returns @c true if the channels were shut down and @c false otherwise. */
+            virtual bool shutDownOutputStreams(void);
+            
         private:
             
             /*! @brief The class that this class is derived from. */
@@ -116,10 +120,6 @@ namespace MplusM
             /*! @brief Set up the output channels.
              @returns @c true if the channels were set up and @c false otherwise. */
             virtual bool setUpOutputStreams(void);
-            
-            /*! @brief Shut down the output streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownOutputStreams(void);
             
         }; // BaseInputService
         

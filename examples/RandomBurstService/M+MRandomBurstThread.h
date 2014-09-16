@@ -77,6 +77,9 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~RandomBurstThread(void);
             
+            /*! @brief Stop using the output channel. */
+            void clearOutputChannel(void);
+            
             /*! @brief The thread main body. */
             virtual void run(void);
             

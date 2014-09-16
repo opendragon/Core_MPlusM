@@ -53,7 +53,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the exemplare input service. */
+/*! @brief The channel-independent name of the exemplar input service. */
 # define MpM_EXEMPLARINPUT_CANONICAL_NAME "ExemplarInput"
 
 #endif // ! defined(MpMExemplarInputRequests_H_)

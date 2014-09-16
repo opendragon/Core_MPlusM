@@ -78,7 +78,7 @@ A custom application set can include one or more of these applications.
 For the purposes of this section, we will include all four kinds of application.
 \tertiaryEnd{}
 \tertiaryStart{Determine the namespace}
-Note that the classes in the source files are all within the \asCode{M+M:Exemplars}
+Note that the classes in the source files are all within the \asCode{M+M:Exemplar}
 namespace -- this will need to be changed to avoid conflicts with other uses of the
 exemplar files.
 Choose a name that describes the purpose of the custom application, such as
@@ -107,8 +107,9 @@ directory.
 \item In the \compLang{C++} header and source files, change the class names from
 \asCode{ExemplarXXX} to \asCode{FooXXX}, change the file references from
 \asCode{M+MExemplarXXX.h} to \asCode{M+MFooXXX.h}, change the namespace from
-\asCode{Exemplars} to \asCode{Foo} and replace references to `exemplar' in comments with
-`foo'
+\asCode{Exemplar} to \asCode{Foo} and replace references to `exemplar' in comments with
+`foo' -- note that the copyright notice at the beginning of each file includes the word
+`EXEMPLARY', which should not be changed
 \item In the main files for each application \textbraceleft\asCode{M+MFooAdapterMain.cpp},
 \asCode{M+MFooClientMain.cpp}, et cetera\textbraceright, change any text strings that
 contain `exemplar' to contain `foo' or that contain `Exemplar' to contain `Foo' -- these
@@ -132,9 +133,8 @@ replace\\
 with \asCode{MpM\textunderscore{}FOOXXX\textunderscore{}CANONICAL\textunderscore{}NAME},
 where \asCode{XXX} is \asCode{FILTER}, \asCode{INPUT} or \asCode{OUTPUT}
 \item In the file \asCode{M+MFooXXXServiceMain.cpp}, replace
-\asCode{EXEMPLARXXX\textunderscore{}OPTIONS} with\\
-\asCode{FOOXXX\textunderscore{}OPTIONS}, where \asCode{XXX} is \asCode{FILTER},
-\asCode{INPUT} or \asCode{OUTPUT}
+\asCode{EXEMPLARXXX\textunderscore{}OPTIONS} with \asCode{FOOXXX\textunderscore{}OPTIONS},
+where \asCode{XXX} is \asCode{FILTER}, \asCode{INPUT} or \asCode{OUTPUT}
 \item In the top--level file \asCode{CMakeLists.txt}, comment out the directories that are
 not being built, by putting a hash--mark (or pound sign), `\asCode{\#}', at the beginning
 of the \asCode{add\textunderscore{}subdirectory} statement for the directory.

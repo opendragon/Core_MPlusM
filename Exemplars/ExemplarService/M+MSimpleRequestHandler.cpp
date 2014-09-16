@@ -55,7 +55,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Exemplars;
+using namespace MplusM::Exemplar;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

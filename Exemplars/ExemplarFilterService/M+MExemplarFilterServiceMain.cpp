@@ -59,7 +59,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Exemplars;
+using namespace MplusM::Exemplar;
 using std::cin;
 using std::cout;
 using std::endl;

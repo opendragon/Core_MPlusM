@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MExemplarInputThread.cpp
+//  File:       M+MLEAPInputThread.cpp
 //
 //  Project:    M+M
 //
@@ -32,11 +32,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-15
+//  Created:    2014-09-16
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MExemplarInputThread.h"
+#include "M+MLEAPInputThread.h"
 
 #include <mpm/M+MGeneralChannel.h>
 
@@ -55,7 +55,7 @@
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::Exemplar;
+using namespace MplusM::LEAP;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -73,9 +73,9 @@ using namespace MplusM::Exemplar;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ExemplarInputThread::ExemplarInputThread(Common::GeneralChannel * outChannel,
-                                         const double             timeToWait,
-                                         const int                numValues) :
+LEAPInputThread::LEAPInputThread(Common::GeneralChannel * outChannel,
+                                 const double             timeToWait,
+                                 const int                numValues) :
     inherited(), _outChannel(outChannel), _timeToWait(timeToWait), _numValues(numValues)
 {
     OD_LOG_ENTER(); //####
@@ -83,26 +83,26 @@ ExemplarInputThread::ExemplarInputThread(Common::GeneralChannel * outChannel,
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     OD_LOG_LL1("numValues = ", numValues); //####
     OD_LOG_EXIT_P(this); //####
-} // ExemplarInputThread::ExemplarInputThread
+} // LEAPInputThread::LEAPInputThread
 
-ExemplarInputThread::~ExemplarInputThread(void)
+LEAPInputThread::~LEAPInputThread(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // ExemplarInputThread::~ExemplarInputThread
+} // LEAPInputThread::~LEAPInputThread
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ExemplarInputThread::clearOutputChannel(void)
+void LEAPInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
-} // ExemplarInputThread::clearOutputChannel
+} // LEAPInputThread::clearOutputChannel
 
-void ExemplarInputThread::run(void)
+void LEAPInputThread::run(void)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -131,9 +131,9 @@ void ExemplarInputThread::run(void)
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
-} // ExemplarInputThread::run
+} // LEAPInputThread::run
 
-bool ExemplarInputThread::threadInit(void)
+bool LEAPInputThread::threadInit(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -141,13 +141,13 @@ bool ExemplarInputThread::threadInit(void)
     _nextTime = yarp::os::Time::now() + _timeToWait;
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ExemplarInputThread::threadInit
+} // LEAPInputThread::threadInit
 
-void ExemplarInputThread::threadRelease(void)
+void LEAPInputThread::threadRelease(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // ExemplarInputThread::threadRelease
+} // LEAPInputThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

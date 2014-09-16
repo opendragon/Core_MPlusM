@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MExemplarClient.h
+//  File:       M+MLEAPInputRequests.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the exemplar client.
+//  Contains:   The common macro definitions for requests and responses for the LEAP input
+//              service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,14 +33,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-15
+//  Created:    2014-09-16
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMExemplarClient_H_))
-# define MpMExemplarClient_H_ /* Header guard */
+#if (! defined(MpMLEAPInputRequests_H_))
+# define MpMLEAPInputRequests_H_ /* Header guard */
 
-# include <mpm/M+MBaseClient.h>
+# include <mpm/M+MRequests.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -47,61 +48,12 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the exemplar client. */
+ @brief The common macro definitions for requests and responses for the LEAP input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MplusM
-{
-    namespace Exemplar
-    {
-        /*! @brief The exemplar client. */
-        class ExemplarClient : public Common::BaseClient
-        {
-        public:
-            
-            /*! @brief The constructor. */
-            ExemplarClient(void);
-            
-            /*! @brief The destructor. */
-            virtual ~ExemplarClient(void);
-            
-            /*! @brief Get one random number from the service.
-             @param result Where to return the number.
-             @returns @c true if the number was retrieved successfully and @c false otherwise. */
-            bool getOneRandomNumber(double & result);
-            
-            /*! @brief Get a sequence of random numbers from the service.
-             @param howMany The number of random numbers to retrieve.
-             @param result Where to return the numbers.
-             @returns @c true if the numbere were retrieved successfully and @c false otherwise. */
-            bool getRandomNumbers(const int              howMany,
-                                  Common::DoubleVector & result);
-            
-        protected:
-            
-        private:
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseClient inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ExemplarClient(const ExemplarClient & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ExemplarClient & operator =(const ExemplarClient & other);
-            
-        }; // ExemplarClient
-        
-    } // Exemplar
-    
-} // MplusM
+/*! @brief The channel-independent name of the LEAP input service. */
+# define MpM_LEAPINPUT_CANONICAL_NAME "LEAPInput"
 
-#endif // ! defined(MpMExemplarClient_H_)
+#endif // ! defined(MpMLEAPInputRequests_H_)

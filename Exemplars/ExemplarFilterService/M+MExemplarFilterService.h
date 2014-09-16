@@ -58,7 +58,7 @@
 
 namespace MplusM
 {
-    namespace Exemplars
+    namespace Exemplar
     {
         class ExemplarFilterInputHandler;
         
@@ -130,7 +130,7 @@ namespace MplusM
             
         }; // ExemplarFilterService
         
-    } // Exemplars
+    } // Exemplar
     
 } // MplusM
 

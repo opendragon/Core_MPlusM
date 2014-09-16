@@ -58,7 +58,7 @@
 
 namespace MplusM
 {
-    namespace Exemplars
+    namespace Exemplar
     {
         class ExemplarInputThread;
         
@@ -87,6 +87,10 @@ namespace MplusM
             
             /*! @brief Restart the input/output streams. */
             virtual void restartStreams(void);
+            
+            /*! @brief Shut down the output streams.
+             @returns @c true if the channels were shut down and @c false otherwise. */
+            virtual bool shutDownOutputStreams(void);
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
@@ -146,7 +150,7 @@ namespace MplusM
             
         }; // ExemplarInputService
         
-    } // Exemplars
+    } // Exemplar
     
 } // MplusM
 

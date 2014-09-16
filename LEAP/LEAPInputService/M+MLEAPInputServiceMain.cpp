@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       ExemplarOutputServiceMain.cpp
+//  File:       LEAPInputServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the exemplar output service.
+//  Contains:   The main application for the LEAP input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,11 +32,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-15
+//  Created:    2014-09-16
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MExemplarOutputService.h"
+#include "M+MLEAPInputService.h"
 
 #include <mpm/M+MEndpoint.h>
 
@@ -53,17 +53,17 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for the exemplar output service. */
+ @brief The main application for the LEAP input service. */
 
-/*! @dir ExemplarOutputService
- @brief The set of files that implement the exemplar output service. */
+/*! @dir LEAPInputService
+ @brief The set of files that implement the LEAP input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Exemplar;
+using namespace MplusM::LEAP;
 using std::cin;
 using std::cout;
 using std::endl;
@@ -73,7 +73,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define EXEMPLAROUTPUT_OPTIONS "p:t:"
+#define LEAPINPUT_OPTIONS "p:s:t:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -83,11 +83,12 @@ using std::endl;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the exemplar output service.
+/*! @brief The entry point for running the random burst input service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
- The option 'p' specifies the path to the file being written.
+ The option 'p' specifies the burst period, in seconds, while the option 's' specifies the number of
+ random values to generate in each burst.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example service.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -108,18 +109,37 @@ int main(int     argc,
     try
     {
         bool                  stdinAvailable = MplusM::CanReadFromStandardInput();
-        yarp::os::ConstString recordPath;
+        char *                endPtr;
+        double                burstPeriod = 1;
+        double                tempDouble;
+        int                   burstSize = 1;
+        int                   tempInt;
         yarp::os::ConstString tag;
 
         opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, EXEMPLAROUTPUT_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, EXEMPLAROUTPUT_OPTIONS))
+        for (int cc = getopt(argc, argv, LEAPINPUT_OPTIONS); -1 != cc;
+             cc = getopt(argc, argv, LEAPINPUT_OPTIONS))
         {
             switch (cc)
             {
                 case 'p' :
-                    recordPath = optarg;
-                    OD_LOG_S1s("recordPath <- ", recordPath); //####
+                    // Burst period
+                    tempDouble = strtod(optarg, &endPtr);
+                    if ((optarg != endPtr) && (0 < tempDouble))
+                    {
+                        // Useable data.
+                        burstPeriod = tempDouble;
+                    }
+                    break;
+                    
+                case 's' :
+                    // Burst size
+                    tempInt = static_cast<int>(strtol(optarg, &endPtr, 10));
+                    if ((optarg != endPtr) && (0 < tempInt))
+                    {
+                        // Useable data.
+                        burstSize = tempInt;
+                    }
                     break;
                     
                 case 't' :
@@ -142,27 +162,11 @@ int main(int     argc,
                                         // YARP infrastructure
             yarp::os::ConstString serviceEndpointName;
             yarp::os::ConstString servicePortNumber;
-            
+ 
             MplusM::Common::Initialize(*argv);
-            // Note that we can't use Random::uniform until after the seed has been set
-            if (0 == recordPath.size())
-            {
-                char buff[40]; // Should be more than adequate!
-                int  randNumb = yarp::os::Random::uniform(0, 10000);
-                
-#if MAC_OR_LINUX_
-                snprintf(buff, sizeof(buff), "/tmp/record_%x", randNumb);
-#else // ! MAC_OR_LINUX_
-                _snprintf(buff, sizeof(buff) - 1, "\\tmp\\record_%x", randNumb);
-                // Correct for the weird behaviour of _snprintf
-                buff[sizeof(buff) - 1] = '\0';
-#endif // ! MAC_OR_LINUX_
-                recordPath = buff;
-                OD_LOG_S1s("recordPath <- ", recordPath); //####
-            }
             if (optind >= argc)
             {
-                serviceEndpointName = GetRandomChannelName(DEFAULT_EXEMPLAROUTPUT_SERVICE_NAME);
+                serviceEndpointName = GetRandomChannelName(DEFAULT_LEAPINPUT_SERVICE_NAME);
             }
             else if ((optind + 1) == argc)
             {
@@ -174,9 +178,8 @@ int main(int     argc,
                 serviceEndpointName = argv[optind];
                 servicePortNumber = argv[optind + 1];
             }
-            ExemplarOutputService * stuff = new ExemplarOutputService(*argv, tag,
-                                                                      serviceEndpointName,
-                                                                      servicePortNumber);
+            LEAPInputService * stuff = new LEAPInputService(*argv, tag, serviceEndpointName,
+                                                                    servicePortNumber);
             
             if (stuff)
             {
@@ -189,14 +192,14 @@ int main(int     argc,
                     {
                         bool             configured = false;
                         yarp::os::Bottle configureData;
-                        std::string      inputLine;
                         
                         MplusM::StartRunning();
                         MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
                         stuff->startPinger();
                         if (! stdinAvailable)
                         {
-                            configureData.addString(recordPath);
+                            configureData.addDouble(burstPeriod);
+                            configureData.addInt(burstSize);
                             if (stuff->configure(configureData))
                             {
                                 stuff->startStreams();
@@ -219,7 +222,8 @@ int main(int     argc,
                                         if (! configured)
                                         {
                                             configureData.clear();
-                                            configureData.addString(recordPath);
+                                            configureData.addDouble(burstPeriod);
+                                            configureData.addInt(burstSize);
                                             if (stuff->configure(configureData))
                                             {
                                                 configured = true;
@@ -234,21 +238,27 @@ int main(int     argc,
                                     case 'c' :
                                     case 'C' :
                                         // Configure
-                                        cout << "Path: ";
+                                        cout << "Burst size: ";
                                         cout.flush();
-                                        // Eat whitespace until we get something useful.
-                                        cin >> inChar;
-                                        if (getline(cin, inputLine))
+                                        cin >> tempInt;
+                                        cout << "Burst period: ";
+                                        cout.flush();
+                                        cin >> tempDouble;
+                                        if ((0 < tempInt) && (0 < tempDouble))
                                         {
-                                            recordPath = yarp::os::ConstString(1, inChar);
-                                            recordPath += inputLine.c_str();
-                                            OD_LOG_S1s("recordPath <-", recordPath); //####
+                                            burstPeriod = tempDouble;
+                                            burstSize = tempInt;
                                             configureData.clear();
-                                            configureData.addString(recordPath);
+                                            configureData.addDouble(burstPeriod);
+                                            configureData.addInt(burstSize);
                                             if (stuff->configure(configureData))
                                             {
                                                 configured = true;
                                             }
+                                        }
+                                        else
+                                        {
+                                            cout << "One or both values out of range." << endl;
                                         }
                                         break;
                                         
@@ -270,7 +280,8 @@ int main(int     argc,
                                         if (! configured)
                                         {
                                             configureData.clear();
-                                            configureData.addString(recordPath);
+                                            configureData.addDouble(burstPeriod);
+                                            configureData.addInt(burstSize);
                                             if (stuff->configure(configureData))
                                             {
                                                 configured = true;

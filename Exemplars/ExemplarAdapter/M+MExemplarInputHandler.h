@@ -56,7 +56,7 @@
 
 namespace MplusM
 {
-    namespace Exemplars
+    namespace Exemplar
     {
         class ExemplarAdapterData;
         
@@ -109,7 +109,7 @@ namespace MplusM
             
         }; // ExemplarInputHandler
         
-    } // Exemplars
+    } // Exemplar
     
 } // MplusM
 

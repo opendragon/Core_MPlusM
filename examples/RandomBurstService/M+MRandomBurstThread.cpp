@@ -95,6 +95,13 @@ RandomBurstThread::~RandomBurstThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+void RandomBurstThread::clearOutputChannel(void)
+{
+    OD_LOG_OBJENTER(); //####
+    _outChannel = NULL;
+    OD_LOG_OBJEXIT(); //####
+} // RandomBurstThread::clearOutputChannel
+
 void RandomBurstThread::run(void)
 {
     OD_LOG_OBJENTER(); //####

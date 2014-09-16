@@ -56,7 +56,7 @@
 
 namespace MplusM
 {
-    namespace Exemplars
+    namespace Exemplar
     {
         /*! @brief A handler for partially-structured input data.
          
@@ -108,7 +108,7 @@ namespace MplusM
             
         }; // ExemplarOutputInputHandler
         
-    } // Exemplars
+    } // Exemplar
     
 } // MplusM
 

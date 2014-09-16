@@ -57,7 +57,7 @@
 
 namespace MplusM
 {
-    namespace Exemplars
+    namespace Exemplar
     {
         class SimpleRequestHandler;
         
@@ -115,7 +115,7 @@ namespace MplusM
             
         }; // ExemplarService
         
-    } // Exemplars
+    } // Exemplar
     
 } // MplusM
 
