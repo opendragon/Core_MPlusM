@@ -42,7 +42,7 @@
 
 #include <mpm/M+MGeneralChannel.h>
 
-#include <odl/ODEnableLogging.h>
+//#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
@@ -151,7 +151,7 @@ bool LeapMotionInputService::setUpStreamDescriptions(void)
     
     _outDescriptions.clear();
     description._portName = "leap/leapinput/output_";
-    description._portProtocol = "d+";
+    description._portProtocol = "LEAP";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
@@ -162,10 +162,10 @@ bool LeapMotionInputService::shutDownOutputStreams(void)
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
-//    if (_generator)
-//    {
-//        _generator->clearOutputChannel();
-//    }
+    if (_listener)
+    {
+        _listener->clearOutputChannel();
+    }
     OD_LOG_EXIT_B(result); //####
     return result;
 } // LeapMotionInputService::shutDownOutputStreams
@@ -206,7 +206,7 @@ void LeapMotionInputService::startStreams(void)
         {
             if (_controller)
             {
-                _listener = new LeapMotionInputListener;
+                _listener = new LeapMotionInputListener(_outStreams.at(0));
                 _controller->addListener(*_listener);
                 setActive();
             }

@@ -39,7 +39,7 @@
 #if (! defined(MpMLeapMotionInputListener_H_))
 # define MpMLeapMotionInputListener_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MGeneralChannel.h>
 
 # include "Leap.h"
 
@@ -49,7 +49,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for a Leap Motion listener. */
+ @brief The class declaration for a %Leap Motion listener. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -58,74 +58,78 @@ namespace MplusM
 {
     namespace LeapMotion
     {
-        /*! @brief A convenience class to provide distinct context objects. */
+        /*! @brief A listener for %Leap Motion devices. */
         class LeapMotionInputListener : public Leap::Listener
         {
         public:
             
-            /*! @brief The constructor. */
-            LeapMotionInputListener(void);
+            /*! @brief The constructor.
+             @param outChannel The channel to send motion data to. */
+            LeapMotionInputListener(Common::GeneralChannel * outChannel);
             
             /*! @brief The destructor. */
             virtual ~LeapMotionInputListener(void);
             
-            /*! @brief Called when the Controller object connects to the Leap Motion software and
-             the Leap Motion hardware device is plugged in, or when this Listener object is added to
-             a Controller that is already connected.
-             @param controller The Controller object invoking this callback function. */
+            /*! @brief Stop using the output channel. */
+            void clearOutputChannel(void);
+            
+            /*! @brief Called when the Controller object connects to the %Leap Motion software and
+             the %Leap Motion hardware device is plugged in, or when this Listener object is added
+             to a Controller that is already connected.
+             @param theController The Controller object invoking this callback function. */
             virtual void onConnect(const Leap::Controller & theController);
             
-            /*! @brief Called when a Leap Motion controller plugged in, unplugged, or the device
+            /*! @brief Called when a %Leap Motion controller plugged in, unplugged, or the device
              changes state.
              
              State changes include changes in frame rate and entering or leaving "robust" mode.
              Note that there is currently no way to query whether a device is in robust mode.
-             @param controller The Controller object invoking this callback function. */
+             @param theController The Controller object invoking this callback function. */
             virtual void onDeviceChange(const Leap::Controller & theController);
             
-            /*! @brief Called when the Controller object disconnects from the Leap Motion software
-             or the Leap Motion hardware is unplugged.
+            /*! @brief Called when the Controller object disconnects from the %Leap Motion software
+             or the %Leap Motion hardware is unplugged.
              
-             The controller can disconnect when the Leap Motion device is unplugged, the user shuts
-             the Leap Motion software down, or the Leap Motion software encounters an unrecoverable
-             error.
-             @param controller The Controller object invoking this callback function. */
+             The controller can disconnect when the %Leap Motion device is unplugged, the user shuts
+             the %Leap Motion software down, or the %Leap Motion software encounters an
+             unrecoverable error.
+             @param theController The Controller object invoking this callback function. */
             virtual void onDisconnect(const Leap::Controller & theController);
             
             /*! @brief Called when this Listener object is removed from the Controller or the
              Controller instance is destroyed.
-             @param controller The Controller object invoking this callback function. */
+             @param theController The Controller object invoking this callback function. */
             virtual void onExit(const Leap::Controller & theController);
             
             /*! @brief Called when this application becomes the foreground application.
-             @param controller The Controller object invoking this callback function. */
+             @param theController The Controller object invoking this callback function. */
             virtual void onFocusGained(const Leap::Controller & theController);
             
             /*! @brief Called when this application loses the foreground focus.
-             @param controller The Controller object invoking this callback function. */
+             @param theController The Controller object invoking this callback function. */
             virtual void onFocusLost(const Leap::Controller & theController);
             
             /*! @brief Called when a new frame of hand and finger tracking data is available.
-             @param controller The Controller object invoking this callback function. */
+             @param theController The Controller object invoking this callback function. */
             virtual void onFrame(const Leap::Controller & theController);
             
             /*! @brief Called once, when this Listener object is newly added to a Controller.
-             @param controller The Controller object invoking this callback function. */
+             @param theController The Controller object invoking this callback function. */
             virtual void onInit(const Leap::Controller & theController);
             
-            /*! @brief Called when the Leap Motion daemon/service connects to your application 
+            /*! @brief Called when the %Leap Motion daemon/service connects to your application
              Controller.
              
              In the normal course of events onServiceConnect will get called once after onInit.
-             @param controller The Controller object invoking this callback function. */
+             @param theController The Controller object invoking this callback function. */
             virtual void onServiceConnect(const Leap::Controller & theController);
             
-            /*! @brief Called if the Leap Motion daemon/service disconnects from your application
+            /*! @brief Called if the %Leap Motion daemon/service disconnects from your application
              Controller.
              
              Normally, this callback is not invoked. It is only called if some external event or
              problem shuts down the service or otherwise interrupts the connection.
-             @param controller The Controller object invoking this callback function. */
+             @param theController The Controller object invoking this callback function. */
             virtual void onServiceDisconnect(const Leap::Controller & theController);
 
         protected:
@@ -146,6 +150,9 @@ namespace MplusM
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
             LeapMotionInputListener & operator =(const LeapMotionInputListener & other);
+            
+            /*! @brief The channel to send motion data to. */
+            Common::GeneralChannel * _outChannel;
             
         }; // LeapMotionInputListener
         

@@ -874,7 +874,9 @@ EXCLUDE                = CMakeFiles \
                          Exemplars/ExemplarOutputService/CMakeFiles \
                          Exemplars/ExemplarService/CMakeFiles \
                          LeapMotion/CMakeFiles \
-                         LeapMotion/LeapMotionInputService/CMakeFiles
+                         LeapMotion/LeapMotionInputService/CMakeFiles \
+                         LeapMotion/LeapMotionInputService/Leap.h \
+                         LeapMotion/LeapMotionInputService/LeapMath.h
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded

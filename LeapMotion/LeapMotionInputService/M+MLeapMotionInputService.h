@@ -131,21 +131,11 @@ namespace MplusM
              streams. */
             virtual bool setUpStreamDescriptions(void);
             
-            /*! @brief The connection to the Leap device. */
+            /*! @brief The connection to the %Leap Motion device. */
             Leap::Controller * _controller;
             
-            /*! @brief The Leap Motion event handler. */
+            /*! @brief The %Leap Motion event handler. */
             LeapMotionInputListener * _listener;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-//            char _filler[4];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
             
         }; // LeapMotionInputService
         

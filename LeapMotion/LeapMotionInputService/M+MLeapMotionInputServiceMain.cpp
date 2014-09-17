@@ -42,7 +42,7 @@
 
 #include "Leap.h"
 
-#include <odl/ODEnableLogging.h>
+//#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if (! MAC_OR_LINUX_) //ASSUME WINDOWS
@@ -55,10 +55,10 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for the Leap Motion input service. */
+ @brief The main application for the %Leap Motion input service. */
 
 /*! @dir LeapMotionInputService
- @brief The set of files that implement the Leap Motion input service. */
+ @brief The set of files that implement the %Leap Motion input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -85,7 +85,7 @@ using std::endl;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Leap Motion input service.
+/*! @brief The entry point for running the %Leap Motion input service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
