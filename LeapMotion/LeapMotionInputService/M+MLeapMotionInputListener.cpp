@@ -66,21 +66,25 @@ using namespace MplusM::LeapMotion;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Put the three coordinates of a %Vector in a %Value.
- @param valueToFill The %Value to be added to.
+/*! @brief Put the three coordinates of a %Vector in a dictionary with the given tag.
+ @param dictionary The dictionary to be added to.
+ @param tag The name to be associated with the value.
  @param vectorToUse The %Vector containing the data to be added. */
-static void putVectorInValue(yarp::os::Value &    valueToFill,
-                             const Leap::Vector & vectorToUse)
+static void putVectorInDictionary(yarp::os::Property &          dictionary,
+                                  const yarp::os::ConstString & tag,
+                                  const Leap::Vector &          vectorToUse)
 {
-    yarp::os::Bottle * valueList = valueToFill.asList();
+    yarp::os::Value    stuff;
+    yarp::os::Bottle * stuffList = stuff.asList();
     
-    if (valueList)
+    if (stuffList)
     {
-        valueList->addDouble(vectorToUse.x);
-        valueList->addDouble(vectorToUse.y);
-        valueList->addDouble(vectorToUse.z);
+        stuffList->addDouble(vectorToUse.x);
+        stuffList->addDouble(vectorToUse.y);
+        stuffList->addDouble(vectorToUse.z);
+        dictionary.put(tag, stuff);
     }
-} // putVectorInValue
+} // putVectorInDictionary
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -186,22 +190,10 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
                     yarp::os::Property & handProps = handStuff.addDict();
                     
                     handProps.put("id", aHand.id());
-                    yarp::os::Value palmPosStuff;
-                    
-                    putVectorInValue(palmPosStuff, aHand.palmPosition());
-                    handProps.put("palmposition", palmPosStuff);
-                    yarp::os::Value palmNormalStuff;
-                    
-                    putVectorInValue(palmNormalStuff, aHand.palmNormal());
-                    handProps.put("palmnormal", palmNormalStuff);
-                    yarp::os::Value palmVelocityStuff;
-                    
-                    putVectorInValue(palmVelocityStuff, aHand.palmVelocity());
-                    handProps.put("palmvelocity", palmVelocityStuff);
-                    yarp::os::Value dirStuff;
-                    
-                    putVectorInValue(dirStuff, aHand.direction());
-                    handProps.put("direction", dirStuff);
+                    putVectorInDictionary(handProps, "palmposition", aHand.palmPosition());
+                    putVectorInDictionary(handProps, "palmnormal", aHand.palmNormal());
+                    putVectorInDictionary(handProps, "palmvelocity", aHand.palmVelocity());
+                    putVectorInDictionary(handProps, "direction", aHand.direction());
                     Leap::Arm anArm(aHand.arm());
                     
                     if (anArm.isValid())
@@ -212,21 +204,13 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
                         if (armList)
                         {
                             yarp::os::Property & armDict = armList->addDict();
-                            yarp::os::Value      dirStuff;
                             
-                            putVectorInValue(dirStuff, anArm.direction());
-                            armDict.put("direction", dirStuff);
-                            yarp::os::Value elbowPosStuff;
-                            
-                            putVectorInValue(elbowPosStuff, anArm.elbowPosition());
-                            armDict.put("elbowposition", elbowPosStuff);
+                            putVectorInDictionary(armDict, "direction", anArm.direction());
+                            putVectorInDictionary(armDict, "elbowposition", anArm.elbowPosition());
                             handProps.put("arm", armStuff);
                         }
                     }
-                    yarp::os::Value wristPosStuff;
-                    
-                    putVectorInValue(wristPosStuff, aHand.wristPosition());
-                    handProps.put("wristposition", wristPosStuff);
+                    putVectorInDictionary(handProps, "wristposition", aHand.wristPosition());
                     handProps.put("confidence", aHand.confidence());
                     if (aHand.isLeft())
                     {
@@ -285,18 +269,12 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
                                         break;
                                         
                                 }
-                                yarp::os::Value posStuff;
-                                
-                                putVectorInValue(posStuff, aFinger.tipPosition());
-                                fingProps.put("tipposition", posStuff);
-                                yarp::os::Value veloStuff;
-                                
-                                putVectorInValue(veloStuff, aFinger.tipVelocity());
-                                fingProps.put("tipvelocity", veloStuff);
-                                yarp::os::Value dirStuff;
-                                
-                                putVectorInValue(dirStuff, aFinger.direction());
-                                fingProps.put("direction", dirStuff);
+                                putVectorInDictionary(fingProps, "tipposition",
+                                                      aFinger.tipPosition());
+                                putVectorInDictionary(fingProps, "tipvelocity",
+                                                      aFinger.tipVelocity());
+                                putVectorInDictionary(fingProps, "direction",
+                                                      aFinger.direction());
                                 fingProps.put("length", aFinger.length());
                                 if (aFinger.isExtended())
                                 {
@@ -329,18 +307,13 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
                                         if (aBone.isValid())
                                         {
                                             yarp::os::Property & boneProps = bonesAsList->addDict();
-                                            yarp::os::Value      proximalStuff;
-                                            
-                                            putVectorInValue(proximalStuff, aBone.prevJoint());
-                                            boneProps.put("proximal", proximalStuff);
-                                            yarp::os::Value distalStuff;
-                                            
-                                            putVectorInValue(distalStuff, aBone.prevJoint());
-                                            boneProps.put("distal", distalStuff);
-                                            yarp::os::Value dirStuff;
-                                            
-                                            putVectorInValue(dirStuff, aBone.direction());
-                                            boneProps.put("direction", dirStuff);
+
+                                            putVectorInDictionary(boneProps, "proximal",
+                                                                  aBone.prevJoint());
+                                            putVectorInDictionary(boneProps, "distal",
+                                                                  aBone.nextJoint());
+                                            putVectorInDictionary(boneProps, "direction",
+                                                                  aBone.direction());
                                             boneProps.put("length", aBone.length());
                                         }
                                     }
@@ -364,18 +337,9 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
                     yarp::os::Property & toolProps = toolStuff.addDict();
                     
                     toolProps.put("id", aTool.id());
-                    yarp::os::Value posStuff;
-                    
-                    putVectorInValue(posStuff, aTool.tipPosition());
-                    toolProps.put("tipposition", posStuff);
-                    yarp::os::Value veloStuff;
-                    
-                    putVectorInValue(veloStuff, aTool.tipVelocity());
-                    toolProps.put("tipvelocity", veloStuff);
-                    yarp::os::Value dirStuff;
-                    
-                    putVectorInValue(dirStuff, aTool.direction());
-                    toolProps.put("direction", dirStuff);
+                    putVectorInDictionary(toolProps, "tipposition", aTool.tipPosition());
+                    putVectorInDictionary(toolProps, "tipvelocity", aTool.tipVelocity());
+                    putVectorInDictionary(toolProps, "direction", aTool.direction());
                     toolProps.put("length", aTool.length());
                 }
             }
