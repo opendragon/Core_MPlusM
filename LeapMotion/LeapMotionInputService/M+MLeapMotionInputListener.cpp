@@ -343,12 +343,15 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
                     toolProps.put("length", aTool.length());
                 }
             }
-            if (! _outChannel->write(message))
+            if (_outChannel)
             {
-                OD_LOG("(! _outChannel->write(message))"); //####
+                if (! _outChannel->write(message))
+                {
+                    OD_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                    Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
+                }                
             }
         }
     }

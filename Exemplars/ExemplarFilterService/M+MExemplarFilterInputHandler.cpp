@@ -109,33 +109,29 @@ bool ExemplarFilterInputHandler::handleInput(const yarp::os::Bottle &      input
     
     try
     {
-        if (_outChannel)
+        yarp::os::Bottle outBottle;
+        
+        for (int ii = 0, mm = input.size(); mm > ii; ++ii)
         {
-            OD_LOG("(_output)"); //####
-            yarp::os::Bottle outBottle;
+            yarp::os::Value aValue(input.get(ii));
             
-            for (int ii = 0, mm = input.size(); mm > ii; ++ii)
+            if (aValue.isInt())
             {
-                yarp::os::Value aValue(input.get(ii));
-                
-                if (aValue.isInt())
-                {
-                    outBottle.addInt(aValue.asInt());
-                }
-                else if (aValue.isDouble())
-                {
-                    outBottle.addInt(static_cast<int>(aValue.asDouble()));
-                }
+                outBottle.addInt(aValue.asInt());
             }
-            if (0 < outBottle.size())
+            else if (aValue.isDouble())
             {
-                if (! _outChannel->write(outBottle))
-                {
-                    OD_LOG("(! _outChannel->write(message))"); //####
+                outBottle.addInt(static_cast<int>(aValue.asDouble()));
+            }
+        }
+        if ((0 < outBottle.size()) && _outChannel)
+        {
+            if (! _outChannel->write(outBottle))
+            {
+                OD_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                    Common::Stall();
+                Common::Stall();
 #endif // defined(MpM_StallOnSendProblem)
-                }
             }
         }
     }

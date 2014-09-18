@@ -110,14 +110,14 @@ void ExemplarInputThread::run(void)
         if (_nextTime <= yarp::os::Time::now())
         {
             OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
+            yarp::os::Bottle message;
+            
+            for (int ii = 0; ii < _numValues; ++ii)
+            {
+                message.addDouble(10000 * yarp::os::Random::uniform());
+            }
             if (_outChannel)
             {
-                yarp::os::Bottle message;
-                
-                for (int ii = 0; ii < _numValues; ++ii)
-                {
-                    message.addDouble(10000 * yarp::os::Random::uniform());
-                }
                 if (! _outChannel->write(message))
                 {
                     OD_LOG("(! _outChannel->write(message))"); //####
