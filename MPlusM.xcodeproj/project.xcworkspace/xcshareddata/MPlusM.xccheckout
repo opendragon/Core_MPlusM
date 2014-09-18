@@ -10,29 +10,29 @@
 	<string>MPlusM</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>EB599BF5-1CB0-4618-89A3-C394DA3A1AD1</key>
+		<key>53608EEECE40E969031FC033988B424F4D68A99D</key>
 		<string>https://github.com/MovementAndMeaning/Core_MPlusM.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>MPlusM.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>EB599BF5-1CB0-4618-89A3-C394DA3A1AD1</key>
+		<key>53608EEECE40E969031FC033988B424F4D68A99D</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/MovementAndMeaning/Core_MPlusM.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>EB599BF5-1CB0-4618-89A3-C394DA3A1AD1</string>
+	<string>53608EEECE40E969031FC033988B424F4D68A99D</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>EB599BF5-1CB0-4618-89A3-C394DA3A1AD1</string>
+			<string>53608EEECE40E969031FC033988B424F4D68A99D</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Core_MPlusM</string>
 		</dict>
