@@ -86,7 +86,14 @@ within the `ChannelManager' directory inside the user--specific application data
 directory.
 On Microsoft Windows, this will likely be ``\textbackslash{}Documents~and~Settings%
 \textbackslash{}username\textbackslash{}Application~Data'' while, for Macintosh OS X, it
-will likely be ``\textasciitilde/Library''.
+will likely be ``\textasciitilde/Library''.\\
+
+In addition, there are three commands available to alter the display:
+\begin{itemize}
+\item \textbf{Cmd--B} use a black~/~white background versus a gradient
+\item \textbf{Cmd--I} invert the background
+\item \textbf{Cmd--R} force a repaint, in case there's a `glitch'
+\end{itemize}
 \objDiagram{cmDiagram.ps}{cmDiagram}{Channel~Manager structure}
 \tertiaryEnd{\utilityNameE[Channel~Manager]{ChannelManager}}
 \secondaryEnd{}
