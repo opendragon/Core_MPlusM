@@ -110,13 +110,7 @@ static void localCatcher(int signal)
     {
         char numBuff[30];
         
-#if MAC_OR_LINUX_
         snprintf(numBuff, sizeof(numBuff), "%d", signal);
-#else // ! MAC_OR_LINUX_
-        _snprintf(numBuff, sizeof(numBuff) - 1, "%d", signal);
-        // Correct for the weird behaviour of _snprintf
-        numBuff[sizeof(numBuff) - 1] = '\0';
-#endif // ! MAC_OR_LINUX_
         lLogger->error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
                        yarp::os::ConstString(" = ") + MplusM::NameOfSignal(signal));
     }
