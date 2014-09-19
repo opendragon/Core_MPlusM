@@ -604,8 +604,11 @@ static void catchSignal(int signal)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_LL1("signal = ", signal); //####
+#if MAC_OR_LINUX_
     char numBuff[30];
-    
+#else // ! MAC_OR_LINUX_
+#endif // ! MAC_OR_LINUX_
+
 #if MAC_OR_LINUX_
     snprintf(numBuff, sizeof(numBuff), "%d", signal);
     MplusM::Common::GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
