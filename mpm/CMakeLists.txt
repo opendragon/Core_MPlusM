@@ -97,7 +97,6 @@ add_library(mpmCommon
 install(TARGETS mpmCommon DESTINATION lib)
 
 install(FILES
-        "${MpM_SOURCE_DIR}/mpm/getopt.h"
         "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOut.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.h"
@@ -136,4 +135,12 @@ install(FILES
         "${MpM_SOURCE_DIR}/mpm/M+MServiceResponse.h"
         "${MpM_SOURCE_DIR}/mpm/M+MUtilities.h"
         DESTINATION include/mpm)
+
+if(APPLE)
+else(APPLE)
+    install(FILES
+            "${MpM_SOURCE_DIR}/mpm/getopt.h"
+            DESTINATION include/mpm)
+endif(APPLE)
+
 enable_testing()
