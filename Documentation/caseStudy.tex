@@ -18,7 +18,8 @@ inheritance with \asCode{Leap::Listener} on the Input service class, or use a se
 \asCode{Leap::Listener} subclass to respond to the events.\\
 
 For simplicity, we will use event--handling with a separate \asCode{Leap::Listener}
-subclass, and a namespace of \asCode{LeapMotion}.
+subclass, and a namespace of\\
+\asCode{LeapMotion}.
 \secondaryEnd{}
 \secondaryStart{Implementation}
 \tertiaryStart{First~step}
@@ -63,7 +64,8 @@ In the \asCode{LeapMotionInputService::startStreams} and
 check for the non--\asCode{NULL} state of the new member variable.\\
 
 In the \asCode{LeapMotionInputService::setUpStreamDescriptions} method, change the
-port protocol string to `\asCode{LEAP}'.
+port protocol string to\\
+`\asCode{LEAP}'.
 \tertiaryEnd{}
 \tertiaryStart{Fifth~step}
 We now create a new \compLang{C++} class, \asCode{LeapMotionInputListener}, that derives
@@ -94,7 +96,8 @@ where `\asCode{XXX}' is the member variable of type \asCode{Leap::Controller~*} 
 added in an earlier step and `\asCode{YYY}' is the member variable that we just added.\\
 
 In the \asCode{LeapMotionInputService::stopStreams} method, within the `\asCode{if}'
-statement that was added earlier, add the statements `\asCode{XXX->removeListener(*YYY);}', '\asCode{delete~YYY;}' and \asCode{YYY~=~NULL;}',
+statement that was added earlier, add the statements
+`\asCode{XXX->removeListener(*YYY);}', '\asCode{delete~YYY;}' and \asCode{YYY~=~NULL;}',
 where `\asCode{XXX}' and `\asCode{YYY}' are as above.
 \tertiaryEnd{}
 \tertiaryStart{Sixth~step}
