@@ -38,7 +38,14 @@
 
 include_directories("${MpM_SOURCE_DIR}")
 
+if(APPLE)
+    set(GETOPT_SOURCE "")
+else(APPLE)
+    set(GETOPT_SOURCE "${MpM_SOURCE_DIR}/mpm/getopt.cpp")
+endif(APPLE)
+
 add_library(mpmCommon
+            "${GETOPT_SOURCE}"
             "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOut.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.cpp"
