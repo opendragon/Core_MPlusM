@@ -12,7 +12,7 @@ a unique namespace.
 \tertiaryStart{\exemplarsNameD{ExemplarAdapter}}
 The files in \exemplarsNameX{ExemplarAdapter} are based on the source files for the
 \examplesNameR{Adapters}{mpmRandomNumberAdapter} example application.
-The files \asCode{M+MRandomNumberXXX.YYY} correspond to the files
+The files asCode{M+MRandomNumberXXX.YYY} correspond to the files
 \asCode{M+MExemplarXXX.YYY}, where \asCode{XXX} is \asCode{AdapterData},
 \asCode{AdapterMain} or \asCode{InputHandler}.
 \tertiaryEnd{\exemplarsNameE{ExemplarAdapter}}
@@ -58,6 +58,84 @@ The files \asCode{M+MRandomNumberXXX.YYY} correspond to the files
 files\\
 \asCode{M+MSimpleRequestHandler.YYY}.
 \tertiaryEnd{\exemplarsNameE{ExemplarService}}
+\secondaryEnd{}
+\secondaryStart{Exemplar~classes}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarAdapterData}}
+The \classNameR{Exemplar}{ExemplarAdapterData} class is a subclass of
+\classNameR{Common}{BaseAdapterData} and is used to provide a linkage between instances of
+the \classNameR{Exemplar}{ExemplarInputHandler} class and instances of the
+\classNameR{Exemplar}{ExemplarService} class; it does not have any methods or variables
+in addition to those provided by its superclass and primarily serves as a placeholder for
+customization.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarAdapterData}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarClient}}
+The \classNameR{Exemplar}{ExemplarClient} class is a subclass of
+\classNameR{Common}{BaseClient} and has two `placeholder' methods,
+\asCode{getOneRandomNumber} and \asCode{getRandomNumbers}, which should be replaced when
+developing custom applications.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarClient}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarFilterInputHandler}}
+The \classNameR{Exemplar}{ExemplarFilterInputHandler} class is a subclass of
+\classNameR{Common}{InputHandler} and implements the \asCode{handleInput} method,
+processing floating--point and integer data; this should be changed when developing a
+custom application.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarFilterInputHandler}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarFilterService}}
+The \classNameR{Exemplar}{ExemplarFilterService} class is a subclass of
+\classNameR{Common}{BaseFilterService} and implements the minimal functionality necessary
+to support its behaviour.
+In particular, the stream descriptions provided in the method
+\asCode{setUpStreamDescriptions} should be replaced in a custom application.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarFilterService}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarInputHandler}}
+The \classNameR{Exemplar}{ExemplarInputHandler} class is a subclass of
+\classNameR{Common}{InputHandler} and invokes the `placeholder' methods of the\\
+\classNameR{Exemplar}{ExemplarClient} within the \asCode{handleInput} method, which should
+be replaced when developing custom applications.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarInputHandler}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarInputService}}
+The \classNameR{Exemplar}{ExemplarInputService} is a subclass of
+\classNameR{Common}{BaseInputService} and implements the minimal functionality necessary
+to support its behaviour.
+In particular, the stream description provided in the method
+\asCode{setUpStreamDescriptions} should be replaced in a custom application.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarInputService}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarInputThread}}
+The \classNameR{Exemplar}{ExemplarInputThread} class is a subclass of
+\asCode{yarp::os::Thread} and implements the \asCode{run} method to generate a stream of
+random numbers -- this behaviour should be changed when developing a custom application.
+Note that the method \asCode{clearOutputChannel} provides a mechanism for the
+\classNameR{Exemplar}{ExemplarInputService} instance to signal that the thread is to
+stop -- this may not be sufficient in a custom application.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarInputThread}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarOutputInputHandler}}
+The \classNameR{Exemplar}{ExemplarOutputInputHandler} class is a subclass of
+\classNameR{Common}{InputHandler} and simply writes out the data received by the
+\asCode{handleInput} method; this should be replaced when developing a custom application.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarOutputInputHandler}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarOutputService}}
+The \classNameR{Exemplar}{ExemplarOutputService} class is a subclass of
+\classNameR{Common}{BaseOutputService} and implements the minimal functionality necessary
+to support its behaviour.
+In particular, the stream description provided in the method
+\asCode{setUpStreamDescriptions} should be replaced in a custom application.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarOutputService}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarService}}
+The \classNameR{Exemplar}{ExemplarService} class is a subclass of
+\classNameR{Common}{BaseService} and depends on the
+\classNameR{Exemplar}{SimpleRequestHandler} class to provide the service functionality.
+When developing a custom application, the methods \asCode{attachRequestHandlers} and
+\asCode{detachRequestHandlers} need to be extended to support the requests defined by the
+service.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarService}}
+\tertiaryStart{\classNameD{Exemplar}{SimpleRequestHandler}}
+The \classNameR{Exemplar}{SimpleRequestHandler} class is a subclass of
+\classNameR{Common}{BaseRequestHandler} and implements the `get a random number' and
+`get several random numbers' requests sent by the \classNameR{Exemplar}{ExemplarClient}
+client application; a custom application should replace this class with one or more
+request handlers corresponding to the requests defined by the service, with the
+corresponding changes made to the \classNameR{Exemplar}{ExemplarService} class.
+\tertiaryEnd{\classNameE{Exemplar}{SimpleRequestHandler}}
 \secondaryEnd{}
 \secondaryStart{Creating~a~custom~application}
 \tertiaryStart{Determine the kind of application}
@@ -110,11 +188,11 @@ directory.
 \asCode{Exemplar} to \asCode{Foo} and replace references to `exemplar' in comments with
 `foo' -- note that the copyright notice at the beginning of each file includes the word
 `EXEMPLARY', which should not be changed
-\item In the main files for each application \textbraceleft\asCode{M+MFooAdapterMain.cpp},
-\asCode{M+MFooClientMain.cpp}, et cetera\textbraceright, change any text strings that
-contain `exemplar' to contain `foo' or that contain `Exemplar' to contain `Foo' -- these
-will most often be the names of \yarp{} network connections and must not conflict with the
-ports from other services and clients
+\item In the main files for each application (\asCode{M+MFooAdapterMain.cpp},
+\asCode{M+MFooClientMain.cpp}, et cetera),\\
+change any text strings that contain `exemplar' to contain `foo' or that contain
+`Exemplar' to contain `Foo' -- these will most often be the names of \yarp{} network
+connections and must not conflict with the ports from other services and clients
 \item In the files \asCode{M+MFooRequests.h} and \asCode{M+MFooService.cpp}, replace
 \asCode{MpM\textunderscore{}EXEMPLAR\textunderscore{}CANONICAL\textunderscore{}NAME} with
 \asCode{MpM\textunderscore{}FOO\textunderscore{}CANONICAL\textunderscore{}NAME}
@@ -142,19 +220,30 @@ of the \asCode{add\textunderscore{}subdirectory} statement for the directory.
 \tertiaryEnd{}
 \tertiaryStart{Build the application(s)}
 At this point, it should be possible to build the custom applications.
-The tool \asCode{cmake} is used to create the files that are then processed by the
-\asCode{make} program to actually construct the applications.
-On the Macintosh, execute `\asCode{ccmake~.}' from a terminal session that has the current
-directory set to the top--level directory for the custom files and then perform the
-`c' (configure) and `g' (generate) commands.
-If \asCode{ccmake} does not exit with success, use the `q' (quit) command and review the
-\asCode{CMakeLists.txt} files to make sure that they've been edited correctly -- the error
-screen from \asCode{ccmake} will indicate which files have problems.\\
-
-Once \asCode{ccmake} runs successfully, do a `\asCode{cmake~.}'.
-This should finish without problems, and can be followed by a `\asCode{make}'.
-Errors at this point will be a result of incomplete or incorrect edits and should be easy
-to fix.
+The procedures are different for Macintosh~OS~X and Windows, although they start from the
+same source files. 
+\begin{center}\textbf{On~Macintosh~OS~X:}\end{center}
+\begin{itemize}
+\item Execute `\asCode{ccmake~.}' from a terminal session that has the current directory
+set to the top--level directory for the custom files and then perform the `c' (configure)
+and `g' (generate) commands
+\item If \asCode{ccmake} does not exit with success, use the `q' (quit) command and review
+the \asCode{CMakeLists.txt} files to make sure that they've been edited correctly -- the
+error screen from \asCode{ccmake} will indicate which files have problems
+\item Execute `\asCode{cmake~.}' from the terminal session, to create the `makefiles' used
+to construct the applications
+\item Execute `\asCode{make}' to build the applications; errors at this point will be a
+result of incomplete or incorrect edits and should be easy to fix
+\item After testing the applications, they can be installed on the system, if desired, via
+the command\\
+`\asCode{sudo~make~install}'
+\end{itemize}
+\begin{center}\textbf{On~Windows:}\end{center}
+\begin{itemize}
+\item Execute the tool \asCode{cmake} to create the project files used to construct the
+application
+\item TBD
+\end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Add custom code}
 Once the applications have successfully built, it's time to add the custom functionality
@@ -187,9 +276,12 @@ new requests for the \asCode{FooService} class will require similar changes to t
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Install the applications}
+\begin{center}\textbf{On~Macintosh~OS~X:}\end{center}
 Once all the customization has been developed and tested, the applications can then be
-installed by executing `\asCode{sudo make install}' from a terminal session in the
-top--level directory.
+installed by executing\\
+`\asCode{sudo~make~install}' from a terminal session in the top--level directory.
+\begin{center}\textbf{On~Windows:}\end{center}
+TBD
 \tertiaryEnd{}
 \secondaryEnd{}
 \appendixEnd{}

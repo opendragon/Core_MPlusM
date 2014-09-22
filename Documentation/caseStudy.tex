@@ -1,6 +1,5 @@
 \ProvidesFile{caseStudy.tex}[v1.0.0]
 \appendixStart[CaseStudy]{\textitcorr{Case~Study:\ Leap~Motion~Input~Service}}%
-\secondaryStart{Overview}
 The Leap Motion Controller is a sensor that can report the position and orientation of one
 or more hands or cylindrical tools, such as pointers, pens or pencils.
 It provides detailed information on each finger and the bones that constitute them, as
@@ -20,7 +19,9 @@ inheritance with \asCode{Leap::Listener} on the Input service class, or use a se
 For simplicity, we will use event--handling with a separate \asCode{Leap::Listener}
 subclass, and a namespace of\\
 \asCode{LeapMotion}.
-\secondaryEnd{}
+The steps being described are for Macintosh~OS~X; the section
+\appendixRef{UsingExemplars}{Using~the~Exemplar~Files} describes the steps that would be
+involved in building the Leap Motion Input Service on Windows.
 \secondaryStart{Implementation}
 \tertiaryStart{First~step}
 Following the steps outlined in \appendixRef{UsingExemplars}{Using~the~Exemplar~Files},
