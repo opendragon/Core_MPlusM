@@ -183,7 +183,7 @@ int main(int     argc,
                             {
                                 char inChar;
                                 
-                                cout << "Operation: [b c e q r]? ";
+                                cout << "Operation: [b c e q r u]? ";
                                 cout.flush();
                                 cin >> inChar;
                                 switch (inChar)
@@ -239,6 +239,11 @@ int main(int     argc,
                                         {
                                             stuff->restartStreams();
                                         }
+                                        break;
+                                        
+                                    case 'u' :
+                                    case 'U' :
+                                        configured = false;
                                         break;
                                         
                                     default :

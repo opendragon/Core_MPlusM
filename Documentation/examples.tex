@@ -88,6 +88,8 @@ and period.
 \item \textbf{e:} stop the output stream. 
 \item \textbf{q:} quit the application. 
 \item \textbf{r:} restart the output stream. 
+\item \textbf{u:} reset the configuration so that it will be reprocessed when the output
+stream is restarted 
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomBurstService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRandomNumberService}}
@@ -159,7 +161,9 @@ the input data.
 \item \textbf{e:} stop the input stream, which will close the output file. 
 \item \textbf{q:} quit the application. 
 \item \textbf{r:} restart the input stream, which will cause the current output file to be
-closed and a new output file to be opened. 
+closed and a new output file to be opened.
+\item \textbf{u:} reset the configuration so that it will be reprocessed when the input
+stream is restarted 
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRunningSumService}}
@@ -238,7 +242,9 @@ If the application is running from a terminal, the following commands are availa
 configurable parameters. 
 \item \textbf{e:} stop the input and output streams. 
 \item \textbf{q:} quit the application. 
-\item \textbf{r:} restart the input and output streams. 
+\item \textbf{r:} restart the input and output streams.
+\item \textbf{u:} reset the configuration so that it will be reprocessed when the input
+and output streams are restarted 
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmTruncateFilterService}}
 \secondaryEnd{}
