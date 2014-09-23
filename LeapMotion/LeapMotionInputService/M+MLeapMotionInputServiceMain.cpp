@@ -250,6 +250,7 @@ int main(int     argc,
                                         
                                     case 'u' :
                                     case 'U' :
+                                        // Unconfigure
                                         configured = false;
                                         break;
                                         
