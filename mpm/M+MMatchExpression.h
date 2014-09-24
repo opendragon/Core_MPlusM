@@ -60,7 +60,7 @@ namespace MplusM
         class MatchConstraint;
         
         /*! @brief A pattern matcher for expressions. */
-        class MatchExpression : public BaseMatcher
+        class MatchExpression final : public BaseMatcher
         {
         public:
             
@@ -72,7 +72,7 @@ namespace MplusM
              @param suffixString The SELECT suffix to be applied after each expression.
              @returns A string representing the value as a string suitable for use with SQL. */
             yarp::os::ConstString asSQLString(const char * prefixString,
-                                              const char * suffixString = NULL)
+                                              const char * suffixString = nullptr)
             const;
             
             /*! @brief Return the match value as a printable string.
@@ -92,18 +92,19 @@ namespace MplusM
              @param endPos Where the scan terminated, if successful.
              @param validator A function that returns @c true if the field name is valid and @c
              false otherwise.
-             @returns A non-null matcher if the string would be a valid value and @c NULL
+             @returns A non-null matcher if the string would be a valid value and @c nullptr
              otherwise. */
             static MatchExpression * CreateMatcher(const yarp::os::ConstString & inString,
                                                    const size_t                  inLength,
                                                    const size_t                  startPos,
                                                    size_t &                      endPos,
-                                                   BaseNameValidator *           validator = NULL);
+                                                   BaseNameValidator *           validator =
+                                                                                        nullptr);
             
             /*! @brief Return an element from the expression list.
              @param index The zero-origin index of the element.
-             @returns An element of the expression list or @c NULL if the index is outside the range
-             of the expression list. */
+             @returns An element of the expression list or @c nullptr if the index is outside the
+             range of the expression list. */
             const MatchConstraint * element(const int index)
             const;
             

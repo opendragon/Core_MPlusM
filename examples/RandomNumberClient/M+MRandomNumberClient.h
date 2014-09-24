@@ -57,7 +57,7 @@ namespace MplusM
     namespace Example
     {
         /*! @brief The random number client. */
-        class RandomNumberClient : public Common::BaseClient
+        class RandomNumberClient final : public Common::BaseClient
         {
         public:
             

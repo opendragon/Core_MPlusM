@@ -65,7 +65,7 @@ namespace MplusM
     {
         /*! @brief A convenience class to provide distinct channels for responses from a service to
          a client. */
-        class ServiceChannel : public SERVICE_PORT_CLASS_
+        class ServiceChannel final : public SERVICE_PORT_CLASS_
         {
         public:
             

@@ -84,8 +84,8 @@ using namespace MplusM::Example;
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
 #if defined(MpM_ServicesLogToStandardError)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
@@ -96,7 +96,7 @@ int main(int     argc,
 #endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    MplusM::Common::SetUpLogger(*argv);
+    SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -109,7 +109,7 @@ int main(int     argc,
             yarp::os::ConstString serviceEndpointName;
             yarp::os::ConstString servicePortNumber;
             
-            MplusM::Common::Initialize(*argv);
+            Initialize(*argv);
             if (1 < argc)
             {
                 serviceEndpointName = argv[1];
@@ -132,10 +132,10 @@ int main(int     argc,
                     yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
                     OD_LOG_S1s("channelName = ", channelName); //####
-                    if (MplusM::Common::RegisterLocalService(channelName, NULL, NULL))
+                    if (RegisterLocalService(channelName, nullptr, nullptr))
                     {
                         MplusM::StartRunning();
-                        MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
+                        SetSignalHandlers(MplusM::SignalRunningStop);
                         stuff->startPinger();
                         for ( ; MplusM::IsRunning(); )
                         {
@@ -145,13 +145,12 @@ int main(int     argc,
                             yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
                         }
-                        MplusM::Common::UnregisterLocalService(channelName, NULL, NULL);
+                        UnregisterLocalService(channelName, nullptr, nullptr);
                         stuff->stop();
                     }
                     else
                     {
-                        OD_LOG("! (MplusM::Common::::RegisterLocalService(channelName, " //####
-                               "NULL, NULL))"); //####
+                        OD_LOG("! (RegisterLocalService(channelName, nullptr, nullptr))"); //####
                     }
                 }
                 else
@@ -170,7 +169,7 @@ int main(int     argc,
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
-            MplusM::Common::GetLogger().fail("YARP network not running.");
+            GetLogger().fail("YARP network not running.");
 # endif // MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_

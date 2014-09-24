@@ -75,8 +75,8 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-RunningSumAdapterData::RunningSumAdapterData(RunningSumClient *       client,
-                                             Common::AdapterChannel * output) :
+RunningSumAdapterData::RunningSumAdapterData(RunningSumClient * client,
+                                             AdapterChannel *   output) :
     inherited(client, output)
 {
     OD_LOG_ENTER(); //####

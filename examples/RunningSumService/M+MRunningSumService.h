@@ -65,7 +65,7 @@ namespace MplusM
         class StopSumRequestHandler;
         
         /*! @brief The running sum service. */
-        class RunningSumService : public Common::BaseService
+        class RunningSumService final : public Common::BaseService
         {
         public:
             
@@ -93,7 +93,8 @@ namespace MplusM
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
+            virtual bool start(void)
+            override;
             
             /*! @brief Start a running sum for the given client.
              @param key The client-provided key. */
@@ -101,7 +102,8 @@ namespace MplusM
             
             /*! @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
+            virtual bool stop(void)
+            override;
             
         protected:
             

@@ -94,7 +94,7 @@ StatsRequestHandler::~StatsRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void StatsRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void StatsRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -168,7 +168,7 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("(! response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

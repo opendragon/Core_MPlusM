@@ -57,7 +57,7 @@ namespace MplusM
     namespace Parser
     {
         /*! @brief A pattern matcher for simple values. */
-        class MatchValue : public BaseMatcher
+        class MatchValue final : public BaseMatcher
         {
         public:
             
@@ -79,7 +79,7 @@ namespace MplusM
              @param inLength The length of the string being scanned.
              @param startPos Where in the string to start scanning.
              @param endPos Where the scan terminated, if successful.
-             @returns A non-null matcher if the string would be a valid value and @c NULL
+             @returns A non-null matcher if the string would be a valid value and @c nullptr
              otherwise. */
             static MatchValue * CreateMatcher(const yarp::os::ConstString & inString,
                                               const size_t                  inLength,

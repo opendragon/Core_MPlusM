@@ -57,7 +57,7 @@ namespace MplusM
     namespace Example
     {
         /*! @brief The running sum client. */
-        class RunningSumClient : public Common::BaseClient
+        class RunningSumClient final : public Common::BaseClient
         {
         public:
             

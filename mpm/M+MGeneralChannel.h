@@ -57,7 +57,7 @@ namespace MplusM
     namespace Common
     {
         /*! @brief A convenience class to provide distinct channels to and from adapters. */
-        class GeneralChannel : public yarp::os::Port
+        class GeneralChannel final : public yarp::os::Port
         {
         public:
             

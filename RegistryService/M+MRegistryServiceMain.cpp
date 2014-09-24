@@ -57,6 +57,9 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM;
+using namespace MplusM::Common;
+
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
@@ -83,8 +86,8 @@
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Service Registry service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
 #if defined(MpM_ServicesLogToStandardError)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
@@ -95,7 +98,7 @@ int main(int     argc,
 #endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    MplusM::Common::SetUpLogger(*argv);
+    SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -105,9 +108,9 @@ int main(int     argc,
         {
             yarp::os::Network                   yarp; // This is necessary to establish any
                                                       // connections to the YARP infrastructure
-            MplusM::Registry::RegistryService * stuff = NULL;
+            MplusM::Registry::RegistryService * stuff = nullptr;
             
-            MplusM::Common::Initialize(*argv);
+            Initialize(*argv);
             if (1 <= argc)
             {
                 switch (argc)
@@ -133,7 +136,7 @@ int main(int     argc,
                     // Note that the Registry Service is self-registering... so we don't need to
                     // call RegisterLocalService() _or_ start a 'pinger'.
                     MplusM::StartRunning();
-                    MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
+                    SetSignalHandlers(MplusM::SignalRunningStop);
                     stuff->startChecker();
                     for ( ; MplusM::IsRunning(); )
                     {
@@ -161,7 +164,7 @@ int main(int     argc,
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
-            MplusM::Common::GetLogger().fail("YARP network not running.");
+            GetLogger().fail("YARP network not running.");
 # endif // MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_

@@ -163,7 +163,7 @@ bool Test16EchoRequestHandler::processRequest(const yarp::os::ConstString & requ
             {
                 OD_LOG("(! argsCopy.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

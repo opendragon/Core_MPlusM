@@ -42,8 +42,6 @@
 #include "M+MRunningSumClient.h"
 #include "M+MRunningSumRequests.h"
 
-#include <mpm/M+MAdapterChannel.h>
-
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -117,8 +115,8 @@ bool RunningSumDataInputHandler::handleInput(const yarp::os::Bottle &      input
         
         if (0 < howMany)
         {
-            Common::AdapterChannel * theOutput = _shared.getOutput();
-            RunningSumClient *       theClient = (RunningSumClient *) _shared.getClient();
+            AdapterChannel *   theOutput = _shared.getOutput();
+            RunningSumClient * theClient = (RunningSumClient *) _shared.getClient();
             
             if (_shared.isActive() && theClient && theOutput)
             {
@@ -152,7 +150,7 @@ bool RunningSumDataInputHandler::handleInput(const yarp::os::Bottle &      input
                             {
                                 OD_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                                Common::Stall();
+                                Stall();
 #endif // defined(MpM_StallOnSendProblem)
                             }
                         }
@@ -165,7 +163,7 @@ bool RunningSumDataInputHandler::handleInput(const yarp::os::Bottle &      input
                 }
                 else
                 {
-                    Common::DoubleVector values;
+                    DoubleVector values;
                     
                     for (int ii = 0; ii < howMany; ++ii)
                     {
@@ -197,7 +195,7 @@ bool RunningSumDataInputHandler::handleInput(const yarp::os::Bottle &      input
                             {
                                 OD_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                                Common::Stall();
+                                Stall();
 #endif // defined(MpM_StallOnSendProblem)
                             }
                         }

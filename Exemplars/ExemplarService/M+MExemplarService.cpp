@@ -77,9 +77,9 @@ using namespace MplusM::Exemplar;
 ExemplarService::ExemplarService(const yarp::os::ConstString & launchPath,
                                  const yarp::os::ConstString & serviceEndpointName,
                                  const yarp::os::ConstString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, "", true, MpM_EXEMPLAR_CANONICAL_NAME,
+    inherited(ServiceKind::kServiceKindNormal, launchPath, "", true, MpM_EXEMPLAR_CANONICAL_NAME,
               "The exemplar service", "simple - return the number of random values requested",
-              serviceEndpointName, servicePortNumber), _simpleHandler(NULL)
+              serviceEndpointName, servicePortNumber), _simpleHandler(nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
@@ -131,7 +131,7 @@ void ExemplarService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_simpleHandler);
             delete _simpleHandler;
-            _simpleHandler = NULL;
+            _simpleHandler = nullptr;
         }
     }
     catch (...)

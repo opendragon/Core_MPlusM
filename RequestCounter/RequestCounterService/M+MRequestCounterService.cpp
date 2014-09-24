@@ -80,12 +80,13 @@ using namespace MplusM::RequestCounter;
 RequestCounterService::RequestCounterService(const yarp::os::ConstString & launchPath,
                                              const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, "", true, MpM_REQUESTCOUNTER_CANONICAL_NAME,
-              "The request counter service",
+    inherited(ServiceKind::kServiceKindNormal, launchPath, "", true,
+              MpM_REQUESTCOUNTER_CANONICAL_NAME, "The request counter service",
               "reset - clear the request counter and the elapsed time\n"
               "stats - report the request counter and the elapsed time\n"
               "<anything else> - simply increment the request counter", serviceEndpointName,
-              servicePortNumber), _defaultHandler(NULL), _resetSumHandler(NULL), _statsHandler(NULL)
+              servicePortNumber), _defaultHandler(nullptr), _resetSumHandler(nullptr),
+    _statsHandler(nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
@@ -161,21 +162,21 @@ void RequestCounterService::detachRequestHandlers(void)
     {
         if (_defaultHandler)
         {
-            setDefaultRequestHandler(NULL);
+            setDefaultRequestHandler(nullptr);
             delete _defaultHandler;
-            _defaultHandler = NULL;
+            _defaultHandler = nullptr;
         }
         if (_resetSumHandler)
         {
             unregisterRequestHandler(_resetSumHandler);
             delete _resetSumHandler;
-            _resetSumHandler = NULL;
+            _resetSumHandler = nullptr;
         }
         if (_statsHandler)
         {
             unregisterRequestHandler(_statsHandler);
             delete _statsHandler;
-            _statsHandler = NULL;
+            _statsHandler = nullptr;
         }
     }
     catch (...)

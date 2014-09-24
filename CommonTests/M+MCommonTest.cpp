@@ -48,7 +48,6 @@
 #include <mpm/M+MBaseClient.h>
 #include <mpm/M+MBaseRequestHandler.h>
 #include <mpm/M+MChannelStatusReporter.h>
-#include <mpm/M+MClientChannel.h>
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
@@ -84,12 +83,12 @@ using namespace MplusM::Test;
 /*! @brief Create an endpoint for a test.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the endpoint constructor.
- @returns A newly created endpoint, or @c NULL if one could not be created. */
+ @returns A newly created endpoint, or @c nullptr if one could not be created. */
 static Endpoint * doCreateEndpointForTest(const int argc,
-                                          char **   argv)
+                                          char * *  argv)
 {
     OD_LOG_ENTER(); //####
-    Endpoint * stuff = NULL;
+    Endpoint * stuff = nullptr;
     
     try
     {
@@ -133,7 +132,7 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
     yarp::os::ConstString   aName(GetRandomChannelName(channelPath));
     ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
-    ChannelStatusReporter & reporter = *MplusM::Utilities::GetGlobalStatusReporter();
+    ChannelStatusReporter & reporter = *Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
     
     
@@ -146,15 +145,15 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
         if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
         {
             if (! Utilities::NetworkConnectWithRetries(aName, destinationName, STANDARD_WAIT_TIME,
-                                                       false, NULL, NULL))
+                                                       false, nullptr, nullptr))
             {
                 OD_LOG("(! Utilities::NetworkConnectWithRetries(aName, destinationName, " //####
-                       "STANDARD_WAIT_TIME, false, NULL, NULL))"); //####
+                       "STANDARD_WAIT_TIME, false, nullptr, nullptr))"); //####
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
 #endif // defined(MpM_DoExplicitClose)
                 ClientChannel::RelinquishChannel(newChannel);
-                newChannel = NULL;
+                newChannel = nullptr;
             }
         }
         else
@@ -197,10 +196,10 @@ static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
     {
 #if defined(MpM_DoExplicitDisconnect)
         if (! Utilities::NetworkDisconnectWithRetries(theChannel->name(), destinationName,
-                                                      STANDARD_WAIT_TIME, NULL, NULL))
+                                                      STANDARD_WAIT_TIME, nullptr, nullptr))
         {
             OD_LOG("(! Utilities::NetworkDisconnectWithRetries(theChannel->name(), " //####
-                   "destinationName, STANDARD_WAIT_TIME, NULL, NULL))"); //####
+                   "destinationName, STANDARD_WAIT_TIME, nullptr, nullptr))"); //####
         }
 #endif // defined(MpM_DoExplicitDisconnect)
 #if defined(MpM_DoExplicitClose)
@@ -231,7 +230,7 @@ static void doDestroyTestChannel(Endpoint &      anEndpoint,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestCreateEndpoint(const char * launchPath,
                                 const int    argc,
-                                char **      argv) // create endpoint
+                                char * *     argv) // create endpoint
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -284,7 +283,7 @@ static int doTestCreateEndpoint(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestConnectToEndpoint(const char * launchPath,
                                    const int    argc,
-                                   char **      argv) // connect to endpoint
+                                   char * *     argv) // connect to endpoint
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -298,7 +297,7 @@ static int doTestConnectToEndpoint(const char * launchPath,
     try
     {
         Endpoint *              stuff = doCreateEndpointForTest(argc, argv);
-        ChannelStatusReporter & reporter = *MplusM::Utilities::GetGlobalStatusReporter();
+        ChannelStatusReporter & reporter = *Utilities::GetGlobalStatusReporter();
         
         if (stuff)
         {
@@ -324,10 +323,12 @@ static int doTestConnectToEndpoint(const char * launchPath,
                             result = 0;
 #if defined(MpM_DoExplicitDisconnect)
                             if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
-                                                               STANDARD_WAIT_TIME, NULL, NULL))
+                                                               STANDARD_WAIT_TIME, nullptr,
+                                                               nullptr))
                             {
                                 OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), " //####
-                                       "stuff->getName(), STANDARD_WAIT_TIME, NULL, NULL))"); //####
+                                       "stuff->getName(), STANDARD_WAIT_TIME, nullptr, " //####
+                                       "nullptr))"); //####
                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                         }
@@ -383,7 +384,7 @@ static int doTestConnectToEndpoint(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestWriteToEndpoint(const char * launchPath,
                                  const int    argc,
-                                 char **      argv) // send to endpoint
+                                 char * *     argv) // send to endpoint
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -397,7 +398,7 @@ static int doTestWriteToEndpoint(const char * launchPath,
     try
     {
         Endpoint *              stuff = doCreateEndpointForTest(argc, argv);
-        ChannelStatusReporter & reporter = *MplusM::Utilities::GetGlobalStatusReporter();
+        ChannelStatusReporter & reporter = *Utilities::GetGlobalStatusReporter();
         
         if (stuff)
         {
@@ -436,11 +437,12 @@ static int doTestWriteToEndpoint(const char * launchPath,
 # if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME, NULL, NULL))
+                                                                   STANDARD_WAIT_TIME, nullptr,
+                                                                   nullptr))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
                                            "name(), stuff->getName(), STANDARD_WAIT_TIME, " //####
-                                           "NULL, NULL))"); //####
+                                           "nullptr, nullptr))"); //####
                                 }
 # endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -451,11 +453,12 @@ static int doTestWriteToEndpoint(const char * launchPath,
 # if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME, NULL, NULL))
+                                                                   STANDARD_WAIT_TIME, nullptr,
+                                                                   nullptr))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
                                            "name(), stuff->getName(), STANDARD_WAIT_TIME, " //####
-                                           "NULL, NULL))"); //####
+                                           "nullptr, nullptr))"); //####
                                 }
 # endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -464,7 +467,7 @@ static int doTestWriteToEndpoint(const char * launchPath,
                             {
                                 OD_LOG("! (outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                                Common::Stall();
+                                Stall();
 #endif // defined(MpM_StallOnSendProblem)
                             }
                         }
@@ -521,7 +524,7 @@ static int doTestWriteToEndpoint(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestEchoFromEndpointWithReader(const char * launchPath,
                                             const int    argc,
-                                            char **      argv) // send to endpoint
+                                            char * *     argv) // send to endpoint
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -535,7 +538,7 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
     try
     {
         Endpoint *              stuff = doCreateEndpointForTest(argc, argv);
-        ChannelStatusReporter & reporter = *MplusM::Utilities::GetGlobalStatusReporter();
+        ChannelStatusReporter & reporter = *Utilities::GetGlobalStatusReporter();
         
         if (stuff)
         {
@@ -572,11 +575,12 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME, NULL, NULL))
+                                                                   STANDARD_WAIT_TIME, nullptr,
+                                                                   nullptr))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
                                            "name(), stuff->getName(), STANDARD_WAIT_TIME, " //####
-                                           "NULL, NULL))"); //####
+                                           "nullptr, nullptr))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -584,7 +588,7 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
                             {
                                 OD_LOG("! (outChannel->write(message, response))"); //####
 #if defined(MpM_StallOnSendProblem)
-                                Common::Stall();
+                                Stall();
 #endif // defined(MpM_StallOnSendProblem)
                             }
                         }
@@ -641,7 +645,7 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                                                    const int    argc,
-                                                   char **      argv) // send to endpoint
+                                                   char * *     argv) // send to endpoint
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -655,7 +659,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
     try
     {
         Endpoint *              stuff = doCreateEndpointForTest(argc, argv);
-        ChannelStatusReporter & reporter = *MplusM::Utilities::GetGlobalStatusReporter();
+        ChannelStatusReporter & reporter = *Utilities::GetGlobalStatusReporter();
         
         if (stuff)
         {
@@ -692,11 +696,12 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME, NULL, NULL))
+                                                                   STANDARD_WAIT_TIME, nullptr,
+                                                                   nullptr))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
                                            "name(), stuff->getName(), STANDARD_WAIT_TIME, " //####
-                                           "NULL, NULL))"); //####
+                                           "nullptr, nullptr))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -704,7 +709,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                             {
                                 OD_LOG("! (outChannel->write(message, response))"); //####
 #if defined(MpM_StallOnSendProblem)
-                                Common::Stall();
+                                Stall();
 #endif // defined(MpM_StallOnSendProblem)
                             }
                         }
@@ -761,7 +766,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestCreateRequest(const char * launchPath,
                                const int    argc,
-                               char **      argv) // create request
+                               char * *     argv) // create request
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -812,7 +817,7 @@ static int doTestCreateRequest(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestCreateResponse(const char * launchPath,
                                 const int    argc,
-                                char **      argv) // create request
+                                char * *     argv) // create request
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -856,7 +861,7 @@ static int doTestCreateResponse(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromEndpoint(const char * launchPath,
                                          const int    argc,
-                                         char **      argv) // create request
+                                         char * *     argv) // create request
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -870,7 +875,7 @@ static int doTestRequestEchoFromEndpoint(const char * launchPath,
     try
     {
         Endpoint *              stuff = doCreateEndpointForTest(argc, argv);
-        ChannelStatusReporter & reporter = *MplusM::Utilities::GetGlobalStatusReporter();
+        ChannelStatusReporter & reporter = *Utilities::GetGlobalStatusReporter();
         
         if (stuff)
         {
@@ -903,7 +908,7 @@ static int doTestRequestEchoFromEndpoint(const char * launchPath,
                         OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getName(), outChannel);
-                    outChannel = NULL;
+                    outChannel = nullptr;
                 }
                 else
                 {
@@ -943,7 +948,7 @@ static int doTestRequestEchoFromEndpoint(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
                                                               const int    argc,
-                                                              char **      argv) // send 'echo'
+                                                              char * *     argv) // send 'echo'
                                                                                  // request
 {
     OD_LOG_ENTER(); //####
@@ -982,7 +987,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launc
                         OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
-                    outChannel = NULL;
+                    outChannel = nullptr;
                 }
                 else
                 {
@@ -1021,7 +1026,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launc
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPath,
                                                                      const int    argc,
-                                                                     char **      argv) // send
+                                                                     char * *     argv) // send
                                                                                         // 'echo'
                                                                                         // request
 {
@@ -1061,7 +1066,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char 
                         OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
-                    outChannel = NULL;
+                    outChannel = nullptr;
                 }
                 else
                 {
@@ -1100,7 +1105,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char 
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
                                                           const int    argc,
-                                                          char **      argv) // create 'echo'
+                                                          char * *     argv) // create 'echo'
                                                                              // request
 {
     OD_LOG_ENTER(); //####
@@ -1156,7 +1161,7 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
                         OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
-                    outChannel = NULL;
+                    outChannel = nullptr;
                 }
                 else
                 {
@@ -1376,7 +1381,7 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
                                                                  const int    argc,
-                                                                 char **      argv) // send 'list'
+                                                                 char * *     argv) // send 'list'
                                                                                     // request
 {
     OD_LOG_ENTER(); //####
@@ -1422,7 +1427,7 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
                         OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
-                    outChannel = NULL;
+                    outChannel = nullptr;
                 }
                 else
                 {
@@ -1460,8 +1465,8 @@ static void catchSignal(int signal)
     
 #if MAC_OR_LINUX_
     snprintf(numBuff, sizeof(numBuff), "%d", signal);
-    MplusM::Common::GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
-                                      yarp::os::ConstString(" = ") + MplusM::NameOfSignal(signal));
+    GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
+                                      yarp::os::ConstString(" = ") + NameOfSignal(signal));
 #else // ! MAC_OR_LINUX_
 //    _snprintf(numBuff, sizeof(numBuff) - 1, "%d", signal);
 //    // Correct for the weird behaviour of _snprintf
@@ -1483,20 +1488,20 @@ static void catchSignal(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    MplusM::Common::SetUpLogger(*argv);
+    SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
     int result = 1;
     
     try
     {
-        MplusM::Utilities::SetUpGlobalStatusReporter();
+        Utilities::SetUpGlobalStatusReporter();
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
@@ -1504,12 +1509,12 @@ int main(int     argc,
             yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
                                     // infrastructure
             
-            MplusM::Common::Initialize(*argv);
+            Initialize(*argv);
             if (0 < --argc)
             {
                 int selector = atoi(argv[1]);
                 
-                MplusM::Common::SetSignalHandlers(catchSignal);
+                SetSignalHandlers(catchSignal);
                 switch (selector)
                 {
                     case 0 :
@@ -1590,11 +1595,11 @@ int main(int     argc,
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
-            MplusM::Common::GetLogger().fail("YARP network not running.");
+            GetLogger().fail("YARP network not running.");
 # endif // MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
-        MplusM::Utilities::ShutDownGlobalStatusReporter();
+        Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {

@@ -41,8 +41,6 @@
 #include "M+MExemplarAdapterData.h"
 #include "M+MExemplarClient.h"
 
-#include <mpm/M+MAdapterChannel.h>
-
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -114,8 +112,8 @@ bool ExemplarInputHandler::handleInput(const yarp::os::Bottle &      input,
     {
         if (0 < input.size())
         {
-            Common::AdapterChannel * theOutput = _shared.getOutput();
-            ExemplarClient *         theClient = (ExemplarClient *) _shared.getClient();
+            AdapterChannel * theOutput = _shared.getOutput();
+            ExemplarClient * theClient = (ExemplarClient *) _shared.getClient();
             
             if (theClient && theOutput)
             {
@@ -140,7 +138,7 @@ bool ExemplarInputHandler::handleInput(const yarp::os::Bottle &      input,
                 }
                 if (1 < count)
                 {
-                    Common::DoubleVector randResult;
+                    DoubleVector randResult;
                     
                     if (theClient->getRandomNumbers(count, randResult))
                     {
@@ -148,7 +146,7 @@ bool ExemplarInputHandler::handleInput(const yarp::os::Bottle &      input,
                         
                         if (0 < randResult.size())
                         {
-                            for (Common::DoubleVector::const_iterator it(randResult.begin());
+                            for (DoubleVector::const_iterator it(randResult.begin());
                                  randResult.end() != it; ++it)
                             {
                                 message.addDouble(*it);
@@ -159,7 +157,7 @@ bool ExemplarInputHandler::handleInput(const yarp::os::Bottle &      input,
                         {
                             OD_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                            Common::Stall();
+                            Stall();
 #endif // defined(MpM_StallOnSendProblem)
                         }
                         _shared.unlock();
@@ -183,7 +181,7 @@ bool ExemplarInputHandler::handleInput(const yarp::os::Bottle &      input,
                         {
                             OD_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                            Common::Stall();
+                            Stall();
 #endif // defined(MpM_StallOnSendProblem)
                         }
                         _shared.unlock();

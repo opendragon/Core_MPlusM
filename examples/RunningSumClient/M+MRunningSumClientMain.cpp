@@ -91,8 +91,8 @@ using std::endl;
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
 #if MAC_OR_LINUX_
 # pragma unused(argc)
@@ -101,7 +101,7 @@ int main(int     argc,
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    MplusM::Common::SetUpLogger(*argv);
+    SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -119,19 +119,19 @@ int main(int     argc,
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
                 
-                MplusM::Common::Initialize(*argv);
+                Initialize(*argv);
                 RunningSumClient * stuff = new RunningSumClient;
                 
                 if (stuff)
                 {
                     MplusM::StartRunning();
-                    MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
-                    if (stuff->findService("Name RunningSum", false, NULL, NULL))
+                    SetSignalHandlers(MplusM::SignalRunningStop);
+                    if (stuff->findService("Name RunningSum", false, nullptr, nullptr))
                     {
 #if defined(MpM_ReportOnConnections)
                         stuff->setReporter(reporter, true);
 #endif // defined(MpM_ReportOnConnections)
-                        if (stuff->connectToService(NULL, NULL))
+                        if (stuff->connectToService(nullptr, nullptr))
                         {
                             for ( ; MplusM::IsRunning(); )
                             {
@@ -157,8 +157,7 @@ int main(int     argc,
                                         {
                                             OD_LOG("! (stuff->addToSum(value, newSum))"); //####
 #if MAC_OR_LINUX_
-                                            MplusM::Common::GetLogger().fail("Problem adding to "
-                                                                             "the sum.");
+                                            GetLogger().fail("Problem adding to the sum.");
 #endif // MAC_OR_LINUX_
                                         }
                                         break;
@@ -170,8 +169,7 @@ int main(int     argc,
                                         {
                                             OD_LOG("(! stuff->resetSum())"); //####
 #if MAC_OR_LINUX_
-                                            MplusM::Common::GetLogger().fail("Problem resetting "
-                                                                             "the sum.");
+                                            GetLogger().fail("Problem resetting the sum.");
 #endif // MAC_OR_LINUX_
                                         }
                                         break;
@@ -183,8 +181,7 @@ int main(int     argc,
                                         {
                                             OD_LOG("(! stuff->startSum())"); //####
 #if MAC_OR_LINUX_
-                                            MplusM::Common::GetLogger().fail("Problem starting the "
-                                                                             "sum.");
+                                            GetLogger().fail("Problem starting the sum.");
 #endif // MAC_OR_LINUX_
                                         }
                                         break;
@@ -196,8 +193,7 @@ int main(int     argc,
                                         {
                                             OD_LOG("(! stuff->stopSum())"); //####
 #if MAC_OR_LINUX_
-                                            MplusM::Common::GetLogger().fail("Problem stopping the "
-                                                                             "sum.");
+                                            GetLogger().fail("Problem stopping the sum.");
 #endif // MAC_OR_LINUX_
                                         }
                                         MplusM::StopRunning();
@@ -209,29 +205,28 @@ int main(int     argc,
                                         
                                 }
                             }
-                            if (! stuff->disconnectFromService(NULL, NULL))
+                            if (! stuff->disconnectFromService(nullptr, nullptr))
                             {
-                                OD_LOG("(! stuff->disconnectFromService(NULL, NULL))"); //####
+                                OD_LOG("(! stuff->disconnectFromService(nullptr, nullptr))"); //####
 #if MAC_OR_LINUX_
-                                MplusM::Common::GetLogger().fail("Problem disconnecting from the "
-                                                                 "service.");
+                                GetLogger().fail("Problem disconnecting from the service.");
 #endif // MAC_OR_LINUX_
                             }
                         }
                         else
                         {
-                            OD_LOG("! (stuff->connectToService(NULL, NULL))"); //####
+                            OD_LOG("! (stuff->connectToService(nullptr, nullptr))"); //####
 #if MAC_OR_LINUX_
-                            MplusM::Common::GetLogger().fail("Problem connecting to the service.");
+                            GetLogger().fail("Problem connecting to the service.");
 #endif // MAC_OR_LINUX_
                         }
                     }
                     else
                     {
-                        OD_LOG("! (stuff->findService(\"Name RunningSum\", false, NULL, " //####
-                               "NULL))"); //####
+                        OD_LOG("! (stuff->findService(\"Name RunningSum\", false, nullptr, " //####
+                               "nullptr))"); //####
 #if MAC_OR_LINUX_
-                        MplusM::Common::GetLogger().fail("Problem locating the service.");
+                        GetLogger().fail("Problem locating the service.");
 #endif // MAC_OR_LINUX_
                     }
                     delete stuff;
@@ -246,7 +241,7 @@ int main(int     argc,
             {
                 OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
-                MplusM::Common::GetLogger().fail("YARP network not running.");
+                GetLogger().fail("YARP network not running.");
 # endif // MAC_OR_LINUX_
             }
 #endif // CheckNetworkWorks_

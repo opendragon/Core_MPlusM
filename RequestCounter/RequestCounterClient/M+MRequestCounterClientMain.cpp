@@ -129,8 +129,8 @@ static void reportTimeInReasonableUnits(const double measurement)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
 #if MAC_OR_LINUX_
 # pragma unused(argc)
@@ -139,7 +139,7 @@ int main(int     argc,
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    MplusM::Common::SetUpLogger(*argv);
+    SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -157,7 +157,7 @@ int main(int     argc,
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
                 
-                MplusM::Common::Initialize(*argv);
+                Initialize(*argv);
                 RequestCounterClient * stuff = new RequestCounterClient;
                 
                 if (stuff)
@@ -166,7 +166,7 @@ int main(int     argc,
                     stuff->setReporter(reporter, true);
 #endif // defined(MpM_ReportOnConnections)
                     MplusM::StartRunning();
-                    MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
+                    SetSignalHandlers(MplusM::SignalRunningStop);
                     for ( ; MplusM::IsRunning(); )
                     {
                         int count;
@@ -179,9 +179,9 @@ int main(int     argc,
                             break;
                         }
                         
-                        if (stuff->findService("name:RequestCounter", false, NULL, NULL))
+                        if (stuff->findService("name:RequestCounter", false, nullptr, nullptr))
                         {
-                            if (stuff->connectToService(NULL, NULL))
+                            if (stuff->connectToService(nullptr, nullptr))
                             {
                                 if (stuff->resetServiceCounters())
                                 {
@@ -190,8 +190,7 @@ int main(int     argc,
                                         if (! stuff->pokeService())
                                         {
 #if MAC_OR_LINUX_
-                                            MplusM::Common::GetLogger().fail("Problem poking the "
-                                                                             "service.");
+                                            GetLogger().fail("Problem poking the service.");
 #endif // MAC_OR_LINUX_
                                             break;
                                         }
@@ -220,9 +219,8 @@ int main(int     argc,
                                         OD_LOG("! (stuff->getServiceStatistics(counter, " //####
                                                "elapsedTime))"); //####
 #if MAC_OR_LINUX_
-                                        MplusM::Common::GetLogger().fail("Problem getting "
-                                                                         "statistics from the "
-                                                                         "service.");
+                                        GetLogger().fail("Problem getting statistics from the "
+                                                         "service.");
 #endif // MAC_OR_LINUX_
                                     }
                                 }
@@ -230,34 +228,32 @@ int main(int     argc,
                                 {
                                     OD_LOG("! (stuff->resetServiceCounters())"); //####
 #if MAC_OR_LINUX_
-                                    MplusM::Common::GetLogger().fail("Problem resetting the "
-                                                                     "service counters.");
+                                    GetLogger().fail("Problem resetting the service counters.");
 #endif // MAC_OR_LINUX_
                                 }
-                                if (! stuff->disconnectFromService(NULL, NULL))
+                                if (! stuff->disconnectFromService(nullptr, nullptr))
                                 {
-                                    OD_LOG("(! stuff->disconnectFromService(NULL, NULL))"); //####
+                                    OD_LOG("(! stuff->disconnectFromService(nullptr, " //####
+                                           "nullptr))"); //####
 #if MAC_OR_LINUX_
-                                    MplusM::Common::GetLogger().fail("Problem disconnecting from "
-                                                                     "the service.");
+                                    GetLogger().fail("Problem disconnecting from the service.");
 #endif // MAC_OR_LINUX_
                                 }
                             }
                             else
                             {
-                                OD_LOG("! (stuff->connectToService(NULL, NULL))"); //####
+                                OD_LOG("! (stuff->connectToService(nullptr, nullptr))"); //####
 #if MAC_OR_LINUX_
-                                MplusM::Common::GetLogger().fail("Problem connecting to the "
-                                                                 "service.");
+                                GetLogger().fail("Problem connecting to the service.");
 #endif // MAC_OR_LINUX_
                             }
                         }
                         else
                         {
                             OD_LOG("! (stuff->findService(\"name:RequestCounter\", false, " //####
-                                   "NULL, NULL))"); //####
+                                   "nullptr, nullptr))"); //####
 #if MAC_OR_LINUX_
-                            MplusM::Common::GetLogger().fail("Problem locating the service.");
+                            GetLogger().fail("Problem locating the service.");
 #endif // MAC_OR_LINUX_
                         }
                     }
@@ -273,7 +269,7 @@ int main(int     argc,
             {
                 OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
-                MplusM::Common::GetLogger().fail("YARP network not running.");
+                GetLogger().fail("YARP network not running.");
 # endif // MAC_OR_LINUX_
             }
 #endif // CheckNetworkWorks_

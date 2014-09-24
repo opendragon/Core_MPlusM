@@ -38,8 +38,6 @@
 
 #include "M+MRandomBurstThread.h"
 
-#include <mpm/M+MGeneralChannel.h>
-
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -55,6 +53,7 @@
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
+using namespace MplusM::Common;
 using namespace MplusM::Example;
 
 #if defined(__APPLE__)
@@ -73,9 +72,9 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-RandomBurstThread::RandomBurstThread(Common::GeneralChannel * outChannel,
-                                     const double             timeToWait,
-                                     const int                numValues) :
+RandomBurstThread::RandomBurstThread(GeneralChannel * outChannel,
+                                     const double     timeToWait,
+                                     const int        numValues) :
     inherited(), _outChannel(outChannel), _timeToWait(timeToWait), _numValues(numValues)
 {
     OD_LOG_ENTER(); //####
@@ -98,7 +97,7 @@ RandomBurstThread::~RandomBurstThread(void)
 void RandomBurstThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = NULL;
+    _outChannel = nullptr;
     OD_LOG_OBJEXIT(); //####
 } // RandomBurstThread::clearOutputChannel
 
@@ -122,7 +121,7 @@ void RandomBurstThread::run(void)
                 {
                     OD_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                    Common::Stall();
+                    Stall();
 #endif // defined(MpM_StallOnSendProblem)
                 }
             }

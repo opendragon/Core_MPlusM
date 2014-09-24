@@ -40,6 +40,7 @@
 # define MpMRegistryService_H_ /* Header guard */
 
 # include <mpm/M+MBaseService.h>
+# include <mpm/M+MGeneralChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -58,7 +59,6 @@ namespace MplusM
 {
     namespace Common
     {
-        class GeneralChannel;
         class ServiceResponse;
     } // Common
     
@@ -103,12 +103,12 @@ namespace MplusM
         }; // RequestDescription
         
         /*! @brief The M+M Service Registry service. */
-        class RegistryService : public Common::BaseService
+        class RegistryService final : public Common::BaseService
         {
         public:
             
             /*! @brief The current state of the service. */
-            enum ServiceStatus
+            enum class ServiceStatus : int
             {
                 /*! @brief A service is being added to the registry. */
                 kRegistryAddService,
@@ -144,10 +144,7 @@ namespace MplusM
                 kRegistryStopped,
                 
                 /*! @brief A service is being unregistered from the registry. */
-                kRegistryUnregisterService,
-                
-                /*! @brief Force the enumeration to be 4 bytes. */
-                kRegistryUnknown = 0x80000000
+                kRegistryUnregisterService
                 
             }; // ServiceStatus
             
@@ -202,7 +199,8 @@ namespace MplusM
             
             /*! @brief Fill in a list of secondary output channels for the service.
              @param channels The list of channels to be filled in. */
-            virtual void fillInSecondaryOutputChannelsList(Common::ChannelVector & channels);
+            virtual void fillInSecondaryOutputChannelsList(Common::ChannelVector & channels)
+            override;
             
             /*! @brief Return @c true if the service is active.
              @returns @c true if the service is active and @c false otherwise. */
@@ -263,14 +261,16 @@ namespace MplusM
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
+            virtual bool start(void)
+            override;
             
             /*! @brief Start the background 'checking' thread. */
             void startChecker(void);
             
             /*! @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
+            virtual bool stop(void)
+            override;
             
             /*! @brief Update the last checked time for a service channel.
              @param serviceChannelName The service channel that is being updated. */
@@ -287,10 +287,12 @@ namespace MplusM
             typedef std::map<yarp::os::ConstString, double> TimeMap;
             
             /*! @brief The constructor.
+             
+             Note - not implemented and private, to prevent unexpected usage.
              @param argc The number of arguments in 'argv'.
              @param argv The arguments to be used to specify the new service. */
             RegistryService(const int argc,
-                            char **   argv);
+                            char * *  argv);
             
             /*! @brief Copy constructor.
              

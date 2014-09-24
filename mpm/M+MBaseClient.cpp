@@ -38,9 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MBaseClient.h>
-#include <mpm/M+MAdapterChannel.h>
 #include <mpm/M+MChannelStatusReporter.h>
-#include <mpm/M+MClientChannel.h>
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>
@@ -192,8 +190,8 @@ static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
 #endif // defined(__APPLE__)
 
 BaseClient::BaseClient(const char * baseChannelName) :
-    _reporter(NULL), _channel(NULL), _channelName(), _serviceChannelName(), _baseChannelName(NULL),
-    _connected(false), _reportImmediately(false)
+    _reporter(nullptr), _channel(nullptr), _channelName(), _serviceChannelName(),
+    _baseChannelName(nullptr), _connected(false), _reportImmediately(false)
 {
     OD_LOG_ENTER(); //####
     const size_t baseLen = sizeof(CLIENT_PORT_NAME_BASE) - 1;
@@ -211,9 +209,9 @@ BaseClient::BaseClient(const char * baseChannelName) :
 BaseClient::~BaseClient(void)
 {
     OD_LOG_OBJENTER(); //####
-    disconnectFromService(NULL, NULL);
+    disconnectFromService(nullptr, nullptr);
     ClientChannel::RelinquishChannel(_channel);
-    _channel = NULL;
+    _channel = nullptr;
     delete _baseChannelName;
     OD_LOG_OBJEXIT(); //####
 } // BaseClient::~BaseClient
@@ -684,12 +682,12 @@ yarp::os::Bottle Common::FindMatchingServices(const char *  criteria,
     }
     OD_LOG_EXIT(); //####
     return result;
-} // MplusM::FindMatchingServices
+} // Common::FindMatchingServices
 
-yarp::os::Bottle MplusM::Common::FindMatchingServices(const yarp::os::ConstString & criteria,
-                                                      const bool                    getNames,
-                                                      CheckFunction                 checker,
-                                                      void *                        checkStuff)
+yarp::os::Bottle Common::FindMatchingServices(const yarp::os::ConstString & criteria,
+                                              const bool                    getNames,
+                                              CheckFunction                 checker,
+                                              void *                        checkStuff)
 {
     return FindMatchingServices(criteria.c_str(), getNames, checker, checkStuff);
-} // MplusM::FindMatchingServices
+} // Common::FindMatchingServices

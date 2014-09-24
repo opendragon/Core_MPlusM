@@ -62,7 +62,7 @@ namespace MplusM
         class MatchValueList;
         
         /*! @brief A pattern matcher for field/values pairs. */
-        class MatchFieldWithValues : public BaseMatcher
+        class MatchFieldWithValues final : public BaseMatcher
         {
         public:
             
@@ -87,14 +87,14 @@ namespace MplusM
              @param endPos Where the scan terminated, if successful.
              @param validator A function that returns @c true if the field name is valid and @c
              false otherwise.
-             @returns A non-null matcher if the string would be a valid value and @c NULL
+             @returns A non-null matcher if the string would be a valid value and @c nullptr
              otherwise. */
             static MatchFieldWithValues * CreateMatcher(const yarp::os::ConstString & inString,
                                                         const size_t                  inLength,
                                                         const size_t                  startPos,
                                                         size_t &                      endPos,
                                                         BaseNameValidator *           validator =
-                                                        NULL);
+                                                                                        nullptr);
             
         protected:
             

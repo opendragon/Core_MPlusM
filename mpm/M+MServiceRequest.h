@@ -39,7 +39,7 @@
 #if (! defined(MpMServiceRequest_H_))
 # define MpMServiceRequest_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MClientChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -56,12 +56,11 @@ namespace MplusM
 {
     namespace Common
     {
-        class ClientChannel;
         class Endpoint;
         class ServiceResponse;
         
         /*! @brief The data constituting a service request. */
-        class ServiceRequest
+        class ServiceRequest final
         {
         public:
             
@@ -79,12 +78,12 @@ namespace MplusM
             virtual ~ServiceRequest(void);
             
             /*! @brief Send the request to an endpoint for processing.
-             @param usingChannel The channel that is to send the request, or @c NULL if an arbitrary
-             channel is to be used.
-             @param response The response from the request, @c NULL if none is expected.
+             @param usingChannel The channel that is to send the request, or @c nullptr if an
+             arbitrary channel is to be used.
+             @param response The response from the request, @c nullptr if none is expected.
              @returns @c true if the request was successfully transmitted. */
             bool send(ClientChannel &   usingChannel,
-                      ServiceResponse * response = NULL);
+                      ServiceResponse * response = nullptr);
             
         protected:
             

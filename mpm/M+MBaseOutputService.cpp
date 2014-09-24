@@ -81,8 +81,8 @@ BaseOutputService::BaseOutputService(const yarp::os::ConstString & launchPath,
                                      const yarp::os::ConstString & requestsDescription,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
-    inherited(kServiceKindOutput, launchPath, tag, useMultipleHandlers, canonicalName, description,
-              requestsDescription, serviceEndpointName, servicePortNumber)
+    inherited(ServiceKind::kServiceKindOutput, launchPath, tag, useMultipleHandlers, canonicalName,
+              description, requestsDescription, serviceEndpointName, servicePortNumber)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
@@ -101,8 +101,8 @@ BaseOutputService::BaseOutputService(const yarp::os::ConstString & launchPath,
                                      const yarp::os::ConstString & requestsDescription,
                                      const int                     argc,
                                      char **                       argv) :
-    inherited(kServiceKindOutput, launchPath, tag, useMultipleHandlers, canonicalName, description,
-              requestsDescription, argc, argv)
+    inherited(ServiceKind::kServiceKindOutput, launchPath, tag, useMultipleHandlers, canonicalName,
+              description, requestsDescription, argc, argv)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####

@@ -59,7 +59,7 @@ namespace MplusM
         class RegistryService;
         
         /*! @brief A convenience class to schedule registry checks. */
-        class RegistryCheckThread : public yarp::os::Thread
+        class RegistryCheckThread final : public yarp::os::Thread
         {
         public:
             
@@ -71,14 +71,17 @@ namespace MplusM
             virtual ~RegistryCheckThread(void);
             
             /*! @brief The thread main body. */
-            virtual void run(void);
+            virtual void run(void)
+            override;
             
             /*! @brief The thread initialization method.
              @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            virtual bool threadInit(void)
+            override;
             
             /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            virtual void threadRelease(void)
+            override;
             
         protected:
             

@@ -98,7 +98,7 @@ namespace MplusM
                               const yarp::os::ConstString & description,
                               const yarp::os::ConstString & requestsDescription,
                               const int                     argc,
-                              char **                       argv);
+                              char * *                      argv);
             
             /*! @brief The destructor. */
             virtual ~BaseFilterService(void);
@@ -118,19 +118,23 @@ namespace MplusM
             
             /*! @brief Set up the input channels.
              @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpInputStreams(void);
+            virtual bool setUpInputStreams(void)
+            override final;
             
             /*! @brief Set up the output channels.
              @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpOutputStreams(void);
+            virtual bool setUpOutputStreams(void)
+            override final;
             
             /*! @brief Shut down the input streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownInputStreams(void);
+            virtual bool shutDownInputStreams(void)
+            override;
             
             /*! @brief Shut down the output streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownOutputStreams(void);
+            virtual bool shutDownOutputStreams(void)
+            override;
             
         }; // BaseFilterService
         

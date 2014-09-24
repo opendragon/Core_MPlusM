@@ -39,7 +39,10 @@
 #if (! defined(MpMBailOutThread_H_))
 # define MpMBailOutThread_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MAdapterChannel.h>
+# include <mpm/M+MClientChannel.h>
+# include <mpm/M+MGeneralChannel.h>
+# include <mpm/M+MServiceChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -56,13 +59,8 @@ namespace MplusM
 {
     namespace Common
     {
-        class AdapterChannel;
-        class ClientChannel;
-        class GeneralChannel;
-        class ServiceChannel;
-        
         /*! @brief A convenience class to timeout objects. */
-        class BailOutThread : public yarp::os::Thread
+        class BailOutThread final : public yarp::os::Thread
         {
         public:
             
@@ -98,14 +96,17 @@ namespace MplusM
             virtual ~BailOutThread(void);
             
             /*! @brief The thread main body. */
-            virtual void run(void);
+            virtual void run(void)
+            override;
             
             /*! @brief The thread initialization method.
              @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            virtual bool threadInit(void)
+            override;
             
             /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            virtual void threadRelease(void)
+            override;
             
         protected:
             

@@ -39,7 +39,7 @@
 #if (! defined(MpMRandomBurstThread_H_))
 # define MpMRandomBurstThread_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MGeneralChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -54,15 +54,10 @@
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class GeneralChannel;
-    } // Common
-    
     namespace Example
     {
         /*! @brief A convenience class to generate output. */
-        class RandomBurstThread : public yarp::os::Thread
+        class RandomBurstThread final : public yarp::os::Thread
         {
         public:
             
@@ -81,14 +76,17 @@ namespace MplusM
             void clearOutputChannel(void);
             
             /*! @brief The thread main body. */
-            virtual void run(void);
+            virtual void run(void)
+            override;
             
             /*! @brief The thread initialization method.
              @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            virtual bool threadInit(void)
+            override;
             
             /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            virtual void threadRelease(void)
+            override;
             
         protected:
             

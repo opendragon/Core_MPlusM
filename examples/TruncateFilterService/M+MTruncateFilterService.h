@@ -64,7 +64,7 @@ namespace MplusM
         class TruncateFilterRequestHandler;
         
         /*! @brief The truncate filter service. */
-        class TruncateFilterService : public Common::BaseFilterService
+        class TruncateFilterService final : public Common::BaseFilterService
         {
         public:
             
@@ -84,24 +84,30 @@ namespace MplusM
             /*! @brief Configure the input/output streams.
              @param details The configuration information for the input/output streams.
              @returns @c true if the service was successfully configured and @c false otherwise. */
-            virtual bool configure(const yarp::os::Bottle & details);
+            virtual bool configure(const yarp::os::Bottle & details)
+            override;
             
             /*! @brief Restart the input/output streams. */
-            virtual void restartStreams(void);
+            virtual void restartStreams(void)
+            override;
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
+            virtual bool start(void)
+            override;
             
             /*! @brief Start the input/output streams. */
-            virtual void startStreams(void);
+            virtual void startStreams(void)
+            override;
             
             /*! @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
+            virtual bool stop(void)
+            override;
             
             /*! @brief Stop the input/output streams. */
-            virtual void stopStreams(void);
+            virtual void stopStreams(void)
+            override;
             
         protected:
             
@@ -124,7 +130,8 @@ namespace MplusM
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
-            virtual bool setUpStreamDescriptions(void);
+            virtual bool setUpStreamDescriptions(void)
+            override;
             
             /*! @brief The handler for input data. */
             TruncateFilterInputHandler * _inHandler;

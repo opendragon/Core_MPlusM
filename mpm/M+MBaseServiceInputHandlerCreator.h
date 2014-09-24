@@ -61,7 +61,7 @@ namespace MplusM
         class BaseService;
         
         /*! @brief The minimal functionality required for an M+M service. */
-        class BaseServiceInputHandlerCreator : public InputHandlerCreator
+        class BaseServiceInputHandlerCreator final : public InputHandlerCreator
         {
         public:
             
@@ -72,8 +72,9 @@ namespace MplusM
             virtual ~BaseServiceInputHandlerCreator(void);
             
             /*! @brief Create a new InputHandler object to process input data.
-             @returns A new InputHandler or @c NULL if one cannot be created. */
-            virtual InputHandler * create(void);
+             @returns A new InputHandler or @c nullptr if one cannot be created. */
+            virtual InputHandler * create(void)
+            override;
             
         protected:
             

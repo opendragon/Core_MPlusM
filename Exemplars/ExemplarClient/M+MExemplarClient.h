@@ -57,7 +57,7 @@ namespace MplusM
     namespace Exemplar
     {
         /*! @brief The exemplar client. */
-        class ExemplarClient : public Common::BaseClient
+        class ExemplarClient final : public Common::BaseClient
         {
         public:
             

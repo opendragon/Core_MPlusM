@@ -174,7 +174,7 @@ bool ConfigureRequestHandler::processRequest(const yarp::os::ConstString & reque
             {
                 OD_LOG("(! response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

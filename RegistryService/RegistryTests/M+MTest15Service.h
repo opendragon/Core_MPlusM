@@ -59,7 +59,7 @@ namespace MplusM
         class Test15EchoRequestHandler;
         
         /*! @brief A test service. */
-        class Test15Service : public Common::BaseService
+        class Test15Service final : public Common::BaseService
         {
         public:
             
@@ -69,18 +69,20 @@ namespace MplusM
              @param argv The arguments to be used to specify the new service. */
             Test15Service(const yarp::os::ConstString & launchPath,
                           const int                     argc,
-                          char **                       argv);
+                          char * *                      argv);
             
             /*! @brief The destructor. */
             virtual ~Test15Service(void);
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
+            virtual bool start(void)
+            override;
             
             /*! @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
+            virtual bool stop(void)
+            override;
             
         protected:
             

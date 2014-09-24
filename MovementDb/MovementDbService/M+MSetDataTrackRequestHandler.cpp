@@ -95,7 +95,7 @@ SetDataTrackRequestHandler::~SetDataTrackRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void SetDataTrackRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void SetDataTrackRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -196,7 +196,7 @@ bool SetDataTrackRequestHandler::processRequest(const yarp::os::ConstString & re
             {
                 OD_LOG("(! reply(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

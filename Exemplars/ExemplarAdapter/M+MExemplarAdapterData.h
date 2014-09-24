@@ -56,18 +56,13 @@
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class AdapterChannel;
-    } // Common
-    
     namespace Exemplar
     {
         class ExemplarClient;
         
         /*! @brief The data shared between the input handlers and the main thread of
          the template adapter. */
-        class ExemplarAdapterData : public Common::BaseAdapterData
+        class ExemplarAdapterData final : public Common::BaseAdapterData
         {
         public:
             

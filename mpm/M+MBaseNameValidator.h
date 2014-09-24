@@ -76,11 +76,12 @@ namespace MplusM
              @param aString The string to be checked.
              @param prefixString The string to be used in the SQL prefix for this field.
              @param suffixString The string to be used in the SQL suffix for this field.
-             @returns The actual field name to be used or @c NULL if the field name was
+             @returns The actual field name to be used or @c nullptr if the field name was
              unmatched. */
             virtual const char * getPrefixAndSuffix(const char *   aString,
                                                     const char * & prefixString,
                                                     const char * & suffixString) = 0;
+            
         protected:
             
             /*! @brief The constructor. */

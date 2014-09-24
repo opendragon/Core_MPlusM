@@ -42,8 +42,6 @@
 #include "M+MMovementDbClient.h"
 #include "M+MMovementDbRequests.h"
 
-#include <mpm/M+MAdapterChannel.h>
-
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -117,10 +115,10 @@ bool MovementDbInputHandler::handleInput(const yarp::os::Bottle &      input,
         
         if (0 < howMany)
         {
-            Common::AdapterChannel * theOutput = _shared.getOutput();
-            yarp::os::ConstString    command;
-            double                   outValue;
-            MovementDbClient *       theClient = (MovementDbClient *) _shared.getClient();
+            AdapterChannel *      theOutput = _shared.getOutput();
+            yarp::os::ConstString command;
+            double                outValue;
+            MovementDbClient *    theClient = (MovementDbClient *) _shared.getClient();
             
             if (theClient && theOutput)
             {

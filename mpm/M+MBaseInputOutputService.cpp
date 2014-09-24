@@ -44,7 +44,6 @@
 
 #include <mpm/M+MBaseInputOutputService.h>
 #include <mpm/M+MChannelStatusReporter.h>
-#include <mpm/M+MGeneralChannel.h>
 #include <mpm/M+MRequests.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -111,7 +110,7 @@ BaseInputOutputService::BaseInputOutputService(const ServiceKind             the
                                                const yarp::os::ConstString & description,
                                                const yarp::os::ConstString & requestsDescription,
                                                const int                     argc,
-                                               char **                       argv) :
+                                               char * *                      argv) :
     inherited(theKind, launchPath, tag, useMultipleHandlers, canonicalName, description,
               requestsDescription, argc, argv), _active(false)
 {
@@ -293,25 +292,25 @@ void BaseInputOutputService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_configureHandler);
             delete _configureHandler;
-            _configureHandler = NULL;
+            _configureHandler = nullptr;
         }
         if (_restartStreamsHandler)
         {
             unregisterRequestHandler(_restartStreamsHandler);
             delete _restartStreamsHandler;
-            _restartStreamsHandler = NULL;
+            _restartStreamsHandler = nullptr;
         }
         if (_startStreamsHandler)
         {
             unregisterRequestHandler(_startStreamsHandler);
             delete _startStreamsHandler;
-            _startStreamsHandler = NULL;
+            _startStreamsHandler = nullptr;
         }
         if (_stopStreamsHandler)
         {
             unregisterRequestHandler(_stopStreamsHandler);
             delete _stopStreamsHandler;
-            _stopStreamsHandler = NULL;
+            _stopStreamsHandler = nullptr;
         }
     }
     catch (...)
@@ -341,7 +340,7 @@ void BaseInputOutputService::fillInSecondaryInputChannelsList(ChannelVector & ch
                 
                 descriptor._portName = aChannel->name();
                 descriptor._portProtocol = aChannel->protocol();
-                descriptor._portMode = kChannelModeTCP;
+                descriptor._portMode = ChannelMode::kChannelModeTCP;
                 channels.push_back(descriptor);
             }
         }
@@ -368,7 +367,7 @@ void BaseInputOutputService::fillInSecondaryOutputChannelsList(ChannelVector & c
                 
                 descriptor._portName = aChannel->name();
                 descriptor._portProtocol = aChannel->protocol();
-                descriptor._portMode = kChannelModeTCP;
+                descriptor._portMode = ChannelMode::kChannelModeTCP;
                 channels.push_back(descriptor);
             }
         }

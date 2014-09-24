@@ -59,7 +59,7 @@ namespace MplusM
         class MatchValue;
         
         /*! @brief A pattern matcher for lists of simple values. */
-        class MatchValueList : public BaseMatcher
+        class MatchValueList final : public BaseMatcher
         {
         public:
             
@@ -87,7 +87,7 @@ namespace MplusM
              @param inLength The length of the string being scanned.
              @param startPos Where in the string to start scanning.
              @param endPos Where the scan terminated, if successful.
-             @returns A non-null matcher if the string would be a valid value and @c NULL
+             @returns A non-null matcher if the string would be a valid value and @c nullptr
              otherwise. */
             static MatchValueList * CreateMatcher(const yarp::os::ConstString & inString,
                                                   const size_t                  inLength,
@@ -96,8 +96,8 @@ namespace MplusM
             
             /*! @brief Return an element from the value list.
              @param index The zero-origin index of the element.
-             @returns An element of the value list or @c NULL if the index is outside the range of
-             the value list. */
+             @returns An element of the value list or @c nullptr if the index is outside the range
+             of the value list. */
             const MatchValue * element(const int index)
             const;
             

@@ -115,11 +115,13 @@ namespace MplusM
             
             /*! @brief Set up the input channels.
              @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpInputStreams(void);
+            virtual bool setUpInputStreams(void)
+            override final;
             
             /*! @brief Shut down the input streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownInputStreams(void);
+            virtual bool shutDownInputStreams(void)
+            override;
             
         }; // BaseOutputService
         

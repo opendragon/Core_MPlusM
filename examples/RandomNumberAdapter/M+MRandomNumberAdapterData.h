@@ -56,18 +56,13 @@
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class AdapterChannel;
-    } // Common
-    
     namespace Example
     {
         class RandomNumberClient;
         
         /*! @brief The data shared between the input handlers and the main thread of
          the random number adapter. */
-        class RandomNumberAdapterData : public Common::BaseAdapterData
+        class RandomNumberAdapterData final : public Common::BaseAdapterData
         {
         public:
             

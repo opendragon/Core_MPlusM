@@ -97,7 +97,7 @@ AssociateRequestHandler::~AssociateRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void AssociateRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void AssociateRequestHandler::fillInAliases(StringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
@@ -170,8 +170,8 @@ bool AssociateRequestHandler::processRequest(const yarp::os::ConstString & reque
                     yarp::os::ConstString primaryAsString(primary.toString());
                     yarp::os::ConstString secondaryAsString(secondary.toString());
                     
-                    if (Common::Endpoint::CheckEndpointName(primaryAsString) &&
-                        Common::Endpoint::CheckEndpointName(secondaryAsString))
+                    if (Endpoint::CheckEndpointName(primaryAsString) &&
+                        Endpoint::CheckEndpointName(secondaryAsString))
                     {
                         if (_service.checkForExistingAssociation(primaryAsString,
                                                                  secondaryAsString))
@@ -194,8 +194,8 @@ bool AssociateRequestHandler::processRequest(const yarp::os::ConstString & reque
                     }
                     else
                     {
-                        OD_LOG("! (Common::Endpoint::CheckEndpointName(primaryAsString) && " //####
-                               "Common::Endpoint::CheckEndpointName(secondaryAsString))"); //####
+                        OD_LOG("! (Endpoint::CheckEndpointName(primaryAsString) && " //####
+                               "Endpoint::CheckEndpointName(secondaryAsString))"); //####
                         reply.addString(MpM_FAILED_RESPONSE);
                         reply.addString("Invalid channel name(s)");
                     }
@@ -219,7 +219,7 @@ bool AssociateRequestHandler::processRequest(const yarp::os::ConstString & reque
             {
                 OD_LOG("(! reply.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

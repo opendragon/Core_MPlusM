@@ -57,7 +57,7 @@ namespace MplusM
     namespace RequestCounter
     {
         /*! @brief A client for the request counter service. */
-        class RequestCounterClient : public Common::BaseClient
+        class RequestCounterClient final : public Common::BaseClient
         {
         public:
             

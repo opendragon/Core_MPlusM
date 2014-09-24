@@ -86,7 +86,7 @@ using namespace MplusM::Test;
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestCreateRegisterService(const char * launchPath,
                                        const int    argc,
-                                       char **      argv) // create 'register' service
+                                       char * *     argv) // create 'register' service
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("launchPath = ", launchPath); //####
@@ -94,7 +94,7 @@ static int doTestCreateRegisterService(const char * launchPath,
     
     try
     {
-        MplusM::Registry::RegistryService * registry = NULL;
+        MplusM::Registry::RegistryService * registry = nullptr;
         
         if (0 <= argc)
         {
@@ -149,7 +149,7 @@ static int doTestCreateRegisterService(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestRegisterService(const char * launchPath,
                                         const int    argc,
-                                        char **      argv) // send 'register' request
+                                        char * *     argv) // send 'register' request
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("launchPath = ", launchPath); //####
@@ -158,7 +158,7 @@ static int doTestRequestRegisterService(const char * launchPath,
     try
     {
         const char *                        secondServiceChannel;
-        MplusM::Registry::RegistryService * registry = NULL;
+        MplusM::Registry::RegistryService * registry = nullptr;
         
         if (0 <= argc)
         {
@@ -199,14 +199,14 @@ static int doTestRequestRegisterService(const char * launchPath,
                         {
                             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (MplusM::Common::RegisterLocalService(channelName, NULL, NULL))
+                            if (RegisterLocalService(channelName, nullptr, nullptr))
                             {
                                 result = 0;
                             }
                             else
                             {
-                                OD_LOG("! (MplusM::Common::RegisterLocalService(" //####
-                                       "channelName, NULL, NULL))"); //####
+                                OD_LOG("! (RegisterLocalService(channelName, nullptr, " //####
+                                       "nullptr))"); //####
                             }
                             stuff->stop();
                         }
@@ -254,7 +254,7 @@ static int doTestRequestRegisterService(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestUnregisterService(const char * launchPath,
                                           const int    argc,
-                                          char **      argv) // send 'register' request
+                                          char * *     argv) // send 'register' request
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("launchPath = ", launchPath); //####
@@ -263,7 +263,7 @@ static int doTestRequestUnregisterService(const char * launchPath,
     try
     {
         const char *                        secondServiceChannel;
-        MplusM::Registry::RegistryService * registry = NULL;
+        MplusM::Registry::RegistryService * registry = nullptr;
         
         if (0 <= argc)
         {
@@ -304,22 +304,22 @@ static int doTestRequestUnregisterService(const char * launchPath,
                         {
                             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (MplusM::Common::RegisterLocalService(channelName, NULL, NULL))
+                            if (RegisterLocalService(channelName, nullptr, nullptr))
                             {
-                                if (MplusM::Common::UnregisterLocalService(channelName, NULL, NULL))
+                                if (UnregisterLocalService(channelName, nullptr, nullptr))
                                 {
                                     result = 0;
                                 }
                                 else
                                 {
-                                    OD_LOG("! (MplusM::Common::UnregisterLocalService(" //####
-                                           "channelName, NULL, NULL))"); //####
+                                    OD_LOG("! (UnregisterLocalService(channelName, nullptr, " //####
+                                           "nullptr))"); //####
                                 }
                             }
                             else
                             {
-                                OD_LOG("! (MplusM::Common::RegisterLocalService(" //####
-                                       "channelName, NULL, NULL))"); //####
+                                OD_LOG("! (RegisterLocalService(channelName, nullptr, " //####
+                                       "nullptr))"); //####
                             }
                             stuff->stop();
                         }
@@ -367,7 +367,7 @@ static int doTestRequestUnregisterService(const char * launchPath,
  @returns @c 0 on success and @c 1 on failure. */
 static int doTestRequestSearchService(const char * launchPath,
                                       const int    argc,
-                                      char **      argv) // send 'match' request
+                                      char * *     argv) // send 'match' request
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("launchPath = ", launchPath); //####
@@ -406,16 +406,15 @@ static int doTestRequestSearchService(const char * launchPath,
                                 OD_LOG("(stuff->start())"); //####
                                 yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                                 
-                                if (MplusM::Common::RegisterLocalService(channelName, NULL, NULL))
+                                if (RegisterLocalService(channelName, nullptr, nullptr))
                                 {
-                                    OD_LOG("(MplusM::Common::RegisterLocalService(" //####
-                                           "channelName, NULL, NULL))"); //####
+                                    OD_LOG("(RegisterLocalService(channelName, nullptr, " //####
+                                           "nullptr))"); //####
                                     // Search for the service that we just registered.
-                                    yarp::os::Bottle matches =
-                                                    MplusM::Common::FindMatchingServices(argv[1],
-                                                                                     getNamesFlag,
-                                                                                         NULL,
-                                                                                         NULL);
+                                    yarp::os::Bottle matches = FindMatchingServices(argv[1],
+                                                                                    getNamesFlag,
+                                                                                    nullptr,
+                                                                                    nullptr);
                                     
                                     OD_LOG_S3("criteria <- ", argv[1], "expected <- ", //####
                                               argv[2], "matches <- ", //####
@@ -542,17 +541,16 @@ static int doTestRequestSearchService(const char * launchPath,
                                                "(MpM_EXPECTED_MATCH_RESPONSE_SIZE == " //####
                                                "matches.size()))"); //####
                                     }
-                                    if (! MplusM::Common::UnregisterLocalService(channelName, NULL,
-                                                                                 NULL))
+                                    if (! UnregisterLocalService(channelName, nullptr, nullptr))
                                     {
-                                        OD_LOG("(! MplusM::Common::UnregisterLocalService(" //####
-                                               "channelName, NULL, NULL))"); //####
+                                        OD_LOG("(! UnregisterLocalService(channelName, " //####
+                                               "nullptr, nullptr))"); //####
                                     }
                                 }
                                 else
                                 {
-                                    OD_LOG("! (MplusM::Common::RegisterLocalService(" //####
-                                           "channelName, NULL, NULL))"); //####
+                                    OD_LOG("! (RegisterLocalService(channelName, nullptr, " //####
+                                           "nullptr))"); //####
                                 }
                                 stuff->stop();
                             }
@@ -611,8 +609,8 @@ static void catchSignal(int signal)
 
 #if MAC_OR_LINUX_
     snprintf(numBuff, sizeof(numBuff), "%d", signal);
-    MplusM::Common::GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
-                                      yarp::os::ConstString(" = ") + MplusM::NameOfSignal(signal));
+    GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
+                      yarp::os::ConstString(" = ") + MplusM::NameOfSignal(signal));
 #else // ! MAC_OR_LINUX_
 //    _snprintf(numBuff, sizeof(numBuff) - 1, "%d", signal);
 //    // Correct for the weird behaviour of _snprintf
@@ -635,14 +633,14 @@ static void catchSignal(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    MplusM::Common::SetUpLogger(*argv);
+    SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
     int result = 1;
     
@@ -655,12 +653,12 @@ int main(int     argc,
             yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
                                     // infrastructure
             
-            MplusM::Common::Initialize(*argv);
+            Initialize(*argv);
             if (0 < --argc)
             {
                 int selector = atoi(argv[1]);
                 
-                MplusM::Common::SetSignalHandlers(catchSignal);
+                SetSignalHandlers(catchSignal);
                 OD_LOG_LL1("selector <- ", selector); //####
                 switch (selector)
                 {
@@ -699,7 +697,7 @@ int main(int     argc,
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
-            MplusM::Common::GetLogger().fail("YARP network not running.");
+            GetLogger().fail("YARP network not running.");
 # endif // MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_

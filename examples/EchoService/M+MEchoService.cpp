@@ -77,9 +77,9 @@ using namespace MplusM::Example;
 EchoService::EchoService(const yarp::os::ConstString & launchPath,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, "", true, MpM_ECHO_CANONICAL_NAME, "The echo service",
-              "echo - send back any values given with the request", serviceEndpointName,
-              servicePortNumber), _echoHandler(NULL)
+    inherited(ServiceKind::kServiceKindNormal, launchPath, "", true, MpM_ECHO_CANONICAL_NAME,
+              "The echo service", "echo - send back any values given with the request",
+              serviceEndpointName, servicePortNumber), _echoHandler(nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
@@ -131,7 +131,7 @@ void EchoService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_echoHandler);
             delete _echoHandler;
-            _echoHandler = NULL;
+            _echoHandler = nullptr;
         }
     }
     catch (...)

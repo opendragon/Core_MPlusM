@@ -57,7 +57,7 @@ namespace MplusM
     namespace Test
     {
         /*! @brief A test input handler factory. */
-        class Test05HandlerCreator : public Common::InputHandlerCreator
+        class Test05HandlerCreator final : public Common::InputHandlerCreator
         {
         public:
             
@@ -68,8 +68,9 @@ namespace MplusM
             virtual ~Test05HandlerCreator(void);
             
             /*! @brief Create a new InputHandler object to process input data.
-             @returns A new InputHandler or @c NULL if one cannot be created. */
-            virtual Common::InputHandler * create(void);
+             @returns A new InputHandler or @c nullptrnullptr if one cannot be created. */
+            virtual Common::InputHandler * create(void)
+            override;
             
         protected:
             

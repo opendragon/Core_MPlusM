@@ -188,7 +188,7 @@ namespace MplusM
              @param request The requested operation.
              @param restOfInput The arguments for the operation.
              @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @param replyMechanism @c nullptr if no reply is expected and non-@c nullptr otherwise.
              @returns @c true if the input was correctly structured and successfully processed. */
             bool processRequest(const yarp::os::ConstString & request,
                                 const yarp::os::Bottle &      restOfInput,
@@ -243,8 +243,8 @@ namespace MplusM
             
             /*! @brief Locate the context corresponding to a name.
              @param key The name of the context.
-             @returns @c NULL if the named context could not be found or a pointer to the context if
-             found. */
+             @returns @c nullptr if the named context could not be found or a pointer to the context
+             if found. */
             BaseContext * findContext(const yarp::os::ConstString & key);
             
             /*! @brief Remember the function to be used to handle a particular request.

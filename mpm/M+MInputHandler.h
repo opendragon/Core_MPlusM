@@ -70,7 +70,7 @@ namespace MplusM
             /*! @brief Process partially-structured input data.
              @param input The partially-structured input data.
              @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @param replyMechanism @c nullptr if no reply is expected and non-@c nullptr otherwise.
              @returns @c true if the input was correctly structured and successfully processed. */
             virtual bool handleInput(const yarp::os::Bottle &      input,
                                      const yarp::os::ConstString & senderChannel,
@@ -101,7 +101,8 @@ namespace MplusM
             /*! @brief Read an object from the input stream.
              @param connection The input stream that is to be read from.
              @returns @c true if the object was successfully read and @c false otherwise. */
-            virtual bool read(yarp::os::ConnectionReader & connection);
+            virtual bool read(yarp::os::ConnectionReader & connection)
+            override;
             
             /*! @brief @c true if input stream processing is enabled. */
             bool _canProcessInput;

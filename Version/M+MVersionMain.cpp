@@ -72,6 +72,8 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM;
+using namespace MplusM::Common;
 using std::cout;
 using std::endl;
 
@@ -93,13 +95,13 @@ using std::endl;
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
-    MplusM::Common::OutputFlavour flavour = MplusM::Common::kOutputFlavourNormal;
-    yarp::os::ConstString         aceVersionString;
-    yarp::os::ConstString         mpmVersionString;
-    yarp::os::ConstString         yarpVersionString;
+    OutputFlavour         flavour = OutputFlavour::kOutputFlavourNormal;
+    yarp::os::ConstString aceVersionString;
+    yarp::os::ConstString mpmVersionString;
+    yarp::os::ConstString yarpVersionString;
     
     opterr = 0; // Suppress the error message resulting from an unknown option.
     for (int cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc;
@@ -108,11 +110,11 @@ int main(int     argc,
         switch (cc)
         {
             case 'j' :
-                flavour = MplusM::Common::kOutputFlavourJSON;
+                flavour = OutputFlavour::kOutputFlavourJSON;
                 break;
                 
             case 't' :
-                flavour = MplusM::Common::kOutputFlavourTabs;
+                flavour = OutputFlavour::kOutputFlavourTabs;
                 break;
                 
             default :
@@ -123,19 +125,19 @@ int main(int     argc,
     }
     switch (flavour)
     {
-	    case MplusM::Common::kOutputFlavourTabs :
-            aceVersionString = MplusM::SanitizeString(ACE_VERSION, true);
-            mpmVersionString = MplusM::SanitizeString(MpM_VERSION, true);
-            yarpVersionString = MplusM::SanitizeString(YARP_VERSION_STRING, true);
+        case OutputFlavour::kOutputFlavourTabs :
+            aceVersionString = SanitizeString(ACE_VERSION, true);
+            mpmVersionString = SanitizeString(MpM_VERSION, true);
+            yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
             cout << mpmVersionString.c_str() << "\t" << yarpVersionString.c_str() << "\t" <<
                     aceVersionString.c_str() <<
             endl;
             break;
             
-	    case MplusM::Common::kOutputFlavourJSON :
-            aceVersionString = MplusM::SanitizeString(ACE_VERSION);
-            mpmVersionString = MplusM::SanitizeString(MpM_VERSION);
-            yarpVersionString = MplusM::SanitizeString(YARP_VERSION_STRING);
+        case OutputFlavour::kOutputFlavourJSON :
+            aceVersionString = SanitizeString(ACE_VERSION);
+            mpmVersionString = SanitizeString(MpM_VERSION);
+            yarpVersionString = SanitizeString(YARP_VERSION_STRING);
             cout << T_("{ " CHAR_DOUBLEQUOTE "M+M" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
                     mpmVersionString.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "YARP"
                                                    CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
@@ -144,11 +146,10 @@ int main(int     argc,
                     aceVersionString.c_str() << T_(CHAR_DOUBLEQUOTE " }") << endl;
             break;
             
-	    case MplusM::Common::kOutputFlavourNormal :
-        case MplusM::Common::kOutputFlavourUnknown :
-            aceVersionString = MplusM::SanitizeString(ACE_VERSION, true);
-            mpmVersionString = MplusM::SanitizeString(MpM_VERSION, true);
-            yarpVersionString = MplusM::SanitizeString(YARP_VERSION_STRING, true);
+        case OutputFlavour::kOutputFlavourNormal :
+            aceVersionString = SanitizeString(ACE_VERSION, true);
+            mpmVersionString = SanitizeString(MpM_VERSION, true);
+            yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
             cout << "Movement And Meaning Version: " << mpmVersionString.c_str() <<
                     ", YARP Version: " << yarpVersionString.c_str() << ", ACE Version: " <<
                     aceVersionString.c_str() << endl;

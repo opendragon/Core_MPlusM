@@ -82,8 +82,8 @@ using std::endl;
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
 #if MAC_OR_LINUX_
 # pragma unused(argc)
@@ -92,7 +92,7 @@ int main(int     argc,
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    MplusM::Common::SetUpLogger(*argv);
+    SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -110,21 +110,21 @@ int main(int     argc,
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
                 
-                MplusM::Common::Initialize(*argv);
+                Initialize(*argv);
                 EchoClient * stuff = new EchoClient;
                 
                 if (stuff)
                 {
-                    MplusM::StartRunning();
-                    MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
-                    if (stuff->findService("details Echo*", false, NULL, NULL))
+                    StartRunning();
+                    SetSignalHandlers(MplusM::SignalRunningStop);
+                    if (stuff->findService("details Echo*", false, nullptr, nullptr))
                     {
 #if defined(MpM_ReportOnConnections)
                         stuff->setReporter(reporter, true);
 #endif // defined(MpM_ReportOnConnections)
-                        if (stuff->connectToService(NULL, NULL))
+                        if (stuff->connectToService(nullptr, nullptr))
                         {
-                            for ( ; MplusM::IsRunning(); )
+                            for ( ; IsRunning(); )
                             {
                                 yarp::os::ConstString incoming;
                                 std::string           inputLine;
@@ -144,8 +144,7 @@ int main(int     argc,
                                         OD_LOG("! (stuff->sendAndReceive(outgoing, " //####
                                                "incoming))"); //####
 #if MAC_OR_LINUX_
-                                        MplusM::Common::GetLogger().fail("Problem communicating "
-                                                                         "with the service.");
+                                        GetLogger().fail("Problem communicating with the service.");
 #endif // MAC_OR_LINUX_
                                     }
                                 }
@@ -155,29 +154,28 @@ int main(int     argc,
                                 }
                                 
                             }
-                            if (! stuff->disconnectFromService(NULL, NULL))
+                            if (! stuff->disconnectFromService(nullptr, nullptr))
                             {
-                                OD_LOG("(! stuff->disconnectFromService(NULL, NULL))"); //####
+                                OD_LOG("(! stuff->disconnectFromService(nullptr, nullptr))"); //####
 #if MAC_OR_LINUX_
-                                MplusM::Common::GetLogger().fail("Problem disconnecting from the "
-                                                                 "service.");
+                                GetLogger().fail("Problem disconnecting from the service.");
 #endif // MAC_OR_LINUX_
                             }
                         }
                         else
                         {
-                            OD_LOG("! (stuff->connectToService(NULL, NULL))"); //####
+                            OD_LOG("! (stuff->connectToService(nullptr, nullptr))"); //####
 #if MAC_OR_LINUX_
-                            MplusM::Common::GetLogger().fail("Problem connecting to the service.");
+                            GetLogger().fail("Problem connecting to the service.");
 #endif // MAC_OR_LINUX_
                         }
                     }
                     else
                     {
-                        OD_LOG("! (stuff->findService(\"details Echo*\", false, NULL, " //####
-                               "NULL))"); //####
+                        OD_LOG("! (stuff->findService(\"details Echo*\", false, nullptr, " //####
+                               "nullptr))"); //####
 #if MAC_OR_LINUX_
-                        MplusM::Common::GetLogger().fail("Problem finding the service.");
+                        GetLogger().fail("Problem finding the service.");
 #endif // MAC_OR_LINUX_
                     }
                     delete stuff;
@@ -192,12 +190,12 @@ int main(int     argc,
             {
                 OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
-                MplusM::Common::GetLogger().fail("YARP network not running.");
+                GetLogger().fail("YARP network not running.");
 # endif // MAC_OR_LINUX_
             }
 #endif // CheckNetworkWorks_
         }
-        MplusM::Utilities::ShutDownGlobalStatusReporter();
+        Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {

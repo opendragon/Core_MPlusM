@@ -38,8 +38,6 @@
 
 #include "M+MLeapMotionInputListener.h"
 
-#include "Leap.h"
-
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -94,7 +92,7 @@ static void putVectorInDictionary(yarp::os::Property &          dictionary,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-LeapMotionInputListener::LeapMotionInputListener(Common::GeneralChannel * outChannel) :
+LeapMotionInputListener::LeapMotionInputListener(GeneralChannel * outChannel) :
     inherited(), _outChannel(outChannel)
 {
     OD_LOG_ENTER(); //####
@@ -115,7 +113,7 @@ LeapMotionInputListener::~LeapMotionInputListener(void)
 void LeapMotionInputListener::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = NULL;
+    _outChannel = nullptr;
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::clearOutputChannel
 
@@ -349,7 +347,7 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
                 {
                     OD_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                    Common::Stall();
+                    Stall();
 #endif // defined(MpM_StallOnSendProblem)
                 }                
             }

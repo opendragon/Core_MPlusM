@@ -56,17 +56,12 @@
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class AdapterChannel;
-    } // Common
-    
     namespace MovementDb
     {
         class MovementDbClient;
         
         /*! @brief A handler for partially-structured input data. */
-        class MovementDbAdapterData : public Common::BaseAdapterData
+        class MovementDbAdapterData final : public Common::BaseAdapterData
         {
         public:
             

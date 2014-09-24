@@ -103,10 +103,10 @@ bool MovementDbClient::addFileToDb(const yarp::os::ConstString & filePath)
     
     try
     {
-        yarp::os::Bottle        parameters;
-        Common::ServiceResponse response;
+        yarp::os::Bottle parameters;
+        ServiceResponse  response;
         
-        reconnectIfDisconnected(NULL, NULL);
+        reconnectIfDisconnected(nullptr, nullptr);
         parameters.addString(filePath);
         if (send(MpM_ADDFILE_REQUEST, parameters, &response))
         {
@@ -152,10 +152,10 @@ bool MovementDbClient::setDataTrackForDb(const yarp::os::ConstString & dataTrack
     
     try
     {
-        yarp::os::Bottle        parameters;
-        Common::ServiceResponse response;
+        yarp::os::Bottle parameters;
+        ServiceResponse  response;
         
-        reconnectIfDisconnected(NULL, NULL);
+        reconnectIfDisconnected(nullptr, nullptr);
         parameters.addString(dataTrack);
         if (send(MpM_SETDATATRACK_REQUEST, parameters, &response))
         {
@@ -201,10 +201,10 @@ bool MovementDbClient::setEmailAddressForDb(const yarp::os::ConstString & emailA
     
     try
     {
-        yarp::os::Bottle        parameters;
-        Common::ServiceResponse response;
+        yarp::os::Bottle parameters;
+        ServiceResponse  response;
         
-        reconnectIfDisconnected(NULL, NULL);
+        reconnectIfDisconnected(nullptr, nullptr);
         parameters.addString(emailAddress);
         if (send(MpM_SETEMAIL_REQUEST, parameters, &response))
         {
@@ -251,7 +251,7 @@ bool MovementDbClient::stopDbConnection(void)
     {
         yarp::os::Bottle parameters;
         
-        reconnectIfDisconnected(NULL, NULL);
+        reconnectIfDisconnected(nullptr, nullptr);
         if (send(MpM_STOPDB_REQUEST, parameters))
         {
             okSoFar = true;

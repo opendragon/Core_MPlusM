@@ -95,7 +95,7 @@ AddFileRequestHandler::~AddFileRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void AddFileRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void AddFileRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -196,7 +196,7 @@ bool AddFileRequestHandler::processRequest(const yarp::os::ConstString & request
             {
                 OD_LOG("(! reply(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

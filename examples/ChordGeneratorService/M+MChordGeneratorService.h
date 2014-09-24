@@ -64,7 +64,7 @@ namespace MplusM
         
         /*! @brief An example M+M service, handling requests for chords. A list of MIDI note value
          is returned as INTs for a given root note */
-        class ChordGeneratorService : public Common::BaseService
+        class ChordGeneratorService final : public Common::BaseService
         {
         public:
             
@@ -81,11 +81,13 @@ namespace MplusM
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
+            virtual bool start(void)
+            override;
             
             /*! @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
+            virtual bool stop(void)
+            override;
             
         protected:
             

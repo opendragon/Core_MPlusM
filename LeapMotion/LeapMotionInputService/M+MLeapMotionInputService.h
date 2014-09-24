@@ -65,7 +65,7 @@ namespace MplusM
         class LeapMotionInputListener;
         
         /*! @brief The LEAP input service. */
-        class LeapMotionInputService : public Common::BaseInputService
+        class LeapMotionInputService final : public Common::BaseInputService
         {
         public:
             
@@ -85,28 +85,35 @@ namespace MplusM
             /*! @brief Configure the input/output streams.
              @param details The configuration information for the input/output streams.
              @returns @c true if the service was successfully configured and @c false otherwise. */
-            virtual bool configure(const yarp::os::Bottle & details);
+            virtual bool configure(const yarp::os::Bottle & details)
+            override;
             
             /*! @brief Restart the input/output streams. */
-            virtual void restartStreams(void);
+            virtual void restartStreams(void)
+            override;
             
             /*! @brief Shut down the output streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownOutputStreams(void);
+            virtual bool shutDownOutputStreams(void)
+            override;
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
+            virtual bool start(void)
+            override;
             
             /*! @brief Start the input/output streams. */
-            virtual void startStreams(void);
+            virtual void startStreams(void)
+            override;
             
             /*! @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
+            virtual bool stop(void)
+            override;
             
             /*! @brief Stop the input/output streams. */
-            virtual void stopStreams(void);
+            virtual void stopStreams(void)
+            override;
             
         protected:
             
@@ -129,7 +136,8 @@ namespace MplusM
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
-            virtual bool setUpStreamDescriptions(void);
+            virtual bool setUpStreamDescriptions(void)
+            override;
             
             /*! @brief The connection to the %Leap Motion device. */
             Leap::Controller * _controller;

@@ -68,8 +68,9 @@ namespace MplusM
             virtual ~InputHandlerCreator(void);
             
             /*! @brief Create a new InputHandler object to process input data.
-             @returns A new InputHandler or @c NULL if one cannot be created. */
-            virtual InputHandler * create(void) = 0;
+             @returns A new InputHandler or @c nullptr if one cannot be created. */
+            virtual InputHandler * create(void)
+            override = 0;
             
         protected:
             

@@ -168,7 +168,7 @@ bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & r
                 {
                     yarp::os::ConstString argAsString(argument.toString());
                     
-                    if (Common::Endpoint::CheckEndpointName(argAsString))
+                    if (Endpoint::CheckEndpointName(argAsString))
                     {
                         StringVector associatedInputs;
                         StringVector associatedOutputs;
@@ -212,7 +212,7 @@ bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & r
                     }
                     else
                     {
-                        OD_LOG("! (Common::Endpoint::CheckEndpointName(argAsString))"); //####
+                        OD_LOG("! (Endpoint::CheckEndpointName(argAsString))"); //####
                         reply.addString(MpM_FAILED_RESPONSE);
                         reply.addString("Invalid channel name");
                     }

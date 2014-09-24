@@ -75,8 +75,8 @@ using namespace MplusM::Exemplar;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ExemplarAdapterData::ExemplarAdapterData(ExemplarClient *         client,
-                                         Common::AdapterChannel * output) :
+ExemplarAdapterData::ExemplarAdapterData(ExemplarClient * client,
+                                         AdapterChannel * output) :
     inherited(client, output)
 {
     OD_LOG_ENTER();//####

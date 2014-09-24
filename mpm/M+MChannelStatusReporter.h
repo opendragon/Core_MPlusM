@@ -57,7 +57,7 @@ namespace MplusM
     namespace Common
     {
         /*! @brief An endpoint status reporter. */
-        class ChannelStatusReporter : public yarp::os::PortReport
+        class ChannelStatusReporter final : public yarp::os::PortReport
         {
         public:
             
@@ -69,7 +69,8 @@ namespace MplusM
             
             /*! @brief Write out the endpoint event / state information.
              @param info The event / state information from the endpoint. */
-            virtual void report(const yarp::os::PortInfo & info);
+            virtual void report(const yarp::os::PortInfo & info)
+            override;
             
         protected:
             

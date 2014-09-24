@@ -40,8 +40,6 @@
 #include "M+MTruncateFilterInputHandler.h"
 #include "M+MTruncateFilterRequests.h"
 
-#include <mpm/M+MGeneralChannel.h>
-
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -147,8 +145,8 @@ void TruncateFilterService::restartStreams(void)
 bool TruncateFilterService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                       result = true;
-    Common::ChannelDescription description;
+    bool               result = true;
+    ChannelDescription description;
     
     _inDescriptions.clear();
     description._portName = "examples/truncatefilter/input_";
@@ -239,7 +237,7 @@ void TruncateFilterService::stopStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setOutput(NULL);
+                _inHandler->setOutput(nullptr);
             }
             clearActive();
         }

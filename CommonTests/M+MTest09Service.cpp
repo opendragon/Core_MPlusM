@@ -76,8 +76,8 @@ using namespace MplusM::Test;
 Test09Service::Test09Service(const yarp::os::ConstString & launchPath,
                              const int                     argc,
                              char * *                      argv) :
-    inherited(kServiceKindNormal, launchPath, "", false, "Test09", "Simple service for unit tests",
-              "", argc, argv), _defaultHandler(NULL)
+    inherited(ServiceKind::kServiceKindNormal, launchPath, "", false, "Test09",
+              "Simple service for unit tests", "", argc, argv), _defaultHandler(nullptr)
 {
     OD_LOG_ENTER(); //####
     attachRequestHandlers();
@@ -125,9 +125,9 @@ void Test09Service::detachRequestHandlers(void)
     {
         if (_defaultHandler)
         {
-            setDefaultRequestHandler(NULL);
+            setDefaultRequestHandler(nullptr);
             delete _defaultHandler;
-            _defaultHandler = NULL;
+            _defaultHandler = nullptr;
         }
     }
     catch (...)

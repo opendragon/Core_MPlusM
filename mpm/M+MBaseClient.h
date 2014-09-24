@@ -39,7 +39,8 @@
 #if (! defined(MpMBaseClient_H_))
 # define MpMBaseClient_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MAdapterChannel.h>
+# include <mpm/M+MClientChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -56,9 +57,7 @@ namespace MplusM
 {
     namespace Common
     {
-        class AdapterChannel;
         class ChannelStatusReporter;
-        class ClientChannel;
         class ServiceResponse;
         
         /*! @brief The minimal functionality required for an M+M client. */
@@ -133,12 +132,12 @@ namespace MplusM
             /*! @brief Send a request to the service associated with the client.
              @param request The name of the request.
              @param parameters The required parameters for the request.
-             @param response If non-@c NULL, where to store any response received.
+             @param response If non-@c nullptr, where to store any response received.
              @returns @c true on a successful communication with the service and @c false
              otherwise. */
             bool send(const char *             request,
                       const yarp::os::Bottle & parameters,
-                      ServiceResponse *        response = NULL);
+                      ServiceResponse *        response = nullptr);
             
         private:
             

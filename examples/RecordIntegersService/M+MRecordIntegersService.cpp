@@ -40,8 +40,6 @@
 #include "M+MRecordIntegersInputHandler.h"
 #include "M+MRecordIntegersRequests.h"
 
-#include <mpm/M+MGeneralChannel.h>
-
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -82,7 +80,7 @@ RecordIntegersService::RecordIntegersService(const yarp::os::ConstString & launc
                                              const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_RECORDINTEGERS_CANONICAL_NAME,
               "The record integers output service", "", serviceEndpointName, servicePortNumber),
-    _outFile(NULL), _inHandler(new RecordIntegersInputHandler)
+    _outFile(nullptr), _inHandler(new RecordIntegersInputHandler)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -154,8 +152,8 @@ void RecordIntegersService::restartStreams(void)
 bool RecordIntegersService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                       result = true;
-    Common::ChannelDescription description;
+    bool               result = true;
+    ChannelDescription description;
     
     _inDescriptions.clear();
     description._portName = "examples/recordintegers/input_";
@@ -211,7 +209,7 @@ void RecordIntegersService::startStreams(void)
                 else
                 {
                     fclose(_outFile);
-                    _outFile = NULL;
+                    _outFile = nullptr;
                 }
             }
         }
@@ -251,10 +249,10 @@ void RecordIntegersService::stopStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setFile(NULL);
+                _inHandler->setFile(nullptr);
             }
             fclose(_outFile);
-            _outFile = NULL;
+            _outFile = nullptr;
             clearActive();
         }
     }

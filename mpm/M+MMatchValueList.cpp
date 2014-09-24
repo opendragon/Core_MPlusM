@@ -86,7 +86,7 @@ MatchValueList * MatchValueList::CreateMatcher(const yarp::os::ConstString & inS
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
     OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos);
-    MatchValueList * result = NULL;
+    MatchValueList * result = nullptr;
     
     try
     {
@@ -157,7 +157,7 @@ MatchValueList * MatchValueList::CreateMatcher(const yarp::os::ConstString & inS
                 else
                 {
                     delete result;
-                    result = NULL;
+                    result = nullptr;
                 }
             }
             else
@@ -388,7 +388,7 @@ const
 const MatchValue * MatchValueList::element(const int index)
 const
 {
-    MatchValue * result = NULL;
+    MatchValue * result = nullptr;
     
     try
     {
@@ -399,7 +399,7 @@ const
         else
         {
             OD_LOG("! ((index >= 0) && (index < static_cast<int>(_values.size())))"); //####
-            result = NULL;
+            result = nullptr;
         }
     }
     catch (...)

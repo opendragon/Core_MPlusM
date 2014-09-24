@@ -58,7 +58,7 @@ namespace MplusM
     {
         /*! @brief A convenience class to provide context objects for the movement database
          service. */
-        class MovementDbContext : public Common::BaseContext
+        class MovementDbContext final : public Common::BaseContext
         {
         public:
             

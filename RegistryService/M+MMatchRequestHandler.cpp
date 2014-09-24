@@ -101,7 +101,7 @@ MatchRequestHandler::~MatchRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void MatchRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void MatchRequestHandler::fillInAliases(StringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
@@ -226,7 +226,7 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("(! reply.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

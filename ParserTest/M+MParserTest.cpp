@@ -98,13 +98,13 @@ static int doTestParseValue(const bool   expected,
                                                                                           len, 0,
                                                                                           endPos);
         
-        if ((NULL != didMatch) == expected)
+        if ((nullptr != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)"); //####
+            OD_LOG("! ((nullptr != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
@@ -148,13 +148,13 @@ static int doTestParseValueList(const bool   expected,
                                                                                           len, 0,
                                                                                           endPos);
         
-        if ((NULL != didMatch) == expected)
+        if ((nullptr != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)"); //####
+            OD_LOG("! ((nullptr != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
@@ -200,13 +200,13 @@ static int doTestParseFieldName(const bool   expected,
                                                                                           endPos,
                                                                                       validator);
         
-        if ((NULL != didMatch) == expected)
+        if ((nullptr != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)"); //####
+            OD_LOG("! ((nullptr != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
@@ -250,13 +250,13 @@ static int doTestParseFieldWithValues(const bool   expected,
         MplusM::Parser::MatchFieldWithValues * didMatch =
 	    MplusM::Parser::MatchFieldWithValues::CreateMatcher(inString, len, 0, endPos, validator);
         
-        if ((NULL != didMatch) == expected)
+        if ((nullptr != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)"); //####
+            OD_LOG("! ((nullptr != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
@@ -303,13 +303,13 @@ static int doTestParseConstraintList(const bool   expected,
                                                                                            endPos,
                                                                                        validator);
         
-        if ((NULL != didMatch) == expected)
+        if ((nullptr != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)"); //####
+            OD_LOG("! ((nullptr != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
@@ -356,13 +356,13 @@ static int doTestParseExpression(const bool   expected,
                                                                                            endPos,
                                                                                        validator);
         
-        if ((NULL != didMatch) == expected)
+        if ((nullptr != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((NULL != didMatch) == expected)"); //####
+            OD_LOG("! ((nullptr != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
@@ -392,8 +392,8 @@ static void catchSignal(int signal)
     
 #if MAC_OR_LINUX_
     snprintf(numBuff, sizeof(numBuff), "%d", signal);
-    MplusM::Common::GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
-                                      yarp::os::ConstString(" = ") + MplusM::NameOfSignal(signal));
+    GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
+                      yarp::os::ConstString(" = ") + MplusM::NameOfSignal(signal));
 #else // ! MAC_OR_LINUX_
 //    _snprintf(numBuff, sizeof(numBuff) - 1, "%d", signal);
 //    // Correct for the weird behaviour of _snprintf
@@ -415,8 +415,8 @@ static void catchSignal(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
@@ -430,7 +430,7 @@ int main(int     argc,
             int  selector = atoi(argv[1]);
             bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));
             
-            MplusM::Common::SetSignalHandlers(catchSignal);
+            SetSignalHandlers(catchSignal);
             OD_LOG_LL1("selector <- ", selector); //####
             OD_LOG_B1("expected <- ", expected); //####
             switch (selector)

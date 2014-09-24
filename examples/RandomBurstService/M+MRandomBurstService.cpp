@@ -40,8 +40,6 @@
 #include "M+MRandomBurstRequests.h"
 #include "M+MRandomBurstThread.h"
 
-#include <mpm/M+MGeneralChannel.h>
-
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -82,7 +80,7 @@ RandomBurstService::RandomBurstService(const yarp::os::ConstString & launchPath,
                                        const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_RANDOMBURST_CANONICAL_NAME,
               "The random burst input service", "", serviceEndpointName, servicePortNumber),
-    _generator(NULL), _burstPeriod(1), _burstSize(1)
+    _generator(nullptr), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -160,8 +158,8 @@ void RandomBurstService::restartStreams(void)
 bool RandomBurstService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                       result = true;
-    Common::ChannelDescription description;
+    bool              result = true;
+    ChannelDescription description;
     
     _outDescriptions.clear();
     description._portName = "examples/randomburst/output_";
@@ -262,7 +260,7 @@ void RandomBurstService::stopStreams(void)
                 yarp::os::Time::delay(_burstSize / 3.9);
             }
             delete _generator;
-            _generator = NULL;
+            _generator = nullptr;
             clearActive();
         }
     }

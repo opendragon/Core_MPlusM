@@ -56,17 +56,12 @@
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class AdapterChannel;
-    } // Common
-    
     namespace Example
     {
         class RunningSumClient;
         
         /*! @brief A handler for partially-structured input data. */
-        class RunningSumAdapterData : public Common::BaseAdapterData
+        class RunningSumAdapterData final : public Common::BaseAdapterData
         {
         public:
             

@@ -60,7 +60,7 @@ namespace MplusM
         class BaseService;
         
         /*! @brief A class to manage the mapping from requests to request handlers. */
-        class RequestMap
+        class RequestMap final
         {
         public:
             
@@ -82,8 +82,8 @@ namespace MplusM
             
             /*! @brief Return the function corresponding to a particular request.
              @param request The requested operation.
-             @returns A pointer to the function to be invoked for the request, or @c NULL if it is
-             not recognized. */
+             @returns A pointer to the function to be invoked for the request, or @c nullptr if it
+             is not recognized. */
             BaseRequestHandler * lookupRequestHandler(const yarp::os::ConstString & request);
             
             /*! @brief Remember the function to be used to handle a particular request.

@@ -41,6 +41,7 @@
 # define MpMTruncateFilterInputHandler_H_ /* Header guard */
 
 # include <mpm/M+MInputHandler.h>
+# include <mpm/M+MGeneralChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -56,18 +57,13 @@
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class GeneralChannel;
-    } // Common
-    
     namespace Example
     {
         /*! @brief A handler for partially-structured input data.
          
          The data is expected to be in the form of a sequence of integer or floating point
          values. */
-        class TruncateFilterInputHandler : public Common::InputHandler
+        class TruncateFilterInputHandler final : public Common::InputHandler
         {
         public:
             
@@ -80,11 +76,12 @@ namespace MplusM
             /*! @brief Process partially-structured input data.
              @param input The partially-structured input data.
              @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @param replyMechanism @c nullptr if no reply is expected and non-@c nullptr otherwise.
              @returns @c true if the input was correctly structured and successfully processed. */
             virtual bool handleInput(const yarp::os::Bottle &      input,
                                      const yarp::os::ConstString & senderChannel,
-                                     yarp::os::ConnectionWriter *  replyMechanism);
+                                     yarp::os::ConnectionWriter *  replyMechanism)
+            override;
             
             /*! @brief Set the channel to be written to.
              @param output The channel to be written to. */

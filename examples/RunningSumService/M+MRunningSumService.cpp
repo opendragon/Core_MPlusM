@@ -81,14 +81,14 @@ using namespace MplusM::Example;
 RunningSumService::RunningSumService(const yarp::os::ConstString & launchPath,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, "", true, MpM_RUNNINGSUM_CANONICAL_NAME,
+    inherited(ServiceKind::kServiceKindNormal, launchPath, "", true, MpM_RUNNINGSUM_CANONICAL_NAME,
               "The running sum service",
               "add - add one or more values to the running sum and return the sum\n"
               "reset - clear the running sum\n"
               "start - start adding values to the running sum\n"
               "stop - stop adding values to the running sum", serviceEndpointName,
-              servicePortNumber), _addToSumHandler(NULL), _resetSumHandler(NULL),
-    _startSumHandler(NULL), _stopSumHandler(NULL)
+              servicePortNumber), _addToSumHandler(nullptr), _resetSumHandler(nullptr),
+    _startSumHandler(nullptr), _stopSumHandler(nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
@@ -176,25 +176,25 @@ void RunningSumService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_addToSumHandler);
             delete _addToSumHandler;
-            _addToSumHandler = NULL;
+            _addToSumHandler = nullptr;
         }
         if (_resetSumHandler)
         {
             unregisterRequestHandler(_resetSumHandler);
             delete _resetSumHandler;
-            _resetSumHandler = NULL;
+            _resetSumHandler = nullptr;
         }
         if (_startSumHandler)
         {
             unregisterRequestHandler(_startSumHandler);
             delete _startSumHandler;
-            _startSumHandler = NULL;
+            _startSumHandler = nullptr;
         }
         if (_stopSumHandler)
         {
             unregisterRequestHandler(_stopSumHandler);
             delete _stopSumHandler;
-            _stopSumHandler = NULL;
+            _stopSumHandler = nullptr;
         }
     }
     catch (...)

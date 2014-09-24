@@ -113,7 +113,7 @@ namespace MplusM
     namespace Registry
     {
         /*! @brief A convenience class to provide function objects for field name handling. */
-        class ColumnNameValidator : public MplusM::Parser::BaseNameValidator
+        class ColumnNameValidator final : public MplusM::Parser::BaseNameValidator
         {
         public:
             
@@ -127,17 +127,19 @@ namespace MplusM
              @param aString The string to be checked.
              @returns @c true if the field name was valid or @c false if the field name was
              invalid. */
-            virtual bool checkName(const char * aString);
+            virtual bool checkName(const char * aString)
+            override;
             
             /*! @brief Get the 'true name' matching the name and its prefix and suffix strings.
              @param aString The string to be checked.
              @param prefixString The string to be used in the SQL prefix for this field.
              @param suffixString The string to be used in the SQL suffix for this field.
-             @returns The actual field name to be used or @c NULL if the field name was
+             @returns The actual field name to be used or @c nullptr if the field name was
              unmatched. */
             virtual const char * getPrefixAndSuffix(const char *   aString,
                                                     const char * & prefixString,
-                                                    const char * & suffixString);
+                                                    const char * & suffixString)
+            override;
             
         protected:
             

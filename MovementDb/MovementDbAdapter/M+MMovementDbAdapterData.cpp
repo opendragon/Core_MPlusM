@@ -75,8 +75,8 @@ using namespace MplusM::MovementDb;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-MovementDbAdapterData::MovementDbAdapterData(MovementDbClient *       client,
-                                             Common::AdapterChannel * output) :
+MovementDbAdapterData::MovementDbAdapterData(MovementDbClient * client,
+                                             AdapterChannel *   output) :
     inherited(client, output)
 {
     OD_LOG_ENTER(); //####

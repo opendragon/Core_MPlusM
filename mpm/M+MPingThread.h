@@ -57,7 +57,7 @@ namespace MplusM
     namespace Common
     {
         /*! @brief A convenience class to generate pings. */
-        class PingThread : public yarp::os::Thread
+        class PingThread final : public yarp::os::Thread
         {
         public:
             
@@ -69,14 +69,17 @@ namespace MplusM
             virtual ~PingThread(void);
             
             /*! @brief The thread main body. */
-            virtual void run(void);
+            virtual void run(void)
+            override;
             
             /*! @brief The thread initialization method.
              @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            virtual bool threadInit(void)
+            override;
             
             /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            virtual void threadRelease(void)
+            override;
             
         protected:
             
