@@ -64,7 +64,7 @@ namespace MplusM
         /*! @brief A pattern matcher for field/values pairs. */
         class MatchFieldWithValues : public BaseMatcher
         {
-        public:
+        public :
             
             /*! @brief The destructor. */
             virtual ~MatchFieldWithValues(void);
@@ -96,12 +96,9 @@ namespace MplusM
                                                         BaseNameValidator *           validator =
                                                         NULL);
             
-        protected:
+        protected :
             
-        private:
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseMatcher inherited;
+        private :
             
             /*! @brief The constructor.
              @param validator A function that returns @c true if the field name is valid and @c
@@ -121,17 +118,16 @@ namespace MplusM
                                  MatchFieldName *    fieldName,
                                  MatchValueList *    asList);
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MatchFieldWithValues(const MatchFieldWithValues & other);
+            COPY_AND_ASSIGNMENT_(MatchFieldWithValues);
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MatchFieldWithValues & operator =(const MatchFieldWithValues & other);
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseMatcher inherited;
             
             /*! @brief The validator function object that was used for this field. */
             BaseNameValidator * _validator;

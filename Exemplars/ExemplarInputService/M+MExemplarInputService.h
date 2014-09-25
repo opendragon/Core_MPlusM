@@ -65,7 +65,7 @@ namespace MplusM
         /*! @brief The exemplar input service. */
         class ExemplarInputService : public Common::BaseInputService
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -106,28 +106,24 @@ namespace MplusM
             /*! @brief Stop the input/output streams. */
             virtual void stopStreams(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputService inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ExemplarInputService(const ExemplarInputService & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ExemplarInputService & operator =(const ExemplarInputService & other);
+            COPY_AND_ASSIGNMENT_(ExemplarInputService);
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
             virtual bool setUpStreamDescriptions(void);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputService inherited;
             
             /*! @brief The output thread to use. */
             ExemplarInputThread * _generator;

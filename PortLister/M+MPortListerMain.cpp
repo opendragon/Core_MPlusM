@@ -746,8 +746,7 @@ int main(int     argc,
                 flavour = MplusM::Common::kOutputFlavourTabs;
                 break;
                 
-            case MplusM::Common::kOutputFlavourNormal :
-            case MplusM::Common::kOutputFlavourUnknown :
+            default :
                 // Ignore unknown options.
                 break;
                 

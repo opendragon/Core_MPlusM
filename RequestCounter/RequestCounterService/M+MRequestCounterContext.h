@@ -60,7 +60,7 @@ namespace MplusM
          service. */
         class RequestCounterContext : public Common::BaseContext
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             RequestCounterContext(void);
@@ -80,24 +80,20 @@ namespace MplusM
                 return _lastReset;
             } // lastReset
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(RequestCounterContext);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseContext inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RequestCounterContext(const RequestCounterContext & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RequestCounterContext & operator =(const RequestCounterContext & other);
             
             /*! @brief The number of requests since the most recent reset. */
             long _counter;

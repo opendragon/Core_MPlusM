@@ -63,7 +63,7 @@ namespace MplusM
          floating point numbers, between 0 and 1. */
         class RandomRequestHandler : public Common::BaseRequestHandler
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             RandomRequestHandler(void);
@@ -91,9 +91,17 @@ namespace MplusM
                                         const yarp::os::ConstString & senderChannel,
                                         yarp::os::ConnectionWriter *  replyMechanism);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(RandomRequestHandler);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;

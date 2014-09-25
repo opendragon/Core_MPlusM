@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief A test input handler factory. */
         class Test05HandlerCreator : public Common::InputHandlerCreator
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             Test05HandlerCreator(void);
@@ -71,9 +71,17 @@ namespace MplusM
              @returns A new InputHandler or @c NULL if one cannot be created. */
             virtual Common::InputHandler * create(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(Test05HandlerCreator);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef InputHandlerCreator inherited;

@@ -65,7 +65,7 @@ namespace MplusM
          adapter. */
         class BaseAdapterData
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
@@ -127,21 +127,17 @@ namespace MplusM
                 _lock.unlock();
             } // unlock
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseAdapterData(const BaseAdapterData & other);
+            COPY_AND_ASSIGNMENT_(BaseAdapterData);
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseAdapterData & operator =(const BaseAdapterData & other);
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The contention lock used to avoid intermixing of outputs. */
             yarp::os::Mutex _lock;

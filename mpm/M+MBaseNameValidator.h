@@ -61,7 +61,7 @@ namespace MplusM
         /*! @brief A convenience class to provide function objects for field name handling. */
         class BaseNameValidator
         {
-        public:
+        public :
             
             /*! @brief The destructor. */
             virtual ~BaseNameValidator(void);
@@ -81,24 +81,20 @@ namespace MplusM
             virtual const char * getPrefixAndSuffix(const char *   aString,
                                                     const char * & prefixString,
                                                     const char * & suffixString) = 0;
-        protected:
+        protected :
             
             /*! @brief The constructor. */
             BaseNameValidator(void);
             
-        private:
+        private :
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseNameValidator(const BaseNameValidator & other);
+            COPY_AND_ASSIGNMENT_(BaseNameValidator);
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseNameValidator & operator =(const BaseNameValidator & other);
+        public :
+        
+        protected :
+        
+        private :
             
         }; // BaseNameValidator
         

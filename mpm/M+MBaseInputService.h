@@ -60,7 +60,7 @@ namespace MplusM
         /*! @brief An input service. */
         class BaseInputService : public Common::BaseInputOutputService
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -103,7 +103,7 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BaseInputService(void);
             
-        protected:
+        protected :
             
             /*! @brief The descriptions of the output streams. */
             ChannelVector _outDescriptions;
@@ -112,14 +112,22 @@ namespace MplusM
              @returns @c true if the channels were shut down and @c false otherwise. */
             virtual bool shutDownOutputStreams(void);
             
-        private:
+        private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputOutputService inherited;
+            COPY_AND_ASSIGNMENT_(BaseInputService);
             
             /*! @brief Set up the output channels.
              @returns @c true if the channels were set up and @c false otherwise. */
             virtual bool setUpOutputStreams(void);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputOutputService inherited;
             
         }; // BaseInputService
         

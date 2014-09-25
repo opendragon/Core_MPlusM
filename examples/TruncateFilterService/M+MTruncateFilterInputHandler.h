@@ -69,7 +69,7 @@ namespace MplusM
          values. */
         class TruncateFilterInputHandler : public Common::InputHandler
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             TruncateFilterInputHandler(void);
@@ -90,24 +90,20 @@ namespace MplusM
              @param output The channel to be written to. */
             void setOutput(Common::GeneralChannel * output);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(TruncateFilterInputHandler);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef InputHandler inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            TruncateFilterInputHandler(const TruncateFilterInputHandler & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            TruncateFilterInputHandler & operator =(const TruncateFilterInputHandler & other);
             
             /*! @brief The channel that is to be written to. */
             Common::GeneralChannel * _outChannel;

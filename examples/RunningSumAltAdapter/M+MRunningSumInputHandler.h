@@ -65,7 +65,7 @@ namespace MplusM
          The data is expected to be in the form of a sequence of floating point data or commands. */
         class RunningSumInputHandler : public Common::InputHandler
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param shared The data shared between the input handlers and the main thread. */
@@ -83,24 +83,20 @@ namespace MplusM
                                      const yarp::os::ConstString & senderChannel,
                                      yarp::os::ConnectionWriter *  replyMechanism);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(RunningSumInputHandler);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef InputHandler inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RunningSumInputHandler(const RunningSumInputHandler & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RunningSumInputHandler & operator =(const RunningSumInputHandler & other);
             
             /*! @brief The shared data that describes the connection to the service that we are
              using. */

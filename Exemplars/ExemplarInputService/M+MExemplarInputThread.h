@@ -64,7 +64,7 @@ namespace MplusM
         /*! @brief A convenience class to generate output. */
         class ExemplarInputThread : public yarp::os::Thread
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to.
@@ -90,24 +90,20 @@ namespace MplusM
             /*! @brief The thread termination method. */
             virtual void threadRelease(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(ExemplarInputThread);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::Thread inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ExemplarInputThread(const ExemplarInputThread & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ExemplarInputThread & operator =(const ExemplarInputThread & other);
             
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

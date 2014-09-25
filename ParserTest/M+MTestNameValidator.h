@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief A convenience class to provide function objects for field name handling. */
         class TestNameValidator : public MplusM::Parser::BaseNameValidator
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             TestNameValidator(void);
@@ -77,29 +77,26 @@ namespace MplusM
              @param aString The string to be checked.
              @param prefixString The string to be used in the SQL prefix for this field.
              @param suffixString The string to be used in the SQL suffix for this field.
-             @returns The actual field name to be used or @c NULL if the field name was unmatched. */
+             @returns The actual field name to be used or @c NULL if the field name was
+             unmatched. */
             virtual const char * getPrefixAndSuffix(const char *   aString,
                                                     const char * & prefixString,
                                                     const char * & suffixString);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(TestNameValidator);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseNameValidator inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            TestNameValidator(const TestNameValidator & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            TestNameValidator & operator =(const TestNameValidator & other);
             
         }; // TestNameValidator
         

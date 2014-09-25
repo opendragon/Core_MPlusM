@@ -105,7 +105,7 @@ namespace MplusM
         /*! @brief The M+M Service Registry service. */
         class RegistryService : public Common::BaseService
         {
-        public:
+        public :
             
             /*! @brief The current state of the service. */
             enum ServiceStatus
@@ -276,15 +276,9 @@ namespace MplusM
              @param serviceChannelName The service channel that is being updated. */
             void updateCheckedTimeForChannel(const yarp::os::ConstString & serviceChannelName);
             
-        protected:
+        protected :
             
-        private:
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
-            
-            /*! @brief A mapping from strings to time values. */
-            typedef std::map<yarp::os::ConstString, double> TimeMap;
+        private :
             
             /*! @brief The constructor.
              @param argc The number of arguments in 'argv'.
@@ -292,17 +286,7 @@ namespace MplusM
             RegistryService(const int argc,
                             char **   argv);
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RegistryService(const RegistryService & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RegistryService & operator =(const RegistryService & other);
+            COPY_AND_ASSIGNMENT_(RegistryService);
             
             /*! @brief Add a request to the registry.
              @param keywordList The list of keywords associated with the request.
@@ -337,6 +321,18 @@ namespace MplusM
             /*! @brief Set up the status reporting channel.
              @returns @c true if the channel was set up and @c false otherwise. */
             bool setUpStatusChannel(void);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
+            
+            /*! @brief A mapping from strings to time values. */
+            typedef std::map<yarp::os::ConstString, double> TimeMap;
             
             /*! @brief The last time that a channel 'checked-in'. */
             TimeMap _lastCheckedTime;

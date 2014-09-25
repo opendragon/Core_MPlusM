@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief A convenience class to provide distinct channels to and from adapters. */
         class GeneralChannel : public yarp::os::Port
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param isOutput @c true if the channel is used for output and @c false otherwise. */
@@ -113,24 +113,20 @@ namespace MplusM
                 _protocol = newProtocol;
             } // setProtocol
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(GeneralChannel);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::Port inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            GeneralChannel(const GeneralChannel & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            GeneralChannel & operator =(const GeneralChannel & other);
             
             /*! @brief The name associated with the channel. */
             yarp::os::ConstString _name;

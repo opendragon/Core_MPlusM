@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief A test request handler. */
         class Test10DefaultRequestHandler : public Common::BaseRequestHandler
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             Test10DefaultRequestHandler(void);
@@ -87,9 +87,17 @@ namespace MplusM
                                         const yarp::os::ConstString & senderChannel,
                                         yarp::os::ConnectionWriter *  replyMechanism);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(Test10DefaultRequestHandler);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;

@@ -69,7 +69,7 @@ namespace MplusM
          the template adapter. */
         class ExemplarAdapterData : public Common::BaseAdapterData
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
@@ -80,24 +80,20 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~ExemplarAdapterData(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(ExemplarAdapterData);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseAdapterData inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ExemplarAdapterData(const ExemplarAdapterData & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ExemplarAdapterData & operator =(const ExemplarAdapterData & other);
             
         }; // ExemplarAdapterData
         

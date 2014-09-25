@@ -61,7 +61,7 @@ namespace MplusM
         /*! @brief A listener for %Leap Motion devices. */
         class LeapMotionInputListener : public Leap::Listener
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param outChannel The channel to send motion data to. */
@@ -132,24 +132,20 @@ namespace MplusM
              @param theController The Controller object invoking this callback function. */
             virtual void onServiceDisconnect(const Leap::Controller & theController);
 
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(LeapMotionInputListener);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef Leap::Listener inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            LeapMotionInputListener(const LeapMotionInputListener & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            LeapMotionInputListener & operator =(const LeapMotionInputListener & other);
             
             /*! @brief The channel to send motion data to. */
             Common::GeneralChannel * _outChannel;

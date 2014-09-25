@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief A convenience class to provide context objects for the running sum service. */
         class RunningSumContext : public Common::BaseContext
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             RunningSumContext(void);
@@ -73,24 +73,20 @@ namespace MplusM
                 return _sum;
             } // sum
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(RunningSumContext);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseContext inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RunningSumContext(const RunningSumContext & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RunningSumContext & operator =(const RunningSumContext & other);
             
             /*! @brief The running sum. */
             double _sum;

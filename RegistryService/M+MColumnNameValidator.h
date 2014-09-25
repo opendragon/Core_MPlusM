@@ -115,7 +115,7 @@ namespace MplusM
         /*! @brief A convenience class to provide function objects for field name handling. */
         class ColumnNameValidator : public MplusM::Parser::BaseNameValidator
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             ColumnNameValidator(void);
@@ -139,24 +139,20 @@ namespace MplusM
                                                     const char * & prefixString,
                                                     const char * & suffixString);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(ColumnNameValidator);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseNameValidator inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ColumnNameValidator(const ColumnNameValidator & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ColumnNameValidator & operator =(const ColumnNameValidator & other);
             
         }; // ColumnNameValidator
         

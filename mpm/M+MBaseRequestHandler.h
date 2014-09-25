@@ -62,7 +62,7 @@ namespace MplusM
         /*! @brief A convenience class to provide function objects for requests. */
         class BaseRequestHandler
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param request The name of the request. */
@@ -103,24 +103,20 @@ namespace MplusM
              @param owner The map that contains this handler. */
             void setOwner(RequestMap & owner);
             
-        protected:
+        protected :
             
             /*! @brief The request map that 'owns' this handler. */
             RequestMap * _owner;
             
-        private:
+        private :
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseRequestHandler(const BaseRequestHandler & other);
+            COPY_AND_ASSIGNMENT_(BaseRequestHandler);
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseRequestHandler & operator =(const BaseRequestHandler & other);
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The name of the request. */
             yarp::os::ConstString _name;

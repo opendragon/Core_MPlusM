@@ -65,7 +65,7 @@ namespace MplusM
         /*! @brief The record integers output stream service. */
         class RecordIntegersService : public Common::BaseOutputService
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -102,28 +102,24 @@ namespace MplusM
             /*! @brief Stop the input/output streams. */
             virtual void stopStreams(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseOutputService inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RecordIntegersService(const RecordIntegersService & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RecordIntegersService & operator =(const RecordIntegersService & other);
+            COPY_AND_ASSIGNMENT_(RecordIntegersService);
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
             virtual bool setUpStreamDescriptions(void);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseOutputService inherited;
             
             /*! @brief The path to the output file used for recording. */
             yarp::os::ConstString _outPath;

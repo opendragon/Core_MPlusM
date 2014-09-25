@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief A convenience class to provide distinct channels to and from adapters. */
         class AdapterChannel : public yarp::os::Port
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param isOutput @c true if the channel is used for output and @c false otherwise. */
@@ -98,24 +98,20 @@ namespace MplusM
              @param theChannel A pointer to the channel to be released. */
             static void RelinquishChannel(AdapterChannel * theChannel);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(AdapterChannel);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::Port inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            AdapterChannel(const AdapterChannel & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            AdapterChannel & operator =(const AdapterChannel & other);
             
             /*! @brief The name associated with the channel. */
             yarp::os::ConstString _name;

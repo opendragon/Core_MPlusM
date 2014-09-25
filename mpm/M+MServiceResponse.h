@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief The data returned from a service request. */
         class ServiceResponse
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             ServiceResponse(void);
@@ -102,21 +102,17 @@ namespace MplusM
                 return _values;
             } // values
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ServiceResponse(const ServiceResponse & other);
+            COPY_AND_ASSIGNMENT_(ServiceResponse);
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ServiceResponse & operator =(const ServiceResponse & other);
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The response values. */
             yarp::os::Bottle _values;

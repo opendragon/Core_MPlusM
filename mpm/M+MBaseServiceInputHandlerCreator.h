@@ -63,7 +63,7 @@ namespace MplusM
         /*! @brief The minimal functionality required for an M+M service. */
         class BaseServiceInputHandlerCreator : public InputHandlerCreator
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             BaseServiceInputHandlerCreator(BaseService & service);
@@ -75,25 +75,20 @@ namespace MplusM
              @returns A new InputHandler or @c NULL if one cannot be created. */
             virtual InputHandler * create(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(BaseServiceInputHandlerCreator);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef InputHandlerCreator inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseServiceInputHandlerCreator(const BaseServiceInputHandlerCreator & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseServiceInputHandlerCreator & operator =(const BaseServiceInputHandlerCreator &
-                                                                                            other);
             
             /*! @brief The service that 'owns' this handler. */
             BaseService & _service;

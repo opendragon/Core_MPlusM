@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief A factory for InputHandler objects. */
         class InputHandlerCreator : public yarp::os::PortReaderCreator
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             InputHandlerCreator(void);
@@ -71,24 +71,20 @@ namespace MplusM
              @returns A new InputHandler or @c NULL if one cannot be created. */
             virtual InputHandler * create(void) = 0;
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(InputHandlerCreator);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::PortReaderCreator inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            InputHandlerCreator(const InputHandlerCreator & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            InputHandlerCreator & operator =(const InputHandlerCreator & other);
             
         }; // InputHandlerCreator
         

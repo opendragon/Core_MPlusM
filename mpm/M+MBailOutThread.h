@@ -64,7 +64,7 @@ namespace MplusM
         /*! @brief A convenience class to timeout objects. */
         class BailOutThread : public yarp::os::Thread
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param timeToWait The number of seconds to delay before triggering. */
@@ -107,24 +107,20 @@ namespace MplusM
             /*! @brief The thread termination method. */
             virtual void threadRelease(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(BailOutThread);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::Thread inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BailOutThread(const BailOutThread & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BailOutThread & operator =(const BailOutThread & other);
             
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

@@ -66,7 +66,7 @@ namespace MplusM
         /*! @brief The truncate filter service. */
         class TruncateFilterService : public Common::BaseFilterService
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -103,28 +103,24 @@ namespace MplusM
             /*! @brief Stop the input/output streams. */
             virtual void stopStreams(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseFilterService inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            TruncateFilterService(const TruncateFilterService & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            TruncateFilterService & operator =(const TruncateFilterService & other);
+            COPY_AND_ASSIGNMENT_(TruncateFilterService);
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
             virtual bool setUpStreamDescriptions(void);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseFilterService inherited;
             
             /*! @brief The handler for input data. */
             TruncateFilterInputHandler * _inHandler;

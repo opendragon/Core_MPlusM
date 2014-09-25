@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief A test input handler. */
         class Test08Handler : public Common::InputHandler
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             Test08Handler(void);
@@ -76,9 +76,17 @@ namespace MplusM
                                      const yarp::os::ConstString & senderChannel,
                                      yarp::os::ConnectionWriter *  replyMechanism);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(Test08Handler);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef InputHandler inherited;

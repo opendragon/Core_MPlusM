@@ -60,12 +60,12 @@ namespace MplusM
         /*! @brief The common functionality for pattern matchers. */
         class BaseMatcher
         {
-        public:
+        public :
             
             /*! @brief The destructor. */
             virtual ~BaseMatcher(void);
             
-        protected:
+        protected :
             
             /*! @brief The constructor. */
             BaseMatcher(void);
@@ -81,19 +81,15 @@ namespace MplusM
                                          const size_t                  inLength,
                                          const size_t                  startPos);
             
-        private:
+        private :
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseMatcher(const BaseMatcher & other);
+            COPY_AND_ASSIGNMENT_(BaseMatcher);
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseMatcher & operator =(const BaseMatcher & other);
+        public :
+        
+        protected :
+        
+        private :
             
         }; // BaseMatcher
         

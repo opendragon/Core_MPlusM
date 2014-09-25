@@ -67,7 +67,7 @@ namespace MplusM
         /*! @brief An input/output service. */
         class BaseInputOutputService : public Common::BaseService
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param theKind The behavioural model for the service.
@@ -144,7 +144,7 @@ namespace MplusM
             /*! @brief Stop the input/output streams. */
             virtual void stopStreams(void) = 0;
             
-        protected:
+        protected :
             
             /*! @brief A set of channels. */
             typedef std::vector<GeneralChannel *> StreamVector;
@@ -192,16 +192,9 @@ namespace MplusM
              @returns @c true if the channels were shut down and @c false otherwise. */
             virtual bool shutDownOutputStreams(void);
             
-            /*! @brief The set of input channels. */
-            StreamVector _inStreams;
+        private :
             
-            /*! @brief The set of output channels. */
-            StreamVector _outStreams;
-            
-        private:
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
+            COPY_AND_ASSIGNMENT_(BaseInputOutputService);
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);
@@ -216,6 +209,21 @@ namespace MplusM
             /*! @brief Fill in a list of secondary output channels for the service.
              @param channels The list of channels to be filled in. */
             virtual void fillInSecondaryOutputChannelsList(ChannelVector & channels);
+            
+        public :
+        
+        protected :
+        
+            /*! @brief The set of input channels. */
+            StreamVector _inStreams;
+            
+            /*! @brief The set of output channels. */
+            StreamVector _outStreams;
+            
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
             
             /*! @brief The request handler for the 'configure' request. */
             ConfigureRequestHandler * _configureHandler;

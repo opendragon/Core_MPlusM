@@ -69,7 +69,7 @@ namespace MplusM
          the random number adapter. */
         class RandomNumberAdapterData : public Common::BaseAdapterData
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
@@ -80,24 +80,20 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~RandomNumberAdapterData(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(RandomNumberAdapterData);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseAdapterData inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RandomNumberAdapterData(const RandomNumberAdapterData & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RandomNumberAdapterData & operator =(const RandomNumberAdapterData & other);
             
         }; // RandomNumberAdapterData
         

@@ -65,7 +65,7 @@ namespace MplusM
         /*! @brief The exemplar output service. */
         class ExemplarOutputService : public Common::BaseOutputService
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -102,28 +102,24 @@ namespace MplusM
             /*! @brief Stop the input/output streams. */
             virtual void stopStreams(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseOutputService inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ExemplarOutputService(const ExemplarOutputService & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ExemplarOutputService & operator =(const ExemplarOutputService & other);
+            COPY_AND_ASSIGNMENT_(ExemplarOutputService);
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
             virtual bool setUpStreamDescriptions(void);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseOutputService inherited;
             
             /*! @brief The path to the output file used for recording. */
             yarp::os::ConstString _outPath;

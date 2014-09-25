@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief A pattern matcher for simple values. */
         class MatchValue : public BaseMatcher
         {
-        public:
+        public :
             
             /*! @brief The destructor. */
             virtual ~MatchValue(void);
@@ -95,28 +95,24 @@ namespace MplusM
                 return _hasWildcards;
             } // hasWildcardCharacters
             
-        protected:
+        protected :
             
-        private:
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseMatcher inherited;
+        private :
             
             /*! @brief The constructor.
              @param inString The matching segment of the original string. */
             MatchValue(const yarp::os::ConstString & inString);
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MatchValue(const MatchValue & other);
+            COPY_AND_ASSIGNMENT_(MatchValue);
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MatchValue & operator =(const MatchValue & other);
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseMatcher inherited;
             
             /*! @brief The subtring that (maximally) matched as a value. */
             yarp::os::ConstString _matchingString;

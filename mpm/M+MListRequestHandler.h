@@ -63,7 +63,7 @@ namespace MplusM
          'version' are optional in each dictionary, while the field 'request' is always present. */
         class ListRequestHandler : public BaseRequestHandler
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             ListRequestHandler(void);
@@ -91,24 +91,20 @@ namespace MplusM
                                         const yarp::os::ConstString & senderChannel,
                                         yarp::os::ConnectionWriter *  replyMechanism);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(ListRequestHandler);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ListRequestHandler(const ListRequestHandler & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ListRequestHandler & operator =(const ListRequestHandler & other);
             
         }; // ListRequestHandler
         

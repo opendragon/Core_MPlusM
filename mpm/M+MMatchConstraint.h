@@ -62,7 +62,7 @@ namespace MplusM
         /*! @brief A pattern matcher for AND clauses. */
         class MatchConstraint : public BaseMatcher
         {
-        public:
+        public :
             
             /*! @brief The destructor. */
             virtual ~MatchConstraint(void);
@@ -108,9 +108,23 @@ namespace MplusM
             const MatchFieldWithValues * element(const int index)
             const;
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            /*! @brief The constructor. */
+            MatchConstraint(void);
+            
+            COPY_AND_ASSIGNMENT_(MatchConstraint);
+            
+            /*! @brief Remove all the list elements. */
+            void empty(void);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseMatcher inherited;
@@ -120,24 +134,6 @@ namespace MplusM
             
             /*! @brief The size-type for sequence data. */
             typedef MatchConstraintListData::size_type MatchConstraintListSize;
-            
-            /*! @brief The constructor. */
-            MatchConstraint(void);
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MatchConstraint(const MatchConstraint & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MatchConstraint & operator =(const MatchConstraint & other);
-            
-            /*! @brief Remove all the list elements. */
-            void empty(void);
             
             /*! @brief The elements of the list. */
             MatchConstraintListData _fieldsWithValues;

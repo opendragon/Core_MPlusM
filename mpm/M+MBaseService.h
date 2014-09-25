@@ -75,7 +75,7 @@ namespace MplusM
         /*! @brief The minimal functionality required for an M+M service. */
         class BaseService
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param theKind The behavioural model for the service.
@@ -230,7 +230,7 @@ namespace MplusM
              @returns @c true if the service was stopped and @c false it if was not. */
             virtual bool stop(void);
             
-        protected:
+        protected :
             
             /*! @brief Add a context for a persistent connection.
              @param key The name for the context.
@@ -263,25 +263,9 @@ namespace MplusM
              @param handler The function that was called for the request. */
             void unregisterRequestHandler(BaseRequestHandler * handler);
             
-        private:
+        private :
             
-            /*! @brief A mapping from strings to contexts. */
-            typedef std::map<yarp::os::ConstString, BaseContext *> ContextMap;
-            
-            /*! @brief The entry-type for the mapping. */
-            typedef ContextMap::value_type ContextMapValue;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseService(const BaseService & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseService & operator =(const BaseService & other);
+            COPY_AND_ASSIGNMENT_(BaseService);
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);
@@ -307,6 +291,18 @@ namespace MplusM
             {
                 _contextsLock.unlock();
             } // unlockContexts
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief A mapping from strings to contexts. */
+            typedef std::map<yarp::os::ConstString, BaseContext *> ContextMap;
+            
+            /*! @brief The entry-type for the mapping. */
+            typedef ContextMap::value_type ContextMapValue;
             
             /*! @brief The command-line name used to launch the service. */
             yarp::os::ConstString _launchPath;

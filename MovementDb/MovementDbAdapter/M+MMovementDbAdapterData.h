@@ -68,7 +68,7 @@ namespace MplusM
         /*! @brief A handler for partially-structured input data. */
         class MovementDbAdapterData : public Common::BaseAdapterData
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
@@ -79,24 +79,20 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~MovementDbAdapterData(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(MovementDbAdapterData);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseAdapterData inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MovementDbAdapterData(const MovementDbAdapterData & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MovementDbAdapterData & operator =(const MovementDbAdapterData & other);
             
         }; // MovementDbAdapterData
         

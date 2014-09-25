@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief A convenience class to provide distinct exception objects. */
         class Exception
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param reason A description of the exception being reported. */
@@ -68,21 +68,17 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~Exception(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Exception(const Exception & other);
+            COPY_AND_ASSIGNMENT_(Exception);
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Exception & operator =(const Exception & other);
+        public :
+        
+        protected :
+        
+        private :
             
         }; // Exception
         

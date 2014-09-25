@@ -66,7 +66,7 @@ namespace MplusM
          values. */
         class RunningSumDataInputHandler : public Common::InputHandler
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param shared The data shared between the input handlers and the main thread. */
@@ -84,24 +84,20 @@ namespace MplusM
                                      const yarp::os::ConstString & senderChannel,
                                      yarp::os::ConnectionWriter *  replyMechanism);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(RunningSumDataInputHandler);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef InputHandler inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RunningSumDataInputHandler(const RunningSumDataInputHandler & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RunningSumDataInputHandler & operator =(const RunningSumDataInputHandler & other);
             
             /*! @brief The shared data that describes the connection to the service that we are
              using. */

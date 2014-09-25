@@ -67,7 +67,7 @@ namespace MplusM
         /*! @brief The request counter service. */
         class MovementDbService : public Common::BaseService
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -111,30 +111,26 @@ namespace MplusM
              @returns @c true if the service was stopped and @c false it if was not. */
             virtual bool stop(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MovementDbService(const MovementDbService & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MovementDbService & operator =(const MovementDbService & other);
+            COPY_AND_ASSIGNMENT_(MovementDbService);
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);
             
             /*! @brief Disable the standard request handlers. */
             void detachRequestHandlers(void);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
             
             /*! @brief The IP address of the backend database server. */
             yarp::os::ConstString _databaseAddress;

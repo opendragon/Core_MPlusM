@@ -86,14 +86,22 @@ namespace MplusM
             
         private:
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
+            COPY_AND_ASSIGNMENT_(Test10Service);
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);
             
             /*! @brief Disable the standard request handlers. */
             void detachRequestHandlers(void);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
             
             /*! @brief The request handler for unrecognized requests. */
             Test10DefaultRequestHandler * _defaultHandler;

@@ -63,7 +63,7 @@ namespace MplusM
          while the field 'request' is always present. */
         class InfoRequestHandler : public BaseRequestHandler
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             InfoRequestHandler(void);
@@ -91,24 +91,20 @@ namespace MplusM
                                         const yarp::os::ConstString & senderChannel,
                                         yarp::os::ConnectionWriter *  replyMechanism);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(InfoRequestHandler);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            InfoRequestHandler(const InfoRequestHandler & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            InfoRequestHandler & operator =(const InfoRequestHandler & other);
             
         }; // InfoRequestHandler
         

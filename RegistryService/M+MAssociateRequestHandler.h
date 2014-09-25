@@ -71,7 +71,7 @@ namespace MplusM
          'FAILED' followed with a description of the reason for failure. */
         class AssociateRequestHandler : public Common::BaseRequestHandler
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
@@ -100,24 +100,20 @@ namespace MplusM
                                         const yarp::os::ConstString & senderChannel,
                                         yarp::os::ConnectionWriter *  replyMechanism);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(AssociateRequestHandler);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            AssociateRequestHandler(const AssociateRequestHandler & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            AssociateRequestHandler & operator =(const AssociateRequestHandler & other);
             
             /*! @brief The service that will handle the registration operation. */
             RegistryService & _service;

@@ -62,7 +62,7 @@ namespace MplusM
         /*! @brief A class to manage the mapping from requests to request handlers. */
         class RequestMap
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             RequestMap(BaseService & owner);
@@ -98,27 +98,11 @@ namespace MplusM
              @param handler The function that was called for the request. */
             void unregisterRequestHandler(BaseRequestHandler * handler);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief A mapping from strings to requests. */
-            typedef std::map<yarp::os::ConstString, BaseRequestHandler *> RequestHandlerMap;
-            
-            /*! @brief The entry-type for the mapping. */
-            typedef RequestHandlerMap::value_type RequestHandlerMapValue;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RequestMap(const RequestMap & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RequestMap & operator =(const RequestMap & other);
+            COPY_AND_ASSIGNMENT_(RequestMap);
             
             /*! @brief Lock the data unless the lock would block.
              @returns @c true if the data was locked and @c false otherwise. */
@@ -138,6 +122,18 @@ namespace MplusM
             {
                 _lock.unlock();
             } // unlock
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief A mapping from strings to requests. */
+            typedef std::map<yarp::os::ConstString, BaseRequestHandler *> RequestHandlerMap;
+            
+            /*! @brief The entry-type for the mapping. */
+            typedef RequestHandlerMap::value_type RequestHandlerMapValue;
             
             /*! @brief The contention lock used to avoid inconsistencies. */
             yarp::os::Mutex _lock;

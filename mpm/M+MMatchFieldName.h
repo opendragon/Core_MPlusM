@@ -61,7 +61,7 @@ namespace MplusM
         /*! @brief A pattern matcher for field names. */
         class MatchFieldName : public BaseMatcher
         {
-        public:
+        public :
             
             /*! @brief The destructor. */
             virtual ~MatchFieldName(void);
@@ -97,28 +97,24 @@ namespace MplusM
                                                   size_t &                      endPos,
                                                   BaseNameValidator *           validator = NULL);
             
-        protected:
+        protected :
             
-        private:
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseMatcher inherited;
+        private :
             
             /*! @brief The constructor.
              @param inString The matching segment of the original string. */
             MatchFieldName(const yarp::os::ConstString & inString);
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MatchFieldName(const MatchFieldName & other);
+            COPY_AND_ASSIGNMENT_(MatchFieldName);
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MatchFieldName & operator =(const MatchFieldName & other);
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseMatcher inherited;
             
             /*! @brief The subtring that (maximally) matched as a value. */
             yarp::os::ConstString _matchingString;

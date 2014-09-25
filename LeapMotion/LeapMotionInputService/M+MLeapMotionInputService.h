@@ -67,7 +67,7 @@ namespace MplusM
         /*! @brief The LEAP input service. */
         class LeapMotionInputService : public Common::BaseInputService
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -108,28 +108,24 @@ namespace MplusM
             /*! @brief Stop the input/output streams. */
             virtual void stopStreams(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputService inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            LeapMotionInputService(const LeapMotionInputService & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            LeapMotionInputService & operator =(const LeapMotionInputService & other);
+            COPY_AND_ASSIGNMENT_(LeapMotionInputService);
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
             virtual bool setUpStreamDescriptions(void);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputService inherited;
             
             /*! @brief The connection to the %Leap Motion device. */
             Leap::Controller * _controller;

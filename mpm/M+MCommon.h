@@ -203,7 +203,13 @@
 # define STANDARD_WAIT_TIME        (5.3 * ONE_SECOND_DELAY)
 
 /*! @brief A simple macro to hold the pieces of a string together. */
-# define T_(xx)                    xx
+# define T_(xx_)                   xx_
+
+/*! @brief The standard copy constructor and assignment operator declarations. */
+# define COPY_AND_ASSIGNMENT_(xx_) \
+    xx_(const xx_ & other);\
+    \
+    xx_ & operator =(const xx_ & other)
 
 /*! @brief @c TRUE if retry loops use timeouts and @c FALSE otherwise. */
 # if defined(MpM_UseTimeoutsInRetryLoops)

@@ -62,7 +62,7 @@ namespace MplusM
         /*! @brief A pattern matcher for expressions. */
         class MatchExpression : public BaseMatcher
         {
-        public:
+        public :
             
             /*! @brief The destructor. */
             virtual ~MatchExpression(void);
@@ -111,36 +111,32 @@ namespace MplusM
              @returns The character that separates expression list elements. */
             static char ExpressionSeparatorCharacter(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            /*! @brief The constructor. */
+            MatchExpression(void);
+            
+            COPY_AND_ASSIGNMENT_(MatchExpression);
+            
+            /*! @brief Remove all the list elements. */
+            void empty(void);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseMatcher inherited;
             
             /*! @brief A sequence of AND clauses. */
-            typedef std::vector<MatchConstraint *>     MatchExpressionListData;
+            typedef std::vector<MatchConstraint *> MatchExpressionListData;
             
             /*! @brief The size-type for sequence data. */
             typedef MatchExpressionListData::size_type MatchExpressionListSize;
-            
-            /*! @brief The constructor. */
-            MatchExpression(void);
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MatchExpression(const MatchExpression & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MatchExpression & operator =(const MatchExpression & other);
-            
-            /*! @brief Remove all the list elements. */
-            void empty(void);
             
             /*! @brief The elements of the list. */
             MatchExpressionListData _constraints;

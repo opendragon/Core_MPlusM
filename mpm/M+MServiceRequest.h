@@ -63,7 +63,7 @@ namespace MplusM
         /*! @brief The data constituting a service request. */
         class ServiceRequest
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param requestName The request to be processed. */
@@ -86,21 +86,17 @@ namespace MplusM
             bool send(ClientChannel &   usingChannel,
                       ServiceResponse * response = NULL);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ServiceRequest(const ServiceRequest & other);
+            COPY_AND_ASSIGNMENT_(ServiceRequest);
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ServiceRequest & operator =(const ServiceRequest & other);
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The request name. */
             yarp::os::ConstString _name;

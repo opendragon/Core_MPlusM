@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief A client for the request counter service. */
         class MovementDbClient : public Common::BaseClient
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             MovementDbClient(void);
@@ -86,24 +86,20 @@ namespace MplusM
              @returns @c true if the service handled the request and @c false otherwise. */
             bool stopDbConnection(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(MovementDbClient);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseClient inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MovementDbClient(const MovementDbClient & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MovementDbClient & operator =(const MovementDbClient & other);
             
         }; // MovementDbClient
         

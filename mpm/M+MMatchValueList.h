@@ -61,7 +61,7 @@ namespace MplusM
         /*! @brief A pattern matcher for lists of simple values. */
         class MatchValueList : public BaseMatcher
         {
-        public:
+        public :
             
             /*! @brief The destructor. */
             virtual ~MatchValueList(void);
@@ -113,36 +113,32 @@ namespace MplusM
              @returns The character that ends a value list. */
             static char ListTerminatorCharacter(void);
             
-        protected:
+        protected :
             
             /*! @brief The constructor. */
             MatchValueList(void);
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(MatchValueList);
+            
+            /*! @brief Remove all the list elements. */
+            void empty(void);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseMatcher inherited;
             
             /*! @brief A sequence of values. */
-            typedef std::vector<MatchValue *>     MatchValueListData;
+            typedef std::vector<MatchValue *> MatchValueListData;
             
             /*! @brief The size-type for sequence data. */
             typedef MatchValueListData::size_type MatchValueListSize;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MatchValueList(const MatchValueList & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            MatchValueList & operator =(const MatchValueList & other);
-            
-            /*! @brief Remove all the list elements. */
-            void empty(void);
             
             /*! @brief The elements of the list. */
             MatchValueListData _values;

@@ -65,7 +65,7 @@ namespace MplusM
          for services and clients. */
         class Endpoint
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param endpointName The YARP name to be assigned to the new endpoint.
@@ -127,21 +127,17 @@ namespace MplusM
             bool setReporter(ChannelStatusReporter & reporter,
                              const bool              andReportNow = false);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Endpoint(const Endpoint & other);
+            COPY_AND_ASSIGNMENT_(Endpoint);
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Endpoint & operator =(const Endpoint & other);
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The YARP channel to be used by the endpoint. */
             ServiceChannel * _channel;

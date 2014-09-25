@@ -67,7 +67,7 @@ namespace MplusM
         /*! @brief The running sum service. */
         class RunningSumService : public Common::BaseService
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -103,30 +103,26 @@ namespace MplusM
              @returns @c true if the service was stopped and @c false it if was not. */
             virtual bool stop(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RunningSumService(const RunningSumService & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RunningSumService & operator =(const RunningSumService & other);
+            COPY_AND_ASSIGNMENT_(RunningSumService);
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);
             
             /*! @brief Disable the standard request handlers. */
             void detachRequestHandlers(void);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
             
             /*! @brief The request handler for the 'addtosum' request. */
             AddToSumRequestHandler * _addToSumHandler;

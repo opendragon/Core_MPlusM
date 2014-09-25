@@ -61,7 +61,7 @@ namespace MplusM
         /*! @brief A convenience class to schedule registry checks. */
         class RegistryCheckThread : public yarp::os::Thread
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param service The service that has owns this thread. */
@@ -80,24 +80,20 @@ namespace MplusM
             /*! @brief The thread termination method. */
             virtual void threadRelease(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(RegistryCheckThread);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::Thread inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RegistryCheckThread(const RegistryCheckThread & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RegistryCheckThread & operator =(const RegistryCheckThread & other);
             
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

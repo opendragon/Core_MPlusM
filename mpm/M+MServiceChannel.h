@@ -67,7 +67,7 @@ namespace MplusM
          a client. */
         class ServiceChannel : public SERVICE_PORT_CLASS_
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             ServiceChannel(void);
@@ -104,24 +104,20 @@ namespace MplusM
              @param theChannel A pointer to the channel to be released. */
             static void RelinquishChannel(ServiceChannel * theChannel);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(ServiceChannel);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef SERVICE_PORT_CLASS_ inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ServiceChannel(const ServiceChannel & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ServiceChannel & operator =(const ServiceChannel & other);
             
             /*! @brief The name associated with the channel. */
             yarp::os::ConstString _name;

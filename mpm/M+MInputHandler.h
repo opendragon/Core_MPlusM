@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief A handler for partially-structured input data. */
         class InputHandler : public yarp::os::PortReader
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             InputHandler(void);
@@ -79,29 +79,25 @@ namespace MplusM
             /*! @brief Terminate processing of the input data stream. */
             void stopProcessing(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::PortReader inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            InputHandler(const InputHandler & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            InputHandler & operator =(const InputHandler & other);
+            COPY_AND_ASSIGNMENT_(InputHandler);
             
             /*! @brief Read an object from the input stream.
              @param connection The input stream that is to be read from.
              @returns @c true if the object was successfully read and @c false otherwise. */
             virtual bool read(yarp::os::ConnectionReader & connection);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef yarp::os::PortReader inherited;
             
             /*! @brief @c true if input stream processing is enabled. */
             bool _canProcessInput;

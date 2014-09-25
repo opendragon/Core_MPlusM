@@ -64,7 +64,7 @@ namespace MplusM
         /*! @brief The minimal functionality required for an M+M client. */
         class BaseClient
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param baseChannelName The name to be used as the root for the client channel. */
@@ -122,7 +122,7 @@ namespace MplusM
             void setReporter(ChannelStatusReporter & reporter,
                              const bool              andReportNow = false);
             
-        protected:
+        protected :
             
             /*! @brief Re-establish the service connection if it has dropped.
              @param checker A function that provides for early exit from loops.
@@ -140,19 +140,15 @@ namespace MplusM
                       const yarp::os::Bottle & parameters,
                       ServiceResponse *        response = NULL);
             
-        private:
+        private :
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseClient(const BaseClient & other);
+            COPY_AND_ASSIGNMENT_(BaseClient);
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseClient & operator =(const BaseClient & other);
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The channel status reporter that has been set for this channel. */
             ChannelStatusReporter * _reporter;

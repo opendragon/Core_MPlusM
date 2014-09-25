@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief An endpoint status reporter. */
         class ChannelStatusReporter : public yarp::os::PortReport
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             ChannelStatusReporter(void);
@@ -71,10 +71,18 @@ namespace MplusM
              @param info The event / state information from the endpoint. */
             virtual void report(const yarp::os::PortInfo & info);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
+            COPY_AND_ASSIGNMENT_(ChannelStatusReporter);
+            
+        public :
+        
+        protected :
+        
+        private :
+        
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::PortReport inherited;
             

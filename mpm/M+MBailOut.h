@@ -65,7 +65,7 @@ namespace MplusM
         /*! @brief A convenience class to timeout objects. */
         class BailOut
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param timeToWait The number of seconds to delay before triggering. */
@@ -98,21 +98,17 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BailOut(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BailOut(const BailOut & other);
+            COPY_AND_ASSIGNMENT_(BailOut);
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BailOut & operator =(const BailOut & other);
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The bailout thread to use. */
             BailOutThread * _bailer;

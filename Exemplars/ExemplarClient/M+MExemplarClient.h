@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief The exemplar client. */
         class ExemplarClient : public Common::BaseClient
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             ExemplarClient(void);
@@ -79,24 +79,20 @@ namespace MplusM
             bool getRandomNumbers(const int              howMany,
                                   Common::DoubleVector & result);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(ExemplarClient);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseClient inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ExemplarClient(const ExemplarClient & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ExemplarClient & operator =(const ExemplarClient & other);
             
         }; // ExemplarClient
         

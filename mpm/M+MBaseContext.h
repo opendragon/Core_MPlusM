@@ -59,7 +59,7 @@ namespace MplusM
         /*! @brief A convenience class to provide distinct context objects. */
         class BaseContext
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
             BaseContext(void);
@@ -67,21 +67,17 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BaseContext(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseContext(const BaseContext & other);
+            COPY_AND_ASSIGNMENT_(BaseContext);
             
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseContext & operator =(const BaseContext & other);
+        public :
+        
+        protected :
+        
+        private :
             
         }; // BaseContext
         
