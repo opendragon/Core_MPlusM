@@ -109,13 +109,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            AdapterChannel(const AdapterChannel & other);
+            AdapterChannel(const AdapterChannel & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            AdapterChannel & operator =(const AdapterChannel & other);
+            AdapterChannel & operator =(const AdapterChannel & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The name associated with the channel. */
             yarp::os::ConstString _name;

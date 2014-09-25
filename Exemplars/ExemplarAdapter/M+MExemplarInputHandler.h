@@ -96,13 +96,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarInputHandler(const ExemplarInputHandler & other);
+            ExemplarInputHandler(const ExemplarInputHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarInputHandler & operator =(const ExemplarInputHandler & other);
+            ExemplarInputHandler & operator =(const ExemplarInputHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The shared data that describes the connection to the service that we are
              using. */

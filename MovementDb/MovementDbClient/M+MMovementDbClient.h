@@ -97,13 +97,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            MovementDbClient(const MovementDbClient & other);
+            MovementDbClient(const MovementDbClient & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            MovementDbClient & operator =(const MovementDbClient & other);
+            MovementDbClient & operator =(const MovementDbClient & other)
+            DISALLOWED_FUNCTION;
             
         }; // MovementDbClient
         

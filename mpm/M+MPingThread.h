@@ -92,13 +92,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            PingThread(const PingThread & other);
+            PingThread(const PingThread & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            PingThread & operator =(const PingThread & other);
+            PingThread & operator =(const PingThread & other)
+            DISALLOWED_FUNCTION;
             
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

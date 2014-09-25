@@ -86,13 +86,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarAdapterData(const ExemplarAdapterData & other);
+            ExemplarAdapterData(const ExemplarAdapterData & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarAdapterData & operator =(const ExemplarAdapterData & other);
+            ExemplarAdapterData & operator =(const ExemplarAdapterData & other)
+            DISALLOWED_FUNCTION;
             
         }; // ExemplarAdapterData
         

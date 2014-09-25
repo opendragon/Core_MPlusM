@@ -108,13 +108,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            PingRequestHandler(const PingRequestHandler & other);
+            PingRequestHandler(const PingRequestHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            PingRequestHandler & operator =(const PingRequestHandler & other);
+            PingRequestHandler & operator =(const PingRequestHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The service that will handle the registration operation. */
             RegistryService & _service;

@@ -199,6 +199,13 @@
 #  define STANDARD_SIGNAL_TO_USE   42
 # endif // ! MAC_OR_LINUX_
 
+/*! @brief The trailing 'DISALLOWED_FUNCTION' for constructors and assignment operators that are disabled. */
+# if MAC_OR_LINUX
+#  define DISALLOWED_FUNCTION =    delete
+# else // ! MAC_OR_LINUX
+#  define DISALLOWED_FUNCTION /* */
+# endif // ! MAC_OR_LINUX
+
 /*! @brief The default timeout duration in seconds. */
 # define STANDARD_WAIT_TIME        (5.3 * ONE_SECOND_DELAY)
 

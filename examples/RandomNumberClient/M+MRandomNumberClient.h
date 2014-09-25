@@ -90,13 +90,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RandomNumberClient(const RandomNumberClient & other);
+            RandomNumberClient(const RandomNumberClient & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RandomNumberClient & operator =(const RandomNumberClient & other);
+            RandomNumberClient & operator =(const RandomNumberClient & other)
+            DISALLOWED_FUNCTION;
             
         }; // RandomNumberClient
         

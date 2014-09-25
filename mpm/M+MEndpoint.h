@@ -134,13 +134,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            Endpoint(const Endpoint & other);
+            Endpoint(const Endpoint & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            Endpoint & operator =(const Endpoint & other);
+            Endpoint & operator =(const Endpoint & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The YARP channel to be used by the endpoint. */
             ServiceChannel * _channel;

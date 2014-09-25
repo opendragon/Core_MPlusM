@@ -115,13 +115,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            GetAssociatesRequestHandler(const GetAssociatesRequestHandler & other);
+            GetAssociatesRequestHandler(const GetAssociatesRequestHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            GetAssociatesRequestHandler & operator =(const GetAssociatesRequestHandler & other);
+            GetAssociatesRequestHandler & operator =(const GetAssociatesRequestHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The service that will handle the registration operation. */
             RegistryService & _service;

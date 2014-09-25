@@ -90,13 +90,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarClient(const ExemplarClient & other);
+            ExemplarClient(const ExemplarClient & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarClient & operator =(const ExemplarClient & other);
+            ExemplarClient & operator =(const ExemplarClient & other)
+            DISALLOWED_FUNCTION;
             
         }; // ExemplarClient
         

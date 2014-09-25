@@ -84,13 +84,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RunningSumContext(const RunningSumContext & other);
+            RunningSumContext(const RunningSumContext & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RunningSumContext & operator =(const RunningSumContext & other);
+            RunningSumContext & operator =(const RunningSumContext & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The running sum. */
             double _sum;

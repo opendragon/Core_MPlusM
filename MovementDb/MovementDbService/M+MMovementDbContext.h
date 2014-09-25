@@ -91,13 +91,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            MovementDbContext(const MovementDbContext & other);
+            MovementDbContext(const MovementDbContext & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            MovementDbContext & operator =(const MovementDbContext & other);
+            MovementDbContext & operator =(const MovementDbContext & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The data track to use. */
             yarp::os::ConstString _dataTrack;

@@ -129,13 +129,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            MatchConstraint(const MatchConstraint & other);
+            MatchConstraint(const MatchConstraint & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            MatchConstraint & operator =(const MatchConstraint & other);
+            MatchConstraint & operator =(const MatchConstraint & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Remove all the list elements. */
             void empty(void);

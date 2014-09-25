@@ -152,13 +152,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ColumnNameValidator(const ColumnNameValidator & other);
+            ColumnNameValidator(const ColumnNameValidator & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ColumnNameValidator & operator =(const ColumnNameValidator & other);
+            ColumnNameValidator & operator =(const ColumnNameValidator & other)
+            DISALLOWED_FUNCTION;
             
         }; // ColumnNameValidator
         

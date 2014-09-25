@@ -110,13 +110,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            MatchValue(const MatchValue & other);
+            MatchValue(const MatchValue & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            MatchValue & operator =(const MatchValue & other);
+            MatchValue & operator =(const MatchValue & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The subtring that (maximally) matched as a value. */
             yarp::os::ConstString _matchingString;

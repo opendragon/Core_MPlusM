@@ -124,13 +124,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            GeneralChannel(const GeneralChannel & other);
+            GeneralChannel(const GeneralChannel & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            GeneralChannel & operator =(const GeneralChannel & other);
+            GeneralChannel & operator =(const GeneralChannel & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The name associated with the channel. */
             yarp::os::ConstString _name;

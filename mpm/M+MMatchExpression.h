@@ -132,13 +132,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            MatchExpression(const MatchExpression & other);
+            MatchExpression(const MatchExpression & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            MatchExpression & operator =(const MatchExpression & other);
+            MatchExpression & operator =(const MatchExpression & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Remove all the list elements. */
             void empty(void);

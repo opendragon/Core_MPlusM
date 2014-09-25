@@ -96,13 +96,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            TestNameValidator(const TestNameValidator & other);
+            TestNameValidator(const TestNameValidator & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            TestNameValidator & operator =(const TestNameValidator & other);
+            TestNameValidator & operator =(const TestNameValidator & other)
+            DISALLOWED_FUNCTION;
             
         }; // TestNameValidator
         

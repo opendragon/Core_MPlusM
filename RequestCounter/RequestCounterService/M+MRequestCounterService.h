@@ -117,13 +117,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RequestCounterService(const RequestCounterService & other);
+            RequestCounterService(const RequestCounterService & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RequestCounterService & operator =(const RequestCounterService & other);
+            RequestCounterService & operator =(const RequestCounterService & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);

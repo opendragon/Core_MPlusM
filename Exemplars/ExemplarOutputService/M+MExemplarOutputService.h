@@ -119,13 +119,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarOutputService(const ExemplarOutputService & other);
+            ExemplarOutputService(const ExemplarOutputService & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarOutputService & operator =(const ExemplarOutputService & other);
+            ExemplarOutputService & operator =(const ExemplarOutputService & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */

@@ -125,13 +125,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            MatchFieldWithValues(const MatchFieldWithValues & other);
+            MatchFieldWithValues(const MatchFieldWithValues & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            MatchFieldWithValues & operator =(const MatchFieldWithValues & other);
+            MatchFieldWithValues & operator =(const MatchFieldWithValues & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The validator function object that was used for this field. */
             BaseNameValidator * _validator;

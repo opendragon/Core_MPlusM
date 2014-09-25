@@ -126,13 +126,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            LeapMotionInputService(const LeapMotionInputService & other);
+            LeapMotionInputService(const LeapMotionInputService & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            LeapMotionInputService & operator =(const LeapMotionInputService & other);
+            LeapMotionInputService & operator =(const LeapMotionInputService & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */

@@ -108,13 +108,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            CountRequestHandler(const CountRequestHandler & other);
+            CountRequestHandler(const CountRequestHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            CountRequestHandler & operator =(const CountRequestHandler & other);
+            CountRequestHandler & operator =(const CountRequestHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The service that will handle the request. */
             BaseService & _service;

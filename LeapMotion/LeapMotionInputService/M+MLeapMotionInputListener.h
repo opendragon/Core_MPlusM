@@ -153,13 +153,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            LeapMotionInputListener(const LeapMotionInputListener & other);
+            LeapMotionInputListener(const LeapMotionInputListener & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            LeapMotionInputListener & operator =(const LeapMotionInputListener & other);
+            LeapMotionInputListener & operator =(const LeapMotionInputListener & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The channel to send motion data to. */
             Common::GeneralChannel * _outChannel;

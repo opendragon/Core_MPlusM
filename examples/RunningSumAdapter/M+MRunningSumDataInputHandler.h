@@ -96,13 +96,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RunningSumDataInputHandler(const RunningSumDataInputHandler & other);
+            RunningSumDataInputHandler(const RunningSumDataInputHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RunningSumDataInputHandler & operator =(const RunningSumDataInputHandler & other);
+            RunningSumDataInputHandler & operator =(const RunningSumDataInputHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The shared data that describes the connection to the service that we are
              using. */

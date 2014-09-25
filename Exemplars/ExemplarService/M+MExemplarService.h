@@ -98,13 +98,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarService(const ExemplarService & other);
+            ExemplarService(const ExemplarService & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarService & operator =(const ExemplarService & other);
+            ExemplarService & operator =(const ExemplarService & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);

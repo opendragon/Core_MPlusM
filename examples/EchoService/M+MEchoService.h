@@ -98,13 +98,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            EchoService(const EchoService & other);
+            EchoService(const EchoService & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            EchoService & operator =(const EchoService & other);
+            EchoService & operator =(const EchoService & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);

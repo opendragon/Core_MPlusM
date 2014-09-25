@@ -98,13 +98,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarFilterInputHandler(const ExemplarFilterInputHandler & other);
+            ExemplarFilterInputHandler(const ExemplarFilterInputHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarFilterInputHandler & operator =(const ExemplarFilterInputHandler & other);
+            ExemplarFilterInputHandler & operator =(const ExemplarFilterInputHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The channel that is to be written to. */
             Common::GeneralChannel * _outChannel;

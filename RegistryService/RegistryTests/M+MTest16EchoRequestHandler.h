@@ -98,6 +98,20 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test16EchoRequestHandler(const Test16EchoRequestHandler & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test16EchoRequestHandler & operator =(const Test16EchoRequestHandler & other)
+            DISALLOWED_FUNCTION;
+            
         }; // Test16EchoRequestHandler
         
     } // Test

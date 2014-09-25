@@ -106,13 +106,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ClientsRequestHandler(const ClientsRequestHandler & other);
+            ClientsRequestHandler(const ClientsRequestHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ClientsRequestHandler & operator =(const ClientsRequestHandler & other);
+            ClientsRequestHandler & operator =(const ClientsRequestHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The service that will handle the 'clients' operation. */
             BaseService & _service;

@@ -86,13 +86,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RandomNumberAdapterData(const RandomNumberAdapterData & other);
+            RandomNumberAdapterData(const RandomNumberAdapterData & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RandomNumberAdapterData & operator =(const RandomNumberAdapterData & other);
+            RandomNumberAdapterData & operator =(const RandomNumberAdapterData & other)
+            DISALLOWED_FUNCTION;
             
         }; // RandomNumberAdapterData
         

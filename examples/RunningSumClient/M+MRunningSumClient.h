@@ -104,13 +104,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RunningSumClient(const RunningSumClient & other);
+            RunningSumClient(const RunningSumClient & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            RunningSumClient & operator =(const RunningSumClient & other);
+            RunningSumClient & operator =(const RunningSumClient & other)
+            DISALLOWED_FUNCTION;
             
         }; // RunningSumClient
         

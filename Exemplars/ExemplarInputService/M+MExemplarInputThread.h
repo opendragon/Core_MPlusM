@@ -99,13 +99,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarInputThread(const ExemplarInputThread & other);
+            ExemplarInputThread(const ExemplarInputThread & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            ExemplarInputThread & operator =(const ExemplarInputThread & other);
+            ExemplarInputThread & operator =(const ExemplarInputThread & other)
+            DISALLOWED_FUNCTION;
             
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

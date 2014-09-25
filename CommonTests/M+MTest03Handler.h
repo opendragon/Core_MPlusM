@@ -87,6 +87,20 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef InputHandler inherited;
             
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test03Handler(const Test03Handler & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test03Handler & operator =(const Test03Handler & other)
+            DISALLOWED_FUNCTION;
+            
         }; // Test03Handler
         
     } // Test

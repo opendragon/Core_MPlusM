@@ -134,13 +134,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            BaseAdapterData(const BaseAdapterData & other);
+            BaseAdapterData(const BaseAdapterData & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            BaseAdapterData & operator =(const BaseAdapterData & other);
+            BaseAdapterData & operator =(const BaseAdapterData & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The contention lock used to avoid intermixing of outputs. */
             yarp::os::Mutex _lock;

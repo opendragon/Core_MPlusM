@@ -120,13 +120,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            TruncateFilterService(const TruncateFilterService & other);
+            TruncateFilterService(const TruncateFilterService & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            TruncateFilterService & operator =(const TruncateFilterService & other);
+            TruncateFilterService & operator =(const TruncateFilterService & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */

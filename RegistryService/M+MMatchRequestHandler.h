@@ -145,13 +145,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            MatchRequestHandler(const MatchRequestHandler & other);
+            MatchRequestHandler(const MatchRequestHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            MatchRequestHandler & operator =(const MatchRequestHandler & other);
+            MatchRequestHandler & operator =(const MatchRequestHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The service that will handle the registration operation. */
             RegistryService & _service;

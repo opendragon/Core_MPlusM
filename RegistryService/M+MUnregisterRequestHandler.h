@@ -108,13 +108,15 @@ namespace MplusM
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            UnregisterRequestHandler(const UnregisterRequestHandler & other);
+            UnregisterRequestHandler(const UnregisterRequestHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Assignment operator.
              
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
-            UnregisterRequestHandler & operator =(const UnregisterRequestHandler & other);
+            UnregisterRequestHandler & operator =(const UnregisterRequestHandler & other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The service that will handle the unregistration operation. */
             RegistryService & _service;
