@@ -40,8 +40,6 @@
 #include "M+MLeapMotionInputListener.h"
 #include "M+MLeapMotionInputRequests.h"
 
-#include <mpm/M+MGeneralChannel.h>
-
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -82,7 +80,7 @@ LeapMotionInputService::LeapMotionInputService(const yarp::os::ConstString & lau
                                                const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_LEAPMOTIONINPUT_CANONICAL_NAME,
               "The Leap Motion input service", "", serviceEndpointName, servicePortNumber),
-    _controller(new Leap::Controller), _listener(NULL)
+    _controller(new Leap::Controller), _listener(nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -97,7 +95,7 @@ LeapMotionInputService::~LeapMotionInputService(void)
     if (_controller)
     {
         delete _controller;
-        _controller = NULL;
+        _controller = nullptr;
     }
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputService::~LeapMotionInputService
@@ -146,8 +144,8 @@ void LeapMotionInputService::restartStreams(void)
 bool LeapMotionInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                       result = true;
-    Common::ChannelDescription description;
+    bool               result = true;
+    ChannelDescription description;
     
     _outDescriptions.clear();
     description._portName = "leap/leapinput/output_";
@@ -249,7 +247,7 @@ void LeapMotionInputService::stopStreams(void)
             {
                 _controller->removeListener(*_listener);
                 delete _listener;
-                _listener = NULL;
+                _listener = nullptr;
             }
             clearActive();
         }

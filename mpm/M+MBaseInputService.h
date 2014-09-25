@@ -98,7 +98,7 @@ namespace MplusM
                              const yarp::os::ConstString & description,
                              const yarp::os::ConstString & requestsDescription,
                              const int                     argc,
-                             char **                       argv);
+                             char * *                      argv);
             
             /*! @brief The destructor. */
             virtual ~BaseInputService(void);
@@ -110,15 +110,45 @@ namespace MplusM
             
             /*! @brief Shut down the output streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownOutputStreams(void);
+            virtual bool shutDownOutputStreams(void)
+            override;
             
         private :
             
             COPY_AND_ASSIGNMENT_(BaseInputService);
             
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseInputService(const BaseInputService & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseInputService & operator =(const BaseInputService & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseInputService(BaseInputService && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseInputService & operator =(BaseInputService && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief Set up the output channels.
              @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpOutputStreams(void);
+            virtual bool setUpOutputStreams(void)
+            override final;
             
         public :
         

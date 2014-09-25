@@ -119,7 +119,7 @@ bool Test03Handler::handleInput(const yarp::os::Bottle &      input,
         {
             OD_LOG("(! dummy.write(*replyMechanism))"); //####
 # if defined(MpM_StallOnSendProblem)
-            Common::Stall();
+            Stall();
 # endif // defined(MpM_StallOnSendProblem)
         }
     }

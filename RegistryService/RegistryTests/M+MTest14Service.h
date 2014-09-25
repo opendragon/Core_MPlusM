@@ -59,7 +59,7 @@ namespace MplusM
         class Test14EchoRequestHandler;
         
         /*! @brief A test service. */
-        class Test14Service : public Common::BaseService
+        class Test14Service final : public Common::BaseService
         {
         public :
             
@@ -69,24 +69,54 @@ namespace MplusM
              @param argv The arguments to be used to specify the new service. */
             Test14Service(const yarp::os::ConstString & launchPath,
                           const int                     argc,
-                          char **                       argv);
+                          char * *                      argv);
             
             /*! @brief The destructor. */
             virtual ~Test14Service(void);
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
+            virtual bool start(void)
+            override;
             
             /*! @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
+            virtual bool stop(void)
+            override;
             
         protected :
             
         private :
             
             COPY_AND_ASSIGNMENT_(Test14Service);
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test14Service(const Test14Service & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test14Service & operator =(const Test14Service & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test14Service(Test14Service && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test14Service & operator =(Test14Service && other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);

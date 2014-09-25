@@ -95,7 +95,7 @@ StopSumRequestHandler::~StopSumRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void StopSumRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void StopSumRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -163,7 +163,7 @@ bool StopSumRequestHandler::processRequest(const yarp::os::ConstString & request
             {
                 OD_LOG("(! response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

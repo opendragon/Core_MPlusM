@@ -93,7 +93,7 @@ SimpleRequestHandler::~SimpleRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void SimpleRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void SimpleRequestHandler::fillInAliases(StringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
@@ -186,7 +186,7 @@ bool SimpleRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("(! response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

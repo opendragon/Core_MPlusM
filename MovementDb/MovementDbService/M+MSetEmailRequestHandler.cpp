@@ -95,7 +95,7 @@ SetEmailRequestHandler::~SetEmailRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void SetEmailRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void SetEmailRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -196,7 +196,7 @@ bool SetEmailRequestHandler::processRequest(const yarp::os::ConstString & reques
             {
                 OD_LOG("(! reply(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

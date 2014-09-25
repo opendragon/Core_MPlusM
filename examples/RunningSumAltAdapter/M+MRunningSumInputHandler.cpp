@@ -42,8 +42,6 @@
 #include "M+MRunningSumClient.h"
 #include "M+MRunningSumRequests.h"
 
-#include <mpm/M+MAdapterChannel.h>
-
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -117,10 +115,10 @@ bool RunningSumInputHandler::handleInput(const yarp::os::Bottle &      input,
         
         if (0 < howMany)
         {
-            Common::AdapterChannel * theOutput = _shared.getOutput();
-            Common::DoubleVector     values;
-            double                   outValue;
-            RunningSumClient *       theClient = (RunningSumClient *) _shared.getClient();
+            AdapterChannel *   theOutput = _shared.getOutput();
+            DoubleVector       values;
+            double             outValue;
+            RunningSumClient * theClient = (RunningSumClient *) _shared.getClient();
             
             if (theClient && theOutput)
             {
@@ -136,7 +134,7 @@ bool RunningSumInputHandler::handleInput(const yarp::os::Bottle &      input,
                         
                         if (values.size())
                         {
-                            Common::DoubleVector::size_type soFar = values.size();
+                            DoubleVector::size_type soFar = values.size();
                             
                             if (1 == soFar)
                             {
@@ -150,7 +148,7 @@ bool RunningSumInputHandler::handleInput(const yarp::os::Bottle &      input,
                                     {
                                         OD_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                                        Common::Stall();
+                                        Stall();
 #endif // defined(MpM_StallOnSendProblem)
                                     }
                                 }
@@ -172,7 +170,7 @@ bool RunningSumInputHandler::handleInput(const yarp::os::Bottle &      input,
                                     {
                                         OD_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                                        Common::Stall();
+                                        Stall();
 #endif // defined(MpM_StallOnSendProblem)
                                     }
                                 }
@@ -239,7 +237,7 @@ bool RunningSumInputHandler::handleInput(const yarp::os::Bottle &      input,
                 }
                 if (values.size())
                 {
-                    Common::DoubleVector::size_type soFar = values.size();
+                    DoubleVector::size_type soFar = values.size();
                     
                     if (1 == soFar)
                     {
@@ -253,7 +251,7 @@ bool RunningSumInputHandler::handleInput(const yarp::os::Bottle &      input,
                             {
                                 OD_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                                Common::Stall();
+                                Stall();
 #endif // defined(MpM_StallOnSendProblem)
                             }
                         }
@@ -275,7 +273,7 @@ bool RunningSumInputHandler::handleInput(const yarp::os::Bottle &      input,
                             {
                                 OD_LOG("(! theOutput->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                                Common::Stall();
+                                Stall();
 #endif // defined(MpM_StallOnSendProblem)
                             }
                         }

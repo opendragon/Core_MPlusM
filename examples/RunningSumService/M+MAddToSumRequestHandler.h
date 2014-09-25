@@ -62,7 +62,7 @@ namespace MplusM
          
          The input for the request is a single floating point number, and the output is a single
          floating point number. */
-        class AddToSumRequestHandler : public Common::BaseRequestHandler
+        class AddToSumRequestHandler final : public Common::BaseRequestHandler
         {
         public:
             
@@ -75,23 +75,27 @@ namespace MplusM
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(Common::StringVector & alternateNames);
+            virtual void fillInAliases(Common::StringVector & alternateNames)
+            override;
             
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
              @param info The dictionary to be filled in. */
             virtual void fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info);
+                                           yarp::os::Property &          info)
+            override;
             
             /*! @brief Process a request.
              @param request The actual request name.
              @param restOfInput The arguments to the operation.
              @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
+             @param replyMechanism non-@c nullptr if a reply is expected and @c nullptr
+             otherwise. */
             virtual bool processRequest(const yarp::os::ConstString & request,
                                         const yarp::os::Bottle &      restOfInput,
                                         const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism);
+                                        yarp::os::ConnectionWriter *  replyMechanism)
+            override;
             
         protected:
             
@@ -99,6 +103,34 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            AddToSumRequestHandler(const AddToSumRequestHandler & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            AddToSumRequestHandler & operator =(const AddToSumRequestHandler & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            AddToSumRequestHandler(AddToSumRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            AddToSumRequestHandler & operator =(AddToSumRequestHandler && other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief The service that manages the statistics. */
             RunningSumService & _service;

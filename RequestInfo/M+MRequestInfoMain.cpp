@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MBaseClient.h>
-#include <mpm/M+MClientChannel.h>
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>
@@ -65,6 +64,8 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+using namespace MplusM;
+using namespace MplusM::Common;
 using std::cout;
 using std::endl;
 
@@ -83,16 +84,16 @@ using std::endl;
  @param sawResponse @c true if there was already a response output and @c false if this is the
  first.
  @returns @c true if some output was generated and @c false otherwise. */
-static bool processResponse(MplusM::Common::OutputFlavour           flavour,
-                            const yarp::os::ConstString &           serviceName,
-                            const MplusM::Common::ServiceResponse & response,
-                            const bool                              sawResponse)
+static bool processResponse(OutputFlavour                 flavour,
+                            const yarp::os::ConstString & serviceName,
+                            const ServiceResponse &       response,
+                            const bool                    sawResponse)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("response = ", &response); //####
     bool                  result = false;
-    yarp::os::ConstString cleanServiceName(MplusM::SanitizeString(serviceName,
-                                                  MplusM::Common::kOutputFlavourJSON != flavour));
+    yarp::os::ConstString cleanServiceName(SanitizeString(serviceName,
+                                                  OutputFlavour::kOutputFlavourJSON != flavour));
     
     for (int ii = 0, howMany = response.count(); ii < howMany; ++ii)
     {
@@ -114,8 +115,8 @@ static bool processResponse(MplusM::Common::OutputFlavour           flavour,
                                             propList->find(MpM_REQREP_DICT_REQUEST_KEY).asString();
                     yarp::os::Bottle      keywordList;
                     
-                    theRequest = MplusM::SanitizeString(theRequest,
-                                                    MplusM::Common::kOutputFlavourJSON != flavour);
+                    theRequest = SanitizeString(theRequest,
+                                                OutputFlavour::kOutputFlavourJSON != flavour);
                     if (propList->check(MpM_REQREP_DICT_DETAILS_KEY))
                     {
                         yarp::os::Value theDetails = propList->find(MpM_REQREP_DICT_DETAILS_KEY);
@@ -163,17 +164,17 @@ static bool processResponse(MplusM::Common::OutputFlavour           flavour,
                     }
                     switch (flavour)
                     {
-                        case MplusM::Common::kOutputFlavourTabs :
+                        case OutputFlavour::kOutputFlavourTabs :
                             cout << cleanServiceName.c_str() << "\t" << theRequest.c_str() <<
-                                    "\t" << MplusM::SanitizeString(theVersionString).c_str() <<
-                                    "\t" << MplusM::SanitizeString(theDetailsString).c_str() <<
+                                    "\t" << SanitizeString(theVersionString).c_str() <<
+                                    "\t" << SanitizeString(theDetailsString).c_str() <<
                                     "\t" <<
-                                    MplusM::SanitizeString(keywordList.toString()).c_str() <<
+                                    SanitizeString(keywordList.toString()).c_str() <<
                                     "\t" << theInputsString.c_str() << "\t" <<
                                     theOutputsString.c_str() << endl;
                             break;
                             
-                        case MplusM::Common::kOutputFlavourJSON :
+                        case OutputFlavour::kOutputFlavourJSON :
                             if (result || sawResponse)
                             {
                                 cout << "," << endl;
@@ -185,10 +186,10 @@ static bool processResponse(MplusM::Common::OutputFlavour           flavour,
                                     theRequest.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
                                                              "Version" CHAR_DOUBLEQUOTE ": "
                                                              CHAR_DOUBLEQUOTE) <<
-                                    MplusM::SanitizeString(theVersionString, true).c_str() <<
+                                    SanitizeString(theVersionString, true).c_str() <<
                                     T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Details"
                                        CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                                    MplusM::SanitizeString(theDetailsString, true).c_str() <<
+                                    SanitizeString(theDetailsString, true).c_str() <<
                                     T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Keywords"
                                        CHAR_DOUBLEQUOTE ": [ ");
                             for (int jj = 0, mm = keywordList.size(); mm > jj; ++jj)
@@ -200,7 +201,7 @@ static bool processResponse(MplusM::Common::OutputFlavour           flavour,
                                     cout << ", ";
                                 }
                                 cout << CHAR_DOUBLEQUOTE <<
-                                        MplusM::SanitizeString(aKeyword.toString(), true) <<
+                                        SanitizeString(aKeyword.toString(), true) <<
                                         CHAR_DOUBLEQUOTE;
                             }
                             cout << T_(" ], " CHAR_DOUBLEQUOTE "Inputs" CHAR_DOUBLEQUOTE ": "
@@ -210,23 +211,22 @@ static bool processResponse(MplusM::Common::OutputFlavour           flavour,
                                     theOutputsString.c_str() << T_(CHAR_DOUBLEQUOTE " }");
                             break;
                             
-                        case MplusM::Common::kOutputFlavourNormal :
-                        case MplusM::Common::kOutputFlavourUnknown :
+                        case OutputFlavour::kOutputFlavourNormal :
                             cout << "Service Port: " << cleanServiceName.c_str() << endl;
                             cout << "Request:      " << theRequest.c_str() << endl;
                             if (0 < theVersionString.length())
                             {
                                 cout << "Version:      " <<
-                                        MplusM::SanitizeString(theVersionString).c_str() << endl;
+                                        SanitizeString(theVersionString).c_str() << endl;
                             }
                             if (0 < theDetailsString.length())
                             {
-                                MplusM::OutputDescription(cout, "Details:      ", theDetailsString);
+                                OutputDescription(cout, "Details:      ", theDetailsString);
                             }
                             if (0 < keywordList.size())
                             {
                                 cout << "Keywords:     " <<
-                                        MplusM::SanitizeString(keywordList.toString()).c_str() <<
+                                        SanitizeString(keywordList.toString()).c_str() <<
                                         endl;
                             }
                             if (0 < theInputsString.length())
@@ -263,16 +263,16 @@ static bool processResponse(MplusM::Common::OutputFlavour           flavour,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    MplusM::Common::SetUpLogger(*argv);
+    SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    MplusM::Common::OutputFlavour flavour = MplusM::Common::kOutputFlavourNormal;
+    OutputFlavour flavour = OutputFlavour::kOutputFlavourNormal;
 
     opterr = 0; // Suppress the error message resulting from an unknown option.
     for (int cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc;
@@ -281,11 +281,11 @@ int main(int     argc,
         switch (cc)
         {
             case 'j' :
-                flavour = MplusM::Common::kOutputFlavourJSON;
+                flavour = OutputFlavour::kOutputFlavourJSON;
                 break;
                 
             case 't' :
-                flavour = MplusM::Common::kOutputFlavourTabs;
+                flavour = OutputFlavour::kOutputFlavourTabs;
                 break;
                 
             default :
@@ -305,16 +305,16 @@ int main(int     argc,
             yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
             const char *          requestName;
             
-            MplusM::Common::Initialize(*argv);
+            Initialize(*argv);
             if (optind >= argc)
             {
                 channelNameRequest += "*";
-                requestName = NULL;
+                requestName = nullptr;
             }
             else if ((optind + 1) == argc)
             {
                 channelNameRequest += argv[optind];
-                requestName = NULL;
+                requestName = nullptr;
             }
             else
             {
@@ -325,11 +325,11 @@ int main(int     argc,
                 }
                 else
                 {
-                    requestName = NULL;
+                    requestName = nullptr;
                 }
             }
-            yarp::os::Bottle matches(MplusM::Common::FindMatchingServices(channelNameRequest,
-                                                                          false, NULL, NULL));
+            yarp::os::Bottle matches(FindMatchingServices(channelNameRequest, false, nullptr,
+                                                          nullptr));
             
             if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
@@ -342,8 +342,7 @@ int main(int     argc,
 #if MAC_OR_LINUX_
                     yarp::os::ConstString reason(matches.get(1).toString());
                     
-                    MplusM::Common::GetLogger().fail(yarp::os::ConstString("Failed: ") + reason +
-                                                     ".");
+                    GetLogger().fail(yarp::os::ConstString("Failed: ") + reason + ".");
 #endif // MAC_OR_LINUX_
                 }
                 else
@@ -357,12 +356,10 @@ int main(int     argc,
                         
                         if (matchesCount)
                         {
-                            yarp::os::ConstString           aName =
-                                        MplusM::Common::GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
-                                                                             "requestinfo_/"
-                                                                             DEFAULT_CHANNEL_ROOT);
-                            MplusM::Common::ClientChannel * newChannel =
-                                                                new MplusM::Common::ClientChannel;
+                            yarp::os::ConstString aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
+                                                                               "requestinfo_/"
+                                                                           DEFAULT_CHANNEL_ROOT);
+                            ClientChannel *       newChannel = new ClientChannel;
                             
                             if (newChannel)
                             {
@@ -375,7 +372,7 @@ int main(int     argc,
                                     {
                                         parameters.addString(requestName);
                                     }
-                                    if (MplusM::Common::kOutputFlavourJSON == flavour)
+                                    if (OutputFlavour::kOutputFlavourJSON == flavour)
                                     {
                                         cout << "[ ";
                                     }
@@ -384,23 +381,20 @@ int main(int     argc,
                                         yarp::os::ConstString aMatch =
                                                                     matchesList->get(ii).toString();
                                         
-                                        if (MplusM::Utilities::NetworkConnectWithRetries(aName,
-                                                                                         aMatch,
+                                        if (Utilities::NetworkConnectWithRetries(aName, aMatch,
                                                                                  STANDARD_WAIT_TIME,
-                                                                                         false,
-                                                                                         NULL,
-                                                                                         NULL))
+                                                                                 false, nullptr,
+                                                                                 nullptr))
                                         {
-                                            MplusM::Common::ServiceResponse response;
+                                            ServiceResponse response;
                                             
                                             // If no request was identified, or a wildcard was
                                             // specified, we use the 'list' request; otherwise, do
                                             // an 'info' request.
                                             if (requestName)
                                             {
-                                                MplusM::Common::ServiceRequest
-                                                                        request(MpM_INFO_REQUEST,
-                                                                                parameters);
+                                                ServiceRequest request(MpM_INFO_REQUEST,
+                                                                       parameters);
                                                 
                                                 if (request.send(*newChannel, &response))
                                                 {
@@ -420,7 +414,7 @@ int main(int     argc,
                                                            "&response))"); //####
 #if MAC_OR_LINUX_
                                                     yarp::os::impl::Logger & theLogger =
-                                                                        MplusM::Common::GetLogger();
+                                                                                        GetLogger();
                                                     
                                                     theLogger.fail(yarp::os::ConstString("Problem "
                                                                                  "communicating "
@@ -431,9 +425,8 @@ int main(int     argc,
                                             }
                                             else
                                             {
-                                                MplusM::Common::ServiceRequest
-                                                                        request(MpM_LIST_REQUEST,
-                                                                                parameters);
+                                                ServiceRequest request(MpM_LIST_REQUEST,
+                                                                       parameters);
                                                 
                                                 if (request.send(*newChannel, &response))
                                                 {
@@ -453,7 +446,7 @@ int main(int     argc,
                                                            "&response))"); //####
 #if MAC_OR_LINUX_
                                                     yarp::os::impl::Logger & theLogger =
-                                                                        MplusM::Common::GetLogger();
+                                                                                        GetLogger();
                                                     
                                                     theLogger.fail(yarp::os::ConstString("Problem "
                                                                                  "communicating "
@@ -463,28 +456,28 @@ int main(int     argc,
                                                 }
                                             }
 #if defined(MpM_DoExplicitDisconnect)
-                                        if (! MplusM::Utilities::NetworkDisconnectWithRetries(aName,
+                                            if (! Utilities::NetworkDisconnectWithRetries(aName,
                                                                                           aMatch,
                                                                               STANDARD_WAIT_TIME,
-                                                                                              NULL,
-                                                                                              NULL))
+                                                                                          nullptr,
+                                                                                          nullptr))
                                             {
-                                                OD_LOG("(! MplusM::Utilities::Network" //####
+                                                OD_LOG("(! Utilities::Network" //####
                                                        "DisconnectWithRetries(aName, " //####
-                                                       "aMatch, STANDARD_WAIT_TIME, NULL, " //####
-                                                       "NULL))"); //####
+                                                       "aMatch, STANDARD_WAIT_TIME, " //####
+                                                       "nullptr, nullptr))"); //####
                                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                                         }
                                         else
                                         {
-                                            OD_LOG("! (MplusM::Utilities::NetworkConnect" //####
+                                            OD_LOG("! (Utilities::NetworkConnect" //####
                                                    "WithRetries(aName, aMatch, " //####
-                                                   "STANDARD_WAIT_TIME, false, NULL, " //####
-                                                   "NULL))"); //####
+                                                   "STANDARD_WAIT_TIME, false, nullptr, " //####
+                                                   "nullptr))"); //####
                                         }
                                     }
-                                    if (MplusM::Common::kOutputFlavourJSON == flavour)
+                                    if (OutputFlavour::kOutputFlavourJSON == flavour)
                                     {
                                         cout << " ]" << endl;
                                     }
@@ -492,12 +485,11 @@ int main(int     argc,
                                     {
                                         switch (flavour)
                                         {
-                                            case MplusM::Common::kOutputFlavourJSON :
-                                            case MplusM::Common::kOutputFlavourTabs :
+                                            case OutputFlavour::kOutputFlavourJSON :
+                                            case OutputFlavour::kOutputFlavourTabs :
                                                 break;
                                                 
-                                            case MplusM::Common::kOutputFlavourNormal :
-                                            case MplusM::Common::kOutputFlavourUnknown :
+                                            case OutputFlavour::kOutputFlavourNormal :
                                                 cout << "No matching request found." << endl;
                                                 break;
                                                 
@@ -523,12 +515,11 @@ int main(int     argc,
                         {
                             switch (flavour)
                             {
-                                case MplusM::Common::kOutputFlavourJSON :
-                                case MplusM::Common::kOutputFlavourTabs :
+                                case OutputFlavour::kOutputFlavourJSON :
+                                case OutputFlavour::kOutputFlavourTabs :
                                     break;
                                     
-                                case MplusM::Common::kOutputFlavourNormal :
-                                case MplusM::Common::kOutputFlavourUnknown :
+                                case OutputFlavour::kOutputFlavourNormal :
                                     cout << "No services found." << endl;
                                     break;
                                     
@@ -545,8 +536,7 @@ int main(int     argc,
             {
                 OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())"); //####
 #if MAC_OR_LINUX_
-                MplusM::Common::GetLogger().fail("Problem getting information from the Service "
-                                                 "Registry.");
+                GetLogger().fail("Problem getting information from the Service Registry.");
 #endif // MAC_OR_LINUX_
             }
         }
@@ -555,7 +545,7 @@ int main(int     argc,
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
-            MplusM::Common::GetLogger().fail("YARP network not running.");
+            GetLogger().fail("YARP network not running.");
 # endif // MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_

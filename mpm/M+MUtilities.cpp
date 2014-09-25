@@ -39,7 +39,6 @@
 #include <mpm/M+MUtilities.h>
 #include <mpm/M+MBaseClient.h>
 #include <mpm/M+MChannelStatusReporter.h>
-#include <mpm/M+MClientChannel.h>
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>
@@ -88,7 +87,7 @@ using namespace MplusM::Utilities;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-static ChannelStatusReporter * lReporter = NULL;
+static ChannelStatusReporter * lReporter = nullptr;
 
 /*! @brief The indicator string for the beginning of new information received. */
 static const char * kLineMarker = "registration name ";
@@ -116,8 +115,8 @@ static void checkForInputConnection(const yarp::os::Bottle & response,
     OD_LOG_P1("inputs = ", &inputs); //####
     const char * matchString[] =
     {
-        "There", "is", "an", "input", "connection", "from", NULL, "to", NULL, "using",
-        NULL
+        "There", "is", "an", "input", "connection", "from", nullptr, "to", nullptr, "using",
+        nullptr
     };
     int          respLen = response.size();
     int          matchLen = (sizeof(matchString) / sizeof(*matchString));
@@ -151,15 +150,15 @@ static void checkForInputConnection(const yarp::os::Bottle & response,
                 connection._portName = source;
                 if (mode == "tcp")
                 {
-                    connection._portMode = Common::kChannelModeTCP;
+                    connection._portMode = ChannelMode::kChannelModeTCP;
                 }
                 else if (mode == "udp")
                 {
-                    connection._portMode = Common::kChannelModeUDP;
+                    connection._portMode = ChannelMode::kChannelModeUDP;
                 }
                 else
                 {
-                    connection._portMode = Common::kChannelModeOther;
+                    connection._portMode = ChannelMode::kChannelModeOther;
                 }
                 inputs.push_back(connection);
             }
@@ -179,8 +178,8 @@ static void checkForOutputConnection(const yarp::os::Bottle & response,
     OD_LOG_P1("outputs = ", &outputs); //####
     const char * matchString[] =
     {
-        "There", "is", "an", "output", "connection", "from", NULL, "to", NULL, "using",
-        NULL
+        "There", "is", "an", "output", "connection", "from", nullptr, "to", nullptr, "using",
+        nullptr
     };
     int          respLen = response.size();
     int          matchLen = (sizeof(matchString) / sizeof(*matchString));
@@ -214,15 +213,15 @@ static void checkForOutputConnection(const yarp::os::Bottle & response,
                 connection._portName = destination;
                 if (mode == "tcp")
                 {
-                    connection._portMode = Common::kChannelModeTCP;
+                    connection._portMode = ChannelMode::kChannelModeTCP;
                 }
                 else if (mode == "udp")
                 {
-                    connection._portMode = Common::kChannelModeUDP;
+                    connection._portMode = ChannelMode::kChannelModeUDP;
                 }
                 else
                 {
-                    connection._portMode = Common::kChannelModeOther;
+                    connection._portMode = ChannelMode::kChannelModeOther;
                 }
                 outputs.push_back(connection);
             }
@@ -346,10 +345,10 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
             
             if (yarp::os::ConstString::npos != chopPos)
             {
-                char *                channelName = NULL;
+                char *                channelName = nullptr;
                 yarp::os::ConstString chopped(workingCopy.substr(0, chopPos));
                 char *                choppedAsChars = strdup(chopped.c_str());
-                char *                ipAddress = NULL;
+                char *                ipAddress = nullptr;
                 char *                saved;
                 char *                pp = strtok_r(choppedAsChars, " ", &saved);
                 
@@ -361,16 +360,16 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
                         channelName = pp;
                         if (nameServerName == channelName)
                         {
-                            pp = NULL;
+                            pp = nullptr;
                         }
                         else
                         {
-                            pp = strtok_r(NULL, " ", &saved);
+                            pp = strtok_r(nullptr, " ", &saved);
                         }
                     }
                     else
                     {
-                        pp = NULL;
+                        pp = nullptr;
                     }
                 }
                 if (pp)
@@ -378,28 +377,28 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
                     // 'ip'
                     if (strcmp(pp, "ip"))
                     {
-                        pp = NULL;
+                        pp = nullptr;
                     }
                     else
                     {
-                        pp = strtok_r(NULL, " ", &saved);
+                        pp = strtok_r(nullptr, " ", &saved);
                     }
                 }
                 if (pp)
                 {
                     ipAddress = pp;
-                    pp = strtok_r(NULL, " ", &saved);
+                    pp = strtok_r(nullptr, " ", &saved);
                 }
                 if (pp)
                 {
                     // 'port'
                     if (strcmp(pp, "port"))
                     {
-                        pp = NULL;
+                        pp = nullptr;
                     }
                     else
                     {
-                        pp = strtok_r(NULL, " ", &saved);
+                        pp = strtok_r(nullptr, " ", &saved);
                     }
                 }
                 // Check if this is a 'hidden' port:
@@ -409,7 +408,7 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
                                   sizeof(HIDDEN_CHANNEL_PREFIX) - 1))
                     {
                         // Skip this one.
-                        pp = NULL;
+                        pp = nullptr;
                     }
                 }
                 if (pp)
@@ -432,12 +431,12 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-bool MplusM::Utilities::AddConnection(const yarp::os::ConstString & fromPortName,
-                                      const yarp::os::ConstString & toPortName,
-                                      const double                  timeToWait,
-                                      const bool                    isUDP,
-                                      Common::CheckFunction         checker,
-                                      void *                        checkStuff)
+bool Utilities::AddConnection(const yarp::os::ConstString & fromPortName,
+                              const yarp::os::ConstString & toPortName,
+                              const double                  timeToWait,
+                              const bool                    isUDP,
+                              CheckFunction                 checker,
+                              void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("fromPortName = ", fromPortName, "toPortName = ", toPortName); //####
@@ -449,9 +448,9 @@ bool MplusM::Utilities::AddConnection(const yarp::os::ConstString & fromPortName
     
     OD_LOG_EXIT_B(result); //####
     return result;
-} // MplusM::Utilities::AddConnection
+} // Utilities::AddConnection
 
-bool MplusM::Utilities::CheckForRegistryService(const PortVector & ports)
+bool Utilities::CheckForRegistryService(const PortVector & ports)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("ports = ", &ports); //####
@@ -459,7 +458,7 @@ bool MplusM::Utilities::CheckForRegistryService(const PortVector & ports)
     
     if (0 < ports.size())
     {
-        for (PortVector::const_iterator walker(ports.begin()); ports.end() != walker; ++walker)
+        for (auto walker(ports.begin()); ports.end() != walker; ++walker)
         {
             if (walker->_portName == MpM_REGISTRY_CHANNEL_NAME)
             {
@@ -471,15 +470,15 @@ bool MplusM::Utilities::CheckForRegistryService(const PortVector & ports)
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // MplusM::Utilities::CheckForRegistryService
+} // Utilities::CheckForRegistryService
 
-void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
-                                              Common::ChannelVector &       inputs,
-                                              Common::ChannelVector &       outputs,
-                                              const InputOutputFlag         which,
-                                              const bool                    quiet,
-                                              Common::CheckFunction         checker,
-                                              void *                        checkStuff)
+void Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
+                                      ChannelVector &               inputs,
+                                      ChannelVector &               outputs,
+                                      const InputOutputFlag         which,
+                                      const bool                    quiet,
+                                      CheckFunction                 checker,
+                                      void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("inputs = ", &inputs, "outputs = ", &outputs, "checkStuff = ", checkStuff); //####
@@ -514,7 +513,7 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
                     
                     pc.write(bw);
                     bw.write(os);
-                    reader.reset(is, NULL, rr, 0, true);
+                    reader.reset(is, nullptr, rr, 0, true);
                     for (bool done = false; ! done; )
                     {
                         if (checker && checker(checkStuff))
@@ -531,11 +530,13 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
                         }
                         else if (checkString == "There")
                         {
-                            if (which & kInputAndOutputInput)
+                            if (static_cast<int>(which) &
+                                static_cast<int>(InputOutputFlag::kInputAndOutputInput))
                             {
                                 checkForInputConnection(resp, inputs);
                             }
-                            if (which & kInputAndOutputOutput)
+                            if (static_cast<int>(which) &
+                                static_cast<int>(InputOutputFlag::kInputAndOutputOutput))
                             {
                                 checkForOutputConnection(resp, outputs);
                             }
@@ -545,7 +546,7 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
                 else if (! quiet)
                 {
 #if MAC_OR_LINUX_
-                    MplusM::Common::GetLogger().fail("Could not open route to port.");
+                    GetLogger().fail("Could not open route to port.");
 #endif // MAC_OR_LINUX_
                 }
                 delete out;
@@ -553,31 +554,31 @@ void MplusM::Utilities::GatherPortConnections(const yarp::os::ConstString & port
             else if (! quiet)
             {
 #if MAC_OR_LINUX_
-                MplusM::Common::GetLogger().fail("Could not connect to port.");
+                GetLogger().fail("Could not connect to port.");
 #endif // MAC_OR_LINUX_
             }
         }
         else if (! quiet)
         {
 #if MAC_OR_LINUX_
-            MplusM::Common::GetLogger().fail("Port not using recognized connection type.");
+            GetLogger().fail("Port not using recognized connection type.");
 #endif // MAC_OR_LINUX_
         }
     }
     else if (! quiet)
     {
 #if MAC_OR_LINUX_
-        MplusM::Common::GetLogger().fail("Port name not recognized.");
+        GetLogger().fail("Port name not recognized.");
 #endif // MAC_OR_LINUX_
     }
     OD_LOG_EXIT(); //####
-} // MplusM::Utilities::GatherPortConnections
+} // Utilities::GatherPortConnections
 
-bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
-                                           PortAssociation &             associates,
-                                           const double                  timeToWait,
-                                           Common::CheckFunction         checker,
-                                           void *                        checkStuff)
+bool Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
+                                   PortAssociation &             associates,
+                                   const double                  timeToWait,
+                                   CheckFunction                 checker,
+                                   void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("portName = ", portName); //####
@@ -594,7 +595,7 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
                                                            DEFAULT_CHANNEL_ROOT));
         ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+        ChannelStatusReporter * reporter = GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
         
         if (newChannel)
@@ -655,12 +656,12 @@ bool MplusM::Utilities::GetAssociatedPorts(const yarp::os::ConstString & portNam
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // MplusM::Utilities::GetAssociatedPorts
+} // Utilities::GetAssociatedPorts
 
-void MplusM::Utilities::GetDateAndTime(char *       dateBuffer,
-                                       const size_t dateBufferSize,
-                                       char *       timeBuffer,
-                                       const size_t timeBufferSize)
+void Utilities::GetDateAndTime(char *       dateBuffer,
+                               const size_t dateBufferSize,
+                               char *       timeBuffer,
+                               const size_t timeBufferSize)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("dateBuffer = ", dateBuffer, "timeBuffer = ", timeBuffer); //####
@@ -678,10 +679,10 @@ void MplusM::Utilities::GetDateAndTime(char *       dateBuffer,
     strftime(timeBuffer, timeBufferSize, "%X", locTime);
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT(); //####
-} // MplusM::Utilities::GetDateAndTime
+} // Utilities::GetDateAndTime
 
-bool MplusM::Utilities::GetDetectedPortList(PortVector & ports,
-                                            const bool   includeHiddenPorts)
+bool Utilities::GetDetectedPortList(PortVector & ports,
+                                    const bool   includeHiddenPorts)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("ports = ", &ports); //####
@@ -739,24 +740,23 @@ bool MplusM::Utilities::GetDetectedPortList(PortVector & ports,
         char buffer1[DATE_TIME_BUFFER_SIZE];
         char buffer2[DATE_TIME_BUFFER_SIZE];
         
-        MplusM::Utilities::GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
+        GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
         std::cerr << buffer1 << " " << buffer2 << "Problem getting list of ports." << std::endl;
     }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
-} // MplusM::Utilities::GetDetectedPortList
+} // Utilities::GetDetectedPortList
 
-Common::ChannelStatusReporter * MplusM::Utilities::GetGlobalStatusReporter(void)
+ChannelStatusReporter * Utilities::GetGlobalStatusReporter(void)
 {
     return lReporter;
-} // MplusM::Utilities::GetGlobalStatusReporter
+} // Utilities::GetGlobalStatusReporter
 
-bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString &
-                                                                                serviceChannelName,
-                                                        ServiceDescriptor &           descriptor,
-                                                        const double                  timeToWait,
-                                                        Common::CheckFunction         checker,
-                                                        void *                        checkStuff)
+bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & serviceChannelName,
+                                                ServiceDescriptor &           descriptor,
+                                                const double                  timeToWait,
+                                                CheckFunction                 checker,
+                                                void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
@@ -793,7 +793,8 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                                    "theDescription <- ", theDescription.toString(), //####
                                    "theKind <- ", theKind.toString(), "thePath <- ", //####
                                    thePath.toString()); //####
-                        OD_LOG_S1s("theRequestsDescription = ", theRequestsDescription.toString()); //####
+                        OD_LOG_S1s("theRequestsDescription = ", //####
+                                   theRequestsDescription.toString()); //####
                         if (theCanonicalName.isString() && theDescription.isString() &&
                             theKind.isString() && thePath.isString() &&
                             theRequestsDescription.isString())
@@ -867,7 +868,7 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                                                 
                                                 aChannel._portName = firstValue.asString();
                                                 aChannel._portProtocol = secondValue.asString();
-                                                aChannel._portMode = kChannelModeOther;
+                                                aChannel._portMode = ChannelMode::kChannelModeOther;
                                                 descriptor._inputChannels.push_back(aChannel);
                                             }
                                         }
@@ -895,7 +896,7 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
                                                 
                                                 aChannel._portName = firstValue.asString();
                                                 aChannel._portProtocol = secondValue.asString();
-                                                aChannel._portMode = kChannelModeOther;
+                                                aChannel._portMode = ChannelMode::kChannelModeOther;
                                                 descriptor._outputChannels.push_back(aChannel);
                                             }
                                         }
@@ -951,9 +952,9 @@ bool MplusM::Utilities::GetNameAndDescriptionForService(const yarp::os::ConstStr
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // MplusM::Utilities::GetNameAndDescriptionForService
+} // Utilities::GetNameAndDescriptionForService
 
-MplusM::Utilities::PortKind MplusM::Utilities::GetPortKind(const yarp::os::ConstString & portName)
+Utilities::PortKind Utilities::GetPortKind(const yarp::os::ConstString & portName)
 {
     const char * portNameChars = portName.c_str();
     const size_t kAdapterPortNameBaseLen = sizeof(ADAPTER_PORT_NAME_BASE) - 1;
@@ -963,28 +964,28 @@ MplusM::Utilities::PortKind MplusM::Utilities::GetPortKind(const yarp::os::Const
     
     if (! strcmp(MpM_REGISTRY_CHANNEL_NAME, portNameChars))
     {
-        result = kPortKindServiceRegistry;
+        result = PortKind::kPortKindServiceRegistry;
     }
     else if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portNameChars, kDefaultServiceNameBaseLen))
     {
-        result = kPortKindService;
+        result = PortKind::kPortKindService;
     }
     else if (! strncmp(ADAPTER_PORT_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
     {
-        result = kPortKindAdapter;
+        result = PortKind::kPortKindAdapter;
     }
     else if (! strncmp(CLIENT_PORT_NAME_BASE, portNameChars, kClientPortNameBaseLen))
     {
-        result = kPortKindClient;
+        result = PortKind::kPortKindClient;
     }
     else
     {
-        result = kPortKindStandard;
+        result = PortKind::kPortKindStandard;
     }
     return result;
-} // MplusM::Utilities::GetPortKind
+} // Utilities::GetPortKind
 
-yarp::os::ConstString MplusM::Utilities::GetPortLocation(const yarp::os::ConstString & portName)
+yarp::os::ConstString Utilities::GetPortLocation(const yarp::os::ConstString & portName)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("portName = ", portName); //####
@@ -1010,12 +1011,12 @@ yarp::os::ConstString MplusM::Utilities::GetPortLocation(const yarp::os::ConstSt
     }
     OD_LOG_EXIT_S(result.c_str()); //####
     return result;
-} // MplusM::Utilities::GetPortLocation
+} // Utilities::GetPortLocation
 
-bool MplusM::Utilities::GetServiceNames(StringVector &        services,
-                                        const bool            quiet,
-                                        Common::CheckFunction checker,
-                                        void *                checkStuff)
+bool Utilities::GetServiceNames(StringVector & services,
+                                const bool     quiet,
+                                CheckFunction  checker,
+                                void *         checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("services = ", &services, "checkStuff = ", checkStuff); //####
@@ -1037,7 +1038,7 @@ bool MplusM::Utilities::GetServiceNames(StringVector &        services,
 #if MAC_OR_LINUX_
                 yarp::os::ConstString reason(matches.get(1).toString());
                 
-                MplusM::Common::GetLogger().fail(yarp::os::ConstString("Failed: ") + reason + ".");
+                GetLogger().fail(yarp::os::ConstString("Failed: ") + reason + ".");
 #endif // MAC_OR_LINUX_
             }
         }
@@ -1062,8 +1063,7 @@ bool MplusM::Utilities::GetServiceNames(StringVector &        services,
         if (! quiet)
         {
 #if MAC_OR_LINUX_
-            MplusM::Common::GetLogger().fail("Problem getting information from the Service "
-                                             "Registry.");
+            GetLogger().fail("Problem getting information from the Service Registry.");
 #endif // MAC_OR_LINUX_
         }
     }
@@ -1072,15 +1072,15 @@ bool MplusM::Utilities::GetServiceNames(StringVector &        services,
         char buffer1[DATE_TIME_BUFFER_SIZE];
         char buffer2[DATE_TIME_BUFFER_SIZE];
         
-        MplusM::Utilities::GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
+        GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
         std::cerr << buffer1 << " " << buffer2 << " Problem getting list of service names." <<
                     std::endl;
     }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
-} // MplusM::Utilities::GetServiceNames
+} // Utilities::GetServiceNames
 
-const char * MplusM::Utilities::MapServiceKindToString(const Common::ServiceKind kind)
+const char * Utilities::MapServiceKindToString(const ServiceKind kind)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L1("kind = ", static_cast<int>(kind)); //####
@@ -1088,70 +1088,68 @@ const char * MplusM::Utilities::MapServiceKindToString(const Common::ServiceKind
     
     switch (kind)
     {
-	    case kServiceKindFilter :
+        case ServiceKind::kServiceKindFilter :
             result = "Filter";
             break;
             
-	    case kServiceKindInput :
+	    case ServiceKind::kServiceKindInput :
             result = "Input";
             break;
             
-	    case kServiceKindOutput :
+	    case ServiceKind::kServiceKindOutput :
             result = "Output";
             break;
             
-	    case kServiceKindRegistry :
+	    case ServiceKind::kServiceKindRegistry :
             result = "Registry";
             break;
             
-        case kServiceKindNormal :
-        case kServiceKindUnknown :
+        case ServiceKind::kServiceKindNormal :
             result = "Normal";
             break;
             
     }
     OD_LOG_EXIT_S(result); //####
     return result;
-} // MplusM::Utilities::MapServiceKindToString
+} // Utilities::MapServiceKindToString
 
-Common::ServiceKind MplusM::Utilities::MapStringToServiceKind(const yarp::os::ConstString &
-                                                                                        kindString)
+ServiceKind Utilities::MapStringToServiceKind(const yarp::os::ConstString & kindString)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("kindString = ", kindString); //####
-    Common::ServiceKind result;
-    const char *        kindStringChars = kindString.c_str();
+    ServiceKind  result;
+    const char * kindStringChars = kindString.c_str();
     
     if (! strcmp("Filter", kindStringChars))
     {
-        result = kServiceKindFilter;
+        result = ServiceKind::kServiceKindFilter;
     }
     else if (! strcmp("Input", kindStringChars))
     {
-        result = kServiceKindInput;
+        result = ServiceKind::kServiceKindInput;
     }
     else if (! strcmp("Output", kindStringChars))
     {
-        result = kServiceKindOutput;
+        result = ServiceKind::kServiceKindOutput;
     }
     else if (! strcmp("Registry", kindStringChars))
     {
-        result = kServiceKindRegistry;
+        result = ServiceKind::kServiceKindRegistry;
     }
     else
     {
-        result = kServiceKindNormal;
+        result = ServiceKind::kServiceKindNormal;
     }
     OD_LOG_EXIT_L(static_cast<int>(result)); //####
     return result;
-} // MplusM::Utilities::MapStringToServiceKind
+} // Utilities::MapStringToServiceKind
 
-bool MplusM::Utilities::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
-                                                  const yarp::os::ConstString & destinationName,
-                                                  const double                  timeToWait,
-                                                  const bool                    isUDP,
-                                                  Common::CheckFunction         checker,
-                                                  void *                        checkStuff)
+bool Utilities::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
+                                          const yarp::os::ConstString & destinationName,
+                                          const double                  timeToWait,
+                                          const bool                    isUDP,
+                                          CheckFunction                 checker,
+                                          void *                        checkStuff)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
 # if MAC_OR_LINUX_
@@ -1176,7 +1174,7 @@ bool MplusM::Utilities::NetworkConnectWithRetries(const yarp::os::ConstString & 
         try
         {
 #if RETRY_LOOPS_USE_TIMEOUTS
-            BailOut bailer(timeToWait);
+            BailOut      bailer(timeToWait);
 #endif // RETRY_LOOPS_USE_TIMEOUTS
             const char * carrier;
             
@@ -1230,13 +1228,13 @@ bool MplusM::Utilities::NetworkConnectWithRetries(const yarp::os::ConstString & 
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // MplusM::Utilities::NetworkConnectWithRetries
+} // Utilities::NetworkConnectWithRetries
 
-bool MplusM::Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
-                                                     const yarp::os::ConstString & destinationName,
-                                                     const double                  timeToWait,
-                                                     Common::CheckFunction         checker,
-                                                     void *                        checkStuff)
+bool Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
+                                             const yarp::os::ConstString & destinationName,
+                                             const double                  timeToWait,
+                                             CheckFunction                 checker,
+                                             void *                        checkStuff)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
 # if MAC_OR_LINUX_
@@ -1305,12 +1303,12 @@ bool MplusM::Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // MplusM::Utilities::NetworkDisconnectWithRetries
+} // Utilities::NetworkDisconnectWithRetries
 
-bool MplusM::Utilities::RemoveConnection(const yarp::os::ConstString & fromPortName,
-                                         const yarp::os::ConstString & toPortName,
-                                         Common::CheckFunction         checker,
-                                         void *                        checkStuff)
+bool Utilities::RemoveConnection(const yarp::os::ConstString & fromPortName,
+                                 const yarp::os::ConstString & toPortName,
+                                 CheckFunction                 checker,
+                                 void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("fromPortName = ", fromPortName, "toPortName = ", toPortName); //####
@@ -1320,9 +1318,9 @@ bool MplusM::Utilities::RemoveConnection(const yarp::os::ConstString & fromPortN
     
     OD_LOG_EXIT_B(result); //####
     return result;
-} // MplusM::Utilities::RemoveConnection
+} // Utilities::RemoveConnection
 
-void MplusM::Utilities::RemoveStalePorts(const float timeout)
+void Utilities::RemoveStalePorts(const float timeout)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_D1("timeout = ", timeout); //####
@@ -1392,8 +1390,7 @@ void MplusM::Utilities::RemoveStalePorts(const float timeout)
                                 char buffer1[DATE_TIME_BUFFER_SIZE];
                                 char buffer2[DATE_TIME_BUFFER_SIZE];
                                 
-                                MplusM::Utilities::GetDateAndTime(buffer1, sizeof(buffer1), buffer2,
-                                                                  sizeof(buffer2));
+                                GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
                                 yarp::os::NetworkBase::unregisterName(port);
                                 std::cerr << buffer1 << " " << buffer2 <<
                                             " Removing stale port '" << port.c_str() << "'." <<
@@ -1423,18 +1420,18 @@ void MplusM::Utilities::RemoveStalePorts(const float timeout)
         OD_LOG("! (yarp::os::NetworkBase::write(serverName, cmd2, reply2))"); //####
     }
     OD_LOG_EXIT(); //####
-} // MplusM::Utilities::RemoveStalePorts
+} // Utilities::RemoveStalePorts
 
-void MplusM::Utilities::SetUpGlobalStatusReporter(void)
+void Utilities::SetUpGlobalStatusReporter(void)
 {
     if (! lReporter)
     {
         lReporter = new ChannelStatusReporter;
     }
-} // MplusM::Utilities::SetUpGlobalStatusReporter
+} // Utilities::SetUpGlobalStatusReporter
 
-void MplusM::Utilities::ShutDownGlobalStatusReporter(void)
+void Utilities::ShutDownGlobalStatusReporter(void)
 {
     delete lReporter;
-    lReporter = NULL;
-} // MplusM::Utilities::ShutDownGlobalStatusReporter
+    lReporter = nullptr;
+} // Utilities::ShutDownGlobalStatusReporter

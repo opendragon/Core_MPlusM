@@ -163,7 +163,7 @@ bool RestartStreamsRequestHandler::processRequest(const yarp::os::ConstString & 
             {
                 OD_LOG("(! response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

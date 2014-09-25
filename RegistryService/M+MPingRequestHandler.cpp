@@ -99,7 +99,7 @@ PingRequestHandler::~PingRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void PingRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void PingRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -173,10 +173,10 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                 {
                     yarp::os::ConstString argAsString(argument.toString());
                     
-                    if (Common::Endpoint::CheckEndpointName(argAsString))
+                    if (Endpoint::CheckEndpointName(argAsString))
                     {
                         _service.reportStatusChange(argAsString,
-                                                    RegistryService::kRegistryPingFromService);
+                                        RegistryService::ServiceStatus::kRegistryPingFromService);
                         if (_service.checkForExistingService(argAsString))
                         {
                             // This service is already known, so just update the last-checked time.
@@ -191,11 +191,10 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                         else
                         {
                             // Send a 'name' request to the channel
-                            yarp::os::ConstString   aName =
-                                                Common::GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
-                                                                             "ping_/"
-                                                                             DEFAULT_CHANNEL_ROOT);
-                            Common::ClientChannel * outChannel = new Common::ClientChannel;
+                            yarp::os::ConstString aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
+                                                                               "ping_/"
+                                                                           DEFAULT_CHANNEL_ROOT);
+                            ClientChannel *       outChannel = new ClientChannel;
                             
                             if (outChannel)
                             {
@@ -240,7 +239,7 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                                                     reply.addString(MpM_FAILED_RESPONSE);
                                                     reply.addString("Could not write to channel");
 #if defined(MpM_StallOnSendProblem)
-                                                    Common::Stall();
+                                                    Stall();
 #endif // defined(MpM_StallOnSendProblem)
                                                 }
                                             }
@@ -260,19 +259,19 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                                             reply.addString(MpM_FAILED_RESPONSE);
                                             reply.addString("Could not write to channel");
 #if defined(MpM_StallOnSendProblem)
-                                            Common::Stall();
+                                            Stall();
 #endif // defined(MpM_StallOnSendProblem)
                                         }
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! Utilities::NetworkDisconnectWithRetries(outChannel->name(),
                                                                               argAsString,
                                                                               STANDARD_WAIT_TIME,
-                                                                              NULL, NULL))
+                                                                              nullptr, nullptr))
                                         {
                                             OD_LOG("(! Utilities::NetworkDisconnectWith" //####
                                                    "Retries(outChannel->name(), " //####
-                                                   "argAsString, STANDARD_WAIT_TIME, NULL, " //####
-                                                   "NULL))"); //####
+                                                   "argAsString, STANDARD_WAIT_TIME, " //####
+                                                   "nullptr, nullptr))"); //####
                                         }
 #endif // defined(MpM_DoExplicitDisconnect)
                                     }
@@ -295,7 +294,7 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                                     reply.addString(MpM_FAILED_RESPONSE);
                                     reply.addString("Channel could not be opened");
                                 }
-                                Common::ClientChannel::RelinquishChannel(outChannel);
+                                ClientChannel::RelinquishChannel(outChannel);
                             }
                             else
                             {
@@ -305,7 +304,7 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                     }
                     else
                     {
-                        OD_LOG("! (Common::Endpoint::CheckEndpointName(argAsString))"); //####
+                        OD_LOG("! (Endpoint::CheckEndpointName(argAsString))"); //####
                         reply.addString(MpM_FAILED_RESPONSE);
                         reply.addString("Invalid channel name");
                     }
@@ -328,7 +327,7 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("(! reply.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

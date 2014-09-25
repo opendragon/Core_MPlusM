@@ -167,10 +167,10 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                 {
                     yarp::os::ConstString argAsString(argument.toString());
                     
-                    if (Common::Endpoint::CheckEndpointName(argAsString))
+                    if (Endpoint::CheckEndpointName(argAsString))
                     {
                         _service.reportStatusChange(argAsString,
-                                                    RegistryService::kRegistryUnregisterService);
+                                        RegistryService::ServiceStatus::kRegistryUnregisterService);
                         // Forget the information associated with the channel name
                         if (_service.removeServiceRecord(argAsString))
                         {
@@ -189,7 +189,7 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                     }
                     else
                     {
-                        OD_LOG("! (Common::Endpoint::CheckEndpointName(argAsString))"); //####
+                        OD_LOG("! (Endpoint::CheckEndpointName(argAsString))"); //####
                         reply.addString(MpM_FAILED_RESPONSE);
                         reply.addString("Invalid channel name");
                     }
@@ -212,7 +212,7 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
             {
                 OD_LOG("(! reply.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

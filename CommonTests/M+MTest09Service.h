@@ -59,7 +59,7 @@ namespace MplusM
         class Test09DefaultRequestHandler;
         
         /*! @brief A test service. */
-        class Test09Service : public Common::BaseService
+        class Test09Service final : public Common::BaseService
         {
         public :
             
@@ -76,17 +76,47 @@ namespace MplusM
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
+            virtual bool start(void)
+            override;
             
             /*! @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
+            virtual bool stop(void)
+            override;
             
         protected :
             
         private :
             
             COPY_AND_ASSIGNMENT_(Test09Service);
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test09Service(const Test09Service & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test09Service & operator =(const Test09Service & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test09Service(Test09Service && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test09Service & operator =(Test09Service && other)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);

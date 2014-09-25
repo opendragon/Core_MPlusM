@@ -90,7 +90,7 @@ Test05HandlerCreator::~Test05HandlerCreator(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-MplusM::Common::InputHandler * Test05HandlerCreator::create(void)
+InputHandler * Test05HandlerCreator::create(void)
 {
     OD_LOG_OBJENTER(); //####
     Test05Handler * result = new Test05Handler;

@@ -51,7 +51,6 @@
 #include <mpm/M+MBaseServiceInputHandler.h>
 #include <mpm/M+MBaseServiceInputHandlerCreator.h>
 #include <mpm/M+MChannelStatusReporter.h>
-#include <mpm/M+MClientChannel.h>
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MException.h>
 #include <mpm/M+MRequests.h>
@@ -204,9 +203,10 @@ BaseService::BaseService(const ServiceKind             theKind,
                          const yarp::os::ConstString & servicePortNumber) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription), _requestCount(0),
-    _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL),
-    _listHandler(NULL), _nameHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
-    _pinger(NULL), _kind(theKind), _started(false), _useMultipleHandlers(useMultipleHandlers)
+    _channelsHandler(nullptr), _clientsHandler(nullptr), _detachHandler(nullptr),
+    _infoHandler(nullptr), _listHandler(nullptr), _nameHandler(nullptr), _endpoint(nullptr),
+    _handler(nullptr), _handlerCreator(nullptr), _pinger(nullptr), _kind(theKind), _started(false),
+    _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
@@ -237,10 +237,10 @@ BaseService::BaseService(const ServiceKind             theKind,
                          const int                     argc,
                          char **                       argv) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
-    _description(description), _requestCount(0), _channelsHandler(NULL), _clientsHandler(NULL),
-    _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
-    _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL), _kind(theKind),
-    _started(false), _useMultipleHandlers(useMultipleHandlers)
+    _description(description), _requestCount(0), _channelsHandler(nullptr),
+    _clientsHandler(nullptr), _detachHandler(nullptr), _infoHandler(nullptr), _listHandler(nullptr),
+    _nameHandler(nullptr), _endpoint(nullptr), _handler(nullptr), _handlerCreator(nullptr),
+    _pinger(nullptr), _kind(theKind), _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -361,7 +361,7 @@ void BaseService::clearContexts(void)
     lockContexts();
     if (0 < _contexts.size())
     {
-        for (ContextMap::iterator walker(_contexts.begin()); _contexts.end() != walker; ++walker)
+        for (auto walker(_contexts.begin()); _contexts.end() != walker; ++walker)
         {
             BaseContext * value = walker->second;
             
@@ -401,43 +401,43 @@ void BaseService::detachRequestHandlers(void)
         {
             _requestHandlers.unregisterRequestHandler(_channelsHandler);
             delete _channelsHandler;
-            _channelsHandler = NULL;
+            _channelsHandler = nullptr;
         }
         if (_clientsHandler)
         {
             _requestHandlers.unregisterRequestHandler(_clientsHandler);
             delete _clientsHandler;
-            _clientsHandler = NULL;
+            _clientsHandler = nullptr;
         }
         if (_countHandler)
         {
             _requestHandlers.unregisterRequestHandler(_countHandler);
             delete _countHandler;
-            _countHandler = NULL;
+            _countHandler = nullptr;
         }
         if (_detachHandler)
         {
             _requestHandlers.unregisterRequestHandler(_detachHandler);
             delete _detachHandler;
-            _detachHandler = NULL;
+            _detachHandler = nullptr;
         }
         if (_infoHandler)
         {
             _requestHandlers.unregisterRequestHandler(_infoHandler);
             delete _infoHandler;
-            _infoHandler = NULL;
+            _infoHandler = nullptr;
         }
         if (_listHandler)
         {
             _requestHandlers.unregisterRequestHandler(_listHandler);
             delete _listHandler;
-            _listHandler = NULL;
+            _listHandler = nullptr;
         }
         if (_nameHandler)
         {
             _requestHandlers.unregisterRequestHandler(_nameHandler);
             delete _nameHandler;
-            _nameHandler = NULL;
+            _nameHandler = nullptr;
         }
     }
     catch (...)
@@ -455,8 +455,7 @@ void BaseService::fillInClientList(StringVector & clients)
     lockContexts();
     if (0 < _contexts.size())
     {
-        for (ContextMap::const_iterator walker(_contexts.begin()); _contexts.end() != walker;
-             ++walker)
+        for (auto walker(_contexts.begin()); _contexts.end() != walker; ++walker)
         {
             clients.push_back(walker->first.c_str());
         }
@@ -485,12 +484,12 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
-    BaseContext * result = NULL;
+    BaseContext * result = nullptr;
     
     try
     {
         lockContexts();
-        ContextMap::const_iterator match(_contexts.find(key));
+        auto match(_contexts.find(key));
         
         if (_contexts.end() != match)
         {
@@ -551,7 +550,7 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
                 {
                     OD_LOG("(! errorMessage.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                    Common::Stall();
+                    Stall();
 #endif // defined(MpM_StallOnSendProblem)
                 }
             }
@@ -582,7 +581,7 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
     try
     {
         lockContexts();
-        ContextMap::iterator match(_contexts.find(key));
+        auto match(_contexts.find(key));
         
         if (_contexts.end() != match)
         {
@@ -634,7 +633,7 @@ bool BaseService::start(void)
                         OD_LOG("! (_endpoint->setInputHandlerCreator(*_handlerCreator) && " //####
                                "_endpoint->open(STANDARD_WAIT_TIME))"); //####
                         delete _handlerCreator;
-                        _handlerCreator = NULL;
+                        _handlerCreator = nullptr;
                     }
                 }
                 else
@@ -657,7 +656,7 @@ bool BaseService::start(void)
                         OD_LOG("! (_endpoint->setInputHandler(*_handler) && " //####
                                "_endpoint->open(STANDARD_WAIT_TIME))"); //####
                         delete _handler;
-                        _handler = NULL;
+                        _handler = nullptr;
                     }
                 }
                 else
@@ -694,7 +693,7 @@ bool BaseService::stop(void)
     {
         _pinger->stop();
         delete _pinger;
-        _pinger = NULL;
+        _pinger = nullptr;
     }
     _started = false;
     OD_LOG_OBJEXIT_B(! _started); //####
@@ -814,7 +813,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // RegisterLocalService
+} // Common::RegisterLocalService
 
 bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
                                     CheckFunction                 checker,
@@ -917,4 +916,4 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // UnregisterLocalService
+} // Common::UnregisterLocalService

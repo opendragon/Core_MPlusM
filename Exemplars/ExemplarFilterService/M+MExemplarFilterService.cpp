@@ -40,8 +40,6 @@
 #include "M+MExemplarFilterInputHandler.h"
 #include "M+MExemplarFilterRequests.h"
 
-#include <mpm/M+MGeneralChannel.h>
-
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -147,8 +145,8 @@ void ExemplarFilterService::restartStreams(void)
 bool ExemplarFilterService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                       result = true;
-    Common::ChannelDescription description;
+    bool               result = true;
+    ChannelDescription description;
     
     _inDescriptions.clear();
     description._portName = "exemplars/exemplarfilter/input_";
@@ -239,7 +237,7 @@ void ExemplarFilterService::stopStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setOutput(NULL);
+                _inHandler->setOutput(nullptr);
             }
             clearActive();
         }

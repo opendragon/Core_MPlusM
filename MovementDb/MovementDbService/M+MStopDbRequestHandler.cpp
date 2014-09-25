@@ -95,7 +95,7 @@ StopDbRequestHandler::~StopDbRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void StopDbRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void StopDbRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -163,7 +163,7 @@ bool StopDbRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("(! response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

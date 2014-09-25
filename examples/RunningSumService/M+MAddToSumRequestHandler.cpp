@@ -95,7 +95,7 @@ AddToSumRequestHandler::~AddToSumRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void AddToSumRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void AddToSumRequestHandler::fillInAliases(StringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
@@ -198,7 +198,7 @@ bool AddToSumRequestHandler::processRequest(const yarp::os::ConstString & reques
             {
                 OD_LOG("(! response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

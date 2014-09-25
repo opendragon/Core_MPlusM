@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MServiceRequest.h>
-#include <mpm/M+MClientChannel.h>
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MServiceResponse.h>
 
@@ -139,7 +138,7 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
             {
                 OD_LOG("! (usingChannel.write(message, _holder))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }
@@ -158,7 +157,7 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
             {
                 OD_LOG("(! usingChannel.write(message))"); //####
 # if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 # endif // defined(MpM_StallOnSendProblem)
             }
 #else // ! defined(MpM_ChannelsUseRpc)
@@ -170,7 +169,7 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
             {
                 OD_LOG("(! usingChannel.write(message))"); //####
 # if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 # endif // defined(MpM_StallOnSendProblem)
             }
 #endif // ! defined(MpM_ChannelsUseRpc)

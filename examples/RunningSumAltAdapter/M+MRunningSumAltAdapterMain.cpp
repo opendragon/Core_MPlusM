@@ -40,7 +40,6 @@
 #include "M+MRunningSumClient.h"
 #include "M+MRunningSumInputHandler.h"
 
-#include <mpm/M+MAdapterChannel.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -99,14 +98,14 @@ using namespace MplusM::Example;
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    MplusM::Common::SetUpLogger(*argv);
+    SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -122,26 +121,24 @@ int main(int     argc,
             yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
                                     // infrastructure
             
-            MplusM::Common::Initialize(*argv);
+            Initialize(*argv);
             RunningSumClient * stuff = new RunningSumClient;
             
             if (stuff)
             {
                 MplusM::StartRunning();
-                MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
-                if (stuff->findService("Name RunningSum", false, NULL, NULL))
+                SetSignalHandlers(MplusM::SignalRunningStop);
+                if (stuff->findService("Name RunningSum", false, nullptr, nullptr))
                 {
 #if defined(MpM_ReportOnConnections)
                     stuff->setReporter(reporter, true);
 #endif // defined(MpM_ReportOnConnections)
-                    if (stuff->connectToService(NULL, NULL))
+                    if (stuff->connectToService(nullptr, nullptr))
                     {
-                        MplusM::Common::AdapterChannel * inputChannel =
-                                                        new MplusM::Common::AdapterChannel(false);
-                        MplusM::Common::AdapterChannel * outputChannel =
-                                                        new MplusM::Common::AdapterChannel(true);
-                        RunningSumAdapterData            sharedData(stuff, outputChannel);
-                        RunningSumInputHandler *         inputHandler =
+                        AdapterChannel *         inputChannel = new AdapterChannel(false);
+                        AdapterChannel *         outputChannel = new AdapterChannel(true);
+                        RunningSumAdapterData    sharedData(stuff, outputChannel);
+                        RunningSumInputHandler * inputHandler =
                                                             new RunningSumInputHandler(sharedData);
                         
                         if (inputChannel && outputChannel && inputHandler)
@@ -169,8 +166,8 @@ int main(int     argc,
                             {
                                 double announcedTime = yarp::os::Time::now();
                                 
-                                stuff->addAssociatedChannel(inputChannel, NULL, NULL);
-                                stuff->addAssociatedChannel(outputChannel, NULL, NULL);
+                                stuff->addAssociatedChannel(inputChannel, nullptr, nullptr);
+                                stuff->addAssociatedChannel(outputChannel, nullptr, nullptr);
                                 sharedData.activate();
                                 inputChannel->setReader(*inputHandler);
                                 for ( ; MplusM::IsRunning() && sharedData.isActive(); )
@@ -189,8 +186,10 @@ int main(int     argc,
                                             // Report associated channels again, in case the Service
                                             // Registry has been restarted.
                                             announcedTime = now;
-                                            stuff->addAssociatedChannel(inputChannel, NULL, NULL);
-                                            stuff->addAssociatedChannel(outputChannel, NULL, NULL);
+                                            stuff->addAssociatedChannel(inputChannel, nullptr,
+                                                                        nullptr);
+                                            stuff->addAssociatedChannel(outputChannel, nullptr,
+                                                                        nullptr);
                                         }
                                     }
                                     else
@@ -198,7 +197,7 @@ int main(int     argc,
                                         sharedData.deactivate();
                                     }
                                 }
-                                stuff->removeAssociatedChannels(NULL, NULL);
+                                stuff->removeAssociatedChannels(nullptr, nullptr);
                             }
                             else
                             {
@@ -207,7 +206,7 @@ int main(int     argc,
                                        "outputChannel->openWithRetries(outputName, " //####
                                        "STANDARD_WAIT_TIME))"); //####
 #if MAC_OR_LINUX_
-                                MplusM::Common::GetLogger().fail("Problem opening a channel.");
+                                GetLogger().fail("Problem opening a channel.");
 #endif // MAC_OR_LINUX_
                             }
 #if defined(MpM_DoExplicitClose)
@@ -219,33 +218,33 @@ int main(int     argc,
                         {
                             OD_LOG("! (inputChannel && outputChannel && inputHandler)"); //####
 #if MAC_OR_LINUX_
-                            MplusM::Common::GetLogger().fail("Problem creating a channel.");
+                            GetLogger().fail("Problem creating a channel.");
 #endif // MAC_OR_LINUX_
                         }
-                        MplusM::Common::AdapterChannel::RelinquishChannel(inputChannel);
-                        MplusM::Common::AdapterChannel::RelinquishChannel(outputChannel);
-                        if (! stuff->disconnectFromService(NULL, NULL))
+                        AdapterChannel::RelinquishChannel(inputChannel);
+                        AdapterChannel::RelinquishChannel(outputChannel);
+                        if (! stuff->disconnectFromService(nullptr, nullptr))
                         {
-                            OD_LOG("(! stuff->disconnectFromService(NULL, NULL))"); //####
+                            OD_LOG("(! stuff->disconnectFromService(nullptr, nullptr))"); //####
 #if MAC_OR_LINUX_
-                            MplusM::Common::GetLogger().fail("Problem disconnecting from the "
-                                                             "service.");
+                            GetLogger().fail("Problem disconnecting from the service.");
 #endif // MAC_OR_LINUX_
                         }
                     }
                     else
                     {
-                        OD_LOG("! (stuff->connectToService(NULL, NULL))"); //####
+                        OD_LOG("! (stuff->connectToService(nullptr, nullptr))"); //####
 #if MAC_OR_LINUX_
-                        MplusM::Common::GetLogger().fail("Problem connecting to the service.");
+                        GetLogger().fail("Problem connecting to the service.");
 #endif // MAC_OR_LINUX_
                     }
                 }
                 else
                 {
-                    OD_LOG("! (stuff->findService(\"Name RunningSum\", false, NULL, NULL))"); //####
+                    OD_LOG("! (stuff->findService(\"Name RunningSum\", false, nullptr, " //####
+                           "nullptr))"); //####
 #if MAC_OR_LINUX_
-                    MplusM::Common::GetLogger().fail("Problem locating the service.");
+                    GetLogger().fail("Problem locating the service.");
 #endif // MAC_OR_LINUX_
                 }
                 delete stuff;
@@ -260,7 +259,7 @@ int main(int     argc,
         {
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
-            MplusM::Common::GetLogger().fail("YARP network not running.");
+            GetLogger().fail("YARP network not running.");
 # endif // MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_

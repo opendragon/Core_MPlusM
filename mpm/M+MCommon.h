@@ -199,6 +199,13 @@
 #  define STANDARD_SIGNAL_TO_USE   42
 # endif // ! MAC_OR_LINUX_
 
+/*! @brief The trailing 'DISALLOWED_FUNCTION' for constructors and assignment operators that are disabled. */
+# if MAC_OR_LINUX
+#  define DISALLOWED_FUNCTION =    delete
+# else // ! MAC_OR_LINUX
+#  define DISALLOWED_FUNCTION /* */
+# endif // ! MAC_OR_LINUX
+
 /*! @brief The default timeout duration in seconds. */
 # define STANDARD_WAIT_TIME        (5.3 * ONE_SECOND_DELAY)
 
@@ -227,7 +234,7 @@ namespace MplusM
     namespace Common
     {
         /*! @brief The mode of a channel. */
-        enum ChannelMode
+        enum class ChannelMode : int
         {
             /*! @brief The connection is a TCP connection. */
             kChannelModeTCP,
@@ -236,10 +243,7 @@ namespace MplusM
             kChannelModeUDP,
             
             /*! @brief The connection is neither a TCP nor a UDP connection. */
-            kChannelModeOther,
-            
-            /*! @brief Force the enumeration to be 4 bytes. */
-            kChannelModeUnknown = 0x80000000
+            kChannelModeOther
             
         }; // ChannelMode
         
@@ -268,7 +272,7 @@ namespace MplusM
         }; // ChannelDescription
         
         /*! @brief The format for the output from command-line tools. */
-        enum OutputFlavour
+        enum class OutputFlavour : int
         {
             /*! @brief Normal output with no special processing. */
             kOutputFlavourNormal,
@@ -278,15 +282,12 @@ namespace MplusM
             
             /*! @brief Output in tab-delimited format. Tabs and newlines are replaced with
              spaces. */
-            kOutputFlavourTabs,
-            
-            /*! @brief Force the enumeration to be 4 bytes. */
-            kOutputFlavourUnknown = 0x80000000
+            kOutputFlavourTabs
             
         }; // OutputFlavour
         
         /*! @brief The behavioural model for the service. */
-        enum ServiceKind
+        enum class ServiceKind : int
         {
             /*! @brief The service has no specical characteristics. */
             kServiceKindNormal,
@@ -301,10 +302,7 @@ namespace MplusM
             kServiceKindFilter,
             
             /*! @brief The service is the Registry, which is a specialized 'normal' service. */
-            kServiceKindRegistry,
-            
-            /*! @brief Force the enumeration to be 4 bytes. */
-            kServiceKindUnknown = 0x80000000
+            kServiceKindRegistry
             
         }; // ServiceKind
         

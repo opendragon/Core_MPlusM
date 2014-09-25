@@ -100,10 +100,10 @@ bool ExemplarClient::getOneRandomNumber(double & result)
     
     try
     {
-        yarp::os::Bottle        parameters;
-        Common::ServiceResponse response;
+        yarp::os::Bottle parameters;
+        ServiceResponse  response;
         
-        reconnectIfDisconnected(NULL, NULL);
+        reconnectIfDisconnected(nullptr, nullptr);
         if (send(MpM_SIMPLE_REQUEST, parameters, &response))
         {
             if (1 == response.count())
@@ -140,8 +140,8 @@ bool ExemplarClient::getOneRandomNumber(double & result)
     return okSoFar;
 } // ExemplarClient::getOneRandomNumber
 
-bool ExemplarClient::getRandomNumbers(const int              howMany,
-                                      Common::DoubleVector & result)
+bool ExemplarClient::getRandomNumbers(const int      howMany,
+                                      DoubleVector & result)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("howMany = ", howMany); //####
@@ -152,11 +152,11 @@ bool ExemplarClient::getRandomNumbers(const int              howMany,
     {
         if (0 < howMany)
         {
-            yarp::os::Bottle        parameters;
-            Common::ServiceResponse response;
+            yarp::os::Bottle parameters;
+            ServiceResponse  response;
             
             parameters.addInt(howMany);
-            reconnectIfDisconnected(NULL, NULL);
+            reconnectIfDisconnected(nullptr, nullptr);
             if (send(MpM_SIMPLE_REQUEST, parameters, &response))
             {
                 if (howMany == response.count())

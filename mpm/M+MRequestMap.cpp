@@ -73,7 +73,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 RequestMap::RequestMap(BaseService & owner) :
-    _defaultHandler(NULL), _handlers(), _owner(owner)
+    _defaultHandler(nullptr), _handlers(), _owner(owner)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("owner = ", &owner); //####
@@ -98,8 +98,7 @@ void RequestMap::fillInListReply(yarp::os::Bottle & reply)
         lock();
         if (0 < _handlers.size())
         {
-            for (RequestHandlerMap::const_iterator walker = _handlers.begin();
-                 _handlers.end() != walker; ++walker)
+            for (auto walker = _handlers.begin(); _handlers.end() != walker; ++walker)
             {
                 yarp::os::Property & aDict = reply.addDict();
                 BaseRequestHandler * aHandler = walker->second;
@@ -124,7 +123,7 @@ void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
     try
     {
         lock();
-        RequestHandlerMap::const_iterator match(_handlers.find(requestName));
+        auto match(_handlers.find(requestName));
         
         if (_handlers.end() == match)
         {
@@ -151,12 +150,12 @@ BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstStrin
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
-    BaseRequestHandler * result = NULL;
+    BaseRequestHandler * result = nullptr;
     
     try
     {
         lock();
-        RequestHandlerMap::const_iterator match(_handlers.find(request));
+        auto match(_handlers.find(request));
         
         if (_handlers.end() == match)
         {
@@ -194,8 +193,7 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
             _handlers.insert(RequestHandlerMapValue(handler->name(), handler));
             if (0 < aliases.size())
             {
-                for (StringVector::const_iterator walker(aliases.begin()); aliases.end() != walker;
-                     ++walker)
+                for (auto walker(aliases.begin()); aliases.end() != walker; ++walker)
                 {
                     _handlers.insert(RequestHandlerMapValue(*walker, handler));
                 }
@@ -237,8 +235,7 @@ void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
             _handlers.erase(handler->name());
             if (0 < aliases.size())
             {
-                for (StringVector::const_iterator walker(aliases.begin()); aliases.end() != walker;
-                     ++walker)
+                for (auto walker(aliases.begin()); aliases.end() != walker; ++walker)
                 {
                     _handlers.erase(*walker);
                 }

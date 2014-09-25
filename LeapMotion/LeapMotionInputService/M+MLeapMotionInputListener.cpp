@@ -38,8 +38,6 @@
 
 #include "M+MLeapMotionInputListener.h"
 
-#include "Leap.h"
-
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -94,7 +92,7 @@ static void putVectorInDictionary(yarp::os::Property &          dictionary,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-LeapMotionInputListener::LeapMotionInputListener(Common::GeneralChannel * outChannel) :
+LeapMotionInputListener::LeapMotionInputListener(GeneralChannel * outChannel) :
     inherited(), _outChannel(outChannel)
 {
     OD_LOG_ENTER(); //####
@@ -115,7 +113,7 @@ LeapMotionInputListener::~LeapMotionInputListener(void)
 void LeapMotionInputListener::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = NULL;
+    _outChannel = nullptr;
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::clearOutputChannel
 
@@ -180,8 +178,7 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
             yarp::os::Bottle   message;
             yarp::os::Bottle & handStuff = message.addList();
 
-            for (Leap::HandList::const_iterator handWalker(hands.begin());
-                 hands.end() != handWalker; ++handWalker)
+            for (auto handWalker(hands.begin()); hands.end() != handWalker; ++handWalker)
             {
                 Leap::Hand aHand(*handWalker);
                 
@@ -232,8 +229,8 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
                         // fingers
                         Leap::FingerList fingers(aHand.fingers());
                         
-                        for (Leap::FingerList::const_iterator fingerWalker(fingers.begin());
-                             fingers.end() != fingerWalker; ++fingerWalker)
+                        for (auto fingerWalker(fingers.begin()); fingers.end() != fingerWalker;
+                             ++fingerWalker)
                         {
                             Leap::Finger aFinger(*fingerWalker);
 
@@ -327,8 +324,7 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
             }
             yarp::os::Bottle & toolStuff = message.addList();
             
-            for (Leap::ToolList::const_iterator toolWalker(tools.begin());
-                 tools.end() != toolWalker; ++toolWalker)
+            for (auto toolWalker(tools.begin()); tools.end() != toolWalker; ++toolWalker)
             {
                 Leap::Tool aTool(*toolWalker);
                 
@@ -349,7 +345,7 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
                 {
                     OD_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                    Common::Stall();
+                    Stall();
 #endif // defined(MpM_StallOnSendProblem)
                 }                
             }

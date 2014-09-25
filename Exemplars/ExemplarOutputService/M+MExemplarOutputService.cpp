@@ -40,8 +40,6 @@
 #include "M+MExemplarOutputInputHandler.h"
 #include "M+MExemplarOutputRequests.h"
 
-#include <mpm/M+MGeneralChannel.h>
-
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -82,7 +80,7 @@ ExemplarOutputService::ExemplarOutputService(const yarp::os::ConstString & launc
                                              const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_EXEMPLAROUTPUT_CANONICAL_NAME,
               "The exemplar output service", "", serviceEndpointName, servicePortNumber),
-    _outFile(NULL), _inHandler(new ExemplarOutputInputHandler)
+    _outFile(nullptr), _inHandler(new ExemplarOutputInputHandler)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -154,8 +152,8 @@ void ExemplarOutputService::restartStreams(void)
 bool ExemplarOutputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                       result = true;
-    Common::ChannelDescription description;
+    bool               result = true;
+    ChannelDescription description;
     
     _inDescriptions.clear();
     description._portName = "exemplars/exemplaroutput/input_";
@@ -211,7 +209,7 @@ void ExemplarOutputService::startStreams(void)
                 else
                 {
                     fclose(_outFile);
-                    _outFile = NULL;
+                    _outFile = nullptr;
                 }
             }
         }
@@ -251,10 +249,10 @@ void ExemplarOutputService::stopStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setFile(NULL);
+                _inHandler->setFile(nullptr);
             }
             fclose(_outFile);
-            _outFile = NULL;
+            _outFile = nullptr;
             clearActive();
         }
     }

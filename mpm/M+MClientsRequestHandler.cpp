@@ -167,7 +167,7 @@ bool ClientsRequestHandler::processRequest(const yarp::os::ConstString & request
             {
                 OD_LOG("(! reply.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

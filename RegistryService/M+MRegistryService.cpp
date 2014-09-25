@@ -48,8 +48,6 @@
 #include "M+MUnregisterRequestHandler.h"
 
 #include <mpm/M+MChannelStatusReporter.h>
-#include <mpm/M+MClientChannel.h>
-#include <mpm/M+MGeneralChannel.h>
 #include <mpm/M+MMatchExpression.h>
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
@@ -376,10 +374,10 @@ static bool performSQLstatementWithNoResults(sqlite3 *    database,
     {
         if (database)
         {
-            sqlite3_stmt * prepared = NULL;
+            sqlite3_stmt * prepared = nullptr;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, NULL);
+                                                       &prepared, nullptr);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -450,10 +448,10 @@ static bool performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
     {
         if (database)
         {
-            sqlite3_stmt * prepared = NULL;
+            sqlite3_stmt * prepared = nullptr;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, NULL);
+                                                       &prepared, nullptr);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -521,10 +519,10 @@ static bool performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    databas
     {
         if (database)
         {
-            sqlite3_stmt * prepared = NULL;
+            sqlite3_stmt * prepared = nullptr;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, NULL);
+                                                       &prepared, nullptr);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -607,10 +605,10 @@ static bool performSQLstatementWithDoubleColumnResults(sqlite3 *          databa
     {
         if (database && (0 <= columnOfInterest1) && (0 <= columnOfInterest2))
         {
-            sqlite3_stmt * prepared = NULL;
+            sqlite3_stmt * prepared = nullptr;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, NULL);
+                                                       &prepared, nullptr);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -710,8 +708,8 @@ static bool performSQLstatementWithSingleColumnResults(sqlite3 *          databa
                                                        yarp::os::Bottle & resultList,
                                                        const char *       sqlStatement,
                                                        const int          columnOfInterest = 0,
-                                                       BindFunction       doBinds = NULL,
-                                                       const void *       data = NULL)
+                                                       BindFunction       doBinds = nullptr,
+                                                       const void *       data = nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("database = ", database, "resultList = ", &resultList, "data = ", data); //####
@@ -723,10 +721,10 @@ static bool performSQLstatementWithSingleColumnResults(sqlite3 *          databa
     {
         if (database && (0 <= columnOfInterest))
         {
-            sqlite3_stmt * prepared = NULL;
+            sqlite3_stmt * prepared = nullptr;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, NULL);
+                                                       &prepared, nullptr);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -1820,7 +1818,7 @@ static int setupRemoveFromServices(sqlite3_stmt * statement,
 RegistryService::RegistryService(const yarp::os::ConstString & launchPath,
                                  const bool                    useInMemoryDb,
                                  const yarp::os::ConstString & servicePortNumber) :
-    inherited(kServiceKindRegistry, launchPath, "", true, MpM_REGISTRY_CANONICAL_NAME,
+inherited(ServiceKind::kServiceKindRegistry, launchPath, "", true, MpM_REGISTRY_CANONICAL_NAME,
               "The Service Registry service",
               "associate - associate a channel with another channel\n"
               "disassociate - remove all associations for a channel\n"
@@ -1830,11 +1828,11 @@ RegistryService::RegistryService(const yarp::os::ConstString & launchPath,
               "for a service on the given channel\n"
               "register - record the information for a service on the given channel\n"
               "unregister - remove the information for a service on the given channel",
-              MpM_REGISTRY_CHANNEL_NAME, servicePortNumber), _db(NULL),
-    _validator(new ColumnNameValidator), _associateHandler(NULL), _disassociateHandler(NULL),
-    _getAssociatesHandler(NULL), _matchHandler(NULL), _pingHandler(NULL), _statusChannel(NULL),
-    _registerHandler(NULL), _unregisterHandler(NULL), _checker(NULL), _inMemory(useInMemoryDb),
-    _isActive(false)
+              MpM_REGISTRY_CHANNEL_NAME, servicePortNumber), _db(nullptr),
+    _validator(new ColumnNameValidator), _associateHandler(nullptr), _disassociateHandler(nullptr),
+    _getAssociatesHandler(nullptr), _matchHandler(nullptr), _pingHandler(nullptr),
+    _statusChannel(nullptr), _registerHandler(nullptr), _unregisterHandler(nullptr),
+    _checker(nullptr), _inMemory(useInMemoryDb), _isActive(false)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("launchPath = ", launchPath, "servicePortNumber = ", servicePortNumber); //####
@@ -1858,8 +1856,8 @@ RegistryService::~RegistryService(void)
 #if defined(MpM_DoExplicitClose)
         _statusChannel->close();
 #endif // defined(MpM_DoExplicitClose)
-        Common::GeneralChannel::RelinquishChannel(_statusChannel);
-        _statusChannel = NULL;
+        GeneralChannel::RelinquishChannel(_statusChannel);
+        _statusChannel = nullptr;
     }
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::~RegistryService
@@ -2011,7 +2009,7 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
     }
     if (! okSoFar)
     {
-        reportStatusChange(description._channel, kRegistryProblemAddingRequest,
+        reportStatusChange(description._channel, ServiceStatus::kRegistryProblemAddingRequest,
                            description._request);
     }
     OD_LOG_OBJEXIT_B(okSoFar); //####
@@ -2053,7 +2051,7 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
                                                        setupInsertIntoServices,
                                                        static_cast<const void *>(&servData));
             okSoFar = doEndTransaction(_db, okSoFar);
-            reportStatusChange(channelName, kRegistryAddService,
+            reportStatusChange(channelName, ServiceStatus::kRegistryAddService,
                                MplusM::Utilities::GetPortLocation(channelName));
         }
     }
@@ -2064,7 +2062,7 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
     }
     if (! okSoFar)
     {
-        reportStatusChange(channelName, kRegistryProblemAddingService, name);
+        reportStatusChange(channelName, ServiceStatus::kRegistryProblemAddingService, name);
     }
     OD_LOG_OBJEXIT_B(okSoFar); //####
     return okSoFar;
@@ -2143,7 +2141,8 @@ bool RegistryService::checkForExistingAssociation(const yarp::os::ConstString & 
                 okSoFar = (1 <= dummy.size());
                 if (! okSoFar)
                 {
-                    reportStatusChange(secondaryChannelName, kRegistryNotAnExistingAssociation);
+                    reportStatusChange(secondaryChannelName,
+                                       ServiceStatus::kRegistryNotAnExistingAssociation);
                 }
             }
         }
@@ -2180,7 +2179,7 @@ bool RegistryService::checkForExistingService(const yarp::os::ConstString & chan
                 okSoFar = (1 <= dummy.size());
                 if (! okSoFar)
                 {
-                    reportStatusChange(channelName, kRegistryNotAnExistingService);
+                    reportStatusChange(channelName, ServiceStatus::kRegistryNotAnExistingService);
                 }
             }
         }
@@ -2204,8 +2203,7 @@ void RegistryService::checkServiceTimes(void)
     _checkedTimeLock.lock();
     if (0 < _lastCheckedTime.size())
     {
-        for (TimeMap::const_iterator walker(_lastCheckedTime.begin());
-             _lastCheckedTime.end() != walker; ++walker)
+        for (auto walker(_lastCheckedTime.begin()); _lastCheckedTime.end() != walker; ++walker)
         {
             double check = walker->second;
             
@@ -2218,12 +2216,11 @@ void RegistryService::checkServiceTimes(void)
     _checkedTimeLock.unlock();
     if (0 < expired.size())
     {
-        for (StringVector::const_iterator walker(expired.begin()); expired.end() != walker;
-             ++walker)
+        for (auto walker(expired.begin()); expired.end() != walker; ++walker)
         {
             yarp::os::ConstString channelName(*walker);
             
-            reportStatusChange(channelName, kRegistryStaleService);
+            reportStatusChange(channelName, ServiceStatus::kRegistryStaleService);
             if (removeServiceRecord(channelName))
             {
                 removeCheckedTimeForChannel(channelName);
@@ -2242,43 +2239,43 @@ void RegistryService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_associateHandler);
             delete _associateHandler;
-            _associateHandler = NULL;
+            _associateHandler = nullptr;
         }
         if (_disassociateHandler)
         {
             unregisterRequestHandler(_disassociateHandler);
             delete _disassociateHandler;
-            _disassociateHandler = NULL;
+            _disassociateHandler = nullptr;
         }
         if (_getAssociatesHandler)
         {
             unregisterRequestHandler(_getAssociatesHandler);
             delete _getAssociatesHandler;
-            _getAssociatesHandler = NULL;
+            _getAssociatesHandler = nullptr;
         }
         if (_matchHandler)
         {
             unregisterRequestHandler(_matchHandler);
             delete _matchHandler;
-            _matchHandler = NULL;
+            _matchHandler = nullptr;
         }
         if (_pingHandler)
         {
             unregisterRequestHandler(_pingHandler);
             delete _pingHandler;
-            _pingHandler = NULL;
+            _pingHandler = nullptr;
         }
         if (_registerHandler)
         {
             unregisterRequestHandler(_registerHandler);
             delete _registerHandler;
-            _registerHandler = NULL;
+            _registerHandler = nullptr;
         }
         if (_unregisterHandler)
         {
             unregisterRequestHandler(_unregisterHandler);
             delete _unregisterHandler;
-            _unregisterHandler = NULL;
+            _unregisterHandler = nullptr;
         }
     }
     catch (...)
@@ -2291,8 +2288,8 @@ void RegistryService::detachRequestHandlers(void)
 
 bool RegistryService::fillInAssociates(const yarp::os::ConstString & channelName,
                                        bool &                        isPrimary,
-                                       Common::StringVector &        inputs,
-                                       Common::StringVector &        outputs)
+                                       StringVector &                inputs,
+                                       StringVector &                outputs)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
@@ -2442,14 +2439,14 @@ void RegistryService::fillInSecondaryOutputChannelsList(ChannelVector & channels
         
         descriptor._portName = _statusChannel->name();
         descriptor._portProtocol = _statusChannel->protocol();
-        descriptor._portMode = kChannelModeTCP;
+        descriptor._portMode = ChannelMode::kChannelModeTCP;
         channels.push_back(descriptor);
     }
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::fillInSecondaryOutputChannelsList
 
-bool RegistryService::processListResponse(const yarp::os::ConstString &   channelName,
-                                          const Common::ServiceResponse & response)
+bool RegistryService::processListResponse(const yarp::os::ConstString & channelName,
+                                          const ServiceResponse &       response)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("channelName = ", channelName, "response = ", response.asString()); //####
@@ -2652,8 +2649,8 @@ bool RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
     return okSoFar;
 } // RegistryService::processMatchRequest
 
-bool RegistryService::processNameResponse(const yarp::os::ConstString &   channelName,
-                                          const Common::ServiceResponse & response)
+bool RegistryService::processNameResponse(const yarp::os::ConstString & channelName,
+                                          const ServiceResponse &       response)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("channelName = ", channelName, "response = ", response.asString()); //####
@@ -2838,7 +2835,7 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceC
                                            static_cast<const void *>(serviceChannelName.c_str()));
             }
             okSoFar = doEndTransaction(_db, okSoFar);
-            reportStatusChange(serviceChannelName, kRegistryRemoveService);
+            reportStatusChange(serviceChannelName, ServiceStatus::kRegistryRemoveService);
         }
     }
     catch (...)
@@ -2868,30 +2865,30 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
         message.addString(serviceName());
         switch (newStatus)
         {
-            case kRegistryAddService :
+            case ServiceStatus::kRegistryAddService :
                 message.addString(MpM_REGISTRY_STATUS_ADDING);
                 message.addString(channelName);
                 message.addString("at");
                 message.addString(details);
                 break;
                 
-            case kRegistryNotAnExistingAssociation :
+            case ServiceStatus::kRegistryNotAnExistingAssociation :
                 message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED);
                 message.addString(channelName);
                 break;
                 
-            case kRegistryNotAnExistingService :
+            case ServiceStatus::kRegistryNotAnExistingService :
                 message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED);
                 message.addString(channelName);
                 break;
                 
-            case kRegistryPingFromService :
+            case ServiceStatus::kRegistryPingFromService :
                 message.addString(MpM_REGISTRY_STATUS_PINGED);
                 message.addString("by");
                 message.addString(channelName);
                 break;
                 
-            case kRegistryProblemAddingRequest :
+            case ServiceStatus::kRegistryProblemAddingRequest :
                 message.addString(MpM_REGISTRY_STATUS_PROBLEM);
                 message.addString("adding");
                 message.addString("request");
@@ -2900,7 +2897,7 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
                 message.addString(channelName);
                 break;
                 
-            case kRegistryProblemAddingService :
+            case ServiceStatus::kRegistryProblemAddingService :
                 message.addString(MpM_REGISTRY_STATUS_PROBLEM);
                 message.addString("adding");
                 message.addString("service");
@@ -2909,45 +2906,41 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
                 message.addString(channelName);
                 break;
                 
-            case kRegistryRegisterService :
+            case ServiceStatus::kRegistryRegisterService :
                 message.addString(MpM_REGISTRY_STATUS_REGISTERING);
                 message.addString(channelName);
                 break;
                 
-            case kRegistryRemoveService :
+            case ServiceStatus::kRegistryRemoveService :
                 message.addString(MpM_REGISTRY_STATUS_REMOVING);
                 message.addString(channelName);
                 break;
                 
-            case kRegistryStaleService :
+            case ServiceStatus::kRegistryStaleService :
                 message.addString(MpM_REGISTRY_STATUS_STALE);
                 message.addString(channelName);
                 message.addString("detected");
                 break;
                 
-            case kRegistryStarted :
+            case ServiceStatus::kRegistryStarted :
                 message.addString(MpM_REGISTRY_STATUS_STARTING);
                 break;
                 
-            case kRegistryStopped :
+            case ServiceStatus::kRegistryStopped :
                 message.addString(MpM_REGISTRY_STATUS_STOPPING);
                 break;
                 
-            case kRegistryUnregisterService :
+            case ServiceStatus::kRegistryUnregisterService :
                 message.addString(MpM_REGISTRY_STATUS_UNREGISTERING);
                 message.addString(channelName);
                 break;
-                
-            case kRegistryUnknown :
-                message.addString(MpM_REGISTRY_STATUS_UNKNOWN);
-                break;
-                
+
         }
         if (! _statusChannel->write(message))
         {
             OD_LOG("(! _statusChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-            Common::Stall();
+            Stall();
 #endif // defined(MpM_StallOnSendProblem)
         }
     }
@@ -2980,13 +2973,13 @@ bool RegistryService::setUpDatabase(void)
             }
 #endif // ! defined(MpM_UseTestDatabase)
             sqlRes = sqlite3_open_v2(dbFileName, &_db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,
-                                     NULL);
+                                     nullptr);
             if (SQLITE_OK != sqlRes)
             {
                 OD_LOG("(SQLITE_OK != sqlRes)"); //####
                 okSoFar = false;
                 sqlite3_close(_db);
-                _db = NULL;
+                _db = nullptr;
             }
         }
         if (_db)
@@ -2996,7 +2989,7 @@ bool RegistryService::setUpDatabase(void)
             {
                 OD_LOG("(! okSoFar)"); //####
                 sqlite3_close(_db);
-                _db = NULL;
+                _db = nullptr;
             }
         }
     }
@@ -3016,7 +3009,7 @@ bool RegistryService::setUpStatusChannel(void)
     
     try
     {
-        _statusChannel = new Common::GeneralChannel(true);
+        _statusChannel = new GeneralChannel(true);
         if (_statusChannel)
         {
             yarp::os::ConstString   outputName(MpM_REGISTRY_STATUS_NAME);
@@ -3066,22 +3059,22 @@ bool RegistryService::start(void)
             if (isStarted() && setUpDatabase() && setUpStatusChannel())
             {
                 // Register ourselves!!!
-                yarp::os::ConstString   aName(Common::GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
-                                                                           "temp_/"
-                                                                     MpM_REGISTRY_CHANNEL_NAME));
-                Common::ClientChannel * newChannel = new Common::ClientChannel;
+                yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
+                                                                 "temp_/"
+                                                                 MpM_REGISTRY_CHANNEL_NAME));
+                ClientChannel *       newChannel = new ClientChannel;
                 
                 if (newChannel)
                 {
                     if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
                         if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
-                                                                 STANDARD_WAIT_TIME, false, NULL,
-                                                                 NULL))
+                                                                 STANDARD_WAIT_TIME, false, nullptr,
+                                                                 nullptr))
                         {
-                            yarp::os::Bottle        parameters(MpM_REGISTRY_CHANNEL_NAME);
-                            Common::ServiceRequest  request(MpM_REGISTER_REQUEST, parameters);
-                            Common::ServiceResponse response;
+                            yarp::os::Bottle parameters(MpM_REGISTRY_CHANNEL_NAME);
+                            ServiceRequest   request(MpM_REGISTER_REQUEST, parameters);
+                            ServiceResponse  response;
                             
                             if (request.send(*newChannel, &response))
                             {
@@ -3117,7 +3110,7 @@ bool RegistryService::start(void)
                         {
                             OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
                                    "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, " //####
-                                   "NULL, NULL))"); //####
+                                   "nullptr, nullptr))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         newChannel->close();
@@ -3127,7 +3120,7 @@ bool RegistryService::start(void)
                     {
                         OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
                     }
-                    Common::ClientChannel::RelinquishChannel(newChannel);
+                    ClientChannel::RelinquishChannel(newChannel);
                 }
                 else
                 {
@@ -3142,7 +3135,7 @@ bool RegistryService::start(void)
         result = isStarted();
         if (result)
         {
-            reportStatusChange("", kRegistryStarted);
+            reportStatusChange("", ServiceStatus::kRegistryStarted);
         }
     }
     catch (...)
@@ -3182,11 +3175,11 @@ bool RegistryService::stop(void)
                 yarp::os::Time::delay(PING_CHECK_INTERVAL / 3.1);
             }
             delete _checker;
-            _checker = NULL;
+            _checker = nullptr;
         }
         if (isActive())
         {
-            reportStatusChange("", kRegistryStopped);
+            reportStatusChange("", ServiceStatus::kRegistryStopped);
         }
         result = inherited::stop();
         _isActive = false;

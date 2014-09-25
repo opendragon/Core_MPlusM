@@ -93,7 +93,7 @@ ChordGeneratorRequestHandler::~ChordGeneratorRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ChordGeneratorRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void ChordGeneratorRequestHandler::fillInAliases(StringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
@@ -187,7 +187,7 @@ bool ChordGeneratorRequestHandler::processRequest(const yarp::os::ConstString & 
             {
                 OD_LOG("(! response.write(*replyMechanism))"); //####
 #if defined(MpM_STALL_ON_SEND_PROBLEM)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_STALL_ON_SEND_PROBLEM)
             }
         }

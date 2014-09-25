@@ -97,7 +97,7 @@ DisassociateRequestHandler::~DisassociateRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void DisassociateRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void DisassociateRequestHandler::fillInAliases(StringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
@@ -166,7 +166,7 @@ bool DisassociateRequestHandler::processRequest(const yarp::os::ConstString & re
                 {
                     yarp::os::ConstString argAsString(argument.toString());
                     
-                    if (Common::Endpoint::CheckEndpointName(argAsString))
+                    if (Endpoint::CheckEndpointName(argAsString))
                     {
                         if (_service.removeAllAssociations(argAsString))
                         {
@@ -181,7 +181,7 @@ bool DisassociateRequestHandler::processRequest(const yarp::os::ConstString & re
                     }
                     else
                     {
-                        OD_LOG("! (Common::Endpoint::CheckEndpointName(argAsString))"); //####
+                        OD_LOG("! (Endpoint::CheckEndpointName(argAsString))"); //####
                         reply.addString(MpM_FAILED_RESPONSE);
                         reply.addString("Invalid channel name");
                     }
@@ -204,7 +204,7 @@ bool DisassociateRequestHandler::processRequest(const yarp::os::ConstString & re
             {
                 OD_LOG("(! reply.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

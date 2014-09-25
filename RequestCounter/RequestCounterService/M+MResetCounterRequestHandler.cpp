@@ -95,7 +95,7 @@ ResetCounterRequestHandler::~ResetCounterRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ResetCounterRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void ResetCounterRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -163,7 +163,7 @@ bool ResetCounterRequestHandler::processRequest(const yarp::os::ConstString & re
             {
                 OD_LOG("(! response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

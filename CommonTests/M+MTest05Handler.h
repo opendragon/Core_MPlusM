@@ -57,7 +57,7 @@ namespace MplusM
     namespace Test
     {
         /*! @brief A test input handler. */
-        class Test05Handler : public Common::InputHandler
+        class Test05Handler final : public Common::InputHandler
         {
         public :
             
@@ -70,11 +70,12 @@ namespace MplusM
             /*! @brief Process partially-structured input data.
              @param input The partially-structured input data.
              @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @param replyMechanism @c nullptr if no reply is expected and non-@c nullptr otherwise.
              @returns @c true if the input was correctly structured and successfully processed. */
             virtual bool handleInput(const yarp::os::Bottle &      input,
                                      const yarp::os::ConstString & senderChannel,
-                                     yarp::os::ConnectionWriter *  replyMechanism);
+                                     yarp::os::ConnectionWriter *  replyMechanism)
+            override;
             
         protected :
             
@@ -90,6 +91,34 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef InputHandler inherited;
+            
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test05Handler(const Test05Handler & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test05Handler & operator =(const Test05Handler & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test05Handler(Test05Handler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test05Handler & operator =(Test05Handler && other)
+            DISALLOWED_FUNCTION;
             
         }; // Test05Handler
         

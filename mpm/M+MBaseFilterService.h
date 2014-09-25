@@ -98,7 +98,7 @@ namespace MplusM
                               const yarp::os::ConstString & description,
                               const yarp::os::ConstString & requestsDescription,
                               const int                     argc,
-                              char **                       argv);
+                              char * *                      argv);
             
             /*! @brief The destructor. */
             virtual ~BaseFilterService(void);
@@ -109,21 +109,53 @@ namespace MplusM
             
             COPY_AND_ASSIGNMENT_(BaseFilterService);
             
+            /*! @brief Copy constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseFilterService(const BaseFilterService & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseFilterService & operator =(const BaseFilterService & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseFilterService(BaseFilterService && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseFilterService & operator =(BaseFilterService && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief Set up the input channels.
              @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpInputStreams(void);
+            virtual bool setUpInputStreams(void)
+            override final;
             
             /*! @brief Set up the output channels.
              @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpOutputStreams(void);
+            virtual bool setUpOutputStreams(void)
+            override final;
             
             /*! @brief Shut down the input streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownInputStreams(void);
+            virtual bool shutDownInputStreams(void)
+            override;
             
             /*! @brief Shut down the output streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownOutputStreams(void);
+            virtual bool shutDownOutputStreams(void)
+            override;
             
         public :
         

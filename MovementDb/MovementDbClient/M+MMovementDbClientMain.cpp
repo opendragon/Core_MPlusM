@@ -129,8 +129,8 @@ static void reportTimeInReasonableUnits(const double measurement)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
 #if MAC_OR_LINUX_
 # pragma unused(argc)
@@ -139,16 +139,16 @@ int main(int     argc,
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    MplusM::Common::SetUpLogger(*argv);
+    SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
     try
     {
-        MplusM::Utilities::SetUpGlobalStatusReporter();
+        Utilities::SetUpGlobalStatusReporter();
 #if defined(MpM_ReportOnConnections)
         ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
 
-        if (MplusM::CanReadFromStandardInput())
+        if (CanReadFromStandardInput())
         {
 #if CheckNetworkWorks_
             if (yarp::os::Network::checkNetwork())
@@ -157,7 +157,7 @@ int main(int     argc,
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
                 
-                MplusM::Common::Initialize(*argv);
+                Initialize(*argv);
                 MovementDbClient * stuff = new MovementDbClient;
                 
                 if (stuff)
@@ -165,13 +165,13 @@ int main(int     argc,
 #if defined(MpM_ReportOnConnections)
                     stuff->setReporter(reporter, true);
 #endif // defined(MpM_ReportOnConnections)
-                    MplusM::StartRunning();
-                    MplusM::Common::SetSignalHandlers(MplusM::SignalRunningStop);
-                    if (stuff->findService("name:MovementDb", false, NULL, NULL))
+                    StartRunning();
+                    SetSignalHandlers(MplusM::SignalRunningStop);
+                    if (stuff->findService("name:MovementDb", false, nullptr, nullptr))
                     {
-                        if (stuff->connectToService(NULL, NULL))
+                        if (stuff->connectToService(nullptr, nullptr))
                         {
-                            for ( ; MplusM::IsRunning(); )
+                            for ( ; IsRunning(); )
                             {
                                 char                  inChar;
                                 std::string           inputLine;
@@ -199,10 +199,8 @@ int main(int     argc,
                                                     OD_LOG("! (stuff->addFileToDb(" //####
                                                            "inputString))"); //####
 #if MAC_OR_LINUX_
-                                                    MplusM::Common::GetLogger().fail("Problem "
-                                                                                     "adding file "
-                                                                                     "to "
-                                                                                     "database.");
+                                                    GetLogger().fail("Problem adding file to "
+                                                                     "database.");
 #endif // MAC_OR_LINUX_
                                                     cout << "File not added to database." << endl;
                                                 }
@@ -228,9 +226,8 @@ int main(int     argc,
                                                 OD_LOG("! (stuff->setDataTrackForDb(" //####
                                                        "inputString))"); //####
 #if MAC_OR_LINUX_
-                                                MplusM::Common::GetLogger().fail("Problem setting "
-                                                                                 "data track for "
-                                                                                 "database.");
+                                                GetLogger().fail("Problem setting data track for "
+                                                                 "database.");
 #endif // MAC_OR_LINUX_
                                                 cout << "Data track not set for database." << endl;
                                             }
@@ -251,9 +248,8 @@ int main(int     argc,
                                                 OD_LOG("! (stuff->setEmailAddressForDb(" //####
                                                        "inputString))"); //####
 #if MAC_OR_LINUX_
-                                                MplusM::Common::GetLogger().fail("Problem setting "
-                                                                                 "e-mail address "
-                                                                                 "for database.");
+                                                GetLogger().fail("Problem setting e-mail address "
+                                                                 "for database.");
 #endif // MAC_OR_LINUX_
                                                 cout << "E-mail address not set for database." <<
                                                         endl;
@@ -268,12 +264,11 @@ int main(int     argc,
                                             {
                                                 OD_LOG("(! stuff->stopDbConnection())"); //####
 #if MAC_OR_LINUX_
-                                                MplusM::Common::GetLogger().fail("Problem stopping "
-                                                                                 "the database "
-                                                                                 "connection.");
+                                                GetLogger().fail("Problem stopping the database "
+                                                                 "connection.");
 #endif // MAC_OR_LINUX_
                                             }
-                                            MplusM::StopRunning();
+                                            StopRunning();
                                             break;
                                             
                                         default :
@@ -285,29 +280,28 @@ int main(int     argc,
                                     }
                                 }
                             }
-                            if (! stuff->disconnectFromService(NULL, NULL))
+                            if (! stuff->disconnectFromService(nullptr, nullptr))
                             {
-                                OD_LOG("(! stuff->disconnectFromService(NULL, NULL))"); //####
+                                OD_LOG("(! stuff->disconnectFromService(nullptr, nullptr))"); //####
 #if MAC_OR_LINUX_
-                                MplusM::Common::GetLogger().fail("Problem disconnecting from the "
-                                                                 "service.");
+                                GetLogger().fail("Problem disconnecting from the service.");
 #endif // MAC_OR_LINUX_
                             }
                         }
                         else
                         {
-                            OD_LOG("! (stuff->connectToService(NULL, NULL))"); //####
+                            OD_LOG("! (stuff->connectToService(nullptr, nullptr))"); //####
 #if MAC_OR_LINUX_
-                            MplusM::Common::GetLogger().fail("Problem connecting to the service.");
+                            GetLogger().fail("Problem connecting to the service.");
 #endif // MAC_OR_LINUX_
                         }
                     }
                     else
                     {
                         OD_LOG("! (stuff->findService(\"name:RequestCounter\", false, " //####
-                               "NULL, NULL))"); //####
+                               "nullptr, nullptr))"); //####
 #if MAC_OR_LINUX_
-                        MplusM::Common::GetLogger().fail("Problem locating the service.");
+                        GetLogger().fail("Problem locating the service.");
 #endif // MAC_OR_LINUX_
                     }
                     delete stuff;
@@ -322,12 +316,12 @@ int main(int     argc,
             {
                 OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
-                MplusM::Common::GetLogger().fail("YARP network not running.");
+                GetLogger().fail("YARP network not running.");
 # endif // MAC_OR_LINUX_
             }
 #endif // CheckNetworkWorks_
         }
-        MplusM::Utilities::ShutDownGlobalStatusReporter();
+        Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {

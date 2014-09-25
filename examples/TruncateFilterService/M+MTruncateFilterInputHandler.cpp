@@ -39,8 +39,6 @@
 
 #include "M+MTruncateFilterInputHandler.h"
 
-#include <mpm/M+MGeneralChannel.h>
-
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -77,7 +75,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 TruncateFilterInputHandler::TruncateFilterInputHandler(void) :
-    inherited(), _outChannel(NULL)
+    inherited(), _outChannel(nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
@@ -130,7 +128,7 @@ bool TruncateFilterInputHandler::handleInput(const yarp::os::Bottle &      input
             {
                 OD_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }
@@ -144,7 +142,7 @@ bool TruncateFilterInputHandler::handleInput(const yarp::os::Bottle &      input
     return result;
 } // TruncateFilterInputHandler::handleInput
 
-void TruncateFilterInputHandler::setOutput(Common::GeneralChannel * output)
+void TruncateFilterInputHandler::setOutput(GeneralChannel * output)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("output = ", output); //####

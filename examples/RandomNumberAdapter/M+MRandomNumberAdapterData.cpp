@@ -75,8 +75,8 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-RandomNumberAdapterData::RandomNumberAdapterData(RandomNumberClient *     client,
-                                                 Common::AdapterChannel * output) :
+RandomNumberAdapterData::RandomNumberAdapterData(RandomNumberClient * client,
+                                                 AdapterChannel *     output) :
     inherited(client, output)
 {
     OD_LOG_ENTER();//####

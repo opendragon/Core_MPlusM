@@ -93,7 +93,7 @@ RequestCounterDefaultRequestHandler::~RequestCounterDefaultRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void RequestCounterDefaultRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void RequestCounterDefaultRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -150,7 +150,7 @@ bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstSt
             {
                 OD_LOG("(! response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Common::Stall();
+                Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
         }

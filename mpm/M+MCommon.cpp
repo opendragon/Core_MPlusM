@@ -92,7 +92,7 @@ static bool lKeepRunning = false;
 
 #if MAC_OR_LINUX_
 /*! @brief The logger to use for reporting problems. */
-static yarp::os::impl::Logger * lLogger = NULL;
+static yarp::os::impl::Logger * lLogger = nullptr;
 #endif // MAC_OR_LINUX_
 
 #if defined(__APPLE__)
@@ -123,8 +123,8 @@ static void localCatcher(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-void MplusM::Common::DumpContactToLog(const char *              tag,
-                                      const yarp::os::Contact & aContact)
+void Common::DumpContactToLog(const char *              tag,
+                              const yarp::os::Contact & aContact)
 {
 #if MAC_OR_LINUX_
     if (lLogger)
@@ -138,18 +138,18 @@ void MplusM::Common::DumpContactToLog(const char *              tag,
         lLogger->info(yarp::os::ConstString("contact.toString = ") + aContact.toString());
     }
 #endif // MAC_OR_LINUX_
-} // MplusM::Common::DumpContactToLog
+} // Common::DumpContactToLog
 
 #if MAC_OR_LINUX_
-yarp::os::impl::Logger & MplusM::Common::GetLogger(void)
+yarp::os::impl::Logger & Common::GetLogger(void)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(lLogger);
     return *lLogger;
-} // MplusM::Common::GetLogger
+} // Common::GetLogger
 #endif // MAC_OR_LINUX_
 
-yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelRoot)
+yarp::os::ConstString Common::GetRandomChannelName(const char * channelRoot)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("channelRoot = ", channelRoot); //####
@@ -214,15 +214,14 @@ yarp::os::ConstString MplusM::Common::GetRandomChannelName(const char * channelR
     }
     OD_LOG_EXIT_S(result.c_str()); //####
     return result;
-} // MplusM::Common::GetRandomChannelName
+} // Common::GetRandomChannelName
 
-yarp::os::ConstString MplusM::Common::GetRandomChannelName(const yarp::os::ConstString &
-                                                                                        channelRoot)
+yarp::os::ConstString Common::GetRandomChannelName(const yarp::os::ConstString & channelRoot)
 {
     return GetRandomChannelName(channelRoot.c_str());
-} // MplusM::Common::GetRandomChannelName
+} // Common::GetRandomChannelName
 
-void MplusM::Common::Initialize(const char * progName)
+void Common::Initialize(const char * progName)
 {
 #if (! defined(MpM_ChattyStart))
 # if MAC_OR_LINUX_
@@ -262,9 +261,9 @@ void MplusM::Common::Initialize(const char * progName)
         throw;
     }
     OD_LOG_EXIT(); //####
-} // MplusM::Common::Initialize
+} // Common::Initialize
 
-void MplusM::Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
+void Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
 {
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
@@ -277,26 +276,26 @@ void MplusM::Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
 # if (defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE))
-    sigaction(SIGABRT, &act, NULL);
+    sigaction(SIGABRT, &act, nullptr);
 # endif // defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
 # if (defined(SIGHUP) && (SIGHUP != STANDARD_SIGNAL_TO_USE))
-    sigaction(SIGHUP, &act, NULL);
+    sigaction(SIGHUP, &act, nullptr);
 # endif // defined(SIGHUP) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
 # if (defined(SIGINT) && (SIGINT != STANDARD_SIGNAL_TO_USE))
-    sigaction(SIGINT, &act, NULL);
+    sigaction(SIGINT, &act, nullptr);
 # endif // defined(SIGINT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
 # if (defined(SIGQUIT) && (SIGQUIT != STANDARD_SIGNAL_TO_USE))
-    sigaction(SIGQUIT, &act, NULL);
+    sigaction(SIGQUIT, &act, nullptr);
 # endif // defined(SIGQUIT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
 # if (defined(SIGUSR1) && (SIGUSR1 != STANDARD_SIGNAL_TO_USE))
-    sigaction(SIGUSR1, &act, NULL);
+    sigaction(SIGUSR1, &act, nullptr);
 # endif // defined(SIGUSR1) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
 # if (defined(SIGUSR2) && (SIGUSR2 != STANDARD_SIGNAL_TO_USE))
-    sigaction(SIGUSR2, &act, NULL);
+    sigaction(SIGUSR2, &act, nullptr);
 # endif // defined(SIGUSR2) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
     sigemptyset(&blocking);
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
-    pthread_sigmask(SIG_BLOCK, &blocking, NULL);
+    pthread_sigmask(SIG_BLOCK, &blocking, nullptr);
 #else // ! MAC_OR_LINUX_
 # if (defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE))
     //yarp::os::signal(SIGABRT, theHandler);
@@ -321,9 +320,9 @@ void MplusM::Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
     yarp::os::signal(SIGTERM, theHandler);
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT(); //####
-} // MplusM::Common::SetSignalHandlers
+} // Common::SetSignalHandlers
 
-void MplusM::Common::SetUpCatcher(void)
+void Common::SetUpCatcher(void)
 {
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
@@ -334,26 +333,26 @@ void MplusM::Common::SetUpCatcher(void)
 #if MAC_OR_LINUX_
     sigemptyset(&unblocking);
     sigaddset(&unblocking, STANDARD_SIGNAL_TO_USE);
-    pthread_sigmask(SIG_UNBLOCK, &unblocking, NULL);
+    pthread_sigmask(SIG_UNBLOCK, &unblocking, nullptr);
     act.sa_handler = localCatcher;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
-    sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
+    sigaction(STANDARD_SIGNAL_TO_USE, &act, nullptr);
 #else // ! MAC_OR_LINUX_
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT(); //####
-} // MplusM::Common::SetUpCatcher
+} // Common::SetUpCatcher
 
 #if MAC_OR_LINUX_
-void MplusM::Common::SetUpLogger(const char * progName)
+void Common::SetUpLogger(const char * progName)
 {
     OD_LOG_ENTER(); //####
     lLogger = new yarp::os::impl::Logger(progName, yarp::os::impl::Logger::get());
     OD_LOG_EXIT(); //####
-} // MplusM::Common::SetUpLogger
+} // Common::SetUpLogger
 #endif // MAC_OR_LINUX_
 
-void MplusM::Common::ShutDownCatcher(void)
+void Common::ShutDownCatcher(void)
 {
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
@@ -364,23 +363,23 @@ void MplusM::Common::ShutDownCatcher(void)
 #if MAC_OR_LINUX_
     sigemptyset(&blocking);
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
-    pthread_sigmask(SIG_BLOCK, &blocking, NULL);
+    pthread_sigmask(SIG_BLOCK, &blocking, nullptr);
     act.sa_handler = SIG_DFL;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
-    sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
+    sigaction(STANDARD_SIGNAL_TO_USE, &act, nullptr);
 #else // ! MAC_OR_LINUX_
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT(); //####
-} // MplusM::Common::ShutDownCatcher
+} // Common::ShutDownCatcher
 
-void MplusM::Common::Stall(void)
+void Common::Stall(void)
 {
     for ( ; ; )
     {
         yarp::os::Time::yield();
     }
-} // MplusM::Common::Stall
+} // Common::Stall
 
 bool MplusM::CanReadFromStandardInput(void)
 {
@@ -409,10 +408,15 @@ bool MplusM::CanReadFromStandardInput(void)
 #else // ! MAC_OR_LINUX_
       // How do we check on Windows??
 	HWND wind = GetConsoleWindow();
-	if (wind == NULL)
+    
+	if (wind == nullptr)
+    {
 		result = false;
+    }
 	else
+    {
 		result = true;
+    }
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT_B(result); //####
     return result;

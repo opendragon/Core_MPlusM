@@ -90,7 +90,7 @@ Test11EchoRequestHandler::~Test11EchoRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void Test11EchoRequestHandler::fillInAliases(MplusM::Common::StringVector & alternateNames)
+void Test11EchoRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -142,7 +142,7 @@ bool Test11EchoRequestHandler::processRequest(const yarp::os::ConstString & requ
         {
             OD_LOG("(! argsCopy.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
-            Common::Stall();
+            Stall();
 #endif // defined(MpM_StallOnSendProblem)
         }
     }
