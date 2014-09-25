@@ -37,9 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MEndpoint.h>
-#include <mpm/M+MChannelStatusReporter.h>
 #include <mpm/M+MException.h>
-#include <mpm/M+MInputHandlerCreator.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

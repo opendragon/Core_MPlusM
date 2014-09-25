@@ -40,6 +40,10 @@
 # define MpMMatchFieldWithValues_H_ /* Header guard */
 
 # include <mpm/M+MBaseMatcher.h>
+# include <mpm/M+MBaseNameValidator.h>
+# include <mpm/M+MMatchFieldName.h>
+# include <mpm/M+MMatchValue.h>
+# include <mpm/M+MMatchValueList.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -56,11 +60,6 @@ namespace MplusM
 {
     namespace Parser
     {
-        class BaseNameValidator;
-        class MatchFieldName;
-        class MatchValue;
-        class MatchValueList;
-        
         /*! @brief A pattern matcher for field/values pairs. */
         class MatchFieldWithValues : public BaseMatcher
         {

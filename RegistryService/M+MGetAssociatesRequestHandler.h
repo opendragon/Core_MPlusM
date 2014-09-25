@@ -40,6 +40,7 @@
 # define MpMGetAssociatesRequestHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseRequestHandler.h>
+# include <mpm/M+MServiceResponse.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -54,11 +55,6 @@
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class ServiceResponse;
-    } // Common
-    
     namespace Registry
     {
         class RegistryService;

@@ -60,7 +60,7 @@ namespace MplusM
     namespace Test
     {
         /*! @brief A test input handler. */
-        class Test03Handler final : public Common::InputHandler
+        class Test03Handler : public Common::InputHandler
         {
         public :
             
@@ -77,8 +77,7 @@ namespace MplusM
              @returns @c true if the input was correctly structured and successfully processed. */
             virtual bool handleInput(const yarp::os::Bottle &      input,
                                      const yarp::os::ConstString & senderChannel,
-                                     yarp::os::ConnectionWriter *  replyMechanism)
-            override;
+                                     yarp::os::ConnectionWriter *  replyMechanism);
             
         protected :
             
@@ -94,34 +93,6 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef InputHandler inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Test03Handler(const Test03Handler & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Test03Handler & operator =(const Test03Handler & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Test03Handler(Test03Handler && other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Test03Handler & operator =(Test03Handler && other)
-            DISALLOWED_FUNCTION;
             
         }; // Test03Handler
         

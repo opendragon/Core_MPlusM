@@ -48,10 +48,8 @@
 #include "M+MUnregisterRequestHandler.h"
 
 #include <mpm/M+MChannelStatusReporter.h>
-#include <mpm/M+MMatchExpression.h>
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
-#include <mpm/M+MServiceResponse.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -2439,7 +2437,7 @@ void RegistryService::fillInSecondaryOutputChannelsList(ChannelVector & channels
         
         descriptor._portName = _statusChannel->name();
         descriptor._portProtocol = _statusChannel->protocol();
-        descriptor._portMode = ChannelMode::kChannelModeTCP;
+        descriptor._portMode = kChannelModeTCP;
         channels.push_back(descriptor);
     }
     OD_LOG_OBJEXIT(); //####
@@ -2935,6 +2933,9 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
                 message.addString(channelName);
                 break;
 
+            default :
+                break;
+                
         }
         if (! _statusChannel->write(message))
         {

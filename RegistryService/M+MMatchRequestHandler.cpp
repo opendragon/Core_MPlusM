@@ -39,7 +39,6 @@
 #include "M+MMatchRequestHandler.h"
 #include "M+MRegistryService.h"
 
-#include <mpm/M+MBaseNameValidator.h>
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MMatchExpression.h>
 #include <mpm/M+MRequests.h>

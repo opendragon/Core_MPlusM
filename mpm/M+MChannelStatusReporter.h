@@ -57,7 +57,7 @@ namespace MplusM
     namespace Common
     {
         /*! @brief An endpoint status reporter. */
-        class ChannelStatusReporter final : public yarp::os::PortReport
+        class ChannelStatusReporter : public yarp::os::PortReport
         {
         public :
             
@@ -69,8 +69,7 @@ namespace MplusM
             
             /*! @brief Write out the endpoint event / state information.
              @param info The event / state information from the endpoint. */
-            virtual void report(const yarp::os::PortInfo & info)
-            override;
+            virtual void report(const yarp::os::PortInfo & info);
             
         protected :
             
@@ -86,34 +85,6 @@ namespace MplusM
         
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::PortReport inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ChannelStatusReporter(const ChannelStatusReporter & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ChannelStatusReporter & operator =(const ChannelStatusReporter & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ChannelStatusReporter(ChannelStatusReporter && other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            ChannelStatusReporter & operator =(ChannelStatusReporter && other)
-            DISALLOWED_FUNCTION;
             
         }; // ChannelStatusReporter
         

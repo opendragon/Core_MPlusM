@@ -40,7 +40,7 @@
 #if (! defined(MpMBaseRequestHandler_H_))
 # define MpMBaseRequestHandler_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MRequestMap.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -57,8 +57,6 @@ namespace MplusM
 {
     namespace Common
     {
-        class RequestMap;
-        
         /*! @brief A convenience class to provide function objects for requests. */
         class BaseRequestHandler
         {

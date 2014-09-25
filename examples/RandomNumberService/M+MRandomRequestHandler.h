@@ -61,7 +61,7 @@ namespace MplusM
          The input for the request is an optional count of the number of random numbers to generate
          and the output is either a single floating point number, between 0 and 1 or a list of
          floating point numbers, between 0 and 1. */
-        class RandomRequestHandler final : public Common::BaseRequestHandler
+        class RandomRequestHandler : public Common::BaseRequestHandler
         {
         public :
             
@@ -73,15 +73,13 @@ namespace MplusM
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(Common::StringVector & alternateNames)
-            override;
+            virtual void fillInAliases(Common::StringVector & alternateNames);
             
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
              @param info The dictionary to be filled in. */
             virtual void fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info)
-            override;
+                                           yarp::os::Property &          info);
             
             /*! @brief Process a request.
              @param request The actual request name.
@@ -92,8 +90,7 @@ namespace MplusM
             virtual bool processRequest(const yarp::os::ConstString & request,
                                         const yarp::os::Bottle &      restOfInput,
                                         const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism)
-            override;
+                                        yarp::os::ConnectionWriter *  replyMechanism);
             
         protected :
             
@@ -109,34 +106,6 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RandomRequestHandler(const RandomRequestHandler & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RandomRequestHandler & operator =(const RandomRequestHandler & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RandomRequestHandler(RandomRequestHandler && other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RandomRequestHandler & operator =(RandomRequestHandler && other)
-            DISALLOWED_FUNCTION;
             
         }; // RandomRequestHandler
         

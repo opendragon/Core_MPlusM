@@ -199,13 +199,6 @@
 #  define STANDARD_SIGNAL_TO_USE   42
 # endif // ! MAC_OR_LINUX_
 
-/*! @brief The trailing 'DISALLOWED_FUNCTION' for constructors and assignment operators that are disabled. */
-# if MAC_OR_LINUX
-#  define DISALLOWED_FUNCTION =    delete
-# else // ! MAC_OR_LINUX
-#  define DISALLOWED_FUNCTION /* */
-# endif // ! MAC_OR_LINUX
-
 /*! @brief The default timeout duration in seconds. */
 # define STANDARD_WAIT_TIME        (5.3 * ONE_SECOND_DELAY)
 
@@ -234,7 +227,7 @@ namespace MplusM
     namespace Common
     {
         /*! @brief The mode of a channel. */
-        enum class ChannelMode : int
+        enum ChannelMode
         {
             /*! @brief The connection is a TCP connection. */
             kChannelModeTCP,
@@ -243,7 +236,10 @@ namespace MplusM
             kChannelModeUDP,
             
             /*! @brief The connection is neither a TCP nor a UDP connection. */
-            kChannelModeOther
+            kChannelModeOther,
+            
+            /*! @brief Force the size to be 4 bytes. */
+            kChannelModeUnknown = 0x7FFFFFF
             
         }; // ChannelMode
         
@@ -272,7 +268,7 @@ namespace MplusM
         }; // ChannelDescription
         
         /*! @brief The format for the output from command-line tools. */
-        enum class OutputFlavour : int
+        enum OutputFlavour
         {
             /*! @brief Normal output with no special processing. */
             kOutputFlavourNormal,
@@ -282,12 +278,15 @@ namespace MplusM
             
             /*! @brief Output in tab-delimited format. Tabs and newlines are replaced with
              spaces. */
-            kOutputFlavourTabs
+            kOutputFlavourTabs,
+            
+            /*! @brief Force the size to be 4 bytes. */
+            kOutputFlavourUnknown = 0x7FFFFFF
             
         }; // OutputFlavour
         
         /*! @brief The behavioural model for the service. */
-        enum class ServiceKind : int
+        enum ServiceKind
         {
             /*! @brief The service has no specical characteristics. */
             kServiceKindNormal,
@@ -302,15 +301,18 @@ namespace MplusM
             kServiceKindFilter,
             
             /*! @brief The service is the Registry, which is a specialized 'normal' service. */
-            kServiceKindRegistry
+            kServiceKindRegistry,
+            
+            /*! @brief Force the size to be 4 bytes. */
+            kServiceKindUnknown = 0x7FFFFFF
             
         }; // ServiceKind
         
         /*! @brief A sequence of connections. */
-        typedef std::vector<ChannelDescription>    ChannelVector;
+        typedef std::vector<ChannelDescription> ChannelVector;
         
         /*! @brief A sequence of random numbers. */
-        typedef std::vector<double>                DoubleVector;
+        typedef std::vector<double> DoubleVector;
         
         /*! @brief A sequence of strings. */
         typedef std::vector<yarp::os::ConstString> StringVector;

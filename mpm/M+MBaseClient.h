@@ -39,7 +39,10 @@
 #if (! defined(MpMBaseClient_H_))
 # define MpMBaseClient_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MAdapterChannel.h>
+# include <mpm/M+MChannelStatusReporter.h>
+# include <mpm/M+MClientChannel.h>
+# include <mpm/M+MServiceResponse.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -56,11 +59,6 @@ namespace MplusM
 {
     namespace Common
     {
-        class AdapterChannel;
-        class ChannelStatusReporter;
-        class ClientChannel;
-        class ServiceResponse;
-        
         /*! @brief The minimal functionality required for an M+M client. */
         class BaseClient
         {

@@ -103,7 +103,7 @@ static void reportConnections(const OutputFlavour           flavour,
         {
             switch (flavour)
             {
-                case OutputFlavour::kOutputFlavourTabs :
+                case kOutputFlavourTabs :
                     if (sawInputs)
                     {
                         inputsAsString += ", ";
@@ -111,22 +111,25 @@ static void reportConnections(const OutputFlavour           flavour,
                     inputsAsString += SanitizeString(walker->_portName, true);
                     switch (walker->_portMode)
                     {
-                        case ChannelMode::kChannelModeTCP :
+                        case kChannelModeTCP :
                             inputsAsString += " TCP";
                             break;
                             
-                        case ChannelMode::kChannelModeUDP :
+                        case kChannelModeUDP :
                             inputsAsString += " UDP";
                             break;
                             
-                        case ChannelMode::kChannelModeOther :
+                        case kChannelModeOther :
                             inputsAsString += " unknown";
+                            break;
+                            
+                        default :
                             break;
                             
                     }
                     break;
                     
-                case OutputFlavour::kOutputFlavourJSON :
+                case kOutputFlavourJSON :
                     if (sawInputs)
                     {
                         inputsAsString += ", ";
@@ -138,41 +141,50 @@ static void reportConnections(const OutputFlavour           flavour,
                                          CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
                     switch (walker->_portMode)
                     {
-                        case ChannelMode::kChannelModeTCP :
+                        case kChannelModeTCP :
                             inputsAsString += "TCP";
                             break;
                             
-                        case ChannelMode::kChannelModeUDP :
+                        case kChannelModeUDP :
                             inputsAsString += "UDP";
                             break;
                             
-                        case ChannelMode::kChannelModeOther :
+                        case kChannelModeOther :
                             inputsAsString += "unknown";
+                            break;
+                            
+                        default :
                             break;
                             
                     }
                     inputsAsString += T_(CHAR_DOUBLEQUOTE " }");
                     break;
                     
-                case OutputFlavour::kOutputFlavourNormal :
+                case kOutputFlavourNormal :
                     inputsAsString += "   Input from ";
                     inputsAsString += SanitizeString(walker->_portName, true);
                     switch (walker->_portMode)
                     {
-                        case ChannelMode::kChannelModeTCP :
+                        case kChannelModeTCP :
                             inputsAsString += " via TCP.";
                             break;
                             
-                        case ChannelMode::kChannelModeUDP :
+                        case kChannelModeUDP :
                             inputsAsString += " via UDP.";
                             break;
                             
-                        case ChannelMode::kChannelModeOther :
+                        case kChannelModeOther :
                             inputsAsString += " via non-TCP/non-UDP.";
+                            break;
+                            
+                        default :
                             break;
                             
                     }
                     inputsAsString += "\n";
+                    break;
+                    
+                default :
                     break;
                     
             }
@@ -185,7 +197,7 @@ static void reportConnections(const OutputFlavour           flavour,
         {
             switch (flavour)
             {
-                case OutputFlavour::kOutputFlavourTabs :
+                case kOutputFlavourTabs :
                     if (sawOutputs)
                     {
                         outputsAsString += ", ";
@@ -193,22 +205,25 @@ static void reportConnections(const OutputFlavour           flavour,
                     outputsAsString += SanitizeString(walker->_portName, true);
                     switch (walker->_portMode)
                     {
-                        case ChannelMode::kChannelModeTCP :
+                        case kChannelModeTCP :
                             outputsAsString += " TCP";
                             break;
                             
-                        case ChannelMode::kChannelModeUDP :
+                        case kChannelModeUDP :
                             outputsAsString += " UDP";
                             break;
                             
-                        case ChannelMode::kChannelModeOther :
+                        case kChannelModeOther :
                             outputsAsString += " unknown";
+                            break;
+                            
+                        default :
                             break;
                             
                     }
                     break;
                     
-                case OutputFlavour::kOutputFlavourJSON :
+                case kOutputFlavourJSON :
                     if (sawOutputs)
                     {
                         outputsAsString += ", ";
@@ -220,41 +235,50 @@ static void reportConnections(const OutputFlavour           flavour,
                                           CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
                     switch (walker->_portMode)
                     {
-                        case ChannelMode::kChannelModeTCP :
+                        case kChannelModeTCP :
                             outputsAsString += "TCP";
                             break;
                             
-                        case ChannelMode::kChannelModeUDP :
+                        case kChannelModeUDP :
                             outputsAsString += "UDP";
                             break;
                             
-                        case ChannelMode::kChannelModeOther :
+                        case kChannelModeOther :
                             outputsAsString += "unknown";
+                            break;
+                            
+                        default :
                             break;
                             
                     }
                     outputsAsString += T_(CHAR_DOUBLEQUOTE " }");
                     break;
                     
-                case OutputFlavour::kOutputFlavourNormal :
+                case kOutputFlavourNormal :
                     outputsAsString += "   Output to ";
                     outputsAsString += SanitizeString(walker->_portName, true);
                     switch (walker->_portMode)
                     {
-                        case ChannelMode::kChannelModeTCP :
+                        case kChannelModeTCP :
                             outputsAsString += " via TCP.";
                             break;
                             
-                        case ChannelMode::kChannelModeUDP :
+                        case kChannelModeUDP :
                             outputsAsString += " via UDP.";
                             break;
                             
-                        case ChannelMode::kChannelModeOther :
+                        case kChannelModeOther :
                             outputsAsString += " via non-TCP/non-UDP.";
+                            break;
+                            
+                        default :
                             break;
                             
                     }
                     outputsAsString += "\n";
+                    break;
+                    
+                default :
                     break;
                     
             }
@@ -263,17 +287,17 @@ static void reportConnections(const OutputFlavour           flavour,
     }
     switch (flavour)
     {
-	    case OutputFlavour::kOutputFlavourTabs :
+	    case kOutputFlavourTabs :
             cout << inputsAsString.c_str() << "\t" << outputsAsString.c_str();
             break;
             
-	    case OutputFlavour::kOutputFlavourJSON :
+	    case kOutputFlavourJSON :
             cout << T_(CHAR_DOUBLEQUOTE "Inputs" CHAR_DOUBLEQUOTE ": [ ") <<
                     inputsAsString.c_str() << T_(" ], " CHAR_DOUBLEQUOTE "Outputs" CHAR_DOUBLEQUOTE
                                                  ": [ ") << outputsAsString.c_str() << " ]";
             break;
             
-	    case OutputFlavour::kOutputFlavourNormal :
+	    case kOutputFlavourNormal :
             if (sawInputs || sawOutputs)
             {
                 if (sawInputs)
@@ -289,6 +313,9 @@ static void reportConnections(const OutputFlavour           flavour,
             {
                 cout << "   No active connections." << endl;
             }
+            break;
+            
+        default :
             break;
             
     }
@@ -323,7 +350,7 @@ static void reportAssociates(const OutputFlavour                flavour,
                     {
                         inputAssociates += ", ";
                     }
-                    if (OutputFlavour::kOutputFlavourJSON == flavour)
+                    if (kOutputFlavourJSON == flavour)
                     {
                         inputAssociates += CHAR_DOUBLEQUOTE;
                         inputAssociates += SanitizeString(*walker);
@@ -344,7 +371,7 @@ static void reportAssociates(const OutputFlavour                flavour,
                     {
                         outputAssociates += ", ";
                     }
-                    if (OutputFlavour::kOutputFlavourJSON == flavour)
+                    if (kOutputFlavourJSON == flavour)
                     {
                         outputAssociates += CHAR_DOUBLEQUOTE;
                         outputAssociates += SanitizeString(*walker);
@@ -359,13 +386,13 @@ static void reportAssociates(const OutputFlavour                flavour,
             }
             switch (flavour)
             {
-                case OutputFlavour::kOutputFlavourTabs :
+                case kOutputFlavourTabs :
                     // Skip over the missing fields.
                     cout << "\tPrimary\t" << inputAssociates.c_str() << "\t" <<
                             outputAssociates.c_str();
                     break;
                     
-                case OutputFlavour::kOutputFlavourJSON :
+                case kOutputFlavourJSON :
                     cout << T_(CHAR_DOUBLEQUOTE "Primary" CHAR_DOUBLEQUOTE ": true, "
                                CHAR_DOUBLEQUOTE "AssocInputs" CHAR_DOUBLEQUOTE ": [ ") <<
                             inputAssociates.c_str() << T_(" ], " CHAR_DOUBLEQUOTE "AssocOutputs"
@@ -373,10 +400,13 @@ static void reportAssociates(const OutputFlavour                flavour,
                             outputAssociates.c_str() << " ], ";
                     break;
                     
-                case OutputFlavour::kOutputFlavourNormal :
+                case kOutputFlavourNormal :
                     cout << " Primary port with inputs (" << inputAssociates.c_str() <<
                             ") and outputs (" <<
                     outputAssociates.c_str() << ").";
+                    break;
+                    
+                default :
                     break;
                     
             }
@@ -386,14 +416,14 @@ static void reportAssociates(const OutputFlavour                flavour,
             if (0 < assocInputs.size())
             {
                 inputAssociates = SanitizeString(assocInputs[0],
-                                                 OutputFlavour::kOutputFlavourJSON != flavour);
+                                                 kOutputFlavourJSON != flavour);
                 switch (flavour)
                 {
-                    case OutputFlavour::kOutputFlavourTabs :
+                    case kOutputFlavourTabs :
                         cout << "\tAssociate\t" << inputAssociates.c_str() << "\t";
                         break;
                         
-                    case OutputFlavour::kOutputFlavourJSON :
+                    case kOutputFlavourJSON :
                         cout << T_(CHAR_DOUBLEQUOTE "Primary" CHAR_DOUBLEQUOTE ": false, "
                                    CHAR_DOUBLEQUOTE "AssocInputs" CHAR_DOUBLEQUOTE ": [ "
                                    CHAR_DOUBLEQUOTE) << inputAssociates.c_str() <<
@@ -401,8 +431,11 @@ static void reportAssociates(const OutputFlavour                flavour,
                            CHAR_DOUBLEQUOTE ": [ ], ");
                         break;
                         
-                    case OutputFlavour::kOutputFlavourNormal :
+                    case kOutputFlavourNormal :
                         cout << " Port associated with " << inputAssociates.c_str() << ".";
+                        break;
+                        
+                    default :
                         break;
                         
                 }
@@ -413,18 +446,21 @@ static void reportAssociates(const OutputFlavour                flavour,
     {
         switch (flavour)
         {
-            case OutputFlavour::kOutputFlavourTabs :
+            case kOutputFlavourTabs :
                 // Skip over the missing fields.
                 cout << "\t\t\t";
                 break;
                 
-            case OutputFlavour::kOutputFlavourJSON :
+            case kOutputFlavourJSON :
                 cout << T_(CHAR_DOUBLEQUOTE "Primary" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE "null"
                            CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "AssocInputs" CHAR_DOUBLEQUOTE
                            ": [ ], " CHAR_DOUBLEQUOTE "AssocOutputs" CHAR_DOUBLEQUOTE ": [ ], ");
                 break;
                 
-            case OutputFlavour::kOutputFlavourNormal :
+            case kOutputFlavourNormal :
+                break;
+                
+            default :
                 break;
                 
         }
@@ -450,23 +486,26 @@ static bool reportPortStatus(const OutputFlavour               flavour,
     yarp::os::ConstString      portName;
     yarp::os::ConstString      portClass;
     
-    portName = SanitizeString(aDescriptor._portName, OutputFlavour::kOutputFlavourJSON != flavour);
+    portName = SanitizeString(aDescriptor._portName, kOutputFlavourJSON != flavour);
     if (strncmp(portName.c_str(), HIDDEN_CHANNEL_PREFIX, sizeof(HIDDEN_CHANNEL_PREFIX) - 1))
     {
         // Only process non-hidden ports.
         switch (flavour)
         {
-            case OutputFlavour::kOutputFlavourTabs :
+            case kOutputFlavourTabs :
                 cout << portName.c_str() << "\t";
                 break;
                 
-            case OutputFlavour::kOutputFlavourJSON :
+            case kOutputFlavourJSON :
                 cout << T_("{ " CHAR_DOUBLEQUOTE "PortName" CHAR_DOUBLEQUOTE ": "
                            CHAR_DOUBLEQUOTE) << portName.c_str() << T_(CHAR_DOUBLEQUOTE ", ");
                 break;
                 
-            case OutputFlavour::kOutputFlavourNormal :
+            case kOutputFlavourNormal :
                 cout << portName.c_str() << ": ";
+                break;
+                
+            default :
                 break;
                 
         }
@@ -488,27 +527,30 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                     // adapter or client.
                     switch (Utilities::GetPortKind(aDescriptor._portName))
                     {
-                        case Utilities::PortKind::kPortKindAdapter :
+                        case Utilities::kPortKindAdapter :
                             portClass = "Adapter port";
                             break;
                             
-                        case Utilities::PortKind::kPortKindClient :
+                        case Utilities::kPortKindClient :
                             portClass = "Client port";
                             break;
                             
-                        case Utilities::PortKind::kPortKindService :
+                        case Utilities::kPortKindService :
                             portClass = "Unregistered service port";
                             break;
                             
-                        case Utilities::PortKind::kPortKindServiceRegistry :
+                        case Utilities::kPortKindServiceRegistry :
                             portClass = "Service Registry port";
                             break;
                             
-                        case Utilities::PortKind::kPortKindStandard :
+                        case Utilities::kPortKindStandard :
                             portClass = "Standard port at ";
                             portClass += aDescriptor._portIpAddress;
                             portClass += ":";
                             portClass += aDescriptor._portPortNumber;
+                            break;
+                            
+                        default :
                             break;
                             
                     }
@@ -544,27 +586,30 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                             // an adapter or client.
                             switch (Utilities::GetPortKind(aDescriptor._portName))
                             {
-                                case Utilities::PortKind::kPortKindAdapter :
+                                case Utilities::kPortKindAdapter :
                                     portClass = "Adapter port";
                                     break;
                                     
-                                case Utilities::PortKind::kPortKindClient :
+                                case Utilities::kPortKindClient :
                                     portClass = "Client port";
                                     break;
                                     
-                                case Utilities::PortKind::kPortKindService :
+                                case Utilities::kPortKindService :
                                     portClass = "Unregistered service port";
                                     break;
                                     
-                                case Utilities::PortKind::kPortKindServiceRegistry :
+                                case Utilities::kPortKindServiceRegistry :
                                     portClass = "Service Registry port";
                                     break;
                                     
-                                case Utilities::PortKind::kPortKindStandard :
+                                case Utilities::kPortKindStandard :
                                     portClass = "Standard port at ";
                                     portClass += aDescriptor._portIpAddress;
                                     portClass += ":";
                                     portClass += aDescriptor._portPortNumber;
+                                    break;
+                                    
+                                default :
                                     break;
                                     
                             }
@@ -574,18 +619,21 @@ static bool reportPortStatus(const OutputFlavour               flavour,
             }
             switch (flavour)
             {
-                case OutputFlavour::kOutputFlavourTabs :
+                case kOutputFlavourTabs :
                     cout << SanitizeString(portClass, true).c_str() << "\t";
                     break;
                     
-                case OutputFlavour::kOutputFlavourJSON :
+                case kOutputFlavourJSON :
                     cout << T_(CHAR_DOUBLEQUOTE "PortClass" CHAR_DOUBLEQUOTE ": "
                                CHAR_DOUBLEQUOTE) << SanitizeString(portClass).c_str() <<
                             T_(CHAR_DOUBLEQUOTE ", ");
                     break;
                     
-                case OutputFlavour::kOutputFlavourNormal :
+                case kOutputFlavourNormal :
                     cout << SanitizeString(portClass, true).c_str() << ".";
+                    break;
+                    
+                default :
                     break;
                     
             }
@@ -600,44 +648,50 @@ static bool reportPortStatus(const OutputFlavour               flavour,
             // client.
             switch (Utilities::GetPortKind(aDescriptor._portName))
             {
-                case Utilities::PortKind::kPortKindAdapter :
+                case Utilities::kPortKindAdapter :
                     portClass = "Adapter port";
                     break;
                     
-                case Utilities::PortKind::kPortKindClient :
+                case Utilities::kPortKindClient :
                     portClass = "Client port";
                     break;
                     
-                case Utilities::PortKind::kPortKindService :
+                case Utilities::kPortKindService :
                     portClass = "Unregistered service port";
                     break;
                     
-                case Utilities::PortKind::kPortKindServiceRegistry :
+                case Utilities::kPortKindServiceRegistry :
                     portClass = "Service Registry port";
                     break;
                     
-                case Utilities::PortKind::kPortKindStandard :
+                case Utilities::kPortKindStandard :
                     portClass = "Standard port at ";
                     portClass += aDescriptor._portIpAddress;
                     portClass += ":";
                     portClass += aDescriptor._portPortNumber;
                     break;
                     
+                default :
+                    break;
+                    
             }
             switch (flavour)
             {
-                case OutputFlavour::kOutputFlavourTabs :
+                case kOutputFlavourTabs :
                     cout << SanitizeString(portClass, true).c_str() << "\t";
                     break;
                     
-                case OutputFlavour::kOutputFlavourJSON :
+                case kOutputFlavourJSON :
                     cout << T_(CHAR_DOUBLEQUOTE "PortClass" CHAR_DOUBLEQUOTE ": "
                                CHAR_DOUBLEQUOTE) << SanitizeString(portClass).c_str() <<
                             T_(CHAR_DOUBLEQUOTE ", ");
                     break;
                     
-                case OutputFlavour::kOutputFlavourNormal :
+                case kOutputFlavourNormal :
                     cout << SanitizeString(portClass, true).c_str() << ".";
+                    break;
+                    
+                default :
                     break;
                     
             }
@@ -645,28 +699,34 @@ static bool reportPortStatus(const OutputFlavour               flavour,
         reportAssociates(flavour, associates);
         switch (flavour)
         {
-            case OutputFlavour::kOutputFlavourTabs :
+            case kOutputFlavourTabs :
                 break;
                 
-            case OutputFlavour::kOutputFlavourJSON :
+            case kOutputFlavourJSON :
                 break;
                 
-            case OutputFlavour::kOutputFlavourNormal :
+            case kOutputFlavourNormal :
                 cout << endl;
+                break;
+                
+            default :
                 break;
                 
         }
         reportConnections(flavour, aDescriptor._portName, nullptr, nullptr);
         switch (flavour)
         {
-            case OutputFlavour::kOutputFlavourTabs :
+            case kOutputFlavourTabs :
                 break;
                 
-            case OutputFlavour::kOutputFlavourJSON :
+            case kOutputFlavourJSON :
                 cout << " }";
                 break;
                 
-            case OutputFlavour::kOutputFlavourNormal :
+            case kOutputFlavourNormal :
+                break;
+                
+            default :
                 break;
                 
         }
@@ -700,7 +760,7 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour flavour = OutputFlavour::kOutputFlavourNormal;
+    OutputFlavour flavour = kOutputFlavourNormal;
 
 	opterr = 0; // Suppress the error message resulting from an unknown option.
     for (int cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc;
@@ -709,11 +769,11 @@ int main(int      argc,
         switch (cc)
         {
             case 'j' :
-                flavour = OutputFlavour::kOutputFlavourJSON;
+                flavour = kOutputFlavourJSON;
                 break;
                 
             case 't' :
-                flavour = OutputFlavour::kOutputFlavourTabs;
+                flavour = kOutputFlavourTabs;
                 break;
                 
             default :
@@ -742,15 +802,18 @@ int main(int      argc,
                 
                 switch (flavour)
                 {
-                    case OutputFlavour::kOutputFlavourTabs :
+                    case kOutputFlavourTabs :
                         break;
                         
-                    case OutputFlavour::kOutputFlavourJSON :
+                    case kOutputFlavourJSON :
                         cout << "[ ";
                         break;
                         
-                    case OutputFlavour::kOutputFlavourNormal :
+                    case kOutputFlavourNormal :
                         cout << "Ports:" << endl;
+                        break;
+                        
+                    default :
                         break;
                         
                 }
@@ -760,21 +823,24 @@ int main(int      argc,
                     {
                         switch (flavour)
                         {
-                            case OutputFlavour::kOutputFlavourJSON :
+                            case kOutputFlavourJSON :
                                 if (found)
                                 {
                                     cout << "," << endl;
                                 }
                                 break;
                                 
-                            case OutputFlavour::kOutputFlavourTabs :
+                            case kOutputFlavourTabs :
                                 if (found)
                                 {
                                     cout << endl;
                                 }
                                 break;
                                 
-                            case OutputFlavour::kOutputFlavourNormal :
+                            case kOutputFlavourNormal :
+                                break;
+                                
+                            default :
                                 break;
                                 
                         }
@@ -783,18 +849,18 @@ int main(int      argc,
                 }
                 switch (flavour)
                 {
-                    case OutputFlavour::kOutputFlavourTabs :
+                    case kOutputFlavourTabs :
                         if (found)
                         {
                             cout << endl;
                         }
                         break;
                         
-                    case OutputFlavour::kOutputFlavourJSON :
+                    case kOutputFlavourJSON :
                         cout << " ]" << endl;
                         break;
                         
-                    case OutputFlavour::kOutputFlavourNormal :
+                    case kOutputFlavourNormal :
                         if (found)
                         {
                             cout << endl;
@@ -803,6 +869,9 @@ int main(int      argc,
                         {
                             cout << "   No ports found." << endl;
                         }
+                        break;
+                        
+                    default :
                         break;
                         
                 }

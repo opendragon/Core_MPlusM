@@ -39,7 +39,11 @@
 #if (! defined(MpMBaseService_H_))
 # define MpMBaseService_H_ /* Header guard */
 
+# include <mpm/M+MBaseContext.h>
 # include <mpm/M+MRequestMap.h>
+# include <mpm/M+MBaseServiceInputHandler.h>
+# include <mpm/M+MBaseServiceInputHandlerCreator.h>
+# include <mpm/M+MEndpoint.h>
 
 # include <stdint.h>
 
@@ -58,15 +62,11 @@ namespace MplusM
 {
     namespace Common
     {
-        class BaseContext;
         class BaseRequestHandler;
-        class BaseServiceInputHandler;
-        class BaseServiceInputHandlerCreator;
         class ChannelsRequestHandler;
         class ClientsRequestHandler;
         class CountRequestHandler;
         class DetachRequestHandler;
-        class Endpoint;
         class InfoRequestHandler;
         class ListRequestHandler;
         class NameRequestHandler;

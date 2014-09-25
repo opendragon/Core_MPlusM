@@ -57,7 +57,7 @@ namespace MplusM
     namespace Test
     {
         /*! @brief A test input handler factory. */
-        class Test05HandlerCreator final : public Common::InputHandlerCreator
+        class Test05HandlerCreator : public Common::InputHandlerCreator
         {
         public :
             
@@ -69,8 +69,7 @@ namespace MplusM
             
             /*! @brief Create a new InputHandler object to process input data.
              @returns A new InputHandler or @c nullptrnullptr if one cannot be created. */
-            virtual Common::InputHandler * create(void)
-            override;
+            virtual Common::InputHandler * create(void);
             
         protected :
             
@@ -86,34 +85,6 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef InputHandlerCreator inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Test05HandlerCreator(const Test05HandlerCreator & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Test05HandlerCreator & operator =(const Test05HandlerCreator & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Test05HandlerCreator(Test05HandlerCreator && other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Test05HandlerCreator & operator =(Test05HandlerCreator && other)
-            DISALLOWED_FUNCTION;
             
         }; // Test05HandlerCreator
         

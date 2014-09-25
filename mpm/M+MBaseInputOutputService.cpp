@@ -339,7 +339,7 @@ void BaseInputOutputService::fillInSecondaryInputChannelsList(ChannelVector & ch
                 
                 descriptor._portName = aChannel->name();
                 descriptor._portProtocol = aChannel->protocol();
-                descriptor._portMode = ChannelMode::kChannelModeTCP;
+                descriptor._portMode = kChannelModeTCP;
                 channels.push_back(descriptor);
             }
         }
@@ -365,7 +365,7 @@ void BaseInputOutputService::fillInSecondaryOutputChannelsList(ChannelVector & c
                 
                 descriptor._portName = aChannel->name();
                 descriptor._portProtocol = aChannel->protocol();
-                descriptor._portMode = ChannelMode::kChannelModeTCP;
+                descriptor._portMode = kChannelModeTCP;
                 channels.push_back(descriptor);
             }
         }

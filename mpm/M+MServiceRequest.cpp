@@ -37,8 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MServiceRequest.h>
-#include <mpm/M+MEndpoint.h>
-#include <mpm/M+MServiceResponse.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

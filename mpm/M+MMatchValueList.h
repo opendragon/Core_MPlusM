@@ -40,6 +40,7 @@
 # define MpMMatchValueList_H_ /* Header guard */
 
 # include <mpm/M+MBaseMatcher.h>
+# include <mpm/M+MMatchValue.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -56,8 +57,6 @@ namespace MplusM
 {
     namespace Parser
     {
-        class MatchValue;
-        
         /*! @brief A pattern matcher for lists of simple values. */
         class MatchValueList : public BaseMatcher
         {

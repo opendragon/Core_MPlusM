@@ -61,7 +61,7 @@ namespace MplusM
         /*! @brief The standard 'restartStreams' request handler.
          
          There is no input for the request and there is no output. */
-        class RestartStreamsRequestHandler final : public BaseRequestHandler
+        class RestartStreamsRequestHandler : public BaseRequestHandler
         {
         public :
             
@@ -74,15 +74,13 @@ namespace MplusM
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(Common::StringVector & alternateNames)
-            override;
+            virtual void fillInAliases(Common::StringVector & alternateNames);
             
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
              @param info The dictionary to be filled in. */
             virtual void fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info)
-            override;
+                                           yarp::os::Property &          info);
             
             /*! @brief Process a request.
              @param request The actual request name.
@@ -93,8 +91,7 @@ namespace MplusM
             virtual bool processRequest(const yarp::os::ConstString & request,
                                         const yarp::os::Bottle &      restOfInput,
                                         const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism)
-            override;
+                                        yarp::os::ConnectionWriter *  replyMechanism);
             
         protected :
             
@@ -110,34 +107,6 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RestartStreamsRequestHandler(const RestartStreamsRequestHandler & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RestartStreamsRequestHandler & operator =(const RestartStreamsRequestHandler & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RestartStreamsRequestHandler(RestartStreamsRequestHandler && other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RestartStreamsRequestHandler & operator =(RestartStreamsRequestHandler && other)
-            DISALLOWED_FUNCTION;
             
             /*! @brief The service that will manages the statistics. */
             BaseInputOutputService & _service;

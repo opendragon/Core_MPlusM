@@ -112,43 +112,13 @@ namespace MplusM
             
             COPY_AND_ASSIGNMENT_(BaseOutputService);
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseOutputService(const BaseOutputService & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseOutputService & operator =(const BaseOutputService & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseOutputService(BaseOutputService && other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseOutputService & operator =(BaseOutputService && other)
-            DISALLOWED_FUNCTION;
-            
             /*! @brief Set up the input channels.
              @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpInputStreams(void)
-            override final;
+            virtual bool setUpInputStreams(void);
             
             /*! @brief Shut down the input streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownInputStreams(void)
-            override;
+            virtual bool shutDownInputStreams(void);
             
         public :
         

@@ -150,15 +150,15 @@ static void checkForInputConnection(const yarp::os::Bottle & response,
                 connection._portName = source;
                 if (mode == "tcp")
                 {
-                    connection._portMode = ChannelMode::kChannelModeTCP;
+                    connection._portMode = kChannelModeTCP;
                 }
                 else if (mode == "udp")
                 {
-                    connection._portMode = ChannelMode::kChannelModeUDP;
+                    connection._portMode = kChannelModeUDP;
                 }
                 else
                 {
-                    connection._portMode = ChannelMode::kChannelModeOther;
+                    connection._portMode = kChannelModeOther;
                 }
                 inputs.push_back(connection);
             }
@@ -213,15 +213,15 @@ static void checkForOutputConnection(const yarp::os::Bottle & response,
                 connection._portName = destination;
                 if (mode == "tcp")
                 {
-                    connection._portMode = ChannelMode::kChannelModeTCP;
+                    connection._portMode = kChannelModeTCP;
                 }
                 else if (mode == "udp")
                 {
-                    connection._portMode = ChannelMode::kChannelModeUDP;
+                    connection._portMode = kChannelModeUDP;
                 }
                 else
                 {
-                    connection._portMode = ChannelMode::kChannelModeOther;
+                    connection._portMode = kChannelModeOther;
                 }
                 outputs.push_back(connection);
             }
@@ -868,7 +868,7 @@ bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & se
                                                 
                                                 aChannel._portName = firstValue.asString();
                                                 aChannel._portProtocol = secondValue.asString();
-                                                aChannel._portMode = ChannelMode::kChannelModeOther;
+                                                aChannel._portMode = kChannelModeOther;
                                                 descriptor._inputChannels.push_back(aChannel);
                                             }
                                         }
@@ -896,7 +896,7 @@ bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & se
                                                 
                                                 aChannel._portName = firstValue.asString();
                                                 aChannel._portProtocol = secondValue.asString();
-                                                aChannel._portMode = ChannelMode::kChannelModeOther;
+                                                aChannel._portMode = kChannelModeOther;
                                                 descriptor._outputChannels.push_back(aChannel);
                                             }
                                         }
@@ -964,23 +964,23 @@ Utilities::PortKind Utilities::GetPortKind(const yarp::os::ConstString & portNam
     
     if (! strcmp(MpM_REGISTRY_CHANNEL_NAME, portNameChars))
     {
-        result = PortKind::kPortKindServiceRegistry;
+        result = kPortKindServiceRegistry;
     }
     else if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portNameChars, kDefaultServiceNameBaseLen))
     {
-        result = PortKind::kPortKindService;
+        result = kPortKindService;
     }
     else if (! strncmp(ADAPTER_PORT_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
     {
-        result = PortKind::kPortKindAdapter;
+        result = kPortKindAdapter;
     }
     else if (! strncmp(CLIENT_PORT_NAME_BASE, portNameChars, kClientPortNameBaseLen))
     {
-        result = PortKind::kPortKindClient;
+        result = kPortKindClient;
     }
     else
     {
-        result = PortKind::kPortKindStandard;
+        result = kPortKindStandard;
     }
     return result;
 } // Utilities::GetPortKind
@@ -1106,6 +1106,10 @@ const char * Utilities::MapServiceKindToString(const ServiceKind kind)
             
         case ServiceKind::kServiceKindNormal :
             result = "Normal";
+            break;
+            
+        default :
+            result = "unknown";
             break;
             
     }

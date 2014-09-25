@@ -39,6 +39,7 @@
 #if (! defined(MpMMatchRequestHandler_H_))
 # define MpMMatchRequestHandler_H_ /* Header guard */
 
+# include <mpm/M+MBaseNameValidator.h>
 # include <mpm/M+MBaseRequestHandler.h>
 
 # if defined(__APPLE__)
@@ -54,11 +55,6 @@
 
 namespace MplusM
 {
-    namespace Parser
-    {
-        class BaseNameValidator;
-    } // Parser
-    
     namespace Registry
     {
         class RegistryService;

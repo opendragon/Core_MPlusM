@@ -59,7 +59,7 @@ namespace MplusM
         class Test16EchoRequestHandler;
         
         /*! @brief A test service. */
-        class Test16Service final : public Common::BaseService
+        class Test16Service : public Common::BaseService
         {
         public :
             
@@ -76,47 +76,17 @@ namespace MplusM
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void)
-            override;
+            virtual bool start(void);
             
             /*! @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void)
-            override;
+            virtual bool stop(void);
             
         protected :
             
         private :
             
             COPY_AND_ASSIGNMENT_(Test16Service);
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Test16Service(const Test16Service & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Test16Service & operator =(const Test16Service & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Test16Service(Test16Service && other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            Test16Service & operator =(Test16Service && other)
-            DISALLOWED_FUNCTION;
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);

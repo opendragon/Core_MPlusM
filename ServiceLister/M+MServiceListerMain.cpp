@@ -91,7 +91,7 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour flavour = OutputFlavour::kOutputFlavourNormal;
+    OutputFlavour flavour = kOutputFlavourNormal;
 
     opterr = 0; // Suppress the error message resulting from an unknown option.
     for (int cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc;
@@ -100,11 +100,11 @@ int main(int      argc,
         switch (cc)
         {
             case 'j' :
-                flavour = OutputFlavour::kOutputFlavourJSON;
+                flavour = kOutputFlavourJSON;
                 break;
                 
             case 't' :
-                flavour = OutputFlavour::kOutputFlavourTabs;
+                flavour = kOutputFlavourTabs;
                 break;
                 
             default :
@@ -128,7 +128,7 @@ int main(int      argc,
             
             if (Utilities::GetServiceNames(services, false, nullptr, nullptr))
             {
-                if (OutputFlavour::kOutputFlavourJSON == flavour)
+                if (kOutputFlavourJSON == flavour)
                 {
                     cout << "[ ";
                 }
@@ -153,14 +153,14 @@ int main(int      argc,
                             
                             switch (flavour)
                             {
-                                case OutputFlavour::kOutputFlavourTabs :
+                                case kOutputFlavourTabs :
                                     if (reported)
                                     {
                                         cout << endl;
                                     }
                                     break;
                                     
-                                case OutputFlavour::kOutputFlavourJSON :
+                                case kOutputFlavourJSON :
                                     if (reported)
                                     {
                                         cout << "," << endl;
@@ -168,7 +168,7 @@ int main(int      argc,
                                     cout << "{ ";
                                     break;
                                     
-                                case OutputFlavour::kOutputFlavourNormal :
+                                case kOutputFlavourNormal :
                                     if (! reported)
                                     {
                                         cout << "Services: " << endl;
@@ -176,9 +176,12 @@ int main(int      argc,
                                     cout << endl;
                                     break;
                                     
+                                default :
+                                    break;
+                                    
                             }
                             reported = true;
-                            if (OutputFlavour::kOutputFlavourJSON == flavour)
+                            if (kOutputFlavourJSON == flavour)
                             {
                                 inChannelNames = "[ ";
                                 outChannelNames = "[ ";
@@ -190,7 +193,7 @@ int main(int      argc,
                             {
                                 ChannelDescription iDescriptor(*iWalker);
                                 
-                                if (OutputFlavour::kOutputFlavourJSON == flavour)
+                                if (kOutputFlavourJSON == flavour)
                                 {
                                     if (sawInputs)
                                     {
@@ -220,7 +223,7 @@ int main(int      argc,
                                 }
                                 sawInputs = true;
                             }
-                            if (OutputFlavour::kOutputFlavourJSON == flavour)
+                            if (kOutputFlavourJSON == flavour)
                             {
                                 inChannelNames += " ]";
                             }
@@ -231,7 +234,7 @@ int main(int      argc,
                             {
                                 ChannelDescription oDescriptor(*oWalker);
                                 
-                                if (OutputFlavour::kOutputFlavourJSON == flavour)
+                                if (kOutputFlavourJSON == flavour)
                                 {
                                     if (sawOutputs)
                                     {
@@ -261,17 +264,17 @@ int main(int      argc,
                                 }
                                 sawOutputs = true;
                             }
-                            if (OutputFlavour::kOutputFlavourJSON == flavour)
+                            if (kOutputFlavourJSON == flavour)
                             {
                                 outChannelNames += " ]";
                             }
                             servicePortName = SanitizeString(*walker,
-                                                     OutputFlavour::kOutputFlavourJSON != flavour);
+                                                     kOutputFlavourJSON != flavour);
                             serviceName = SanitizeString(descriptor._serviceName,
-                                                     OutputFlavour::kOutputFlavourJSON != flavour);
+                                                     kOutputFlavourJSON != flavour);
                             switch (flavour)
                             {
-                                case OutputFlavour::kOutputFlavourJSON :
+                                case kOutputFlavourJSON :
                                     cout << T_(CHAR_DOUBLEQUOTE "ServicePort" CHAR_DOUBLEQUOTE ": "
                                                CHAR_DOUBLEQUOTE) << servicePortName.c_str() <<
                                             T_(CHAR_DOUBLEQUOTE ", ");
@@ -298,7 +301,7 @@ int main(int      argc,
                                                ": ") << outChannelNames.c_str() << " }";
                                     break;
                                     
-                                case OutputFlavour::kOutputFlavourTabs :
+                                case kOutputFlavourTabs :
                                     cout << servicePortName.c_str() << "\t";
                                     cout << serviceName.c_str() << "\t";
                                     cout << descriptor._kind.c_str() << "\t";
@@ -311,7 +314,7 @@ int main(int      argc,
                                             outChannelNames.c_str();
                                     break;
                                     
-                                case OutputFlavour::kOutputFlavourNormal :
+                                case kOutputFlavourNormal :
                                     cout << "Service port:      " << servicePortName.c_str() <<
                                             endl;
                                     cout << "Service name:      " << serviceName.c_str() << endl;
@@ -335,24 +338,27 @@ int main(int      argc,
                                     }
                                     break;
                                     
+                                default :
+                                    break;
+                                    
                             }
                         }
                     }
                 }
                 switch (flavour)
                 {
-                    case OutputFlavour::kOutputFlavourTabs :
+                    case kOutputFlavourTabs :
                         if (reported)
                         {
                             cout << endl;
                         }
                         break;
                         
-                    case OutputFlavour::kOutputFlavourJSON :
+                    case kOutputFlavourJSON :
                         cout << " ]" << endl;
                         break;
                         
-                    case OutputFlavour::kOutputFlavourNormal :
+                    case kOutputFlavourNormal :
                         if (reported)
                         {
                             cout << endl;
@@ -361,6 +367,9 @@ int main(int      argc,
                         {
                             cout << "No services found." << endl;
                         }
+                        break;
+                        
+                    default :
                         break;
                         
                 }

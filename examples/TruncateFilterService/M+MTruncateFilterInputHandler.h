@@ -40,6 +40,7 @@
 #if (! defined(MpMTruncateFilterInputHandler_H_))
 # define MpMTruncateFilterInputHandler_H_ /* Header guard */
 
+# include <mpm/M+MGeneralChannel.h>
 # include <mpm/M+MInputHandler.h>
 
 # if defined(__APPLE__)
@@ -56,11 +57,6 @@
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class GeneralChannel;
-    } // Common
-    
     namespace Example
     {
         /*! @brief A handler for partially-structured input data.

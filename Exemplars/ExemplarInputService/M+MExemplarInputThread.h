@@ -39,7 +39,7 @@
 #if (! defined(MpMExemplarInputThread_H_))
 # define MpMExemplarInputThread_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MGeneralChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -54,11 +54,6 @@
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class GeneralChannel;
-    } // Common
-    
     namespace Exemplar
     {
         /*! @brief A convenience class to generate output. */

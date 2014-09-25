@@ -39,7 +39,10 @@
 #if (! defined(MpMEndpoint_H_))
 # define MpMEndpoint_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MChannelStatusReporter.h>
+# include <mpm/M+MInputHandler.h>
+# include <mpm/M+MInputHandlerCreator.h>
+# include <mpm/M+MServiceChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -56,11 +59,6 @@ namespace MplusM
 {
     namespace Common
     {
-        class ChannelStatusReporter;
-        class InputHandler;
-        class InputHandlerCreator;
-        class ServiceChannel;
-        
         /*! @brief An object that represents an endpoint that provides a bidirectional connection
          for services and clients. */
         class Endpoint

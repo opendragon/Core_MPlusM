@@ -196,34 +196,6 @@ namespace MplusM
             
             COPY_AND_ASSIGNMENT_(BaseInputOutputService);
             
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseInputOutputService(const BaseInputOutputService & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseInputOutputService & operator =(const BaseInputOutputService & other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseInputOutputService(BaseInputOutputService && other)
-            DISALLOWED_FUNCTION;
-            
-            /*! @brief Move assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            BaseInputOutputService & operator =(BaseInputOutputService && other)
-            DISALLOWED_FUNCTION;
-            
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);
             
@@ -232,13 +204,11 @@ namespace MplusM
             
             /*! @brief Fill in a list of secondary input channels for the service.
              @param channels The list of channels to be filled in. */
-            virtual void fillInSecondaryInputChannelsList(ChannelVector & channels)
-            override;
+            virtual void fillInSecondaryInputChannelsList(ChannelVector & channels);
             
             /*! @brief Fill in a list of secondary output channels for the service.
              @param channels The list of channels to be filled in. */
-            virtual void fillInSecondaryOutputChannelsList(ChannelVector & channels)
-            override;
+            virtual void fillInSecondaryOutputChannelsList(ChannelVector & channels);
             
         public :
         

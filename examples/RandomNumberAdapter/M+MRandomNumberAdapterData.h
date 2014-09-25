@@ -56,11 +56,6 @@
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class AdapterChannel;
-    } // Common
-    
     namespace Example
     {
         class RandomNumberClient;

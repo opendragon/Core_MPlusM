@@ -62,7 +62,7 @@ namespace MplusM
     namespace Utilities
     {
         /*! @brief Which combination of input and output to use. */
-        enum class InputOutputFlag : int
+        enum InputOutputFlag
         {
             /*! @brief Neither input nor output. */
             kInputAndOutputNone   = 0x0,
@@ -74,12 +74,15 @@ namespace MplusM
             kInputAndOutputOutput = 0x2,
             
             /*! @brief Both input and output. */
-            kInputAndOutputBoth   = 0x3
+            kInputAndOutputBoth   = 0x3,
+            
+            /*! @brief Force the size to be 4 bytes. */
+            kInputAndOutputUnknown = 0x7FFFFFF
             
         }; // InputOutputFlag
         
         /*! @brief The kinds of ports. */
-        enum class PortKind : int
+        enum PortKind
         {
             /*! @brief The port is an adapter port. */
             kPortKindAdapter,
@@ -94,7 +97,10 @@ namespace MplusM
             kPortKindServiceRegistry,
             
             /*! @brief The port is s standard port. */
-            kPortKindStandard
+            kPortKindStandard,
+            
+            /*! @brief Force the size to be 4 bytes. */
+            kPortKindUnknown = 0x7FFFFFF
             
         }; // PortKind
         

@@ -123,7 +123,7 @@ void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
     try
     {
         lock();
-        auto match(_handlers.find(requestName));
+        RequestHandlerMap::const_iterator match(_handlers.find(requestName));
         
         if (_handlers.end() == match)
         {
@@ -155,7 +155,7 @@ BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstStrin
     try
     {
         lock();
-        auto match(_handlers.find(request));
+        RequestHandlerMap::const_iterator match(_handlers.find(request));
         
         if (_handlers.end() == match)
         {

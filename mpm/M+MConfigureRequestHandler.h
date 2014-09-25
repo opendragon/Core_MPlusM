@@ -61,7 +61,7 @@ namespace MplusM
         /*! @brief The standard 'configure' request handler.
          
          There is no input for the request and there is no output. */
-        class ConfigureRequestHandler final : public BaseRequestHandler
+        class ConfigureRequestHandler : public BaseRequestHandler
         {
         public :
             
@@ -74,15 +74,13 @@ namespace MplusM
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(StringVector & alternateNames)
-            override;
+            virtual void fillInAliases(StringVector & alternateNames);
             
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
              @param info The dictionary to be filled in. */
             virtual void fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info)
-            override;
+                                           yarp::os::Property &          info);
             
             /*! @brief Process a request.
              @param request The actual request name.
@@ -93,8 +91,7 @@ namespace MplusM
             virtual bool processRequest(const yarp::os::ConstString & request,
                                         const yarp::os::Bottle &      restOfInput,
                                         const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism)
-            override;
+                                        yarp::os::ConnectionWriter *  replyMechanism);
             
         protected :
             

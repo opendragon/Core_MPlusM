@@ -98,7 +98,7 @@ using std::endl;
 int main(int      argc,
          char * * argv)
 {
-    OutputFlavour         flavour = OutputFlavour::kOutputFlavourNormal;
+    OutputFlavour         flavour = kOutputFlavourNormal;
     yarp::os::ConstString aceVersionString;
     yarp::os::ConstString mpmVersionString;
     yarp::os::ConstString yarpVersionString;
@@ -110,11 +110,11 @@ int main(int      argc,
         switch (cc)
         {
             case 'j' :
-                flavour = OutputFlavour::kOutputFlavourJSON;
+                flavour = kOutputFlavourJSON;
                 break;
                 
             case 't' :
-                flavour = OutputFlavour::kOutputFlavourTabs;
+                flavour = kOutputFlavourTabs;
                 break;
                 
             default :
@@ -125,7 +125,7 @@ int main(int      argc,
     }
     switch (flavour)
     {
-        case OutputFlavour::kOutputFlavourTabs :
+        case kOutputFlavourTabs :
             aceVersionString = SanitizeString(ACE_VERSION, true);
             mpmVersionString = SanitizeString(MpM_VERSION, true);
             yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
@@ -134,7 +134,7 @@ int main(int      argc,
             endl;
             break;
             
-        case OutputFlavour::kOutputFlavourJSON :
+        case kOutputFlavourJSON :
             aceVersionString = SanitizeString(ACE_VERSION);
             mpmVersionString = SanitizeString(MpM_VERSION);
             yarpVersionString = SanitizeString(YARP_VERSION_STRING);
@@ -146,13 +146,16 @@ int main(int      argc,
                     aceVersionString.c_str() << T_(CHAR_DOUBLEQUOTE " }") << endl;
             break;
             
-        case OutputFlavour::kOutputFlavourNormal :
+        case kOutputFlavourNormal :
             aceVersionString = SanitizeString(ACE_VERSION, true);
             mpmVersionString = SanitizeString(MpM_VERSION, true);
             yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
             cout << "Movement And Meaning Version: " << mpmVersionString.c_str() <<
                     ", YARP Version: " << yarpVersionString.c_str() << ", ACE Version: " <<
                     aceVersionString.c_str() << endl;
+            break;
+            
+        default :
             break;
             
     }

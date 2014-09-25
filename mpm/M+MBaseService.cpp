@@ -47,11 +47,7 @@
 #include "M+MNameRequestHandler.h"
 #include "M+MPingThread.h"
 
-#include <mpm/M+MBaseContext.h>
-#include <mpm/M+MBaseServiceInputHandler.h>
-#include <mpm/M+MBaseServiceInputHandlerCreator.h>
 #include <mpm/M+MChannelStatusReporter.h>
-#include <mpm/M+MEndpoint.h>
 #include <mpm/M+MException.h>
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
@@ -489,7 +485,7 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
     try
     {
         lockContexts();
-        auto match(_contexts.find(key));
+        ContextMap::iterator match(_contexts.find(key));
         
         if (_contexts.end() != match)
         {
@@ -581,7 +577,7 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
     try
     {
         lockContexts();
-        auto match(_contexts.find(key));
+        ContextMap::iterator match(_contexts.find(key));
         
         if (_contexts.end() != match)
         {

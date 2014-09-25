@@ -40,6 +40,7 @@
 #if (! defined(MpMExemplarFilterInputHandler_H_))
 # define MpMExemplarFilterInputHandler_H_ /* Header guard */
 
+# include <mpm/M+MGeneralChannel.h>
 # include <mpm/M+MInputHandler.h>
 
 # if defined(__APPLE__)
@@ -56,11 +57,6 @@
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class GeneralChannel;
-    } // Common
-    
     namespace Exemplar
     {
         /*! @brief A handler for partially-structured input data.

@@ -40,6 +40,9 @@
 # define MpMRegistryService_H_ /* Header guard */
 
 # include <mpm/M+MBaseService.h>
+# include <mpm/M+MGeneralChannel.h>
+# include <mpm/M+MMatchExpression.h>
+# include <mpm/M+MServiceResponse.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -56,17 +59,6 @@ struct sqlite3;
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class GeneralChannel;
-        class ServiceResponse;
-    } // Common
-    
-    namespace Parser
-    {
-        class MatchExpression;
-    } // Parser
-    
     namespace Registry
     {
         class AssociateRequestHandler;

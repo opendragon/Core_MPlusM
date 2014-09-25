@@ -54,11 +54,6 @@
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class ServiceResponse;
-    } // Common
-    
     namespace Registry
     {
         class RegistryService;

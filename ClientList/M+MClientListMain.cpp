@@ -92,7 +92,7 @@ static bool processResponse(OutputFlavour                 flavour,
     OD_LOG_P1("response = ", &response); //####
     bool                  result = false;
     yarp::os::ConstString cleanServiceName(SanitizeString(serviceName,
-                                                  OutputFlavour::kOutputFlavourJSON != flavour));
+                                                  kOutputFlavourJSON != flavour));
     
     OD_LOG_S1s("response = ", response.asString()); //####
     for (int ii = 0, howMany = response.count(); ii < howMany; ++ii)
@@ -105,7 +105,7 @@ static bool processResponse(OutputFlavour                 flavour,
             
             switch (flavour)
             {
-                case OutputFlavour::kOutputFlavourJSON :
+                case kOutputFlavourJSON :
                     if (result || sawResponse)
                     {
                         cout << "," << endl;
@@ -117,18 +117,21 @@ static bool processResponse(OutputFlavour                 flavour,
                             T_(CHAR_DOUBLEQUOTE " }");
                     break;
                     
-                case OutputFlavour::kOutputFlavourTabs :
+                case kOutputFlavourTabs :
                     cout << cleanServiceName.c_str() << "\t" <<
                             SanitizeString(clientString).c_str() << endl;
                     break;
                     
-                case OutputFlavour::kOutputFlavourNormal :
+                case kOutputFlavourNormal :
                     if (! result)
                     {
                         cout << "Service: " << cleanServiceName.c_str() << endl << "Clients: " <<
                         endl;
                     }
                     cout << "   " << SanitizeString(clientString).c_str() << endl;
+                    break;
+                    
+                default :
                     break;
                     
             }
@@ -160,7 +163,7 @@ int main(int     argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour flavour = OutputFlavour::kOutputFlavourNormal;
+    OutputFlavour flavour = kOutputFlavourNormal;
 
     opterr = 0; // Suppress the error message resulting from an unknown option.
     for (int cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc;
@@ -169,11 +172,11 @@ int main(int     argc,
         switch (cc)
         {
             case 'j' :
-                flavour = OutputFlavour::kOutputFlavourJSON;
+                flavour = kOutputFlavourJSON;
                 break;
                 
             case 't' :
-                flavour = OutputFlavour::kOutputFlavourTabs;
+                flavour = kOutputFlavourTabs;
                 break;
                 
             default :
@@ -241,7 +244,7 @@ int main(int     argc,
                                     bool             sawRequestResponse = false;
                                     yarp::os::Bottle parameters;
                                     
-                                    if (OutputFlavour::kOutputFlavourJSON == flavour)
+                                    if (kOutputFlavourJSON == flavour)
                                     {
                                         cout << "[ ";
                                     }
@@ -307,7 +310,7 @@ int main(int     argc,
                                                    "nullptr))"); //####
                                         }
                                     }
-                                    if (OutputFlavour::kOutputFlavourJSON == flavour)
+                                    if (kOutputFlavourJSON == flavour)
                                     {
                                         cout << " ]" << endl;
                                     }
@@ -315,12 +318,15 @@ int main(int     argc,
                                     {
                                         switch (flavour)
                                         {
-                                            case OutputFlavour::kOutputFlavourJSON :
-                                            case OutputFlavour::kOutputFlavourTabs :
+                                            case kOutputFlavourJSON :
+                                            case kOutputFlavourTabs :
                                                 break;
                                                 
-                                            case OutputFlavour::kOutputFlavourNormal :
+                                            case kOutputFlavourNormal :
                                                 cout << "No client connections found." << endl;
+                                                break;
+                                                
+                                            default :
                                                 break;
                                                 
                                         }
@@ -345,12 +351,15 @@ int main(int     argc,
                         {
                             switch (flavour)
                             {
-                                case OutputFlavour::kOutputFlavourJSON :
-                                case OutputFlavour::kOutputFlavourTabs :
+                                case kOutputFlavourJSON :
+                                case kOutputFlavourTabs :
                                     break;
                                     
-                                case OutputFlavour::kOutputFlavourNormal :
+                                case kOutputFlavourNormal :
                                     cout << "No services found." << endl;
+                                    break;
+                                    
+                                default :
                                     break;
                                     
                             }
