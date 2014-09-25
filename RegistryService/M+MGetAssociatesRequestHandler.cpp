@@ -183,7 +183,7 @@ bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & r
                             
                             if (0 < associatedInputs.size())
                             {
-                                for (StringVector::const_iterator walker(associatedInputs.begin());
+                                for (auto walker(associatedInputs.begin());
                                      associatedInputs.end() != walker; ++walker)
                                 {
                                     aList1.addString(*walker);
@@ -195,7 +195,7 @@ bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & r
                             
                             if (0 < associatedOutputs.size())
                             {
-                                for (StringVector::const_iterator walker(associatedOutputs.begin());
+                                for (auto walker(associatedOutputs.begin());
                                      associatedOutputs.end() != walker; ++walker)
                                 {
                                     aList2.addString(*walker);

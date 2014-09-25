@@ -361,7 +361,7 @@ void BaseService::clearContexts(void)
     lockContexts();
     if (0 < _contexts.size())
     {
-        for (ContextMap::iterator walker(_contexts.begin()); _contexts.end() != walker; ++walker)
+        for (auto walker(_contexts.begin()); _contexts.end() != walker; ++walker)
         {
             BaseContext * value = walker->second;
             
@@ -455,8 +455,7 @@ void BaseService::fillInClientList(StringVector & clients)
     lockContexts();
     if (0 < _contexts.size())
     {
-        for (ContextMap::const_iterator walker(_contexts.begin()); _contexts.end() != walker;
-             ++walker)
+        for (auto walker(_contexts.begin()); _contexts.end() != walker; ++walker)
         {
             clients.push_back(walker->first.c_str());
         }
@@ -490,7 +489,7 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
     try
     {
         lockContexts();
-        ContextMap::const_iterator match(_contexts.find(key));
+        auto match(_contexts.find(key));
         
         if (_contexts.end() != match)
         {
@@ -582,7 +581,7 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
     try
     {
         lockContexts();
-        ContextMap::iterator match(_contexts.find(key));
+        auto match(_contexts.find(key));
         
         if (_contexts.end() != match)
         {

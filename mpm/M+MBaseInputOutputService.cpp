@@ -150,8 +150,8 @@ bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & 
             ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
 
-            for (ChannelVector::const_iterator walker(descriptions.begin());
-                 result && (descriptions.end() != walker); ++walker)
+            for (auto walker(descriptions.begin()); result && (descriptions.end() != walker);
+                 ++walker)
             {
                 GeneralChannel * newChannel = new GeneralChannel(false);
                 
@@ -208,8 +208,8 @@ bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector &
             ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
             
-            for (ChannelVector::const_iterator walker(descriptions.begin());
-                 result && (descriptions.end() != walker); ++walker)
+            for (auto walker(descriptions.begin()); result && (descriptions.end() != walker);
+                 ++walker)
             {
                 GeneralChannel * newChannel = new GeneralChannel(true);
                 
@@ -328,8 +328,7 @@ void BaseInputOutputService::fillInSecondaryInputChannelsList(ChannelVector & ch
     inherited::fillInSecondaryInputChannelsList(channels);
     if (0 < _inStreams.size())
     {
-        for (StreamVector::const_iterator walker(_inStreams.begin()); _inStreams.end() != walker;
-             ++walker)
+        for (auto walker(_inStreams.begin()); _inStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
             
@@ -355,8 +354,7 @@ void BaseInputOutputService::fillInSecondaryOutputChannelsList(ChannelVector & c
     inherited::fillInSecondaryOutputChannelsList(channels);
     if (0 < _outStreams.size())
     {
-        for (StreamVector::const_iterator walker(_outStreams.begin()); _outStreams.end() != walker;
-             ++walker)
+        for (auto walker(_outStreams.begin()); _outStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
             
@@ -400,8 +398,7 @@ bool BaseInputOutputService::shutDownInputStreams(void)
     
     if (0 < _inStreams.size())
     {
-        for (StreamVector::const_iterator walker(_inStreams.begin()); _inStreams.end() != walker;
-             ++walker)
+        for (auto walker(_inStreams.begin()); _inStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
             
@@ -424,8 +421,7 @@ bool BaseInputOutputService::shutDownOutputStreams(void)
     
     if (0 < _outStreams.size())
     {
-        for (StreamVector::const_iterator walker(_outStreams.begin()); _outStreams.end() != walker;
-             ++walker)
+        for (auto walker(_outStreams.begin()); _outStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
             

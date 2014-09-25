@@ -134,8 +134,7 @@ int main(int      argc,
                 }
                 if (0 < services.size())
                 {
-                    for (StringVector::const_iterator walker(services.begin());
-                         services.end() != walker; ++walker)
+                    for (auto walker(services.begin()); services.end() != walker; ++walker)
                     {
                         Utilities::ServiceDescriptor descriptor;
                         
@@ -186,8 +185,8 @@ int main(int      argc,
                             }
                             ChannelVector & inChannels = descriptor._inputChannels;
                             
-                            for (ChannelVector::const_iterator iWalker = inChannels.begin();
-                                 inChannels.end() != iWalker; ++iWalker)
+                            for (auto iWalker(inChannels.begin()); inChannels.end() != iWalker;
+                                 ++iWalker)
                             {
                                 ChannelDescription iDescriptor(*iWalker);
                                 
@@ -227,8 +226,8 @@ int main(int      argc,
                             }
                             ChannelVector & outChannels = descriptor._outputChannels;
                             
-                            for (ChannelVector::const_iterator oWalker = outChannels.begin();
-                                 outChannels.end() != oWalker; ++oWalker)
+                            for (auto oWalker(outChannels.begin()); outChannels.end() != oWalker;
+                                 ++oWalker)
                             {
                                 ChannelDescription oDescriptor(*oWalker);
                                 
