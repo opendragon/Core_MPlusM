@@ -134,7 +134,7 @@ int main(int      argc,
                     if (RegisterLocalService(channelName, nullptr, nullptr))
                     {
                         StartRunning();
-                        SetSignalHandlers(MplusM::SignalRunningStop);
+                        SetSignalHandlers(SignalRunningStop);
                         stuff->startPinger();
                         for ( ; IsRunning(); )
                         {

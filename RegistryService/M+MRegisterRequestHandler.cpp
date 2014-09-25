@@ -172,7 +172,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                     if (Endpoint::CheckEndpointName(argAsString))
                     {
                         _service.reportStatusChange(argAsString,
-                                        RegistryService::ServiceStatus::kRegistryRegisterService);
+                                        RegistryService::kRegistryRegisterService);
                         // Send a 'name' request to the channel
                         yarp::os::ConstString aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
                                                                            "register_/"

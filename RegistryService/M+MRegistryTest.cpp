@@ -94,7 +94,7 @@ static int doTestCreateRegisterService(const char * launchPath,
     
     try
     {
-        MplusM::Registry::RegistryService * registry = nullptr;
+        Registry::RegistryService * registry = nullptr;
         
         if (0 <= argc)
         {
@@ -102,12 +102,11 @@ static int doTestCreateRegisterService(const char * launchPath,
             {
                     // Argument order for tests = [IP address / name [, port]]
                 case 0 :
-                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY);
+                    registry = new Registry::RegistryService(launchPath, TEST_INMEMORY);
                     break;
                     
                 case 1 :
-                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY,
-                                                                     *argv);
+                    registry = new Registry::RegistryService(launchPath, TEST_INMEMORY, *argv);
                     break;
                     
                 default :
@@ -157,8 +156,8 @@ static int doTestRequestRegisterService(const char * launchPath,
     
     try
     {
-        const char *                        secondServiceChannel;
-        MplusM::Registry::RegistryService * registry = nullptr;
+        const char *                secondServiceChannel;
+        Registry::RegistryService * registry = nullptr;
         
         if (0 <= argc)
         {
@@ -166,14 +165,13 @@ static int doTestRequestRegisterService(const char * launchPath,
             {
                     // Argument order for tests = [IP address / name [, port]]
                 case 0 :
-                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY);
+                    registry = new Registry::RegistryService(launchPath, TEST_INMEMORY);
                     secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
                                               "test/requestregisterservice_1");
                     break;
                     
                 case 1 :
-                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY,
-                                                                     *argv);
+                    registry = new Registry::RegistryService(launchPath, TEST_INMEMORY, *argv);
                     secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
                                               "test/requestregisterservice_2");
                     break;
@@ -262,8 +260,8 @@ static int doTestRequestUnregisterService(const char * launchPath,
     
     try
     {
-        const char *                        secondServiceChannel;
-        MplusM::Registry::RegistryService * registry = nullptr;
+        const char *                secondServiceChannel;
+        Registry::RegistryService * registry = nullptr;
         
         if (0 <= argc)
         {
@@ -271,14 +269,13 @@ static int doTestRequestUnregisterService(const char * launchPath,
             {
                     // Argument order for tests = [IP address / name [, port]]
                 case 0 :
-                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY);
+                    registry = new Registry::RegistryService(launchPath, TEST_INMEMORY);
                     secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
                                               "test/requestunregisterservice_1");
                     break;
                     
                 case 1 :
-                    registry = new MplusM::Registry::RegistryService(launchPath, TEST_INMEMORY,
-                                                                     *argv);
+                    registry = new Registry::RegistryService(launchPath, TEST_INMEMORY, *argv);
                     secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
                                               "test/requestunregisterservice_2");
                     break;
@@ -377,12 +374,11 @@ static int doTestRequestSearchService(const char * launchPath,
     {
         if (1 < argc)
         {
-            bool                                getNamesFlag = ('0' != **argv);
-            const char *                        secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
-                                                                      "test/requestsearchservice");
-            MplusM::Registry::RegistryService * registry =
-                                                new MplusM::Registry::RegistryService(launchPath,
-                                                                                      TEST_INMEMORY);
+            bool                        getNamesFlag = ('0' != **argv);
+            const char *                secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
+                                                                  "test/requestsearchservice");
+            Registry::RegistryService * registry = new Registry::RegistryService(launchPath,
+                                                                                 TEST_INMEMORY);
             
             OD_LOG_B1("getNamesFlag <- ", getNamesFlag); //####
             if (registry)
@@ -610,7 +606,7 @@ static void catchSignal(int signal)
 #if MAC_OR_LINUX_
     snprintf(numBuff, sizeof(numBuff), "%d", signal);
     GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
-                      yarp::os::ConstString(" = ") + MplusM::NameOfSignal(signal));
+                      yarp::os::ConstString(" = ") + NameOfSignal(signal));
 #else // ! MAC_OR_LINUX_
 //    _snprintf(numBuff, sizeof(numBuff) - 1, "%d", signal);
 //    // Correct for the weird behaviour of _snprintf

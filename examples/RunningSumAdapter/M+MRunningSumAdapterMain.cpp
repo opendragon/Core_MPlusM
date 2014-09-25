@@ -109,9 +109,9 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        MplusM::Utilities::SetUpGlobalStatusReporter();
+        Utilities::SetUpGlobalStatusReporter();
 #if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
 
 #if CheckNetworkWorks_
@@ -126,8 +126,8 @@ int main(int      argc,
             
             if (stuff)
             {
-                MplusM::StartRunning();
-                SetSignalHandlers(MplusM::SignalRunningStop);
+                StartRunning();
+                SetSignalHandlers(SignalRunningStop);
                 if (stuff->findService("Name RunningSum", false, nullptr, nullptr))
                 {
 #if defined(MpM_ReportOnConnections)
@@ -186,14 +186,14 @@ int main(int      argc,
                                 sharedData.activate();
                                 controlChannel->setReader(*controlHandler);
                                 dataChannel->setReader(*dataHandler);
-                                for ( ; MplusM::IsRunning() && sharedData.isActive(); )
+                                for ( ; IsRunning() && sharedData.isActive(); )
                                 {
 #if defined(MpM_MainDoesDelayNotYield)
                                     yarp::os::Time::delay(ONE_SECOND_DELAY);
 #else // ! defined(MpM_MainDoesDelayNotYield)
                                     yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
-                                    if (MplusM::IsRunning())
+                                    if (IsRunning())
                                     {
                                         double now = yarp::os::Time::now();
                                         
@@ -286,7 +286,7 @@ int main(int      argc,
 # endif // MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
-        MplusM::Utilities::ShutDownGlobalStatusReporter();
+        Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {

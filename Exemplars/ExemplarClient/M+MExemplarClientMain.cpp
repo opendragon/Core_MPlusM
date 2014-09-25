@@ -97,12 +97,12 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        MplusM::Utilities::SetUpGlobalStatusReporter();
+        Utilities::SetUpGlobalStatusReporter();
 #if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
 
-        if (MplusM::CanReadFromStandardInput())
+        if (CanReadFromStandardInput())
         {
 #if CheckNetworkWorks_
             if (yarp::os::Network::checkNetwork())

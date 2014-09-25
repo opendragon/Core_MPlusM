@@ -95,7 +95,7 @@ static void reportConnections(const OutputFlavour           flavour,
     yarp::os::ConstString outputsAsString;
     
     Utilities::GatherPortConnections(portName, inputs, outputs,
-                                     Utilities::InputOutputFlag::kInputAndOutputBoth, false,
+                                     Utilities::kInputAndOutputBoth, false,
                                      checker, checkStuff);
     if (0 < inputs.size())
     {

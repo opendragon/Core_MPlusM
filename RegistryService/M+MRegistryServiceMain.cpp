@@ -106,9 +106,9 @@ int main(int      argc,
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network                   yarp; // This is necessary to establish any
-                                                      // connections to the YARP infrastructure
-            MplusM::Registry::RegistryService * stuff = nullptr;
+            yarp::os::Network           yarp; // This is necessary to establish any connections to
+                                              // the YARP infrastructure
+            Registry::RegistryService * stuff = nullptr;
             
             Initialize(*argv);
             if (1 <= argc)
@@ -117,11 +117,11 @@ int main(int      argc,
                 {
                         // Argument order for tests = program name [, port]
                     case 1 :
-                        stuff = new MplusM::Registry::RegistryService(*argv, USE_INMEMORY);
+                        stuff = new Registry::RegistryService(*argv, USE_INMEMORY);
                         break;
                         
                     case 2 :
-                        stuff = new MplusM::Registry::RegistryService(*argv, USE_INMEMORY, argv[1]);
+                        stuff = new Registry::RegistryService(*argv, USE_INMEMORY, argv[1]);
                         break;
                         
                     default :
@@ -135,10 +135,10 @@ int main(int      argc,
                 {
                     // Note that the Registry Service is self-registering... so we don't need to
                     // call RegisterLocalService() _or_ start a 'pinger'.
-                    MplusM::StartRunning();
-                    SetSignalHandlers(MplusM::SignalRunningStop);
+                    StartRunning();
+                    SetSignalHandlers(SignalRunningStop);
                     stuff->startChecker();
-                    for ( ; MplusM::IsRunning(); )
+                    for ( ; IsRunning(); )
                     {
 #if defined(MpM_MainDoesDelayNotYield)
                         yarp::os::Time::delay(ONE_SECOND_DELAY);

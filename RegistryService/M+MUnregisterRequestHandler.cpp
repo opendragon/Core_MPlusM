@@ -170,7 +170,7 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                     if (Endpoint::CheckEndpointName(argAsString))
                     {
                         _service.reportStatusChange(argAsString,
-                                        RegistryService::ServiceStatus::kRegistryUnregisterService);
+                                        RegistryService::kRegistryUnregisterService);
                         // Forget the information associated with the channel name
                         if (_service.removeServiceRecord(argAsString))
                         {

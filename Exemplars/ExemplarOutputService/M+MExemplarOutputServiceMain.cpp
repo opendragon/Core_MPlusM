@@ -107,7 +107,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                  stdinAvailable = MplusM::CanReadFromStandardInput();
+        bool                  stdinAvailable = CanReadFromStandardInput();
         yarp::os::ConstString recordPath;
         yarp::os::ConstString tag;
 
@@ -202,7 +202,7 @@ int main(int      argc,
                                 stuff->startStreams();
                             }
                         }
-                        for ( ; MplusM::IsRunning(); )
+                        for ( ; IsRunning(); )
                         {
                             if (stdinAvailable)
                             {
@@ -261,7 +261,7 @@ int main(int      argc,
                                     case 'q' :
                                     case 'Q' :
                                         // Quit
-                                        MplusM::StopRunning();
+                                        StopRunning();
                                         break;
                                         
                                     case 'r' :

@@ -112,7 +112,7 @@ static void localCatcher(int signal)
         
         snprintf(numBuff, sizeof(numBuff), "%d", signal);
         lLogger->error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
-                       yarp::os::ConstString(" = ") + MplusM::NameOfSignal(signal));
+                       yarp::os::ConstString(" = ") + NameOfSignal(signal));
     }
     OD_LOG_EXIT_EXIT(1); //####
     yarp::os::exit(1);
@@ -700,6 +700,6 @@ void MplusM::SignalRunningStop(int signal)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER(); //####
     OD_LOG_LL1("signal = ", signal); //####
-    MplusM::StopRunning();
+    StopRunning();
     OD_LOG_EXIT(); //####
 } // MplusM::SignalRunningStop

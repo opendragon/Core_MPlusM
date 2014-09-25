@@ -137,10 +137,10 @@ int main(int      argc,
                     OD_LOG_S1s("channelName = ", channelName); //####
                     if (RegisterLocalService(channelName, nullptr, nullptr))
                     {
-                        MplusM::StartRunning();
-                        SetSignalHandlers(MplusM::SignalRunningStop);
+                        StartRunning();
+                        SetSignalHandlers(SignalRunningStop);
                         stuff->startPinger();
-                        for ( ; MplusM::IsRunning(); )
+                        for ( ; IsRunning(); )
                         {
 #if defined(MpM_MainDoesDelayNotYield)
                             yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);

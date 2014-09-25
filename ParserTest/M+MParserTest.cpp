@@ -92,11 +92,9 @@ static int doTestParseValue(const bool   expected,
     
     try
     {
-        size_t                       endPos;
-        size_t                       len = strlen(inString);
-        MplusM::Parser::MatchValue * didMatch = MplusM::Parser::MatchValue::CreateMatcher(inString,
-                                                                                          len, 0,
-                                                                                          endPos);
+        size_t               endPos;
+        size_t               len = strlen(inString);
+        Parser::MatchValue * didMatch = Parser::MatchValue::CreateMatcher(inString, len, 0, endPos);
         
         if ((nullptr != didMatch) == expected)
         {
@@ -141,12 +139,10 @@ static int doTestParseValueList(const bool   expected,
     
     try
     {
-        size_t                           endPos;
-        size_t                           len = strlen(inString);
-        MplusM::Parser::MatchValueList * didMatch =
-                                            MplusM::Parser::MatchValueList::CreateMatcher(inString,
-                                                                                          len, 0,
-                                                                                          endPos);
+        size_t                   endPos;
+        size_t                   len = strlen(inString);
+        Parser::MatchValueList * didMatch = Parser::MatchValueList::CreateMatcher(inString, len, 0,
+                                                                                  endPos);
         
         if ((nullptr != didMatch) == expected)
         {
@@ -191,14 +187,11 @@ static int doTestParseFieldName(const bool   expected,
     
     try
     {
-        size_t                           endPos;
-        size_t                           len = strlen(inString);
-        TestNameValidator *              validator = new TestNameValidator;
-        MplusM::Parser::MatchFieldName * didMatch =
-                                            MplusM::Parser::MatchFieldName::CreateMatcher(inString,
-                                                                                          len, 0,
-                                                                                          endPos,
-                                                                                      validator);
+        size_t                   endPos;
+        size_t                   len = strlen(inString);
+        TestNameValidator *      validator = new TestNameValidator;
+        Parser::MatchFieldName * didMatch = Parser::MatchFieldName::CreateMatcher(inString, len, 0,
+                                                                                  endPos, validator);
         
         if ((nullptr != didMatch) == expected)
         {
@@ -244,11 +237,14 @@ static int doTestParseFieldWithValues(const bool   expected,
     
     try
     {
-        size_t                                 endPos;
-        size_t                                 len = strlen(inString);
-        TestNameValidator *                    validator = new TestNameValidator;
-        MplusM::Parser::MatchFieldWithValues * didMatch =
-	    MplusM::Parser::MatchFieldWithValues::CreateMatcher(inString, len, 0, endPos, validator);
+        size_t                         endPos;
+        size_t                         len = strlen(inString);
+        TestNameValidator *            validator = new TestNameValidator;
+        Parser::MatchFieldWithValues * didMatch =
+                                            Parser::MatchFieldWithValues::CreateMatcher(inString,
+                                                                                        len, 0,
+                                                                                        endPos,
+                                                                                        validator);
         
         if ((nullptr != didMatch) == expected)
         {
@@ -294,14 +290,12 @@ static int doTestParseConstraintList(const bool   expected,
     
     try
     {
-        size_t                            endPos;
-        size_t                            len = strlen(inString);
-        TestNameValidator *               validator = new TestNameValidator;
-        MplusM::Parser::MatchConstraint * didMatch =
-                                            MplusM::Parser::MatchConstraint::CreateMatcher(inString,
-                                                                                           len, 0,
-                                                                                           endPos,
-                                                                                       validator);
+        size_t                    endPos;
+        size_t                    len = strlen(inString);
+        TestNameValidator *       validator = new TestNameValidator;
+        Parser::MatchConstraint * didMatch = Parser::MatchConstraint::CreateMatcher(inString, len,
+                                                                                    0, endPos,
+                                                                                    validator);
         
         if ((nullptr != didMatch) == expected)
         {
@@ -347,14 +341,12 @@ static int doTestParseExpression(const bool   expected,
     
     try
     {
-        size_t                            endPos;
-        size_t                            len = strlen(inString);
-        TestNameValidator *               validator = new TestNameValidator;
-        MplusM::Parser::MatchExpression * didMatch =
-                                            MplusM::Parser::MatchExpression::CreateMatcher(inString,
-                                                                                           len, 0,
-                                                                                           endPos,
-                                                                                       validator);
+        size_t                    endPos;
+        size_t                    len = strlen(inString);
+        TestNameValidator *       validator = new TestNameValidator;
+        Parser::MatchExpression * didMatch = Parser::MatchExpression::CreateMatcher(inString, len,
+                                                                                    0, endPos,
+                                                                                    validator);
         
         if ((nullptr != didMatch) == expected)
         {

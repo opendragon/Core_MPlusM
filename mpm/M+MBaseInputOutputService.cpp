@@ -147,7 +147,7 @@ bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & 
         if (0 < descriptions.size())
         {
 #if defined(MpM_ReportOnConnections)
-            ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+            ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
 
             for (auto walker(descriptions.begin()); result && (descriptions.end() != walker);
@@ -205,7 +205,7 @@ bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector &
         if (0 < descriptions.size())
         {
 #if defined(MpM_ReportOnConnections)
-            ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+            ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
             
             for (auto walker(descriptions.begin()); result && (descriptions.end() != walker);

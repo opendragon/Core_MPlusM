@@ -2007,7 +2007,7 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
     }
     if (! okSoFar)
     {
-        reportStatusChange(description._channel, ServiceStatus::kRegistryProblemAddingRequest,
+        reportStatusChange(description._channel, kRegistryProblemAddingRequest,
                            description._request);
     }
     OD_LOG_OBJEXIT_B(okSoFar); //####
@@ -2049,8 +2049,8 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
                                                        setupInsertIntoServices,
                                                        static_cast<const void *>(&servData));
             okSoFar = doEndTransaction(_db, okSoFar);
-            reportStatusChange(channelName, ServiceStatus::kRegistryAddService,
-                               MplusM::Utilities::GetPortLocation(channelName));
+            reportStatusChange(channelName, kRegistryAddService,
+                               Utilities::GetPortLocation(channelName));
         }
     }
     catch (...)
@@ -2060,7 +2060,7 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
     }
     if (! okSoFar)
     {
-        reportStatusChange(channelName, ServiceStatus::kRegistryProblemAddingService, name);
+        reportStatusChange(channelName, kRegistryProblemAddingService, name);
     }
     OD_LOG_OBJEXIT_B(okSoFar); //####
     return okSoFar;
@@ -2140,7 +2140,7 @@ bool RegistryService::checkForExistingAssociation(const yarp::os::ConstString & 
                 if (! okSoFar)
                 {
                     reportStatusChange(secondaryChannelName,
-                                       ServiceStatus::kRegistryNotAnExistingAssociation);
+                                       kRegistryNotAnExistingAssociation);
                 }
             }
         }
@@ -2177,7 +2177,7 @@ bool RegistryService::checkForExistingService(const yarp::os::ConstString & chan
                 okSoFar = (1 <= dummy.size());
                 if (! okSoFar)
                 {
-                    reportStatusChange(channelName, ServiceStatus::kRegistryNotAnExistingService);
+                    reportStatusChange(channelName, kRegistryNotAnExistingService);
                 }
             }
         }
@@ -2218,7 +2218,7 @@ void RegistryService::checkServiceTimes(void)
         {
             yarp::os::ConstString channelName(*walker);
             
-            reportStatusChange(channelName, ServiceStatus::kRegistryStaleService);
+            reportStatusChange(channelName, kRegistryStaleService);
             if (removeServiceRecord(channelName))
             {
                 removeCheckedTimeForChannel(channelName);
@@ -2833,7 +2833,7 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceC
                                            static_cast<const void *>(serviceChannelName.c_str()));
             }
             okSoFar = doEndTransaction(_db, okSoFar);
-            reportStatusChange(serviceChannelName, ServiceStatus::kRegistryRemoveService);
+            reportStatusChange(serviceChannelName, kRegistryRemoveService);
         }
     }
     catch (...)
@@ -2857,36 +2857,36 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
         char             buffer2[DATE_TIME_BUFFER_SIZE];
         yarp::os::Bottle message;
         
-        MplusM::Utilities::GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
+        Utilities::GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
         message.addString(buffer1);
         message.addString(buffer2);
         message.addString(serviceName());
         switch (newStatus)
         {
-            case ServiceStatus::kRegistryAddService :
+            case kRegistryAddService :
                 message.addString(MpM_REGISTRY_STATUS_ADDING);
                 message.addString(channelName);
                 message.addString("at");
                 message.addString(details);
                 break;
                 
-            case ServiceStatus::kRegistryNotAnExistingAssociation :
+            case kRegistryNotAnExistingAssociation :
                 message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED);
                 message.addString(channelName);
                 break;
                 
-            case ServiceStatus::kRegistryNotAnExistingService :
+            case kRegistryNotAnExistingService :
                 message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED);
                 message.addString(channelName);
                 break;
                 
-            case ServiceStatus::kRegistryPingFromService :
+            case kRegistryPingFromService :
                 message.addString(MpM_REGISTRY_STATUS_PINGED);
                 message.addString("by");
                 message.addString(channelName);
                 break;
                 
-            case ServiceStatus::kRegistryProblemAddingRequest :
+            case kRegistryProblemAddingRequest :
                 message.addString(MpM_REGISTRY_STATUS_PROBLEM);
                 message.addString("adding");
                 message.addString("request");
@@ -2895,7 +2895,7 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
                 message.addString(channelName);
                 break;
                 
-            case ServiceStatus::kRegistryProblemAddingService :
+            case kRegistryProblemAddingService :
                 message.addString(MpM_REGISTRY_STATUS_PROBLEM);
                 message.addString("adding");
                 message.addString("service");
@@ -2904,31 +2904,31 @@ void RegistryService::reportStatusChange(const yarp::os::ConstString & channelNa
                 message.addString(channelName);
                 break;
                 
-            case ServiceStatus::kRegistryRegisterService :
+            case kRegistryRegisterService :
                 message.addString(MpM_REGISTRY_STATUS_REGISTERING);
                 message.addString(channelName);
                 break;
                 
-            case ServiceStatus::kRegistryRemoveService :
+            case kRegistryRemoveService :
                 message.addString(MpM_REGISTRY_STATUS_REMOVING);
                 message.addString(channelName);
                 break;
                 
-            case ServiceStatus::kRegistryStaleService :
+            case kRegistryStaleService :
                 message.addString(MpM_REGISTRY_STATUS_STALE);
                 message.addString(channelName);
                 message.addString("detected");
                 break;
                 
-            case ServiceStatus::kRegistryStarted :
+            case kRegistryStarted :
                 message.addString(MpM_REGISTRY_STATUS_STARTING);
                 break;
                 
-            case ServiceStatus::kRegistryStopped :
+            case kRegistryStopped :
                 message.addString(MpM_REGISTRY_STATUS_STOPPING);
                 break;
                 
-            case ServiceStatus::kRegistryUnregisterService :
+            case kRegistryUnregisterService :
                 message.addString(MpM_REGISTRY_STATUS_UNREGISTERING);
                 message.addString(channelName);
                 break;
@@ -3015,7 +3015,7 @@ bool RegistryService::setUpStatusChannel(void)
         {
             yarp::os::ConstString   outputName(MpM_REGISTRY_STATUS_NAME);
 #if defined(MpM_ReportOnConnections)
-            ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+            ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
             
 #if defined(MpM_ReportOnConnections)
@@ -3136,7 +3136,7 @@ bool RegistryService::start(void)
         result = isStarted();
         if (result)
         {
-            reportStatusChange("", ServiceStatus::kRegistryStarted);
+            reportStatusChange("", kRegistryStarted);
         }
     }
     catch (...)
@@ -3180,7 +3180,7 @@ bool RegistryService::stop(void)
         }
         if (isActive())
         {
-            reportStatusChange("", ServiceStatus::kRegistryStopped);
+            reportStatusChange("", kRegistryStopped);
         }
         result = inherited::stop();
         _isActive = false;

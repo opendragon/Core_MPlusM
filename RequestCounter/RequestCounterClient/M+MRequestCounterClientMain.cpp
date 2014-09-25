@@ -143,12 +143,12 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        MplusM::Utilities::SetUpGlobalStatusReporter();
+        Utilities::SetUpGlobalStatusReporter();
 #if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
 
-        if (MplusM::CanReadFromStandardInput())
+        if (CanReadFromStandardInput())
         {
 #if CheckNetworkWorks_
             if (yarp::os::Network::checkNetwork())
@@ -165,9 +165,9 @@ int main(int      argc,
 #if defined(MpM_ReportOnConnections)
                     stuff->setReporter(reporter, true);
 #endif // defined(MpM_ReportOnConnections)
-                    MplusM::StartRunning();
-                    SetSignalHandlers(MplusM::SignalRunningStop);
-                    for ( ; MplusM::IsRunning(); )
+                    StartRunning();
+                    SetSignalHandlers(SignalRunningStop);
+                    for ( ; IsRunning(); )
                     {
                         int count;
                         
@@ -274,7 +274,7 @@ int main(int      argc,
             }
 #endif // CheckNetworkWorks_
         }
-        MplusM::Utilities::ShutDownGlobalStatusReporter();
+        Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {

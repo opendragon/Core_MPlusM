@@ -105,12 +105,12 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        MplusM::Utilities::SetUpGlobalStatusReporter();
+        Utilities::SetUpGlobalStatusReporter();
 #if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
 
-        if (MplusM::CanReadFromStandardInput())
+        if (CanReadFromStandardInput())
         {
 #if CheckNetworkWorks_
             if (yarp::os::Network::checkNetwork())
@@ -124,8 +124,8 @@ int main(int      argc,
                 
                 if (stuff)
                 {
-                    MplusM::StartRunning();
-                    SetSignalHandlers(MplusM::SignalRunningStop);
+                    StartRunning();
+                    SetSignalHandlers(SignalRunningStop);
                     if (stuff->findService("Name RunningSum", false, nullptr, nullptr))
                     {
 #if defined(MpM_ReportOnConnections)
@@ -133,7 +133,7 @@ int main(int      argc,
 #endif // defined(MpM_ReportOnConnections)
                         if (stuff->connectToService(nullptr, nullptr))
                         {
-                            for ( ; MplusM::IsRunning(); )
+                            for ( ; IsRunning(); )
                             {
                                 char   inChar;
                                 double newSum;
@@ -196,7 +196,7 @@ int main(int      argc,
                                             GetLogger().fail("Problem stopping the sum.");
 #endif // MAC_OR_LINUX_
                                         }
-                                        MplusM::StopRunning();
+                                        StopRunning();
                                         break;
                                         
                                     default :
@@ -246,7 +246,7 @@ int main(int      argc,
             }
 #endif // CheckNetworkWorks_
         }
-        MplusM::Utilities::ShutDownGlobalStatusReporter();
+        Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {

@@ -144,9 +144,9 @@ int main(int      argc,
                         if (RegisterLocalService(channelName, nullptr, nullptr))
                         {
                             StartRunning();
-                            SetSignalHandlers(MplusM::SignalRunningStop);
+                            SetSignalHandlers(SignalRunningStop);
                             stuff->startPinger();
-                            for ( ; MplusM::IsRunning(); )
+                            for ( ; IsRunning(); )
                             {
 #if defined(MpM_MainDoesDelayNotYield)
                                 yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);

@@ -145,7 +145,7 @@ int main(int      argc,
     {
         Utilities::SetUpGlobalStatusReporter();
 #if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
 
         if (CanReadFromStandardInput())
@@ -166,7 +166,7 @@ int main(int      argc,
                     stuff->setReporter(reporter, true);
 #endif // defined(MpM_ReportOnConnections)
                     StartRunning();
-                    SetSignalHandlers(MplusM::SignalRunningStop);
+                    SetSignalHandlers(SignalRunningStop);
                     if (stuff->findService("name:MovementDb", false, nullptr, nullptr))
                     {
                         if (stuff->connectToService(nullptr, nullptr))

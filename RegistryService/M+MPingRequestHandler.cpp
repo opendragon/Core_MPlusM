@@ -176,7 +176,7 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                     if (Endpoint::CheckEndpointName(argAsString))
                     {
                         _service.reportStatusChange(argAsString,
-                                        RegistryService::ServiceStatus::kRegistryPingFromService);
+                                        RegistryService::kRegistryPingFromService);
                         if (_service.checkForExistingService(argAsString))
                         {
                             // This service is already known, so just update the last-checked time.

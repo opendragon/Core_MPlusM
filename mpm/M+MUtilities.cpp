@@ -531,12 +531,12 @@ void Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
                         else if (checkString == "There")
                         {
                             if (static_cast<int>(which) &
-                                static_cast<int>(InputOutputFlag::kInputAndOutputInput))
+                                static_cast<int>(kInputAndOutputInput))
                             {
                                 checkForInputConnection(resp, inputs);
                             }
                             if (static_cast<int>(which) &
-                                static_cast<int>(InputOutputFlag::kInputAndOutputOutput))
+                                static_cast<int>(kInputAndOutputOutput))
                             {
                                 checkForOutputConnection(resp, outputs);
                             }
@@ -1088,23 +1088,23 @@ const char * Utilities::MapServiceKindToString(const ServiceKind kind)
     
     switch (kind)
     {
-        case ServiceKind::kServiceKindFilter :
+        casekServiceKindFilter :
             result = "Filter";
             break;
             
-	    case ServiceKind::kServiceKindInput :
+	    casekServiceKindInput :
             result = "Input";
             break;
             
-	    case ServiceKind::kServiceKindOutput :
+	    casekServiceKindOutput :
             result = "Output";
             break;
             
-	    case ServiceKind::kServiceKindRegistry :
+	    casekServiceKindRegistry :
             result = "Registry";
             break;
             
-        case ServiceKind::kServiceKindNormal :
+        casekServiceKindNormal :
             result = "Normal";
             break;
             
@@ -1126,23 +1126,23 @@ ServiceKind Utilities::MapStringToServiceKind(const yarp::os::ConstString & kind
     
     if (! strcmp("Filter", kindStringChars))
     {
-        result = ServiceKind::kServiceKindFilter;
+        result =kServiceKindFilter;
     }
     else if (! strcmp("Input", kindStringChars))
     {
-        result = ServiceKind::kServiceKindInput;
+        result =kServiceKindInput;
     }
     else if (! strcmp("Output", kindStringChars))
     {
-        result = ServiceKind::kServiceKindOutput;
+        result =kServiceKindOutput;
     }
     else if (! strcmp("Registry", kindStringChars))
     {
-        result = ServiceKind::kServiceKindRegistry;
+        result =kServiceKindRegistry;
     }
     else
     {
-        result = ServiceKind::kServiceKindNormal;
+        result =kServiceKindNormal;
     }
     OD_LOG_EXIT_L(static_cast<int>(result)); //####
     return result;

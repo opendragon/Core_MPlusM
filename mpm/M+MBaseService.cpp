@@ -98,7 +98,7 @@ bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName,
                                                            DEFAULT_CHANNEL_ROOT));
         ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
         
         if (newChannel)
@@ -723,7 +723,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
                                                            DEFAULT_CHANNEL_ROOT));
         ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
         
         
@@ -826,7 +826,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
                                                            DEFAULT_CHANNEL_ROOT));
         ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = MplusM::Utilities::GetGlobalStatusReporter();
+        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
         
         
