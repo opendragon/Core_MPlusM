@@ -106,6 +106,20 @@ namespace MplusM
             ExemplarInputHandler & operator =(const ExemplarInputHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ExemplarInputHandler(ExemplarInputHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ExemplarInputHandler & operator =(ExemplarInputHandler && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The shared data that describes the connection to the service that we are
              using. */
             ExemplarAdapterData & _shared;

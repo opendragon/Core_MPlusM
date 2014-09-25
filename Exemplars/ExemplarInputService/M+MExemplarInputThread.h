@@ -109,6 +109,20 @@ namespace MplusM
             ExemplarInputThread & operator =(const ExemplarInputThread & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ExemplarInputThread(ExemplarInputThread && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ExemplarInputThread & operator =(ExemplarInputThread && other)
+            DISALLOWED_FUNCTION;
+            
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"

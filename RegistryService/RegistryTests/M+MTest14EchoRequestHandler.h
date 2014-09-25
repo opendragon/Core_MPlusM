@@ -112,6 +112,20 @@ namespace MplusM
             Test14EchoRequestHandler & operator =(const Test14EchoRequestHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test14EchoRequestHandler(Test14EchoRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test14EchoRequestHandler & operator =(Test14EchoRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
         }; // Test14EchoRequestHandler
         
     } // Test

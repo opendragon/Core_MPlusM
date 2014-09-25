@@ -117,6 +117,20 @@ namespace MplusM
             StartStreamsRequestHandler & operator =(const StartStreamsRequestHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            StartStreamsRequestHandler(StartStreamsRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            StartStreamsRequestHandler & operator =(StartStreamsRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The service that will manages the statistics. */
             BaseInputOutputService & _service;
             

@@ -292,7 +292,8 @@ namespace MplusM
              @param argc The number of arguments in 'argv'.
              @param argv The arguments to be used to specify the new service. */
             RegistryService(const int argc,
-                            char * *  argv);
+                            char * *  argv)
+            DISALLOWED_FUNCTION;
             
             /*! @brief Copy constructor.
              
@@ -306,6 +307,20 @@ namespace MplusM
              Note - not implemented and private, to prevent unexpected copying.
              @param other Another object to construct from. */
             RegistryService & operator =(const RegistryService & other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RegistryService(RegistryService && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RegistryService & operator =(RegistryService && other)
             DISALLOWED_FUNCTION;
             
             /*! @brief Add a request to the registry.

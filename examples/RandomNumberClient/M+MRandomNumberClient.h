@@ -100,6 +100,20 @@ namespace MplusM
             RandomNumberClient & operator =(const RandomNumberClient & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RandomNumberClient(RandomNumberClient && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RandomNumberClient & operator =(RandomNumberClient && other)
+            DISALLOWED_FUNCTION;
+            
         }; // RandomNumberClient
         
     } // Example

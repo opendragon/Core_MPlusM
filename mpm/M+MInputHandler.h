@@ -100,6 +100,20 @@ namespace MplusM
             InputHandler & operator =(const InputHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            InputHandler(InputHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            InputHandler & operator =(InputHandler && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief Read an object from the input stream.
              @param connection The input stream that is to be read from.
              @returns @c true if the object was successfully read and @c false otherwise. */

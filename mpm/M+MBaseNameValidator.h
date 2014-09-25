@@ -103,6 +103,20 @@ namespace MplusM
             BaseNameValidator & operator =(const BaseNameValidator & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseNameValidator(BaseNameValidator && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseNameValidator & operator =(BaseNameValidator && other)
+            DISALLOWED_FUNCTION;
+            
         }; // BaseNameValidator
         
     } // Parser

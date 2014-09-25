@@ -134,6 +134,20 @@ namespace MplusM
             ExemplarInputService & operator =(const ExemplarInputService & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ExemplarInputService(ExemplarInputService && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ExemplarInputService & operator =(ExemplarInputService && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
             virtual bool setUpStreamDescriptions(void)

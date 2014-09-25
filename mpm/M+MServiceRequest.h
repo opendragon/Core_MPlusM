@@ -103,6 +103,20 @@ namespace MplusM
             ServiceRequest & operator =(const ServiceRequest & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ServiceRequest(ServiceRequest && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ServiceRequest & operator =(ServiceRequest && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The request name. */
             yarp::os::ConstString _name;
             

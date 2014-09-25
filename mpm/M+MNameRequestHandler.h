@@ -117,6 +117,20 @@ namespace MplusM
             NameRequestHandler & operator =(const NameRequestHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            NameRequestHandler(NameRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            NameRequestHandler & operator =(NameRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The service that will handle the 'name' operation. */
             BaseService & _service;
             

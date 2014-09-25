@@ -123,6 +123,20 @@ namespace MplusM
             MatchFieldName & operator =(const MatchFieldName & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MatchFieldName(MatchFieldName && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MatchFieldName & operator =(MatchFieldName && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The subtring that (maximally) matched as a value. */
             yarp::os::ConstString _matchingString;
             

@@ -123,6 +123,20 @@ namespace MplusM
             DisassociateRequestHandler & operator =(const DisassociateRequestHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            DisassociateRequestHandler(DisassociateRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            DisassociateRequestHandler & operator =(DisassociateRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The service that will handle the registration operation. */
             RegistryService & _service;
             

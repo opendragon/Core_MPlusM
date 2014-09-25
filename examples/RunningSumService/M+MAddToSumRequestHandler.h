@@ -118,6 +118,20 @@ namespace MplusM
             AddToSumRequestHandler & operator =(const AddToSumRequestHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            AddToSumRequestHandler(AddToSumRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            AddToSumRequestHandler & operator =(AddToSumRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The service that manages the statistics. */
             RunningSumService & _service;
             

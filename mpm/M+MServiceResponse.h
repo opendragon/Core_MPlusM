@@ -120,6 +120,20 @@ namespace MplusM
             ServiceResponse & operator =(const ServiceResponse & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ServiceResponse(ServiceResponse && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ServiceResponse & operator =(ServiceResponse && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The response values. */
             yarp::os::Bottle _values;
             

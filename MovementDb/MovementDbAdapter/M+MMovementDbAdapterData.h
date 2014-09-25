@@ -95,6 +95,20 @@ namespace MplusM
             MovementDbAdapterData & operator =(const MovementDbAdapterData & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MovementDbAdapterData(MovementDbAdapterData && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MovementDbAdapterData & operator =(MovementDbAdapterData && other)
+            DISALLOWED_FUNCTION;
+            
         }; // MovementDbAdapterData
         
     } // MovementDb

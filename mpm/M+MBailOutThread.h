@@ -129,6 +129,20 @@ namespace MplusM
             BailOutThread & operator =(const BailOutThread & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BailOutThread(BailOutThread && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BailOutThread & operator =(BailOutThread && other)
+            DISALLOWED_FUNCTION;
+            
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"

@@ -116,6 +116,20 @@ namespace MplusM
             ChordGeneratorRequestHandler & operator =(const ChordGeneratorRequestHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ChordGeneratorRequestHandler(ChordGeneratorRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ChordGeneratorRequestHandler & operator =(ChordGeneratorRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
         }; // ChordGeneratorRequestHandler
         
     } // Example

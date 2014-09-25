@@ -101,6 +101,20 @@ namespace MplusM
             MovementDbContext & operator =(const MovementDbContext & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MovementDbContext(MovementDbContext && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MovementDbContext & operator =(MovementDbContext && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The data track to use. */
             yarp::os::ConstString _dataTrack;
             

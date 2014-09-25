@@ -105,6 +105,20 @@ namespace MplusM
             MovementDbInputHandler & operator =(const MovementDbInputHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MovementDbInputHandler(MovementDbInputHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MovementDbInputHandler & operator =(MovementDbInputHandler && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The shared data that describes the connection to the service that we are
              using. */
             MovementDbAdapterData & _shared;

@@ -139,6 +139,20 @@ namespace MplusM
             MatchConstraint & operator =(const MatchConstraint & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MatchConstraint(MatchConstraint && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            MatchConstraint & operator =(MatchConstraint && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief Remove all the list elements. */
             void empty(void);
             

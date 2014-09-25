@@ -116,6 +116,20 @@ namespace MplusM
             RandomRequestHandler & operator =(const RandomRequestHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RandomRequestHandler(RandomRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RandomRequestHandler & operator =(RandomRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
         }; // RandomRequestHandler
         
     } // Example

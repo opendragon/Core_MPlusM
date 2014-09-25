@@ -122,6 +122,20 @@ namespace MplusM
             RequestMap & operator =(const RequestMap & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RequestMap(RequestMap && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RequestMap & operator =(RequestMap && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief Lock the data unless the lock would block.
              @returns @c true if the data was locked and @c false otherwise. */
             inline bool conditionallyLock(void)

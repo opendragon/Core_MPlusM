@@ -98,6 +98,20 @@ namespace MplusM
             Test04Handler & operator =(const Test04Handler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test04Handler(Test04Handler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test04Handler & operator =(Test04Handler && other)
+            DISALLOWED_FUNCTION;
+            
         }; // Test04Handler
         
     } // Test

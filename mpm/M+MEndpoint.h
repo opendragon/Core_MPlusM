@@ -144,6 +144,20 @@ namespace MplusM
             Endpoint & operator =(const Endpoint & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Endpoint(Endpoint && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Endpoint & operator =(Endpoint && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The YARP channel to be used by the endpoint. */
             ServiceChannel * _channel;
             

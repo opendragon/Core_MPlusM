@@ -112,6 +112,20 @@ namespace MplusM
             Test09DefaultRequestHandler & operator =(const Test09DefaultRequestHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test09DefaultRequestHandler(Test09DefaultRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test09DefaultRequestHandler & operator =(Test09DefaultRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
         }; // Test09DefaultRequestHandler
         
     } // Test

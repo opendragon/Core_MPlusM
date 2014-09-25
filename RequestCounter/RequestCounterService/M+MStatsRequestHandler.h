@@ -118,6 +118,20 @@ namespace MplusM
             StatsRequestHandler & operator =(const StatsRequestHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            StatsRequestHandler(StatsRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            StatsRequestHandler & operator =(StatsRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The service that will manages the statistics. */
             RequestCounterService & _service;
             

@@ -118,6 +118,20 @@ namespace MplusM
             SetEmailRequestHandler & operator =(const SetEmailRequestHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            SetEmailRequestHandler(SetEmailRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            SetEmailRequestHandler & operator =(SetEmailRequestHandler && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The service that manages the backend database. */
             MovementDbService & _service;
             

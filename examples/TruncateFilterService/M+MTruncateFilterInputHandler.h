@@ -108,6 +108,20 @@ namespace MplusM
             TruncateFilterInputHandler & operator =(const TruncateFilterInputHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            TruncateFilterInputHandler(TruncateFilterInputHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            TruncateFilterInputHandler & operator =(TruncateFilterInputHandler && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The channel that is to be written to. */
             Common::GeneralChannel * _outChannel;
             

@@ -106,6 +106,20 @@ namespace MplusM
             ExemplarOutputInputHandler & operator =(const ExemplarOutputInputHandler & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ExemplarOutputInputHandler(ExemplarOutputInputHandler && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ExemplarOutputInputHandler & operator =(ExemplarOutputInputHandler && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The file that is to be written to. */
             FILE * _outFile;
             

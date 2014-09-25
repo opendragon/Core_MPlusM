@@ -100,6 +100,20 @@ namespace MplusM
             ExemplarClient & operator =(const ExemplarClient & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ExemplarClient(ExemplarClient && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            ExemplarClient & operator =(ExemplarClient && other)
+            DISALLOWED_FUNCTION;
+            
         }; // ExemplarClient
         
     } // Exemplar

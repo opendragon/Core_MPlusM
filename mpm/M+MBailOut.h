@@ -115,6 +115,20 @@ namespace MplusM
             BailOut & operator =(const BailOut & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BailOut(BailOut && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BailOut & operator =(BailOut && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The bailout thread to use. */
             BailOutThread * _bailer;
             

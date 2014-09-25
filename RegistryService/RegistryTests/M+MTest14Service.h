@@ -105,6 +105,20 @@ namespace MplusM
             Test14Service & operator =(const Test14Service & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test14Service(Test14Service && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            Test14Service & operator =(Test14Service && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);
             

@@ -101,6 +101,20 @@ namespace MplusM
             RequestCounterContext & operator =(const RequestCounterContext & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RequestCounterContext(RequestCounterContext && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            RequestCounterContext & operator =(RequestCounterContext && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief The number of requests since the most recent reset. */
             long _counter;
             

@@ -132,6 +132,20 @@ namespace MplusM
             BaseInputService & operator =(const BaseInputService & other)
             DISALLOWED_FUNCTION;
             
+            /*! @brief Move constructor.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseInputService(BaseInputService && other)
+            DISALLOWED_FUNCTION;
+            
+            /*! @brief Move assignment operator.
+             
+             Note - not implemented and private, to prevent unexpected copying.
+             @param other Another object to construct from. */
+            BaseInputService & operator =(BaseInputService && other)
+            DISALLOWED_FUNCTION;
+            
             /*! @brief Set up the output channels.
              @returns @c true if the channels were set up and @c false otherwise. */
             virtual bool setUpOutputStreams(void)
