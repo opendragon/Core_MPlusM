@@ -60,8 +60,6 @@ namespace MplusM
     {
         class BaseContext;
         class BaseRequestHandler;
-        class BaseServiceInputHandler;
-        class BaseServiceInputHandlerCreator;
         class ChannelsRequestHandler;
         class ClientsRequestHandler;
         class CountRequestHandler;
@@ -71,6 +69,8 @@ namespace MplusM
         class ListRequestHandler;
         class NameRequestHandler;
         class PingThread;
+        class ServiceInputHandler;
+        class ServiceInputHandlerCreator;
         
         /*! @brief The minimal functionality required for an M+M service. */
         class BaseService
@@ -353,10 +353,10 @@ namespace MplusM
             Endpoint * _endpoint;
             
             /*! @brief The input handler for the service. */
-            BaseServiceInputHandler * _handler;
+            ServiceInputHandler * _handler;
             
             /*! @brief The input handler creator for the service. */
-            BaseServiceInputHandlerCreator * _handlerCreator;
+            ServiceInputHandlerCreator * _handlerCreator;
             
             /*! @brief The object used to generate 'pings' for the service. */
             PingThread * _pinger;

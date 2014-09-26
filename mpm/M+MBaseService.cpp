@@ -38,12 +38,12 @@
 
 #include <mpm/M+MBaseService.h>
 #include <mpm/M+MBaseContext.h>
-#include <mpm/M+MBaseServiceInputHandler.h>
-#include <mpm/M+MBaseServiceInputHandlerCreator.h>
 #include <mpm/M+MClientChannel.h>
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MException.h>
 #include <mpm/M+MRequests.h>
+#include <mpm/M+MServiceInputHandler.h>
+#include <mpm/M+MServiceInputHandlerCreator.h>
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>
 #include <mpm/M+MUtilities.h>
@@ -619,7 +619,7 @@ bool BaseService::start(void)
         {
             if (_useMultipleHandlers)
             {
-                _handlerCreator = new BaseServiceInputHandlerCreator(*this);
+                _handlerCreator = new ServiceInputHandlerCreator(*this);
                 if (_handlerCreator)
                 {
                     if (_endpoint->setInputHandlerCreator(*_handlerCreator) &&
@@ -642,7 +642,7 @@ bool BaseService::start(void)
             }
             else
             {
-                _handler = new BaseServiceInputHandler(*this);
+                _handler = new ServiceInputHandler(*this);
                 if (_handler)
                 {
                     if (_endpoint->setInputHandler(*_handler) &&

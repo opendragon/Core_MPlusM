@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MBaseServiceInputHandler.cpp
+//  File:       mpm/M+MServiceInputHandlerCreator.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the minimal functionality required for an M+M input
-//              handler.
+//  Contains:   The class definition for the minimal functionality required for an M+M input handler
+//              factory object.
 //
 //  Written by: Norman Jaffe
 //
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MBaseServiceInputHandler.h>
-#include <mpm/M+MBaseService.h>
+#include <mpm/M+MServiceInputHandlerCreator.h>
+#include <mpm/M+MServiceInputHandler.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -49,7 +49,8 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the minimal functionality required for an M+M input handler. */
+ @brief The class definition for the minimal functionality required for an M+M input handler factory
+ object. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -73,49 +74,32 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-BaseServiceInputHandler::BaseServiceInputHandler(BaseService & service) :
+ServiceInputHandlerCreator::ServiceInputHandlerCreator(BaseService & service) :
     inherited(), _service(service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service);
     OD_LOG_EXIT_P(this); //####
-} // BaseServiceInputHandler::BaseServiceInputHandler
+} // ServiceInputHandlerCreator::ServiceInputHandlerCreator
 
-BaseServiceInputHandler::~BaseServiceInputHandler(void)
+ServiceInputHandlerCreator::~ServiceInputHandlerCreator(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // BaseServiceInputHandler::~BaseServiceInputHandler
+} // ServiceInputHandlerCreator::~ServiceInputHandlerCreator
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool BaseServiceInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                          const yarp::os::ConstString & senderChannel,
-                                          yarp::os::ConnectionWriter *  replyMechanism)
+BaseInputHandler * ServiceInputHandlerCreator::create(void)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
-    bool result = true;
+    BaseInputHandler * result = new ServiceInputHandler(_service);
     
-    try
-    {
-        if (0 < input.size())
-        {
-            result = _service.processRequest(input.get(0).toString(), input.tail(), senderChannel,
-                                             replyMechanism);
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(result); //####
+    OD_LOG_OBJEXIT_P(result); //####
     return result;
-} // BaseServiceInputHandler::handleInput
+} // ServiceInputHandlerCreator::create
 
 #if defined(__APPLE__)
 # pragma mark Global functions

@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MBaseServiceInputHandlerCreator.h
+//  File:       mpm/M+MBaseServiceInputHandler.h
 //
 //  Project:    M+M
 //
 //  Contains:   The class declaration for the minimal functionality required for an M+M input
-//              handler factory object.
+//              handler.
 //
 //  Written by: Norman Jaffe
 //
@@ -37,10 +37,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMBaseServiceInputHandlerCreator_H_))
-# define MpMBaseServiceInputHandlerCreator_H_ /* Header guard */
+#if (! defined(MpMServiceInputHandler_H_))
+# define MpMServiceInputHandler_H_ /* Header guard */
 
-# include <mpm/M+MBaseInputHandlerCreator.h>
+# include <mpm/M+MBaseInputHandler.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -48,8 +48,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the minimal functionality required for an M+M input handler
- factory object. */
+ @brief The class declaration for the minimal functionality required for an M+M input handler. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -61,25 +60,30 @@ namespace MplusM
         class BaseService;
         
         /*! @brief The minimal functionality required for an M+M service. */
-        class BaseServiceInputHandlerCreator : public BaseInputHandlerCreator
+        class ServiceInputHandler : public BaseInputHandler
         {
         public :
             
             /*! @brief The constructor. */
-            BaseServiceInputHandlerCreator(BaseService & service);
+            ServiceInputHandler(BaseService & service);
             
             /*! @brief The destructor. */
-            virtual ~BaseServiceInputHandlerCreator(void);
+            virtual ~ServiceInputHandler(void);
             
-            /*! @brief Create a new BaseInputHandler object to process input data.
-             @returns A new BaseInputHandler or @c NULL if one cannot be created. */
-            virtual BaseInputHandler * create(void);
+            /*! @brief Process partially-structured input data.
+             @param input The partially-structured input data.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @returns @c true if the input was correctly structured and successfully processed. */
+            virtual bool handleInput(const yarp::os::Bottle &      input,
+                                     const yarp::os::ConstString & senderChannel,
+                                     yarp::os::ConnectionWriter *  replyMechanism);
             
         protected :
             
         private :
             
-            COPY_AND_ASSIGNMENT_(BaseServiceInputHandlerCreator);
+            COPY_AND_ASSIGNMENT_(ServiceInputHandler);
             
         public :
         
@@ -88,15 +92,15 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandlerCreator inherited;
+            typedef BaseInputHandler inherited;
             
             /*! @brief The service that 'owns' this handler. */
             BaseService & _service;
             
-        }; // BaseServiceInputHandlerCreator
+        }; // ServiceInputHandler
         
     } // Common
     
 } // MplusM
 
-#endif // ! defined(MpMBaseServiceInputHandlerCreator_H_)
+#endif // ! defined(MpMServiceInputHandler_H_)

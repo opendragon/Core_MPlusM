@@ -210,10 +210,10 @@
 		DF3850DA198ACCFE00A0414E /* M+MBaseRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseRequestHandler.h"; path = "mpm/M+MBaseRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF3850DB198ACCFE00A0414E /* M+MBaseService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseService.cpp"; path = "mpm/M+MBaseService.cpp"; sourceTree = SOURCE_ROOT; };
 		DF3850DC198ACCFE00A0414E /* M+MBaseService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseService.h"; path = "mpm/M+MBaseService.h"; sourceTree = SOURCE_ROOT; };
-		DF3850DD198ACCFE00A0414E /* M+MBaseServiceInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseServiceInputHandler.cpp"; path = "mpm/M+MBaseServiceInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF3850DE198ACCFE00A0414E /* M+MBaseServiceInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseServiceInputHandler.h"; path = "mpm/M+MBaseServiceInputHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF3850DF198ACCFE00A0414E /* M+MBaseServiceInputHandlerCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseServiceInputHandlerCreator.cpp"; path = "mpm/M+MBaseServiceInputHandlerCreator.cpp"; sourceTree = SOURCE_ROOT; };
-		DF3850E0198ACCFE00A0414E /* M+MBaseServiceInputHandlerCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseServiceInputHandlerCreator.h"; path = "mpm/M+MBaseServiceInputHandlerCreator.h"; sourceTree = SOURCE_ROOT; };
+		DF3850DD198ACCFE00A0414E /* M+MServiceInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MServiceInputHandler.cpp"; path = "mpm/M+MServiceInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850DE198ACCFE00A0414E /* M+MServiceInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MServiceInputHandler.h"; path = "mpm/M+MServiceInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF3850DF198ACCFE00A0414E /* M+MServiceInputHandlerCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MServiceInputHandlerCreator.cpp"; path = "mpm/M+MServiceInputHandlerCreator.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850E0198ACCFE00A0414E /* M+MServiceInputHandlerCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MServiceInputHandlerCreator.h"; path = "mpm/M+MServiceInputHandlerCreator.h"; sourceTree = SOURCE_ROOT; };
 		DF3850E1198ACCFE00A0414E /* M+MChannelsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChannelsRequestHandler.cpp"; path = "mpm/M+MChannelsRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF3850E2198ACCFE00A0414E /* M+MChannelsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MChannelsRequestHandler.h"; path = "mpm/M+MChannelsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF3850E3198ACCFE00A0414E /* M+MChannelStatusReporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChannelStatusReporter.cpp"; path = "mpm/M+MChannelStatusReporter.cpp"; sourceTree = SOURCE_ROOT; };
@@ -990,10 +990,6 @@
 				DF3850DA198ACCFE00A0414E /* M+MBaseRequestHandler.h */,
 				DF3850DB198ACCFE00A0414E /* M+MBaseService.cpp */,
 				DF3850DC198ACCFE00A0414E /* M+MBaseService.h */,
-				DF3850DD198ACCFE00A0414E /* M+MBaseServiceInputHandler.cpp */,
-				DF3850DE198ACCFE00A0414E /* M+MBaseServiceInputHandler.h */,
-				DF3850DF198ACCFE00A0414E /* M+MBaseServiceInputHandlerCreator.cpp */,
-				DF3850E0198ACCFE00A0414E /* M+MBaseServiceInputHandlerCreator.h */,
 				DF3850E3198ACCFE00A0414E /* M+MChannelStatusReporter.cpp */,
 				DF3850E4198ACCFE00A0414E /* M+MChannelStatusReporter.h */,
 				DF3850E5198ACCFE00A0414E /* M+MClientChannel.cpp */,
@@ -1027,6 +1023,10 @@
 				DF385115198ACCFE00A0414E /* M+MRequests.h */,
 				DF385118198ACCFE00A0414E /* M+MServiceChannel.cpp */,
 				DF385119198ACCFE00A0414E /* M+MServiceChannel.h */,
+				DF3850DD198ACCFE00A0414E /* M+MServiceInputHandler.cpp */,
+				DF3850DE198ACCFE00A0414E /* M+MServiceInputHandler.h */,
+				DF3850DF198ACCFE00A0414E /* M+MServiceInputHandlerCreator.cpp */,
+				DF3850E0198ACCFE00A0414E /* M+MServiceInputHandlerCreator.h */,
 				DF38511A198ACCFE00A0414E /* M+MServiceRequest.cpp */,
 				DF38511B198ACCFE00A0414E /* M+MServiceRequest.h */,
 				DF38511C198ACCFE00A0414E /* M+MServiceResponse.cpp */,
