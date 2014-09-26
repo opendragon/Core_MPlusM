@@ -195,14 +195,12 @@ yarp::os::ConstString Common::GetRandomChannelName(const char * channelRoot)
 #else // ! MAC_OR_LINUX_
         if (hasLeadingSlash)
         {
-            _snprintf(buff, buffLen - 1, "%s%x", stringToUse, randNumb);
+            sprintf_s(buff, buffLen, "%s%x", stringToUse, randNumb);
         }
         else
         {
-            _snprintf(buff, buffLen - 1, "/%s%x", stringToUse, randNumb);
+            sprintf_s(buff, buffLen, "/%s%x", stringToUse, randNumb);
         }
-        // Correct for the weird behaviour of _snprintf
-        buff[buffLen - 1] = '\0';
 #endif // ! MAC_OR_LINUX_
         result = buff;
         delete[] buff;

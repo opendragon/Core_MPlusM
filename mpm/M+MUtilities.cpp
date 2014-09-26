@@ -1088,23 +1088,23 @@ const char * Utilities::MapServiceKindToString(const ServiceKind kind)
     
     switch (kind)
     {
-        casekServiceKindFilter :
+        case kServiceKindFilter :
             result = "Filter";
             break;
             
-	    casekServiceKindInput :
+	    case kServiceKindInput :
             result = "Input";
             break;
             
-	    casekServiceKindOutput :
+	    case kServiceKindOutput :
             result = "Output";
             break;
             
-	    casekServiceKindRegistry :
+	    case kServiceKindRegistry :
             result = "Registry";
             break;
             
-        casekServiceKindNormal :
+        case kServiceKindNormal :
             result = "Normal";
             break;
             

@@ -379,14 +379,18 @@ inline static void odIncreaseIndent_(void)
 /*! @brief Write the date and time to a file stream. */
 static void odWriteTime_(FILE * outFile)
 {
-    char   buffer[80];
-    time_t rawtime;
+    char      buffer[80];
+    time_t    rawtime;
+#  if (! MAC_OR_LINUX_)
+    struct tm aTm;
+#  endif // ! MAC_OR_LINUX_
     
     time(&rawtime);
 #  if MAC_OR_LINUX_
     strftime(buffer, sizeof(buffer), "%F %T ", localtime(&rawtime));
 #  else // ! MAC_OR_LINUX_
-    strftime(buffer, sizeof(buffer), "%x %X ", localtime(&rawtime));
+    localtime_s(&aTm, &rawtime);
+    strftime(buffer, sizeof(buffer), "%x %X ", &aTm);
 #  endif // ! MAC_OR_LINUX_
     fputs(buffer, outFile);
 } // odWriteTime_
@@ -1747,10 +1751,14 @@ EXTERN_C void ODLogInit_(const char * prefix,
         
 #  if MAC_OR_LINUX_
         snprintf(pidString, sizeof(pidString), "/var/log/pid-%lX.log", (long unsigned) getpid());
-#  else  // ! MAC_OR_LINUX_
-        sprintf(pidString, "od_temp.log");
-#  endif  // ! MAC_OR_LINUX_
         lOdLogFile_ = fopen(pidString, "w");
+#  else  // ! MAC_OR_LINUX_
+        sprintf_s(pidString, sizeof(pidString), "od_temp.log");
+        if (! fopen_s(&lOdLogFile_, pidString, "w"))
+        {
+            lOdLogFile_ = NULL;
+        }
+#  endif  // ! MAC_OR_LINUX_
         if (lOdLogFile_)
         {
             odWriteTime_(lOdLogFile_);

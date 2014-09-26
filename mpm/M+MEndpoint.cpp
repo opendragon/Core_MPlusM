@@ -87,7 +87,7 @@ static bool checkHostPort(int &                         realPort,
         {
             for (size_t ii = 0; result && (ii < portLength); ++ii)
             {
-                result = isdigit(portNumber[ii]);
+                result = (0 != isdigit(portNumber[ii]));
             }
             if (result)
             {
@@ -172,7 +172,7 @@ bool Endpoint::CheckEndpointName(const yarp::os::ConstString & channelName)
             result = ('/' == firstChar);
             for (size_t ii = 1; result && (ii < nameLength); ++ii)
             {
-                result = isprint(channelName[ii]);
+                result = (0 != isprint(channelName[ii]));
             }
         }
         else

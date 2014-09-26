@@ -153,9 +153,7 @@ int main(int      argc,
 #if MAC_OR_LINUX_
                 snprintf(buff, sizeof(buff), "/tmp/record_%x", randNumb);
 #else // ! MAC_OR_LINUX_
-                _snprintf(buff, sizeof(buff) - 1, "\\tmp\\record_%x", randNumb);
-                // Correct for the weird behaviour of _snprintf
-                buff[sizeof(buff) - 1] = '\0';
+                sprintf_s(buff, sizeof(buff), "\\tmp\\record_%x", randNumb);
 #endif // ! MAC_OR_LINUX_
                 recordPath = buff;
                 OD_LOG_S1s("recordPath <- ", recordPath); //####

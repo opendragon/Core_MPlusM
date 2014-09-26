@@ -199,7 +199,14 @@ void RecordIntegersService::startStreams(void)
     {
         if (! isActive())
         {
+#if MAC_OR_LINUX_
             _outFile = fopen(_outPath.c_str(), "w");
+#else // ! MAC_OR_LINUX_
+            if (! fopen_s(&_outFile, _outPath.c_str(), "w"))
+            {
+                _outFile = NULL;
+            }
+#endif // ! MAC_OR_LINUX_
             if (_outFile)
             {
                 if (_inHandler)
