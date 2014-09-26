@@ -27,7 +27,7 @@ derive from these classes.
 The class \secondaryRef{BaseAdapterData}{\classNameP{Common}{BaseAdapterData}} is used to
 provide common methods and variables for data that is shared between instances of
 derived classes of \secondaryRef{BaseService}{BaseService} and instances of derived
-classes of \classNameP{Common}{InputHandler}.
+classes of \classNameP{Common}{BaseInputHandler}.
 In particular, the shared data includes the activation state of the input stream and the
 primary output stream to use when responding to input data.
 \secondaryEnd{\classNameE{Common}{BaseAdapterData}}
@@ -84,6 +84,13 @@ The method \asCode{setUpStreamDescriptions} must be implemented in classes deriv
 \secondaryRef{BaseFilterService}{BaseFilterService} and should fill in
 \asCode{\textunderscore{}inDescriptions} and \asCode{\textunderscore{}outDescriptions}.
 \secondaryEnd{\classNameE{Common}{BaseFilterService}}
+\secondaryStart{BaseInputHandler}
+Instances of derived classes of
+\secondaryRef{BaseService}{\classNameP{Common}{BaseInputHandler}} are responsible for
+responding to input data on \yarp{} network connections.
+They must implement the method \asCode{handleInput}, which is called when a complete
+message has been received on a connection.
+\secondaryEnd{\classNameE{Common}{BaseInputHandler}}
 \secondaryStart{BaseInputOutputService}
 The \secondaryRef{BaseInputOutputService}{\classNameP{Common}{BaseInputOutputService}}
 class is designed to support easy access to multiple instances of the same service, each
@@ -228,13 +235,6 @@ Instances of the \secondaryRef{Endpoint}{\classNameP{Common}{Endpoint}} class ma
 They are used to simplify the communication mechanisms that each service must provide and
 to standardize on the mid--level protocols that \mplusm{} services and clients share.
 \secondaryEnd{}
-\secondaryStart{InputHandler}
-Instances of derived classes of
-\secondaryRef{BaseService}{\classNameP{Common}{InputHandler}} are responsible for
-responding to input data on \yarp{} network connections.
-They must implement the method \asCode{handleInput}, which is called when a complete
-message has been received on a connection.
-\secondaryEnd{\classNameE{Common}{InputHandler}}
 \secondaryStart{ServiceRequest}
 Instances of the \secondaryRef{ServiceRequest}{\classNameP{Common}{ServiceRequest}} class
 are used to represent requests in the mid--level protocols of \mplusm{} services in a
