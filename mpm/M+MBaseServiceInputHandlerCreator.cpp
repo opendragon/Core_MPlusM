@@ -92,10 +92,10 @@ BaseServiceInputHandlerCreator::~BaseServiceInputHandlerCreator(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-InputHandler * BaseServiceInputHandlerCreator::create(void)
+BaseInputHandler * BaseServiceInputHandlerCreator::create(void)
 {
     OD_LOG_OBJENTER(); //####
-    InputHandler * result = new BaseServiceInputHandler(_service);
+    BaseInputHandler * result = new BaseServiceInputHandler(_service);
     
     OD_LOG_OBJEXIT_P(result); //####
     return result;

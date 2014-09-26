@@ -40,7 +40,7 @@
 #if (! defined(MpMBaseServiceInputHandler_H_))
 # define MpMBaseServiceInputHandler_H_ /* Header guard */
 
-# include <mpm/M+MInputHandler.h>
+# include <mpm/M+MBaseInputHandler.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -60,7 +60,7 @@ namespace MplusM
         class BaseService;
         
         /*! @brief The minimal functionality required for an M+M service. */
-        class BaseServiceInputHandler : public InputHandler
+        class BaseServiceInputHandler : public BaseInputHandler
         {
         public :
             
@@ -92,7 +92,7 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef InputHandler inherited;
+            typedef BaseInputHandler inherited;
             
             /*! @brief The service that 'owns' this handler. */
             BaseService & _service;

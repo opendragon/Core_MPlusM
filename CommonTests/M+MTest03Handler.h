@@ -39,7 +39,7 @@
 #if (! defined(MpMTest03Handler_H_))
 # define MpMTest03Handler_H_ /* Header guard */
 
-# include <mpm/M+MInputHandler.h>
+# include <mpm/M+MBaseInputHandler.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -60,7 +60,7 @@ namespace MplusM
     namespace Test
     {
         /*! @brief A test input handler. */
-        class Test03Handler : public Common::InputHandler
+        class Test03Handler : public Common::BaseInputHandler
         {
         public :
             
@@ -92,7 +92,7 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef InputHandler inherited;
+            typedef BaseInputHandler inherited;
             
         }; // Test03Handler
         

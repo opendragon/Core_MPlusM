@@ -40,7 +40,7 @@
 #if (! defined(MpMRecordIntegersInputHandler_H_))
 # define MpMRecordIntegersInputHandler_H_ /* Header guard */
 
-# include <mpm/M+MInputHandler.h>
+# include <mpm/M+MBaseInputHandler.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -61,7 +61,7 @@ namespace MplusM
         /*! @brief A handler for partially-structured input data.
          
          The data is expected to be in the form of a sequence of integer values. */
-        class RecordIntegersInputHandler : public Common::InputHandler
+        class RecordIntegersInputHandler : public Common::BaseInputHandler
         {
         public :
             
@@ -97,7 +97,7 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef InputHandler inherited;
+            typedef BaseInputHandler inherited;
             
             /*! @brief The file that is to be written to. */
             FILE * _outFile;

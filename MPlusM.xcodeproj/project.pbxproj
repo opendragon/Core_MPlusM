@@ -240,10 +240,10 @@
 		DF3850F8198ACCFE00A0414E /* M+MGeneralChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MGeneralChannel.h"; path = "mpm/M+MGeneralChannel.h"; sourceTree = SOURCE_ROOT; };
 		DF3850F9198ACCFE00A0414E /* M+MInfoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MInfoRequestHandler.cpp"; path = "mpm/M+MInfoRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF3850FA198ACCFE00A0414E /* M+MInfoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MInfoRequestHandler.h"; path = "mpm/M+MInfoRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF3850FB198ACCFE00A0414E /* M+MInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MInputHandler.cpp"; path = "mpm/M+MInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF3850FC198ACCFE00A0414E /* M+MInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MInputHandler.h"; path = "mpm/M+MInputHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF3850FD198ACCFE00A0414E /* M+MInputHandlerCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MInputHandlerCreator.cpp"; path = "mpm/M+MInputHandlerCreator.cpp"; sourceTree = SOURCE_ROOT; };
-		DF3850FE198ACCFE00A0414E /* M+MInputHandlerCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MInputHandlerCreator.h"; path = "mpm/M+MInputHandlerCreator.h"; sourceTree = SOURCE_ROOT; };
+		DF3850FB198ACCFE00A0414E /* M+MBaseInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseInputHandler.cpp"; path = "mpm/M+MBaseInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850FC198ACCFE00A0414E /* M+MBaseInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseInputHandler.h"; path = "mpm/M+MBaseInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF3850FD198ACCFE00A0414E /* M+MBaseInputHandlerCreator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseInputHandlerCreator.cpp"; path = "mpm/M+MBaseInputHandlerCreator.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850FE198ACCFE00A0414E /* M+MBaseInputHandlerCreator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseInputHandlerCreator.h"; path = "mpm/M+MBaseInputHandlerCreator.h"; sourceTree = SOURCE_ROOT; };
 		DF3850FF198ACCFE00A0414E /* M+MListRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MListRequestHandler.cpp"; path = "mpm/M+MListRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF385100198ACCFE00A0414E /* M+MListRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MListRequestHandler.h"; path = "mpm/M+MListRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF385101198ACCFE00A0414E /* M+MMatchConstraint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMatchConstraint.cpp"; path = "mpm/M+MMatchConstraint.cpp"; sourceTree = SOURCE_ROOT; };
@@ -972,6 +972,10 @@
 				DF3850CC198ACCFE00A0414E /* M+MBaseContext.h */,
 				DF3850CD198ACCFE00A0414E /* M+MBaseFilterService.cpp */,
 				DF3850CE198ACCFE00A0414E /* M+MBaseFilterService.h */,
+				DF3850FB198ACCFE00A0414E /* M+MBaseInputHandler.cpp */,
+				DF3850FC198ACCFE00A0414E /* M+MBaseInputHandler.h */,
+				DF3850FD198ACCFE00A0414E /* M+MBaseInputHandlerCreator.cpp */,
+				DF3850FE198ACCFE00A0414E /* M+MBaseInputHandlerCreator.h */,
 				DF3850CF198ACCFE00A0414E /* M+MBaseInputOutputService.cpp */,
 				DF3850D0198ACCFE00A0414E /* M+MBaseInputOutputService.h */,
 				DF3850D1198ACCFE00A0414E /* M+MBaseInputService.cpp */,
@@ -1004,10 +1008,6 @@
 				DF3850F6198ACCFE00A0414E /* M+MException.h */,
 				DF3850F7198ACCFE00A0414E /* M+MGeneralChannel.cpp */,
 				DF3850F8198ACCFE00A0414E /* M+MGeneralChannel.h */,
-				DF3850FB198ACCFE00A0414E /* M+MInputHandler.cpp */,
-				DF3850FC198ACCFE00A0414E /* M+MInputHandler.h */,
-				DF3850FD198ACCFE00A0414E /* M+MInputHandlerCreator.cpp */,
-				DF3850FE198ACCFE00A0414E /* M+MInputHandlerCreator.h */,
 				DF385101198ACCFE00A0414E /* M+MMatchConstraint.cpp */,
 				DF385102198ACCFE00A0414E /* M+MMatchConstraint.h */,
 				DF385103198ACCFE00A0414E /* M+MMatchExpression.cpp */,

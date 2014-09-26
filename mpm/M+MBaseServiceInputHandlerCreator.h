@@ -40,7 +40,7 @@
 #if (! defined(MpMBaseServiceInputHandlerCreator_H_))
 # define MpMBaseServiceInputHandlerCreator_H_ /* Header guard */
 
-# include <mpm/M+MInputHandlerCreator.h>
+# include <mpm/M+MBaseInputHandlerCreator.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -61,7 +61,7 @@ namespace MplusM
         class BaseService;
         
         /*! @brief The minimal functionality required for an M+M service. */
-        class BaseServiceInputHandlerCreator : public InputHandlerCreator
+        class BaseServiceInputHandlerCreator : public BaseInputHandlerCreator
         {
         public :
             
@@ -71,9 +71,9 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BaseServiceInputHandlerCreator(void);
             
-            /*! @brief Create a new InputHandler object to process input data.
-             @returns A new InputHandler or @c NULL if one cannot be created. */
-            virtual InputHandler * create(void);
+            /*! @brief Create a new BaseInputHandler object to process input data.
+             @returns A new BaseInputHandler or @c NULL if one cannot be created. */
+            virtual BaseInputHandler * create(void);
             
         protected :
             
@@ -88,7 +88,7 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef InputHandlerCreator inherited;
+            typedef BaseInputHandlerCreator inherited;
             
             /*! @brief The service that 'owns' this handler. */
             BaseService & _service;

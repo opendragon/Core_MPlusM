@@ -39,7 +39,7 @@
 #if (! defined(MpMTest05HandlerCreator_H_))
 # define MpMTest05HandlerCreator_H_ /* Header guard */
 
-# include <mpm/M+MInputHandlerCreator.h>
+# include <mpm/M+MBaseInputHandlerCreator.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -57,7 +57,7 @@ namespace MplusM
     namespace Test
     {
         /*! @brief A test input handler factory. */
-        class Test05HandlerCreator : public Common::InputHandlerCreator
+        class Test05HandlerCreator : public Common::BaseInputHandlerCreator
         {
         public :
             
@@ -67,9 +67,9 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~Test05HandlerCreator(void);
             
-            /*! @brief Create a new InputHandler object to process input data.
-             @returns A new InputHandler or @c nullptrnullptr if one cannot be created. */
-            virtual Common::InputHandler * create(void);
+            /*! @brief Create a new BaseInputHandler object to process input data.
+             @returns A new BaseInputHandler or @c nullptrnullptr if one cannot be created. */
+            virtual Common::BaseInputHandler * create(void);
             
         protected :
             
@@ -84,7 +84,7 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef InputHandlerCreator inherited;
+            typedef BaseInputHandlerCreator inherited;
             
         }; // Test05HandlerCreator
         

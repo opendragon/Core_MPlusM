@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MInputHandlerCreator.cpp
+//  File:       mpm/M+MBaseInputHandlerCreator.cpp
 //
 //  Project:    M+M
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MInputHandlerCreator.h>
+#include <mpm/M+MBaseInputHandlerCreator.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -71,18 +71,18 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-InputHandlerCreator::InputHandlerCreator(void) :
+BaseInputHandlerCreator::BaseInputHandlerCreator(void) :
     inherited()
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
-} // InputHandlerCreator::InputHandlerCreator
+} // BaseInputHandlerCreator::BaseInputHandlerCreator
 
-InputHandlerCreator::~InputHandlerCreator(void)
+BaseInputHandlerCreator::~BaseInputHandlerCreator(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // InputHandlerCreator::~InputHandlerCreator
+} // BaseInputHandlerCreator::~BaseInputHandlerCreator
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors

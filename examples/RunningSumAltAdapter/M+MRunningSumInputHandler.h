@@ -40,7 +40,7 @@
 #if (! defined(MpMRunningSumInputHandler_H_))
 # define MpMRunningSumInputHandler_H_ /* Header guard */
 
-# include <mpm/M+MInputHandler.h>
+# include <mpm/M+MBaseInputHandler.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -63,7 +63,7 @@ namespace MplusM
         /*! @brief A handler for partially-structured input data.
          
          The data is expected to be in the form of a sequence of floating point data or commands. */
-        class RunningSumInputHandler : public Common::InputHandler
+        class RunningSumInputHandler : public Common::BaseInputHandler
         {
         public :
             
@@ -96,7 +96,7 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef InputHandler inherited;
+            typedef BaseInputHandler inherited;
             
             /*! @brief The shared data that describes the connection to the service that we are
              using. */

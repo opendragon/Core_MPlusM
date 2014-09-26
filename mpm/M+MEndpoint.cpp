@@ -37,9 +37,9 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MBaseInputHandlerCreator.h>
 #include <mpm/M+MChannelStatusReporter.h>
 #include <mpm/M+MException.h>
-#include <mpm/M+MInputHandlerCreator.h>
 #include <mpm/M+MServiceChannel.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -376,7 +376,7 @@ bool Endpoint::open(const double timeToWait)
     return result;
 } // Endpoint::open
 
-bool Endpoint::setInputHandler(InputHandler & handler)
+bool Endpoint::setInputHandler(BaseInputHandler & handler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("handler = ", &handler); //####
@@ -416,7 +416,7 @@ bool Endpoint::setInputHandler(InputHandler & handler)
     return result;
 } // Endpoint::setInputHandler
 
-bool Endpoint::setInputHandlerCreator(InputHandlerCreator & handlerCreator)
+bool Endpoint::setInputHandlerCreator(BaseInputHandlerCreator & handlerCreator)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("handlerCreator = ", &handlerCreator); //####

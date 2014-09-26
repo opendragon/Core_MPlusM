@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MInputHandler.h
+//  File:       mpm/M+MBaseInputHandlerCreator.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the interface between M+M input handlers and YARP.
+//  Contains:   The class declaration for the interface between M+M input handler factories and YARP.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-02-11
+//  Created:    2014-02-12
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMInputHandler_H_))
-# define MpMInputHandler_H_ /* Header guard */
+#if (! defined(MpMBaseInputHandlerCreator_H_))
+# define MpMBaseInputHandlerCreator_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MBaseInputHandler.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -47,7 +47,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the interface between M+M input handlers and YARP. */
+ @brief The class declaration for the interface between M+M input handler factories and YARP. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -56,39 +56,26 @@ namespace MplusM
 {
     namespace Common
     {
-        /*! @brief A handler for partially-structured input data. */
-        class InputHandler : public yarp::os::PortReader
+        /*! @brief A factory for BaseInputHandler objects. */
+        class BaseInputHandlerCreator : public yarp::os::PortReaderCreator
         {
         public :
             
             /*! @brief The constructor. */
-            InputHandler(void);
+            BaseInputHandlerCreator(void);
             
             /*! @brief The destructor. */
-            virtual ~InputHandler(void);
+            virtual ~BaseInputHandlerCreator(void);
             
-            /*! @brief Process partially-structured input data.
-             @param input The partially-structured input data.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-             @returns @c true if the input was correctly structured and successfully processed. */
-            virtual bool handleInput(const yarp::os::Bottle &      input,
-                                     const yarp::os::ConstString & senderChannel,
-                                     yarp::os::ConnectionWriter *  replyMechanism) = 0;
-            
-            /*! @brief Terminate processing of the input data stream. */
-            void stopProcessing(void);
+            /*! @brief Create a new BaseInputHandler object to process input data.
+             @returns A new BaseInputHandler or @c NULL if one cannot be created. */
+            virtual BaseInputHandler * create(void) = 0;
             
         protected :
             
         private :
             
-            COPY_AND_ASSIGNMENT_(InputHandler);
-            
-            /*! @brief Read an object from the input stream.
-             @param connection The input stream that is to be read from.
-             @returns @c true if the object was successfully read and @c false otherwise. */
-            virtual bool read(yarp::os::ConnectionReader & connection);
+            COPY_AND_ASSIGNMENT_(BaseInputHandlerCreator);
             
         public :
         
@@ -97,25 +84,12 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef yarp::os::PortReader inherited;
+            typedef yarp::os::PortReaderCreator inherited;
             
-            /*! @brief @c true if input stream processing is enabled. */
-            bool _canProcessInput;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler[7];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
-            
-        }; // InputHandler
+        }; // BaseInputHandlerCreator
         
     } // Common
     
 } // MplusM
 
-#endif // ! defined(MpMInputHandler_H_)
+#endif // ! defined(MpMBaseInputHandlerCreator_H_)

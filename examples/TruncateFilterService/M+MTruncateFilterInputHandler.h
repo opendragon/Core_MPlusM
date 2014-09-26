@@ -40,8 +40,8 @@
 #if (! defined(MpMTruncateFilterInputHandler_H_))
 # define MpMTruncateFilterInputHandler_H_ /* Header guard */
 
+# include <mpm/M+MBaseInputHandler.h>
 # include <mpm/M+MGeneralChannel.h>
-# include <mpm/M+MInputHandler.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -63,7 +63,7 @@ namespace MplusM
          
          The data is expected to be in the form of a sequence of integer or floating point
          values. */
-        class TruncateFilterInputHandler : public Common::InputHandler
+        class TruncateFilterInputHandler : public Common::BaseInputHandler
         {
         public :
             
@@ -99,7 +99,7 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef InputHandler inherited;
+            typedef BaseInputHandler inherited;
             
             /*! @brief The channel that is to be written to. */
             Common::GeneralChannel * _outChannel;

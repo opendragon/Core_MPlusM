@@ -56,9 +56,9 @@ namespace MplusM
 {
     namespace Common
     {
+        class BaseInputHandler;
+        class BaseInputHandlerCreator;
         class ChannelStatusReporter;
-        class InputHandler;
-        class InputHandlerCreator;
         class ServiceChannel;
         
         /*! @brief An object that represents an endpoint that provides a bidirectional connection
@@ -108,7 +108,7 @@ namespace MplusM
              data will be processed and the endpoint cannot be open before set up.
              @param handler The input handler to be used by the endpoint to process incoming data.
              @returns @c true if the input handler was attached to the endpoint. */
-            bool setInputHandler(InputHandler & handler);
+            bool setInputHandler(BaseInputHandler & handler);
             
             /*! @brief Set the input handler creator for the endpoint.
              
@@ -117,7 +117,7 @@ namespace MplusM
              @param handlerCreator The input handler creator to be used by the endpoint to process
              incoming data.
              @returns @c true if the input handler creator was attached to the endpoint. */
-            bool setInputHandlerCreator(InputHandlerCreator & handlerCreator);
+            bool setInputHandlerCreator(BaseInputHandlerCreator & handlerCreator);
             
             /*! @brief Set the channel status reporter for the endpoint.
              @param reporter The channel status reporter to be used by the endpoint.
@@ -146,10 +146,10 @@ namespace MplusM
             yarp::os::Contact _contact;
             
             /*! @brief The input handler for the endpoint. */
-            InputHandler * _handler;
+            BaseInputHandler * _handler;
             
             /*! @brief The input handler creator for the endpoint. */
-            InputHandlerCreator * _handlerCreator;
+            BaseInputHandlerCreator * _handlerCreator;
             
             /*! @brief @c true if the endpoint is open and @c false otherwise. */
             bool _isOpen;

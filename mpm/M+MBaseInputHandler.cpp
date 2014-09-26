@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MInputHandler.cpp
+//  File:       mpm/M+MBaseInputHandler.cpp
 //
 //  Project:    M+M
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MInputHandler.h>
+#include <mpm/M+MBaseInputHandler.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -71,25 +71,25 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-InputHandler::InputHandler(void) :
+BaseInputHandler::BaseInputHandler(void) :
     inherited(), _canProcessInput(true)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
-} // InputHandler::InputHandler
+} // BaseInputHandler::BaseInputHandler
 
-InputHandler::~InputHandler(void)
+BaseInputHandler::~BaseInputHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     stopProcessing();
     OD_LOG_OBJEXIT(); //####
-} // InputHandler::~InputHandler
+} // BaseInputHandler::~BaseInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool InputHandler::read(yarp::os::ConnectionReader & connection)
+bool BaseInputHandler::read(yarp::os::ConnectionReader & connection)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("connection = ", &connection); //####
@@ -118,14 +118,14 @@ bool InputHandler::read(yarp::os::ConnectionReader & connection)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // InputHandler::read
+} // BaseInputHandler::read
 
-void InputHandler::stopProcessing(void)
+void BaseInputHandler::stopProcessing(void)
 {
     OD_LOG_OBJENTER(); //####
     _canProcessInput = false;
     OD_LOG_OBJEXIT(); //####
-} // InputHandler::stopProcessing
+} // BaseInputHandler::stopProcessing
 
 #if defined(__APPLE__)
 # pragma mark Global functions
