@@ -59,7 +59,6 @@ namespace MplusM
 {
     namespace RequestCounter
     {
-        class DetachRequestHandler;
         class RequestCounterDefaultRequestHandler;
         class ResetCounterRequestHandler;
         class StatsRequestHandler;

@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MBaseClient.h>
+#include <mpm/M+MClientChannel.h>
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>

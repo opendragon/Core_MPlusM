@@ -37,8 +37,9 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MTest11Service.h"
-#include <mpm/M+MRequests.h>
 #include "M+MTest11EchoRequestHandler.h"
+
+#include <mpm/M+MRequests.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

@@ -39,8 +39,7 @@
 #if (! defined(MpMMatchExpression_H_))
 # define MpMMatchExpression_H_ /* Header guard */
 
-# include <mpm/M+MBaseNameValidator.h>
-# include <mpm/M+MMatchConstraint.h>
+# include <mpm/M+MBaseMatcher.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -57,6 +56,9 @@ namespace MplusM
 {
     namespace Parser
     {
+        class BaseNameValidator;
+        class MatchConstraint;
+        
         /*! @brief A pattern matcher for expressions. */
         class MatchExpression : public BaseMatcher
         {

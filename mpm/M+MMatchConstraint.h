@@ -40,8 +40,6 @@
 # define MpMMatchConstraint_H_ /* Header guard */
 
 # include <mpm/M+MBaseMatcher.h>
-# include <mpm/M+MBaseNameValidator.h>
-# include <mpm/M+MMatchFieldWithValues.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -58,6 +56,9 @@ namespace MplusM
 {
     namespace Parser
     {
+        class BaseNameValidator;
+        class MatchFieldWithValues;
+        
         /*! @brief A pattern matcher for AND clauses. */
         class MatchConstraint : public BaseMatcher
         {

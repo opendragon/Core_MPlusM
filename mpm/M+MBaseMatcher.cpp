@@ -38,7 +38,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MBaseMatcher.h>
-#include <mpm/M+MBaseNameValidator.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

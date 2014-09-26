@@ -40,7 +40,6 @@
 #include "M+MRegistryService.h"
 
 #include <mpm/M+MEndpoint.h>
-#include <mpm/M+MMatchExpression.h>
 #include <mpm/M+MRequests.h>
 
 //#include <odl/ODEnableLogging.h>

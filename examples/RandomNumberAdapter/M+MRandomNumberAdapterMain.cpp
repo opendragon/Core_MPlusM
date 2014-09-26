@@ -40,6 +40,7 @@
 #include "M+MRandomNumberClient.h"
 #include "M+MRandomNumberInputHandler.h"
 
+#include <mpm/M+MAdapterChannel.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -124,8 +125,8 @@ int main(int      argc,
 #endif // defined(MpM_ReportOnConnections)
                     if (stuff->connectToService(nullptr, nullptr))
                     {
-                        Common::AdapterChannel *           inputChannel = new Common::AdapterChannel(false);
-                        Common::AdapterChannel *           outputChannel = new Common::AdapterChannel(true);
+                        Common::AdapterChannel *   inputChannel = new Common::AdapterChannel(false);
+                        Common::AdapterChannel *   outputChannel = new Common::AdapterChannel(true);
                         RandomNumberAdapterData    sharedData(stuff, outputChannel);
                         RandomNumberInputHandler * inputHandler =
                                                         new RandomNumberInputHandler(sharedData);

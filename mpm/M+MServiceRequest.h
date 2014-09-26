@@ -39,9 +39,7 @@
 #if (! defined(MpMServiceRequest_H_))
 # define MpMServiceRequest_H_ /* Header guard */
 
-# include <mpm/M+MClientChannel.h>
-# include <mpm/M+MEndpoint.h>
-# include <mpm/M+MServiceResponse.h>
+# include <mpm/M+MCommon.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -58,6 +56,10 @@ namespace MplusM
 {
     namespace Common
     {
+        class ClientChannel;
+        class Endpoint;
+        class ServiceResponse;
+        
         /*! @brief The data constituting a service request. */
         class ServiceRequest
         {

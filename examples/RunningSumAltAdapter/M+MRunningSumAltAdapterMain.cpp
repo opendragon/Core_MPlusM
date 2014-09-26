@@ -40,6 +40,7 @@
 #include "M+MRunningSumClient.h"
 #include "M+MRunningSumInputHandler.h"
 
+#include <mpm/M+MAdapterChannel.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>

@@ -37,6 +37,10 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MBailOutThread.h>
+#include <mpm/M+MAdapterChannel.h>
+#include <mpm/M+MClientChannel.h>
+#include <mpm/M+MGeneralChannel.h>
+#include <mpm/M+MServiceChannel.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

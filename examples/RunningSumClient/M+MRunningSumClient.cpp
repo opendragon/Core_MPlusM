@@ -39,7 +39,6 @@
 #include "M+MRunningSumClient.h"
 #include "M+MRunningSumRequests.h"
 
-#include <mpm/M+MEndpoint.h>
 #include <mpm/M+MServiceResponse.h>
 
 //#include <odl/ODEnableLogging.h>

@@ -37,6 +37,10 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MMatchFieldWithValues.h>
+#include <mpm/M+MBaseNameValidator.h>
+#include <mpm/M+MMatchFieldName.h>
+#include <mpm/M+MMatchValue.h>
+#include <mpm/M+MMatchValueList.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

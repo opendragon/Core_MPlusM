@@ -40,7 +40,7 @@
 #if (! defined(MpMBaseAdapterData_H_))
 # define MpMBaseAdapterData_H_ /* Header guard */
 
-# include <mpm/M+MAdapterChannel.h>
+# include <mpm/M+MCommon.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -58,6 +58,7 @@ namespace MplusM
 {
     namespace Common
     {
+        class AdapterChannel;
         class BaseClient;
         
         /*! @brief The data shared between an input handler and the main thread of an M+M

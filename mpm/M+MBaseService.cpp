@@ -37,6 +37,16 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MBaseService.h>
+#include <mpm/M+MBaseContext.h>
+#include <mpm/M+MBaseServiceInputHandler.h>
+#include <mpm/M+MBaseServiceInputHandlerCreator.h>
+#include <mpm/M+MClientChannel.h>
+#include <mpm/M+MEndpoint.h>
+#include <mpm/M+MException.h>
+#include <mpm/M+MRequests.h>
+#include <mpm/M+MServiceRequest.h>
+#include <mpm/M+MServiceResponse.h>
+#include <mpm/M+MUtilities.h>
 
 #include "M+MChannelsRequestHandler.h"
 #include "M+MClientsRequestHandler.h"
@@ -46,13 +56,6 @@
 #include "M+MListRequestHandler.h"
 #include "M+MNameRequestHandler.h"
 #include "M+MPingThread.h"
-
-#include <mpm/M+MChannelStatusReporter.h>
-#include <mpm/M+MException.h>
-#include <mpm/M+MRequests.h>
-#include <mpm/M+MServiceRequest.h>
-#include <mpm/M+MServiceResponse.h>
-#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

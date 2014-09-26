@@ -39,7 +39,7 @@
 #if (! defined(MpMUtilities_H_))
 # define MpMUtilities_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MChannelStatusReporter.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -54,11 +54,6 @@
 
 namespace MplusM
 {
-    namespace Common
-    {
-        class ChannelStatusReporter;
-    } // Common
-    
     namespace Utilities
     {
         /*! @brief Which combination of input and output to use. */

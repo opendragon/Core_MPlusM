@@ -40,6 +40,7 @@
 #include "M+MMovementDbClient.h"
 #include "M+MMovementDbInputHandler.h"
 
+#include <mpm/M+MAdapterChannel.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>

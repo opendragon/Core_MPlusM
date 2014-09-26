@@ -37,8 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #if (! defined(MpMChordGeneratorRequests_H_))
-/*! @brief Header guard. */
-# define MpMChordGeneratorRequests_H_ /* */
+# define MpMChordGeneratorRequests_H_ /* Header guard */
 
 # include <mpm/M+MRequests.h>
 

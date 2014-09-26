@@ -41,7 +41,6 @@
 # define MpMBaseInputOutputService_H_ /* Header guard */
 
 # include <mpm/M+MBaseService.h>
-# include <mpm/M+MGeneralChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -60,6 +59,7 @@ namespace MplusM
     namespace Common
     {
         class ConfigureRequestHandler;
+        class GeneralChannel;
         class RestartStreamsRequestHandler;
         class StartStreamsRequestHandler;
         class StopStreamsRequestHandler;

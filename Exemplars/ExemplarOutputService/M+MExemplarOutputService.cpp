@@ -40,6 +40,8 @@
 #include "M+MExemplarOutputInputHandler.h"
 #include "M+MExemplarOutputRequests.h"
 
+#include <mpm/M+MGeneralChannel.h>
+
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 

@@ -39,11 +39,7 @@
 #if (! defined(MpMBailOut_H_))
 # define MpMBailOut_H_ /* Header guard */
 
-# include <mpm/M+MAdapterChannel.h>
-# include <mpm/M+MBailOutThread.h>
-# include <mpm/M+MClientChannel.h>
-# include <mpm/M+MGeneralChannel.h>
-# include <mpm/M+MServiceChannel.h>
+# include <mpm/M+MCommon.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -60,6 +56,12 @@ namespace MplusM
 {
     namespace Common
     {
+        class AdapterChannel;
+        class BailOutThread;
+        class ClientChannel;
+        class GeneralChannel;
+        class ServiceChannel;
+        
         /*! @brief A convenience class to timeout objects. */
         class BailOut
         {

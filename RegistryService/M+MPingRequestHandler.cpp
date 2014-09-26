@@ -42,7 +42,6 @@
 #include <mpm/M+MClientChannel.h>
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MRequests.h>
-#include <mpm/M+MServiceResponse.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

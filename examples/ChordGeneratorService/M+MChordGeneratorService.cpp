@@ -37,8 +37,8 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MChordGeneratorService.h"
-#include "M+MChordGeneratorRequests.h"
 #include "M+MChordGeneratorRequestHandler.h"
+#include "M+MChordGeneratorRequests.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

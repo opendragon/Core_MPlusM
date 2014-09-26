@@ -40,6 +40,8 @@
 #include "M+MRecordIntegersInputHandler.h"
 #include "M+MRecordIntegersRequests.h"
 
+#include <mpm/M+MGeneralChannel.h>
+
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
