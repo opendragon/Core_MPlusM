@@ -54,7 +54,7 @@
 
 /*! @brief The base channel name to use for the service if not provided. */
 # define DEFAULT_EXEMPLARFILTER_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "exemplar/filter")
+        DEFAULT_SERVICE_NAME_BASE "filter/exemplarfilter")
 
 namespace MplusM
 {

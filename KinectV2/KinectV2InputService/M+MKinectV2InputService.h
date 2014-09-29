@@ -54,7 +54,7 @@
 
 /*! @brief The base channel name to use for the service if not provided. */
 # define DEFAULT_KINECTV2INPUT_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "kinectv2/input")
+        DEFAULT_SERVICE_NAME_BASE "input/kinectv2")
 
 namespace MplusM
 {

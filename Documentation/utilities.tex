@@ -122,7 +122,7 @@ The output specifies the \yarp{} network port of a service with persistent state
 For example, the default output could be:
 \outputBegin{}
 Service:\ /\serviceName/examples/runningSum\\
-\settowidth{\utilLen}{Service:\ }%
+\settowidth{\utilLen}{Cli}%
 Clients:\\
 \hspace*{\utilLen}/\clientName/examples/runningsum\textunderscore{}4896162
 \outputEnd{}
@@ -399,34 +399,34 @@ Path:\ & \textellipsis/mpmRegistryService\\
 Secondary outputs:\ & /\textdollar{}ervice/status\textbraceleft{}protocol=s%
 \textbraceright\\
 \\
-Service port:\ & /\serviceName/examples/randomburst\textunderscore{}5580745\\
+Service port:\ & /\serviceName/input/randomburst\\
 Service name:\ & RandomBurst\\
 Service kind:\ & Input\\
 Description:\ & The random burst input service\\
 Requests:\ & \\
 Path:\ & \textellipsis/mpmRandomBurstService\\
-Secondary outputs:\ & /examples/randomburst/output\textunderscore{}29511ad%
-\textbraceleft{}protocol=d+\textbraceright\\
+Secondary outputs:\ & /randomburst/output52b6082\textbraceleft{}protocol=d+%
+\textbraceright\\
 \\
-Service port:\ & /\serviceName/examples/recordintegers\textunderscore{}10efc07\\
+Service port:\ & /\serviceName/output/recordintegers\\
 Service name:\ & RecordIntegers\\
 Service kind:\ & Output\\
 Description:\ & The record integers output service\\
 Requests:\ & \\
 Path:\ & \textellipsis/mpmRecordIntegersService\\
-Secondary inputs:\ & /examples/recordintegers/input\textunderscore{}5090e26%
-\textbraceleft{}protocol=i+\textbraceright\\
+Secondary inputs:\ & /recordintegers/input2603596\textbraceleft{}protocol=i+%
+\textbraceright\\
 \\
-Service port:\ & /\serviceName/examples/truncatefilter\textunderscore{}2ee58eb\\
+Service port:\ & /\serviceName/filter/truncatefilter\\
 Service name:\ & TruncateFilter\\
 Service kind:\ & Filter\\
 Description:\ & The truncate filter service\\
 Requests:\ & \\
 Path:\ & \textellipsis/mpmTruncateFilterService\\
-Secondary inputs:\ & /examples/truncatefilter/input\textunderscore{}39b1d9f%
-\textbraceleft{}protocol=d+\textbraceright\\
-Secondary outputs:\ & /examples/truncatefilter/output\textunderscore{}6a7d189%
-\textbraceleft{}protocol=i+\textbraceright
+Secondary inputs:\ & /truncatefilter/input4fa74bf\textbraceleft{}protocol=d+%
+\textbraceright\\
+Secondary outputs:\ & /truncatefilter/output3c44b20\textbraceleft{}protocol=i+%
+\textbraceright
 \end{tabular}
 \outputEnd{}
 \newpage{}
@@ -449,31 +449,26 @@ information for a service on the given channel", "Path":\ \\
 \openSq{} \textbraceleft\\
 "Name":\ "/\textdollar{}ervice/status", "Protocol":\ "s" \textbraceright{} \closeSq{}
 \textbraceright, \textbraceleft{} "ServicePort":\ \\
-"/\serviceName/examples/randomburst\textunderscore{}5580745", "ServiceName":\ 
-"RandomBurst",\\
-"ServiceKind":\ "Input", "Description":\ "The random burst input service",\\
-"Requests":\ "", "Path":\ "\textellipsis/mpmRandomBurstService",
-"SecondaryInputs":\ \\
-\sqPair, "SecondaryOutputs":\ \openSq{} \textbraceleft{} "Name":\ \\
-"/examples/randomburst/output\textunderscore{}29511ad", "Protocol":\ "d+"
-\textbraceright{} \closeSq{} \textbraceright, \textbraceleft\\
-"ServicePort":\ "/\serviceName/examples/recordintegers\textunderscore{}10efc07",\\
+"/\serviceName/input/randomburst", "ServiceName":\ "RandomBurst", "ServiceKind":\ \\
+"Input", "Description":\ "The random burst input service", "Requests":\ \\
+"", "Path":\ "\textellipsis/mpmRandomBurstService", "SecondaryInputs":\ \sqPair,\\
+"SecondaryOutputs":\ \openSq{} \textbraceleft{} "Name":\ "/randomburst/output52b6082",
+"Protocol":\ \\
+"d+" \textbraceright{} \closeSq{} \textbraceright, \textbraceleft{} "ServicePort":\ 
+"/\serviceName/output/recordintegers",\\
 "ServiceName":\ "RecordIntegers", "ServiceKind":\ "Output", "Description":\ \\
 "The record integers output service", "Requests":\ "", "Path":\ \\
-"\textellipsis/mpmRecordIntegersService", "SecondaryInputs":\ \openSq{}
-\textbraceleft{} "Name":\ \\
-"/examples/recordintegers/input\textunderscore{}5090e26", "Protocol":\ "i+"
-\textbraceright{} \closeSq,\\
+"\textellipsis/mpmRecordIntegersService", "SecondaryInputs":\ \openSq{} \textbraceleft{}
+"Name":\ \\
+"/recordintegers/input2603596", "Protocol":\ "i+" \textbraceright{} \closeSq,\\
 "SecondaryOutputs":\ \sqPair{} \textbraceright, \textbraceleft{} "ServicePort":\ \\
-"/\serviceName/examples/truncatefilter\textunderscore{}2ee58eb", "ServiceName":\ \\
-"TruncateFilter", "ServiceKind":\ "Filter", "Description":\ "The truncate\\
-filter service", "Requests":\ "", "Path":\ \\
-"\textellipsis/mpmTruncateFilterService", "SecondaryInputs":\ \openSq{}
-\textbraceleft{} "Name":\ \\
-"/examples/truncatefilter/input\textunderscore{}39b1d9f", "Protocol":\ "d+"
+"/\serviceName/filter/truncatefilter", "ServiceName":\ "TruncateFilter",\\
+"ServiceKind":\ "Filter", "Description":\ "The truncate filter service",\\
+"Requests":\ "", "Path":\ "\textellipsis/mpmTruncateFilterService", "SecondaryInputs":\ \\
+\openSq{} \textbraceleft{} "Name":\ "/truncatefilter/input4fa74bf", "Protocol":\ "d+"
 \textbraceright{} \closeSq,\\
 "SecondaryOutputs":\ \openSq{} \textbraceleft{} "Name":\ 
-"/examples/truncatefilter/output\textunderscore{}6a7d189",\\
+"/truncatefilter/output3c44b20",\\
 "Protocol":\ "i+" \textbraceright{} \closeSq{} \textbraceright{} \closeSq
 \outputEnd{}
 or, if tab--delimited output is requested, with tabs shown as
@@ -492,28 +487,23 @@ information for a service on the given channel\pseudotab\textellipsis/%
 mpmRegistryService\pseudotwotabs\\
 /\textdollar{}ervice/status\textbraceleft{}protocol=s\textbraceright\\
 
-/\serviceName/examples/randomburst\textunderscore{}5580745\pseudotab{}RandomBurst%
-\pseudotab{}Input\pseudotab\\
+/\serviceName/input/randomburst\pseudotab{}RandomBurst\pseudotab{}Input\pseudotab\\
 The random burst input service\pseudotwotabs\textellipsis/mpmRandomBurstService%
 \pseudotwotabs\\
-/examples/randomburst/output\textunderscore{}29511ad\textbraceleft{}protocol=d+%
-\textbraceright\\
+/randomburst/output52b6082\textbraceleft{}protocol=d+\textbraceright\\
 
-/\serviceName/examples/recordintegers\textunderscore{}10efc07\pseudotab{}%
-RecordIntegers\pseudotab{}Output\pseudotab\\
+/\serviceName/output/recordintegers\pseudotab{}RecordIntegers\pseudotab{}Output%
+\pseudotab\\
 The record integers output service\pseudotwotabs\textellipsis/%
 mpmRecordIntegersService\pseudotab\\
-/examples/recordintegers/input\textunderscore{}5090e26\textbraceleft{}%
-protocol=i+\textbraceright\\
+/recordintegers/input2603596\textbraceleft{}protocol=i+\textbraceright\\
 
-/\serviceName/examples/truncatefilter\textunderscore{}2ee58eb\pseudotab{}%
-TruncateFilter\pseudotab{}Filter\pseudotab\\
-The truncate filter service\pseudotwotabs\textellipsis/%
-mpmTruncateFilterService\pseudotab\\
-/examples/truncatefilter/input\textunderscore{}39b1d9f\textbraceleft{}%
-protocol=d+\textbraceright\pseudotab\\
-/examples/truncatefilter/output\textunderscore{}6a7d189\textbraceleft{}%
-protocol=i+\textbraceright
+/\serviceName/filter/truncatefilter\pseudotab{}TruncateFilter\pseudotab{}Filter%
+\pseudotab\\
+The truncate filter service\pseudotwotabs\textellipsis/mpmTruncateFilterService%
+\pseudotab\\
+/truncatefilter/input4fa74bf\textbraceleft{}protocol=d+\textbraceright\pseudotab\\
+/truncatefilter/output3c44b20\textbraceleft{}protocol=i+\textbraceright
 \outputEnd{}
 For clarity, the full paths to the executables have been shortened and blank lines have
 been added; in the actual output the paths would be absolute paths and there would be no
@@ -532,16 +522,16 @@ If neither option is present, the output is written as simple text.\\
 
 For example, the default output could be:
 \outputBegin{}
-Movement And Meaning Version:\ 1.4.9, YARP Version:\ 2.3.61, ACE Version:\ 6.2.6
+Movement And Meaning Version:\ 1.4.11, YARP Version:\ 2.3.61, ACE Version:\ 6.2.6
 \outputEnd{}
 or, if JSON--formatted output is requested:
 \outputBegin{}
-\textbraceleft{} "M+M":\ "1.4.9", "YARP":\ "2.3.61", "ACE":\ "6.2.6" \textbraceright
+\textbraceleft{} "M+M":\ "1.4.11", "YARP":\ "2.3.61", "ACE":\ "6.2.6" \textbraceright
 \outputEnd{}
 or, if tab--delimited output is requested, with tabs shown as
 `\texttt{\boldmath{$\vdash$}}':
 \outputBegin{}
-1.4.9\pseudotab{}2.3.61\pseudotab{}6.2.6
+1.4.11\pseudotab{}2.3.61\pseudotab{}6.2.6
 \outputEnd{}
 \tertiaryEnd{\utilityNameE{mpmVersion}}
 \secondaryEnd{}

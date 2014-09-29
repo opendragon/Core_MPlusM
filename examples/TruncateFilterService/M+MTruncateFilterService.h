@@ -54,7 +54,7 @@
 
 /*! @brief The base channel name to use for the service if not provided. */
 # define DEFAULT_TRUNCATEFILTER_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "truncatefilter")
+        DEFAULT_SERVICE_NAME_BASE "filter/truncatefilter")
 
 namespace MplusM
 {

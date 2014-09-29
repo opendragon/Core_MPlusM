@@ -56,7 +56,7 @@
 
 /*! @brief The base channel name to use for the service if not provided. */
 # define DEFAULT_LEAPMOTIONINPUT_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "leapmotion/input")
+        DEFAULT_SERVICE_NAME_BASE "input/leapmotion")
 
 namespace MplusM
 {
