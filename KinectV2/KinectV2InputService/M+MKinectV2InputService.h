@@ -54,7 +54,7 @@
 
 /*! @brief The base channel name to use for the service if not provided. */
 # define DEFAULT_KINECTV2INPUT_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "kinectv2/input_")
+        DEFAULT_SERVICE_NAME_BASE "kinectv2/input")
 
 namespace MplusM
 {
@@ -71,7 +71,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
-             @param tag The modifier for the service name.
+             @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
             KinectV2InputService(const yarp::os::ConstString & launchPath,

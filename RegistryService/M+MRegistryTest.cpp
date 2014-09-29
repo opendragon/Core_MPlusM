@@ -84,7 +84,7 @@ using namespace MplusM::Test;
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestCreateRegisterService(const char * launchPath,
+static int doTestCreateRegistryService(const char * launchPath,
                                        const int    argc,
                                        char * *     argv) // create 'register' service
 {
@@ -94,7 +94,7 @@ static int doTestCreateRegisterService(const char * launchPath,
     
     try
     {
-        Registry::RegistryService * registry = nullptr;
+        Registry::RegistryService * registry = NULL;
         
         if (0 <= argc)
         {
@@ -139,14 +139,14 @@ static int doTestCreateRegisterService(const char * launchPath,
     }
     OD_LOG_EXIT_L(result); //####
     return result;
-} // doTestCreateRegisterService
+} // doTestCreateRegistryService
 
 /*! @brief Perform a test case.
  @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestRegisterService(const char * launchPath,
+static int doTestRequestRegistryService(const char * launchPath,
                                         const int    argc,
                                         char * *     argv) // send 'register' request
 {
@@ -157,7 +157,7 @@ static int doTestRequestRegisterService(const char * launchPath,
     try
     {
         const char *                secondServiceChannel;
-        Registry::RegistryService * registry = nullptr;
+        Registry::RegistryService * registry = NULL;
         
         if (0 <= argc)
         {
@@ -197,14 +197,13 @@ static int doTestRequestRegisterService(const char * launchPath,
                         {
                             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (RegisterLocalService(channelName, nullptr, nullptr))
+                            if (RegisterLocalService(channelName, NULL, NULL))
                             {
                                 result = 0;
                             }
                             else
                             {
-                                OD_LOG("! (RegisterLocalService(channelName, nullptr, " //####
-                                       "nullptr))"); //####
+                                OD_LOG("! (RegisterLocalService(channelName, NULL, NULL))"); //####
                             }
                             stuff->stop();
                         }
@@ -243,7 +242,7 @@ static int doTestRequestRegisterService(const char * launchPath,
     }
     OD_LOG_EXIT_L(result); //####
     return result;
-} // doTestRequestRegisterService
+} // doTestRequestRegistryService
 
 /*! @brief Perform a test case.
  @param launchPath The command-line name used to launch the service.
@@ -261,7 +260,7 @@ static int doTestRequestUnregisterService(const char * launchPath,
     try
     {
         const char *                secondServiceChannel;
-        Registry::RegistryService * registry = nullptr;
+        Registry::RegistryService * registry = NULL;
         
         if (0 <= argc)
         {
@@ -301,22 +300,21 @@ static int doTestRequestUnregisterService(const char * launchPath,
                         {
                             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (RegisterLocalService(channelName, nullptr, nullptr))
+                            if (RegisterLocalService(channelName, NULL, NULL))
                             {
-                                if (UnregisterLocalService(channelName, nullptr, nullptr))
+                                if (UnregisterLocalService(channelName, NULL, NULL))
                                 {
                                     result = 0;
                                 }
                                 else
                                 {
-                                    OD_LOG("! (UnregisterLocalService(channelName, nullptr, " //####
-                                           "nullptr))"); //####
+                                    OD_LOG("! (UnregisterLocalService(channelName, NULL, " //####
+                                           "NULL))"); //####
                                 }
                             }
                             else
                             {
-                                OD_LOG("! (RegisterLocalService(channelName, nullptr, " //####
-                                       "nullptr))"); //####
+                                OD_LOG("! (RegisterLocalService(channelName, NULL, NULL))"); //####
                             }
                             stuff->stop();
                         }
@@ -402,15 +400,14 @@ static int doTestRequestSearchService(const char * launchPath,
                                 OD_LOG("(stuff->start())"); //####
                                 yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                                 
-                                if (RegisterLocalService(channelName, nullptr, nullptr))
+                                if (RegisterLocalService(channelName, NULL, NULL))
                                 {
-                                    OD_LOG("(RegisterLocalService(channelName, nullptr, " //####
-                                           "nullptr))"); //####
+                                    OD_LOG("(RegisterLocalService(channelName, NULL, " //####
+                                           "NULL))"); //####
                                     // Search for the service that we just registered.
                                     yarp::os::Bottle matches = FindMatchingServices(argv[1],
                                                                                     getNamesFlag,
-                                                                                    nullptr,
-                                                                                    nullptr);
+                                                                                    NULL, NULL);
                                     
                                     OD_LOG_S3("criteria <- ", argv[1], "expected <- ", //####
                                               argv[2], "matches <- ", //####
@@ -537,16 +534,16 @@ static int doTestRequestSearchService(const char * launchPath,
                                                "(MpM_EXPECTED_MATCH_RESPONSE_SIZE == " //####
                                                "matches.size()))"); //####
                                     }
-                                    if (! UnregisterLocalService(channelName, nullptr, nullptr))
+                                    if (! UnregisterLocalService(channelName, NULL, NULL))
                                     {
                                         OD_LOG("(! UnregisterLocalService(channelName, " //####
-                                               "nullptr, nullptr))"); //####
+                                               "NULL, NULL))"); //####
                                     }
                                 }
                                 else
                                 {
-                                    OD_LOG("! (RegisterLocalService(channelName, nullptr, " //####
-                                           "nullptr))"); //####
+                                    OD_LOG("! (RegisterLocalService(channelName, NULL, " //####
+                                           "NULL))"); //####
                                 }
                                 stuff->stop();
                             }
@@ -659,11 +656,11 @@ int main(int      argc,
                 switch (selector)
                 {
                     case 13 :
-                        result = doTestCreateRegisterService(*argv, argc - 1, argv + 2);
+                        result = doTestCreateRegistryService(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 14 :
-                        result = doTestRequestRegisterService(*argv, argc - 1, argv + 2);
+                        result = doTestRequestRegistryService(*argv, argc - 1, argv + 2);
                         break;
                         
                     case 15 :
@@ -694,7 +691,9 @@ int main(int      argc,
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
             GetLogger().fail("YARP network not running.");
-# endif // MAC_OR_LINUX_
+# else // ! MAC_OR_LINUX_
+            std::cerr << "YARP network not running." << std::endl;
+# endif // ! MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
     }

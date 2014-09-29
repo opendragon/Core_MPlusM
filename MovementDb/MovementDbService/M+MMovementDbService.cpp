@@ -79,19 +79,20 @@ using namespace MplusM::MovementDb;
 #endif // defined(__APPLE__)
 
 MovementDbService::MovementDbService(const yarp::os::ConstString & launchPath,
+                                     const yarp::os::ConstString & tag,
                                      const yarp::os::ConstString & databaseServerAddress,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
-    inherited(ServiceKind::kServiceKindNormal, launchPath, "", true, MpM_MOVEMENTDB_CANONICAL_NAME,
+    inherited(ServiceKind::kServiceKindNormal, launchPath, tag, true, MpM_MOVEMENTDB_CANONICAL_NAME,
               "The Movement database service",
               "reset - clear the request counter and the elapsed time" , serviceEndpointName,
-              servicePortNumber), _databaseAddress(databaseServerAddress), _addFileHandler(nullptr),
-    _setDataTrackHandler(nullptr), _setEmailHandler(nullptr), _stopDbHandler(nullptr)
+              servicePortNumber), _databaseAddress(databaseServerAddress), _addFileHandler(NULL),
+    _setDataTrackHandler(NULL), _setEmailHandler(NULL), _stopDbHandler(NULL)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "databaseServerAddress = ", //####
-               databaseServerAddress, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "databaseServerAddress = ", //####
+               databaseServerAddress, "serviceEndpointName = ", serviceEndpointName); //####
+    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // MovementDbService::MovementDbService
@@ -175,25 +176,25 @@ void MovementDbService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_addFileHandler);
             delete _addFileHandler;
-            _addFileHandler = nullptr;
+            _addFileHandler = NULL;
         }
         if (_setDataTrackHandler)
         {
             unregisterRequestHandler(_setDataTrackHandler);
             delete _setDataTrackHandler;
-            _setDataTrackHandler = nullptr;
+            _setDataTrackHandler = NULL;
         }
         if (_setEmailHandler)
         {
             unregisterRequestHandler(_setEmailHandler);
             delete _setEmailHandler;
-            _setEmailHandler = nullptr;
+            _setEmailHandler = NULL;
         }
         if (_stopDbHandler)
         {
             unregisterRequestHandler(_stopDbHandler);
             delete _stopDbHandler;
-            _stopDbHandler = nullptr;
+            _stopDbHandler = NULL;
         }
     }
     catch (...)

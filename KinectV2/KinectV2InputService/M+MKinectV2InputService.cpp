@@ -142,11 +142,16 @@ void KinectV2InputService::restartStreams(void)
 bool KinectV2InputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool               result = true;
-    ChannelDescription description;
+    bool                  result = true;
+    ChannelDescription    description;
+    yarp::os::ConstString modifier;
     
+    if (0 < tag().length())
+    {
+        modifier = "/" + tag();
+    }
     _outDescriptions.clear();
-    description._portName = "kinectv2/kinectv2input/output_";
+    description._portName = yarp::os::ConstString("kinectv2input/output") + modifier;
     description._portProtocol = "d+";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####

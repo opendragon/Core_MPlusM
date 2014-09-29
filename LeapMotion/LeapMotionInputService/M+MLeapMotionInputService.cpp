@@ -80,7 +80,7 @@ LeapMotionInputService::LeapMotionInputService(const yarp::os::ConstString & lau
                                                const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_LEAPMOTIONINPUT_CANONICAL_NAME,
               "The Leap Motion input service", "", serviceEndpointName, servicePortNumber),
-    _controller(new Leap::Controller), _listener(nullptr)
+    _controller(new Leap::Controller), _listener(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -95,7 +95,7 @@ LeapMotionInputService::~LeapMotionInputService(void)
     if (_controller)
     {
         delete _controller;
-        _controller = nullptr;
+        _controller = NULL;
     }
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputService::~LeapMotionInputService
@@ -144,11 +144,16 @@ void LeapMotionInputService::restartStreams(void)
 bool LeapMotionInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool               result = true;
-    ChannelDescription description;
+    bool                  result = true;
+    ChannelDescription    description;
+    yarp::os::ConstString modifier;
     
+    if (0 < tag().length())
+    {
+        modifier = "/" + tag();
+    }
     _outDescriptions.clear();
-    description._portName = "leap/leapinput/output_";
+    description._portName = yarp::os::ConstString("leapmotioninput/output") + modifier;
     description._portProtocol = "LEAP";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
@@ -247,7 +252,7 @@ void LeapMotionInputService::stopStreams(void)
             {
                 _controller->removeListener(*_listener);
                 delete _listener;
-                _listener = nullptr;
+                _listener = NULL;
             }
             clearActive();
         }

@@ -81,7 +81,7 @@ MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & i
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
     OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos);
-    MatchExpression * result = nullptr;
+    MatchExpression * result = NULL;
     
     try
     {
@@ -144,7 +144,7 @@ MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & i
             else
             {
                 delete result;
-                result = nullptr;
+                result = NULL;
             }
         }
         else
@@ -266,7 +266,7 @@ const
 const MatchConstraint * MatchExpression::element(const int index)
 const
 {
-    MatchConstraint * result = nullptr;
+    MatchConstraint * result = NULL;
     
     try
     {
@@ -277,7 +277,7 @@ const
         else
         {
             OD_LOG("! ((index >= 0) && (index < static_cast<int>(_constraints.size())))"); //####
-            result = nullptr;
+            result = NULL;
         }
     }
     catch (...)

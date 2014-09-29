@@ -84,7 +84,7 @@ void AdapterChannel::RelinquishChannel(AdapterChannel * theChannel)
 #endif // ! defined(MpM_DontUseTimeouts)
             
             delete theChannel;
-            theChannel = nullptr;
+            theChannel = NULL;
         }
         catch (...)
         {

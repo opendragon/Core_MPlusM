@@ -82,7 +82,7 @@ RecordIntegersService::RecordIntegersService(const yarp::os::ConstString & launc
                                              const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_RECORDINTEGERS_CANONICAL_NAME,
               "The record integers output service", "", serviceEndpointName, servicePortNumber),
-    _outFile(nullptr), _inHandler(new RecordIntegersInputHandler)
+    _outFile(NULL), _inHandler(new RecordIntegersInputHandler)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -154,11 +154,16 @@ void RecordIntegersService::restartStreams(void)
 bool RecordIntegersService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool               result = true;
-    ChannelDescription description;
+    bool                  result = true;
+    ChannelDescription    description;
+    yarp::os::ConstString modifier;
     
+    if (0 < tag().length())
+    {
+        modifier = "/" + tag();
+    }
     _inDescriptions.clear();
-    description._portName = "examples/recordintegers/input_";
+    description._portName = yarp::os::ConstString("recordintegers/input") + modifier;
     description._portProtocol = "i+";
     _inDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
@@ -218,7 +223,7 @@ void RecordIntegersService::startStreams(void)
                 else
                 {
                     fclose(_outFile);
-                    _outFile = nullptr;
+                    _outFile = NULL;
                 }
             }
         }
@@ -258,10 +263,10 @@ void RecordIntegersService::stopStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setFile(nullptr);
+                _inHandler->setFile(NULL);
             }
             fclose(_outFile);
-            _outFile = nullptr;
+            _outFile = NULL;
             clearActive();
         }
     }

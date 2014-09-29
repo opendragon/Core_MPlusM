@@ -82,7 +82,7 @@ ExemplarOutputService::ExemplarOutputService(const yarp::os::ConstString & launc
                                              const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_EXEMPLAROUTPUT_CANONICAL_NAME,
               "The exemplar output service", "", serviceEndpointName, servicePortNumber),
-    _outFile(nullptr), _inHandler(new ExemplarOutputInputHandler)
+    _outFile(NULL), _inHandler(new ExemplarOutputInputHandler)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -154,11 +154,16 @@ void ExemplarOutputService::restartStreams(void)
 bool ExemplarOutputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool               result = true;
-    ChannelDescription description;
+    bool                  result = true;
+    ChannelDescription    description;
+    yarp::os::ConstString modifier;
     
+    if (0 < tag().length())
+    {
+        modifier = "/" + tag();
+    }
     _inDescriptions.clear();
-    description._portName = "exemplars/exemplaroutput/input_";
+    description._portName = yarp::os::ConstString("exemplaroutput/input") + modifier;
     description._portProtocol = "i+";
     _inDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
@@ -211,7 +216,7 @@ void ExemplarOutputService::startStreams(void)
                 else
                 {
                     fclose(_outFile);
-                    _outFile = nullptr;
+                    _outFile = NULL;
                 }
             }
         }
@@ -251,10 +256,10 @@ void ExemplarOutputService::stopStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setFile(nullptr);
+                _inHandler->setFile(NULL);
             }
             fclose(_outFile);
-            _outFile = nullptr;
+            _outFile = NULL;
             clearActive();
         }
     }

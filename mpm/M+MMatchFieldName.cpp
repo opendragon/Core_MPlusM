@@ -82,7 +82,7 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
     OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos); //####
-    MatchFieldName * result = nullptr;
+    MatchFieldName * result = NULL;
     
     try
     {

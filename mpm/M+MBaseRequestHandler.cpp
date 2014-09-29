@@ -73,7 +73,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 BaseRequestHandler::BaseRequestHandler(const yarp::os::ConstString & request) :
-    _owner(nullptr), _name(request)
+    _owner(NULL), _name(request)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####

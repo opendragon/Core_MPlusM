@@ -93,6 +93,9 @@
 /*! @brief The named parameter for the 'requests_id' column. */
 # define REQUESTS_ID_C_         "requests_id"
 
+/*! @brief The named parameter for the 'tag' column. */
+# define TAG_C_                 "tag"
+
 /*! @brief The named parameter for the 'version' column. */
 # define VERSION_C_             "version"
 

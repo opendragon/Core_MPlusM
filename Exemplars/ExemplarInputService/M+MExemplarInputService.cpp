@@ -80,7 +80,7 @@ ExemplarInputService::ExemplarInputService(const yarp::os::ConstString & launchP
                                            const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_EXEMPLARINPUT_CANONICAL_NAME,
               "The exemplar input service", "", serviceEndpointName, servicePortNumber),
-    _generator(nullptr), _burstPeriod(1), _burstSize(1)
+    _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -158,11 +158,16 @@ void ExemplarInputService::restartStreams(void)
 bool ExemplarInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool               result = true;
-    ChannelDescription description;
+    bool                  result = true;
+    ChannelDescription    description;
+    yarp::os::ConstString modifier;
     
+    if (0 < tag().length())
+    {
+        modifier = "/" + tag();
+    }
     _outDescriptions.clear();
-    description._portName = "exemplars/exemplarinput/output_";
+    description._portName = yarp::os::ConstString("exemplarinput/output") + modifier;
     description._portProtocol = "d+";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
@@ -260,7 +265,7 @@ void ExemplarInputService::stopStreams(void)
                 yarp::os::Time::delay(_burstSize / 3.9);
             }
             delete _generator;
-            _generator = nullptr;
+            _generator = NULL;
             clearActive();
         }
     }

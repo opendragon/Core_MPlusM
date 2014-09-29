@@ -68,6 +68,9 @@ using namespace MplusM::Example;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The accepted command line arguments for the service. */
+#define ECHOINPUT_OPTIONS "t:"
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -99,6 +102,26 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        yarp::os::ConstString tag;
+        
+        opterr = 0; // Suppress the error message resulting from an unknown option.
+        for (int cc = getopt(argc, argv, ECHOINPUT_OPTIONS); -1 != cc;
+             cc = getopt(argc, argv, ECHOINPUT_OPTIONS))
+        {
+            switch (cc)
+            {
+                case 't' :
+                    // Tag
+                    tag = optarg;
+                    OD_LOG_S1s("tag <- ", tag); //####
+                    break;
+                    
+                default :
+                    // Ignore unknown options.
+                    break;
+                    
+            }
+        }
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
@@ -109,19 +132,30 @@ int main(int      argc,
             yarp::os::ConstString servicePortNumber;
             
             Initialize(*argv);
-            if (1 < argc)
+            if (optind >= argc)
             {
-                serviceEndpointName = argv[1];
-                if (2 < argc)
+                if (0 < tag.size())
                 {
-                    servicePortNumber = argv[2];
+                    serviceEndpointName = yarp::os::ConstString(DEFAULT_ECHO_SERVICE_NAME) + "/" +
+                                            tag;
                 }
+                else
+                {
+                    serviceEndpointName = DEFAULT_ECHO_SERVICE_NAME;
+                }
+            }
+            else if ((optind + 1) == argc)
+            {
+                serviceEndpointName = argv[optind];
             }
             else
             {
-                serviceEndpointName = DEFAULT_ECHO_SERVICE_NAME;
+                // 2 args
+                serviceEndpointName = argv[optind];
+                servicePortNumber = argv[optind + 1];
             }
-            EchoService * stuff = new EchoService(*argv, serviceEndpointName, servicePortNumber);
+            EchoService * stuff = new EchoService(*argv, tag, serviceEndpointName,
+                                                  servicePortNumber);
             
             if (stuff)
             {
@@ -130,7 +164,7 @@ int main(int      argc,
                     yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
                     OD_LOG_S1s("channelName = ", channelName); //####
-                    if (RegisterLocalService(channelName, nullptr, nullptr))
+                    if (RegisterLocalService(channelName, NULL, NULL))
                     {
                         StartRunning();
                         SetSignalHandlers(SignalRunningStop);
@@ -143,17 +177,27 @@ int main(int      argc,
                             yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
                         }
-                        UnregisterLocalService(channelName, nullptr, nullptr);
+                        UnregisterLocalService(channelName, NULL, NULL);
                         stuff->stop();
                     }
                     else
                     {
-                        OD_LOG("! (RegisterLocalService(channelName, nullptr, nullptr))"); //####
+                        OD_LOG("! (RegisterLocalService(channelName, NULL, NULL))"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Service could not be registered.");
+#else // ! MAC_OR_LINUX_
+                        std::cerr << "Service could not be registered." << std::endl;
+#endif // ! MAC_OR_LINUX_
                     }
                 }
                 else
                 {
                     OD_LOG("! (stuff->start())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Service could not be started.");
+#else // ! MAC_OR_LINUX_
+                    std::cerr << "Service could not be started." << std::endl;
+#endif // ! MAC_OR_LINUX_
                 }
                 delete stuff;
             }
@@ -168,7 +212,9 @@ int main(int      argc,
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
             GetLogger().fail("YARP network not running.");
-# endif // MAC_OR_LINUX_
+# else // ! MAC_OR_LINUX_
+            std::cerr << "YARP network not running." << std::endl;
+# endif // ! MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
     }

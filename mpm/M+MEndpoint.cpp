@@ -196,7 +196,7 @@ bool Endpoint::CheckEndpointName(const yarp::os::ConstString & channelName)
 
 Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
                    const yarp::os::ConstString & portNumber) :
-    _channel(nullptr), _contact(), _handler(nullptr), _handlerCreator(nullptr), _isOpen(false)
+    _channel(NULL), _contact(), _handler(NULL), _handlerCreator(NULL), _isOpen(false)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("endpointName = ", endpointName, "portNumber = ", portNumber); //####
@@ -276,10 +276,10 @@ void Endpoint::close(void)
                 _channel->close();
 #endif // defined(MpM_DoExplicitClose)
                 ServiceChannel::RelinquishChannel(_channel);
-                _channel = nullptr;
+                _channel = NULL;
             }
-            _handler = nullptr;
-            _handlerCreator = nullptr;
+            _handler = NULL;
+            _handlerCreator = NULL;
             _isOpen = false;
         }
     }

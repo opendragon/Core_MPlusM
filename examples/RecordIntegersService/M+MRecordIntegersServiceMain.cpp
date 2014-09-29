@@ -160,7 +160,16 @@ int main(int      argc,
             }
             if (optind >= argc)
             {
-                serviceEndpointName = GetRandomChannelName(DEFAULT_RECORDINTEGERS_SERVICE_NAME);
+                if (0 < tag.size())
+                {
+                    serviceEndpointName =
+                                        yarp::os::ConstString(DEFAULT_RECORDINTEGERS_SERVICE_NAME) +
+                                        "/" + tag;
+                }
+                else
+                {
+                    serviceEndpointName = DEFAULT_RECORDINTEGERS_SERVICE_NAME;
+                }
             }
             else if ((optind + 1) == argc)
             {
@@ -183,7 +192,7 @@ int main(int      argc,
                     yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
                     OD_LOG_S1s("channelName = ", channelName); //####
-                    if (RegisterLocalService(channelName, nullptr, nullptr))
+                    if (RegisterLocalService(channelName, NULL, NULL))
                     {
                         bool             configured = false;
                         yarp::os::Bottle configureData;
@@ -301,17 +310,27 @@ int main(int      argc,
 #endif // ! defined(MpM_MainDoesDelayNotYield)
                             }
                         }
-                        UnregisterLocalService(channelName, nullptr, nullptr);
+                        UnregisterLocalService(channelName, NULL, NULL);
                         stuff->stop();
                     }
                     else
                     {
-                        OD_LOG("! (RegisterLocalService(channelName, nullptr, nullptr))"); //####
+                        OD_LOG("! (RegisterLocalService(channelName, NULL, NULL))"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Service could not be registered.");
+#else // ! MAC_OR_LINUX_
+                        std::cerr << "Service could not be registered." << std::endl;
+#endif // ! MAC_OR_LINUX_
                     }
                 }
                 else
                 {
                     OD_LOG("! (stuff->start())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Service could not be started.");
+#else // ! MAC_OR_LINUX_
+                    std::cerr << "Service could not be started." << std::endl;
+#endif // ! MAC_OR_LINUX_
                 }
                 delete stuff;
             }
@@ -326,7 +345,9 @@ int main(int      argc,
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
             GetLogger().fail("YARP network not running.");
-# endif // MAC_OR_LINUX_
+# else // ! MAC_OR_LINUX_
+            std::cerr << "YARP network not running." << std::endl;
+# endif // ! MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
     }

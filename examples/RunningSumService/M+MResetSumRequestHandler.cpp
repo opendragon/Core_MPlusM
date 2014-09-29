@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for a 'resetsum' request.
+//  Contains:   The class definition for the request handler for a 'resetSum' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,7 +49,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a 'resetsum' request. */
+ @brief The class definition for the request handler for a 'resetSum' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -62,7 +62,7 @@ using namespace MplusM::Example;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'resetsum' request. */
+/*! @brief The protocol version number for the 'resetSum' request. */
 #define RESETSUM_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)

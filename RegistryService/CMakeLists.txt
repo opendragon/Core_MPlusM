@@ -90,11 +90,11 @@ target_link_libraries(mpmRegistryTest
                       ${YARP_LIBRARIES})
 
 # Test create register service
-add_test(NAME TestCreateRegisterService1 COMMAND mpmRegistryTest 13)
-add_test(NAME TestCreateRegisterService2 COMMAND mpmRegistryTest 13 "12350")
+add_test(NAME TestCreateRegistryService1 COMMAND mpmRegistryTest 13)
+add_test(NAME TestCreateRegistryService2 COMMAND mpmRegistryTest 13 "12350")
 # Test register request, second service
-add_test(NAME TestRequestRegisterService1 COMMAND mpmRegistryTest 14)
-add_test(NAME TestRequestRegisterService2 COMMAND mpmRegistryTest 14 "12351")
+add_test(NAME TestRequestRegistryService1 COMMAND mpmRegistryTest 14)
+add_test(NAME TestRequestRegistryService2 COMMAND mpmRegistryTest 14 "12351")
 # Test unregister request, second service
 add_test(NAME TestRequestUnregisterService1 COMMAND mpmRegistryTest 15)
 add_test(NAME TestRequestUnregisterService2 COMMAND mpmRegistryTest 15 "12352")

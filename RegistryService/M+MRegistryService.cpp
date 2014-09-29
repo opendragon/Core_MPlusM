@@ -199,6 +199,9 @@ namespace MplusM
             /*! @brief The description of the requests for the service. */
             yarp::os::ConstString _requestsDescription;
             
+            /*! @brief The tag modifier for the service. */
+            yarp::os::ConstString _tag;
+            
         }; // ServiceData
         
     } // Registry
@@ -372,10 +375,10 @@ static bool performSQLstatementWithNoResults(sqlite3 *    database,
     {
         if (database)
         {
-            sqlite3_stmt * prepared = nullptr;
+            sqlite3_stmt * prepared = NULL;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, nullptr);
+                                                       &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -438,7 +441,7 @@ static bool performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
                                                    const char * sqlStatement)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("database = ", database, "data = ", data); //####
+    OD_LOG_P1("database = ", database); //####
     OD_LOG_S1("sqlStatement = ", sqlStatement); //####
     bool okSoFar = true;
     
@@ -446,10 +449,10 @@ static bool performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
     {
         if (database)
         {
-            sqlite3_stmt * prepared = nullptr;
+            sqlite3_stmt * prepared = NULL;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, nullptr);
+                                                       &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -517,10 +520,10 @@ static bool performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    databas
     {
         if (database)
         {
-            sqlite3_stmt * prepared = nullptr;
+            sqlite3_stmt * prepared = NULL;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, nullptr);
+                                                       &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -603,10 +606,10 @@ static bool performSQLstatementWithDoubleColumnResults(sqlite3 *          databa
     {
         if (database && (0 <= columnOfInterest1) && (0 <= columnOfInterest2))
         {
-            sqlite3_stmt * prepared = nullptr;
+            sqlite3_stmt * prepared = NULL;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, nullptr);
+                                                       &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -706,8 +709,8 @@ static bool performSQLstatementWithSingleColumnResults(sqlite3 *          databa
                                                        yarp::os::Bottle & resultList,
                                                        const char *       sqlStatement,
                                                        const int          columnOfInterest = 0,
-                                                       BindFunction       doBinds = nullptr,
-                                                       const void *       data = nullptr)
+                                                       BindFunction       doBinds = NULL,
+                                                       const void *       data = NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("database = ", database, "resultList = ", &resultList, "data = ", data); //####
@@ -719,10 +722,10 @@ static bool performSQLstatementWithSingleColumnResults(sqlite3 *          databa
     {
         if (database && (0 <= columnOfInterest))
         {
-            sqlite3_stmt * prepared = nullptr;
+            sqlite3_stmt * prepared = NULL;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, nullptr);
+                                                       &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -907,7 +910,7 @@ static bool constructTables(sqlite3 * database)
                        " Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT REPLACE, " NAME_C_
                        " Text NOT NULL DEFAULT _, " DESCRIPTION_C_ " Text NOT NULL DEFAULT _, "
                        EXECUTABLE_C_ " Text NOT NULL DEFAULT _, " REQUESTSDESCRIPTION_C_
-                       " Text NOT NULL DEFAULT _)"),
+                       " Text NOT NULL DEFAULT _, " TAG_C_ " Text NOT NULL DEFAULT _)"),
                     T_("CREATE INDEX IF NOT EXISTS " SERVICES_NAME_I_ " ON " SERVICES_T_ "("
                        NAME_C_ ")"),
                     T_("CREATE TABLE IF NOT EXISTS " KEYWORDS_T_ "( " KEYWORD_C_
@@ -1499,9 +1502,10 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
         int nameIndex = sqlite3_bind_parameter_index(statement, "@" NAME_C_);
         int requestsDescriptionIndex = sqlite3_bind_parameter_index(statement,
                                                                     "@" REQUESTSDESCRIPTION_C_);
+        int tagIndex = sqlite3_bind_parameter_index(statement, "@" TAG_C_);
         
         if ((0 < channelNameIndex) && (0 < descriptionIndex) && (0 < executableIndex) &&
-            (0 < nameIndex) && (0 < requestsDescriptionIndex))
+            (0 < nameIndex) && (0 < requestsDescriptionIndex) && (0 < tagIndex))
         {
             const ServiceData * descriptor = static_cast<const ServiceData *>(stuff);
             const char *        channelName = descriptor->_channel.c_str();
@@ -1544,6 +1548,14 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
                                            static_cast<int>(strlen(requestsDescription)),
                                            SQLITE_TRANSIENT);
             }
+            if (SQLITE_OK == result)
+            {
+                const char * tag = descriptor->_tag.c_str();
+                
+                OD_LOG_S1("tag <- ", tag); //####
+                result = sqlite3_bind_text(statement, tagIndex, tag, static_cast<int>(strlen(tag)),
+                                           SQLITE_TRANSIENT);
+            }
             if (SQLITE_OK != result)
             {
                 OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
@@ -1553,7 +1565,7 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
         {
             OD_LOG("! ((0 < channelNameIndex) && (0 < descriptionIndex) && " //####
                    "(0 < executableIndex) && (0 < nameIndex) && " //####
-                   "(0 < requestsDescriptionIndex))"); //####
+                   "(0 < requestsDescriptionIndex) && (0 < tagIndex))"); //####
         }
     }
     catch (...)
@@ -1826,11 +1838,11 @@ inherited(ServiceKind::kServiceKindRegistry, launchPath, "", true, MpM_REGISTRY_
               "for a service on the given channel\n"
               "register - record the information for a service on the given channel\n"
               "unregister - remove the information for a service on the given channel",
-              MpM_REGISTRY_CHANNEL_NAME, servicePortNumber), _db(nullptr),
-    _validator(new ColumnNameValidator), _associateHandler(nullptr), _disassociateHandler(nullptr),
-    _getAssociatesHandler(nullptr), _matchHandler(nullptr), _pingHandler(nullptr),
-    _statusChannel(nullptr), _registerHandler(nullptr), _unregisterHandler(nullptr),
-    _checker(nullptr), _inMemory(useInMemoryDb), _isActive(false)
+              MpM_REGISTRY_CHANNEL_NAME, servicePortNumber), _db(NULL),
+    _validator(new ColumnNameValidator), _associateHandler(NULL), _disassociateHandler(NULL),
+    _getAssociatesHandler(NULL), _matchHandler(NULL), _pingHandler(NULL), _statusChannel(NULL),
+    _registerHandler(NULL), _unregisterHandler(NULL), _checker(NULL), _inMemory(useInMemoryDb),
+    _isActive(false)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("launchPath = ", launchPath, "servicePortNumber = ", servicePortNumber); //####
@@ -1855,7 +1867,7 @@ RegistryService::~RegistryService(void)
         _statusChannel->close();
 #endif // defined(MpM_DoExplicitClose)
         GeneralChannel::RelinquishChannel(_statusChannel);
-        _statusChannel = nullptr;
+        _statusChannel = NULL;
     }
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::~RegistryService
@@ -2016,6 +2028,7 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
 
 bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName,
                                        const yarp::os::ConstString & name,
+                                       const yarp::os::ConstString & tag,
                                        const yarp::os::ConstString & description,
                                        const yarp::os::ConstString & executable,
                                        const yarp::os::ConstString & requestsDescription)
@@ -2034,10 +2047,10 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
             static const char * insertIntoServices = T_("INSERT INTO " SERVICES_T_ "("
                                                         CHANNELNAME_C_ "," NAME_C_ ","
                                                         DESCRIPTION_C_ "," EXECUTABLE_C_ ","
-                                                        REQUESTSDESCRIPTION_C_ ") VALUES(@"
-                                                        CHANNELNAME_C_ ",@" NAME_C_ ",@"
-                                                        DESCRIPTION_C_ ",@" EXECUTABLE_C_ ",@"
-                                                        REQUESTSDESCRIPTION_C_ ")");
+                                                        REQUESTSDESCRIPTION_C_ "," TAG_C_
+                                                        ") VALUES(@" CHANNELNAME_C_ ",@" NAME_C_
+                                                        ",@" DESCRIPTION_C_ ",@" EXECUTABLE_C_ ",@"
+                                                        REQUESTSDESCRIPTION_C_ ",@" TAG_C_ ")");
             ServiceData         servData;
             
             servData._channel = channelName;
@@ -2045,6 +2058,7 @@ bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName
             servData._description = description;
             servData._executable = executable;
             servData._requestsDescription = requestsDescription;
+            servData._tag = tag;
             okSoFar = performSQLstatementWithNoResults(_db, insertIntoServices,
                                                        setupInsertIntoServices,
                                                        static_cast<const void *>(&servData));
@@ -2237,43 +2251,43 @@ void RegistryService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_associateHandler);
             delete _associateHandler;
-            _associateHandler = nullptr;
+            _associateHandler = NULL;
         }
         if (_disassociateHandler)
         {
             unregisterRequestHandler(_disassociateHandler);
             delete _disassociateHandler;
-            _disassociateHandler = nullptr;
+            _disassociateHandler = NULL;
         }
         if (_getAssociatesHandler)
         {
             unregisterRequestHandler(_getAssociatesHandler);
             delete _getAssociatesHandler;
-            _getAssociatesHandler = nullptr;
+            _getAssociatesHandler = NULL;
         }
         if (_matchHandler)
         {
             unregisterRequestHandler(_matchHandler);
             delete _matchHandler;
-            _matchHandler = nullptr;
+            _matchHandler = NULL;
         }
         if (_pingHandler)
         {
             unregisterRequestHandler(_pingHandler);
             delete _pingHandler;
-            _pingHandler = nullptr;
+            _pingHandler = NULL;
         }
         if (_registerHandler)
         {
             unregisterRequestHandler(_registerHandler);
             delete _registerHandler;
-            _registerHandler = nullptr;
+            _registerHandler = NULL;
         }
         if (_unregisterHandler)
         {
             unregisterRequestHandler(_unregisterHandler);
             delete _unregisterHandler;
-            _unregisterHandler = nullptr;
+            _unregisterHandler = NULL;
         }
     }
     catch (...)
@@ -2663,13 +2677,14 @@ bool RegistryService::processNameResponse(const yarp::os::ConstString & channelN
             yarp::os::Value theKind(response.element(2));
             yarp::os::Value thePath(response.element(3));
             yarp::os::Value theRequestsDescription(response.element(4));
+            yarp::os::Value theTag(response.element(5));
             
             if (theCanonicalName.isString() && theDescription.isString() && theKind.isString() &&
                 thePath.isString() && theRequestsDescription.isString())
             {
                 result = addServiceRecord(channelName, theCanonicalName.toString(),
-                                          theDescription.toString(), thePath.toString(),
-                                          theRequestsDescription.toString());
+                                          theTag.toString(), theDescription.toString(),
+                                          thePath.toString(), theRequestsDescription.toString());
                 if (! result)
                 {
                     // We need to remove any values that we've recorded for this channel!
@@ -2974,13 +2989,13 @@ bool RegistryService::setUpDatabase(void)
             }
 #endif // ! defined(MpM_UseTestDatabase)
             sqlRes = sqlite3_open_v2(dbFileName, &_db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,
-                                     nullptr);
+                                     NULL);
             if (SQLITE_OK != sqlRes)
             {
                 OD_LOG("(SQLITE_OK != sqlRes)"); //####
                 okSoFar = false;
                 sqlite3_close(_db);
-                _db = nullptr;
+                _db = NULL;
             }
         }
         if (_db)
@@ -2990,7 +3005,7 @@ bool RegistryService::setUpDatabase(void)
             {
                 OD_LOG("(! okSoFar)"); //####
                 sqlite3_close(_db);
-                _db = nullptr;
+                _db = NULL;
             }
         }
     }
@@ -3061,7 +3076,7 @@ bool RegistryService::start(void)
             {
                 // Register ourselves!!!
                 yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
-                                                                 "temp_/"
+                                                                 "temp_"
                                                                  MpM_REGISTRY_CHANNEL_NAME));
                 ClientChannel *       newChannel = new ClientChannel;
                 
@@ -3070,8 +3085,8 @@ bool RegistryService::start(void)
                     if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
                         if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
-                                                                 STANDARD_WAIT_TIME, false, nullptr,
-                                                                 nullptr))
+                                                                 STANDARD_WAIT_TIME, false, NULL,
+                                                                 NULL))
                         {
                             yarp::os::Bottle parameters(MpM_REGISTRY_CHANNEL_NAME);
                             ServiceRequest   request(MpM_REGISTER_REQUEST, parameters);
@@ -3111,7 +3126,7 @@ bool RegistryService::start(void)
                         {
                             OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
                                    "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, " //####
-                                   "nullptr, nullptr))"); //####
+                                   "NULL, NULL))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         newChannel->close();
@@ -3176,7 +3191,7 @@ bool RegistryService::stop(void)
                 yarp::os::Time::delay(PING_CHECK_INTERVAL / 3.1);
             }
             delete _checker;
-            _checker = nullptr;
+            _checker = NULL;
         }
         if (isActive())
         {

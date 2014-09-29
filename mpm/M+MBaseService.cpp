@@ -201,10 +201,10 @@ BaseService::BaseService(const ServiceKind             theKind,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & servicePortNumber) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
-    _description(description), _requestsDescription(requestsDescription), _requestCount(0),
-    _channelsHandler(nullptr), _clientsHandler(nullptr), _detachHandler(nullptr),
-    _infoHandler(nullptr), _listHandler(nullptr), _nameHandler(nullptr), _endpoint(nullptr),
-    _handler(nullptr), _handlerCreator(nullptr), _pinger(nullptr), _kind(theKind), _started(false),
+    _description(description), _requestsDescription(requestsDescription), _tag(tag),
+    _requestCount(0), _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL),
+    _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL), _endpoint(NULL), _handler(NULL),
+    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _started(false),
     _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER(); //####
@@ -213,9 +213,9 @@ BaseService::BaseService(const ServiceKind             theKind,
     OD_LOG_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
                servicePortNumber); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
-    if (0 < tag.size())
+    if (0 < _tag.size())
     {
-        _serviceName = canonicalName + " " + tag;
+        _serviceName = canonicalName + " " + _tag;
     }
     else
     {
@@ -228,7 +228,6 @@ BaseService::BaseService(const ServiceKind             theKind,
 
 BaseService::BaseService(const ServiceKind             theKind,
                          const yarp::os::ConstString & launchPath,
-                         const yarp::os::ConstString & tag,
                          const bool                    useMultipleHandlers,
                          const yarp::os::ConstString & canonicalName,
                          const yarp::os::ConstString & description,
@@ -236,10 +235,11 @@ BaseService::BaseService(const ServiceKind             theKind,
                          const int                     argc,
                          char **                       argv) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
-    _description(description), _requestCount(0), _channelsHandler(nullptr),
-    _clientsHandler(nullptr), _detachHandler(nullptr), _infoHandler(nullptr), _listHandler(nullptr),
-    _nameHandler(nullptr), _endpoint(nullptr), _handler(nullptr), _handlerCreator(nullptr),
-    _pinger(nullptr), _kind(theKind), _started(false), _useMultipleHandlers(useMultipleHandlers)
+    _description(description), _requestsDescription(requestsDescription),
+    _serviceName(canonicalName), _tag(), _requestCount(0), _channelsHandler(NULL),
+    _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL),
+    _nameHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL),
+    _kind(theKind), _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -250,14 +250,6 @@ BaseService::BaseService(const ServiceKind             theKind,
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
                "description = ", description, "requestsDescription = ", requestsDescription); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
-    if (0 < tag.size())
-    {
-        _serviceName = canonicalName + " " + tag;
-    }
-    else
-    {
-        _serviceName = canonicalName;
-    }
     switch (argc)
     {
             // Argument order = endpoint name [, port]
@@ -400,43 +392,43 @@ void BaseService::detachRequestHandlers(void)
         {
             _requestHandlers.unregisterRequestHandler(_channelsHandler);
             delete _channelsHandler;
-            _channelsHandler = nullptr;
+            _channelsHandler = NULL;
         }
         if (_clientsHandler)
         {
             _requestHandlers.unregisterRequestHandler(_clientsHandler);
             delete _clientsHandler;
-            _clientsHandler = nullptr;
+            _clientsHandler = NULL;
         }
         if (_countHandler)
         {
             _requestHandlers.unregisterRequestHandler(_countHandler);
             delete _countHandler;
-            _countHandler = nullptr;
+            _countHandler = NULL;
         }
         if (_detachHandler)
         {
             _requestHandlers.unregisterRequestHandler(_detachHandler);
             delete _detachHandler;
-            _detachHandler = nullptr;
+            _detachHandler = NULL;
         }
         if (_infoHandler)
         {
             _requestHandlers.unregisterRequestHandler(_infoHandler);
             delete _infoHandler;
-            _infoHandler = nullptr;
+            _infoHandler = NULL;
         }
         if (_listHandler)
         {
             _requestHandlers.unregisterRequestHandler(_listHandler);
             delete _listHandler;
-            _listHandler = nullptr;
+            _listHandler = NULL;
         }
         if (_nameHandler)
         {
             _requestHandlers.unregisterRequestHandler(_nameHandler);
             delete _nameHandler;
-            _nameHandler = nullptr;
+            _nameHandler = NULL;
         }
     }
     catch (...)
@@ -483,7 +475,7 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
-    BaseContext * result = nullptr;
+    BaseContext * result = NULL;
     
     try
     {
@@ -632,7 +624,7 @@ bool BaseService::start(void)
                         OD_LOG("! (_endpoint->setInputHandlerCreator(*_handlerCreator) && " //####
                                "_endpoint->open(STANDARD_WAIT_TIME))"); //####
                         delete _handlerCreator;
-                        _handlerCreator = nullptr;
+                        _handlerCreator = NULL;
                     }
                 }
                 else
@@ -655,7 +647,7 @@ bool BaseService::start(void)
                         OD_LOG("! (_endpoint->setInputHandler(*_handler) && " //####
                                "_endpoint->open(STANDARD_WAIT_TIME))"); //####
                         delete _handler;
-                        _handler = nullptr;
+                        _handler = NULL;
                     }
                 }
                 else
@@ -692,7 +684,7 @@ bool BaseService::stop(void)
     {
         _pinger->stop();
         delete _pinger;
-        _pinger = nullptr;
+        _pinger = NULL;
     }
     _started = false;
     OD_LOG_OBJEXIT_B(! _started); //####

@@ -75,15 +75,16 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 EchoService::EchoService(const yarp::os::ConstString & launchPath,
+                         const yarp::os::ConstString & tag,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & servicePortNumber) :
-    inherited(ServiceKind::kServiceKindNormal, launchPath, "", true, MpM_ECHO_CANONICAL_NAME,
+    inherited(ServiceKind::kServiceKindNormal, launchPath, tag, true, MpM_ECHO_CANONICAL_NAME,
               "The echo service", "echo - send back any values given with the request",
-              serviceEndpointName, servicePortNumber), _echoHandler(nullptr)
+              serviceEndpointName, servicePortNumber), _echoHandler(NULL)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // EchoService::EchoService
@@ -131,7 +132,7 @@ void EchoService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_echoHandler);
             delete _echoHandler;
-            _echoHandler = nullptr;
+            _echoHandler = NULL;
         }
     }
     catch (...)

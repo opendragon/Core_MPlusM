@@ -514,7 +514,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
             yarp::os::ConstString request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
             
             request += aDescriptor._portName;
-            yarp::os::Bottle matches(FindMatchingServices(request, true, nullptr, nullptr));
+            yarp::os::Bottle matches(FindMatchingServices(request, true, NULL, NULL));
             
             OD_LOG_S1s("matches <- ", matches.toString()); //####
             if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
@@ -638,7 +638,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                     
             }
             Utilities::GetAssociatedPorts(aDescriptor._portName, associates, STANDARD_WAIT_TIME,
-                                          nullptr, nullptr);
+                                          NULL, NULL);
         }
         else
         {
@@ -713,7 +713,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                 break;
                 
         }
-        reportConnections(flavour, aDescriptor._portName, nullptr, nullptr);
+        reportConnections(flavour, aDescriptor._portName, NULL, NULL);
         switch (flavour)
         {
             case kOutputFlavourTabs :
@@ -890,7 +890,9 @@ int main(int      argc,
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
             GetLogger().fail("YARP network not running.");
-# endif // MAC_OR_LINUX_
+# else // ! MAC_OR_LINUX_
+            std::cerr << "YARP network not running." << std::endl;
+# endif // ! MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
     }

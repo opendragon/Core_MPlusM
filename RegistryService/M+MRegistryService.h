@@ -139,7 +139,7 @@ namespace MplusM
                 kRegistryUnregisterService,
                 
                 /*! @brief Force the enumeration to be 4 bytes. */
-                kRegistryUnknown = 0x80000000
+                kRegistryUnknown = 0x7FFFFFFF
                 
             }; // ServiceStatus
             
@@ -290,12 +290,14 @@ namespace MplusM
             /*! @brief Add a service to the registry.
              @param channelName The service channel for the service.
              @param name The canonical name for the service.
+             @param tag The modifier tag for the service.
              @param description The description of the service.
              @param executable The path to the executable for the service.
              @param requestsDescription The description of the requests for the service.
              @returns @c true if the request was successfully added and @c false otherwise. */
             bool addServiceRecord(const yarp::os::ConstString & channelName,
                                   const yarp::os::ConstString & name,
+                                  const yarp::os::ConstString & tag,
                                   const yarp::os::ConstString & description,
                                   const yarp::os::ConstString & executable,
                                   const yarp::os::ConstString & requestsDescription);

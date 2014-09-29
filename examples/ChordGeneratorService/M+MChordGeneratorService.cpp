@@ -75,16 +75,17 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 ChordGeneratorService::ChordGeneratorService(const yarp::os::ConstString & launchPath,
+                                             const yarp::os::ConstString & tag,
                                              const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & servicePortNumber) :
-    inherited(ServiceKind::kServiceKindNormal, launchPath, "", true, MpM_CHORD_GENERATOR_NAME,
+    inherited(ServiceKind::kServiceKindNormal, launchPath, tag, true, MpM_CHORD_GENERATOR_NAME,
               "A service that generates chords",
               "returns list of MIDI note numbers defining the chord", serviceEndpointName,
-              servicePortNumber), _chordReqHandler(nullptr)
+              servicePortNumber), _chordReqHandler(NULL)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
+    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // RandomNumberService::RandomNumberService
@@ -133,7 +134,7 @@ void ChordGeneratorService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_chordReqHandler);
             delete _chordReqHandler;
-            _chordReqHandler = nullptr;
+            _chordReqHandler = NULL;
         }
     }
     catch (...)

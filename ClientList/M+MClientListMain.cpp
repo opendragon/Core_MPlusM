@@ -205,8 +205,7 @@ int main(int     argc,
             {
                 channelNameRequest += argv[optind];
             }
-            yarp::os::Bottle matches(FindMatchingServices(channelNameRequest, false, nullptr,
-                                                          nullptr));
+            yarp::os::Bottle matches(FindMatchingServices(channelNameRequest, false, NULL, NULL));
             
             if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
@@ -256,8 +255,7 @@ int main(int     argc,
                                         
                                         if (Utilities::NetworkConnectWithRetries(aName, aMatch,
                                                                                  STANDARD_WAIT_TIME,
-                                                                                 false, nullptr,
-                                                                                 nullptr))
+                                                                                 false, NULL, NULL))
                                         {
                                             ServiceRequest  request(MpM_CLIENTS_REQUEST,
                                                                     parameters);
@@ -293,13 +291,13 @@ int main(int     argc,
                                             if (! Utilities::NetworkDisconnectWithRetries(aName,
                                                                                           aMatch,
                                                                               STANDARD_WAIT_TIME,
-                                                                                          nullptr,
-                                                                                          nullptr))
+                                                                                          NULL,
+                                                                                          NULL))
                                             {
                                                 OD_LOG("(! Utilities::Network" //####
                                                        "DisconnectWithRetries(aName, " //####
-                                                       "aMatch, STANDARD_WAIT_TIME, " //####
-                                                       "nullptr, nullptr))"); //####
+                                                       "aMatch, STANDARD_WAIT_TIME, NULL, " //####
+                                                       "NULL))"); //####
                                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                                         }
@@ -307,8 +305,8 @@ int main(int     argc,
                                         {
                                             OD_LOG("! (Utilities::NetworkConnectWith" //####
                                                    "Retries(aName, aMatch, " //####
-                                                   "STANDARD_WAIT_TIME, false, nullptr, " //####
-                                                   "nullptr))"); //####
+                                                   "STANDARD_WAIT_TIME, false, NULL, " //####
+                                                   "NULL))"); //####
                                         }
                                     }
                                     if (kOutputFlavourJSON == flavour)
@@ -386,7 +384,9 @@ int main(int     argc,
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
             GetLogger().fail("YARP network not running.");
-# endif // MAC_OR_LINUX_
+# else // ! MAC_OR_LINUX_
+            std::cerr << "YARP network not running." << std::endl;
+# endif // ! MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
     }

@@ -108,7 +108,7 @@ int main(int      argc,
         {
             yarp::os::Network           yarp; // This is necessary to establish any connections to
                                               // the YARP infrastructure
-            Registry::RegistryService * stuff = nullptr;
+            Registry::RegistryService * stuff = NULL;
             
             Initialize(*argv);
             if (1 <= argc)
@@ -165,7 +165,9 @@ int main(int      argc,
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
             GetLogger().fail("YARP network not running.");
-# endif // MAC_OR_LINUX_
+# else // ! MAC_OR_LINUX_
+            std::cerr << "YARP network not running." << std::endl;
+# endif // ! MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
     }

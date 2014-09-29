@@ -138,7 +138,7 @@
 # define MpM_EXPECTED_MATCH_RESPONSE_SIZE          2
 
 /*! @brief The number of elements expected in the output of a 'name' request. */
-# define MpM_EXPECTED_NAME_RESPONSE_SIZE           5
+# define MpM_EXPECTED_NAME_RESPONSE_SIZE           6
 
 /*! @brief The number of elements expected in the output of a 'quit' request. */
 # define MpM_EXPECTED_QUIT_RESPONSE_SIZE           1

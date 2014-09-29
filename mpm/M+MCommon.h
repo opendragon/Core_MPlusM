@@ -239,7 +239,7 @@ namespace MplusM
             kChannelModeOther,
             
             /*! @brief Force the size to be 4 bytes. */
-            kChannelModeUnknown = 0x7FFFFFF
+            kChannelModeUnknown = 0x7FFFFFFF
             
         }; // ChannelMode
         
@@ -281,7 +281,7 @@ namespace MplusM
             kOutputFlavourTabs,
             
             /*! @brief Force the size to be 4 bytes. */
-            kOutputFlavourUnknown = 0x7FFFFFF
+            kOutputFlavourUnknown = 0x7FFFFFFF
             
         }; // OutputFlavour
         
@@ -304,7 +304,7 @@ namespace MplusM
             kServiceKindRegistry,
             
             /*! @brief Force the size to be 4 bytes. */
-            kServiceKindUnknown = 0x7FFFFFF
+            kServiceKindUnknown = 0x7FFFFFFF
             
         }; // ServiceKind
         

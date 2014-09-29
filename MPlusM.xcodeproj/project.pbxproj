@@ -63,7 +63,7 @@
 		DF384FAA198A9C0500A0414E /* M+MRunningSumRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRunningSumRequests.h"; path = "examples/RunningSumCommon/M+MRunningSumRequests.h"; sourceTree = SOURCE_ROOT; };
 		DF384FAB198A9C0500A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = examples/RunningSumService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384FAC198A9C0500A0414E /* M+MAddToSumRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddToSumRequestHandler.cpp"; path = "examples/RunningSumService/M+MAddToSumRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FAD198A9C0500A0414E /* M+MAddToSumRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAddToSumRequestHandler.h"; path = "examples/RunningSumService/M+MAddToSumRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF384FAD198A9C0500A0414E /* M+MAddToSumRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "M+MAddToSumRequestHandler.h"; path = "examples/RunningSumService/M+MAddToSumRequestHandler.h"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DF384FAE198A9C0500A0414E /* M+MResetSumRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MResetSumRequestHandler.cpp"; path = "examples/RunningSumService/M+MResetSumRequestHandler.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF384FAF198A9C0500A0414E /* M+MResetSumRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "M+MResetSumRequestHandler.h"; path = "examples/RunningSumService/M+MResetSumRequestHandler.h"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DF384FB0198A9C0500A0414E /* M+MRunningSumContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRunningSumContext.cpp"; path = "examples/RunningSumService/M+MRunningSumContext.cpp"; sourceTree = SOURCE_ROOT; };
@@ -182,21 +182,21 @@
 		DF3850BE198ACCFE00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = mpm/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF3850BF198ACCFE00A0414E /* getopt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = getopt.cpp; path = mpm/getopt.cpp; sourceTree = SOURCE_ROOT; };
 		DF3850C0198ACCFE00A0414E /* getopt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = getopt.h; path = mpm/getopt.h; sourceTree = SOURCE_ROOT; };
-		DF3850C1198ACCFE00A0414E /* M+MAdapterChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAdapterChannel.cpp"; path = "mpm/M+MAdapterChannel.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850C1198ACCFE00A0414E /* M+MAdapterChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MAdapterChannel.cpp"; path = "mpm/M+MAdapterChannel.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF3850C2198ACCFE00A0414E /* M+MAdapterChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAdapterChannel.h"; path = "mpm/M+MAdapterChannel.h"; sourceTree = SOURCE_ROOT; };
-		DF3850C3198ACCFE00A0414E /* M+MBailOut.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBailOut.cpp"; path = "mpm/M+MBailOut.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850C3198ACCFE00A0414E /* M+MBailOut.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MBailOut.cpp"; path = "mpm/M+MBailOut.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF3850C4198ACCFE00A0414E /* M+MBailOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBailOut.h"; path = "mpm/M+MBailOut.h"; sourceTree = SOURCE_ROOT; };
-		DF3850C5198ACCFE00A0414E /* M+MBailOutThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBailOutThread.cpp"; path = "mpm/M+MBailOutThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850C5198ACCFE00A0414E /* M+MBailOutThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MBailOutThread.cpp"; path = "mpm/M+MBailOutThread.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF3850C6198ACCFE00A0414E /* M+MBailOutThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBailOutThread.h"; path = "mpm/M+MBailOutThread.h"; sourceTree = SOURCE_ROOT; };
 		DF3850C7198ACCFE00A0414E /* M+MBaseAdapterData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseAdapterData.cpp"; path = "mpm/M+MBaseAdapterData.cpp"; sourceTree = SOURCE_ROOT; };
 		DF3850C8198ACCFE00A0414E /* M+MBaseAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseAdapterData.h"; path = "mpm/M+MBaseAdapterData.h"; sourceTree = SOURCE_ROOT; };
-		DF3850C9198ACCFE00A0414E /* M+MBaseClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseClient.cpp"; path = "mpm/M+MBaseClient.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850C9198ACCFE00A0414E /* M+MBaseClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MBaseClient.cpp"; path = "mpm/M+MBaseClient.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF3850CA198ACCFE00A0414E /* M+MBaseClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseClient.h"; path = "mpm/M+MBaseClient.h"; sourceTree = SOURCE_ROOT; };
 		DF3850CB198ACCFE00A0414E /* M+MBaseContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseContext.cpp"; path = "mpm/M+MBaseContext.cpp"; sourceTree = SOURCE_ROOT; };
 		DF3850CC198ACCFE00A0414E /* M+MBaseContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseContext.h"; path = "mpm/M+MBaseContext.h"; sourceTree = SOURCE_ROOT; };
 		DF3850CD198ACCFE00A0414E /* M+MBaseFilterService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseFilterService.cpp"; path = "mpm/M+MBaseFilterService.cpp"; sourceTree = SOURCE_ROOT; };
 		DF3850CE198ACCFE00A0414E /* M+MBaseFilterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseFilterService.h"; path = "mpm/M+MBaseFilterService.h"; sourceTree = SOURCE_ROOT; };
-		DF3850CF198ACCFE00A0414E /* M+MBaseInputOutputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseInputOutputService.cpp"; path = "mpm/M+MBaseInputOutputService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF3850CF198ACCFE00A0414E /* M+MBaseInputOutputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MBaseInputOutputService.cpp"; path = "mpm/M+MBaseInputOutputService.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF3850D0198ACCFE00A0414E /* M+MBaseInputOutputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseInputOutputService.h"; path = "mpm/M+MBaseInputOutputService.h"; sourceTree = SOURCE_ROOT; };
 		DF3850D1198ACCFE00A0414E /* M+MBaseInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseInputService.cpp"; path = "mpm/M+MBaseInputService.cpp"; sourceTree = SOURCE_ROOT; };
 		DF3850D2198ACCFE00A0414E /* M+MBaseInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseInputService.h"; path = "mpm/M+MBaseInputService.h"; sourceTree = SOURCE_ROOT; };
@@ -359,7 +359,7 @@
 		DFE83AD919B671D1003A7EDE /* M+MMovementDbService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "M+MMovementDbService.h"; path = "MovementDb/MovementDbService/M+MMovementDbService.h"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DFE83ADA19B671D1003A7EDE /* M+MMovementDbServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbServiceMain.cpp"; path = "MovementDb/MovementDbService/M+MMovementDbServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFE83ADB19B671D1003A7EDE /* M+MAddFileRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddFileRequestHandler.cpp"; path = "MovementDb/MovementDbService/M+MAddFileRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DFE83ADC19B671D1003A7EDE /* M+MAddFileRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAddFileRequestHandler.h"; path = "MovementDb/MovementDbService/M+MAddFileRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DFE83ADC19B671D1003A7EDE /* M+MAddFileRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "M+MAddFileRequestHandler.h"; path = "MovementDb/MovementDbService/M+MAddFileRequestHandler.h"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		DFE83ADF19B671F8003A7EDE /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = MovementDb/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFE83AE019B67207003A7EDE /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = MovementDb/MovementDbClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFE83AE119B67214003A7EDE /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; name = CMakeLists.txt; path = MovementDb/MovementDbService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -377,6 +377,19 @@
 		DFE83AEF19B8C58B003A7EDE /* M+MMovementDbInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbInputHandler.h"; path = "MovementDb/MovementDbAdapter/M+MMovementDbInputHandler.h"; sourceTree = SOURCE_ROOT; };
 		DFE83AF019B8C7D0003A7EDE /* M+MMovementDbAdapterData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbAdapterData.cpp"; path = "MovementDb/MovementDbAdapter/M+MMovementDbAdapterData.cpp"; sourceTree = SOURCE_ROOT; };
 		DFE83AF119B8C7D0003A7EDE /* M+MMovementDbAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbAdapterData.h"; path = "MovementDb/MovementDbAdapter/M+MMovementDbAdapterData.h"; sourceTree = SOURCE_ROOT; };
+		DFFFBFD319D9A49D00BBD7A7 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = KinectV2/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFFFBFD519D9A4B900BBD7A7 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = KinectV2/KinectV2InputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFFFBFD619D9A4B900BBD7A7 /* M+MKinectV2EventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MKinectV2EventHandler.cpp"; path = "KinectV2/KinectV2InputService/M+MKinectV2EventHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DFFFBFD719D9A4B900BBD7A7 /* M+MKinectV2EventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MKinectV2EventHandler.h"; path = "KinectV2/KinectV2InputService/M+MKinectV2EventHandler.h"; sourceTree = SOURCE_ROOT; };
+		DFFFBFD819D9A4B900BBD7A7 /* M+MKinectV2EventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MKinectV2EventThread.cpp"; path = "KinectV2/KinectV2InputService/M+MKinectV2EventThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DFFFBFD919D9A4B900BBD7A7 /* M+MKinectV2EventThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MKinectV2EventThread.h"; path = "KinectV2/KinectV2InputService/M+MKinectV2EventThread.h"; sourceTree = SOURCE_ROOT; };
+		DFFFBFDA19D9A4B900BBD7A7 /* M+MKinectV2InputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MKinectV2InputRequests.h"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputRequests.h"; sourceTree = SOURCE_ROOT; };
+		DFFFBFDB19D9A4B900BBD7A7 /* M+MKinectV2InputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MKinectV2InputService.cpp"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputService.cpp"; sourceTree = SOURCE_ROOT; };
+		DFFFBFDC19D9A4B900BBD7A7 /* M+MKinectV2InputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MKinectV2InputService.h"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputService.h"; sourceTree = SOURCE_ROOT; };
+		DFFFBFDD19D9A4B900BBD7A7 /* M+MKinectV2InputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MKinectV2InputServiceMain.cpp"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DFFFBFDE19D9A4B900BBD7A7 /* M+MKinectV2InputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MKinectV2InputThread.cpp"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DFFFBFDF19D9A4B900BBD7A7 /* M+MKinectV2InputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MKinectV2InputThread.h"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputThread.h"; sourceTree = SOURCE_ROOT; };
+		DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = KinectV2/KinectV2InputService/stdafx.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -882,6 +895,7 @@
 				DF38503D198ABBA000A0414E /* CommonTests */,
 				DFA86D2518E1D13300A22941 /* examples */,
 				DF824B1719C7304F004D13AC /* Exemplars */,
+				DFFFBFD219D9A40600BBD7A7 /* KinectV2 */,
 				DF824BBA19C8B0B1004D13AC /* LeapMotion */,
 				DFE83ABA19B661EB003A7EDE /* MovementDb */,
 				DFA3434F18C91C670053B87C /* mpm */,
@@ -1202,6 +1216,34 @@
 				DFE83AEF19B8C58B003A7EDE /* M+MMovementDbInputHandler.h */,
 			);
 			name = MovementDbAdapter;
+			sourceTree = "<group>";
+		};
+		DFFFBFD219D9A40600BBD7A7 /* KinectV2 */ = {
+			isa = PBXGroup;
+			children = (
+				DFFFBFD319D9A49D00BBD7A7 /* CMakeLists.txt */,
+				DFFFBFD419D9A4A300BBD7A7 /* KinectV2InputService */,
+			);
+			name = KinectV2;
+			sourceTree = "<group>";
+		};
+		DFFFBFD419D9A4A300BBD7A7 /* KinectV2InputService */ = {
+			isa = PBXGroup;
+			children = (
+				DFFFBFD519D9A4B900BBD7A7 /* CMakeLists.txt */,
+				DFFFBFD619D9A4B900BBD7A7 /* M+MKinectV2EventHandler.cpp */,
+				DFFFBFD719D9A4B900BBD7A7 /* M+MKinectV2EventHandler.h */,
+				DFFFBFD819D9A4B900BBD7A7 /* M+MKinectV2EventThread.cpp */,
+				DFFFBFD919D9A4B900BBD7A7 /* M+MKinectV2EventThread.h */,
+				DFFFBFDA19D9A4B900BBD7A7 /* M+MKinectV2InputRequests.h */,
+				DFFFBFDB19D9A4B900BBD7A7 /* M+MKinectV2InputService.cpp */,
+				DFFFBFDC19D9A4B900BBD7A7 /* M+MKinectV2InputService.h */,
+				DFFFBFDD19D9A4B900BBD7A7 /* M+MKinectV2InputServiceMain.cpp */,
+				DFFFBFDE19D9A4B900BBD7A7 /* M+MKinectV2InputThread.cpp */,
+				DFFFBFDF19D9A4B900BBD7A7 /* M+MKinectV2InputThread.h */,
+				DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */,
+			);
+			name = KinectV2InputService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

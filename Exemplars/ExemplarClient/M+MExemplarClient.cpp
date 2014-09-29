@@ -103,7 +103,7 @@ bool ExemplarClient::getOneRandomNumber(double & result)
         yarp::os::Bottle parameters;
         ServiceResponse  response;
         
-        reconnectIfDisconnected(nullptr, nullptr);
+        reconnectIfDisconnected(NULL, NULL);
         if (send(MpM_SIMPLE_REQUEST, parameters, &response))
         {
             if (1 == response.count())
@@ -156,7 +156,7 @@ bool ExemplarClient::getRandomNumbers(const int      howMany,
             ServiceResponse  response;
             
             parameters.addInt(howMany);
-            reconnectIfDisconnected(nullptr, nullptr);
+            reconnectIfDisconnected(NULL, NULL);
             if (send(MpM_SIMPLE_REQUEST, parameters, &response))
             {
                 if (howMany == response.count())

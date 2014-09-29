@@ -145,15 +145,20 @@ void TruncateFilterService::restartStreams(void)
 bool TruncateFilterService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool               result = true;
-    ChannelDescription description;
+    bool                  result = true;
+    ChannelDescription    description;
+    yarp::os::ConstString modifier;
     
+    if (0 < tag().length())
+    {
+        modifier = "/" + tag();
+    }
     _inDescriptions.clear();
-    description._portName = "examples/truncatefilter/input_";
+    description._portName = yarp::os::ConstString("truncatefilter/input") + modifier;
     description._portProtocol = "d+";
     _inDescriptions.push_back(description);
     _outDescriptions.clear();
-    description._portName = "examples/truncatefilter/output_";
+    description._portName = yarp::os::ConstString("truncatefilter/output") + modifier;
     description._portProtocol = "i+";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
@@ -237,7 +242,7 @@ void TruncateFilterService::stopStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setOutput(nullptr);
+                _inHandler->setOutput(NULL);
             }
             clearActive();
         }

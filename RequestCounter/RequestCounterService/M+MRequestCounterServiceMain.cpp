@@ -135,7 +135,7 @@ int main(int      argc,
                     yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
                     OD_LOG_S1s("channelName = ", channelName); //####
-                    if (RegisterLocalService(channelName, nullptr, nullptr))
+                    if (RegisterLocalService(channelName, NULL, NULL))
                     {
                         StartRunning();
                         SetSignalHandlers(SignalRunningStop);
@@ -148,17 +148,27 @@ int main(int      argc,
                             yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
                         }
-                        UnregisterLocalService(channelName, nullptr, nullptr);
+                        UnregisterLocalService(channelName, NULL, NULL);
                         stuff->stop();
                     }
                     else
                     {
-                        OD_LOG("! (RegisterLocalService(channelName, nullptr, nullptr))"); //####
+                        OD_LOG("! (RegisterLocalService(channelName, NULL, NULL))"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Service could not be registered.");
+#else // ! MAC_OR_LINUX_
+                        std::cerr << "Service could not be registered." << std::endl;
+#endif // ! MAC_OR_LINUX_
                     }
                 }
                 else
                 {
                     OD_LOG("! (stuff->start())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Service could not be started.");
+#else // ! MAC_OR_LINUX_
+                    std::cerr << "Service could not be started." << std::endl;
+#endif // ! MAC_OR_LINUX_
                 }
                 delete stuff;
             }
@@ -173,7 +183,9 @@ int main(int      argc,
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
             GetLogger().fail("YARP network not running.");
-# endif // MAC_OR_LINUX_
+# else // ! MAC_OR_LINUX_
+            std::cerr << "YARP network not running." << std::endl;
+# endif // ! MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
     }

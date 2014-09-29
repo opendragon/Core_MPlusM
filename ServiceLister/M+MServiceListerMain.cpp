@@ -126,7 +126,7 @@ int main(int      argc,
             bool         reported = false;
             StringVector services;
             
-            if (Utilities::GetServiceNames(services, false, nullptr, nullptr))
+            if (Utilities::GetServiceNames(services, false, NULL, NULL))
             {
                 if (kOutputFlavourJSON == flavour)
                 {
@@ -139,8 +139,8 @@ int main(int      argc,
                         Utilities::ServiceDescriptor descriptor;
                         
                         if (Utilities::GetNameAndDescriptionForService(*walker, descriptor,
-                                                                       STANDARD_WAIT_TIME, nullptr,
-                                                                       nullptr))
+                                                                       STANDARD_WAIT_TIME, NULL,
+                                                                       NULL))
                         {
                             bool                  sawInputs = false;
                             bool                  sawOutputs = false;
@@ -150,6 +150,7 @@ int main(int      argc,
                             yarp::os::ConstString requests;
                             yarp::os::ConstString serviceName;
                             yarp::os::ConstString servicePortName;
+                            yarp::os::ConstString tag;
                             
                             switch (flavour)
                             {
@@ -269,9 +270,10 @@ int main(int      argc,
                                 outChannelNames += " ]";
                             }
                             servicePortName = SanitizeString(*walker,
-                                                     kOutputFlavourJSON != flavour);
+                                                             kOutputFlavourJSON != flavour);
                             serviceName = SanitizeString(descriptor._serviceName,
-                                                     kOutputFlavourJSON != flavour);
+                                                         kOutputFlavourJSON != flavour);
+                            tag = SanitizeString(descriptor._tag, kOutputFlavourJSON != flavour);
                             switch (flavour)
                             {
                                 case kOutputFlavourJSON :
@@ -280,6 +282,9 @@ int main(int      argc,
                                             T_(CHAR_DOUBLEQUOTE ", ");
                                     cout << T_(CHAR_DOUBLEQUOTE "ServiceName" CHAR_DOUBLEQUOTE ": "
                                                CHAR_DOUBLEQUOTE) << serviceName.c_str() <<
+                                            T_(CHAR_DOUBLEQUOTE ", ");
+                                    cout << T_(CHAR_DOUBLEQUOTE "Tag" CHAR_DOUBLEQUOTE ": "
+                                               CHAR_DOUBLEQUOTE) << tag.c_str() <<
                                             T_(CHAR_DOUBLEQUOTE ", ");
                                     cout << T_(CHAR_DOUBLEQUOTE "ServiceKind" CHAR_DOUBLEQUOTE ": "
                                                CHAR_DOUBLEQUOTE) << descriptor._kind.c_str() <<
@@ -304,6 +309,7 @@ int main(int      argc,
                                 case kOutputFlavourTabs :
                                     cout << servicePortName.c_str() << "\t";
                                     cout << serviceName.c_str() << "\t";
+                                    cout << tag.c_str() << "\t";
                                     cout << descriptor._kind.c_str() << "\t";
                                     description = SanitizeString(descriptor._description, true);
                                     cout << description.c_str() << "\t";
@@ -318,6 +324,7 @@ int main(int      argc,
                                     cout << "Service port:      " << servicePortName.c_str() <<
                                             endl;
                                     cout << "Service name:      " << serviceName.c_str() << endl;
+                                    cout << "Tag:               " << tag.c_str() << endl;
                                     cout << "Service kind:      " << descriptor._kind.c_str() <<
                                             endl;
                                     OutputDescription(cout, "Description:       ",
@@ -381,7 +388,9 @@ int main(int      argc,
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
             GetLogger().fail("YARP network not running.");
-# endif // MAC_OR_LINUX_
+# else // ! MAC_OR_LINUX_
+            std::cerr << "YARP network not running." << std::endl;
+# endif // ! MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
     }

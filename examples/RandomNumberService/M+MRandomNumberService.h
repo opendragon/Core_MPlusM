@@ -53,7 +53,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_RANDOM_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/randomNumber")
+# define DEFAULT_RANDOM_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/randomnumber")
 
 namespace MplusM
 {
@@ -68,9 +68,11 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
+             @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
             RandomNumberService(const yarp::os::ConstString & launchPath,
+                                const yarp::os::ConstString & tag,
                                 const yarp::os::ConstString & serviceEndpointName,
                                 const yarp::os::ConstString & servicePortNumber = "");
             

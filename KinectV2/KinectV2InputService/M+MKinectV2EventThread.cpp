@@ -65,9 +65,9 @@ using namespace MplusM::KinectV2;
 
 #if 0
 /*! @brief Add a floating-point vector to a dictionary.
-@param dictionary The dictionary to be updated.
-@param tag The tag to associate with the vector.
-@param position The vector to be added. */
+ @param dictionary The dictionary to be updated.
+ @param tag The tag to associate with the vector.
+ @param position The vector to be added. */
 static void addVectorToDictionary(yarp::os::Property &          dictionary,
                                   const yarp::os::ConstString & tag,
                                   const CameraSpacePoint &      position)
@@ -85,10 +85,10 @@ static void addVectorToDictionary(yarp::os::Property &          dictionary,
 } // addVectorToDictionary
 
 /*! @brief Add the description of a bone to a list.
-@param listToUpdate The list to be added to.
-@param joinTag The name of the bone.
-@param startJoint The beginning joint of the bone.
-@param endJoint The ending joint of the bone. */
+ @param listToUpdate The list to be added to.
+ @param joinTag The name of the bone.
+ @param startJoint The beginning joint of the bone.
+ @param endJoint The ending joint of the bone. */
 static void addBoneToList(yarp::os::Bottle &            listToUpdate,
                           const yarp::os::ConstString & jointTag,
                           const Joint &                 startJoint,
@@ -112,8 +112,8 @@ static void addBoneToList(yarp::os::Bottle &            listToUpdate,
 } // addBoneToList
 
 /*! @brief Convert a hand state into a string.
-@param theHandState The state of the hand
-@returns The state of the hand as a string. */
+ @param theHandState The state of the hand
+ @returns The state of the hand as a string. */
 static const char * handStateToString(const HandState theHandState)
 {
     const char * result;
@@ -140,11 +140,11 @@ static const char * handStateToString(const HandState theHandState)
     return result;
 } // handStateToString
 
-/* !brief Add the data for a body to a message.
-@param message The message to be updated with the body data
-@param joints The set of joints for the body
-@param leftHandState The state of the left hand
-@param rightHandState The state of the right hand */
+/*! @brief Add the data for a body to a message.
+ @param message The message to be updated with the body data
+ @param joints The set of joints for the body
+ @param leftHandState The state of the left hand
+ @param rightHandState The state of the right hand */
 static void addBodyToMessage(yarp::os::Bottle & message,
                              const Joint *      joints,
                              const HandState    leftHandState,
@@ -201,10 +201,11 @@ static void addBodyToMessage(yarp::os::Bottle & message,
 } // addBodyToMessage
 
 /*! @brief Process the data returned by the Kinect V2 sensor.
-@param message The message to be updated with the sensor data
-@param nBodyCount The number of 'bodies' in the sensor data
-@param ppBodies The sensor data
-@returns @c true if at least one body was added to the message successfully, and @c false otherwise. */
+ @param message The message to be updated with the sensor data
+ @param nBodyCount The number of 'bodies' in the sensor data
+ @param ppBodies The sensor data
+ @returns @c true if at least one body was added to the message successfully, and @c false
+ otherwise. */
 static bool processBody(yarp::os::Bottle & message,
                         const int          nBodyCount,
                         IBody **           ppBodies)
@@ -275,7 +276,7 @@ KinectV2EventThread::~KinectV2EventThread(void)
 void KinectV2InputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = nullptr;
+    _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // KinectV2InputThread::clearOutputChannel
 #endif //0
@@ -401,12 +402,12 @@ bool KinectV2InputThread::updateData(yarp::os::Bottle & message)
 
     if (_bodyFrameReader)
     {
-        IBodyFrame * pBodyFrame = nullptr;
+        IBodyFrame * pBodyFrame = NULL;
         HRESULT      hr = _bodyFrameReader->AcquireLatestFrame(&pBodyFrame);
 
         if (SUCCEEDED(hr))
         {
-            IBody * ppBodies[BODY_COUNT] = { nullptr };
+            IBody * ppBodies[BODY_COUNT] = { NULL };
 
             if (SUCCEEDED(hr))
             {

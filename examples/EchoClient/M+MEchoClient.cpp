@@ -105,7 +105,7 @@ bool EchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
         yarp::os::Bottle parameters(outgoing);
         ServiceResponse  response;
         
-        reconnectIfDisconnected(nullptr, nullptr);
+        reconnectIfDisconnected(NULL, NULL);
         if (send(MpM_ECHO_REQUEST, parameters, &response))
         {
             incoming = response.asString();

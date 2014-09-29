@@ -81,12 +81,12 @@ using namespace MplusM::Test;
 /*! @brief Create an endpoint for a test.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the endpoint constructor.
- @returns A newly created endpoint, or @c nullptr if one could not be created. */
+ @returns A newly created endpoint, or @c NULL if one could not be created. */
 static Endpoint * doCreateEndpointForTest(const int argc,
                                           char * *  argv)
 {
     OD_LOG_ENTER(); //####
-    Endpoint * stuff = nullptr;
+    Endpoint * stuff = NULL;
     
     try
     {
@@ -143,15 +143,15 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
         if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
         {
             if (! Utilities::NetworkConnectWithRetries(aName, destinationName, STANDARD_WAIT_TIME,
-                                                       false, nullptr, nullptr))
+                                                       false, NULL, NULL))
             {
                 OD_LOG("(! Utilities::NetworkConnectWithRetries(aName, destinationName, " //####
-                       "STANDARD_WAIT_TIME, false, nullptr, nullptr))"); //####
+                       "STANDARD_WAIT_TIME, false, NULL, NULL))"); //####
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
 #endif // defined(MpM_DoExplicitClose)
                 ClientChannel::RelinquishChannel(newChannel);
-                newChannel = nullptr;
+                newChannel = NULL;
             }
         }
         else
@@ -194,10 +194,10 @@ static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
     {
 #if defined(MpM_DoExplicitDisconnect)
         if (! Utilities::NetworkDisconnectWithRetries(theChannel->name(), destinationName,
-                                                      STANDARD_WAIT_TIME, nullptr, nullptr))
+                                                      STANDARD_WAIT_TIME, NULL, NULL))
         {
             OD_LOG("(! Utilities::NetworkDisconnectWithRetries(theChannel->name(), " //####
-                   "destinationName, STANDARD_WAIT_TIME, nullptr, nullptr))"); //####
+                   "destinationName, STANDARD_WAIT_TIME, NULL, NULL))"); //####
         }
 #endif // defined(MpM_DoExplicitDisconnect)
 #if defined(MpM_DoExplicitClose)
@@ -321,12 +321,10 @@ static int doTestConnectToEndpoint(const char * launchPath,
                             result = 0;
 #if defined(MpM_DoExplicitDisconnect)
                             if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
-                                                               STANDARD_WAIT_TIME, nullptr,
-                                                               nullptr))
+                                                               STANDARD_WAIT_TIME, NULL, NULL))
                             {
                                 OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), " //####
-                                       "stuff->getName(), STANDARD_WAIT_TIME, nullptr, " //####
-                                       "nullptr))"); //####
+                                       "stuff->getName(), STANDARD_WAIT_TIME, NULL, NULL))"); //####
                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                         }
@@ -435,12 +433,11 @@ static int doTestWriteToEndpoint(const char * launchPath,
 # if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME, nullptr,
-                                                                   nullptr))
+                                                                   STANDARD_WAIT_TIME, NULL, NULL))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
                                            "name(), stuff->getName(), STANDARD_WAIT_TIME, " //####
-                                           "nullptr, nullptr))"); //####
+                                           "NULL, NULL))"); //####
                                 }
 # endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -451,12 +448,11 @@ static int doTestWriteToEndpoint(const char * launchPath,
 # if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME, nullptr,
-                                                                   nullptr))
+                                                                   STANDARD_WAIT_TIME, NULL, NULL))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
                                            "name(), stuff->getName(), STANDARD_WAIT_TIME, " //####
-                                           "nullptr, nullptr))"); //####
+                                           "NULL, NULL))"); //####
                                 }
 # endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -573,12 +569,11 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME, nullptr,
-                                                                   nullptr))
+                                                                   STANDARD_WAIT_TIME, NULL, NULL))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
                                            "name(), stuff->getName(), STANDARD_WAIT_TIME, " //####
-                                           "nullptr, nullptr))"); //####
+                                           "NULL, NULL))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -694,12 +689,11 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME, nullptr,
-                                                                   nullptr))
+                                                                   STANDARD_WAIT_TIME, NULL, NULL))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
                                            "name(), stuff->getName(), STANDARD_WAIT_TIME, " //####
-                                           "nullptr, nullptr))"); //####
+                                           "NULL, NULL))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -906,7 +900,7 @@ static int doTestRequestEchoFromEndpoint(const char * launchPath,
                         OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getName(), outChannel);
-                    outChannel = nullptr;
+                    outChannel = NULL;
                 }
                 else
                 {
@@ -985,7 +979,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launc
                         OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
-                    outChannel = nullptr;
+                    outChannel = NULL;
                 }
                 else
                 {
@@ -1064,7 +1058,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char 
                         OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
-                    outChannel = nullptr;
+                    outChannel = NULL;
                 }
                 else
                 {
@@ -1159,7 +1153,7 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
                         OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
-                    outChannel = nullptr;
+                    outChannel = NULL;
                 }
                 else
                 {
@@ -1340,7 +1334,7 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                                 yarp::os::ConstString itsOutput =
                                                 asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
                                 
-                                sawName = (itsOutput == "sssss");
+                                sawName = (itsOutput == "ssssss");
                             }
                         }
                     }
@@ -1425,7 +1419,7 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
                         OD_LOG("! (request.send(*outChannel, &response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
-                    outChannel = nullptr;
+                    outChannel = NULL;
                 }
                 else
                 {
@@ -1594,7 +1588,9 @@ int main(int      argc,
             OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
             GetLogger().fail("YARP network not running.");
-# endif // MAC_OR_LINUX_
+# else // ! MAC_OR_LINUX_
+            std::cerr << "YARP network not running." << std::endl;
+# endif // ! MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
         Utilities::ShutDownGlobalStatusReporter();

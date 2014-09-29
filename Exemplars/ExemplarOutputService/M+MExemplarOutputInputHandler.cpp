@@ -75,7 +75,7 @@ using namespace MplusM::Exemplar;
 #endif // defined(__APPLE__)
 
 ExemplarOutputInputHandler::ExemplarOutputInputHandler(void) :
-    inherited(), _outFile(nullptr)
+    inherited(), _outFile(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####

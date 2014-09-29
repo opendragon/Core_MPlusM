@@ -79,20 +79,21 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RunningSumService::RunningSumService(const yarp::os::ConstString & launchPath,
+                                     const yarp::os::ConstString & tag,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
-    inherited(ServiceKind::kServiceKindNormal, launchPath, "", true, MpM_RUNNINGSUM_CANONICAL_NAME,
+    inherited(ServiceKind::kServiceKindNormal, launchPath, tag, true, MpM_RUNNINGSUM_CANONICAL_NAME,
               "The running sum service",
               "add - add one or more values to the running sum and return the sum\n"
               "reset - clear the running sum\n"
               "start - start adding values to the running sum\n"
               "stop - stop adding values to the running sum", serviceEndpointName,
-              servicePortNumber), _addToSumHandler(nullptr), _resetSumHandler(nullptr),
-    _startSumHandler(nullptr), _stopSumHandler(nullptr)
+              servicePortNumber), _addToSumHandler(NULL), _resetSumHandler(NULL),
+    _startSumHandler(NULL), _stopSumHandler(NULL)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // RunningSumService::RunningSumService
@@ -176,25 +177,25 @@ void RunningSumService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_addToSumHandler);
             delete _addToSumHandler;
-            _addToSumHandler = nullptr;
+            _addToSumHandler = NULL;
         }
         if (_resetSumHandler)
         {
             unregisterRequestHandler(_resetSumHandler);
             delete _resetSumHandler;
-            _resetSumHandler = nullptr;
+            _resetSumHandler = NULL;
         }
         if (_startSumHandler)
         {
             unregisterRequestHandler(_startSumHandler);
             delete _startSumHandler;
-            _startSumHandler = nullptr;
+            _startSumHandler = NULL;
         }
         if (_stopSumHandler)
         {
             unregisterRequestHandler(_stopSumHandler);
             delete _stopSumHandler;
-            _stopSumHandler = nullptr;
+            _stopSumHandler = NULL;
         }
     }
     catch (...)

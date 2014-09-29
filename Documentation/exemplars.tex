@@ -215,7 +215,9 @@ where \asCode{XXX} is \asCode{FILTER}, \asCode{INPUT} or \asCode{OUTPUT}
 where \asCode{XXX} is \asCode{FILTER}, \asCode{INPUT} or \asCode{OUTPUT}
 \item In the top--level file \asCode{CMakeLists.txt}, comment out the directories that are
 not being built, by putting a hash--mark (or pound sign), `\asCode{\#}', at the beginning
-of the \asCode{add\textunderscore{}subdirectory} statement for the directory.
+of the \asCode{add\textunderscore{}subdirectory} statement for the directory
+\item And lastly, change the ``Written by'' string in the comment block at the beginning
+of each file to reference the actual writer of the new custom application set
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Build the application(s)}

@@ -75,8 +75,8 @@ using namespace MplusM::Utilities;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'list' request. */
-#define NAME_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'name' request. */
+#define NAME_REQUEST_VERSION_NUMBER "1.1"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -125,12 +125,12 @@ void NameRequestHandler::fillInDescription(const yarp::os::ConstString & request
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING MpM_REQREP_STRING MpM_REQREP_STRING
-                 MpM_REQREP_STRING MpM_REQREP_STRING);
+                 MpM_REQREP_STRING MpM_REQREP_STRING MpM_REQREP_STRING);
         info.put(MpM_REQREP_DICT_VERSION_KEY, NAME_REQUEST_VERSION_NUMBER);
         info.put(MpM_REQREP_DICT_DETAILS_KEY,
                  "Return the canonical name and description of the service\n"
                  "Input: nothing\n"
-                 "Output: the canonical name, the description, the kind, the path to the "
+                 "Output: the canonical name, the tag, the description, the kind, the path to the "
                  "executable for the service "
                  "and the description of the requests for the service");
         yarp::os::Value    keywords;
@@ -141,6 +141,7 @@ void NameRequestHandler::fillInDescription(const yarp::os::ConstString & request
         asList->addString("description");
         asList->addString("executable");
         asList->addString("kind");
+        asList->addString("tag");
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
     }
     catch (...)
@@ -182,6 +183,7 @@ bool NameRequestHandler::processRequest(const yarp::os::ConstString & request,
             reply.addString(MapServiceKindToString(_service.kind()));
             reply.addString(bigPath);
             reply.addString(_service.requestsDescription());
+            reply.addString(_service.tag());
             OD_LOG_S1s("reply <- ", reply.toString()); //####
             if (! reply.write(*replyMechanism))
             {

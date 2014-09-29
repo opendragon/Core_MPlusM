@@ -43,7 +43,7 @@ project(M+M)
 
 set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 4)
-set(MpM_VERSION_PATCH 10)
+set(MpM_VERSION_PATCH 11)
 
 # Make some flags to control the build visible
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)

@@ -54,7 +54,7 @@
 
 /*! @brief The base channel name to use for the service if not provided. */
 # define DEFAULT_EXEMPLARFILTER_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "exemplars/exemplarfilter_")
+        DEFAULT_SERVICE_NAME_BASE "exemplar/filter")
 
 namespace MplusM
 {
@@ -69,7 +69,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
-             @param tag The modifier for the service name.
+             @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
             ExemplarFilterService(const yarp::os::ConstString & launchPath,

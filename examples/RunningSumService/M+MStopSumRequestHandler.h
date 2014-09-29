@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for a 'stopsum' request.
+//  Contains:   The class declaration for the request handler for a 'stopSum' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -47,7 +47,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for a 'stopsum' request. */
+ @brief The class declaration for the request handler for a 'stopSum' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -58,7 +58,7 @@ namespace MplusM
     {
         class RunningSumService;
         
-        /*! @brief The example 'stopsum' request handler.
+        /*! @brief The example 'stopSum' request handler.
          
          There is no input for the request and there is no output. */
         class StopSumRequestHandler : public Common::BaseRequestHandler
@@ -86,8 +86,7 @@ namespace MplusM
              @param request The actual request name.
              @param restOfInput The arguments to the operation.
              @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism non-@c nullptr if a reply is expected and @c nullptr
-             otherwise. */
+             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
             virtual bool processRequest(const yarp::os::ConstString & request,
                                         const yarp::os::Bottle &      restOfInput,
                                         const yarp::os::ConstString & senderChannel,

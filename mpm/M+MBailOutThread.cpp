@@ -76,8 +76,8 @@ using namespace MplusM::Common;
 #endif // definullptrned(__APPLE__)
 
 BailOutThread::BailOutThread(const double timeToWait) :
-    inherited(), _adapterChannel(nullptr), _clientChannel(nullptr), _generalChannel(nullptr),
-    _serviceChannel(nullptr), _timeToWait(timeToWait)
+    inherited(), _adapterChannel(NULL), _clientChannel(NULL), _generalChannel(NULL),
+    _serviceChannel(NULL), _timeToWait(timeToWait)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
@@ -86,8 +86,8 @@ BailOutThread::BailOutThread(const double timeToWait) :
 
 BailOutThread::BailOutThread(AdapterChannel & channelOfInterest,
                              const double     timeToWait) :
-    inherited(), _adapterChannel(&channelOfInterest), _clientChannel(nullptr),
-    _generalChannel(nullptr), _serviceChannel(nullptr), _timeToWait(timeToWait)
+    inherited(), _adapterChannel(&channelOfInterest), _clientChannel(NULL), _generalChannel(NULL),
+    _serviceChannel(NULL), _timeToWait(timeToWait)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("channelOfInterest = ", &channelOfInterest); //####
@@ -97,8 +97,8 @@ BailOutThread::BailOutThread(AdapterChannel & channelOfInterest,
 
 BailOutThread::BailOutThread(ClientChannel & channelOfInterest,
                              const double    timeToWait) :
-    inherited(), _adapterChannel(nullptr), _clientChannel(&channelOfInterest),
-    _generalChannel(nullptr), _serviceChannel(nullptr), _timeToWait(timeToWait)
+    inherited(), _adapterChannel(NULL), _clientChannel(&channelOfInterest), _generalChannel(NULL),
+    _serviceChannel(NULL), _timeToWait(timeToWait)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("channelOfInterest = ", &channelOfInterest); //####
@@ -108,8 +108,8 @@ BailOutThread::BailOutThread(ClientChannel & channelOfInterest,
 
 BailOutThread::BailOutThread(GeneralChannel & channelOfInterest,
                              const double     timeToWait) :
-    inherited(), _adapterChannel(nullptr), _clientChannel(nullptr),
-    _generalChannel(&channelOfInterest), _serviceChannel(nullptr), _timeToWait(timeToWait)
+    inherited(), _adapterChannel(NULL), _clientChannel(NULL), _generalChannel(&channelOfInterest),
+    _serviceChannel(NULL), _timeToWait(timeToWait)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("channelOfInterest = ", &channelOfInterest); //####
@@ -119,7 +119,7 @@ BailOutThread::BailOutThread(GeneralChannel & channelOfInterest,
 
 BailOutThread::BailOutThread(ServiceChannel & channelOfInterest,
                              const double     timeToWait) :
-    inherited(), _adapterChannel(nullptr), _clientChannel(nullptr), _generalChannel(nullptr),
+    inherited(), _adapterChannel(NULL), _clientChannel(NULL), _generalChannel(NULL),
     _serviceChannel(&channelOfInterest), _timeToWait(timeToWait)
 {
     OD_LOG_ENTER(); //####

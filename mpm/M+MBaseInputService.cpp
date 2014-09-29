@@ -93,25 +93,6 @@ BaseInputService::BaseInputService(const yarp::os::ConstString & launchPath,
     OD_LOG_EXIT_P(this); //####
 } // BaseInputService::BaseInputService
 
-BaseInputService::BaseInputService(const yarp::os::ConstString & launchPath,
-                                   const yarp::os::ConstString & tag,
-                                   const bool                    useMultipleHandlers,
-                                   const yarp::os::ConstString & canonicalName,
-                                   const yarp::os::ConstString & description,
-                                   const yarp::os::ConstString & requestsDescription,
-                                   const int                     argc,
-                                   char * *                      argv) :
-    inherited(ServiceKind::kServiceKindInput, launchPath, tag, useMultipleHandlers, canonicalName,
-              description, requestsDescription, argc, argv)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
-               "description = ", description);
-    OD_LOG_S1s("requestsDescription = ", requestsDescription); //####
-    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
-    OD_LOG_EXIT_P(this); //####
-} // BaseInputService::BaseInputService
-
 BaseInputService::~BaseInputService(void)
 {
     OD_LOG_OBJENTER(); //####

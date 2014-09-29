@@ -87,7 +87,7 @@ using namespace MplusM::Utilities;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-static ChannelStatusReporter * lReporter = nullptr;
+static ChannelStatusReporter * lReporter = NULL;
 
 /*! @brief The indicator string for the beginning of new information received. */
 static const char * kLineMarker = "registration name ";
@@ -115,8 +115,7 @@ static void checkForInputConnection(const yarp::os::Bottle & response,
     OD_LOG_P1("inputs = ", &inputs); //####
     const char * matchString[] =
     {
-        "There", "is", "an", "input", "connection", "from", nullptr, "to", nullptr, "using",
-        nullptr
+        "There", "is", "an", "input", "connection", "from", NULL, "to", NULL, "using", NULL
     };
     int          respLen = response.size();
     int          matchLen = (sizeof(matchString) / sizeof(*matchString));
@@ -178,8 +177,7 @@ static void checkForOutputConnection(const yarp::os::Bottle & response,
     OD_LOG_P1("outputs = ", &outputs); //####
     const char * matchString[] =
     {
-        "There", "is", "an", "output", "connection", "from", nullptr, "to", nullptr, "using",
-        nullptr
+        "There", "is", "an", "output", "connection", "from", NULL, "to", NULL, "using", NULL
     };
     int          respLen = response.size();
     int          matchLen = (sizeof(matchString) / sizeof(*matchString));
@@ -345,10 +343,10 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
             
             if (yarp::os::ConstString::npos != chopPos)
             {
-                char *                channelName = nullptr;
+                char *                channelName = NULL;
                 yarp::os::ConstString chopped(workingCopy.substr(0, chopPos));
                 char *                choppedAsChars = strdup(chopped.c_str());
-                char *                ipAddress = nullptr;
+                char *                ipAddress = NULL;
                 char *                saved;
                 char *                pp = strtok_r(choppedAsChars, " ", &saved);
                 
@@ -360,16 +358,16 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
                         channelName = pp;
                         if (nameServerName == channelName)
                         {
-                            pp = nullptr;
+                            pp = NULL;
                         }
                         else
                         {
-                            pp = strtok_r(nullptr, " ", &saved);
+                            pp = strtok_r(NULL, " ", &saved);
                         }
                     }
                     else
                     {
-                        pp = nullptr;
+                        pp = NULL;
                     }
                 }
                 if (pp)
@@ -377,28 +375,28 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
                     // 'ip'
                     if (strcmp(pp, "ip"))
                     {
-                        pp = nullptr;
+                        pp = NULL;
                     }
                     else
                     {
-                        pp = strtok_r(nullptr, " ", &saved);
+                        pp = strtok_r(NULL, " ", &saved);
                     }
                 }
                 if (pp)
                 {
                     ipAddress = pp;
-                    pp = strtok_r(nullptr, " ", &saved);
+                    pp = strtok_r(NULL, " ", &saved);
                 }
                 if (pp)
                 {
                     // 'port'
                     if (strcmp(pp, "port"))
                     {
-                        pp = nullptr;
+                        pp = NULL;
                     }
                     else
                     {
-                        pp = strtok_r(nullptr, " ", &saved);
+                        pp = strtok_r(NULL, " ", &saved);
                     }
                 }
                 // Check if this is a 'hidden' port:
@@ -408,7 +406,7 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
                                   sizeof(HIDDEN_CHANNEL_PREFIX) - 1))
                     {
                         // Skip this one.
-                        pp = nullptr;
+                        pp = NULL;
                     }
                 }
                 if (pp)
@@ -513,7 +511,7 @@ void Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
                     
                     pc.write(bw);
                     bw.write(os);
-                    reader.reset(is, nullptr, rr, 0, true);
+                    reader.reset(is, NULL, rr, 0, true);
                     for (bool done = false; ! done; )
                     {
                         if (checker && checker(checkStuff))
@@ -788,16 +786,18 @@ bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & se
                         yarp::os::Value theKind(response1.element(2));
                         yarp::os::Value thePath(response1.element(3));
                         yarp::os::Value theRequestsDescription(response1.element(4));
+                        yarp::os::Value theTag(response1.element(5));
                         
                         OD_LOG_S4s("theCanonicalName <- ", theCanonicalName.toString(), //####
                                    "theDescription <- ", theDescription.toString(), //####
                                    "theKind <- ", theKind.toString(), "thePath <- ", //####
                                    thePath.toString()); //####
-                        OD_LOG_S1s("theRequestsDescription = ", //####
-                                   theRequestsDescription.toString()); //####
+                        OD_LOG_S2s("theRequestsDescription = ", //####
+                                   theRequestsDescription.toString(), "theTag = ", //####
+                                   theTag.toString()); //####
                         if (theCanonicalName.isString() && theDescription.isString() &&
                             theKind.isString() && thePath.isString() &&
-                            theRequestsDescription.isString())
+                            theRequestsDescription.isString() && theTag.isString())
                         {
                             descriptor._channelName = serviceChannelName;
                             descriptor._serviceName = theCanonicalName.toString();
@@ -805,6 +805,7 @@ bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & se
                             descriptor._kind = theKind.toString();
                             descriptor._path = thePath.toString();
                             descriptor._requestsDescription = theRequestsDescription.toString();
+                            descriptor._tag = theTag.toString();
                             result = true;
                         }
                         else
@@ -812,7 +813,8 @@ bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & se
                             OD_LOG("! (theCanonicalName.isString() && " //####
                                    "theDescription.isString() && " //####
                                    "theKind.isString() && thePath.isString() && " //####
-                                   "theRequestsDescription.isString())"); //####
+                                   "theRequestsDescription.isString() && " //####
+                                   "theTag.isString())"); //####
                         }
                     }
                     else
@@ -1437,5 +1439,5 @@ void Utilities::SetUpGlobalStatusReporter(void)
 void Utilities::ShutDownGlobalStatusReporter(void)
 {
     delete lReporter;
-    lReporter = nullptr;
+    lReporter = NULL;
 } // Utilities::ShutDownGlobalStatusReporter

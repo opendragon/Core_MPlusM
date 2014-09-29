@@ -72,7 +72,7 @@ namespace MplusM
             kInputAndOutputBoth   = 0x3,
             
             /*! @brief Force the size to be 4 bytes. */
-            kInputAndOutputUnknown = 0x7FFFFFF
+            kInputAndOutputUnknown = 0x7FFFFFFF
             
         }; // InputOutputFlag
         
@@ -95,7 +95,7 @@ namespace MplusM
             kPortKindStandard,
             
             /*! @brief Force the size to be 4 bytes. */
-            kPortKindUnknown = 0x7FFFFFF
+            kPortKindUnknown = 0x7FFFFFFF
             
         }; // PortKind
         
@@ -167,6 +167,9 @@ namespace MplusM
             
             /*! @brief The description of the requests for the service. */
             yarp::os::ConstString _requestsDescription;
+            
+            /*! @brief The modifier tag for the service. */
+            yarp::os::ConstString _tag;
             
         }; // ServiceDescriptor
         

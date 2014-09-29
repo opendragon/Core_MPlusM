@@ -90,12 +90,12 @@ namespace MplusM
             COPY_AND_ASSIGNMENT_(KinectV2InputThread);
 
             /*! @brief Initialize the default Kinect V2 sensor
-            @returns @c S_OK on success, a failure code otherwise. */
+             @returns @c S_OK on success, a failure code otherwise. */
             HRESULT initializeDefaultSensor(void);
 
             /*! @brief Collect the sensor data and add it to a message.
-            @param message The message to be updated.
-            @returns @c true if the message has data added and @c false otherwise. */
+             @param message The message to be updated.
+             @returns @c true if the message has data added and @c false otherwise. */
             bool updateData(yarp::os::Bottle & message);
 
         public :

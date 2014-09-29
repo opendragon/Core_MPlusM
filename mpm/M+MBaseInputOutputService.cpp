@@ -101,27 +101,6 @@ BaseInputOutputService::BaseInputOutputService(const ServiceKind             the
     OD_LOG_EXIT_P(this); //####
 } // BaseInputOutputService::BaseInputOutputService
 
-BaseInputOutputService::BaseInputOutputService(const ServiceKind             theKind,
-                                               const yarp::os::ConstString & launchPath,
-                                               const yarp::os::ConstString & tag,
-                                               const bool                    useMultipleHandlers,
-                                               const yarp::os::ConstString & canonicalName,
-                                               const yarp::os::ConstString & description,
-                                               const yarp::os::ConstString & requestsDescription,
-                                               const int                     argc,
-                                               char * *                      argv) :
-    inherited(theKind, launchPath, tag, useMultipleHandlers, canonicalName, description,
-              requestsDescription, argc, argv), _active(false)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
-               "description = ", description);
-    OD_LOG_S1s("requestsDescription = ", requestsDescription); //####
-    OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
-    attachRequestHandlers();
-    OD_LOG_EXIT_P(this); //####
-} // BaseInputOutputService::BaseInputOutputService
-
 BaseInputOutputService::~BaseInputOutputService(void)
 {
     OD_LOG_OBJENTER(); //####
@@ -291,25 +270,25 @@ void BaseInputOutputService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_configureHandler);
             delete _configureHandler;
-            _configureHandler = nullptr;
+            _configureHandler = NULL;
         }
         if (_restartStreamsHandler)
         {
             unregisterRequestHandler(_restartStreamsHandler);
             delete _restartStreamsHandler;
-            _restartStreamsHandler = nullptr;
+            _restartStreamsHandler = NULL;
         }
         if (_startStreamsHandler)
         {
             unregisterRequestHandler(_startStreamsHandler);
             delete _startStreamsHandler;
-            _startStreamsHandler = nullptr;
+            _startStreamsHandler = NULL;
         }
         if (_stopStreamsHandler)
         {
             unregisterRequestHandler(_stopStreamsHandler);
             delete _stopStreamsHandler;
-            _stopStreamsHandler = nullptr;
+            _stopStreamsHandler = NULL;
         }
     }
     catch (...)

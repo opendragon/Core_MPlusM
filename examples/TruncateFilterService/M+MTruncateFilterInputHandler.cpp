@@ -75,7 +75,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 TruncateFilterInputHandler::TruncateFilterInputHandler(void) :
-    inherited(), _outChannel(nullptr)
+    inherited(), _outChannel(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####

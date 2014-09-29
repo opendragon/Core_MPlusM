@@ -85,8 +85,8 @@ RequestCounterService::RequestCounterService(const yarp::os::ConstString & launc
               "reset - clear the request counter and the elapsed time\n"
               "stats - report the request counter and the elapsed time\n"
               "<anything else> - simply increment the request counter", serviceEndpointName,
-              servicePortNumber), _defaultHandler(nullptr), _resetSumHandler(nullptr),
-    _statsHandler(nullptr)
+              servicePortNumber), _defaultHandler(NULL), _resetSumHandler(NULL),
+    _statsHandler(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
@@ -162,21 +162,21 @@ void RequestCounterService::detachRequestHandlers(void)
     {
         if (_defaultHandler)
         {
-            setDefaultRequestHandler(nullptr);
+            setDefaultRequestHandler(NULL);
             delete _defaultHandler;
-            _defaultHandler = nullptr;
+            _defaultHandler = NULL;
         }
         if (_resetSumHandler)
         {
             unregisterRequestHandler(_resetSumHandler);
             delete _resetSumHandler;
-            _resetSumHandler = nullptr;
+            _resetSumHandler = NULL;
         }
         if (_statsHandler)
         {
             unregisterRequestHandler(_statsHandler);
             delete _statsHandler;
-            _statsHandler = nullptr;
+            _statsHandler = NULL;
         }
     }
     catch (...)

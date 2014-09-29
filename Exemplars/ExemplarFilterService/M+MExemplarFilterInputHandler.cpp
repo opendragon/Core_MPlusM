@@ -75,7 +75,7 @@ using namespace MplusM::Exemplar;
 #endif // defined(__APPLE__)
 
 ExemplarFilterInputHandler::ExemplarFilterInputHandler(void) :
-    inherited(), _outChannel(nullptr)
+    inherited(), _outChannel(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####

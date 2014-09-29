@@ -92,7 +92,7 @@ static bool lKeepRunning = false;
 
 #if MAC_OR_LINUX_
 /*! @brief The logger to use for reporting problems. */
-static yarp::os::impl::Logger * lLogger = nullptr;
+static yarp::os::impl::Logger * lLogger = NULL;
 #endif // MAC_OR_LINUX_
 
 #if defined(__APPLE__)
@@ -274,26 +274,26 @@ void Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
 # if (defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE))
-    sigaction(SIGABRT, &act, nullptr);
+    sigaction(SIGABRT, &act, NULL);
 # endif // defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
 # if (defined(SIGHUP) && (SIGHUP != STANDARD_SIGNAL_TO_USE))
-    sigaction(SIGHUP, &act, nullptr);
+    sigaction(SIGHUP, &act, NULL);
 # endif // defined(SIGHUP) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
 # if (defined(SIGINT) && (SIGINT != STANDARD_SIGNAL_TO_USE))
-    sigaction(SIGINT, &act, nullptr);
+    sigaction(SIGINT, &act, NULL);
 # endif // defined(SIGINT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
 # if (defined(SIGQUIT) && (SIGQUIT != STANDARD_SIGNAL_TO_USE))
-    sigaction(SIGQUIT, &act, nullptr);
+    sigaction(SIGQUIT, &act, NULL);
 # endif // defined(SIGQUIT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
 # if (defined(SIGUSR1) && (SIGUSR1 != STANDARD_SIGNAL_TO_USE))
-    sigaction(SIGUSR1, &act, nullptr);
+    sigaction(SIGUSR1, &act, NULL);
 # endif // defined(SIGUSR1) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
 # if (defined(SIGUSR2) && (SIGUSR2 != STANDARD_SIGNAL_TO_USE))
-    sigaction(SIGUSR2, &act, nullptr);
+    sigaction(SIGUSR2, &act, NULL);
 # endif // defined(SIGUSR2) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
     sigemptyset(&blocking);
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
-    pthread_sigmask(SIG_BLOCK, &blocking, nullptr);
+    pthread_sigmask(SIG_BLOCK, &blocking, NULL);
 #else // ! MAC_OR_LINUX_
 # if (defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE))
     //yarp::os::signal(SIGABRT, theHandler);
@@ -331,11 +331,11 @@ void Common::SetUpCatcher(void)
 #if MAC_OR_LINUX_
     sigemptyset(&unblocking);
     sigaddset(&unblocking, STANDARD_SIGNAL_TO_USE);
-    pthread_sigmask(SIG_UNBLOCK, &unblocking, nullptr);
+    pthread_sigmask(SIG_UNBLOCK, &unblocking, NULL);
     act.sa_handler = localCatcher;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
-    sigaction(STANDARD_SIGNAL_TO_USE, &act, nullptr);
+    sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
 #else // ! MAC_OR_LINUX_
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT(); //####
@@ -361,11 +361,11 @@ void Common::ShutDownCatcher(void)
 #if MAC_OR_LINUX_
     sigemptyset(&blocking);
     sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
-    pthread_sigmask(SIG_BLOCK, &blocking, nullptr);
+    pthread_sigmask(SIG_BLOCK, &blocking, NULL);
     act.sa_handler = SIG_DFL;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
-    sigaction(STANDARD_SIGNAL_TO_USE, &act, nullptr);
+    sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
 #else // ! MAC_OR_LINUX_
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT(); //####
@@ -407,14 +407,7 @@ bool MplusM::CanReadFromStandardInput(void)
       // How do we check on Windows??
 	HWND wind = GetConsoleWindow();
     
-	if (wind == nullptr)
-    {
-		result = false;
-    }
-	else
-    {
-		result = true;
-    }
+    result = (NULL != wind);
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT_B(result); //####
     return result;

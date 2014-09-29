@@ -97,7 +97,7 @@ ExemplarInputThread::~ExemplarInputThread(void)
 void ExemplarInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = nullptr;
+    _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // ExemplarInputThread::clearOutputChannel
 

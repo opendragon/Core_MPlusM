@@ -43,10 +43,10 @@ are specific to \inputOutput{} services
 requests
 \end{itemize}
 Requests are handled by derived classes of the base class for request handlers,
-\secondaryRef{BaseRequestHandler}{Base~Request~Handler}.
+\secondaryRef{BaseRequestHandler}{BaseRequestHandler}.
 Note that the \secondaryRef{BasicRequests}{Basic~Requests} are part of every service and
 automatically supported in the base class of all services,
-\secondaryRef{BaseService}{Base~Service}.\\
+\secondaryRef{BaseService}{BaseService}.\\
 
 When a client sends a request to a service, it can optionally request a response from the
 service.
@@ -78,7 +78,7 @@ signal and will exit gracefully when one is sent to it.
 \secondaryEnd{}
 \secondaryStart[BasicRequests]{Basic~Requests}
 These requests are implemented in all \mplusm{} services, via the
-\secondaryRef{BaseService}{Base~Service} class.
+\secondaryRef{BaseService}{BaseService} class.
 They constitute the fundamental mechanism that is used by the
 \serviceNameR[Service~Registry]{ServiceRegistry} to identify each active service.
 \tertiaryStart{\requestsNameD{Basic}{Basic}{channels}}
@@ -237,13 +237,13 @@ database that are related to the service being removed.
 \secondaryEnd{}
 \secondaryStart[InputOutputRequests]{\inputOutput{}~Requests}
 These requests are implemented in all \mplusm{} \inputOutput{} services, via the
-\secondaryRef{BaseInputOutputService}{Base~Input~Output~Service} class.
+\secondaryRef{BaseInputOutputService}{BaseInputOutputService} class.
 \tertiaryStart{\requestsNameD{\inputOutput{}}{InputOutput}{configure}}
 The \requestsNameX{\inputOutput{}}{InputOutput}{configure} request is available for
 \inputOutput{} services that require special setup information, such as a device
 identifier or file--system path.
 It is the responsibility of derived classes of the
-\secondaryRef{BaseInputOutputService}{Base~Input~Output~Service} class to provide a method
+\secondaryRef{BaseInputOutputService}{BaseInputOutputService} class to provide a method
 that handles the data provided in the
 \requestsNameX{\inputOutput{}}{InputOutput}{configure} request.\\
 

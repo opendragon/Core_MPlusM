@@ -75,15 +75,16 @@ using namespace MplusM::Exemplar;
 #endif // defined(__APPLE__)
 
 ExemplarService::ExemplarService(const yarp::os::ConstString & launchPath,
+                                 const yarp::os::ConstString & tag,
                                  const yarp::os::ConstString & serviceEndpointName,
                                  const yarp::os::ConstString & servicePortNumber) :
-    inherited(ServiceKind::kServiceKindNormal, launchPath, "", true, MpM_EXEMPLAR_CANONICAL_NAME,
+    inherited(ServiceKind::kServiceKindNormal, launchPath, tag, true, MpM_EXEMPLAR_CANONICAL_NAME,
               "The exemplar service", "simple - return the number of random values requested",
-              serviceEndpointName, servicePortNumber), _simpleHandler(nullptr)
+              serviceEndpointName, servicePortNumber), _simpleHandler(NULL)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // ExemplarService::ExemplarService
@@ -131,7 +132,7 @@ void ExemplarService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_simpleHandler);
             delete _simpleHandler;
-            _simpleHandler = nullptr;
+            _simpleHandler = NULL;
         }
     }
     catch (...)

@@ -118,12 +118,12 @@ int main(int      argc,
                 {
                     StartRunning();
                     SetSignalHandlers(SignalRunningStop);
-                    if (stuff->findService("keyword exemplar", false, nullptr, nullptr))
+                    if (stuff->findService("keyword exemplar", false, NULL, NULL))
                     {
 #if defined(MpM_ReportOnConnections)
                         stuff->setReporter(reporter, true);
 #endif // defined(MpM_ReportOnConnections)
-                        if (stuff->connectToService(nullptr, nullptr))
+                        if (stuff->connectToService(NULL, NULL))
                         {
                             for ( ; IsRunning(); )
                             {
@@ -182,9 +182,9 @@ int main(int      argc,
                                     }
                                 }
                             }
-                            if (! stuff->disconnectFromService(nullptr, nullptr))
+                            if (! stuff->disconnectFromService(NULL, NULL))
                             {
-                                OD_LOG("(! stuff->disconnectFromService(nullptr, nullptr))"); //####
+                                OD_LOG("(! stuff->disconnectFromService(NULL, NULL))"); //####
 #if MAC_OR_LINUX_
                                 GetLogger().fail("Problem disconnecting from the service.");
 #endif // MAC_OR_LINUX_
@@ -192,19 +192,23 @@ int main(int      argc,
                         }
                         else
                         {
-                            OD_LOG("! (stuff->connectToService(nullptr, nullptr))"); //####
+                            OD_LOG("! (stuff->connectToService(NULL, NULL))"); //####
 #if MAC_OR_LINUX_
-                            GetLogger().fail("Problem connecting to the service.");
-#endif // MAC_OR_LINUX_
+                            GetLogger().fail("Could not connect to the required service.");
+#else // ! MAC_OR_LINUX_
+                            std::cerr << "Could not connect to the required service." << std::endl;
+#endif // ! MAC_OR_LINUX_
                         }
                     }
                     else
                     {
-                        OD_LOG("! (stuff->findService(\"keyword exemplar\", false, nullptr, " //####
-                               "nullptr))"); //####
+                        OD_LOG("! (stuff->findService(\"keyword exemplar\", false, NULL, " //####
+                               "NULL))"); //####
 #if MAC_OR_LINUX_
-                        GetLogger().fail("Problem finding the service.");
-#endif // MAC_OR_LINUX_
+                        GetLogger().fail("Could not find the required service.");
+#else // ! MAC_OR_LINUX_
+                        std::cerr << "Could not find the required service." << std::endl;
+#endif // ! MAC_OR_LINUX_
                     }
                     delete stuff;
                 }
@@ -219,7 +223,9 @@ int main(int      argc,
                 OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
 # if MAC_OR_LINUX_
                 GetLogger().fail("YARP network not running.");
-# endif // MAC_OR_LINUX_
+# else // ! MAC_OR_LINUX_
+                std::cerr << "YARP network not running." << std::endl;
+# endif // ! MAC_OR_LINUX_
             }
 #endif // CheckNetworkWorks_
         }

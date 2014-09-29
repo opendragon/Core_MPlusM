@@ -192,8 +192,8 @@ static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
 #endif // defined(__APPLE__)
 
 BaseClient::BaseClient(const char * baseChannelName) :
-    _reporter(nullptr), _channel(nullptr), _channelName(), _serviceChannelName(),
-    _baseChannelName(nullptr), _connected(false), _reportImmediately(false)
+    _reporter(NULL), _channel(NULL), _channelName(), _serviceChannelName(), _baseChannelName(NULL),
+    _connected(false), _reportImmediately(false)
 {
     OD_LOG_ENTER(); //####
     const size_t baseLen = sizeof(CLIENT_PORT_NAME_BASE) - 1;
@@ -211,9 +211,9 @@ BaseClient::BaseClient(const char * baseChannelName) :
 BaseClient::~BaseClient(void)
 {
     OD_LOG_OBJENTER(); //####
-    disconnectFromService(nullptr, nullptr);
+    disconnectFromService(NULL, NULL);
     ClientChannel::RelinquishChannel(_channel);
-    _channel = nullptr;
+    _channel = NULL;
     delete _baseChannelName;
     OD_LOG_OBJEXIT(); //####
 } // BaseClient::~BaseClient

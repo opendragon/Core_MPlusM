@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for a 'stopsum' request.
+//  Contains:   The class definition for the request handler for a 'stopSum' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,7 +49,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a 'stopsum' request. */
+ @brief The class definition for the request handler for a 'stopSum' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -62,7 +62,7 @@ using namespace MplusM::Example;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'stopsum' request. */
+/*! @brief The protocol version number for the 'stopSum' request. */
 #define STOPSUM_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)

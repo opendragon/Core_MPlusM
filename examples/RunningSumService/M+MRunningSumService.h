@@ -53,7 +53,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_RUNNINGSUM_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/runningSum")
+# define DEFAULT_RUNNINGSUM_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/runningsum")
 
 namespace MplusM
 {
@@ -71,9 +71,11 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
+             @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
             RunningSumService(const yarp::os::ConstString & launchPath,
+                              const yarp::os::ConstString & tag,
                               const yarp::os::ConstString & serviceEndpointName,
                               const yarp::os::ConstString & servicePortNumber = "");
             
@@ -124,16 +126,16 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseService inherited;
             
-            /*! @brief The request handler for the 'addtosum' request. */
+            /*! @brief The request handler for the 'addToSum' request. */
             AddToSumRequestHandler * _addToSumHandler;
             
-            /*! @brief The request handler for the 'resetsum' request. */
+            /*! @brief The request handler for the 'resetSum' request. */
             ResetSumRequestHandler * _resetSumHandler;
             
-            /*! @brief The request handler for the 'startsum' request. */
+            /*! @brief The request handler for the 'startSum' request. */
             StartSumRequestHandler * _startSumHandler;
             
-            /*! @brief The request handler for the 'stopsum' request. */
+            /*! @brief The request handler for the 'stopSum' request. */
             StopSumRequestHandler * _stopSumHandler;
             
         }; // RunningSumService

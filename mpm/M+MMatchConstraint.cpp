@@ -87,7 +87,7 @@ MatchConstraint * MatchConstraint::CreateMatcher(const yarp::os::ConstString & i
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
     OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos);
-    MatchConstraint * result = nullptr;
+    MatchConstraint * result = NULL;
     
     try
     {
@@ -158,7 +158,7 @@ MatchConstraint * MatchConstraint::CreateMatcher(const yarp::os::ConstString & i
             else
             {
                 delete result;
-                result = nullptr;
+                result = NULL;
             }
         }
         else
@@ -262,7 +262,7 @@ const
 const MatchFieldWithValues * MatchConstraint::element(const int index)
 const
 {
-    MatchFieldWithValues * result = nullptr;
+    MatchFieldWithValues * result = NULL;
     
     try
     {
@@ -274,7 +274,7 @@ const
         {
             OD_LOG("! ((index >= 0) && " //####
                    "(index < static_cast<int>(_fieldsWithValues.size())))"); //####
-            result = nullptr;
+            result = NULL;
         }
     }
     catch (...)
