@@ -40,6 +40,8 @@
 #include "M+MLeapMotionInputListener.h"
 #include "M+MLeapMotionInputRequests.h"
 
+#include <mpm/M+MEndpoint.h>
+
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -146,14 +148,10 @@ bool LeapMotionInputService::setUpStreamDescriptions(void)
     OD_LOG_OBJENTER(); //####
     bool                  result = true;
     ChannelDescription    description;
-    yarp::os::ConstString modifier;
+    yarp::os::ConstString rootName(getEndpoint().getName() + "/");
     
-    if (0 < tag().length())
-    {
-        modifier = "/" + tag();
-    }
     _outDescriptions.clear();
-    description._portName = yarp::os::ConstString("leapmotioninput/output") + modifier;
+    description._portName = rootName + "output";
     description._portProtocol = "LEAP";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####

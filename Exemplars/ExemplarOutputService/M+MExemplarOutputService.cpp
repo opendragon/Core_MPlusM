@@ -40,6 +40,8 @@
 #include "M+MExemplarOutputInputHandler.h"
 #include "M+MExemplarOutputRequests.h"
 
+#include <mpm/M+MEndpoint.h>
+
 #include <mpm/M+MGeneralChannel.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -156,14 +158,10 @@ bool ExemplarOutputService::setUpStreamDescriptions(void)
     OD_LOG_OBJENTER(); //####
     bool                  result = true;
     ChannelDescription    description;
-    yarp::os::ConstString modifier;
+    yarp::os::ConstString rootName(getEndpoint().getName() + "/");
     
-    if (0 < tag().length())
-    {
-        modifier = "/" + tag();
-    }
     _inDescriptions.clear();
-    description._portName = yarp::os::ConstString("exemplaroutput/input") + modifier;
+    description._portName = rootName + "input";
     description._portProtocol = "i+";
     _inDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####

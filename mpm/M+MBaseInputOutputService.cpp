@@ -137,21 +137,24 @@ bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & 
                 {
                     ChannelDescription aDescription(*walker);
                     
-                    OD_LOG_S1s("base name = ", aDescription._portName); //####
-                    yarp::os::ConstString newName(GetRandomChannelName(aDescription._portName));
-                    
 #if defined(MpM_ReportOnConnections)
                     newChannel->setReporter(reporter);
                     newChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
-                    if (newChannel->openWithRetries(newName, STANDARD_WAIT_TIME))
+                    if (newChannel->openWithRetries(aDescription._portName, STANDARD_WAIT_TIME))
                     {
                         newChannel->setProtocol(aDescription._portProtocol);
                         _inStreams.push_back(newChannel);
                     }
                     else
                     {
-                        OD_LOG("! (newChannel->openWithRetries(newName, STANDARD_WAIT_TIME))"); //####
+                        OD_LOG("! (newChannel->openWithRetries(aDescription._portName, " //####
+                               "STANDARD_WAIT_TIME))"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Problem opening input channel.");
+#else // ! MAC_OR_LINUX_
+                        std::cerr << "Problem opening input channel." << std::endl;
+#endif // ! MAC_OR_LINUX_
                         result = false;
                     }
                 }
@@ -195,21 +198,24 @@ bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector &
                 {
                     ChannelDescription aDescription(*walker);
                     
-                    OD_LOG_S1s("base name = ", aDescription._portName); //####
-                    yarp::os::ConstString newName(GetRandomChannelName(aDescription._portName));
-                    
 #if defined(MpM_ReportOnConnections)
                     newChannel->setReporter(reporter);
                     newChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
-                    if (newChannel->openWithRetries(newName, STANDARD_WAIT_TIME))
+                    if (newChannel->openWithRetries(aDescription._portName, STANDARD_WAIT_TIME))
                     {
                         newChannel->setProtocol(aDescription._portProtocol);
                         _outStreams.push_back(newChannel);
                     }
                     else
                     {
-                        OD_LOG("! (newChannel->openWithRetries(newName, STANDARD_WAIT_TIME))"); //####
+                        OD_LOG("! (newChannel->openWithRetries(newName, " //####
+                               "STANDARD_WAIT_TIME))"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Problem opening output channel.");
+#else // ! MAC_OR_LINUX_
+                        std::cerr << "Problem opening output channel." << std::endl;
+#endif // ! MAC_OR_LINUX_
                         result = false;
                     }
                 }

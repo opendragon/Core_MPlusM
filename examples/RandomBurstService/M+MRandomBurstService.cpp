@@ -40,6 +40,8 @@
 #include "M+MRandomBurstRequests.h"
 #include "M+MRandomBurstThread.h"
 
+#include <mpm/M+MEndpoint.h>
+
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -160,14 +162,10 @@ bool RandomBurstService::setUpStreamDescriptions(void)
     OD_LOG_OBJENTER(); //####
     bool                  result = true;
     ChannelDescription    description;
-    yarp::os::ConstString modifier;
+    yarp::os::ConstString rootName(getEndpoint().getName() + "/");
     
-    if (0 < tag().length())
-    {
-        modifier = "/" + tag();
-    }
     _outDescriptions.clear();
-    description._portName = yarp::os::ConstString("randomburst/output") + modifier;
+    description._portName = rootName + "output";
     description._portProtocol = "d+";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####

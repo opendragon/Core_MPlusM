@@ -40,6 +40,7 @@
 #include "M+MRecordIntegersInputHandler.h"
 #include "M+MRecordIntegersRequests.h"
 
+#include <mpm/M+MEndpoint.h>
 #include <mpm/M+MGeneralChannel.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -156,14 +157,10 @@ bool RecordIntegersService::setUpStreamDescriptions(void)
     OD_LOG_OBJENTER(); //####
     bool                  result = true;
     ChannelDescription    description;
-    yarp::os::ConstString modifier;
+    yarp::os::ConstString rootName(getEndpoint().getName() + "/");
     
-    if (0 < tag().length())
-    {
-        modifier = "/" + tag();
-    }
     _inDescriptions.clear();
-    description._portName = yarp::os::ConstString("recordintegers/input") + modifier;
+    description._portName = rootName + "input";
     description._portProtocol = "i+";
     _inDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
@@ -204,6 +201,7 @@ void RecordIntegersService::startStreams(void)
     {
         if (! isActive())
         {
+            OD_LOG("(! isActive())"); //####
 #if MAC_OR_LINUX_
             _outFile = fopen(_outPath.c_str(), "w");
 #else // ! MAC_OR_LINUX_
@@ -214,14 +212,20 @@ void RecordIntegersService::startStreams(void)
 #endif // ! MAC_OR_LINUX_
             if (_outFile)
             {
+                OD_LOG("(_outFile)"); //####
                 if (_inHandler)
                 {
+                    OD_LOG("(_inHandler)"); //####
                     _inHandler->setFile(_outFile);
+                    OD_LOG("after setFile");
                     _inStreams.at(0)->setReader(*_inHandler);
+                    OD_LOG("after setReader");
                     setActive();
+                    OD_LOG("after setActive");
                 }
                 else
                 {
+                    OD_LOG("! (_inHandler)"); //####
                     fclose(_outFile);
                     _outFile = NULL;
                 }
