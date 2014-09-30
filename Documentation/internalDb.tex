@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS Services(\\
 \hspace*{\utilLen}name Text NOT NULL DEFAULT \fatUnderscore,\\
 \hspace*{\utilLen}description Text NOT NULL DEFAULT \fatUnderscore,\\
 \hspace*{\utilLen}executable Text NOT NULL DEFAULT \fatUnderscore,\\
-\hspace*{\utilLen}requestsdescription Text NOT NULL DEFAULT \fatUnderscore);\\
+\hspace*{\utilLen}requestsdescription Text NOT NULL DEFAULT \fatUnderscore,\\
+\hspace*{\utilLen}tag Text NOT NULL DEFAULT  \fatUnderscore);\\
 CREATE INDEX IF NOT EXISTS Services\_name\_idx ON Services(name);\\
 CREATE TABLE IF NOT EXISTS Keywords(\\
 \hspace*{\utilLen}keyword Text NOT NULL DEFAULT \fatUnderscore{} PRIMARY KEY ON CONFLICT IGNORE;\\

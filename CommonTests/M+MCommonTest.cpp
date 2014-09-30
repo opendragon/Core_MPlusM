@@ -1460,7 +1460,7 @@ static void catchSignal(int signal)
 #if MAC_OR_LINUX_
     snprintf(numBuff, sizeof(numBuff), "%d", signal);
     GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
-                                      yarp::os::ConstString(" = ") + NameOfSignal(signal));
+                      yarp::os::ConstString(" = ") + NameOfSignal(signal));
 #else // ! MAC_OR_LINUX_
 //    sprintf_s(numBuff, sizeof(numBuff), "%d", signal);
 #endif // ! MAC_OR_LINUX_

@@ -58,6 +58,8 @@ namespace MplusM
 {
     namespace Example
     {
+        class AbsorberService;
+        
         /*! @brief A handler for partially-structured input data.
          
          The data is expected to be in the form of a sequence of integer values. */
@@ -66,7 +68,7 @@ namespace MplusM
         public :
             
             /*! @brief The constructor. */
-            AbsorberInputHandler(void);
+            AbsorberInputHandler(AbsorberService & service);
             
             /*! @brief The destructor. */
             virtual ~AbsorberInputHandler(void);
@@ -94,6 +96,9 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
+            
+            /*! @brief The service that manages the message count. */
+            AbsorberService & _service;
             
         }; // AbsorberInputHandler
         

@@ -405,7 +405,7 @@ Service kind:\ & Input\\
 Description:\ & The random burst input service\\
 Requests:\ & \\
 Path:\ & \textellipsis/mpmRandomBurstService\\
-Secondary outputs:\ & /randomburst/output52b6082\textbraceleft{}protocol=d+%
+Secondary outputs:\ & /\serviceName/input/randomburst/output\textbraceleft{}protocol=d+%
 \textbraceright\\
 \\
 Service port:\ & /\serviceName/output/recordintegers\\
@@ -414,18 +414,18 @@ Service kind:\ & Output\\
 Description:\ & The record integers output service\\
 Requests:\ & \\
 Path:\ & \textellipsis/mpmRecordIntegersService\\
-Secondary inputs:\ & /recordintegers/input2603596\textbraceleft{}protocol=i+%
+Secondary inputs:\ & /\serviceName/output/recordintegers/input\textbraceleft{}protocol=i+%
 \textbraceright\\
 \\
-Service port:\ & /\serviceName/filter/truncatefilter\\
-Service name:\ & TruncateFilter\\
+Service port:\ & /shorten\\
+Service name:\ & TruncateFloat\\
 Service kind:\ & Filter\\
-Description:\ & The truncate filter service\\
+Description:\ & The truncate float service\\
 Requests:\ & \\
-Path:\ & \textellipsis/mpmTruncateFilterService\\
-Secondary inputs:\ & /truncatefilter/input4fa74bf\textbraceleft{}protocol=d+%
+Path:\ & \textellipsis/mpmTruncateFloatService\\
+Secondary inputs:\ & /shorten/input\textbraceleft{}protocol=d+%
 \textbraceright\\
-Secondary outputs:\ & /truncatefilter/output3c44b20\textbraceleft{}protocol=i+%
+Secondary outputs:\ & /shorten/output\textbraceleft{}protocol=i+%
 \textbraceright
 \end{tabular}
 \outputEnd{}
@@ -452,25 +452,26 @@ information for a service on the given channel", "Path":\ \\
 "/\serviceName/input/randomburst", "ServiceName":\ "RandomBurst", "ServiceKind":\ \\
 "Input", "Description":\ "The random burst input service", "Requests":\ \\
 "", "Path":\ "\textellipsis/mpmRandomBurstService", "SecondaryInputs":\ \sqPair,\\
-"SecondaryOutputs":\ \openSq{} \textbraceleft{} "Name":\ "/randomburst/output52b6082",
-"Protocol":\ \\
-"d+" \textbraceright{} \closeSq{} \textbraceright, \textbraceleft{} "ServicePort":\ 
+"SecondaryOutputs":\ \openSq{} \textbraceleft{} "Name":\ 
+"/\serviceName/input/randomburst/output",\\
+"Protocol":\ "d+" \textbraceright{} \closeSq{} \textbraceright, \textbraceleft{} "ServicePort":\ 
 "/\serviceName/output/recordintegers",\\
 "ServiceName":\ "RecordIntegers", "ServiceKind":\ "Output", "Description":\ \\
 "The record integers output service", "Requests":\ "", "Path":\ \\
 "\textellipsis/mpmRecordIntegersService", "SecondaryInputs":\ \openSq{} \textbraceleft{}
 "Name":\ \\
-"/recordintegers/input2603596", "Protocol":\ "i+" \textbraceright{} \closeSq,\\
-"SecondaryOutputs":\ \sqPair{} \textbraceright, \textbraceleft{} "ServicePort":\ \\
-"/\serviceName/filter/truncatefilter", "ServiceName":\ "TruncateFilter",\\
-"ServiceKind":\ "Filter", "Description":\ "The truncate filter service",\\
-"Requests":\ "", "Path":\ "\textellipsis/mpmTruncateFilterService", "SecondaryInputs":\ \\
-\openSq{} \textbraceleft{} "Name":\ "/truncatefilter/input4fa74bf", "Protocol":\ "d+"
-\textbraceright{} \closeSq,\\
-"SecondaryOutputs":\ \openSq{} \textbraceleft{} "Name":\ 
-"/truncatefilter/output3c44b20",\\
-"Protocol":\ "i+" \textbraceright{} \closeSq{} \textbraceright{} \closeSq
-\outputEnd{}
+"/\serviceName/output/recordintegers/input", "Protocol":\ "i+" \textbraceright{} %
+\closeSq,\\
+"SecondaryOutputs":\ \sqPair{} \textbraceright, \textbraceleft{} "ServicePort":\ 
+"/shorten", "ServiceName":\ \\
+"TruncateFloat", "ServiceKind":\ "Filter", "Description":\ \\
+"The truncate float service", "Requests":\ "", "Path":\ \\
+"\textellipsis/mpmTruncateFilterService", "SecondaryInputs":\ \openSq{} \textbraceleft{}
+"Name":\ \\
+"/shorten/input", "Protocol":\ "d+" \textbraceright{} \closeSq, "SecondaryOutputs":\ 
+\openSq{} \textbraceleft{} "Name":\ \\
+"/shorten/output", "Protocol":\ "i+" \textbraceright{} \closeSq{} \textbraceright{}
+\closeSq \outputEnd{}
 or, if tab--delimited output is requested, with tabs shown as
 `\texttt{\boldmath{$\vdash$}}':
 \outputBegin{}
@@ -490,20 +491,19 @@ mpmRegistryService\pseudotwotabs\\
 /\serviceName/input/randomburst\pseudotab{}RandomBurst\pseudotab{}Input\pseudotab\\
 The random burst input service\pseudotwotabs\textellipsis/mpmRandomBurstService%
 \pseudotwotabs\\
-/randomburst/output52b6082\textbraceleft{}protocol=d+\textbraceright\\
+/\serviceName/input/randomburst/output\textbraceleft{}protocol=d+\textbraceright\\
 
 /\serviceName/output/recordintegers\pseudotab{}RecordIntegers\pseudotab{}Output%
 \pseudotab\\
 The record integers output service\pseudotwotabs\textellipsis/%
 mpmRecordIntegersService\pseudotab\\
-/recordintegers/input2603596\textbraceleft{}protocol=i+\textbraceright\\
+/\serviceName/output/recordintegers/input\textbraceleft{}protocol=i+\textbraceright\\
 
-/\serviceName/filter/truncatefilter\pseudotab{}TruncateFilter\pseudotab{}Filter%
-\pseudotab\\
-The truncate filter service\pseudotwotabs\textellipsis/mpmTruncateFilterService%
-\pseudotab\\
-/truncatefilter/input4fa74bf\textbraceleft{}protocol=d+\textbraceright\pseudotab\\
-/truncatefilter/output3c44b20\textbraceleft{}protocol=i+\textbraceright
+/shorten\pseudotab{}TruncateFloat\pseudotab{}Filter\pseudotab{}%
+The truncate float service\pseudotwotabs\\
+\textellipsis/mpmTruncateFloatService\pseudotab{}/shorten/input\textbraceleft{}%
+protocol=d+\textbraceright\pseudotab\\
+/shorten/output\textbraceleft{}protocol=i+\textbraceright
 \outputEnd{}
 For clarity, the full paths to the executables have been shortened and blank lines have
 been added; in the actual output the paths would be absolute paths and there would be no

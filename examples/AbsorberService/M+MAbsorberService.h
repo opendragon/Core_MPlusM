@@ -102,6 +102,9 @@ namespace MplusM
             /*! @brief Stop the input/output streams. */
             virtual void stopStreams(void);
             
+            /*! @brief Increment and report the count. */
+            void updateCount(void);
+            
         protected :
             
         private :
@@ -123,6 +126,9 @@ namespace MplusM
             
             /*! @brief The handler for input data. */
             AbsorberInputHandler * _inHandler;
+            
+            /*! @brief The number of messages seen. */
+            long _count;
             
         }; // AbsorberService
         

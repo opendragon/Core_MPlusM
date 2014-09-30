@@ -83,7 +83,7 @@ AbsorberService::AbsorberService(const yarp::os::ConstString & launchPath,
                                  const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_ABSORBER_CANONICAL_NAME, "The absorber output service",
               "", serviceEndpointName, servicePortNumber),
-    _inHandler(new AbsorberInputHandler)
+    _inHandler(new AbsorberInputHandler(*this)), _count(0)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -149,7 +149,7 @@ bool AbsorberService::setUpStreamDescriptions(void)
     
     _inDescriptions.clear();
     description._portName = rootName + "input";
-    description._portProtocol = "*";
+    description._portProtocol = ""; // Empty, so everything accepted
     _inDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
@@ -239,6 +239,32 @@ void AbsorberService::stopStreams(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // AbsorberService::stopStreams
+
+void AbsorberService::updateCount(void)
+{
+    OD_LOG_OBJENTER(); //####
+    try
+    {
+        if (isActive())
+        {
+            char buff[40]; // Should be more than adequate!
+
+            ++_count;
+#if MAC_OR_LINUX_
+            snprintf(buff, sizeof(buff), "message count = %ld.", _count);
+#else // ! MAC_OR_LINUX_
+            sprintf_s(buff, sizeof(buff), "message count = %ld.", _count);
+#endif // ! MAC_OR_LINUX_
+            std::cout << buff << std::endl;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT(); //####
+} // AbsorberService::updateCount
 
 #if defined(__APPLE__)
 # pragma mark Global functions

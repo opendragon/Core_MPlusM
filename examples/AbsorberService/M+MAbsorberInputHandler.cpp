@@ -38,6 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MAbsorberInputHandler.h"
+#include "M+MAbsorberService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -74,8 +75,8 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-AbsorberInputHandler::AbsorberInputHandler(void) :
-    inherited()
+AbsorberInputHandler::AbsorberInputHandler(AbsorberService & service) :
+    inherited(), _service(service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
@@ -107,6 +108,7 @@ bool AbsorberInputHandler::handleInput(const yarp::os::Bottle &      input,
     
     try
     {
+        _service.updateCount();
     }
     catch (...)
     {
