@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       examples/CMakeLists.txt
+#  File:       Absorber/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The common CMAKE definitions for the M+M examples.
+#  Contains:   The CMAKE definitions for the absorber output service application.
 #
 #  Written by: Norman Jaffe
 #
@@ -32,25 +32,23 @@
 #              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 #              DAMAGE.
 #
-#  Created:    2014-03-25
+#  Created:    2014-09-30
 #
 #--------------------------------------------------------------------------------------------------
 
-set(MpM_EXAMPLES_DIR "${PROJECT_SOURCE_DIR}/examples")
+include_directories("${MpM_SOURCE_DIR}")
 
-add_subdirectory(AbsorberService)
-add_subdirectory(ChordGeneratorService)
-add_subdirectory(EchoClient)
-add_subdirectory(EchoService)
-add_subdirectory(RandomBurstService)
-add_subdirectory(RandomNumberAdapter)
-add_subdirectory(RandomNumberClient)
-add_subdirectory(RandomNumberService)
-add_subdirectory(RecordIntegersService)
-add_subdirectory(RunningSumAdapter)
-add_subdirectory(RunningSumAltAdapter)
-add_subdirectory(RunningSumClient)
-add_subdirectory(RunningSumService)
-add_subdirectory(TruncateFilterService)
+# Set up our program
+add_executable(mpmAbsorberService
+               M+MAbsorberServiceMain.cpp
+               M+MAbsorberInputHandler.cpp
+               M+MAbsorberService.cpp)
+
+# Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
+# processed once.
+target_link_libraries(mpmAbsorberService
+                      mpmCommon
+                      odLogging
+                      ${YARP_LIBRARIES})
 
 enable_testing()

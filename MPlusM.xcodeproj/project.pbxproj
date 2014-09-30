@@ -351,6 +351,13 @@
 		DF824BD319C8E4C5004D13AC /* M+MLeapMotionInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapMotionInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapMotionInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCB229818EF23DF00358EA5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ClientList/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCB229918EF23DF00358EA5 /* M+MClientListMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MClientListMain.cpp"; path = "ClientList/M+MClientListMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DFCDE4E819DB23150051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/AbsorberService/CMakeLists.txt; sourceTree = "<group>"; };
+		DFCDE4E919DB23150051D294 /* M+MAbsorberInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberInputHandler.cpp"; path = "examples/AbsorberService/M+MAbsorberInputHandler.cpp"; sourceTree = "<group>"; };
+		DFCDE4EA19DB23150051D294 /* M+MAbsorberInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberInputHandler.h"; path = "examples/AbsorberService/M+MAbsorberInputHandler.h"; sourceTree = "<group>"; };
+		DFCDE4EB19DB23150051D294 /* M+MAbsorberRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberRequests.h"; path = "examples/AbsorberService/M+MAbsorberRequests.h"; sourceTree = "<group>"; };
+		DFCDE4EC19DB23150051D294 /* M+MAbsorberService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberService.cpp"; path = "examples/AbsorberService/M+MAbsorberService.cpp"; sourceTree = "<group>"; };
+		DFCDE4ED19DB23150051D294 /* M+MAbsorberService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberService.h"; path = "examples/AbsorberService/M+MAbsorberService.h"; sourceTree = "<group>"; };
+		DFCDE4EE19DB23150051D294 /* M+MAbsorberServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberServiceMain.cpp"; path = "examples/AbsorberService/M+MAbsorberServiceMain.cpp"; sourceTree = "<group>"; };
 		DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MMovementDbClient.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DFE83AD119B671D1003A7EDE /* M+MMovementDbClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbClient.h"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.h"; sourceTree = SOURCE_ROOT; };
 		DFE83AD219B671D1003A7EDE /* M+MMovementDbClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbClientMain.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClientMain.cpp"; sourceTree = SOURCE_ROOT; };
@@ -379,8 +386,6 @@
 		DFE83AF119B8C7D0003A7EDE /* M+MMovementDbAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbAdapterData.h"; path = "MovementDb/MovementDbAdapter/M+MMovementDbAdapterData.h"; sourceTree = SOURCE_ROOT; };
 		DFFFBFD319D9A49D00BBD7A7 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = KinectV2/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFFFBFD519D9A4B900BBD7A7 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = KinectV2/KinectV2InputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DFFFBFD619D9A4B900BBD7A7 /* M+MKinectV2EventHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MKinectV2EventHandler.cpp"; path = "KinectV2/KinectV2InputService/M+MKinectV2EventHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DFFFBFD719D9A4B900BBD7A7 /* M+MKinectV2EventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MKinectV2EventHandler.h"; path = "KinectV2/KinectV2InputService/M+MKinectV2EventHandler.h"; sourceTree = SOURCE_ROOT; };
 		DFFFBFD819D9A4B900BBD7A7 /* M+MKinectV2EventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MKinectV2EventThread.cpp"; path = "KinectV2/KinectV2InputService/M+MKinectV2EventThread.cpp"; sourceTree = SOURCE_ROOT; };
 		DFFFBFD919D9A4B900BBD7A7 /* M+MKinectV2EventThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MKinectV2EventThread.h"; path = "KinectV2/KinectV2InputService/M+MKinectV2EventThread.h"; sourceTree = SOURCE_ROOT; };
 		DFFFBFDA19D9A4B900BBD7A7 /* M+MKinectV2InputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MKinectV2InputRequests.h"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputRequests.h"; sourceTree = SOURCE_ROOT; };
@@ -1102,6 +1107,7 @@
 		DFA86D2518E1D13300A22941 /* examples */ = {
 			isa = PBXGroup;
 			children = (
+				DFCDE4E719DB23010051D294 /* Absorber */,
 				DFA98942194BA92D005F10EB /* ChordGeneratorService */,
 				DF384F6E198A9A7F00A0414E /* CMakeLists.txt */,
 				DFA3432018C91BF40053B87C /* EchoClient */,
@@ -1144,6 +1150,20 @@
 			);
 			name = ClientList;
 			sourceTree = SOURCE_ROOT;
+		};
+		DFCDE4E719DB23010051D294 /* Absorber */ = {
+			isa = PBXGroup;
+			children = (
+				DFCDE4E819DB23150051D294 /* CMakeLists.txt */,
+				DFCDE4E919DB23150051D294 /* M+MAbsorberInputHandler.cpp */,
+				DFCDE4EA19DB23150051D294 /* M+MAbsorberInputHandler.h */,
+				DFCDE4EB19DB23150051D294 /* M+MAbsorberRequests.h */,
+				DFCDE4EC19DB23150051D294 /* M+MAbsorberService.cpp */,
+				DFCDE4ED19DB23150051D294 /* M+MAbsorberService.h */,
+				DFCDE4EE19DB23150051D294 /* M+MAbsorberServiceMain.cpp */,
+			);
+			name = Absorber;
+			sourceTree = "<group>";
 		};
 		DFE83ABA19B661EB003A7EDE /* MovementDb */ = {
 			isa = PBXGroup;
@@ -1231,8 +1251,6 @@
 			isa = PBXGroup;
 			children = (
 				DFFFBFD519D9A4B900BBD7A7 /* CMakeLists.txt */,
-				DFFFBFD619D9A4B900BBD7A7 /* M+MKinectV2EventHandler.cpp */,
-				DFFFBFD719D9A4B900BBD7A7 /* M+MKinectV2EventHandler.h */,
 				DFFFBFD819D9A4B900BBD7A7 /* M+MKinectV2EventThread.cpp */,
 				DFFFBFD919D9A4B900BBD7A7 /* M+MKinectV2EventThread.h */,
 				DFFFBFDA19D9A4B900BBD7A7 /* M+MKinectV2InputRequests.h */,

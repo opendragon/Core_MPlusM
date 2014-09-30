@@ -89,6 +89,8 @@ using std::endl;
  the name of the channel to be used. There is no output.
  The option 'p' specifies the burst period, in seconds, while the option 's' specifies the number of
  random values to generate in each burst.
+ The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
+ name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example service.
  @returns @c 0 on a successful test and @c 1 on failure. */

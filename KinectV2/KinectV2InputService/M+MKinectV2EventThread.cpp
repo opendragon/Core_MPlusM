@@ -162,33 +162,56 @@ static void addBodyToMessage(yarp::os::Bottle & message,
     {
         // Torso
         addBoneToList(*bonesList, "head2neck", joints[JointType_Head], joints[JointType_Neck]);
-        addBoneToList(*bonesList, "neck2spineshoulder", joints[JointType_Neck], joints[JointType_SpineShoulder]);
-        addBoneToList(*bonesList, "spineshoulder2spinemid", joints[JointType_SpineShoulder], joints[JointType_SpineMid]);
-        addBoneToList(*bonesList, "spinemid2spinebase", joints[JointType_SpineMid], joints[JointType_SpineBase]);
-        addBoneToList(*bonesList, "spineshoulder2shoulderright", joints[JointType_SpineShoulder], joints[JointType_ShoulderRight]);
-        addBoneToList(*bonesList, "spineshoulder2shoulderleft", joints[JointType_SpineShoulder], joints[JointType_ShoulderLeft]);
-        addBoneToList(*bonesList, "spinebase2hipright", joints[JointType_SpineBase], joints[JointType_HipRight]);
-        addBoneToList(*bonesList, "spinebase2hipleft", joints[JointType_SpineBase], joints[JointType_HipLeft]);
+        addBoneToList(*bonesList, "neck2spineshoulder", joints[JointType_Neck],
+                      joints[JointType_SpineShoulder]);
+        addBoneToList(*bonesList, "spineshoulder2spinemid", joints[JointType_SpineShoulder],
+                      joints[JointType_SpineMid]);
+        addBoneToList(*bonesList, "spinemid2spinebase", joints[JointType_SpineMid],
+                      joints[JointType_SpineBase]);
+        addBoneToList(*bonesList, "spineshoulder2shoulderright", joints[JointType_SpineShoulder],
+                      joints[JointType_ShoulderRight]);
+        addBoneToList(*bonesList, "spineshoulder2shoulderleft", joints[JointType_SpineShoulder],
+                      joints[JointType_ShoulderLeft]);
+        addBoneToList(*bonesList, "spinebase2hipright", joints[JointType_SpineBase],
+                      joints[JointType_HipRight]);
+        addBoneToList(*bonesList, "spinebase2hipleft", joints[JointType_SpineBase],
+                      joints[JointType_HipLeft]);
         // Right arm
-        addBoneToList(*bonesList, "shoulderright2elbowright", joints[JointType_ShoulderRight], joints[JointType_ElbowRight]);
-        addBoneToList(*bonesList, "elbowright2wristright", joints[JointType_ElbowRight], joints[JointType_WristRight]);
-        addBoneToList(*bonesList, "wristright2handright", joints[JointType_WristRight], joints[JointType_HandRight]);
-        addBoneToList(*bonesList, "handright2handtipright", joints[JointType_HandRight], joints[JointType_HandTipRight]);
-        addBoneToList(*bonesList, "wristright2thumbright", joints[JointType_WristRight], joints[JointType_ThumbRight]);
+        addBoneToList(*bonesList, "shoulderright2elbowright", joints[JointType_ShoulderRight],
+                      joints[JointType_ElbowRight]);
+        addBoneToList(*bonesList, "elbowright2wristright", joints[JointType_ElbowRight],
+                      joints[JointType_WristRight]);
+        addBoneToList(*bonesList, "wristright2handright", joints[JointType_WristRight],
+                      joints[JointType_HandRight]);
+        addBoneToList(*bonesList, "handright2handtipright", joints[JointType_HandRight],
+                      joints[JointType_HandTipRight]);
+        addBoneToList(*bonesList, "wristright2thumbright", joints[JointType_WristRight],
+                      joints[JointType_ThumbRight]);
         // Left arm
-        addBoneToList(*bonesList, "shoulderleft2elbowleft", joints[JointType_ShoulderLeft], joints[JointType_ElbowLeft]);
-        addBoneToList(*bonesList, "elbowleft2wristleft", joints[JointType_ElbowLeft], joints[JointType_WristLeft]);
-        addBoneToList(*bonesList, "wristleft2handleft", joints[JointType_WristLeft], joints[JointType_HandLeft]);
-        addBoneToList(*bonesList, "handleft2handtipleft", joints[JointType_HandLeft], joints[JointType_HandTipLeft]);
-        addBoneToList(*bonesList, "wristleft2thumbleft", joints[JointType_WristLeft], joints[JointType_ThumbLeft]);
+        addBoneToList(*bonesList, "shoulderleft2elbowleft", joints[JointType_ShoulderLeft],
+                      joints[JointType_ElbowLeft]);
+        addBoneToList(*bonesList, "elbowleft2wristleft", joints[JointType_ElbowLeft],
+                      joints[JointType_WristLeft]);
+        addBoneToList(*bonesList, "wristleft2handleft", joints[JointType_WristLeft],
+                      joints[JointType_HandLeft]);
+        addBoneToList(*bonesList, "handleft2handtipleft", joints[JointType_HandLeft],
+                      joints[JointType_HandTipLeft]);
+        addBoneToList(*bonesList, "wristleft2thumbleft", joints[JointType_WristLeft],
+                      joints[JointType_ThumbLeft]);
         // Right leg
-        addBoneToList(*bonesList, "hipright2kneeright", joints[JointType_HipRight], joints[JointType_KneeRight]);
-        addBoneToList(*bonesList, "kneeright2ankleright", joints[JointType_KneeRight], joints[JointType_AnkleRight]);
-        addBoneToList(*bonesList, "ankleright2footright", joints[JointType_AnkleRight], joints[JointType_FootRight]);
+        addBoneToList(*bonesList, "hipright2kneeright", joints[JointType_HipRight],
+                      joints[JointType_KneeRight]);
+        addBoneToList(*bonesList, "kneeright2ankleright", joints[JointType_KneeRight],
+                      joints[JointType_AnkleRight]);
+        addBoneToList(*bonesList, "ankleright2footright", joints[JointType_AnkleRight],
+                      joints[JointType_FootRight]);
         // Left leg
-        addBoneToList(*bonesList, "hipleft2kneeleft", joints[JointType_HipLeft], joints[JointType_KneeLeft]);
-        addBoneToList(*bonesList, "kneeleft2ankleleft", joints[JointType_KneeLeft], joints[JointType_AnkleLeft]);
-        addBoneToList(*bonesList, "ankleleft2footleft", joints[JointType_AnkleLeft], joints[JointType_FootLeft]);
+        addBoneToList(*bonesList, "hipleft2kneeleft", joints[JointType_HipLeft],
+                      joints[JointType_KneeLeft]);
+        addBoneToList(*bonesList, "kneeleft2ankleleft", joints[JointType_KneeLeft],
+                      joints[JointType_AnkleLeft]);
+        addBoneToList(*bonesList, "ankleleft2footleft", joints[JointType_AnkleLeft],
+                      joints[JointType_FootLeft]);
         // Add them all
         bodyProps.put("bones", bones);
     }
@@ -249,7 +272,8 @@ static bool processBody(yarp::os::Bottle & message,
 #endif // defined(__APPLE__)
 
 KinectV2EventThread::KinectV2EventThread(Common::GeneralChannel * outChannel) :
-    inherited(), _kinectSensor(NULL), _bodyFrameReader(NULL), _bodyFrameSource(NULL), _outChannel(outChannel)
+    inherited(), _kinectSensor(NULL), _bodyFrameReader(NULL), _bodyFrameSource(NULL),
+    _outChannel(outChannel)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####

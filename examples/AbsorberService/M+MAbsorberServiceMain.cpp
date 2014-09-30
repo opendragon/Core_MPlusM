@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       ExemplarServiceMain.cpp
+//  File:       AbsorberServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the exemplar service.
+//  Contains:   The main application for the absorber output service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,16 +32,20 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-15
+//  Created:    2014-09-30
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MExemplarService.h"
+#include "M+MAbsorberService.h"
 
 #include <mpm/M+MEndpoint.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
+
+#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
+# include <mpm/getopt.h>
+#endif //(! MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -49,27 +53,27 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for the exemplar service. */
+ @brief The main application for the absorber output service. */
 
-/*! @dir ExemplarCommon
- @brief The set of files that are shared between the exemplar client and the exemplar service. */
-
-/*! @dir ExemplarService
- @brief The set of files that implement the exemplar service. */
+/*! @dir AbsorberService
+ @brief The set of files that implement the absorber output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Exemplar;
+using namespace MplusM::Example;
+using std::cin;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define EXEMPLAR_OPTIONS "t:"
+#define ABSORBER_OPTIONS "t:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -79,7 +83,7 @@ using namespace MplusM::Exemplar;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the template service.
+/*! @brief The entry point for running the record integers output service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
@@ -104,11 +108,12 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  stdinAvailable = CanReadFromStandardInput();
         yarp::os::ConstString tag;
-        
+
         opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, EXEMPLAR_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, EXEMPLAR_OPTIONS))
+        for (int cc = getopt(argc, argv, ABSORBER_OPTIONS); -1 != cc;
+             cc = getopt(argc, argv, ABSORBER_OPTIONS))
         {
             switch (cc)
             {
@@ -138,12 +143,12 @@ int main(int      argc,
             {
                 if (0 < tag.size())
                 {
-                    serviceEndpointName = yarp::os::ConstString(DEFAULT_EXEMPLAR_SERVICE_NAME) +
+                    serviceEndpointName = yarp::os::ConstString(DEFAULT_ABSORBER_SERVICE_NAME) +
                                             "/" + tag;
                 }
                 else
                 {
-                    serviceEndpointName = DEFAULT_EXEMPLAR_SERVICE_NAME;
+                    serviceEndpointName = DEFAULT_ABSORBER_SERVICE_NAME;
                 }
             }
             else if ((optind + 1) == argc)
@@ -156,7 +161,7 @@ int main(int      argc,
                 serviceEndpointName = argv[optind];
                 servicePortNumber = argv[optind + 1];
             }
-            ExemplarService * stuff = new ExemplarService(*argv, tag, serviceEndpointName,
+            AbsorberService * stuff = new AbsorberService(*argv, tag, serviceEndpointName,
                                                           servicePortNumber);
             
             if (stuff)
@@ -168,16 +173,107 @@ int main(int      argc,
                     OD_LOG_S1s("channelName = ", channelName); //####
                     if (RegisterLocalService(channelName, NULL, NULL))
                     {
+                        bool             configured = false;
+                        yarp::os::Bottle configureData;
+                        std::string      inputLine;
+                        
                         StartRunning();
                         SetSignalHandlers(SignalRunningStop);
                         stuff->startPinger();
+                        if (! stdinAvailable)
+                        {
+                            if (stuff->configure(configureData))
+                            {
+                                stuff->startStreams();
+                            }
+                        }
                         for ( ; IsRunning(); )
                         {
+                            if (stdinAvailable)
+                            {
+                                char inChar;
+                                
+                                cout << "Operation: [b c e q r u]? ";
+                                cout.flush();
+                                cin >> inChar;
+                                switch (inChar)
+                                {
+                                    case 'b' :
+                                    case 'B' :
+                                        // Start streams
+                                        if (! configured)
+                                        {
+                                            configureData.clear();
+                                            if (stuff->configure(configureData))
+                                            {
+                                                configured = true;
+                                            }
+                                        }
+                                        if (configured)
+                                        {
+                                            stuff->startStreams();
+                                        }
+                                        break;
+                                        
+                                    case 'c' :
+                                    case 'C' :
+                                        // Configure
+                                        configureData.clear();
+                                        if (stuff->configure(configureData))
+                                        {
+                                            configured = true;
+                                        }
+                                        break;
+                                        
+                                    case 'e' :
+                                    case 'E' :
+                                        // Stop streams
+                                        stuff->stopStreams();
+                                        break;
+                                        
+                                    case 'q' :
+                                    case 'Q' :
+                                        // Quit
+                                        StopRunning();
+                                        break;
+                                        
+                                    case 'r' :
+                                    case 'R' :
+                                        // Restart streams
+                                        if (! configured)
+                                        {
+                                            configureData.clear();
+                                            if (stuff->configure(configureData))
+                                            {
+                                                configured = true;
+                                            }
+                                        }
+                                        if (configured)
+                                        {
+                                            stuff->restartStreams();
+                                        }
+                                        break;
+                                        
+                                    case 'u' :
+                                    case 'U' :
+                                        // Unconfigure
+                                        configured = false;
+                                        break;
+                                        
+                                    default :
+                                        cout << "Unrecognized request '" << inChar << "'." << endl;
+                                        break;
+                                        
+                                }
+                            }
+                            else
+                            {
 #if defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                                yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::yield();
+                                yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
+                            }
                         }
                         UnregisterLocalService(channelName, NULL, NULL);
                         stuff->stop();
