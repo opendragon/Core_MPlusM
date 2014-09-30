@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MKinectV2InputService.h"
-#include "M+MKinectV2EventHandler.h"
 #include "M+MKinectV2EventThread.h"
 #include "M+MKinectV2InputRequests.h"
 #include "M+MKinectV2InputThread.h"
@@ -66,8 +65,6 @@ using namespace MplusM::KinectV2;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-#define USE_THREAD_NOT_EVENT /* */
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -86,7 +83,11 @@ KinectV2InputService::KinectV2InputService(const yarp::os::ConstString & launchP
                                            const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_KINECTV2INPUT_CANONICAL_NAME,
               "The Kinect V2 input service", "", serviceEndpointName, servicePortNumber),
-    _eventHandler(NULL), _inputThread(NULL), _eventThread(NULL)
+#if defined(USE_THREAD_NOT_EVENT)
+    _inputThread(NULL)
+#else // ! defined(USE_THREAD_NOT_EVENT)
+    _eventThread(NULL)
+#endif // ! defined(USE_THREAD_NOT_EVENT)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -167,9 +168,9 @@ bool KinectV2InputService::shutDownOutputStreams(void)
         _inputThread->clearOutputChannel();
     }
 #else // ! defined(USE_THREAD_NOT_EVENT)
-    if (_eventHandler)
+    if (_eventThread)
     {
-        _eventHandler->clearOutputChannel();
+        _eventThread->clearOutputChannel();
     }
 #endif // ! defined(USE_THREAD_NOT_EVENT)
     OD_LOG_EXIT_B(result); //####
@@ -214,7 +215,7 @@ void KinectV2InputService::startStreams(void)
             _inputThread = new KinectV2InputThread(_outStreams.at(0));
             _inputThread->start();
 #else // ! defined(USE_THREAD_NOT_EVENT)
-            _eventThread = new KinectV2EventThread;
+            _eventThread = new KinectV2EventThread(_outStreams.at(0));
             _eventThread->start();
 #endif // ! defined(USE_THREAD_NOT_EVENT)
             setActive();

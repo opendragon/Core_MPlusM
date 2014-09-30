@@ -39,7 +39,7 @@
 #if (! defined(MpMKinectV2EventThread_H_))
 # define MpMKinectV2EventThread_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MGeneralChannel.h>
 
 # include "stdafx.h"
 
@@ -65,15 +65,14 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to. */
-            KinectV2EventThread(/*Common::GeneralChannel * outChannel*/);
+            KinectV2EventThread(Common::GeneralChannel * outChannel);
             
             /*! @brief The destructor. */
             virtual ~KinectV2EventThread(void);
             
-#if 0
             /*! @brief Stop using the output channel. */
             void clearOutputChannel(void);
-#endif//0 
+
             /*! @brief The thread main body. */
             virtual void run(void);
             
@@ -94,12 +93,8 @@ namespace MplusM
              @returns @c S_OK on success, a failure code otherwise. */
             HRESULT initializeDefaultSensor(void);
 
-#if 0
-            /*! @brief Collect the sensor data and add it to a message.
-             @param message The message to be updated.
-             @returns @c true if the message has data added and @c false otherwise. */
-            bool updateData(yarp::os::Bottle & message);
-#endif//0
+            /*! @brief Handle the sensor data associated with the event. */
+            void processEventData(void);
 
         public :
 
@@ -122,10 +117,8 @@ namespace MplusM
             /*! @brief The body frame source. */
             IBodyFrameSource * _bodyFrameSource;
 
-#if 0
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
-#endif//0
 
         }; // KinectV2EventThread
         

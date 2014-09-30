@@ -39,7 +39,6 @@
 # Set up our program
 add_executable(mpmKinectV2InputService
                M+MKinectV2InputServiceMain.cpp
-               M+MKinectV2EventHandler.cpp
                M+MKinectV2EventThread.cpp
                M+MKinectV2InputService.cpp
                M+MKinectV2InputThread.cpp)

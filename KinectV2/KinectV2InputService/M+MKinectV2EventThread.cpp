@@ -63,7 +63,6 @@ using namespace MplusM::KinectV2;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-#if 0
 /*! @brief Add a floating-point vector to a dictionary.
  @param dictionary The dictionary to be updated.
  @param tag The tag to associate with the vector.
@@ -161,7 +160,6 @@ static void addBodyToMessage(yarp::os::Bottle & message,
 
     if (bonesList)
     {
-#if 0
         // Torso
         addBoneToList(*bonesList, "head2neck", joints[JointType_Head], joints[JointType_Neck]);
         addBoneToList(*bonesList, "neck2spineshoulder", joints[JointType_Neck], joints[JointType_SpineShoulder]);
@@ -171,14 +169,12 @@ static void addBodyToMessage(yarp::os::Bottle & message,
         addBoneToList(*bonesList, "spineshoulder2shoulderleft", joints[JointType_SpineShoulder], joints[JointType_ShoulderLeft]);
         addBoneToList(*bonesList, "spinebase2hipright", joints[JointType_SpineBase], joints[JointType_HipRight]);
         addBoneToList(*bonesList, "spinebase2hipleft", joints[JointType_SpineBase], joints[JointType_HipLeft]);
-#endif//0
         // Right arm
         addBoneToList(*bonesList, "shoulderright2elbowright", joints[JointType_ShoulderRight], joints[JointType_ElbowRight]);
         addBoneToList(*bonesList, "elbowright2wristright", joints[JointType_ElbowRight], joints[JointType_WristRight]);
         addBoneToList(*bonesList, "wristright2handright", joints[JointType_WristRight], joints[JointType_HandRight]);
         addBoneToList(*bonesList, "handright2handtipright", joints[JointType_HandRight], joints[JointType_HandTipRight]);
         addBoneToList(*bonesList, "wristright2thumbright", joints[JointType_WristRight], joints[JointType_ThumbRight]);
-#if 0
         // Left arm
         addBoneToList(*bonesList, "shoulderleft2elbowleft", joints[JointType_ShoulderLeft], joints[JointType_ElbowLeft]);
         addBoneToList(*bonesList, "elbowleft2wristleft", joints[JointType_ElbowLeft], joints[JointType_WristLeft]);
@@ -193,7 +189,6 @@ static void addBodyToMessage(yarp::os::Bottle & message,
         addBoneToList(*bonesList, "hipleft2kneeleft", joints[JointType_HipLeft], joints[JointType_KneeLeft]);
         addBoneToList(*bonesList, "kneeleft2ankleleft", joints[JointType_KneeLeft], joints[JointType_AnkleLeft]);
         addBoneToList(*bonesList, "ankleleft2footleft", joints[JointType_AnkleLeft], joints[JointType_FootLeft]);
-#endif//0
         // Add them all
         bodyProps.put("bones", bones);
     }
@@ -244,7 +239,6 @@ static bool processBody(yarp::os::Bottle & message,
     OD_LOG_EXIT_B(result); //####
     return result;
 } // processBody
-#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -254,11 +248,11 @@ static bool processBody(yarp::os::Bottle & message,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-KinectV2EventThread::KinectV2EventThread(/*Common::GeneralChannel * outChannel*/) :
-    inherited(), _kinectSensor(NULL), _bodyFrameReader(NULL), _bodyFrameSource(NULL)/*, _outChannel(outChannel)*/
+KinectV2EventThread::KinectV2EventThread(Common::GeneralChannel * outChannel) :
+    inherited(), _kinectSensor(NULL), _bodyFrameReader(NULL), _bodyFrameSource(NULL), _outChannel(outChannel)
 {
     OD_LOG_ENTER(); //####
-//    OD_LOG_P1("outChannel = ", outChannel); //####
+    OD_LOG_P1("outChannel = ", outChannel); //####
     OD_LOG_EXIT_P(this); //####
 } // KinectV2EventThread::KinectV2EventThread
 
@@ -272,14 +266,12 @@ KinectV2EventThread::~KinectV2EventThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if 0
-void KinectV2InputThread::clearOutputChannel(void)
+void KinectV2EventThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
-} // KinectV2InputThread::clearOutputChannel
-#endif //0
+} // KinectV2EventThread::clearOutputChannel
 
 HRESULT KinectV2EventThread::initializeDefaultSensor(void)
 {
@@ -290,7 +282,7 @@ HRESULT KinectV2EventThread::initializeDefaultSensor(void)
     {
         if (_kinectSensor)
         {
-            // Initialize the Kinect and get coordinate mapper and the body reader
+            // Initialize the Kinect and get the body reader
             hr = _kinectSensor->Open();
             if (SUCCEEDED(hr))
             {
@@ -302,7 +294,7 @@ HRESULT KinectV2EventThread::initializeDefaultSensor(void)
             }
             if (SUCCEEDED(hr))
             {
-                hr = _bodyFrameSource->SubscribeFrameCaptured(&_frameEventHandle);
+                hr = _bodyFrameReader->SubscribeFrameArrived(&_frameEventHandle);
             }
         }
         if ((! _kinectSensor) || FAILED(hr))
@@ -315,6 +307,65 @@ HRESULT KinectV2EventThread::initializeDefaultSensor(void)
     OD_LOG_OBJEXIT_L(hr); //####
     return hr;
 } // KinectV2EventThread::initializeDefaultSensor
+
+static long lEventCount = 0; //####
+
+void KinectV2EventThread::processEventData(void)
+{
+    OD_LOG_OBJENTER(); //####
+    if (_bodyFrameReader)
+    {
+        IBodyFrameArrivedEventArgs * eventData = NULL;
+        HRESULT                      hr = _bodyFrameReader->GetFrameArrivedEventData(_frameEventHandle, &eventData);
+
+        if (SUCCEEDED(hr))
+        {
+            IBodyFrameReference * frameRef = NULL;
+
+            hr = eventData->get_FrameReference(&frameRef);
+            if (SUCCEEDED(hr))
+            {
+                IBodyFrame * bodyFrame = NULL;
+
+                hr = frameRef->AcquireFrame(&bodyFrame);
+                if (SUCCEEDED(hr))
+                {
+                    yarp::os::Bottle message;
+                    IBody *          ppBodies[BODY_COUNT] = { NULL };
+
+                    hr = bodyFrame->GetAndRefreshBodyData(_countof(ppBodies), ppBodies);
+                    if (SUCCEEDED(hr))
+                    {
+                        if (! processBody(message, BODY_COUNT, ppBodies))
+                        {
+                            hr = S_FALSE;
+                        }
+                    }
+                    for (int ii = 0; _countof(ppBodies) > ii; ++ii)
+                    {
+                        SafeRelease(ppBodies[ii]);
+                    }
+                    SafeRelease(bodyFrame);
+                    if (SUCCEEDED(hr) && _outChannel)
+                    {
+                        ++lEventCount; //####
+                        std::cerr << "got " << lEventCount << std::endl; //####
+//#if 0
+                        if (! _outChannel->write(message))
+                        {
+                            OD_LOG("(! _outChannel->write(message))"); //####
+#if defined(MpM_StallOnSendProblem)
+                            Stall();
+#endif // defined(MpM_StallOnSendProblem)
+                        }
+//#endif//0
+                    }
+                }
+            }
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // KinectV2EventThread::processEventData
 
 void KinectV2EventThread::run(void)
 {
@@ -334,7 +385,7 @@ void KinectV2EventThread::run(void)
             switch (MsgWaitForMultipleObjects(_countof(handles), handles, false, 1000, QS_ALLINPUT))
             {
                 case WAIT_OBJECT_0 :
-                    std::cerr << "got one!" << std::endl;
+                    processEventData();
                     break;
 
                 default :
@@ -345,20 +396,6 @@ void KinectV2EventThread::run(void)
         {
             stop();
         }
-#if 0
-        yarp::os::Bottle message;
-
-        if (updateData(message) && _outChannel)
-        {
-            if (! _outChannel->write(message))
-            {
-                OD_LOG("(! _outChannel->write(message))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
-        }
-#endif//0
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
@@ -376,9 +413,9 @@ bool KinectV2EventThread::threadInit(void)
 void KinectV2EventThread::threadRelease(void)
 {
     OD_LOG_OBJENTER(); //####
-    if (_bodyFrameSource && _frameEventHandle)
+    if (_bodyFrameReader && _frameEventHandle)
     {
-        _bodyFrameSource->UnsubscribeFrameCaptured(_frameEventHandle);
+        _bodyFrameReader->UnsubscribeFrameArrived(_frameEventHandle);
     }
     _frameEventHandle = NULL;
     // done with body frame reader
@@ -392,42 +429,6 @@ void KinectV2EventThread::threadRelease(void)
     SafeRelease(_kinectSensor);
     OD_LOG_OBJEXIT(); //####
 } // KinectV2EventThread::threadRelease
-
-#if 0
-bool KinectV2InputThread::updateData(yarp::os::Bottle & message)
-{
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("message = ", message); //####
-    bool result = false;
-
-    if (_bodyFrameReader)
-    {
-        IBodyFrame * pBodyFrame = NULL;
-        HRESULT      hr = _bodyFrameReader->AcquireLatestFrame(&pBodyFrame);
-
-        if (SUCCEEDED(hr))
-        {
-            IBody * ppBodies[BODY_COUNT] = { NULL };
-
-            if (SUCCEEDED(hr))
-            {
-                hr = pBodyFrame->GetAndRefreshBodyData(_countof(ppBodies), ppBodies);
-            }
-            if (SUCCEEDED(hr))
-            {
-                result = processBody(message, BODY_COUNT, ppBodies);
-            }
-            for (int ii = 0; _countof(ppBodies) > ii; ++ii)
-            {
-                SafeRelease(ppBodies[ii]);
-            }
-        }
-        SafeRelease(pBodyFrame);
-    }
-    OD_LOG_OBJEXIT_B(result); //####
-    return result;
-} // KinectV2InputThread::updateData
-#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Global functions
