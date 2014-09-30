@@ -52,8 +52,6 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-//#define USE_THREAD_NOT_EVENT /* */
-
 /*! @brief The base channel name to use for the service if not provided. */
 # define DEFAULT_KINECTV2INPUT_SERVICE_NAME T_( \
         DEFAULT_SERVICE_NAME_BASE "input/kinectv2")
@@ -62,11 +60,7 @@ namespace MplusM
 {
     namespace KinectV2
     {
-# if defined(USE_THREAD_NOT_EVENT)
-        class KinectV2InputThread;
-# else // ! defined(USE_THREAD_NOT_EVENT)
         class KinectV2EventThread;
-# endif // ! defined(USE_THREAD_NOT_EVENT)
         
         /*! @brief The exemplar input service. */
         class KinectV2InputService : public Common::BaseInputService
@@ -131,13 +125,8 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
             
-# if defined(USE_THREAD_NOT_EVENT)
-            /*! @brief The output thread to use. */
-            KinectV2InputThread * _inputThread;
-# else // ! defined(USE_THREAD_NOT_EVENT)
             /*! @brief The event thread to use. */
             KinectV2EventThread * _eventThread;
-# endif // ! defined(USE_THREAD_NOT_EVENT)
 
         }; // KinectV2InputService
         

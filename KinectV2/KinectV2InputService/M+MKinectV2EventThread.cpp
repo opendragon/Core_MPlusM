@@ -374,7 +374,6 @@ void KinectV2EventThread::processEventData(void)
                     {
                         ++lEventCount; //####
                         std::cerr << "got " << lEventCount << std::endl; //####
-//#if 0
                         if (! _outChannel->write(message))
                         {
                             OD_LOG("(! _outChannel->write(message))"); //####
@@ -382,7 +381,6 @@ void KinectV2EventThread::processEventData(void)
                             Stall();
 #endif // defined(MpM_StallOnSendProblem)
                         }
-//#endif//0
                     }
                 }
             }

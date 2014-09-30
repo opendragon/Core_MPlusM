@@ -39,7 +39,6 @@
 #include "M+MKinectV2InputService.h"
 #include "M+MKinectV2EventThread.h"
 #include "M+MKinectV2InputRequests.h"
-#include "M+MKinectV2InputThread.h"
 
 #include <mpm/M+MEndpoint.h>
 
@@ -83,11 +82,7 @@ KinectV2InputService::KinectV2InputService(const yarp::os::ConstString & launchP
                                            const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_KINECTV2INPUT_CANONICAL_NAME,
               "The Kinect V2 input service", "", serviceEndpointName, servicePortNumber),
-#if defined(USE_THREAD_NOT_EVENT)
-    _inputThread(NULL)
-#else // ! defined(USE_THREAD_NOT_EVENT)
     _eventThread(NULL)
-#endif // ! defined(USE_THREAD_NOT_EVENT)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -151,7 +146,7 @@ bool KinectV2InputService::setUpStreamDescriptions(void)
     
     _outDescriptions.clear();
     description._portName = rootName + "output";
-    description._portProtocol = "d+";
+    description._portProtocol = "KINECT";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
@@ -162,17 +157,10 @@ bool KinectV2InputService::shutDownOutputStreams(void)
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
-#if defined(USE_THREAD_NOT_EVENT)
-    if (_inputThread)
-    {
-        _inputThread->clearOutputChannel();
-    }
-#else // ! defined(USE_THREAD_NOT_EVENT)
     if (_eventThread)
     {
         _eventThread->clearOutputChannel();
     }
-#endif // ! defined(USE_THREAD_NOT_EVENT)
     OD_LOG_EXIT_B(result); //####
     return result;
 } // KinectV2InputService::shutDownOutputStreams
@@ -211,13 +199,8 @@ void KinectV2InputService::startStreams(void)
     {
         if (! isActive())
         {
-#if defined(USE_THREAD_NOT_EVENT)
-            _inputThread = new KinectV2InputThread(_outStreams.at(0));
-            _inputThread->start();
-#else // ! defined(USE_THREAD_NOT_EVENT)
             _eventThread = new KinectV2EventThread(_outStreams.at(0));
             _eventThread->start();
-#endif // ! defined(USE_THREAD_NOT_EVENT)
             setActive();
         }
     }
@@ -254,15 +237,6 @@ void KinectV2InputService::stopStreams(void)
     {
         if (isActive())
         {
-#if defined(USE_THREAD_NOT_EVENT)
-            _inputThread->stop();
-            for ( ; _inputThread->isRunning(); )
-            {
-                yarp::os::Time::delay(ONE_SECOND_DELAY / 3.9);
-            }
-            delete _inputThread;
-            _inputThread = NULL;
-#else // ! defined(USE_THREAD_NOT_EVENT)
             _eventThread->stop();
             for ( ; _eventThread->isRunning(); )
             {
@@ -270,7 +244,6 @@ void KinectV2InputService::stopStreams(void)
             }
             delete _eventThread;
             _eventThread = NULL;
-#endif // ! defined(USE_THREAD_NOT_EVENT)
             clearActive();
         }
     }

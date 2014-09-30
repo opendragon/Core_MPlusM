@@ -40,8 +40,7 @@
 add_executable(mpmKinectV2InputService
                M+MKinectV2InputServiceMain.cpp
                M+MKinectV2EventThread.cpp
-               M+MKinectV2InputService.cpp
-               M+MKinectV2InputThread.cpp)
+               M+MKinectV2InputService.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
