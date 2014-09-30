@@ -98,7 +98,8 @@ void RequestMap::fillInListReply(yarp::os::Bottle & reply)
         lock();
         if (0 < _handlers.size())
         {
-            for (auto walker = _handlers.begin(); _handlers.end() != walker; ++walker)
+            for (RequestHandlerMap::const_iterator walker = _handlers.begin();
+                 _handlers.end() != walker; ++walker)
             {
                 yarp::os::Property & aDict = reply.addDict();
                 BaseRequestHandler * aHandler = walker->second;
@@ -193,7 +194,8 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
             _handlers.insert(RequestHandlerMapValue(handler->name(), handler));
             if (0 < aliases.size())
             {
-                for (auto walker(aliases.begin()); aliases.end() != walker; ++walker)
+                for (StringVector::const_iterator walker(aliases.begin()); aliases.end() != walker;
+                     ++walker)
                 {
                     _handlers.insert(RequestHandlerMapValue(*walker, handler));
                 }
@@ -235,7 +237,8 @@ void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
             _handlers.erase(handler->name());
             if (0 < aliases.size())
             {
-                for (auto walker(aliases.begin()); aliases.end() != walker; ++walker)
+                for (StringVector::const_iterator walker(aliases.begin()); aliases.end() != walker;
+                     ++walker)
                 {
                     _handlers.erase(*walker);
                 }

@@ -148,7 +148,8 @@ bool RandomNumberInputHandler::handleInput(const yarp::os::Bottle &      input,
                         
                         if (0 < randResult.size())
                         {
-                            for (auto it(randResult.begin()); randResult.end() != it; ++it)
+                            for (DoubleVector::const_iterator it(randResult.begin());
+                                 randResult.end() != it; ++it)
                             {
                                 message.addDouble(*it);
                             }

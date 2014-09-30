@@ -161,7 +161,7 @@ bool RunningSumClient::addToSum(const DoubleVector & values,
         
         if (0 < values.size())
         {
-            for (auto it(values.begin()); values.end() != it; ++it)
+            for (DoubleVector::const_iterator it(values.begin()); values.end() != it; ++it)
             {
                 parameters.addDouble(*it);
             }

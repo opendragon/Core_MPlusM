@@ -165,7 +165,8 @@ bool ChannelsRequestHandler::processRequest(const yarp::os::ConstString & reques
             _service.fillInSecondaryInputChannelsList(channels);
             if (0 < channels.size())
             {
-                for (auto walker(channels.begin()); channels.end() != walker; ++walker)
+                for (ChannelVector::const_iterator walker(channels.begin());
+                     channels.end() != walker; ++walker)
                 {
                     const ChannelDescription & aChannel = *walker;
                     yarp::os::Bottle &         newBottle = aList1.addList();
@@ -181,7 +182,8 @@ bool ChannelsRequestHandler::processRequest(const yarp::os::ConstString & reques
             _service.fillInSecondaryOutputChannelsList(channels);
             if (0 < channels.size())
             {
-                for (auto walker(channels.begin()); channels.end() != walker; ++walker)
+                for (ChannelVector::const_iterator walker(channels.begin());
+                     channels.end() != walker; ++walker)
                 {
                     const ChannelDescription & aChannel = *walker;
                     yarp::os::Bottle &         newBottle = aList2.addList();

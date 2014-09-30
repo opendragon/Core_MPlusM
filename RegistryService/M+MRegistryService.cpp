@@ -2215,7 +2215,8 @@ void RegistryService::checkServiceTimes(void)
     _checkedTimeLock.lock();
     if (0 < _lastCheckedTime.size())
     {
-        for (auto walker(_lastCheckedTime.begin()); _lastCheckedTime.end() != walker; ++walker)
+        for (TimeMap::const_iterator walker(_lastCheckedTime.begin());
+             _lastCheckedTime.end() != walker; ++walker)
         {
             double check = walker->second;
             
@@ -2228,7 +2229,8 @@ void RegistryService::checkServiceTimes(void)
     _checkedTimeLock.unlock();
     if (0 < expired.size())
     {
-        for (auto walker(expired.begin()); expired.end() != walker; ++walker)
+        for (StringVector::const_iterator walker(expired.begin()); expired.end() != walker;
+             ++walker)
         {
             yarp::os::ConstString channelName(*walker);
             

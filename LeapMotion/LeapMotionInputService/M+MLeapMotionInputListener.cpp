@@ -178,7 +178,8 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
             yarp::os::Bottle   message;
             yarp::os::Bottle & handStuff = message.addList();
 
-            for (auto handWalker(hands.begin()); hands.end() != handWalker; ++handWalker)
+            for (Leap::HandList::const_iterator handWalker(hands.begin());
+                 hands.end() != handWalker; ++handWalker)
             {
                 Leap::Hand aHand(*handWalker);
                 
@@ -229,8 +230,8 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
                         // fingers
                         Leap::FingerList fingers(aHand.fingers());
                         
-                        for (auto fingerWalker(fingers.begin()); fingers.end() != fingerWalker;
-                             ++fingerWalker)
+                        for (Leap::FingerList::const_iterator fingerWalker(fingers.begin());
+                             fingers.end() != fingerWalker; ++fingerWalker)
                         {
                             Leap::Finger aFinger(*fingerWalker);
 
@@ -324,7 +325,8 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
             }
             yarp::os::Bottle & toolStuff = message.addList();
             
-            for (auto toolWalker(tools.begin()); tools.end() != toolWalker; ++toolWalker)
+            for (Leap::ToolList::const_iterator toolWalker(tools.begin());
+                 tools.end() != toolWalker; ++toolWalker)
             {
                 Leap::Tool aTool(*toolWalker);
                 

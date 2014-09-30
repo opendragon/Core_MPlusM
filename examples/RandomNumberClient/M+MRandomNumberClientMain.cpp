@@ -163,8 +163,8 @@ int main(int      argc,
                                         cout << "result = (";
                                         if (0 < results.size())
                                         {
-                                            for (auto it = results.begin(); results.end() != it;
-                                                 ++it)
+                                            for (DoubleVector::const_iterator it = results.begin();
+                                                 results.end() != it; ++it)
                                             {
                                                 cout << " " << *it;
                                             }

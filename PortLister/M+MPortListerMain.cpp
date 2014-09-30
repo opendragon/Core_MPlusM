@@ -99,7 +99,7 @@ static void reportConnections(const OutputFlavour           flavour,
                                      checker, checkStuff);
     if (0 < inputs.size())
     {
-        for (auto walker(inputs.begin()); inputs.end() != walker; ++walker)
+        for (ChannelVector::const_iterator walker(inputs.begin()); inputs.end() != walker; ++walker)
         {
             switch (flavour)
             {
@@ -193,7 +193,8 @@ static void reportConnections(const OutputFlavour           flavour,
     }
     if (0 < outputs.size())
     {
-        for (auto walker(outputs.begin()); outputs.end() != walker; ++walker)
+        for (ChannelVector::const_iterator walker(outputs.begin()); outputs.end() != walker;
+             ++walker)
         {
             switch (flavour)
             {
@@ -344,7 +345,8 @@ static void reportAssociates(const OutputFlavour                flavour,
             
             if (0 < assocInputs.size())
             {
-                for (auto walker(assocInputs.begin()); assocInputs.end() != walker; ++walker)
+                for (StringVector::const_iterator walker(assocInputs.begin());
+                     assocInputs.end() != walker; ++walker)
                 {
                     if (sawInput)
                     {
@@ -365,7 +367,8 @@ static void reportAssociates(const OutputFlavour                flavour,
             }
             if (0 < assocOutputs.size())
             {
-                for (auto walker(assocOutputs.begin()); assocOutputs.end() != walker; ++walker)
+                for (StringVector::const_iterator walker(assocOutputs.begin());
+                     assocOutputs.end() != walker; ++walker)
                 {
                     if (sawOutput)
                     {
@@ -792,7 +795,7 @@ int main(int      argc,
                                     // infrastructure
             
             Initialize(*argv);
-            bool       found = false;
+            bool                  found = false;
             Utilities::PortVector ports;
             
             Utilities::RemoveStalePorts();
@@ -819,7 +822,8 @@ int main(int      argc,
                 }
                 if (0 < ports.size())
                 {
-                    for (auto walker(ports.begin()); ports.end() != walker; ++walker)
+                    for (Utilities::PortVector::const_iterator walker(ports.begin());
+                         ports.end() != walker; ++walker)
                     {
                         switch (flavour)
                         {

@@ -456,7 +456,7 @@ bool Utilities::CheckForRegistryService(const PortVector & ports)
     
     if (0 < ports.size())
     {
-        for (auto walker(ports.begin()); ports.end() != walker; ++walker)
+        for (PortVector::const_iterator walker(ports.begin()); ports.end() != walker; ++walker)
         {
             if (walker->_portName == MpM_REGISTRY_CHANNEL_NAME)
             {

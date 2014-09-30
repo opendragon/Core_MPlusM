@@ -352,7 +352,8 @@ void BaseService::clearContexts(void)
     lockContexts();
     if (0 < _contexts.size())
     {
-        for (auto walker(_contexts.begin()); _contexts.end() != walker; ++walker)
+        for (ContextMap::const_iterator walker(_contexts.begin()); _contexts.end() != walker;
+             ++walker)
         {
             BaseContext * value = walker->second;
             
@@ -446,7 +447,8 @@ void BaseService::fillInClientList(StringVector & clients)
     lockContexts();
     if (0 < _contexts.size())
     {
-        for (auto walker(_contexts.begin()); _contexts.end() != walker; ++walker)
+        for (ContextMap::const_iterator walker(_contexts.begin()); _contexts.end() != walker;
+             ++walker)
         {
             clients.push_back(walker->first.c_str());
         }
