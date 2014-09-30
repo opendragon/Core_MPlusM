@@ -344,13 +344,13 @@
 		DF824BD319C8E4C5004D13AC /* M+MLeapMotionInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapMotionInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapMotionInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCB229818EF23DF00358EA5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ClientList/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCB229918EF23DF00358EA5 /* M+MClientListMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MClientListMain.cpp"; path = "ClientList/M+MClientListMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DFCDE4E819DB23150051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/AbsorberService/CMakeLists.txt; sourceTree = "<group>"; };
-		DFCDE4E919DB23150051D294 /* M+MAbsorberInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberInputHandler.cpp"; path = "examples/AbsorberService/M+MAbsorberInputHandler.cpp"; sourceTree = "<group>"; };
-		DFCDE4EA19DB23150051D294 /* M+MAbsorberInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberInputHandler.h"; path = "examples/AbsorberService/M+MAbsorberInputHandler.h"; sourceTree = "<group>"; };
-		DFCDE4EB19DB23150051D294 /* M+MAbsorberRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberRequests.h"; path = "examples/AbsorberService/M+MAbsorberRequests.h"; sourceTree = "<group>"; };
-		DFCDE4EC19DB23150051D294 /* M+MAbsorberService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberService.cpp"; path = "examples/AbsorberService/M+MAbsorberService.cpp"; sourceTree = "<group>"; };
-		DFCDE4ED19DB23150051D294 /* M+MAbsorberService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberService.h"; path = "examples/AbsorberService/M+MAbsorberService.h"; sourceTree = "<group>"; };
-		DFCDE4EE19DB23150051D294 /* M+MAbsorberServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberServiceMain.cpp"; path = "examples/AbsorberService/M+MAbsorberServiceMain.cpp"; sourceTree = "<group>"; };
+		DFCDE4E819DB23150051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/AbsorberService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFCDE4E919DB23150051D294 /* M+MAbsorberInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberInputHandler.cpp"; path = "examples/AbsorberService/M+MAbsorberInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DFCDE4EA19DB23150051D294 /* M+MAbsorberInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberInputHandler.h"; path = "examples/AbsorberService/M+MAbsorberInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DFCDE4EB19DB23150051D294 /* M+MAbsorberRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberRequests.h"; path = "examples/AbsorberService/M+MAbsorberRequests.h"; sourceTree = SOURCE_ROOT; };
+		DFCDE4EC19DB23150051D294 /* M+MAbsorberService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberService.cpp"; path = "examples/AbsorberService/M+MAbsorberService.cpp"; sourceTree = SOURCE_ROOT; };
+		DFCDE4ED19DB23150051D294 /* M+MAbsorberService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberService.h"; path = "examples/AbsorberService/M+MAbsorberService.h"; sourceTree = SOURCE_ROOT; };
+		DFCDE4EE19DB23150051D294 /* M+MAbsorberServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberServiceMain.cpp"; path = "examples/AbsorberService/M+MAbsorberServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCDE4EF19DB2B6B0051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/TruncateFloatService/CMakeLists.txt; sourceTree = "<group>"; };
 		DFCDE4F019DB2B6B0051D294 /* M+MTruncateFloatInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFloatInputHandler.cpp"; path = "examples/TruncateFloatService/M+MTruncateFloatInputHandler.cpp"; sourceTree = "<group>"; };
 		DFCDE4F119DB2B6B0051D294 /* M+MTruncateFloatInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFloatInputHandler.h"; path = "examples/TruncateFloatService/M+MTruncateFloatInputHandler.h"; sourceTree = "<group>"; };
@@ -392,8 +392,6 @@
 		DFFFBFDB19D9A4B900BBD7A7 /* M+MKinectV2InputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MKinectV2InputService.cpp"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputService.cpp"; sourceTree = SOURCE_ROOT; };
 		DFFFBFDC19D9A4B900BBD7A7 /* M+MKinectV2InputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MKinectV2InputService.h"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputService.h"; sourceTree = SOURCE_ROOT; };
 		DFFFBFDD19D9A4B900BBD7A7 /* M+MKinectV2InputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MKinectV2InputServiceMain.cpp"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DFFFBFDE19D9A4B900BBD7A7 /* M+MKinectV2InputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MKinectV2InputThread.cpp"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputThread.cpp"; sourceTree = SOURCE_ROOT; };
-		DFFFBFDF19D9A4B900BBD7A7 /* M+MKinectV2InputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MKinectV2InputThread.h"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputThread.h"; sourceTree = SOURCE_ROOT; };
 		DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = KinectV2/KinectV2InputService/stdafx.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -1107,7 +1105,7 @@
 		DFA86D2518E1D13300A22941 /* examples */ = {
 			isa = PBXGroup;
 			children = (
-				DFCDE4E719DB23010051D294 /* Absorber */,
+				DFCDE4E719DB23010051D294 /* AbsorberService */,
 				DFA98942194BA92D005F10EB /* ChordGeneratorService */,
 				DF384F6E198A9A7F00A0414E /* CMakeLists.txt */,
 				DFA3432018C91BF40053B87C /* EchoClient */,
@@ -1151,7 +1149,7 @@
 			name = ClientList;
 			sourceTree = SOURCE_ROOT;
 		};
-		DFCDE4E719DB23010051D294 /* Absorber */ = {
+		DFCDE4E719DB23010051D294 /* AbsorberService */ = {
 			isa = PBXGroup;
 			children = (
 				DFCDE4E819DB23150051D294 /* CMakeLists.txt */,
@@ -1162,7 +1160,7 @@
 				DFCDE4ED19DB23150051D294 /* M+MAbsorberService.h */,
 				DFCDE4EE19DB23150051D294 /* M+MAbsorberServiceMain.cpp */,
 			);
-			name = Absorber;
+			name = AbsorberService;
 			sourceTree = "<group>";
 		};
 		DFE83ABA19B661EB003A7EDE /* MovementDb */ = {
@@ -1257,8 +1255,6 @@
 				DFFFBFDB19D9A4B900BBD7A7 /* M+MKinectV2InputService.cpp */,
 				DFFFBFDC19D9A4B900BBD7A7 /* M+MKinectV2InputService.h */,
 				DFFFBFDD19D9A4B900BBD7A7 /* M+MKinectV2InputServiceMain.cpp */,
-				DFFFBFDE19D9A4B900BBD7A7 /* M+MKinectV2InputThread.cpp */,
-				DFFFBFDF19D9A4B900BBD7A7 /* M+MKinectV2InputThread.h */,
 				DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */,
 			);
 			name = KinectV2InputService;

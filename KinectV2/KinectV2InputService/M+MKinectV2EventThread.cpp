@@ -85,7 +85,7 @@ static void addVectorToDictionary(yarp::os::Property &          dictionary,
 
 /*! @brief Add the description of a bone to a list.
  @param listToUpdate The list to be added to.
- @param joinTag The name of the bone.
+ @param jointTag The name of the bone.
  @param startJoint The beginning joint of the bone.
  @param endJoint The ending joint of the bone. */
 static void addBoneToList(yarp::os::Bottle &            listToUpdate,

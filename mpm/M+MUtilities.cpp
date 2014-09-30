@@ -433,7 +433,7 @@ bool Utilities::AddConnection(const yarp::os::ConstString & fromPortName,
                               const yarp::os::ConstString & toPortName,
                               const double                  timeToWait,
                               const bool                    isUDP,
-                              CheckFunction                 checker,
+                              Common::CheckFunction         checker,
                               void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
@@ -475,7 +475,7 @@ void Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
                                       ChannelVector &               outputs,
                                       const InputOutputFlag         which,
                                       const bool                    quiet,
-                                      CheckFunction                 checker,
+                                      Common::CheckFunction         checker,
                                       void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
@@ -575,7 +575,7 @@ void Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
 bool Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
                                    PortAssociation &             associates,
                                    const double                  timeToWait,
-                                   CheckFunction                 checker,
+                                   Common::CheckFunction         checker,
                                    void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
@@ -753,7 +753,7 @@ ChannelStatusReporter * Utilities::GetGlobalStatusReporter(void)
 bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & serviceChannelName,
                                                 ServiceDescriptor &           descriptor,
                                                 const double                  timeToWait,
-                                                CheckFunction                 checker,
+                                                Common::CheckFunction         checker,
                                                 void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
@@ -1015,10 +1015,10 @@ yarp::os::ConstString Utilities::GetPortLocation(const yarp::os::ConstString & p
     return result;
 } // Utilities::GetPortLocation
 
-bool Utilities::GetServiceNames(StringVector & services,
-                                const bool     quiet,
-                                CheckFunction  checker,
-                                void *         checkStuff)
+bool Utilities::GetServiceNames(StringVector &        services,
+                                const bool            quiet,
+                                Common::CheckFunction checker,
+                                void *                checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("services = ", &services, "checkStuff = ", checkStuff); //####
@@ -1154,7 +1154,7 @@ bool Utilities::NetworkConnectWithRetries(const yarp::os::ConstString & sourceNa
                                           const yarp::os::ConstString & destinationName,
                                           const double                  timeToWait,
                                           const bool                    isUDP,
-                                          CheckFunction                 checker,
+                                          Common::CheckFunction         checker,
                                           void *                        checkStuff)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
@@ -1239,7 +1239,7 @@ bool Utilities::NetworkConnectWithRetries(const yarp::os::ConstString & sourceNa
 bool Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
                                              const yarp::os::ConstString & destinationName,
                                              const double                  timeToWait,
-                                             CheckFunction                 checker,
+                                             Common::CheckFunction         checker,
                                              void *                        checkStuff)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
@@ -1313,7 +1313,7 @@ bool Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourc
 
 bool Utilities::RemoveConnection(const yarp::os::ConstString & fromPortName,
                                  const yarp::os::ConstString & toPortName,
-                                 CheckFunction                 checker,
+                                 Common::CheckFunction         checker,
                                  void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
