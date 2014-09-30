@@ -201,7 +201,6 @@ void RecordIntegersService::startStreams(void)
     {
         if (! isActive())
         {
-            OD_LOG("(! isActive())"); //####
 #if MAC_OR_LINUX_
             _outFile = fopen(_outPath.c_str(), "w");
 #else // ! MAC_OR_LINUX_
@@ -212,20 +211,14 @@ void RecordIntegersService::startStreams(void)
 #endif // ! MAC_OR_LINUX_
             if (_outFile)
             {
-                OD_LOG("(_outFile)"); //####
                 if (_inHandler)
                 {
-                    OD_LOG("(_inHandler)"); //####
                     _inHandler->setFile(_outFile);
-                    OD_LOG("after setFile");
                     _inStreams.at(0)->setReader(*_inHandler);
-                    OD_LOG("after setReader");
                     setActive();
-                    OD_LOG("after setActive");
                 }
                 else
                 {
-                    OD_LOG("! (_inHandler)"); //####
                     fclose(_outFile);
                     _outFile = NULL;
                 }

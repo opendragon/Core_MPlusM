@@ -123,7 +123,7 @@ bool TruncateFilterService::configure(const yarp::os::Bottle & details)
         OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(); //####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // TruncateFilterService::configure
 
