@@ -62,7 +62,7 @@ namespace MplusM
     {
         class AbsorberInputHandler;
         
-        /*! @brief The absorber output stream service. */
+        /*! @brief The absorber output service. */
         class AbsorberService : public Common::BaseOutputService
         {
         public :

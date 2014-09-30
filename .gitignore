@@ -87,3 +87,4 @@ mpmExemplarOutputService
 mpmExemplarService
 mpmLeapMotionInputService
 mpmAbsorberService
+mpmTruncateFloatService

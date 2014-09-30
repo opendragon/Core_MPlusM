@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MTruncateFilterRequests.h
+//  File:       M+MTruncateFloatRequests.h
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the truncate filter
-//              stream service.
+//  Contains:   The common macro definitions for requests and responses for the truncate float
+//              service.
 //
 //  Written by: Norman Jaffe
 //
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMTruncateFilterRequests_H_))
-# define MpMTruncateFilterRequests_H_ /* Header guard */
+#if (! defined(MpMTruncateFloatRequests_H_))
+# define MpMTruncateFloatRequests_H_ /* Header guard */
 
 # include <mpm/M+MRequests.h>
 
@@ -48,12 +48,12 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The common macro definitions for requests and responses for the truncate filter service. */
+ @brief The common macro definitions for requests and responses for the truncate float service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the truncate filter stream service. */
-# define MpM_TRUNCATEFILTER_CANONICAL_NAME "TruncateFilter"
+/*! @brief The channel-independent name of the truncate float service. */
+# define MpM_TRUNCATEFLOAT_CANONICAL_NAME "TruncateFloat"
 
-#endif // ! defined(MpMTruncateFilterRequests_H_)
+#endif // ! defined(MpMTruncateFloatRequests_H_)

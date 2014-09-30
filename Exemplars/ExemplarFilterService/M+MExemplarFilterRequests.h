@@ -4,8 +4,8 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the truncate filter
-//              stream service.
+//  Contains:   The common macro definitions for requests and responses for the exemplar filter
+//              service.
 //
 //  Written by: Norman Jaffe
 //

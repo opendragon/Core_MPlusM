@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       TruncateFilterServiceMain.cpp
+//  File:       TruncateFloatServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the truncate filter service.
+//  Contains:   The main application for the truncate float service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MTruncateFilterService.h"
+#include "M+MTruncateFloatService.h"
 
 #include <mpm/M+MEndpoint.h>
 
@@ -53,10 +53,10 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for the truncate filter service. */
+ @brief The main application for the truncate float service. */
 
-/*! @dir TruncateFilterService
- @brief The set of files that implement the truncate filter service. */
+/*! @dir TruncateFloatService
+ @brief The set of files that implement the truncate float service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -73,7 +73,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define TRUNCATEFILTER_OPTIONS "t:"
+#define TRUNCATEFLOAT_OPTIONS "t:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -112,8 +112,8 @@ int main(int      argc,
         yarp::os::ConstString tag;
         
         opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, TRUNCATEFILTER_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, TRUNCATEFILTER_OPTIONS))
+        for (int cc = getopt(argc, argv, TRUNCATEFLOAT_OPTIONS); -1 != cc;
+             cc = getopt(argc, argv, TRUNCATEFLOAT_OPTIONS))
         {
             switch (cc)
             {
@@ -144,12 +144,12 @@ int main(int      argc,
                 if (0 < tag.size())
                 {
                     serviceEndpointName =
-                                        yarp::os::ConstString(DEFAULT_TRUNCATEFILTER_SERVICE_NAME) +
+                                        yarp::os::ConstString(DEFAULT_TRUNCATEFLOAT_SERVICE_NAME) +
                                         "/" + tag;
                 }
                 else
                 {
-                    serviceEndpointName = DEFAULT_TRUNCATEFILTER_SERVICE_NAME;
+                    serviceEndpointName = DEFAULT_TRUNCATEFLOAT_SERVICE_NAME;
                 }
             }
             else if ((optind + 1) == argc)
@@ -162,9 +162,8 @@ int main(int      argc,
                 serviceEndpointName = argv[optind];
                 servicePortNumber = argv[optind + 1];
             }
-            TruncateFilterService * stuff = new TruncateFilterService(*argv, tag,
-                                                                      serviceEndpointName,
-                                                                      servicePortNumber);
+            TruncateFloatService * stuff = new TruncateFloatService(*argv, tag, serviceEndpointName,
+                                                                    servicePortNumber);
             
             if (stuff)
             {

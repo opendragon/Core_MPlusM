@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MTruncateFilterInputHandler.cpp
+//  File:       M+MTruncateFloatInputHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the input channel input handler used by the truncate filter
+//  Contains:   The class definition for the input channel input handler used by the truncate float
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MTruncateFilterInputHandler.h"
+#include "M+MTruncateFloatInputHandler.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -48,7 +48,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the input channel input handler used by the truncate filter
+ @brief The class definition for the input channel input handler used by the truncate float
  service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -74,26 +74,26 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-TruncateFilterInputHandler::TruncateFilterInputHandler(void) :
+TruncateFloatInputHandler::TruncateFloatInputHandler(void) :
     inherited(), _outChannel(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
-} // TruncateFilterInputHandler::TruncateFilterInputHandler
+} // TruncateFloatInputHandler::TruncateFloatInputHandler
 
-TruncateFilterInputHandler::~TruncateFilterInputHandler(void)
+TruncateFloatInputHandler::~TruncateFloatInputHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // TruncateFilterInputHandler::~TruncateFilterInputHandler
+} // TruncateFloatInputHandler::~TruncateFloatInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool TruncateFilterInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                             const yarp::os::ConstString & senderChannel,
-                                             yarp::os::ConnectionWriter *  replyMechanism)
+bool TruncateFloatInputHandler::handleInput(const yarp::os::Bottle &      input,
+                                            const yarp::os::ConstString & senderChannel,
+                                            yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -140,15 +140,15 @@ bool TruncateFilterInputHandler::handleInput(const yarp::os::Bottle &      input
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // TruncateFilterInputHandler::handleInput
+} // TruncateFloatInputHandler::handleInput
 
-void TruncateFilterInputHandler::setOutput(GeneralChannel * output)
+void TruncateFloatInputHandler::setOutput(GeneralChannel * output)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("output = ", output); //####
     _outChannel = output;
     OD_LOG_OBJEXIT(); //####
-} // TruncateFilterInputHandler::setOutput
+} // TruncateFloatInputHandler::setOutput
 
 #if defined(__APPLE__)
 # pragma mark Global functions

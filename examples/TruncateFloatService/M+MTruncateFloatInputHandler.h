@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MTruncateFilterInputHandler.h
+//  File:       M+MTruncateFloatInputHandler.h
 //
 //  Project:    M+M
 //
 //  Contains:   The class declaration for the input channel input handler used by the truncate
-//              filter service.
+//              float service.
 //
 //  Written by: Norman Jaffe
 //
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMTruncateFilterInputHandler_H_))
-# define MpMTruncateFilterInputHandler_H_ /* Header guard */
+#if (! defined(MpMTruncateFloatInputHandler_H_))
+# define MpMTruncateFloatInputHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseInputHandler.h>
 # include <mpm/M+MGeneralChannel.h>
@@ -49,7 +49,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the input channel input handler used by the truncate filter
+ @brief The class declaration for the input channel input handler used by the truncate float
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
@@ -63,15 +63,15 @@ namespace MplusM
          
          The data is expected to be in the form of a sequence of integer or floating point
          values. */
-        class TruncateFilterInputHandler : public Common::BaseInputHandler
+        class TruncateFloatInputHandler : public Common::BaseInputHandler
         {
         public :
             
             /*! @brief The constructor. */
-            TruncateFilterInputHandler(void);
+            TruncateFloatInputHandler(void);
             
             /*! @brief The destructor. */
-            virtual ~TruncateFilterInputHandler(void);
+            virtual ~TruncateFloatInputHandler(void);
             
             /*! @brief Process partially-structured input data.
              @param input The partially-structured input data.
@@ -90,7 +90,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(TruncateFilterInputHandler);
+            COPY_AND_ASSIGNMENT_(TruncateFloatInputHandler);
             
         public :
         
@@ -104,10 +104,10 @@ namespace MplusM
             /*! @brief The channel that is to be written to. */
             Common::GeneralChannel * _outChannel;
             
-        }; // TruncateFilterInputHandler
+        }; // TruncateFloatInputHandler
         
     } // Example
     
 } // MplusM
 
-#endif // ! defined(MpMTruncateFilterInputHandler_H_)
+#endif // ! defined(MpMTruncateFloatInputHandler_H_)

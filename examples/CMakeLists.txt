@@ -51,6 +51,6 @@ add_subdirectory(RunningSumAdapter)
 add_subdirectory(RunningSumAltAdapter)
 add_subdirectory(RunningSumClient)
 add_subdirectory(RunningSumService)
-add_subdirectory(TruncateFilterService)
+add_subdirectory(TruncateFloatService)
 
 enable_testing()

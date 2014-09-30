@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MTruncateFilterService.h
+//  File:       M+MTruncateFloatService.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the truncate filter service.
+//  Contains:   The class declaration for the truncate float service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMTruncateFilterService_H_))
-# define MpMTruncateFilterService_H_ /* Header guard */
+#if (! defined(MpMTruncateFloatService_H_))
+# define MpMTruncateFloatService_H_ /* Header guard */
 
 # include <mpm/M+MBaseFilterService.h>
 
@@ -47,24 +47,24 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the truncate filter service. */
+ @brief The class declaration for the truncate float service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_TRUNCATEFILTER_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "filter/truncatefilter")
+# define DEFAULT_TRUNCATEFLOAT_SERVICE_NAME T_( \
+        DEFAULT_SERVICE_NAME_BASE "filter/truncatefloat")
 
 namespace MplusM
 {
     namespace Example
     {
-        class TruncateFilterInputHandler;
-        class TruncateFilterRequestHandler;
+        class TruncateFloatInputHandler;
+        class TruncateFloatRequestHandler;
         
-        /*! @brief The truncate filter service. */
-        class TruncateFilterService : public Common::BaseFilterService
+        /*! @brief The truncate float service. */
+        class TruncateFloatService : public Common::BaseFilterService
         {
         public :
             
@@ -73,13 +73,13 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            TruncateFilterService(const yarp::os::ConstString & launchPath,
-                                  const yarp::os::ConstString & tag,
-                                  const yarp::os::ConstString & serviceEndpointName,
-                                  const yarp::os::ConstString & servicePortNumber = "");
+            TruncateFloatService(const yarp::os::ConstString & launchPath,
+                                 const yarp::os::ConstString & tag,
+                                 const yarp::os::ConstString & serviceEndpointName,
+                                 const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~TruncateFilterService(void);
+            virtual ~TruncateFloatService(void);
             
             /*! @brief Configure the input/output streams.
              @param details The configuration information for the input/output streams.
@@ -107,7 +107,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(TruncateFilterService);
+            COPY_AND_ASSIGNMENT_(TruncateFloatService);
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
@@ -123,12 +123,12 @@ namespace MplusM
             typedef BaseFilterService inherited;
             
             /*! @brief The handler for input data. */
-            TruncateFilterInputHandler * _inHandler;
+            TruncateFloatInputHandler * _inHandler;
             
-        }; // TruncateFilterService
+        }; // TruncateFloatService
         
     } // Example
     
 } // MplusM
 
-#endif // ! defined(MpMTruncateFilterService_H_)
+#endif // ! defined(MpMTruncateFloatService_H_)

@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       TruncateFilterService/CMakeLists.txt
+#  File:       TruncateFloatService/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the truncate filter service application.
+#  Contains:   The CMAKE definitions for the truncate float service application.
 #
 #  Written by: Norman Jaffe
 #
@@ -39,14 +39,14 @@
 include_directories("${MpM_SOURCE_DIR}")
 
 # Set up our program
-add_executable(mpmTruncateFilterService
-               M+MTruncateFilterServiceMain.cpp
-               M+MTruncateFilterInputHandler.cpp
-               M+MTruncateFilterService.cpp)
+add_executable(mpmTruncateFloatService
+               M+MTruncateFloatServiceMain.cpp
+               M+MTruncateFloatInputHandler.cpp
+               M+MTruncateFloatService.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(mpmTruncateFilterService
+target_link_libraries(mpmTruncateFloatService
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})

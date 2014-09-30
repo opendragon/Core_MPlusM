@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MTruncateFilterService.cpp
+//  File:       M+MTruncateFloatService.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the truncate filter service.
+//  Contains:   The class definition for the truncate float service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MTruncateFilterService.h"
-#include "M+MTruncateFilterInputHandler.h"
-#include "M+MTruncateFilterRequests.h"
+#include "M+MTruncateFloatService.h"
+#include "M+MTruncateFloatInputHandler.h"
+#include "M+MTruncateFloatRequests.h"
 
 #include <mpm/M+MEndpoint.h>
 
@@ -51,7 +51,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the truncate filter service. */
+ @brief The class definition for the truncate float service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -76,33 +76,33 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-TruncateFilterService::TruncateFilterService(const yarp::os::ConstString & launchPath,
-                                             const yarp::os::ConstString & tag,
-                                             const yarp::os::ConstString & serviceEndpointName,
-                                             const yarp::os::ConstString & servicePortNumber) :
-    inherited(launchPath, tag, true, MpM_TRUNCATEFILTER_CANONICAL_NAME,
-              "The truncate filter service", "", serviceEndpointName, servicePortNumber),
-    _inHandler(new TruncateFilterInputHandler)
+TruncateFloatService::TruncateFloatService(const yarp::os::ConstString & launchPath,
+                                           const yarp::os::ConstString & tag,
+                                           const yarp::os::ConstString & serviceEndpointName,
+                                           const yarp::os::ConstString & servicePortNumber) :
+    inherited(launchPath, tag, true, MpM_TRUNCATEFLOAT_CANONICAL_NAME,
+              "The truncate float service", "", serviceEndpointName, servicePortNumber),
+    _inHandler(new TruncateFloatInputHandler)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_EXIT_P(this); //####
-} // TruncateFilterService::TruncateFilterService
+} // TruncateFloatService::TruncateFloatService
 
-TruncateFilterService::~TruncateFilterService(void)
+TruncateFloatService::~TruncateFloatService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
     delete _inHandler;
     OD_LOG_OBJEXIT(); //####
-} // TruncateFilterService::~TruncateFilterService
+} // TruncateFloatService::~TruncateFloatService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool TruncateFilterService::configure(const yarp::os::Bottle & details)
+bool TruncateFloatService::configure(const yarp::os::Bottle & details)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -125,9 +125,9 @@ bool TruncateFilterService::configure(const yarp::os::Bottle & details)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // TruncateFilterService::configure
+} // TruncateFloatService::configure
 
-void TruncateFilterService::restartStreams(void)
+void TruncateFloatService::restartStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -142,9 +142,9 @@ void TruncateFilterService::restartStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // TruncateFilterService::restartStreams
+} // TruncateFloatService::restartStreams
 
-bool TruncateFilterService::setUpStreamDescriptions(void)
+bool TruncateFloatService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
     bool                  result = true;
@@ -161,9 +161,9 @@ bool TruncateFilterService::setUpStreamDescriptions(void)
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // TruncateFilterService::setUpStreamDescriptions
+} // TruncateFloatService::setUpStreamDescriptions
 
-bool TruncateFilterService::start(void)
+bool TruncateFloatService::start(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -188,9 +188,9 @@ bool TruncateFilterService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // TruncateFilterService::start
+} // TruncateFloatService::start
 
-void TruncateFilterService::startStreams(void)
+void TruncateFloatService::startStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -211,9 +211,9 @@ void TruncateFilterService::startStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // TruncateFilterService::startStreams
+} // TruncateFloatService::startStreams
 
-bool TruncateFilterService::stop(void)
+bool TruncateFloatService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -229,9 +229,9 @@ bool TruncateFilterService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // TruncateFilterService::stop
+} // TruncateFloatService::stop
 
-void TruncateFilterService::stopStreams(void)
+void TruncateFloatService::stopStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -251,7 +251,7 @@ void TruncateFilterService::stopStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // TruncateFilterService::stopStreams
+} // TruncateFloatService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

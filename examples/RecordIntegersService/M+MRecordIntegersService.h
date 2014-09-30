@@ -62,7 +62,7 @@ namespace MplusM
     {
         class RecordIntegersInputHandler;
         
-        /*! @brief The record integers output stream service. */
+        /*! @brief The record integers output service. */
         class RecordIntegersService : public Common::BaseOutputService
         {
         public :

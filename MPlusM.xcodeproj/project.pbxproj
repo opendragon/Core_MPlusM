@@ -280,13 +280,6 @@
 		DF385122198ACCFE00A0414E /* M+MUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUtilities.cpp"; path = "mpm/M+MUtilities.cpp"; sourceTree = SOURCE_ROOT; };
 		DF385123198ACCFE00A0414E /* M+MUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUtilities.h"; path = "mpm/M+MUtilities.h"; sourceTree = SOURCE_ROOT; };
 		DF824B4719C737F7004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Exemplars/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF824B7519C74324004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/TruncateFilterService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF824B7619C74324004D13AC /* M+MTruncateFilterInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFilterInputHandler.cpp"; path = "examples/TruncateFilterService/M+MTruncateFilterInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF824B7719C74324004D13AC /* M+MTruncateFilterInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFilterInputHandler.h"; path = "examples/TruncateFilterService/M+MTruncateFilterInputHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF824B7819C74324004D13AC /* M+MTruncateFilterRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFilterRequests.h"; path = "examples/TruncateFilterService/M+MTruncateFilterRequests.h"; sourceTree = SOURCE_ROOT; };
-		DF824B7919C74324004D13AC /* M+MTruncateFilterService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFilterService.cpp"; path = "examples/TruncateFilterService/M+MTruncateFilterService.cpp"; sourceTree = SOURCE_ROOT; };
-		DF824B7A19C74324004D13AC /* M+MTruncateFilterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFilterService.h"; path = "examples/TruncateFilterService/M+MTruncateFilterService.h"; sourceTree = SOURCE_ROOT; };
-		DF824B7B19C74324004D13AC /* M+MTruncateFilterServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFilterServiceMain.cpp"; path = "examples/TruncateFilterService/M+MTruncateFilterServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF824B7C19C744CC004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RecordIntegersService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF824B7D19C744CC004D13AC /* M+MRecordIntegersInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordIntegersInputHandler.cpp"; path = "examples/RecordIntegersService/M+MRecordIntegersInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF824B7E19C744CC004D13AC /* M+MRecordIntegersInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordIntegersInputHandler.h"; path = "examples/RecordIntegersService/M+MRecordIntegersInputHandler.h"; sourceTree = SOURCE_ROOT; };
@@ -358,6 +351,13 @@
 		DFCDE4EC19DB23150051D294 /* M+MAbsorberService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberService.cpp"; path = "examples/AbsorberService/M+MAbsorberService.cpp"; sourceTree = "<group>"; };
 		DFCDE4ED19DB23150051D294 /* M+MAbsorberService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberService.h"; path = "examples/AbsorberService/M+MAbsorberService.h"; sourceTree = "<group>"; };
 		DFCDE4EE19DB23150051D294 /* M+MAbsorberServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberServiceMain.cpp"; path = "examples/AbsorberService/M+MAbsorberServiceMain.cpp"; sourceTree = "<group>"; };
+		DFCDE4EF19DB2B6B0051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/TruncateFloatService/CMakeLists.txt; sourceTree = "<group>"; };
+		DFCDE4F019DB2B6B0051D294 /* M+MTruncateFloatInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFloatInputHandler.cpp"; path = "examples/TruncateFloatService/M+MTruncateFloatInputHandler.cpp"; sourceTree = "<group>"; };
+		DFCDE4F119DB2B6B0051D294 /* M+MTruncateFloatInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFloatInputHandler.h"; path = "examples/TruncateFloatService/M+MTruncateFloatInputHandler.h"; sourceTree = "<group>"; };
+		DFCDE4F219DB2B6B0051D294 /* M+MTruncateFloatRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFloatRequests.h"; path = "examples/TruncateFloatService/M+MTruncateFloatRequests.h"; sourceTree = "<group>"; };
+		DFCDE4F319DB2B6B0051D294 /* M+MTruncateFloatService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFloatService.cpp"; path = "examples/TruncateFloatService/M+MTruncateFloatService.cpp"; sourceTree = "<group>"; };
+		DFCDE4F419DB2B6B0051D294 /* M+MTruncateFloatService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFloatService.h"; path = "examples/TruncateFloatService/M+MTruncateFloatService.h"; sourceTree = "<group>"; };
+		DFCDE4F519DB2B6B0051D294 /* M+MTruncateFloatServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFloatServiceMain.cpp"; path = "examples/TruncateFloatService/M+MTruncateFloatServiceMain.cpp"; sourceTree = "<group>"; };
 		DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MMovementDbClient.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DFE83AD119B671D1003A7EDE /* M+MMovementDbClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbClient.h"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.h"; sourceTree = SOURCE_ROOT; };
 		DFE83AD219B671D1003A7EDE /* M+MMovementDbClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbClientMain.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClientMain.cpp"; sourceTree = SOURCE_ROOT; };
@@ -673,18 +673,18 @@
 			name = RecordIntegersService;
 			sourceTree = SOURCE_ROOT;
 		};
-		DF36EF22195A303600E7D889 /* TruncateFilterService */ = {
+		DF36EF22195A303600E7D889 /* TruncateFloatService */ = {
 			isa = PBXGroup;
 			children = (
-				DF824B7519C74324004D13AC /* CMakeLists.txt */,
-				DF824B7619C74324004D13AC /* M+MTruncateFilterInputHandler.cpp */,
-				DF824B7719C74324004D13AC /* M+MTruncateFilterInputHandler.h */,
-				DF824B7819C74324004D13AC /* M+MTruncateFilterRequests.h */,
-				DF824B7919C74324004D13AC /* M+MTruncateFilterService.cpp */,
-				DF824B7A19C74324004D13AC /* M+MTruncateFilterService.h */,
-				DF824B7B19C74324004D13AC /* M+MTruncateFilterServiceMain.cpp */,
+				DFCDE4EF19DB2B6B0051D294 /* CMakeLists.txt */,
+				DFCDE4F019DB2B6B0051D294 /* M+MTruncateFloatInputHandler.cpp */,
+				DFCDE4F119DB2B6B0051D294 /* M+MTruncateFloatInputHandler.h */,
+				DFCDE4F219DB2B6B0051D294 /* M+MTruncateFloatRequests.h */,
+				DFCDE4F319DB2B6B0051D294 /* M+MTruncateFloatService.cpp */,
+				DFCDE4F419DB2B6B0051D294 /* M+MTruncateFloatService.h */,
+				DFCDE4F519DB2B6B0051D294 /* M+MTruncateFloatServiceMain.cpp */,
 			);
-			name = TruncateFilterService;
+			name = TruncateFloatService;
 			sourceTree = SOURCE_ROOT;
 		};
 		DF38503D198ABBA000A0414E /* CommonTests */ = {
@@ -1124,7 +1124,7 @@
 				DF2092E918D8F6110093D3DC /* RunningSumClient */,
 				DF7784FB18ECA60600BDC5C1 /* RunningSumCommon */,
 				DF2092D918D8DFE60093D3DC /* RunningSumService */,
-				DF36EF22195A303600E7D889 /* TruncateFilterService */,
+				DF36EF22195A303600E7D889 /* TruncateFloatService */,
 			);
 			name = examples;
 			sourceTree = SOURCE_ROOT;
