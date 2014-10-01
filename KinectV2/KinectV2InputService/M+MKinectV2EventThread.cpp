@@ -59,17 +59,19 @@ using namespace MplusM::KinectV2;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+//#define REPORT_EVENT_COUNT /* */
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Add a floating-point vector to a dictionary.
+/*! @brief Add a three-dimensional floating-point vector to a dictionary.
  @param dictionary The dictionary to be updated.
  @param tag The tag to associate with the vector.
  @param position The vector to be added. */
-static void addVectorToDictionary(yarp::os::Property &          dictionary,
-                                  const yarp::os::ConstString & tag,
-                                  const CameraSpacePoint &      position)
+static void add3VectorToDictionary(yarp::os::Property &          dictionary,
+                                   const yarp::os::ConstString & tag,
+                                   const CameraSpacePoint &      position)
 {
     yarp::os::Value    stuff;
     yarp::os::Bottle * stuffAsList = stuff.asList();
@@ -81,7 +83,28 @@ static void addVectorToDictionary(yarp::os::Property &          dictionary,
         stuffAsList->addDouble(position.Z);
         dictionary.put(tag, stuff);
     }
-} // addVectorToDictionary
+} // add3VectorToDictionary
+
+/*! @brief Add a four-dimensional floating-point vector to a dictionary.
+ @param dictionary The dictionary to be updated.
+ @param tag The tag to associate with the vector.
+ @param orientation The vector to be added. */
+static void add4VectorToDictionary(yarp::os::Property &          dictionary,
+                                   const yarp::os::ConstString & tag,
+                                   const Vector4 &               orientation)
+{
+    yarp::os::Value    stuff;
+    yarp::os::Bottle * stuffAsList = stuff.asList();
+
+    if (stuffAsList)
+    {
+        stuffAsList->addDouble(orientation.x);
+        stuffAsList->addDouble(orientation.y);
+        stuffAsList->addDouble(orientation.z);
+        stuffAsList->addDouble(orientation.w);
+        dictionary.put(tag, stuff);
+    }
+} // add4VectorToDictionary
 
 /*! @brief Add the description of a bone to a list.
  @param listToUpdate The list to be added to.
@@ -91,7 +114,9 @@ static void addVectorToDictionary(yarp::os::Property &          dictionary,
 static void addBoneToList(yarp::os::Bottle &            listToUpdate,
                           const yarp::os::ConstString & jointTag,
                           const Joint &                 startJoint,
-                          const Joint &                 endJoint)
+                          const Joint &                 endJoint,
+                          const JointOrientation &      startOrientation,
+                          const JointOrientation &      endOrientation)
 {
     // If we can't find either of these joints, exit
     if ((TrackingState_NotTracked != startJoint.TrackingState) &&
@@ -104,14 +129,16 @@ static void addBoneToList(yarp::os::Bottle &            listToUpdate,
             yarp::os::Property & boneProps = listToUpdate.addDict();
 
             boneProps.put("tag", jointTag);
-            addVectorToDictionary(boneProps, "start", startJoint.Position);
-            addVectorToDictionary(boneProps, "end", endJoint.Position);
+            add3VectorToDictionary(boneProps, "startposition", startJoint.Position);
+            add3VectorToDictionary(boneProps, "endposition", endJoint.Position);
+            add4VectorToDictionary(boneProps, "startorientation", startOrientation.Orientation);
+            add4VectorToDictionary(boneProps, "endorientation", endOrientation.Orientation);
         }
     }
 } // addBoneToList
 
 /*! @brief Convert a hand state into a string.
- @param theHandState The state of the hand
+ @param theHandState The state of the hand.
  @returns The state of the hand as a string. */
 static const char * handStateToString(const HandState theHandState)
 {
@@ -139,79 +166,101 @@ static const char * handStateToString(const HandState theHandState)
     return result;
 } // handStateToString
 
+/*! @brief Convert a hand state confidence into a string.
+ @param theHandConfidence The confidence in the state of the hand.
+ @returns The confidence of the hand state as a string. */
+static const char * handConfidenceToString(const TrackingConfidence theHandConfidence)
+{
+    const char * result;
+
+    switch (theHandConfidence)
+    {
+        case TrackingConfidence_Low :
+            result = "low";
+            break;
+
+        case TrackingConfidence_High :
+            result = "high";
+            break;
+
+        default :
+            result = "unknown";
+            break;
+
+    }
+    return result;
+} // handConfidenceToString
+
+/*! @brief Add a bone to the list that's being built.
+ @param str_ The name for the bone.
+ @param start_ The starting joint for the bone.
+ @param end_ The ending joint for the bone. */
+#define ADD_BONE_TO_LIST_(str_, start_, end_) \
+        addBoneToList(*bonesList, str_, joints[start_], joints[end_], jointOrientations[start_], jointOrientations[end_])
+
 /*! @brief Add the data for a body to a message.
- @param message The message to be updated with the body data
- @param joints The set of joints for the body
- @param leftHandState The state of the left hand
- @param rightHandState The state of the right hand */
-static void addBodyToMessage(yarp::os::Bottle & message,
-                             const Joint *      joints,
-                             const HandState    leftHandState,
-                             const HandState    rightHandState)
+ @param message The message to be updated with the body data.
+ @param joints The set of joints for the body.
+ @param jointOrientations The orientations of the joints.
+ @param leftHandState The state of the left hand.
+ @param leftHandConfidence The confidence in the value of the state of the left hand.
+ @param rightHandState The state of the right hand.
+ @param rightHandConfidence The confidence in the value of the state of the right hand. */
+static void addBodyToMessage(yarp::os::Bottle &       message,
+                             const Joint *            joints,
+                             const JointOrientation * jointOrientations,
+                             const HandState          leftHandState,
+                             const TrackingConfidence leftHandConfidence,
+                             const HandState          rightHandState,
+                             const TrackingConfidence rightHandConfidence)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("message = ", &message, "joints = ", joints); //####
+    OD_LOG_P3("message = ", &message, "joints = ", joints, "jointOrientations = ", jointOrientations); //####
     yarp::os::Property & bodyProps = message.addDict();
 
     bodyProps.put("lefthand", handStateToString(leftHandState));
     bodyProps.put("righthand", handStateToString(rightHandState));
+    bodyProps.put("lefthandconfidence", handConfidenceToString(leftHandConfidence));
+    bodyProps.put("righthandconfidence", handConfidenceToString(rightHandConfidence));
     yarp::os::Value    bones;
     yarp::os::Bottle * bonesList = bones.asList();
 
     if (bonesList)
     {
         // Torso
-        addBoneToList(*bonesList, "head2neck", joints[JointType_Head], joints[JointType_Neck]);
-        addBoneToList(*bonesList, "neck2spineshoulder", joints[JointType_Neck],
-                      joints[JointType_SpineShoulder]);
-        addBoneToList(*bonesList, "spineshoulder2spinemid", joints[JointType_SpineShoulder],
-                      joints[JointType_SpineMid]);
-        addBoneToList(*bonesList, "spinemid2spinebase", joints[JointType_SpineMid],
-                      joints[JointType_SpineBase]);
-        addBoneToList(*bonesList, "spineshoulder2shoulderright", joints[JointType_SpineShoulder],
-                      joints[JointType_ShoulderRight]);
-        addBoneToList(*bonesList, "spineshoulder2shoulderleft", joints[JointType_SpineShoulder],
-                      joints[JointType_ShoulderLeft]);
-        addBoneToList(*bonesList, "spinebase2hipright", joints[JointType_SpineBase],
-                      joints[JointType_HipRight]);
-        addBoneToList(*bonesList, "spinebase2hipleft", joints[JointType_SpineBase],
-                      joints[JointType_HipLeft]);
+        ADD_BONE_TO_LIST_("head2neck", JointType_Head, JointType_Neck);
+        ADD_BONE_TO_LIST_("neck2spineshoulder", JointType_Neck, JointType_SpineShoulder);
+        ADD_BONE_TO_LIST_("spineshoulder2spinemid", JointType_SpineShoulder, JointType_SpineMid);
+        ADD_BONE_TO_LIST_("spinemid2spinebase", JointType_SpineMid, JointType_SpineBase);
+        ADD_BONE_TO_LIST_("spineshoulder2shoulderright", JointType_SpineShoulder, JointType_ShoulderRight);
+        ADD_BONE_TO_LIST_("spineshoulder2shoulderleft", JointType_SpineShoulder, JointType_ShoulderLeft);
+        ADD_BONE_TO_LIST_("spinebase2hipright", JointType_SpineBase, JointType_HipRight);
+        ADD_BONE_TO_LIST_("spinebase2hipleft", JointType_SpineBase, JointType_HipLeft);
+
         // Right arm
-        addBoneToList(*bonesList, "shoulderright2elbowright", joints[JointType_ShoulderRight],
-                      joints[JointType_ElbowRight]);
-        addBoneToList(*bonesList, "elbowright2wristright", joints[JointType_ElbowRight],
-                      joints[JointType_WristRight]);
-        addBoneToList(*bonesList, "wristright2handright", joints[JointType_WristRight],
-                      joints[JointType_HandRight]);
-        addBoneToList(*bonesList, "handright2handtipright", joints[JointType_HandRight],
-                      joints[JointType_HandTipRight]);
-        addBoneToList(*bonesList, "wristright2thumbright", joints[JointType_WristRight],
-                      joints[JointType_ThumbRight]);
+        ADD_BONE_TO_LIST_("shoulderright2elbowright", JointType_ShoulderRight, JointType_ElbowRight);
+        ADD_BONE_TO_LIST_("elbowright2wristright", JointType_ElbowRight, JointType_WristRight);
+        ADD_BONE_TO_LIST_("wristright2handright", JointType_WristRight, JointType_HandRight);
+        ADD_BONE_TO_LIST_("handright2handtipright", JointType_HandRight, JointType_HandTipRight);
+        ADD_BONE_TO_LIST_("wristright2thumbright", JointType_WristRight, JointType_ThumbRight);
+
         // Left arm
-        addBoneToList(*bonesList, "shoulderleft2elbowleft", joints[JointType_ShoulderLeft],
-                      joints[JointType_ElbowLeft]);
-        addBoneToList(*bonesList, "elbowleft2wristleft", joints[JointType_ElbowLeft],
-                      joints[JointType_WristLeft]);
-        addBoneToList(*bonesList, "wristleft2handleft", joints[JointType_WristLeft],
-                      joints[JointType_HandLeft]);
-        addBoneToList(*bonesList, "handleft2handtipleft", joints[JointType_HandLeft],
-                      joints[JointType_HandTipLeft]);
-        addBoneToList(*bonesList, "wristleft2thumbleft", joints[JointType_WristLeft],
-                      joints[JointType_ThumbLeft]);
+        ADD_BONE_TO_LIST_("shoulderleft2elbowleft", JointType_ShoulderLeft, JointType_ElbowLeft);
+        ADD_BONE_TO_LIST_("elbowleft2wristleft", JointType_ElbowLeft, JointType_WristLeft);
+        ADD_BONE_TO_LIST_("wristleft2handleft", JointType_WristLeft, JointType_HandLeft);
+        ADD_BONE_TO_LIST_("handleft2handtipleft", JointType_HandLeft, JointType_HandTipLeft);
+        ADD_BONE_TO_LIST_("wristleft2thumbleft", JointType_WristLeft, JointType_ThumbLeft);
+
         // Right leg
-        addBoneToList(*bonesList, "hipright2kneeright", joints[JointType_HipRight],
-                      joints[JointType_KneeRight]);
-        addBoneToList(*bonesList, "kneeright2ankleright", joints[JointType_KneeRight],
-                      joints[JointType_AnkleRight]);
-        addBoneToList(*bonesList, "ankleright2footright", joints[JointType_AnkleRight],
-                      joints[JointType_FootRight]);
+        ADD_BONE_TO_LIST_("hipright2kneeright", JointType_HipRight, JointType_KneeRight);
+        ADD_BONE_TO_LIST_("kneeright2ankleright", JointType_KneeRight, JointType_AnkleRight);
+        ADD_BONE_TO_LIST_("ankleright2footright", JointType_AnkleRight, JointType_FootRight);
+
         // Left leg
-        addBoneToList(*bonesList, "hipleft2kneeleft", joints[JointType_HipLeft],
-                      joints[JointType_KneeLeft]);
-        addBoneToList(*bonesList, "kneeleft2ankleleft", joints[JointType_KneeLeft],
-                      joints[JointType_AnkleLeft]);
-        addBoneToList(*bonesList, "ankleleft2footleft", joints[JointType_AnkleLeft],
-                      joints[JointType_FootLeft]);
+        ADD_BONE_TO_LIST_("hipleft2kneeleft", JointType_HipLeft, JointType_KneeLeft);
+        ADD_BONE_TO_LIST_("kneeleft2ankleleft", JointType_KneeLeft, JointType_AnkleLeft);
+        ADD_BONE_TO_LIST_("ankleleft2footleft", JointType_AnkleLeft, JointType_FootLeft);
+
         // Add them all
         bodyProps.put("bones", bones);
     }
@@ -219,9 +268,9 @@ static void addBodyToMessage(yarp::os::Bottle & message,
 } // addBodyToMessage
 
 /*! @brief Process the data returned by the Kinect V2 sensor.
- @param message The message to be updated with the sensor data
- @param nBodyCount The number of 'bodies' in the sensor data
- @param ppBodies The sensor data
+ @param message The message to be updated with the sensor data.
+ @param nBodyCount The number of 'bodies' in the sensor data.
+ @param ppBodies The sensor data.
  @returns @c true if at least one body was added to the message successfully, and @c false
  otherwise. */
 static bool processBody(yarp::os::Bottle & message,
@@ -244,16 +293,25 @@ static bool processBody(yarp::os::Bottle & message,
 
             if (SUCCEEDED(hr) && bTracked)
             {
-                Joint     joints[JointType_Count]; 
-                HandState leftHandState = HandState_Unknown;
-                HandState rightHandState = HandState_Unknown;
+                Joint              joints[JointType_Count];
+                JointOrientation   jointOrientations[JointType_Count];
+                HandState          leftHandState = HandState_Unknown;
+                HandState          rightHandState = HandState_Unknown;
+                TrackingConfidence leftHandConfidence = TrackingConfidence_Low;
+                TrackingConfidence rightHandConfidence = TrackingConfidence_Low;
 
                 pBody->get_HandLeftState(&leftHandState);
                 pBody->get_HandRightState(&rightHandState);
+                pBody->get_HandLeftConfidence(&leftHandConfidence);
+                pBody->get_HandRightConfidence(&rightHandConfidence);
                 hr = pBody->GetJoints(_countof(joints), joints);
                 if (SUCCEEDED(hr))
                 {
-                    addBodyToMessage(message, joints, leftHandState, rightHandState);
+                    hr = pBody->GetJointOrientations(_countof(jointOrientations), jointOrientations);
+                }
+                if (SUCCEEDED(hr))
+                {
+                    addBodyToMessage(message, joints, jointOrientations, leftHandState, leftHandConfidence, rightHandState, rightHandConfidence);
                     result = true;
                 }
             }
@@ -332,7 +390,9 @@ HRESULT KinectV2EventThread::initializeDefaultSensor(void)
     return hr;
 } // KinectV2EventThread::initializeDefaultSensor
 
+#if defined(REPORT_EVENT_COUNT)
 static long lEventCount = 0; //####
+#endif // defined(REPORT_EVENT_COUNT)
 
 void KinectV2EventThread::processEventData(void)
 {
@@ -372,8 +432,10 @@ void KinectV2EventThread::processEventData(void)
                     SafeRelease(bodyFrame);
                     if (SUCCEEDED(hr) && _outChannel)
                     {
+#if defined(REPORT_EVENT_COUNT)
                         ++lEventCount; //####
                         std::cerr << "got " << lEventCount << std::endl; //####
+#endif // defined(REPORT_EVENT_COUNT)
                         if (! _outChannel->write(message))
                         {
                             OD_LOG("(! _outChannel->write(message))"); //####

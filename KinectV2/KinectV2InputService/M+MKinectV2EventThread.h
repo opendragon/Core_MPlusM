@@ -89,7 +89,7 @@ namespace MplusM
             
             COPY_AND_ASSIGNMENT_(KinectV2EventThread);
 
-            /*! @brief Initialize the default Kinect V2 sensor
+            /*! @brief Initialize the default Kinect V2 sensor.
              @returns @c S_OK on success, a failure code otherwise. */
             HRESULT initializeDefaultSensor(void);
 
