@@ -276,7 +276,7 @@ namespace MplusM
              @param argc The number of arguments in 'argv'.
              @param argv The arguments to be used to specify the new service. */
             RegistryService(const int argc,
-                            char **   argv);
+                            char * *  argv);
             
             COPY_AND_ASSIGNMENT_(RegistryService);
             

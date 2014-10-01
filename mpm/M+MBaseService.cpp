@@ -233,7 +233,7 @@ BaseService::BaseService(const ServiceKind             theKind,
                          const yarp::os::ConstString & description,
                          const yarp::os::ConstString & requestsDescription,
                          const int                     argc,
-                         char **                       argv) :
+                         char * *                      argv) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription),
     _serviceName(canonicalName), _tag(), _requestCount(0), _channelsHandler(NULL),

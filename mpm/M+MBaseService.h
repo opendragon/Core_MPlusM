@@ -118,7 +118,7 @@ namespace MplusM
                         const yarp::os::ConstString & description,
                         const yarp::os::ConstString & requestsDescription,
                         const int                     argc,
-                        char **                       argv);
+                        char * *                      argv);
             
             /*! @brief The destructor. */
             virtual ~BaseService(void);

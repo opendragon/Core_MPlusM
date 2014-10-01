@@ -93,8 +93,8 @@ using namespace MplusM::Example;
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int     argc,
-         char ** argv)
+int main(int      argc,
+         char * * argv)
 {
 #if defined(MpM_SERVICES_LOG_TO_STDERR)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####

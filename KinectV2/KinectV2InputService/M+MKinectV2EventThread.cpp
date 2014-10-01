@@ -226,7 +226,7 @@ static void addBodyToMessage(yarp::os::Bottle & message,
  otherwise. */
 static bool processBody(yarp::os::Bottle & message,
                         const int          nBodyCount,
-                        IBody **           ppBodies)
+                        IBody * *          ppBodies)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("message = ", message, "ppBodies = ", ppBodies); //####
