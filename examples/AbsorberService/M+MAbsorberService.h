@@ -102,8 +102,9 @@ namespace MplusM
             /*! @brief Stop the input/output streams. */
             virtual void stopStreams(void);
             
-            /*! @brief Increment and report the count. */
-            void updateCount(void);
+            /*! @brief Increment and report the count.
+             @param numBytes The bytes reported on the input channel. */
+            void updateCount(const size_t numBytes);
             
         protected :
             

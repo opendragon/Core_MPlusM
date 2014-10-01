@@ -103,11 +103,12 @@ bool BaseInputHandler::read(yarp::os::ConnectionReader & connection)
             DumpContactToLog("input read", connection.getRemoteContact()); //####
 #endif // defined(MpM_ReportContactDetails)
             yarp::os::Bottle aBottle;
+            size_t           numBytes = connection.getSize();
             
             if (aBottle.read(connection))
             {
                 result = handleInput(aBottle, connection.getRemoteContact().getName(),
-                                     connection.getWriter());
+                                     connection.getWriter(), numBytes);
             }
         }
     }

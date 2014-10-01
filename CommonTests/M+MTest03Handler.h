@@ -74,10 +74,12 @@ namespace MplusM
              @param input The partially-structured input data.
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @param numBytes The number of bytes available on the connection.
              @returns @c true if the input was correctly structured and successfully processed. */
             virtual bool handleInput(const yarp::os::Bottle &      input,
                                      const yarp::os::ConstString & senderChannel,
-                                     yarp::os::ConnectionWriter *  replyMechanism);
+                                     yarp::os::ConnectionWriter *  replyMechanism,
+                                     const size_t                  numBytes);
             
         protected :
             

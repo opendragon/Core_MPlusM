@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MBaseServiceInputHandler.cpp
+//  File:       mpm/M+MServiceInputHandler.cpp
 //
 //  Project:    M+M
 //
@@ -92,12 +92,14 @@ ServiceInputHandler::~ServiceInputHandler(void)
 #endif // defined(__APPLE__)
 
 bool ServiceInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                          const yarp::os::ConstString & senderChannel,
-                                          yarp::os::ConnectionWriter *  replyMechanism)
+                                      const yarp::os::ConstString & senderChannel,
+                                      yarp::os::ConnectionWriter *  replyMechanism,
+                                      const size_t                  numBytes)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
     OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    OD_LOG_L1("numBytes = ", numBytes); //####
     bool result = true;
     
     try

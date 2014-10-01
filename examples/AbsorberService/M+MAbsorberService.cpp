@@ -240,9 +240,10 @@ void AbsorberService::stopStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // AbsorberService::stopStreams
 
-void AbsorberService::updateCount(void)
+void AbsorberService::updateCount(const size_t numBytes)
 {
     OD_LOG_OBJENTER(); //####
+    OD_LOG_L1("numBytes = ", numBytes); //####
     try
     {
         if (isActive())
@@ -251,9 +252,11 @@ void AbsorberService::updateCount(void)
 
             ++_count;
 #if MAC_OR_LINUX_
-            snprintf(buff, sizeof(buff), "message count = %ld.", _count);
+            snprintf(buff, sizeof(buff), "message count = %ld, byte count = %ld.", _count,
+                     numBytes);
 #else // ! MAC_OR_LINUX_
-            sprintf_s(buff, sizeof(buff), "message count = %ld.", _count);
+            sprintf_s(buff, sizeof(buff), "message count = %ld, byte count = %ld.", _count,
+                      numBytes);
 #endif // ! MAC_OR_LINUX_
             std::cout << buff << std::endl;
         }
