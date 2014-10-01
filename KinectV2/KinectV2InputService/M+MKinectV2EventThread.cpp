@@ -434,14 +434,17 @@ void KinectV2EventThread::processEventData(void)
                     {
 #if defined(REPORT_EVENT_COUNT)
                         ++lEventCount; //####
-                        std::cerr << "got " << lEventCount << std::endl; //####
+                        std::cerr << "sending " << lEventCount << std::endl; //####
 #endif // defined(REPORT_EVENT_COUNT)
-                        if (! _outChannel->write(message))
+                        if (0 < message.size())
                         {
-                            OD_LOG("(! _outChannel->write(message))"); //####
+                            if (! _outChannel->write(message))
+                            {
+                                OD_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                            Stall();
+                                Stall();
 #endif // defined(MpM_StallOnSendProblem)
+                            }
                         }
                     }
                 }
