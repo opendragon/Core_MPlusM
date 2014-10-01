@@ -1,0 +1,460 @@
+\ProvidesFile{sharedSetup.tex}
+\documentclass[letterpaper,titlepage,twoside]{report}
+
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage{ifthen}
+\usepackage{alltt}
+\usepackage{calc}
+\usepackage{shortvrb}
+\usepackage{varioref}
+\usepackage[dvips]{graphicx}
+\usepackage[dvips,usenames]{color}
+\usepackage{makeidx}
+\usepackage{xspace}
+\usepackage{fancyhdr}
+\usepackage[section]{tocbibind}
+
+% Control the code, depending on whether a hyper-linked PDF is being generated:
+\newboolean{generatingHyperPDF}
+\setboolean{generatingHyperPDF}{true}
+
+% If the package 'hyperref' is disabled by commenting out the following lines,
+% be sure to set the boolean 'generatingHyperPDF' to false.
+\ifthenelse{\boolean{generatingHyperPDF}}%
+ {\usepackage[dvips,
+    colorlinks=true,
+    linkcolor=webgreen,
+    filecolor=webbrown,
+    citecolor=webgreen,
+    urlcolor=webblue,
+    pdftitle={Movement And Meaning Middleware},
+    pdfauthor={Norman Jaffe},
+    pdfkeywords={movement,middleware,YARP,ACE,JUCE},
+    pdfsubject={Middleware},
+    bookmarks,
+    raiselinks=true,
+    plainpages=false,
+    bookmarksopen=true,
+    pdfstartview=Fit,
+    pdfpagemode=UseOutlines]{hyperref}}
+ {\newcommand{\hyperpage}[1]{#1}}
+
+\usepackage{mysects}
+
+% Adjust the paper edges:
+\setlength{\parindent}{0em}
+\setlength{\textwidth}{\paperwidth-144pt}% 2"
+\setlength{\marginparsep}{0pt}
+\setlength{\marginparwidth}{0pt}
+\setlength{\evensidemargin}{-18pt}% 0.25"
+\setlength{\oddsidemargin}{-18pt}% 0.25"
+
+% Some colours for the web:
+\definecolor{webgreen}{rgb}{0,0.5,0}
+\definecolor{webbrown}{rgb}{0.6,0,0}
+\definecolor{webblue}{rgb}{0,0,0.5}
+
+% Define some common strings:
+\newcommand{\default}{!-!-!}
+\newcommand{\MMM}{Movement~and~Meaning~Middleware}
+\newcommand{\mplusm}{\textbf{M+M}}
+\newcommand{\nothing}{\ }
+\newcommand{\yarp}{\begin{footnotesize}\textsf{YARP}\end{footnotesize}}
+
+% Set the float behaviour:
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+
+% Suppress the normal numbering of sections, et cetera:
+\setcounter{secnumdepth}{-3}
+\setcounter{tocdepth}{2}
+
+% A couple of useful commands to handle italic-to-normal transitions:
+\newcommand{\textitcorr}[1]{\textit{#1}\/}
+\newcommand{\emphcorr}[1]{\emph{#1}\/}
+
+% Some commands to make examples match actual output more closely:
+\newcommand{\pseudotab}{\thinspace\boldmath{$\vdash$}\thinspace}
+\newcommand{\pseudotwotabs}{\thinspace\boldmath{$\vdash$}\thinspace\boldmath{$\vdash$}\thinspace}
+\newcommand{\clientName}{\textunderscore{}client\textunderscore{}}
+\newcommand{\serviceName}{\textunderscore{}service\textunderscore{}}
+\newcommand{\inputOutput}{Input~/~Output}
+\newcommand{\openSq}{\boldmath{$\lbrack$}}
+\newcommand{\closeSq}{\boldmath{$\rbrack$}}
+\newcommand{\sqPair}{\boldmath{$\lbrack{}\ \rbrack$}}
+\newcommand{\fatUnderscore}{\begin{Large}\textbf{\textunderscore}\end{Large}}
+\newlength{\utilLen}
+
+\newcommand*{\compLang}[1]{\emphcorr{#1}}
+
+\newcommand{\objCaption}[1]{\caption{#1\ }}
+% Create a framed box as a figure, centred horizontally (note that we can't use \textttt{}, as the third argument
+% could be quite large):
+\newcommand{\objFileDescription}[4][0.75]{\begin{figure}[!ht]%
+\setlength{\fboxsep}{3pt}\setlength{\fboxrule}{0.75bp}%
+\begin{center}\fbox{\begin{minipage}[t]{#1\textwidth}\begin{flushleft}\footnotesize\ttfamily #4\end{flushleft}%
+\end{minipage}}\objCaption{#2}\label{file:#3}\end{center}\end{figure}}
+
+\newcommand*{\objPicture}[1]{\begin{center}\includegraphics{#1}\end{center}}
+\newcommand*{\objDiagram}[3]{\begin{figure}[!ht]\objPicture{#1}\objCaption{#3}\label{diagram:#2}\end{figure}}
+
+% First argument: index category
+% Second argument: index subcategory
+% Third argument: alternate index subcategory
+% Fourth argument: index name
+% Fifth argument: index suffix 
+\newcommand{\multiindex}[5]{%
+  \ifthenelse{\equal{#2}{\default{}}}%
+    {\index{#1!#4#5}}%
+    {\index{#1!#2!#4#5}}}
+
+% First argument: label category
+% Second argument: label subcategory
+% Third argument: alternate label subcategory
+% Fourth argument: label name
+\newcommand{\multilabel}[4]{%
+  \ifthenelse{\equal{#3}{\default{}}}%
+    {\label{#1:#4}}%
+    {\label{#1:#3:#4}}}
+
+% First argument: reference category
+% Second argument: reference subcategory
+% Third argument: alternate reference subcategory
+% Fourth argument: reference name
+\newcommand{\multiref}[4]{%
+  \ifthenelse{\equal{#3}{\default{}}}%
+    {\ref{#1:#4}}%
+    {\ref{#1:#3:#4}}}
+
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index name
+% Third argument: alternate hyperlink/index name
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\genTag}[3]{\hyperlink{hyper.#1.#2}{\textitcorr{#3}}}}%  command if generatingHyperPDF
+  {\newcommand{\genTag}[3]{\textitcorr{#3}}}%  command if not generatingHyperPDF
+  
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index name
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\genTarget}[2]{\hypertarget{hyper.#1.#2}{}}}%  command if generatingHyperPDF
+  {\newcommand{\genTarget}[2]{}}%  command if not generatingHyperPDF
+
+% The net effect is as follows:
+%  generatingHyperPDF
+%   'D' \textitcorr{\color{webgreen}#3}  \hypertarget{hyper.#2.#3}{}\label{#2:#3}  {}
+%   'E' {}  {}  {}
+%	'M' {} \hypertarget{hyper.#2.#3}{}\label{#2:#3} {}
+%   'P' {} \hypertarget{hyper.#2.#3}{}\label{#2:#3} \index{#2!#3}
+%   'R' \hyperlink{hyper.#2.#3}{\textitcorr{#3}}  \index{#2!#3}  \ref{#2:#3}
+%   'S' \textitcorr{#3}  \index{#2!#3}  {}
+%   'X' \hyperlink{hyper.#2.#3}{\textitcorr{#3}}  {}  {}
+%  not generatingHyperPDF
+%   'D' \textitcorr{\color{webgreen}#3} \index{#2!#3|(textbf}\label{#2:#3}  {}
+%   'E' {} \index{#2!#3|)textbf}  {}
+%   'M' {} \index{#2!#3|(textbf}\label{#2:#3}  {}
+%   'P' {} \label{#2:#3} \index{#2!#3}
+%   'R' \textitcorr{#3}  \index{#2!#3}  \ref{#2:#3}
+%   'S' \textitcorr{#3}  \index{#2!#3}  {}
+%   'X' \textitcorr{#3}  {}  {}
+
+%   D = Define the object (emphasize the index, create a label);
+%   E = End of the object definition (close the index, no text);
+%	M = Define the object (no visible text)
+%   P = 
+%   R = Refer to the object in the index (the default);
+%   S = Reference to a standard object and
+%   X = Don't add a reference for the object to the index (any letter except D or
+%         R could be used, X is preferred for mnemonic value)
+
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index subcategory
+% Third argument: alternate hyperlink/index subcategory
+% Fourth argument: hyperlink/index name
+% Fifth argument: alternate hyperlink/index name
+\newcommand{\entityNameD}[5]{%
+  \genTarget{#1}{#4}%
+  \ifthenelse{\equal{#5}{\default{}}}%
+    {\textitcorr{\color{webgreen}#4}\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
+    {\textitcorr{\color{webgreen}#5}\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
+  \multilabel{#1}{#2}{#3}{#4}}
+
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index subcategory
+% Third argument: alternate hyperlink/index subcategory
+% Fourth argument: hyperlink/index name
+% Fifth argument: alternate hyperlink/index name
+\newcommand{\entityNameE}[5]{%
+  \ifthenelse{\equal{#1}{#4}}%
+    {}% if first and fourth argument match
+    {\ifthenelse{\equal{#5}{\default{}}}%
+      {\multiindex{#1}{#2}{#3}{#4}{|)textbf}}%
+      {\multiindex{#1}{#2}{#3}{#5}{|)textbf}}}}
+
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index subcategory
+% Third argument: alternate hyperlink/index subcategory
+% Fourth argument: hyperlink/index name
+% Fifth argument: alternate hyperlink/index name
+\newcommand{\entityNameM}[5]{%  command if not generatingHyperPDF
+  \genTarget{#1}{#4}%
+  \ifthenelse{\equal{#5}{\default{}}}%
+    {\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
+    {\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
+  \multilabel{#1}{#2}{#3}{#4}}
+
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index subcategory
+% Third argument: alternate hyperlink/index subcategory
+% Fourth argument: hyperlink/index name
+% Fifth argument: alternate hyperlink/index name
+\newcommand{\entityNameP}[5]{%  command if generatingHyperPDF
+  \genTarget{#1}{#4}%
+  \ifthenelse{\equal{#5}{\default{}}}%
+	{#4\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
+	{#5\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
+  \multilabel{#1}{#2}{#3}{#4}}
+
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index subcategory
+% Third argument: alternate hyperlink/index subcategory
+% Fourth argument: hyperlink/index name
+% Fifth argument: alternate hyperlink/index name
+\newcommand{\entityNameR}[5]{%  command if generatingHyperPDF
+  \ifthenelse{\equal{#5}{\default{}}}%
+    {\genTag{#1}{#4}{#4}%
+    \ifthenelse{\equal{#1}{#4}}%
+      {}% if first and fourth argument match
+      {\multiindex{#1}{#2}{#3}{#4}{}}}%
+    {\genTag{#1}{#4}{#5}%
+    \ifthenelse{\equal{#1}{#4}}%
+      {}% if first and fourth argument match
+      {\multiindex{#1}{#2}{#3}{#5}{}}}%
+  \multiref{#1}{#2}{#3}{#4}}
+
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index subcategory
+% Third argument: alternate hyperlink/index subcategory
+% Fourth argument: hyperlink/index name
+% Fifth argument: alternate hyperlink/index name
+\newcommand{\entityNameS}[5]{%
+  \ifthenelse{\equal{#5}{\default{}}}%
+	{\textitcorr{#4}}%
+	{\textitcorr{#5}}%
+  \ifthenelse{\equal{#1}{#4}}%
+    {}% if first and fourth argument match
+    {\multiindex{#1}{#2}{#3}{#4}{}}}
+
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index subcategory
+% Third argument: alternate hyperlink/index subcategory
+% Fourth argument: hyperlink/index name
+% Fifth argument: alternate hyperlink/index name
+\newcommand{\entityNameX}[5]{%  command if generatingHyperPDF
+  \ifthenelse{\equal{#5}{\default{}}}%
+    {\genTag{#1}{#4}{#4}}%
+    {\genTag{#1}{#4}{#5}}}%
+
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index name
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\doVpage}[2]{}}%  command if generatingHyperPDF
+  {\newcommand{\doVpage}[2]{ \vpageref[(][(]{#1:#2}}}%  command if not generatingHyperPDF
+  
+% Use \entityReference, rather than \entityName, for the first mention of an object within
+% another object, so that page ranges will be present.
+\newcommand{\entityReference}[2]{\entityNameR{#1}{\default{}}{\default{}}{#2}{\default{}}\doVpage{#1}{#2}}%  command if generatingHyperPDF
+
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\companyReference}[2]{\href{#1}{#2}}}%  command if generatingHyperPDF
+  {\newcommand{\companyReference}[2]{#2}}% command if not generatingHyperPDF
+
+% First argument [optional]: alternate name
+% Second argument: entity name
+\newcommand{\clientNameD}[2][\default{}]{\entityNameD{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\clientNameE}[2][\default{}]{\entityNameE{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\clientNameM}[2][\default{}]{\entityNameM{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\clientNameP}[2][\default{}]{\entityNameP{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\clientNameR}[2][\default{}]{\entityNameR{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\clientNameS}[2][\default{}]{\entityNameS{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\clientNameX}[2][\default{}]{\entityNameX{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
+
+% First argument [optional]: alternate name
+% Second argument: entity name
+\newcommand{\serviceNameD}[2][\default{}]{\entityNameD{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\serviceNameE}[2][\default{}]{\entityNameE{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\serviceNameM}[2][\default{}]{\entityNameM{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\serviceNameP}[2][\default{}]{\entityNameP{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\serviceNameR}[2][\default{}]{\entityNameR{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\serviceNameS}[2][\default{}]{\entityNameS{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\serviceNameX}[2][\default{}]{\entityNameX{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
+
+% First argument [optional]: alternate name
+% Second argument: entity name
+\newcommand{\utilityNameD}[2][\default{}]{\entityNameD{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\utilityNameE}[2][\default{}]{\entityNameE{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\utilityNameM}[2][\default{}]{\entityNameM{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\utilityNameP}[2][\default{}]{\entityNameP{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\utilityNameR}[2][\default{}]{\entityNameR{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\utilityNameS}[2][\default{}]{\entityNameS{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\utilityNameX}[2][\default{}]{\entityNameX{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
+
+% First argument [optional]: alternate name
+% Second argument: Subcategory
+% Third argument: entity name
+\newcommand{\examplesNameD}[3][\default{}]{\entityNameD{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameE}[3][\default{}]{\entityNameE{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameM}[3][\default{}]{\entityNameM{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameP}[3][\default{}]{\entityNameP{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameR}[3][\default{}]{\entityNameR{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameS}[3][\default{}]{\entityNameS{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameX}[3][\default{}]{\entityNameX{Examples}{#2}{#2}{#3}{#1}}% shortcut
+
+% First argument [optional]: alternate name
+% Second argument: Subcategory
+% Third argument: Alternate subcategory name
+% Fourth argument: entity name
+\newcommand{\requestsNameD}[4][\default{}]{\entityNameD{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameE}[4][\default{}]{\entityNameE{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameM}[4][\default{}]{\entityNameM{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameP}[4][\default{}]{\entityNameP{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameR}[4][\default{}]{\entityNameR{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameS}[4][\default{}]{\entityNameS{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameX}[4][\default{}]{\entityNameX{Requests}{#2}{#3}{#4}{#1}}% shortcut
+
+% First argument [optional]: alternate name
+% Second argument: Subcategory
+% Third argument: entity name
+\newcommand{\exemplarsNameD}[2][\default{}]{\entityNameD{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\exemplarsNameE}[2][\default{}]{\entityNameE{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\exemplarsNameM}[2][\default{}]{\entityNameM{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\exemplarsNameP}[2][\default{}]{\entityNameP{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\exemplarsNameR}[2][\default{}]{\entityNameR{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\exemplarsNameS}[2][\default{}]{\entityNameS{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\exemplarsNameX}[2][\default{}]{\entityNameX{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
+
+% First argument [optional]: alternate name
+% Second argument: Subcategory
+% Third argument: entity name
+\newcommand{\classNameD}[3][\default{}]{\entityNameD{Classes}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\classNameE}[3][\default{}]{\entityNameE{Classes}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\classNameM}[3][\default{}]{\entityNameM{Classes}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\classNameP}[3][\default{}]{\entityNameP{Classes}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\classNameR}[3][\default{}]{\entityNameR{Classes}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\classNameS}[3][\default{}]{\entityNameS{Classes}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\classNameX}[3][\default{}]{\entityNameX{Classes}{#2}{#2}{#3}{#1}}% shortcut
+
+\newcommand*{\insertpart}[2]{\clearpage\renewcommand{\mymark}{#1}#2}
+
+% First argument [optional]: alternate hyperlink name
+% Second argument: section title
+% Third argument: hyperlink section
+% Fourth argument: simplified version of title
+% Fifth argument: prefix to display before title
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand*{\sectionStart}[5][\default{}]{\clearpage\section{#5\texorpdfstring{#2}{#4}}%
+   \renewcommand{\mymark}{#4}%
+   \ifthenelse{\equal{#1}{\default{}}}%
+    {\hypertarget{hyper.#3.#4}{}}%
+    {\hypertarget{hyper.#3.#1}{}}}}%
+  {\newcommand*{\sectionStart}[5][\default{}]{\clearpage\section{#5#2}\renewcommand{\mymark}{#4}}}
+
+\newcommand*{\sectionEnd}[1]{#1} % just a notational convenience
+
+% First argument: hyperlink section
+% Second argument: hyperlink name
+% Third argument: simplified version of title
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand{\sectionRef}[3]{\hyperlink{hyper.#1.#2}{\textitcorr{#3}}}}%
+  {\newcommand{\sectionRef}[3]{}}
+
+% First argument: [optional] alternate hypertarget name
+% Second argument: subsection title
+% Third argument: hypertarget section
+% Fourth argument: simplified version of title
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand*{\subsectionStart}[4][\default{}]{\subsection{\texorpdfstring{#2}{#4}}%
+   \ifthenelse{\equal{#1}{\default{}}}%
+    {\hypertarget{hyper.#3.#4}{}}%
+    {\hypertarget{hyper.#3.#1}{}}}}%
+  {\newcommand*{\subsectionStart}[4][\default{}]{\subsection{#2}}}
+    
+\newcommand*{\subsectionEnd}[1]{#1} % just a notational convenience
+
+% First argument: [optional] alternate hypertarget name
+% Second argument: subsubsection title
+% Third argument: hypertarget section
+% Fourth argument: simplified version of title
+\ifthenelse{\boolean{generatingHyperPDF}}%
+  {\newcommand*{\subsubsectionStart}[4][\default{}]{\subsubsection{\texorpdfstring{#2}{#4}}%
+   \ifthenelse{\equal{#1}{\default{}}}%
+    {\hypertarget{hyper.#3.#4}{}}%
+    {\hypertarget{hyper.#3.#1}{}}}}%
+  {\newcommand*{\subsubsectionStart}[4][\default{}]{\subsubsection{#2}\index{#2}}}
+    
+\newcommand*{\subsubsectionEnd}[1]{#1} % just a notational convenience
+
+% First argument: [optional] alternate section name
+% Second argument: section title
+\newcommand*{\primaryStart}[2][\default{}]{%
+  \sectionStart[#1]{#2}{Primary}{#2}{}}
+
+\newcommand*{\primaryEnd}[1]{#1} % just a notational convenience
+
+% First argument: subsubsection name
+% Second argument: link title
+\newcommand{\primaryRef}[2]{\sectionRef{Primary}{#1}{#2}}
+
+% First argument: [optional] alternate subsection name
+% Second argument: subsection title
+\newcommand*{\secondaryStart}[2][\default{}]{%
+  \subsectionStart[#1]{#2}{Secondary}{#2}}
+
+\newcommand*{\secondaryEnd}[1]{#1} % just a notational convenience
+
+% First argument: subsubsection name
+% Second argument: link title
+\newcommand{\secondaryRef}[2]{\sectionRef{Secondary}{#1}{#2}}
+
+% First argument: [optional] alternate subsubsection name
+% Second argument: subsubsection title
+\newcommand*{\tertiaryStart}[2][\default{}]{%
+  \subsubsectionStart[#1]{#2}{Tertiary}{#2}}
+
+\newcommand*{\tertiaryEnd}[1]{#1} % just a notational convenience
+
+% First argument: subsubsection name
+% Second argument: link title
+\newcommand{\tertiaryRef}[2]{\sectionRef{Tertiary}{#1}{#2}}
+
+% First argument: [optional] alternate appendix name
+% Second argument: appendix title
+\newcommand*{\appendixStart}[2][\default{}]{%
+  \sectionStart[#1]{#2}{Appendix}{#2}{\appendixname{}:~}}
+
+\newcommand*{\appendixEnd}[1]{#1} % just a notational convenience
+
+% First argument: appendix name
+% Second argument: link title
+\newcommand{\appendixRef}[2]{\sectionRef{Appendix}{#1}{#2}}
+
+\newenvironment{histList}
+  {\begin{list}
+    {}
+    {\setlength{\labelwidth}{108pt}% 1.5"
+    \setlength{\leftmargin}{\labelwidth+\labelsep}
+    \setlength{\rightmargin}{36pt}% 0.5"
+    \setlength{\parsep}{0ex}
+    \renewcommand{\makelabel}[1]{\textbf{##1}\hfill}
+    }}
+  {\end{list}}
+\newcommand*{\histListBegin}{\begin{histList}}
+\newcommand*{\histListEnd}{\end{histList}}
+\newcommand{\histListItem}[1]{\item[#1]}
+
+\newcommand*{\outputBegin}{\begin{quote}\begin{ttfamily}\begin{small}}
+\newcommand*{\outputEnd}{\end{small}\end{ttfamily}\end{quote}}
+\newcommand*{\codeBegin}{\begin{ttfamily}\begin{small}}
+\newcommand*{\codeEnd}{\end{small}\end{ttfamily}}
+\newcommand*{\asCode}[1]{\codeBegin{}#1\codeEnd{}}

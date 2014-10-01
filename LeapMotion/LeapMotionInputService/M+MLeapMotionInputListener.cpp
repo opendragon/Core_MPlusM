@@ -262,7 +262,7 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
                                         fingProps.put("type", "pinky");
                                         break;
                                         
-                                    default:
+                                    default :
                                         fingProps.put("type", "unknown");
                                         break;
                                         

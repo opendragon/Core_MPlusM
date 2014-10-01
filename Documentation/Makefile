@@ -1,52 +1,88 @@
+# File: Makefile
 
-psfiles = dbDiagram.ps matchSyntaxrails.ps cmDiagram.ps mpmDiagram.ps
+MMpsfiles = MMdbDiagram.ps MMmatchSyntaxrails.ps MMcmDiagram.ps MMmpmDiagram.ps
 
-imagefiles = ChannelManager.eps
+LMpsfiles =
 
-mainsource = MpM_Manual.tex
+MMimagefiles = ChannelManager.eps
 
-secondarysources = caseStudy.tex classes.tex documentationHistory.tex examples.tex \
-	exemplars.tex frontispiece.tex internalDb.tex matchSyntax.tex overview.tex \
-	registrationSequence.tex services.tex utilities.tex
+LMimagefiles =
 
-maindvi = $(mainsource:.tex=.dvi)
+MMmainsource = MpM_Manual.tex
 
-mainidx = $(mainsource:.tex=.idx)
+LMmainsource = LeapMotionInput_Manual.tex
 
-mainps = $(mainsource:.tex=.ps)
+MMsecondarysources = MMcaseStudy.tex MMclasses.tex MMdocumentationHistory.tex \
+	MMexamples.tex MMexemplars.tex MMfrontispiece.tex MMinternalDb.tex \
+	MMmatchSyntax.tex MMoverview.tex MMregistrationSequence.tex MMservices.tex \
+	MMutilities.tex sharedSetup.tex
 
-mainpdf = $(mainsource:.tex=.pdf)
+LMsecondarysources = LMdocumentationHistory.tex LMfrontispiece.tex LMmessageFormat.tex \
+	LMoverview.tex LMservice.tex sharedSetup.tex
 
-target = $(HOME)/$(mainpdf)
+MMmaindvi = $(MMmainsource:.tex=.dvi)
 
-#$(psfiles) : maxboxmacros.mp fixedBox.mp
+LMmaindvi = $(LMmainsource:.tex=.dvi)
+
+MMmainidx = $(MMmainsource:.tex=.idx)
+
+LMmainidx = $(LMmainsource:.tex=.idx)
+
+MMmainps = $(MMmainsource:.tex=.ps)
+
+LMmainps = $(LMmainsource:.tex=.ps)
+
+MMmainpdf = $(MMmainsource:.tex=.pdf)
+
+LMmainpdf = $(LMmainsource:.tex=.pdf)
+
+MMtarget = $(HOME)/$(MMmainpdf)
+
+LMtarget = $(HOME)/$(LMmainpdf)
 
 %.ps: %.mp
 	mpost -interaction=batchmode $<
 
-#$(maindvi) : $(imagefiles) $(psfiles) $(texfiles) $(mainsource) $(secondarysources)
-$(maindvi) : $(imagefiles) $(psfiles) $(mainsource) $(secondarysources)
-	latex -interaction=batchmode $(mainsource)
-	latex -interaction=batchmode $(mainsource)
-	latex -interaction=batchmode $(mainsource)
-	makeindex $(mainidx)
-	latex -interaction=batchmode $(mainsource)
+$(MMmaindvi) : $(MMimagefiles) $(MMpsfiles) $(MMmainsource) $(MMsecondarysources)
+	latex -interaction=batchmode $(MMmainsource)
+	latex -interaction=batchmode $(MMmainsource)
+	latex -interaction=batchmode $(MMmainsource)
+	makeindex $(MMmainidx)
+	latex -interaction=batchmode $(MMmainsource)
 
-$(mainps) : $(maindvi)
-	dvips $(maindvi) -o $(mainps)
+$(LMmaindvi) : $(LMimagefiles) $(LMpsfiles) $(LMmainsource) $(LMsecondarysources)
+	latex -interaction=batchmode $(LMmainsource)
+	latex -interaction=batchmode $(LMmainsource)
+	latex -interaction=batchmode $(LMmainsource)
+	makeindex $(LMmainidx)
+	latex -interaction=batchmode $(LMmainsource)
 
-$(mainpdf) : $(mainps)
+$(MMmainps) : $(MMmaindvi)
+	dvips $(MMmaindvi) -o $(MMmainps)
+
+$(LMmainps) : $(LMmaindvi)
+	dvips $(LMmaindvi) -o $(LMmainps)
+
+$(MMmainpdf) : $(MMmainps)
 	gs -dCompatibilityLevel=1.2 -dMaxSubsetPct=100 -dNOPAUSE -dBATCH \
-		-sDEVICE=pdfwrite -sPAPERSIZE=letter -sOutputFile="$(mainpdf)" \
-		-c save pop -f "$(mainps)" -sFONTPATH=.
+		-sDEVICE=pdfwrite -sPAPERSIZE=letter -sOutputFile="$(MMmainpdf)" \
+		-c save pop -f "$(MMmainps)" -sFONTPATH=.
 
-$(target) : $(mainpdf)
-	cp $(mainpdf) $(target)
+$(LMmainpdf) : $(LMmainps)
+	gs -dCompatibilityLevel=1.2 -dMaxSubsetPct=100 -dNOPAUSE -dBATCH \
+		-sDEVICE=pdfwrite -sPAPERSIZE=letter -sOutputFile="$(LMmainpdf)" \
+		-c save pop -f "$(LMmainps)" -sFONTPATH=.
+
+$(MMtarget) : $(MMmainpdf)
+	cp $(MMmainpdf) $(MMtarget)
+
+$(LMtarget) : $(LMmainpdf)
+	cp $(LMmainpdf) $(LMtarget)
 
 .PHONY : clean manual
 
 clean :
-	rm $(psfiles) *.log *.pdf *.mpx *.dvi
+	rm $(MMpsfiles) $(LMpsfiles) *.log *.pdf *.mpx *.dvi
 
-manual : $(target)
+manual : $(MMtarget) $(LMtarget)
 

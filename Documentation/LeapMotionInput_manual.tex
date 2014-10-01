@@ -1,8 +1,10 @@
-\ProvidesFile{MpM_Manual.tex}
+\ProvidesFile{LeapMotionInput_Manual.tex}
 
 % Begin Preamble
 
 \input{sharedSetup.tex}
+
+\newcommand{\LMI}{Leap~Motion~Input}
 
 % Set up the page layout:
 \pagestyle{fancyplain}
@@ -11,14 +13,13 @@
 \chead[]{}
 \rhead[\fancyplain{}{\textsc{\mymark}}]{}
 \lfoot[Page \thepage]{\today}
-\cfoot[\MMM]{\MMM}
+\cfoot[\LMI]{\LMI}
 \rfoot[\today]{Page \thepage}
 \renewcommand{\headrulewidth}{0.5bp}
 \pagenumbering{roman}
 
-\title{\cal\Huge\textitcorr{\MMM}\\
-\vspace{1ex}
-\objPicture{ChannelManager.eps}}
+\title{\cal\Huge\textitcorr{\LMI}\\
+\vspace{1ex}}
 \author{HPlus~Technologies~Ltd. and Simon~Fraser~University\\
 Vancouver, British~Columbia, Canada}
 
@@ -33,40 +34,27 @@ Vancouver, British~Columbia, Canada}
 \maketitle
 
 \insertpart{Contents}{\tableofcontents}
-\insertpart{List~of~Figures}{\listoffigures}
+%\insertpart{List~of~Figures}{\listoffigures}
 
-\input{MMdocumentationHistory.tex}
-\input{MMfrontispiece.tex}
+\input{LMdocumentationHistory.tex}
+\input{LMfrontispiece.tex}
 \clearpage\pagenumbering{arabic}
 
 % End of front matter
 
 % Begin contents
 
-\input{MMoverview.tex}
+\input{LMoverview.tex}
 
-%% section for each of the utilities
+%% section for the service
 
-\input{MMutilities.tex}
+\input{LMservice.tex}
 
-%% section for each of the core services
+%% section for the message format
 
-\input{MMservices.tex}
-
-%% section for each of the core classes
-
-\input{MMclasses.tex}
-
-\appendix
-\input{MMexamples.tex}
-\input{MMexemplars.tex}
-\input{MMcaseStudy.tex}
-\input{MMregistrationSequence.tex}
-\input{MMinternalDb.tex}
-\input{MMmatchSyntax.tex}
+\input{LMmessageFormat.tex}
 
 % End of contents
 
-\insertpart{Index}{\printindex}
 \end{document}
 \end
