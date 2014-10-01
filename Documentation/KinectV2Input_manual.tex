@@ -1,0 +1,62 @@
+\ProvidesFile{KinectV2Input_Manual.tex}
+
+% Begin Preamble
+
+\input{sharedSetup.tex}
+
+% Note that we can't use a number as part of a command!
+
+\newcommand{\KVtwoI}{Kinect~V2~Input}
+
+% Set up the page layout:
+\pagestyle{fancyplain}
+\newcommand{\mymark}{}
+\lhead[]{\fancyplain{}{\textsc{\mymark}}}
+\chead[]{}
+\rhead[\fancyplain{}{\textsc{\mymark}}]{}
+\lfoot[Page \thepage]{\today}
+\cfoot[\KVtwoI]{\KVtwoI}
+\rfoot[\today]{Page \thepage}
+\renewcommand{\headrulewidth}{0.5bp}
+\pagenumbering{roman}
+
+\title{\cal\Huge\textitcorr{\KVtwoI}\\
+\vspace{1ex}}
+\author{HPlus~Technologies~Ltd. and Simon~Fraser~University\\
+Vancouver, British~Columbia, Canada}
+
+\makeindex
+
+% End Preamble
+
+\begin{document}
+
+% Begin front matter
+
+\maketitle
+
+\insertpart{Contents}{\tableofcontents}
+%\insertpart{List~of~Figures}{\listoffigures}
+
+\input{KV2documentationHistory.tex}
+\input{KV2frontispiece.tex}
+\clearpage\pagenumbering{arabic}
+
+% End of front matter
+
+% Begin contents
+
+\input{KV2overview.tex}
+
+%% section for the service
+
+\input{KV2service.tex}
+
+%% section for the message format
+
+\input{KV2messageFormat.tex}
+
+% End of contents
+
+\end{document}
+\end

@@ -1,7 +1,7 @@
-\ProvidesFile{LMservice.tex}[v1.0.0]
-\primaryStart[TheLMIService]{The~\LMI{}~Service}
-The \asCode{mpmLeapMotionInputService} application is an Input service,
-generating a stream of information on the position and orientation of one or more hands.
+\ProvidesFile{KV2service.tex}[v1.0.0]
+\primaryStart[TheKV2IService]{The~\KVtwoI{}~Service}
+The \asCode{mpmKinectV2InputService} application is an Input service,
+generating a stream of information on the position and orientation of one or more bodies.
 The application responds to the standard Input service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
 
@@ -9,11 +9,11 @@ The \emph{configure} request request has no arguments and does nothing.\\
 
 The \emph{restartStreams} request stops and then starts the output stream.\\
 
-The \emph{startStreams} request request initiates listening to the Leap Motion controller.
-Once started, the service will send groups of hand data via the output \yarp{} network
+The \emph{startStreams} request request initiates listening to the Kinect V2 controller.
+Once started, the service will send groups of body data via the output \yarp{} network
 connection.\\
 
-The \emph{stopStreams} request stops the Leap Motion controller listener, which stops the
+The \emph{stopStreams} request stops the Kinect V2 controller listener, which stops the
 output \yarp{} network connection.\\ 
 
 Note that the application will exit if the \emph{Service~Registry} is not running.\\
@@ -35,13 +35,13 @@ the default endpoint is being used.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
-\item \textbf{b:} start the output stream, sending hand data. 
+\item \textbf{b:} start the output stream, sending body data. 
 \item \textbf{c:} configure the service; this has no effect, as the service has no
 configurable parameters. 
 \item \textbf{e:} stop the output stream. 
 \item \textbf{q:} quit the application. 
 \item \textbf{r:} restart the output stream. 
 \item \textbf{u:} reset the configuration so that it will be reprocessed when the output
-stream is restarted. 
+stream is restarted.
 \end{itemize}
 \primaryEnd{}

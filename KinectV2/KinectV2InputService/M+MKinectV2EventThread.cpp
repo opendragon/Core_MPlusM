@@ -234,8 +234,10 @@ static void addBodyToMessage(yarp::os::Bottle &       message,
         ADD_BONE_TO_LIST_("neck2spineshoulder", JointType_Neck, JointType_SpineShoulder);
         ADD_BONE_TO_LIST_("spineshoulder2spinemid", JointType_SpineShoulder, JointType_SpineMid);
         ADD_BONE_TO_LIST_("spinemid2spinebase", JointType_SpineMid, JointType_SpineBase);
-        ADD_BONE_TO_LIST_("spineshoulder2shoulderright", JointType_SpineShoulder, JointType_ShoulderRight);
-        ADD_BONE_TO_LIST_("spineshoulder2shoulderleft", JointType_SpineShoulder, JointType_ShoulderLeft);
+        ADD_BONE_TO_LIST_("spineshoulder2shoulderright", JointType_SpineShoulder,
+                          JointType_ShoulderRight);
+        ADD_BONE_TO_LIST_("spineshoulder2shoulderleft", JointType_SpineShoulder,
+                          JointType_ShoulderLeft);
         ADD_BONE_TO_LIST_("spinebase2hipright", JointType_SpineBase, JointType_HipRight);
         ADD_BONE_TO_LIST_("spinebase2hipleft", JointType_SpineBase, JointType_HipLeft);
 
