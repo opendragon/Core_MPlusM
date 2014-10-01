@@ -110,7 +110,9 @@ static void add4VectorToDictionary(yarp::os::Property &          dictionary,
  @param listToUpdate The list to be added to.
  @param jointTag The name of the bone.
  @param startJoint The beginning joint of the bone.
- @param endJoint The ending joint of the bone. */
+ @param endJoint The ending joint of the bone.
+ @param startOrientation The orientation of the beginning joint of the bone.
+ @param endOrientation The orientation of the ending joint of the bone. */
 static void addBoneToList(yarp::os::Bottle &            listToUpdate,
                           const yarp::os::ConstString & jointTag,
                           const Joint &                 startJoint,
