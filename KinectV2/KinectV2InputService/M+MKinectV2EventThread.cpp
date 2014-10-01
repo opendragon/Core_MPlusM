@@ -196,7 +196,8 @@ static const char * handConfidenceToString(const TrackingConfidence theHandConfi
  @param start_ The starting joint for the bone.
  @param end_ The ending joint for the bone. */
 #define ADD_BONE_TO_LIST_(str_, start_, end_) \
-        addBoneToList(*bonesList, str_, joints[start_], joints[end_], jointOrientations[start_], jointOrientations[end_])
+        addBoneToList(*bonesList, str_, joints[start_], joints[end_], \
+                        jointOrientations[start_], jointOrientations[end_])
 
 /*! @brief Add the data for a body to a message.
  @param message The message to be updated with the body data.
@@ -215,7 +216,8 @@ static void addBodyToMessage(yarp::os::Bottle &       message,
                              const TrackingConfidence rightHandConfidence)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P3("message = ", &message, "joints = ", joints, "jointOrientations = ", jointOrientations); //####
+    OD_LOG_P3("message = ", &message, "joints = ", joints, "jointOrientations = ", //####
+              jointOrientations); //####
     yarp::os::Property & bodyProps = message.addDict();
 
     bodyProps.put("lefthand", handStateToString(leftHandState));
@@ -238,7 +240,8 @@ static void addBodyToMessage(yarp::os::Bottle &       message,
         ADD_BONE_TO_LIST_("spinebase2hipleft", JointType_SpineBase, JointType_HipLeft);
 
         // Right arm
-        ADD_BONE_TO_LIST_("shoulderright2elbowright", JointType_ShoulderRight, JointType_ElbowRight);
+        ADD_BONE_TO_LIST_("shoulderright2elbowright", JointType_ShoulderRight,
+                          JointType_ElbowRight);
         ADD_BONE_TO_LIST_("elbowright2wristright", JointType_ElbowRight, JointType_WristRight);
         ADD_BONE_TO_LIST_("wristright2handright", JointType_WristRight, JointType_HandRight);
         ADD_BONE_TO_LIST_("handright2handtipright", JointType_HandRight, JointType_HandTipRight);
@@ -307,11 +310,13 @@ static bool processBody(yarp::os::Bottle & message,
                 hr = pBody->GetJoints(_countof(joints), joints);
                 if (SUCCEEDED(hr))
                 {
-                    hr = pBody->GetJointOrientations(_countof(jointOrientations), jointOrientations);
+                    hr = pBody->GetJointOrientations(_countof(jointOrientations),
+                                                     jointOrientations);
                 }
                 if (SUCCEEDED(hr))
                 {
-                    addBodyToMessage(message, joints, jointOrientations, leftHandState, leftHandConfidence, rightHandState, rightHandConfidence);
+                    addBodyToMessage(message, joints, jointOrientations, leftHandState,
+                                     leftHandConfidence, rightHandState, rightHandConfidence);
                     result = true;
                 }
             }
@@ -400,7 +405,9 @@ void KinectV2EventThread::processEventData(void)
     if (_bodyFrameReader)
     {
         IBodyFrameArrivedEventArgs * eventData = NULL;
-        HRESULT                      hr = _bodyFrameReader->GetFrameArrivedEventData(_frameEventHandle, &eventData);
+        HRESULT                      hr =
+                                    _bodyFrameReader->GetFrameArrivedEventData(_frameEventHandle,
+                                                                               &eventData);
 
         if (SUCCEEDED(hr))
         {
