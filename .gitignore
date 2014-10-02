@@ -88,3 +88,4 @@ mpmExemplarService
 mpmLeapMotionInputService
 mpmAbsorberService
 mpmTruncateFloatService
+examples/AbsorberService/mpmAbsorberService.vcxproj.user

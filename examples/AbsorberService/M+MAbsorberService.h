@@ -131,6 +131,9 @@ namespace MplusM
             /*! @brief The number of messages seen. */
             long _count;
             
+            /*! @brief The total number of bytes reported. */
+            size_t _totalBytes;
+
         }; // AbsorberService
         
     } // Example

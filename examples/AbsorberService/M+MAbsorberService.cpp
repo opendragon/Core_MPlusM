@@ -46,6 +46,8 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#include <sstream>
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -83,7 +85,7 @@ AbsorberService::AbsorberService(const yarp::os::ConstString & launchPath,
                                  const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_ABSORBER_CANONICAL_NAME, "The absorber output service",
               "", serviceEndpointName, servicePortNumber),
-    _inHandler(new AbsorberInputHandler(*this)), _count(0)
+    _inHandler(new AbsorberInputHandler(*this)), _count(0), _totalBytes(0)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -248,17 +250,14 @@ void AbsorberService::updateCount(const size_t numBytes)
     {
         if (isActive())
         {
-            char buff[40]; // Should be more than adequate!
+            std::stringstream buff;
+            std::locale       thisLocale("");
 
             ++_count;
-#if MAC_OR_LINUX_
-            snprintf(buff, sizeof(buff), "message count = %ld, byte count = %ld.", _count,
-                     numBytes);
-#else // ! MAC_OR_LINUX_
-            sprintf_s(buff, sizeof(buff), "message count = %ld, byte count = %ld.", _count,
-                      numBytes);
-#endif // ! MAC_OR_LINUX_
-            std::cout << buff << std::endl;
+            _totalBytes += numBytes;
+            buff.imbue(thisLocale);
+            buff << "messages = " << _count << "; bytes = " << numBytes << "; total = " << _totalBytes;
+            std::cout << buff.str() << std::endl;
         }
     }
     catch (...)
