@@ -154,10 +154,12 @@ bool ExemplarFilterService::setUpStreamDescriptions(void)
     _inDescriptions.clear();
     description._portName = rootName + "input";
     description._portProtocol = "d+";
+    description._protocolDescription = "One or more numeric values";
     _inDescriptions.push_back(description);
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "i+";
+    description._protocolDescription = "One or more integer values";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;

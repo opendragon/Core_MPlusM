@@ -863,14 +863,18 @@ bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & se
                                         {
                                             yarp::os::Value firstValue(inputChannelAsList->get(0));
                                             yarp::os::Value secondValue(inputChannelAsList->get(1));
+                                            yarp::os::Value thirdValue(inputChannelAsList->get(2));
                                             
-                                            if (firstValue.isString() && secondValue.isString())
+                                            if (firstValue.isString() && secondValue.isString() &&
+                                                thirdValue.isString())
                                             {
                                                 ChannelDescription aChannel;
                                                 
                                                 aChannel._portName = firstValue.asString();
                                                 aChannel._portProtocol = secondValue.asString();
                                                 aChannel._portMode = kChannelModeOther;
+                                                aChannel._protocolDescription =
+                                                                            thirdValue.asString();
                                                 descriptor._inputChannels.push_back(aChannel);
                                             }
                                         }
@@ -891,14 +895,18 @@ bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & se
                                             yarp::os::Value firstValue(outputChannelAsList->get(0));
                                             yarp::os::Value secondValue =
                                                                         outputChannelAsList->get(1);
+                                            yarp::os::Value thirdValue(outputChannelAsList->get(2));
                                             
-                                            if (firstValue.isString() && secondValue.isString())
+                                            if (firstValue.isString() && secondValue.isString() &&
+                                                thirdValue.isString())
                                             {
                                                 ChannelDescription aChannel;
                                                 
                                                 aChannel._portName = firstValue.asString();
                                                 aChannel._portProtocol = secondValue.asString();
                                                 aChannel._portMode = kChannelModeOther;
+                                                aChannel._protocolDescription =
+                                                                            thirdValue.asString();
                                                 descriptor._outputChannels.push_back(aChannel);
                                             }
                                         }

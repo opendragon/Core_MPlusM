@@ -95,6 +95,14 @@ namespace MplusM
                 return _protocol;
             } // protocol
             
+            /*! @brief Returns the description of the protocol associated with the channel.
+             @returns The description of the protocol associated with the channel. */
+            inline yarp::os::ConstString protocolDescription(void)
+            const
+            {
+                return _protocolDescription;
+            } // protocolDescription
+            
             /*! @brief Open the channel, using a backoff strategy with retries.
              @param theChannelName The name to be associated with the channel.
              @param timeToWait The number of seconds allowed before a failure is considered.
@@ -107,11 +115,10 @@ namespace MplusM
             static void RelinquishChannel(GeneralChannel * theChannel);
             
             /*! @brief Sets the protocol associated with the channel.
-             @param newProtocol The new protocol associated with the channel. */
-            inline void setProtocol(const yarp::os::ConstString & newProtocol)
-            {
-                _protocol = newProtocol;
-            } // setProtocol
+             @param newProtocol The new protocol associated with the channel.
+             @param description The description of the new protocol. */
+            void setProtocol(const yarp::os::ConstString & newProtocol,
+                             const yarp::os::ConstString & description);
             
         protected :
             
@@ -133,6 +140,9 @@ namespace MplusM
             
             /*! @brief The protocol that the channel supports. */
             yarp::os::ConstString _protocol;
+            
+            /*! @brief The description of the protocol that the channel supports. */
+            yarp::os::ConstString _protocolDescription;
             
             /*! @brief @c true if the channel is used for output and @c false otherwise. */
             bool _isOutput;

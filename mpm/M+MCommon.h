@@ -253,6 +253,9 @@ namespace MplusM
             /*! @brief The protocol of the port. */
             yarp::os::ConstString _portProtocol;
             
+            /*! @brief The protocol description. */
+            yarp::os::ConstString _protocolDescription;
+            
             /*! @brief The mode of the connection. */
             ChannelMode _portMode;
             

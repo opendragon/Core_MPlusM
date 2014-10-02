@@ -147,6 +147,8 @@ bool KinectV2InputService::setUpStreamDescriptions(void)
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "KINECT";
+    description._protocolDescription = "A dictionary with a list of bones\n"
+                    "Each bone being a dictionary with start and end positions and orientations";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;

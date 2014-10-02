@@ -143,7 +143,8 @@ bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & 
 #endif // defined(MpM_ReportOnConnections)
                     if (newChannel->openWithRetries(aDescription._portName, STANDARD_WAIT_TIME))
                     {
-                        newChannel->setProtocol(aDescription._portProtocol);
+                        newChannel->setProtocol(aDescription._portProtocol,
+                                                aDescription._protocolDescription);
                         _inStreams.push_back(newChannel);
                     }
                     else
@@ -204,7 +205,8 @@ bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector &
 #endif // defined(MpM_ReportOnConnections)
                     if (newChannel->openWithRetries(aDescription._portName, STANDARD_WAIT_TIME))
                     {
-                        newChannel->setProtocol(aDescription._portProtocol);
+                        newChannel->setProtocol(aDescription._portProtocol,
+                                                aDescription._protocolDescription);
                         _outStreams.push_back(newChannel);
                     }
                     else
@@ -325,6 +327,7 @@ void BaseInputOutputService::fillInSecondaryInputChannelsList(ChannelVector & ch
                 descriptor._portName = aChannel->name();
                 descriptor._portProtocol = aChannel->protocol();
                 descriptor._portMode = kChannelModeTCP;
+                descriptor._protocolDescription = aChannel->protocolDescription();
                 channels.push_back(descriptor);
             }
         }
@@ -352,6 +355,7 @@ void BaseInputOutputService::fillInSecondaryOutputChannelsList(ChannelVector & c
                 descriptor._portName = aChannel->name();
                 descriptor._portProtocol = aChannel->protocol();
                 descriptor._portMode = kChannelModeTCP;
+                descriptor._protocolDescription = aChannel->protocolDescription();
                 channels.push_back(descriptor);
             }
         }

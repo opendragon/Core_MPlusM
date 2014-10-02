@@ -182,6 +182,7 @@ bool AbsorberService::setUpStreamDescriptions(void)
     _inDescriptions.clear();
     description._portName = rootName + "input";
     description._portProtocol = ""; // Empty, so everything accepted
+    description._protocolDescription = "";
     _inDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;

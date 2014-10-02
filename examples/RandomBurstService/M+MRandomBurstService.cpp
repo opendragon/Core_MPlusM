@@ -167,6 +167,7 @@ bool RandomBurstService::setUpStreamDescriptions(void)
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "d+";
+    description._protocolDescription = "One or more numeric values";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;

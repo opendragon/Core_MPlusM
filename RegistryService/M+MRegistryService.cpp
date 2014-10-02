@@ -2454,6 +2454,7 @@ void RegistryService::fillInSecondaryOutputChannelsList(ChannelVector & channels
         descriptor._portName = _statusChannel->name();
         descriptor._portProtocol = _statusChannel->protocol();
         descriptor._portMode = kChannelModeTCP;
+        descriptor._protocolDescription = _statusChannel->protocolDescription();
         channels.push_back(descriptor);
     }
     OD_LOG_OBJEXIT(); //####
@@ -3041,7 +3042,7 @@ bool RegistryService::setUpStatusChannel(void)
 #endif // defined(MpM_ReportOnConnections)
             if (_statusChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
             {
-                _statusChannel->setProtocol("s");
+                _statusChannel->setProtocol("s+", "One or more strings");
                 okSoFar = true;
             }
             else

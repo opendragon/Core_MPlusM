@@ -122,7 +122,7 @@ void ChannelsRequestHandler::fillInDescription(const yarp::os::ConstString & req
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the secondary channels of the service\n"
                  "Input: nothing\n"
                  "Output: a list of secondary input channel names and a list of secondary output "
-                 "channel names");
+                 "channel names, with protocols and protocol descriptions");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
@@ -173,6 +173,7 @@ bool ChannelsRequestHandler::processRequest(const yarp::os::ConstString & reques
                     
                     newBottle.addString(aChannel._portName);
                     newBottle.addString(aChannel._portProtocol);
+                    newBottle.addString(aChannel._protocolDescription);
                 }
             }
             // Note that we can't reuse the first list variable; we wind up with duplicate entries
@@ -190,6 +191,7 @@ bool ChannelsRequestHandler::processRequest(const yarp::os::ConstString & reques
                     
                     newBottle.addString(aChannel._portName);
                     newBottle.addString(aChannel._portProtocol);
+                    newBottle.addString(aChannel._protocolDescription);
                 }
             }
             OD_LOG_S1s("reply <- ", reply.toString()); //####

@@ -102,7 +102,7 @@ void GeneralChannel::RelinquishChannel(GeneralChannel * theChannel)
 #endif // defined(__APPLE__)
 
 GeneralChannel::GeneralChannel(const bool isOutput) :
-    inherited(), _name(), _isOutput(isOutput)
+    inherited(), _name(), _protocol(), _protocolDescription(), _isOutput(isOutput)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
@@ -207,6 +207,16 @@ bool GeneralChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // GeneralChannel::openWithRetries
+
+void GeneralChannel::setProtocol(const yarp::os::ConstString & newProtocol,
+                                 const yarp::os::ConstString & description)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S2s("newProtocol = ", newProtocol, "description = ", description); //####
+    _protocol = newProtocol;
+    _protocolDescription = description;
+    OD_LOG_OBJEXIT(); //####
+} // GeneralChannel::setProtocol
 
 #if defined(__APPLE__)
 # pragma mark Global functions
