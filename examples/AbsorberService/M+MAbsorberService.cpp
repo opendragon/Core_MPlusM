@@ -69,6 +69,38 @@ using namespace MplusM::Example;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Convert a positive numeric value into a comma-separated string.
+ @param aNumber The number to convert.
+ @returns A string representation of the number with commas between each triple digit group. */
+static yarp::os::ConstString convertToCommaSplitNumber(const size_t aNumber)
+{
+    // Note that the function 'convertToCommaSplitNumber' was used because the locale
+    // mechanism in C++ for OS X is very, very broken - so we can't use 'std::imbue'!
+    yarp::os::ConstString result;
+    size_t                work = aNumber;
+    
+    do
+    {
+        size_t            bottom = (work % 1000);
+        std::stringstream buff;
+        
+        if (1000 <= work)
+        {
+            buff.width(3);
+            buff.fill('0');
+        }
+        buff << bottom;
+        result = yarp::os::ConstString(buff.str()) + result;
+        work /= 1000;
+        if (0 < work)
+        {
+            result = yarp::os::ConstString(",") + result;
+        }
+    }
+    while (0 < work);
+    return result;
+} // convertToCommaSplitNumber
+
 #if defined(__APPLE__)
 # pragma mark Class methods
 #endif // defined(__APPLE__)
@@ -248,15 +280,13 @@ void AbsorberService::updateCount(const size_t numBytes)
     {
         if (isActive())
         {
-            std::stringstream buff;
-            std::locale       thisLocale("");
-
             ++_count;
             _totalBytes += numBytes;
-            buff.imbue(thisLocale);
-            buff << "messages = " << _count << "; bytes = " << numBytes << "; total = " <<
-                    _totalBytes;
-            std::cout << buff.str() << std::endl;
+            // Note that the function 'convertToCommaSplitNumber' was used because the locale
+            // mechanism in C++ for OS X is very, very broken.
+            std::cout << "messages = " << convertToCommaSplitNumber(_count).c_str() <<
+                        "; bytes = " << convertToCommaSplitNumber(numBytes).c_str() <<
+                        "; total = " << convertToCommaSplitNumber(_totalBytes).c_str() << std::endl;
         }
     }
     catch (...)
