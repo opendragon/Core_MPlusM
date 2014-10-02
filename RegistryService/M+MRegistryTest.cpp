@@ -596,18 +596,14 @@ static void catchSignal(int signal)
     OD_LOG_ENTER(); //####
     OD_LOG_LL1("signal = ", signal); //####
 #if MAC_OR_LINUX_
-    char numBuff[30];
-#else // ! MAC_OR_LINUX_
+    std::stringstream buff;
 #endif // ! MAC_OR_LINUX_
 
 #if MAC_OR_LINUX_
-    snprintf(numBuff, sizeof(numBuff), "%d", signal);
-    GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
+    buff << signal;
+    GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + buff.str() +
                       yarp::os::ConstString(" = ") + NameOfSignal(signal));
 #else // ! MAC_OR_LINUX_
-//    _snprintf(numBuff, sizeof(numBuff) - 1, "%d", signal);
-//    // Correct for the weird behaviour of _snprintf
-//    numBuff[sizeof(numBuff) - 1] = '\0';
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT_EXIT(1); //####
     yarp::os::exit(1);

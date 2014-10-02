@@ -57,6 +57,7 @@
 # include <iostream>
 # include <list>
 # include <map>
+# include <sstream>
 # include <vector>
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

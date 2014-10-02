@@ -149,15 +149,16 @@ int main(int      argc,
             // Note that we can't use Random::uniform until after the seed has been set
             if (0 == recordPath.size())
             {
-                char buff[40]; // Should be more than adequate!
-                int  randNumb = yarp::os::Random::uniform(0, 10000);
+                int               randNumb = yarp::os::Random::uniform(0, 10000);
+                std::stringstream buff;
                 
 #if MAC_OR_LINUX_
-                snprintf(buff, sizeof(buff), "/tmp/record_%x", randNumb);
+                buff << "/tmp/record_";
 #else // ! MAC_OR_LINUX_
-                sprintf_s(buff, sizeof(buff), "\\tmp\\record_%x", randNumb);
+                buff << "\\tmp\\record_";
 #endif // ! MAC_OR_LINUX_
-                recordPath = buff;
+                buff << hex << randNumb;
+                recordPath = buff.str();
                 OD_LOG_S1s("recordPath <- ", recordPath); //####
             }
             if (optind >= argc)

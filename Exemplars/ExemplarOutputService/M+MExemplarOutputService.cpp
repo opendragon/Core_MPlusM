@@ -41,7 +41,6 @@
 #include "M+MExemplarOutputRequests.h"
 
 #include <mpm/M+MEndpoint.h>
-
 #include <mpm/M+MGeneralChannel.h>
 
 //#include <odl/ODEnableLogging.h>

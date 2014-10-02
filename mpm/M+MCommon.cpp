@@ -108,10 +108,10 @@ static void localCatcher(int signal)
     OD_LOG_LL1("signal = ", signal); //####
     if (lLogger)
     {
-        char numBuff[30];
+        std::stringstream buff;
         
-        snprintf(numBuff, sizeof(numBuff), "%d", signal);
-        lLogger->error(yarp::os::ConstString("Exiting due to signal ") + numBuff +
+        buff << signal;
+        lLogger->error(yarp::os::ConstString("Exiting due to signal ") + buff.str() +
                        yarp::os::ConstString(" = ") + NameOfSignal(signal));
     }
     OD_LOG_EXIT_EXIT(1); //####
@@ -157,53 +157,29 @@ yarp::os::ConstString Common::GetRandomChannelName(const char * channelRoot)
     
     try
     {
-        bool         hasLeadingSlash = false;
-        const char * stringToUse;
-        size_t       buffLen;
+        bool              hasLeadingSlash = false;
+        const char *      stringToUse;
+        int               randNumb = static_cast<int>(yarp::os::Random::uniform() * kMaxRandom);
+        std::stringstream buff;
         
         if (channelRoot)
         {
             stringToUse = channelRoot;
-            buffLen = strlen(channelRoot);
             if ('/' == *channelRoot)
             {
                 hasLeadingSlash = true;
-            }
-            else
-            {
-                ++buffLen;
             }
         }
         else
         {
             stringToUse = "_";
-            buffLen = 1;
         }
-        buffLen += 32; // allow for a big number...
-        char * buff = new char[buffLen];
-        int    randNumb = static_cast<int>(yarp::os::Random::uniform() * kMaxRandom);
-        
-#if MAC_OR_LINUX_
-        if (hasLeadingSlash)
+        if (! hasLeadingSlash)
         {
-            snprintf(buff, buffLen, "%s%x", stringToUse, randNumb);
+            buff << "/" ;
         }
-        else
-        {
-            snprintf(buff, buffLen, "/%s%x", stringToUse, randNumb);
-        }
-#else // ! MAC_OR_LINUX_
-        if (hasLeadingSlash)
-        {
-            sprintf_s(buff, buffLen, "%s%x", stringToUse, randNumb);
-        }
-        else
-        {
-            sprintf_s(buff, buffLen, "/%s%x", stringToUse, randNumb);
-        }
-#endif // ! MAC_OR_LINUX_
-        result = buff;
-        delete[] buff;
+        buff << stringToUse << hex << randNumb;
+        result = buff.str();
     }
     catch (...)
     {

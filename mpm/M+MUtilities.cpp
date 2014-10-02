@@ -996,16 +996,10 @@ yarp::os::ConstString Utilities::GetPortLocation(const yarp::os::ConstString & p
 
     if (whereItIs.isValid())
     {
-        char numBuff[30];
-        
-#if MAC_OR_LINUX_
-        snprintf(numBuff, sizeof(numBuff), ":%d", whereItIs.getPort());
-#else // ! MAC_OR_LINUX_
-        _snprintf(numBuff, sizeof(numBuff) - 1, ":%d", whereItIs.getPort());
-        // Correct for the weird behaviour of _snprintf
-        numBuff[sizeof(numBuff) - 1] = '\0';
-#endif // ! MAC_OR_LINUX_
-        result = whereItIs.getHost() + numBuff;
+        std::stringstream buff;
+
+        buff << ":" << whereItIs.getPort();
+        result = whereItIs.getHost() + buff.str();
     }
     else
     {

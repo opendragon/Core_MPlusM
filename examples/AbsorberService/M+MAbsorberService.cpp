@@ -46,8 +46,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#include <sstream>
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -256,7 +254,8 @@ void AbsorberService::updateCount(const size_t numBytes)
             ++_count;
             _totalBytes += numBytes;
             buff.imbue(thisLocale);
-            buff << "messages = " << _count << "; bytes = " << numBytes << "; total = " << _totalBytes;
+            buff << "messages = " << _count << "; bytes = " << numBytes << "; total = " <<
+                    _totalBytes;
             std::cout << buff.str() << std::endl;
         }
     }
