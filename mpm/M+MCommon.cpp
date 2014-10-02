@@ -178,7 +178,7 @@ yarp::os::ConstString Common::GetRandomChannelName(const char * channelRoot)
         {
             buff << "/" ;
         }
-        buff << stringToUse << hex << randNumb;
+        buff << stringToUse << std::hex << randNumb;
         result = buff.str();
     }
     catch (...)

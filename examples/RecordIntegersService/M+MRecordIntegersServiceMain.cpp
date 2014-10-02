@@ -157,7 +157,7 @@ int main(int      argc,
 #else // ! MAC_OR_LINUX_
                 buff << "\\tmp\\record_";
 #endif // ! MAC_OR_LINUX_
-                buff << hex << randNumb;
+                buff << std::hex << randNumb;
                 recordPath = buff.str();
                 OD_LOG_S1s("recordPath <- ", recordPath); //####
             }
