@@ -102,6 +102,10 @@ ExemplarFilterService::~ExemplarFilterService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool ExemplarFilterService::configure(const yarp::os::Bottle & details)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
@@ -126,6 +130,9 @@ bool ExemplarFilterService::configure(const yarp::os::Bottle & details)
     OD_LOG_OBJEXIT_B(); //####
     return result;
 } // ExemplarFilterService::configure
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 void ExemplarFilterService::restartStreams(void)
 {

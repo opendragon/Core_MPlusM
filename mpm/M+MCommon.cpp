@@ -195,6 +195,10 @@ yarp::os::ConstString Common::GetRandomChannelName(const yarp::os::ConstString &
     return GetRandomChannelName(channelRoot.c_str());
 } // Common::GetRandomChannelName
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void Common::Initialize(const char * progName)
 {
 #if (! defined(MpM_ChattyStart))
@@ -236,6 +240,9 @@ void Common::Initialize(const char * progName)
     }
     OD_LOG_EXIT(); //####
 } // Common::Initialize
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 void Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
 {
@@ -658,6 +665,10 @@ void MplusM::StopRunning(void)
     OD_LOG_EXIT(); //####
 } // MplusM::StopRunning
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void MplusM::SignalRunningStop(int signal)
 {
 #if (! defined(OD_ENABLE_LOGGING))
@@ -670,3 +681,6 @@ void MplusM::SignalRunningStop(int signal)
     StopRunning();
     OD_LOG_EXIT(); //####
 } // MplusM::SignalRunningStop
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_

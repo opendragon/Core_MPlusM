@@ -143,6 +143,10 @@ void ServiceChannel::close(void)
     OD_LOG_OBJEXIT(); //####
 } // ServiceChannel::close
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool ServiceChannel::openWithRetries(const yarp::os::ConstString & theChannelName,
                                      const double                  timeToWait)
 {
@@ -206,7 +210,14 @@ bool ServiceChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ServiceChannel::openWithRetries
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool ServiceChannel::openWithRetries(yarp::os::Contact & theContactInfo,
                                      const double        timeToWait)
 {
@@ -273,6 +284,9 @@ bool ServiceChannel::openWithRetries(yarp::os::Contact & theContactInfo,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ServiceChannel::openWithRetries
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global functions

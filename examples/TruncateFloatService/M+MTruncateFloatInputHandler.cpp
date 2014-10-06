@@ -91,6 +91,10 @@ TruncateFloatInputHandler::~TruncateFloatInputHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool TruncateFloatInputHandler::handleInput(const yarp::os::Bottle &      input,
                                             const yarp::os::ConstString & senderChannel,
                                             yarp::os::ConnectionWriter *  replyMechanism,
@@ -143,6 +147,9 @@ bool TruncateFloatInputHandler::handleInput(const yarp::os::Bottle &      input,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // TruncateFloatInputHandler::handleInput
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 void TruncateFloatInputHandler::setOutput(GeneralChannel * output)
 {

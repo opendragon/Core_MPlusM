@@ -102,6 +102,10 @@ TruncateFloatService::~TruncateFloatService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool TruncateFloatService::configure(const yarp::os::Bottle & details)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
@@ -126,6 +130,9 @@ bool TruncateFloatService::configure(const yarp::os::Bottle & details)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // TruncateFloatService::configure
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 void TruncateFloatService::restartStreams(void)
 {

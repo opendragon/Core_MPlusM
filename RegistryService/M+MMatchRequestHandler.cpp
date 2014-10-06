@@ -140,6 +140,10 @@ void MatchRequestHandler::fillInDescription(const yarp::os::ConstString & reques
     OD_LOG_OBJEXIT(); //####
 } // MatchRequestHandler::fillInDescription
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
                                          const yarp::os::Bottle &      restOfInput,
                                          const yarp::os::ConstString & senderChannel,
@@ -237,6 +241,9 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // MatchRequestHandler::processRequest
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global functions

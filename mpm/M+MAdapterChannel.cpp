@@ -147,6 +147,10 @@ void AdapterChannel::close(void)
     OD_LOG_OBJEXIT(); //####
 } // AdapterChannel::close
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelName,
                                      const double                  timeToWait)
 {
@@ -208,6 +212,9 @@ bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // AdapterChannel::openWithRetries
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global functions

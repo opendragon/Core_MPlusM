@@ -95,6 +95,10 @@ DetachRequestHandler::~DetachRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void DetachRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
@@ -106,6 +110,9 @@ void DetachRequestHandler::fillInAliases(StringVector & alternateNames)
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
 } // DetachRequestHandler::fillInAliases
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 void DetachRequestHandler::fillInDescription(const yarp::os::ConstString & request,
                                              yarp::os::Property &          info)
@@ -134,6 +141,10 @@ void DetachRequestHandler::fillInDescription(const yarp::os::ConstString & reque
     OD_LOG_OBJEXIT(); //####
 } // DetachRequestHandler::fillInDescription
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool DetachRequestHandler::processRequest(const yarp::os::ConstString & request,
                                           const yarp::os::Bottle &      restOfInput,
                                           const yarp::os::ConstString & senderChannel,
@@ -176,6 +187,9 @@ bool DetachRequestHandler::processRequest(const yarp::os::ConstString & request,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // DetachRequestHandler::processRequest
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Accessors

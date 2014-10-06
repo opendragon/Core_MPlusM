@@ -146,6 +146,10 @@ void GeneralChannel::close(void)
     OD_LOG_OBJEXIT(); //####
 } // GeneralChannel::close
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool GeneralChannel::openWithRetries(const yarp::os::ConstString & theChannelName,
                                      const double                  timeToWait)
 {
@@ -207,6 +211,9 @@ bool GeneralChannel::openWithRetries(const yarp::os::ConstString & theChannelNam
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // GeneralChannel::openWithRetries
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 void GeneralChannel::setProtocol(const yarp::os::ConstString & newProtocol,
                                  const yarp::os::ConstString & description)

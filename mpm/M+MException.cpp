@@ -71,6 +71,10 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 Exception::Exception(const yarp::os::ConstString & reason)
 {
 #if (! defined(OD_ENABLE_LOGGING))
@@ -82,6 +86,9 @@ Exception::Exception(const yarp::os::ConstString & reason)
     OD_LOG_S1s("reason = ", reason); //####
     OD_LOG_EXIT_P(this); //####
 } // Exception::Exception
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 Exception::~Exception(void)
 {

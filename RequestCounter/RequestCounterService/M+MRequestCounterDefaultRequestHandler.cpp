@@ -93,6 +93,10 @@ RequestCounterDefaultRequestHandler::~RequestCounterDefaultRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void RequestCounterDefaultRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
@@ -104,7 +108,14 @@ void RequestCounterDefaultRequestHandler::fillInAliases(StringVector & alternate
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
 } // RequestCounterDefaultRequestHandler::fillInAliases
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void RequestCounterDefaultRequestHandler::fillInDescription(const yarp::os::ConstString & request,
                                                             yarp::os::Property &          info)
 {
@@ -118,7 +129,14 @@ void RequestCounterDefaultRequestHandler::fillInDescription(const yarp::os::Cons
     OD_LOG_P1("info = ", &info); //####
     OD_LOG_OBJEXIT(); //####
 } // RequestCounterDefaultRequestHandler::fillInDescription
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstString & request,
                                                          const yarp::os::Bottle &      restOfInput,
                                                          const yarp::os::ConstString &
@@ -163,6 +181,9 @@ bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstSt
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RequestCounterDefaultRequestHandler::processRequest
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global functions

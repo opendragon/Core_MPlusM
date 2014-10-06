@@ -95,6 +95,10 @@ AddFileRequestHandler::~AddFileRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void AddFileRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
@@ -106,6 +110,9 @@ void AddFileRequestHandler::fillInAliases(StringVector & alternateNames)
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
 } // AddFileRequestHandler::fillInAliases
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 void AddFileRequestHandler::fillInDescription(const yarp::os::ConstString & request,
                                               yarp::os::Property &          info)
@@ -135,6 +142,10 @@ void AddFileRequestHandler::fillInDescription(const yarp::os::ConstString & requ
     OD_LOG_OBJEXIT(); //####
 } // AddFileRequestHandler::fillInDescription
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool AddFileRequestHandler::processRequest(const yarp::os::ConstString & request,
                                            const yarp::os::Bottle &      restOfInput,
                                            const yarp::os::ConstString & senderChannel,
@@ -209,6 +220,9 @@ bool AddFileRequestHandler::processRequest(const yarp::os::ConstString & request
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // AddFileRequestHandler::processRequest
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global functions

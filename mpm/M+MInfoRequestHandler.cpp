@@ -132,6 +132,10 @@ void InfoRequestHandler::fillInDescription(const yarp::os::ConstString & request
     OD_LOG_OBJEXIT(); //####
 } // InfoRequestHandler::fillInDescription
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool InfoRequestHandler::processRequest(const yarp::os::ConstString & request,
                                         const yarp::os::Bottle &      restOfInput,
                                         const yarp::os::ConstString & senderChannel,
@@ -181,6 +185,9 @@ bool InfoRequestHandler::processRequest(const yarp::os::ConstString & request,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // InfoRequestHandler::processRequest
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Accessors

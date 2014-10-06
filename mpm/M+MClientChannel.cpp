@@ -115,6 +115,10 @@ ClientChannel::~ClientChannel(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool ClientChannel::addOutputWithRetries(const yarp::os::ConstString & theChannelToBeAdded,
                                          const double                  timeToWait)
 {
@@ -166,6 +170,9 @@ bool ClientChannel::addOutputWithRetries(const yarp::os::ConstString & theChanne
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ClientChannel::addOutputWithRetries
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 void ClientChannel::close(void)
 {
@@ -195,6 +202,10 @@ void ClientChannel::close(void)
     OD_LOG_OBJEXIT(); //####
 } // ClientChannel::close
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool ClientChannel::openWithRetries(const yarp::os::ConstString & theChannelName,
                                     const double                  timeToWait)
 {
@@ -258,6 +269,9 @@ bool ClientChannel::openWithRetries(const yarp::os::ConstString & theChannelName
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ClientChannel::openWithRetries
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global functions

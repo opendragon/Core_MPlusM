@@ -1152,6 +1152,10 @@ ServiceKind Utilities::MapStringToServiceKind(const yarp::os::ConstString & kind
     return result;
 } // Utilities::MapStringToServiceKind
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool Utilities::NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
                                           const yarp::os::ConstString & destinationName,
                                           const double                  timeToWait,
@@ -1237,7 +1241,14 @@ bool Utilities::NetworkConnectWithRetries(const yarp::os::ConstString & sourceNa
     OD_LOG_EXIT_B(result); //####
     return result;
 } // Utilities::NetworkConnectWithRetries
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
                                              const yarp::os::ConstString & destinationName,
                                              const double                  timeToWait,
@@ -1312,6 +1323,9 @@ bool Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourc
     OD_LOG_EXIT_B(result); //####
     return result;
 } // Utilities::NetworkDisconnectWithRetries
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 bool Utilities::RemoveConnection(const yarp::os::ConstString & fromPortName,
                                  const yarp::os::ConstString & toPortName,

@@ -95,6 +95,10 @@ StopStreamsRequestHandler::~StopStreamsRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void StopStreamsRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
@@ -106,6 +110,9 @@ void StopStreamsRequestHandler::fillInAliases(StringVector & alternateNames)
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
 } // StopStreamsRequestHandler::fillInAliases
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 void StopStreamsRequestHandler::fillInDescription(const yarp::os::ConstString & request,
                                                   yarp::os::Property &          info)
@@ -134,6 +141,10 @@ void StopStreamsRequestHandler::fillInDescription(const yarp::os::ConstString & 
     OD_LOG_OBJEXIT(); //####
 } // StopStreamsRequestHandler::fillInDescription
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool StopStreamsRequestHandler::processRequest(const yarp::os::ConstString & request,
                                                const yarp::os::Bottle &      restOfInput,
                                                const yarp::os::ConstString & senderChannel,
@@ -176,6 +187,9 @@ bool StopStreamsRequestHandler::processRequest(const yarp::os::ConstString & req
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // StopStreamsRequestHandler::processRequest
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Accessors

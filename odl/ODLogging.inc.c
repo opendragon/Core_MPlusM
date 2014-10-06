@@ -1697,6 +1697,10 @@ EXTERN_C void ODLogExitXL_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogExitXL_
 
+#  if (! MAC_OR_LINUX_)
+#   pragma warning(push)
+#   pragma warning(disable: 4100)
+#  endif // ! MAC_OR_LINUX_
 EXTERN_C void ODLogInit_(const char * prefix,
                          const int    options,
                          const char * fileName,
@@ -1834,6 +1838,9 @@ EXTERN_C void ODLogInit_(const char * prefix,
     OD_FREE_PREFIX_();
     odSetIndent_(OD_LOG_INIT_VALUE_);
 } // ODLogInit_
+#  if (! MAC_OR_LINUX_)
+#   pragma warning(pop)
+#  endif // ! MAC_OR_LINUX_
 
 EXTERN_C void ODLogIP_(const char *  fileName,
                        const char *  funcName,

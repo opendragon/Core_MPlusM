@@ -94,6 +94,10 @@ CountRequestHandler::~CountRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void CountRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
@@ -105,6 +109,9 @@ void CountRequestHandler::fillInAliases(StringVector & alternateNames)
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
 } // CountRequestHandler::fillInAliases
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 void CountRequestHandler::fillInDescription(const yarp::os::ConstString & request,
                                             yarp::os::Property &          info)
@@ -135,6 +142,10 @@ void CountRequestHandler::fillInDescription(const yarp::os::ConstString & reques
     OD_LOG_OBJEXIT(); //####
 } // CountRequestHandler::fillInDescription
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool CountRequestHandler::processRequest(const yarp::os::ConstString & request,
                                          const yarp::os::Bottle &      restOfInput,
                                          const yarp::os::ConstString & senderChannel,
@@ -182,6 +193,9 @@ bool CountRequestHandler::processRequest(const yarp::os::ConstString & request,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // CountRequestHandler::processRequest
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Accessors

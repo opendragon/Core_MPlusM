@@ -226,6 +226,10 @@ BaseService::BaseService(const ServiceKind             theKind,
     OD_LOG_EXIT_P(this); //####
 } // BaseService::BaseService
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 BaseService::BaseService(const ServiceKind             theKind,
                          const yarp::os::ConstString & launchPath,
                          const bool                    useMultipleHandlers,
@@ -269,6 +273,9 @@ BaseService::BaseService(const ServiceKind             theKind,
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // BaseService::BaseService
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 BaseService::~BaseService(void)
 {

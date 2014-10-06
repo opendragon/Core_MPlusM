@@ -76,6 +76,10 @@ using std::endl;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the random number service.
  
  Integers read from standard input will be sent to the service as the number of random numbers to
@@ -239,3 +243,6 @@ int main(int      argc,
     OD_LOG_EXIT_L(0); //####
     return 0;
 } // main
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_

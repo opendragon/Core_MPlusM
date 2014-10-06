@@ -177,6 +177,10 @@ static ClientChannel * doCreateTestChannel(Endpoint &   anEndpoint,
     return doCreateTestChannel(anEndpoint.getName(), channelPath);
 } // doCreateTestChannel
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 /*! @brief Destroy a temporary channel that was used with a test.
  @param destinationName The name of the channel that the temporary channel was connected to.
  @param theChannel A pointer to the temporary channel. */
@@ -207,6 +211,9 @@ static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
     }
     OD_LOG_EXIT(); //####
 } // doDestroyTestChannel
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 /*! @brief Destroy a temporary channel that was used with a test.
  @param anEndpoint The endpoint to be connected to.
@@ -221,6 +228,10 @@ static void doDestroyTestChannel(Endpoint &      anEndpoint,
 # pragma mark *** Test Case 01 ***
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
  @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
@@ -269,11 +280,18 @@ static int doTestCreateEndpoint(const char * launchPath,
     OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestCreateEndpoint
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 02 ***
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
  @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
@@ -368,11 +386,18 @@ static int doTestConnectToEndpoint(const char * launchPath,
     OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestConnectToEndpoint
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 03 ***
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
  @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
@@ -506,11 +531,18 @@ static int doTestWriteToEndpoint(const char * launchPath,
     OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestWriteToEndpoint
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 04 ***
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
  @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
@@ -626,11 +658,18 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
     OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestEchoFromEndpointWithReader
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 05 ***
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
  @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
@@ -746,11 +785,18 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
     OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestEchoFromEndpointWithReaderCreator
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 06 ***
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
  @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
@@ -797,11 +843,18 @@ static int doTestCreateRequest(const char * launchPath,
     OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestCreateRequest
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 07 ***
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
  @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
@@ -841,11 +894,18 @@ static int doTestCreateResponse(const char * launchPath,
     OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestCreateResponse
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 08 ***
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 /*! @brief Perform a test case.
  @param launchPath The command-line name used to launch the service.
  @param argc The number of arguments in 'argv'.
@@ -928,6 +988,9 @@ static int doTestRequestEchoFromEndpoint(const char * launchPath,
     OD_LOG_EXIT_L(result); //####
     return result;
 } // doTestRequestEchoFromEndpoint
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark *** Test Case 09 ***

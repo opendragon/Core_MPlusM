@@ -94,6 +94,10 @@ Test12EchoRequestHandler::~Test12EchoRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void Test12EchoRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
@@ -105,6 +109,9 @@ void Test12EchoRequestHandler::fillInAliases(StringVector & alternateNames)
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
 } // Test12EchoRequestHandler::fillInAliases
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 void Test12EchoRequestHandler::fillInDescription(const yarp::os::ConstString & request,
                                                  yarp::os::Property &          info)
@@ -125,6 +132,10 @@ void Test12EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
     OD_LOG_OBJEXIT(); //####
 } // Test12EchoRequestHandler::fillInDescription
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool Test12EchoRequestHandler::processRequest(const yarp::os::ConstString & request,
                                               const yarp::os::Bottle &      restOfInput,
                                               const yarp::os::ConstString & senderChannel,
@@ -158,6 +169,9 @@ bool Test12EchoRequestHandler::processRequest(const yarp::os::ConstString & requ
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Test12EchoRequestHandler::processRequest
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global functions

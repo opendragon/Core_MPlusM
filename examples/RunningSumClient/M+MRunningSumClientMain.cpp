@@ -75,6 +75,10 @@ using std::endl;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the running sum service.
  
  Commands from standard input will be interpreted and will result in requests being sent to the
@@ -262,3 +266,6 @@ int main(int      argc,
     OD_LOG_EXIT_L(0); //####
     return 0;
 } // main
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
