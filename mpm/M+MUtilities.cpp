@@ -1017,6 +1017,7 @@ yarp::os::ConstString Utilities::GetPortLocation(const yarp::os::ConstString & p
     return result;
 } // Utilities::GetPortLocation
 
+//
 bool Utilities::GetServiceNames(StringVector &        services,
                                 const bool            quiet,
                                 Common::CheckFunction checker,
@@ -1025,9 +1026,25 @@ bool Utilities::GetServiceNames(StringVector &        services,
     OD_LOG_ENTER(); //####
     OD_LOG_P2("services = ", &services, "checkStuff = ", checkStuff); //####
     OD_LOG_B1("quiet = ", quiet); //####
+    bool okSoFar = GetServiceNamesFromCriteria(MpM_REQREP_DICT_REQUEST_KEY ":*", services, quiet,
+                                               checker, checkStuff);
+    
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // Utilities::GetServiceNames
+
+bool Utilities::GetServiceNamesFromCriteria(const yarp::os::ConstString & criteria,
+                                            Common::StringVector &        services,
+                                            const bool                    quiet,
+                                            Common::CheckFunction         checker,
+                                            void *                        checkStuff)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("criteria = ", criteria); //####
+    OD_LOG_P2("services = ", &services, "checkStuff = ", checkStuff); //####
+    OD_LOG_B1("quiet = ", quiet); //####
     bool             okSoFar = false;
-    yarp::os::Bottle matches(FindMatchingServices(MpM_REQREP_DICT_REQUEST_KEY ":*", false,
-                                                  checker, checkStuff));
+    yarp::os::Bottle matches(FindMatchingServices(criteria, false, checker, checkStuff));
     
     if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
     {
@@ -1071,18 +1088,18 @@ bool Utilities::GetServiceNames(StringVector &        services,
 #endif // MAC_OR_LINUX_
         }
     }
-    if (! okSoFar)
+    if ((! okSoFar) && (! quiet))
     {
         char buffer1[DATE_TIME_BUFFER_SIZE];
         char buffer2[DATE_TIME_BUFFER_SIZE];
         
         GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
         std::cerr << buffer1 << " " << buffer2 << " Problem getting list of service names." <<
-                    std::endl;
+        std::endl;
     }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
-} // Utilities::GetServiceNames
+} // Utilities::GetServiceNamesFromCriteria
 
 const char * Utilities::MapServiceKindToString(const ServiceKind kind)
 {

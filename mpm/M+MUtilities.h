@@ -282,6 +282,20 @@ namespace MplusM
                              Common::CheckFunction  checker,
                              void *                 checkStuff);
         
+        /*! @brief Retrieve the set of known services.
+         @param criteria The matching criteria to be used.
+         @param services The set of registered services.
+         @param quiet @c true if status output is to be suppressed and @c false otherwise.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
+         @returns @c true if the set of known services was updated successfully and @c false
+         otherwise.*/
+        bool GetServiceNamesFromCriteria(const yarp::os::ConstString & criteria,
+                                         Common::StringVector &        services,
+                                         const bool                    quiet,
+                                         Common::CheckFunction         checker,
+                                         void *                        checkStuff);
+
         /*! @brief Return a string representation of a service kind.
          @param kind The value to be converted.
          @returns A string representation of the service kind. */

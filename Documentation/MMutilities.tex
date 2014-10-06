@@ -157,6 +157,73 @@ No services found.
 \outputEnd{}
 and the JSON--formatted and tab--delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{mpmClientList}}
+\tertiaryStart{\utilityNameP{mpmFindServices}}
+The program \utilityNameX{mpmFindServices} displays the primary channels belonging to
+services that match a criteria provided on the command--line or interactively.\\
+
+It has three command--line options:
+\begin{itemize}
+\item \textbf{--c} use the next command--line argument as the matching criteria
+\item \textbf{--j} generate JSON--formatted output
+\item \textbf{--t} generate output in tab--delimited form
+\end{itemize}
+If neither format is specified, the output is written as simple text.\\
+
+If no criteria is provided on the command--line, the program enters a loop, asking for an
+operation to do:
+\begin{itemize}
+\item \textbf{f} request the matching criteria and process it
+\item \textbf{q} exit the program
+\end{itemize}
+An example execution of the program, with the command--line option
+\asCode{-c 'tag!blurt'} provided, would have the following output if default formatting is
+used:
+\outputBegin{}
+/\textdollar{}ervice, /\serviceName/filter/truncatefloat, /blort
+\outputEnd{}
+or, if JSON--formatted output is requested:
+\outputBegin{}
+\openSq{} "/\textdollar{}ervice", "/\serviceName/filter/truncatefloat", "/blort" \closeSq
+\outputEnd{}
+of, if tab--delimited output is requested, with tabs shown as
+`\texttt{\boldmath{$\vdash$}}':
+\outputBegin{}
+/\textdollar{}ervice\pseudotab/\serviceName/filter/truncatefloat\pseudotab/blort
+\outputEnd{}
+If no criteria is provided on the command--line, and default formatting is used, with
+user input shown in bold, an example execution of the program could be:
+\outputBegin{}
+Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
+Match criteria:\ \textbf{tag!blurt}\\
+/\textdollar{}ervice, /\serviceName/filter/truncatefloat, /blort\\
+Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
+Match criteria:\ \textbf{tag:blurt}\\
+/\serviceName/input/randomburst/blurt\\
+Operation:\ \openSq{}f q\closeSq{}?\ \textbf{q}
+\outputEnd{}
+or, it JSON--formatted output is requested:
+\outputBegin{}
+Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
+Match criteria:\ \textbf{tag!blurt}\\
+\openSq{} "/\textdollar{}ervice", "/\serviceName/filter/truncatefloat", "/blort"
+\closeSq{}\\
+Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
+Match criteria:\ \textbf{tag:blurt}\\
+\openSq{} "/\serviceName/input/randomburst/blurt" \closeSq{}\\
+Operation:\ \openSq{}f q\closeSq{}?\ \textbf{q}
+\outputEnd{}
+or, if tab--delimited output is requested, with tabs shown as
+`\texttt{\boldmath{$\vdash$}}':
+\outputBegin{}
+Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
+Match criteria:\ \textbf{tag!blurt}\\
+/\textdollar{}ervice\pseudotab/\serviceName/filter/truncatefloat\pseudotab/blort\\
+Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
+Match criteria:\ \textbf{tag:blurt}\\
+/\serviceName/input/randomburst/blurt\\
+Operation:\ \openSq{}f q\closeSq{}?\ \textbf{q}
+\outputEnd{}
+\tertiaryEnd{\utilityNameE{mpmFindServices}}
 \tertiaryStart{\utilityNameP{mpmPortLister}}
 The program \utilityNameX{mpmPortLister} displays the active \yarp{} ports and \mplusm{}
 entities.
@@ -571,13 +638,13 @@ How many requests?
 \outputEnd{}
 Entering a zero value will exit the program.
 An example execution of the program, with the \utilityNameR{mpmRequestCounterService}
-application running in the background, could be:
+application running in the background and user input shown in bold, could be:
 \outputBegin{}
-How many requests? 10000\\
+How many requests? \textbf{10000}\\
 count = 10000, elapsed time = 2.2 seconds, average time = 0.22 milliseconds.\\
-How many requests? 300000\\
+How many requests? \textbf{300000}\\
 count = 300000, elapsed time = 1.20052 minutes, average time = 0.240104 milliseconds.\\
-How many requests? 0\\
+How many requests? \textbf{0}\\
 \outputEnd{}
 \tertiaryEnd{\utilityNameE{mpmRequestCounterClient}}
 \secondaryEnd{}

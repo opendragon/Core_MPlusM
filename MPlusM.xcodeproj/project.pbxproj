@@ -358,6 +358,8 @@
 		DFCDE4F319DB2B6B0051D294 /* M+MTruncateFloatService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFloatService.cpp"; path = "examples/TruncateFloatService/M+MTruncateFloatService.cpp"; sourceTree = "<group>"; };
 		DFCDE4F419DB2B6B0051D294 /* M+MTruncateFloatService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFloatService.h"; path = "examples/TruncateFloatService/M+MTruncateFloatService.h"; sourceTree = "<group>"; };
 		DFCDE4F519DB2B6B0051D294 /* M+MTruncateFloatServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFloatServiceMain.cpp"; path = "examples/TruncateFloatService/M+MTruncateFloatServiceMain.cpp"; sourceTree = "<group>"; };
+		DFCDE4F719E3029B0051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = FindServices/CMakeLists.txt; sourceTree = "<group>"; };
+		DFCDE4F819E3029B0051D294 /* M+MFindServicesMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MFindServicesMain.cpp"; path = "FindServices/M+MFindServicesMain.cpp"; sourceTree = "<group>"; };
 		DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MMovementDbClient.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DFE83AD119B671D1003A7EDE /* M+MMovementDbClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbClient.h"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.h"; sourceTree = SOURCE_ROOT; };
 		DFE83AD219B671D1003A7EDE /* M+MMovementDbClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbClientMain.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClientMain.cpp"; sourceTree = SOURCE_ROOT; };
@@ -898,6 +900,7 @@
 				DF38503D198ABBA000A0414E /* CommonTests */,
 				DFA86D2518E1D13300A22941 /* examples */,
 				DF824B1719C7304F004D13AC /* Exemplars */,
+				DFCDE4F619E302530051D294 /* FindServices */,
 				DFFFBFD219D9A40600BBD7A7 /* KinectV2 */,
 				DF824BBA19C8B0B1004D13AC /* LeapMotion */,
 				DFE83ABA19B661EB003A7EDE /* MovementDb */,
@@ -1161,6 +1164,15 @@
 				DFCDE4EE19DB23150051D294 /* M+MAbsorberServiceMain.cpp */,
 			);
 			name = AbsorberService;
+			sourceTree = "<group>";
+		};
+		DFCDE4F619E302530051D294 /* FindServices */ = {
+			isa = PBXGroup;
+			children = (
+				DFCDE4F719E3029B0051D294 /* CMakeLists.txt */,
+				DFCDE4F819E3029B0051D294 /* M+MFindServicesMain.cpp */,
+			);
+			name = FindServices;
 			sourceTree = "<group>";
 		};
 		DFE83ABA19B661EB003A7EDE /* MovementDb */ = {
