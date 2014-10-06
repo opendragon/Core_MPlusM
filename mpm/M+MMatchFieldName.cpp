@@ -65,6 +65,10 @@ using namespace MplusM::Parser;
 /*! @brief The colon character, which is an optional field name terminating character. */
 static const char kColon = ':';
 
+/*! @brief The exclamation mark character, which is a field name terminating character which
+ signifies negation. */
+static const char kExclamationMark = '!';
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -98,7 +102,8 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
             for (++workPos; workPos < inLength; ++workPos)
             {
                 scanChar = inString[workPos];
-                if (isspace(scanChar) || (kColon == scanChar) || (listStart == scanChar))
+                if (isspace(scanChar) || (kColon == scanChar) || (listStart == scanChar) ||
+                    (kExclamationMark == scanChar))
                 {
                     break;
                 }
@@ -106,8 +111,8 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
             }
             if (workPos < inLength)
             {
-                // Either we stopped with a blank, a colon, a list beginning or the end of the
-                // string.
+                // Either we stopped with a blank, a colon, and exclamation mark, a list beginning
+                // or the end of the string.
                 if (0 < (workPos - startSubPos))
                 {
                     yarp::os::ConstString tempString(inString.substr(startSubPos,
@@ -130,13 +135,13 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
                         }
                         if (validator->checkName(tempAsChars))
                         {
-                            result = new MatchFieldName(tempAsChars);
+                            result = new MatchFieldName(tempAsChars, kExclamationMark == scanChar);
                         }
                         free(tempAsChars);
                     }
                     else
                     {
-                        result = new MatchFieldName(tempString);
+                        result = new MatchFieldName(tempString, kExclamationMark == scanChar);
                     }
                 }
             }
@@ -146,7 +151,8 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
             }
             if (result)
             {
-                endPos = ((kColon == scanChar) ? 1 : 0) + workPos;
+                endPos = (((kColon == scanChar) || (kExclamationMark == scanChar))? 1 : 0) +
+                            workPos;
             }
         }
         else
@@ -167,11 +173,13 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-MatchFieldName::MatchFieldName(const yarp::os::ConstString & inString) :
-    inherited(), _matchingString(inString)
+MatchFieldName::MatchFieldName(const yarp::os::ConstString & inString,
+                               const bool                    negationSeen) :
+    inherited(), _matchingString(inString), _isNegated(negationSeen)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
+    OD_LOG_B1("negationSeen = ", negationSeen); //####
     OD_LOG_EXIT_P(this); //####
 } // MatchFieldName::MatchFieldName
 

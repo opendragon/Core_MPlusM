@@ -18,15 +18,17 @@ The following BNF statements describe the syntax in more precise terms:
 ;; Constraints are the 'AND' or intersection of the field matches.\\
 
 <FieldWithValues> ::= <FieldName> <Separator> <MatchValue>\\
-<Separator> ::= ':' | ' '\\
+<Separator> ::= ':' | ' ' | '!'\\
 ;; Whitespace is optional between elements, but can act as a separator as\\
-;; well.\\
+;; well. If an exclamation mark is used as the separator, then the matching is\\
+;; negated.\\
 
 <MatchValue> ::= <SingleValue> | '(' <ValueList> ')'\\
 <ValueList> ::= <SingleValue> ',' <ValueList> | <SingleValue>\\
 ;; The comma used to separate values doesn't get confused with the comma\\
 ;; used between constraints. A value list is the 'OR' or union of the\\
-;; values within the list.\\
+;; values within the list. A negated value list is the complement of the values\\
+;; within the list.\\
 
 \settowidth{\utilLen}{<FieldName> ::= }%
 <FieldName> ::= description | details | executable | input | keyword |\\

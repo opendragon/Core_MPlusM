@@ -198,6 +198,7 @@ const
     
     try
     {
+        bool                  negated = _fieldName->isNegated();
         yarp::os::ConstString field(_fieldName->asString());
         const char *          prefixString = NULL;
         const char *          suffixString = NULL;
@@ -221,11 +222,11 @@ const
             converted += trueName;
             if (_singleValue->hasWildcardCharacters())
             {
-                converted += " LIKE ";
+                converted += (negated ? " NOT LIKE " : " LIKE ");
             }
             else
             {
-                converted += " = ";
+                converted += (negated ? " != " : " = ");
             }
             converted += _singleValue->asSQLString();
             if (suffixString)
@@ -239,7 +240,7 @@ const
             {
                 converted += prefixString;
             }
-            converted += _values->asSQLString(trueName);
+            converted += _values->asSQLString(trueName, negated);
             if (suffixString)
             {
                 converted += suffixString;
@@ -263,7 +264,7 @@ const
     try
     {
         result += _fieldName->asString();
-        result += ": ";
+        result += (_fieldName->isNegated() ? "! " : ": ");
         if (_singleValue)
         {
             result += _singleValue->asString();

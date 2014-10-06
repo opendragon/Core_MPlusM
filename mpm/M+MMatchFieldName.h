@@ -97,13 +97,25 @@ namespace MplusM
                                                   size_t &                      endPos,
                                                   BaseNameValidator *           validator = NULL);
             
+            /*! @brief Return whether or not the field name was followed by the negation character.
+             @returns @c true if the field name was followed by the negation character and @c false
+             otherwise. */
+            bool isNegated(void)
+            const
+            {
+                return _isNegated;
+            } // isNegated
+            
         protected :
             
         private :
             
             /*! @brief The constructor.
-             @param inString The matching segment of the original string. */
-            MatchFieldName(const yarp::os::ConstString & inString);
+             @param inString The matching segment of the original string.
+             @param negationSeen @c true if the field name was followed by the negation character
+             and @c false otherwise. */
+            MatchFieldName(const yarp::os::ConstString & inString,
+                           const bool                    negationSeen);
             
             COPY_AND_ASSIGNMENT_(MatchFieldName);
             
@@ -118,6 +130,20 @@ namespace MplusM
             
             /*! @brief The subtring that (maximally) matched as a value. */
             yarp::os::ConstString _matchingString;
+            
+            /*! @brief The field name was followed by the negation character (an exclamation
+             mark). */
+            bool _isNegated;
+            
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler[7];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
             
         }; // MatchFieldName
         

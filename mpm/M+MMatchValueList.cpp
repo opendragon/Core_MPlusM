@@ -216,7 +216,8 @@ MatchValueList::~MatchValueList(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-yarp::os::ConstString MatchValueList::asSQLString(const char * fieldName)
+yarp::os::ConstString MatchValueList::asSQLString(const char * fieldName,
+                                                  const bool   negated)
 const
 {
     OD_LOG_OBJENTER(); //####
@@ -249,12 +250,12 @@ const
                 result += fieldName;
                 if (1 == _values.size())
                 {
-                    result += " = ";
+                    result += (negated ? " != " : " = ");
                     result += _values[0]->asSQLString();
                 }
                 else
                 {
-                    result += " IN (";
+                    result += (negated ? " NOT IN (" : " IN (");
                     for (MatchValueListSize ii = 0, maxI = _values.size(); ii < maxI; ++ii)
                     {
                         MatchValue * element = _values[ii];
@@ -285,16 +286,17 @@ const
                         
                         if (! element->hasWildcardCharacters())
                         {
-                            result += " = ";
+                            result += (negated ? " != " : " = ");
                             result += _values[ii]->asSQLString();
                             break;
                         }
+                        
                     }
                 }
                 else if (nonWild)
                 {
                     // Gather the non-wildcard values together.
-                    result += " IN (";
+                    result += (negated ? " NOT IN (" : " IN (");
                     for (MatchValueListSize ii = 0, maxI = _values.size(), jj = 0; ii < maxI; ++ii)
                     {
                         MatchValue * element = _values[ii];
@@ -315,7 +317,7 @@ const
                 // Add the wildcard values
                 if (nonWild)
                 {
-                    result += " OR ";
+                    result += (negated ? " AND " : " OR ");
                     result += fieldName;
                 }
                 for (MatchValueListSize ii = 0, maxI = _values.size(), jj = 0; ii < maxI; ++ii)
@@ -326,10 +328,10 @@ const
                     {
                         if (jj)
                         {
-                            result += " OR ";
+                            result += (negated ? " AND " : " OR ");
                             result += fieldName;
                         }
-                        result += " LIKE ";
+                        result += (negated ? " NOT LIKE " : " LIKE ");
                         result += element->asSQLString();
                         ++jj;
                     }

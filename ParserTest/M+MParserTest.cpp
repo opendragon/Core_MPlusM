@@ -155,8 +155,8 @@ static int doTestParseValueList(const bool   expected,
         if (didMatch)
         {
             OD_LOG_S2s("didMatch->asString = ", didMatch->asString(), //####
-                       "didMatch->asSQLString = ", didMatch->asSQLString("field")); //####
-            cout << didMatch->asSQLString("field").c_str() << endl;
+                       "didMatch->asSQLString = ", didMatch->asSQLString("field", false)); //####
+            cout << didMatch->asSQLString("field", false).c_str() << endl;
             delete didMatch;
         }
     }
@@ -191,7 +191,8 @@ static int doTestParseFieldName(const bool   expected,
         size_t                   len = strlen(inString);
         TestNameValidator *      validator = new TestNameValidator;
         Parser::MatchFieldName * didMatch = Parser::MatchFieldName::CreateMatcher(inString, len, 0,
-                                                                                  endPos, validator);
+                                                                                  endPos,
+                                                                                  validator);
         
         if ((NULL != didMatch) == expected)
         {

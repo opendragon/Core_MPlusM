@@ -177,6 +177,17 @@ add_test(NAME TestParseFieldWithValues14 COMMAND mpmParserTest 4 t "keyword:(alp
 set_property(TEST TestParseFieldWithValues14
              PROPERTY PASS_REGULAR_EXPRESSION
 "^${ESCAPE_CHAR1}(keyword IN ${ESCAPE_CHAR1}('alpha', 'gamma'${ESCAPE_CHAR1}) OR keyword LIKE 'beta%'${ESCAPE_CHAR1})\n$")
+add_test(NAME TestParseFieldWithValues15 COMMAND mpmParserTest 4 t "keyword!alpha")
+set_property(TEST TestParseFieldWithValues15
+            PROPERTY PASS_REGULAR_EXPRESSION "^keyword != 'alpha'\n$")
+add_test(NAME TestParseFieldWithValues16 COMMAND mpmParserTest 4 t "keyword!(alpha,beta)")
+set_property(TEST TestParseFieldWithValues16
+            PROPERTY PASS_REGULAR_EXPRESSION
+            "^keyword NOT IN ${ESCAPE_CHAR1}('alpha', 'beta'${ESCAPE_CHAR1})\n$")
+add_test(NAME TestParseFieldWithValues17 COMMAND mpmParserTest 4 t "keyword!(alpha,beta*,gamma)")
+set_property(TEST TestParseFieldWithValues17
+            PROPERTY PASS_REGULAR_EXPRESSION
+"^${ESCAPE_CHAR1}(keyword NOT IN ${ESCAPE_CHAR1}('alpha', 'gamma'${ESCAPE_CHAR1}) AND keyword NOT LIKE 'beta%'${ESCAPE_CHAR1})\n$")
 # Test constraint lists
 add_test(NAME TestParseConstraintList1 COMMAND mpmParserTest 5 f "")
 add_test(NAME TestParseConstraintList2 COMMAND mpmParserTest 5 t "keyword(alpha,\"beta gamma\")")
@@ -185,10 +196,20 @@ set_property(TEST TestParseConstraintList2
               "^keyword IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1})\n$")
 add_test(NAME TestParseConstraintList3 COMMAND mpmParserTest 5 f "keyword(alpha,\"beta gamma\")&")
 add_test(NAME TestParseConstraintList4 COMMAND mpmParserTest 5 t
- "keyword(alpha,\"beta gamma\")& details:alpha")
+            "keyword(alpha,\"beta gamma\")& details:alpha")
 set_property(TEST TestParseConstraintList4
              PROPERTY PASS_REGULAR_EXPRESSION
       "^keyword IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1}) AND details = 'alpha'\n$")
+add_test(NAME TestParseConstraintList5 COMMAND mpmParserTest 5 t
+            "keyword(alpha,\"beta gamma\")& details!alpha")
+set_property(TEST TestParseConstraintList5
+             PROPERTY PASS_REGULAR_EXPRESSION
+    "^keyword IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1}) AND details != 'alpha'\n$")
+add_test(NAME TestParseConstraintList6 COMMAND mpmParserTest 5 t
+"keyword!(alpha,\"beta gamma\")& details:alpha")
+set_property(TEST TestParseConstraintList6
+             PROPERTY PASS_REGULAR_EXPRESSION
+"^keyword NOT IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1}) AND details = 'alpha'\n$")
 # Test expressions
 add_test(NAME TestParseExpression1 COMMAND mpmParserTest 6 f "")
 add_test(NAME TestParseExpression2 COMMAND mpmParserTest 6 t "keyword(alpha,\"beta gamma\")")
@@ -197,7 +218,7 @@ set_property(TEST TestParseExpression2
               "^SELECT keyword IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1})\n$")
 add_test(NAME TestParseExpression3 COMMAND mpmParserTest 6 f "keyword(alpha,\"beta gamma\"),")
 add_test(NAME TestParseExpression4 COMMAND mpmParserTest 6 t
- "keyword(alpha,\"beta gamma\"), details:alpha")
+            "keyword(alpha,\"beta gamma\"), details:alpha")
 set_property(TEST TestParseExpression4
              PROPERTY PASS_REGULAR_EXPRESSION
 "^SELECT keyword IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1}) UNION SELECT details = 'alpha'\n$")

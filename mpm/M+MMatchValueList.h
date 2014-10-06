@@ -68,8 +68,10 @@ namespace MplusM
             
             /*! @brief Generate a proper SQL string value corresponding to this match value.
              @param fieldName The name to be used in the SQL matching expression.
+             @param negated @c true if the matching is negated and @c false otherwise.
              @returns A string representing the value as a string suitable for use with SQL. */
-            yarp::os::ConstString asSQLString(const char * fieldName)
+            yarp::os::ConstString asSQLString(const char * fieldName,
+                                              const bool   negated)
             const;
             
             /*! @brief Create a printable representation of the value list.
