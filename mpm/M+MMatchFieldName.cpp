@@ -95,64 +95,83 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
         if (workPos < inLength)
         {
             // Remember where we began.
-            char   listStart = MatchValueList::ListInitiatorCharacter();
-            char   scanChar = inString[workPos];
+            char   scanChar = kColon;
             size_t startSubPos = workPos;
             
-            for (++workPos; workPos < inLength; ++workPos)
+            for ( ; workPos < inLength; ++workPos)
             {
                 scanChar = inString[workPos];
-                if (isspace(scanChar) || (kColon == scanChar) || (listStart == scanChar) ||
-                    (kExclamationMark == scanChar))
+                if (isspace(scanChar) || (kColon == scanChar) || (kExclamationMark == scanChar))
                 {
                     break;
                 }
                 
             }
-            if (workPos < inLength)
+            if (startSubPos < workPos)
             {
-                // Either we stopped with a blank, a colon, and exclamation mark, a list beginning
-                // or the end of the string.
-                if (0 < (workPos - startSubPos))
+                // We have at least one character in the name.
+                size_t nameEndPos = workPos;
+                
+                if (isspace(scanChar))
                 {
-                    yarp::os::ConstString tempString(inString.substr(startSubPos,
-                                                                     workPos - startSubPos));
-                    
-                    if (validator)
+                    workPos = SkipWhitespace(inString, inLength, workPos);
+                    if (workPos < inLength)
                     {
-                        // If we have a non-empty substring, we need to check if the field is a
-                        // known name.
-#if MAC_OR_LINUX_
-                        char * tempAsChars = strdup(tempString.c_str());
-#else // ! MAC_OR_LINUX_
-                        char * tempAsChars = _strdup(tempString.c_str());
-#endif // ! MAC_OR_LINUX_
+                        scanChar = inString[workPos];
+                    }
+                }
+                if ((kColon == scanChar) || (kExclamationMark == scanChar))
+                {
+                    // The name is followed by a separator.
+                    if (workPos < inLength)
+                    {
+                        yarp::os::ConstString tempString(inString.substr(startSubPos,
+                                                                         nameEndPos - startSubPos));
                         
-                        // Convert the copy of the string to lower-case:
-                        for (size_t ii = 0, len = strlen(tempAsChars); ii < len; ++ii)
+                        if (validator)
                         {
-                            tempAsChars[ii] = static_cast<char>(tolower(tempAsChars[ii]));
+                            // If we have a non-empty substring, we need to check if the field is a
+                            // known name.
+#if MAC_OR_LINUX_
+                            char * tempAsChars = strdup(tempString.c_str());
+#else // ! MAC_OR_LINUX_
+                            char * tempAsChars = _strdup(tempString.c_str());
+#endif // ! MAC_OR_LINUX_
+                            
+                            // Convert the copy of the string to lower-case:
+                            for (size_t ii = 0, len = strlen(tempAsChars); ii < len; ++ii)
+                            {
+                                tempAsChars[ii] = static_cast<char>(tolower(tempAsChars[ii]));
+                            }
+                            if (validator->checkName(tempAsChars))
+                            {
+                                result = new MatchFieldName(tempAsChars,
+                                                            kExclamationMark == scanChar);
+                            }
+                            free(tempAsChars);
                         }
-                        if (validator->checkName(tempAsChars))
+                        else
                         {
-                            result = new MatchFieldName(tempAsChars, kExclamationMark == scanChar);
+                            result = new MatchFieldName(tempString, kExclamationMark == scanChar);
                         }
-                        free(tempAsChars);
+                        if (result)
+                        {
+                            endPos = workPos + 1;
+                        }
                     }
                     else
                     {
-                        result = new MatchFieldName(tempString, kExclamationMark == scanChar);
+                        OD_LOG("! (workPos < inLength)"); //####
                     }
+                }
+                else
+                {
+                    OD_LOG("! ((kColon == scanChar) || (kExclamationMark == scanChar))"); //####
                 }
             }
             else
             {
-                OD_LOG("! (workPos < inLength)"); //####
-            }
-            if (result)
-            {
-                endPos = (((kColon == scanChar) || (kExclamationMark == scanChar))? 1 : 0) +
-                            workPos;
+                OD_LOG("! (startSubPos < workPos)"); //####
             }
         }
         else

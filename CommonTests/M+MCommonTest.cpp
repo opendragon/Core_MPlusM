@@ -142,11 +142,10 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
 #endif // defined(MpM_ReportOnConnections)
         if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
         {
-            if (! Utilities::NetworkConnectWithRetries(aName, destinationName, STANDARD_WAIT_TIME,
-                                                       false, NULL, NULL))
+            if (! Utilities::NetworkConnectWithRetries(aName, destinationName, STANDARD_WAIT_TIME))
             {
                 OD_LOG("(! Utilities::NetworkConnectWithRetries(aName, destinationName, " //####
-                       "STANDARD_WAIT_TIME, false, NULL, NULL))"); //####
+                       "STANDARD_WAIT_TIME))"); //####
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
 #endif // defined(MpM_DoExplicitClose)
@@ -198,10 +197,10 @@ static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
     {
 #if defined(MpM_DoExplicitDisconnect)
         if (! Utilities::NetworkDisconnectWithRetries(theChannel->name(), destinationName,
-                                                      STANDARD_WAIT_TIME, NULL, NULL))
+                                                      STANDARD_WAIT_TIME))
         {
             OD_LOG("(! Utilities::NetworkDisconnectWithRetries(theChannel->name(), " //####
-                   "destinationName, STANDARD_WAIT_TIME, NULL, NULL))"); //####
+                   "destinationName, STANDARD_WAIT_TIME))"); //####
         }
 #endif // defined(MpM_DoExplicitDisconnect)
 #if defined(MpM_DoExplicitClose)
@@ -339,10 +338,10 @@ static int doTestConnectToEndpoint(const char * launchPath,
                             result = 0;
 #if defined(MpM_DoExplicitDisconnect)
                             if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
-                                                               STANDARD_WAIT_TIME, NULL, NULL))
+                                                               STANDARD_WAIT_TIME))
                             {
                                 OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), " //####
-                                       "stuff->getName(), STANDARD_WAIT_TIME, NULL, NULL))"); //####
+                                       "stuff->getName(), STANDARD_WAIT_TIME))"); //####
                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                         }
@@ -458,11 +457,10 @@ static int doTestWriteToEndpoint(const char * launchPath,
 # if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME, NULL, NULL))
+                                                                   STANDARD_WAIT_TIME))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
-                                           "name(), stuff->getName(), STANDARD_WAIT_TIME, " //####
-                                           "NULL, NULL))"); //####
+                                           "name(), stuff->getName(), STANDARD_WAIT_TIME))"); //####
                                 }
 # endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -473,11 +471,10 @@ static int doTestWriteToEndpoint(const char * launchPath,
 # if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME, NULL, NULL))
+                                                                   STANDARD_WAIT_TIME))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
-                                           "name(), stuff->getName(), STANDARD_WAIT_TIME, " //####
-                                           "NULL, NULL))"); //####
+                                           "name(), stuff->getName(), STANDARD_WAIT_TIME))"); //####
                                 }
 # endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -601,11 +598,10 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME, NULL, NULL))
+                                                                   STANDARD_WAIT_TIME))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
-                                           "name(), stuff->getName(), STANDARD_WAIT_TIME, " //####
-                                           "NULL, NULL))"); //####
+                                           "name(), stuff->getName(), STANDARD_WAIT_TIME))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -728,11 +724,10 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME, NULL, NULL))
+                                                                   STANDARD_WAIT_TIME))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
-                                           "name(), stuff->getName(), STANDARD_WAIT_TIME, " //####
-                                           "NULL, NULL))"); //####
+                                           "name(), stuff->getName(), STANDARD_WAIT_TIME))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }

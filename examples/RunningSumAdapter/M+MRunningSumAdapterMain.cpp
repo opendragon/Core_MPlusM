@@ -129,12 +129,12 @@ int main(int      argc,
             {
                 StartRunning();
                 SetSignalHandlers(SignalRunningStop);
-                if (stuff->findService("Name RunningSum", false, NULL, NULL))
+                if (stuff->findService("Name: RunningSum"))
                 {
 #if defined(MpM_ReportOnConnections)
                     stuff->setReporter(reporter, true);
 #endif // defined(MpM_ReportOnConnections)
-                    if (stuff->connectToService(NULL, NULL))
+                    if (stuff->connectToService())
                     {
                         AdapterChannel *                controlChannel = new AdapterChannel(false);
                         AdapterChannel *                dataChannel = new AdapterChannel(false);
@@ -181,9 +181,9 @@ int main(int      argc,
                             {
                                 double announcedTime = yarp::os::Time::now();
                                 
-                                stuff->addAssociatedChannel(controlChannel, NULL, NULL);
-                                stuff->addAssociatedChannel(dataChannel, NULL, NULL);
-                                stuff->addAssociatedChannel(outputChannel, NULL, NULL);
+                                stuff->addAssociatedChannel(controlChannel);
+                                stuff->addAssociatedChannel(dataChannel);
+                                stuff->addAssociatedChannel(outputChannel);
                                 sharedData.activate();
                                 controlChannel->setReader(*controlHandler);
                                 dataChannel->setReader(*dataHandler);
@@ -203,12 +203,9 @@ int main(int      argc,
                                             // Report associated channels again, in case the Service
                                             // Registry has been restarted.
                                             announcedTime = now;
-                                            stuff->addAssociatedChannel(controlChannel, NULL,
-                                                                        NULL);
-                                            stuff->addAssociatedChannel(dataChannel, NULL,
-                                                                        NULL);
-                                            stuff->addAssociatedChannel(outputChannel, NULL,
-                                                                        NULL);
+                                            stuff->addAssociatedChannel(controlChannel);
+                                            stuff->addAssociatedChannel(dataChannel);
+                                            stuff->addAssociatedChannel(outputChannel);
                                         }
                                     }
                                     else
@@ -216,7 +213,7 @@ int main(int      argc,
                                         sharedData.deactivate();
                                     }
                                 }
-                                stuff->removeAssociatedChannels(NULL, NULL);
+                                stuff->removeAssociatedChannels();
                             }
                             else
                             {
@@ -247,9 +244,9 @@ int main(int      argc,
                         AdapterChannel::RelinquishChannel(controlChannel);
                         AdapterChannel::RelinquishChannel(dataChannel);
                         AdapterChannel::RelinquishChannel(outputChannel);
-                        if (! stuff->disconnectFromService(NULL, NULL))
+                        if (! stuff->disconnectFromService())
                         {
-                            OD_LOG("(! stuff->disconnectFromService(NULL, NULL))"); //####
+                            OD_LOG("(! stuff->disconnectFromService())"); //####
 #if MAC_OR_LINUX_
                             GetLogger().fail("Problem disconnecting from the service.");
 #endif // MAC_OR_LINUX_
@@ -257,7 +254,7 @@ int main(int      argc,
                     }
                     else
                     {
-                        OD_LOG("! (stuff->connectToService(NULL, NULL))"); //####
+                        OD_LOG("! (stuff->connectToService())"); //####
 #if MAC_OR_LINUX_
                         GetLogger().fail("Could not connect to the required service.");
 #else // ! MAC_OR_LINUX_
@@ -267,7 +264,7 @@ int main(int      argc,
                 }
                 else
                 {
-                    OD_LOG("! (stuff->findService(\"Name RunningSum\", false, NULL, NULL))"); //####
+                    OD_LOG("! (stuff->findService(\"Name: RunningSum\"))"); //####
 #if MAC_OR_LINUX_
                     GetLogger().fail("Could not find the required service.");
 #else // ! MAC_OR_LINUX_

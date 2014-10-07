@@ -101,15 +101,15 @@ add_test(NAME TestRequestUnregisterService2 COMMAND mpmRegistryTest 15 "12352")
 # Test search for request / service - note the change in arguments
 add_test(NAME TestRequestSearchService1 COMMAND mpmRegistryTest 16 0 ""
             "FAILED \"An error message\"")
-add_test(NAME TestRequestSearchService2 COMMAND mpmRegistryTest 16 0 "Version 42" "OK ()")
+add_test(NAME TestRequestSearchService2 COMMAND mpmRegistryTest 16 0 "Version: 42" "OK ()")
 add_test(NAME TestRequestSearchService3 COMMAND mpmRegistryTest 16 0 "Details:Echo*"
             "OK (/_service_/test/requestsearchservice)")
 add_test(NAME TestRequestSearchService4 COMMAND mpmRegistryTest 16 0
-            "Details:Echo*,Keyword(requests)" "OK (/_service_/test/requestsearchservice /$ervice)")
+            "Details:Echo*,Keyword:(requests)" "OK (/_service_/test/requestsearchservice /$ervice)")
 add_test(NAME TestRequestSearchService5 COMMAND mpmRegistryTest 16 0 "Description:*unit\\ tests"
             "OK (/_service_/test/requestsearchservice)")
 add_test(NAME TestRequestSearchService6 COMMAND mpmRegistryTest 16 1 "Details:Echo*" "OK (Test16)")
 add_test(NAME TestRequestSearchService7 COMMAND mpmRegistryTest 16 1
-            "Details:Echo*,Keyword(requests)" "OK (Registry Test16)")
+            "Details:Echo*,Keyword:(requests)" "OK (Registry Test16)")
 add_test(NAME TestRequestSearchService8 COMMAND mpmRegistryTest 16 1 "Description:*unit\\ tests"
             "OK (Test16)")

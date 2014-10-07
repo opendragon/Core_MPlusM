@@ -517,7 +517,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
             yarp::os::ConstString request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
             
             request += aDescriptor._portName;
-            yarp::os::Bottle matches(FindMatchingServices(request, true, NULL, NULL));
+            yarp::os::Bottle matches(FindMatchingServices(request, true));
             
             OD_LOG_S1s("matches <- ", matches.toString()); //####
             if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
@@ -640,8 +640,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                     break;
                     
             }
-            Utilities::GetAssociatedPorts(aDescriptor._portName, associates, STANDARD_WAIT_TIME,
-                                          NULL, NULL);
+            Utilities::GetAssociatedPorts(aDescriptor._portName, associates, STANDARD_WAIT_TIME);
         }
         else
         {

@@ -130,12 +130,12 @@ int main(int      argc,
                 {
                     StartRunning();
                     SetSignalHandlers(SignalRunningStop);
-                    if (stuff->findService("Name RunningSum", false, NULL, NULL))
+                    if (stuff->findService("Name: RunningSum"))
                     {
 #if defined(MpM_ReportOnConnections)
                         stuff->setReporter(reporter, true);
 #endif // defined(MpM_ReportOnConnections)
-                        if (stuff->connectToService(NULL, NULL))
+                        if (stuff->connectToService())
                         {
                             for ( ; IsRunning(); )
                             {
@@ -209,9 +209,9 @@ int main(int      argc,
                                         
                                 }
                             }
-                            if (! stuff->disconnectFromService(NULL, NULL))
+                            if (! stuff->disconnectFromService())
                             {
-                                OD_LOG("(! stuff->disconnectFromService(NULL, NULL))"); //####
+                                OD_LOG("(! stuff->disconnectFromService())"); //####
 #if MAC_OR_LINUX_
                                 GetLogger().fail("Problem disconnecting from the service.");
 #endif // MAC_OR_LINUX_
@@ -219,7 +219,7 @@ int main(int      argc,
                         }
                         else
                         {
-                            OD_LOG("! (stuff->connectToService(NULL, NULL))"); //####
+                            OD_LOG("! (stuff->connectToService())"); //####
 #if MAC_OR_LINUX_
                             GetLogger().fail("Could not connect to the required service.");
 #else // ! MAC_OR_LINUX_
@@ -229,8 +229,7 @@ int main(int      argc,
                     }
                     else
                     {
-                        OD_LOG("! (stuff->findService(\"Name RunningSum\", false, NULL, " //####
-                               "NULL))"); //####
+                        OD_LOG("! (stuff->findService(\"Name: RunningSum\")"); //####
 #if MAC_OR_LINUX_
                         GetLogger().fail("Could not find the required service.");
 #else // ! MAC_OR_LINUX_

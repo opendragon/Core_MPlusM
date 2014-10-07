@@ -183,9 +183,9 @@ int main(int      argc,
                             break;
                         }
                         
-                        if (stuff->findService("name:RequestCounter", false, NULL, NULL))
+                        if (stuff->findService("name:RequestCounter"))
                         {
-                            if (stuff->connectToService(NULL, NULL))
+                            if (stuff->connectToService())
                             {
                                 if (stuff->resetServiceCounters())
                                 {
@@ -235,9 +235,9 @@ int main(int      argc,
                                     GetLogger().fail("Problem resetting the service counters.");
 #endif // MAC_OR_LINUX_
                                 }
-                                if (! stuff->disconnectFromService(NULL, NULL))
+                                if (! stuff->disconnectFromService())
                                 {
-                                    OD_LOG("(! stuff->disconnectFromService(NULL, NULL))"); //####
+                                    OD_LOG("(! stuff->disconnectFromService())"); //####
 #if MAC_OR_LINUX_
                                     GetLogger().fail("Problem disconnecting from the service.");
 #endif // MAC_OR_LINUX_
@@ -245,7 +245,7 @@ int main(int      argc,
                             }
                             else
                             {
-                                OD_LOG("! (stuff->connectToService(NULL, NULL))"); //####
+                                OD_LOG("! (stuff->connectToService())"); //####
 #if MAC_OR_LINUX_
                                 GetLogger().fail("Could not connect to the required service.");
 #else // ! MAC_OR_LINUX_
@@ -255,8 +255,7 @@ int main(int      argc,
                         }
                         else
                         {
-                            OD_LOG("! (stuff->findService(\"name:RequestCounter\", false, " //####
-                                   "NULL, NULL))"); //####
+                            OD_LOG("! (stuff->findService(\"name:RequestCounter\"))"); //####
 #if MAC_OR_LINUX_
                             GetLogger().fail("Could not find the required service.");
 #else // ! MAC_OR_LINUX_

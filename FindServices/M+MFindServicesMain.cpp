@@ -87,7 +87,7 @@ static void getMatchingChannels(const yarp::os::ConstString & criteria,
     bool         reported = false;
     StringVector services;
     
-    if (Utilities::GetServiceNamesFromCriteria(criteria, services, true, NULL, NULL))
+    if (Utilities::GetServiceNamesFromCriteria(criteria, services, true))
     {
         if (kOutputFlavourJSON == flavour)
         {

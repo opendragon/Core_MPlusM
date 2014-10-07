@@ -332,8 +332,7 @@ int main(int      argc,
                     requestName = NULL;
                 }
             }
-            yarp::os::Bottle matches(FindMatchingServices(channelNameRequest, false, NULL,
-                                                          NULL));
+            yarp::os::Bottle matches(FindMatchingServices(channelNameRequest));
             
             if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
@@ -386,9 +385,7 @@ int main(int      argc,
                                                                     matchesList->get(ii).toString();
                                         
                                         if (Utilities::NetworkConnectWithRetries(aName, aMatch,
-                                                                                 STANDARD_WAIT_TIME,
-                                                                                 false, NULL,
-                                                                                 NULL))
+                                                                             STANDARD_WAIT_TIME))
                                         {
                                             ServiceResponse response;
                                             
@@ -462,14 +459,11 @@ int main(int      argc,
 #if defined(MpM_DoExplicitDisconnect)
                                             if (! Utilities::NetworkDisconnectWithRetries(aName,
                                                                                           aMatch,
-                                                                              STANDARD_WAIT_TIME,
-                                                                                          NULL,
-                                                                                          NULL))
+                                                                              STANDARD_WAIT_TIME))
                                             {
                                                 OD_LOG("(! Utilities::Network" //####
                                                        "DisconnectWithRetries(aName, " //####
-                                                       "aMatch, STANDARD_WAIT_TIME, " //####
-                                                       "NULL, NULL))"); //####
+                                                       "aMatch, STANDARD_WAIT_TIME))"); //####
                                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                                         }
@@ -477,8 +471,7 @@ int main(int      argc,
                                         {
                                             OD_LOG("! (Utilities::NetworkConnect" //####
                                                    "WithRetries(aName, aMatch, " //####
-                                                   "STANDARD_WAIT_TIME, false, NULL, " //####
-                                                   "NULL))"); //####
+                                                   "STANDARD_WAIT_TIME))"); //####
                                         }
                                     }
                                     if (kOutputFlavourJSON == flavour)

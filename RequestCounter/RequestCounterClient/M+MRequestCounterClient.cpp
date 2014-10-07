@@ -104,7 +104,7 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
         yarp::os::Bottle parameters;
         ServiceResponse  response;
         
-        reconnectIfDisconnected(NULL, NULL);
+        reconnectIfDisconnected();
         if (send(MpM_STATS_REQUEST, parameters, &response))
         {
             if (2 == response.count())
@@ -179,7 +179,7 @@ bool RequestCounterClient::resetServiceCounters(void)
     {
         yarp::os::Bottle parameters;
         
-        reconnectIfDisconnected(NULL, NULL);
+        reconnectIfDisconnected();
         if (send(MpM_RESETCOUNTER_REQUEST, parameters))
         {
             okSoFar = true;

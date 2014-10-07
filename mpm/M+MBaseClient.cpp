@@ -211,7 +211,7 @@ BaseClient::BaseClient(const char * baseChannelName) :
 BaseClient::~BaseClient(void)
 {
     OD_LOG_OBJENTER(); //####
-    disconnectFromService(NULL, NULL);
+    disconnectFromService();
     ClientChannel::RelinquishChannel(_channel);
     _channel = NULL;
     delete _baseChannelName;
@@ -605,13 +605,13 @@ void BaseClient::setReporter(ChannelStatusReporter & reporter,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-yarp::os::Bottle Common::FindMatchingServices(const char *  criteria,
-                                              const bool    getNames,
-                                              CheckFunction checker,
-                                              void *        checkStuff)
+yarp::os::Bottle Common::FindMatchingServices(const yarp::os::ConstString & criteria,
+                                              const bool                    getNames,
+                                              CheckFunction                 checker,
+                                              void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S1("criteria = ", criteria); //####
+    OD_LOG_S1s("criteria = ", criteria); //####
     OD_LOG_B1("getNames = ", getNames); //####
     OD_LOG_P1("checkStuff = ", checkStuff); //####
     yarp::os::Bottle result;
@@ -684,12 +684,4 @@ yarp::os::Bottle Common::FindMatchingServices(const char *  criteria,
     }
     OD_LOG_EXIT(); //####
     return result;
-} // Common::FindMatchingServices
-
-yarp::os::Bottle Common::FindMatchingServices(const yarp::os::ConstString & criteria,
-                                              const bool                    getNames,
-                                              CheckFunction                 checker,
-                                              void *                        checkStuff)
-{
-    return FindMatchingServices(criteria.c_str(), getNames, checker, checkStuff);
 } // Common::FindMatchingServices

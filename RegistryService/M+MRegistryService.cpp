@@ -3088,8 +3088,7 @@ bool RegistryService::start(void)
                     if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
                         if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
-                                                                 STANDARD_WAIT_TIME, false, NULL,
-                                                                 NULL))
+                                                                 STANDARD_WAIT_TIME))
                         {
                             yarp::os::Bottle parameters(MpM_REGISTRY_CHANNEL_NAME);
                             ServiceRequest   request(MpM_REGISTER_REQUEST, parameters);
@@ -3128,8 +3127,7 @@ bool RegistryService::start(void)
                         else
                         {
                             OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                                   "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, " //####
-                                   "NULL, NULL))"); //####
+                                   "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         newChannel->close();

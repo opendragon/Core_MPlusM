@@ -275,13 +275,11 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! Utilities::NetworkDisconnectWithRetries(outChannel->name(),
                                                                               argAsString,
-                                                                              STANDARD_WAIT_TIME,
-                                                                              NULL, NULL))
+                                                                              STANDARD_WAIT_TIME))
                                         {
                                             OD_LOG("(! Utilities::NetworkDisconnectWith" //####
                                                    "Retries(outChannel->name(), " //####
-                                                   "argAsString, STANDARD_WAIT_TIME, NULL, " //####
-                                                   "NULL))"); //####
+                                                   "argAsString, STANDARD_WAIT_TIME))"); //####
                                         }
 #endif // defined(MpM_DoExplicitDisconnect)
                                     }

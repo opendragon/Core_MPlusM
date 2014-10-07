@@ -197,13 +197,13 @@ static int doTestRequestRegistryService(const char * launchPath,
                         {
                             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (RegisterLocalService(channelName, NULL, NULL))
+                            if (RegisterLocalService(channelName))
                             {
                                 result = 0;
                             }
                             else
                             {
-                                OD_LOG("! (RegisterLocalService(channelName, NULL, NULL))"); //####
+                                OD_LOG("! (RegisterLocalService(channelName))"); //####
                             }
                             stuff->stop();
                         }
@@ -300,21 +300,20 @@ static int doTestRequestUnregisterService(const char * launchPath,
                         {
                             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (RegisterLocalService(channelName, NULL, NULL))
+                            if (RegisterLocalService(channelName))
                             {
-                                if (UnregisterLocalService(channelName, NULL, NULL))
+                                if (UnregisterLocalService(channelName))
                                 {
                                     result = 0;
                                 }
                                 else
                                 {
-                                    OD_LOG("! (UnregisterLocalService(channelName, NULL, " //####
-                                           "NULL))"); //####
+                                    OD_LOG("! (UnregisterLocalService(channelName))"); //####
                                 }
                             }
                             else
                             {
-                                OD_LOG("! (RegisterLocalService(channelName, NULL, NULL))"); //####
+                                OD_LOG("! (RegisterLocalService(channelName))"); //####
                             }
                             stuff->stop();
                         }
@@ -400,14 +399,12 @@ static int doTestRequestSearchService(const char * launchPath,
                                 OD_LOG("(stuff->start())"); //####
                                 yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                                 
-                                if (RegisterLocalService(channelName, NULL, NULL))
+                                if (RegisterLocalService(channelName))
                                 {
-                                    OD_LOG("(RegisterLocalService(channelName, NULL, " //####
-                                           "NULL))"); //####
+                                    OD_LOG("(RegisterLocalService(channelName))"); //####
                                     // Search for the service that we just registered.
                                     yarp::os::Bottle matches = FindMatchingServices(argv[1],
-                                                                                    getNamesFlag,
-                                                                                    NULL, NULL);
+                                                                                    getNamesFlag);
                                     
                                     OD_LOG_S3("criteria <- ", argv[1], "expected <- ", //####
                                               argv[2], "matches <- ", //####
@@ -534,16 +531,14 @@ static int doTestRequestSearchService(const char * launchPath,
                                                "(MpM_EXPECTED_MATCH_RESPONSE_SIZE == " //####
                                                "matches.size()))"); //####
                                     }
-                                    if (! UnregisterLocalService(channelName, NULL, NULL))
+                                    if (! UnregisterLocalService(channelName))
                                     {
-                                        OD_LOG("(! UnregisterLocalService(channelName, " //####
-                                               "NULL, NULL))"); //####
+                                        OD_LOG("(! UnregisterLocalService(channelName))"); //####
                                     }
                                 }
                                 else
                                 {
-                                    OD_LOG("! (RegisterLocalService(channelName, NULL, " //####
-                                           "NULL))"); //####
+                                    OD_LOG("! (RegisterLocalService(channelName))"); //####
                                 }
                                 stuff->stop();
                             }

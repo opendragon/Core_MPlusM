@@ -126,7 +126,7 @@ int main(int      argc,
             bool         reported = false;
             StringVector services;
             
-            if (Utilities::GetServiceNames(services, false, NULL, NULL))
+            if (Utilities::GetServiceNames(services))
             {
                 if (kOutputFlavourJSON == flavour)
                 {
@@ -140,8 +140,7 @@ int main(int      argc,
                         Utilities::ServiceDescriptor descriptor;
                         
                         if (Utilities::GetNameAndDescriptionForService(*walker, descriptor,
-                                                                       STANDARD_WAIT_TIME, NULL,
-                                                                       NULL))
+                                                                       STANDARD_WAIT_TIME))
                         {
                             bool                  sawInputs = false;
                             bool                  sawOutputs = false;

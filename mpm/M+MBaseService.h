@@ -209,8 +209,8 @@ namespace MplusM
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function. */
             static bool SendPingForChannel(const yarp::os::ConstString & channelName,
-                                           CheckFunction                 checker,
-                                           void *                        checkStuff);
+                                           CheckFunction                 checker = NULL,
+                                           void *                        checkStuff = NULL);
             
             /*! @brief Return the working name of the service.
              @returns The working name of the service. */
@@ -402,8 +402,8 @@ namespace MplusM
          @param checkStuff The private data for the early exit function.
          @returns @c true if the service was successfully registered and @c false otherwise. */
         bool RegisterLocalService(const yarp::os::ConstString & channelName,
-                                  CheckFunction                 checker,
-                                  void *                        checkStuff);
+                                  CheckFunction                 checker = NULL,
+                                  void *                        checkStuff = NULL);
         
         /*! @brief Unregister a local service with a running Service Registry service.
          @param channelName The channel provided by the service.
@@ -411,8 +411,8 @@ namespace MplusM
          @param checkStuff The private data for the early exit function.
          @returns @c true if the service was successfully unregistered and @c false otherwise. */
         bool UnregisterLocalService(const yarp::os::ConstString & channelName,
-                                    CheckFunction                 checker,
-                                    void *                        checkStuff);
+                                    CheckFunction                 checker = NULL,
+                                    void *                        checkStuff = NULL);
         
     } // Common
     

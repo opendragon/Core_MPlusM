@@ -127,35 +127,41 @@ set_property(TEST TestParseValueList14
 # Test field names
 add_test(NAME TestParseFieldName1 COMMAND mpmParserTest 3 f "")
 add_test(NAME TestParseFieldName2 COMMAND mpmParserTest 3 f "blort ")
-add_test(NAME TestParseFieldName3 COMMAND mpmParserTest 3 t "keyword ")
-set_property(TEST TestParseFieldName3
+add_test(NAME TestParseFieldName3 COMMAND mpmParserTest 3 f ":")
+add_test(NAME TestParseFieldName4 COMMAND mpmParserTest 3 f "!")
+add_test(NAME TestParseFieldName5 COMMAND mpmParserTest 3 f " ")
+add_test(NAME TestParseFieldName6 COMMAND mpmParserTest 3 f "keyword ")
+add_test(NAME TestParseFieldName7 COMMAND mpmParserTest 3 t "keyword:")
+set_property(TEST TestParseFieldName7
              PROPERTY PASS_REGULAR_EXPRESSION "^keyword\n$")
-add_test(NAME TestParseFieldName4 COMMAND mpmParserTest 3 t "keyword:")
-set_property(TEST TestParseFieldName4
-             PROPERTY PASS_REGULAR_EXPRESSION "^keyword\n$")
-add_test(NAME TestParseFieldName5 COMMAND mpmParserTest 3 t "request ")
-set_property(TEST TestParseFieldName5
+add_test(NAME TestParseFieldName8 COMMAND mpmParserTest 3 t "keyword!")
+set_property(TEST TestParseFieldName8
+                PROPERTY PASS_REGULAR_EXPRESSION "^keyword\n$")
+add_test(NAME TestParseFieldName9 COMMAND mpmParserTest 3 t "keyword :")
+set_property(TEST TestParseFieldName9
+                PROPERTY PASS_REGULAR_EXPRESSION "^keyword\n$")
+add_test(NAME TestParseFieldName10 COMMAND mpmParserTest 3 t "keyword !")
+set_property(TEST TestParseFieldName10
+                PROPERTY PASS_REGULAR_EXPRESSION "^keyword\n$")
+add_test(NAME TestParseFieldName11 COMMAND mpmParserTest 3 t "request: ")
+set_property(TEST TestParseFieldName11
              PROPERTY PASS_REGULAR_EXPRESSION "^request\n$")
-add_test(NAME TestParseFieldName6 COMMAND mpmParserTest 3 t "details(")
-set_property(TEST TestParseFieldName6
-             PROPERTY PASS_REGULAR_EXPRESSION "^details\n$")
+add_test(NAME TestParseFieldName12 COMMAND mpmParserTest 3 f "details(")
 # Test field with value(s)
 add_test(NAME TestParseFieldWithValues1 COMMAND mpmParserTest 4 f "")
 add_test(NAME TestParseFieldWithValues2 COMMAND mpmParserTest 4 f "keyword ")
 add_test(NAME TestParseFieldWithValues3 COMMAND mpmParserTest 4 f "keyword:")
-add_test(NAME TestParseFieldWithValues4 COMMAND mpmParserTest 4 t "keyword alpha")
+add_test(NAME TestParseFieldWithValues4 COMMAND mpmParserTest 4 t "keyword: alpha")
 set_property(TEST TestParseFieldWithValues4
              PROPERTY PASS_REGULAR_EXPRESSION "^keyword = 'alpha'\n$")
-add_test(NAME TestParseFieldWithValues5 COMMAND mpmParserTest 4 t "keyword(alpha)")
-set_property(TEST TestParseFieldWithValues5
-             PROPERTY PASS_REGULAR_EXPRESSION "^keyword = 'alpha'\n$")
-add_test(NAME TestParseFieldWithValues6 COMMAND mpmParserTest 4 t "keyword alpha${ESCAPE_CHAR1}*")
+add_test(NAME TestParseFieldWithValues5 COMMAND mpmParserTest 4 f "keyword(alpha)")
+add_test(NAME TestParseFieldWithValues6 COMMAND mpmParserTest 4 t "keyword: alpha${ESCAPE_CHAR1}*")
 set_property(TEST TestParseFieldWithValues6
              PROPERTY PASS_REGULAR_EXPRESSION "^keyword = 'alpha${ESCAPE_CHAR1}*'\n$")
 add_test(NAME TestParseFieldWithValues7 COMMAND mpmParserTest 4 t "keyword:alpha")
 set_property(TEST TestParseFieldWithValues7
              PROPERTY PASS_REGULAR_EXPRESSION "^keyword = 'alpha'\n$")
-add_test(NAME TestParseFieldWithValues8 COMMAND mpmParserTest 4 t "keyword (alpha,beta)")
+add_test(NAME TestParseFieldWithValues8 COMMAND mpmParserTest 4 t "keyword: (alpha,beta)")
 set_property(TEST TestParseFieldWithValues8
              PROPERTY PASS_REGULAR_EXPRESSION
               "^keyword IN ${ESCAPE_CHAR1}('alpha', 'beta'${ESCAPE_CHAR1})\n$")
@@ -163,13 +169,13 @@ add_test(NAME TestParseFieldWithValues9 COMMAND mpmParserTest 4 t "keyword:(alph
 set_property(TEST TestParseFieldWithValues9
              PROPERTY PASS_REGULAR_EXPRESSION
               "^keyword IN ${ESCAPE_CHAR1}('alpha', 'beta'${ESCAPE_CHAR1})\n$")
-add_test(NAME TestParseFieldWithValues10 COMMAND mpmParserTest 4 f "keyword (alpha,)")
+add_test(NAME TestParseFieldWithValues10 COMMAND mpmParserTest 4 f "keyword: (alpha,)")
 add_test(NAME TestParseFieldWithValues11 COMMAND mpmParserTest 4 f "keyword:(alpha")
 add_test(NAME TestParseFieldWithValues12 COMMAND mpmParserTest 4 t "keyword:(alpha,\"beta gamma\")")
 set_property(TEST TestParseFieldWithValues12
              PROPERTY PASS_REGULAR_EXPRESSION
               "^keyword IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1})\n$")
-add_test(NAME TestParseFieldWithValues13 COMMAND mpmParserTest 4 t "keyword(alpha,\"beta gamma\")")
+add_test(NAME TestParseFieldWithValues13 COMMAND mpmParserTest 4 t "keyword:(alpha,\"beta gamma\")")
 set_property(TEST TestParseFieldWithValues13
              PROPERTY PASS_REGULAR_EXPRESSION
               "^keyword IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1})\n$")
@@ -190,40 +196,40 @@ set_property(TEST TestParseFieldWithValues17
 "^${ESCAPE_CHAR1}(keyword NOT IN ${ESCAPE_CHAR1}('alpha', 'gamma'${ESCAPE_CHAR1}) AND keyword NOT LIKE 'beta%'${ESCAPE_CHAR1})\n$")
 # Test constraint lists
 add_test(NAME TestParseConstraintList1 COMMAND mpmParserTest 5 f "")
-add_test(NAME TestParseConstraintList2 COMMAND mpmParserTest 5 t "keyword(alpha,\"beta gamma\")")
+add_test(NAME TestParseConstraintList2 COMMAND mpmParserTest 5 t "keyword:(alpha,\"beta gamma\")")
 set_property(TEST TestParseConstraintList2
              PROPERTY PASS_REGULAR_EXPRESSION
               "^keyword IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1})\n$")
-add_test(NAME TestParseConstraintList3 COMMAND mpmParserTest 5 f "keyword(alpha,\"beta gamma\")&")
+add_test(NAME TestParseConstraintList3 COMMAND mpmParserTest 5 f "keyword:(alpha,\"beta gamma\")&")
 add_test(NAME TestParseConstraintList4 COMMAND mpmParserTest 5 t
-            "keyword(alpha,\"beta gamma\")& details:alpha")
+            "keyword:(alpha,\"beta gamma\")& details:alpha")
 set_property(TEST TestParseConstraintList4
              PROPERTY PASS_REGULAR_EXPRESSION
       "^keyword IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1}) AND details = 'alpha'\n$")
 add_test(NAME TestParseConstraintList5 COMMAND mpmParserTest 5 t
-            "keyword(alpha,\"beta gamma\")& details!alpha")
+            "keyword:(alpha,\"beta gamma\")& details!alpha")
 set_property(TEST TestParseConstraintList5
              PROPERTY PASS_REGULAR_EXPRESSION
     "^keyword IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1}) AND details != 'alpha'\n$")
 add_test(NAME TestParseConstraintList6 COMMAND mpmParserTest 5 t
-"keyword!(alpha,\"beta gamma\")& details:alpha")
+            "keyword!(alpha,\"beta gamma\")& details:alpha")
 set_property(TEST TestParseConstraintList6
              PROPERTY PASS_REGULAR_EXPRESSION
 "^keyword NOT IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1}) AND details = 'alpha'\n$")
 # Test expressions
 add_test(NAME TestParseExpression1 COMMAND mpmParserTest 6 f "")
-add_test(NAME TestParseExpression2 COMMAND mpmParserTest 6 t "keyword(alpha,\"beta gamma\")")
+add_test(NAME TestParseExpression2 COMMAND mpmParserTest 6 t "keyword:(alpha,\"beta gamma\")")
 set_property(TEST TestParseExpression2
              PROPERTY PASS_REGULAR_EXPRESSION
               "^SELECT keyword IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1})\n$")
-add_test(NAME TestParseExpression3 COMMAND mpmParserTest 6 f "keyword(alpha,\"beta gamma\"),")
+add_test(NAME TestParseExpression3 COMMAND mpmParserTest 6 f "keyword:(alpha,\"beta gamma\"),")
 add_test(NAME TestParseExpression4 COMMAND mpmParserTest 6 t
-            "keyword(alpha,\"beta gamma\"), details:alpha")
+            "keyword:(alpha,\"beta gamma\"), details:alpha")
 set_property(TEST TestParseExpression4
              PROPERTY PASS_REGULAR_EXPRESSION
 "^SELECT keyword IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1}) UNION SELECT details = 'alpha'\n$")
 add_test(NAME TestParseExpression5 COMMAND mpmParserTest 6 t
-            "keyword(alpha,\"beta gamma\") & details:alpha, request:echo")
+            "keyword:(alpha,\"beta gamma\") & details:alpha, request:echo")
 set_property(TEST TestParseExpression5
              PROPERTY PASS_REGULAR_EXPRESSION
 "^SELECT keyword IN ${ESCAPE_CHAR1}('alpha', 'beta gamma'${ESCAPE_CHAR1}) AND details = 'alpha' UNION SELECT request = 'echo'\n$")

@@ -187,9 +187,9 @@ namespace MplusM
         bool AddConnection(const yarp::os::ConstString & fromPortName,
                            const yarp::os::ConstString & toPortName,
                            const double                  timeToWait,
-                           const bool                    isUDP,
-                           Common::CheckFunction         checker,
-                           void *                        checkStuff);
+                           const bool                    isUDP = false,
+                           Common::CheckFunction         checker = NULL,
+                           void *                        checkStuff = NULL);
         
         /*! @brief Check if the Registry Service is active.
          @param ports The set of detected ports.
@@ -208,9 +208,9 @@ namespace MplusM
                                    Common::ChannelVector &       inputs,
                                    Common::ChannelVector &       outputs,
                                    const InputOutputFlag         which,
-                                   const bool                    quiet,
-                                   Common::CheckFunction         checker,
-                                   void *                        checkStuff);
+                                   const bool                    quiet = false,
+                                   Common::CheckFunction         checker = NULL,
+                                   void *                        checkStuff = NULL);
         
         /*! @brief Collect the associated input and output connections for a port.
          @param portName The port to be inspected.
@@ -222,8 +222,8 @@ namespace MplusM
         bool GetAssociatedPorts(const yarp::os::ConstString & portName,
                                 PortAssociation &             associates,
                                 const double                  timeToWait,
-                                Common::CheckFunction         checker,
-                                void *                        checkStuff);
+                                Common::CheckFunction         checker = NULL,
+                                void *                        checkStuff = NULL);
         
         /*! @brief Fill buffers with the current date and time as strings.
          @param dateBuffer The buffer to fill with the date.
@@ -257,8 +257,8 @@ namespace MplusM
         bool GetNameAndDescriptionForService(const yarp::os::ConstString & serviceChannelName,
                                              ServiceDescriptor &           descriptor,
                                              const double                  timeToWait,
-                                             Common::CheckFunction         checker,
-                                             void *                        checkStuff);
+                                             Common::CheckFunction         checker = NULL,
+                                             void *                        checkStuff = NULL);
         
         /*! @brief Map a port name to the port kind.
          @param portName The name of the port.
@@ -278,9 +278,9 @@ namespace MplusM
          @returns @c true if the set of known services was updated successfully and @c false
          otherwise.*/
         bool GetServiceNames(Common::StringVector & services,
-                             const bool             quiet,
-                             Common::CheckFunction  checker,
-                             void *                 checkStuff);
+                             const bool             quiet = false,
+                             Common::CheckFunction  checker = NULL,
+                             void *                 checkStuff = NULL);
         
         /*! @brief Retrieve the set of known services.
          @param criteria The matching criteria to be used.
@@ -292,9 +292,9 @@ namespace MplusM
          otherwise.*/
         bool GetServiceNamesFromCriteria(const yarp::os::ConstString & criteria,
                                          Common::StringVector &        services,
-                                         const bool                    quiet,
-                                         Common::CheckFunction         checker,
-                                         void *                        checkStuff);
+                                         const bool                    quiet = false,
+                                         Common::CheckFunction         checker = NULL,
+                                         void *                        checkStuff = NULL);
 
         /*! @brief Return a string representation of a service kind.
          @param kind The value to be converted.
@@ -317,9 +317,9 @@ namespace MplusM
         bool NetworkConnectWithRetries(const yarp::os::ConstString & sourceName,
                                        const yarp::os::ConstString & destinationName,
                                        const double                  timeToWait,
-                                       const bool                    isUDP,
-                                       Common::CheckFunction          checker,
-                                       void *                        checkStuff);
+                                       const bool                    isUDP = false,
+                                       Common::CheckFunction         checker = NULL,
+                                       void *                        checkStuff = NULL);
         
         /*! @brief Disconnect two channels, using a backoff strategy with retries.
          @param sourceName The name of the source channel.
@@ -331,8 +331,8 @@ namespace MplusM
         bool NetworkDisconnectWithRetries(const yarp::os::ConstString & sourceName,
                                           const yarp::os::ConstString & destinationName,
                                           const double                  timeToWait,
-                                          Common::CheckFunction         checker,
-                                          void *                        checkStuff);
+                                          Common::CheckFunction         checker = NULL,
+                                          void *                        checkStuff = NULL);
         
         /*! @brief Remove a connection between two ports.
          @param fromPortName The name of the source port.
@@ -341,8 +341,8 @@ namespace MplusM
          @param checkStuff The private data for the early exit function. */
         bool RemoveConnection(const yarp::os::ConstString & fromPortName,
                               const yarp::os::ConstString & toPortName,
-                              Common::CheckFunction         checker,
-                              void *                        checkStuff);
+                              Common::CheckFunction         checker = NULL,
+                              void *                        checkStuff = NULL);
         
         /*! @brief Remove any ports that YARP considers to be stale.
          @param timeout The number of seconds to allow YARP to check a port. */
