@@ -29,7 +29,6 @@ Doxygen_output
 ports.db
 subs.db
 test.db
-Common/M+MConfig.h
 Version
 MPlusM/MPlusM.xcodeproj/xcuserdata/njaffe.xcuserdatad/xcschemes/MPlusM.xcscheme
 MPlusM/MPlusM.xcodeproj/xcuserdata/njaffe.xcuserdatad/xcschemes/xcschememanagement.plist
