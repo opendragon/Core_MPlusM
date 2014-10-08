@@ -77,10 +77,11 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ListRequestHandler::ListRequestHandler(void) :
-    inherited(MpM_LIST_REQUEST)
+ListRequestHandler::ListRequestHandler(BaseService & service) :
+    inherited(MpM_LIST_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
 } // ListRequestHandler::ListRequestHandler
 
@@ -169,14 +170,7 @@ bool ListRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("! (_owner)"); //####
             }
-            OD_LOG_S1s("reply <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(reply, replyMechanism);
         }
     }
     catch (...)

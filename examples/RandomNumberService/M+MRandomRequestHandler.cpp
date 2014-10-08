@@ -38,6 +38,7 @@
 
 #include "M+MRandomRequestHandler.h"
 #include "M+MRandomNumberRequests.h"
+#include "M+MRandomNumberService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -76,10 +77,11 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-RandomRequestHandler::RandomRequestHandler(void) :
-    inherited(MpM_RANDOM_REQUEST)
+RandomRequestHandler::RandomRequestHandler(RandomNumberService & service) :
+    inherited(MpM_RANDOM_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
 } // RandomRequestHandler::RandomRequestHandler
 
@@ -186,14 +188,7 @@ bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("! (count > 0)"); //####
             }
-            OD_LOG_S1("response <- ", response.toString().c_str()); //####
-            if (! response.write(*replyMechanism))
-            {
-                OD_LOG("(! response.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(response, replyMechanism);
         }
     }
     catch (...)

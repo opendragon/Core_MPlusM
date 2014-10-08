@@ -244,33 +244,6 @@ namespace MplusM
             
         }; // ChannelMode
         
-        /*! @brief A description of a channel. */
-        struct ChannelDescription
-        {
-            /*! @brief The name of the port being connected to. */
-            yarp::os::ConstString _portName;
-            
-            /*! @brief The protocol of the port. */
-            yarp::os::ConstString _portProtocol;
-            
-            /*! @brief The protocol description. */
-            yarp::os::ConstString _protocolDescription;
-            
-            /*! @brief The mode of the connection. */
-            ChannelMode _portMode;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler[4];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
-            
-        }; // ChannelDescription
-        
         /*! @brief The format for the output from command-line tools. */
         enum OutputFlavour
         {
@@ -311,6 +284,50 @@ namespace MplusM
             kServiceKindUnknown = 0x7FFFFFFF
             
         }; // ServiceKind
+        
+        /*! @brief A description of a channel. */
+        struct ChannelDescription
+        {
+            /*! @brief The name of the port being connected to. */
+            yarp::os::ConstString _portName;
+            
+            /*! @brief The protocol of the port. */
+            yarp::os::ConstString _portProtocol;
+            
+            /*! @brief The protocol description. */
+            yarp::os::ConstString _protocolDescription;
+            
+            /*! @brief The mode of the connection. */
+            ChannelMode _portMode;
+            
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler[4];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+            
+        }; // ChannelDescription
+        
+        /*! @brief Send / receive counters. */
+        struct SendReceiveCounters
+        {
+            /*! @brief The number of bytes received. */
+            int64_t _inBytes;
+            
+            /*! @brief The number of bytes sent. */
+            int64_t _outBytes;
+            
+            /*! @brief The number of messages received. */
+            size_t _inMessages;
+            
+            /*! @brief The number of messages sent. */
+            size_t _outMessages;
+            
+        }; // SendReceiveCounters
         
         /*! @brief A sequence of connections. */
         typedef std::vector<ChannelDescription> ChannelVector;

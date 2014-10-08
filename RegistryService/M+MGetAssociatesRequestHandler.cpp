@@ -80,7 +80,7 @@ using namespace MplusM::Registry;
 #endif // defined(__APPLE__)
 
 GetAssociatesRequestHandler::GetAssociatesRequestHandler(RegistryService & service) :
-    inherited(MpM_GETASSOCIATES_REQUEST), _service(service)
+    inherited(MpM_GETASSOCIATES_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -174,12 +174,13 @@ bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & r
                     
                     if (Endpoint::CheckEndpointName(argAsString))
                     {
-                        StringVector associatedInputs;
-                        StringVector associatedOutputs;
-                        bool         isPrimary;
+                        bool              isPrimary;
+                        RegistryService & theService = static_cast<RegistryService &>(_service);
+                        StringVector      associatedInputs;
+                        StringVector      associatedOutputs;
                         
-                        if (_service.fillInAssociates(argAsString, isPrimary, associatedInputs,
-                                                      associatedOutputs))
+                        if (theService.fillInAssociates(argAsString, isPrimary, associatedInputs,
+                                                        associatedOutputs))
                         {
                             reply.addString(MpM_OK_RESPONSE);
                             reply.addInt(isPrimary ? 1 : 0);
@@ -208,7 +209,7 @@ bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & r
                         }
                         else
                         {
-                            OD_LOG("! (_service.fillInAssociates(argAsString, isPrimary, " //####
+                            OD_LOG("! (theService.fillInAssociates(argAsString, isPrimary, " //####
                                    "associatedInputs, associatedOutputs))"); //####
                             reply.addString(MpM_FAILED_RESPONSE);
                             reply.addString("Invalid channel name");
@@ -234,14 +235,7 @@ bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & r
                 reply.addString(MpM_FAILED_RESPONSE);
                 reply.addString("Missing channel name or extra arguments to request");
             }
-            OD_LOG_S1s("reply <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Common::Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(reply, replyMechanism);
         }
     }
     catch (...)

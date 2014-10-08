@@ -144,23 +144,6 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
         }
         else
         {
-#if defined(MpM_ChannelsUseRpc)
-            yarp::os::Bottle holder;
-#endif // defined(MpM_ChannelsUseRpc)
-            
-#if defined(MpM_ChannelsUseRpc)
-            if (usingChannel.write(message, holder))
-            {
-                result = true;
-            }
-            else
-            {
-                OD_LOG("(! usingChannel.write(message))"); //####
-# if defined(MpM_StallOnSendProblem)
-                Stall();
-# endif // defined(MpM_StallOnSendProblem)
-            }
-#else // ! defined(MpM_ChannelsUseRpc)
             if (usingChannel.write(message))
             {
                 result = true;
@@ -168,11 +151,10 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
             else
             {
                 OD_LOG("(! usingChannel.write(message))"); //####
-# if defined(MpM_StallOnSendProblem)
+#if defined(MpM_StallOnSendProblem)
                 Stall();
-# endif // defined(MpM_StallOnSendProblem)
+#endif // defined(MpM_StallOnSendProblem)
             }
-#endif // ! defined(MpM_ChannelsUseRpc)
         }
     }
     catch (...)

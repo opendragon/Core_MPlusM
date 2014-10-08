@@ -91,9 +91,10 @@ using namespace MplusM::Utilities;
 #endif // defined(__APPLE__)
 
 NameRequestHandler::NameRequestHandler(BaseService & service) :
-    inherited(MpM_NAME_REQUEST), _service(service)
+    inherited(MpM_NAME_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
 } // NameRequestHandler::NameRequestHandler
 
@@ -188,14 +189,7 @@ bool NameRequestHandler::processRequest(const yarp::os::ConstString & request,
             reply.addString(bigPath);
             reply.addString(_service.requestsDescription());
             reply.addString(_service.tag());
-            OD_LOG_S1s("reply <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(reply, replyMechanism);
         }
     }
     catch (...)

@@ -68,42 +68,12 @@ using namespace MplusM::Common;
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-void AdapterChannel::RelinquishChannel(AdapterChannel * theChannel)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("theChannel = ", theChannel); //####
-    if (theChannel)
-    {
-#if (! defined(MpM_DontUseTimeouts))
-        SetUpCatcher();
-#endif // ! defined(MpM_DontUseTimeouts)
-        try
-        {
-#if (! defined(MpM_DontUseTimeouts))
-            BailOut bailer(*theChannel, STANDARD_WAIT_TIME);
-#endif // ! defined(MpM_DontUseTimeouts)
-            
-            delete theChannel;
-            theChannel = NULL;
-        }
-        catch (...)
-        {
-            OD_LOG("Exception caught"); //####
-            throw;
-        }
-#if (! defined(MpM_DontUseTimeouts))
-        ShutDownCatcher();
-#endif // ! defined(MpM_DontUseTimeouts)
-    }
-    OD_LOG_EXIT(); //####
-} // AdapterChannel::RelinquishChannel
-
 #if defined(__APPLE__)
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
 AdapterChannel::AdapterChannel(const bool isOutput) :
-    inherited(), _name(), _isOutput(isOutput)
+    inherited(), _isOutput(isOutput)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
@@ -118,103 +88,6 @@ AdapterChannel::~AdapterChannel(void)
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
-
-void AdapterChannel::close(void)
-{
-    OD_LOG_OBJENTER(); //####
-#if (! defined(MpM_DontUseTimeouts))
-    SetUpCatcher();
-#endif // ! defined(MpM_DontUseTimeouts)
-    try
-    {
-#if (! defined(MpM_DontUseTimeouts))
-        BailOut bailer(*this, STANDARD_WAIT_TIME);
-#endif // ! defined(MpM_DontUseTimeouts)
-        
-        inherited::interrupt();
-        OD_LOG("about to close"); //####
-        inherited::close();
-        OD_LOG("close completed."); //####
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-#if (! defined(MpM_DontUseTimeouts))
-    ShutDownCatcher();
-#endif // ! defined(MpM_DontUseTimeouts)
-    OD_LOG_OBJEXIT(); //####
-} // AdapterChannel::close
-
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-bool AdapterChannel::openWithRetries(const yarp::os::ConstString & theChannelName,
-                                     const double                  timeToWait)
-{
-#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
-# if MAC_OR_LINUX_
-#  pragma unused(timeToWait)
-# endif // MAC_OR_LINUX_
-#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("theChannelName = ", theChannelName); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
-    bool   result = false;
-    double retryTime = INITIAL_RETRY_INTERVAL;
-    int    retriesLeft = MAX_RETRIES;
-    
-#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
-    inherited::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
-    inherited::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
-#if RETRY_LOOPS_USE_TIMEOUTS
-    SetUpCatcher();
-#endif // RETRY_LOOPS_USE_TIMEOUTS
-    try
-    {
-#if RETRY_LOOPS_USE_TIMEOUTS
-        BailOut bailer(*this, timeToWait);
-#endif // RETRY_LOOPS_USE_TIMEOUTS
-        
-        do
-        {
-            OD_LOG("about to open"); //####
-            result = inherited::open(theChannelName);
-            if (! result)
-            {
-                if (0 < --retriesLeft)
-                {
-                    OD_LOG("%%retry%%"); //####
-                    yarp::os::Time::delay(retryTime);
-                    retryTime *= RETRY_MULTIPLIER;
-                }
-            }
-        }
-        while ((! result) && (0 < retriesLeft));
-        if (result)
-        {
-            _name = theChannelName;
-            OD_LOG_S1s("_name <- ", _name); //####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-#if RETRY_LOOPS_USE_TIMEOUTS
-    ShutDownCatcher();
-#endif // RETRY_LOOPS_USE_TIMEOUTS
-    OD_LOG_OBJEXIT_B(result); //####
-    return result;
-} // AdapterChannel::openWithRetries
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global functions

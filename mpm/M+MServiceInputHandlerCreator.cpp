@@ -97,6 +97,7 @@ BaseInputHandler * ServiceInputHandlerCreator::create(void)
     OD_LOG_OBJENTER(); //####
     BaseInputHandler * result = new ServiceInputHandler(_service);
     
+    result->setChannel(_channel);
     OD_LOG_OBJEXIT_P(result); //####
     return result;
 } // ServiceInputHandlerCreator::create

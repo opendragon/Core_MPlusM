@@ -105,7 +105,7 @@ void EchoService::attachRequestHandlers(void)
     OD_LOG_OBJENTER(); //####
     try
     {
-        _echoHandler = new EchoRequestHandler;
+        _echoHandler = new EchoRequestHandler(*this);
         if (_echoHandler)
         {
             registerRequestHandler(_echoHandler);

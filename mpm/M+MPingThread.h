@@ -56,14 +56,18 @@ namespace MplusM
 {
     namespace Common
     {
+        class BaseService;
+        
         /*! @brief A convenience class to generate pings. */
         class PingThread : public yarp::os::Thread
         {
         public :
             
             /*! @brief The constructor.
-             @param channelName The channel that we are acting on the behalf of. */
-            PingThread(const yarp::os::ConstString & channelName);
+             @param channelName The channel that we are acting on the behalf of.
+             @param service The service associated with the request. */
+            PingThread(const yarp::os::ConstString & channelName,
+                       BaseService &                 service);
             
             /*! @brief The destructor. */
             virtual ~PingThread(void);
@@ -105,6 +109,9 @@ namespace MplusM
             
             /*! @brief The name of the service channel to report. */
             yarp::os::ConstString _channelName;
+            
+            /*! @brief The service that is associated with the request. */
+            BaseService & _service;
             
             /*! @brief The time at which the thread will next 'ping'. */
             double _pingTime;

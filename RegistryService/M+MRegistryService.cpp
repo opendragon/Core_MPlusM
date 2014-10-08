@@ -1866,7 +1866,7 @@ RegistryService::~RegistryService(void)
 #if defined(MpM_DoExplicitClose)
         _statusChannel->close();
 #endif // defined(MpM_DoExplicitClose)
-        GeneralChannel::RelinquishChannel(_statusChannel);
+        BaseChannel::RelinquishChannel(_statusChannel);
         _statusChannel = NULL;
     }
     OD_LOG_OBJEXIT(); //####
@@ -3137,7 +3137,7 @@ bool RegistryService::start(void)
                     {
                         OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
                     }
-                    ClientChannel::RelinquishChannel(newChannel);
+                    BaseChannel::RelinquishChannel(newChannel);
                 }
                 else
                 {

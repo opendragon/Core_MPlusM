@@ -65,8 +65,9 @@ namespace MplusM
         {
         public :
             
-            /*! @brief The constructor. */
-            InfoRequestHandler(void);
+            /*! @brief The constructor.
+             @param service The service that has registered this request. */
+            InfoRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
             virtual ~InfoRequestHandler(void);

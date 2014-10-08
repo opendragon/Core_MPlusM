@@ -108,9 +108,6 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-            /*! @brief The service that manages the backend database. */
-            MovementDbService & _service;
-            
         }; // SetDataTrackRequestHandler
         
     } // MovementDb

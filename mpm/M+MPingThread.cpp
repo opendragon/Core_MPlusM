@@ -73,8 +73,9 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-PingThread::PingThread(const yarp::os::ConstString & channelName) :
-    inherited(), _channelName(channelName)
+PingThread::PingThread(const yarp::os::ConstString & channelName,
+                       BaseService &                 service) :
+    inherited(), _channelName(channelName), _service(service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
@@ -101,7 +102,7 @@ void PingThread::run(void)
         if (_pingTime <= now)
         {
             // Send a ping!
-            BaseService::SendPingForChannel(_channelName);
+            _service.sendPingForChannel(_channelName);
             _pingTime = now + PING_INTERVAL;
         }
         yarp::os::Time::delay(PING_INTERVAL / 10.0);

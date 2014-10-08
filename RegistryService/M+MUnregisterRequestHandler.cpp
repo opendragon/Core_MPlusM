@@ -80,7 +80,7 @@ using namespace MplusM::Registry;
 #endif // defined(__APPLE__)
 
 UnregisterRequestHandler::UnregisterRequestHandler(RegistryService & service) :
-    inherited(MpM_UNREGISTER_REQUEST), _service(service)
+    inherited(MpM_UNREGISTER_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -173,20 +173,22 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                     
                     if (Endpoint::CheckEndpointName(argAsString))
                     {
-                        _service.reportStatusChange(argAsString,
-                                        RegistryService::kRegistryUnregisterService);
+                        RegistryService & theService = static_cast<RegistryService &>(_service);
+
+                        theService.reportStatusChange(argAsString,
+                                                      RegistryService::kRegistryUnregisterService);
                         // Forget the information associated with the channel name
-                        if (_service.removeServiceRecord(argAsString))
+                        if (theService.removeServiceRecord(argAsString))
                         {
                             reply.addString(MpM_OK_RESPONSE);
                             if (argAsString != MpM_REGISTRY_CHANNEL_NAME)
                             {
-                                _service.removeCheckedTimeForChannel(argAsString);
+                                theService.removeCheckedTimeForChannel(argAsString);
                             }
                         }
                         else
                         {
-                            OD_LOG("! (_service.removeServiceRecord(argAsString))"); //####
+                            OD_LOG("! (theService.removeServiceRecord(argAsString))"); //####
                             reply.addString(MpM_FAILED_RESPONSE);
                             reply.addString("Could not remove service");
                         }
@@ -211,14 +213,7 @@ bool UnregisterRequestHandler::processRequest(const yarp::os::ConstString & requ
                 reply.addString(MpM_FAILED_RESPONSE);
                 reply.addString("Missing channel name or extra arguments to request");
             }
-            OD_LOG_S1s("reply <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(reply, replyMechanism);
         }
     }
     catch (...)

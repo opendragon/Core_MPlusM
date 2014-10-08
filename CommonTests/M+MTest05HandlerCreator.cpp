@@ -95,6 +95,7 @@ BaseInputHandler * Test05HandlerCreator::create(void)
     OD_LOG_OBJENTER(); //####
     Test05Handler * result = new Test05Handler;
     
+    result->setChannel(_channel);
     OD_LOG_OBJEXIT_P(result); //####
     return result;
 } // Test05HandlerCreator::create

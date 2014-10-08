@@ -89,6 +89,10 @@ namespace MplusM
             yarp::os::ConstString getName(void)
             const;
             
+            /*! @brief Return the send / receive counters.
+             @param counters The send / receive counters. */
+            void getSendReceiveCounters(SendReceiveCounters & counters);
+            
             /*! @brief Return the state of the endpoint.
              @returns @c true if the endpoint is open and @c false otherwise. */
             inline bool isOpen(void)
@@ -126,6 +130,10 @@ namespace MplusM
              @returns @c true if the channel status reporter was attached to the endpoint. */
             bool setReporter(ChannelStatusReporter & reporter,
                              const bool              andReportNow = false);
+            
+            /*! @brief Update the send counters for the endpoint.
+             @param numBytes The number of bytes sent. */
+            void updateSendCounters(const size_t numBytes);
             
         protected :
             

@@ -82,7 +82,7 @@ using namespace MplusM::Registry;
 
 MatchRequestHandler::MatchRequestHandler(RegistryService &           service,
                                          Parser::BaseNameValidator * validator) :
-    inherited(MpM_MATCH_REQUEST), _service(service), _validator(validator)
+    inherited(MpM_MATCH_REQUEST, service), _validator(validator)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("service = ", &service, "validator = ", validator); //####
@@ -193,10 +193,13 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
                         // response in the output buffer, as we have successfully parsed the
                         // request.
                         reply.addString(MpM_OK_RESPONSE);
-                        if (! _service.processMatchRequest(matcher, 0 != conditionAsInt, reply))
+                        if (! static_cast<RegistryService &>(_service).processMatchRequest(matcher,
+                                                                               0 != conditionAsInt,
+                                                                                           reply))
                         {
-                            OD_LOG("(! _service.processMatchRequest(matcher, " //####
-                                   "0 != conditionAsInt, reply))"); //####
+                            OD_LOG("(! static_cast<RegistryService &>(_service)." //####
+                                   "processMatchRequest(matcher, 0 != conditionAsInt, " //####
+                                   "reply))"); //####
                             reply.clear();
                             reply.addString(MpM_FAILED_RESPONSE);
                             reply.addString("Invalid criteria");
@@ -223,14 +226,7 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
                 reply.addString(MpM_FAILED_RESPONSE);
                 reply.addString("Missing criteria or extra arguments to request");
             }
-            OD_LOG_S1s("reply <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(reply, replyMechanism);
         }
     }
     catch (...)

@@ -644,7 +644,7 @@ bool Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
             {
                 OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))"); //####
             }
-            ClientChannel::RelinquishChannel(newChannel);
+            BaseChannel::RelinquishChannel(newChannel);
         }
     }
     catch (...)

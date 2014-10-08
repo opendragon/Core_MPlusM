@@ -78,7 +78,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 StopStreamsRequestHandler::StopStreamsRequestHandler(BaseInputOutputService & service) :
-    inherited(MpM_STOPSTREAMS_REQUEST), _service(service)
+    inherited(MpM_STOPSTREAMS_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -163,21 +163,8 @@ bool StopStreamsRequestHandler::processRequest(const yarp::os::ConstString & req
     
     try
     {
-        _service.stopStreams();
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle response(MpM_OK_RESPONSE);
-            
-            OD_LOG_S1s("response <- ", response.toString()); //####
-            if (! response.write(*replyMechanism))
-            {
-                OD_LOG("(! response.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
-        }
+        static_cast<BaseInputOutputService &>(_service).stopStreams();
+        sendResponse(MpM_OK_RESPONSE, replyMechanism);
     }
     catch (...)
     {

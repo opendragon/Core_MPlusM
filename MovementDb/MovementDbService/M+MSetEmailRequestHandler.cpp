@@ -78,7 +78,7 @@ using namespace MplusM::MovementDb;
 #endif // defined(__APPLE__)
 
 SetEmailRequestHandler::SetEmailRequestHandler(MovementDbService & service) :
-    inherited(MpM_SETEMAIL_REQUEST), _service(service)
+    inherited(MpM_SETEMAIL_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -174,14 +174,15 @@ bool SetEmailRequestHandler::processRequest(const yarp::os::ConstString & reques
             if (firstValue.isString())
             {
                 yarp::os::ConstString emailAddress(firstValue.toString());
+                MovementDbService &   theService = static_cast<MovementDbService &>(_service);
                 
-                if (_service.setEmailAddress(senderChannel, emailAddress))
+                if (theService.setEmailAddress(senderChannel, emailAddress))
                 {
                     reply.addString(MpM_OK_RESPONSE);
                 }
                 else
                 {
-                    OD_LOG("! (_service.setEmailAddress(senderChannel, emailAddress))"); //####
+                    OD_LOG("! (theService.setEmailAddress(senderChannel, emailAddress))"); //####
                     reply.addString(MpM_FAILED_RESPONSE);
                     reply.addString("Could not set the e-mail address");
                 }
@@ -199,18 +200,7 @@ bool SetEmailRequestHandler::processRequest(const yarp::os::ConstString & reques
             reply.addString(MpM_FAILED_RESPONSE);
             reply.addString("Missing or extra arguments to request");
         }
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            OD_LOG_S1s("response <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
-        }
+        sendResponse(reply, replyMechanism);
     }
     catch (...)
     {

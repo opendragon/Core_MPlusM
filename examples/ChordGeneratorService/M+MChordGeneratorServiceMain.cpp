@@ -173,7 +173,7 @@ int main(int      argc,
                     yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
                     OD_LOG_S1s("channelName = ", channelName); //####
-                    if (RegisterLocalService(channelName))
+                    if (RegisterLocalService(channelName, *stuff))
                     {
                         StartRunning();
                         SetSignalHandlers(MplusM::SignalRunningStop);
@@ -186,12 +186,12 @@ int main(int      argc,
                             yarp::os::Time::yield();
 #endif // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
                         }
-                        UnregisterLocalService(channelName);
+                        UnregisterLocalService(channelName, *stuff);
                         stuff->stop();
                     }
                     else
                     {
-                        OD_LOG("! (RegisterLocalService(channelName))"); //####
+                        OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
 #if MAC_OR_LINUX_
                         GetLogger().fail("Service could not be registered.");
 #else // ! MAC_OR_LINUX_

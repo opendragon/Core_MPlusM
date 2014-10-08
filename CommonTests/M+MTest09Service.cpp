@@ -100,7 +100,7 @@ void Test09Service::attachRequestHandlers(void)
     OD_LOG_OBJENTER(); //####
     try
     {
-        _defaultHandler = new Test09DefaultRequestHandler;
+        _defaultHandler = new Test09DefaultRequestHandler(*this);
         if (_defaultHandler)
         {
             setDefaultRequestHandler(_defaultHandler);

@@ -107,7 +107,7 @@ void ChordGeneratorService::attachRequestHandlers(void)
     try
     {
         //60 64 67
-        _chordReqHandler = new ChordGeneratorRequestHandler;
+        _chordReqHandler = new ChordGeneratorRequestHandler(*this);
         if (_chordReqHandler)
         {
             registerRequestHandler(_chordReqHandler);

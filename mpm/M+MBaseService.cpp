@@ -86,107 +86,6 @@ using namespace MplusM::Common;
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-bool BaseService::SendPingForChannel(const yarp::os::ConstString & channelName,
-                                     CheckFunction                 checker,
-                                     void *                        checkStuff)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("channelName = ", channelName); //####
-    OD_LOG_P1("checkStuff = ", checkStuff); //####
-    bool result = false;
-    
-    try
-    {
-        yarp::os::ConstString   aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "ping_/"
-                                                           DEFAULT_CHANNEL_ROOT));
-        ClientChannel *         newChannel = new ClientChannel;
-#if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
-#endif // defined(MpM_ReportOnConnections)
-        
-        if (newChannel)
-        {
-#if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(reporter);
-            newChannel->getReport(reporter);
-#endif // defined(MpM_ReportOnConnections)
-            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
-            {
-                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
-                                                         STANDARD_WAIT_TIME, false, checker,
-                                                         checkStuff))
-                {
-                    yarp::os::Bottle parameters(channelName);
-                    ServiceRequest   request(MpM_PING_REQUEST, parameters);
-                    ServiceResponse  response;
-                    
-                    if (request.send(*newChannel, &response))
-                    {
-                        // Check that we got a successful ping!
-                        if (1 == response.count())
-                        {
-                            yarp::os::Value theValue = response.element(0);
-                            
-                            if (theValue.isString())
-                            {
-                                result = (theValue.toString() == MpM_OK_RESPONSE);
-                            }
-                            else
-                            {
-                                OD_LOG("! (theValue.isString())"); //####
-                            }
-                        }
-                        else
-                        {
-                            OD_LOG("! (1 == response.count())"); //####
-                            OD_LOG_S1s("response = ", response.asString()); //####
-                        }
-                    }
-                    else
-                    {
-                        OD_LOG("! (request.send(*newChannel, &response))"); //####
-                    }
-#if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
-                                                                  STANDARD_WAIT_TIME, checker,
-                                                                  checkStuff))
-                    {
-                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, checker, " //####
-                               "checkStuff))"); //####
-                    }
-#endif // defined(MpM_DoExplicitDisconnect)
-                }
-                else
-                {
-                    OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, checker, " //####
-                           "checkStuff))"); //####
-                }
-#if defined(MpM_DoExplicitClose)
-                newChannel->close();
-#endif // defined(MpM_DoExplicitClose)
-            }
-            else
-            {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
-            }
-            ClientChannel::RelinquishChannel(newChannel);
-        }
-        else
-        {
-            OD_LOG("! (newChannel)"); //####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_EXIT_B(result); //####
-    return result;
-} // BaseService::SendPingForChannel
-
 #if defined(__APPLE__)
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
@@ -213,6 +112,8 @@ BaseService::BaseService(const ServiceKind             theKind,
     OD_LOG_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
                servicePortNumber); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
+    _auxCounters._inBytes = _auxCounters._outBytes = 0;
+    _auxCounters._inMessages = _auxCounters._outMessages = 0;
     if (0 < _tag.size())
     {
         _serviceName = canonicalName + " " + _tag;
@@ -254,6 +155,8 @@ BaseService::BaseService(const ServiceKind             theKind,
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
                "description = ", description, "requestsDescription = ", requestsDescription); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
+    _auxCounters._inBytes = _auxCounters._outBytes = 0;
+    _auxCounters._inMessages = _auxCounters._outMessages = 0;
     switch (argc)
     {
             // Argument order = endpoint name [, port]
@@ -325,8 +228,8 @@ void BaseService::attachRequestHandlers(void)
         _clientsHandler = new ClientsRequestHandler(*this);
         _countHandler = new CountRequestHandler(*this);
         _detachHandler = new DetachRequestHandler(*this);
-        _infoHandler = new InfoRequestHandler;
-        _listHandler = new ListRequestHandler;
+        _infoHandler = new InfoRequestHandler(*this);
+        _listHandler = new ListRequestHandler(*this);
         _nameHandler = new NameRequestHandler(*this);
         if (_channelsHandler && _clientsHandler && _countHandler &&  _detachHandler &&
             _infoHandler && _listHandler && _nameHandler)
@@ -516,6 +419,17 @@ void BaseService::getStatistics(int64_t & count,
     OD_LOG_OBJEXIT(); //####
 } // BaseService::getStatistics
 
+void BaseService::incrementAuxiliaryCounters(const SendReceiveCounters & additionalCounters)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("additionalCounters = ", &additionalCounters); //####
+    _auxCounters._inBytes += additionalCounters._inBytes;
+    _auxCounters._inMessages += additionalCounters._inMessages;
+    _auxCounters._outBytes += additionalCounters._outBytes;
+    _auxCounters._outMessages += additionalCounters._outMessages;
+    OD_LOG_OBJEXIT(); //####
+} // BaseService::incrementAuxiliaryCounters
+
 bool BaseService::processRequest(const yarp::os::ConstString & request,
                                  const yarp::os::Bottle &      restOfInput,
                                  const yarp::os::ConstString & senderChannel,
@@ -603,6 +517,111 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::removeContext
 
+bool BaseService::sendPingForChannel(const yarp::os::ConstString & channelName,
+                                     CheckFunction                 checker,
+                                     void *                        checkStuff)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("channelName = ", channelName); //####
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
+    bool result = false;
+    
+    try
+    {
+        yarp::os::ConstString   aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "ping_/"
+                                                           DEFAULT_CHANNEL_ROOT));
+        ClientChannel *         newChannel = new ClientChannel;
+#if defined(MpM_ReportOnConnections)
+        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+        
+        if (newChannel)
+        {
+#if defined(MpM_ReportOnConnections)
+            newChannel->setReporter(reporter);
+            newChannel->getReport(reporter);
+#endif // defined(MpM_ReportOnConnections)
+            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+            {
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                         STANDARD_WAIT_TIME, false, checker,
+                                                         checkStuff))
+                {
+                    yarp::os::Bottle parameters(channelName);
+                    ServiceRequest   request(MpM_PING_REQUEST, parameters);
+                    ServiceResponse  response;
+                    
+                    if (request.send(*newChannel, &response))
+                    {
+                        // Check that we got a successful ping!
+                        if (1 == response.count())
+                        {
+                            yarp::os::Value theValue = response.element(0);
+                            
+                            if (theValue.isString())
+                            {
+                                result = (theValue.toString() == MpM_OK_RESPONSE);
+                            }
+                            else
+                            {
+                                OD_LOG("! (theValue.isString())"); //####
+                            }
+                        }
+                        else
+                        {
+                            OD_LOG("! (1 == response.count())"); //####
+                            OD_LOG_S1s("response = ", response.asString()); //####
+                        }
+                    }
+                    else
+                    {
+                        OD_LOG("! (request.send(*newChannel, &response))"); //####
+                    }
+#if defined(MpM_DoExplicitDisconnect)
+                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                                                                  STANDARD_WAIT_TIME, checker,
+                                                                  checkStuff))
+                    {
+                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
+                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, checker, " //####
+                               "checkStuff))"); //####
+                    }
+#endif // defined(MpM_DoExplicitDisconnect)
+                }
+                else
+                {
+                    OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
+                           "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, checker, " //####
+                           "checkStuff))"); //####
+                }
+#if defined(MpM_DoExplicitClose)
+                newChannel->close();
+#endif // defined(MpM_DoExplicitClose)
+            }
+            else
+            {
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+            }
+            SendReceiveCounters newCounters;
+            
+            newChannel->getSendReceiveCounters(newCounters);
+            incrementAuxiliaryCounters(newCounters);
+            BaseChannel::RelinquishChannel(newChannel);
+        }
+        else
+        {
+            OD_LOG("! (newChannel)"); //####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // BaseService::sendPingForChannel
+
 void BaseService::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER(); //####
@@ -680,7 +699,7 @@ void BaseService::startPinger(void)
     OD_LOG_OBJENTER(); //####
     if ((! _pinger) && _endpoint)
     {
-        _pinger = new PingThread(_endpoint->getName());
+        _pinger = new PingThread(_endpoint->getName(), *this);
         _pinger->start();
     }
     OD_LOG_OBJEXIT(); //####
@@ -708,17 +727,29 @@ void BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::unregisterRequestHandler
 
+void BaseService::updateResponseCounters(const size_t numBytes)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_LL1("numBytes = ", numBytes); //####
+    if (_endpoint)
+    {
+        _endpoint->updateSendCounters(numBytes);
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BaseService::updateResponseCounters
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
 bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
+                                  BaseService &                 service,
                                   CheckFunction                 checker,
                                   void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
-    OD_LOG_P1("checkStuff = ", checkStuff); //####
+    OD_LOG_P2("service = ", &service, "checkStuff = ", checkStuff); //####
     bool result = false;
     
     try
@@ -729,7 +760,6 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
 #if defined(MpM_ReportOnConnections)
         ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-        
         
         if (newChannel)
         {
@@ -799,7 +829,11 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
             {
                 OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
             }
-            ClientChannel::RelinquishChannel(newChannel);
+            SendReceiveCounters newCounters;
+            
+            newChannel->getSendReceiveCounters(newCounters);
+            service.incrementAuxiliaryCounters(newCounters);
+            BaseChannel::RelinquishChannel(newChannel);
         }
         else
         {
@@ -816,12 +850,13 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
 } // Common::RegisterLocalService
 
 bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
+                                    BaseService &                 service,
                                     CheckFunction                 checker,
                                     void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
-    OD_LOG_P1("checkStuff = ", checkStuff); //####
+    OD_LOG_P2("service = ", &service, "checkStuff = ", checkStuff); //####
     bool result = false;
     
     try
@@ -832,7 +867,6 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
 #if defined(MpM_ReportOnConnections)
         ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-        
         
         if (newChannel)
         {
@@ -902,7 +936,11 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
             {
                 OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
             }
-            ClientChannel::RelinquishChannel(newChannel);
+            SendReceiveCounters newCounters;
+            
+            newChannel->getSendReceiveCounters(newCounters);
+            service.incrementAuxiliaryCounters(newCounters);
+            BaseChannel::RelinquishChannel(newChannel);
         }
         else
         {

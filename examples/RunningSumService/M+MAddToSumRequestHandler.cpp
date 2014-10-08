@@ -78,7 +78,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 AddToSumRequestHandler::AddToSumRequestHandler(RunningSumService & service) :
-    inherited(MpM_ADDTOSUM_REQUEST), _service(service)
+    inherited(MpM_ADDTOSUM_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -169,12 +169,14 @@ bool AddToSumRequestHandler::processRequest(const yarp::os::ConstString & reques
                 if (incoming.isInt())
                 {
                     ++tally;
-                    total = _service.addToSum(senderChannel, incoming.asInt());
+                    total = static_cast<RunningSumService &>(_service).addToSum(senderChannel,
+                                                                                incoming.asInt());
                 }
                 else if (incoming.isDouble())
                 {
                     ++tally;
-                    total = _service.addToSum(senderChannel, incoming.asDouble());
+                    total = static_cast<RunningSumService &>(_service).addToSum(senderChannel,
+                                                                                incoming.asDouble());
                 }
             }
             if (tally)
@@ -194,18 +196,7 @@ bool AddToSumRequestHandler::processRequest(const yarp::os::ConstString & reques
             response.addString(MpM_FAILED_RESPONSE);
             response.addString("No values provided");
         }
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            OD_LOG_S1s("response <- ", response.toString()); //####
-            if (! response.write(*replyMechanism))
-            {
-                OD_LOG("(! response.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
-        }
+        sendResponse(response, replyMechanism);
     }
     catch (...)
     {

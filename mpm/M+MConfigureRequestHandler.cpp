@@ -78,7 +78,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 ConfigureRequestHandler::ConfigureRequestHandler(BaseInputOutputService & service) :
-    inherited(MpM_CONFIGURE_REQUEST), _service(service)
+    inherited(MpM_CONFIGURE_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -164,7 +164,7 @@ bool ConfigureRequestHandler::processRequest(const yarp::os::ConstString & reque
     
     try
     {
-        bool success = _service.configure(restOfInput);
+        bool success = static_cast<BaseInputOutputService &>(_service).configure(restOfInput);
         
         if (replyMechanism)
         {
@@ -180,14 +180,7 @@ bool ConfigureRequestHandler::processRequest(const yarp::os::ConstString & reque
                 response.addString(MpM_FAILED_RESPONSE);
                 response.addString("Problem configurating service");
             }
-            OD_LOG_S1s("response <- ", response.toString()); //####
-            if (! response.write(*replyMechanism))
-            {
-                OD_LOG("(! response.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(response, replyMechanism);
         }
     }
     catch (...)

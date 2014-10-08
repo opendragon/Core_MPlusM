@@ -189,7 +189,7 @@ static int doTestRequestRegistryService(const char * launchPath,
                 {
                     // Now we start up another service (Test14Service) and register it
                     Test14Service * stuff = new Test14Service(launchPath, 1,
-                                                      const_cast<char **>(&secondServiceChannel));
+                                                      const_cast<char * *>(&secondServiceChannel));
                     
                     if (stuff)
                     {
@@ -197,13 +197,13 @@ static int doTestRequestRegistryService(const char * launchPath,
                         {
                             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (RegisterLocalService(channelName))
+                            if (RegisterLocalService(channelName, *stuff))
                             {
                                 result = 0;
                             }
                             else
                             {
-                                OD_LOG("! (RegisterLocalService(channelName))"); //####
+                                OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
                             }
                             stuff->stop();
                         }
@@ -292,7 +292,7 @@ static int doTestRequestUnregisterService(const char * launchPath,
                 {
                     // Now we start up another service (Test15Service) and register it
                     Test15Service * stuff = new Test15Service(launchPath, 1,
-                                                      const_cast<char **>(&secondServiceChannel));
+                                                      const_cast<char * *>(&secondServiceChannel));
                     
                     if (stuff)
                     {
@@ -300,20 +300,21 @@ static int doTestRequestUnregisterService(const char * launchPath,
                         {
                             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                             
-                            if (RegisterLocalService(channelName))
+                            if (RegisterLocalService(channelName, *stuff))
                             {
-                                if (UnregisterLocalService(channelName))
+                                if (UnregisterLocalService(channelName, *stuff))
                                 {
                                     result = 0;
                                 }
                                 else
                                 {
-                                    OD_LOG("! (UnregisterLocalService(channelName))"); //####
+                                    OD_LOG("! (UnregisterLocalService(channelName, " //####
+                                           "*stuff))"); //####
                                 }
                             }
                             else
                             {
-                                OD_LOG("! (RegisterLocalService(channelName))"); //####
+                                OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
                             }
                             stuff->stop();
                         }
@@ -389,7 +390,7 @@ static int doTestRequestSearchService(const char * launchPath,
                         // Now we start up another service (Test16Service) and register it
                         OD_LOG("(registry->isActive())"); //####
                         Test16Service * stuff = new Test16Service(launchPath, 1,
-                                                      const_cast<char **>(&secondServiceChannel));
+                                                      const_cast<char * *>(&secondServiceChannel));
                         
                         if (stuff)
                         {
@@ -399,9 +400,9 @@ static int doTestRequestSearchService(const char * launchPath,
                                 OD_LOG("(stuff->start())"); //####
                                 yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                                 
-                                if (RegisterLocalService(channelName))
+                                if (RegisterLocalService(channelName, *stuff))
                                 {
-                                    OD_LOG("(RegisterLocalService(channelName))"); //####
+                                    OD_LOG("(RegisterLocalService(channelName, *stuff))"); //####
                                     // Search for the service that we just registered.
                                     yarp::os::Bottle matches = FindMatchingServices(argv[1],
                                                                                     getNamesFlag);
@@ -531,14 +532,15 @@ static int doTestRequestSearchService(const char * launchPath,
                                                "(MpM_EXPECTED_MATCH_RESPONSE_SIZE == " //####
                                                "matches.size()))"); //####
                                     }
-                                    if (! UnregisterLocalService(channelName))
+                                    if (! UnregisterLocalService(channelName, *stuff))
                                     {
-                                        OD_LOG("(! UnregisterLocalService(channelName))"); //####
+                                        OD_LOG("(! UnregisterLocalService(channelName, " //####
+                                               "*stuff))"); //####
                                     }
                                 }
                                 else
                                 {
-                                    OD_LOG("! (RegisterLocalService(channelName))"); //####
+                                    OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
                                 }
                                 stuff->stop();
                             }

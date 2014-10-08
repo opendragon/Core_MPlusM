@@ -241,9 +241,9 @@ int main(int      argc,
                             GetLogger().fail("Problem creating a channel.");
 #endif // MAC_OR_LINUX_
                         }
-                        AdapterChannel::RelinquishChannel(controlChannel);
-                        AdapterChannel::RelinquishChannel(dataChannel);
-                        AdapterChannel::RelinquishChannel(outputChannel);
+                        BaseChannel::RelinquishChannel(controlChannel);
+                        BaseChannel::RelinquishChannel(dataChannel);
+                        BaseChannel::RelinquishChannel(outputChannel);
                         if (! stuff->disconnectFromService())
                         {
                             OD_LOG("(! stuff->disconnectFromService())"); //####

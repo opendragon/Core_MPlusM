@@ -43,7 +43,7 @@ project(M+M)
 
 set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 4)
-set(MpM_VERSION_PATCH 12)
+set(MpM_VERSION_PATCH 13)
 
 # Make some flags to control the build visible
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
@@ -54,7 +54,6 @@ if(APPLE)
 	set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING "Fixes linking error for M+M/ACE" FORCE)
 endif(APPLE)
 
-option(MpM_ChannelsUseRpc "Use RpcClient and RpcService objects for communication")
 option(MpM_ChattyStart "Report the version numbers when launching an executable")
 option(MpM_DoExplicitClose "Perform an explicit CloseChannel() prior to freeing a channel")
 option(MpM_DoExplicitDisconnect "Perform an explicit disconnect prior to closing a channel")

@@ -56,6 +56,8 @@ namespace MplusM
 {
     namespace Example
     {
+        class EchoService;
+        
         /*! @brief The 'echo' request handler.
          
          The input is a list of strings and the output is the same list of strings. */
@@ -63,8 +65,9 @@ namespace MplusM
         {
         public :
             
-            /*! @brief The constructor. */
-            EchoRequestHandler(void);
+            /*! @brief The constructor.
+             @param service The service that has registered this request. */
+            EchoRequestHandler(EchoService & service);
             
             /*! @brief The destructor. */
             virtual ~EchoRequestHandler(void);

@@ -99,9 +99,6 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-            /*! @brief The service that manages the statistics. */
-            RunningSumService & _service;
-            
         }; // StartSumRequestHandler
         
     } // Example

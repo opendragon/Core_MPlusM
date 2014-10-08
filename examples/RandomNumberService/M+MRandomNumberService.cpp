@@ -105,7 +105,7 @@ void RandomNumberService::attachRequestHandlers(void)
     OD_LOG_OBJENTER(); //####
     try
     {
-        _randomHandler = new RandomRequestHandler;
+        _randomHandler = new RandomRequestHandler(*this);
         if (_randomHandler)
         {
             registerRequestHandler(_randomHandler);

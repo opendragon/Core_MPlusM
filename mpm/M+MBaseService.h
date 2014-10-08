@@ -161,6 +161,10 @@ namespace MplusM
             void getStatistics(int64_t & count,
                                double &  currentTime);
             
+            /*! @brief Update the auxiliary send / receive counters.
+             @param additionalCounters The counters to add. */
+            void incrementAuxiliaryCounters(const SendReceiveCounters & additionalCounters);
+            
             /*! @brief Return the state of the service.
              @returns @c true if the service has been started and @c false otherwise. */
             inline bool isStarted(void)
@@ -208,9 +212,9 @@ namespace MplusM
              @param channelName The service channel to report with the ping.
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function. */
-            static bool SendPingForChannel(const yarp::os::ConstString & channelName,
-                                           CheckFunction                 checker = NULL,
-                                           void *                        checkStuff = NULL);
+            bool sendPingForChannel(const yarp::os::ConstString & channelName,
+                                    CheckFunction                 checker = NULL,
+                                    void *                        checkStuff = NULL);
             
             /*! @brief Return the working name of the service.
              @returns The working name of the service. */
@@ -238,6 +242,10 @@ namespace MplusM
             {
                 return _tag;
             } // tag
+            
+            /*! @brief Update the response counters for the service port.
+             @param numBytes The number of bytes sent. */
+            void updateResponseCounters(const size_t numBytes);
             
         protected :
             
@@ -338,7 +346,10 @@ namespace MplusM
             yarp::os::ConstString _tag;
             
             /*! @brief The number of requests seen. */
-            int64_t _requestCount;
+            int64_t _requestCount;           
+            
+            /*! @brief The auxiliary send / receive counters. */
+            SendReceiveCounters _auxCounters;
             
             /*! @brief The request handler for the 'channels' request. */
             ChannelsRequestHandler * _channelsHandler;
@@ -398,19 +409,23 @@ namespace MplusM
         
         /*! @brief Register a local service with a running Service Registry service.
          @param channelName The channel provided by the service.
+         @param ssrvice The actual service being registered.
          @param checker A function that provides for early exit from loops.
          @param checkStuff The private data for the early exit function.
          @returns @c true if the service was successfully registered and @c false otherwise. */
         bool RegisterLocalService(const yarp::os::ConstString & channelName,
+                                  BaseService &                 service,
                                   CheckFunction                 checker = NULL,
                                   void *                        checkStuff = NULL);
         
         /*! @brief Unregister a local service with a running Service Registry service.
          @param channelName The channel provided by the service.
+         @param ssrvice The actual service being unregistered.
          @param checker A function that provides for early exit from loops.
          @param checkStuff The private data for the early exit function.
          @returns @c true if the service was successfully unregistered and @c false otherwise. */
         bool UnregisterLocalService(const yarp::os::ConstString & channelName,
+                                    BaseService &                 service,
                                     CheckFunction                 checker = NULL,
                                     void *                        checkStuff = NULL);
         

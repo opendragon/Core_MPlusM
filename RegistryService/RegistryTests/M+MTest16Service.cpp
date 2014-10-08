@@ -102,7 +102,7 @@ void Test16Service::attachRequestHandlers(void)
     OD_LOG_OBJENTER(); //####
     try
     {
-        _echoHandler = new Test16EchoRequestHandler;
+        _echoHandler = new Test16EchoRequestHandler(*this);
         if (_echoHandler)
         {
             registerRequestHandler(_echoHandler);

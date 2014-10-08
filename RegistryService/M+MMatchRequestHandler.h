@@ -141,9 +141,6 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-            /*! @brief The service that will handle the registration operation. */
-            RegistryService & _service;
-            
             /*! @brief The field name validator to be used. */
             Parser::BaseNameValidator * _validator;
             

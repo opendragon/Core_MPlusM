@@ -56,6 +56,8 @@ namespace MplusM
 {
     namespace Common
     {
+        class BaseChannel;
+        
         /*! @brief A handler for partially-structured input data. */
         class BaseInputHandler : public yarp::os::PortReader
         {
@@ -77,6 +79,10 @@ namespace MplusM
                                      const yarp::os::ConstString & senderChannel,
                                      yarp::os::ConnectionWriter *  replyMechanism,
                                      const size_t                  numBytes) = 0;
+            
+            /*! @brief Remember the channel that is feeding the input handler.
+             @param theChannel The channel that is feeding the input handler. */
+            void setChannel(BaseChannel * theChannel);
             
             /*! @brief Terminate processing of the input data stream. */
             void stopProcessing(void);
@@ -100,6 +106,9 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::PortReader inherited;
+            
+            /*! @brief The channel that is feeding this input handler. */
+            BaseChannel * _channel;
             
             /*! @brief @c true if input stream processing is enabled. */
             bool _canProcessInput;

@@ -78,9 +78,10 @@ using namespace MplusM::RequestCounter;
 #endif // defined(__APPLE__)
 
 StatsRequestHandler::StatsRequestHandler(RequestCounterService & service) :
-    inherited(MpM_STATS_REQUEST), _service(service)
+    inherited(MpM_STATS_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
 } // StatsRequestHandler::StatsRequestHandler
 
@@ -171,17 +172,11 @@ bool StatsRequestHandler::processRequest(const yarp::os::ConstString & request,
             double           elapsedTime;
             long             counter;
             
-            _service.getStatistics(senderChannel, counter, elapsedTime);
+            static_cast<RequestCounterService &>(_service).getStatistics(senderChannel, counter,
+                                                                         elapsedTime);
             response.addInt(static_cast<int>(counter));
             response.addDouble(elapsedTime);
-            OD_LOG_S1s("response <- ", response.toString()); //####
-            if (! response.write(*replyMechanism))
-            {
-                OD_LOG("(! response.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(response, replyMechanism);
         }
     }
     catch (...)

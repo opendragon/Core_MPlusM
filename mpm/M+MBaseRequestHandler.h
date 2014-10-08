@@ -58,6 +58,7 @@ namespace MplusM
     namespace Common
     {
         class RequestMap;
+        class BaseService;
         
         /*! @brief A convenience class to provide function objects for requests. */
         class BaseRequestHandler
@@ -65,8 +66,10 @@ namespace MplusM
         public :
             
             /*! @brief The constructor.
-             @param request The name of the request. */
-            BaseRequestHandler(const yarp::os::ConstString & request);
+             @param request The name of the request.
+             @param service The service associated with the request. */
+            BaseRequestHandler(const yarp::os::ConstString & request,
+                               BaseService &                 service);
             
             /*! @brief The destructor. */
             virtual ~BaseRequestHandler(void);
@@ -99,11 +102,26 @@ namespace MplusM
                                         const yarp::os::ConstString & senderChannel,
                                         yarp::os::ConnectionWriter *  replyMechanism) = 0;
             
+            /*! @brief Send a response to a request.
+             @param reply The response to send.
+             @param replyMechanism The destination for the response. */
+            void sendResponse(yarp::os::Bottle &           reply,
+                              yarp::os::ConnectionWriter * replyMechanism);
+            
+            /*! @brief Send a response to a request.
+             @param reply The response to send.
+             @param replyMechanism The destination for the response. */
+            void sendResponse(const yarp::os::ConstString & reply,
+                              yarp::os::ConnectionWriter *  replyMechanism);
+            
             /*! @brief Connect the handler to a map.
              @param owner The map that contains this handler. */
             void setOwner(RequestMap & owner);
             
         protected :
+            
+            /*! @brief The service that is associated with the request. */
+            BaseService & _service;
             
             /*! @brief The request map that 'owns' this handler. */
             RequestMap * _owner;

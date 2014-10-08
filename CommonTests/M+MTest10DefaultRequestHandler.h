@@ -61,8 +61,9 @@ namespace MplusM
         {
         public :
             
-            /*! @brief The constructor. */
-            Test10DefaultRequestHandler(void);
+            /*! @brief The constructor.
+             @param service The service that has registered this request. */
+            Test10DefaultRequestHandler(Common::BaseService & service);
             
             /*! @brief The destructor. */
             virtual ~Test10DefaultRequestHandler(void);

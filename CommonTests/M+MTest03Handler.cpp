@@ -103,33 +103,17 @@ bool Test03Handler::handleInput(const yarp::os::Bottle &      input,
 #  pragma unused(input,senderChannel)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
-#if ((! defined(MpM_ChannelsUseRpc)) && (! defined(OD_ENABLE_LOGGING)))
+#if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
 #  pragma unused(replyMechanism)
 # endif // MAC_OR_LINUX_
-#endif // (! defined(MpM_ChannelsUseRpc)) && (! defined(OD_ENABLE_LOGGING))
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
     OD_LOG_P1("replyMechanism = ", replyMechanism); //####
     OD_LOG_L1("numBytes = ", numBytes); //####
     bool result = true;
     
-#if defined(MpM_ChannelsUseRpc)
-    if (replyMechanism)
-    {
-        OD_LOG("(replyMechanism)"); //####
-        yarp::os::Bottle dummy;
-        
-        OD_LOG_S1s("dummy <- ", dummy.toString()); //####
-        if (! dummy.write(*replyMechanism))
-        {
-            OD_LOG("(! dummy.write(*replyMechanism))"); //####
-# if defined(MpM_StallOnSendProblem)
-            Stall();
-# endif // defined(MpM_StallOnSendProblem)
-        }
-    }
-#endif // defined(MpM_ChannelsUseRpc)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Test03Handler::handleInput

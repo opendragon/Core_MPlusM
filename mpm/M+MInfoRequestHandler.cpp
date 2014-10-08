@@ -77,10 +77,11 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-InfoRequestHandler::InfoRequestHandler(void) :
-    inherited(MpM_INFO_REQUEST)
+InfoRequestHandler::InfoRequestHandler(BaseService & service) :
+    inherited(MpM_INFO_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
 } // InfoRequestHandler::InfoRequestHandler
 
@@ -167,14 +168,7 @@ bool InfoRequestHandler::processRequest(const yarp::os::ConstString & request,
             {
                 OD_LOG("! (_owner && (1 == restOfInput.size()))"); //####
             }
-            OD_LOG_S1s("reply <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(reply, replyMechanism);
         }
     }
     catch (...)

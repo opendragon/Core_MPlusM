@@ -72,10 +72,11 @@ using namespace MplusM::Test;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-Test10DefaultRequestHandler::Test10DefaultRequestHandler(void) :
-    inherited("")
+Test10DefaultRequestHandler::Test10DefaultRequestHandler(BaseService & service) :
+    inherited("", service)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
 } // Test10DefaultRequestHandler::Test10DefaultRequestHandler
 
@@ -155,14 +156,7 @@ bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString & r
         yarp::os::Bottle argsCopy(name());
         
         argsCopy.append(restOfInput);
-        OD_LOG_S1s("argsCopy <- ", argsCopy.toString()); //####
-        if (! argsCopy.write(*replyMechanism))
-        {
-            OD_LOG("(! argsCopy.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-            Stall();
-#endif // defined(MpM_StallOnSendProblem)
-        }
+        sendResponse(argsCopy, replyMechanism);
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;

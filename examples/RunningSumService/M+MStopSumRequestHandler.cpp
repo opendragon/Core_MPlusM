@@ -78,7 +78,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 StopSumRequestHandler::StopSumRequestHandler(RunningSumService & service) :
-    inherited(MpM_STOPSUM_REQUEST), _service(service)
+    inherited(MpM_STOPSUM_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -164,20 +164,7 @@ bool StopSumRequestHandler::processRequest(const yarp::os::ConstString & request
     try
     {
         _service.detachClient(senderChannel);
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle response(MpM_OK_RESPONSE);
-            
-            OD_LOG_S1s("response <- ", response.toString()); //####
-            if (! response.write(*replyMechanism))
-            {
-                OD_LOG("(! response.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
-        }
+        sendResponse(MpM_OK_RESPONSE, replyMechanism);
     }
     catch (...)
     {

@@ -81,7 +81,7 @@ using namespace MplusM::Registry;
 #endif // defined(__APPLE__)
 
 RegisterRequestHandler::RegisterRequestHandler(RegistryService & service) :
-    inherited(MpM_REGISTER_REQUEST), _service(service)
+    inherited(MpM_REGISTER_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -174,8 +174,10 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                     
                     if (Endpoint::CheckEndpointName(argAsString))
                     {
-                        _service.reportStatusChange(argAsString,
-                                        RegistryService::kRegistryRegisterService);
+                        RegistryService & theService = static_cast<RegistryService &>(_service);
+
+                        theService.reportStatusChange(argAsString,
+                                                      RegistryService::kRegistryRegisterService);
                         // Send a 'name' request to the channel
                         yarp::os::ConstString aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
                                                                            "register_/"
@@ -194,14 +196,14 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                     
                                     if (outChannel->write(message1, response))
                                     {
-                                        if (_service.processNameResponse(argAsString, response))
+                                        if (theService.processNameResponse(argAsString, response))
                                         {
                                             yarp::os::Bottle message2(MpM_LIST_REQUEST);
                                             
                                             if (outChannel->write(message2, response))
                                             {
-                                                if (_service.processListResponse(argAsString,
-                                                                                 response))
+                                                if (theService.processListResponse(argAsString,
+                                                                                   response))
                                                 {
                                                     // Remember the response
                                                     reply.addString(MpM_OK_RESPONSE);
@@ -209,13 +211,14 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                                     // don't care about timeouts!
                                                     if (argAsString != MpM_REGISTRY_CHANNEL_NAME)
                                                     {
-                                                _service.updateCheckedTimeForChannel(argAsString);
+                                                theService.updateCheckedTimeForChannel(argAsString);
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    OD_LOG("! (_service.processListResponse(" //####
-                                                           "argAsString, response))"); //####
+                                                    OD_LOG("! (theService.processList" //####
+                                                           "Response(argAsString, " //####
+                                                           "response))"); //####
                                                     reply.addString(MpM_FAILED_RESPONSE);
                                                     reply.addString("Invalid response to '"
                                                                     MpM_LIST_REQUEST "' request");
@@ -234,7 +237,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                         }
                                         else
                                         {
-                                            OD_LOG("! (_service.processNameResponse(" //####
+                                            OD_LOG("! (theService.processNameResponse(" //####
                                                    "argAsString, response))"); //####
                                             reply.addString(MpM_FAILED_RESPONSE);
                                             reply.addString("Invalid response to '"
@@ -280,7 +283,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                 reply.addString(MpM_FAILED_RESPONSE);
                                 reply.addString("Channel could not be opened");
                             }
-                            ClientChannel::RelinquishChannel(outChannel);
+                            BaseChannel::RelinquishChannel(outChannel);
                         }
                         else
                         {
@@ -307,14 +310,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                 reply.addString(MpM_FAILED_RESPONSE);
                 reply.addString("Missing channel name or extra arguments to request");
             }
-            OD_LOG_S1s("reply <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(reply, replyMechanism);
         }
     }
     catch (...)

@@ -78,7 +78,7 @@ using namespace MplusM::RequestCounter;
 #endif // defined(__APPLE__)
 
 ResetCounterRequestHandler::ResetCounterRequestHandler(RequestCounterService & service) :
-    inherited(MpM_RESETCOUNTER_REQUEST), _service(service)
+    inherited(MpM_RESETCOUNTER_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -163,21 +163,8 @@ bool ResetCounterRequestHandler::processRequest(const yarp::os::ConstString & re
     
     try
     {
-        _service.resetCounters(senderChannel);
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle response(MpM_OK_RESPONSE);
-            
-            OD_LOG_S1s("response <- ", response.toString()); //####
-            if (! response.write(*replyMechanism))
-            {
-                OD_LOG("(! response.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
-        }
+        static_cast<RequestCounterService &>(_service).resetCounters(senderChannel);
+        sendResponse(MpM_OK_RESPONSE, replyMechanism);
     }
     catch (...)
     {

@@ -80,10 +80,11 @@ using namespace MplusM::Test;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-Test14EchoRequestHandler::Test14EchoRequestHandler(void) :
-    inherited(MpM_ECHO_REQUEST)
+Test14EchoRequestHandler::Test14EchoRequestHandler(BaseService & service) :
+    inherited(MpM_ECHO_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
 } // Test14EchoRequestHandler::Test14EchoRequestHandler
 
@@ -170,14 +171,7 @@ bool Test14EchoRequestHandler::processRequest(const yarp::os::ConstString & requ
             OD_LOG("(replyMechanism)"); //####
             yarp::os::Bottle argsCopy(restOfInput);
             
-            OD_LOG_S1s("argsCopy <- ", argsCopy.toString()); //####
-            if (! argsCopy.write(*replyMechanism))
-            {
-                OD_LOG("(! argsCopy.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(argsCopy, replyMechanism);
         }
     }
     catch (...)

@@ -107,9 +107,6 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-            /*! @brief The service that will handle the 'name' operation. */
-            BaseService & _service;
-            
         }; // NameRequestHandler
         
     } // Common

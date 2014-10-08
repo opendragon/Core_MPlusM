@@ -56,10 +56,7 @@ namespace MplusM
 {
     namespace Common
     {
-        class AdapterChannel;
-        class ClientChannel;
-        class GeneralChannel;
-        class ServiceChannel;
+        class BaseChannel;
         
         /*! @brief A convenience class to timeout objects. */
         class BailOutThread : public yarp::os::Thread
@@ -73,27 +70,9 @@ namespace MplusM
             /*! @brief The constructor.
              @param channelOfInterest The channel that we are waiting for.
              @param timeToWait The number of seconds to delay before triggering. */
-            BailOutThread(AdapterChannel & channelOfInterest,
-                          const double     timeToWait);
-            
-            /*! @brief The constructor.
-             @param channelOfInterest The channel that we are waiting for.
-             @param timeToWait The number of seconds to delay before triggering. */
-            BailOutThread(ClientChannel & channelOfInterest,
-                          const double    timeToWait);
-            
-            /*! @brief The constructor.
-             @param channelOfInterest The channel that we are waiting for.
-             @param timeToWait The number of seconds to delay before triggering. */
-            BailOutThread(GeneralChannel & channelOfInterest,
-                          const double     timeToWait);
-            
-            /*! @brief The constructor.
-             @param channelOfInterest The channel that we are waiting for.
-             @param timeToWait The number of seconds to delay before triggering. */
-            BailOutThread(ServiceChannel & channelOfInterest,
-                          const double     timeToWait);
-            
+            BailOutThread(BaseChannel & channelOfInterest,
+                          const double  timeToWait);
+                        
             /*! @brief The destructor. */
             virtual ~BailOutThread(void);
             
@@ -132,17 +111,8 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-            /*! @brief The adapter channel that we are waiting on. */
-            AdapterChannel * _adapterChannel;
-            
-            /*! @brief The client channel that we are waiting on. */
-            ClientChannel * _clientChannel;
-            
-            /*! @brief The general channel that we are waiting on. */
-            GeneralChannel * _generalChannel;
-            
-            /*! @brief The service channel that we are waiting on. */
-            ServiceChannel * _serviceChannel;
+            /*! @brief The base channel that we are waiting on. */
+            BaseChannel * _baseChannel;
             
             /*! @brief The time at which the thread will stop running. */
             double _endTime;

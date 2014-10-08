@@ -81,7 +81,7 @@ using namespace MplusM::Registry;
 #endif // defined(__APPLE__)
 
 PingRequestHandler::PingRequestHandler(RegistryService & service) :
-    inherited(MpM_PING_REQUEST), _service(service)
+    inherited(MpM_PING_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -185,18 +185,20 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                     
                     if (Endpoint::CheckEndpointName(argAsString))
                     {
-                        _service.reportStatusChange(argAsString,
-                                        RegistryService::kRegistryPingFromService);
-                        if (_service.checkForExistingService(argAsString))
+                        RegistryService & theService = static_cast<RegistryService &>(_service);
+                        
+                        theService.reportStatusChange(argAsString,
+                                                      RegistryService::kRegistryPingFromService);
+                        if (theService.checkForExistingService(argAsString))
                         {
                             // This service is already known, so just update the last-checked time.
-                            _service.updateCheckedTimeForChannel(argAsString);
+                            theService.updateCheckedTimeForChannel(argAsString);
                         }
-                        else if (_service.checkForExistingService(argAsString))
+                        else if (theService.checkForExistingService(argAsString))
                         {
                             // Second try - something happened with the first call.
                             // This service is already known, so just update the last-checked time.
-                            _service.updateCheckedTimeForChannel(argAsString);
+                            theService.updateCheckedTimeForChannel(argAsString);
                         }
                         else
                         {
@@ -218,23 +220,23 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                                         
                                         if (outChannel->write(message1, response))
                                         {
-                                            if (_service.processNameResponse(argAsString,
-                                                                             response))
+                                            if (theService.processNameResponse(argAsString,
+                                                                               response))
                                             {
                                                 yarp::os::Bottle message2(MpM_LIST_REQUEST);
                                                 
                                                 if (outChannel->write(message2, response))
                                                 {
-                                                    if (_service.processListResponse(argAsString,
-                                                                                     response))
+                                                    if (theService.processListResponse(argAsString,
+                                                                                       response))
                                                     {
                                                         // Remember the response
                                                         reply.addString(MpM_OK_RESPONSE);
-                                                _service.updateCheckedTimeForChannel(argAsString);
+                                                theService.updateCheckedTimeForChannel(argAsString);
                                                     }
                                                     else
                                                     {
-                                                        OD_LOG("! (_service.processList" //####
+                                                        OD_LOG("! (theService.processList" //####
                                                                "Response(argAsString, " //####
                                                                "response))"); //####
                                                         reply.addString(MpM_FAILED_RESPONSE);
@@ -255,7 +257,7 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                                             }
                                             else
                                             {
-                                                OD_LOG("! (_service.processNameResponse(" //####
+                                                OD_LOG("! (theService.processNameResponse(" //####
                                                        "argAsString, response))"); //####
                                                 reply.addString(MpM_FAILED_RESPONSE);
                                                 reply.addString("Invalid response to 'name' "
@@ -302,7 +304,7 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                                     reply.addString(MpM_FAILED_RESPONSE);
                                     reply.addString("Channel could not be opened");
                                 }
-                                ClientChannel::RelinquishChannel(outChannel);
+                                BaseChannel::RelinquishChannel(outChannel);
                             }
                             else
                             {
@@ -330,14 +332,7 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                 reply.addString(MpM_FAILED_RESPONSE);
                 reply.addString("Missing channel name or extra arguments to request");
             }
-            OD_LOG_S1s("reply <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(reply, replyMechanism);
         }
     }
     catch (...)

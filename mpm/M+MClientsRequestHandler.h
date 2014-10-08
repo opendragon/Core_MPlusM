@@ -65,7 +65,8 @@ namespace MplusM
         {
         public :
             
-            /*! @brief The constructor. */
+            /*! @brief The constructor.
+             @param service The service that has registered this request. */
             ClientsRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
@@ -105,9 +106,6 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
-            
-            /*! @brief The service that will handle the 'clients' operation. */
-            BaseService & _service;
             
         }; // ClientsRequestHandler
         

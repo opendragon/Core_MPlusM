@@ -56,11 +56,8 @@ namespace MplusM
 {
     namespace Common
     {
-        class AdapterChannel;
         class BailOutThread;
-        class ClientChannel;
-        class GeneralChannel;
-        class ServiceChannel;
+        class BaseChannel;
         
         /*! @brief A convenience class to timeout objects. */
         class BailOut
@@ -74,26 +71,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param channelOfInterest The channel that we are waiting for.
              @param timeToWait The number of seconds to delay before triggering. */
-            BailOut(AdapterChannel & channelOfInterest,
-                    const double     timeToWait);
-            
-            /*! @brief The constructor.
-             @param channelOfInterest The channel that we are waiting for.
-             @param timeToWait The number of seconds to delay before triggering. */
-            BailOut(ClientChannel & channelOfInterest,
-                    const double    timeToWait);
-            
-            /*! @brief The constructor.
-             @param channelOfInterest The channel that we are waiting for.
-             @param timeToWait The number of seconds to delay before triggering. */
-            BailOut(GeneralChannel & channelOfInterest,
-                    const double     timeToWait);
-            
-            /*! @brief The constructor.
-             @param channelOfInterest The channel that we are waiting for.
-             @param timeToWait The number of seconds to delay before triggering. */
-            BailOut(ServiceChannel & channelOfInterest,
-                    const double     timeToWait);
+            BailOut(BaseChannel & channelOfInterest,
+                    const double  timeToWait);
             
             /*! @brief The destructor. */
             virtual ~BailOut(void);

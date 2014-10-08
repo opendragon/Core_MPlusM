@@ -39,7 +39,7 @@
 #if (! defined(MpMServiceChannel_H_))
 # define MpMServiceChannel_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MBaseChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -52,20 +52,13 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The Port class to be used for service connections. */
-# if defined(MpM_ChannelsUseRpc)
-#  define SERVICE_PORT_CLASS_ yarp::os::RpcServer
-# else // ! defined(MpM_ChannelsUseRpc)
-#  define SERVICE_PORT_CLASS_ yarp::os::Port
-# endif // ! defined(MpM_ChannelsUseRpc)
-
 namespace MplusM
 {
     namespace Common
     {
         /*! @brief A convenience class to provide distinct channels for responses from a service to
          a client. */
-        class ServiceChannel : public SERVICE_PORT_CLASS_
+        class ServiceChannel : public BaseChannel
         {
         public :
             
@@ -74,35 +67,6 @@ namespace MplusM
             
             /*! @brief The destructor. */
             virtual ~ServiceChannel(void);
-            
-            /*! @brief Close the channel. */
-            void close(void);
-            
-            /*! @brief Returns the name associated with the channel.
-             @returns The name associated with the channel. */
-            inline yarp::os::ConstString name(void)
-            const
-            {
-                return _name;
-            } // name
-            
-            /*! @brief Open the channel, using a backoff strategy with retries.
-             @param theChannelName The name to be associated with the channel.
-             @param timeToWait The number of seconds allowed before a failure is considered.
-             @returns @c true if the channel was opened and @c false if it could not be opened. */
-            bool openWithRetries(const yarp::os::ConstString & theChannelName,
-                                 const double                  timeToWait);
-            
-            /*! @brief Open the channel, using a backoff strategy with retries.
-             @param theContactInfo The connection information to be associated with the channel.
-             @param timeToWait The number of seconds allowed before a failure is considered.
-             @returns @c true if the channel was opened and @c false if it could not be opened. */
-            bool openWithRetries(yarp::os::Contact & theContactInfo,
-                                 const double        timeToWait);
-            
-            /*! @brief Release an allocated adapter channel.
-             @param theChannel A pointer to the channel to be released. */
-            static void RelinquishChannel(ServiceChannel * theChannel);
             
         protected :
             
@@ -117,10 +81,7 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef SERVICE_PORT_CLASS_ inherited;
-            
-            /*! @brief The name associated with the channel. */
-            yarp::os::ConstString _name;
+            typedef BaseChannel inherited;
             
         }; // ServiceChannel
         

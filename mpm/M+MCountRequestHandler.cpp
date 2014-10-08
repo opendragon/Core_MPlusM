@@ -78,9 +78,10 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 CountRequestHandler::CountRequestHandler(BaseService & service) :
-    inherited(MpM_COUNT_REQUEST), _service(service)
+    inherited(MpM_COUNT_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
 } // CountRequestHandler::CountRequestHandler
 
@@ -175,14 +176,7 @@ bool CountRequestHandler::processRequest(const yarp::os::ConstString & request,
             reply.addInt(static_cast<int>(counter >> 32));
             reply.addInt(static_cast<int>(counter));
             reply.addDouble(elapsedTime);
-            OD_LOG_S1s("reply <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(reply, replyMechanism);
         }
     }
     catch (...)

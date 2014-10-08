@@ -80,7 +80,7 @@ using namespace MplusM::Registry;
 #endif // defined(__APPLE__)
 
 DisassociateRequestHandler::DisassociateRequestHandler(RegistryService & service) :
-    inherited(MpM_DISASSOCIATE_REQUEST), _service(service)
+    inherited(MpM_DISASSOCIATE_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -172,13 +172,15 @@ bool DisassociateRequestHandler::processRequest(const yarp::os::ConstString & re
                     
                     if (Endpoint::CheckEndpointName(argAsString))
                     {
-                        if (_service.removeAllAssociations(argAsString))
+                        RegistryService & theService = static_cast<RegistryService &>(_service);
+                        
+                        if (theService.removeAllAssociations(argAsString))
                         {
                             reply.addString(MpM_OK_RESPONSE);
                         }
                         else
                         {
-                            OD_LOG("! (_service.removeAllAssociations(argAsString))"); //####
+                            OD_LOG("! (theService.removeAllAssociations(argAsString))"); //####
                             reply.addString(MpM_FAILED_RESPONSE);
                             reply.addString("Could not add association");
                         }
@@ -203,14 +205,7 @@ bool DisassociateRequestHandler::processRequest(const yarp::os::ConstString & re
                 reply.addString(MpM_FAILED_RESPONSE);
                 reply.addString("Missing channel name(s) or extra arguments to request");
             }
-            OD_LOG_S1s("reply <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(reply, replyMechanism);
         }
     }
     catch (...)

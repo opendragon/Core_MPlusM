@@ -275,7 +275,7 @@ void Endpoint::close(void)
 #if defined(MpM_DoExplicitClose)
                 _channel->close();
 #endif // defined(MpM_DoExplicitClose)
-                ServiceChannel::RelinquishChannel(_channel);
+                BaseChannel::RelinquishChannel(_channel);
                 _channel = NULL;
             }
             _handler = NULL;
@@ -314,6 +314,22 @@ const
     }
     return result;
 } // Endpoint::getName
+
+void Endpoint::getSendReceiveCounters(SendReceiveCounters & counters)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("counters = ", &counters); //####
+    if (_channel)
+    {
+        _channel->getSendReceiveCounters(counters);
+    }
+    else
+    {
+        counters._inBytes = counters._outBytes = 0;
+        counters._inMessages = counters._outMessages = 0;
+    }
+    OD_LOG_OBJEXIT(); //####
+} // Endpoint::getSendReceiveCounters
 
 bool Endpoint::open(const double timeToWait)
 {
@@ -398,6 +414,7 @@ bool Endpoint::setInputHandler(BaseInputHandler & handler)
             else
             {
                 _handler = &handler;
+                _handler->setChannel(_channel);
                 _channel->setReader(handler);
                 result = true;
             }
@@ -437,6 +454,7 @@ bool Endpoint::setInputHandlerCreator(BaseInputHandlerCreator & handlerCreator)
             else
             {
                 _handlerCreator = &handlerCreator;
+                _handlerCreator->setChannel(_channel);
                 _channel->setReaderCreator(handlerCreator);
                 result = true;
             }
@@ -487,6 +505,18 @@ bool Endpoint::setReporter(ChannelStatusReporter & reporter,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Endpoint::setReporter
+
+void Endpoint::updateSendCounters(const size_t numBytes)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_LL1("numBytes = ", numBytes); //####
+    
+    if (_channel)
+    {
+        _channel->updateSendCounters(numBytes);
+    }
+    OD_LOG_OBJEXIT(); //####
+} // Endpoint::updateSendCounters
 
 #if defined(__APPLE__)
 # pragma mark Global functions

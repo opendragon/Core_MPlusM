@@ -105,7 +105,7 @@ void ExemplarService::attachRequestHandlers(void)
     OD_LOG_OBJENTER(); //####
     try
     {
-        _simpleHandler = new SimpleRequestHandler;
+        _simpleHandler = new SimpleRequestHandler(*this);
         if (_simpleHandler)
         {
             registerRequestHandler(_simpleHandler);

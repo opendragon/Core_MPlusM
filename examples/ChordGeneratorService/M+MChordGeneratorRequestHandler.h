@@ -56,6 +56,8 @@ namespace MplusM
 {
     namespace Example
     {
+        class ChordGeneratorService;
+        
         /*! @brief The example 'chords' request handler.
          
          The input for the request is a single MIDI note value (int), specifying the root of the
@@ -64,8 +66,9 @@ namespace MplusM
         {
         public :
             
-            /*! @brief The constructor. */
-            ChordGeneratorRequestHandler(void);
+            /*! @brief The constructor.
+             @param service The service that has registered this request. */
+            ChordGeneratorRequestHandler(ChordGeneratorService & service);
             
             /*! @brief The destructor. */
             virtual ~ChordGeneratorRequestHandler(void);

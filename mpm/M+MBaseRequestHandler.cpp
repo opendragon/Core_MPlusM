@@ -38,6 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MBaseRequestHandler.h>
+#include <mpm/M+MBaseService.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -72,10 +73,13 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-BaseRequestHandler::BaseRequestHandler(const yarp::os::ConstString & request) :
-    _owner(NULL), _name(request)
+BaseRequestHandler::BaseRequestHandler(const yarp::os::ConstString & request,
+                                       BaseService &                 service) :
+    _owner(NULL), _name(request), _service(service)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S1s("request = ", request); //####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
 } // BaseRequestHandler::BaseRequestHandler
 
@@ -88,6 +92,56 @@ BaseRequestHandler::~BaseRequestHandler(void)
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
+
+void BaseRequestHandler::sendResponse(yarp::os::Bottle &           reply,
+                                      yarp::os::ConnectionWriter * replyMechanism)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("reply = ", reply.toString()); //####
+    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    if (replyMechanism)
+    {
+        OD_LOG("(replyMechanism)"); //####
+        if (reply.write(*replyMechanism))
+        {
+            _service.updateResponseCounters(reply.size());
+        }
+        else
+        {
+            OD_LOG("(! reply.write(*replyMechanism))"); //####
+#if defined(MpM_StallOnSendProblem)
+            Stall();
+#endif // defined(MpM_StallOnSendProblem)
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BaseRequestHandler::sendResponse
+
+void BaseRequestHandler::sendResponse(const yarp::os::ConstString & reply,
+                                      yarp::os::ConnectionWriter *  replyMechanism)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("reply = ", reply); //####
+    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
+    if (replyMechanism)
+    {
+        OD_LOG("(replyMechanism)"); //####
+        yarp::os::Bottle response(reply);
+        
+        if (response.write(*replyMechanism))
+        {
+            _service.updateResponseCounters(response.size());
+        }
+        else
+        {
+            OD_LOG("(! response(*replyMechanism))"); //####
+#if defined(MpM_StallOnSendProblem)
+            Stall();
+#endif // defined(MpM_StallOnSendProblem)
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BaseRequestHandler::sendResponse
 
 void BaseRequestHandler::setOwner(RequestMap & owner)
 {

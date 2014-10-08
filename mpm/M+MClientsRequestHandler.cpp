@@ -78,9 +78,10 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 ClientsRequestHandler::ClientsRequestHandler(BaseService & service) :
-    inherited(MpM_CLIENTS_REQUEST), _service(service)
+    inherited(MpM_CLIENTS_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
 } // ClientsRequestHandler::ClientsRequestHandler
 
@@ -166,14 +167,7 @@ bool ClientsRequestHandler::processRequest(const yarp::os::ConstString & request
                 
                 reply.addString(aString.c_str());
             }
-            OD_LOG_S1s("reply <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(reply, replyMechanism);
         }
     }
     catch (...)

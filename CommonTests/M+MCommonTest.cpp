@@ -149,7 +149,7 @@ static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destina
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
 #endif // defined(MpM_DoExplicitClose)
-                ClientChannel::RelinquishChannel(newChannel);
+                BaseChannel::RelinquishChannel(newChannel);
                 newChannel = NULL;
             }
         }
@@ -206,7 +206,7 @@ static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
 #if defined(MpM_DoExplicitClose)
         theChannel->close();
 #endif // defined(MpM_DoExplicitClose)
-        ClientChannel::RelinquishChannel(theChannel);
+        BaseChannel::RelinquishChannel(theChannel);
     }
     OD_LOG_EXIT(); //####
 } // doDestroyTestChannel
@@ -358,7 +358,7 @@ static int doTestConnectToEndpoint(const char * launchPath,
                     {
                         OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
                     }
-                    ClientChannel::RelinquishChannel(outChannel);
+                    BaseChannel::RelinquishChannel(outChannel);
                 }
                 else
                 {
@@ -444,31 +444,13 @@ static int doTestWriteToEndpoint(const char * launchPath,
                         if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
                         {
                             yarp::os::Bottle message;
-#if defined(MpM_ChannelsUseRpc)
-                            yarp::os::Bottle response;
-#endif // defined(MpM_ChannelsUseRpc)
                             
                             message.addString(aName);
                             message.addString("howdi");
-#if defined(MpM_ChannelsUseRpc)
-                            if (outChannel->write(message, response))
-                            {
-                                result = 0;
-# if defined(MpM_DoExplicitDisconnect)
-                                if (! NetworkDisconnectWithRetries(outChannel->name(),
-                                                                   stuff->getName(),
-                                                                   STANDARD_WAIT_TIME))
-                                {
-                                    OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
-                                           "name(), stuff->getName(), STANDARD_WAIT_TIME))"); //####
-                                }
-# endif // defined(MpM_DoExplicitDisconnect)
-                            }
-#else // ! defined(MpM_ChannelsUseRpc)
                             if (outChannel->write(message))
                             {
                                 result = 0;
-# if defined(MpM_DoExplicitDisconnect)
+#if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
                                                                    STANDARD_WAIT_TIME))
@@ -476,9 +458,8 @@ static int doTestWriteToEndpoint(const char * launchPath,
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
                                            "name(), stuff->getName(), STANDARD_WAIT_TIME))"); //####
                                 }
-# endif // defined(MpM_DoExplicitDisconnect)
+#endif // defined(MpM_DoExplicitDisconnect)
                             }
-#endif // ! defined(MpM_ChannelsUseRpc)
                             else
                             {
                                 OD_LOG("! (outChannel->write(message))"); //####
@@ -500,7 +481,7 @@ static int doTestWriteToEndpoint(const char * launchPath,
                     {
                         OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
                     }
-                    ClientChannel::RelinquishChannel(outChannel);
+                    BaseChannel::RelinquishChannel(outChannel);
                 }
                 else
                 {
@@ -626,7 +607,7 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
                     {
                         OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
                     }
-                    ClientChannel::RelinquishChannel(outChannel);
+                    BaseChannel::RelinquishChannel(outChannel);
                 }
                 else
                 {
@@ -752,7 +733,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                     {
                         OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
                     }
-                    ClientChannel::RelinquishChannel(outChannel);
+                    BaseChannel::RelinquishChannel(outChannel);
                 }
                 else
                 {

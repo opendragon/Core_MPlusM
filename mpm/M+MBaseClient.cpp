@@ -212,7 +212,7 @@ BaseClient::~BaseClient(void)
 {
     OD_LOG_OBJENTER(); //####
     disconnectFromService();
-    ClientChannel::RelinquishChannel(_channel);
+    BaseChannel::RelinquishChannel(_channel);
     _channel = NULL;
     delete _baseChannelName;
     OD_LOG_OBJEXIT(); //####
@@ -287,7 +287,7 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel,
             {
                 OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
             }
-            ClientChannel::RelinquishChannel(newChannel);
+            BaseChannel::RelinquishChannel(newChannel);
         }
     }
     catch (...)
@@ -541,7 +541,7 @@ void BaseClient::removeAssociatedChannels(CheckFunction checker,
             {
                 OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
             }
-            ClientChannel::RelinquishChannel(newChannel);
+            BaseChannel::RelinquishChannel(newChannel);
         }
     }
     catch (...)
@@ -674,7 +674,7 @@ yarp::os::Bottle Common::FindMatchingServices(const yarp::os::ConstString & crit
             {
                 OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
             }
-            ClientChannel::RelinquishChannel(newChannel);
+            BaseChannel::RelinquishChannel(newChannel);
         }
     }
     catch (...)

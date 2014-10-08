@@ -88,6 +88,14 @@ BaseInputHandlerCreator::~BaseInputHandlerCreator(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+void BaseInputHandlerCreator::setChannel(BaseChannel * theChannel)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("theChannel = ", theChannel); //####
+    _channel = theChannel;
+    OD_LOG_OBJEXIT(); //####
+} // BaseInputHandlerCreator::setChannel
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)

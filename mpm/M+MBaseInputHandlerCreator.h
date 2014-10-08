@@ -71,7 +71,14 @@ namespace MplusM
              @returns A new BaseInputHandler or @c NULL if one cannot be created. */
             virtual BaseInputHandler * create(void) = 0;
             
+            /*! @brief Remember the channel that is feeding the input handler.
+             @param theChannel The channel that is feeding the input handler. */
+            void setChannel(BaseChannel * theChannel);
+            
         protected :
+            
+            /*! @brief The channel that is feeding the input handlers. */
+            BaseChannel * _channel;
             
         private :
             

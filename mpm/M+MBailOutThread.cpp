@@ -37,10 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MBailOutThread.h>
-#include <mpm/M+MAdapterChannel.h>
-#include <mpm/M+MClientChannel.h>
-#include <mpm/M+MGeneralChannel.h>
-#include <mpm/M+MServiceChannel.h>
+#include <mpm/M+MBaseChannel.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -76,51 +73,16 @@ using namespace MplusM::Common;
 #endif // definullptrned(__APPLE__)
 
 BailOutThread::BailOutThread(const double timeToWait) :
-    inherited(), _adapterChannel(NULL), _clientChannel(NULL), _generalChannel(NULL),
-    _serviceChannel(NULL), _timeToWait(timeToWait)
+    inherited(), _baseChannel(NULL), _timeToWait(timeToWait)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     OD_LOG_EXIT_P(this); //####
 } // BailOutThread::BailOutThread
 
-BailOutThread::BailOutThread(AdapterChannel & channelOfInterest,
-                             const double     timeToWait) :
-    inherited(), _adapterChannel(&channelOfInterest), _clientChannel(NULL), _generalChannel(NULL),
-    _serviceChannel(NULL), _timeToWait(timeToWait)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("channelOfInterest = ", &channelOfInterest); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_EXIT_P(this); //####
-} // BailOutThread::BailOutThread
-
-BailOutThread::BailOutThread(ClientChannel & channelOfInterest,
-                             const double    timeToWait) :
-    inherited(), _adapterChannel(NULL), _clientChannel(&channelOfInterest), _generalChannel(NULL),
-    _serviceChannel(NULL), _timeToWait(timeToWait)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("channelOfInterest = ", &channelOfInterest); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_EXIT_P(this); //####
-} // BailOutThread::BailOutThread
-
-BailOutThread::BailOutThread(GeneralChannel & channelOfInterest,
-                             const double     timeToWait) :
-    inherited(), _adapterChannel(NULL), _clientChannel(NULL), _generalChannel(&channelOfInterest),
-    _serviceChannel(NULL), _timeToWait(timeToWait)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("channelOfInterest = ", &channelOfInterest); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_EXIT_P(this); //####
-} // BailOutThread::BailOutThread
-
-BailOutThread::BailOutThread(ServiceChannel & channelOfInterest,
-                             const double     timeToWait) :
-    inherited(), _adapterChannel(NULL), _clientChannel(NULL), _generalChannel(NULL),
-    _serviceChannel(&channelOfInterest), _timeToWait(timeToWait)
+BailOutThread::BailOutThread(BaseChannel & channelOfInterest,
+                             const double  timeToWait) :
+    inherited(), _baseChannel(&channelOfInterest), _timeToWait(timeToWait)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("channelOfInterest = ", &channelOfInterest); //####
@@ -146,21 +108,9 @@ void BailOutThread::run(void)
         if (_endTime <= yarp::os::Time::now())
         {
             OD_LOG("(_endTime <= yarp::os::Time::now())"); //####
-            if (_adapterChannel)
+            if (_baseChannel)
             {
-                _adapterChannel->interrupt();
-            }
-            else if (_clientChannel)
-            {
-                _clientChannel->interrupt();
-            }
-            else if (_generalChannel)
-            {
-                _generalChannel->interrupt();
-            }
-            else if (_serviceChannel)
-            {
-                _serviceChannel->interrupt();
+                _baseChannel->interrupt();
             }
             raise(STANDARD_SIGNAL_TO_USE);
 #if defined(__APPLE__)

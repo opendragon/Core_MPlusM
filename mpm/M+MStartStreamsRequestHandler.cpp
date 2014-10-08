@@ -78,7 +78,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 StartStreamsRequestHandler::StartStreamsRequestHandler(BaseInputOutputService & service) :
-    inherited(MpM_STARTSTREAMS_REQUEST), _service(service)
+    inherited(MpM_STARTSTREAMS_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -163,21 +163,8 @@ bool StartStreamsRequestHandler::processRequest(const yarp::os::ConstString & re
     
     try
     {
-        _service.startStreams();
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle response(MpM_OK_RESPONSE);
-            
-            OD_LOG_S1s("response <- ", response.toString()); //####
-            if (! response.write(*replyMechanism))
-            {
-                OD_LOG("(! response.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
-        }
+        static_cast<BaseInputOutputService &>(_service).startStreams();
+        sendResponse(MpM_OK_RESPONSE, replyMechanism);
     }
     catch (...)
     {

@@ -78,7 +78,7 @@ using namespace MplusM::MovementDb;
 #endif // defined(__APPLE__)
 
 SetDataTrackRequestHandler::SetDataTrackRequestHandler(MovementDbService & service) :
-    inherited(MpM_SETDATATRACK_REQUEST), _service(service)
+    inherited(MpM_SETDATATRACK_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -174,14 +174,15 @@ bool SetDataTrackRequestHandler::processRequest(const yarp::os::ConstString & re
             if (firstValue.isString())
             {
                 yarp::os::ConstString dataTrack(firstValue.toString());
+                MovementDbService &   theService = static_cast<MovementDbService &>(_service);
 
-                if (_service.setDataTrack(senderChannel, dataTrack))
+                if (theService.setDataTrack(senderChannel, dataTrack))
                 {
                     reply.addString(MpM_OK_RESPONSE);
                 }
                 else
                 {
-                    OD_LOG("! (_service.setDataTrack(senderChannel, dataTrack))"); //####
+                    OD_LOG("! (theService.setDataTrack(senderChannel, dataTrack))"); //####
                     reply.addString(MpM_FAILED_RESPONSE);
                     reply.addString("Could not set the data track");
                 }
@@ -199,18 +200,7 @@ bool SetDataTrackRequestHandler::processRequest(const yarp::os::ConstString & re
             reply.addString(MpM_FAILED_RESPONSE);
             reply.addString("Missing or extra arguments to request");
         }
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            OD_LOG_S1s("response <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
-        }
+        sendResponse(reply, replyMechanism);
     }
     catch (...)
     {

@@ -39,7 +39,7 @@
 #if (! defined(MpMAdapterChannel_H_))
 # define MpMAdapterChannel_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MBaseChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -57,7 +57,7 @@ namespace MplusM
     namespace Common
     {
         /*! @brief A convenience class to provide distinct channels to and from adapters. */
-        class AdapterChannel : public yarp::os::Port
+        class AdapterChannel : public BaseChannel
         {
         public :
             
@@ -68,9 +68,6 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~AdapterChannel(void);
             
-            /*! @brief Close the channel. */
-            void close(void);
-            
             /*! @brief Returns @c true if the channel is used for output and @c false otherwise.
              @returns @c true if the channel is used for output and @c false otherwise. */
             inline bool isOutput(void)
@@ -78,25 +75,6 @@ namespace MplusM
             {
                 return _isOutput;
             } // isOutput
-            
-            /*! @brief Returns the name associated with the channel.
-             @returns The name associated with the channel. */
-            inline yarp::os::ConstString name(void)
-            const
-            {
-                return _name;
-            } // name
-            
-            /*! @brief Open the channel, using a backoff strategy with retries.
-             @param theChannelName The name to be associated with the channel.
-             @param timeToWait The number of seconds allowed before a failure is considered.
-             @returns @c true if the channel was opened and @c false if it could not be opened. */
-            bool openWithRetries(const yarp::os::ConstString & theChannelName,
-                                 const double                  timeToWait);
-            
-            /*! @brief Release an allocated adapter channel.
-             @param theChannel A pointer to the channel to be released. */
-            static void RelinquishChannel(AdapterChannel * theChannel);
             
         protected :
             
@@ -111,10 +89,7 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Port inherited;
-            
-            /*! @brief The name associated with the channel. */
-            yarp::os::ConstString _name;
+            typedef BaseChannel inherited;
             
             /*! @brief @c true if the channel is used for output and @c false otherwise. */
             bool _isOutput;

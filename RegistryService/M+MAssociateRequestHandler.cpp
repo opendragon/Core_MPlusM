@@ -80,7 +80,7 @@ using namespace MplusM::Registry;
 #endif // defined(__APPLE__)
 
 AssociateRequestHandler::AssociateRequestHandler(RegistryService & service) :
-    inherited(MpM_ASSOCIATE_REQUEST), _service(service)
+    inherited(MpM_ASSOCIATE_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -177,20 +177,22 @@ bool AssociateRequestHandler::processRequest(const yarp::os::ConstString & reque
                     if (Endpoint::CheckEndpointName(primaryAsString) &&
                         Endpoint::CheckEndpointName(secondaryAsString))
                     {
-                        if (_service.checkForExistingAssociation(primaryAsString,
-                                                                 secondaryAsString))
+                        RegistryService & theService = static_cast<RegistryService &>(_service);
+                        
+                        if (theService.checkForExistingAssociation(primaryAsString,
+                                                                   secondaryAsString))
                         {
                             // This association is already known.
                             reply.addString(MpM_OK_RESPONSE);
                         }
-                        else if (_service.addAssociation(primaryAsString, 0 != direction.asInt(),
-                                                         secondaryAsString))
+                        else if (theService.addAssociation(primaryAsString, 0 != direction.asInt(),
+                                                           secondaryAsString))
                         {
                             reply.addString(MpM_OK_RESPONSE);
                         }
                         else
                         {
-                            OD_LOG("! (_service.addAssociation(primaryAsString, " //####
+                            OD_LOG("! (theService.addAssociation(primaryAsString, " //####
                                    "0 != direction, secondaryAsString))"); //####
                             reply.addString(MpM_FAILED_RESPONSE);
                             reply.addString("Could not add association");
@@ -218,14 +220,7 @@ bool AssociateRequestHandler::processRequest(const yarp::os::ConstString & reque
                 reply.addString(MpM_FAILED_RESPONSE);
                 reply.addString("Missing channel name(s) or extra arguments to request");
             }
-            OD_LOG_S1s("reply <- ", reply.toString()); //####
-            if (! reply.write(*replyMechanism))
-            {
-                OD_LOG("(! reply.write(*replyMechanism))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            sendResponse(reply, replyMechanism);
         }
     }
     catch (...)

@@ -39,7 +39,7 @@
 #if (! defined(MpMGeneralChannel_H_))
 # define MpMGeneralChannel_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MBaseChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -47,7 +47,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for for general-purpose channels. */
+ @brief The class declaration for general-purpose channels. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -57,7 +57,7 @@ namespace MplusM
     namespace Common
     {
         /*! @brief A convenience class to provide distinct channels to and from adapters. */
-        class GeneralChannel : public yarp::os::Port
+        class GeneralChannel : public BaseChannel
         {
         public :
             
@@ -68,9 +68,6 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~GeneralChannel(void);
             
-            /*! @brief Close the channel. */
-            void close(void);
-            
             /*! @brief Returns @c true if the channel is used for output and @c false otherwise.
              @returns @c true if the channel is used for output and @c false otherwise. */
             inline bool isOutput(void)
@@ -78,14 +75,6 @@ namespace MplusM
             {
                 return _isOutput;
             } // isOutput
-            
-            /*! @brief Returns the name associated with the channel.
-             @returns The name associated with the channel. */
-            inline yarp::os::ConstString name(void)
-            const
-            {
-                return _name;
-            } // name
             
             /*! @brief Returns the protocol associated with the channel.
              @returns The protocol associated with the channel. */
@@ -102,17 +91,6 @@ namespace MplusM
             {
                 return _protocolDescription;
             } // protocolDescription
-            
-            /*! @brief Open the channel, using a backoff strategy with retries.
-             @param theChannelName The name to be associated with the channel.
-             @param timeToWait The number of seconds allowed before a failure is considered.
-             @returns @c true if the channel was opened and @c false if it could not be opened. */
-            bool openWithRetries(const yarp::os::ConstString & theChannelName,
-                                 const double                  timeToWait);
-            
-            /*! @brief Release an allocated adapter channel.
-             @param theChannel A pointer to the channel to be released. */
-            static void RelinquishChannel(GeneralChannel * theChannel);
             
             /*! @brief Sets the protocol associated with the channel.
              @param newProtocol The new protocol associated with the channel.
@@ -133,10 +111,7 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Port inherited;
-            
-            /*! @brief The name associated with the channel. */
-            yarp::os::ConstString _name;
+            typedef BaseChannel inherited;
             
             /*! @brief The protocol that the channel supports. */
             yarp::os::ConstString _protocol;

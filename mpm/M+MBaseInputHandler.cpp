@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MBaseInputHandler.h>
+#include <mpm/M+MBaseChannel.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -72,7 +73,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 BaseInputHandler::BaseInputHandler(void) :
-    inherited(), _canProcessInput(true)
+    inherited(), _channel(NULL), _canProcessInput(true)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
@@ -105,6 +106,10 @@ bool BaseInputHandler::read(yarp::os::ConnectionReader & connection)
             yarp::os::Bottle aBottle;
             size_t           numBytes = connection.getSize();
             
+            if (_channel)
+            {
+                _channel->updateReceiveCounters(numBytes);
+            }
             if (aBottle.read(connection))
             {
                 result = handleInput(aBottle, connection.getRemoteContact().getName(),
@@ -120,6 +125,14 @@ bool BaseInputHandler::read(yarp::os::ConnectionReader & connection)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // BaseInputHandler::read
+
+void BaseInputHandler::setChannel(BaseChannel * theChannel)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("theChannel = ", theChannel); //####
+    _channel = theChannel;
+    OD_LOG_OBJEXIT(); //####
+} // BaseInputHandler::setChannel
 
 void BaseInputHandler::stopProcessing(void)
 {

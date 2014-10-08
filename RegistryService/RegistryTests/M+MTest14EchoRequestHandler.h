@@ -61,8 +61,9 @@ namespace MplusM
         {
         public :
             
-            /*! @brief The constructor. */
-            Test14EchoRequestHandler(void);
+            /*! @brief The constructor.
+             @param service The service that has registered this request. */
+            Test14EchoRequestHandler(Common::BaseService & service);
             
             /*! @brief The destructor. */
             virtual ~Test14EchoRequestHandler(void);

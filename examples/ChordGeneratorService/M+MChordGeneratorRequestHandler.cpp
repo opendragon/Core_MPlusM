@@ -38,6 +38,7 @@
 
 #include "M+MChordGeneratorRequestHandler.h"
 #include "M+MChordGeneratorRequests.h"
+#include "M+MChordGeneratorService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -76,10 +77,11 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ChordGeneratorRequestHandler::ChordGeneratorRequestHandler(void) :
-    inherited(MpM_CHORD_GENERATOR_NAME)
+ChordGeneratorRequestHandler::ChordGeneratorRequestHandler(ChordGeneratorService & service) :
+    inherited(MpM_CHORD_GENERATOR_NAME, service)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
 } // RandomRequestHandler::RandomRequestHandler
 
@@ -186,14 +188,7 @@ bool ChordGeneratorRequestHandler::processRequest(const yarp::os::ConstString & 
             {
                 OD_LOG("! (count > 0)"); //####
             }
-            OD_LOG_S1s("response <- ", response.toString()); //####
-            if (! response.write(*replyMechanism))
-            {
-                OD_LOG("(! response.write(*replyMechanism))"); //####
-#if defined(MpM_STALL_ON_SEND_PROBLEM)
-                Stall();
-#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
-            }
+            sendResponse(response, replyMechanism);
         }
     }
     catch (...)

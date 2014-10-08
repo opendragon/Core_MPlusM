@@ -56,6 +56,8 @@ namespace MplusM
 {
     namespace Exemplar
     {
+        class ExemplarService;
+        
         /*! @brief The 'simple' request handler.
          
          The input for the request is an optional count of the number of random numbers to generate
@@ -65,8 +67,9 @@ namespace MplusM
         {
         public :
             
-            /*! @brief The constructor. */
-            SimpleRequestHandler(void);
+            /*! @brief The constructor.
+             @param service The service that has registered this request. */
+            SimpleRequestHandler(ExemplarService & service);
             
             /*! @brief The destructor. */
             virtual ~SimpleRequestHandler(void);
