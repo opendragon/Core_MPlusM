@@ -42,6 +42,8 @@
 
 # include <mpm/M+MConfig.h>
 
+# include <stdint.h>
+
 # if (! defined(MAC_OR_LINUX_))
 /*! @brief @c TRUE if non-Windows, @c FALSE if Windows. */
 #  define MAC_OR_LINUX_ (defined(__APPLE__) || defined(__linux__))

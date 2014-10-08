@@ -90,3 +90,4 @@ mpmTruncateFloatService
 examples/AbsorberService/mpmAbsorberService.vcxproj.user
 mpmFindServices
 mpm/M+MConfig.h
+Common/M+MConfig.h
