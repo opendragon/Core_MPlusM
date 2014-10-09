@@ -17,37 +17,29 @@ of bodies, with the following properties:
 \item \textbf{lefthandconfidence} -- the confidence in the state of the left hand
 (`\asCode{low}', `\asCode{high}' or `\asCode{unknown}' (which should never appear))
 \item \textbf{righthandconfidence} -- the confidence in the state of the right hand
-\item \textbf{bones} -- a list of bones
+\item \textbf{joints} -- a list of joints
 \end{itemize}
 
-The bones list consists of the following bones:\\
-\textbraceleft{} \emph{head2neck}, \emph{neck2spineshoulder},
-\emph{spineshoulder2spinemid}, \emph{spinemid2spinebase},
-\emph{spineshoulder2shoulderright},\\
-\emph{spineshoulder2shoulderleft}, \emph{spinebase2hipright}, \emph{spinebase2hipleft},
-\emph{shoulderright2elbowright}, \emph{elbowright2wristright},
-\emph{wristright2handright}, \emph{handright2handtipright}, \emph{wristright2thumbright},
-\emph{shoulderleft2elbowleft}, \emph{elbowleft2wristleft},\\
-\emph{wristleft2handleft}, \emph{handleft2handtipleft}, \emph{wristleft2thumbleft},
-\emph{hipright2kneeright}, \emph{kneeright2ankleright},\\
-\emph{ankleright2footright}, \emph{hipleft2kneeleft}, \emph{kneeleft2ankleleft},
-\emph{ankleleft2footleft} \textbraceright\\
+The joints list consists of the following joints:\\
+\textbraceleft{} \emph{head}, \emph{neck}, \emph{spineshoulder}, \emph{spinemid},
+\emph{spinebase}, \emph{shoulderright}, \emph{shoulderleft}, \emph{hipright},
+\emph{hipleft}, \emph{elbowright}, \emph{wristright},\\
+\emph{handright}, \emph{handtipright}, \emph{thumbright}, \emph{elbowleft},
+\emph{wristleft}, \emph{handleft}, \emph{handtipleft}, \emph{thumbleft}, \emph{kneeright},
+\emph{ankleright},\\
+\emph{footright}, \emph{kneeleft}, \emph{ankleleft}, \emph{footleft} \textbraceright\\
 
-Not all bones will be present in each message.\\
+Not all joints will be present in each message.\\
 
-For each ``tracked'' bone, a dictionary is added to the bone list, with the following
+For each ``tracked'' joint, a dictionary is added to the joints list, with the following
 properties:
 \begin{itemize}
 \item \textbf{tag} -- the name of the bone, as listed above
-\item \textbf{startposition} -- the three--dimensional coordinates \openSq{}X, Y,
-Z\closeSq{} of the starting position of the bone, as a list of three floating--point
+\item \textbf{position} -- the three--dimensional coordinates \openSq{}X, Y,
+Z\closeSq{} of the position of the joint, as a list of three floating--point
 numbers; the units are most likely metres from the Kinect V2 controller
-\item \textbf{endposition} -- the three--dimensional coordinates of the ending position of
-the bone
-\item \textbf{startorientation} -- the four--dimensional coordinates \openSq{}x, y,
-z, w\closeSq{} of the starting orientation of the bone, as a list of four floating--point
+\item \textbf{orientation} -- the four--dimensional coordinates \openSq{}x, y,
+z, w\closeSq{} of the orientation of the joint, as a list of four floating--point
 numbers
-\item \textbf{endorientation} -- the four--dimensional coordinates of the ending
-orientation of the bone
 \end{itemize}
 \primaryEnd{}
