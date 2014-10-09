@@ -94,9 +94,8 @@ static void reportConnections(const OutputFlavour           flavour,
     yarp::os::ConstString inputsAsString;
     yarp::os::ConstString outputsAsString;
     
-    Utilities::GatherPortConnections(portName, inputs, outputs,
-                                     Utilities::kInputAndOutputBoth, false,
-                                     checker, checkStuff);
+    Utilities::GatherPortConnections(portName, inputs, outputs, Utilities::kInputAndOutputBoth,
+                                     false, checker, checkStuff);
     if (0 < inputs.size())
     {
         for (ChannelVector::const_iterator walker(inputs.begin()); inputs.end() != walker; ++walker)
@@ -418,8 +417,7 @@ static void reportAssociates(const OutputFlavour                flavour,
         {
             if (0 < assocInputs.size())
             {
-                inputAssociates = SanitizeString(assocInputs[0],
-                                                 kOutputFlavourJSON != flavour);
+                inputAssociates = SanitizeString(assocInputs[0], kOutputFlavourJSON != flavour);
                 switch (flavour)
                 {
                     case kOutputFlavourTabs :

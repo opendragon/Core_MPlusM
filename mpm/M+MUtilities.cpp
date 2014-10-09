@@ -679,11 +679,6 @@ void Utilities::DisplayMetrics(const yarp::os::Bottle & metrics,
     }
     OD_LOG_EXIT(); //####
 } // Utilities::DisplayMetrics
-#if 0
-cout << T_(CHAR_DOUBLEQUOTE "PortClass" CHAR_DOUBLEQUOTE ": "
-           CHAR_DOUBLEQUOTE) << SanitizeString(portClass).c_str() <<
-T_(CHAR_DOUBLEQUOTE ", ");
-#endif//0
 
 void Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
                                       ChannelVector &               inputs,

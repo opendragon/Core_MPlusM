@@ -93,7 +93,7 @@ static bool processResponse(OutputFlavour                 flavour,
     OD_LOG_P1("response = ", &response); //####
     bool                  result = false;
     yarp::os::ConstString cleanServiceName(SanitizeString(serviceName,
-                                                  kOutputFlavourJSON != flavour));
+                                                          kOutputFlavourJSON != flavour));
     
     OD_LOG_S1s("response = ", response.asString()); //####
     for (int ii = 0, howMany = response.count(); ii < howMany; ++ii)

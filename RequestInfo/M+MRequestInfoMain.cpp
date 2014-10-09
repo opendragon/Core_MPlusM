@@ -94,7 +94,7 @@ static bool processResponse(OutputFlavour                 flavour,
     OD_LOG_P1("response = ", &response); //####
     bool                  result = false;
     yarp::os::ConstString cleanServiceName(SanitizeString(serviceName,
-                                                  kOutputFlavourJSON != flavour));
+                                                          kOutputFlavourJSON != flavour));
     
     for (int ii = 0, howMany = response.count(); ii < howMany; ++ii)
     {
@@ -116,8 +116,7 @@ static bool processResponse(OutputFlavour                 flavour,
                                             propList->find(MpM_REQREP_DICT_REQUEST_KEY).asString();
                     yarp::os::Bottle      keywordList;
                     
-                    theRequest = SanitizeString(theRequest,
-                                                kOutputFlavourJSON != flavour);
+                    theRequest = SanitizeString(theRequest, kOutputFlavourJSON != flavour);
                     if (propList->check(MpM_REQREP_DICT_DETAILS_KEY))
                     {
                         yarp::os::Value theDetails = propList->find(MpM_REQREP_DICT_DETAILS_KEY);
@@ -169,8 +168,7 @@ static bool processResponse(OutputFlavour                 flavour,
                             cout << cleanServiceName.c_str() << "\t" << theRequest.c_str() <<
                                     "\t" << SanitizeString(theVersionString).c_str() <<
                                     "\t" << SanitizeString(theDetailsString).c_str() <<
-                                    "\t" <<
-                                    SanitizeString(keywordList.toString()).c_str() <<
+                                    "\t" << SanitizeString(keywordList.toString()).c_str() <<
                                     "\t" << theInputsString.c_str() << "\t" <<
                                     theOutputsString.c_str() << endl;
                             break;
@@ -227,8 +225,7 @@ static bool processResponse(OutputFlavour                 flavour,
                             if (0 < keywordList.size())
                             {
                                 cout << "Keywords:     " <<
-                                        SanitizeString(keywordList.toString()).c_str() <<
-                                        endl;
+                                        SanitizeString(keywordList.toString()).c_str() << endl;
                             }
                             if (0 < theInputsString.length())
                             {
