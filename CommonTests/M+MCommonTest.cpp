@@ -1240,11 +1240,11 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
         {
             bool sawChannels = false;
             bool sawClients = false;
-            bool sawCount = false;
             bool sawDetach = false;
             bool sawEcho = false;
             bool sawInfo = false;
             bool sawList = false;
+            bool sawMetrics = false;
             bool sawName = false;
             
             result = true;
@@ -1289,20 +1289,6 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                                                 asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
                                 
                                 sawClients = (itsOutput == "(s*)");
-                            }
-                        }
-                        else if (aName == MpM_COUNT_REQUEST)
-                        {
-                            if (sawCount)
-                            {
-                                result = false;
-                            }
-                            else if ((! hasInput) && hasOutput)
-                            {
-                                yarp::os::ConstString itsOutput =
-                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
-                                
-                                sawCount = (itsOutput == "id");
                             }
                         }
                         else if (aName == MpM_DETACH_REQUEST)
@@ -1362,6 +1348,20 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                                 sawList = (itsOutput == "([]+)");
                             }
                         }
+                        else if (aName == MpM_METRICS_REQUEST)
+                        {
+                            if (sawMetrics)
+                            {
+                                result = false;
+                            }
+                            else if ((! hasInput) && hasOutput)
+                            {
+                                yarp::os::ConstString itsOutput =
+                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
+                                
+                                sawMetrics = (itsOutput == "([]+)");
+                            }
+                        }
                         else if (aName == MpM_NAME_REQUEST)
                         {
                             if (sawName)
@@ -1387,8 +1387,8 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                     result = false;
                 }
             }
-            result &= (sawChannels && sawClients && sawCount && sawDetach && sawEcho && sawInfo &&
-                       sawList && sawName);
+            result &= (sawChannels && sawClients && sawDetach && sawEcho && sawInfo && sawList &&
+                       sawMetrics && sawName);
         }
         else
         {

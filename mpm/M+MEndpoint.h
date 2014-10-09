@@ -59,6 +59,7 @@ namespace MplusM
         class BaseInputHandler;
         class BaseInputHandlerCreator;
         class ChannelStatusReporter;
+        class SendReceiveCounters;
         class ServiceChannel;
         
         /*! @brief An object that represents an endpoint that provides a bidirectional connection

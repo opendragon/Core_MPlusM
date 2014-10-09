@@ -39,7 +39,7 @@
 #if (! defined(MpMBaseChannel_H_))
 # define MpMBaseChannel_H_ /* Header guard */
 
-# include <mpm/M+MCommon.h>
+# include <mpm/M+MSendReceiveCounters.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -61,8 +61,7 @@ namespace MplusM
         {
         public :
             
-            /*! @brief The constructor.
-             @param isOutput @c true if the channel is used for output and @c false otherwise. */
+            /*! @brief The constructor. */
             BaseChannel(void);
 
             /*! @brief The destructor. */

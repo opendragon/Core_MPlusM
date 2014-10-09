@@ -39,6 +39,7 @@
 #include "M+MMovementDbService.h"
 
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -73,7 +74,7 @@ using namespace MplusM::MovementDb;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define MOVEMENTDBINPUT_OPTIONS "t:"
+#define MOVEMENTDBINPUT_OPTIONS "rt:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -109,6 +110,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  reportOnExit = false;
         yarp::os::ConstString tag;
         
         opterr = 0; // Suppress the error message resulting from an unknown option.
@@ -117,6 +119,11 @@ int main(int      argc,
         {
             switch (cc)
             {
+                case 'r' :
+                    // Report metrics on exit
+                    reportOnExit = true;
+                    break;
+                    
                 case 't' :
                     // Tag
                     tag = optarg;
@@ -195,6 +202,13 @@ int main(int      argc,
 #endif // ! defined(MpM_MainDoesDelayNotYield)
                             }
                             UnregisterLocalService(channelName, *stuff);
+                            if (reportOnExit)
+                            {
+                                yarp::os::Bottle metrics;
+                                
+                                stuff->gatherMetrics(metrics);
+                                Utilities::DisplayMetrics(metrics);
+                            }
                             stuff->stop();
                         }
                         else

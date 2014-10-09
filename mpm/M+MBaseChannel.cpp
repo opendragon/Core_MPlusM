@@ -102,11 +102,9 @@ void BaseChannel::RelinquishChannel(BaseChannel * theChannel)
 #endif // defined(__APPLE__)
 
 BaseChannel::BaseChannel(void) :
-    inherited(), _name()
+    inherited(), _name(), _counters()
 {
     OD_LOG_ENTER(); //####
-    _counters._inBytes = _counters._outBytes = 0;
-    _counters._inMessages = _counters._outMessages = 0;
     OD_LOG_EXIT_P(this); //####
 } // BaseChannel::BaseChannel
 
@@ -152,10 +150,7 @@ void BaseChannel::getSendReceiveCounters(SendReceiveCounters & counters)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("counters = ", &counters); //####
-    counters._inBytes = _counters._inBytes;
-    counters._outBytes = _counters._outBytes;
-    counters._inMessages = _counters._inMessages;
-    counters._outMessages = _counters._outMessages;
+    counters = _counters;
     OD_LOG_OBJEXIT(); //####
 } // BaseChannel::getSendReceiveCounters
 
@@ -304,8 +299,7 @@ void BaseChannel::updateReceiveCounters(const size_t numBytes)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("numBytes = ", numBytes); //####
-    ++_counters._inMessages;
-    _counters._inBytes += numBytes;
+    _counters.incrementInCounters(numBytes);
     OD_LOG_OBJEXIT(); //####
 } // BaseChannel::updateReceiveCounters
 
@@ -313,8 +307,7 @@ void BaseChannel::updateSendCounters(const size_t numBytes)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("numBytes = ", numBytes); //####
-    ++_counters._outMessages;
-    _counters._outBytes += numBytes;
+    _counters.incrementOutCounters(numBytes);
     OD_LOG_OBJEXIT(); //####
 } // BaseChannel::updateSendCounters
 
@@ -322,9 +315,15 @@ bool BaseChannel::write(yarp::os::Bottle & message)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("message = ", message.toString()); //####
-    bool result = inherited::write(message);
+    size_t messageSize = 0;
     
-    updateSendCounters(message.size());
+    message.toBinary(&messageSize);
+    bool result = inherited::write(message);
+
+    if (result)
+    {
+        updateSendCounters(messageSize);
+    }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // BaseChannel::write
@@ -335,10 +334,18 @@ bool BaseChannel::write(yarp::os::Bottle & message,
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("message = ", message.toString()); //####
     OD_LOG_P1("reply = ", &reply); //####
+    size_t messageSize = 0;
+    size_t replySize = 0;
+    
+    message.toBinary(&messageSize);
     bool result = inherited::write(message, reply);
     
-    updateSendCounters(message.size());
-    updateReceiveCounters(reply.size());
+    reply.toBinary(&replySize);
+    if (result)
+    {
+        updateSendCounters(messageSize);
+        updateReceiveCounters(replySize);
+    }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // BaseChannel::write

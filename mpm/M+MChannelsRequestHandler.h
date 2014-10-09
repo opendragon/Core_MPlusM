@@ -60,7 +60,8 @@ namespace MplusM
         
         /*! @brief The standard 'channels' request handler.
          
-         There is no input for the request and the output is a list of secondary channels for the service. */
+         There is no input for the request and the output is a list of secondary channels for the
+         service. */
         class ChannelsRequestHandler : public BaseRequestHandler
         {
         public :

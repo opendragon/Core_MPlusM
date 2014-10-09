@@ -39,6 +39,7 @@
 #include "M+MRecordIntegersService.h"
 
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -73,7 +74,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define RECORDINTEGERS_OPTIONS "p:t:"
+#define RECORDINTEGERS_OPTIONS "p:rt:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -109,6 +110,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
         yarp::os::ConstString recordPath;
         yarp::os::ConstString tag;
@@ -122,6 +124,11 @@ int main(int      argc,
                 case 'p' :
                     recordPath = optarg;
                     OD_LOG_S1s("recordPath <- ", recordPath); //####
+                    break;
+                    
+                case 'r' :
+                    // Report metrics on exit
+                    reportOnExit = true;
                     break;
                     
                 case 't' :
@@ -314,6 +321,13 @@ int main(int      argc,
                             }
                         }
                         UnregisterLocalService(channelName, *stuff);
+                        if (reportOnExit)
+                        {
+                            yarp::os::Bottle metrics;
+                            
+                            stuff->gatherMetrics(metrics);
+                            Utilities::DisplayMetrics(metrics);
+                        }
                         stuff->stop();
                     }
                     else

@@ -40,6 +40,7 @@
 # define MpMBaseService_H_ /* Header guard */
 
 # include <mpm/M+MRequestMap.h>
+# include <mpm/M+MSendReceiveCounters.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -60,11 +61,11 @@ namespace MplusM
         class BaseRequestHandler;
         class ChannelsRequestHandler;
         class ClientsRequestHandler;
-        class CountRequestHandler;
         class DetachRequestHandler;
         class Endpoint;
         class InfoRequestHandler;
         class ListRequestHandler;
+        class MetricsRequestHandler;
         class NameRequestHandler;
         class PingThread;
         class ServiceInputHandler;
@@ -145,6 +146,10 @@ namespace MplusM
              @param channels The list of channels to be filled in. */
             virtual void fillInSecondaryOutputChannelsList(ChannelVector & channels);
             
+            /*! @brief Fill in the metrics for the service.
+             @param metrics The gathered metrics. */
+            virtual void gatherMetrics(yarp::os::Bottle & metrics);
+            
             /*! @brief Return the associated endpoint.
              @returns The associated endpoint. */
             inline Endpoint & getEndpoint(void)
@@ -152,12 +157,6 @@ namespace MplusM
             {
                 return *_endpoint;
             } // getEndpoint
-            
-            /*! @brief Return the request statistics.
-             @param count The number of requests since the service started.
-             @param currentTime The current service time. */
-            void getStatistics(int64_t & count,
-                               double &  currentTime);
             
             /*! @brief Update the auxiliary send / receive counters.
              @param additionalCounters The counters to add. */
@@ -343,9 +342,6 @@ namespace MplusM
             /*! @brief The modifier tag for the service. */
             yarp::os::ConstString _tag;
             
-            /*! @brief The number of requests seen. */
-            int64_t _requestCount;           
-            
             /*! @brief The auxiliary send / receive counters. */
             SendReceiveCounters _auxCounters;
             
@@ -355,9 +351,6 @@ namespace MplusM
             /*! @brief The request handler for the 'clients' request. */
             ClientsRequestHandler * _clientsHandler;
             
-            /*! @brief The request handler for the 'count' request. */
-            CountRequestHandler * _countHandler;
-            
             /*! @brief The request handler for the 'detach' request. */
             DetachRequestHandler * _detachHandler;
             
@@ -366,6 +359,9 @@ namespace MplusM
             
             /*! @brief The request handler for the 'list' request. */
             ListRequestHandler * _listHandler;
+            
+            /*! @brief The request handler for the 'metrics' request. */
+            MetricsRequestHandler * _metricsHandler;
             
             /*! @brief The request handler for the 'name' request. */
             NameRequestHandler * _nameHandler;
@@ -407,7 +403,7 @@ namespace MplusM
         
         /*! @brief Register a local service with a running Service Registry service.
          @param channelName The channel provided by the service.
-         @param ssrvice The actual service being registered.
+         @param service The actual service being registered.
          @param checker A function that provides for early exit from loops.
          @param checkStuff The private data for the early exit function.
          @returns @c true if the service was successfully registered and @c false otherwise. */
@@ -418,7 +414,7 @@ namespace MplusM
         
         /*! @brief Unregister a local service with a running Service Registry service.
          @param channelName The channel provided by the service.
-         @param ssrvice The actual service being unregistered.
+         @param service The actual service being unregistered.
          @param checker A function that provides for early exit from loops.
          @param checkStuff The private data for the early exit function.
          @returns @c true if the service was successfully unregistered and @c false otherwise. */

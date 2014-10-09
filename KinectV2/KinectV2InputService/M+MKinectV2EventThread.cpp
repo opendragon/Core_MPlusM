@@ -241,8 +241,8 @@ static const char * handConfidenceToString(const TrackingConfidence theHandConfi
 
 /*! @brief Add the data for a body to a message.
  @param message The message to be updated with the body data.
- @param joints The set of joints for the body.
- @param jointOrientations The orientations of the joints.
+ @param jointData The set of joints for the body.
+ @param orientationData The orientations of the joints.
  @param leftHandState The state of the left hand.
  @param leftHandConfidence The confidence in the value of the state of the left hand.
  @param rightHandState The state of the right hand.

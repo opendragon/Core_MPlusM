@@ -50,10 +50,10 @@
 
 #include "M+MChannelsRequestHandler.h"
 #include "M+MClientsRequestHandler.h"
-#include "M+MCountRequestHandler.h"
 #include "M+MDetachRequestHandler.h"
 #include "M+MInfoRequestHandler.h"
 #include "M+MListRequestHandler.h"
+#include "M+MMetricsRequestHandler.h"
 #include "M+MNameRequestHandler.h"
 #include "M+MPingThread.h"
 
@@ -101,7 +101,7 @@ BaseService::BaseService(const ServiceKind             theKind,
                          const yarp::os::ConstString & servicePortNumber) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription), _tag(tag),
-    _requestCount(0), _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL),
+    _auxCounters(), _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL),
     _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL), _endpoint(NULL), _handler(NULL),
     _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _started(false),
     _useMultipleHandlers(useMultipleHandlers)
@@ -112,8 +112,6 @@ BaseService::BaseService(const ServiceKind             theKind,
     OD_LOG_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
                servicePortNumber); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
-    _auxCounters._inBytes = _auxCounters._outBytes = 0;
-    _auxCounters._inMessages = _auxCounters._outMessages = 0;
     if (0 < _tag.size())
     {
         _serviceName = canonicalName + " " + _tag;
@@ -141,7 +139,7 @@ BaseService::BaseService(const ServiceKind             theKind,
                          char * *                      argv) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription),
-    _serviceName(canonicalName), _tag(), _requestCount(0), _channelsHandler(NULL),
+    _serviceName(canonicalName), _tag(), _auxCounters(), _channelsHandler(NULL),
     _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL),
     _nameHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL),
     _kind(theKind), _started(false), _useMultipleHandlers(useMultipleHandlers)
@@ -155,8 +153,6 @@ BaseService::BaseService(const ServiceKind             theKind,
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
                "description = ", description, "requestsDescription = ", requestsDescription); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
-    _auxCounters._inBytes = _auxCounters._outBytes = 0;
-    _auxCounters._inMessages = _auxCounters._outMessages = 0;
     switch (argc)
     {
             // Argument order = endpoint name [, port]
@@ -226,26 +222,26 @@ void BaseService::attachRequestHandlers(void)
     {
         _channelsHandler = new ChannelsRequestHandler(*this);
         _clientsHandler = new ClientsRequestHandler(*this);
-        _countHandler = new CountRequestHandler(*this);
         _detachHandler = new DetachRequestHandler(*this);
         _infoHandler = new InfoRequestHandler(*this);
         _listHandler = new ListRequestHandler(*this);
+        _metricsHandler = new MetricsRequestHandler(*this);
         _nameHandler = new NameRequestHandler(*this);
-        if (_channelsHandler && _clientsHandler && _countHandler &&  _detachHandler &&
-            _infoHandler && _listHandler && _nameHandler)
+        if (_channelsHandler && _clientsHandler && _detachHandler && _infoHandler && _listHandler &&
+            _metricsHandler && _nameHandler)
         {
             _requestHandlers.registerRequestHandler(_channelsHandler);
             _requestHandlers.registerRequestHandler(_clientsHandler);
-            _requestHandlers.registerRequestHandler(_countHandler);
             _requestHandlers.registerRequestHandler(_detachHandler);
             _requestHandlers.registerRequestHandler(_infoHandler);
             _requestHandlers.registerRequestHandler(_listHandler);
+            _requestHandlers.registerRequestHandler(_metricsHandler);
             _requestHandlers.registerRequestHandler(_nameHandler);
         }
         else
         {
-            OD_LOG("! (_channelsHandler && _clientsHandler && _countHandler && " //####
-                   "_detachHandler && _infoHandler && _listHandler && _nameHandler)"); //####
+            OD_LOG("! (_channelsHandler && _clientsHandler && _detachHandler && " //####
+                   "_infoHandler && _listHandler && _metricsHandler && _nameHandler)"); //####
         }
     }
     catch (...)
@@ -311,12 +307,6 @@ void BaseService::detachRequestHandlers(void)
             delete _clientsHandler;
             _clientsHandler = NULL;
         }
-        if (_countHandler)
-        {
-            _requestHandlers.unregisterRequestHandler(_countHandler);
-            delete _countHandler;
-            _countHandler = NULL;
-        }
         if (_detachHandler)
         {
             _requestHandlers.unregisterRequestHandler(_detachHandler);
@@ -334,6 +324,12 @@ void BaseService::detachRequestHandlers(void)
             _requestHandlers.unregisterRequestHandler(_listHandler);
             delete _listHandler;
             _listHandler = NULL;
+        }
+        if (_metricsHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_metricsHandler);
+            delete _metricsHandler;
+            _metricsHandler = NULL;
         }
         if (_nameHandler)
         {
@@ -409,24 +405,26 @@ BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
     return result;
 } // BaseService::findContext
 
-void BaseService::getStatistics(int64_t & count,
-                                double &  currentTime)
+void BaseService::gatherMetrics(yarp::os::Bottle & metrics)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P2("count = ", &count, "currentTime = ", &currentTime); //####
-    count = _requestCount;
-    currentTime = yarp::os::Time::now();
+    OD_LOG_P1("metrics = ", &metrics); //####
+    if (_endpoint)
+    {
+        SendReceiveCounters counters;
+    
+        _endpoint->getSendReceiveCounters(counters);
+        counters.addToList(metrics, _endpoint->getName());
+    }
+    _auxCounters.addToList(metrics, "auxiliary");
     OD_LOG_OBJEXIT(); //####
-} // BaseService::getStatistics
+} // BaseService::gatherMetrics
 
 void BaseService::incrementAuxiliaryCounters(const SendReceiveCounters & additionalCounters)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("additionalCounters = ", &additionalCounters); //####
-    _auxCounters._inBytes += additionalCounters._inBytes;
-    _auxCounters._inMessages += additionalCounters._inMessages;
-    _auxCounters._outBytes += additionalCounters._outBytes;
-    _auxCounters._outMessages += additionalCounters._outMessages;
+    _auxCounters += additionalCounters;
     OD_LOG_OBJEXIT(); //####
 } // BaseService::incrementAuxiliaryCounters
 
@@ -448,7 +446,6 @@ bool BaseService::processRequest(const yarp::os::ConstString & request,
         if (handler)
         {
             OD_LOG("(handler)"); //####
-            ++_requestCount;
             result = handler->processRequest(request, restOfInput, senderChannel, replyMechanism);
         }
         else

@@ -39,9 +39,14 @@
 #include "M+MExemplarService.h"
 
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
+
+#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
+# include <mpm/getopt.h>
+#endif //(! MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -69,7 +74,7 @@ using namespace MplusM::Exemplar;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define EXEMPLAR_OPTIONS "t:"
+#define EXEMPLAR_OPTIONS "rt:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -104,6 +109,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  reportOnExit = false;
         yarp::os::ConstString tag;
         
         opterr = 0; // Suppress the error message resulting from an unknown option.
@@ -112,6 +118,11 @@ int main(int      argc,
         {
             switch (cc)
             {
+                case 'r' :
+                    // Report metrics on exit
+                    reportOnExit = true;
+                    break;
+                    
                 case 't' :
                     // Tag
                     tag = optarg;
@@ -180,6 +191,13 @@ int main(int      argc,
 #endif // ! defined(MpM_MainDoesDelayNotYield)
                         }
                         UnregisterLocalService(channelName, *stuff);
+                        if (reportOnExit)
+                        {
+                            yarp::os::Bottle metrics;
+                            
+                            stuff->gatherMetrics(metrics);
+                            Utilities::DisplayMetrics(metrics);
+                        }
                         stuff->stop();
                     }
                     else

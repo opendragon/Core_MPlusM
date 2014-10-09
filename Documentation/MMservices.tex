@@ -68,6 +68,10 @@ It uses an internal database, as described in the
 It responds to the requests in the
 \secondaryRef{ServiceRegistryRequests}{Service~Registry~Requests} group.\\
 
+The application also has one optional parameter:
+\begin{itemize}
+\item \textbf{-r:} report the service metrics when the application exits
+\end{itemize}
 Note that only one copy of the \serviceNameX[Service~Registry]{ServiceRegistry}
 application can be running at a time in an \mplusm{} installation, due to its fixed
 \yarp{} network port.\\
@@ -135,6 +139,20 @@ It is used by the \serviceNameR[Service~Registry]{ServiceRegistry} and the
 \utilityNameR{mpmRequestInfo} utility to gather information about the requests available
 from each active service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{list}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{metrics}, alias:\ %
+\requestsNameD{Basic}{Basic}{m}}
+The \requestsNameX{Basic}{Basic}{metrics} request returns measurements of the channels
+associated with a service.
+The measurements include the number of bytes and the number of messages sent and
+received on each channel.
+
+%It is used by the \serviceNameR[Service~Registry]{ServiceRegistry} and the
+%\utilityNameR{mpmRequestInfo} utility to gather information about the requests available
+%from each active service.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{metrics}}
+
+
+
 \tertiaryStart{\requestsNameD{Basic}{Basic}{name}, alias:\ %
 \requestsNameD{Basic}{Basic}{n}}
 The \requestsNameX{Basic}{Basic}{name} request returns details about its service, in the
@@ -247,9 +265,9 @@ It is the responsibility of derived classes of the
 that handles the data provided in the
 \requestsNameX{\inputOutput{}}{InputOutput}{configure} request.\\
 
-For the \examplesNameR{Services}{mpmRandomBurstService} service, the configuration
+For the \examplesNameR{Services}{mpmRandomBurstService} application, the configuration
 data consists of a floating--point number (the burst period) and an integer (the burst
-size); for the \examplesNameR{Services}{mpmRecordIntegersService} service, the
+size); for the \examplesNameR{Services}{mpmRecordIntegersService} application, the
 configuration data consists of the file--system path for the service output file.\\
 
 \requestsNameX{\inputOutput{}}{InputOutput}{configure} requests should be sent by
@@ -275,11 +293,11 @@ Note that an Output service can be `always on', as it can defer the external
 representation of its input data until the first data arrives at its input \yarp{}
 network port.\\
 
-For the \examplesNameR{Services}{mpmRandomBurstService} service, starting the
+For the \examplesNameR{Services}{mpmRandomBurstService} application, starting the
 streams corresponds to initiating an asynchronous random number generator; for the
-\examplesNameR{Services}{mpmRecordIntegersService} service, starting the streams
+\examplesNameR{Services}{mpmRecordIntegersService} application, starting the streams
 involves opening the service output file and for the
-\examplesNameR{Services}{mpmTruncateFilterService} service, starting the streams
+\examplesNameR{Services}{mpmTruncateFilterService} application, starting the streams
 simply allows data to flow through.
 \tertiaryEnd{\requestsNameE{\inputOutput{}}{InputOutput}{startStreams}}
 \tertiaryStart{\requestsNameD{\inputOutput{}}{InputOutput}{stopStreams}}
@@ -297,34 +315,25 @@ representation of its input data is not affected by the lack of input data.
 \secondaryEnd{}
 \secondaryStart[MiscellaneousRequests]{Miscellaneous~Requests}
 Requests in this group are used with the \utilityNameR{mpmRequestCounterClient} client
-application and \utilityNameR{mpmRequestCounterService} service or are requests that are
-common.
-\tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{count}}
-The \requestsNameX{Miscellaneous}{Miscellaneous}{count} request returns the number of
-requests processed by a service and the current time.
-It's provided for the benefit of applications that need to measure the performance of a
-general service, but is distinct from the mechanisms used by the
-\utilityNameR{mpmRequestCounterClient} client application and
-\utilityNameR{mpmRequestCounterService} service, which have use a custom set of requests
-to allow repetitive testing.
-\tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{count}}
+application and \utilityNameR{mpmRequestCounterService} application or are requests that
+are common.
 \tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{echo}}
 The \requestsNameX{Miscellaneous}{Miscellaneous}{echo} request simply returns whatever
 as provided as arguments to the request.
 It is used by the unit testing framework of \mplusm{} to provide a simple request that
 can be validated, as well as by the \examplesNameR{Clients}{mpmEchoClient} application
-and \examplesNameR{Services}{mpmEchoService} service to implement an `echo' mechanism.
+and \examplesNameR{Services}{mpmEchoService} application to implement an `echo' mechanism.
 \tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{echo}}
 \tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{resetcounter}}
 The \requestsNameX{Miscellaneous}{Miscellaneous}{resetcounter} request is used by the
 \utilityNameR{mpmRequestCounterClient} application to request that the
-\utilityNameR{mpmRequestCounterService} service is to clear its request counter and
+\utilityNameR{mpmRequestCounterService} application is to clear its request counter and
 elapsed time data.
 \tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{resetcounter}}
 \tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{stats}}
 The \requestsNameX{Miscellaneous}{Miscellaneous}{stats} request is used by the
 \utilityNameR{mpmRequestCounterClient} application to retrieve the request counter and
-elapsed time data from the \utilityNameR{mpmRequestCounterService} service.
+elapsed time data from the \utilityNameR{mpmRequestCounterService} application.
 \tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{stats}}
 \secondaryEnd{}
 \primaryEnd{}

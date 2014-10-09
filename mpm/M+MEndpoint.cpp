@@ -40,6 +40,7 @@
 #include <mpm/M+MBaseInputHandlerCreator.h>
 #include <mpm/M+MChannelStatusReporter.h>
 #include <mpm/M+MException.h>
+#include <mpm/M+MSendReceiveCounters.h>
 #include <mpm/M+MServiceChannel.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -325,8 +326,7 @@ void Endpoint::getSendReceiveCounters(SendReceiveCounters & counters)
     }
     else
     {
-        counters._inBytes = counters._outBytes = 0;
-        counters._inMessages = counters._outMessages = 0;
+        counters.clearCounters();        
     }
     OD_LOG_OBJEXIT(); //####
 } // Endpoint::getSendReceiveCounters

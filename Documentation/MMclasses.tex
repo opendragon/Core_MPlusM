@@ -13,7 +13,7 @@ the \mplusm{} services
 of an \mplusm{} installation
 \item \textbf{\mplusm{}::Test} classes that are used during unit--testing of the \mplusm{}
 source code
-\item \textbf{\mplusm{}::tilities} classes that are used only with the \mplusm{}
+\item \textbf{\mplusm{}::Utilities} classes that are used only with the \mplusm{}
 utility programs
 \end{itemize}
 There are 38 classes or structures in the \textbf{\mplusm{}::Common} namespace, 27 in
@@ -204,11 +204,11 @@ service
 The following methods are available to code that uses
 \secondaryRef{BaseService}{BaseService} classes:
 \begin{itemize}
+\item \textbf{\asCode{gatherMetrics}} This method returns a list of the metrics for the
+connections associated with the service
 \item \textbf{\asCode{getEndpoint}} This method provides access to the
 \secondaryRef{Endpoint}{Endpoint} that is provided for the service and is useful for
 establishing a connection to an `embedded' service
-\item \textbf{\asCode{getStatistics}} This method returns the call statistics for the
-service
 \end{itemize}
 The following convenience methods are available to derived classes of
 \secondaryRef{BaseService}{BaseService}:

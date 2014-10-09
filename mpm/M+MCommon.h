@@ -42,8 +42,6 @@
 
 # include <mpm/M+MConfig.h>
 
-# include <stdint.h>
-
 # if (! defined(MAC_OR_LINUX_))
 /*! @brief @c TRUE if non-Windows, @c FALSE if Windows. */
 #  define MAC_OR_LINUX_ (defined(__APPLE__) || defined(__linux__))
@@ -313,23 +311,6 @@ namespace MplusM
 # endif // defined(__APPLE__)
             
         }; // ChannelDescription
-        
-        /*! @brief Send / receive counters. */
-        struct SendReceiveCounters
-        {
-            /*! @brief The number of bytes received. */
-            int64_t _inBytes;
-            
-            /*! @brief The number of bytes sent. */
-            int64_t _outBytes;
-            
-            /*! @brief The number of messages received. */
-            size_t _inMessages;
-            
-            /*! @brief The number of messages sent. */
-            size_t _outMessages;
-            
-        }; // SendReceiveCounters
         
         /*! @brief A sequence of connections. */
         typedef std::vector<ChannelDescription> ChannelVector;

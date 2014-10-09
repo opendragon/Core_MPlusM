@@ -75,7 +75,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define ECHOINPUT_OPTIONS "t:"
+#define ECHOINPUT_OPTIONS "rt:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -108,6 +108,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  reportOnExit = false;
         yarp::os::ConstString tag;
         
         opterr = 0; // Suppress the error message resulting from an unknown option.
@@ -116,6 +117,11 @@ int main(int      argc,
         {
             switch (cc)
             {
+                case 'r' :
+                    // Report metrics on exit
+                    reportOnExit = true;
+                    break;
+                    
                 case 't' :
                     // Tag
                     tag = optarg;
@@ -184,6 +190,13 @@ int main(int      argc,
 #endif // ! defined(MpM_MAIN_DOES_DELAY_NOT_YIELD)
                         }
                         UnregisterLocalService(channelName, *stuff);
+                        if (reportOnExit)
+                        {
+                            yarp::os::Bottle metrics;
+                            
+                            stuff->gatherMetrics(metrics);
+                            DisplayMetrics(metrics);
+                        }
                         stuff->stop();
                     }
                     else

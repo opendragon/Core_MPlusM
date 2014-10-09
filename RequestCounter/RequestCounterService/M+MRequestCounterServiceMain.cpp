@@ -39,9 +39,14 @@
 #include "M+MRequestCounterService.h"
 
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
+
+#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
+# include <mpm/getopt.h>
+#endif //(! MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -71,6 +76,9 @@ using namespace MplusM::RequestCounter;
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
+
+/*! @brief The accepted command line arguments for the service. */
+#define REQUESTCOUNTER_OPTIONS "r"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -103,6 +111,25 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool reportOnExit = false;
+        
+        opterr = 0; // Suppress the error message resulting from an unknown option.
+        for (int cc = getopt(argc, argv, REQUESTCOUNTER_OPTIONS); -1 != cc;
+             cc = getopt(argc, argv, REQUESTCOUNTER_OPTIONS))
+        {
+            switch (cc)
+            {
+                case 'r' :
+                    // Report metrics on exit
+                    reportOnExit = true;
+                    break;
+                    
+                default :
+                    // Ignore unknown options.
+                    break;
+                    
+            }
+        }
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
@@ -113,17 +140,19 @@ int main(int      argc,
             yarp::os::ConstString servicePortNumber;
             
             Initialize(*argv);
-            if (1 < argc)
+            if (optind >= argc)
             {
-                serviceEndpointName = argv[1];
-                if (2 < argc)
-                {
-                    servicePortNumber = argv[2];
-                }
+                serviceEndpointName = DEFAULT_REQUESTCOUNTER_SERVICE_NAME;
+            }
+            else if ((optind + 1) == argc)
+            {
+                serviceEndpointName = argv[optind];
             }
             else
             {
-                serviceEndpointName = DEFAULT_REQUESTCOUNTER_SERVICE_NAME;
+                // 2 args
+                serviceEndpointName = argv[optind];
+                servicePortNumber = argv[optind + 1];
             }
             RequestCounterService * stuff = new RequestCounterService(*argv, serviceEndpointName,
                                                                       servicePortNumber);
@@ -149,6 +178,13 @@ int main(int      argc,
 #endif // ! defined(MpM_MainDoesDelayNotYield)
                         }
                         UnregisterLocalService(channelName, *stuff);
+                        if (reportOnExit)
+                        {
+                            yarp::os::Bottle metrics;
+                            
+                            stuff->gatherMetrics(metrics);
+                            Utilities::DisplayMetrics(metrics);
+                        }
                         stuff->stop();
                     }
                     else

@@ -2460,6 +2460,21 @@ void RegistryService::fillInSecondaryOutputChannelsList(ChannelVector & channels
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::fillInSecondaryOutputChannelsList
 
+void RegistryService::gatherMetrics(yarp::os::Bottle & metrics)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("metrics = ", &metrics); //####
+    inherited::gatherMetrics(metrics);
+    if (_statusChannel)
+    {
+        SendReceiveCounters counters;
+        
+        _statusChannel->getSendReceiveCounters(counters);
+        counters.addToList(metrics, _statusChannel->name());
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RegistryService::gatherMetrics
+
 bool RegistryService::processListResponse(const yarp::os::ConstString & channelName,
                                           const ServiceResponse &       response)
 {

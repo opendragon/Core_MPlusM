@@ -40,6 +40,7 @@
 #include <mpm/M+MBaseClient.h>
 #include <mpm/M+MClientChannel.h>
 #include <mpm/M+MRequests.h>
+#include <mpm/M+MSendReceiveCounters.h>
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>
 
@@ -469,6 +470,220 @@ bool Utilities::CheckForRegistryService(const PortVector & ports)
     OD_LOG_EXIT_B(result); //####
     return result;
 } // Utilities::CheckForRegistryService
+
+void Utilities::DisplayMetrics(const yarp::os::Bottle & metrics,
+                               OutputFlavour            flavour)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("metrics = ", &metrics); //####
+    bool sawSome = false;
+    int  tagWidth = 0;
+    
+    // First, calculate the tag width:
+    if (kOutputFlavourNormal == flavour)
+    {
+        for (int ii = 0, maxm = metrics.size(); maxm > ii; ++ii)
+        {
+            yarp::os::Value & aValue(metrics.get(ii));
+            
+            if (aValue.isDict())
+            {
+                yarp::os::Property * propList = aValue.asDict();
+                
+                if (propList)
+                {
+                    yarp::os::ConstString theTagAsString;
+                    
+                    if (propList->check(MpM_SENDRECEIVE_TAG_))
+                    {
+                        yarp::os::Value theTag = propList->find(MpM_SENDRECEIVE_TAG_);
+                        
+                        if (theTag.isString())
+                        {
+                            int ww = theTag.toString().size();
+                            
+                            if (tagWidth < ww)
+                            {
+                                tagWidth = ww;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (kOutputFlavourJSON == flavour)
+    {
+        std::cout << "[ ";
+    }
+    for (int ii = 0, maxm = metrics.size(); maxm > ii; ++ii)
+    {
+        yarp::os::Value & aValue(metrics.get(ii));
+        
+        if (aValue.isDict())
+        {
+            yarp::os::Property * propList = aValue.asDict();
+            
+            if (propList)
+            {
+                yarp::os::Bottle *    theInBytesAsList = NULL;
+                yarp::os::Bottle *    theInMessagesAsList = NULL;
+                yarp::os::Bottle *    theOutBytesAsList = NULL;
+                yarp::os::Bottle *    theOutMessagesAsList = NULL;
+                yarp::os::ConstString theTagAsString;
+                int64_t               inByteCount = 0;
+                int64_t               inMessageCount = 0;
+                int64_t               outByteCount = 0;
+                int64_t               outMessageCount = 0;
+                
+                if (propList->check(MpM_SENDRECEIVE_TAG_))
+                {
+                    yarp::os::Value theTag = propList->find(MpM_SENDRECEIVE_TAG_);
+                    
+                    if (theTag.isString())
+                    {
+                        theTagAsString = theTag.toString();
+                    }
+                }
+                if (propList->check(MpM_SENDRECEIVE_INBYTES_))
+                {
+                    yarp::os::Value theInBytes = propList->find(MpM_SENDRECEIVE_INBYTES_);
+                    
+                    if (theInBytes.isList())
+                    {
+                        theInBytesAsList = theInBytes.asList();
+                        if (2 == theInBytesAsList->size())
+                        {
+                            yarp::os::Value firstValue(theInBytesAsList->get(0));
+                            yarp::os::Value secondValue(theInBytesAsList->get(1));
+                            
+                            if (firstValue.isInt() && secondValue.isInt())
+                            {
+                                inByteCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
+                                                secondValue.asInt();
+                            }
+                        }
+                    }
+                }
+                if (propList->check(MpM_SENDRECEIVE_INMESSAGES_))
+                {
+                    yarp::os::Value theInMessages = propList->find(MpM_SENDRECEIVE_INMESSAGES_);
+                    
+                    if (theInMessages.isList())
+                    {
+                        theInMessagesAsList = theInMessages.asList();
+                        if (2 == theInMessagesAsList->size())
+                        {
+                            yarp::os::Value firstValue(theInMessagesAsList->get(0));
+                            yarp::os::Value secondValue(theInMessagesAsList->get(1));
+                            
+                            if (firstValue.isInt() && secondValue.isInt())
+                            {
+                                inMessageCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
+                                                    secondValue.asInt();
+                            }
+                        }
+                    }
+                }
+                if (propList->check(MpM_SENDRECEIVE_OUTBYTES_))
+                {
+                    yarp::os::Value theOutBytes = propList->find(MpM_SENDRECEIVE_OUTBYTES_);
+                    
+                    if (theOutBytes.isList())
+                    {
+                        theOutBytesAsList = theOutBytes.asList();
+                        if (2 == theOutBytesAsList->size())
+                        {
+                            yarp::os::Value firstValue(theOutBytesAsList->get(0));
+                            yarp::os::Value secondValue(theOutBytesAsList->get(1));
+
+                            if (firstValue.isInt() && secondValue.isInt())
+                            {
+                                outByteCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
+                                                secondValue.asInt();
+                            }
+                        }
+                    }
+                }
+                if (propList->check(MpM_SENDRECEIVE_OUTMESSAGES_))
+                {
+                    yarp::os::Value theOutMessages = propList->find(MpM_SENDRECEIVE_OUTMESSAGES_);
+                    
+                    if (theOutMessages.isList())
+                    {
+                        theOutMessagesAsList = theOutMessages.asList();
+                        if (2 == theOutMessagesAsList->size())
+                        {
+                            yarp::os::Value firstValue(theOutMessagesAsList->get(0));
+                            yarp::os::Value secondValue(theOutMessagesAsList->get(1));
+                            
+                            if (firstValue.isInt() && secondValue.isInt())
+                            {
+                                outMessageCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
+                                                    secondValue.asInt();
+                            }
+                        }
+                    }
+                }
+                if (theInBytesAsList && theInMessagesAsList && theOutBytesAsList &&
+                    theOutMessagesAsList)
+                {
+                    switch (flavour)
+                    {
+                        case kOutputFlavourTabs :
+                            std::cout << theTagAsString.c_str() << "\t" << inByteCount << "\t" <<
+                                        outByteCount << "\t" << inMessageCount << "\t" <<
+                                        outMessageCount << std::endl;
+                            break;
+                            
+                        case kOutputFlavourJSON :
+                            if (sawSome)
+                            {
+                                std::cout << ", ";
+                            }
+                            sawSome = true;
+                            std::cout << T_("{ " CHAR_DOUBLEQUOTE "tag" CHAR_DOUBLEQUOTE ": "
+                                            CHAR_DOUBLEQUOTE) <<
+                                        SanitizeString(theTagAsString).c_str() <<
+                                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inBytes"
+                                           CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) << inByteCount <<
+                                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inMessages"
+                                           CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                                        inMessageCount << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
+                                                             "outBytes" CHAR_DOUBLEQUOTE ": "
+                                                             CHAR_DOUBLEQUOTE) << outByteCount <<
+                                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outMessages"
+                                           CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                                        outMessageCount << T_(CHAR_DOUBLEQUOTE " }");
+                            break;
+                            
+                        case kOutputFlavourNormal :
+                            std::cout.width(tagWidth);
+                            std::cout << theTagAsString.c_str() << ": [bytes in: " << inByteCount <<
+                                        ", out: " << outByteCount << ", messages in: " <<
+                                        inMessageCount << ", out: " << outMessageCount << "]" <<
+                                        std::endl;
+                            break;
+                            
+                        default :
+                            break;
+                            
+                    }
+                }
+            }
+        }
+    }
+    if (kOutputFlavourJSON == flavour)
+    {
+        std::cout << " ]" << std::endl;
+    }
+    OD_LOG_EXIT(); //####
+} // Utilities::DisplayMetrics
+#if 0
+cout << T_(CHAR_DOUBLEQUOTE "PortClass" CHAR_DOUBLEQUOTE ": "
+           CHAR_DOUBLEQUOTE) << SanitizeString(portClass).c_str() <<
+T_(CHAR_DOUBLEQUOTE ", ");
+#endif//0
 
 void Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
                                       ChannelVector &               inputs,
@@ -1017,7 +1232,6 @@ yarp::os::ConstString Utilities::GetPortLocation(const yarp::os::ConstString & p
     return result;
 } // Utilities::GetPortLocation
 
-//
 bool Utilities::GetServiceNames(StringVector &        services,
                                 const bool            quiet,
                                 Common::CheckFunction checker,

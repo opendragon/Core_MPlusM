@@ -228,8 +228,6 @@
 		DF3850EC198ACCFE00A0414E /* M+MConfig.h.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "M+MConfig.h.in"; path = "mpm/M+MConfig.h.in"; sourceTree = SOURCE_ROOT; };
 		DF3850ED198ACCFE00A0414E /* M+MConfigureRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MConfigureRequestHandler.cpp"; path = "mpm/M+MConfigureRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF3850EE198ACCFE00A0414E /* M+MConfigureRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MConfigureRequestHandler.h"; path = "mpm/M+MConfigureRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF3850EF198ACCFE00A0414E /* M+MCountRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MCountRequestHandler.cpp"; path = "mpm/M+MCountRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF3850F0198ACCFE00A0414E /* M+MCountRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MCountRequestHandler.h"; path = "mpm/M+MCountRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF3850F1198ACCFE00A0414E /* M+MDetachRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MDetachRequestHandler.cpp"; path = "mpm/M+MDetachRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF3850F2198ACCFE00A0414E /* M+MDetachRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MDetachRequestHandler.h"; path = "mpm/M+MDetachRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF3850F3198ACCFE00A0414E /* M+MEndpoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MEndpoint.cpp"; path = "mpm/M+MEndpoint.cpp"; sourceTree = SOURCE_ROOT; };
@@ -369,6 +367,10 @@
 		DFCDE50019E6CE710051D294 /* M+MRGBLEDService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRGBLEDService.cpp"; path = "examples/RGBLEDService/M+MRGBLEDService.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCDE50119E6CE710051D294 /* M+MRGBLEDService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRGBLEDService.h"; path = "examples/RGBLEDService/M+MRGBLEDService.h"; sourceTree = SOURCE_ROOT; };
 		DFCDE50219E6CE710051D294 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = examples/RGBLEDService/main.cpp; sourceTree = SOURCE_ROOT; };
+		DFCDE50319E6E9D70051D294 /* M+MSendReceiveCounters.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MSendReceiveCounters.cpp"; path = "mpm/M+MSendReceiveCounters.cpp"; sourceTree = "<group>"; };
+		DFCDE50419E6E9D70051D294 /* M+MSendReceiveCounters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "M+MSendReceiveCounters.h"; path = "mpm/M+MSendReceiveCounters.h"; sourceTree = "<group>"; };
+		DFCDE50519E7059B0051D294 /* M+MMetricsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMetricsRequestHandler.cpp"; path = "mpm/M+MMetricsRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DFCDE50619E7059B0051D294 /* M+MMetricsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMetricsRequestHandler.h"; path = "mpm/M+MMetricsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MMovementDbClient.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DFE83AD119B671D1003A7EDE /* M+MMovementDbClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbClient.h"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.h"; sourceTree = SOURCE_ROOT; };
 		DFE83AD219B671D1003A7EDE /* M+MMovementDbClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbClientMain.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClientMain.cpp"; sourceTree = SOURCE_ROOT; };
@@ -558,14 +560,14 @@
 				DF3850E8198ACCFE00A0414E /* M+MClientsRequestHandler.h */,
 				DF3850ED198ACCFE00A0414E /* M+MConfigureRequestHandler.cpp */,
 				DF3850EE198ACCFE00A0414E /* M+MConfigureRequestHandler.h */,
-				DF3850EF198ACCFE00A0414E /* M+MCountRequestHandler.cpp */,
-				DF3850F0198ACCFE00A0414E /* M+MCountRequestHandler.h */,
 				DF3850F1198ACCFE00A0414E /* M+MDetachRequestHandler.cpp */,
 				DF3850F2198ACCFE00A0414E /* M+MDetachRequestHandler.h */,
 				DF3850F9198ACCFE00A0414E /* M+MInfoRequestHandler.cpp */,
 				DF3850FA198ACCFE00A0414E /* M+MInfoRequestHandler.h */,
 				DF3850FF198ACCFE00A0414E /* M+MListRequestHandler.cpp */,
 				DF385100198ACCFE00A0414E /* M+MListRequestHandler.h */,
+				DFCDE50519E7059B0051D294 /* M+MMetricsRequestHandler.cpp */,
+				DFCDE50619E7059B0051D294 /* M+MMetricsRequestHandler.h */,
 				DF38510D198ACCFE00A0414E /* M+MNameRequestHandler.cpp */,
 				DF38510E198ACCFE00A0414E /* M+MNameRequestHandler.h */,
 				DF385116198ACCFE00A0414E /* M+MRestartStreamsRequestHandler.cpp */,
@@ -1052,6 +1054,8 @@
 				DF385113198ACCFE00A0414E /* M+MRequestMap.cpp */,
 				DF385114198ACCFE00A0414E /* M+MRequestMap.h */,
 				DF385115198ACCFE00A0414E /* M+MRequests.h */,
+				DFCDE50319E6E9D70051D294 /* M+MSendReceiveCounters.cpp */,
+				DFCDE50419E6E9D70051D294 /* M+MSendReceiveCounters.h */,
 				DF385118198ACCFE00A0414E /* M+MServiceChannel.cpp */,
 				DF385119198ACCFE00A0414E /* M+MServiceChannel.h */,
 				DF3850DD198ACCFE00A0414E /* M+MServiceInputHandler.cpp */,

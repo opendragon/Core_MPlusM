@@ -39,6 +39,7 @@
 #include "M+MExemplarInputService.h"
 
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -73,7 +74,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define EXEMPLARINPUT_OPTIONS "p:s:t:"
+#define EXEMPLARINPUT_OPTIONS "p:rs:t:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -110,6 +111,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
         char *                endPtr;
         double                burstPeriod = 1;
@@ -132,6 +134,11 @@ int main(int      argc,
                         // Useable data.
                         burstPeriod = tempDouble;
                     }
+                    break;
+                    
+                case 'r' :
+                    // Report metrics on exit
+                    reportOnExit = true;
                     break;
                     
                 case 's' :
@@ -326,6 +333,13 @@ int main(int      argc,
                             }
                         }
                         UnregisterLocalService(channelName, *stuff);
+                        if (reportOnExit)
+                        {
+                            yarp::os::Bottle metrics;
+                            
+                            stuff->gatherMetrics(metrics);
+                            Utilities::DisplayMetrics(metrics);
+                        }
                         stuff->stop();
                     }
                     else

@@ -39,6 +39,7 @@
 #include "M+MAbsorberService.h"
 
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -73,7 +74,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define ABSORBER_OPTIONS "t:"
+#define ABSORBER_OPTIONS "rt:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -108,6 +109,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
         yarp::os::ConstString tag;
 
@@ -117,6 +119,11 @@ int main(int      argc,
         {
             switch (cc)
             {
+                case 'r' :
+                    // Report metrics on exit
+                    reportOnExit = true;
+                    break;
+                    
                 case 't' :
                     // Tag
                     tag = optarg;
@@ -276,6 +283,13 @@ int main(int      argc,
                             }
                         }
                         UnregisterLocalService(channelName, *stuff);
+                        if (reportOnExit)
+                        {
+                            yarp::os::Bottle metrics;
+                            
+                            stuff->gatherMetrics(metrics);
+                            Utilities::DisplayMetrics(metrics);
+                        }
                         stuff->stop();
                     }
                     else

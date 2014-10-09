@@ -363,6 +363,38 @@ void BaseInputOutputService::fillInSecondaryOutputChannelsList(ChannelVector & c
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::fillInSecondaryOutputChannelsList
 
+void BaseInputOutputService::gatherMetrics(yarp::os::Bottle & metrics)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("metrics = ", &metrics); //####
+    SendReceiveCounters counters;
+    
+    inherited::gatherMetrics(metrics);
+    for (StreamVector::const_iterator walker(_inStreams.begin()); _inStreams.end() != walker;
+         ++walker)
+    {
+        GeneralChannel * aChannel = *walker;
+        
+        if (aChannel)
+        {
+            aChannel->getSendReceiveCounters(counters);
+            counters.addToList(metrics, aChannel->name());
+        }
+    }
+    for (StreamVector::const_iterator walker(_outStreams.begin()); _outStreams.end() != walker;
+         ++walker)
+    {
+        GeneralChannel * aChannel = *walker;
+        
+        if (aChannel)
+        {
+            aChannel->getSendReceiveCounters(counters);
+            counters.addToList(metrics, aChannel->name());
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BaseInputOutputService::gatherMetrics
+
 bool BaseInputOutputService::setUpInputStreams(void)
 {
     OD_LOG_OBJENTER(); //####

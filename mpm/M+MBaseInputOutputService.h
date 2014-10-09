@@ -98,6 +98,10 @@ namespace MplusM
              @returns @c true if the service was successfully configured and @c false otherwise. */
             virtual bool configure(const yarp::os::Bottle & details) = 0;
             
+            /*! @brief Fill in the metrics for the service.
+             @param metrics The gathered metrics. */
+            virtual void gatherMetrics(yarp::os::Bottle & metrics);
+            
             /*! @brief Return @c true if the streams are processing data and @c false otherwise.
              @returns @c true if the streams are processing data and @c false otherwise. */
             inline bool isActive(void)

@@ -603,7 +603,7 @@ or, if JSON--formatted output is requested:
 or, if tab--delimited output is requested, with tabs shown as
 `\texttt{\boldmath{$\vdash$}}':
 \outputBegin{}
-1.4.11\pseudotab{}2.3.61\pseudotab{}6.2.6
+1.4.14\pseudotab{}2.3.61\pseudotab{}6.2.6
 \outputEnd{}
 \tertiaryEnd{\utilityNameE{mpmVersion}}
 \secondaryEnd{}
@@ -619,6 +619,10 @@ It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{resetcounter} an
 companion application \utilityNameR{mpmRequestCounterClient} to manage the statistics
 that it gathers.\\
 
+The application also has one optional parameter:
+\begin{itemize}
+\item \textbf{-r:} report the service metrics when the application exits
+\end{itemize}
 Note that only one copy of the \utilityNameX{mpmRequestCounterService} application can be
 running at a time in an \mplusm{} installation, due to its fixed \yarp{} network port.
 \tertiaryEnd{\utilityNameE{mpmRequestCounterService}}

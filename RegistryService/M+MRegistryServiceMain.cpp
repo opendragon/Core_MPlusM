@@ -39,9 +39,14 @@
 #include "M+MRegistryService.h"
 
 #include <mpm/M+MRequests.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
+
+#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
+# include <mpm/getopt.h>
+#endif //(! MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -70,6 +75,9 @@ using namespace MplusM::Common;
 #else // ! defined(MpM_UseDiskDatabase)
 # define USE_INMEMORY true
 #endif // ! defined(MpM_UseDiskDatabase)
+
+/*! @brief The accepted command line arguments for the service. */
+#define REGISTRYSERVICE_OPTIONS "r"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -102,6 +110,25 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool reportOnExit = false;
+        
+        opterr = 0; // Suppress the error message resulting from an unknown option.
+        for (int cc = getopt(argc, argv, REGISTRYSERVICE_OPTIONS); -1 != cc;
+             cc = getopt(argc, argv, REGISTRYSERVICE_OPTIONS))
+        {
+            switch (cc)
+            {
+                case 'r' :
+                    // Report metrics on exit
+                    reportOnExit = true;
+                    break;
+                    
+                default :
+                    // Ignore unknown options.
+                    break;
+                    
+            }
+        }
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork())
 #endif // CheckNetworkWorks_
@@ -111,23 +138,13 @@ int main(int      argc,
             Registry::RegistryService * stuff = NULL;
             
             Initialize(*argv);
-            if (1 <= argc)
+            if (optind >= argc)
             {
-                switch (argc)
-                {
-                        // Argument order for tests = program name [, port]
-                    case 1 :
-                        stuff = new Registry::RegistryService(*argv, USE_INMEMORY);
-                        break;
-                        
-                    case 2 :
-                        stuff = new Registry::RegistryService(*argv, USE_INMEMORY, argv[1]);
-                        break;
-                        
-                    default :
-                        break;
-                        
-                }
+                stuff = new Registry::RegistryService(*argv, USE_INMEMORY);
+            }
+            else if ((optind + 1) == argc)
+            {
+                stuff = new Registry::RegistryService(*argv, USE_INMEMORY, argv[optind]);
             }
             if (stuff)
             {
@@ -145,6 +162,13 @@ int main(int      argc,
 #else // ! defined(MpM_MainDoesDelayNotYield)
                         yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
+                    }
+                    if (reportOnExit)
+                    {
+                        yarp::os::Bottle metrics;
+                        
+                        stuff->gatherMetrics(metrics);
+                        Utilities::DisplayMetrics(metrics);
                     }
                     stuff->stop();
                 }

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MCountRequestHandler.h
+//  File:       mpm/M+MMetricsRequestHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for the standard 'count' request.
+//  Contains:   The class declaration for the request handler for the standard 'channels' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,12 +32,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-02-27
+//  Created:    2014-10-09
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMCountRequestHandler_H_))
-# define MpMCountRequestHandler_H_ /* Header guard */
+#if (! defined(MpMMetricsRequestHandler_H_))
+# define MpMMetricsRequestHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseRequestHandler.h>
 
@@ -47,7 +47,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for the standard 'count' request. */
+ @brief The class declaration for the request handler for the standard 'metrics' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -58,20 +58,20 @@ namespace MplusM
     {
         class BaseService;
         
-        /*! @brief The standard 'count' request handler.
+        /*! @brief The standard 'metrics' request handler.
          
-         There is no input for the request and the output is a pair of integers (the count, high
-         bits first) and a floating point value (the service time). */
-        class CountRequestHandler : public BaseRequestHandler
+         There is no input for the request and the output is a list of measurements for the channels
+         of the service. */
+        class MetricsRequestHandler : public BaseRequestHandler
         {
         public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            CountRequestHandler(BaseService & service);
+            MetricsRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
-            virtual ~CountRequestHandler(void);
+            virtual ~MetricsRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -97,7 +97,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(CountRequestHandler);
+            COPY_AND_ASSIGNMENT_(MetricsRequestHandler);
             
         public :
         
@@ -108,10 +108,10 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-        }; // CountRequestHandler
+        }; // MetricsRequestHandler
         
     } // Common
     
 } // MplusM
 
-#endif // ! defined(MpMCountRequestHandler_H_)
+#endif // ! defined(MpMMetricsRequestHandler_H_)

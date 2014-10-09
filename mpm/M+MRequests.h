@@ -71,9 +71,6 @@
 /*! @brief The standard name for the 'configure' request. */
 # define MpM_CONFIGURE_REQUEST      "configure"
 
-/*! @brief The standard name for the 'count' request. */
-# define MpM_COUNT_REQUEST          "count"
-
 /*! @brief The standard name for the 'detach' request. */
 # define MpM_DETACH_REQUEST         "detach"
 
@@ -94,6 +91,9 @@
 
 /*! @brief The name for a 'match' request. */
 # define MpM_MATCH_REQUEST          "match"
+
+/*! @brief The standard name for a 'metrics' request. */
+# define MpM_METRICS_REQUEST        "metrics"
 
 /*! @brief The standard name for a 'name' request. */
 # define MpM_NAME_REQUEST           "name"

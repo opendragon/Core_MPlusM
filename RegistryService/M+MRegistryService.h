@@ -196,6 +196,10 @@ namespace MplusM
              @param channels The list of channels to be filled in. */
             virtual void fillInSecondaryOutputChannelsList(Common::ChannelVector & channels);
             
+            /*! @brief Fill in the metrics for the service.
+             @param metrics The gathered metrics. */
+            virtual void gatherMetrics(yarp::os::Bottle & metrics);
+            
             /*! @brief Return @c true if the service is active.
              @returns @c true if the service is active and @c false otherwise. */
             inline bool isActive(void)
