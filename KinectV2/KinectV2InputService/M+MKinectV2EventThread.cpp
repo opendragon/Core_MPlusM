@@ -153,14 +153,14 @@ static void addJointToList(yarp::os::Bottle &            listToUpdate,
                            const JointOrientation &      orientationData)
 {
     // If we can't find either of these joints, exit
-    if (TrackingState_NotTracked != jointData.TrackingState))
+    if (TrackingState_NotTracked != jointData.TrackingState)
     {
         // Don't process if point is inferred
-        if (TrackingState_Inferred != jointData.TrackingState))
+        if (TrackingState_Inferred != jointData.TrackingState)
         {
             yarp::os::Property & jointProps = listToUpdate.addDict();
             
-            boneProps.put("tag", jointTag);
+            jointProps.put("tag", jointTag);
             add3VectorToDictionary(jointProps, "position", jointData.Position);
             add4VectorToDictionary(jointProps, "orientation", orientationData.Orientation);
         }
