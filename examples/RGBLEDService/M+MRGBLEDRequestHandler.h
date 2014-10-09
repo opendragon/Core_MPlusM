@@ -40,10 +40,9 @@
 //--------------------------------------------------------------------------------------
 
 #if (! defined(MpMRGBLEDRequestHandler_H_))
-/*! @brief Header guard. */
-# define MpMRGBLEDRequestHandler_H_ /* */
+# define MpMRGBLEDRequestHandler_H_ /* Header guard */
 
-# include "M+MBaseRequestHandler.h"
+# include <mpm/M+MBaseRequestHandler.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -60,15 +59,17 @@ namespace MplusM
 {
     namespace Example
     {
+        class RGBLEDService;
+        
         /*! @brief The example 'echo' request handler.
          
          The input is a list of strings and the output is the same list of strings. */
         class RGBLEDRequestHandler : public Common::BaseRequestHandler
         {
-        public:
+        public :
             
             /*! @brief The constructor. */
-            RGBLEDRequestHandler(void);
+            RGBLEDRequestHandler(RGBLEDService & service);
             
             /*! @brief The destructor. */
             virtual ~RGBLEDRequestHandler(void);
@@ -93,9 +94,17 @@ namespace MplusM
                                         const yarp::os::ConstString & senderChannel,
                                         yarp::os::ConnectionWriter *  replyMechanism);
             
-        protected:
+        protected :
             
-        private:
+        private :
+            
+            COPY_AND_ASSIGNMENT_(EchoRequestHandler);
+
+        public :
+            
+        protected :
+
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;

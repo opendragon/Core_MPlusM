@@ -40,7 +40,8 @@
 //--------------------------------------------------------------------------------------
 
 #include "M+MRGBLEDRequestHandler.h"
-#include "M+MEchoRequests.h"
+#include "M+MRGBLEDRequests.h"
+#include "M+MRGBLEDService.h"
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
@@ -79,10 +80,11 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RGBLEDRequestHandler::RGBLEDRequestHandler(void) :
-        inherited(MpM_ECHO_REQUEST)
+RGBLEDRequestHandler::RGBLEDRequestHandler(RGBLEDService & service) :
+        inherited(MpM_ECHO_REQUEST, service)
 {
     OD_LOG_ENTER();//####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this);//####
 } // RGBLEDRequestHandler::RGBLEDRequestHandler
 
@@ -96,6 +98,10 @@ RGBLEDRequestHandler::~RGBLEDRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 void RGBLEDRequestHandler::fillInAliases(Common::StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
@@ -107,9 +113,12 @@ void RGBLEDRequestHandler::fillInAliases(Common::StringVector & alternateNames)
     OD_LOG_P1("alternateNames = ", &alternateNames);//####
     OD_LOG_OBJEXIT();//####
 } // RGBLEDRequestHandler::fillInAliases
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 void RGBLEDRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info)
+                                             yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
     OD_LOG_S1("request = ", request.c_str());//####
@@ -137,10 +146,14 @@ void RGBLEDRequestHandler::fillInDescription(const yarp::os::ConstString & reque
     OD_LOG_OBJEXIT();//####
 } // RGBLEDRequestHandler::fillInDescription
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool RGBLEDRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                        const Common::Package &       restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism)
+                                          const Common::Package &       restOfInput,
+                                          const yarp::os::ConstString & senderChannel,
+                                          yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -159,13 +172,7 @@ bool RGBLEDRequestHandler::processRequest(const yarp::os::ConstString & request,
         {
             Common::Package argsCopy(restOfInput);
             
-            if (! argsCopy.write(*replyMechanism))
-            {
-                OD_LOG("(! argsCopy.write(*replyMechanism))");//####
-#if defined(MpM_STALL_ON_SEND_PROBLEM)
-                Common::Stall();
-#endif // defined(MpM_STALL_ON_SEND_PROBLEM)
-            }
+            sendResponse(argsCopy, replyMechanism);
         }
     }
     catch (...)
@@ -176,6 +183,9 @@ bool RGBLEDRequestHandler::processRequest(const yarp::os::ConstString & request,
     OD_LOG_OBJEXIT_B(result);//####
     return result;
 } // RGBLEDRequestHandler::processRequest
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Accessors

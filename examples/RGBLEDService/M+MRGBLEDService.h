@@ -43,7 +43,7 @@
 /*! @brief Header guard. */
 # define MpMMRGBLEDService_H_ /* */
 
-# include "M+MRGBLEDService.h"
+# include <mpm/M+MBaseService.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -57,7 +57,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_ECHO_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "example/echo")
+# define DEFAULT_ECHO_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/echo")
 
 namespace MplusM
 {
@@ -68,17 +68,17 @@ namespace MplusM
         /*! @brief An example M+M service, handling 'echo' requests. */
         class RGBLEDService : public Common::BaseService
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
+             @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
-             @param serviceHostName The name or IP address of the machine running the service.
              @param servicePortNumber The port being used by the service. */
             RGBLEDService(const char *                  launchPath,
-                        const yarp::os::ConstString & serviceEndpointName,
-                        const yarp::os::ConstString & serviceHostName = "",
-                        const yarp::os::ConstString & servicePortNumber = "");
+                          const yarp::os::ConstString & tag,
+                          const yarp::os::ConstString & serviceEndpointName,
+                          const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~RGBLEDService(void);
@@ -91,30 +91,26 @@ namespace MplusM
              @returns @c true if the service was stopped and @c false it if was not. */
             virtual bool stop(void);
             
-        protected:
+        protected :
             
-        private:
+        private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
-            
-            /*! @brief Copy constructor.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RGBLEDService(const RGBLEDService & other);
-            
-            /*! @brief Assignment operator.
-             
-             Note - not implemented and private, to prevent unexpected copying.
-             @param other Another object to construct from. */
-            RGBLEDService & operator=(const RGBLEDService & other);
+            COPY_AND_ASSIGNMENT_(RGBLEDService);
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);
             
             /*! @brief Disable the standard request handlers. */
             void detachRequestHandlers(void);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
             
             /*! @brief The request handler for the 'echo' request. */
             RGBLEDRequestHandler * _echoHandler;

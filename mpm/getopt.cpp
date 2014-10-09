@@ -35,8 +35,6 @@
  
 #include <string.h>
 #include <stdio.h>
-#include "getopt.h"
-
  
 #define BADCH   (int)'?'
 #define BADARG  (int)':'

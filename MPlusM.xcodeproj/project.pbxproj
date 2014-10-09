@@ -362,6 +362,13 @@
 		DFCDE4F819E3029B0051D294 /* M+MFindServicesMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MFindServicesMain.cpp"; path = "FindServices/M+MFindServicesMain.cpp"; sourceTree = "<group>"; };
 		DFCDE4F919E595D90051D294 /* M+MBaseChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseChannel.cpp"; path = "mpm/M+MBaseChannel.cpp"; sourceTree = "<group>"; };
 		DFCDE4FA19E595D90051D294 /* M+MBaseChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseChannel.h"; path = "mpm/M+MBaseChannel.h"; sourceTree = "<group>"; };
+		DFCDE4FC19E6CE710051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RGBLEDService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFCDE4FD19E6CE710051D294 /* M+MRGBLEDRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRGBLEDRequestHandler.cpp"; path = "examples/RGBLEDService/M+MRGBLEDRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DFCDE4FE19E6CE710051D294 /* M+MRGBLEDRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRGBLEDRequestHandler.h"; path = "examples/RGBLEDService/M+MRGBLEDRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DFCDE4FF19E6CE710051D294 /* M+MRGBLEDRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRGBLEDRequests.h"; path = "examples/RGBLEDService/M+MRGBLEDRequests.h"; sourceTree = SOURCE_ROOT; };
+		DFCDE50019E6CE710051D294 /* M+MRGBLEDService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRGBLEDService.cpp"; path = "examples/RGBLEDService/M+MRGBLEDService.cpp"; sourceTree = SOURCE_ROOT; };
+		DFCDE50119E6CE710051D294 /* M+MRGBLEDService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRGBLEDService.h"; path = "examples/RGBLEDService/M+MRGBLEDService.h"; sourceTree = SOURCE_ROOT; };
+		DFCDE50219E6CE710051D294 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = examples/RGBLEDService/main.cpp; sourceTree = SOURCE_ROOT; };
 		DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MMovementDbClient.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DFE83AD119B671D1003A7EDE /* M+MMovementDbClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbClient.h"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.h"; sourceTree = SOURCE_ROOT; };
 		DFE83AD219B671D1003A7EDE /* M+MMovementDbClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbClientMain.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClientMain.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1124,6 +1131,7 @@
 				DF7784FA18ECA5F400BDC5C1 /* RandomNumberCommon */,
 				DFA3438518C91E2C0053B87C /* RandomNumberService */,
 				DF36EF14195A2D5A00E7D889 /* RecordIntegersService */,
+				DFCDE4FB19E6CE4C0051D294 /* RGBLEDService */,
 				DFA86D1E18E0E09E00A22941 /* RunningSumAdapter */,
 				DF4CCFD218FD903000713E54 /* RunningSumAltAdapter */,
 				DF2092E918D8F6110093D3DC /* RunningSumClient */,
@@ -1177,6 +1185,20 @@
 				DFCDE4F819E3029B0051D294 /* M+MFindServicesMain.cpp */,
 			);
 			name = FindServices;
+			sourceTree = "<group>";
+		};
+		DFCDE4FB19E6CE4C0051D294 /* RGBLEDService */ = {
+			isa = PBXGroup;
+			children = (
+				DFCDE4FC19E6CE710051D294 /* CMakeLists.txt */,
+				DFCDE4FD19E6CE710051D294 /* M+MRGBLEDRequestHandler.cpp */,
+				DFCDE4FE19E6CE710051D294 /* M+MRGBLEDRequestHandler.h */,
+				DFCDE4FF19E6CE710051D294 /* M+MRGBLEDRequests.h */,
+				DFCDE50019E6CE710051D294 /* M+MRGBLEDService.cpp */,
+				DFCDE50119E6CE710051D294 /* M+MRGBLEDService.h */,
+				DFCDE50219E6CE710051D294 /* main.cpp */,
+			);
+			name = RGBLEDService;
 			sourceTree = "<group>";
 		};
 		DFE83ABA19B661EB003A7EDE /* MovementDb */ = {

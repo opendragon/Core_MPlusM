@@ -41,6 +41,8 @@
 
 #include "M+MRGBLEDService.h"
 #include "M+MRGBLEDRequestHandler.h"
+#include "M+MRGBLEDRequests.h"
+
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
@@ -75,17 +77,18 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RGBLEDService::RGBLEDService(const char *                  launchPath,
-                         const yarp::os::ConstString & serviceEndpointName,
-                         const yarp::os::ConstString & serviceHostName,
-                         const yarp::os::ConstString & servicePortNumber) :
-        inherited(launchPath, true, MpM_ECHO_CANONICAL_NAME, "An example RGB LED service\n"
-                  "Requests: echo - send back any values given with the request", serviceEndpointName, serviceHostName,
+RGBLEDService::RGBLEDService(const yarp::os::ConstString & launchPath,
+                             const yarp::os::ConstString & tag,
+                             const yarp::os::ConstString & serviceEndpointName,
+                             const yarp::os::ConstString & servicePortNumber) :
+        inherited(ServiceKind::kServiceKindNormal, launchPath, tag, true, MpM_ECHO_CANONICAL_NAME,
+                  "An example RGB LED service",
+                  "echo - send back any values given with the request", serviceEndpointName,
                   servicePortNumber), _echoHandler(NULL)
 {
     OD_LOG_ENTER();//####
-    OD_LOG_S4("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName.c_str(),//####
-              "serviceHostName = ", serviceHostName.c_str(), "servicePortNumber = ", servicePortNumber.c_str());//####
+    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName.c_str(), "servicePortNumber = ", servicePortNumber);//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RGBLEDService::RGBLEDService
@@ -106,7 +109,7 @@ void RGBLEDService::attachRequestHandlers(void)
     OD_LOG_OBJENTER();//####
     try
     {
-        _echoHandler = new EchoRequestHandler;
+        _echoHandler = new RGBLEDRequestHandler(*this);
         if (_echoHandler)
         {
             registerRequestHandler(_echoHandler);
