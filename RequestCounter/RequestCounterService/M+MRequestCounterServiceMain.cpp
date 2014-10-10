@@ -186,7 +186,7 @@ int main(int      argc,
                             yarp::os::ConstString converted =
                                                         Utilities::ConvertMetricsToString(metrics);
                             
-                            cout << converted.c_str() << endl;
+                            std::cout << converted.c_str() << std::endl;
                         }
                         stuff->stop();
                     }
