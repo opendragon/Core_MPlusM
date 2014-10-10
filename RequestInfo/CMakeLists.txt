@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the ServiceLister application.
+#  Contains:   The CMAKE definitions for the RequestInfo application.
 #
 #  Written by: Norman Jaffe
 #

@@ -471,13 +471,14 @@ bool Utilities::CheckForRegistryService(const PortVector & ports)
     return result;
 } // Utilities::CheckForRegistryService
 
-void Utilities::DisplayMetrics(const yarp::os::Bottle & metrics,
-                               OutputFlavour            flavour)
+yarp::os::ConstString Utilities::ConvertMetricsToString(const yarp::os::Bottle & metrics,
+                                                        Common::OutputFlavour    flavour)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("metrics = ", &metrics); //####
-    bool sawSome = false;
-    int  tagWidth = 0;
+    bool                  sawSome = false;
+    int                   tagWidth = 0;
+    std::stringstream     result;
     
     // First, calculate the tag width:
     if (kOutputFlavourNormal == flavour)
@@ -514,7 +515,7 @@ void Utilities::DisplayMetrics(const yarp::os::Bottle & metrics,
     }
     if (kOutputFlavourJSON == flavour)
     {
-        std::cout << "[ ";
+        result << "[ ";
     }
     for (int ii = 0, maxm = metrics.size(); maxm > ii; ++ii)
     {
@@ -596,7 +597,7 @@ void Utilities::DisplayMetrics(const yarp::os::Bottle & metrics,
                         {
                             yarp::os::Value firstValue(theOutBytesAsList->get(0));
                             yarp::os::Value secondValue(theOutBytesAsList->get(1));
-
+                            
                             if (firstValue.isInt() && secondValue.isInt())
                             {
                                 outByteCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
@@ -631,54 +632,62 @@ void Utilities::DisplayMetrics(const yarp::os::Bottle & metrics,
                     switch (flavour)
                     {
                         case kOutputFlavourTabs :
-                            std::cout << theTagAsString.c_str() << "\t" << inByteCount << "\t" <<
+                            if (sawSome)
+                            {
+                                result << std::endl;
+                            }
+                            result << theTagAsString.c_str() << "\t" << inByteCount << "\t" <<
                                         outByteCount << "\t" << inMessageCount << "\t" <<
-                                        outMessageCount << std::endl;
+                                        outMessageCount;
                             break;
                             
                         case kOutputFlavourJSON :
                             if (sawSome)
                             {
-                                std::cout << ", ";
+                                result << ", ";
                             }
-                            sawSome = true;
-                            std::cout << T_("{ " CHAR_DOUBLEQUOTE "tag" CHAR_DOUBLEQUOTE ": "
+                            result << T_("{ " CHAR_DOUBLEQUOTE "tag" CHAR_DOUBLEQUOTE ": "
                                             CHAR_DOUBLEQUOTE) <<
-                                        SanitizeString(theTagAsString).c_str() <<
-                                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inBytes"
-                                           CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) << inByteCount <<
-                                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inMessages"
-                                           CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                                        inMessageCount << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
-                                                             "outBytes" CHAR_DOUBLEQUOTE ": "
-                                                             CHAR_DOUBLEQUOTE) << outByteCount <<
-                                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outMessages"
-                                           CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                                        outMessageCount << T_(CHAR_DOUBLEQUOTE " }");
+                                    SanitizeString(theTagAsString).c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inBytes"
+                                       CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) << inByteCount <<
+                                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inMessages"
+                                       CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                                    inMessageCount << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
+                                                         "outBytes" CHAR_DOUBLEQUOTE ": "
+                                                         CHAR_DOUBLEQUOTE) << outByteCount <<
+                                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outMessages"
+                                       CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                                    outMessageCount << T_(CHAR_DOUBLEQUOTE " }");
                             break;
                             
                         case kOutputFlavourNormal :
-                            std::cout.width(tagWidth);
-                            std::cout << theTagAsString.c_str() << ": [bytes in: " << inByteCount <<
+                            if (sawSome)
+                            {
+                                result << std::endl;
+                            }
+                            result.width(tagWidth);
+                            result << theTagAsString.c_str() << ": [bytes in: " << inByteCount <<
                                         ", out: " << outByteCount << ", messages in: " <<
-                                        inMessageCount << ", out: " << outMessageCount << "]" <<
-                                        std::endl;
+                                        inMessageCount << ", out: " << outMessageCount << "]";
                             break;
                             
                         default :
                             break;
                             
                     }
+                    sawSome = true;
                 }
             }
         }
     }
     if (kOutputFlavourJSON == flavour)
     {
-        std::cout << " ]" << std::endl;
+        result << " ]";
     }
-    OD_LOG_EXIT(); //####
-} // Utilities::DisplayMetrics
+    OD_LOG_EXIT_S(result.str()); //####
+    return result.str();
+} // Utilities::ConvertMetricsToString
 
 void Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
                                       ChannelVector &               inputs,

@@ -183,7 +183,10 @@ int main(int      argc,
                             yarp::os::Bottle metrics;
                             
                             stuff->gatherMetrics(metrics);
-                            Utilities::DisplayMetrics(metrics);
+                            yarp::os::ConstString converted =
+                                                        Utilities::ConvertMetricsToString(metrics);
+                            
+                            cout << converted.c_str() << endl;
                         }
                         stuff->stop();
                     }

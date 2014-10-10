@@ -55,7 +55,6 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 # Add ACE include directories
 include_directories(${ACE_INCLUDE_DIRS})
 
-
 if(APPLE)
 	set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
 	set(CMAKE_CXX_FLAGS "-stdlib=libstdc++" CACHE STRING "Fixes linking error for M+M/ACE" FORCE)
@@ -63,11 +62,12 @@ endif(APPLE)
 
 # Set up our program
 add_executable(mpmRGBLEDService
-               main.cpp
+               M+MRGBLEDServiceMain.cpp
 			   M+MRGBLEDRequestHandler.cpp
                M+MRGBLEDService.cpp)
 
-# Note that the order of inclusion of libraries is critical in Linux, as they appear to only be processed once.
+# Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
+# processed once.
 target_link_libraries(mpmRGBLEDService
                       mpmCommon
                       odLogging

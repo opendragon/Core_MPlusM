@@ -366,11 +366,13 @@
 		DFCDE4FF19E6CE710051D294 /* M+MRGBLEDRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRGBLEDRequests.h"; path = "examples/RGBLEDService/M+MRGBLEDRequests.h"; sourceTree = SOURCE_ROOT; };
 		DFCDE50019E6CE710051D294 /* M+MRGBLEDService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRGBLEDService.cpp"; path = "examples/RGBLEDService/M+MRGBLEDService.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCDE50119E6CE710051D294 /* M+MRGBLEDService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRGBLEDService.h"; path = "examples/RGBLEDService/M+MRGBLEDService.h"; sourceTree = SOURCE_ROOT; };
-		DFCDE50219E6CE710051D294 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = examples/RGBLEDService/main.cpp; sourceTree = SOURCE_ROOT; };
+		DFCDE50219E6CE710051D294 /* M+MRGBLEDServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRGBLEDServiceMain.cpp"; path = "examples/RGBLEDService/M+MRGBLEDServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCDE50319E6E9D70051D294 /* M+MSendReceiveCounters.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MSendReceiveCounters.cpp"; path = "mpm/M+MSendReceiveCounters.cpp"; sourceTree = "<group>"; };
 		DFCDE50419E6E9D70051D294 /* M+MSendReceiveCounters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "M+MSendReceiveCounters.h"; path = "mpm/M+MSendReceiveCounters.h"; sourceTree = "<group>"; };
 		DFCDE50519E7059B0051D294 /* M+MMetricsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMetricsRequestHandler.cpp"; path = "mpm/M+MMetricsRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCDE50619E7059B0051D294 /* M+MMetricsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMetricsRequestHandler.h"; path = "mpm/M+MMetricsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DFCDE50819E73A210051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ServiceMetrics/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFCDE50919E73A210051D294 /* M+MServiceMetricsMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MServiceMetricsMain.cpp"; path = "ServiceMetrics/M+MServiceMetricsMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MMovementDbClient.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DFE83AD119B671D1003A7EDE /* M+MMovementDbClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbClient.h"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.h"; sourceTree = SOURCE_ROOT; };
 		DFE83AD219B671D1003A7EDE /* M+MMovementDbClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbClientMain.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClientMain.cpp"; sourceTree = SOURCE_ROOT; };
@@ -923,6 +925,7 @@
 				DF06997C18ECBFB900FF0E93 /* RequestCounter */,
 				DF20929218D241270093D3DC /* RequestInfo */,
 				DF20928F18D0DAA50093D3DC /* ServiceLister */,
+				DFCDE50719E7393D0051D294 /* ServiceMetrics */,
 				DF06998E18EDD9F100FF0E93 /* SQLite3 */,
 				DFA4963A18FED31A005A7213 /* Version */,
 			);
@@ -1200,9 +1203,18 @@
 				DFCDE4FF19E6CE710051D294 /* M+MRGBLEDRequests.h */,
 				DFCDE50019E6CE710051D294 /* M+MRGBLEDService.cpp */,
 				DFCDE50119E6CE710051D294 /* M+MRGBLEDService.h */,
-				DFCDE50219E6CE710051D294 /* main.cpp */,
+				DFCDE50219E6CE710051D294 /* M+MRGBLEDServiceMain.cpp */,
 			);
 			name = RGBLEDService;
+			sourceTree = "<group>";
+		};
+		DFCDE50719E7393D0051D294 /* ServiceMetrics */ = {
+			isa = PBXGroup;
+			children = (
+				DFCDE50819E73A210051D294 /* CMakeLists.txt */,
+				DFCDE50919E73A210051D294 /* M+MServiceMetricsMain.cpp */,
+			);
+			name = ServiceMetrics;
 			sourceTree = "<group>";
 		};
 		DFE83ABA19B661EB003A7EDE /* MovementDb */ = {

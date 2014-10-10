@@ -196,11 +196,13 @@ namespace MplusM
          @returns @c true if the Registry Service port is present and @c false otherwise. */
         bool CheckForRegistryService(const PortVector & ports);
         
-        /*! @brief Print out the service metrics.
-         @param metrics The metrics to write out.
-         @param flavour The output format to be used. */
-        void DisplayMetrics(const yarp::os::Bottle & metrics,
-                            Common::OutputFlavour    flavour = Common::kOutputFlavourNormal);
+        /*! @brief Convert the service metrics into a string.
+         @param metrics The metrics to convert.
+         @param flavour The output format to be used.
+         @returns A string representation of the service metrics. */
+        yarp::os::ConstString ConvertMetricsToString(const yarp::os::Bottle & metrics,
+                                                     Common::OutputFlavour    flavour =
+                                                                    Common::kOutputFlavourNormal);
         
         /*! @brief Collect the input and output connections for a port.
          @param portName The port to be inspected.
