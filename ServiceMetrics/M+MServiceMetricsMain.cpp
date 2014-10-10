@@ -78,56 +78,6 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Process the response to the 'metrics' request sent to a service.
- @param flavour The format for the output.
- @param serviceName The name of the service that generated the response.
- @param response The response to be processed.
- @param sawResponse @c true if there was already a response output and @c false if this is the
- first.
- @returns @c true if some output was generated and @c false otherwise. */
-static bool processResponse(OutputFlavour                 flavour,
-                            const yarp::os::ConstString & serviceName,
-                            const ServiceResponse &       response,
-                            const bool                    sawResponse)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("serviceName = ", serviceName); //####
-    OD_LOG_P1("response = ", &response); //####
-    OD_LOG_B1("sawResponse = ", sawResponse); //####
-    bool                  result = (0 < response.count());
-    yarp::os::ConstString responseAsString = Utilities::ConvertMetricsToString(response.values(),
-                                                                               flavour);
-    
-    if (sawResponse)
-    {
-        switch (flavour)
-        {
-            case kOutputFlavourTabs :
-                cout << endl;
-                break;
-                
-            case kOutputFlavourJSON :
-                cout << "," << endl;
-                break;
-                
-            case kOutputFlavourNormal :
-                cout << endl << endl;
-                break;
-                
-            default :
-                break;
-                
-        }
-    }
-    if (kOutputFlavourNormal == flavour)
-    {
-        cout << SanitizeString(serviceName, true).c_str() << endl;
-    }
-    cout << responseAsString.c_str();
-    OD_LOG_EXIT_B(result); //####
-    return result;
-} // processResponse
-
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -217,94 +167,39 @@ int main(int      argc,
                         
                         if (matchesCount)
                         {
-                            yarp::os::ConstString aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
-                                                                               "metrics_/"
-                                                                           DEFAULT_CHANNEL_ROOT);
-                            ClientChannel *       newChannel = new ClientChannel;
+                            bool sawResponse = false;
                             
-                            if (newChannel)
+                            if (kOutputFlavourJSON == flavour)
                             {
-                                if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+                                cout << "[ ";
+                            }
+                            for (int ii = 0; ii < matchesCount; ++ii)
+                            {
+                                yarp::os::ConstString aMatch = matchesList->get(ii).toString();
+                                yarp::os::Bottle      metrics;
+                                
+                                if (Utilities::GetMetricsForService(aMatch, metrics,
+                                                                    STANDARD_WAIT_TIME))
+
                                 {
-                                    bool             sawRequestResponse = false;
-                                    yarp::os::Bottle parameters;
+                                    yarp::os::ConstString responseAsString =
+                                                        Utilities::ConvertMetricsToString(metrics,
+                                                                                          flavour);
                                     
-                                    if (kOutputFlavourJSON == flavour)
-                                    {
-                                        cout << "[ ";
-                                    }
-                                    for (int ii = 0; ii < matchesCount; ++ii)
-                                    {
-                                        yarp::os::ConstString aMatch =
-                                                                    matchesList->get(ii).toString();
-                                        
-                                        if (Utilities::NetworkConnectWithRetries(aName, aMatch,
-                                                                             STANDARD_WAIT_TIME))
-                                        {
-                                            ServiceResponse response;
-                                            ServiceRequest  request(MpM_METRICS_REQUEST,
-                                                                    parameters);
-                                            
-                                            if (request.send(*newChannel, &response))
-                                            {
-                                                if (0 < response.count())
-                                                {
-                                                    if (processResponse(flavour, aMatch, response,
-                                                                        sawRequestResponse))
-                                                    {
-                                                        sawRequestResponse = true;
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                OD_LOG("! (request.send(*newChannel, " //####
-                                                       "&response))"); //####
-#if MAC_OR_LINUX_
-                                                yarp::os::impl::Logger & theLogger = GetLogger();
-                                                
-                                                theLogger.fail(yarp::os::ConstString("Problem "
-                                                                                 "communicating "
-                                                                                     "with ") +
-                                                               aMatch + ".");
-#endif // MAC_OR_LINUX_
-                                            }
-#if defined(MpM_DoExplicitDisconnect)
-                                            if (! Utilities::NetworkDisconnectWithRetries(aName,
-                                                                                          aMatch,
-                                                                                STANDARD_WAIT_TIME))
-                                            {
-                                                OD_LOG("(! Utilities::Network" //####
-                                                       "DisconnectWithRetries(aName, " //####
-                                                       "aMatch, STANDARD_WAIT_TIME))"); //####
-                                            }
-#endif // defined(MpM_DoExplicitDisconnect)
-                                        }
-                                        else
-                                        {
-                                            OD_LOG("! (Utilities::NetworkConnect" //####
-                                                   "WithRetries(aName, aMatch, " //####
-                                                   "STANDARD_WAIT_TIME))"); //####
-                                        }
-                                    }
-                                    if (kOutputFlavourJSON == flavour)
-                                    {
-                                        cout << " ]";
-                                    }
-                                    if (sawRequestResponse)
-                                    {
-                                        cout << endl;
-                                    }
-                                    else
+                                    if (sawResponse)
                                     {
                                         switch (flavour)
                                         {
-                                            case kOutputFlavourJSON :
                                             case kOutputFlavourTabs :
+                                                cout << endl;
+                                                break;
+                                                
+                                            case kOutputFlavourJSON :
+                                                cout << "," << endl;
                                                 break;
                                                 
                                             case kOutputFlavourNormal :
-                                                cout << "No matching service found." << endl;
+                                                cout << endl << endl;
                                                 break;
                                                 
                                             default :
@@ -312,20 +207,38 @@ int main(int      argc,
                                                 
                                         }
                                     }
-#if defined(MpM_DoExplicitClose)
-                                    newChannel->close();
-#endif // defined(MpM_DoExplicitClose)
+                                    sawResponse = true;
+                                    if (kOutputFlavourNormal == flavour)
+                                    {
+                                        cout << SanitizeString(aMatch, true).c_str() << endl;
+                                    }
+                                    cout << responseAsString.c_str();
                                 }
-                                else
-                                {
-                                    OD_LOG("! (newChannel->openWithRetries(aName, " //####
-                                           "STANDARD_WAIT_TIME))"); //####
-                                }
-                                delete newChannel;
+                            }
+                            if (kOutputFlavourJSON == flavour)
+                            {
+                                cout << " ]";
+                            }
+                            if (sawResponse)
+                            {
+                                cout << endl;
                             }
                             else
                             {
-                                OD_LOG("! (newChannel)"); //####
+                                switch (flavour)
+                                {
+                                    case kOutputFlavourJSON :
+                                    case kOutputFlavourTabs :
+                                        break;
+                                        
+                                    case kOutputFlavourNormal :
+                                        cout << "No matching service found." << endl;
+                                        break;
+                                        
+                                    default :
+                                        break;
+                                        
+                                }
                             }
                         }
                         else

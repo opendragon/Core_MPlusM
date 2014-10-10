@@ -255,6 +255,19 @@ namespace MplusM
          @returns The global status reporter. */
         Common::ChannelStatusReporter * GetGlobalStatusReporter(void);
         
+        /*! @brief Retrieve the channel metrics for a service.
+         @param serviceChannelName The channel for the service.
+         @param metrics The metrics for the channels of a service.
+         @param timeToWait The number of seconds allowed before a failure is considered.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
+         @returns @c true if the service returned the desired information and @c false otherwise. */
+        bool GetMetricsForService(const yarp::os::ConstString & serviceChannelName,
+                                  yarp::os::Bottle &            metrics,
+                                  const double                  timeToWait,
+                                  Common::CheckFunction         checker = NULL,
+                                  void *                        checkStuff = NULL);
+        
         /*! @brief Retrieve the details for a service.
          @param serviceChannelName The channel for the service.
          @param descriptor The details for a service.
