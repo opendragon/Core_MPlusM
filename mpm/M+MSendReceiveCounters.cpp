@@ -38,6 +38,8 @@
 
 #include <mpm/M+MSendReceiveCounters.h>
 
+#include <mpm/M+MUtilities.h>
+
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -106,14 +108,19 @@ SendReceiveCounters::SendReceiveCounters(const int64_t initialInBytes,
 #endif // defined(__APPLE__)
 
 void SendReceiveCounters::addToList(yarp::os::Bottle &            counterList,
-                                    const yarp::os::ConstString & tag)
+                                    const yarp::os::ConstString & channel)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("counterList = ", &counterList); //####
-    OD_LOG_S1s("tag = ", tag); //####
+    OD_LOG_S1s("channel = ", channel); //####
+    char                 buffer1[DATE_TIME_BUFFER_SIZE];
+    char                 buffer2[DATE_TIME_BUFFER_SIZE];
     yarp::os::Property & props = counterList.addDict();
 
-    props.put(MpM_SENDRECEIVE_TAG_, tag);
+    Utilities::GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
+    props.put(MpM_SENDRECEIVE_CHANNEL_, channel);
+    props.put(MpM_SENDRECEIVE_DATE_, buffer1);
+    props.put(MpM_SENDRECEIVE_TIME_, buffer2);
     addLargeValueToDictionary(props, MpM_SENDRECEIVE_INBYTES_, _inBytes);
     addLargeValueToDictionary(props, MpM_SENDRECEIVE_INMESSAGES_, _inMessages);
     addLargeValueToDictionary(props, MpM_SENDRECEIVE_OUTBYTES_, _outBytes);

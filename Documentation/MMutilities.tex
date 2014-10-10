@@ -179,23 +179,23 @@ An example execution of the program, with the command--line option
 \asCode{-c 'tag!blurt'} provided, would have the following output if default formatting is
 used:
 \outputBegin{}
-/\textdollar{}ervice, /\serviceName/filter/truncatefloat, /blort
+/\dollarService, /\serviceName/filter/truncatefloat, /blort
 \outputEnd{}
 or, if JSON--formatted output is requested:
 \outputBegin{}
-\openSq{} "/\textdollar{}ervice", "/\serviceName/filter/truncatefloat", "/blort" \closeSq
+\openSq{} "/\dollarService", "/\serviceName/filter/truncatefloat", "/blort" \closeSq
 \outputEnd{}
 of, if tab--delimited output is requested, with tabs shown as
 `\texttt{\boldmath{$\vdash$}}':
 \outputBegin{}
-/\textdollar{}ervice\pseudotab/\serviceName/filter/truncatefloat\pseudotab/blort
+/\dollarService\pseudotab/\serviceName/filter/truncatefloat\pseudotab/blort
 \outputEnd{}
 If no criteria is provided on the command--line, and default formatting is used, with
 user input shown in bold, an example execution of the program could be:
 \outputBegin{}
 Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag!blurt}\\
-/\textdollar{}ervice, /\serviceName/filter/truncatefloat, /blort\\
+/\dollarService, /\serviceName/filter/truncatefloat, /blort\\
 Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag:blurt}\\
 /\serviceName/input/randomburst/blurt\\
@@ -205,8 +205,7 @@ or, it JSON--formatted output is requested:
 \outputBegin{}
 Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag!blurt}\\
-\openSq{} "/\textdollar{}ervice", "/\serviceName/filter/truncatefloat", "/blort"
-\closeSq{}\\
+\openSq{} "/\dollarService", "/\serviceName/filter/truncatefloat", "/blort" \closeSq{}\\
 Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag:blurt}\\
 \openSq{} "/\serviceName/input/randomburst/blurt" \closeSq{}\\
@@ -217,13 +216,14 @@ or, if tab--delimited output is requested, with tabs shown as
 \outputBegin{}
 Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag!blurt}\\
-/\textdollar{}ervice\pseudotab/\serviceName/filter/truncatefloat\pseudotab/blort\\
+/\dollarService\pseudotab/\serviceName/filter/truncatefloat\pseudotab/blort\\
 Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag:blurt}\\
 /\serviceName/input/randomburst/blurt\\
 Operation:\ \openSq{}f q\closeSq{}?\ \textbf{q}
 \outputEnd{}
 \tertiaryEnd{\utilityNameE{mpmFindServices}}
+\newpage
 \tertiaryStart{\utilityNameP{mpmPortLister}}
 The program \utilityNameX{mpmPortLister} displays the active \yarp{} ports and \mplusm{}
 entities.
@@ -255,14 +255,14 @@ For example, the default output could be:
 \outputBegin{}
 Ports:\\
 \settowidth{\utilLen}{Por}%
-/\textdollar{}ervice:\ Service registry port for 'Registry'.\\
+/\dollarService:\ Service registry port for 'Registry'.\\
 \hspace*{\utilLen}No active connections.\\
-/\textdollar{}ervice/status:\ Standard port at 10.0.1.2:10008.\\
+/\dollarService/status:\ Standard port at 10.0.1.2:10008.\\
 \hspace*{\utilLen}Output to /reader via UDP.\\
 /reader:\ Standard port at 10.0.1.2:10003.\\
 \hspace*{\utilLen}Input from /writer2 via TCP.\\
 \hspace*{\utilLen}Input from /writer via TCP.\\
-\hspace*{\utilLen}Input from /\textdollar{}ervice/status via UDP.\\
+\hspace*{\utilLen}Input from /\dollarService/status via UDP.\\
 /writer:\ Standard port at 10.0.1.2:10002.\\
 \hspace*{\utilLen}Output to /reader via TCP.\\
 /writer2:\ Standard port at 10.0.1.2:10004.\\
@@ -270,9 +270,9 @@ Ports:\\
 \outputEnd{}
 or, if JSON--formatted output is requested:
 \outputBegin{}
-\openSq{} \textbraceleft{} "PortName":\ "/\textdollar{}ervice",
-"PortClass":\ "Service~registry~port~for~'Registry'", "Inputs":\ \sqPair, "Outputs":\
-\sqPair{} \textbraceright{}, \textbraceleft{} "PortName":\ "/\textdollar{}ervice/status",
+\openSq{} \textbraceleft{} "PortName":\ "/\dollarService", "PortClass":\
+"Service~registry~port~for~'Registry'", "Inputs":\ \sqPair, "Outputs":\
+\sqPair{} \textbraceright{}, \textbraceleft{} "PortName":\ "/\dollarService/status",
 "PortClass":\ \\
 "Standard~port~at~10.0.1.2:10008", "Inputs":\ \sqPair, "Outputs":\ \openSq{}
 \textbraceleft{} "Port":\ \\
@@ -281,7 +281,7 @@ or, if JSON--formatted output is requested:
 "Standard~port~at~10.0.1.2:10003", "Inputs":\ \openSq{} \textbraceleft{} "Port":\
 "/writer2", "Mode":\ \\
 "TCP" \textbraceright{}, \textbraceleft{} "Port":\ "/writer", "Mode":\ "TCP"
-\textbraceright, \textbraceleft{} "Port":\ "/\textdollar{}ervice/status",\\
+\textbraceright, \textbraceleft{} "Port":\ "/\dollarService/status",\\
 "Mode":\ "UDP" \textbraceright{} \closeSq, "Outputs":\ \sqPair{} \textbraceright,
 \textbraceleft{} "PortName":\ "/writer", "PortClass":\ \\
 "Standard~port~at~10.0.1.2:10002", "Inputs":\ \sqPair, "Outputs":\ \openSq{}
@@ -295,12 +295,12 @@ or, if JSON--formatted output is requested:
 or, if tab--delimited output is requested, with tabs shown as
 `\texttt{\boldmath{$\vdash$}}':
 \outputBegin{}
-/\textdollar{}ervice\pseudotab{}Service~registry~port~for~'Registry'\\		
-/\textdollar{}ervice/status\pseudotab{}Standard~port~at~10.0.1.2:10008\pseudotab/%
+/\dollarService\pseudotab{}Service~registry~port~for~'Registry'\\		
+/\dollarService/status\pseudotab{}Standard~port~at~10.0.1.2:10008\pseudotab/%
 reader~UDP\\
 /reader\pseudotab{}Standard~port~at~10.0.1.2:10003\pseudotab/writer2~TCP,
 /writer~TCP,\\
-\hspace*{2em}/\textdollar{}ervice/status~UDP\\
+\hspace*{2em}/\dollarService/status~UDP\\
 /writer\pseudotab{}Standard~port~at~10.0.1.2:10002\pseudotab/reader~TCP\\
 /writer2\pseudotab{}Standard~port~at~10.0.1.2:10004\pseudotab/reader~TCP
 \outputEnd{}
@@ -360,7 +360,7 @@ For example, the default output when both the service and the request are specif
 be:
 \outputBegin{}
 \begin{tabular}{l@{\ }p{12.8cm}}
-Service Port:\ & /\textdollar{}ervice\\
+Service Port:\ & /\dollarService\\
 Request:\ & register\\
 Version:\ & 1.0\\
 Details:\ & Register the service and its requests\\
@@ -374,7 +374,7 @@ Outputs:\ & s\\
 \outputEnd{}
 or, if JSON--formatted output is requested:
 \outputBegin{}
-\openSq{} \textbraceleft{} "Port":\ "//\textdollar{}ervice", "Request":\ "register",
+\openSq{} \textbraceleft{} "Port":\ "/\dollarService", "Request":\ "register",
 "Version":\ "1.0", "Details":\ \\
 "Register the service and its requests\textbackslash{}nInput:\ the channel used by the\\
 service\textbackslash{}nOutput:\ OK or FAILED, with a description of the problem\\
@@ -385,8 +385,8 @@ encountered", "Keywords":\ \openSq{} "register", "add" \closeSq, "Inputs":\ "s",
 or, if tab--delimited output is requested, with tabs shown as
 `\texttt{\boldmath{$\vdash$}}':
 \outputBegin{}
-/\textdollar{}ervice\pseudotab{}register\pseudotab{}1.0\pseudotab{}Register the service
-and its requests\textbackslash{}nInput:\ the\\
+/\dollarService\pseudotab{}register\pseudotab{}1.0\pseudotab{}Register the service and its
+requests\textbackslash{}nInput:\ the\\
 channel used by the service\textbackslash{}nOutput:\ OK or FAILED, with a description of
 the\\
 problem encountered\pseudotab{}register add\pseudotab{}s\pseudotab{}s
@@ -451,7 +451,7 @@ For example, the default output could be:
 \begin{tabular}{l@{\ }p{12.8cm}}
 Services:\ & \\
 \\
-Service port:\ & /\textdollar{}ervice\\
+Service port:\ & /\dollarService\\
 Service name:\ & Registry\\
 Service kind:\ & Registry\\
 Description:\ & The Service Registry service\\
@@ -468,7 +468,7 @@ Requests:\ & associate - associate a channel with another channel\\
  & unregister - remove the information for a service on the\\
  & given channel\\
 Path:\ & \textellipsis/mpmRegistryService\\
-Secondary outputs:\ & /\textdollar{}ervice/status\textbraceleft{}protocol=s%
+Secondary outputs:\ & /\dollarService/status\textbraceleft{}protocol=s%
 \textbraceright\\
 \\
 Service port:\ & /\serviceName/input/randomburst\\
@@ -501,10 +501,10 @@ Secondary outputs:\ & /shorten/output\textbraceleft{}protocol=i+%
 \textbraceright
 \end{tabular}
 \outputEnd{}
-\newpage{}
+\newpage
 or, if JSON--formatted output is requested:
 \outputBegin{}
-\openSq{} \textbraceleft{} "ServicePort":\ "/\textdollar{}ervice", "ServiceName":\
+\openSq{} \textbraceleft{} "ServicePort":\ "/\dollarService", "ServiceName":\
 "Registry", "ServiceKind":\ \\
 "Registry", "Description":\ "The Service Registry service", "Requests":\ \\
 "associate - associate a channel with another channel\textbackslash{}ndisassociate - 
@@ -519,7 +519,7 @@ information for a service on the given channel\textbackslash{}nunregister - remo
 information for a service on the given channel", "Path":\ \\
 "\textellipsis/mpmRegistryService", "SecondaryInputs":\ \sqPair, "SecondaryOutputs":\
 \openSq{} \textbraceleft\\
-"Name":\ "/\textdollar{}ervice/status", "Protocol":\ "s" \textbraceright{} \closeSq{}
+"Name":\ "/\dollarService/status", "Protocol":\ "s" \textbraceright{} \closeSq{}
 \textbraceright, \textbraceleft{} "ServicePort":\ \\
 "/\serviceName/input/randomburst", "ServiceName":\ "RandomBurst", "ServiceKind":\ \\
 "Input", "Description":\ "The random burst input service", "Requests":\ \\
@@ -543,11 +543,12 @@ information for a service on the given channel", "Path":\ \\
 "/shorten/input", "Protocol":\ "d+" \textbraceright{} \closeSq, "SecondaryOutputs":\ 
 \openSq{} \textbraceleft{} "Name":\ \\
 "/shorten/output", "Protocol":\ "i+" \textbraceright{} \closeSq{} \textbraceright{}
-\closeSq \outputEnd{}
+\closeSq
+\outputEnd{}
 or, if tab--delimited output is requested, with tabs shown as
 `\texttt{\boldmath{$\vdash$}}':
 \outputBegin{}
-/\textdollar{}ervice\pseudotab{}Registry\pseudotab{}Registry\pseudotab{}The Service
+/\dollarService\pseudotab{}Registry\pseudotab{}Registry\pseudotab{}The Service
 Registry service\pseudotab{}associate - \\
 associate a channel with another channel\textbackslash{}ndisassociate - remove all\\
 associations for a channel\textbackslash{}ngetAssociates - return the associations of a\\
@@ -558,7 +559,7 @@ the information for a service on the given channel\textbackslash{}nregister - re
 information for a service on the given channel\textbackslash{}nunregister - remove the\\
 information for a service on the given channel\pseudotab\textellipsis/%
 mpmRegistryService\pseudotwotabs\\
-/\textdollar{}ervice/status\textbraceleft{}protocol=s\textbraceright\\
+/\dollarService/status\textbraceleft{}protocol=s\textbraceright\\
 
 /\serviceName/input/randomburst\pseudotab{}RandomBurst\pseudotab{}Input\pseudotab\\
 The random burst input service\pseudotwotabs\textellipsis/mpmRandomBurstService%
@@ -582,6 +583,121 @@ been added; in the actual output the paths would be absolute paths and there wou
 blank lines between the output rows.
 Note that, if no services are found, the output would be empty.
 \tertiaryEnd{\utilityNameE{mpmServiceLister}}
+\tertiaryStart{\utilityNameP{mpmServiceMetrics}}
+The program \utilityNameX{mpmServiceMetrics} displays measurements for the channels of one
+or more active services in the \mplusm{} installation.
+It lists each \yarp{} network port for the service and details about the activity on the
+channel.
+The program takes an optional argument for the \yarp{} network port of the service; if no
+port is specified, all services are displayed.
+It has two command--line options:
+\begin{itemize}
+\item \textbf{--j} generate JSON--formatted output
+\item \textbf{--t} generate output in tab--delimited form
+\end{itemize}
+If neither option is present, the output is written as simple text.\\
+
+The output consists of the \yarp{} network port that has been measured, the date and time
+of the measurement, the number of input and output bytes transferred and the number of
+input and output transfers.
+The primary \yarp{} network port for the service as well as its secondary ports are
+reported, along with an entry labelled `auxiliary', which represents any transient
+\yarp{} network ports that the service has used.\\
+
+All services use transient \yarp{} network ports to, at least, register themselves.\\
+
+For example, the default output could be (with the lines wrapped for clarity):
+\outputBegin{}
+/\dollarService\\
+\settowidth{\utilLen}{/status}%
+\hspace*{\utilLen}/\dollarService:\ \openSq{}date:\ 2014-10-10, time:\ 09:16:32,
+bytes in:\ 11221, out:\ 52535,\\
+\settowidth{\utilLen}{/Service/status: }%
+\hspace*{\utilLen}messages in:\ 265, out:\ 264\closeSq\\
+\settowidth{\utilLen}{/servi}%
+\hspace*{\utilLen}auxiliary:\ \openSq{}date:\ 2014-10-10, time:\ 09:16:32, bytes in:\ 0,
+out:\ 0, messages\\
+\settowidth{\utilLen}{/Service/status: }%
+\hspace*{\utilLen}in:\ 0, out:\ 0\closeSq\\
+/\dollarService/status:\ \openSq{}date:\ 2014-10-10, time:\ 09:16:32, bytes in:\ 0,
+out:\ 17292,\\
+\hspace*{\utilLen}messages in:\ 0, out:\ 176\closeSq\\
+
+/\serviceName/input/leapmotion\\
+\settowidth{\utilLen}{/output}%
+\hspace*{\utilLen}/\serviceName/input/leapmotion:\ \openSq{}date:\ 2014-10-10, time:\
+09:16:32, bytes in:\ \\
+\settowidth{\utilLen}{/xservicx/input/leapmotion/output: }%
+\hspace*{\utilLen}54, out:\ 4842, messages in:\ 3, out:\ 2\closeSq\\
+\settowidth{\utilLen}{/xservicx/input/leapmoti}%
+\hspace*{\utilLen}auxiliary:\ \openSq{}date: 2014-10-10, time: 09:16:32, bytes in:\ \\
+\settowidth{\utilLen}{/xservicx/input/leapmotion/output: }%
+\hspace*{\utilLen}15, out:\ 53, messages in:\ 1, out:\ 1\closeSq\\
+/\serviceName/input/leapmotion/output:\ \openSq{}date:\ 2014-10-10, time:\ 09:16:32, bytes
+in:\ \\
+\hspace*{\utilLen}0, out:\ 0, messages in:\ 0, out:\ 0\closeSq
+\outputEnd{}
+\newpage
+or, if JSON--formatted output is requested:
+\outputBegin{}
+\openSq{} \openSq{} \textbraceleft{} "channel":\ "/\dollarService", "date":\
+"2014-10-10", "time":\ "09:18:42", "inBytes":\ \\
+"12091", "inMessages":\ "285", "outBytes":\ "56155", "outMessages":\ "284"
+\textbraceright, \textbraceleft\\
+"channel":\ "auxiliary", "date":\ "2014-10-10", "time":\ "09:18:42", "inBytes":\ "0",\\
+"inMessages":\ "0", "outBytes":\ "0", "outMessages":\ "0" \textbraceright,
+\textbraceleft{} "channel":\ \\
+"/\dollarService/status", "date":\ "2014-10-10", "time":\ "09:18:42", "inBytes":\
+"0",\\
+"inMessages":\ "0", "outBytes":\ "18678", "outMessages":\ "190" \textbraceright{}
+\closeSq,\\
+\openSq{} \textbraceleft{} "channel":\ "/\serviceName/input/leapmotion", "date":\
+"2014-10-10", "time":\ \\
+"09:18:42", "inBytes":\ "94", "inMessages":\ "5", "outBytes":\ "6600", "outMessages":\ \\
+"4" \textbraceright, \textbraceleft{} "channel":\ "auxiliary", "date":\ "2014-10-10",
+"time":\ "09:18:42",\\
+"inBytes":\ "127", "inMessages":\ "15", "outBytes":\ "739", "outMessages":\ "15"
+\textbraceright,\\
+\textbraceleft{} "channel":\ "/\serviceName/input/leapmotion/output", "date":\
+"2014-10-10", "time":\ \\
+"09:18:42", "inBytes":\ "0", "inMessages":\ "0", "outBytes":\ "0", "outMessages":\ \\
+"0" \textbraceright{} \closeSq{} \closeSq
+\outputEnd{}
+or, if tab--delimited output is requested, with tabs shown as
+`\texttt{\boldmath{$\vdash$}}':
+\outputBegin{}
+/\dollarService\pseudotab{}2014-10-10\pseudotab{}09:16:54\pseudotab{}11460%
+\pseudotab{}54313\pseudotab{}271\pseudotab{}270\\
+auxiliary\pseudotab{}2014-10-10\pseudotab{}09:16:54\pseudotab{}0\pseudotab{}0\pseudotab{}%
+0\pseudotab{}0\\
+/\dollarService/status\pseudotab{}2014-10-10\pseudotab{}09:16:54\pseudotab{}0%
+\pseudotab{}17589\pseudotab{}0\pseudotab{}179\\
+/\serviceName/input/leapmotion\pseudotab{}2014-10-10\pseudotab{}09:16:54\pseudotab{}74%
+\pseudotab{}5721\pseudotab{}4\pseudotab{}3\\
+auxiliary\pseudotab{}2014-10-10\pseudotab{}09:16:54\pseudotab{}39\pseudotab{}200%
+\pseudotab{}4\pseudotab{}4\\
+/\serviceName/input/leapmotion/output\pseudotab{}2014-10-10\pseudotab{}09:16:54%
+\pseudotab{}0\pseudotab{}0\pseudotab{}0\pseudotab{}0
+\outputEnd{}
+For the default output, multiple entries will be separated by a blank line; for
+tab--delimited output each entry is on a line by itself and for JSON--formatted output,
+the entries are objects within an array.
+Note that, if no matching request is found, the JSON--formatted output would be:
+\outputBegin{}
+\sqPair
+\outputEnd{}
+while the default output would be:
+\outputBegin{}
+No matching request found.
+\outputEnd{}
+and the tab--delimited output would be empty.
+If no matching service is found, the default output would be:
+\outputBegin{}
+No services found.
+\outputEnd{}
+and the JSON--formatted and tab--delimited outputs would be empty.
+\tertiaryEnd{\utilityNameE{mpmServiceMetrics}}
+\newpage
 \tertiaryStart{\utilityNameP{mpmVersion}}
 The program \utilityNameX{mpmVersion} displays the version numbers for \mplusm{}, \yarp{}
 and ACE, the low--level networking layer used by \mplusm{} and \yarp{}.
@@ -594,11 +710,11 @@ If neither option is present, the output is written as simple text.\\
 
 For example, the default output could be:
 \outputBegin{}
-Movement And Meaning Version:\ 1.4.11, YARP Version:\ 2.3.61, ACE Version:\ 6.2.6
+Movement And Meaning Version:\ 1.4.14, YARP Version:\ 2.3.61, ACE Version:\ 6.2.6
 \outputEnd{}
 or, if JSON--formatted output is requested:
 \outputBegin{}
-\textbraceleft{} "M+M":\ "1.4.11", "YARP":\ "2.3.61", "ACE":\ "6.2.6" \textbraceright
+\textbraceleft{} "M+M":\ "1.4.14", "YARP":\ "2.3.61", "ACE":\ "6.2.6" \textbraceright
 \outputEnd{}
 or, if tab--delimited output is requested, with tabs shown as
 `\texttt{\boldmath{$\vdash$}}':
@@ -648,7 +764,7 @@ How many requests? \textbf{10000}\\
 count = 10000, elapsed time = 2.2 seconds, average time = 0.22 milliseconds.\\
 How many requests? \textbf{300000}\\
 count = 300000, elapsed time = 1.20052 minutes, average time = 0.240104 milliseconds.\\
-How many requests? \textbf{0}\\
+How many requests? \textbf{0}
 \outputEnd{}
 \tertiaryEnd{\utilityNameE{mpmRequestCounterClient}}
 \secondaryEnd{}

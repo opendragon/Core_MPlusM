@@ -78,7 +78,7 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Process the response to the 'list' request sent to a service.
+/*! @brief Process the response to the 'list' or 'info' request sent to a service.
  @param flavour The format for the output.
  @param serviceName The name of the service that generated the response.
  @param response The response to be processed.
@@ -91,7 +91,9 @@ static bool processResponse(OutputFlavour                 flavour,
                             const bool                    sawResponse)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S1s("serviceName = ", serviceName); //####
     OD_LOG_P1("response = ", &response); //####
+    OD_LOG_B1("sawResponse = ", sawResponse); //####
     bool                  result = false;
     yarp::os::ConstString cleanServiceName(SanitizeString(serviceName,
                                                           kOutputFlavourJSON != flavour));

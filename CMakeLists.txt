@@ -118,6 +118,7 @@ add_subdirectory(RegistryService)
 add_subdirectory(RequestCounter)
 add_subdirectory(RequestInfo)
 add_subdirectory(ServiceLister)
+add_subdirectory(ServiceMetrics)
 add_subdirectory(Version)
 
 enable_testing()

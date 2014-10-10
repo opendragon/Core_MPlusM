@@ -477,7 +477,7 @@ yarp::os::ConstString Utilities::ConvertMetricsToString(const yarp::os::Bottle &
     OD_LOG_ENTER(); //####
     OD_LOG_P1("metrics = ", &metrics); //####
     bool                  sawSome = false;
-    int                   tagWidth = 0;
+    int                   channelWidth = 0;
     std::stringstream     result;
     
     // First, calculate the tag width:
@@ -495,17 +495,17 @@ yarp::os::ConstString Utilities::ConvertMetricsToString(const yarp::os::Bottle &
                 {
                     yarp::os::ConstString theTagAsString;
                     
-                    if (propList->check(MpM_SENDRECEIVE_TAG_))
+                    if (propList->check(MpM_SENDRECEIVE_CHANNEL_))
                     {
-                        yarp::os::Value theTag = propList->find(MpM_SENDRECEIVE_TAG_);
+                        yarp::os::Value theChannel = propList->find(MpM_SENDRECEIVE_CHANNEL_);
                         
-                        if (theTag.isString())
+                        if (theChannel.isString())
                         {
-                            int ww = theTag.toString().size();
+                            int ww = theChannel.toString().size();
                             
-                            if (tagWidth < ww)
+                            if (channelWidth < ww)
                             {
-                                tagWidth = ww;
+                                channelWidth = ww;
                             }
                         }
                     }
@@ -531,19 +531,39 @@ yarp::os::ConstString Utilities::ConvertMetricsToString(const yarp::os::Bottle &
                 yarp::os::Bottle *    theInMessagesAsList = NULL;
                 yarp::os::Bottle *    theOutBytesAsList = NULL;
                 yarp::os::Bottle *    theOutMessagesAsList = NULL;
-                yarp::os::ConstString theTagAsString;
+                yarp::os::ConstString theChannelAsString;
+                yarp::os::ConstString theDateAsString;
+                yarp::os::ConstString theTimeAsString;
                 int64_t               inByteCount = 0;
                 int64_t               inMessageCount = 0;
                 int64_t               outByteCount = 0;
                 int64_t               outMessageCount = 0;
                 
-                if (propList->check(MpM_SENDRECEIVE_TAG_))
+                if (propList->check(MpM_SENDRECEIVE_CHANNEL_))
                 {
-                    yarp::os::Value theTag = propList->find(MpM_SENDRECEIVE_TAG_);
+                    yarp::os::Value theChannel = propList->find(MpM_SENDRECEIVE_CHANNEL_);
                     
-                    if (theTag.isString())
+                    if (theChannel.isString())
                     {
-                        theTagAsString = theTag.toString();
+                        theChannelAsString = theChannel.toString();
+                    }
+                }
+                if (propList->check(MpM_SENDRECEIVE_DATE_))
+                {
+                    yarp::os::Value theDate = propList->find(MpM_SENDRECEIVE_DATE_);
+                    
+                    if (theDate.isString())
+                    {
+                        theDateAsString = theDate.toString();
+                    }
+                }
+                if (propList->check(MpM_SENDRECEIVE_TIME_))
+                {
+                    yarp::os::Value theTime = propList->find(MpM_SENDRECEIVE_TIME_);
+                    
+                    if (theTime.isString())
+                    {
+                        theTimeAsString = theTime.toString();
                     }
                 }
                 if (propList->check(MpM_SENDRECEIVE_INBYTES_))
@@ -636,9 +656,10 @@ yarp::os::ConstString Utilities::ConvertMetricsToString(const yarp::os::Bottle &
                             {
                                 result << std::endl;
                             }
-                            result << theTagAsString.c_str() << "\t" << inByteCount << "\t" <<
-                                        outByteCount << "\t" << inMessageCount << "\t" <<
-                                        outMessageCount;
+                            result << theChannelAsString.c_str() << "\t" <<
+                                    theDateAsString.c_str() << "\t" << theTimeAsString.c_str() <<
+                                    "\t" << inByteCount << "\t" << outByteCount << "\t" <<
+                                    inMessageCount << "\t" << outMessageCount;
                             break;
                             
                         case kOutputFlavourJSON :
@@ -646,16 +667,24 @@ yarp::os::ConstString Utilities::ConvertMetricsToString(const yarp::os::Bottle &
                             {
                                 result << ", ";
                             }
-                            result << T_("{ " CHAR_DOUBLEQUOTE "tag" CHAR_DOUBLEQUOTE ": "
+                            result << T_("{ " CHAR_DOUBLEQUOTE "channel" CHAR_DOUBLEQUOTE ": "
                                             CHAR_DOUBLEQUOTE) <<
-                                    SanitizeString(theTagAsString).c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inBytes"
-                                       CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) << inByteCount <<
-                                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inMessages"
+                                    SanitizeString(theChannelAsString).c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "date"
                                        CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                                    inMessageCount << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
-                                                         "outBytes" CHAR_DOUBLEQUOTE ": "
-                                                         CHAR_DOUBLEQUOTE) << outByteCount <<
+                                    theDateAsString.c_str() << T_(CHAR_DOUBLEQUOTE ", "
+                                                                  CHAR_DOUBLEQUOTE "time"
+                                                                  CHAR_DOUBLEQUOTE ": "
+                                                                  CHAR_DOUBLEQUOTE) <<
+                                    theTimeAsString.c_str() << T_(CHAR_DOUBLEQUOTE ", "
+                                                                  CHAR_DOUBLEQUOTE "inBytes"
+                                                                  CHAR_DOUBLEQUOTE ": "
+                                                                  CHAR_DOUBLEQUOTE) <<
+                                    inByteCount << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
+                                                      "inMessages" CHAR_DOUBLEQUOTE ": "
+                                                      CHAR_DOUBLEQUOTE) << inMessageCount <<
+                                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outBytes"
+                                       CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) << outByteCount <<
                                     T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outMessages"
                                        CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
                                     outMessageCount << T_(CHAR_DOUBLEQUOTE " }");
@@ -666,10 +695,12 @@ yarp::os::ConstString Utilities::ConvertMetricsToString(const yarp::os::Bottle &
                             {
                                 result << std::endl;
                             }
-                            result.width(tagWidth);
-                            result << theTagAsString.c_str() << ": [bytes in: " << inByteCount <<
-                                        ", out: " << outByteCount << ", messages in: " <<
-                                        inMessageCount << ", out: " << outMessageCount << "]";
+                            result.width(channelWidth);
+                            result << theChannelAsString.c_str() << ": [date: " <<
+                                    theDateAsString.c_str() << ", time: " <<
+                                    theTimeAsString.c_str() << ", bytes in: " << inByteCount <<
+                                    ", out: " << outByteCount << ", messages in: " <<
+                                    inMessageCount << ", out: " << outMessageCount << "]";
                             break;
                             
                         default :

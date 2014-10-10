@@ -54,6 +54,12 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief The property keyword for the measurements channel. */
+# define MpM_SENDRECEIVE_CHANNEL_     "channel"
+
+/*! @brief The property keyword for the date. */
+# define MpM_SENDRECEIVE_DATE_        "date"
+
 /*! @brief The property keyword for the number of received bytes. */
 # define MpM_SENDRECEIVE_INBYTES_     "inBytes"
 
@@ -66,8 +72,8 @@
 /*! @brief The property keyword for the number of sent messages. */
 # define MpM_SENDRECEIVE_OUTMESSAGES_ "outMessages"
 
-/*! @brief The property keyword for the measurements tag. */
-# define MpM_SENDRECEIVE_TAG_         "tag"
+/*! @brief The property keyword for the time. */
+# define MpM_SENDRECEIVE_TIME_        "time"
 
 namespace MplusM
 {
@@ -90,9 +96,9 @@ namespace MplusM
             
             /*! @brief Add a dictionary to a list from the send / receive counters.
              @param counterList The list to be modified.
-             @param tag The name associated with the counters. */
+             @param channel The channel associated with the counters. */
             void addToList(yarp::os::Bottle &            counterList,
-                           const yarp::os::ConstString & tag);
+                           const yarp::os::ConstString & channel);
             
             /*! @brief Reset the send / receive counters. */
             void clearCounters(void);
