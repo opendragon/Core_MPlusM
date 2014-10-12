@@ -44,11 +44,25 @@ add_executable(mpmLeapMotionInputService
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
+
 target_link_libraries(mpmLeapMotionInputService
-                      "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib"
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
+
+if (APPLE)
+	target_link_libraries("${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib")
+endif (APPLE)
+
+if (WIN32)
+	add_library(Leap SHARED IMPORTED)
+	set_property(TARGET Leap PROPERTY IMPORTED_LOCATION ${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll)
+	set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB ${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.lib)
+	target_link_libraries(mpmLeapMotionInputService Leap)
+
+	add_custom_command(TARGET mpmLeapMotionInputService POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib" $<TARGET_FILE_DIR:mpmLeapMotionInputService>)
+
+endif (WIN32)
 
 install(TARGETS mpmLeapMotionInputService DESTINATION bin)
 
