@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for a regitry check thread for M+M.
+//  Contains:   The class definition for a registry check thread for M+M.
 //
 //  Written by: Norman Jaffe
 //

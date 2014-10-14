@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MRegistryService.h"
+#include "M+MNameServerReportingThread.h"
 
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MUtilities.h>
@@ -152,9 +153,13 @@ int main(int      argc,
                 {
                     // Note that the Registry Service is self-registering... so we don't need to
                     // call RegisterLocalService() _or_ start a 'pinger'.
+                    Registry::NameServerReportingThread * reporter = new
+                                                                Registry::NameServerReportingThread;
+                    
                     StartRunning();
                     SetSignalHandlers(SignalRunningStop);
                     stuff->startChecker();
+                    reporter->start();
                     for ( ; IsRunning(); )
                     {
 #if defined(MpM_MainDoesDelayNotYield)
@@ -163,6 +168,12 @@ int main(int      argc,
                         yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
                     }
+                    reporter->stop();
+                    for ( ; reporter->isRunning(); )
+                    {
+                        yarp::os::Time::delay(PING_CHECK_INTERVAL / 3.1);
+                    }
+                    delete reporter;
                     if (reportOnExit)
                     {
                         yarp::os::Bottle metrics;

@@ -257,4 +257,7 @@
 /*! @brief Request/response dictionary key - version. */
 # define MpM_REQREP_DICT_VERSION_KEY     "version"
 
+/*! @brief The name server reporting service name. */
+# define MpM_MDNS_NAMESERVER_REPORT "_yarpns._tcp";
+
 #endif // ! defined(MpMRequests_H_)

@@ -101,10 +101,16 @@ set(MpM_SERVICE_BASE_NAME "/_service_/")
 set(MpM_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 set(MpM_SQLITE_DIR "${PROJECT_SOURCE_DIR}/SQLite3")
 
+if(WIN32)
+    set(BONJOUR_DIR "C:/Program Files/Bonjour SDK")
+endif(WIN32)
+
 configure_file("${MpM_SOURCE_DIR}/mpm/M+MConfig.h.in"
                 "${MpM_SOURCE_DIR}/mpm/M+MConfig.h")
 
 include_directories("${MpM_SOURCE_DIR}")
+
+include_directories("${BONJOUR_DIR}/Include")
 
 add_subdirectory(ClientList)
 add_subdirectory(CommonTests)

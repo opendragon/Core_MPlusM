@@ -277,6 +277,8 @@
 		DF385121198ACCFE00A0414E /* M+MStopStreamsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStopStreamsRequestHandler.h"; path = "mpm/M+MStopStreamsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF385122198ACCFE00A0414E /* M+MUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUtilities.cpp"; path = "mpm/M+MUtilities.cpp"; sourceTree = SOURCE_ROOT; };
 		DF385123198ACCFE00A0414E /* M+MUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUtilities.h"; path = "mpm/M+MUtilities.h"; sourceTree = SOURCE_ROOT; };
+		DF7F70E719EDBD9A0098ED43 /* M+MNameServerReportingThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNameServerReportingThread.h"; path = "RegistryService/M+MNameServerReportingThread.h"; sourceTree = "<group>"; };
+		DF7F70E819EDBD9A0098ED43 /* M+MNameServerReportingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNameServerReportingThread.cpp"; path = "RegistryService/M+MNameServerReportingThread.cpp"; sourceTree = "<group>"; };
 		DF824B4719C737F7004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Exemplars/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF824B7C19C744CC004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RecordIntegersService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF824B7D19C744CC004D13AC /* M+MRecordIntegersInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordIntegersInputHandler.cpp"; path = "examples/RecordIntegersService/M+MRecordIntegersInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -937,6 +939,8 @@
 				DF384FDF198A9CC500A0414E /* CMakeLists.txt */,
 				DF384FE2198A9CC500A0414E /* M+MColumnNameValidator.cpp */,
 				DF384FE3198A9CC500A0414E /* M+MColumnNameValidator.h */,
+				DF7F70E819EDBD9A0098ED43 /* M+MNameServerReportingThread.cpp */,
+				DF7F70E719EDBD9A0098ED43 /* M+MNameServerReportingThread.h */,
 				DF384FEE198A9CC500A0414E /* M+MRegistryCheckThread.cpp */,
 				DF384FEF198A9CC500A0414E /* M+MRegistryCheckThread.h */,
 				DF384FF0198A9CC500A0414E /* M+MRegistryService.cpp */,

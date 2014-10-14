@@ -668,7 +668,7 @@ yarp::os::ConstString Utilities::ConvertMetricsToString(const yarp::os::Bottle &
                                 result << ", ";
                             }
                             result << T_("{ " CHAR_DOUBLEQUOTE "channel" CHAR_DOUBLEQUOTE ": "
-                                            CHAR_DOUBLEQUOTE) <<
+                                         CHAR_DOUBLEQUOTE) <<
                                     SanitizeString(theChannelAsString).c_str() <<
                                     T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "date"
                                        CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<

@@ -49,6 +49,7 @@ add_executable(mpmRegistryService
                M+MDisassociateRequestHandler.cpp
                M+MGetAssociatesRequestHandler.cpp
                M+MMatchRequestHandler.cpp
+               M+MNameServerReportingThread.cpp
                M+MPingRequestHandler.cpp
                M+MRegisterRequestHandler.cpp
                M+MRegistryCheckThread.cpp
@@ -62,6 +63,11 @@ target_link_libraries(mpmRegistryService
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
+
+if(WIN32)
+    target_link_libraries(mpmRegistryService
+                            "${BONJOUR_DIR}/Lib/Win32/dnssd.lib")
+endif(WIN32)
 
 install(TARGETS mpmRegistryService DESTINATION bin)
 
