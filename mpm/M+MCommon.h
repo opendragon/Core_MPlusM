@@ -48,7 +48,7 @@
 # endif // ! defined(MAC_OR_LINUX_)
 
 /*! @brief @c TRUE if NetworkBase::checkNetwork() can be trusted and @c FALSE otherwise. */
-# define CheckNetworkWorks_ MAC_OR_LINUX_
+# define CheckNetworkWorks_ TRUE // MAC_OR_LINUX_
 
 # include <cctype>
 # include <csignal>
@@ -156,6 +156,9 @@
 
 /*! @brief The maximum number of retries before declaring failure, if not using timeouts. */
 # define MAX_RETRIES               7
+
+/*! @brief The time allowed for 'checkNetwork()'. */
+# define NETWORK_CHECK_TIMEOUT     (3.1 * ONE_SECOND_DELAY)
 
 /*! @brief The delay value corresponding to one second of delay. */
 # define ONE_SECOND_DELAY          1.0

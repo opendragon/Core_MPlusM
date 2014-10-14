@@ -137,7 +137,7 @@ int main(int      argc,
             }
         }
 #if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork())
+        if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
         {
             yarp::os::Network     yarp; // This is necessary to establish any connections to the
@@ -233,7 +233,7 @@ int main(int      argc,
 #if CheckNetworkWorks_
         else
         {
-            OD_LOG("! (yarp::os::Network::checkNetwork())"); //####
+            OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
 # if MAC_OR_LINUX_
             GetLogger().fail("YARP network not running.");
 # else // ! MAC_OR_LINUX_
