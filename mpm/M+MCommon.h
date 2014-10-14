@@ -48,7 +48,7 @@
 # endif // ! defined(MAC_OR_LINUX_)
 
 /*! @brief @c TRUE if NetworkBase::checkNetwork() can be trusted and @c FALSE otherwise. */
-# define CheckNetworkWorks_ TRUE // MAC_OR_LINUX_
+# define CheckNetworkWorks_ MAC_OR_LINUX_
 
 # include <cctype>
 # include <csignal>
