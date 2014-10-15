@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MUtilities.h>
+#include <mpm/M+MUtilities.h>
 #include <mpm/M+MBaseClient.h>
 #include <mpm/M+MClientChannel.h>
 #include <mpm/M+MRequests.h>
@@ -47,8 +48,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#include <dns_sd.h>
-#include <netdb.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -62,7 +61,6 @@
 # pragma clang diagnostic ignored "-Wunused-parameter"
 # pragma clang diagnostic ignored "-Wweak-vtables"
 #endif // defined(__APPLE__)
-#include <yarp/os/Face.h>
 #include <yarp/os/impl/BufferedConnectionWriter.h>
 #include <yarp/os/impl/NameConfig.h>
 #include <yarp/os/impl/PortCommand.h>
@@ -72,6 +70,13 @@
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
+
+// Note that the following must be after the YARP includes or else Windows compiles break.
+#include <dns_sd.h>
+
+#if MAC_OR_LINUX_
+# include <netdb.h>
+#endif // MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -119,6 +124,7 @@ static const char * kMagicName = "<!!!>";
 # define strtok_r strtok_s /* Equivalent routine for Windows. */
 #endif // defined (! MAC_OR_LINUX_)
 
+#if 0
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
@@ -134,16 +140,16 @@ static const char * kMagicName = "<!!!>";
  @param txtLen The length of the txt record, in bytes.
  @param txtRecord The service's primary txt record, in standard txt record format.
  @param context The context pointer that was passed by DNSServiceResolve. */
-static void resolveCallback(DNSServiceRef         service,
-                            DNSServiceFlags       flags,
-                            uint32_t              interfaceIndex,
-                            DNSServiceErrorType   errorCode,
-                            const char *          fullname,
-                            const char *          hosttarget,
-                            uint16_t              port, /* In network byte order */
-                            uint16_t              txtLen,
-                            const unsigned char * txtRecord,
-                            void *                context)
+static void DNSSD_API resolveCallback(DNSServiceRef         service,
+                                      DNSServiceFlags       flags,
+                                      uint32_t              interfaceIndex,
+                                      DNSServiceErrorType   errorCode,
+                                      const char *          fullname,
+                                      const char *          hosttarget,
+                                      uint16_t              port, /* In network byte order */
+                                      uint16_t              txtLen,
+                                      const unsigned char * txtRecord,
+                                      void *                context)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -159,7 +165,7 @@ static void resolveCallback(DNSServiceRef         service,
     lSawResolve = true;
     if (kDNSServiceErr_NoError == errorCode)
     {
-        hostent * hostAddress = gethostbyname(hosttarget);
+        struct hostent * hostAddress = gethostbyname(hosttarget);
 
         if (hostAddress)
         {
@@ -197,14 +203,14 @@ static void resolveCallback(DNSServiceRef         service,
  @param type The type of service that was registered.
  @param domain The domain on which the service was registered.
  @param context The context pointer that was passed by DNSServiceBrowse. */
-static void browseCallBack(DNSServiceRef       service,
-                           DNSServiceFlags     flags,
-                           uint32_t            interfaceIndex,
-                           DNSServiceErrorType errorCode,
-                           const char *        name,
-                           const char *        type,
-                           const char *        domain,
-                           void *              context)
+static void DNSSD_API browseCallBack(DNSServiceRef       service,
+                                     DNSServiceFlags     flags,
+                                     uint32_t            interfaceIndex,
+                                     DNSServiceErrorType errorCode,
+                                     const char *        name,
+                                     const char *        type,
+                                     const char *        domain,
+                                     void *              context)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -293,6 +299,7 @@ static void browseCallBack(DNSServiceRef       service,
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
+#endif//0
 
 /*! @brief Check if the response is for an input connection.
  @param response The response from the port that is being checked.
@@ -663,6 +670,7 @@ void Utilities::CheckForNameServerReporter(void)
     }
     if (! skipNameServerScan)
     {
+#if 0
         lSawBrowseAdd = false;
         DNSServiceRef       serviceRef = NULL;
         static const char * regType = MpM_MDNS_NAMESERVER_REPORT;
@@ -721,6 +729,7 @@ void Utilities::CheckForNameServerReporter(void)
             }
             DNSServiceRefDeallocate(serviceRef);
         }
+#endif//0
     }
     OD_LOG_EXIT(); //####
 } // Utilities::CheckForNameServerReporter

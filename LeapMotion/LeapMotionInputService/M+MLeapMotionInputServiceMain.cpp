@@ -111,9 +111,6 @@ int main(int      argc,
     {
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
-        char *                endPtr;
-        double                tempDouble;
-        int                   tempInt;
         yarp::os::ConstString tag;
 
         opterr = 0; // Suppress the error message resulting from an unknown option.
