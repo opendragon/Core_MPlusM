@@ -201,12 +201,13 @@ yarp::os::ConstString Common::GetRandomChannelName(const yarp::os::ConstString &
 #endif // ! MAC_OR_LINUX_
 void Common::Initialize(const char * progName)
 {
-#if (! defined(MpM_ChattyStart))
+#if ((! defined(MpM_ChattyStart)) && (! defined(OD_ENABLE_LOGGING)))
 # if MAC_OR_LINUX_
 #  pragma unused(progName)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(MpM_ChattyStart)
+#endif // (! defined(MpM_ChattyStart)) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_ENTER(); //####
+    OD_LOG_S1("progName = ", progName); //####
     try
     {
 #if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))

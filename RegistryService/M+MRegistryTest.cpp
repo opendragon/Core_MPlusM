@@ -46,6 +46,7 @@
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -632,6 +633,8 @@ int main(int      argc,
     
     try
     {
+        // We normally call CheckForNameServerReporter() here, but we should only run the tests with
+        // a valid YARP configuration.
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_

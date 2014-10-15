@@ -299,6 +299,7 @@ int main(int      argc,
     }
     try
     {
+        Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_

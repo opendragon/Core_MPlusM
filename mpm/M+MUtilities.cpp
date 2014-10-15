@@ -47,6 +47,8 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#include <dns_sd.h>
+#include <netdb.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -60,11 +62,13 @@
 # pragma clang diagnostic ignored "-Wunused-parameter"
 # pragma clang diagnostic ignored "-Wweak-vtables"
 #endif // defined(__APPLE__)
+#include <yarp/os/Face.h>
 #include <yarp/os/impl/BufferedConnectionWriter.h>
 #include <yarp/os/impl/NameConfig.h>
 #include <yarp/os/impl/PortCommand.h>
 #include <yarp/os/impl/Protocol.h>
 #include <yarp/os/impl/String.h>
+#include <yarp/os/impl/TcpFace.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -88,6 +92,16 @@ using namespace MplusM::Utilities;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The number of seconds to wait on a select() for mDNS operatios. */
+static const int kDNSWaitTime = 2;
+
+/*! @brief @c true once the first browse 'add' for the NameServerReporter has been seen. */
+static volatile bool lSawBrowseAdd = false;
+
+/*! @brief @c true once the resolve for the NameServerReporter has been seen. */
+static volatile bool lSawResolve = false;
+
+/*! @brief The global channel status reporter. */
 static ChannelStatusReporter * lReporter = NULL;
 
 /*! @brief The indicator string for the beginning of new information received. */
@@ -104,6 +118,181 @@ static const char * kMagicName = "<!!!>";
 //ASSUME WINDOWS
 # define strtok_r strtok_s /* Equivalent routine for Windows. */
 #endif // defined (! MAC_OR_LINUX_)
+
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
+/* @brief The mDNS resolve callback.
+ @param service The DNSServiceRef initialized by DNSServiceResolve.
+ @param flags The resolve result - @c kDNSServiceFlagsMoreComing.
+ @param interfaceIndex The interface on which the service was resolved.
+ @param errorCode @c kDNSServiceErr_NoError on success.
+ @param fullname The full service domain name.
+ @param hosttarget The target hostname of the machine providing the service.
+ @param port The port, in network byte order, on which connections are accepted for this service.
+ @param txtLen The length of the txt record, in bytes.
+ @param txtRecord The service's primary txt record, in standard txt record format.
+ @param context The context pointer that was passed by DNSServiceResolve. */
+static void resolveCallback(DNSServiceRef         service,
+                            DNSServiceFlags       flags,
+                            uint32_t              interfaceIndex,
+                            DNSServiceErrorType   errorCode,
+                            const char *          fullname,
+                            const char *          hosttarget,
+                            uint16_t              port, /* In network byte order */
+                            uint16_t              txtLen,
+                            const unsigned char * txtRecord,
+                            void *                context)
+{
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+    //#  pragma unused(service,flags,context)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_ENTER(); //####
+    OD_LOG_P3("service = ", service, "txtRecord = ", txtRecord, "context = ", context); //####
+    OD_LOG_L4("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ",//####
+              errorCode, "port = ", port); //####
+    OD_LOG_L1("txtLen = ", txtLen); //####
+    OD_LOG_S2("fullname = ", fullname, "hosttarget = ", hosttarget); //####
+    lSawResolve = true;
+    if (kDNSServiceErr_NoError == errorCode)
+    {
+        hostent * hostAddress = gethostbyname(hosttarget);
+
+        if (hostAddress)
+        {
+            in_addr * anAddress = reinterpret_cast<in_addr *>(hostAddress->h_addr_list[0]);
+            
+            if (anAddress)
+            {
+                const char *               addressAsString = inet_ntoa(*anAddress);
+                yarp::os::impl::NameConfig nc;
+                yarp::os::Contact          address(addressAsString, ntohs(port));
+                
+//                nc.setManualConfig(addressAsString, ntohs(port));
+                nc.setAddress(address);
+                nc.toFile();
+            }
+        }
+    }
+    DNSServiceRefDeallocate(service);
+    OD_LOG_EXIT(); //####
+} // resolveCallback
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
+
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
+/* @brief The mDNS browse callback.
+ @param service The DNSServiceRef initialized by DNSServiceBrowse.
+ @param flags The browse result - @c kDNSServiceFlagsAdd or @c kDNSServiceFlagsMoreComing.
+ @param interfaceIndex The interface on which the service is advertised.
+ @param errorCode @c kDNSServiceErr_NoError on success.
+ @param name The service name that was registered.
+ @param type The type of service that was registered.
+ @param domain The domain on which the service was registered.
+ @param context The context pointer that was passed by DNSServiceBrowse. */
+static void browseCallBack(DNSServiceRef       service,
+                           DNSServiceFlags     flags,
+                           uint32_t            interfaceIndex,
+                           DNSServiceErrorType errorCode,
+                           const char *        name,
+                           const char *        type,
+                           const char *        domain,
+                           void *              context)
+{
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(service,flags,context)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("service = ", service, "context = ", context); //####
+    OD_LOG_L3("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ",//####
+              errorCode); //####
+    if (kDNSServiceErr_NoError == errorCode)
+    {
+        if (flags & kDNSServiceFlagsAdd)
+        {
+            DNSServiceRefDeallocate(service);
+            lSawResolve = false;
+            DNSServiceRef       service2 = NULL;
+            DNSServiceErrorType err = DNSServiceResolve(&service2, 0, interfaceIndex, name, type,
+                                                        domain, resolveCallback, NULL);
+            
+            if (kDNSServiceErr_NoError == err)
+            {
+                // Wait for the resolver?
+                int            dns_sd_fd = DNSServiceRefSockFD(service2);
+                int            nfds = dns_sd_fd + 1;
+                fd_set         readfds;
+                struct timeval tv;
+                int            result;
+                
+                for ( ; ! lSawResolve; )
+                {
+                    FD_ZERO(&readfds);
+                    FD_SET(dns_sd_fd, &readfds);
+                    tv.tv_sec = kDNSWaitTime; // We don't want to wait forever.
+                    tv.tv_usec = 0;
+                    result = select(nfds, &readfds, NULL, NULL, &tv);
+                    if (0 < result)
+                    {
+                        DNSServiceErrorType err = kDNSServiceErr_NoError;
+                        
+                        if (FD_ISSET(dns_sd_fd, &readfds))
+                        {
+                            err = DNSServiceProcessResult(service2);
+                        }
+                        if (err)
+                        {
+                            std::cerr << "DNSServiceProcessResult returned " << err << std::endl;
+                            break;
+                        }
+                        
+                    }
+                    else if (0 != result)
+                    {
+                        int actErrno = errno;
+                        
+                        std::cerr << "select() returned " << result << " errno " << actErrno <<
+                                    " " << strerror(actErrno) << std::endl;
+                        if (EINTR != actErrno)
+                        {
+                            break;
+                        }
+                        
+                    }
+                    else
+                    {
+                        // Ran out of time - maybe there is no NameServerReporter running...
+                        break;
+                    }
+                    
+                }
+                DNSServiceRefDeallocate(service2);
+            }
+            else
+            {
+                std::cerr << "DNSServiceResolve returned " << err << std::endl;
+            }
+            lSawBrowseAdd = true;
+        }
+    }
+    else
+    {
+        std::cerr << "browseCallBack returned " << errorCode << std::endl;
+    }
+    OD_LOG_EXIT(); //####
+} // browseCallBack
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 /*! @brief Check if the response is for an input connection.
  @param response The response from the port that is being checked.
@@ -448,6 +637,93 @@ bool Utilities::AddConnection(const yarp::os::ConstString & fromPortName,
     OD_LOG_EXIT_B(result); //####
     return result;
 } // Utilities::AddConnection
+
+void Utilities::CheckForNameServerReporter(void)
+{
+    OD_LOG_ENTER(); //####
+    bool                       skipNameServerScan = false;
+    yarp::os::impl::NameConfig nc;
+
+    // First, see if there is a configuration file and it points to a real server.
+    if (nc.fromFile())
+    {
+        yarp::os::Contact address = nc.getAddress();
+        
+        if (address.isValid())
+        {
+            yarp::os::impl::TcpFace    aFace;
+            yarp::os::OutputProtocol * outp = aFace.write(address);
+            
+            if (outp)
+            {
+                delete outp;
+                skipNameServerScan = true;
+            }
+        }
+    }
+    if (! skipNameServerScan)
+    {
+        lSawBrowseAdd = false;
+        DNSServiceRef       serviceRef = NULL;
+        static const char * regType = MpM_MDNS_NAMESERVER_REPORT;
+        DNSServiceErrorType err = DNSServiceBrowse(&serviceRef, 0, 0, regType, NULL /* domain */,
+                                                   browseCallBack, NULL);
+        
+        if (kDNSServiceErr_NoError == err)
+        {
+            // handle events.
+            int            dns_sd_fd = DNSServiceRefSockFD(serviceRef);
+            int            nfds = dns_sd_fd + 1;
+            fd_set         readfds;
+            struct timeval tv;
+            int            result;
+            
+            for ( ; ! lSawBrowseAdd; )
+            {
+                FD_ZERO(&readfds);
+                FD_SET(dns_sd_fd, &readfds);
+                tv.tv_sec = kDNSWaitTime; // We don't want to wait forever.
+                tv.tv_usec = 0;
+                result = select(nfds, &readfds, NULL, NULL, &tv);
+                if (0 < result)
+                {
+                    DNSServiceErrorType err = kDNSServiceErr_NoError;
+                    
+                    if (FD_ISSET(dns_sd_fd, &readfds))
+                    {
+                        err = DNSServiceProcessResult(serviceRef);
+                    }
+                    if (err)
+                    {
+                        std::cerr << "DNSServiceProcessResult returned " << err << std::endl;
+                        break;
+                    }
+                    
+                }
+                else if (0 != result)
+                {
+                    int actErrno = errno;
+                    
+                    std::cerr << "select() returned " << result << " errno " << actErrno << " " <<
+                    strerror(actErrno) << std::endl;
+                    if (EINTR != actErrno)
+                    {
+                        break;
+                    }
+                    
+                }
+                else
+                {
+                    // Ran out of time - maybe there is no NameServerReporter running...
+                    break;
+                }
+                
+            }
+            DNSServiceRefDeallocate(serviceRef);
+        }
+    }
+    OD_LOG_EXIT(); //####
+} // Utilities::CheckForNameServerReporter
 
 bool Utilities::CheckForRegistryService(const PortVector & ports)
 {

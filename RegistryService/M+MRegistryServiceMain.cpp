@@ -130,6 +130,8 @@ int main(int      argc,
                     
             }
         }
+        // Note - no call to Utilities::CheckForNameServerReporter(), since this code sets up the
+        // NameServerReporter!
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_

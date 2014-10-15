@@ -191,6 +191,10 @@ namespace MplusM
                            Common::CheckFunction         checker = NULL,
                            void *                        checkStuff = NULL);
         
+        /*! @brief Check for the NameServerReporter mDNS entry and update the YARP information if
+         found. */
+        void CheckForNameServerReporter(void);
+
         /*! @brief Check if the Registry Service is active.
          @param ports The set of detected ports.
          @returns @c true if the Registry Service port is present and @c false otherwise. */

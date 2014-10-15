@@ -1531,6 +1531,7 @@ int main(int      argc,
     
     try
     {
+        Utilities::CheckForNameServerReporter();
         Utilities::SetUpGlobalStatusReporter();
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))

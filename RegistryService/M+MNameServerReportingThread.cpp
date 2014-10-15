@@ -66,6 +66,10 @@ using namespace MplusM::Registry;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 /*! @brief The mDNS registration callback.
  @param service The DNSServiceRef initialized by DNSServiceRegister.
  @param flags The flags for the registration.
@@ -82,6 +86,15 @@ static void DNSSD_API regCallback(DNSServiceRef       service,
                                   const char *        domain,
                                   void *              context)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(service,flags,context)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("service = ", service, "context = ", context); //####
+    OD_LOG_L2("flags = ", flags, "errorCode = ", errorCode); //####
+    OD_LOG_S3("name = ", name, "type = ", type, "domain = ", domain); //####
     if (kDNSServiceErr_NoError == errorCode)
     {
         std::cerr << "registered " << name << "." << type << domain << std::endl;
@@ -90,7 +103,11 @@ static void DNSSD_API regCallback(DNSServiceRef       service,
     {
         std::cerr << "not registered -> " << errorCode << std::endl;
     }
+    OD_LOG_EXIT(); //####
 } // regCallback
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -153,7 +170,7 @@ void NameServerReportingThread::run(void)
             int actErrno = errno;
             
             std::cerr << "select() returned " << result << " errno " << actErrno << " " <<
-            strerror(actErrno) << std::endl;
+                        strerror(actErrno) << std::endl;
             if (EINTR != actErrno)
             {
                 break;
@@ -167,7 +184,6 @@ void NameServerReportingThread::run(void)
 bool NameServerReportingThread::threadInit(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                  result;
     yarp::os::Contact     nsContact = yarp::os::Network::getNameServerContact();
     yarp::os::ConstString serverAddress = nsContact.getHost();
     int                   serverPort = nsContact.getPort();
@@ -185,8 +201,8 @@ bool NameServerReportingThread::threadInit(void)
                                                  NULL /* domain */, serverString /* host */,
                                                  htons(serverPort), 0, NULL, regCallback,
                                                  NULL);
-    
-    result = (kDNSServiceErr_NoError == err);
+    bool                result = (kDNSServiceErr_NoError == err);
+
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RegistryCheckThread::threadInit
