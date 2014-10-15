@@ -74,6 +74,10 @@
 // Note that the following must be after the YARP includes or else Windows compiles break.
 #include <dns_sd.h>
 
+#if defined(__APPLE__)
+# include "TargetConditionals.h"
+#endif // defined(__APPLE__)
+
 #if MAC_OR_LINUX_
 # include <netdb.h>
 #endif // MAC_OR_LINUX_
@@ -175,11 +179,25 @@ static void DNSSD_API resolveCallback(DNSServiceRef         service,
             {
                 const char *               addressAsString = inet_ntoa(*anAddress);
                 yarp::os::impl::NameConfig nc;
+#if defined(__APPLE__)
+# if (! TARGET_OS_IPHONE)
                 yarp::os::Contact          address(addressAsString, ntohs(port));
+# endif // ! TARGET_OS_IPHONE
+#else // ! defined(__APPLE__)
+                yarp::os::Contact          address(addressAsString, ntohs(port));
+#endif // ! defined(__APPLE__)
                 
-//                nc.setManualConfig(addressAsString, ntohs(port));
+#if defined(__APPLE__)
+# if TARGET_OS_IPHONE
+                nc.setManualConfig(addressAsString, ntohs(port));
+# else // ! TARGET_OS_IPHONE
                 nc.setAddress(address);
                 nc.toFile();
+# endif // ! TARGET_OS_IPHONE
+#else // ! defined(__APPLE__)
+                nc.setAddress(address);
+                nc.toFile();
+#endif // ! defined(__APPLE__)
             }
         }
     }
