@@ -40,7 +40,6 @@
 #include <mpm/M+MBaseInputHandlerCreator.h>
 #include <mpm/M+MChannelStatusReporter.h>
 #include <mpm/M+MException.h>
-#include <mpm/M+MSendReceiveCounters.h>
 #include <mpm/M+MServiceChannel.h>
 
 //#include <odl/ODEnableLogging.h>
