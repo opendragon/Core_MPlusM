@@ -46,8 +46,14 @@ add_executable(mpmKinectV2InputService
 # processed once.
 target_link_libraries(mpmKinectV2InputService
                       mpmCommon
+					  Kinect
                       odLogging
                       ${YARP_LIBRARIES})
+if(WIN32)
+	include_directories(${MpMKinectV2s_SOURCE_DIR}/KinectV2InputService/KinectLib/inc)
+	add_library(Kinect SHARED IMPORTED)
+	set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB ${MpMKinectV2s_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x86/Kinect20.lib)
+endif(WIN32)
 
 install(TARGETS mpmKinectV2InputService DESTINATION bin)
 
