@@ -76,7 +76,12 @@
 
 #if defined(__APPLE__)
 # include "TargetConditionals.h"
-#endif // defined(__APPLE__)
+# if (! TARGET_OS_IPHONE)
+#  define CONFIG_FILE_AVAILABLE_
+# endif // ! TARGET_OS_IPHONE
+#else // ! defined(__APPLE__)
+# define CONFIG_FILE_AVAILABLE_
+#endif // ! defined(__APPLE__)
 
 #if MAC_OR_LINUX_
 # include <netdb.h>
@@ -179,25 +184,16 @@ static void DNSSD_API resolveCallback(DNSServiceRef         service,
             {
                 const char *               addressAsString = inet_ntoa(*anAddress);
                 yarp::os::impl::NameConfig nc;
-#if defined(__APPLE__)
-# if (! TARGET_OS_IPHONE)
+#if defined(CONFIG_FILE_AVAILABLE_)
                 yarp::os::Contact          address(addressAsString, ntohs(port));
-# endif // ! TARGET_OS_IPHONE
-#else // ! defined(__APPLE__)
-                yarp::os::Contact          address(addressAsString, ntohs(port));
-#endif // ! defined(__APPLE__)
-                
-#if defined(__APPLE__)
-# if TARGET_OS_IPHONE
+#endif // ! defined(CONFIG_FILE_AVAILABLE_)
+
+#if defined(CONFIG_FILE_AVAILABLE_)
+                nc.setAddress(address);
+                nc.toFile();
+#else // ! defined(CONFIG_FILE_AVAILABLE_)
                 nc.setManualConfig(addressAsString, ntohs(port));
-# else // ! TARGET_OS_IPHONE
-                nc.setAddress(address);
-                nc.toFile();
-# endif // ! TARGET_OS_IPHONE
-#else // ! defined(__APPLE__)
-                nc.setAddress(address);
-                nc.toFile();
-#endif // ! defined(__APPLE__)
+#endif // ! defined(CONFIG_FILE_AVAILABLE_)
             }
         }
     }
