@@ -39,7 +39,7 @@
 # YARP needs CMake 2.6 or greater
 cmake_minimum_required(VERSION 2.6)
 
-project(M+MKinectV2s)
+project(M+MKinectV2)
 
 # Make some flags to control the build visible
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)

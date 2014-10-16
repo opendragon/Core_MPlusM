@@ -101,23 +101,25 @@ set(MpM_SERVICE_BASE_NAME "/_service_/")
 set(MpM_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 set(MpM_SQLITE_DIR "${PROJECT_SOURCE_DIR}/SQLite3")
 
-if(WIN32)
-    set(BONJOUR_DIR "C:/Program Files/Bonjour SDK")
-endif(WIN32)
-
 configure_file("${MpM_SOURCE_DIR}/mpm/M+MConfig.h.in"
                 "${MpM_SOURCE_DIR}/mpm/M+MConfig.h")
 
 include_directories("${MpM_SOURCE_DIR}")
 
-include_directories("${BONJOUR_DIR}/Include")
+
+if(WIN32)
+    set(BONJOUR_DIR "C:/Program Files/Bonjour SDK")
+    include_directories("${BONJOUR_DIR}/Include")
+endif(WIN32)
 
 add_subdirectory(ClientList)
 add_subdirectory(CommonTests)
 add_subdirectory(examples)
 add_subdirectory(FindServices)
 add_subdirectory(LeapMotion)
-add_subdirectory(KinectV2)
+if(WIN32)
+    add_subdirectory(KinectV2)
+endif(WIN32)
 add_subdirectory(mpm)
 add_subdirectory(odl)
 add_subdirectory(ParserTest)
