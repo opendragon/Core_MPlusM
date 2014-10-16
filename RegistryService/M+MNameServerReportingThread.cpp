@@ -78,13 +78,13 @@ using namespace MplusM::Registry;
  @param type The type of service that was registered.
  @param domain The domain on which the service was registered.
  @param context The context pointer that was passed by DSNServiceRegister. */
-static void DNSSD_API regCallback(DNSServiceRef       service,
-                                  DNSServiceFlags     flags,
-                                  DNSServiceErrorType errorCode,
-                                  const char *        name,
-                                  const char *        type,
-                                  const char *        domain,
-                                  void *              context)
+static void DNSSD_API registrationCallback(DNSServiceRef       service,
+                                           DNSServiceFlags     flags,
+                                           DNSServiceErrorType errorCode,
+                                           const char *        name,
+                                           const char *        type,
+                                           const char *        domain,
+                                           void *              context)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -104,7 +104,7 @@ static void DNSSD_API regCallback(DNSServiceRef       service,
         std::cerr << "not registered -> " << errorCode << std::endl;
     }
     OD_LOG_EXIT(); //####
-} // regCallback
+} // registrationCallback
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
@@ -197,10 +197,10 @@ bool NameServerReportingThread::threadInit(void)
             serverString = serverAddress.c_str();
         }
     }
-    DNSServiceErrorType err = DNSServiceRegister(&_serviceRef, 0, 0, NULL /* name */, regType,
-                                                 NULL /* domain */, serverString /* host */,
-                                                 htons(serverPort), 0, NULL, regCallback,
-                                                 NULL);
+    DNSServiceErrorType err = DNSServiceRegister(&_serviceRef, kDNSServiceFlagsNoAutoRename, 0,
+                                                 NULL /* name */, regType, NULL /* domain */,
+                                                 serverString /* host */, htons(serverPort), 0,
+                                                 NULL, registrationCallback, NULL);
     bool                result = (kDNSServiceErr_NoError == err);
 
     OD_LOG_OBJEXIT_B(result); //####
