@@ -51,4 +51,9 @@ target_link_libraries(mpmRunningSumClient
                       odLogging
                       ${YARP_LIBRARIES})
 
+if(WIN32)
+    target_link_libraries(mpmRunningSumClient
+                          ${BONJOUR_LIB})
+endif(WIN32)
+
 enable_testing()

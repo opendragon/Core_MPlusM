@@ -52,4 +52,9 @@ target_link_libraries(mpmChordGeneratorService
                       odLogging
                       ${YARP_LIBRARIES})
 
+if(WIN32)
+    target_link_libraries(mpmChordGeneratorService
+                          ${BONJOUR_LIB})
+endif(WIN32)
+
 enable_testing()

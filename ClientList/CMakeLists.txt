@@ -49,6 +49,11 @@ target_link_libraries(mpmClientList
                       odLogging
                       ${YARP_LIBRARIES})
 
+if(WIN32)
+    target_link_libraries(mpmClientList
+                          ${BONJOUR_LIB})
+endif(WIN32)
+
 install(TARGETS mpmClientList DESTINATION bin)
 
 enable_testing()

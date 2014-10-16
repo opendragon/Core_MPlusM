@@ -51,4 +51,9 @@ target_link_libraries(mpmEchoClient
                       odLogging
                       ${YARP_LIBRARIES})
 
+if(WIN32)
+    target_link_libraries(mpmEchoClient
+                          ${BONJOUR_LIB})
+endif(WIN32)
+
 enable_testing()

@@ -66,7 +66,7 @@ target_link_libraries(mpmRegistryService
 
 if(WIN32)
     target_link_libraries(mpmRegistryService
-                            "${BONJOUR_DIR}/Lib/Win32/dnssd.lib")
+                          ${BONJOUR_LIB})
 endif(WIN32)
 
 install(TARGETS mpmRegistryService DESTINATION bin)
@@ -94,6 +94,11 @@ target_link_libraries(mpmRegistryTest
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
+
+if(WIN32)
+    target_link_libraries(mpmRegistryTest
+                          ${BONJOUR_LIB})
+endif(WIN32)
 
 # Test create register service
 add_test(NAME TestCreateRegistryService1 COMMAND mpmRegistryTest 13)

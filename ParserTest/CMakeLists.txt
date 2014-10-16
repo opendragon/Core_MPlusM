@@ -56,6 +56,11 @@ target_link_libraries(mpmParserTest
                       odLogging
                       ${YARP_LIBRARIES})
 
+if(WIN32)
+    target_link_libraries(mpmParserTest
+                          ${BONJOUR_LIB})
+endif(WIN32)
+
 # Argument order for test 1 = expected result (t/f), string to match
 add_test(NAME TestParseValue1 COMMAND mpmParserTest 1 f "")
 add_test(NAME TestParseValue2 COMMAND mpmParserTest 1 t 42)

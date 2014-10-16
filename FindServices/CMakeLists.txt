@@ -49,6 +49,11 @@ target_link_libraries(mpmFindServices
                       odLogging
                       ${YARP_LIBRARIES})
 
+if(WIN32)
+    target_link_libraries(mpmFindServices
+                          ${BONJOUR_LIB})
+endif(WIN32)
+
 install(TARGETS mpmFindServices DESTINATION bin)
 
 enable_testing()

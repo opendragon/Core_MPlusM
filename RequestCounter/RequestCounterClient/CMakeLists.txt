@@ -51,6 +51,11 @@ target_link_libraries(mpmRequestCounterClient
                       odLogging
                       ${YARP_LIBRARIES})
 
+if(WIN32)
+    target_link_libraries(mpmRequestCounterClient
+                          ${BONJOUR_LIB})
+endif(WIN32)
+
 install(TARGETS mpmRequestCounterClient DESTINATION bin)
 
 enable_testing()

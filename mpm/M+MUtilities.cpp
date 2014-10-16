@@ -133,7 +133,6 @@ static const char * kMagicName = "<!!!>";
 # define strtok_r strtok_s /* Equivalent routine for Windows. */
 #endif // defined (! MAC_OR_LINUX_)
 
-#if 0
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
@@ -313,7 +312,6 @@ static void DNSSD_API browseCallBack(DNSServiceRef       service,
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
-#endif//0
 
 /*! @brief Check if the response is for an input connection.
  @param response The response from the port that is being checked.
@@ -666,6 +664,7 @@ void Utilities::CheckForNameServerReporter(void)
     yarp::os::impl::NameConfig nc;
 
     // First, see if there is a configuration file and it points to a real server.
+#if defined(CONFIG_FILE_AVAILABLE_)
     if (nc.fromFile())
     {
         yarp::os::Contact address = nc.getAddress();
@@ -682,9 +681,9 @@ void Utilities::CheckForNameServerReporter(void)
             }
         }
     }
+#endif // defined(CONFIG_FILE_AVAILABLE_)
     if (! skipNameServerScan)
     {
-#if 0
         lSawBrowseAdd = false;
         DNSServiceRef       serviceRef = NULL;
         static const char * regType = MpM_MDNS_NAMESERVER_REPORT;
@@ -743,7 +742,6 @@ void Utilities::CheckForNameServerReporter(void)
             }
             DNSServiceRefDeallocate(serviceRef);
         }
-#endif//0
     }
     OD_LOG_EXIT(); //####
 } // Utilities::CheckForNameServerReporter

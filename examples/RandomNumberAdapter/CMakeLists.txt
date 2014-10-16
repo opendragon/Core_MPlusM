@@ -54,4 +54,9 @@ target_link_libraries(mpmRandomNumberAdapter
                       odLogging
                       ${YARP_LIBRARIES})
 
+if(WIN32)
+    target_link_libraries(mpmRandomNumberAdapter
+                          ${BONJOUR_LIB})
+endif(WIN32)
+
 enable_testing()

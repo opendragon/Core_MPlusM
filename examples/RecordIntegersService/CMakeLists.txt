@@ -51,4 +51,9 @@ target_link_libraries(mpmRecordIntegersService
                       odLogging
                       ${YARP_LIBRARIES})
 
+if(WIN32)
+    target_link_libraries(mpmRecordIntegersService
+                          ${BONJOUR_LIB})
+endif(WIN32)
+
 enable_testing()

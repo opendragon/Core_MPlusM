@@ -66,6 +66,11 @@ target_link_libraries(mpmCommonTest
                       odLogging
                       ${YARP_LIBRARIES})
 
+if(WIN32)
+    target_link_libraries(mpmCommonTest
+                          ${BONJOUR_LIB})
+endif(WIN32)
+
 # Argument order for test 1 = endpoint name [, IP address / name [, port]]
 add_test(NAME TestCreateEndpoint1 COMMAND mpmCommonTest 1 "/service/test/createendpoint_1")
 add_test(NAME TestCreateEndpoint2 COMMAND mpmCommonTest 1 "/service/test/createendpoint_2" "12340")

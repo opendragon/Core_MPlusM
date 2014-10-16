@@ -60,9 +60,11 @@ if(WIN32)
 	set_property(TARGET Leap PROPERTY IMPORTED_LOCATION ${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll)
 	set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB ${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.lib)
 	target_link_libraries(mpmLeapMotionInputService
-                            Leap)
+                          ${BONJOUR_LIB}
+                          Leap)
 
-	add_custom_command(TARGET mpmLeapMotionInputService POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib" $<TARGET_FILE_DIR:mpmLeapMotionInputService>)
+	add_custom_command(TARGET mpmLeapMotionInputService POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+                        "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib" $<TARGET_FILE_DIR:mpmLeapMotionInputService>)
 
 endif(WIN32)
 

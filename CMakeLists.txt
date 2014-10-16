@@ -109,6 +109,7 @@ include_directories("${MpM_SOURCE_DIR}")
 
 if(WIN32)
     set(BONJOUR_DIR "C:/Program Files/Bonjour SDK")
+    set(BONJOUR_LIB "${BONJOUR_DIR}/Lib/Win32/dnssd.lib")
     include_directories("${BONJOUR_DIR}/Include")
 endif(WIN32)
 
