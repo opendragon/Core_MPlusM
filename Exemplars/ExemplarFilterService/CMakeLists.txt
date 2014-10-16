@@ -49,6 +49,11 @@ target_link_libraries(mpmExemplarFilterService
                       odLogging
                       ${YARP_LIBRARIES})
 
+if(WIN32)
+    target_link_libraries(mpmExemplarFilterService
+                            ${BONJOUR_LIB})
+endif(WIN32)
+
 install(TARGETS mpmExemplarFilterService DESTINATION bin)
 
 enable_testing()

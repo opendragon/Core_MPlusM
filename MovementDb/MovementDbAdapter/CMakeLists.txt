@@ -53,6 +53,11 @@ target_link_libraries(mpmMovementDbAdapter
                       odLogging
                       ${YARP_LIBRARIES})
 
+if(WIN32)
+    target_link_libraries(mpmMovementDbAdapter
+                            ${BONJOUR_LIB})
+endif(WIN32)
+
 install(TARGETS mpmMovementDbAdapter DESTINATION bin)
 
 enable_testing()
