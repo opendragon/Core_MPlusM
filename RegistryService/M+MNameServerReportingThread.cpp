@@ -189,6 +189,9 @@ bool NameServerReportingThread::threadInit(void)
     int                   serverPort = nsContact.getPort();
     const char *          serverString = NULL;
     static const char *   regType = MpM_MDNS_NAMESERVER_REPORT;
+    const int             versionStringLength = sizeof(MpM_MDNS_NAMESERVER_KEY "=") +
+                                                sizeof(MpM_MDNS_NAMESERVER_VERSION) - 2;
+    char                  versionString[versionStringLength + 3]; // pad with a couple of extras
     
     if (nsContact.isValid())
     {
@@ -197,10 +200,16 @@ bool NameServerReportingThread::threadInit(void)
             serverString = serverAddress.c_str();
         }
     }
+    // Build version string -
+    versionString[0] = versionStringLength;
+    strcpy(versionString + 1, MpM_MDNS_NAMESERVER_KEY "=");
+    strcpy(versionString + sizeof("txtvers="), MpM_MDNS_NAMESERVER_VERSION);
+    
     DNSServiceErrorType err = DNSServiceRegister(&_serviceRef, kDNSServiceFlagsNoAutoRename, 0,
                                                  NULL /* name */, regType, NULL /* domain */,
-                                                 serverString /* host */, htons(serverPort), 0,
-                                                 NULL, registrationCallback, NULL);
+                                                 serverString /* host */, htons(serverPort),
+                                                 versionStringLength + 1, versionString,
+                                                 registrationCallback, NULL);
     bool                result = (kDNSServiceErr_NoError == err);
 
     OD_LOG_OBJEXIT_B(result); //####

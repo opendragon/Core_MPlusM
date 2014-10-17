@@ -258,6 +258,12 @@
 # define MpM_REQREP_DICT_VERSION_KEY     "version"
 
 /*! @brief The name server reporting service name. */
-# define MpM_MDNS_NAMESERVER_REPORT "_yarpns._tcp";
+# define MpM_MDNS_NAMESERVER_REPORT  "_yarpns._tcp";
+
+/*! @brief The name server reporting service version number. */
+# define MpM_MDNS_NAMESERVER_VERSION "1"
+
+/*! @brief The name server reporting service version number key. */
+# define MpM_MDNS_NAMESERVER_KEY     "txtvers"
 
 #endif // ! defined(MpMRequests_H_)

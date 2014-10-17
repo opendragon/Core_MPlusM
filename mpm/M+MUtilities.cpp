@@ -106,7 +106,7 @@ using namespace MplusM::Utilities;
 #endif // defined(__APPLE__)
 
 /*! @brief The number of seconds to wait on a select() for mDNS operatios. */
-static const int kDNSWaitTime = 2;
+static const int kDNSWaitTime = 3;
 
 /*! @brief @c true once the first browse 'add' for the NameServerReporter has been seen. */
 static volatile bool lSawBrowseAdd = false;
@@ -169,8 +169,57 @@ static void DNSSD_API resolveCallback(DNSServiceRef         service,
               errorCode, "port = ", port); //####
     OD_LOG_L1("txtLen = ", txtLen); //####
     OD_LOG_S2("fullname = ", fullname, "hosttarget = ", hosttarget); //####
+    bool okToUse = false;
+    
+    if (0 < txtLen)
+    {
+        for (uint16_t indx = 0; indx < txtLen; )
+        {
+            uint16_t nextLen = txtRecord[indx];
+            
+            std::cerr << nextLen << std::endl;
+            if ((indx + nextLen) > txtLen)
+            {
+                break;
+            }
+            
+            // Extract the key
+            uint16_t jndx = indx + 1;
+            uint16_t maxj = indx + nextLen;
+            
+            for ( ; jndx <= maxj; ++jndx)
+            {
+                char aChar = txtRecord[jndx];
+                
+                if ('=' == aChar)
+                {
+                    break;
+                }
+                
+            }
+            // Extract the value
+            if ((jndx < maxj) && (sizeof(MpM_MDNS_NAMESERVER_KEY) == (jndx - indx)))
+            {
+                if (! strncmp(reinterpret_cast<const char *>(txtRecord + indx + 1),
+                              MpM_MDNS_NAMESERVER_KEY, sizeof(MpM_MDNS_NAMESERVER_KEY) - 1))
+                {
+                    std::stringstream buff1(MpM_MDNS_NAMESERVER_VERSION);
+                    std::string       inString(reinterpret_cast<const char *>(txtRecord + jndx + 1),
+                                               maxj - jndx);
+                    std::stringstream buff2(inString);
+                    int               thisVersion;
+                    int               otherVersion;
+                    
+                    buff1 >> thisVersion;
+                    buff2 >> otherVersion;
+                    okToUse = (thisVersion <= otherVersion);
+                }
+            }
+            indx += nextLen + 1;
+        }
+    }
     lSawResolve = true;
-    if (kDNSServiceErr_NoError == errorCode)
+    if ((kDNSServiceErr_NoError == errorCode) && okToUse)
     {
         struct hostent * hostAddress = gethostbyname(hosttarget);
 
