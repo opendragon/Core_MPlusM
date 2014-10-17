@@ -177,7 +177,6 @@ static void DNSSD_API resolveCallback(DNSServiceRef         service,
         {
             uint16_t nextLen = txtRecord[indx];
             
-            std::cerr << nextLen << std::endl;
             if ((indx + nextLen) > txtLen)
             {
                 break;
