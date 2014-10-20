@@ -185,8 +185,8 @@ int main(int      argc,
                                         
                                         if ((announcedTime + ANNOUNCE_INTERVAL) <= now)
                                         {
-                                            // Report associated channels again, in case the Service
-                                            // Registry has been restarted.
+                                            // Report associated channels again, in case the
+                                            // Registry Service has been restarted.
                                             announcedTime = now;
                                             stuff->addAssociatedChannel(inputChannel);
                                             stuff->addAssociatedChannel(outputChannel);

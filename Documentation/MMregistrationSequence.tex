@@ -1,9 +1,9 @@
 \ProvidesFile{MMregistrationSequence.tex}[v1.0.0]
 \appendixStart[RegistrationSequence]{\textitcorr{Registration~Sequence}}%
 
-A \requestsNameR{Service~Registry}{ServiceRegistry}{register} or
-\requestsNameR{Service~Registry}{ServiceRegistry}{ping} request sent to the
-\serviceNameR[Service~Registry]{ServiceRegistry} triggers the following sequence of
+A \requestsNameR{RegistryService}{Registry~Service}{register} or
+\requestsNameR{RegistryService}{Registry~Service}{ping} request sent to the
+\serviceNameR[Registry~Service]{RegistryService} triggers the following sequence of
 requests to the service that sent the original request --
 \begin{enumerate}
 \item \textbf{\requestsNameR{Basic}{Basic}{name}} collect basic information about the
@@ -11,9 +11,9 @@ service
 \item \textbf{\requestsNameR{Basic}{Basic}{list}} gather information about the requests
 available from the service
 \end{enumerate}
-The \serviceNameR[Service~Registry]{ServiceRegistry} plays the r\^ole of a client of the
-service that sent the original \requestsNameR{Service~Registry}{ServiceRegistry}{register}
-or \requestsNameR{Service~Registry}{ServiceRegistry}{ping} request, in order to obtain the
+The \serviceNameR[Registry~Service]{RegistryService} plays the r\^ole of a client of the
+service that sent the original \requestsNameR{RegistryService}{Registry~Service}{register}
+or \requestsNameR{RegistryService}{Registry~Service}{ping} request, in order to obtain the
 information required to manage its internal database, which is described in the
 \appendixRef{InternalDatabaseStructure}{Internal~Database~Structure} appendix.\\
 
@@ -21,12 +21,12 @@ The \requestsNameR{Basic}{Basic}{name} request is used to populate the `Services
 and the \requestsNameR{Basic}{Basic}{list} request is used to populate the `Requests',
 `Keywords' and `RequestsKeywords' tables; the `Associates', `ChannelsAssociates' and
 `Channels' tables are filled in from clients sending 
-\requestsNameR{Service~Registry}{ServiceRegistry}{associate} requests to the
-\serviceNameR[Service~Registry]{ServiceRegistry}.\\
+\requestsNameR{RegistryService}{Registry~Service}{associate} requests to the
+\serviceNameR[Registry~Service]{RegistryService}.\\
 
-Note that a \requestsNameR{Service~Registry}{ServiceRegistry}{ping} request will not
+Note that a \requestsNameR{RegistryService}{Registry~Service}{ping} request will not
 send \requestsNameR{Basic}{Basic}{name} or \requestsNameR{Basic}{Basic}{list} to the
-\serviceNameR[Service~Registry]{ServiceRegistry} if the requesting service is recognized
+\serviceNameR[Registry~Service]{RegistryService} if the requesting service is recognized
 as being registered already.
 As a consequence, services are not allowed to make changes that would impact their
 connectivity after they are registered.\\

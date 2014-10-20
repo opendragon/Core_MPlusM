@@ -189,9 +189,9 @@ bool NameServerReportingThread::threadInit(void)
     int                   serverPort = nsContact.getPort();
     const char *          serverString = NULL;
     static const char *   regType = MpM_MDNS_NAMESERVER_REPORT;
-    const int             versionStringLength = sizeof(MpM_MDNS_NAMESERVER_KEY "=") +
-                                                sizeof(MpM_MDNS_NAMESERVER_VERSION) - 2;
-    char                  versionString[versionStringLength + 3]; // pad with a couple of extras
+    const uint16_t        maxTXTSize = 256;
+    char                  txtBuffer[maxTXTSize];
+    TXTRecordRef          txtRecord;
     
     if (nsContact.isValid())
     {
@@ -200,18 +200,18 @@ bool NameServerReportingThread::threadInit(void)
             serverString = serverAddress.c_str();
         }
     }
-    // Build version string -
-    versionString[0] = versionStringLength;
-    strcpy(versionString + 1, MpM_MDNS_NAMESERVER_KEY "=");
-    strcpy(versionString + sizeof("txtvers="), MpM_MDNS_NAMESERVER_VERSION);
-    
+    TXTRecordCreate(&txtRecord, sizeof(txtBuffer), txtBuffer);
+    TXTRecordSetValue(&txtRecord, MpM_MDNS_NAMESERVER_KEY, sizeof(MpM_MDNS_NAMESERVER_VERSION) - 1,
+                      MpM_MDNS_NAMESERVER_VERSION);
     DNSServiceErrorType err = DNSServiceRegister(&_serviceRef, kDNSServiceFlagsNoAutoRename, 0,
                                                  NULL /* name */, regType, NULL /* domain */,
                                                  serverString /* host */, htons(serverPort),
-                                                 versionStringLength + 1, versionString,
+                                                 TXTRecordGetLength(&txtRecord),
+                                                 TXTRecordGetBytesPtr(&txtRecord),
                                                  registrationCallback, NULL);
     bool                result = (kDNSServiceErr_NoError == err);
 
+    TXTRecordDeallocate(&txtRecord);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RegistryCheckThread::threadInit

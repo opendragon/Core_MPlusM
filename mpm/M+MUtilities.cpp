@@ -170,51 +170,24 @@ static void DNSSD_API resolveCallback(DNSServiceRef         service,
     OD_LOG_L1("txtLen = ", txtLen); //####
     OD_LOG_S2("fullname = ", fullname, "hosttarget = ", hosttarget); //####
     bool okToUse = false;
-    
-    if (0 < txtLen)
+
+    if (TXTRecordContainsKey(txtLen, txtRecord, MpM_MDNS_NAMESERVER_KEY))
     {
-        for (uint16_t indx = 0; indx < txtLen; )
+        uint8_t      valueLen = 0;
+        const void * valuePtr = TXTRecordGetValuePtr(txtLen, txtRecord, MpM_MDNS_NAMESERVER_KEY,
+                                                     &valueLen);
+        
+        if (valuePtr && (0 < valueLen))
         {
-            uint16_t nextLen = txtRecord[indx];
+            std::stringstream buff1(MpM_MDNS_NAMESERVER_VERSION);
+            std::string       inString(reinterpret_cast<const char *>(valuePtr), valueLen);
+            std::stringstream buff2(inString);
+            int               thisVersion;
+            int               otherVersion;
             
-            if ((indx + nextLen) > txtLen)
-            {
-                break;
-            }
-            
-            // Extract the key
-            uint16_t jndx = indx + 1;
-            uint16_t maxj = indx + nextLen;
-            
-            for ( ; jndx <= maxj; ++jndx)
-            {
-                char aChar = txtRecord[jndx];
-                
-                if ('=' == aChar)
-                {
-                    break;
-                }
-                
-            }
-            // Extract the value
-            if ((jndx < maxj) && (sizeof(MpM_MDNS_NAMESERVER_KEY) == (jndx - indx)))
-            {
-                if (! strncmp(reinterpret_cast<const char *>(txtRecord + indx + 1),
-                              MpM_MDNS_NAMESERVER_KEY, sizeof(MpM_MDNS_NAMESERVER_KEY) - 1))
-                {
-                    std::stringstream buff1(MpM_MDNS_NAMESERVER_VERSION);
-                    std::string       inString(reinterpret_cast<const char *>(txtRecord + jndx + 1),
-                                               maxj - jndx);
-                    std::stringstream buff2(inString);
-                    int               thisVersion;
-                    int               otherVersion;
-                    
-                    buff1 >> thisVersion;
-                    buff2 >> otherVersion;
-                    okToUse = (thisVersion <= otherVersion);
-                }
-            }
-            indx += nextLen + 1;
+            buff1 >> thisVersion;
+            buff2 >> otherVersion;
+            okToUse = (thisVersion <= otherVersion);
         }
     }
     lSawResolve = true;
@@ -703,6 +676,17 @@ bool Utilities::AddConnection(const yarp::os::ConstString & fromPortName,
     OD_LOG_EXIT_B(result); //####
     return result;
 } // Utilities::AddConnection
+
+bool Utilities::CheckConnection(const yarp::os::ConstString & fromPortName,
+                                const yarp::os::ConstString & toPortName)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S2s("fromPortName = ", fromPortName, "toPortName = ", toPortName); //####
+    bool result = yarp::os::Network::isConnected(fromPortName, toPortName);
+    
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // Utilities::CheckConnection
 
 void Utilities::CheckForNameServerReporter(void)
 {
@@ -1639,7 +1623,7 @@ Utilities::PortKind Utilities::GetPortKind(const yarp::os::ConstString & portNam
     
     if (! strcmp(MpM_REGISTRY_CHANNEL_NAME, portNameChars))
     {
-        result = kPortKindServiceRegistry;
+        result = kPortKindRegistryService;
     }
     else if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portNameChars, kDefaultServiceNameBaseLen))
     {
@@ -1748,7 +1732,7 @@ bool Utilities::GetServiceNamesFromCriteria(const yarp::os::ConstString & criter
         if (! quiet)
         {
 #if MAC_OR_LINUX_
-            GetLogger().fail("Problem getting information from the Service Registry.");
+            GetLogger().fail("Problem getting information from the Registry Service.");
 #endif // MAC_OR_LINUX_
         }
     }
@@ -1811,23 +1795,23 @@ ServiceKind Utilities::MapStringToServiceKind(const yarp::os::ConstString & kind
     
     if (! strcmp("Filter", kindStringChars))
     {
-        result =kServiceKindFilter;
+        result = kServiceKindFilter;
     }
     else if (! strcmp("Input", kindStringChars))
     {
-        result =kServiceKindInput;
+        result = kServiceKindInput;
     }
     else if (! strcmp("Output", kindStringChars))
     {
-        result =kServiceKindOutput;
+        result = kServiceKindOutput;
     }
     else if (! strcmp("Registry", kindStringChars))
     {
-        result =kServiceKindRegistry;
+        result = kServiceKindRegistry;
     }
     else
     {
-        result =kServiceKindNormal;
+        result = kServiceKindNormal;
     }
     OD_LOG_EXIT_L(static_cast<int>(result)); //####
     return result;

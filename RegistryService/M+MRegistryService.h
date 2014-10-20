@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the Service Registry M+M service.
+//  Contains:   The class declaration for the M+M Registry Service.
 //
 //  Written by: Norman Jaffe
 //
@@ -50,7 +50,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the Service Registry M+M service. */
+ @brief The class declaration for the M+M Registry Service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -94,7 +94,7 @@ namespace MplusM
             
         }; // RequestDescription
         
-        /*! @brief The M+M Service Registry service. */
+        /*! @brief The M+M Registry Service. */
         class RegistryService : public Common::BaseService
         {
         public :
@@ -312,7 +312,7 @@ namespace MplusM
             /*! @brief Disable the standard request handlers. */
             void detachRequestHandlers(void);
             
-            /*! @brief Set up the service registry database.
+            /*! @brief Set up the Registry Service database.
              @returns @c true if the database was set up and @c false otherwise. */
             bool setUpDatabase(void);
             
@@ -338,7 +338,7 @@ namespace MplusM
             /*! @brief The contention lock used to avoid inconsistencies. */
             yarp::os::Mutex _checkedTimeLock;
             
-            /*! @brief The service registry database. */
+            /*! @brief The Registry Service database. */
             sqlite3 * _db;
             
             /*! @brief The validator function object that the Service Registry will use. */
@@ -374,7 +374,7 @@ namespace MplusM
             /*! @brief @c true if the database is in-memory and @c false if it is disk-based. */
             bool _inMemory;
             
-            /*! @brief @c true if the registry service is fully operational and @c false if it could
+            /*! @brief @c true if the Registry Service is fully operational and @c false if it could
              not be set up. */
             bool _isActive;
             

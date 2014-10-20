@@ -55,10 +55,10 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for the Service Registry M+M service. */
+ @brief The main application for the M+M Registry Service. */
 
 /*! @dir RegistryService
- @brief The set of files that implement the Service Registry application. */
+ @brief The set of files that implement the Registry Service application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -88,12 +88,12 @@ using namespace MplusM::Common;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Service Registry service.
+/*! @brief The entry point for running the Registry Service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Service Registry service.
+ @param argv The arguments to be used with the Registry Service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

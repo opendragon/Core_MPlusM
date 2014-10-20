@@ -4,9 +4,9 @@ An \mplusm{} installation consists of a number of service applications and their
 client applications, communicating via \mplusm{} requests and responses on a \yarp{}
 network.\\
 
-There is one special service, the \serviceNameR[Service~Registry]{ServiceRegistry}, which
+There is one special service, the \serviceNameR[Registry~Service]{RegistryService}, which
 manages information about all other active services; all services register themselves
-with the \serviceNameR[Service~Registry]{ServiceRegistry} so that client applications and
+with the \serviceNameR[Registry~Service]{RegistryService} so that client applications and
 utilities can get information about the service.\\
 
 Other services can be, broadly, characterized as either \inputOutput{} services or normal
@@ -35,8 +35,8 @@ The standard requests are in 4 groups:
 \begin{itemize}
 \item \textbf{\secondaryRef{BasicRequests}{Basic~Requests:}} requests that support the
 fundamental \mplusm{} service mechanisms
-\item \textbf{\secondaryRef{ServiceRegistryRequests}{Service~Registry~Requests:}} requests
-that are specific to the \serviceNameR[Service~Registry]{ServiceRegistry}
+\item \textbf{\secondaryRef{RegistryServiceRequests}{Registry~Service~Requests:}} requests
+that are specific to the \serviceNameR[Registry~Service]{RegistryService}
 \item \textbf{\secondaryRef{InputOutputRequests}{\inputOutput{}~Requests:}} requests that
 are specific to \inputOutput{} services
 \item \textbf{\secondaryRef{MiscellaneousRequests}{Miscellaneous~Requests:}} other
@@ -55,10 +55,10 @@ If no response is requested, the request is processed but no response is sent.
 There are two standard services that are always part of an \mplusm{} installation.
 \utilityNameR{mpmRequestCounterService} and its companion application
 \utilityNameR{mpmRequestCounterClient} are described elsewhere, and the
-\serviceNameR[Service~Registry]{ServiceRegistry} is described in the following section.
+\serviceNameR[Registry~Service]{RegistryService} is described in the following section.
 \tertiaryStart{mpmRegistryService (also known as the
-\serviceNameD[Service~Registry]{ServiceRegistry})}
-The \serviceNameX[Service~Registry]{ServiceRegistry} application is a background service
+\serviceNameD[Registry~Service]{RegistryService})}
+The \serviceNameX[Registry~Service]{RegistryService} application is a background service
 that is used to manage other services and their connections.
 Its primary purpose is to serve as a repository of information on the active services in
 an \mplusm{} installation.\\
@@ -66,25 +66,25 @@ an \mplusm{} installation.\\
 It uses an internal database, as described in the
 \appendixRef{InternalDatabaseStructure}{Internal~Database~Structure} appendix.
 It responds to the requests in the
-\secondaryRef{ServiceRegistryRequests}{Service~Registry~Requests} group.\\
+\secondaryRef{RegistryServiceRequests}{Registry~Service~Requests} group.\\
 
 The application also has one optional parameter:
 \begin{itemize}
 \item \textbf{-r:} report the service metrics when the application exits
 \end{itemize}
-Note that only one copy of the \serviceNameX[Service~Registry]{ServiceRegistry}
+Note that only one copy of the \serviceNameX[Registry~Service]{RegistryService}
 application can be running at a time in an \mplusm{} installation, due to its fixed
 \yarp{} network port.\\
 
-The \serviceNameX[Service~Registry]{ServiceRegistry} application responds to a `HUP'
+The \serviceNameX[Registry~Service]{RegistryService} application responds to a `HUP'
 signal and will exit gracefully when one is sent to it.
-\tertiaryEnd{\serviceNameE[Service~Registry]{mpmRegistryService}}
+\tertiaryEnd{\serviceNameE[Registry~Service]{RegistryService}}
 \secondaryEnd{}
 \secondaryStart[BasicRequests]{Basic~Requests}
 These requests are implemented in all \mplusm{} services, via the
 \secondaryRef{BaseService}{BaseService} class.
 They constitute the fundamental mechanism that is used by the
-\serviceNameR[Service~Registry]{ServiceRegistry} to identify each active service.
+\serviceNameR[Registry~Service]{RegistryService} to identify each active service.
 \tertiaryStart{\requestsNameD{Basic}{Basic}{channels}}
 The \requestsNameX{Basic}{Basic}{channels} request returns a list of the secondary input
 channels and a list of the secondary output channels for its service.\\
@@ -135,7 +135,7 @@ request handler for the request, search keywords that can be used when matching 
 a description of the request as well as representations of the expected arguments for the
 request and output of the request.\\
 
-It is used by the \serviceNameR[Service~Registry]{ServiceRegistry} and the
+It is used by the \serviceNameR[Registry~Service]{RegistryService} and the
 \utilityNameR{mpmRequestInfo} utility to gather information about the requests available
 from each active service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{list}}
@@ -146,7 +146,7 @@ associated with a service.
 The measurements include the number of bytes and the number of messages sent and
 received on each channel.
 
-%It is used by the \serviceNameR[Service~Registry]{ServiceRegistry} and the
+%It is used by the \serviceNameR[Registry~Service]{RegistryService} and the
 %\utilityNameR{mpmRequestInfo} utility to gather information about the requests available
 %from each active service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{metrics}}
@@ -159,17 +159,17 @@ The \requestsNameX{Basic}{Basic}{name} request returns details about its service
 form of the canonical name of the service, its description, its kind, the path to the
 executable for the service and a description of the requests for the service.\\
 
-It is used by the \serviceNameR[Service~Registry]{ServiceRegistry} and the
+It is used by the \serviceNameR[Registry~Service]{RegistryService} and the
 \utilityNameR{mpmServiceLister} and \utilityNameR[Channel~Manager]{ChannelManager}
 utilities to collect basic information about each service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{name}}
 \secondaryEnd{}
-\secondaryStart[ServiceRegistryRequests]{Service~Registry~Requests}
+\secondaryStart[RegistryServiceRequests]{Registry~Service~Requests}
 The requests in this group are used exclusively by the
-\serviceNameR[Service~Registry]{ServiceRegistry} application to manage its internal
+\serviceNameR[Registry~Service]{RegistryService} application to manage its internal
 database and to respond to information requests from client applications.
-\tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{associate}}
-The \requestsNameX{Service~Registry}{ServiceRegistry}{associate} request is sent by
+\tertiaryStart{\requestsNameD{RegistryService}{Registry~Service}{associate}}
+The \requestsNameX{RegistryService}{Registry~Service}{associate} request is sent by
 adapter applications to indicate that a particular \yarp{} network connection is part of
 the same process as the client connection that sent the request.\\
 
@@ -177,9 +177,9 @@ It is used by the adapter applications \examplesNameR{Adapters}{mpmRandomNumberA
 \examplesNameR{Adapters}{mpmRunningSumAdapter} and\\
 \examplesNameR{Adapters}{mpmRunningSumAltAdapter} to indicate the input and output
 \yarp{} network connections that are part of the application.
-\tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{associate}}
-\tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{disassociate}}
-The \requestsNameX{Service~Registry}{ServiceRegistry}{disassociate} request is sent by
+\tertiaryEnd{\requestsNameE{RegistryService}{Registry~Service}{associate}}
+\tertiaryStart{\requestsNameD{RegistryService}{Registry~Service}{disassociate}}
+The \requestsNameX{RegistryService}{Registry~Service}{disassociate} request is sent by
 adapter applications to indicate that a particular \yarp{} network connection is no
 longer part of the same process as the client connection that sent the request.
 This is normally done as part of the shutdown process for the application.\\
@@ -188,9 +188,9 @@ It is used by the adapter applications \examplesNameR{Adapters}{mpmRandomNumberA
 \examplesNameR{Adapters}{mpmRunningSumAdapter} and\\
 \examplesNameR{Adapters}{mpmRunningSumAltAdapter} to indicate that all the input and
 output \yarp{} network connections that are part of the application are no longer active.
-\tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{disassociate}}
-\tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{getAssociates}}
-The \requestsNameX{Service~Registry}{ServiceRegistry}{getAssociates} request returns
+\tertiaryEnd{\requestsNameE{RegistryService}{Registry~Service}{disassociate}}
+\tertiaryStart{\requestsNameD{RegistryService}{Registry~Service}{getAssociates}}
+The \requestsNameX{RegistryService}{Registry~Service}{getAssociates} request returns
 a list of the input \yarp{} network connections and a list of the output \yarp{} network
 connections for a given connection; if the requested port corresponds to a secondary
 \yarp{} network connection, then the request returns the client connection that it is
@@ -199,10 +199,10 @@ associated with.\\
 It is used by the \utilityNameR{mpmPortLister} and
 \utilityNameR[Channel~Manager]{ChannelManager} utilities to identify relationships
 between \yarp{} network connections.
-\tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{getAssociates}}
-\tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{match}, alias:\ %
-\requestsNameD{Service~Registry}{ServiceRegistry}{find}}
-The \requestsNameX{Service~Registry}{ServiceRegistry}{match} request returns a list of
+\tertiaryEnd{\requestsNameE{RegistryService}{Registry~Service}{getAssociates}}
+\tertiaryStart{\requestsNameD{RegistryService}{Registry~Service}{match}, alias:\ %
+\requestsNameD{RegistryService}{Registry~Service}{find}}
+The \requestsNameX{RegistryService}{Registry~Service}{match} request returns a list of
 input \yarp{} network connections or service names for services that match the criteria
 provided as an argument to the request.\\
 
@@ -214,44 +214,44 @@ utilities to identify services in order to gather information about them.\\
 
 For details on the syntax used with the criteria, see the 
 \appendixRef{ServiceMatchSyntax}{Service~Match~Syntax} appendix.
-\tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{match}}
-\tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{ping}}
-The \requestsNameX{Service~Registry}{ServiceRegistry}{ping} request is sent by each
-active service (except the \serviceNameR[Service~Registry]{ServiceRegistry}) to indicate
+\tertiaryEnd{\requestsNameE{RegistryService}{Registry~Service}{match}}
+\tertiaryStart{\requestsNameD{RegistryService}{Registry~Service}{ping}}
+The \requestsNameX{RegistryService}{Registry~Service}{ping} request is sent by each
+active service (except the \serviceNameR[Registry~Service]{RegistryService}) to indicate
 that it is still `alive'.\\
 
-Sending a \requestsNameX{Service~Registry}{ServiceRegistry}{ping} request results in a
-sequence of requests being sent from the \serviceNameR[Service~Registry]{ServiceRegistry}
+Sending a \requestsNameX{RegistryService}{Registry~Service}{ping} request results in a
+sequence of requests being sent from the \serviceNameR[Registry~Service]{RegistryService}
 to the active service if the information on the service is no longer in the internal
 database.
 This will happen if the service is considered to be `stale' -- it has not sent a
-\requestsNameX{Service~Registry}{ServiceRegistry}{ping} request often enough to be
+\requestsNameX{RegistryService}{Registry~Service}{ping} request often enough to be
 remembered.
 The sequence of requests sent to the active service is described in the 
 \appendixRef{RegistrationSequence}{Registration~Sequence} appendix.
-\tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{ping}}
-\tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{register}, alias:\ %
-\requestsNameD{Service~Registry}{ServiceRegistry}{remember}}
-The \requestsNameX{Service~Registry}{ServiceRegistry}{register} request is sent by each
-active service (except the \serviceNameR[Service~Registry]{ServiceRegistry}) when it
+\tertiaryEnd{\requestsNameE{RegistryService}{Registry~Service}{ping}}
+\tertiaryStart{\requestsNameD{RegistryService}{Registry~Service}{register}, alias:\ %
+\requestsNameD{RegistryService}{Registry~Service}{remember}}
+The \requestsNameX{RegistryService}{Registry~Service}{register} request is sent by each
+active service (except the \serviceNameR[Registry~Service]{RegistryService}) when it
 starts execution.\\
 
-Sending a \requestsNameX{Service~Registry}{ServiceRegistry}{register} request results in a
-sequence of requests being sent from the \serviceNameR[Service~Registry]{ServiceRegistry}
+Sending a \requestsNameX{RegistryService}{Registry~Service}{register} request results in a
+sequence of requests being sent from the \serviceNameR[Registry~Service]{RegistryService}
 to the active service.
 The sequence of requests sent to the active service is described in the 
 \appendixRef{RegistrationSequence}{Registration~Sequence} appendix.
-\tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{register}}
-\tertiaryStart{\requestsNameD{Service~Registry}{ServiceRegistry}{unregister}, alias:\ %
-\requestsNameD{Service~Registry}{ServiceRegistry}{forget}}
-The \requestsNameX{Service~Registry}{ServiceRegistry}{unregister} request is sent by each
-service (except the \serviceNameR[Service~Registry]{ServiceRegistry}) just before it stops
+\tertiaryEnd{\requestsNameE{RegistryService}{Registry~Service}{register}}
+\tertiaryStart{\requestsNameD{RegistryService}{Registry~Service}{unregister}, alias:\ %
+\requestsNameD{RegistryService}{Registry~Service}{forget}}
+The \requestsNameX{RegistryService}{Registry~Service}{unregister} request is sent by each
+service (except the \serviceNameR[Registry~Service]{RegistryService}) just before it stops
 execution.\\
 
-Upon receiving the \requestsNameX{Service~Registry}{ServiceRegistry}{unregister} request,
-the \serviceNameR[Service~Registry]{ServiceRegistry} removes all entries from the internal
+Upon receiving the \requestsNameX{RegistryService}{Registry~Service}{unregister} request,
+the \serviceNameR[Registry~Service]{RegistryService} removes all entries from the internal
 database that are related to the service being removed.
-\tertiaryEnd{\requestsNameE{Service~Registry}{ServiceRegistry}{unregister}}
+\tertiaryEnd{\requestsNameE{RegistryService}{Registry~Service}{unregister}}
 \secondaryEnd{}
 \secondaryStart[InputOutputRequests]{\inputOutput{}~Requests}
 These requests are implemented in all \mplusm{} \inputOutput{} services, via the

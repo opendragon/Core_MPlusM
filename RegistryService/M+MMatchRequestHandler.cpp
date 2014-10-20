@@ -189,7 +189,7 @@ bool MatchRequestHandler::processRequest(const yarp::os::ConstString & request,
                     if (matcher)
                     {
                         OD_LOG("(matcher)"); //####
-                        // Hand off the processing to the registry service. First, put the 'OK'
+                        // Hand off the processing to the Registry Service. First, put the 'OK'
                         // response in the output buffer, as we have successfully parsed the
                         // request.
                         reply.addString(MpM_OK_RESPONSE);

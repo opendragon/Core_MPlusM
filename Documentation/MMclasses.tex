@@ -5,8 +5,8 @@ The \mplusm{} classes are organized into seven namespaces:
 \item \textbf{\mplusm{}::Common} classes that support all the \mplusm{} activities
 \item \textbf{\mplusm{}::Example} classes that demonstrate features of \mplusm{}
 \item \textbf{\mplusm{}::Parser} classes that are used by the
-\requestsNameR{Service~Registry}{ServiceRegistry}{match} request of the
-\serviceNameR[Service~Registry]{ServiceRegistry}
+\requestsNameR{RegistryService}{Registry~Service}{match} request of the
+\serviceNameR[Registry~Service]{RegistryService}
 \item \textbf{\mplusm{}::Registry} classes that work with the internal database to manage
 the \mplusm{} services
 \item \textbf{\mplusm{}::RequestCounter} classes that support measuring the performance
@@ -47,7 +47,7 @@ The following methods are available to code that uses
 \item \textbf{\asCode{FindMatchingService}} This static function is provided for the use
 of utility programs that need to identify active services
 \item \textbf{\asCode{addAssociatedChannel}} Adapter applications use this method to
-inform the \serviceNameR[Service~Registry]{ServiceRegistry} about their input and output
+inform the \serviceNameR[Registry~Service]{RegistryService} about their input and output
 \yarp{} network connections
 \item \textbf{\asCode{connectToService}} This method is use by clients to establish a
 connection to the endpoint of their companion service
@@ -58,7 +58,7 @@ to be used for communication with their companion service
 \item \textbf{\asCode{reconnectIfDisconnected}} This method is used by clients to
 re--establish a dropped connection with their companion service
 \item \textbf{\asCode{removeAssociatedChannels}} Adapter applications use this method to
-inform the \serviceNameR[Service~Registry]{ServiceRegistry} that their input and output
+inform the \serviceNameR[Registry~Service]{RegistryService} that their input and output
 \yarp{} network connections are no longer available
 \item \textbf{\asCode{send}} This method is used by clients to send a request to their
 companion service
@@ -136,8 +136,8 @@ The method \asCode{setUpStreamDescriptions} must be implemented in classes deriv
 \secondaryStart{BaseMatcher}
 The \secondaryRef{BaseMatcher}{\classNameP{Common}{BaseMatcher}} class represents a
 `handle' to a top--down pattern matcher used by the
-\serviceNameR[Service~Registry]{ServiceRegistry} to convert the arguments of
-\requestsNameR{Service~Registry}{ServiceRegistry}{match} requests into \asCode{SQL}
+\serviceNameR[Registry~Service]{RegistryService} to convert the arguments of
+\requestsNameR{RegistryService}{Registry~Service}{match} requests into \asCode{SQL}
 operations.
 The `outermost' matcher that is parsed from the original request is used to generate the
 \asCode{SQL} -- the \secondaryRef{BaseMatcher}{BaseMatcher} class acts as a placeholder.

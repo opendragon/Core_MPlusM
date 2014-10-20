@@ -207,7 +207,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                                 {
                                                     // Remember the response
                                                     reply.addString(MpM_OK_RESPONSE);
-                                                    // If we're registering the Service Registry, we
+                                                    // If we're registering the Registry Service, we
                                                     // don't care about timeouts!
                                                     if (argAsString != MpM_REGISTRY_CHANNEL_NAME)
                                                     {

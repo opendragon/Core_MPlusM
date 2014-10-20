@@ -15,7 +15,7 @@ the \mplusm{} features.\\
 There are three main classes of programs in the set -- services, clients and utilities.
 Clients use a formalized protocol to connect to services and utilities manage or monitor
 the aggregate state of an \mplusm{} configuration.
-There is a unique service, the \serviceNameR[Service~Registry]{ServiceRegistry}, that
+There is a unique service, the \serviceNameR[Registry~Service]{RegistryService}, that
 maintains information on all the active services that are accessible to clients within an
 \mplusm{} installation.
 The primary utility is the \utilityNameR[Channel~Manager]{ChannelManager} application,
@@ -31,7 +31,7 @@ additional \yarp{} network connections and their characteristics.\\
 
 Basic services have only the client~/~service \yarp{} connection and provide a central
 resource--sharing facility; simple services, such as the
-\serviceNameR[Service~Registry]{ServiceRegistry}, have one or more additional \yarp{}
+\serviceNameR[Registry~Service]{RegistryService}, have one or more additional \yarp{}
 network connections that have no special properties and \inputOutput{} services have one
 or more additional \yarp{} network connections with specific protocols.
 \inputOutput{} services provide a mechanism for `packaging' sensors and actuators as

@@ -50,13 +50,13 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The standard name for the service registry channel. */
+/*! @brief The standard name for the Registry Service channel. */
 # define MpM_REGISTRY_CHANNEL_NAME   "/$ervice"
 
-/*! @brief The channel-independent name of the service registry service. */
+/*! @brief The channel-independent name of the Registry Service. */
 # define MpM_REGISTRY_CANONICAL_NAME "Registry"
 
-/*! @brief The name of the secondary port for the service. */
+/*! @brief The name of the secondary port for the Registry Service. */
 #define MpM_REGISTRY_STATUS_NAME     T_(MpM_REGISTRY_CHANNEL_NAME "/status")
 
 /*! @brief The name for an 'associate' request. */
@@ -158,10 +158,10 @@
 /*! @brief The number of elements expected in the output of an 'unregister' request. */
 # define MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE     1
 
-/*! @brief The standard response to an invalid Service Registry request. */
+/*! @brief The standard response to an invalid Registry Service request. */
 # define MpM_FAILED_RESPONSE "FAILED"
 
-/*! @brief The standard response to a valid Service Registry request. */
+/*! @brief The standard response to a valid Registry Service request. */
 # define MpM_OK_RESPONSE     "OK"
 
 /*! @brief A service is being added to the registry. */

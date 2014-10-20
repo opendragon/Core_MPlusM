@@ -50,23 +50,24 @@ target_link_libraries(mpmLeapMotionInputService
                       odLogging
                       ${YARP_LIBRARIES})
 
-if(APPLE)
-	target_link_libraries(mpmLeapMotionInputService
-                            "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib")
-endif(APPLE)
-
 if(WIN32)
 	add_library(Leap SHARED IMPORTED)
-	set_property(TARGET Leap PROPERTY IMPORTED_LOCATION ${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll)
-	set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB ${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.lib)
+	set_property(TARGET Leap PROPERTY IMPORTED_LOCATION "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll")
+	set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.lib")
 	target_link_libraries(mpmLeapMotionInputService
                           ${BONJOUR_LIB}
                           Leap)
-
 	add_custom_command(TARGET mpmLeapMotionInputService POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-                        "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib" $<TARGET_FILE_DIR:mpmLeapMotionInputService>)
-
+                        "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib"
+                        $<TARGET_FILE_DIR:mpmLeapMotionInputService>)
 endif(WIN32)
+if(APPLE)
+    add_library(Leap SHARED IMPORTED)
+    set_property(TARGET Leap PROPERTY IMPORTED_LOCATION "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib")
+    target_link_libraries(mpmLeapMotionInputService
+                            Leap)
+    install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib" DESTINATION lib)
+endif(APPLE)
 
 install(TARGETS mpmLeapMotionInputService DESTINATION bin)
 

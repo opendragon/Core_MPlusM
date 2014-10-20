@@ -5,7 +5,7 @@
 //  Project:    M+M
 //
 //  Contains:   The class definition for the functionality required for an M+M field name matcher
-//              for the service registry.
+//              for the Registry Service.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,7 +49,7 @@
 /*! @file
  
  @brief The class definition for the functionality required for an M+M field name matcher for the
- service registry. */
+ Registry Service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

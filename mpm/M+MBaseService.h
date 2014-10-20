@@ -401,7 +401,7 @@ namespace MplusM
             
         }; // BaseService
         
-        /*! @brief Register a local service with a running Service Registry service.
+        /*! @brief Register a local service with a running Registry Service.
          @param channelName The channel provided by the service.
          @param service The actual service being registered.
          @param checker A function that provides for early exit from loops.
@@ -412,7 +412,7 @@ namespace MplusM
                                   CheckFunction                 checker = NULL,
                                   void *                        checkStuff = NULL);
         
-        /*! @brief Unregister a local service with a running Service Registry service.
+        /*! @brief Unregister a local service with a running Registry Service.
          @param channelName The channel provided by the service.
          @param service The actual service being unregistered.
          @param checker A function that provides for early exit from loops.

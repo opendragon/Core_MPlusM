@@ -57,10 +57,10 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The test driver for the unit tests of the Service Registry service. */
+ @brief The test driver for the unit tests of the Registry Service. */
 
 /*! @dir /RegistryTests
- @brief The set of files that provide test cases for the Service Registry service. */
+ @brief The set of files that provide test cases for the Registry Service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

@@ -85,11 +85,11 @@ namespace MplusM
             /*! @brief The port is a client port. */
             kPortKindClient,
             
+            /*! @brief The port is the Registry Service port. */
+            kPortKindRegistryService,
+            
             /*! @brief The port is a service port. */
             kPortKindService,
-            
-            /*! @brief The port is the service registry port. */
-            kPortKindServiceRegistry,
             
             /*! @brief The port is s standard port. */
             kPortKindStandard,
@@ -190,6 +190,13 @@ namespace MplusM
                            const bool                    isUDP = false,
                            Common::CheckFunction         checker = NULL,
                            void *                        checkStuff = NULL);
+        
+        /*! @brief Check if a connection exists between two ports.
+         @param fromPortName The name of the source port.
+         @param toPortName The name of the destination port.
+         @returns @c true if a connection exists and @c false otherwise. */
+        bool CheckConnection(const yarp::os::ConstString & fromPortName,
+                             const yarp::os::ConstString & toPortName);
         
         /*! @brief Check for the NameServerReporter mDNS entry and update the YARP information if
          found. */
@@ -363,7 +370,8 @@ namespace MplusM
          @param fromPortName The name of the source port.
          @param toPortName The name of the destination port.
          @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function. */
+         @param checkStuff The private data for the early exit function.
+         @returns @c true if the connection was removed and @c false otherwise. */
         bool RemoveConnection(const yarp::os::ConstString & fromPortName,
                               const yarp::os::ConstString & toPortName,
                               Common::CheckFunction         checker = NULL,

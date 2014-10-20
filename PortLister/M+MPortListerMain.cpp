@@ -472,7 +472,7 @@ static void reportAssociates(const OutputFlavour                flavour,
 /*! @brief Print out connection information for a port.
  @param flavour The format for the output.
  @param aDescriptor The attributes of the port of interest.
- @param checkWithRegistry @c true if the Service Registry is available for requests and @c false
+ @param checkWithRegistry @c true if the Registry Service is available for requests and @c false
  otherwise.
  @returns @c true if information was written out and @c false otherwise. */
 static bool reportPortStatus(const OutputFlavour               flavour,
@@ -536,12 +536,12 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                             portClass = "Client port";
                             break;
                             
-                        case Utilities::kPortKindService :
-                            portClass = "Unregistered service port";
+                        case Utilities::kPortKindRegistryService :
+                            portClass = "Registry Service port";
                             break;
                             
-                        case Utilities::kPortKindServiceRegistry :
-                            portClass = "Service Registry port";
+                        case Utilities::kPortKindService :
+                            portClass = "Unregistered service port";
                             break;
                             
                         case Utilities::kPortKindStandard :
@@ -570,7 +570,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                             
                             if (aDescriptor._portName == MpM_REGISTRY_CHANNEL_NAME)
                             {
-                                portClass = "Service registry port for '";
+                                portClass = "Registry Service port for '";
                                 portClass += serviceName;
                                 portClass += "'";
                             }
@@ -595,12 +595,12 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                                     portClass = "Client port";
                                     break;
                                     
-                                case Utilities::kPortKindService :
-                                    portClass = "Unregistered service port";
+                                case Utilities::kPortKindRegistryService :
+                                    portClass = "Registry Service port";
                                     break;
                                     
-                                case Utilities::kPortKindServiceRegistry :
-                                    portClass = "Service Registry port";
+                                case Utilities::kPortKindService :
+                                    portClass = "Unregistered service port";
                                     break;
                                     
                                 case Utilities::kPortKindStandard :
@@ -642,7 +642,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
         }
         else
         {
-            // We can't interrogate the service registry, so use a simple heuristic to identify
+            // We can't interrogate the Registry Service, so use a simple heuristic to identify
             // clients, services and adapters.
             // Didn't match - use a simpler check, in case it's unregistered or is an adapter or
             // client.
@@ -656,12 +656,12 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                     portClass = "Client port";
                     break;
                     
-                case Utilities::kPortKindService :
-                    portClass = "Unregistered service port";
+                case Utilities::kPortKindRegistryService :
+                    portClass = "Registry Service port";
                     break;
                     
-                case Utilities::kPortKindServiceRegistry :
-                    portClass = "Service Registry port";
+                case Utilities::kPortKindService :
+                    portClass = "Unregistered service port";
                     break;
                     
                 case Utilities::kPortKindStandard :

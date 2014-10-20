@@ -270,7 +270,7 @@ int main(int      argc,
             {
                 OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())"); //####
 #if MAC_OR_LINUX_
-                GetLogger().fail("Problem getting information from the Service Registry.");
+                GetLogger().fail("Problem getting information from the Registry Service.");
 #endif // MAC_OR_LINUX_
             }
         }

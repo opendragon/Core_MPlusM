@@ -39,7 +39,7 @@ The \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request terminates 
 on the input stream.\\
 
 Note that the application will exit if the
-\serviceNameR[Service~Registry]{ServiceRegistry} is not running.\\
+\serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
 The application has two optional arguments -- an alternative endpoint name to be used and
 the port number to be used, if a non--default port is desired.\\
@@ -76,7 +76,7 @@ The \examplesNameX{Services}{mpmEchoService} application responds to
 sent with the request.\\
 
 Note that the application will exit if the
-\serviceNameR[Service~Registry]{ServiceRegistry} is not running.\\
+\serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
 The application has two optional arguments -- an alternative endpoint name to be used and
 the port number to be used, if a non--default port is desired; the matching client
@@ -116,7 +116,7 @@ The \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request stops the r
 number generator, which stops the output \yarp{} network connection.\\ 
 
 Note that the application will exit if the
-\serviceNameR[Service~Registry]{ServiceRegistry} is not running.\\
+\serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
 The application has two optional arguments -- an alternative endpoint name to be used and
 the port number to be used, if a non--default port is desired.\\
@@ -160,7 +160,7 @@ The \examplesNameX{Services}{mpmRandomNumberService} application responds to
 numbers to the client.\\
 
 Note that the application will exit if the
-\serviceNameR[Service~Registry]{ServiceRegistry} is not running.\\
+\serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
 The application has two optional arguments -- an alternative endpoint name to be used and
 the port number to be used, if a non--default port is desired; the matching client
@@ -199,7 +199,7 @@ The \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request closes the 
 file that is being used.\\
 
 Note that the application will exit if the
-\serviceNameR[Service~Registry]{ServiceRegistry} is not running.\\
+\serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
 The application has two optional arguments -- an alternative endpoint name to be used and
 the port number to be used, if a non--default port is desired.\\
@@ -246,7 +246,7 @@ requests from the \examplesNameR{Clients}{mpmRunningSumClient} application or\\
 associated with the requesting application or adapter.\\
 
 Note that the application will exit if the
-\serviceNameR[Service~Registry]{ServiceRegistry} is not running.\\
+\serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
 The application has two optional arguments -- an alternative endpoint name to be used and
 the port number to be used, if a non--default port is desired; the matching client
@@ -301,7 +301,7 @@ The \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request terminates 
 on the input stream, which will cause sending on the output stream to cease as well.\\
 
 Note that the application will exit if the
-\serviceNameR[Service~Registry]{ServiceRegistry} is not running.\\
+\serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
 The application has two optional arguments -- an alternative endpoint name to be used and
 the port number to be used, if a non--default port is desired.\\
@@ -341,7 +341,7 @@ sends it to the \examplesNameR{Services}{mpmEchoService} application using an
 entered.\\
 
 Note that the application will also exit if the
-\serviceNameR[Service~Registry]{ServiceRegistry} or the
+\serviceNameR[Registry~Service]{RegistryService} or the
 \examplesNameR{Services}{mpmEchoService} application are not running or if the application
 is not running from an interactive terminal.
 \tertiaryEnd{\examplesNameE{Clients}{mpmEchoClient}}
@@ -352,7 +352,7 @@ random numbers desired from a terminal and sends a
 \examplesNameR{Services}{mpmRandomNumberService} application; it exits when a zero is
 entered for the count of random numbers desired.
 Note that the application will also exit if the
-\serviceNameR[Service~Registry]{ServiceRegistry} or the
+\serviceNameR[Registry~Service]{RegistryService} or the
 \examplesNameR{Services}{mpmRandomNumberService} application are not running or if the
 application is not running from an interactive terminal.
 \tertiaryEnd{\examplesNameE{Clients}{mpmRandomNumberClient}}
@@ -375,7 +375,7 @@ service so that it will stop calculating the running sum for this client and the
 application.
 \end{itemize}
 Note that the application will also exit if the
-\serviceNameR[Service~Registry]{ServiceRegistry} or the
+\serviceNameR[Registry~Service]{RegistryService} or the
 \examplesNameR{Services}{mpmRunningSumService} application are not running or if the
 application is not running from an interactive terminal.
 \tertiaryEnd{\examplesNameE{Clients}{mpmRunningSumClient}}
@@ -402,7 +402,7 @@ random numbers desired from an input \yarp{} network connection and sends a
 The random numbers returned from the service are sent out an output \yarp{} network
 connection.
 Note that the application will also exit if the
-\serviceNameR[Service~Registry]{ServiceRegistry} or the
+\serviceNameR[Registry~Service]{RegistryService} or the
 \examplesNameR{Services}{mpmRandomNumberService} application are not running.
 \tertiaryEnd{\examplesNameE{Adapters}{mpmRandomNumberAdapter}}
 \tertiaryStart{\examplesNameP{Adapters}{mpmRunningSumAdapter}}
@@ -430,7 +430,7 @@ The running sums returned from the service are sent out an output \yarp{} networ
 connection.\\
 
 Note that the application will also exit if the
-\serviceNameR[Service~Registry]{ServiceRegistry} or the
+\serviceNameR[Registry~Service]{RegistryService} or the
 \examplesNameR{Services}{mpmRunningSumService} application are not running.
 \tertiaryEnd{\examplesNameE{Adapters}{mpmRunningSumAdapter}}
 \tertiaryStart{\examplesNameP{Adapters}{mpmRunningSumAltAdapter}}
@@ -456,7 +456,7 @@ The running sums returned from the service are sent out an output \yarp{} networ
 connection.\\
 
 Note that the application will also exit if the
-\serviceNameR[Service~Registry]{ServiceRegistry} or the
+\serviceNameR[Registry~Service]{RegistryService} or the
 \examplesNameR{Services}{mpmRunningSumService} application are not running.
 \tertiaryEnd{\examplesNameE{Adapters}{mpmRunningSumAltAdapter}}
 \secondaryEnd{}
