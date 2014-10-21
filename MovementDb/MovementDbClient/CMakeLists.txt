@@ -57,6 +57,6 @@ endif(WIN32)
 
 install(TARGETS mpmMovementDbClient 
 		DESTINATION bin
-		COMPONENT applications))
+		COMPONENT applications)
 
 enable_testing()
