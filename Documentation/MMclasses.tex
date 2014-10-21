@@ -5,7 +5,7 @@ The \mplusm{} classes are organized into seven namespaces:
 \item \textbf{\mplusm{}::Common} classes that support all the \mplusm{} activities
 \item \textbf{\mplusm{}::Example} classes that demonstrate features of \mplusm{}
 \item \textbf{\mplusm{}::Parser} classes that are used by the
-\requestsNameR{RegistryService}{Registry~Service}{match} request of the
+\requestsNameR{Registry~Service}{RegistryService}{match} request of the
 \serviceNameR[Registry~Service]{RegistryService}
 \item \textbf{\mplusm{}::Registry} classes that work with the internal database to manage
 the \mplusm{} services
@@ -137,7 +137,7 @@ The method \asCode{setUpStreamDescriptions} must be implemented in classes deriv
 The \secondaryRef{BaseMatcher}{\classNameP{Common}{BaseMatcher}} class represents a
 `handle' to a top--down pattern matcher used by the
 \serviceNameR[Registry~Service]{RegistryService} to convert the arguments of
-\requestsNameR{RegistryService}{Registry~Service}{match} requests into \asCode{SQL}
+\requestsNameR{Registry~Service}{RegistryService}{match} requests into \asCode{SQL}
 operations.
 The `outermost' matcher that is parsed from the original request is used to generate the
 \asCode{SQL} -- the \secondaryRef{BaseMatcher}{BaseMatcher} class acts as a placeholder.
