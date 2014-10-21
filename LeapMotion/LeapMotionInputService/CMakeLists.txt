@@ -60,21 +60,21 @@ if(WIN32)
 	add_custom_command(TARGET mpmLeapMotionInputService POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
                         "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib"
                         $<TARGET_FILE_DIR:mpmLeapMotionInputService>)
+    install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll"
+            DESTINATION bin
+            COMPONENT applications)
 endif(WIN32)
 if(APPLE)
     add_library(Leap SHARED IMPORTED)
     set_property(TARGET Leap PROPERTY IMPORTED_LOCATION "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib")
     target_link_libraries(mpmLeapMotionInputService
                             Leap)
-    install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib" DESTINATION lib)
+    install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib"
+            DESTINATION lib)
 endif(APPLE)
-
 
 install(TARGETS mpmLeapMotionInputService
 		DESTINATION bin
 		COMPONENT applications)
-install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll" 
-				DESTINATION bin
-				COMPONENT applications)
 
 enable_testing()
