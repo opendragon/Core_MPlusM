@@ -60,4 +60,8 @@ if(WIN32)
                           ${BONJOUR_LIB})
 endif(WIN32)
 
+install(TARGETS mpmRunningSumAltAdapter
+	DESTINATION bin/examples
+	COMPONENT examples)
+
 enable_testing()

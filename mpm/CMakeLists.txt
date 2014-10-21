@@ -96,7 +96,10 @@ add_library(mpmCommon
             "${MpM_SOURCE_DIR}/mpm/M+MStopStreamsRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MUtilities.cpp")
 
-install(TARGETS mpmCommon DESTINATION lib)
+install(TARGETS mpmCommon 
+		ARCHIVE
+		DESTINATION lib
+		COMPONENT libraries)
 
 install(FILES
         "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.h"
@@ -138,7 +141,8 @@ install(FILES
         "${MpM_SOURCE_DIR}/mpm/M+MServiceRequest.h"
         "${MpM_SOURCE_DIR}/mpm/M+MServiceResponse.h"
         "${MpM_SOURCE_DIR}/mpm/M+MUtilities.h"
-        DESTINATION include/mpm)
+        DESTINATION include/mpm
+		COMPONENT headers)
 
 if(APPLE)
 else(APPLE)
@@ -148,3 +152,5 @@ else(APPLE)
 endif(APPLE)
 
 enable_testing()
+
+#packing stuff

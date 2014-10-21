@@ -58,6 +58,8 @@ if(WIN32)
                             ${BONJOUR_LIB})
 endif(WIN32)
 
-install(TARGETS mpmMovementDbAdapter DESTINATION bin)
+install(TARGETS mpmMovementDbAdapter 
+		DESTINATION bin
+		COMPONENT applications))
 
 enable_testing()

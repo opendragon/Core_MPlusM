@@ -5,6 +5,7 @@ Makefile
 cmake_install.cmake
 install_manifest.txt
 *.a
+_CPack_Packages
 
 #VS/Windows related
 *.ilk

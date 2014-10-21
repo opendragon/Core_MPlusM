@@ -61,4 +61,8 @@ if(WIN32)
                           ${BONJOUR_LIB})
 endif(WIN32)
 
+install(TARGETS mpmRunningSumService
+	DESTINATION bin/examples
+	COMPONENT examples)
+
 enable_testing()

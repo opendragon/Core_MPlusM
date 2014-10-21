@@ -6,7 +6,7 @@
 #
 #  Contains:   The common CMAKE definitions for the M+M project.
 #
-#  Written by: Norman Jaffe
+#  Written by: Norman Jaffe & Johnty Wang
 #
 #  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
 #
@@ -37,7 +37,8 @@
 #--------------------------------------------------------------------------------------------------
 
 # YARP needs CMake 2.6 or greater
-cmake_minimum_required(VERSION 2.6)
+# CPack requires CMake 2.6 or greater
+cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
 project(M+M)
 
@@ -106,12 +107,28 @@ configure_file("${MpM_SOURCE_DIR}/mpm/M+MConfig.h.in"
 
 include_directories("${MpM_SOURCE_DIR}")
 
+#TODO: add bonjour to package
+#TODO: deal with ACE dependency
 
 if(WIN32)
     set(BONJOUR_DIR "C:/Program Files/Bonjour SDK")
     set(BONJOUR_LIB "${BONJOUR_DIR}/Lib/Win32/dnssd.lib")
     include_directories("${BONJOUR_DIR}/Include")
 endif(WIN32)
+
+
+#packing stuff
+set(CPACK_PACKAGE_NAME "M+M")
+set(CPACK_VENDOR "Movement and Meaning")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "M+M Test Package")
+set(CPACK_PACKAGE_VERSION "1.0.0")
+set(CPACK_PACKAGE_VERSION_MAJOR "1")
+set(CPACK_PACKAGE_VERSION_MINOR "0")
+set(CPACK_PACKAGE_VERSION_PATCH "0")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "M+M")
+set(CPACK_RESOURCE_FILE_LICENSE ${MpM_SOURCE_DIR}/license.txt)
+#end packing stuff
+
 
 add_subdirectory(ClientList)
 add_subdirectory(CommonTests)
@@ -133,3 +150,7 @@ add_subdirectory(ServiceMetrics)
 add_subdirectory(Version)
 
 enable_testing()
+
+set(CPACK_COMPONENTS_ALL applications libraries headers examples)
+
+include(CPack)

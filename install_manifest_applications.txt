@@ -1,0 +1,12 @@
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/applications/bin/mpmFindServices.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/applications/bin/mpmLeapMotionInputService.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/applications/bin/Leap.dll
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/applications/bin/mpmKinectV2InputService.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/applications/bin/mpmPortLister.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/applications/bin/mpmRegistryService.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/applications/bin/mpmRequestCounterClient.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/applications/bin/mpmRequestCounterService.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/applications/bin/mpmRequestInfo.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/applications/bin/mpmServiceLister.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/applications/bin/mpmServiceMetrics.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/applications/bin/mpmVersion.exe

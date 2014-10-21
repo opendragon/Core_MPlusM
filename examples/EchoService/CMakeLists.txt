@@ -57,4 +57,8 @@ if(WIN32)
                           ${BONJOUR_LIB})
 endif(WIN32)
 
+install(TARGETS mpmEchoService
+	DESTINATION bin/examples
+	COMPONENT examples)
+
 enable_testing()

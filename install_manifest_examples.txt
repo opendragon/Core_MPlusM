@@ -1,0 +1,13 @@
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/examples/bin/examples/mpmAbsorberService.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/examples/bin/examples/mpmEchoClient.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/examples/bin/examples/mpmEchoService.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/examples/bin/examples/mpmRandomBurstService.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/examples/bin/examples/mpmRandomNumberAdapter.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/examples/bin/examples/mpmRandomNumberClient.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/examples/bin/examples/mpmRandomNumberService.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/examples/bin/examples/mpmRecordIntegersService.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/examples/bin/examples/mpmRunningSumAdapter.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/examples/bin/examples/mpmRunningSumAltAdapter.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/examples/bin/examples/mpmRunningSumClient.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/examples/bin/examples/mpmRunningSumService.exe
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/examples/bin/examples/mpmTruncateFloatService.exe

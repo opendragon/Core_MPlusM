@@ -69,6 +69,12 @@ if(APPLE)
     install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib" DESTINATION lib)
 endif(APPLE)
 
-install(TARGETS mpmLeapMotionInputService DESTINATION bin)
+
+install(TARGETS mpmLeapMotionInputService
+		DESTINATION bin
+		COMPONENT applications)
+install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll" 
+				DESTINATION bin
+				COMPONENT applications)
 
 enable_testing()

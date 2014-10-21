@@ -69,7 +69,9 @@ if(WIN32)
                           ${BONJOUR_LIB})
 endif(WIN32)
 
-install(TARGETS mpmRegistryService DESTINATION bin)
+install(TARGETS mpmRegistryService 
+	DESTINATION bin
+	COMPONENT applications)
 
 enable_testing()
 

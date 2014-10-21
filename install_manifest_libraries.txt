@@ -1,0 +1,2 @@
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/libraries/lib/mpmCommon.lib
+C:/dev/packed/M+MTestPackageWindows/Core_MPlusM/_CPack_Packages/win32/NSIS/M+M-1.0.0-win32/libraries/lib/odLogging.lib

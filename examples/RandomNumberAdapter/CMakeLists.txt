@@ -59,4 +59,8 @@ if(WIN32)
                           ${BONJOUR_LIB})
 endif(WIN32)
 
+install(TARGETS mpmRandomNumberAdapter
+	DESTINATION bin/examples
+	COMPONENT examples)
+
 enable_testing()

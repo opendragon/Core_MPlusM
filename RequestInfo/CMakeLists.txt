@@ -54,6 +54,8 @@ if(WIN32)
                           ${BONJOUR_LIB})
 endif(WIN32)
 
-install(TARGETS mpmRequestInfo DESTINATION bin)
+install(TARGETS mpmRequestInfo 
+		DESTINATION bin
+		COMPONENT applications)
 
 enable_testing()

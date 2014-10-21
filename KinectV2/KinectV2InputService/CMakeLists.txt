@@ -61,6 +61,8 @@ if(WIN32)
                           ${BONJOUR_LIB})
 endif(WIN32)
 
-install(TARGETS mpmKinectV2InputService DESTINATION bin)
+install(TARGETS mpmKinectV2InputService
+		DESTINATION bin
+		COMPONENT applications)
 
 enable_testing()
