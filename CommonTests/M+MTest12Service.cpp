@@ -78,8 +78,8 @@ using namespace MplusM::Test;
 Test12Service::Test12Service(const yarp::os::ConstString & launchPath,
                              const int                     argc,
                              char * *                      argv) :
-    inherited(ServiceKind::kServiceKindNormal, launchPath, true, "Test12",
-              "Simple service for unit tests", "", argc, argv), _echoHandler(NULL)
+    inherited(kServiceKindNormal, launchPath, true, "Test12", "Simple service for unit tests", "",
+              argc, argv), _echoHandler(NULL)
 {
     OD_LOG_ENTER(); //####
     attachRequestHandlers();

@@ -80,8 +80,8 @@ using namespace MplusM::RequestCounter;
 RequestCounterService::RequestCounterService(const yarp::os::ConstString & launchPath,
                                              const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & servicePortNumber) :
-    inherited(ServiceKind::kServiceKindNormal, launchPath, "", true,
-              MpM_REQUESTCOUNTER_CANONICAL_NAME, "The request counter service",
+    inherited(kServiceKindNormal, launchPath, "", true, MpM_REQUESTCOUNTER_CANONICAL_NAME,
+              "The request counter service",
               "reset - clear the request counter and the elapsed time\n"
               "stats - report the request counter and the elapsed time\n"
               "<anything else> - simply increment the request counter", serviceEndpointName,

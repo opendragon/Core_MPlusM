@@ -1828,7 +1828,7 @@ static int setupRemoveFromServices(sqlite3_stmt * statement,
 RegistryService::RegistryService(const yarp::os::ConstString & launchPath,
                                  const bool                    useInMemoryDb,
                                  const yarp::os::ConstString & servicePortNumber) :
-inherited(ServiceKind::kServiceKindRegistry, launchPath, "", true, MpM_REGISTRY_CANONICAL_NAME,
+    inherited(kServiceKindRegistry, launchPath, "", true, MpM_REGISTRY_CANONICAL_NAME,
               "The Registry Service",
               "associate - associate a channel with another channel\n"
               "disassociate - remove all associations for a channel\n"

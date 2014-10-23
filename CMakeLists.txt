@@ -52,7 +52,7 @@ mark_as_advanced(CLEAR CMAKE_OSX_ARCHITECTURES)
 
 if(APPLE)
 	set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
-	set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING "Fixes linking error for M+M/ACE" FORCE)
+	set(CMAKE_CXX_FLAGS "-stdlib=libstdc++" CACHE STRING "Fixes linking error for M+M/ACE" FORCE)
 endif(APPLE)
 
 option(MpM_ChattyStart "Report the version numbers when launching an executable")

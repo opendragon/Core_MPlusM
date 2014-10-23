@@ -76,8 +76,8 @@ using namespace MplusM::Test;
 Test10Service::Test10Service(const yarp::os::ConstString & launchPath,
                              const int                     argc,
                              char * *                      argv) :
-    inherited(ServiceKind::kServiceKindNormal, launchPath, true, "Test10",
-              "Simple service for unit tests", "", argc, argv)
+    inherited(kServiceKindNormal, launchPath, true, "Test10", "Simple service for unit tests", "",
+              argc, argv)
 {
     OD_LOG_ENTER(); //####
     attachRequestHandlers();

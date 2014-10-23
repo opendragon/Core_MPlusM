@@ -81,7 +81,7 @@ RGBLEDService::RGBLEDService(const yarp::os::ConstString & launchPath,
                              const yarp::os::ConstString & tag,
                              const yarp::os::ConstString & serviceEndpointName,
                              const yarp::os::ConstString & servicePortNumber) :
-        inherited(ServiceKind::kServiceKindNormal, launchPath, tag, true, MpM_ECHO_CANONICAL_NAME,
+        inherited(kServiceKindNormal, launchPath, tag, true, MpM_ECHO_CANONICAL_NAME,
                   "An example RGB LED service",
                   "echo - send back any values given with the request", serviceEndpointName,
                   servicePortNumber), _echoHandler(NULL)

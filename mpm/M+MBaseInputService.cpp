@@ -81,8 +81,8 @@ BaseInputService::BaseInputService(const yarp::os::ConstString & launchPath,
                                    const yarp::os::ConstString & requestsDescription,
                                    const yarp::os::ConstString & serviceEndpointName,
                                    const yarp::os::ConstString & servicePortNumber) :
-    inherited(ServiceKind::kServiceKindInput, launchPath, tag, useMultipleHandlers, canonicalName,
-              description, requestsDescription, serviceEndpointName, servicePortNumber)
+    inherited(kServiceKindInput, launchPath, tag, useMultipleHandlers, canonicalName, description,
+              requestsDescription, serviceEndpointName, servicePortNumber)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
