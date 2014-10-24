@@ -36,8 +36,10 @@
 #
 #--------------------------------------------------------------------------------------------------
 
+set(THIS_TARGET mpmLeapMotionInputService)
+
 # Set up our program
-add_executable(mpmLeapMotionInputService
+add_executable(${THIS_TARGET}
                M+MLeapMotionInputServiceMain.cpp
                M+MLeapMotionInputListener.cpp
                M+MLeapMotionInputService.cpp)
@@ -45,7 +47,7 @@ add_executable(mpmLeapMotionInputService
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 
-target_link_libraries(mpmLeapMotionInputService
+target_link_libraries(${THIS_TARGET}
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
@@ -54,10 +56,10 @@ if(WIN32)
 	add_library(Leap SHARED IMPORTED)
 	set_property(TARGET Leap PROPERTY IMPORTED_LOCATION "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll")
 	set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.lib")
-	target_link_libraries(mpmLeapMotionInputService
+	target_link_libraries(${THIS_TARGET}
                           ${BONJOUR_LIB}
                           Leap)
-	add_custom_command(TARGET mpmLeapMotionInputService POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
                         "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib"
                         $<TARGET_FILE_DIR:mpmLeapMotionInputService>)
     install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll"
@@ -67,13 +69,15 @@ endif(WIN32)
 if(APPLE)
     add_library(Leap SHARED IMPORTED)
     set_property(TARGET Leap PROPERTY IMPORTED_LOCATION "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib")
-    target_link_libraries(mpmLeapMotionInputService
+    target_link_libraries(${THIS_TARGET}
                             Leap)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libACE.dylib "${CMAKE_INSTALL_PREFIX}/lib/libACE.dylib" ${THIS_TARGET})
     install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib"
             DESTINATION lib)
 endif(APPLE)
 
-install(TARGETS mpmLeapMotionInputService
+install(TARGETS ${THIS_TARGET}
 		DESTINATION bin
 		COMPONENT applications)
 

@@ -48,7 +48,9 @@
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wconversion"
+# pragma clang diagnostic ignored "-Wdeprecated-declarations"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+# pragma clang diagnostic ignored "-Wextern-c-compat"
 # pragma clang diagnostic ignored "-Wsign-conversion"
 #endif // defined(__APPLE__)
 #include <ace/OS.h>

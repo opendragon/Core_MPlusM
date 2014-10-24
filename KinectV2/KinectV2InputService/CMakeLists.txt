@@ -36,6 +36,8 @@
 #
 #--------------------------------------------------------------------------------------------------
 
+set(THIS_TARGET mpmKinectV2InputService)
+
 if(WIN32)
 	include_directories(${MpMKinectV2s_SOURCE_DIR}/KinectV2InputService/KinectLib/inc)
 	add_library(Kinect SHARED IMPORTED)
@@ -43,25 +45,30 @@ if(WIN32)
 endif(WIN32)
 
 # Set up our program
-add_executable(mpmKinectV2InputService
+add_executable(${THIS_TARGET}
                M+MKinectV2InputServiceMain.cpp
                M+MKinectV2EventThread.cpp
                M+MKinectV2InputService.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(mpmKinectV2InputService
+target_link_libraries(${THIS_TARGET}
                       mpmCommon
 					  Kinect
                       odLogging
                       ${YARP_LIBRARIES})
 
 if(WIN32)
-    target_link_libraries(mpmKinectV2InputService
+    target_link_libraries(${THIS_TARGET}
                           ${BONJOUR_LIB})
 endif(WIN32)
 
-install(TARGETS mpmKinectV2InputService
+if(APPLE)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libACE.dylib "${CMAKE_INSTALL_PREFIX}/lib/libACE.dylib" ${THIS_TARGET})
+endif(APPLE)
+
+install(TARGETS ${THIS_TARGET}
 		DESTINATION bin
 		COMPONENT applications)
 

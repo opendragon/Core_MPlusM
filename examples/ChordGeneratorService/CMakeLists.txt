@@ -39,22 +39,29 @@
 include_directories("${MpM_SOURCE_DIR}"
                     "${MpM_EXAMPLES_DIR}/ChordGeneratorService")
 
+set(THIS_TARGET mpmChordGeneratorService)
+
 # Set up our program
-add_executable(mpmChordGeneratorService
+add_executable(${THIS_TARGET}
                M+MChordGeneratorServiceMain.cpp
                M+MChordGeneratorService.cpp
                M+MChordGeneratorRequestHandler.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(mpmChordGeneratorService
+target_link_libraries(${THIS_TARGET}
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
 
 if(WIN32)
-    target_link_libraries(mpmChordGeneratorService
+    target_link_libraries(${THIS_TARGET}
                           ${BONJOUR_LIB})
 endif(WIN32)
+
+if(APPLE)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libACE.dylib "${CMAKE_INSTALL_PREFIX}/lib/libACE.dylib" ${THIS_TARGET})
+endif(APPLE)
 
 enable_testing()

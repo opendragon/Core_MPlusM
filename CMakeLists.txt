@@ -53,7 +53,10 @@ mark_as_advanced(CLEAR CMAKE_OSX_ARCHITECTURES)
 if(APPLE)
 	set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
 	set(CMAKE_CXX_FLAGS "-stdlib=libstdc++" CACHE STRING "Fixes linking error for M+M/ACE" FORCE)
+    set(CMAKE_INSTALL_PREFIX "/opt/M+M" CACHE STRING "Fixes install path for M+M/ACE" FORCE)
 endif(APPLE)
+
+set(CMAKE_USE_RELATIVE_PATHS ON CACHE BOOL "Always set file paths as relative")
 
 option(MpM_ChattyStart "Report the version numbers when launching an executable")
 option(MpM_DoExplicitClose "Perform an explicit CloseChannel() prior to freeing a channel")
@@ -64,7 +67,7 @@ option(MpM_MainDoesDelayNotYield "Use Delay() in main() loop")
 option(MpM_ReportContactDetails
         "Report details of the contacts during operations that might change them")
 option(MpM_ReportOnConnections "Report on connections")
-option(MpM_ServicesLogToStandardError "Services send logging output to stderr")
+option(MpM_ServicesLogToStandardError "Services send logging output to stderr" ON)
 option(MpM_StallOnSendProblem "A send failure goes to a tight loop")
 option(MpM_UseDiskDatabase "Use a disk-based database, rather than in-memory")
 option(MpM_UseTimeoutsInRetryLoops "Use timeouts in retry loops")
@@ -78,6 +81,9 @@ mark_as_advanced(MpM_StallOnSendProblem)
 mark_as_advanced(MpM_UseDiskDatabase)
 mark_as_advanced(MpM_UseTestDatabase)
 mark_as_advanced(MpM_UseTimeoutsInRetryLoops)
+
+# Add the M+M target path so that YARP and ACE can be found
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}")
 
 # Find YARP
 find_package(YARP REQUIRED)

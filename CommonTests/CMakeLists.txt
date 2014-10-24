@@ -38,6 +38,8 @@
 
 include_directories("${MpM_SOURCE_DIR}")
 
+set(THIS_TARGET mpmCommonTest)
+
 add_library(mpmCommonTestSupport
             M+MTest03Handler.cpp
             M+MTest04Handler.cpp
@@ -55,76 +57,81 @@ add_library(mpmCommonTestSupport
 
 enable_testing()
 
-add_executable(mpmCommonTest
+add_executable(${THIS_TARGET}
                M+MCommonTest.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(mpmCommonTest
+target_link_libraries(${THIS_TARGET}
                       mpmCommonTestSupport
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
 
 if(WIN32)
-    target_link_libraries(mpmCommonTest
+    target_link_libraries(${THIS_TARGET}
                           ${BONJOUR_LIB})
 endif(WIN32)
 
+if(APPLE)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libACE.dylib "${CMAKE_INSTALL_PREFIX}/lib/libACE.dylib" ${THIS_TARGET})
+endif(APPLE)
+
 # Argument order for test 1 = endpoint name [, IP address / name [, port]]
-add_test(NAME TestCreateEndpoint1 COMMAND mpmCommonTest 1 "/service/test/createendpoint_1")
-add_test(NAME TestCreateEndpoint2 COMMAND mpmCommonTest 1 "/service/test/createendpoint_2" "12340")
+add_test(NAME TestCreateEndpoint1 COMMAND ${THIS_TARGET} 1 "/service/test/createendpoint_1")
+add_test(NAME TestCreateEndpoint2 COMMAND ${THIS_TARGET} 1 "/service/test/createendpoint_2" "12340")
 # Test connection to endpoints, same arguments as test 1
-add_test(NAME TestConnectToEndpoint1 COMMAND mpmCommonTest 2 "/service/test/connecttoendpoint_1")
-add_test(NAME TestConnectToEndpoint2 COMMAND mpmCommonTest 2 "/service/test/connecttoendpoint_2"
+add_test(NAME TestConnectToEndpoint1 COMMAND ${THIS_TARGET} 2 "/service/test/connecttoendpoint_1")
+add_test(NAME TestConnectToEndpoint2 COMMAND ${THIS_TARGET} 2 "/service/test/connecttoendpoint_2"
             "12341")
 # Test data write to endpoints, same arguments as test 1
-add_test(NAME TestWriteToEndpoint1 COMMAND mpmCommonTest 3 "/service/test/writetoendpoint_1")
-add_test(NAME TestWriteToEndpoint2 COMMAND mpmCommonTest 3 "/service/test/writetoendpoint_2"
+add_test(NAME TestWriteToEndpoint1 COMMAND ${THIS_TARGET} 3 "/service/test/writetoendpoint_1")
+add_test(NAME TestWriteToEndpoint2 COMMAND ${THIS_TARGET} 3 "/service/test/writetoendpoint_2"
             "12342")
 # Test data echo from endpoints, same arguments as test 1
-add_test(NAME TestEchoFromEndpointWithReader1 COMMAND mpmCommonTest 4
+add_test(NAME TestEchoFromEndpointWithReader1 COMMAND ${THIS_TARGET} 4
             "/service/test/echofromendpointwithreader_1")
-add_test(NAME TestEchoFromEndpointWithReader2 COMMAND mpmCommonTest 4
+add_test(NAME TestEchoFromEndpointWithReader2 COMMAND ${THIS_TARGET} 4
             "/service/test/echofromendpointwithreader_2" "12343")
 # Test data echo from endpoints, using reader creator, same arguments as test 1
-add_test(NAME TestEchoFromEndpointWithReaderCreator1 COMMAND mpmCommonTest 5
+add_test(NAME TestEchoFromEndpointWithReaderCreator1 COMMAND ${THIS_TARGET} 5
             "/service/test/echofromendpointwithreadercreator_1")
-add_test(NAME TestEchoFromEndpointWithReaderCreator2 COMMAND mpmCommonTest 5
+add_test(NAME TestEchoFromEndpointWithReaderCreator2 COMMAND ${THIS_TARGET} 5
             "/service/test/echofromendpointwithreadercreator_2" "12344")
 # Test service request creation
-add_test(NAME TestCreateRequest1 COMMAND mpmCommonTest 6 "echo")
-add_test(NAME TestCreateRequest2 COMMAND mpmCommonTest 6 "echo" "something")
+add_test(NAME TestCreateRequest1 COMMAND ${THIS_TARGET} 6 "echo")
+add_test(NAME TestCreateRequest2 COMMAND ${THIS_TARGET} 6 "echo" "something")
 # Test service response creation
-add_test(NAME TestCreateResponse1 COMMAND mpmCommonTest 7)
-add_test(NAME TestCreateResponse2 COMMAND mpmCommonTest 7 "back")
-add_test(NAME TestCreateResponse3 COMMAND mpmCommonTest 7 "back" "at" "you")
+add_test(NAME TestCreateResponse1 COMMAND ${THIS_TARGET} 7)
+add_test(NAME TestCreateResponse2 COMMAND ${THIS_TARGET} 7 "back")
+add_test(NAME TestCreateResponse3 COMMAND ${THIS_TARGET} 7 "back" "at" "you")
 # Test echo via request/response, fixed message [echo something to send] but arguments as with test
 # 1
-add_test(NAME TestRequestEchoFromEndpoint1 COMMAND mpmCommonTest 8
+add_test(NAME TestRequestEchoFromEndpoint1 COMMAND ${THIS_TARGET} 8
             "/service/test/requestechofromendpoint_1")
-add_test(NAME TestRequestEchoFromEndpoint2 COMMAND mpmCommonTest 8
+add_test(NAME TestRequestEchoFromEndpoint2 COMMAND ${THIS_TARGET} 8
             "/service/test/requestechofromendpoint_2" "12345")
 # Test echo via service request/response, fixed message [echo something to send] but arguments as
 # with test 1
-add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReader1 COMMAND mpmCommonTest 9
+add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReader1 COMMAND ${THIS_TARGET} 9
             "/service/test/requestechofromserviceusingdefaultwithreader_1")
-add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReader2 COMMAND mpmCommonTest 9
+add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReader2 COMMAND ${THIS_TARGET} 9
             "/service/test/requestechofromserviceusingdefaultwithreader_2" "12346")
 # Test echo via service request/response, fixed message [echo something to send] but arguments as
 # with test 1
-add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReaderCreator1 COMMAND mpmCommonTest 10
+add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReaderCreator1 COMMAND ${THIS_TARGET} 10
             "/service/test/requestechofromserviceusingdefaultwithreadercreator_1")
-add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReaderCreator2 COMMAND mpmCommonTest 10
+add_test(NAME TestRequestEchoFromServiceUsingDefaultWithReaderCreator2 COMMAND ${THIS_TARGET} 10
             "/service/test/requestechofromserviceusingdefaultwithreadercreator_2" "12347")
 # Test echo via service request/response, fixed message [echo something to send] but arguments as
 # with test 1
-add_test(NAME TestRequestEchoFromServiceWithRequestHandler1 COMMAND mpmCommonTest 11
+add_test(NAME TestRequestEchoFromServiceWithRequestHandler1 COMMAND ${THIS_TARGET} 11
             "/service/test/requestechofromservicewithrequesthandler_1")
-add_test(NAME TestRequestEchoFromServiceWithRequestHandler2 COMMAND mpmCommonTest 11
+add_test(NAME TestRequestEchoFromServiceWithRequestHandler2 COMMAND ${THIS_TARGET} 11
             "/service/test/requestechofromservicewithrequesthandler_2" "12348")
 # Test list request
-add_test(NAME TestRequestEchoFromServiceWithRequestHandlerAndInfo1 COMMAND mpmCommonTest 12
+add_test(NAME TestRequestEchoFromServiceWithRequestHandlerAndInfo1 COMMAND ${THIS_TARGET} 12
             "/service/test/requestechofromservicewithrequesthandlerandinfo_1")
-add_test(NAME TestRequestEchoFromServiceWithRequestHandlerAndInfo2 COMMAND mpmCommonTest 12
+add_test(NAME TestRequestEchoFromServiceWithRequestHandlerAndInfo2 COMMAND ${THIS_TARGET} 12
             "/service/test/requestechofromservicewithrequesthandlerandinfo_2" "12349")

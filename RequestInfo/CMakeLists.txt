@@ -38,23 +38,30 @@
 
 include_directories("${MpM_SOURCE_DIR}")
 
+set(THIS_TARGET mpmRequestInfo)
+
 # Set up our program
-add_executable(mpmRequestInfo
+add_executable(${THIS_TARGET}
                M+MRequestInfoMain.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(mpmRequestInfo
+target_link_libraries(${THIS_TARGET}
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
 
 if(WIN32)
-    target_link_libraries(mpmRequestInfo
+    target_link_libraries(${THIS_TARGET}
                           ${BONJOUR_LIB})
 endif(WIN32)
 
-install(TARGETS mpmRequestInfo 
+if(APPLE)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libACE.dylib "${CMAKE_INSTALL_PREFIX}/lib/libACE.dylib" ${THIS_TARGET})
+endif(APPLE)
+
+install(TARGETS ${THIS_TARGET}
 		DESTINATION bin
 		COMPONENT applications)
 

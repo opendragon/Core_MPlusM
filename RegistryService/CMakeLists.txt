@@ -38,11 +38,13 @@
 
 add_subdirectory(RegistryTests)
 
+set(THIS_TARGET mpmRegistryService)
+
 include_directories("${MpM_SOURCE_DIR}"
                     "${MpM_SQLITE_DIR}")
 
 # Set up our program
-add_executable(mpmRegistryService
+add_executable(${THIS_TARGET}
                M+MRegistryServiceMain.cpp
                M+MAssociateRequestHandler.cpp
                M+MColumnNameValidator.cpp
@@ -59,23 +61,30 @@ add_executable(mpmRegistryService
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(mpmRegistryService
+target_link_libraries(${THIS_TARGET}
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
 
 if(WIN32)
-    target_link_libraries(mpmRegistryService
+    target_link_libraries(${THIS_TARGET}
                           ${BONJOUR_LIB})
 endif(WIN32)
 
-install(TARGETS mpmRegistryService 
-	DESTINATION bin
-	COMPONENT applications)
+if(APPLE)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libACE.dylib "${CMAKE_INSTALL_PREFIX}/lib/libACE.dylib" ${THIS_TARGET})
+endif(APPLE)
+
+install(TARGETS ${THIS_TARGET}
+        DESTINATION bin
+        COMPONENT applications)
 
 enable_testing()
 
-add_executable(mpmRegistryTest
+set(THIS_TARGET mpmRegistryTest)
+
+add_executable(${THIS_TARGET}
                M+MRegistryTest.cpp
                M+MAssociateRequestHandler.cpp
                M+MColumnNameValidator.cpp
@@ -91,38 +100,43 @@ add_executable(mpmRegistryTest
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(mpmRegistryTest
+target_link_libraries(${THIS_TARGET}
                       mpmRegistryTestSupport
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
 
 if(WIN32)
-    target_link_libraries(mpmRegistryTest
+    target_link_libraries(${THIS_TARGET}
                           ${BONJOUR_LIB})
 endif(WIN32)
 
+if(APPLE)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libACE.dylib "${CMAKE_INSTALL_PREFIX}/lib/libACE.dylib" ${THIS_TARGET})
+endif(APPLE)
+
 # Test create register service
-add_test(NAME TestCreateRegistryService1 COMMAND mpmRegistryTest 13)
-add_test(NAME TestCreateRegistryService2 COMMAND mpmRegistryTest 13 "12350")
+add_test(NAME TestCreateRegistryService1 COMMAND ${THIS_TARGET} 13)
+add_test(NAME TestCreateRegistryService2 COMMAND ${THIS_TARGET} 13 "12350")
 # Test register request, second service
-add_test(NAME TestRequestRegistryService1 COMMAND mpmRegistryTest 14)
-add_test(NAME TestRequestRegistryService2 COMMAND mpmRegistryTest 14 "12351")
+add_test(NAME TestRequestRegistryService1 COMMAND ${THIS_TARGET} 14)
+add_test(NAME TestRequestRegistryService2 COMMAND ${THIS_TARGET} 14 "12351")
 # Test unregister request, second service
-add_test(NAME TestRequestUnregisterService1 COMMAND mpmRegistryTest 15)
-add_test(NAME TestRequestUnregisterService2 COMMAND mpmRegistryTest 15 "12352")
+add_test(NAME TestRequestUnregisterService1 COMMAND ${THIS_TARGET} 15)
+add_test(NAME TestRequestUnregisterService2 COMMAND ${THIS_TARGET} 15 "12352")
 # Test search for request / service - note the change in arguments
-add_test(NAME TestRequestSearchService1 COMMAND mpmRegistryTest 16 0 ""
+add_test(NAME TestRequestSearchService1 COMMAND ${THIS_TARGET} 16 0 ""
             "FAILED \"An error message\"")
-add_test(NAME TestRequestSearchService2 COMMAND mpmRegistryTest 16 0 "Version: 42" "OK ()")
-add_test(NAME TestRequestSearchService3 COMMAND mpmRegistryTest 16 0 "Details:Echo*"
+add_test(NAME TestRequestSearchService2 COMMAND ${THIS_TARGET} 16 0 "Version: 42" "OK ()")
+add_test(NAME TestRequestSearchService3 COMMAND ${THIS_TARGET} 16 0 "Details:Echo*"
             "OK (/_service_/test/requestsearchservice)")
-add_test(NAME TestRequestSearchService4 COMMAND mpmRegistryTest 16 0
+add_test(NAME TestRequestSearchService4 COMMAND ${THIS_TARGET} 16 0
             "Details:Echo*,Keyword:(requests)" "OK (/_service_/test/requestsearchservice /$ervice)")
-add_test(NAME TestRequestSearchService5 COMMAND mpmRegistryTest 16 0 "Description:*unit\\ tests"
+add_test(NAME TestRequestSearchService5 COMMAND ${THIS_TARGET} 16 0 "Description:*unit\\ tests"
             "OK (/_service_/test/requestsearchservice)")
-add_test(NAME TestRequestSearchService6 COMMAND mpmRegistryTest 16 1 "Details:Echo*" "OK (Test16)")
-add_test(NAME TestRequestSearchService7 COMMAND mpmRegistryTest 16 1
+add_test(NAME TestRequestSearchService6 COMMAND ${THIS_TARGET} 16 1 "Details:Echo*" "OK (Test16)")
+add_test(NAME TestRequestSearchService7 COMMAND ${THIS_TARGET} 16 1
             "Details:Echo*,Keyword:(requests)" "OK (Registry Test16)")
-add_test(NAME TestRequestSearchService8 COMMAND mpmRegistryTest 16 1 "Description:*unit\\ tests"
+add_test(NAME TestRequestSearchService8 COMMAND ${THIS_TARGET} 16 1 "Description:*unit\\ tests"
             "OK (Test16)")

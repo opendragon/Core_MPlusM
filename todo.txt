@@ -2,10 +2,13 @@
 
 = use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
 
-+ when copying OGDF files into /usr/local/* from _release, use ‘cp -rp’ so that permissions will allow reading!
-[_release/libOGDF.a goes to /usr/local/lib, ogdf/* goes to /usr/local/include]; note that the linker has some issues with OGDF
++ use the new ‘install’ target for OGDF!
 [do a make cleanrelease && make release, make cleandebug && make debug, this will build libOGDF.a in
 _release and _debug]
+
++ for ACE - after building, do a ‘sudo sh’ for installing - and make sure to do ‘export ACE_ROOT=$(pwd)’ and ‘export DYLD_LIBRARY_PATH=????:$DYLD_LIBRARY_PATH’ if the install directory is not /usr/local
+
++ for YARP - unset ACE_ROOT before doing a fresh ‘ccmake ..’, so that the /opt/M+M files will be picked, not the ACE_ROOT ones
 
 * change signal handling to use platform-neutral mechanisms
 

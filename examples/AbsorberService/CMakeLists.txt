@@ -38,26 +38,33 @@
 
 include_directories("${MpM_SOURCE_DIR}")
 
+set(THIS_TARGET mpmAbsorberService)
+
 # Set up our program
-add_executable(mpmAbsorberService
+add_executable(${THIS_TARGET}
                M+MAbsorberServiceMain.cpp
                M+MAbsorberInputHandler.cpp
                M+MAbsorberService.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(mpmAbsorberService
+target_link_libraries(${THIS_TARGET}
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
 
 if(WIN32)
-    target_link_libraries(mpmAbsorberService
+    target_link_libraries(${THIS_TARGET}
                           ${BONJOUR_LIB})
 endif(WIN32)
 
-install(TARGETS mpmAbsorberService
-	DESTINATION bin/examples
-	COMPONENT examples)
+if(APPLE)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libACE.dylib "${CMAKE_INSTALL_PREFIX}/lib/libACE.dylib" ${THIS_TARGET})
+endif(APPLE)
+
+install(TARGETS ${THIS_TARGET}
+        DESTINATION bin/examples
+        COMPONENT examples)
 
 enable_testing()

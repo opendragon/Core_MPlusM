@@ -48,12 +48,12 @@ else(MpM_UseObjectiveCDebug)
 endif(MpM_UseObjectiveCDebug)
 
 install(TARGETS odLogging 
-	DESTINATION lib
-	COMPONENT libraries)
+        DESTINATION lib
+        COMPONENT libraries)
 
 install(FILES
         ODDisableLogging.h
         ODEnableLogging.h
         ODLogging.h
         DESTINATION include/odl
-	COMPONENT headers)
+        COMPONENT headers)

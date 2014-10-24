@@ -38,23 +38,31 @@
 
 include_directories("../ExemplarCommon")
 
+set(THIS_TARGET mpmExemplarClient)
+
 # Set up our program
-add_executable(mpmExemplarClient
+add_executable(${THIS_TARGET}
                M+MExemplarClientMain.cpp
                M+MExemplarClient.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(mpmExemplarClient
+target_link_libraries(${THIS_TARGET}
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
 
 if(WIN32)
-    target_link_libraries(mpmExemplarClient
+    target_link_libraries(${THIS_TARGET}
                             ${BONJOUR_LIB})
 endif(WIN32)
 
-install(TARGETS mpmExemplarClient DESTINATION bin)
+if(APPLE)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libACE.dylib "${CMAKE_INSTALL_PREFIX}/lib/libACE.dylib" ${THIS_TARGET})
+endif(APPLE)
+
+install(TARGETS ${THIS_TARGET}
+        DESTINATION bin)
 
 enable_testing()

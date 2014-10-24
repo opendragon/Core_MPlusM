@@ -41,6 +41,8 @@
 
 cmake_minimum_required(VERSION 2.8)
 
+set(THIS_TARGET mpmRGBLEDService)
+
 # Find YARP
 find_package(YARP REQUIRED)
 list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
@@ -61,21 +63,26 @@ if(APPLE)
 endif(APPLE)
 
 # Set up our program
-add_executable(mpmRGBLEDService
+add_executable(${THIS_TARGET}
                M+MRGBLEDServiceMain.cpp
 			   M+MRGBLEDRequestHandler.cpp
                M+MRGBLEDService.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(mpmRGBLEDService
+target_link_libraries(${THIS_TARGET}
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES})
 
 if(WIN32)
-    target_link_libraries(mpmRGBLEDService
+    target_link_libraries(${THIS_TARGET}
                             ${BONJOUR_LIB})
 endif(WIN32)
+
+if(APPLE)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libACE.dylib "${CMAKE_INSTALL_PREFIX}/lib/libACE.dylib" ${THIS_TARGET})
+endif(APPLE)
 
 enable_testing()
