@@ -83,7 +83,7 @@ MovementDbService::MovementDbService(const yarp::os::ConstString & launchPath,
                                      const yarp::os::ConstString & databaseServerAddress,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
-    inherited(ServiceKind::kServiceKindNormal, launchPath, tag, true, MpM_MOVEMENTDB_CANONICAL_NAME,
+    inherited(kServiceKindNormal, launchPath, tag, true, MpM_MOVEMENTDB_CANONICAL_NAME,
               "The Movement database service",
               "reset - clear the request counter and the elapsed time" , serviceEndpointName,
               servicePortNumber), _databaseAddress(databaseServerAddress), _addFileHandler(NULL),

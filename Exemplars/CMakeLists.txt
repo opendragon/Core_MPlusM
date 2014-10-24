@@ -46,9 +46,16 @@ mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
 mark_as_advanced(CLEAR CMAKE_OSX_ARCHITECTURES)
 
 if(APPLE)
-	set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
-	set(CMAKE_CXX_FLAGS "-stdlib=libstdc++" CACHE STRING "Fixes linking error for M+M/ACE" FORCE)
+    set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
+    set(CMAKE_CXX_FLAGS "-stdlib=libstdc++" CACHE STRING "Fixes linking error for M+M/ACE" FORCE)
+    set(CMAKE_INSTALL_PREFIX "/opt/M+M" CACHE STRING "Fixes install path for M+M/ACE" FORCE)
+    set(CMAKE_EXE_LINKER_FLAGS "-L/opt/M+M/lib" CACHE STRING "Fixes link path" FORCE)
 endif(APPLE)
+
+set(CMAKE_USE_RELATIVE_PATHS ON CACHE BOOL "Always set file paths as relative")
+
+# Add the M+M target path so that YARP and ACE can be found
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}")
 
 # Find YARP
 find_package(YARP REQUIRED)
