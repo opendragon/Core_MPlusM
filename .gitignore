@@ -96,3 +96,5 @@ mpmServiceMetrics
 !LeapMotion/LeapMotionInputService/win_lib/*.*
 KinectV2/KinectV2InputService/Release/mpmKinectV2InputService.exe.piz
 RegistryService/Release/mpmRegistryService.exe.piz
+CPackConfig.cmake
+CPackSourceConfig.cmake
