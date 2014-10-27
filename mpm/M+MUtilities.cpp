@@ -305,7 +305,7 @@ static void DNSSD_API browseCallBack(DNSServiceRef       service,
 #if MAC_OR_LINUX_
                         strerror_r(actErrno, errBuff, sizeof(errBuff));
 #else // ! MAC_OR_LINUX_
-                        strerror_s(errBUff, sizeof(errBuff), actErrno);
+                        strerror_s(errBuff, sizeof(errBuff), actErrno);
 #endif // ! MAC_OR_LINUX_
                         std::cerr << "select() returned " << result << " errno " << actErrno <<
                                     " " << errBuff << std::endl;
@@ -768,7 +768,7 @@ void Utilities::CheckForNameServerReporter(void)
 #if MAC_OR_LINUX_
                     strerror_r(actErrno, errBuff, sizeof(errBuff));
 #else // ! MAC_OR_LINUX_
-                    strerror_s(errBUff, sizeof(errBuff), actErrno);
+                    strerror_s(errBuff, sizeof(errBuff), actErrno);
 #endif // ! MAC_OR_LINUX_
                     std::cerr << "select() returned " << result << " errno " << actErrno << " " <<
                                 errBuff << std::endl;
