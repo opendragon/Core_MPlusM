@@ -1001,6 +1001,74 @@
 					<key>STATE</key>
 					<true/>
 				</dict>
+				<dict>
+					<key>PATTERNS_ARRAY</key>
+					<array>
+						<dict>
+							<key>REGULAR_EXPRESSION</key>
+							<false/>
+							<key>STRING</key>
+							<string>CPackConfig.cmake</string>
+							<key>TYPE</key>
+							<integer>0</integer>
+						</dict>
+					</array>
+					<key>PROTECTED</key>
+					<false/>
+					<key>STATE</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>PATTERNS_ARRAY</key>
+					<array>
+						<dict>
+							<key>REGULAR_EXPRESSION</key>
+							<false/>
+							<key>STRING</key>
+							<string>CPackSourceConfig.cmake</string>
+							<key>TYPE</key>
+							<integer>0</integer>
+						</dict>
+					</array>
+					<key>PROTECTED</key>
+					<false/>
+					<key>STATE</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>PATTERNS_ARRAY</key>
+					<array>
+						<dict>
+							<key>REGULAR_EXPRESSION</key>
+							<false/>
+							<key>STRING</key>
+							<string>CTestTestfile.cmake</string>
+							<key>TYPE</key>
+							<integer>0</integer>
+						</dict>
+					</array>
+					<key>PROTECTED</key>
+					<false/>
+					<key>STATE</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>PATTERNS_ARRAY</key>
+					<array>
+						<dict>
+							<key>REGULAR_EXPRESSION</key>
+							<false/>
+							<key>STRING</key>
+							<string>cmake_install.cmake</string>
+							<key>TYPE</key>
+							<integer>0</integer>
+						</dict>
+					</array>
+					<key>PROTECTED</key>
+					<false/>
+					<key>STATE</key>
+					<true/>
+				</dict>
 			</array>
 			<key>NAME</key>
 			<string>Developer</string>
