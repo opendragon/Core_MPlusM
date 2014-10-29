@@ -3,9 +3,9 @@ CMakeFiles
 CTestTestfile.cmake
 Makefile
 cmake_install.cmake
-install_manifest.txt
+install_manifest*.*
 *.a
-_CPack_Packages
+_CPack_Packages/
 
 #VS/Windows related
 *.ilk

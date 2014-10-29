@@ -68,7 +68,7 @@ if(APPLE)
 endif(APPLE)
 
 install(TARGETS ${THIS_TARGET}
-        DESTINATION bin/examples
+        DESTINATION bin
         COMPONENT examples)
 
 enable_testing()
