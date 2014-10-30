@@ -70,19 +70,68 @@ To clear a pending `remove' operation, either click on the source port a second 
 click on a port that is not connected to the source port or somewhere other than a port.
 Note that is is not possible to remove a connection from a client to a service.\\
 
-If one of the rectangular objects is clicked on with the `Control' key held down, an
-information window will be presented.
-If the title of the rectangle is clicked on, the information will be about the
-object in general while, if a port is clicked on, the information will be about the
-specific port.
-Holding down the `Shift' key at the same time as the `Control' key results in more
-detailed information: for services, the (non--default) requests for the service are also
-displayed and, for ports of a service, the description of the protocol for the port is
-displayed, if the protocol is non--blank.\\
-
 Clicking on a rectangular object with no modifier key held down allows the user to drag
 the object around in the window.
 Note that connections cannot be selected by clicking on them.\\
+
+Doing a right--mouse click in the background, displays a popup menu with three choices:
+\begin{itemize}
+\item \textbf{Repaint} force a repaint, in case there's a `glitch' of the display; this
+can also be triggered via a \textbf{Cmd--R} command
+\item \textbf{Invert background} invert the background; this can also be triggered via a
+\textbf{Cmd--I} command
+\item \textbf{White background} switch between a black~/~white background and a gradient;
+this can also be triggered via a \textbf{Cmd--B} command
+\end{itemize}
+
+Doing a right--mouse click on the title of a rectangle representing a service, displays a
+popup menu with three choices:
+\begin{itemize}
+\item \textbf{Display service information} display information about the service
+\item \textbf{Display detailed service information} display information about the service,
+including the (non--default) requests for the service
+\item \textbf{Display service metrics} display information about the activity on each port
+of the service -- the number of bytes and number of messages sent to and from the port;
+the category `auxiliary' represents the anonymous ports used by the service during its
+operation
+\end{itemize}
+
+Doing a right--mouse click on the title of a rectangle that does not represent a service,
+displays a popup menu with two choices:
+\begin{itemize}
+\item \textbf{Display entity information} display information about the entity
+\item \textbf{Display detailed entity information} display information about the entity
+\end{itemize}
+
+Doing a right--mouse click on the primary channel of a service displays a popup menu with
+three choices:
+\begin{itemize}
+\item \textbf{Display channel information} display information about the channel
+\item \textbf{Display detailed channel information} generate output in tab--delimited form
+\item \textbf{Display channel metrics} display information about the activity on the
+channel -- the number of bytes and number of messages sent to and from the channel
+\end{itemize}
+
+Doing a right--mouse click on a non--primary channel of a service displays a popup menu
+with five choices:
+\begin{itemize}
+\item \textbf{Display channel information} display information about the channel,
+including the protocol for the channel
+\item \textbf{Display detailed channel information} display information about the channel,
+including the protocol for the channel and a description of the protocol
+\item \textbf{Display channel metrics} display information about the activity on the
+channel -- the number of bytes and number of messages sent to and from the channel
+\item \textbf{Add simple monitor} activate a monitor with a simple graphical
+representation of the activity on the channel; this is currently not implemented
+\item \textbf{Add scrolling monitor} activate a monitor displaying the actual messages on
+the channel; this is currently not implemented
+\end{itemize}
+
+Doing a right--mouse click on a regular port displays a popup menu with two choices:
+\begin{itemize}
+\item \textbf{Display port information} display information about the port
+\item \textbf{Display detailed port information} display information about the port
+\end{itemize}
 
 The positions of the objects within the window are stored in the file `settings.txt'
 within the `ChannelManager' directory inside the user--specific application data
@@ -90,10 +139,6 @@ directory.
 On Microsoft Windows, this will likely be ``\textbackslash{}Documents~and~Settings%
 \textbackslash{}username\textbackslash{}Application~Data'' while, for Macintosh OS X, it
 will likely be ``\textasciitilde/Library''.\\
-
-There are three commands available to alter the display: \textbf{Cmd--B} to use a
-black~/~white background versus a gradient, \textbf{Cmd--I} to invert the background and
-\textbf{Cmd--R} to force a repaint, in case there's a `glitch'.
 \objDiagram{MMcmDiagram.ps}{cmDiagram}{Channel~Manager structure}
 \tertiaryEnd{\utilityNameE[Channel~Manager]{ChannelManager}}
 \secondaryEnd{}
