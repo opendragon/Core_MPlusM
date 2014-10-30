@@ -30,20 +30,40 @@ set(CPACK_COMPONENT_GROUP_EVERYTHING_DESCRIPTION
 	"Everything, including sample M+M Applications")
 	
 set(CPACK_COMPONENTS_ALL applications libraries headers examples)
-include(CPack)
+
 #end General Packaging stuff
 
 # platform independent install step:
 #
-# TODO: copy our yarp folder to M+M install location/yarp
-# TODO: copy our ace folder to M+M install location/ACE_wrappers
+# TODO: copy our yarp headers to M+M install location/yarp
+# TODO: copy our ace headers to M+M install location/ACE_wrappers
+# NOTE: since we're not currently using CPack on mac, everything falls under WIN32 below:
 #
 
 #Windows specific install step
 if(WIN32)
+
+set(CPACK_GENERATOR NSIS)
 # copy yarp and ACE DLL's to install location
 # set env variables for MpM_YARP_DIR and MpM_ACE_ROOT
 # so VS external, preconfigured projects can find them
+
+#ACE HEADERS
+#install(DIRECTORY ${MpM_SOURCE_DIR}/../ACE_wrappers/ace
+#		DESTINATION ACE_wrappers
+#		COMPONENT libraries)
+
+#ACE DLL
+install(FILES 	"${MpM_SOURCE_DIR}/../ACE_wrappers/lib/ACE.dll"
+            DESTINATION bin
+            COMPONENT libraries)
+#ACE LIB
+install(FILES 	"${MpM_SOURCE_DIR}/../ACE_wrappers/lib/ACE.lib"
+            DESTINATION lib
+            COMPONENT libraries)
+
+
+#YARP HEADERS
 install(DIRECTORY ${MpM_SOURCE_DIR}/../yarp/generated_include 
 		DESTINATION yarp 
 		COMPONENT libraries)
@@ -67,4 +87,40 @@ install(DIRECTORY ${MpM_SOURCE_DIR}/../yarp/src/libYARP_math/include
 install(DIRECTORY ${MpM_SOURCE_DIR}/../yarp/src/libYARP_sig/include
 		DESTINATION yarp/src/libYARP_sig/
 		COMPONENT libraries)		
+		
+#YARP LIBS
+install(FILES 	"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_OS.lib"
+				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_dev.lib"
+				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_name.lib"
+				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_init.lib"
+				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_sig.lib"
+            DESTINATION lib
+            COMPONENT libraries)
+
+#YARP DLLS
+install(FILES 	"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_OS.dll"
+				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_dev.dll"
+				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_name.dll"
+				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_init.dll"
+				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_sig.dll"
+            DESTINATION bin
+            COMPONENT libraries)
+
+
+			
+
+#Finally, set some MpM Env variables (WINDOWS ONLY!)
+set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS " 
+					WriteRegStr HKCU 'Environment' 'MPM_YARP_DIR' '$INSTDIR\\yarp'
+					WriteRegStr HKCU 'Environment' 'MPM_ACE_ROOT' '$INSTDIR\\ACE_wrappers'
+
+					")		
+#And, unset them when we uninstall!
+set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS " 
+					DeleteRegValue HKCU 'Environment' 'MPM_YARP_DIR'
+					DeleteRegValue HKCU 'Environment' 'MPM_ACE_ROOT'
+
+					")						
 endif(WIN32)
+
+include(CPack)
