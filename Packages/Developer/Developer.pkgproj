@@ -720,70 +720,6 @@
 														<key>GID</key>
 														<integer>20</integer>
 														<key>PATH</key>
-														<string>/Users/M_M/Documents/git.repositories/Core_MPlusM/install_manifest_applications.txt</string>
-														<key>PATH_TYPE</key>
-														<integer>0</integer>
-														<key>PERMISSIONS</key>
-														<integer>420</integer>
-														<key>TYPE</key>
-														<integer>3</integer>
-														<key>UID</key>
-														<integer>502</integer>
-													</dict>
-													<dict>
-														<key>CHILDREN</key>
-														<array/>
-														<key>GID</key>
-														<integer>20</integer>
-														<key>PATH</key>
-														<string>/Users/M_M/Documents/git.repositories/Core_MPlusM/install_manifest_examples.txt</string>
-														<key>PATH_TYPE</key>
-														<integer>0</integer>
-														<key>PERMISSIONS</key>
-														<integer>420</integer>
-														<key>TYPE</key>
-														<integer>3</integer>
-														<key>UID</key>
-														<integer>502</integer>
-													</dict>
-													<dict>
-														<key>CHILDREN</key>
-														<array/>
-														<key>GID</key>
-														<integer>20</integer>
-														<key>PATH</key>
-														<string>/Users/M_M/Documents/git.repositories/Core_MPlusM/install_manifest_headers.txt</string>
-														<key>PATH_TYPE</key>
-														<integer>0</integer>
-														<key>PERMISSIONS</key>
-														<integer>420</integer>
-														<key>TYPE</key>
-														<integer>3</integer>
-														<key>UID</key>
-														<integer>502</integer>
-													</dict>
-													<dict>
-														<key>CHILDREN</key>
-														<array/>
-														<key>GID</key>
-														<integer>20</integer>
-														<key>PATH</key>
-														<string>/Users/M_M/Documents/git.repositories/Core_MPlusM/install_manifest_libraries.txt</string>
-														<key>PATH_TYPE</key>
-														<integer>0</integer>
-														<key>PERMISSIONS</key>
-														<integer>420</integer>
-														<key>TYPE</key>
-														<integer>3</integer>
-														<key>UID</key>
-														<integer>502</integer>
-													</dict>
-													<dict>
-														<key>CHILDREN</key>
-														<array/>
-														<key>GID</key>
-														<integer>20</integer>
-														<key>PATH</key>
 														<string>/Users/M_M/Documents/git.repositories/Core_MPlusM/KinectV2</string>
 														<key>PATH_TYPE</key>
 														<integer>0</integer>
@@ -2538,6 +2474,40 @@
 							<string>_CPack_Packages</string>
 							<key>TYPE</key>
 							<integer>1</integer>
+						</dict>
+					</array>
+					<key>PROTECTED</key>
+					<false/>
+					<key>STATE</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>PATTERNS_ARRAY</key>
+					<array>
+						<dict>
+							<key>REGULAR_EXPRESSION</key>
+							<true/>
+							<key>STRING</key>
+							<string>\.pdf$</string>
+							<key>TYPE</key>
+							<integer>0</integer>
+						</dict>
+					</array>
+					<key>PROTECTED</key>
+					<false/>
+					<key>STATE</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>PATTERNS_ARRAY</key>
+					<array>
+						<dict>
+							<key>REGULAR_EXPRESSION</key>
+							<true/>
+							<key>STRING</key>
+							<string>\.graffle$</string>
+							<key>TYPE</key>
+							<integer>0</integer>
 						</dict>
 					</array>
 					<key>PROTECTED</key>

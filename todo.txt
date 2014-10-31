@@ -15,6 +15,3 @@ _release and _debug]
 + on dragging, do an adjustSize() without repaint?
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
-
-—> Channel Manager project does not have Debug / Release distinction; juce_CompilerSupport.h not found
-—> YARP needs DYLD_LIBRARY_PATH set to /opt/M+M in order to work - change the CMakeLists.txt to do the same as for M+M?
