@@ -44,6 +44,12 @@ set(CPACK_COMPONENTS_ALL applications libraries headers examples)
 if(WIN32)
 
 set(CPACK_GENERATOR NSIS)
+
+install(FILES "${MpM_SOURCE_DIR}/bonjoursdksetup.exe"
+			DESTINATION support
+			COMPONENT libraries)
+
+
 # copy yarp and ACE DLL's to install location
 # set env variables for MpM_YARP_DIR and MpM_ACE_ROOT
 # so VS external, preconfigured projects can find them
@@ -111,9 +117,10 @@ install(FILES 	"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_OS.dll"
 
 #Finally, set some MpM Env variables (WINDOWS ONLY!)
 set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS " 
+					ExecWait '$INSTDIR/support/bonjoursdksetup.exe'
 					WriteRegStr HKCU 'Environment' 'MPM_YARP_DIR' '$INSTDIR\\yarp'
 					WriteRegStr HKCU 'Environment' 'MPM_ACE_ROOT' '$INSTDIR\\ACE_wrappers'
-
+					Delete '$INSTDIR/support/bonjoursdksetup.exe'
 					")		
 #And, unset them when we uninstall!
 set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS " 

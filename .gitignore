@@ -98,6 +98,7 @@ KinectV2/KinectV2InputService/Release/mpmKinectV2InputService.exe.piz
 RegistryService/Release/mpmRegistryService.exe.piz
 CPackConfig.cmake
 CPackSourceConfig.cmake
+!bonjoursdksetup.exe
 
 MplusM/build/M+M.mpkg/Contents/distribution.dist
 MplusM/build/M+M.mpkg/Contents/Packages/Core.pkg
