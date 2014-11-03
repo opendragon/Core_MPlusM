@@ -14,7 +14,7 @@ MMpsfiles = MMdbDiagram.ps MMmatchSyntaxrails.ps MMcmDiagram.ps MMmpmDiagram.ps
 
 IMimagefiles = Installer01.eps Installer02.eps Installer03.eps Installer04.eps \
 	Installer05.eps Installer05a.eps Installer06.eps Installer06a.eps Installer06b.eps \
-	Installer07.eps Installer08.eps
+	Installer07.eps Installer08.eps RunningChannelManager.eps
 
 KV2imagefiles =
 
@@ -151,6 +151,7 @@ $(MMmaindvi) : $(MMimagefiles) $(MMpsfiles) $(MMmainsource) $(MMsecondarysources
 .PRECIOUS : %.ps %.pdf
 
 clean :
-	rm $(IMpsfiles) $(KV2psfiles) $(LMpsfiles) $(MMpsfiles) *.log *.pdf *.mpx *.dvi
+	rm -f $(IMpsfiles) $(KV2psfiles) $(LMpsfiles) $(MMpsfiles) *.log *.pdf *.mpx *.dvi
+	rm -f *.aux *.idx *.ilg *.ind *.lof *.out *.ps *.toc
 
 manual : $(IMtarget) $(KV2target) $(LMtarget) $(MMtarget)

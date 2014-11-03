@@ -979,6 +979,22 @@
 													<key>GID</key>
 													<integer>20</integer>
 													<key>PATH</key>
+													<string>../../../../Installation_Manual.pdf</string>
+													<key>PATH_TYPE</key>
+													<integer>1</integer>
+													<key>PERMISSIONS</key>
+													<integer>420</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array/>
+													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
 													<string>../Documentation/KinectV2Input_Manual.pdf</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
@@ -1707,7 +1723,7 @@
 			<key>TYPE</key>
 			<integer>1</integer>
 			<key>UUID</key>
-			<string>3C1ED376-924E-4F1D-82F3-87FBE264942D</string>
+			<string>0DFAE7CE-BCD9-48CE-BA9B-46618C68C021</string>
 		</dict>
 	</array>
 	<key>PROJECT</key>
@@ -1798,7 +1814,7 @@
 									<integer>2</integer>
 								</dict>
 								<key>PACKAGE_UUID</key>
-								<string>3C1ED376-924E-4F1D-82F3-87FBE264942D</string>
+								<string>0DFAE7CE-BCD9-48CE-BA9B-46618C68C021</string>
 								<key>REQUIREMENTS</key>
 								<array/>
 								<key>TITLE</key>
@@ -1808,7 +1824,7 @@
 								<key>TYPE</key>
 								<integer>0</integer>
 								<key>UUID</key>
-								<string>A2500CBB-DD24-48F8-A5FE-A5C582C98F34</string>
+								<string>11576595-37D1-499A-AC87-9CCDE1D5031D</string>
 							</dict>
 						</array>
 						<key>REMOVED</key>
