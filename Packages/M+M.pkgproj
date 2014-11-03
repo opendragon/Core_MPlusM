@@ -1707,7 +1707,7 @@
 			<key>TYPE</key>
 			<integer>1</integer>
 			<key>UUID</key>
-			<string>4EBB1AA1-9180-4795-B29F-4EA229D9F1DC</string>
+			<string>3C1ED376-924E-4F1D-82F3-87FBE264942D</string>
 		</dict>
 	</array>
 	<key>PROJECT</key>
@@ -1798,7 +1798,7 @@
 									<integer>2</integer>
 								</dict>
 								<key>PACKAGE_UUID</key>
-								<string>4EBB1AA1-9180-4795-B29F-4EA229D9F1DC</string>
+								<string>3C1ED376-924E-4F1D-82F3-87FBE264942D</string>
 								<key>REQUIREMENTS</key>
 								<array/>
 								<key>TITLE</key>
@@ -1808,7 +1808,7 @@
 								<key>TYPE</key>
 								<integer>0</integer>
 								<key>UUID</key>
-								<string>0D4A128E-CEFF-465A-B8A1-8D0B92CD2DE3</string>
+								<string>A2500CBB-DD24-48F8-A5FE-A5C582C98F34</string>
 							</dict>
 						</array>
 						<key>REMOVED</key>
@@ -2335,7 +2335,21 @@
 	<key>SHARED_GLOBAL_DATA</key>
 	<dict>
 		<key>IC_REQUIREMENT_JAVASCRIPT_SHARED_SOURCE_CODE</key>
-		<string></string>
+		<string>function our_installation_check () {
+    system.log('my: ' + system.propertiesOf(my))
+    system.log('system: ' + system.propertiesOf(system))
+    system.log('system.applications: ' +
+        system.propertiesOf(system.applications))
+    // Check 64 bit
+    if (! system.sysctl('hw.cpu64bit_capable')) {
+        // need to set error type
+        my.result.type = "Fatal"
+        my.result.message = "Installer needs 64 bit"
+        return false
+    }
+    return true
+}
+</string>
 	</dict>
 	<key>TYPE</key>
 	<integer>0</integer>

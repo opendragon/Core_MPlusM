@@ -99,6 +99,7 @@
 \end{minipage}}\objCaption{#2}\label{file:#3}\end{center}\end{figure}}
 
 \newcommand*{\objPicture}[1]{\begin{center}\includegraphics{#1}\end{center}}
+\newcommand*{\objScaledPicture}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
 \newcommand*{\objDiagram}[3]{\begin{figure}[!ht]\objPicture{#1}\objCaption{#3}\label{diagram:#2}\end{figure}}
 
 % First argument: index category
@@ -459,3 +460,5 @@
 \newcommand*{\codeBegin}{\begin{ttfamily}\begin{small}}
 \newcommand*{\codeEnd}{\end{small}\end{ttfamily}}
 \newcommand*{\asCode}[1]{\codeBegin{}#1\codeEnd{}}
+\newcommand*{\asBoldCode}[1]{\textbf{\asCode{#1}}}
+\newcommand*{\asEmphCode}[1]{\textit{\asCode{#1}}}

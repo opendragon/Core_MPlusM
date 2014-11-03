@@ -1,0 +1,58 @@
+\ProvidesFile{Installation_Manual.tex}
+
+% Begin Preamble
+
+\input{sharedSetup.tex}
+
+% Note that we can't use a number as part of a command!
+
+%\newcommand{\KVtwoI}{Kinect~V2~Input}
+
+% Set up the page layout:
+\pagestyle{fancyplain}
+\newcommand{\mymark}{}
+\lhead[]{\fancyplain{}{\textsc{\mymark}}}
+\chead[]{}
+\rhead[\fancyplain{}{\textsc{\mymark}}]{}
+\lfoot[Page \thepage]{\today}
+\cfoot[\MMM{} Installation]{\MMM{} Installation}
+\rfoot[\today]{Page \thepage}
+\renewcommand{\headrulewidth}{0.5bp}
+\pagenumbering{roman}
+
+\title{\cal\Huge\textitcorr{\MMM{} Installation}\\
+\vspace{1ex}}
+\author{HPlus~Technologies~Ltd. and Simon~Fraser~University\\
+Vancouver, British~Columbia, Canada}
+
+\makeindex
+
+% End Preamble
+
+\begin{document}
+
+% Begin front matter
+
+\maketitle
+
+\insertpart{Contents}{\tableofcontents}
+%\insertpart{List~of~Figures}{\listoffigures}
+
+\input{IMdocumentationHistory.tex}
+\input{IMfrontispiece.tex}
+\clearpage\pagenumbering{arabic}
+
+% End of front matter
+
+% Begin contents
+
+\input{IMoverview.tex}
+
+%% section for the service
+
+\input{IMprocedure.tex}
+
+% End of contents
+
+\end{document}
+\end
