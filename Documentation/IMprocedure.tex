@@ -92,8 +92,8 @@ Open the \asCode{Terminal} program and enter the following:
 \outputBegin{}
 yarp server
 \outputEnd{}
-If you see the following, there was another copy of \yarp{} already running on the system
-and you will need to stop it before continuing:
+If you see the following, there was another copy of the \yarp{} server already running on
+the system and you may wish to stop it before continuing:
 \outputBegin{}
 \begin{verbatim}
 __   __ _    ____  ____  
@@ -111,6 +111,19 @@ IP address:\ default\\
 Port number:\ 10000\\
 yarp:\ Port /root failed to activate at tcp://10.0.1.2:10000 (address conflict)\\
 Name server failed to open
+\outputEnd{}
+If you chose to stop the running \yarp{} server in order to use the version installed with
+\mplusm, you will need to clear the \yarp{} configuration before issuing the
+`\asCode{yarp server}' command.
+The following command will clear the \yarp{} configuration:
+\outputBegin{}
+yarp conf --clean
+\outputEnd{}
+Note that \mplusm{} has been tested with \yarp{} versions 2.3.61 through 2.3.63 and should
+work with newer versions.
+To identify the version of \yarp{} that is installed, issue the command:
+\outputBegin{}
+yarp version
 \outputEnd{}
 If you see the following, the \asCode{Terminal} program was running during the
 installation and did not pick up the correct settings:
@@ -192,58 +205,53 @@ output that was just displayed.
 kill -s HUP 63918
 \outputEnd{}
 It should now be possible to issue the `\asCode{mpmRegistryService \&}' command as
-described earlier.
-\newpage
+described earlier.\\
+
 The last step in testing the \mplusm{} installation is to launch the
 \asCode{Channel~Manager} application, which was placed in the \asCode{/Applications}
 directory.
 You should see something similar to the following:
 \objScaledPicture{RunningChannelManager.eps}{0.75}
-You now have a test \mplusm{} installation and begin using it for your projects!
+You now have a test \mplusm{} installation and can begin using it for your projects!
 \tertiaryEnd{}
 \secondaryEnd{}
 \newpage
 \secondaryStart{Microsoft~Windows}
-
-To install the M+M, simply execute the installer package titled "M+M-1.x.x-win32.exe". Depending on your security settings, you may receive a User Access Warning. Simply click next if that is the case. You will be greeted with the following window:
-
-\includegraphics[keepaspectratio=true,scale=0.74]{img/win_install01}
-
-Click "I agree" to proceed.
-
-\includegraphics[keepaspectratio=true,scale=0.74]{img/win_install02}
-
+To install \mplusm, simply execute the installer package titled
+``\asCode{M+M-1.x.x-win32.exe}''.
+Depending on your security settings, you may receive a User Access Warning.
+Simply click the \asBoldCode{Next~>} button if that is the case.
+You will be greeted with the following window:
+\objScaledPicture{img/win_install01.eps}{0.75}
+Click the \asBoldCode{I Agree} button to proceed.
+\objScaledPicture{img/win_install02.eps}{0.75}
+\newpage
 Then, select the destination for the installed files:
-
-\includegraphics[keepaspectratio=true,scale=0.74]{img/win_install03}
-
-
-An option to create a Start Menu folder will be provided. Currently this will contain a shortcut to the uninstaller application.
-
-\includegraphics[keepaspectratio=true,scale=0.74]{img/win_install04}
-
-Here you can select the components to be installed. The Minimal Install contains just the libraries, without the example applications.
-
-\includegraphics[keepaspectratio=true,scale=0.74]{img/win_install05}
-
-The M+M Library makes use of the Apple Bonjour SDK, and the installer will be launched at this point:
-
-\includegraphics[keepaspectratio=true,scale=0.74]{img/win_install06}
-
+\objScaledPicture{img/win_install03.eps}{0.75}
+An option to create a Start Menu folder will be provided.
+Currently this will contain a shortcut to the uninstaller application.
+\objScaledPicture{img/win_install04.eps}{0.75}
+\newpage
+Here you can select the components to be installed.
+The Minimal Install contains just the libraries, without the example applications.
+\objScaledPicture{img/win_install05.eps}{0.75}
+The \mplusm{} Library makes use of the Apple Bonjour SDK, and the installer will be
+launched at this point:
+\objScaledPicture{img/win_install06.eps}{0.75}
+\newpage
 Proceed with the installation of the Bonjour SDK:
+\objScaledPicture{img/win_install07.eps}{0.75}
 
-\includegraphics[keepaspectratio=true,scale=0.74]{img/win_install07}
 
-\includegraphics[keepaspectratio=true,scale=0.74]{img/win_install08}
+\objScaledPicture{img/win_install08.eps}{0.75}
+\newpage
 
-\includegraphics[keepaspectratio=true,scale=0.74]{img/win_install09}
+\objScaledPicture{img/win_install09.eps}{0.75}
 
-\includegraphics[keepaspectratio=true,scale=0.74]{img/win_install10}
 
+\objScaledPicture{img/win_install10.eps}{0.75}
 \newpage
 This finalizes the installation process:
-
-\includegraphics[keepaspectratio=true,scale=0.74]{img/win_install11}
-
+\objScaledPicture{img/win_install11.eps}{0.75}
 \secondaryEnd{}
 \primaryEnd{}
