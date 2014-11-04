@@ -9,12 +9,13 @@
 \usepackage{calc}
 \usepackage{shortvrb}
 \usepackage{varioref}
-\usepackage[dvips]{graphicx}
-\usepackage[dvips,usenames]{color}
+\usepackage{graphicx}
+\usepackage{color}
 \usepackage{makeidx}
 \usepackage{xspace}
 \usepackage{fancyhdr}
 \usepackage[section]{tocbibind}
+\usepackage{epstopdf}
 
 % Control the code, depending on whether a hyper-linked PDF is being generated:
 \newboolean{generatingHyperPDF}
@@ -23,8 +24,7 @@
 % If the package 'hyperref' is disabled by commenting out the following lines,
 % be sure to set the boolean 'generatingHyperPDF' to false.
 \ifthenelse{\boolean{generatingHyperPDF}}%
- {\usepackage[dvips,
-    colorlinks=true,
+ {\usepackage[colorlinks=true,
     linkcolor=webgreen,
     filecolor=webbrown,
     citecolor=webgreen,
