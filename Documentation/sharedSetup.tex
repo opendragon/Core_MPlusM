@@ -462,3 +462,11 @@
 \newcommand*{\asCode}[1]{\codeBegin{}#1\codeEnd{}}
 \newcommand*{\asBoldCode}[1]{\textbf{\asCode{#1}}}
 \newcommand*{\asEmphCode}[1]{\textit{\asCode{#1}}}
+
+\newenvironment{tightItems}%
+{\begin{itemize}%
+\setlength{\leftmargin}{0pt}%
+\setlength{\itemsep}{0pt}%
+\setlength{\parsep}{0pt}%
+\setlength{\parskip}{0pt}}%
+{\end{itemize}}

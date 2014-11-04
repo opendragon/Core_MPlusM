@@ -34,19 +34,21 @@ MMmainsource = MpM_Manual.tex
 
 # Secondary source files
 
+Commonsources = boilerPlate.tex sharedSetup.tex
+
 IMsecondarysources = IMdocumentationHistory.tex IMfrontispiece.tex IMoverview.tex \
-	IMprocedure.tex sharedSetup.tex
+	IMprocedure.tex $(Commonsources)
 
 KV2secondarysources = KV2documentationHistory.tex KV2frontispiece.tex \
-	KV2messageFormat.tex KV2overview.tex KV2service.tex sharedSetup.tex
+	KV2messageFormat.tex KV2overview.tex KV2service.tex $(Commonsources)
 
 LMsecondarysources = LMdocumentationHistory.tex LMfrontispiece.tex LMmessageFormat.tex \
-	LMoverview.tex LMservice.tex sharedSetup.tex
+	LMoverview.tex LMservice.tex $(Commonsources)
 
 MMsecondarysources = MMcaseStudy.tex MMclasses.tex MMdocumentationHistory.tex \
 	MMexamples.tex MMexemplars.tex MMfrontispiece.tex MMinternalDb.tex \
 	MMmatchSyntax.tex MMoverview.tex MMregistrationSequence.tex MMservices.tex \
-	MMutilities.tex sharedSetup.tex
+	MMutilities.tex $(Commonsources)
 
 # DVI files
 
