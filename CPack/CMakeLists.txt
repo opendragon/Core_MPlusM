@@ -93,6 +93,15 @@ install(DIRECTORY ${MpM_SOURCE_DIR}/../yarp/src/libYARP_math/include
 install(DIRECTORY ${MpM_SOURCE_DIR}/../yarp/src/libYARP_sig/include
 		DESTINATION yarp/src/libYARP_sig/
 		COMPONENT libraries)		
+
+#YARP EXES
+install(FILES 	"${MpM_SOURCE_DIR}/../yarp/bin/Release/yarp.exe"
+				"${MpM_SOURCE_DIR}/../yarp/bin/Release/yarpserver.exe"
+				"${MpM_SOURCE_DIR}/../yarp/bin/Release/yarpserver2.exe"
+				"${MpM_SOURCE_DIR}/../yarp/bin/Release/yarpserver3.exe"
+				"${MpM_SOURCE_DIR}/../yarp/bin/Release/yarp-config.exe"
+            DESTINATION bin
+            COMPONENT applications)
 		
 #YARP LIBS
 install(FILES 	"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_OS.lib"
