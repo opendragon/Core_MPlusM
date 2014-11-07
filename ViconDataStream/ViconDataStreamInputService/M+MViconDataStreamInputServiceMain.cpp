@@ -56,7 +56,10 @@
  
  @brief The main application for the Vicon DataStream input service. */
 
-/*! @dir KinectV2InputService
+/*! @dir ViconDataStream
+ @brief The set of files that implement the Vicon DataStream input service. */
+
+/*! @dir ViconDataStreamInputService
  @brief The set of files that implement the Vicon DataStream input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

@@ -59,6 +59,9 @@
 /*! @dir ExemplarCommon
  @brief The set of files that are shared between the exemplar client and the exemplar service. */
 
+/*! @dir Exemplars
+ @brief The set of files that implement the examplars. */
+
 /*! @dir ExemplarService
  @brief The set of files that implement the exemplar service. */
 #if defined(__APPLE__)

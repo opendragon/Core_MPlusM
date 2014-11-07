@@ -56,6 +56,9 @@
  
  @brief The main application for the %Leap Motion input service. */
 
+/*! @dir LeapMotion
+ @brief The set of files that implement the Kinect V2 input service. */
+
 /*! @dir LeapMotionInputService
  @brief The set of files that implement the %Leap Motion input service. */
 #if defined(__APPLE__)

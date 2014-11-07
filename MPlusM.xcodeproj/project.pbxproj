@@ -277,6 +277,15 @@
 		DF385121198ACCFE00A0414E /* M+MStopStreamsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStopStreamsRequestHandler.h"; path = "mpm/M+MStopStreamsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF385122198ACCFE00A0414E /* M+MUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUtilities.cpp"; path = "mpm/M+MUtilities.cpp"; sourceTree = SOURCE_ROOT; };
 		DF385123198ACCFE00A0414E /* M+MUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUtilities.h"; path = "mpm/M+MUtilities.h"; sourceTree = SOURCE_ROOT; };
+		DF6DFCC11A0D263400E8CEF5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ViconDataStream/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF6DFCC21A0D265000E8CEF5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ViconDataStream/ViconDataStreamInputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF6DFCC31A0D265000E8CEF5 /* M+MViconDataStreamEventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MViconDataStreamEventThread.cpp"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconDataStreamEventThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DF6DFCC41A0D265000E8CEF5 /* M+MViconDataStreamEventThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MViconDataStreamEventThread.h"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconDataStreamEventThread.h"; sourceTree = SOURCE_ROOT; };
+		DF6DFCC51A0D265000E8CEF5 /* M+MViconDataStreamInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MViconDataStreamInputRequests.h"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconDataStreamInputRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF6DFCC61A0D265000E8CEF5 /* M+MViconDataStreamInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MViconDataStreamInputService.cpp"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconDataStreamInputService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF6DFCC71A0D265000E8CEF5 /* M+MViconDataStreamInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MViconDataStreamInputService.h"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconDataStreamInputService.h"; sourceTree = SOURCE_ROOT; };
+		DF6DFCC81A0D265000E8CEF5 /* M+MViconDataStreamInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MViconDataStreamInputServiceMain.cpp"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconDataStreamInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF6DFCC91A0D265000E8CEF5 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = ViconDataStream/ViconDataStreamInputService/stdafx.h; sourceTree = SOURCE_ROOT; };
 		DF7F70E719EDBD9A0098ED43 /* M+MNameServerReportingThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNameServerReportingThread.h"; path = "RegistryService/M+MNameServerReportingThread.h"; sourceTree = "<group>"; };
 		DF7F70E819EDBD9A0098ED43 /* M+MNameServerReportingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNameServerReportingThread.cpp"; path = "RegistryService/M+MNameServerReportingThread.cpp"; sourceTree = "<group>"; };
 		DF824B4719C737F7004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Exemplars/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -748,6 +757,30 @@
 			name = RunningSumAltAdapter;
 			sourceTree = SOURCE_ROOT;
 		};
+		DF6DFCBF1A0D25FC00E8CEF5 /* ViconDataStream */ = {
+			isa = PBXGroup;
+			children = (
+				DF6DFCC11A0D263400E8CEF5 /* CMakeLists.txt */,
+				DF6DFCC01A0D261E00E8CEF5 /* ViconDataStreamInputService */,
+			);
+			name = ViconDataStream;
+			sourceTree = "<group>";
+		};
+		DF6DFCC01A0D261E00E8CEF5 /* ViconDataStreamInputService */ = {
+			isa = PBXGroup;
+			children = (
+				DF6DFCC21A0D265000E8CEF5 /* CMakeLists.txt */,
+				DF6DFCC31A0D265000E8CEF5 /* M+MViconDataStreamEventThread.cpp */,
+				DF6DFCC41A0D265000E8CEF5 /* M+MViconDataStreamEventThread.h */,
+				DF6DFCC51A0D265000E8CEF5 /* M+MViconDataStreamInputRequests.h */,
+				DF6DFCC61A0D265000E8CEF5 /* M+MViconDataStreamInputService.cpp */,
+				DF6DFCC71A0D265000E8CEF5 /* M+MViconDataStreamInputService.h */,
+				DF6DFCC81A0D265000E8CEF5 /* M+MViconDataStreamInputServiceMain.cpp */,
+				DF6DFCC91A0D265000E8CEF5 /* stdafx.h */,
+			);
+			name = ViconDataStreamInputService;
+			sourceTree = "<group>";
+		};
 		DF7784F918ECA5EA00BDC5C1 /* EchoCommon */ = {
 			isa = PBXGroup;
 			children = (
@@ -930,6 +963,7 @@
 				DFCDE50719E7393D0051D294 /* ServiceMetrics */,
 				DF06998E18EDD9F100FF0E93 /* SQLite3 */,
 				DFA4963A18FED31A005A7213 /* Version */,
+				DF6DFCBF1A0D25FC00E8CEF5 /* ViconDataStream */,
 			);
 			sourceTree = "<group>";
 		};

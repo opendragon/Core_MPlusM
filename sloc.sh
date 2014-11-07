@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sloccount ClientList CommonTests Exemplars FindServices KinectV2 LeapMotion MovementDb ParserTest PortLister RegistryService RequestCounter RequestInfo ServiceLister ServiceMetrics Version examples mpm odl
+sloccount ClientList CommonTests Exemplars FindServices KinectV2 LeapMotion MovementDb ParserTest PortLister RegistryService RequestCounter RequestInfo ServiceLister ServiceMetrics Version ViconDataStream examples mpm odl
 echo ---------------
 echo subtract the following -
 echo ---------------

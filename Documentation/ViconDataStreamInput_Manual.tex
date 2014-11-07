@@ -1,0 +1,67 @@
+\ProvidesFile{ViconDataStreamInput_Manual.tex}[v1.0.0]
+
+% Begin Preamble
+
+\newcommand{\docAuthor}{Norman Jaffe}
+\newcommand{\docTitle}{Vicon DataStream Input}
+\newcommand{\docKeywords}{Vicon,middleware,DataStream,input}
+\newcommand{\docSubject}{Input Service}
+
+\input{sharedSetup.tex}
+
+% Note that we can't use a number as part of a command!
+
+\newcommand{\VDSI}{Vicon~DataStream~Input}
+
+% Set up the page layout:
+\pagestyle{fancyplain}
+\newcommand{\mymark}{}
+\lhead[]{\fancyplain{}{\textsc{\mymark}}}
+\chead[]{}
+\rhead[\fancyplain{}{\textsc{\mymark}}]{}
+\lfoot[Page \thepage]{\today}
+\cfoot[\VDSI]{\VDSI}
+\rfoot[\today]{Page \thepage}
+\renewcommand{\headrulewidth}{0.5bp}
+\pagenumbering{roman}
+
+\title{\cal\Huge\textitcorr{\VDSI}\\
+\vspace{1ex}}
+\author{HPlus~Technologies~Ltd. and Simon~Fraser~University\\
+Vancouver, British~Columbia, Canada}
+
+\makeindex
+
+% End Preamble
+
+\begin{document}
+
+% Begin front matter
+
+\maketitle
+
+\insertpart{Contents}{\tableofcontents}
+%\insertpart{List~of~Figures}{\listoffigures}
+
+\input{VDSdocumentationHistory.tex}
+\input{VDSfrontispiece.tex}
+\clearpage\pagenumbering{arabic}
+
+% End of front matter
+
+% Begin contents
+
+\input{VDSoverview.tex}
+
+%% section for the service
+
+\input{VDSservice.tex}
+
+%% section for the message format
+
+\input{VDSmessageFormat.tex}
+
+% End of contents
+
+\end{document}
+\end

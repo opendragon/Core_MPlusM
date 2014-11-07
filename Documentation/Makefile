@@ -10,6 +10,8 @@ LMpsfiles =
 
 MMpsfiles = MMdbDiagram.ps MMmatchSyntaxrails.ps MMcmDiagram.ps MMmpmDiagram.ps
 
+VDSpsfiles =
+
 # Input image files
 
 IMimagefiles = Installer01.eps Installer02.eps Installer03.eps Installer04.eps \
@@ -22,6 +24,8 @@ LMimagefiles =
 
 MMimagefiles = ChannelManager.eps
 
+VDSimagefiles =
+
 # Main source file
 
 IMmainsource = Installation_Manual.tex
@@ -31,6 +35,8 @@ KV2mainsource = KinectV2Input_Manual.tex
 LMmainsource = LeapMotionInput_Manual.tex
 
 MMmainsource = MpM_Manual.tex
+
+VDSmainsource = ViconDataStreamInput_Manual.tex
 
 # Secondary source files
 
@@ -50,6 +56,9 @@ MMsecondarysources = MMcaseStudy.tex MMclasses.tex MMdocumentationHistory.tex \
 	MMmatchSyntax.tex MMoverview.tex MMregistrationSequence.tex MMservices.tex \
 	MMutilities.tex $(Commonsources)
 
+VDSsecondarysources = VDSdocumentationHistory.tex VDSfrontispiece.tex \
+	VDSmessageFormat.tex VDSoverview.tex VDSservice.tex $(Commonsources)
+
 # DVI files
 
 IMmaindvi = $(IMmainsource:.tex=.dvi)
@@ -59,6 +68,8 @@ KV2maindvi = $(KV2mainsource:.tex=.dvi)
 LMmaindvi = $(LMmainsource:.tex=.dvi)
 
 MMmaindvi = $(MMmainsource:.tex=.dvi)
+
+VDSmaindvi = $(VDSmainsource:.tex=.dvi)
 
 # Index files
 
@@ -70,6 +81,8 @@ LMmainidx = $(LMmainsource:.tex=.idx)
 
 MMmainidx = $(MMmainsource:.tex=.idx)
 
+VDSmainidx = $(VDSmainsource:.tex=.idx)
+
 # Intermediate Postscript files
 
 IMmainps = $(IMmainsource:.tex=.ps)
@@ -79,6 +92,8 @@ KV2mainps = $(KV2mainsource:.tex=.ps)
 LMmainps = $(LMmainsource:.tex=.ps)
 
 MMmainps = $(MMmainsource:.tex=.ps)
+
+VDSmainps = $(VDSmainsource:.tex=.ps)
 
 # Output PDF files
 
@@ -90,6 +105,8 @@ LMmainpdf = $(LMmainsource:.tex=.pdf)
 
 MMmainpdf = $(MMmainsource:.tex=.pdf)
 
+VDSmainpdf = $(VDSmainsource:.tex=.pdf)
+
 # Target files
 
 IMtarget = $(HOME)/$(IMmainpdf)
@@ -99,6 +116,8 @@ KV2target = $(HOME)/$(KV2mainpdf)
 LMtarget = $(HOME)/$(LMmainpdf)
 
 MMtarget = $(HOME)/$(MMmainpdf)
+
+VDStarget = $(HOME)/$(VDSmainpdf)
 
 # General rules
 
@@ -146,6 +165,13 @@ $(MMmaindvi) : $(MMimagefiles) $(MMpsfiles) $(MMmainsource) $(MMsecondarysources
 	makeindex $(MMmainidx)
 	latex -interaction=batchmode $(MMmainsource)
 
+$(VDSmaindvi) : $(VDSimagefiles) $(VDSpsfiles) $(VDSmainsource) $(VDSsecondarysources)
+	latex -interaction=batchmode $(VDSmainsource)
+	latex -interaction=batchmode $(VDSmainsource)
+	latex -interaction=batchmode $(VDSmainsource)
+	makeindex $(VDSmainidx)
+	latex -interaction=batchmode $(VDSmainsource)
+
 # Top-level targets
 
 .PHONY : clean manual
@@ -153,7 +179,7 @@ $(MMmaindvi) : $(MMimagefiles) $(MMpsfiles) $(MMmainsource) $(MMsecondarysources
 .PRECIOUS : %.ps %.pdf
 
 clean :
-	rm -f $(IMpsfiles) $(KV2psfiles) $(LMpsfiles) $(MMpsfiles) *.log *.pdf *.mpx *.dvi
-	rm -f *.aux *.idx *.ilg *.ind *.lof *.out *.ps *.toc
+	rm -f $(IMpsfiles) $(KV2psfiles) $(LMpsfiles) $(MMpsfiles) $(VDSpsfiles)
+	rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.ps *.toc
 
-manual : $(IMtarget) $(KV2target) $(LMtarget) $(MMtarget)
+manual : $(IMtarget) $(KV2target) $(LMtarget) $(MMtarget) $(VDStarget)

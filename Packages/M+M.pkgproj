@@ -1723,7 +1723,7 @@
 			<key>TYPE</key>
 			<integer>1</integer>
 			<key>UUID</key>
-			<string>BB49B26C-E786-4DB7-AD82-5A42EBF33C28</string>
+			<string>89C16121-0D2F-4545-B0FD-CD64F3D693B1</string>
 		</dict>
 	</array>
 	<key>PROJECT</key>
@@ -1814,7 +1814,7 @@
 									<integer>2</integer>
 								</dict>
 								<key>PACKAGE_UUID</key>
-								<string>BB49B26C-E786-4DB7-AD82-5A42EBF33C28</string>
+								<string>89C16121-0D2F-4545-B0FD-CD64F3D693B1</string>
 								<key>REQUIREMENTS</key>
 								<array/>
 								<key>TITLE</key>
@@ -1824,7 +1824,7 @@
 								<key>TYPE</key>
 								<integer>0</integer>
 								<key>UUID</key>
-								<string>E4D0563C-C9CF-4FF0-96C2-BF68C320E74D</string>
+								<string>A26CCA2B-BAB3-4F4A-8D5D-1CBB5511F3E4</string>
 							</dict>
 						</array>
 						<key>REMOVED</key>

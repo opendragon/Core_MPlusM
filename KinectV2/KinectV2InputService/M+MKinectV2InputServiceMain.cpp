@@ -56,6 +56,9 @@
  
  @brief The main application for the Kinect V2 input service. */
 
+/*! @dir KinectV2
+ @brief The set of files that implement the Kinect V2 input service. */
+
 /*! @dir KinectV2InputService
  @brief The set of files that implement the Kinect V2 input service. */
 #if defined(__APPLE__)
