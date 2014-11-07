@@ -20,8 +20,8 @@
 // Direct2D Header Files
 //#include <d2d1.h>
 
-// Kinect Header files
-//#include <Kinect.h>
+// Vicon DataStream Header files
+//#include <Client.h>
 
 //#pragma comment (lib, "d2d1.lib")
 

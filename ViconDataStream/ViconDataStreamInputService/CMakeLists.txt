@@ -39,9 +39,10 @@
 set(THIS_TARGET mpmViconDataStreamInputService)
 
 if(WIN32)
-#	include_directories(${MpMKinectV2s_SOURCE_DIR}/KinectV2InputService/KinectLib/inc)
-#	add_library(Kinect SHARED IMPORTED)
-#	set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB ${MpMKinectV2s_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x86/Kinect20.lib)
+	include_directories(${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/inc)
+	add_library(ViconDataStream SHARED IMPORTED)
+	set_property(TARGET ViconDataStream PROPERTY IMPORTED_IMPLIB
+                ${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/x86/ViconDataStreamSDK_CPP.lib)
 endif(WIN32)
 
 # Set up our program
@@ -54,7 +55,7 @@ add_executable(${THIS_TARGET}
 # processed once.
 target_link_libraries(${THIS_TARGET}
                       mpmCommon
-#					  Kinect
+#                      ViconDataStream
                       odLogging
                       ${YARP_LIBRARIES})
 

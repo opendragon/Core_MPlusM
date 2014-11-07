@@ -41,7 +41,8 @@ set(THIS_TARGET mpmKinectV2InputService)
 if(WIN32)
 	include_directories(${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/inc)
 	add_library(Kinect SHARED IMPORTED)
-	set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB ${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x86/Kinect20.lib)
+	set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB
+                ${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x86/Kinect20.lib)
 endif(WIN32)
 
 # Set up our program
