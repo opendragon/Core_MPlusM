@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The common CMAKE definitions for the M+M Leap Motion files.
+#  Contains:   The common CMAKE definitions for the M+M Leap Motion input service files.
 #
 #  Written by: Norman Jaffe
 #

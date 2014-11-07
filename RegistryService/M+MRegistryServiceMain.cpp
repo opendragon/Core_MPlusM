@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       RegistryServiceMain.cpp
+//  File:       M+MRegistryServiceMain.cpp
 //
 //  Project:    M+M
 //

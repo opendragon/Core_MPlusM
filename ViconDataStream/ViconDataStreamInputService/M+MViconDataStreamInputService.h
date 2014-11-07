@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MLeapMotionInputService.h
+//  File:       M+MViconDataStreamInputService.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the Leap Motion input service.
+//  Contains:   The class declaration for the Vicon DataStream input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,16 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-16
+//  Created:    2014-11-07
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMLeapMotionInputService_H_))
-# define MpMLeapMotionInputService_H_ /* Header guard */
+#if (! defined(MpMViconDataStreamInputService_H_))
+# define MpMViconDataStreamInputService_H_ /* Header guard */
 
 # include <mpm/M+MBaseInputService.h>
-
-# include "Leap.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -49,23 +47,23 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the %Leap Motion input service. */
+ @brief The class declaration for the Vicon DataStream input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_LEAPMOTIONINPUT_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "input/leapmotion")
+# define DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME T_( \
+        DEFAULT_SERVICE_NAME_BASE "input/viconds")
 
 namespace MplusM
 {
-    namespace LeapMotion
+    namespace ViconDataStream
     {
-        class LeapMotionInputListener;
+        class ViconDataStreamEventThread;
         
-        /*! @brief The %Leap Motion input service. */
-        class LeapMotionInputService : public Common::BaseInputService
+        /*! @brief The exemplar input service. */
+        class  ViconDataStreamInputService : public Common::BaseInputService
         {
         public :
             
@@ -74,13 +72,13 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            LeapMotionInputService(const yarp::os::ConstString & launchPath,
-                                   const yarp::os::ConstString & tag,
-                                   const yarp::os::ConstString & serviceEndpointName,
-                                   const yarp::os::ConstString & servicePortNumber = "");
+            ViconDataStreamInputService(const yarp::os::ConstString & launchPath,
+                                 const yarp::os::ConstString & tag,
+                                 const yarp::os::ConstString & serviceEndpointName,
+                                 const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~LeapMotionInputService(void);
+            virtual ~ViconDataStreamInputService(void);
             
             /*! @brief Configure the input/output streams.
              @param details The configuration information for the input/output streams.
@@ -112,31 +110,28 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(LeapMotionInputService);
-            
+            COPY_AND_ASSIGNMENT_(ViconDataStreamInputService);
+
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
             virtual bool setUpStreamDescriptions(void);
             
         public :
-        
+
         protected :
-        
+
         private :
-            
+
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
             
-            /*! @brief The connection to the %Leap Motion device. */
-            Leap::Controller * _controller;
-            
-            /*! @brief The %Leap Motion event handler. */
-            LeapMotionInputListener * _listener;
-            
-        }; // LeapMotionInputService
+            /*! @brief The event thread to use. */
+            ViconDataStreamEventThread * _eventThread;
+
+        }; // ViconDataStreamInputService
         
-    } // LeapMotion
+    } // ViconDataStream
     
 } // MplusM
 
-#endif // ! defined(MpMLeapMotionInputService_H_)
+#endif // ! defined(MpMViconDataStreamInputService_H_)

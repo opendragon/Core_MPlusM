@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       RandomNumberClientMain.cpp
+//  File:       M+MRandomNumberClientMain.cpp
 //
 //  Project:    M+M
 //

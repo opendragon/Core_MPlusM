@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       RunningSumClientMain.cpp
+//  File:       M+MRunningSumClientMain.cpp
 //
 //  Project:    M+M
 //

@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       RandomNumberServiceMain.cpp
+//  File:       M+MRandomNumberServiceMain.cpp
 //
 //  Project:    M+M
 //

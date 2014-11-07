@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MLeapMotionInputService.cpp
+//  File:       M+MViconDataStreamInputService.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the Leap Motion input service.
+//  Contains:   The class definition for the Vicon DataStream input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,13 +32,13 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-16
+//  Created:    2014-11-07
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MLeapMotionInputService.h"
-#include "M+MLeapMotionInputListener.h"
-#include "M+MLeapMotionInputRequests.h"
+#include "M+MViconDataStreamInputService.h"
+#include "M+MViconDataStreamEventThread.h"
+#include "M+MViconDataStreamInputRequests.h"
 
 #include <mpm/M+MEndpoint.h>
 
@@ -51,14 +51,14 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the %Leap Motion input service. */
+ @brief The class definition for the Vicon DataStream input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::LeapMotion;
+using namespace MplusM::ViconDataStream;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -76,37 +76,32 @@ using namespace MplusM::LeapMotion;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-LeapMotionInputService::LeapMotionInputService(const yarp::os::ConstString & launchPath,
-                                               const yarp::os::ConstString & tag,
-                                               const yarp::os::ConstString & serviceEndpointName,
-                                               const yarp::os::ConstString & servicePortNumber) :
-    inherited(launchPath, tag, true, MpM_LEAPMOTIONINPUT_CANONICAL_NAME,
-              "The Leap Motion input service", "", serviceEndpointName, servicePortNumber),
-    _controller(new Leap::Controller), _listener(NULL)
+ViconDataStreamInputService::ViconDataStreamInputService(const yarp::os::ConstString & launchPath,
+                                           const yarp::os::ConstString & tag,
+                                           const yarp::os::ConstString & serviceEndpointName,
+                                           const yarp::os::ConstString & servicePortNumber) :
+    inherited(launchPath, tag, true, MpM_VICONDATASTREAMINPUT_CANONICAL_NAME,
+              "The Vicon DataStream input service", "", serviceEndpointName, servicePortNumber),
+    _eventThread(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_EXIT_P(this); //####
-} // LeapMotionInputService::LeapMotionInputService
+} // ViconDataStreamInputService::ViconDataStreamInputService
 
-LeapMotionInputService::~LeapMotionInputService(void)
+ViconDataStreamInputService::~ViconDataStreamInputService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
-    if (_controller)
-    {
-        delete _controller;
-        _controller = NULL;
-    }
     OD_LOG_OBJEXIT(); //####
-} // LeapMotionInputService::~LeapMotionInputService
+} // ViconDataStreamInputService::~ViconDataStreamInputService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool LeapMotionInputService::configure(const yarp::os::Bottle & details)
+bool ViconDataStreamInputService::configure(const yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -114,7 +109,6 @@ bool LeapMotionInputService::configure(const yarp::os::Bottle & details)
     
     try
     {
-        // Nothing needs to be done.
         result = true;
     }
     catch (...)
@@ -124,9 +118,9 @@ bool LeapMotionInputService::configure(const yarp::os::Bottle & details)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LeapMotionInputService::configure
+} // ViconDataStreamInputService::configure
 
-void LeapMotionInputService::restartStreams(void)
+void ViconDataStreamInputService::restartStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -141,9 +135,9 @@ void LeapMotionInputService::restartStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // LeapMotionInputService::restartStreams
+} // ViconDataStreamInputService::restartStreams
 
-bool LeapMotionInputService::setUpStreamDescriptions(void)
+bool ViconDataStreamInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
     bool                  result = true;
@@ -152,29 +146,29 @@ bool LeapMotionInputService::setUpStreamDescriptions(void)
     
     _outDescriptions.clear();
     description._portName = rootName + "output";
-    description._portProtocol = "LEAP";
-    description._protocolDescription = "A list of hands followed by a list of tools\n"
-                                "Each hand being a dictionary with an arm and a list of fingers\n"
-                                        "Each finger being a dictionary with a list of bones";
+    description._portProtocol = "VICONDS";
+    description._protocolDescription = "A list of bodies\n"
+                    "Each body being a dictionary with hand state and a list of joints\n"
+                    "Each joint being a dictionary with name, position and orientation";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LeapMotionInputService::setUpStreamDescriptions
+} // ViconDataStreamInputService::setUpStreamDescriptions
 
-bool LeapMotionInputService::shutDownOutputStreams(void)
+bool ViconDataStreamInputService::shutDownOutputStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
-    if (_listener)
+    if (_eventThread)
     {
-        _listener->clearOutputChannel();
+        _eventThread->clearOutputChannel();
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // LeapMotionInputService::shutDownOutputStreams
+} // ViconDataStreamInputService::shutDownOutputStreams
 
-bool LeapMotionInputService::start(void)
+bool ViconDataStreamInputService::start(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -199,21 +193,18 @@ bool LeapMotionInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // LeapMotionInputService::start
+} // ViconDataStreamInputService::start
 
-void LeapMotionInputService::startStreams(void)
+void ViconDataStreamInputService::startStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isActive())
         {
-            if (_controller)
-            {
-                _listener = new LeapMotionInputListener(_outStreams.at(0));
-                _controller->addListener(*_listener);
-                setActive();
-            }
+            _eventThread = new ViconDataStreamEventThread(_outStreams.at(0));
+            _eventThread->start();
+            setActive();
         }
     }
     catch (...)
@@ -222,9 +213,9 @@ void LeapMotionInputService::startStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // LeapMotionInputService::startStreams
+} // ViconDataStreamInputService::startStreams
 
-bool LeapMotionInputService::stop(void)
+bool ViconDataStreamInputService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -240,21 +231,22 @@ bool LeapMotionInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LeapMotionInputService::stop
+} // ViconDataStreamInputService::stop
 
-void LeapMotionInputService::stopStreams(void)
+void ViconDataStreamInputService::stopStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (isActive())
         {
-            if (_controller && _listener)
+            _eventThread->stop();
+            for ( ; _eventThread->isRunning(); )
             {
-                _controller->removeListener(*_listener);
-                delete _listener;
-                _listener = NULL;
+                yarp::os::Time::delay(ONE_SECOND_DELAY / 3.9);
             }
+            delete _eventThread;
+            _eventThread = NULL;
             clearActive();
         }
     }
@@ -264,7 +256,7 @@ void LeapMotionInputService::stopStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // LeapMotionInputService::stopStreams
+} // ViconDataStreamInputService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

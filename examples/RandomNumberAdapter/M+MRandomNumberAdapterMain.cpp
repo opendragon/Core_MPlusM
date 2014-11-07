@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       RandomNumberAdapterMain.cpp
+//  File:       M+MRandomNumberAdapterMain.cpp
 //
 //  Project:    M+M
 //

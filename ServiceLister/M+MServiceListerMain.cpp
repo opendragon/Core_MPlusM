@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       ServiceListerMain.cpp
+//  File:       M+MServiceListerMain.cpp
 //
 //  Project:    M+M
 //

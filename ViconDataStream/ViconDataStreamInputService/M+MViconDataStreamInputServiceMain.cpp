@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MLeapMotionInputServiceMain.cpp
+//  File:       M+MViconDataStreamInputServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the Leap Motion input service.
+//  Contains:   The main application for the Vicon DataStream input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,11 +32,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-16
+//  Created:    2014-11-07
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MLeapMotionInputService.h"
+#include "M+MViconDataStreamInputService.h"
 
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MUtilities.h>
@@ -54,17 +54,17 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for the %Leap Motion input service. */
+ @brief The main application for the Vicon DataStream input service. */
 
-/*! @dir LeapMotionInputService
- @brief The set of files that implement the %Leap Motion input service. */
+/*! @dir KinectV2InputService
+ @brief The set of files that implement the Vicon DataStream input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::LeapMotion;
+using namespace MplusM::ViconDataStream;
 using std::cin;
 using std::cout;
 using std::endl;
@@ -74,7 +74,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define LEAPMOTIONINPUT_OPTIONS "rt:"
+#define VICONDATASTREAMINPUT_OPTIONS "rt:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -84,7 +84,7 @@ using std::endl;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the %Leap Motion input service.
+/*! @brief The entry point for running the Vicon DataStream input service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
@@ -105,7 +105,7 @@ int main(int      argc,
 #endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    SetUpLogger(*argv);
+    MplusM::Common::SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -114,8 +114,8 @@ int main(int      argc,
         yarp::os::ConstString tag;
 
         opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, LEAPMOTIONINPUT_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, LEAPMOTIONINPUT_OPTIONS))
+        for (int cc = getopt(argc, argv, VICONDATASTREAMINPUT_OPTIONS); -1 != cc;
+             cc = getopt(argc, argv, VICONDATASTREAMINPUT_OPTIONS))
         {
             switch (cc)
             {
@@ -152,12 +152,12 @@ int main(int      argc,
                 if (0 < tag.size())
                 {
                     serviceEndpointName =
-                                    yarp::os::ConstString(DEFAULT_LEAPMOTIONINPUT_SERVICE_NAME) +
-                                    "/" + tag;
+                                        yarp::os::ConstString(DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME) +
+                                        "/" + tag;
                 }
                 else
                 {
-                    serviceEndpointName = DEFAULT_LEAPMOTIONINPUT_SERVICE_NAME;
+                    serviceEndpointName = DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME;
                 }
             }
             else if ((optind + 1) == argc)
@@ -170,9 +170,8 @@ int main(int      argc,
                 serviceEndpointName = argv[optind];
                 servicePortNumber = argv[optind + 1];
             }
-            LeapMotionInputService * stuff = new LeapMotionInputService(*argv, tag,
-                                                                        serviceEndpointName,
-                                                                        servicePortNumber);
+            ViconDataStreamInputService * stuff = new ViconDataStreamInputService(*argv, tag, serviceEndpointName,
+                                                                    servicePortNumber);
             
             if (stuff)
             {
@@ -212,6 +211,7 @@ int main(int      argc,
                                         // Start streams
                                         if (! configured)
                                         {
+                                            configureData.clear();
                                             if (stuff->configure(configureData))
                                             {
                                                 configured = true;
@@ -226,10 +226,6 @@ int main(int      argc,
                                     case 'c' :
                                     case 'C' :
                                         // Configure
-                                        if (stuff->configure(configureData))
-                                        {
-                                            configured = true;
-                                        }
                                         break;
                                         
                                     case 'e' :
@@ -249,6 +245,7 @@ int main(int      argc,
                                         // Restart streams
                                         if (! configured)
                                         {
+                                            configureData.clear();
                                             if (stuff->configure(configureData))
                                             {
                                                 configured = true;
@@ -296,7 +293,7 @@ int main(int      argc,
                     }
                     else
                     {
-                        OD_LOG("! (::RegisterLocalService(channelName, *stuff))"); //####
+                        OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
 #if MAC_OR_LINUX_
                         GetLogger().fail("Service could not be registered.");
 #else // ! MAC_OR_LINUX_

@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MKinectV2InputRequests.h
+//  File:       M+MViconDataStreamInputRequests.h
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the Kinect V2 input
-//              service.
+//  Contains:   The common macro definitions for requests and responses for the Vicon DataStream
+//              input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,12 +33,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-15
+//  Created:    2014-11-07
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMKinectV2InputRequests_H_))
-# define MpMKinectV2InputRequests_H_ /* Header guard */
+#if (! defined(MpMViconDataStreamInputRequests_H_))
+# define MpMViconDataStreamInputRequests_H_ /* Header guard */
 
 # include <mpm/M+MRequests.h>
 
@@ -48,12 +48,13 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The common macro definitions for requests and responses for the Kinect V2 input service. */
+ @brief The common macro definitions for requests and responses for the Vicon DataStream input
+ service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the Kinect V2 input service. */
-# define MpM_KINECTV2INPUT_CANONICAL_NAME "KinectV2Input"
+/*! @brief The channel-independent name of the Vicon DataStream input service. */
+# define MpM_VICONDATASTREAMINPUT_CANONICAL_NAME "ViconDataStreamInput"
 
-#endif // ! defined(MpMKinectV2InputRequests_H_)
+#endif // ! defined(MpMViconDataStreamInputRequests_H_)

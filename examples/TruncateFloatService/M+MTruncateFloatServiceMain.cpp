@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       TruncateFloatServiceMain.cpp
+//  File:       M+MTruncateFloatServiceMain.cpp
 //
 //  Project:    M+M
 //

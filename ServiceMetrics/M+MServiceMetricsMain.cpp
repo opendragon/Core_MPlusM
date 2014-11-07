@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       ServiceMetricsMain.cpp
+//  File:       M+MServiceMetricsMain.cpp
 //
 //  Project:    M+M
 //

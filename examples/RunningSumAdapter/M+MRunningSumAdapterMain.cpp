@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       RunningSumAdapterMain.cpp
+//  File:       M+MRunningSumAdapterMain.cpp
 //
 //  Project:    M+M
 //

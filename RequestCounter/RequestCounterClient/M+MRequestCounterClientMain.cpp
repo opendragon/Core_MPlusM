@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       RequestCounterClientMain.cpp
+//  File:       M+MRequestCounterClientMain.cpp
 //
 //  Project:    M+M
 //

@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       RunningSumAltAdapterMain.cpp
+//  File:       M+MRunningSumAltAdapterMain.cpp
 //
 //  Project:    M+M
 //

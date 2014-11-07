@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       RecordIntegersServiceMain.cpp
+//  File:       M+MRecordIntegersServiceMain.cpp
 //
 //  Project:    M+M
 //

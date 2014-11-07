@@ -140,6 +140,9 @@ add_subdirectory(RequestInfo)
 add_subdirectory(ServiceLister)
 add_subdirectory(ServiceMetrics)
 add_subdirectory(Version)
+if(WIN32)
+    add_subdirectory(ViconDataStream)
+endif(WIN32)
 
 add_subdirectory(CPack)
 

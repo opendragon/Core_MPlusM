@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       RandomBurstServiceMain.cpp
+//  File:       M+MRandomBurstServiceMain.cpp
 //
 //  Project:    M+M
 //

@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       AbsorberServiceMain.cpp
+//  File:       M+MAbsorberServiceMain.cpp
 //
 //  Project:    M+M
 //

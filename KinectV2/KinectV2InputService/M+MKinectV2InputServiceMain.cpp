@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       KinectV2InputServiceMain.cpp
+//  File:       M+MKinectV2InputServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the exemplar input service.
+//  Contains:   The main application for the Kinect V2 input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -54,10 +54,10 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for the exemplar input service. */
+ @brief The main application for the Kinect V2 input service. */
 
 /*! @dir KinectV2InputService
- @brief The set of files that implement the exemplar input service. */
+ @brief The set of files that implement the Kinect V2 input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -84,7 +84,7 @@ using std::endl;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the exemplar input service.
+/*! @brief The entry point for running the Kinect V2 input service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.

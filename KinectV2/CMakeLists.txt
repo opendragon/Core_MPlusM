@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       KinectV2s/CMakeLists.txt
+#  File:       KinectV2/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The common CMAKE definitions for the M+M exemplar files.
+#  Contains:   The common CMAKE definitions for the M+M Kinect V2 input service files.
 #
 #  Written by: Norman Jaffe
 #
@@ -64,9 +64,9 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 # Add ACE include directories
 include_directories(${ACE_INCLUDE_DIRS})
 
-set(MpMKinectV2s_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
+set(MpMKINECTV2_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
-include_directories("${MpMKinectV2s_SOURCE_DIR}")
+include_directories("${MpMKINECTV2_SOURCE_DIR}")
 
 # Add the subdirectories for input / output services
 add_subdirectory(KinectV2InputService)

@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       KinectV2InputService/CMakeLists.txt
+#  File:       ViconDataStream/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the Kinect V2 input service application.
+#  Contains:   The common CMAKE definitions for the M+M Vicon DataStream input service files.
 #
 #  Written by: Norman Jaffe
 #
@@ -32,44 +32,43 @@
 #              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 #              DAMAGE.
 #
-#  Created:    2014-09-15
+#  Created:    2014-11-07
 #
 #--------------------------------------------------------------------------------------------------
 
-set(THIS_TARGET mpmKinectV2InputService)
+# YARP needs CMake 2.6 or greater
+cmake_minimum_required(VERSION 2.6)
 
-if(WIN32)
-	include_directories(${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/inc)
-	add_library(Kinect SHARED IMPORTED)
-	set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB ${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x86/Kinect20.lib)
-endif(WIN32)
+project(M+MViconDataStream)
 
-# Set up our program
-add_executable(${THIS_TARGET}
-               M+MKinectV2InputServiceMain.cpp
-               M+MKinectV2EventThread.cpp
-               M+MKinectV2InputService.cpp)
-
-# Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
-# processed once.
-target_link_libraries(${THIS_TARGET}
-                      mpmCommon
-					  Kinect
-                      odLogging
-                      ${YARP_LIBRARIES})
-
-if(WIN32)
-    target_link_libraries(${THIS_TARGET}
-                          ${BONJOUR_LIB})
-endif(WIN32)
+# Make some flags to control the build visible
+mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
+mark_as_advanced(CLEAR CMAKE_OSX_ARCHITECTURES)
 
 if(APPLE)
-    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libACE.dylib "${CMAKE_INSTALL_PREFIX}/lib/libACE.dylib" ${THIS_TARGET})
+	set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
+	set(CMAKE_CXX_FLAGS "-stdlib=libstdc++" CACHE STRING "Fixes linking error for M+M/ACE" FORCE)
 endif(APPLE)
 
-install(TARGETS ${THIS_TARGET}
-		DESTINATION bin
-		COMPONENT applications)
+# Find YARP
+find_package(YARP REQUIRED)
+list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
+
+# Add YARP include directories
+include_directories(${YARP_INCLUDE_DIRS})
+
+# Find ACE
+find_package(ACE REQUIRED)
+list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
+
+# Add ACE include directories
+include_directories(${ACE_INCLUDE_DIRS})
+
+set(MpMVICONDATASTREAM_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
+
+include_directories("${MpMVICONDATASTREAM_SOURCE_DIR}")
+
+# Add the subdirectories for input / output services
+add_subdirectory(ViconDataStreamInputService)
 
 enable_testing()

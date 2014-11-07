@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       ChordGeneratorServiceMain.cpp
+//  File:       M+MChordGeneratorServiceMain.cpp
 //
 //  Project:    M+M
 //

@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       RunningSumServiceMain.cpp
+//  File:       M+MRunningSumServiceMain.cpp
 //
 //  Project:    M+M
 //

@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the exemplar input service.
+//  Contains:   The class declaration for the Kinect V2 input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -47,7 +47,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the exemplar input service. */
+ @brief The class declaration for the Kinect V2 input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -62,7 +62,7 @@ namespace MplusM
     {
         class KinectV2EventThread;
         
-        /*! @brief The exemplar input service. */
+        /*! @brief The Kinect V2 input service. */
         class KinectV2InputService : public Common::BaseInputService
         {
         public :

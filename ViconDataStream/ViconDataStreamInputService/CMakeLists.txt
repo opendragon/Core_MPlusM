@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       KinectV2InputService/CMakeLists.txt
+#  File:       ViconDataStreamInputService/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the Kinect V2 input service application.
+#  Contains:   The CMAKE definitions for the Vicon DataStream input service application.
 #
 #  Written by: Norman Jaffe
 #
@@ -32,29 +32,29 @@
 #              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 #              DAMAGE.
 #
-#  Created:    2014-09-15
+#  Created:    2014-11-07
 #
 #--------------------------------------------------------------------------------------------------
 
-set(THIS_TARGET mpmKinectV2InputService)
+set(THIS_TARGET mpmViconDataStreamInputService)
 
 if(WIN32)
-	include_directories(${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/inc)
-	add_library(Kinect SHARED IMPORTED)
-	set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB ${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x86/Kinect20.lib)
+#	include_directories(${MpMKinectV2s_SOURCE_DIR}/KinectV2InputService/KinectLib/inc)
+#	add_library(Kinect SHARED IMPORTED)
+#	set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB ${MpMKinectV2s_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x86/Kinect20.lib)
 endif(WIN32)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MKinectV2InputServiceMain.cpp
-               M+MKinectV2EventThread.cpp
-               M+MKinectV2InputService.cpp)
+               M+MViconDataStreamInputServiceMain.cpp
+               M+MViconDataStreamEventThread.cpp
+               M+MViconDataStreamInputService.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
                       mpmCommon
-					  Kinect
+#					  Kinect
                       odLogging
                       ${YARP_LIBRARIES})
 

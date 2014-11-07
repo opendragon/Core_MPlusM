@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the exemplar input service.
+//  Contains:   The class definition for the Kinect V2 input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,7 +51,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the exemplar input service. */
+ @brief The class definition for the Kinect V2 input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

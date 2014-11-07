@@ -96,6 +96,7 @@ mpmServiceMetrics
 !LeapMotion/LeapMotionInputService/win_lib/*.*
 KinectV2/KinectV2InputService/Release/mpmKinectV2InputService.exe.piz
 RegistryService/Release/mpmRegistryService.exe.piz
+ViconDataStream/ViconDataStreamInputService/Release/mpmViconDataStreamInputService.exe.piz
 CPackConfig.cmake
 CPackSourceConfig.cmake
 !bonjoursdksetup.exe

@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the LEAP input service application.
+#  Contains:   The CMAKE definitions for the Leap Motion input service application.
 #
 #  Written by: Norman Jaffe
 #
