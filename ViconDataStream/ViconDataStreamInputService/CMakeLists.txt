@@ -42,7 +42,7 @@ if(WIN32)
 	include_directories(${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/inc)
 	add_library(ViconDataStream SHARED IMPORTED)
 	set_property(TARGET ViconDataStream PROPERTY IMPORTED_IMPLIB
-                ${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/x86/ViconDataStreamSDK_CPP.lib)
+                ${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/ViconDataStreamSDK_CPP.lib)
 endif(WIN32)
 
 # Set up our program
@@ -55,7 +55,7 @@ add_executable(${THIS_TARGET}
 # processed once.
 target_link_libraries(${THIS_TARGET}
                       mpmCommon
-#                      ViconDataStream
+                      ViconDataStream
                       odLogging
                       ${YARP_LIBRARIES})
 

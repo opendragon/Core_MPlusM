@@ -21,7 +21,7 @@
 //#include <d2d1.h>
 
 // Vicon DataStream Header files
-//#include <Client.h>
+#include <Client.h>
 
 //#pragma comment (lib, "d2d1.lib")
 
