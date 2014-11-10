@@ -73,9 +73,9 @@ namespace MplusM
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
             ViconDataStreamInputService(const yarp::os::ConstString & launchPath,
-                                 const yarp::os::ConstString & tag,
-                                 const yarp::os::ConstString & serviceEndpointName,
-                                 const yarp::os::ConstString & servicePortNumber = "");
+                                        const yarp::os::ConstString & tag,
+                                        const yarp::os::ConstString & serviceEndpointName,
+                                        const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~ViconDataStreamInputService(void);

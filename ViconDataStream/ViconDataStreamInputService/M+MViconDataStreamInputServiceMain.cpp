@@ -155,8 +155,8 @@ int main(int      argc,
                 if (0 < tag.size())
                 {
                     serviceEndpointName =
-                                        yarp::os::ConstString(DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME) +
-                                        "/" + tag;
+                                yarp::os::ConstString(DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME) +
+                                "/" + tag;
                 }
                 else
                 {
@@ -173,8 +173,9 @@ int main(int      argc,
                 serviceEndpointName = argv[optind];
                 servicePortNumber = argv[optind + 1];
             }
-            ViconDataStreamInputService * stuff = new ViconDataStreamInputService(*argv, tag, serviceEndpointName,
-                                                                    servicePortNumber);
+            ViconDataStreamInputService * stuff = new ViconDataStreamInputService(*argv, tag,
+                                                                              serviceEndpointName,
+                                                                              servicePortNumber);
             
             if (stuff)
             {

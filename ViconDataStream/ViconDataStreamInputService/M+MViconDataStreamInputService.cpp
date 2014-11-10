@@ -77,9 +77,11 @@ using namespace MplusM::ViconDataStream;
 #endif // defined(__APPLE__)
 
 ViconDataStreamInputService::ViconDataStreamInputService(const yarp::os::ConstString & launchPath,
-                                           const yarp::os::ConstString & tag,
-                                           const yarp::os::ConstString & serviceEndpointName,
-                                           const yarp::os::ConstString & servicePortNumber) :
+                                                         const yarp::os::ConstString & tag,
+                                                         const yarp::os::ConstString &
+                                                                                serviceEndpointName,
+                                                         const yarp::os::ConstString &
+                                                                                servicePortNumber) :
     inherited(launchPath, tag, true, MpM_VICONDATASTREAMINPUT_CANONICAL_NAME,
               "The Vicon DataStream input service", "", serviceEndpointName, servicePortNumber),
     _eventThread(NULL)
