@@ -120,7 +120,7 @@ bool RecordIntegersService::configure(const yarp::os::Bottle & details)
                 if (firstValue.isString())
                 {
                     _outPath = firstValue.asString();
-                    OD_LOG_S1("_outPath <- ", _outPath.c_str()); //####
+                    OD_LOG_S1s("_outPath <- ", _outPath); //####
                     result = true;
                 }
             }

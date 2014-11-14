@@ -125,6 +125,12 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
             
+            /*! @brief The name of the Vicon device server. */
+            yarp::os::ConstString _hostName;
+            
+            /*! @brief The port to connect to the Vicon device server. */
+            int _hostPort;
+            
             /*! @brief The event thread to use. */
             ViconDataStreamEventThread * _eventThread;
 

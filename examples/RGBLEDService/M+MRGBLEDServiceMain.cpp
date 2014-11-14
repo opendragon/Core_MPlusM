@@ -176,7 +176,7 @@ int main(int      argc,
                 {
                     yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
-                    OD_LOG_S1("channelName = ", channelName.c_str());//####
+                    OD_LOG_S1s("channelName = ", channelName);//####
                     if (RegisterLocalService(channelName, *stuff))
                     {
                         StartRunning();

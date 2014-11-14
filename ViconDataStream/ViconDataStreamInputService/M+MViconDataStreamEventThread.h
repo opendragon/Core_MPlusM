@@ -39,6 +39,8 @@
 #if (! defined(MpMViconDataStreamEventThread_H_))
 # define MpMViconDataStreamEventThread_H_ /* Header guard */
 
+# include <Client.h>
+
 # include <mpm/M+MGeneralChannel.h>
 
 # include "stdafx.h"
@@ -64,8 +66,10 @@ namespace MplusM
         public :
             
             /*! @brief The constructor.
-             @param outChannel The channel to send data bursts to. */
-            ViconDataStreamEventThread(Common::GeneralChannel * outChannel);
+             @param outChannel The channel to send data bursts to.
+			 @param nameAndPort The host name and port to connect to the Vicon server. */
+            ViconDataStreamEventThread(Common::GeneralChannel *      outChannel,
+				                       const yarp::os::ConstString & nameAndPort);
             
             /*! @brief The destructor. */
             virtual ~ViconDataStreamEventThread(void);
@@ -89,13 +93,13 @@ namespace MplusM
             
             COPY_AND_ASSIGNMENT_(ViconDataStreamEventThread);
 
-#if 0
-            /*! @brief Initialize the default Kinect V2 sensor.
-             @returns @c S_OK on success, a failure code otherwise. */
-            HRESULT initializeDefaultSensor(void);
-#endif // 0
-            /*! @brief Handle the sensor data associated with the event. */
-            void processEventData(void);
+            /*! @brief Initialize the connection to the Vicon device.
+             @returns @c true on success and @c false otherwise. */
+            bool initializeConnection(void);
+
+			/*! @brief Handle the sensor data associated with the current frame.
+			@param subjectCount The number of subjects in the data. */
+            void processEventData(const unsigned int subjectCount);
 
         public :
 
@@ -106,20 +110,13 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::Thread inherited;
 
-#if 0
-            /* @brief The event from the device that we are waiting for. */
-            WAITABLE_HANDLE _frameEventHandle;
+			/* @brief The connection to the Vicon device. */
+			ViconDataStreamSDK::CPP::Client _viconClient;
 
-            /*! @brief The current Kinect V2 sensor. */
-            IKinectSensor * _kinectSensor;
+			/* @brief The host name and port to connect to the Vicon server. */
+			yarp::os::ConstString _nameAndPort;
 
-            /*! @brief The body frame reader. */
-            IBodyFrameReader * _bodyFrameReader;
-
-            /*! @brief The body frame source. */
-            IBodyFrameSource * _bodyFrameSource;
-#endif // 0
-            /*! @brief The channel to send data bursts to. */
+			/*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
 
         }; // ViconDataStreamEventThread

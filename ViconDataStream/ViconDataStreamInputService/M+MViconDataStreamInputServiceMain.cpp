@@ -77,7 +77,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define VICONDATASTREAMINPUT_OPTIONS "rt:"
+#define VICONDATASTREAMINPUT_OPTIONS "h:p:rt:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -91,6 +91,8 @@ using std::endl;
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
+ The option 'h' specifies the host name for the Vicon device server.
+ The option 'p' specifies the port for the Vicon device server.
  The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
  name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.
@@ -114,7 +116,11 @@ int main(int      argc,
     {
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
+        char *                endPtr;
+		int                   hostPort = 801;
+        int                   tempInt;
         yarp::os::ConstString tag;
+		yarp::os::ConstString hostName("localhost");
 
         opterr = 0; // Suppress the error message resulting from an unknown option.
         for (int cc = getopt(argc, argv, VICONDATASTREAMINPUT_OPTIONS); -1 != cc;
@@ -122,6 +128,22 @@ int main(int      argc,
         {
             switch (cc)
             {
+				case 'h' :
+					// Host name
+                    hostName = optarg;
+                    OD_LOG_S1s("hostName <- ", hostName); //####
+					break;
+
+                case 'p' :
+                    // Host port
+                    tempInt = static_cast<int>(strtol(optarg, &endPtr, 10));
+                    if ((optarg != endPtr) && (0 < tempInt))
+                    {
+                        // Useable data.
+                        hostPort = tempInt;
+                    }
+                    break;
+                    
                 case 'r' :
                     // Report metrics on exit
                     reportOnExit = true;
@@ -188,6 +210,7 @@ int main(int      argc,
                     {
                         bool             configured = false;
                         yarp::os::Bottle configureData;
+                        std::string      inputLine;
                         
                         StartRunning();
                         SetSignalHandlers(SignalRunningStop);
@@ -216,6 +239,8 @@ int main(int      argc,
                                         if (! configured)
                                         {
                                             configureData.clear();
+											configureData.addString(hostName);
+											configureData.addInt(hostPort);
                                             if (stuff->configure(configureData))
                                             {
                                                 configured = true;
@@ -230,6 +255,38 @@ int main(int      argc,
                                     case 'c' :
                                     case 'C' :
                                         // Configure
+                                        cout << "Host name: ";
+                                        cout.flush();
+                                        // Eat whitespace until we get something useful.
+                                        cin >> inChar;
+                                        if (getline(cin, inputLine))
+                                        {
+											cout << "Host port: ";
+											cout.flush();
+											cin >> tempInt;
+											if (0 < tempInt)
+											{
+												hostName = yarp::os::ConstString(1, inChar);
+												hostName += inputLine.c_str();
+												OD_LOG_S1s("hostName <-", hostName); //####
+												hostPort = tempInt;
+												configureData.clear();
+												configureData.addString(hostName);
+												configureData.addInt(hostPort);
+												if (stuff->configure(configureData))
+												{
+													configured = true;
+												}
+											}
+											else
+											{
+												cout << "Port number is out of range." << endl;
+											}
+                                        }
+                                        else
+                                        {
+                                            cout << "Host name is invalid." << endl;
+                                        }
                                         break;
                                         
                                     case 'e' :
@@ -250,6 +307,8 @@ int main(int      argc,
                                         if (! configured)
                                         {
                                             configureData.clear();
+											configureData.addString(hostName);
+											configureData.addInt(hostPort);
                                             if (stuff->configure(configureData))
                                             {
                                                 configured = true;

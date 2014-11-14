@@ -38,12 +38,7 @@
 
 set(THIS_TARGET mpmViconDataStreamInputService)
 
-if(WIN32)
-	include_directories(${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/inc)
-	add_library(ViconDataStream SHARED IMPORTED)
-	set_property(TARGET ViconDataStream PROPERTY IMPORTED_IMPLIB
-                ${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/ViconDataStreamSDK_CPP.lib)
-endif(WIN32)
+include_directories(${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/inc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
@@ -55,13 +50,25 @@ add_executable(${THIS_TARGET}
 # processed once.
 target_link_libraries(${THIS_TARGET}
                       mpmCommon
-                      ViconDataStream
                       odLogging
                       ${YARP_LIBRARIES})
 
 if(WIN32)
-    target_link_libraries(${THIS_TARGET}
-                          ${BONJOUR_LIB})
+	add_library(ViconDataStream SHARED IMPORTED)
+	set_property(TARGET ViconDataStream PROPERTY IMPORTED_LOCATION
+"${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/ViconDataStreamSDK_CPP.dll")
+	set_property(TARGET ViconDataStream PROPERTY IMPORTED_IMPLIB
+"${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/ViconDataStreamSDK_CPP.lib")
+	target_link_libraries(${THIS_TARGET}
+                          ${BONJOUR_LIB}
+                          ViconDataStream)
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+                        "${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib"
+                        $<TARGET_FILE_DIR:mpmViconDataStreamInputService>)
+    install(FILES
+"${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/ViconDataStreamSDK_CPP.dll"
+            DESTINATION bin
+            COMPONENT applications)
 endif(WIN32)
 
 if(APPLE)

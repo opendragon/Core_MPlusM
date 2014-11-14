@@ -84,7 +84,7 @@ ViconDataStreamInputService::ViconDataStreamInputService(const yarp::os::ConstSt
                                                                                 servicePortNumber) :
     inherited(launchPath, tag, true, MpM_VICONDATASTREAMINPUT_CANONICAL_NAME,
               "The Vicon DataStream input service", "", serviceEndpointName, servicePortNumber),
-    _eventThread(NULL)
+    _eventThread(NULL), _hostName("localhost"), _hostPort(801)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -111,6 +111,27 @@ bool ViconDataStreamInputService::configure(const yarp::os::Bottle & details)
     
     try
     {
+        if (! isActive())
+        {
+            if (2 == details.size())
+            {
+                yarp::os::Value firstValue(details.get(0));
+                yarp::os::Value secondValue(details.get(1));
+                
+                if (firstValue.isString() && secondValue.isInt())
+                {
+                    int secondNumber = secondValue.asInt();
+                    
+                    if (0 < secondNumber)
+                    {
+						_hostName = firstValue.asString();
+						OD_LOG_S1s("_hostName <- ", _hostName); //####
+                        _hostPort = secondNumber;
+                        result = true;
+                    }
+                }
+            }
+        }
         result = true;
     }
     catch (...)
@@ -149,9 +170,9 @@ bool ViconDataStreamInputService::setUpStreamDescriptions(void)
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "VICONDS";
-    description._protocolDescription = "A list of bodies\n"
-                    "Each body being a dictionary with hand state and a list of joints\n"
-                    "Each joint being a dictionary with name, position and orientation";
+    description._protocolDescription = "A list of subjects\n"
+                    "Each subject being a list of the subject name and a dictionary of segments\n"
+                    "Each segment being a dictionary with name, translation and rotation";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
@@ -204,7 +225,10 @@ void ViconDataStreamInputService::startStreams(void)
     {
         if (! isActive())
         {
-            _eventThread = new ViconDataStreamEventThread(_outStreams.at(0));
+		    std::stringstream nameAndPort;
+
+			nameAndPort << _hostName.c_str() << ":" << _hostPort;
+            _eventThread = new ViconDataStreamEventThread(_outStreams.at(0), nameAndPort.str());
             _eventThread->start();
             setActive();
         }

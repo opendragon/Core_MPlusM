@@ -121,7 +121,7 @@ void RGBLEDRequestHandler::fillInDescription(const yarp::os::ConstString & reque
                                              yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER();//####
-    OD_LOG_S1("request = ", request.c_str());//####
+    OD_LOG_S1s("request = ", request);//####
     OD_LOG_P1("info = ", &info);//####
     try
     {
@@ -161,8 +161,8 @@ bool RGBLEDRequestHandler::processRequest(const yarp::os::ConstString & request,
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER();//####
-    OD_LOG_S3("request = ", request.c_str(), "restOfInput = ", restOfInput.toString().c_str(), "senderChannel = ",//####
-              senderChannel.c_str());//####
+    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(),//####
+               "senderChannel = ", senderChannel);//####
     OD_LOG_P1("replyMechanism = ", replyMechanism);//####
     bool result = true;
     

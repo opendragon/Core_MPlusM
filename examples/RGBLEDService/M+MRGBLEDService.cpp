@@ -88,7 +88,7 @@ RGBLEDService::RGBLEDService(const yarp::os::ConstString & launchPath,
 {
     OD_LOG_ENTER();//####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName.c_str(), "servicePortNumber = ", servicePortNumber);//####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber);//####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RGBLEDService::RGBLEDService
