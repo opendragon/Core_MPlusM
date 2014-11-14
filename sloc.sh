@@ -4,4 +4,4 @@ sloccount ClientList CommonTests Exemplars FindServices KinectV2 LeapMotion Move
 echo ---------------
 echo subtract the following -
 echo ---------------
-sloccount KinectV2/KinectV2InputService/KinectLib LeapMotion/LeapMotionInputService/Leap*.h
+sloccount KinectV2/KinectV2InputService/KinectLib LeapMotion/LeapMotionInputService/Leap*.h ViconDataStream/ViconDataStreamInputService/ViconLib
