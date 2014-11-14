@@ -1,44 +1,18 @@
 \ProvidesFile{VDSmessageFormat.tex}[v1.0.0]
 \primaryStart{The~Message~Format}
-Each time that the Vicon DataStream controller reports that there is information available,
-the \asCode{ViconDataStreamInputService} packages it into a single message
+Each time that the Vicon DataStream controller reports that there is information
+available, the\\
+\asCode{ViconDataStreamInputService} packages it into a single message
 \openSq\asCode{Bottle}\closeSq, containing the following:
 \begin{itemize}
-\item A list of bodies
+\item A list of subjects
 \end{itemize}
 
-For each valid body, a dictionary \openSq\asCode{Property}\closeSq{} is added to the list
-of bodies, with the following properties:
-\begin{itemize}
-\item \textbf{lefthand} -- the state of the left hand (`\asCode{closed}', `\asCode{open}',
-`\asCode{lasso}' or `\asCode{unknown}' (which should never appear))
-\item \textbf{righthand} -- the state of the right hand
-\item \textbf{lefthandconfidence} -- the confidence in the state of the left hand
-(`\asCode{low}', `\asCode{high}' or `\asCode{unknown}' (which should never appear))
-\item \textbf{righthandconfidence} -- the confidence in the state of the right hand
-\item \textbf{joints} -- a list of joints
-\end{itemize}
+For each valid subject, a dictionary \openSq\asCode{Property}\closeSq{} is added to the
+list of subjects, with an entry for each non--occluded segment reported.\\
 
-The joints list consists of the following joints:\\
-\textbraceleft{} \emph{head}, \emph{neck}, \emph{spineshoulder}, \emph{spinemid},
-\emph{spinebase}, \emph{shoulderright}, \emph{shoulderleft}, \emph{hipright},
-\emph{hipleft}, \emph{elbowright}, \emph{wristright},\\
-\emph{handright}, \emph{handtipright}, \emph{thumbright}, \emph{elbowleft},
-\emph{wristleft}, \emph{handleft}, \emph{handtipleft}, \emph{thumbleft}, \emph{kneeright},
-\emph{ankleright},\\
-\emph{footright}, \emph{kneeleft}, \emph{ankleleft}, \emph{footleft} \textbraceright\\
-
-Not all joints will be present in each message.\\
-
-For each ``tracked'' joint, a dictionary is added to the joints list, with the following
-properties:
-\begin{itemize}
-\item \textbf{tag} -- the name of the bone, as listed above
-\item \textbf{position} -- the three--dimensional coordinates \openSq{}X, Y,
-Z\closeSq{} of the position of the joint, as a list of three floating--point
-numbers; the units are most likely metres from the Kinect V2 controller
-\item \textbf{orientation} -- the four--dimensional coordinates \openSq{}x, y,
-z, w\closeSq{} of the orientation of the joint, as a list of four floating--point
-numbers
-\end{itemize}
+Each segment entry consists of the segment name as its key and a value consisting of a
+list of floating--point numbers, with the three--dimensional coordinates \openSq{}X, Y,
+Z\closeSq{} of the `translation' of the segment, followed by the rotation quaternion
+\openSq{}x, y, z, w\closeSq{} for the segment.
 \primaryEnd{}
