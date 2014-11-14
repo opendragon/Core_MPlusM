@@ -995,7 +995,7 @@
 													<key>GID</key>
 													<integer>20</integer>
 													<key>PATH</key>
-													<string>../Documentation/KinectV2Input_Manual.pdf</string>
+													<string>../../../../KinectV2Input_Manual.pdf</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
 													<key>PERMISSIONS</key>
@@ -1011,7 +1011,7 @@
 													<key>GID</key>
 													<integer>20</integer>
 													<key>PATH</key>
-													<string>../Documentation/LeapMotionInput_Manual.pdf</string>
+													<string>../../../../LeapMotionInput_Manual.pdf</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
 													<key>PERMISSIONS</key>
@@ -1027,7 +1027,23 @@
 													<key>GID</key>
 													<integer>20</integer>
 													<key>PATH</key>
-													<string>../Documentation/MpM_Manual.pdf</string>
+													<string>../../../../MpM_Manual.pdf</string>
+													<key>PATH_TYPE</key>
+													<integer>1</integer>
+													<key>PERMISSIONS</key>
+													<integer>420</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array/>
+													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
+													<string>../../../../ViconDataStreamInput_Manual.pdf</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
 													<key>PERMISSIONS</key>
@@ -1723,7 +1739,7 @@
 			<key>TYPE</key>
 			<integer>1</integer>
 			<key>UUID</key>
-			<string>89C16121-0D2F-4545-B0FD-CD64F3D693B1</string>
+			<string>55947FA6-7E67-422C-A21C-8956F4EE4F3B</string>
 		</dict>
 	</array>
 	<key>PROJECT</key>
@@ -1814,7 +1830,7 @@
 									<integer>2</integer>
 								</dict>
 								<key>PACKAGE_UUID</key>
-								<string>89C16121-0D2F-4545-B0FD-CD64F3D693B1</string>
+								<string>55947FA6-7E67-422C-A21C-8956F4EE4F3B</string>
 								<key>REQUIREMENTS</key>
 								<array/>
 								<key>TITLE</key>
@@ -1824,7 +1840,7 @@
 								<key>TYPE</key>
 								<integer>0</integer>
 								<key>UUID</key>
-								<string>A26CCA2B-BAB3-4F4A-8D5D-1CBB5511F3E4</string>
+								<string>313CA9C6-ED2C-4771-BAE1-E1E009C74D4B</string>
 							</dict>
 						</array>
 						<key>REMOVED</key>
