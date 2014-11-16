@@ -72,6 +72,19 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Display the available commands. */
+static void displayCommands(void)
+{
+    OD_LOG_ENTER(); //####
+    cout << "Commands:" << endl;
+    cout << "  ? - display this list" << endl;
+    cout << "  + - request a file path adn add it to the database" << endl;
+    cout << "  d - set the data track" << endl;
+    cout << "  e - set the e-mail address" << endl;
+    cout << "  q - quit the application" << endl;
+    OD_LOG_EXIT(); //####
+} // displayCommands
+
 /*! @brief Write out a time value in a human-friendly form.
  @param measurement The time value to write out. */
 static void reportTimeInReasonableUnits(const double measurement)
@@ -182,7 +195,7 @@ int main(int      argc,
                                 std::string           inputLine;
                                 yarp::os::ConstString inputString;
                                 
-                                cout << "Operation: [+ d e x]? ";
+                                cout << "Operation: [? + d e q]? ";
                                 cout.flush();
                                 if (getline(cin, inputLine))
                                 {
@@ -261,8 +274,8 @@ int main(int      argc,
                                             }
                                             break;
                                             
-                                        case 'x' :
-                                        case 'X' :
+                                        case 'q' :
+                                        case 'Q' :
                                             cout << "Exiting" << endl;
                                             cout.flush();
                                             if (! stuff->stopDbConnection())
@@ -274,6 +287,11 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
                                             }
                                             StopRunning();
+                                            break;
+                                            
+                                        case '?' :
+                                            // Help
+                                            displayCommands();
                                             break;
                                             
                                         default :

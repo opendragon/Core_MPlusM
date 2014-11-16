@@ -59,14 +59,15 @@ the default endpoint is being used.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
-\item \textbf{b:} start the input and output streams. 
+\item \textbf{b:} start the input stream. 
 \item \textbf{c:} configure the service; this has no effect, as the service has no
 configurable parameters. 
-\item \textbf{e:} stop the input streams. 
+\item \textbf{e:} stop the input stream. 
 \item \textbf{q:} quit the application. 
-\item \textbf{r:} restart the input streams.
+\item \textbf{r:} restart the input stream.
 \item \textbf{u:} reset the configuration so that it will be reprocessed when the input
 stream is restarted. 
+\item \textbf{?:} display a list of the available commands.
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmAbsorberService}}
 \tertiaryStart{\examplesNameP{Services}{mpmEchoService}}
@@ -151,6 +152,7 @@ and period.
 \item \textbf{r:} restart the output stream. 
 \item \textbf{u:} reset the configuration so that it will be reprocessed when the output
 stream is restarted. 
+\item \textbf{?:} display a list of the available commands.
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomBurstService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRandomNumberService}}
@@ -236,6 +238,7 @@ the input data.
 closed and a new output file to be opened.
 \item \textbf{u:} reset the configuration so that it will be reprocessed when the input
 stream is restarted. 
+\item \textbf{?:} display a list of the available commands.
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRunningSumService}}
@@ -328,6 +331,7 @@ configurable parameters.
 \item \textbf{r:} restart the input and output streams.
 \item \textbf{u:} reset the configuration so that it will be reprocessed when the input
 and output streams are restarted. 
+\item \textbf{?:} display a list of the available commands.
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmTruncateFloatService}}
 \secondaryEnd{}
@@ -366,13 +370,14 @@ The commands are:
 \item \textbf{+:} read a number from the terminal and send it to the service via an
 \requestsNameR{Examples}{Examples}{addtosum} request, to update the running sum for this
 client.
+\item \textbf{q:} send a \requestsNameR{Examples}{Examples}{stopsum} request to the
+service so that it will stop calculating the running sum for this client and then exit the
+application.
 \item \textbf{r:} send a \requestsNameR{Examples}{Examples}{resetsum} request to the
 service so that it will reset the running sum for this client.
 \item \textbf{s:} send a \requestsNameR{Examples}{Examples}{startsum} request to the
 service so that it will start calculating the running sum for this client.
-\item \textbf{x:} send a \requestsNameR{Examples}{Examples}{stopsum} request to the
-service so that it will stop calculating the running sum for this client and then exit the
-application.
+\item \textbf{?:} display a list of the available commands.
 \end{itemize}
 Note that the application will also exit if the
 \serviceNameR[Registry~Service]{RegistryService} or the
@@ -415,7 +420,7 @@ connection and sends corresponding requests to the
 If a numeric value is read from the `data' input \yarp{} network connection, it is sent to
 the service via an \requestsNameR{Examples}{Examples}{addtosum} request, to update the
 running sum for this adapter.
-If a string is read from the `control' input \yarp{} network connection, is is considered
+If a string is read from the `control' input \yarp{} network connection, it is considered
 to be one of the following commands:
 \begin{itemize}
 \item \textbf{q:} exit the application.

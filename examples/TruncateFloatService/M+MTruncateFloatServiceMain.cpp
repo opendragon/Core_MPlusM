@@ -80,6 +80,21 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Display the available commands. */
+static void displayCommands(void)
+{
+    OD_LOG_ENTER(); //####
+    cout << "Commands:" << endl;
+    cout << "  ? - display this list" << endl;
+    cout << "  b - start (begin) the input and output streams" << endl;
+    cout << "  c - configure the service; this has no effect as service has no parameters" << endl;
+    cout << "  e - stop (end) the input and output streams" << endl;
+    cout << "  q - quit the application" << endl;
+    cout << "  r - restart the input and output streams" << endl;
+    cout << "  u - reset the configuration (unconfigure) so that it will be reprocessed" << endl;
+    OD_LOG_EXIT(); //####
+} // displayCommands
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -201,7 +216,7 @@ int main(int      argc,
                             {
                                 char inChar;
                                 
-                                cout << "Operation: [b c e q r u]? ";
+                                cout << "Operation: [? b c e q r u]? ";
                                 cout.flush();
                                 cin >> inChar;
                                 switch (inChar)
@@ -263,6 +278,11 @@ int main(int      argc,
                                     case 'U' :
                                         // Unconfigure
                                         configured = false;
+                                        break;
+                                        
+                                    case '?' :
+                                        // Help
+                                        displayCommands();
                                         break;
                                         
                                     default :

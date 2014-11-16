@@ -71,6 +71,19 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Display the available commands. */
+static void displayCommands(void)
+{
+    OD_LOG_ENTER(); //####
+    cout << "Commands:" << endl;
+    cout << "  ? - display this list" << endl;
+    cout << "  + - read a number from the terminal and update the running sum" << endl;
+    cout << "  q - quit the application" << endl;
+    cout << "  r - reset the running sum" << endl;
+    cout << "  s - start calculating the running sum" << endl;
+    OD_LOG_EXIT(); //####
+} // displayCommands
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -144,7 +157,7 @@ int main(int      argc,
                                 double newSum;
                                 double value;
                                 
-                                cout << "Operation: [+ r s x]? ";
+                                cout << "Operation: [? + q r s]? ";
                                 cout.flush();
                                 cin >> inChar;
                                 switch (inChar)
@@ -165,6 +178,19 @@ int main(int      argc,
                                             GetLogger().fail("Problem adding to the sum.");
 #endif // MAC_OR_LINUX_
                                         }
+                                        break;
+                                        
+                                    case 'q' :
+                                    case 'Q' :
+                                        cout << "Exiting" << endl;
+                                        if (! stuff->stopSum())
+                                        {
+                                            OD_LOG("(! stuff->stopSum())"); //####
+#if MAC_OR_LINUX_
+                                            GetLogger().fail("Problem stopping the sum.");
+#endif // MAC_OR_LINUX_
+                                        }
+                                        StopRunning();
                                         break;
                                         
                                     case 'r' :
@@ -191,17 +217,9 @@ int main(int      argc,
                                         }
                                         break;
                                         
-                                    case 'x' :
-                                    case 'X' :
-                                        cout << "Exiting" << endl;
-                                        if (! stuff->stopSum())
-                                        {
-                                            OD_LOG("(! stuff->stopSum())"); //####
-#if MAC_OR_LINUX_
-                                            GetLogger().fail("Problem stopping the sum.");
-#endif // MAC_OR_LINUX_
-                                        }
-                                        StopRunning();
+                                    case '?' :
+                                        // Help
+                                        displayCommands();
                                         break;
                                         
                                     default :
