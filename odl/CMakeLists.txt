@@ -41,13 +41,19 @@ mark_as_advanced(MpM_UseObjectiveCDebug)
 
 set(THIS_TARGET odLogging)
 
+if(APPLE)
+    set(DO_SHARED "SHARED")
+else(APPLE)
+    set(DO_SHARED "")
+endif(APPLE)
+
 if(MpM_UseObjectiveCDebug)
     add_library(${THIS_TARGET}
-                SHARED
+                ${DO_SHARED}
                 ODLogging.m)
 else(MpM_UseObjectiveCDebug)
     add_library(${THIS_TARGET}
-                SHARED
+                ${DO_SHARED}
                 ODLogging.cpp)
 endif(MpM_UseObjectiveCDebug)
 

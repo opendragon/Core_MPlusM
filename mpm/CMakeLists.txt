@@ -39,16 +39,18 @@
 include_directories("${MpM_SOURCE_DIR}")
 
 set(THIS_TARGET mpmCommon)
-set(THIS_TARGET_LIB "lib${THIS_TARGET}.dylib")
 
 if(APPLE)
+    set(DO_SHARED "SHARED")
     set(GETOPT_SOURCE "")
+    set(THIS_TARGET_LIB "lib${THIS_TARGET}.dylib")
 else(APPLE)
+    set(DO_SHARED "")
     set(GETOPT_SOURCE "${MpM_SOURCE_DIR}/mpm/getopt.cpp")
 endif(APPLE)
 
 add_library(${THIS_TARGET}
-            SHARED
+            "${DO_SHARED}"
             "${GETOPT_SOURCE}"
             "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOut.cpp"
