@@ -39,15 +39,19 @@
 option(MpM_UseObjectiveCDebug "Use Objective C Debug" FALSE)
 mark_as_advanced(MpM_UseObjectiveCDebug)
 
+set(THIS_TARGET odLogging)
+
 if(MpM_UseObjectiveCDebug)
-    add_library(odLogging
+    add_library(${THIS_TARGET}
+                SHARED
                 ODLogging.m)
 else(MpM_UseObjectiveCDebug)
-    add_library(odLogging
+    add_library(${THIS_TARGET}
+                SHARED
                 ODLogging.cpp)
 endif(MpM_UseObjectiveCDebug)
 
-install(TARGETS odLogging 
+install(TARGETS ${THIS_TARGET} 
         DESTINATION lib
         COMPONENT libraries)
 

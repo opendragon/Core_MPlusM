@@ -38,13 +38,17 @@
 
 include_directories("${MpM_SOURCE_DIR}")
 
+set(THIS_TARGET mpmCommon)
+set(THIS_TARGET_LIB "lib${THIS_TARGET}.dylib")
+
 if(APPLE)
     set(GETOPT_SOURCE "")
 else(APPLE)
     set(GETOPT_SOURCE "${MpM_SOURCE_DIR}/mpm/getopt.cpp")
 endif(APPLE)
 
-add_library(mpmCommon
+add_library(${THIS_TARGET}
+            SHARED
             "${GETOPT_SOURCE}"
             "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOut.cpp"
@@ -96,10 +100,37 @@ add_library(mpmCommon
             "${MpM_SOURCE_DIR}/mpm/M+MStopStreamsRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MUtilities.cpp")
 
-install(TARGETS mpmCommon 
-		ARCHIVE
-		DESTINATION lib
-		COMPONENT libraries)
+target_link_libraries(${THIS_TARGET}
+                        odLogging
+                        ${YARP_LIBRARIES}
+                        ${ACE_LIBRARIES})
+
+if(APPLE)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -add_rpath
+                        "${CMAKE_INSTALL_PREFIX}/lib" ${THIS_TARGET_LIB})
+
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET_LIB})
+
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        "${MpM_SOURCE_DIR}/odl/libodLogging.dylib" "@rpath/libodLogging.dylib"
+                        ${THIS_TARGET_LIB})
+
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET_LIB})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_sig.1.dylib "@rpath/libYARP_sig.1.dylib" ${THIS_TARGET_LIB})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_dev.1.dylib "@rpath/libYARP_dev.1.dylib" ${THIS_TARGET_LIB})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET_LIB})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET_LIB})
+endif(APPLE)
+
+install(TARGETS ${THIS_TARGET}
+        DESTINATION lib
+        COMPONENT libraries)
 
 install(FILES
         "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.h"

@@ -212,7 +212,8 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
 #endif // defined(MpM_ReportContactDetails)
             if (checkHostName(_contact, STANDARD_HOST_NAME, realPort))
             {
-                // Ready to be set up... we have a valid port, and either a blank URI or a valid one.
+                // Ready to be set up... we have a valid port, and either a blank URI or a valid
+                // one.
                 _channel = new ServiceChannel;
                 if (! _channel)
                 {

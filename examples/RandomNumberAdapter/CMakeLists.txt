@@ -54,7 +54,8 @@ add_executable(${THIS_TARGET}
 target_link_libraries(${THIS_TARGET}
                       mpmCommon
                       odLogging
-                      ${YARP_LIBRARIES})
+                      ${YARP_LIBRARIES}
+                      ${ACE_LIBRARIES})
 
 if(WIN32)
     target_link_libraries(${THIS_TARGET}
@@ -62,8 +63,30 @@ if(WIN32)
 endif(WIN32)
 
 if(APPLE)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -add_rpath
+                        "${CMAKE_INSTALL_PREFIX}/lib" ${THIS_TARGET})
+
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libACE.dylib "${CMAKE_INSTALL_PREFIX}/lib/libACE.dylib" ${THIS_TARGET})
+                        libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
+    
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        "${MpM_SOURCE_DIR}/mpm/libmpmCommon.dylib" "@rpath/libmpmCommon.dylib"
+                        ${THIS_TARGET})
+
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        "${MpM_SOURCE_DIR}/odl/libodLogging.dylib" "@rpath/libodLogging.dylib"
+                        ${THIS_TARGET})
+
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_sig.1.dylib "@rpath/libYARP_sig.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_dev.1.dylib "@rpath/libYARP_dev.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
 endif(APPLE)
 
 install(TARGETS ${THIS_TARGET}
