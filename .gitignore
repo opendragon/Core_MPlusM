@@ -120,3 +120,5 @@ MplusM/build_debug/M+M.mpkg/Contents/Resources/English.lproj/welcome.rtf
 M+M.pkg
 Developer.pkg
 ODLogging_wrap.cxx
+mpm/libmpmCommon.dylib
+odl/libodLogging.dylib
