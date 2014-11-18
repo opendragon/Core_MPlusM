@@ -46,15 +46,22 @@ set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 4)
 set(MpM_VERSION_PATCH 14)
 
-# Make some flags to control the build visible
+set(MpM_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
+
+# Make some flags to control the build flags visibilities
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
 mark_as_advanced(CLEAR CMAKE_OSX_ARCHITECTURES)
+mark_as_advanced(SET CMAKE_INSTALL_RPATH)
+mark_as_advanced(SET CMAKE_BUILD_WITH_INSTALL_RPATH)
 
 if(APPLE)
 	set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
 	set(CMAKE_CXX_FLAGS "-stdlib=libstdc++" CACHE STRING "Fixes linking error for M+M/ACE" FORCE)
     set(CMAKE_INSTALL_PREFIX "/opt/M+M" CACHE STRING "Fixes install path for M+M/ACE" FORCE)
-
+    set(CMAKE_INSTALL_RPATH
+"@executable_path/../lib;@executable_path/../mpm;@executable_path/../odl;@executable_path/../../mpm;@executable_path/../../odl;${CMAKE_INSTALL_PREFIX}/lib"
+        CACHE STRING "Fixes rpath" FORCE)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH ON CACHE BOOL "Make sure to use rpath")
 # 'rpath' warning
     cmake_policy(SET CMP0042 OLD)
 endif(APPLE)
@@ -114,7 +121,6 @@ set(MpM_INPUT_BASE_NAME "/_input_/")
 set(MpM_OUTPUT_BASE_NAME "/_output_/")
 set(MpM_SERVICE_BASE_NAME "/_service_/")
 
-set(MpM_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 set(MpM_SQLITE_DIR "${PROJECT_SOURCE_DIR}/SQLite3")
 
 configure_file("${MpM_SOURCE_DIR}/mpm/M+MConfig.h.in"
@@ -129,6 +135,8 @@ if(WIN32)
     set(BONJOUR_DIR "C:/Program Files/Bonjour SDK")
     set(BONJOUR_LIB "${BONJOUR_DIR}/Lib/Win32/dnssd.lib")
     include_directories("${BONJOUR_DIR}/Include")
+else(WIN32)
+    set(BONJOUR_LIB "")
 endif(WIN32)
 
 add_subdirectory(ClientList)

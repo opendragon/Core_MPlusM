@@ -52,7 +52,8 @@ target_link_libraries(${THIS_TARGET}
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES}
-                      ${ACE_LIBRARIES})
+                      ${ACE_LIBRARIES}
+                      ${BONJOUR_LIB})
 
 if(WIN32)
 	add_library(ViconDataStream SHARED IMPORTED)
@@ -61,7 +62,6 @@ if(WIN32)
 	set_property(TARGET ViconDataStream PROPERTY IMPORTED_IMPLIB
 "${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/ViconDataStreamSDK_CPP.lib")
 	target_link_libraries(${THIS_TARGET}
-                          ${BONJOUR_LIB}
                           ViconDataStream)
 	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
                         "${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib"
@@ -73,19 +73,14 @@ if(WIN32)
 endif(WIN32)
 
 if(APPLE)
-    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -add_rpath
-                        "${CMAKE_INSTALL_PREFIX}/lib" ${THIS_TARGET})
-
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
     
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        "${MpM_SOURCE_DIR}/mpm/libmpmCommon.dylib" "@rpath/libmpmCommon.dylib"
-                        ${THIS_TARGET})
+                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        "${MpM_SOURCE_DIR}/odl/libodLogging.dylib" "@rpath/libodLogging.dylib"
-                        ${THIS_TARGET})
+                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})

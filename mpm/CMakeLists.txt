@@ -108,15 +108,11 @@ target_link_libraries(${THIS_TARGET}
                         ${ACE_LIBRARIES})
 
 if(APPLE)
-    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -add_rpath
-                        "${CMAKE_INSTALL_PREFIX}/lib" ${THIS_TARGET_LIB})
-
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET_LIB})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        "${MpM_SOURCE_DIR}/odl/libodLogging.dylib" "@rpath/libodLogging.dylib"
-                        ${THIS_TARGET_LIB})
+                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET_LIB})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET_LIB})

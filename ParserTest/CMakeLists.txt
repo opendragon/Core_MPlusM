@@ -57,27 +57,18 @@ target_link_libraries(${THIS_TARGET}
                       mpmCommon
                       odLogging
                       ${YARP_LIBRARIES}
-                      ${ACE_LIBRARIES})
-
-if(WIN32)
-    target_link_libraries(${THIS_TARGET}
-                          ${BONJOUR_LIB})
-endif(WIN32)
+                      ${ACE_LIBRARIES}
+                      ${BONJOUR_LIB})
 
 if(APPLE)
-    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -add_rpath
-                        "${CMAKE_INSTALL_PREFIX}/lib" ${THIS_TARGET})
-
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        "${MpM_SOURCE_DIR}/mpm/libmpmCommon.dylib" "@rpath/libmpmCommon.dylib"
-                        ${THIS_TARGET})
+                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        "${MpM_SOURCE_DIR}/odl/libodLogging.dylib" "@rpath/libodLogging.dylib"
-                        ${THIS_TARGET})
+                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
