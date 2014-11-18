@@ -24,6 +24,9 @@ _CPack_Packages/
 *.pdb
 *.cache
 *.exe
+*.so
+*CSHARP_wrap.cxx
+*.cs
 
 Testing
 Doxygen_output
@@ -116,3 +119,4 @@ MplusM/build_debug/M+M.mpkg/Contents/Resources/English.lproj/Localizable.strings
 MplusM/build_debug/M+M.mpkg/Contents/Resources/English.lproj/welcome.rtf
 M+M.pkg
 Developer.pkg
+ODLogging_wrap.cxx

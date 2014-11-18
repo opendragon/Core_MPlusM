@@ -102,6 +102,12 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 # Add ACE include directories
 include_directories(${ACE_INCLUDE_DIRS})
 
+# Find SWIG
+find_package(SWIG REQUIRED)
+include(${SWIG_USE_FILE})
+
+set(CMAKE_SWIG_FLAGS "")
+
 set(MpM_ADAPTER_BASE_NAME "/_adapter_/")
 set(MpM_CLIENT_BASE_NAME "/_client_/")
 set(MpM_INPUT_BASE_NAME "/_input_/")

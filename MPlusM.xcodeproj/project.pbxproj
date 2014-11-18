@@ -7,6 +7,44 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		DF0ADB401A1AAE770096548B /* ODLogging.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = ODLogging.i; path = odl/ODLogging.i; sourceTree = SOURCE_ROOT; };
+		DF0ADB411A1ABF920096548B /* M+MAdapterChannel.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MAdapterChannel.i"; path = "mpm/M+MAdapterChannel.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB421A1AC4190096548B /* M+MBailOut.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBailOut.i"; path = "mpm/M+MBailOut.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB431A1AC4F50096548B /* M+MBailOutThread.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBailOutThread.i"; path = "mpm/M+MBailOutThread.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB441A1AC6EA0096548B /* M+MBaseAdapterData.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBaseAdapterData.i"; path = "mpm/M+MBaseAdapterData.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB451A1AC77A0096548B /* M+MBaseChannel.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBaseChannel.i"; path = "mpm/M+MBaseChannel.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB461A1AC7FC0096548B /* M+MBaseClient.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBaseClient.i"; path = "mpm/M+MBaseClient.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB471A1AC87B0096548B /* M+MBaseContext.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBaseContext.i"; path = "mpm/M+MBaseContext.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB481A1AC8DD0096548B /* M+MBaseFilterService.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBaseFilterService.i"; path = "mpm/M+MBaseFilterService.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB491A1AC9420096548B /* M+MBaseInputHandler.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBaseInputHandler.i"; path = "mpm/M+MBaseInputHandler.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB4A1A1AC9A50096548B /* M+MBaseInputHandlerCreator.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBaseInputHandlerCreator.i"; path = "mpm/M+MBaseInputHandlerCreator.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB4B1A1ACA340096548B /* M+MBaseInputOutputService.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBaseInputOutputService.i"; path = "mpm/M+MBaseInputOutputService.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB4C1A1ACAC80096548B /* M+MBaseInputService.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBaseInputService.i"; path = "mpm/M+MBaseInputService.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB4D1A1ACB670096548B /* M+MBaseOutputService.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBaseOutputService.i"; path = "mpm/M+MBaseOutputService.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB4E1A1ACBC30096548B /* M+MBaseService.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBaseService.i"; path = "mpm/M+MBaseService.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB4F1A1ACC700096548B /* M+MBaseMatcher.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBaseMatcher.i"; path = "mpm/M+MBaseMatcher.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB501A1ACCD10096548B /* M+MBaseNameValidator.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBaseNameValidator.i"; path = "mpm/M+MBaseNameValidator.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB511A1ACD330096548B /* M+MBaseRequestHandler.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MBaseRequestHandler.i"; path = "mpm/M+MBaseRequestHandler.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB521A1ACD9B0096548B /* M+MChannelStatusReporter.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MChannelStatusReporter.i"; path = "mpm/M+MChannelStatusReporter.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB541A1ACE340096548B /* M+MClientChannel.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MClientChannel.i"; path = "mpm/M+MClientChannel.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB551A1ACEA20096548B /* M+MCommon.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MCommon.i"; path = "mpm/M+MCommon.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB561A1ACEF10096548B /* M+MEndpoint.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MEndpoint.i"; path = "mpm/M+MEndpoint.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB571A1ACF5B0096548B /* M+MException.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MException.i"; path = "mpm/M+MException.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB581A1ACFB40096548B /* M+MGeneralChannel.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MGeneralChannel.i"; path = "mpm/M+MGeneralChannel.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB591A1AD02F0096548B /* M+MMatchConstraint.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MMatchConstraint.i"; path = "mpm/M+MMatchConstraint.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB5A1A1AD0AA0096548B /* M+MMatchExpression.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MMatchExpression.i"; path = "mpm/M+MMatchExpression.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB5B1A1AD1140096548B /* M+MMatchFieldName.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MMatchFieldName.i"; path = "mpm/M+MMatchFieldName.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB5C1A1AD16A0096548B /* M+MMatchFieldWithValues.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MMatchFieldWithValues.i"; path = "mpm/M+MMatchFieldWithValues.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB5D1A1AD1C30096548B /* M+MMatchValue.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MMatchValue.i"; path = "mpm/M+MMatchValue.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB5E1A1AD2070096548B /* M+MMatchValueList.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MMatchValueList.i"; path = "mpm/M+MMatchValueList.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB5F1A1AD2650096548B /* M+MRequestMap.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MRequestMap.i"; path = "mpm/M+MRequestMap.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB601A1AD2DF0096548B /* M+MSendReceiveCounters.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MSendReceiveCounters.i"; path = "mpm/M+MSendReceiveCounters.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB611A1AD3A30096548B /* M+MServiceChannel.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MServiceChannel.i"; path = "mpm/M+MServiceChannel.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB621A1AD4470096548B /* M+MServiceInputHandler.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MServiceInputHandler.i"; path = "mpm/M+MServiceInputHandler.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB631A1AD4BD0096548B /* M+MServiceInputHandlerCreator.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MServiceInputHandlerCreator.i"; path = "mpm/M+MServiceInputHandlerCreator.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB641A1AD5280096548B /* M+MServiceRequest.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MServiceRequest.i"; path = "mpm/M+MServiceRequest.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB651A1AD55E0096548B /* M+MServiceResponse.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MServiceResponse.i"; path = "mpm/M+MServiceResponse.i"; sourceTree = SOURCE_ROOT; };
+		DF0ADB661A1AD5BF0096548B /* M+MUtilities.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MUtilities.i"; path = "mpm/M+MUtilities.i"; sourceTree = SOURCE_ROOT; };
 		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F67198A9A5A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/ChordGeneratorService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F68198A9A5A00A0414E /* M+MChordGeneratorRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChordGeneratorRequestHandler.cpp"; path = "examples/ChordGeneratorService/M+MChordGeneratorRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -442,6 +480,50 @@
 			);
 			name = SQLite3;
 			sourceTree = SOURCE_ROOT;
+		};
+		DF0ADB531A1ACDAA0096548B /* SWIG */ = {
+			isa = PBXGroup;
+			children = (
+				DF0ADB411A1ABF920096548B /* M+MAdapterChannel.i */,
+				DF0ADB421A1AC4190096548B /* M+MBailOut.i */,
+				DF0ADB431A1AC4F50096548B /* M+MBailOutThread.i */,
+				DF0ADB441A1AC6EA0096548B /* M+MBaseAdapterData.i */,
+				DF0ADB451A1AC77A0096548B /* M+MBaseChannel.i */,
+				DF0ADB461A1AC7FC0096548B /* M+MBaseClient.i */,
+				DF0ADB471A1AC87B0096548B /* M+MBaseContext.i */,
+				DF0ADB481A1AC8DD0096548B /* M+MBaseFilterService.i */,
+				DF0ADB491A1AC9420096548B /* M+MBaseInputHandler.i */,
+				DF0ADB4A1A1AC9A50096548B /* M+MBaseInputHandlerCreator.i */,
+				DF0ADB4B1A1ACA340096548B /* M+MBaseInputOutputService.i */,
+				DF0ADB4C1A1ACAC80096548B /* M+MBaseInputService.i */,
+				DF0ADB4F1A1ACC700096548B /* M+MBaseMatcher.i */,
+				DF0ADB501A1ACCD10096548B /* M+MBaseNameValidator.i */,
+				DF0ADB4D1A1ACB670096548B /* M+MBaseOutputService.i */,
+				DF0ADB511A1ACD330096548B /* M+MBaseRequestHandler.i */,
+				DF0ADB4E1A1ACBC30096548B /* M+MBaseService.i */,
+				DF0ADB521A1ACD9B0096548B /* M+MChannelStatusReporter.i */,
+				DF0ADB541A1ACE340096548B /* M+MClientChannel.i */,
+				DF0ADB551A1ACEA20096548B /* M+MCommon.i */,
+				DF0ADB561A1ACEF10096548B /* M+MEndpoint.i */,
+				DF0ADB571A1ACF5B0096548B /* M+MException.i */,
+				DF0ADB581A1ACFB40096548B /* M+MGeneralChannel.i */,
+				DF0ADB591A1AD02F0096548B /* M+MMatchConstraint.i */,
+				DF0ADB5A1A1AD0AA0096548B /* M+MMatchExpression.i */,
+				DF0ADB5B1A1AD1140096548B /* M+MMatchFieldName.i */,
+				DF0ADB5C1A1AD16A0096548B /* M+MMatchFieldWithValues.i */,
+				DF0ADB5D1A1AD1C30096548B /* M+MMatchValue.i */,
+				DF0ADB5E1A1AD2070096548B /* M+MMatchValueList.i */,
+				DF0ADB5F1A1AD2650096548B /* M+MRequestMap.i */,
+				DF0ADB601A1AD2DF0096548B /* M+MSendReceiveCounters.i */,
+				DF0ADB611A1AD3A30096548B /* M+MServiceChannel.i */,
+				DF0ADB621A1AD4470096548B /* M+MServiceInputHandler.i */,
+				DF0ADB631A1AD4BD0096548B /* M+MServiceInputHandlerCreator.i */,
+				DF0ADB641A1AD5280096548B /* M+MServiceRequest.i */,
+				DF0ADB651A1AD55E0096548B /* M+MServiceResponse.i */,
+				DF0ADB661A1AD5BF0096548B /* M+MUtilities.i */,
+			);
+			name = SWIG;
+			sourceTree = "<group>";
 		};
 		DF20928F18D0DAA50093D3DC /* ServiceLister */ = {
 			isa = PBXGroup;
@@ -1018,6 +1100,7 @@
 				DF384FC4198A9C7A00A0414E /* ODEnableLogging.h */,
 				DF384FC5198A9C7A00A0414E /* ODLogging.cpp */,
 				DF384FC6198A9C7A00A0414E /* ODLogging.h */,
+				DF0ADB401A1AAE770096548B /* ODLogging.i */,
 				DF384FC7198A9C7A00A0414E /* ODLogging.inc.c */,
 				DF384FC8198A9C7A00A0414E /* ODLogging.m */,
 			);
@@ -1027,6 +1110,7 @@
 		DFA3434F18C91C670053B87C /* mpm */ = {
 			isa = PBXGroup;
 			children = (
+				DF0ADB531A1ACDAA0096548B /* SWIG */,
 				DF3850BE198ACCFE00A0414E /* CMakeLists.txt */,
 				DF3850BF198ACCFE00A0414E /* getopt.cpp */,
 				DF3850C0198ACCFE00A0414E /* getopt.h */,

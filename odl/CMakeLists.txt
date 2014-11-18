@@ -40,6 +40,7 @@ option(MpM_UseObjectiveCDebug "Use Objective C Debug" FALSE)
 mark_as_advanced(MpM_UseObjectiveCDebug)
 
 set(THIS_TARGET odLogging)
+set(OTHER_TARGET odLogging_swig)
 
 if(APPLE)
     set(DO_SHARED "SHARED")
@@ -57,7 +58,7 @@ else(MpM_UseObjectiveCDebug)
                 ODLogging.cpp)
 endif(MpM_UseObjectiveCDebug)
 
-install(TARGETS ${THIS_TARGET} 
+install(TARGETS ${THIS_TARGET}
         DESTINATION lib
         COMPONENT libraries)
 
@@ -67,3 +68,21 @@ install(FILES
         ODLogging.h
         DESTINATION include/odl
         COMPONENT headers)
+
+if(APPLE)
+    set_source_files_properties(ODLogging.i PROPERTIES CPLUSPLUS ON)
+    set_source_files_properties(ODLogging.i PROPERTIES SWIG_FLAGS "-includeall")
+
+    swig_add_module(${OTHER_TARGET} csharp ODLogging.i ODLogging.h ODLogging.cpp)
+
+    install(TARGETS ${OTHER_TARGET}
+            DESTINATION lib
+            COMPONENT libraries)
+
+    install(FILES
+            ODLogging.cs
+            ODLoggingPINVOKE.cs
+            DESTINATION csharp/odl
+            COMPONENT headers)
+
+endif(APPLE)

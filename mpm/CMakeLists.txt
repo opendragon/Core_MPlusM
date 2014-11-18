@@ -184,6 +184,70 @@ else(APPLE)
             DESTINATION include/mpm)
 endif(APPLE)
 
+if(APPLE)
+    foreach(aFile
+            AdapterChannel
+            BailOut
+            BailOutThread
+            BaseAdapterData
+            BaseChannel
+            BaseClient
+            BaseContext
+            BaseFilterService
+            BaseInputHandler
+            BaseInputHandlerCreator
+            BaseInputOutputService
+            BaseInputService
+            BaseMatcher
+            BaseNameValidator
+            BaseOutputService
+            BaseRequestHandler
+            BaseService
+            ChannelStatusReporter
+            ClientChannel
+            Common
+            Endpoint
+            Exception
+            GeneralChannel
+            MatchConstraint
+            MatchExpression
+            MatchFieldName
+            MatchFieldWithValues
+            MatchValue
+            MatchValueList
+            RequestMap
+            SendReceiveCounters
+            ServiceChannel
+            ServiceInputHandler
+            ServiceInputHandlerCreator
+            ServiceRequest
+            ServiceResponse
+            Utilities)
+        set_source_files_properties("${MpM_SOURCE_DIR}/mpm/M+M${aFile}.i" PROPERTIES CPLUSPLUS ON)
+        set_source_files_properties("${MpM_SOURCE_DIR}/mpm/M+M${aFile}.i" PROPERTIES SWIG_FLAGS
+                                    "-includeall")
+
+        swig_add_module("mpm${aFile}_swig" csharp "${MpM_SOURCE_DIR}/mpm/M+M${aFile}.i"
+                        "${MpM_SOURCE_DIR}/mpm/M+M${aFile}.h"
+                        "${MpM_SOURCE_DIR}/mpm/M+M${aFile}.cpp")
+        swig_link_libraries("mpm${aFile}_swig"
+                            ${THIS_TARGET}
+                            odLogging
+                            ${YARP_LIBRARIES}
+                            ${ACE_LIBRARIES})
+
+        install(TARGETS "mpm${aFile}_swig"
+                DESTINATION lib
+                COMPONENT libraries)
+
+        install(FILES
+                "${MpM_SOURCE_DIR}/mpm/mpm${aFile}.cs"
+                "${MpM_SOURCE_DIR}/mpm/mpm${aFile}PINVOKE.cs"
+                DESTINATION csharp/mpm
+                COMPONENT headers)
+    endforeach(aFile)
+endif(APPLE)
+
 enable_testing()
 
 #packing stuff
