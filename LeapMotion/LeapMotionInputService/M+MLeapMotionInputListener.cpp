@@ -225,7 +225,7 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
                     yarp::os::Value    fingerSet;
                     yarp::os::Bottle * fingerSetAsList = fingerSet.asList();
 
-                    if (fingerSetAsList)
+                    if (fingerSetAsList && !lightMode)
                     {
                         // fingers
                         Leap::FingerList fingers(aHand.fingers());
@@ -376,6 +376,12 @@ void LeapMotionInputListener::onServiceDisconnect(const Leap::Controller & theCo
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onServiceDisconnect
+
+void LeapMotionInputListener::setLightMode(bool isLight)
+{
+	lightMode = isLight;
+}
+
 
 #if defined(__APPLE__)
 # pragma mark Global functions

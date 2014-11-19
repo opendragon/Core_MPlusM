@@ -107,6 +107,12 @@ namespace MplusM
             
             /*! @brief Stop the input/output streams. */
             virtual void stopStreams(void);
+
+			/*! @brief Toggle "light" mode; in case of network limits */
+			virtual void toggleLightMode();
+
+			/*! @brief get "light" mode */
+			virtual bool getLightMode();
             
         protected :
             
@@ -132,6 +138,8 @@ namespace MplusM
             
             /*! @brief The %Leap Motion event handler. */
             LeapMotionInputListener * _listener;
+
+			bool lightMode;
             
         }; // LeapMotionInputService
         
