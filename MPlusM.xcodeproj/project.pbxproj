@@ -448,6 +448,14 @@
 		DFE83AEF19B8C58B003A7EDE /* M+MMovementDbInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbInputHandler.h"; path = "MovementDb/MovementDbAdapter/M+MMovementDbInputHandler.h"; sourceTree = SOURCE_ROOT; };
 		DFE83AF019B8C7D0003A7EDE /* M+MMovementDbAdapterData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbAdapterData.cpp"; path = "MovementDb/MovementDbAdapter/M+MMovementDbAdapterData.cpp"; sourceTree = SOURCE_ROOT; };
 		DFE83AF119B8C7D0003A7EDE /* M+MMovementDbAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbAdapterData.h"; path = "MovementDb/MovementDbAdapter/M+MMovementDbAdapterData.h"; sourceTree = SOURCE_ROOT; };
+		DFEF4B5A1A1CE6D500FBB838 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Unreal/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFEF4B5C1A1CE6F900FBB838 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Unreal/UnrealOutputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DFEF4B5D1A1CE6F900FBB838 /* M+MUnrealOutputInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUnrealOutputInputHandler.cpp"; path = "Unreal/UnrealOutputService/M+MUnrealOutputInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DFEF4B5E1A1CE6F900FBB838 /* M+MUnrealOutputInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUnrealOutputInputHandler.h"; path = "Unreal/UnrealOutputService/M+MUnrealOutputInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DFEF4B5F1A1CE6F900FBB838 /* M+MUnrealOutputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUnrealOutputRequests.h"; path = "Unreal/UnrealOutputService/M+MUnrealOutputRequests.h"; sourceTree = SOURCE_ROOT; };
+		DFEF4B601A1CE6F900FBB838 /* M+MUnrealOutputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUnrealOutputService.cpp"; path = "Unreal/UnrealOutputService/M+MUnrealOutputService.cpp"; sourceTree = SOURCE_ROOT; };
+		DFEF4B611A1CE6F900FBB838 /* M+MUnrealOutputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUnrealOutputService.h"; path = "Unreal/UnrealOutputService/M+MUnrealOutputService.h"; sourceTree = SOURCE_ROOT; };
+		DFEF4B621A1CE6F900FBB838 /* M+MUnrealOutputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUnrealOutputServiceMain.cpp"; path = "Unreal/UnrealOutputService/M+MUnrealOutputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFFFBFD319D9A49D00BBD7A7 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = KinectV2/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFFFBFD519D9A4B900BBD7A7 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = KinectV2/KinectV2InputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFFFBFD819D9A4B900BBD7A7 /* M+MKinectV2EventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MKinectV2EventThread.cpp"; path = "KinectV2/KinectV2InputService/M+MKinectV2EventThread.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1044,6 +1052,7 @@
 				DF20928F18D0DAA50093D3DC /* ServiceLister */,
 				DFCDE50719E7393D0051D294 /* ServiceMetrics */,
 				DF06998E18EDD9F100FF0E93 /* SQLite3 */,
+				DFEF4B591A1CE6C300FBB838 /* Unreal */,
 				DFA4963A18FED31A005A7213 /* Version */,
 				DF6DFCBF1A0D25FC00E8CEF5 /* ViconDataStream */,
 			);
@@ -1410,6 +1419,29 @@
 				DFE83AEF19B8C58B003A7EDE /* M+MMovementDbInputHandler.h */,
 			);
 			name = MovementDbAdapter;
+			sourceTree = "<group>";
+		};
+		DFEF4B591A1CE6C300FBB838 /* Unreal */ = {
+			isa = PBXGroup;
+			children = (
+				DFEF4B5A1A1CE6D500FBB838 /* CMakeLists.txt */,
+				DFEF4B5B1A1CE6E300FBB838 /* UnrealOutputService */,
+			);
+			name = Unreal;
+			sourceTree = "<group>";
+		};
+		DFEF4B5B1A1CE6E300FBB838 /* UnrealOutputService */ = {
+			isa = PBXGroup;
+			children = (
+				DFEF4B5C1A1CE6F900FBB838 /* CMakeLists.txt */,
+				DFEF4B5D1A1CE6F900FBB838 /* M+MUnrealOutputInputHandler.cpp */,
+				DFEF4B5E1A1CE6F900FBB838 /* M+MUnrealOutputInputHandler.h */,
+				DFEF4B5F1A1CE6F900FBB838 /* M+MUnrealOutputRequests.h */,
+				DFEF4B601A1CE6F900FBB838 /* M+MUnrealOutputService.cpp */,
+				DFEF4B611A1CE6F900FBB838 /* M+MUnrealOutputService.h */,
+				DFEF4B621A1CE6F900FBB838 /* M+MUnrealOutputServiceMain.cpp */,
+			);
+			name = UnrealOutputService;
 			sourceTree = "<group>";
 		};
 		DFFFBFD219D9A40600BBD7A7 /* KinectV2 */ = {

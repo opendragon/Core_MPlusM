@@ -397,11 +397,11 @@
 												<key>GID</key>
 												<integer>20</integer>
 												<key>PATH</key>
-												<string>../..</string>
+												<string>../../../Core_MPlusM-master.zip</string>
 												<key>PATH_TYPE</key>
 												<integer>1</integer>
 												<key>PERMISSIONS</key>
-												<integer>493</integer>
+												<integer>420</integer>
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
@@ -445,11 +445,11 @@
 												<key>GID</key>
 												<integer>20</integer>
 												<key>PATH</key>
-												<string>/Users/M_M/Documents/git.repositories/Utilities_Channel Manager</string>
+												<string>../../../Utilities_ChannelManager-master.zip</string>
 												<key>PATH_TYPE</key>
-												<integer>0</integer>
+												<integer>1</integer>
 												<key>PERMISSIONS</key>
-												<integer>493</integer>
+												<integer>420</integer>
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
@@ -461,11 +461,11 @@
 												<key>GID</key>
 												<integer>20</integer>
 												<key>PATH</key>
-												<string>../../../../../../Shared/of_v0.8.1_osx_release/apps/myApps/Utilities_ServiceViewer</string>
+												<string>../../../Utilities_ServiceViewer-master.zip</string>
 												<key>PATH_TYPE</key>
 												<integer>1</integer>
 												<key>PERMISSIONS</key>
-												<integer>493</integer>
+												<integer>420</integer>
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
@@ -1364,6 +1364,40 @@
 							<true/>
 							<key>STRING</key>
 							<string>\.graffle$</string>
+							<key>TYPE</key>
+							<integer>0</integer>
+						</dict>
+					</array>
+					<key>PROTECTED</key>
+					<false/>
+					<key>STATE</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>PATTERNS_ARRAY</key>
+					<array>
+						<dict>
+							<key>REGULAR_EXPRESSION</key>
+							<true/>
+							<key>STRING</key>
+							<string>\.so$</string>
+							<key>TYPE</key>
+							<integer>0</integer>
+						</dict>
+					</array>
+					<key>PROTECTED</key>
+					<false/>
+					<key>STATE</key>
+					<true/>
+				</dict>
+				<dict>
+					<key>PATTERNS_ARRAY</key>
+					<array>
+						<dict>
+							<key>REGULAR_EXPRESSION</key>
+							<true/>
+							<key>STRING</key>
+							<string>\.dylib$</string>
 							<key>TYPE</key>
 							<integer>0</integer>
 						</dict>
