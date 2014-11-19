@@ -132,8 +132,6 @@ namespace MplusM
              @param theController The Controller object invoking this callback function. */
             virtual void onServiceDisconnect(const Leap::Controller & theController);
 
-			virtual void setLightMode(bool isLight);
-
         protected :
             
         private :
@@ -151,8 +149,6 @@ namespace MplusM
             
             /*! @brief The channel to send motion data to. */
             Common::GeneralChannel * _outChannel;
-
-			bool lightMode;
             
         }; // LeapMotionInputListener
         

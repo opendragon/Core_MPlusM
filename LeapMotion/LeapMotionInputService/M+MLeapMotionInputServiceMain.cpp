@@ -220,17 +220,11 @@ int main(int      argc,
                             {
                                 char inChar;
                                 
-                                cout << "Operation: [? l b c e q r u]? ";
+                                cout << "Operation: [? b c e q r u]? ";
                                 cout.flush();
                                 cin >> inChar;
                                 switch (inChar)
                                 {
-									case 'l' :
-									case 'L':
-										//"light mode"
-										stuff->toggleLightMode();
-										cout << "Light mode: " << stuff->getLightMode() <<endl;
-										break;
                                     case 'b' :
                                     case 'B' :
                                         // Start streams

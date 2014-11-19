@@ -88,7 +88,6 @@ LeapMotionInputService::LeapMotionInputService(const yarp::os::ConstString & lau
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_EXIT_P(this); //####
-	lightMode = false;
 } // LeapMotionInputService::LeapMotionInputService
 
 LeapMotionInputService::~LeapMotionInputService(void)
@@ -213,7 +212,6 @@ void LeapMotionInputService::startStreams(void)
             {
                 _listener = new LeapMotionInputListener(_outStreams.at(0));
                 _controller->addListener(*_listener);
-				_listener->setLightMode(lightMode);
                 setActive();
             }
         }
@@ -267,17 +265,6 @@ void LeapMotionInputService::stopStreams(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputService::stopStreams
-
-void LeapMotionInputService::toggleLightMode(void)
-{
-	lightMode = !lightMode;
-	_listener->setLightMode(lightMode);
-}
-
-bool LeapMotionInputService::getLightMode()
-{
-	return lightMode;
-}
 
 #if defined(__APPLE__)
 # pragma mark Global functions
