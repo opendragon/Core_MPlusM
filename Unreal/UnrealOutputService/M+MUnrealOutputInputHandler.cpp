@@ -130,7 +130,7 @@ static bool dumpSegments(std::stringstream & outBuffer,
                                     outBuffer << "\t" << elementAsDouble;
                                 }
                             }
-                            outBuffer << endl;
+                            outBuffer << std::endl;
                         }
                         else
                         {
@@ -217,7 +217,7 @@ bool UnrealOutputInputHandler::handleInput(const yarp::os::Bottle &      input,
                 bool              okSoFar = true;
                 std::stringstream outBuffer;
                 
-                outBuffer << numSubjects << endl;
+                outBuffer << numSubjects << std::endl;
                 for (int ii = 0; okSoFar && (numSubjects > ii); ++ii)
                 {
                     yarp::os::Value & aValue = input.get(ii);
@@ -243,7 +243,7 @@ bool UnrealOutputInputHandler::handleInput(const yarp::os::Bottle &      input,
                                         yarp::os::Bottle segmentsAsBottle(segments->toString());
 
                                         outBuffer << subjName.c_str() << "\t" <<
-                                                    segmentsAsBottle.size() << "\t0" << endl;
+                                                    segmentsAsBottle.size() << "\t0" << std::endl;
                                         okSoFar = dumpSegments(outBuffer, segmentsAsBottle,
                                                                _scale);
                                     }
@@ -270,7 +270,7 @@ bool UnrealOutputInputHandler::handleInput(const yarp::os::Bottle &      input,
                 }
                 if (okSoFar)
                 {
-                    outBuffer << "--END--" << endl;
+                    outBuffer << "--END--" << std::endl;
                     std::string outString(outBuffer.str());
                     
                     send(_outSocket, outString.c_str(), outString.length(), 0);
