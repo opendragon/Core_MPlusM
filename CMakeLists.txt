@@ -139,6 +139,8 @@ else(WIN32)
     set(BONJOUR_LIB "")
 endif(WIN32)
 
+option(MpM_VICON "Build the Vicon Service" ON)
+
 add_subdirectory(ClientList)
 add_subdirectory(CommonTests)
 add_subdirectory(examples)
@@ -157,9 +159,9 @@ add_subdirectory(RequestInfo)
 add_subdirectory(ServiceLister)
 add_subdirectory(ServiceMetrics)
 add_subdirectory(Version)
-if(WIN32)
-    add_subdirectory(ViconDataStream)
-endif(WIN32)
+if(WIN32 AND MpM_VICON)
+	add_subdirectory(ViconDataStream)
+endif(WIN32 AND MpM_VICON)
 
 add_subdirectory(CPack)
 
