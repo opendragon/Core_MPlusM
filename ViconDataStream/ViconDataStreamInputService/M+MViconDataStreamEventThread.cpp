@@ -134,11 +134,20 @@ bool ViconDataStreamEventThread::initializeConnection(void)
 	{
 		_viconClient.EnableMarkerData();
 		_viconClient.EnableSegmentData();
+		_viconClient.SetAxisMapping(CPP::Direction::Forward, CPP::Direction::Right, CPP::Direction::Up);
 		_viconClient.SetStreamMode(CPP::StreamMode::ClientPullPreFetch);
 	}
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ViconDataStreamEventThread::initializeConnection
+#if 0
+    Up,
+    Down,
+    Left,
+    Right,
+    Forward,
+    Backward
+#endif//0
 
 #if defined(REPORT_EVENT_COUNT_)
 static long lEventCount = 0; //####

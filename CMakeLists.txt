@@ -92,6 +92,9 @@ mark_as_advanced(MpM_UseDiskDatabase)
 mark_as_advanced(MpM_UseTestDatabase)
 mark_as_advanced(MpM_UseTimeoutsInRetryLoops)
 
+option(MpM_VICON "Build the Vicon Service" ON)
+option(MpM_DO_SWIG "Build the SWIG files" OFF)
+
 # Add the M+M target path so that YARP and ACE can be found
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}")
 
@@ -110,10 +113,11 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 include_directories(${ACE_INCLUDE_DIRS})
 
 # Find SWIG
-find_package(SWIG REQUIRED)
-include(${SWIG_USE_FILE})
-
-set(CMAKE_SWIG_FLAGS "")
+if(MpM_DO_SWIG)
+    find_package(SWIG REQUIRED)
+    include(${SWIG_USE_FILE})
+    set(CMAKE_SWIG_FLAGS "")
+endif(MpM_DO_SWIG)
 
 set(MpM_ADAPTER_BASE_NAME "/_adapter_/")
 set(MpM_CLIENT_BASE_NAME "/_client_/")
@@ -139,7 +143,6 @@ else(WIN32)
     set(BONJOUR_LIB "")
 endif(WIN32)
 
-option(MpM_VICON "Build the Vicon Service" ON)
 
 add_subdirectory(ClientList)
 add_subdirectory(CommonTests)

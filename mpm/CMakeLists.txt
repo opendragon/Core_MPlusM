@@ -180,7 +180,7 @@ else(APPLE)
             DESTINATION include/mpm)
 endif(APPLE)
 
-if(APPLE)
+if(APPLE AND MpM_DO_SWIG)
     foreach(aFile
             AdapterChannel
             BailOut
@@ -242,7 +242,7 @@ if(APPLE)
                 DESTINATION csharp/mpm
                 COMPONENT headers)
     endforeach(aFile)
-endif(APPLE)
+endif(APPLE AND MpM_DO_SWIG)
 
 enable_testing()
 

@@ -69,7 +69,7 @@ install(FILES
         DESTINATION include/odl
         COMPONENT headers)
 
-if(APPLE)
+if(APPLE AND MpM_DO_SWIG)
     set_source_files_properties(ODLogging.i PROPERTIES CPLUSPLUS ON)
     set_source_files_properties(ODLogging.i PROPERTIES SWIG_FLAGS "-includeall")
 
@@ -85,4 +85,4 @@ if(APPLE)
             DESTINATION csharp/odl
             COMPONENT headers)
 
-endif(APPLE)
+endif(APPLE AND MpM_DO_SWIG)

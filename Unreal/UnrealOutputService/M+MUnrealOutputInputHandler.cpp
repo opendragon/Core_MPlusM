@@ -62,6 +62,8 @@ using namespace MplusM::Unreal;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+#define LINE_END "\r\n"
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -119,6 +121,7 @@ static bool dumpSegments(std::stringstream & outBuffer,
                                 }
                                 else
                                 {
+									std::cerr << "value not an integer or a float" << std::endl; //!!!!
                                     okSoFar = false;
                                 }
                                 if (okSoFar)
@@ -130,31 +133,36 @@ static bool dumpSegments(std::stringstream & outBuffer,
                                     outBuffer << "\t" << elementAsDouble;
                                 }
                             }
-                            outBuffer << std::endl;
+							outBuffer << LINE_END;
                         }
                         else
                         {
+							std::cerr << "bad list pointer or incorrect list size" << std::endl; //!!!!
                             okSoFar = false;
                         }
                     }
                     else
                     {
+						std::cerr << "segment not a string and a list" << std::endl; //!!!!
                         okSoFar = false;
                     }
                 }
                 else
                 {
+					std::cerr << "segment not a 2-element list" << std::endl; //!!!!
                     okSoFar = false;
                 }
             }
             else
             {
+				std::cerr << "segment not a list" << std::endl; //!!!!
                 okSoFar = false;
             }
         }
     }
     else
     {
+		std::cerr << "no segments" << std::endl; //!!!!
         okSoFar = false;
     }
     OD_LOG_EXIT_B(okSoFar); //####
@@ -208,7 +216,11 @@ bool UnrealOutputInputHandler::handleInput(const yarp::os::Bottle &      input,
     
     try
     {
-		if (INVALID_SOCKET != _outSocket)
+		if (INVALID_SOCKET == _outSocket)
+		{
+			std::cerr << "invalid socket" << std::endl; //!!!!
+		}
+		else
 		{
             int numSubjects = input.size();
 
@@ -217,7 +229,8 @@ bool UnrealOutputInputHandler::handleInput(const yarp::os::Bottle &      input,
                 bool              okSoFar = true;
                 std::stringstream outBuffer;
                 
-                outBuffer << numSubjects << std::endl;
+				std::cerr << "# subjects = " << numSubjects << std::endl; //!!!!
+                outBuffer << numSubjects << LINE_END;
                 for (int ii = 0; okSoFar && (numSubjects > ii); ++ii)
                 {
                     yarp::os::Value & aValue = input.get(ii);
@@ -238,44 +251,59 @@ bool UnrealOutputInputHandler::handleInput(const yarp::os::Bottle &      input,
                                     yarp::os::ConstString subjName = firstValue.asString();
                                     yarp::os::Property *  segments = secondValue.asDict();
                                     
+									std::cerr << subjName.c_str() << std::endl; //!!!!
                                     if (segments)
                                     {
                                         yarp::os::Bottle segmentsAsBottle(segments->toString());
 
                                         outBuffer << subjName.c_str() << "\t" <<
-                                                    segmentsAsBottle.size() << "\t0" << std::endl;
+                                                    segmentsAsBottle.size() << "\t0" << LINE_END;
                                         okSoFar = dumpSegments(outBuffer, segmentsAsBottle,
                                                                _scale);
                                     }
+									else
+									{
+										std::cerr << "bad segments pointer" << std::endl; //!!!!
+										okSoFar = false;
+									}
                                 }
                                 else
                                 {
+									std::cerr << "not a string or not a dictionary" << std::endl; //!!!!
                                     okSoFar = false;
                                 }
                             }
                             else
                             {
+								std::cerr << "not 2 pieces in list" << std::endl; //!!!!
                                 okSoFar = false;
                             }
                         }
                         else
                         {
+							std::cerr << "bad subject pointer" << std::endl; //!!!!
                             okSoFar = false;
                         }
                     }
                     else
                     {
+						std::cerr << "subject is not a list" << std::endl; //!!!!
                         okSoFar = false;
                     }
                 }
                 if (okSoFar)
                 {
-                    outBuffer << "--END--" << std::endl;
-                    std::string outString(outBuffer.str());
-                    
-                    send(_outSocket, outString.c_str(), outString.length(), 0);
-                }
+                    outBuffer << "END" << LINE_END;
+                    std::string outString(outBuffer.str());    
+                    int         retVal = send(_outSocket, outString.c_str(), outString.length(), 0);
+
+					std::cerr << "send--> " << retVal << std::endl; //!!!!
+				}
             }
+			else
+			{
+				std::cerr << "no subjects" << std::endl; //!!!!
+			}
 		}
     }
     catch (...)

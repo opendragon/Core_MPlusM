@@ -211,21 +211,30 @@ void UnrealOutputService::startStreams(void)
 			if (_inHandler)
 			{
 #if MAC_OR_LINUX_
-                SOCKET listenSocket = socket(AF_INET, SOCK_SEQPACKET, IPPROTO_TCP);
+                SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
                 
-                if (INVALID_SOCKET != listenSocket)
+                if (INVALID_SOCKET == listenSocket)
+				{
+				}
+				else
                 {
                     struct sockaddr_in addr;
                     
                     addr.sin_family = AF_INET;
                     addr.sin_port = htons(_outPort);
                     addr.sin_addr.s_addr = htonl(INADDR_ANY);
-                    if (! bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr),
-                               sizeof(addr)))
+                    if (bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr),
+                             sizeof(addr)))
+					{
+					}
+					else
                     {
                         listen(listenSocket, SOMAXCONN);
                         _networkSocket = accept(listenSocket, 0, 0);
-                        if (INVALID_SOCKET != _networkSocket)
+                        if (INVALID_SOCKET == _networkSocket)
+						{
+						}
+						else
                         {
                             _inHandler->setSocket(_networkSocket);
                             _inHandler->setScale(_translationScale);
@@ -239,27 +248,48 @@ void UnrealOutputService::startStreams(void)
                 WORD    wVersionRequested = MAKEWORD(2, 2);
                 WSADATA ww;
                 
-                if (! WSAStartup(wVersionRequested, &ww))
+                if (WSAStartup(wVersionRequested, &ww))
+				{
+					std::cerr << "could not start up WSA" << std::endl; //!!!!
+				}
+				else
                 {
                     if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
                     {
-                        SOCKET listenSocket = socket(AF_INET, SOCK_SEQPACKET, IPPROTO_TCP);
+						std::cerr << "creating socket" << std::endl; //!!!!
+                        SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
                         
-                        if (INVALID_SOCKET != listenSocket)
+                        if (INVALID_SOCKET == listenSocket)
+						{
+							std::cerr << "problem creating socket" << std::endl; //!!!!
+						}
+						else
                         {
                             SOCKADDR_IN addr;
                             
                             addr.sin_family = AF_INET;
                             addr.sin_port = htons(_outPort);
                             addr.sin_addr.s_addr = htonl(INADDR_ANY);
-                            if (SOCKET_ERROR != bind(listenSocket,
+							std::cerr << "binding to port" << std::endl; //!!!!
+                            if (SOCKET_ERROR == bind(listenSocket,
                                                      reinterpret_cast<LPSOCKADDR>(&addr),
                                                      sizeof(addr)))
+							{
+								std::cerr << "problem binding to socket" << std::endl; //!!!!
+							}
+							else
                             {
+								std::cerr << "listening for connection" << std::endl; //!!!!
                                 listen(listenSocket, SOMAXCONN);
+								std::cerr << "accepting the connection" << std::endl; //!!!!
                                 _networkSocket = accept(listenSocket, 0, 0);
-                                if (INVALID_SOCKET != _networkSocket)
+                                if (INVALID_SOCKET == _networkSocket)
+								{
+									std::cerr << "problem accepting a connection" << std::endl; //!!!!
+								}
+								else
                                 {
+									std::cerr << "connection is live" << std::endl; //!!!!
                                     _inHandler->setSocket(_networkSocket);
                                     _inHandler->setScale(_translationScale);
                                     _inStreams.at(0)->setReader(*_inHandler);
@@ -271,6 +301,7 @@ void UnrealOutputService::startStreams(void)
                     }
                     else
                     {
+						std::cerr << "WSA version not available" << std::endl;
                         WSACleanup();
                     }
                 }
