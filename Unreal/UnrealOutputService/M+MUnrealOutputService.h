@@ -68,8 +68,9 @@ namespace MplusM
 {
     namespace Unreal
     {
-        class UnrealOutputInputHandler;
-        
+        class UnrealOutputLeapInputHandler;
+        class UnrealOutputViconInputHandler;
+
         /*! @brief The exemplar output service. */
         class UnrealOutputService : public Common::BaseOutputService
         {
@@ -138,8 +139,11 @@ namespace MplusM
 			/*! @brief The network port to write to. */
             SOCKET _networkSocket;
 
-            /*! @brief The handler for input data. */
-            UnrealOutputInputHandler * _inHandler;
+            /*! @brief The handler for input Vicon DataStream data. */
+            UnrealOutputLeapInputHandler * _inLeapHandler;
+
+            /*! @brief The handler for input Vicon DataStream data. */
+            UnrealOutputViconInputHandler * _inViconHandler;
             
         }; // UnrealOutputService
         

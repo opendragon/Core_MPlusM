@@ -41,8 +41,9 @@ set(THIS_TARGET mpmUnrealOutputService)
 # Set up our program
 add_executable(${THIS_TARGET}
                M+MUnrealOutputServiceMain.cpp
-               M+MUnrealOutputInputHandler.cpp
-               M+MUnrealOutputService.cpp)
+               M+MUnrealOutputLeapInputHandler.cpp
+               M+MUnrealOutputService.cpp
+               M+MUnrealOutputViconInputHandler.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

@@ -37,8 +37,9 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MUnrealOutputService.h"
-#include "M+MUnrealOutputInputHandler.h"
+#include "M+MUnrealOutputLeapInputHandler.h"
 #include "M+MUnrealOutputRequests.h"
+#include "M+MUnrealOutputViconInputHandler.h"
 
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MGeneralChannel.h>
@@ -88,7 +89,8 @@ UnrealOutputService::UnrealOutputService(const yarp::os::ConstString & launchPat
     inherited(launchPath, tag, true, MpM_UNREALOUTPUT_CANONICAL_NAME,
               "The Unreal output service", "", serviceEndpointName, servicePortNumber),
 	_translationScale(1.0), _outPort(9876), _networkSocket(INVALID_SOCKET),
-    _inHandler(new UnrealOutputInputHandler)
+    _inLeapHandler(new UnrealOutputLeapInputHandler),
+    _inViconHandler(new UnrealOutputViconInputHandler)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -100,7 +102,8 @@ UnrealOutputService::~UnrealOutputService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
-    delete _inHandler;
+    delete _inLeapHandler;
+    delete _inViconHandler;
     OD_LOG_OBJEXIT(); //####
 } // UnrealOutputService::~UnrealOutputService
 
@@ -166,9 +169,17 @@ bool UnrealOutputService::setUpStreamDescriptions(void)
     yarp::os::ConstString rootName(getEndpoint().getName() + "/");
     
     _inDescriptions.clear();
-    description._portName = rootName + "input";
+    description._portName = rootName + "leapinput";
+    description._portProtocol = "LEAP";
+    description._protocolDescription = "A list of hands followed by a list of tools\n"
+                        "Each hand being a dictionary with an arm and a list of fingers\n"
+                        "Each finger being a dictionary with a list of bones";
+    _inDescriptions.push_back(description);
+    description._portName = rootName + "viconinput";
     description._portProtocol = "VICONDS";
-    description._protocolDescription = "Vicon DataStream values";
+    description._protocolDescription = "A list of subjects\n"
+                "Each subject being a list of the subject name and a dictionary of segments\n"
+                "Each segment being a dictionary with name, translation and rotation";
     _inDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
@@ -208,7 +219,7 @@ void UnrealOutputService::startStreams(void)
     {
         if (! isActive())
         {
-			if (_inHandler)
+			if (_inLeapHandler && _inViconHandler)
 			{
 #if MAC_OR_LINUX_
                 SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -236,9 +247,12 @@ void UnrealOutputService::startStreams(void)
 						}
 						else
                         {
-                            _inHandler->setSocket(_networkSocket);
-                            _inHandler->setScale(_translationScale);
-                            _inStreams.at(0)->setReader(*_inHandler);
+                            _inLeapHandler->setSocket(_networkSocket);
+                            _inLeapHandler->setScale(_translationScale);
+                            _inStreams.at(0)->setReader(*_inLeapHandler);
+                            _inViconHandler->setSocket(_networkSocket);
+                            _inViconHandler->setScale(_translationScale);
+                            _inStreams.at(1)->setReader(*_inViconHandler);
                             setActive();
                         }
                     }
@@ -290,9 +304,12 @@ void UnrealOutputService::startStreams(void)
 								else
                                 {
 									std::cerr << "connection is live" << std::endl; //!!!!
-                                    _inHandler->setSocket(_networkSocket);
-                                    _inHandler->setScale(_translationScale);
-                                    _inStreams.at(0)->setReader(*_inHandler);
+                                    _inLeapHandler->setSocket(_networkSocket);
+                                    _inLeapHandler->setScale(_translationScale);
+                                    _inStreams.at(0)->setReader(*_inLeapHandler);
+                                    _inViconHandler->setSocket(_networkSocket);
+                                    _inViconHandler->setScale(_translationScale);
+                                    _inStreams.at(1)->setReader(*_inViconHandler);
                                     setActive();
                                 }
                             }
@@ -354,9 +371,13 @@ void UnrealOutputService::stopStreams(void)
     {
         if (isActive())
         {
-            if (_inHandler)
+            if (_inLeapHandler)
             {
-				_inHandler->setSocket(INVALID_SOCKET);
+                _inLeapHandler->setSocket(INVALID_SOCKET);
+            }
+            if (_inViconHandler)
+            {
+				_inViconHandler->setSocket(INVALID_SOCKET);
             }
 			if (INVALID_SOCKET != _networkSocket)
 			{

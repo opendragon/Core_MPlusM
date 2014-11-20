@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MUnrealOutputInputHandler.h
+//  File:       M+MUnrealOutputLeapInputHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the input channel input handler used by the Unreal
-//              output service.
+//  Contains:   The class declaration for the Leap Motion input channel input handler used by the
+//              Unreal output service.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,12 +33,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-11-18
+//  Created:    2014-11-19
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMUnrealOutputInputHandler_H_))
-# define MpMUnrealOutputInputHandler_H_ /* Header guard */
+#if (! defined(MpMUnrealOutputLeapInputHandler_H_))
+# define MpMUnrealOutputLeapInputHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseInputHandler.h>
 
@@ -56,8 +56,8 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the input channel input handler used by the Unreal output
- service. */
+ @brief The class declaration for the Leap Motion input channel input handler used by the Unreal
+ output service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -68,16 +68,16 @@ namespace MplusM
     {
         /*! @brief A handler for partially-structured input data.
          
-         The data is expected to be in the form of a sequence of Vicon subjects. */
-        class UnrealOutputInputHandler : public Common::BaseInputHandler
+         The data is expected to be in the form of a sequence of Leap Motion segments. */
+        class UnrealOutputLeapInputHandler : public Common::BaseInputHandler
         {
         public :
             
             /*! @brief The constructor. */
-            UnrealOutputInputHandler(void);
+            UnrealOutputLeapInputHandler(void);
             
             /*! @brief The destructor. */
-            virtual ~UnrealOutputInputHandler(void);
+            virtual ~UnrealOutputLeapInputHandler(void);
             
             /*! @brief Process partially-structured input data.
              @param input The partially-structured input data.
@@ -102,7 +102,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(UnrealOutputInputHandler);
+            COPY_AND_ASSIGNMENT_(UnrealOutputLeapInputHandler);
             
         public :
         
@@ -119,10 +119,10 @@ namespace MplusM
             /*! @brief The network socket that is to be written to. */
             SOCKET _outSocket;
             
-        }; // UnrealOutputInputHandler
+        }; // UnrealOutputLeapInputHandler
         
     } // Unreal
     
 } // MplusM
 
-#endif // ! defined(MpMUnrealOutputInputHandler_H_)
+#endif // ! defined(MpMUnrealOutputLeapInputHandler_H_)

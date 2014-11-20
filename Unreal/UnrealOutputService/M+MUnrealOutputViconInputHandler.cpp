@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MUnrealOutputInputHandler.cpp
+//  File:       M+MUnrealOutputViconInputHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the input channel input handler used by the Unreal output
-//              service.
+//  Contains:   The class definition for the Vicon DataStream input channel input handler used by
+//              the Unreal output service.
 //
 //  Written by: Norman Jaffe
 //
@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MUnrealOutputInputHandler.h"
+#include "M+MUnrealOutputViconInputHandler.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -48,8 +48,8 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the input channel input handler used by the Unreal output
- service. */
+ @brief The class definition for the Vicon DataStream input channel input handler used by the Unreal
+ output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -177,18 +177,18 @@ static bool dumpSegments(std::stringstream & outBuffer,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-UnrealOutputInputHandler::UnrealOutputInputHandler(void) :
+UnrealOutputViconInputHandler::UnrealOutputViconInputHandler(void) :
     inherited(), _scale(1.0), _outSocket(INVALID_SOCKET)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
-} // UnrealOutputInputHandler::UnrealOutputInputHandler
+} // UnrealOutputViconInputHandler::UnrealOutputViconInputHandler
 
-UnrealOutputInputHandler::~UnrealOutputInputHandler(void)
+UnrealOutputViconInputHandler::~UnrealOutputViconInputHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // UnrealOutputInputHandler::~UnrealOutputInputHandler
+} // UnrealOutputViconInputHandler::~UnrealOutputViconInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
@@ -198,10 +198,10 @@ UnrealOutputInputHandler::~UnrealOutputInputHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool UnrealOutputInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                           const yarp::os::ConstString & senderChannel,
-                                           yarp::os::ConnectionWriter *  replyMechanism,
-                                           const size_t                  numBytes)
+bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &      input,
+                                                const yarp::os::ConstString & senderChannel,
+                                                yarp::os::ConnectionWriter *  replyMechanism,
+                                                const size_t                  numBytes)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -313,26 +313,26 @@ bool UnrealOutputInputHandler::handleInput(const yarp::os::Bottle &      input,
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // UnrealOutputInputHandler::handleInput
+} // UnrealOutputViconInputHandler::handleInput
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void UnrealOutputInputHandler::setScale(const double newScale)
+void UnrealOutputViconInputHandler::setScale(const double newScale)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_D1("newScale = ", newScale); //####
     _scale = newScale;
     OD_LOG_OBJEXIT(); //####
-} // UnrealOutputInputHandler::setScale
+} // UnrealOutputViconInputHandler::setScale
 
-void UnrealOutputInputHandler::setSocket(const SOCKET outSocket)
+void UnrealOutputViconInputHandler::setSocket(const SOCKET outSocket)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_L1("outSocket = ", outSocket); //####
     _outSocket = outSocket;
     OD_LOG_OBJEXIT(); //####
-} // UnrealOutputInputHandler::setSocket
+} // UnrealOutputViconInputHandler::setSocket
 
 #if defined(__APPLE__)
 # pragma mark Global functions
