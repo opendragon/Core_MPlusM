@@ -38,6 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MUnrealOutputViconInputHandler.h"
+#include "M+MUnrealOutputService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -121,7 +122,8 @@ static bool dumpSegments(std::stringstream & outBuffer,
                                 }
                                 else
                                 {
-									std::cerr << "value not an integer or a float" << std::endl; //!!!!
+									std::cerr << "value not an integer or a float" <<
+                                                std::endl; //!!!!
                                     okSoFar = false;
                                 }
                                 if (okSoFar)
@@ -137,7 +139,8 @@ static bool dumpSegments(std::stringstream & outBuffer,
                         }
                         else
                         {
-							std::cerr << "bad list pointer or incorrect list size" << std::endl; //!!!!
+							std::cerr << "bad list pointer or incorrect list size" <<
+                                        std::endl; //!!!!
                             okSoFar = false;
                         }
                     }
@@ -177,10 +180,11 @@ static bool dumpSegments(std::stringstream & outBuffer,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-UnrealOutputViconInputHandler::UnrealOutputViconInputHandler(void) :
-    inherited(), _scale(1.0), _outSocket(INVALID_SOCKET)
+UnrealOutputViconInputHandler::UnrealOutputViconInputHandler(UnrealOutputService & owner) :
+    inherited(), _owner(owner), _scale(1.0), _outSocket(INVALID_SOCKET)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("owner = ", &owner); //####
     OD_LOG_EXIT_P(this); //####
 } // UnrealOutputViconInputHandler::UnrealOutputViconInputHandler
 
@@ -229,7 +233,7 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &      in
                 bool              okSoFar = true;
                 std::stringstream outBuffer;
                 
-				std::cerr << "# subjects = " << numSubjects << std::endl; //!!!!
+//				std::cerr << "# subjects = " << numSubjects << std::endl; //!!!!
                 outBuffer << numSubjects << LINE_END;
                 for (int ii = 0; okSoFar && (numSubjects > ii); ++ii)
                 {
@@ -251,7 +255,7 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &      in
                                     yarp::os::ConstString subjName = firstValue.asString();
                                     yarp::os::Property *  segments = secondValue.asDict();
                                     
-									std::cerr << subjName.c_str() << std::endl; //!!!!
+//									std::cerr << subjName.c_str() << std::endl; //!!!!
                                     if (segments)
                                     {
                                         yarp::os::Bottle segmentsAsBottle(segments->toString());
@@ -269,7 +273,8 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &      in
                                 }
                                 else
                                 {
-									std::cerr << "not a string or not a dictionary" << std::endl; //!!!!
+									std::cerr << "not a string or not a dictionary" <<
+                                                std::endl; //!!!!
                                     okSoFar = false;
                                 }
                             }
@@ -297,7 +302,11 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &      in
                     std::string outString(outBuffer.str());    
                     int         retVal = send(_outSocket, outString.c_str(), outString.length(), 0);
 
-					std::cerr << "send--> " << retVal << std::endl; //!!!!
+//					std::cerr << "send--> " << retVal << std::endl; //!!!!
+                    if (0 > retVal)
+                    {
+                        _owner.deactivateConnection();
+                    }
 				}
             }
 			else

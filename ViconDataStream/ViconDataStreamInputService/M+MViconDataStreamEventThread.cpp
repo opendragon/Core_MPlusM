@@ -60,6 +60,10 @@ using namespace ViconDataStreamSDK;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+#define VICON_Y_UP
+
+//#define VICON_Z_UP
+
 #define USE_SEGMENT_LOCAL_DATA
 
 /*! @brief The number of times we attempt to connect to the Vicon device server. */
@@ -134,7 +138,13 @@ bool ViconDataStreamEventThread::initializeConnection(void)
 	{
 		_viconClient.EnableMarkerData();
 		_viconClient.EnableSegmentData();
-		_viconClient.SetAxisMapping(CPP::Direction::Forward, CPP::Direction::Right, CPP::Direction::Up);
+#if defined(VICON_Y_UP)
+        _viconClient.SetAxisMapping(CPP::Direction::Forward, CPP::Direction::Up,
+                                    CPP::Direction::Right);
+#elif defined(VICON_Z_UP)
+        _viconClient.SetAxisMapping(CPP::Direction::Forward, CPP::Direction::Left,
+                                    CPP::Direction::Up);
+#endif // defined(VICON_Z_UP)
 		_viconClient.SetStreamMode(CPP::StreamMode::ClientPullPreFetch);
 	}
     OD_LOG_OBJEXIT_B(result); //####

@@ -66,6 +66,8 @@ namespace MplusM
 {
     namespace Unreal
     {
+        class UnrealOutputService;
+        
         /*! @brief A handler for partially-structured input data.
          
          The data is expected to be in the form of a sequence of Vicon subjects. */
@@ -73,8 +75,9 @@ namespace MplusM
         {
         public :
             
-            /*! @brief The constructor. */
-            UnrealOutputViconInputHandler(void);
+            /*! @brief The constructor.
+             @param owner The service that this handler is connected to. */
+            UnrealOutputViconInputHandler(UnrealOutputService & owner);
             
             /*! @brief The destructor. */
             virtual ~UnrealOutputViconInputHandler(void);
@@ -112,6 +115,9 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
+            
+            /*! @brief The service that this handler is connected to. */
+            UnrealOutputService & _owner;
             
             /*! @brief The translation scale to be used. */
             double _scale;

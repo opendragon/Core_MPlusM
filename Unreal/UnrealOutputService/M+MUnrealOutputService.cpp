@@ -89,8 +89,8 @@ UnrealOutputService::UnrealOutputService(const yarp::os::ConstString & launchPat
     inherited(launchPath, tag, true, MpM_UNREALOUTPUT_CANONICAL_NAME,
               "The Unreal output service", "", serviceEndpointName, servicePortNumber),
 	_translationScale(1.0), _outPort(9876), _networkSocket(INVALID_SOCKET),
-    _inLeapHandler(new UnrealOutputLeapInputHandler),
-    _inViconHandler(new UnrealOutputViconInputHandler)
+    _inLeapHandler(new UnrealOutputLeapInputHandler(*this)),
+    _inViconHandler(new UnrealOutputViconInputHandler(*this))
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -143,6 +143,30 @@ bool UnrealOutputService::configure(const yarp::os::Bottle & details)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // UnrealOutputService::configure
+
+void UnrealOutputService::deactivateConnection(void)
+{
+    OD_LOG_ENTER(); //####
+    if (_inLeapHandler)
+    {
+        _inLeapHandler->setSocket(INVALID_SOCKET);
+    }
+    if (_inViconHandler)
+    {
+        _inViconHandler->setSocket(INVALID_SOCKET);
+    }
+    if (INVALID_SOCKET != _networkSocket)
+    {
+#if MAC_OR_LINUX_
+        close(_networkSocket);
+#else // ! MAC_OR_LINUX_
+        closesocket(_networkSocket);
+#endif // ! MAC_OR_LINUX_
+        _networkSocket = INVALID_SOCKET;
+    }
+    clearActive();
+    OD_LOG_EXIT(); //####
+} // UnrealOutputService::deactivateConnection
 
 void UnrealOutputService::restartStreams(void)
 {
@@ -223,7 +247,12 @@ void UnrealOutputService::startStreams(void)
 			{
 #if MAC_OR_LINUX_
                 SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+#else // ! MAC_OR_LINUX_
+                WORD    wVersionRequested = MAKEWORD(2, 2);
+                WSADATA ww;
+#endif // ! MAC_OR_LINUX_
                 
+#if MAC_OR_LINUX_
                 if (INVALID_SOCKET == listenSocket)
 				{
 				}
@@ -259,9 +288,6 @@ void UnrealOutputService::startStreams(void)
                     close(listenSocket);
                 }
 #else // ! MAC_OR_LINUX_
-                WORD    wVersionRequested = MAKEWORD(2, 2);
-                WSADATA ww;
-                
                 if (WSAStartup(wVersionRequested, &ww))
 				{
 					std::cerr << "could not start up WSA" << std::endl; //!!!!
@@ -299,7 +325,8 @@ void UnrealOutputService::startStreams(void)
                                 _networkSocket = accept(listenSocket, 0, 0);
                                 if (INVALID_SOCKET == _networkSocket)
 								{
-									std::cerr << "problem accepting a connection" << std::endl; //!!!!
+									std::cerr << "problem accepting a connection" <<
+                                                std::endl; //!!!!
 								}
 								else
                                 {
@@ -371,24 +398,7 @@ void UnrealOutputService::stopStreams(void)
     {
         if (isActive())
         {
-            if (_inLeapHandler)
-            {
-                _inLeapHandler->setSocket(INVALID_SOCKET);
-            }
-            if (_inViconHandler)
-            {
-				_inViconHandler->setSocket(INVALID_SOCKET);
-            }
-			if (INVALID_SOCKET != _networkSocket)
-			{
-#if MAC_OR_LINUX_
-                close(_networkSocket);
-#else // ! MAC_OR_LINUX_
-                closesocket(_networkSocket);
-#endif // ! MAC_OR_LINUX_
-                _networkSocket = INVALID_SOCKET;
-			}
-            clearActive();
+            deactivateConnection();
         }
     }
     catch (...)

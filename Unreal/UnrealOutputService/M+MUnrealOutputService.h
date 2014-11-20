@@ -94,6 +94,9 @@ namespace MplusM
              @returns @c true if the service was successfully configured and @c false otherwise. */
             virtual bool configure(const yarp::os::Bottle & details);
             
+            /*! @brief Deactivate the network connection. */
+            void deactivateConnection(void);
+            
             /*! @brief Restart the input/output streams. */
             virtual void restartStreams(void);
             

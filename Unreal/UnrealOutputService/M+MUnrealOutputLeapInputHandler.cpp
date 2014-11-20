@@ -38,6 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MUnrealOutputLeapInputHandler.h"
+#include "M+MUnrealOutputService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -173,7 +174,8 @@ static bool dumpHandData(std::stringstream &  outBuffer,
                             }
                             else
                             {
-                                std::cerr << "Position or direction data invalid" << std::endl; //!!!!
+                                std::cerr << "Position or direction data invalid" <<
+                                            std::endl; //!!!!
                             }
                         }
                         else
@@ -216,10 +218,11 @@ static bool dumpHandData(std::stringstream &  outBuffer,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-UnrealOutputLeapInputHandler::UnrealOutputLeapInputHandler(void) :
-    inherited(), _scale(1.0), _outSocket(INVALID_SOCKET)
+UnrealOutputLeapInputHandler::UnrealOutputLeapInputHandler(UnrealOutputService & owner) :
+    inherited(), _owner(owner), _scale(1.0), _outSocket(INVALID_SOCKET)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("owner = ", &owner); //####
     OD_LOG_EXIT_P(this); //####
 } // UnrealOutputLeapInputHandler::UnrealOutputLeapInputHandler
 
@@ -280,7 +283,7 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &      inp
                             bool              okSoFar = true;
                             std::stringstream outBuffer;
 
-                            std::cerr << "# hands = " << handCount << std::endl; //!!!!
+//                            std::cerr << "# hands = " << handCount << std::endl; //!!!!
                             outBuffer << handCount << LINE_END;
                             for (int ii = 0; okSoFar && (handCount > ii); ++ii)
                             {
@@ -301,7 +304,8 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &      inp
                                 }
                                 else
                                 {
-                                    std::cerr << "Hand value is not a dictionary" << std::endl; //!!!!
+                                    std::cerr << "Hand value is not a dictionary" <<
+                                                std::endl; //!!!!
                                     okSoFar = false;
                                 }
                             }
@@ -309,9 +313,14 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &      inp
                             {
                                 outBuffer << "END" << LINE_END;
                                 std::string outString(outBuffer.str());
-                                int         retVal = send(_outSocket, outString.c_str(), outString.length(), 0);
+                                int         retVal = send(_outSocket, outString.c_str(),
+                                                          outString.length(), 0);
 
-                                std::cerr << "send--> " << retVal << std::endl; //!!!!
+//                                std::cerr << "send--> " << retVal << std::endl; //!!!!
+                                if (0 > retVal)
+                                {
+                                    _owner.deactivateConnection();
+                                }
                             }
                         }
                     }
@@ -322,12 +331,14 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &      inp
                 }
                 else
                 {
-                    std::cerr << "Input not just a list of hands and a list of tools" << std::endl; //!!!!
+                    std::cerr << "Input not just a list of hands and a list of tools" <<
+                                std::endl; //!!!!
                 }
             }
             else
             {
-                std::cerr << "Input not just a list of hands and a list of tools" << std::endl; //!!!!
+                std::cerr << "Input not just a list of hands and a list of tools" <<
+                            std::endl; //!!!!
             }
         }
     }
