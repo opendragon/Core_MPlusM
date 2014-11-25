@@ -111,10 +111,12 @@ static bool checkHostPort(int &                         realPort,
 /*! @brief Check if the given host name is valid.
  @param workingContact The connection information that is to be filled in.
  @param hostName The host name that is to be validated.
+ @param endpointName The desired endpoint name.
  @param portNumber The port number to be applied to the connection.
  @returns @c true if the connection information has been constructed and @c false otherwise. */
 static bool checkHostName(yarp::os::Contact &           workingContact,
                           const yarp::os::ConstString & hostName,
+                          const yarp::os::ConstString & endpointName,
                           const int                     portNumber)
 {
 #if defined(MpM_ReportContactDetails)
@@ -127,8 +129,19 @@ static bool checkHostName(yarp::os::Contact &           workingContact,
         if (0 < hostName.length())
         {
             // Non-empty hostname - check it...
-            yarp::os::ConstString ipAddress(yarp::os::Contact::convertHostToIp(hostName.c_str()));
+            yarp::os::ConstString ipAddress;
             
+			if (hostName == STANDARD_HOST_NAME)
+			{
+				yarp::os::Contact aContact = yarp::os::Network::registerName(endpointName);
+
+				ipAddress = aContact.getHost();
+				yarp::os::Network::unregisterName(endpointName);
+			}
+			else
+			{
+	            ipAddress = yarp::os::Contact::convertHostToIp(hostName.c_str());
+			}
             OD_LOG_S1s("ipAddress = ", ipAddress); //####
             workingContact = workingContact.addSocket(SERVICE_CHANNEL_CARRIER_, ipAddress,
                                                       portNumber);
@@ -210,10 +223,9 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
 #if defined(MpM_ReportContactDetails)
             DumpContactToLog("after byName", _contact); //####
 #endif // defined(MpM_ReportContactDetails)
-            if (checkHostName(_contact, STANDARD_HOST_NAME, realPort))
+            if (checkHostName(_contact, STANDARD_HOST_NAME, endpointName, realPort))
             {
-                // Ready to be set up... we have a valid port, and either a blank URI or a valid
-                // one.
+                // Ready to be set up... we have a valid port, and either a blank URI or a valid one.
                 _channel = new ServiceChannel;
                 if (! _channel)
                 {

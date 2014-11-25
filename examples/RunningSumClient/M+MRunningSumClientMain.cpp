@@ -162,6 +162,11 @@ int main(int      argc,
                                 cin >> inChar;
                                 switch (inChar)
                                 {
+                                    case '?' :
+                                        // Help
+                                        displayCommands();
+                                        break;
+                                        
                                     case '+' :
                                         cout << "add: ";
                                         cout.flush();
@@ -215,11 +220,6 @@ int main(int      argc,
                                             GetLogger().fail("Problem starting the sum.");
 #endif // MAC_OR_LINUX_
                                         }
-                                        break;
-                                        
-                                    case '?' :
-                                        // Help
-                                        displayCommands();
                                         break;
                                         
                                     default :

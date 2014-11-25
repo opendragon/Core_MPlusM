@@ -65,6 +65,7 @@ using namespace MplusM::Unreal;
 
 #define LINE_END "\r\n"
 
+static const double kLeapScale = 1.0;
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -83,46 +84,49 @@ static bool dumpHandData(std::stringstream &  outBuffer,
     yarp::os::Value & idValue(handData.find("id"));
     yarp::os::Value & fingerValue(handData.find("fingers"));
     yarp::os::Value & sideValue(handData.find("side"));
-
+    
     if ((! idValue.isNull()) && sideValue.isString() && fingerValue.isList())
     {
-        yarp::os::ConstString nameTag(sideValue.asString() + idValue.asString());
+        yarp::os::ConstString nameTag(sideValue.asString());
         yarp::os::Bottle *    fingers = fingerValue.asList();
-
+        
         if (fingers)
         {
             int fingerCount = fingers->size();
-
+            
+            std::cerr << "Subject = " << nameTag.c_str() << std::endl; //!!!!
             outBuffer << nameTag.c_str() << "\t" << fingerCount << "\t0" << LINE_END;
             for (int ii = 0; okSoFar && (fingerCount > ii); ++ii)
             {
                 yarp::os::Value & aFinger = fingers->get(ii);
-
-                if (aFinger.isDict())
+                
+                if (aFinger.isList())
                 {
-                    yarp::os::Property * fingerProps = aFinger.asDict();
-
-                    if (fingerProps)
+                    yarp::os::Bottle * fingerList = aFinger.asList();
+                    
+                    if (fingerList)
                     {
-                        yarp::os::Value & fingerType(fingerProps->find("type"));
-                        yarp::os::Value & tipPosition(fingerProps->find("tipposition"));
-                        yarp::os::Value & tipDirection(fingerProps->find("direction"));
-
+                        yarp::os::Property fingerProps(fingerList->toString().c_str());
+                        yarp::os::Value &  fingerType(fingerProps.find("type"));
+                        yarp::os::Value &  tipPosition(fingerProps.find("tipposition"));
+                        yarp::os::Value &  tipDirection(fingerProps.find("direction"));
+                        
                         if (fingerType.isString() && tipPosition.isList() && tipDirection.isList())
                         {
                             yarp::os::ConstString fingerTag = fingerType.asString();
                             yarp::os::Bottle *    positionData = tipPosition.asList();
                             yarp::os::Bottle *    directionData = tipDirection.asList();
-
+                            
                             if (positionData && (3 == positionData->size()) && directionData &&
                                 (3 == directionData->size()))
                             {
+                                std::cerr << "Segment = " << fingerTag.c_str() << std::endl; //!!!!
                                 outBuffer << fingerTag.c_str();
                                 for (int jj = 0; okSoFar && (3 > jj); ++jj)
                                 {
                                     double            aValue;
                                     yarp::os::Value & anElement = positionData->get(jj);
-
+                                    
                                     if (anElement.isDouble())
                                     {
                                         aValue = anElement.asDouble();
@@ -138,7 +142,7 @@ static bool dumpHandData(std::stringstream &  outBuffer,
                                     }
                                     if (okSoFar)
                                     {
-                                        aValue *= scale;
+                                        aValue *= (scale * kLeapScale);
                                         outBuffer << "\t" << aValue;
                                     }
                                 }
@@ -146,7 +150,7 @@ static bool dumpHandData(std::stringstream &  outBuffer,
                                 {
                                     double            aValue;
                                     yarp::os::Value & anElement = directionData->get(jj);
-
+                                    
                                     if (anElement.isDouble())
                                     {
                                         aValue = anElement.asDouble();
@@ -174,7 +178,99 @@ static bool dumpHandData(std::stringstream &  outBuffer,
                             }
                             else
                             {
-                                std::cerr << "Position or direction data invalid" <<
+                                std::cerr << "Position or direction data invalid" << //!!!!
+                                            std::endl; //!!!!
+                            }
+                        }
+                        else
+                        {
+                            std::cerr << "Missing or invalid finger values" << std::endl; //!!!!
+                            okSoFar = false;
+                        }
+                    }
+                    else
+                    {
+                        std::cerr << "Bad finger list pointer" << std::endl; //!!!!
+                    }
+                }
+                else if (aFinger.isDict())
+                {
+                    yarp::os::Property * fingerProps = aFinger.asDict();
+                    
+                    if (fingerProps)
+                    {
+                        yarp::os::Value & fingerType(fingerProps->find("type"));
+                        yarp::os::Value & tipPosition(fingerProps->find("tipposition"));
+                        yarp::os::Value & tipDirection(fingerProps->find("direction"));
+                        
+                        if (fingerType.isString() && tipPosition.isList() && tipDirection.isList())
+                        {
+                            yarp::os::ConstString fingerTag = fingerType.asString();
+                            yarp::os::Bottle *    positionData = tipPosition.asList();
+                            yarp::os::Bottle *    directionData = tipDirection.asList();
+                            
+                            if (positionData && (3 == positionData->size()) && directionData &&
+                                (3 == directionData->size()))
+                            {
+                                std::cerr << "Segment = " << fingerTag.c_str() << std::endl; //!!!!
+                                outBuffer << fingerTag.c_str();
+                                for (int jj = 0; okSoFar && (3 > jj); ++jj)
+                                {
+                                    double            aValue;
+                                    yarp::os::Value & anElement = positionData->get(jj);
+                                    
+                                    if (anElement.isDouble())
+                                    {
+                                        aValue = anElement.asDouble();
+                                    }
+                                    else if (anElement.isInt())
+                                    {
+                                        aValue = anElement.asInt();
+                                    }
+                                    else
+                                    {
+                                        std::cerr << "Bad position data" << std::endl; //!!!!
+                                        okSoFar = false;
+                                    }
+                                    if (okSoFar)
+                                    {
+                                        aValue *= (scale * kLeapScale);
+                                        outBuffer << "\t" << aValue;
+                                    }
+                                }
+                                for (int jj = 0; okSoFar && (3 > jj); ++jj)
+                                {
+                                    double            aValue;
+                                    yarp::os::Value & anElement = directionData->get(jj);
+                                    
+                                    if (anElement.isDouble())
+                                    {
+                                        aValue = anElement.asDouble();
+                                    }
+                                    else if (anElement.isInt())
+                                    {
+                                        aValue = anElement.asInt();
+                                    }
+                                    else
+                                    {
+                                        std::cerr << "Bad direction data" << std::endl; //!!!!
+                                        okSoFar = false;
+                                    }
+                                    if (okSoFar)
+                                    {
+                                        aValue *= scale;
+                                        outBuffer << "\t" << aValue;
+                                    }
+                                }
+                                if (okSoFar)
+                                {
+                                    // Add a dummy 'w' value.
+                                    outBuffer << "\t1" << LINE_END;
+                                }
+                            }
+                            else
+                            {
+                                std::cerr << "Position or direction data invalid" << //!!!!
                                             std::endl; //!!!!
                             }
                         }
@@ -193,6 +289,10 @@ static bool dumpHandData(std::stringstream &  outBuffer,
                 else
                 {
                     std::cerr << "Finger is not a dictionary" << std::endl; //!!!!
+                    if (aFinger.isList())
+                    {
+                        std::cerr << "finger is a list?!?!" << std::endl; //!!!!
+                    }
                 }
             }
         }
@@ -219,7 +319,7 @@ static bool dumpHandData(std::stringstream &  outBuffer,
 #endif // defined(__APPLE__)
 
 UnrealOutputLeapInputHandler::UnrealOutputLeapInputHandler(UnrealOutputService & owner) :
-    inherited(), _owner(owner), _scale(1.0), _outSocket(INVALID_SOCKET)
+inherited(), _owner(owner), _scale(1.0), _outSocket(INVALID_SOCKET)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("owner = ", &owner); //####
@@ -258,87 +358,92 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &      inp
     
     try
     {
-		if (INVALID_SOCKET == _outSocket)
-		{
-			std::cerr << "invalid socket" << std::endl; //!!!!
-		}
-		else
-		{
-            if (2 == input.size())
+        if (_owner.isActive())
+        {
+            if (INVALID_SOCKET == _outSocket)
             {
-                yarp::os::Value & firstTopValue = input.get(0);
-                yarp::os::Value & secondTopValue = input.get(1);
-
-                if (firstTopValue.isList() && secondTopValue.isList())
+                std::cerr << "invalid socket" << std::endl; //!!!!
+            }
+            else
+            {
+                std::cerr << "got data" << std::endl; //!!!!
+                if (2 == input.size())
                 {
-                    yarp::os::Bottle * handList = firstTopValue.asList();
-                    yarp::os::Bottle * toolList = secondTopValue.asList();
-
-                    if (handList && toolList)
+                    yarp::os::Value & firstTopValue = input.get(0);
+                    yarp::os::Value & secondTopValue = input.get(1);
+                    
+                    if (firstTopValue.isList() && secondTopValue.isList())
                     {
-                        int handCount = handList->size();
-
-                        if (0 < handCount)
+                        yarp::os::Bottle * handList = firstTopValue.asList();
+                        yarp::os::Bottle * toolList = secondTopValue.asList();
+                        
+                        if (handList && toolList)
                         {
-                            bool              okSoFar = true;
-                            std::stringstream outBuffer;
-
-//                            std::cerr << "# hands = " << handCount << std::endl; //!!!!
-                            outBuffer << handCount << LINE_END;
-                            for (int ii = 0; okSoFar && (handCount > ii); ++ii)
+                            int handCount = handList->size();
+                            
+                            if (0 < handCount)
                             {
-                                yarp::os::Value & handValue = handList->get(ii);
-
-                                if (handValue.isDict())
+                                bool              okSoFar = true;
+                                std::stringstream outBuffer;
+                                
+//                                std::cerr << "# hands = " << handCount << std::endl; //!!!!
+                                outBuffer << handCount << LINE_END;
+                                for (int ii = 0; okSoFar && (handCount > ii); ++ii)
                                 {
-                                    yarp::os::Property * handData = handValue.asDict();
-
-                                    if (handData)
+                                    yarp::os::Value & handValue = handList->get(ii);
+                                    
+                                    if (handValue.isDict())
                                     {
-                                        okSoFar = dumpHandData(outBuffer, *handData, _scale);
+                                        yarp::os::Property * handData = handValue.asDict();
+                                        
+                                        if (handData)
+                                        {
+                                            okSoFar = dumpHandData(outBuffer, *handData, _scale);
+                                        }
+                                        else
+                                        {
+                                            std::cerr << "Bad hand data pointer" << //!!!!
+                                                        std::endl; //!!!!
+                                        }
                                     }
                                     else
                                     {
-                                        std::cerr << "Bad hand data pointer" << std::endl; //!!!!
+                                        std::cerr << "Hand value is not a dictionary" << //!!!!
+                                                    std::endl; //!!!!
+                                        okSoFar = false;
                                     }
                                 }
-                                else
+                                if (okSoFar)
                                 {
-                                    std::cerr << "Hand value is not a dictionary" <<
-                                                std::endl; //!!!!
-                                    okSoFar = false;
+                                    outBuffer << "END" << LINE_END;
+                                    std::string outString(outBuffer.str());
+                                    int         retVal = send(_outSocket, outString.c_str(),
+                                                              outString.length(), 0);
+                                    
+                                    std::cerr << "send--> " << retVal << std::endl; //!!!!
+                                    if (0 > retVal)
+                                    {
+                                        _owner.deactivateConnection();
+                                    }
                                 }
                             }
-                            if (okSoFar)
-                            {
-                                outBuffer << "END" << LINE_END;
-                                std::string outString(outBuffer.str());
-                                int         retVal = send(_outSocket, outString.c_str(),
-                                                          outString.length(), 0);
-
-//                                std::cerr << "send--> " << retVal << std::endl; //!!!!
-                                if (0 > retVal)
-                                {
-                                    _owner.deactivateConnection();
-                                }
-                            }
+                        }
+                        else
+                        {
+                            std::cerr << "Bad hand or tool list pointer" << std::endl; //!!!!
                         }
                     }
                     else
                     {
-                        std::cerr << "Bad hand or tool list pointer" << std::endl; //!!!!
+                        std::cerr << "Input not just a list of hands and a list of tools" << //!!!!
+                                    std::endl; //!!!!
                     }
                 }
                 else
                 {
-                    std::cerr << "Input not just a list of hands and a list of tools" <<
+                    std::cerr << "Input not just a list of hands and a list of tools" << //!!!!
                                 std::endl; //!!!!
                 }
-            }
-            else
-            {
-                std::cerr << "Input not just a list of hands and a list of tools" <<
-                            std::endl; //!!!!
             }
         }
     }

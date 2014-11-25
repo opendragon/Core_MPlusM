@@ -220,6 +220,8 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &      in
     
     try
     {
+		if (_owner.isActive())
+		{
 		if (INVALID_SOCKET == _outSocket)
 		{
 			std::cerr << "invalid socket" << std::endl; //!!!!
@@ -258,8 +260,11 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &      in
 //									std::cerr << subjName.c_str() << std::endl; //!!!!
                                     if (segments)
                                     {
-                                        yarp::os::Bottle segmentsAsBottle(segments->toString());
+											yarp::os::ConstString segmentsAsString(segments->toString());
+											//std::cerr << ":" << segments->toString() << ":" << std::endl; //!!!!
+											yarp::os::Bottle      segmentsAsBottle(segmentsAsString);
 
+											std::cerr << ":" << segmentsAsBottle.size() << ":" << segmentsAsBottle.toString() << ":" << std::endl; //!!!!
                                         outBuffer << subjName.c_str() << "\t" <<
                                                     segmentsAsBottle.size() << "\t0" << LINE_END;
                                         okSoFar = dumpSegments(outBuffer, segmentsAsBottle,
@@ -312,6 +317,7 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &      in
 			else
 			{
 				std::cerr << "no subjects" << std::endl; //!!!!
+				}
 			}
 		}
     }

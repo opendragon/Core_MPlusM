@@ -246,6 +246,11 @@ int main(int      argc,
                                 cin >> inChar;
                                 switch (inChar)
                                 {
+                                    case '?' :
+                                        // Help
+                                        displayCommands();
+                                        break;
+                                        
                                     case 'b' :
                                     case 'B' :
                                         // Start streams
@@ -319,11 +324,6 @@ int main(int      argc,
                                     case 'U' :
                                         // Unconfigure
                                         configured = false;
-                                        break;
-                                        
-                                    case '?' :
-                                        // Help
-                                        displayCommands();
                                         break;
                                         
                                     default :

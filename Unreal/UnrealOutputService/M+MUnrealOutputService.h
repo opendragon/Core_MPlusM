@@ -62,7 +62,7 @@
 
 /*! @brief The base channel name to use for the service if not provided. */
 # define DEFAULT_UNREALOUTPUT_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "output/unrealoutput")
+        DEFAULT_SERVICE_NAME_BASE "output/unreal")
 
 namespace MplusM
 {

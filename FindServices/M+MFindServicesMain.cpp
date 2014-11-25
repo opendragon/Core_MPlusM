@@ -76,6 +76,17 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Display the available commands. */
+static void displayCommands(void)
+{
+    OD_LOG_ENTER(); //####
+    cout << "Commands:" << endl;
+    cout << "  ? - display this list" << endl;
+    cout << "  f - enter a search criteria for services" << endl;
+    cout << "  q - quit the application" << endl;
+    OD_LOG_EXIT(); //####
+} // displayCommands
+
 /*! @brief Produce a list of matching channel names from the given criteria.
  @param criteria The matching criteria to use.
  @param flavour The output format to be used. */
@@ -257,11 +268,16 @@ int main(int      argc,
                     char        inChar;
                     std::string inputLine;
                     
-                    cout << "Operation: [f q]? ";
+                    cout << "Operation: [? f q]? ";
                     cout.flush();
                     cin >> inChar;
                     switch (inChar)
                     {
+                        case '?' :
+                            // Help
+                            displayCommands();
+                            break;
+                            
                         case 'f' :
                         case 'F' :
                             cout << "Match criteria: ";
@@ -282,6 +298,10 @@ int main(int      argc,
                         case 'Q' :
                             // Quit
                             StopRunning();
+                            break;
+                            
+                        default :
+                            cout << "Unrecognized request '" << inChar << "'." << endl;
                             break;
                             
                     }

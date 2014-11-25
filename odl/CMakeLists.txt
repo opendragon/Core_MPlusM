@@ -70,18 +70,20 @@ install(FILES
         COMPONENT headers)
 
 if(APPLE AND MpM_DO_SWIG)
-    set_source_files_properties(ODLogging.i PROPERTIES CPLUSPLUS ON)
-    set_source_files_properties(ODLogging.i PROPERTIES SWIG_FLAGS "-includeall")
+    include_directories("${MpM_SOURCE_DIR}/odl")
+    set(CMAKE_SWIG_OUTDIR "${MpM_SOURCE_DIR}/odl/swig_odl_out")
+    set_source_files_properties(swig_odl_in/ODLogging.i PROPERTIES CPLUSPLUS ON)
+    set_source_files_properties(swig_odl_in/ODLogging.i PROPERTIES SWIG_FLAGS "-includeall")
 
-    swig_add_module(${OTHER_TARGET} csharp ODLogging.i ODLogging.h ODLogging.cpp)
+    swig_add_module(${OTHER_TARGET} csharp swig_odl_in/ODLogging.i ODLogging.h ODLogging.cpp)
 
     install(TARGETS ${OTHER_TARGET}
             DESTINATION lib
             COMPONENT libraries)
 
     install(FILES
-            ODLogging.cs
-            ODLoggingPINVOKE.cs
+            swig_odl_out/ODLogging.cs
+            swig_odl_out/ODLoggingPINVOKE.cs
             DESTINATION csharp/odl
             COMPONENT headers)
 

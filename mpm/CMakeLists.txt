@@ -181,6 +181,8 @@ else(APPLE)
 endif(APPLE)
 
 if(APPLE AND MpM_DO_SWIG)
+    include_directories("${MpM_SOURCE_DIR}/mpm")
+    set(CMAKE_SWIG_OUTDIR "${MpM_SOURCE_DIR}/mpm/swig_mpm_out")
     foreach(aFile
             AdapterChannel
             BailOut
@@ -219,11 +221,11 @@ if(APPLE AND MpM_DO_SWIG)
             ServiceRequest
             ServiceResponse
             Utilities)
-        set_source_files_properties("${MpM_SOURCE_DIR}/mpm/M+M${aFile}.i" PROPERTIES CPLUSPLUS ON)
-        set_source_files_properties("${MpM_SOURCE_DIR}/mpm/M+M${aFile}.i" PROPERTIES SWIG_FLAGS
+        set_source_files_properties("${MpM_SOURCE_DIR}/mpm/swig_mpm_in/M+M${aFile}.i" PROPERTIES CPLUSPLUS ON)
+        set_source_files_properties("${MpM_SOURCE_DIR}/mpm/swig_mpm_in/M+M${aFile}.i" PROPERTIES SWIG_FLAGS
                                     "-includeall")
 
-        swig_add_module("mpm${aFile}_swig" csharp "${MpM_SOURCE_DIR}/mpm/M+M${aFile}.i"
+        swig_add_module("mpm${aFile}_swig" csharp "${MpM_SOURCE_DIR}/mpm/swig_mpm_in/M+M${aFile}.i"
                         "${MpM_SOURCE_DIR}/mpm/M+M${aFile}.h"
                         "${MpM_SOURCE_DIR}/mpm/M+M${aFile}.cpp")
         swig_link_libraries("mpm${aFile}_swig"
@@ -237,8 +239,8 @@ if(APPLE AND MpM_DO_SWIG)
                 COMPONENT libraries)
 
         install(FILES
-                "${MpM_SOURCE_DIR}/mpm/mpm${aFile}.cs"
-                "${MpM_SOURCE_DIR}/mpm/mpm${aFile}PINVOKE.cs"
+                "${MpM_SOURCE_DIR}/mpm/swig_mpm_out/mpm${aFile}.cs"
+                "${MpM_SOURCE_DIR}/mpm/swig_mpm_out/mpm${aFile}PINVOKE.cs"
                 DESTINATION csharp/mpm
                 COMPONENT headers)
     endforeach(aFile)

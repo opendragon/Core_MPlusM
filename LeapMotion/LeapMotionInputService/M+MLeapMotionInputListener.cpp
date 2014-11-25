@@ -360,6 +360,7 @@ void LeapMotionInputListener::onInit(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
+	theController.setPolicyFlags(Leap::Controller::POLICY_BACKGROUND_FRAMES);
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onInit
 

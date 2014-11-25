@@ -45,6 +45,7 @@ add_executable(${THIS_TARGET}
                M+MLeapMotionInputService.cpp)
 
 add_library(Leap SHARED IMPORTED)
+
 if(WIN32)
 	set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
                     "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll")

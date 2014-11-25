@@ -147,6 +147,8 @@ bool UnrealOutputService::configure(const yarp::os::Bottle & details)
 void UnrealOutputService::deactivateConnection(void)
 {
     OD_LOG_ENTER(); //####
+    clearActive();
+	std::cerr << "connection is dead" << std::endl; //!!!!
     if (_inLeapHandler)
     {
         _inLeapHandler->setSocket(INVALID_SOCKET);
@@ -164,7 +166,6 @@ void UnrealOutputService::deactivateConnection(void)
 #endif // ! MAC_OR_LINUX_
         _networkSocket = INVALID_SOCKET;
     }
-    clearActive();
     OD_LOG_EXIT(); //####
 } // UnrealOutputService::deactivateConnection
 
