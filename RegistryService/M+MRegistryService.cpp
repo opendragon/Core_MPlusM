@@ -3100,6 +3100,14 @@ bool RegistryService::start(void)
                 
                 if (newChannel)
                 {
+                    if (metricsAreEnabled())
+                    {
+                        newChannel->enableMetrics();
+                    }
+                    else
+                    {
+                        newChannel->disableMetrics();
+                    }
                     if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
                         if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,

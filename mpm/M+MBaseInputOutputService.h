@@ -98,6 +98,12 @@ namespace MplusM
              @returns @c true if the service was successfully configured and @c false otherwise. */
             virtual bool configure(const yarp::os::Bottle & details) = 0;
             
+            /*! @brief Turn off the send / receive metrics collecting. */
+            virtual void disableMetrics(void);
+            
+            /*! @brief Turn on the send / receive metrics collecting. */
+            virtual void enableMetrics(void);
+            
             /*! @brief Fill in the metrics for the service.
              @param metrics The gathered metrics. */
             virtual void gatherMetrics(yarp::os::Bottle & metrics);

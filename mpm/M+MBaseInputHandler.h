@@ -69,6 +69,12 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BaseInputHandler(void);
             
+            /*! @brief Turn off the send / receive metrics collecting. */
+            void disableMetrics(void);
+            
+            /*! @brief Turn on the send / receive metrics collecting. */
+            void enableMetrics(void);
+            
             /*! @brief Process partially-structured input data.
              @param input The partially-structured input data.
              @param senderChannel The name of the channel used to send the input data.
@@ -79,6 +85,15 @@ namespace MplusM
                                      const yarp::os::ConstString & senderChannel,
                                      yarp::os::ConnectionWriter *  replyMechanism,
                                      const size_t                  numBytes) = 0;
+            
+            /*! @brief Return the state of the  send / receive metrics.
+             @returns @c true if the send / receive metrics are being gathered and @c false
+             otherwise. */
+            inline bool metricsAreEnabled(void)
+            const
+            {
+                return _metricsEnabled;
+            } // metricsAreEnabled
             
             /*! @brief Remember the channel that is feeding the input handler.
              @param theChannel The channel that is feeding the input handler. */
@@ -113,12 +128,15 @@ namespace MplusM
             /*! @brief @c true if input stream processing is enabled. */
             bool _canProcessInput;
             
+            /*! @brief @c true if metrics are enabled and @c false otherwise. */
+            bool _metricsEnabled;
+            
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char _filler[7];
+            char _filler[6];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

@@ -1242,10 +1242,12 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
             bool sawClients = false;
             bool sawDetach = false;
             bool sawEcho = false;
+            bool sawGetMetrics = false;
+            bool sawGetMetricsState = false;
             bool sawInfo = false;
             bool sawList = false;
-            bool sawMetrics = false;
             bool sawName = false;
+            bool sawSetMetricsState = false;
             
             result = true;
             for (int ii = 0; result && (ii < response.count()); ++ii)
@@ -1348,9 +1350,9 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                                 sawList = (itsOutput == "([]+)");
                             }
                         }
-                        else if (aName == MpM_METRICS_REQUEST)
+                        else if (aName == MpM_GETMETRICS_REQUEST)
                         {
-                            if (sawMetrics)
+                            if (sawGetMetrics)
                             {
                                 result = false;
                             }
@@ -1359,7 +1361,21 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                                 yarp::os::ConstString itsOutput =
                                                 asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
                                 
-                                sawMetrics = (itsOutput == "([]+)");
+                                sawGetMetrics = (itsOutput == "([]+)");
+                            }
+                        }
+                        else if (aName == MpM_GETMETRICSSTATE_REQUEST)
+                        {
+                            if (sawGetMetricsState)
+                            {
+                                result = false;
+                            }
+                            else if ((! hasInput) && hasOutput)
+                            {
+                                yarp::os::ConstString itsOutput =
+                                            asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
+                                
+                                sawGetMetricsState = (itsOutput == "i");
                             }
                         }
                         else if (aName == MpM_NAME_REQUEST)
@@ -1376,6 +1392,20 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                                 sawName = (itsOutput == "ssssss");
                             }
                         }
+                        else if (aName == MpM_SETMETRICSSTATE_REQUEST)
+                        {
+                            if (sawSetMetricsState)
+                            {
+                                result = false;
+                            }
+                            else if (hasInput && (! hasOutput))
+                            {
+                                yarp::os::ConstString itsInput =
+                                                asDict->find(MpM_REQREP_DICT_INPUT_KEY).asString();
+                                
+                                sawSetMetricsState = (itsInput == "i");
+                            }
+                        }
                     }
                     else
                     {
@@ -1387,8 +1417,8 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                     result = false;
                 }
             }
-            result &= (sawChannels && sawClients && sawDetach && sawEcho && sawInfo && sawList &&
-                       sawMetrics && sawName);
+            result &= (sawChannels && sawClients && sawDetach && sawEcho && sawGetMetrics &&
+                       sawGetMetricsState && sawInfo && sawList && sawName && sawSetMetricsState);
         }
         else
         {

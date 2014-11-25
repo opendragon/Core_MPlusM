@@ -63,9 +63,6 @@ using namespace MplusM::Common;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The carrier type to be used for service connections. */
-#define SERVICE_CHANNEL_CARRIER_ "tcp"
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -108,53 +105,32 @@ static bool checkHostPort(int &                         realPort,
     return result;
 } // checkHostPort
 
-/*! @brief Check if the given host name is valid.
+/*! @brief Set the IP address for the endpoint.
  @param workingContact The connection information that is to be filled in.
- @param hostName The host name that is to be validated.
  @param endpointName The desired endpoint name.
  @param portNumber The port number to be applied to the connection.
  @returns @c true if the connection information has been constructed and @c false otherwise. */
-static bool checkHostName(yarp::os::Contact &           workingContact,
-                          const yarp::os::ConstString & hostName,
-                          const yarp::os::ConstString & endpointName,
-                          const int                     portNumber)
+static bool setEndpointIPAddress(yarp::os::Contact &           workingContact,
+                                 const yarp::os::ConstString & endpointName,
+                                 const int                     portNumber)
 {
 #if defined(MpM_ReportContactDetails)
-    DumpContactToLog("enter checkHostName", workingContact); //####
+    DumpContactToLog("enter setEndpointIPAddress", workingContact); //####
 #endif // defined(MpM_ReportContactDetails)
     bool result = false;
     
     try
     {
-        if (0 < hostName.length())
-        {
-            // Non-empty hostname - check it...
-            yarp::os::ConstString ipAddress;
-            
-			if (hostName == STANDARD_HOST_NAME)
-			{
-				yarp::os::Contact aContact = yarp::os::Network::registerName(endpointName);
-
-				ipAddress = aContact.getHost();
-				yarp::os::Network::unregisterName(endpointName);
-			}
-			else
-			{
-	            ipAddress = yarp::os::Contact::convertHostToIp(hostName.c_str());
-			}
-            OD_LOG_S1s("ipAddress = ", ipAddress); //####
-            workingContact = workingContact.addSocket(SERVICE_CHANNEL_CARRIER_, ipAddress,
-                                                      portNumber);
+        yarp::os::Contact     aContact = yarp::os::Network::registerName(endpointName);
+        yarp::os::ConstString ipAddress = aContact.getHost();
+        
+        OD_LOG_S1s("ipAddress = ", ipAddress); //####
+        yarp::os::Network::unregisterName(endpointName);
+        workingContact = workingContact.addSocket(CHANNEL_CARRIER_, ipAddress, portNumber);
 #if defined(MpM_ReportContactDetails)
-            DumpContactToLog("after addSocket", workingContact); //####
+        DumpContactToLog("after addSocket", workingContact); //####
 #endif // defined(MpM_ReportContactDetails)
-            result = workingContact.isValid();
-        }
-        else
-        {
-            // Empty host name - YARP will use the local machine name.
-            result = true;
-        }
+        result = workingContact.isValid();
     }
     catch (...)
     {
@@ -162,7 +138,7 @@ static bool checkHostName(yarp::os::Contact &           workingContact,
         throw;
     }
     return result;
-} // checkHostName
+} // setEndpointIPAddress
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -209,7 +185,8 @@ bool Endpoint::CheckEndpointName(const yarp::os::ConstString & channelName)
 
 Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
                    const yarp::os::ConstString & portNumber) :
-    _channel(NULL), _contact(), _handler(NULL), _handlerCreator(NULL), _isOpen(false)
+    _channel(NULL), _contact(), _handler(NULL), _handlerCreator(NULL), _metricsEnabled(true),
+    _isOpen(false)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("endpointName = ", endpointName, "portNumber = ", portNumber); //####
@@ -223,9 +200,9 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
 #if defined(MpM_ReportContactDetails)
             DumpContactToLog("after byName", _contact); //####
 #endif // defined(MpM_ReportContactDetails)
-            if (checkHostName(_contact, STANDARD_HOST_NAME, endpointName, realPort))
+            if (setEndpointIPAddress(_contact, endpointName, realPort))
             {
-                // Ready to be set up... we have a valid port, and either a blank URI or a valid one.
+                // Ready to be set up... we have a valid port, and a valid IP address.
                 _channel = new ServiceChannel;
                 if (! _channel)
                 {
@@ -235,8 +212,8 @@ Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
             }
             else
             {
-                OD_LOG_EXIT_THROW_S("Bad host name"); //####
-                throw new Exception("Bad host name");
+                OD_LOG_EXIT_THROW_S("Bad connection information"); //####
+                throw new Exception("Bad connection information");
             }
         }
         else
@@ -303,6 +280,36 @@ void Endpoint::close(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // Endpoint::close
+
+void Endpoint::disableMetrics(void)
+{
+    OD_LOG_OBJENTER(); //####
+    _metricsEnabled = false;
+    if (_handler)
+    {
+        _handler->disableMetrics();
+    }
+    if (_channel)
+    {
+        _channel->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // Endpoint::disableMetrics
+
+void Endpoint::enableMetrics(void)
+{
+    OD_LOG_OBJENTER(); //####
+    if (_handler)
+    {
+        _handler->enableMetrics();
+    }
+    if (_channel)
+    {
+        _channel->enableMetrics();
+    }
+    _metricsEnabled = true;
+    OD_LOG_OBJEXIT(); //####
+} // Endpoint::disableMetrics
 
 yarp::os::ConstString Endpoint::getName(void)
 const
@@ -523,7 +530,7 @@ void Endpoint::updateSendCounters(const size_t numBytes)
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("numBytes = ", numBytes); //####
     
-    if (_channel)
+    if (_channel && _metricsEnabled)
     {
         _channel->updateSendCounters(numBytes);
     }

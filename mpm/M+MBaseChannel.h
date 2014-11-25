@@ -70,10 +70,25 @@ namespace MplusM
             /*! @brief Close the channel. */
             void close(void);
             
+            /*! @brief Turn off the send / receive metrics collecting. */
+            void disableMetrics(void);
+            
+            /*! @brief Turn on the send / receive metrics collecting. */
+            void enableMetrics(void);
+            
             /*! @brief Return the send / receive counters.
              @param counters The send / receive counters. */
             void getSendReceiveCounters(SendReceiveCounters & counters);
 
+            /*! @brief Return the state of the  send / receive metrics.
+             @returns @c true if the send / receive metrics are being gathered and @c false
+             otherwise. */
+            inline bool metricsAreEnabled(void)
+            const
+            {
+                return _metricsEnabled;
+            } // metricsAreEnabled
+            
             /*! @brief Returns the name associated with the channel.
              @returns The name associated with the channel. */
             inline yarp::os::ConstString name(void)
@@ -140,6 +155,19 @@ namespace MplusM
             
             /*! @brief The send / receive counters. */
             SendReceiveCounters _counters;
+            
+            /*! @brief @c true if metrics are enabled and @c false otherwise. */
+            bool _metricsEnabled;
+            
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler[7];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
             
         }; // BaseChannel
         

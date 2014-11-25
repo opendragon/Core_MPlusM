@@ -104,7 +104,10 @@ void BaseRequestHandler::sendResponse(yarp::os::Bottle &           reply,
         OD_LOG("(replyMechanism)"); //####
         size_t messageSize = 0;
         
-        reply.toBinary(&messageSize);
+        if (_service.metricsAreEnabled())
+        {
+            reply.toBinary(&messageSize);
+        }
         if (reply.write(*replyMechanism))
         {
             _service.updateResponseCounters(messageSize);
@@ -132,7 +135,10 @@ void BaseRequestHandler::sendResponse(const yarp::os::ConstString & reply,
         yarp::os::Bottle response(reply);
         size_t           messageSize = 0;
         
-        response.toBinary(&messageSize);
+        if (_service.metricsAreEnabled())
+        {
+            response.toBinary(&messageSize);
+        }
         if (response.write(*replyMechanism))
         {
             _service.updateResponseCounters(messageSize);

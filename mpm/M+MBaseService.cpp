@@ -51,11 +51,13 @@
 #include "M+MChannelsRequestHandler.h"
 #include "M+MClientsRequestHandler.h"
 #include "M+MDetachRequestHandler.h"
+#include "M+MGetMetricsRequestHandler.h"
+#include "M+MGetMetricsStateRequestHandler.h"
 #include "M+MInfoRequestHandler.h"
 #include "M+MListRequestHandler.h"
-#include "M+MMetricsRequestHandler.h"
 #include "M+MNameRequestHandler.h"
 #include "M+MPingThread.h"
+#include "M+MSetMetricsStateRequestHandler.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -102,8 +104,9 @@ BaseService::BaseService(const ServiceKind             theKind,
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription), _tag(tag),
     _auxCounters(), _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL),
-    _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL), _endpoint(NULL), _handler(NULL),
-    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _started(false),
+    _getMetricsHandler(NULL), _getMetricsStateHandler(NULL), _infoHandler(NULL), _listHandler(NULL),
+    _nameHandler(NULL), _setMetricsStateHandler(NULL), _endpoint(NULL), _handler(NULL),
+    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(true), _started(false),
     _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER(); //####
@@ -121,6 +124,14 @@ BaseService::BaseService(const ServiceKind             theKind,
         _serviceName = canonicalName;
     }
     _endpoint = new Endpoint(serviceEndpointName, servicePortNumber);
+    if (_metricsEnabled)
+    {
+        _endpoint->enableMetrics();
+    }
+    else
+    {
+        _endpoint->disableMetrics();
+    }
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // BaseService::BaseService
@@ -140,9 +151,11 @@ BaseService::BaseService(const ServiceKind             theKind,
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription),
     _serviceName(canonicalName), _tag(), _auxCounters(), _channelsHandler(NULL),
-    _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL),
-    _nameHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL),
-    _kind(theKind), _started(false), _useMultipleHandlers(useMultipleHandlers)
+    _clientsHandler(NULL), _detachHandler(NULL), _getMetricsHandler(NULL),
+    _getMetricsStateHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
+    _setMetricsStateHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
+    _pinger(NULL), _kind(theKind), _metricsEnabled(true), _started(false),
+    _useMultipleHandlers(useMultipleHandlers)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -168,6 +181,14 @@ BaseService::BaseService(const ServiceKind             theKind,
             OD_LOG_EXIT_THROW_S("Invalid parameters for service endpoint"); //####
             throw new Exception("Invalid parameters for service endpoint");
             
+    }
+    if (_metricsEnabled)
+    {
+        _endpoint->enableMetrics();
+    }
+    else
+    {
+        _endpoint->disableMetrics();
     }
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
@@ -223,25 +244,31 @@ void BaseService::attachRequestHandlers(void)
         _channelsHandler = new ChannelsRequestHandler(*this);
         _clientsHandler = new ClientsRequestHandler(*this);
         _detachHandler = new DetachRequestHandler(*this);
+        _getMetricsHandler = new GetMetricsRequestHandler(*this);
+        _getMetricsStateHandler = new GetMetricsStateRequestHandler(*this);
         _infoHandler = new InfoRequestHandler(*this);
         _listHandler = new ListRequestHandler(*this);
-        _metricsHandler = new MetricsRequestHandler(*this);
         _nameHandler = new NameRequestHandler(*this);
-        if (_channelsHandler && _clientsHandler && _detachHandler && _infoHandler && _listHandler &&
-            _metricsHandler && _nameHandler)
+        _setMetricsStateHandler = new SetMetricsStateRequestHandler(*this);
+        if (_channelsHandler && _clientsHandler && _detachHandler && _getMetricsHandler &&
+            _getMetricsStateHandler && _infoHandler && _listHandler && _nameHandler &&
+            _setMetricsStateHandler)
         {
             _requestHandlers.registerRequestHandler(_channelsHandler);
             _requestHandlers.registerRequestHandler(_clientsHandler);
             _requestHandlers.registerRequestHandler(_detachHandler);
+            _requestHandlers.registerRequestHandler(_getMetricsHandler);
+            _requestHandlers.registerRequestHandler(_getMetricsStateHandler);
             _requestHandlers.registerRequestHandler(_infoHandler);
             _requestHandlers.registerRequestHandler(_listHandler);
-            _requestHandlers.registerRequestHandler(_metricsHandler);
             _requestHandlers.registerRequestHandler(_nameHandler);
+            _requestHandlers.registerRequestHandler(_setMetricsStateHandler);
         }
         else
         {
             OD_LOG("! (_channelsHandler && _clientsHandler && _detachHandler && " //####
-                   "_infoHandler && _listHandler && _metricsHandler && _nameHandler)"); //####
+                   "_getMetricsHandler && _getMetricsStateHandler && _infoHandler && " //####
+                   "_listHandler && _nameHandler && _setMetricsStateHandler)"); //####
         }
     }
     catch (...)
@@ -313,6 +340,18 @@ void BaseService::detachRequestHandlers(void)
             delete _detachHandler;
             _detachHandler = NULL;
         }
+        if (_getMetricsHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_getMetricsHandler);
+            delete _getMetricsHandler;
+            _getMetricsHandler = NULL;
+        }
+        if (_getMetricsStateHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_getMetricsStateHandler);
+            delete _getMetricsStateHandler;
+            _getMetricsStateHandler = NULL;
+        }
         if (_infoHandler)
         {
             _requestHandlers.unregisterRequestHandler(_infoHandler);
@@ -325,17 +364,17 @@ void BaseService::detachRequestHandlers(void)
             delete _listHandler;
             _listHandler = NULL;
         }
-        if (_metricsHandler)
-        {
-            _requestHandlers.unregisterRequestHandler(_metricsHandler);
-            delete _metricsHandler;
-            _metricsHandler = NULL;
-        }
         if (_nameHandler)
         {
             _requestHandlers.unregisterRequestHandler(_nameHandler);
             delete _nameHandler;
             _nameHandler = NULL;
+        }
+        if (_setMetricsStateHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_setMetricsStateHandler);
+            delete _setMetricsStateHandler;
+            _setMetricsStateHandler = NULL;
         }
     }
     catch (...)
@@ -345,6 +384,26 @@ void BaseService::detachRequestHandlers(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // BaseService::detachRequestHandlers
+
+void BaseService::disableMetrics(void)
+{
+    OD_LOG_OBJENTER(); //####
+    if (_endpoint)
+    {
+        _endpoint->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BaseService::disableMetrics
+
+void BaseService::enableMetrics(void)
+{
+    OD_LOG_OBJENTER(); //####
+    if (_endpoint)
+    {
+        _endpoint->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BaseService::disableMetrics
 
 void BaseService::fillInClientList(StringVector & clients)
 {
@@ -534,6 +593,14 @@ bool BaseService::sendPingForChannel(const yarp::os::ConstString & channelName,
         
         if (newChannel)
         {
+            if (_metricsEnabled)
+            {
+                newChannel->enableMetrics();
+            }
+            else
+            {
+                newChannel->disableMetrics();
+            }
 #if defined(MpM_ReportOnConnections)
             newChannel->setReporter(reporter);
             newChannel->getReport(reporter);
@@ -728,7 +795,7 @@ void BaseService::updateResponseCounters(const size_t numBytes)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("numBytes = ", numBytes); //####
-    if (_endpoint)
+    if (_endpoint && _metricsEnabled)
     {
         _endpoint->updateSendCounters(numBytes);
     }
@@ -760,6 +827,14 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
         
         if (newChannel)
         {
+            if (service.metricsAreEnabled())
+            {
+                newChannel->enableMetrics();
+            }
+            else
+            {
+                newChannel->disableMetrics();
+            }
 #if defined(MpM_ReportOnConnections)
             newChannel->setReporter(reporter);
             newChannel->getReport(reporter);
@@ -867,6 +942,14 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
         
         if (newChannel)
         {
+            if (service.metricsAreEnabled())
+            {
+                newChannel->enableMetrics();
+            }
+            else
+            {
+                newChannel->disableMetrics();
+            }
 #if defined(MpM_ReportOnConnections)
             newChannel->setReporter(reporter);
             newChannel->getReport(reporter);

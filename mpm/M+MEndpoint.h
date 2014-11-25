@@ -85,6 +85,12 @@ namespace MplusM
             /*! @brief Stop processing input. */
             void close(void);
             
+            /*! @brief Turn off the send / receive metrics collecting. */
+            void disableMetrics(void);
+            
+            /*! @brief Turn on the send / receive metrics collecting. */
+            void enableMetrics(void);
+            
             /*! @brief Return the YARP name for the endpoint.
              @returns The YARP name for the endpoint. */
             yarp::os::ConstString getName(void)
@@ -101,6 +107,15 @@ namespace MplusM
             {
                 return _isOpen;
             } // isOpen
+            
+            /*! @brief Return the state of the  send / receive metrics.
+             @returns @c true if the send / receive metrics are being gathered and @c false
+             otherwise. */
+            inline bool metricsAreEnabled(void)
+            const
+            {
+                return _metricsEnabled;
+            } // metricsAreEnabled
             
             /*! @brief Open the endpoint if it is not already open.
              @param timeToWait The number of seconds allowed before a failure is considered.
@@ -160,6 +175,9 @@ namespace MplusM
             /*! @brief The input handler creator for the endpoint. */
             BaseInputHandlerCreator * _handlerCreator;
             
+            /*! @brief @c true if metrics are enabled and @c false otherwise. */
+            bool _metricsEnabled;
+            
             /*! @brief @c true if the endpoint is open and @c false otherwise. */
             bool _isOpen;
             
@@ -168,7 +186,7 @@ namespace MplusM
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char _filler[7];
+            char _filler[6];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

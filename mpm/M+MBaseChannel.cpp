@@ -64,6 +64,39 @@ using namespace MplusM::Common;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Set the IP address for the endpoint.
+ @param workingContact The connection information that is to be filled in.
+ @param channelName The desired endpoint name.
+ @returns @c true if the connection information has been constructed and @c false otherwise. */
+static bool setChannelIPAddress(yarp::os::Contact &           workingContact,
+                                const yarp::os::ConstString & channelName)
+{
+#if defined(MpM_ReportContactDetails)
+    DumpContactToLog("enter setIPAddress", workingContact); //####
+#endif // defined(MpM_ReportContactDetails)
+    bool result = false;
+    
+    try
+    {
+        yarp::os::Contact     aContact = yarp::os::Network::registerName(channelName);
+        yarp::os::ConstString ipAddress = aContact.getHost();
+        
+        OD_LOG_S1s("ipAddress = ", ipAddress); //####
+        yarp::os::Network::unregisterName(channelName);
+        workingContact = workingContact.addSocket(CHANNEL_CARRIER_, ipAddress, 0);
+#if defined(MpM_ReportContactDetails)
+        DumpContactToLog("after addSocket", workingContact); //####
+#endif // defined(MpM_ReportContactDetails)
+        result = workingContact.isValid();
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    return result;
+} // setChannelIPAddress
+
 #if defined(__APPLE__)
 # pragma mark Class methods
 #endif // defined(__APPLE__)
@@ -102,7 +135,7 @@ void BaseChannel::RelinquishChannel(BaseChannel * theChannel)
 #endif // defined(__APPLE__)
 
 BaseChannel::BaseChannel(void) :
-    inherited(), _name(), _counters()
+    inherited(), _name(), _counters(), _metricsEnabled(true)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
@@ -146,6 +179,20 @@ void BaseChannel::close(void)
     OD_LOG_OBJEXIT(); //####
 } // BaseChannel::close
 
+void BaseChannel::disableMetrics(void)
+{
+    OD_LOG_OBJENTER(); //####
+    _metricsEnabled = false;
+    OD_LOG_OBJEXIT(); //####
+} // BaseChannel::enableMetrics
+
+void BaseChannel::enableMetrics(void)
+{
+    OD_LOG_OBJENTER(); //####
+    _metricsEnabled = true;
+    OD_LOG_OBJEXIT(); //####
+} // BaseChannel::enableMetrics
+
 void BaseChannel::getSendReceiveCounters(SendReceiveCounters & counters)
 {
     OD_LOG_OBJENTER(); //####
@@ -169,53 +216,16 @@ bool BaseChannel::openWithRetries(const yarp::os::ConstString & theChannelName,
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("theChannelName = ", theChannelName); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
-    bool   result = false;
-    double retryTime = INITIAL_RETRY_INTERVAL;
-    int    retriesLeft = MAX_RETRIES;
+    bool              result = false;
+    yarp::os::Contact aContact = yarp::os::Contact::byName(theChannelName);
     
-#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
-    inherited::setVerbosity(1);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
-    inherited::setVerbosity(-1);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
-#if RETRY_LOOPS_USE_TIMEOUTS
-    SetUpCatcher();
-#endif // RETRY_LOOPS_USE_TIMEOUTS
-    try
+#if defined(MpM_ReportContactDetails)
+    DumpContactToLog("after byName", aContact); //####
+#endif // defined(MpM_ReportContactDetails)
+    if (setChannelIPAddress(aContact, theChannelName))
     {
-#if RETRY_LOOPS_USE_TIMEOUTS
-        BailOut bailer(*this, timeToWait);
-#endif // RETRY_LOOPS_USE_TIMEOUTS
-        
-        do
-        {
-            OD_LOG("about to open"); //####
-            result = inherited::open(theChannelName);
-            if (! result)
-            {
-                if (0 < --retriesLeft)
-                {
-                    OD_LOG("%%retry%%"); //####
-                    yarp::os::Time::delay(retryTime);
-                    retryTime *= RETRY_MULTIPLIER;
-                }
-            }
-        }
-        while ((! result) && (0 < retriesLeft));
-        if (result)
-        {
-            _name = theChannelName;
-            OD_LOG_S1s("_name <- ", _name); //####
-        }
+        result = openWithRetries(aContact, timeToWait);
     }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-#if RETRY_LOOPS_USE_TIMEOUTS
-    ShutDownCatcher();
-#endif // RETRY_LOOPS_USE_TIMEOUTS
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // BaseChannel::openWithRetries
@@ -299,7 +309,10 @@ void BaseChannel::updateReceiveCounters(const size_t numBytes)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("numBytes = ", numBytes); //####
-    _counters.incrementInCounters(numBytes);
+    if (_metricsEnabled)
+    {
+        _counters.incrementInCounters(numBytes);
+    }
     OD_LOG_OBJEXIT(); //####
 } // BaseChannel::updateReceiveCounters
 
@@ -307,7 +320,10 @@ void BaseChannel::updateSendCounters(const size_t numBytes)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("numBytes = ", numBytes); //####
-    _counters.incrementOutCounters(numBytes);
+    if (_metricsEnabled)
+    {
+        _counters.incrementOutCounters(numBytes);
+    }
     OD_LOG_OBJEXIT(); //####
 } // BaseChannel::updateSendCounters
 
@@ -317,10 +333,13 @@ bool BaseChannel::write(yarp::os::Bottle & message)
     OD_LOG_S1s("message = ", message.toString()); //####
     size_t messageSize = 0;
     
-    message.toBinary(&messageSize);
+    if (_metricsEnabled)
+    {
+        message.toBinary(&messageSize);
+    }
     bool result = inherited::write(message);
 
-    if (result)
+    if (result && _metricsEnabled)
     {
         updateSendCounters(messageSize);
     }
@@ -335,14 +354,18 @@ bool BaseChannel::write(yarp::os::Bottle & message,
     OD_LOG_S1s("message = ", message.toString()); //####
     OD_LOG_P1("reply = ", &reply); //####
     size_t messageSize = 0;
-    size_t replySize = 0;
     
-    message.toBinary(&messageSize);
+    if (_metricsEnabled)
+    {
+        message.toBinary(&messageSize);
+    }
     bool result = inherited::write(message, reply);
     
-    reply.toBinary(&replySize);
-    if (result)
+    if (result && _metricsEnabled)
     {
+        size_t replySize = 0;
+
+        reply.toBinary(&replySize);
         updateSendCounters(messageSize);
         updateReceiveCounters(replySize);
     }

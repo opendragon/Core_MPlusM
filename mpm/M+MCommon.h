@@ -133,6 +133,9 @@
 /*! @brief The time between client announcements of associated channels. */
 # define ANNOUNCE_INTERVAL         (17.1 * ONE_SECOND_DELAY)
 
+/*! @brief The carrier type to be used for M+M connections. */
+# define CHANNEL_CARRIER_          "tcp"
+
 /*! @brief The base of the channel name to use for a client if not provided. */
 # define CLIENT_PORT_NAME_BASE     MpM_CLIENT_BASE_NAME
 
@@ -177,9 +180,6 @@
 
 /*! @brief The retry interval multiplier. */
 # define RETRY_MULTIPLIER          1.21
-
-/*! @brief The hostname to use to refer to the machine on which we are executing. */
-# define STANDARD_HOST_NAME        "127.0.0.1"/*"localhost"*/
 
 /*! @brief The standard command-line options. */
 # define STANDARD_OPTIONS          "jt"

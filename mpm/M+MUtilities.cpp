@@ -1365,7 +1365,7 @@ bool Utilities::GetMetricsForService(const yarp::os::ConstString & serviceChanne
                                           checkStuff))
             {
                 yarp::os::Bottle parameters;
-                ServiceRequest   request(MpM_METRICS_REQUEST, parameters);
+                ServiceRequest   request(MpM_GETMETRICS_REQUEST, parameters);
                 ServiceResponse  response;
                 
                 if (request.send(*newChannel, &response))

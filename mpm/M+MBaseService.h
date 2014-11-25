@@ -63,13 +63,15 @@ namespace MplusM
         class ClientsRequestHandler;
         class DetachRequestHandler;
         class Endpoint;
+        class GetMetricsRequestHandler;
+        class GetMetricsStateRequestHandler;
         class InfoRequestHandler;
         class ListRequestHandler;
-        class MetricsRequestHandler;
         class NameRequestHandler;
         class PingThread;
         class ServiceInputHandler;
         class ServiceInputHandlerCreator;
+        class SetMetricsStateRequestHandler;
         
         /*! @brief The minimal functionality required for an M+M service. */
         class BaseService
@@ -134,6 +136,12 @@ namespace MplusM
              @param key The client-provided key. */
             void detachClient(const yarp::os::ConstString & key);
             
+            /*! @brief Turn off the send / receive metrics collecting. */
+            virtual void disableMetrics(void);
+            
+            /*! @brief Turn on the send / receive metrics collecting. */
+            virtual void enableMetrics(void);
+            
             /*! @brief Fill in a list of clients for the service.
              @param clients The list to be filled in. */
             void fillInClientList(StringVector & clients);
@@ -185,6 +193,15 @@ namespace MplusM
             {
                 return _launchPath;
             } // launchPath
+            
+            /*! @brief Return the state of the  send / receive metrics.
+             @returns @c true if the send / receive metrics are being gathered and @c false
+             otherwise. */
+            inline bool metricsAreEnabled(void)
+            const
+            {
+                return _metricsEnabled;
+            } // metricsAreEnabled
             
             /*! @brief Process partially-structured input data.
              @param request The requested operation.
@@ -354,17 +371,23 @@ namespace MplusM
             /*! @brief The request handler for the 'detach' request. */
             DetachRequestHandler * _detachHandler;
             
+            /*! @brief The request handler for the 'getMetrics' request. */
+            GetMetricsRequestHandler * _getMetricsHandler;
+            
+            /*! @brief The request handler for the 'getMetricsState' request. */
+            GetMetricsStateRequestHandler * _getMetricsStateHandler;
+            
             /*! @brief The request handler for the 'info' request. */
             InfoRequestHandler * _infoHandler;
             
             /*! @brief The request handler for the 'list' request. */
             ListRequestHandler * _listHandler;
             
-            /*! @brief The request handler for the 'metrics' request. */
-            MetricsRequestHandler * _metricsHandler;
-            
             /*! @brief The request handler for the 'name' request. */
             NameRequestHandler * _nameHandler;
+            
+            /*! @brief The request handler for the 'setMetricsState' request. */
+            SetMetricsStateRequestHandler * _setMetricsStateHandler;
             
             /*! @brief The connection point for the service. */
             Endpoint * _endpoint;
@@ -381,6 +404,9 @@ namespace MplusM
             /*! @brief The kind of service. */
             ServiceKind _kind;
             
+            /*! @brief @c true if metrics are enabled and @c false otherwise. */
+            bool _metricsEnabled;
+            
             /*! @brief The current state of the service - @c true if active and @c false
              otherwise. */
             bool _started;
@@ -394,7 +420,7 @@ namespace MplusM
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char _filler[2];
+            char _filler[1];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

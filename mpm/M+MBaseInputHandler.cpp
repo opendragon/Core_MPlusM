@@ -73,7 +73,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 BaseInputHandler::BaseInputHandler(void) :
-    inherited(), _channel(NULL), _canProcessInput(true)
+    inherited(), _channel(NULL), _canProcessInput(true), _metricsEnabled(true)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
@@ -89,6 +89,20 @@ BaseInputHandler::~BaseInputHandler(void)
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
+
+void BaseInputHandler::disableMetrics(void)
+{
+    OD_LOG_OBJENTER(); //####
+    _metricsEnabled = false;
+    OD_LOG_OBJEXIT(); //####
+} // BaseInputHandler::enableMetrics
+
+void BaseInputHandler::enableMetrics(void)
+{
+    OD_LOG_OBJENTER(); //####
+    _metricsEnabled = true;
+    OD_LOG_OBJEXIT(); //####
+} // BaseInputHandler::enableMetrics
 
 bool BaseInputHandler::read(yarp::os::ConnectionReader & connection)
 {
@@ -106,7 +120,7 @@ bool BaseInputHandler::read(yarp::os::ConnectionReader & connection)
             yarp::os::Bottle aBottle;
             size_t           numBytes = connection.getSize();
             
-            if (_channel)
+            if (_metricsEnabled && _channel && _channel->metricsAreEnabled())
             {
                 _channel->updateReceiveCounters(numBytes);
             }

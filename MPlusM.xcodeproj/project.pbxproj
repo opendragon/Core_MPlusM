@@ -380,8 +380,8 @@
 		DFCDE50219E6CE710051D294 /* M+MRGBLEDServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRGBLEDServiceMain.cpp"; path = "examples/RGBLEDService/M+MRGBLEDServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCDE50319E6E9D70051D294 /* M+MSendReceiveCounters.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MSendReceiveCounters.cpp"; path = "mpm/M+MSendReceiveCounters.cpp"; sourceTree = "<group>"; };
 		DFCDE50419E6E9D70051D294 /* M+MSendReceiveCounters.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "M+MSendReceiveCounters.h"; path = "mpm/M+MSendReceiveCounters.h"; sourceTree = "<group>"; };
-		DFCDE50519E7059B0051D294 /* M+MMetricsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMetricsRequestHandler.cpp"; path = "mpm/M+MMetricsRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DFCDE50619E7059B0051D294 /* M+MMetricsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMetricsRequestHandler.h"; path = "mpm/M+MMetricsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DFCDE50519E7059B0051D294 /* M+MGetMetricsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MGetMetricsRequestHandler.cpp"; path = "mpm/M+MGetMetricsRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DFCDE50619E7059B0051D294 /* M+MGetMetricsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MGetMetricsRequestHandler.h"; path = "mpm/M+MGetMetricsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DFCDE50819E73A210051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ServiceMetrics/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCDE50919E73A210051D294 /* M+MServiceMetricsMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MServiceMetricsMain.cpp"; path = "ServiceMetrics/M+MServiceMetricsMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MMovementDbClient.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -456,6 +456,10 @@
 		DFEF4BAE1A24FE6300FBB838 /* M+MServiceResponse.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MServiceResponse.i"; path = "mpm/swig_mpm_in/M+MServiceResponse.i"; sourceTree = SOURCE_ROOT; };
 		DFEF4BAF1A24FE6300FBB838 /* M+MUtilities.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = "M+MUtilities.i"; path = "mpm/swig_mpm_in/M+MUtilities.i"; sourceTree = SOURCE_ROOT; };
 		DFEF4BB01A24FE8800FBB838 /* ODLogging.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = ODLogging.i; path = odl/swig_odl_in/ODLogging.i; sourceTree = SOURCE_ROOT; };
+		DFEF4BB11A25435C00FBB838 /* M+MGetMetricsStateRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MGetMetricsStateRequestHandler.cpp"; path = "mpm/M+MGetMetricsStateRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DFEF4BB21A25435C00FBB838 /* M+MGetMetricsStateRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MGetMetricsStateRequestHandler.h"; path = "mpm/M+MGetMetricsStateRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DFEF4BB31A25475100FBB838 /* M+MSetMetricsStateRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MSetMetricsStateRequestHandler.cpp"; path = "mpm/M+MSetMetricsStateRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DFEF4BB41A25475100FBB838 /* M+MSetMetricsStateRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MSetMetricsStateRequestHandler.h"; path = "mpm/M+MSetMetricsStateRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DFFFBFD319D9A49D00BBD7A7 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = KinectV2/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFFFBFD519D9A4B900BBD7A7 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = KinectV2/KinectV2InputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFFFBFD819D9A4B900BBD7A7 /* M+MKinectV2EventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MKinectV2EventThread.cpp"; path = "KinectV2/KinectV2InputService/M+MKinectV2EventThread.cpp"; sourceTree = SOURCE_ROOT; };
@@ -623,16 +627,20 @@
 				DF3850EE198ACCFE00A0414E /* M+MConfigureRequestHandler.h */,
 				DF3850F1198ACCFE00A0414E /* M+MDetachRequestHandler.cpp */,
 				DF3850F2198ACCFE00A0414E /* M+MDetachRequestHandler.h */,
+				DFCDE50519E7059B0051D294 /* M+MGetMetricsRequestHandler.cpp */,
+				DFCDE50619E7059B0051D294 /* M+MGetMetricsRequestHandler.h */,
+				DFEF4BB11A25435C00FBB838 /* M+MGetMetricsStateRequestHandler.cpp */,
+				DFEF4BB21A25435C00FBB838 /* M+MGetMetricsStateRequestHandler.h */,
 				DF3850F9198ACCFE00A0414E /* M+MInfoRequestHandler.cpp */,
 				DF3850FA198ACCFE00A0414E /* M+MInfoRequestHandler.h */,
 				DF3850FF198ACCFE00A0414E /* M+MListRequestHandler.cpp */,
 				DF385100198ACCFE00A0414E /* M+MListRequestHandler.h */,
-				DFCDE50519E7059B0051D294 /* M+MMetricsRequestHandler.cpp */,
-				DFCDE50619E7059B0051D294 /* M+MMetricsRequestHandler.h */,
 				DF38510D198ACCFE00A0414E /* M+MNameRequestHandler.cpp */,
 				DF38510E198ACCFE00A0414E /* M+MNameRequestHandler.h */,
 				DF385116198ACCFE00A0414E /* M+MRestartStreamsRequestHandler.cpp */,
 				DF385117198ACCFE00A0414E /* M+MRestartStreamsRequestHandler.h */,
+				DFEF4BB31A25475100FBB838 /* M+MSetMetricsStateRequestHandler.cpp */,
+				DFEF4BB41A25475100FBB838 /* M+MSetMetricsStateRequestHandler.h */,
 				DF38511E198ACCFE00A0414E /* M+MStartStreamsRequestHandler.cpp */,
 				DF38511F198ACCFE00A0414E /* M+MStartStreamsRequestHandler.h */,
 				DF385120198ACCFE00A0414E /* M+MStopStreamsRequestHandler.cpp */,

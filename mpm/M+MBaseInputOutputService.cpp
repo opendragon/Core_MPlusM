@@ -145,6 +145,14 @@ bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & 
                     {
                         newChannel->setProtocol(aDescription._portProtocol,
                                                 aDescription._protocolDescription);
+                        if (metricsAreEnabled())
+                        {
+                            newChannel->enableMetrics();
+                        }
+                        else
+                        {
+                            newChannel->disableMetrics();
+                        }
                         _inStreams.push_back(newChannel);
                     }
                     else
@@ -207,6 +215,14 @@ bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector &
                     {
                         newChannel->setProtocol(aDescription._portProtocol,
                                                 aDescription._protocolDescription);
+                        if (metricsAreEnabled())
+                        {
+                            newChannel->enableMetrics();
+                        }
+                        else
+                        {
+                            newChannel->disableMetrics();
+                        }
                         _outStreams.push_back(newChannel);
                     }
                     else
@@ -306,6 +322,72 @@ void BaseInputOutputService::detachRequestHandlers(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::detachRequestHandlers
+
+void BaseInputOutputService::disableMetrics(void)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (0 < _inStreams.size())
+    {
+        for (StreamVector::const_iterator walker(_inStreams.begin()); _inStreams.end() != walker;
+             ++walker)
+        {
+            GeneralChannel * aChannel = *walker;
+            
+            if (aChannel)
+            {
+                aChannel->disableMetrics();
+            }
+        }
+    }
+    if (0 < _outStreams.size())
+    {
+        for (StreamVector::const_iterator walker(_outStreams.begin()); _outStreams.end() != walker;
+             ++walker)
+        {
+            GeneralChannel * aChannel = *walker;
+            
+            if (aChannel)
+            {
+                aChannel->disableMetrics();
+            }
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BaseInputOutputService::disableMetrics
+
+void BaseInputOutputService::enableMetrics(void)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (0 < _inStreams.size())
+    {
+        for (StreamVector::const_iterator walker(_inStreams.begin()); _inStreams.end() != walker;
+             ++walker)
+        {
+            GeneralChannel * aChannel = *walker;
+            
+            if (aChannel)
+            {
+                aChannel->enableMetrics();
+            }
+        }
+    }
+    if (0 < _outStreams.size())
+    {
+        for (StreamVector::const_iterator walker(_outStreams.begin()); _outStreams.end() != walker;
+             ++walker)
+        {
+            GeneralChannel * aChannel = *walker;
+            
+            if (aChannel)
+            {
+                aChannel->enableMetrics();
+            }
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BaseInputOutputService::enableMetrics
 
 void BaseInputOutputService::fillInSecondaryInputChannelsList(ChannelVector & channels)
 {

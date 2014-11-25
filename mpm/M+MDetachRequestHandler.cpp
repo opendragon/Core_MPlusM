@@ -164,7 +164,11 @@ bool DetachRequestHandler::processRequest(const yarp::os::ConstString & request,
     try
     {
         _service.detachClient(senderChannel);
-        sendResponse(MpM_OK_RESPONSE, replyMechanism);
+        if (replyMechanism)
+        {
+            OD_LOG("(replyMechanism)"); //####
+            sendResponse(MpM_OK_RESPONSE, replyMechanism);
+        }
     }
     catch (...)
     {

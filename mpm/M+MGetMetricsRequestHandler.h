@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MMetricsRequestHandler.h
+//  File:       mpm/M+MGetMetricsRequestHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for the standard 'channels' request.
+//  Contains:   The class declaration for the request handler for the standard 'getMetrics' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMMetricsRequestHandler_H_))
-# define MpMMetricsRequestHandler_H_ /* Header guard */
+#if (! defined(MpMGetMetricsRequestHandler_H_))
+# define MpMGetMetricsRequestHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseRequestHandler.h>
 
@@ -47,7 +47,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  
- @brief The class declaration for the request handler for the standard 'metrics' request. */
+ @brief The class declaration for the request handler for the standard 'getMetrics' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -58,20 +58,20 @@ namespace MplusM
     {
         class BaseService;
         
-        /*! @brief The standard 'metrics' request handler.
+        /*! @brief The standard 'getMetrics' request handler.
          
          There is no input for the request and the output is a list of measurements for the channels
          of the service. */
-        class MetricsRequestHandler : public BaseRequestHandler
+        class GetMetricsRequestHandler : public BaseRequestHandler
         {
         public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            MetricsRequestHandler(BaseService & service);
+            GetMetricsRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
-            virtual ~MetricsRequestHandler(void);
+            virtual ~GetMetricsRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -97,7 +97,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(MetricsRequestHandler);
+            COPY_AND_ASSIGNMENT_(GetMetricsRequestHandler);
             
         public :
         
@@ -108,10 +108,10 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-        }; // MetricsRequestHandler
+        }; // GetMetricsRequestHandler
         
     } // Common
     
 } // MplusM
 
-#endif // ! defined(MpMMetricsRequestHandler_H_)
+#endif // ! defined(MpMGetMetricsRequestHandler_H_)

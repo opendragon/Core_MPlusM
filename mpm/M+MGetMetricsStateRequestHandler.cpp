@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MRestartStreamsRequestHandler.cpp
+//  File:       mpm/M+MGetMetricsStateRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for a 'restartStreams' request.
+//  Contains:   The class definition for the request handler for the standard 'getMetricsState'
+//              request.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,13 +33,13 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-06-23
+//  Created:    2014-11-25
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MRestartStreamsRequestHandler.h"
+#include "M+MGetMetricsStateRequestHandler.h"
 
-#include <mpm/M+MBaseInputOutputService.h>
+#include <mpm/M+MBaseService.h>
 #include <mpm/M+MRequests.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -50,7 +51,7 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The class definition for the request handler for a 'restartStreams' request. */
+ @brief The class definition for the request handler for the standard 'getMetricsState' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -62,8 +63,8 @@ using namespace MplusM::Common;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'restartStreams' request. */
-#define RESTARTSTREAMS_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'getMetricsState' request. */
+#define GETMETRICSSTATE_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -77,19 +78,19 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-RestartStreamsRequestHandler::RestartStreamsRequestHandler(BaseInputOutputService & service) :
-    inherited(MpM_RESTARTSTREAMS_REQUEST, service)
+GetMetricsStateRequestHandler::GetMetricsStateRequestHandler(BaseService & service) :
+    inherited(MpM_GETMETRICSSTATE_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
-} // RestartStreamsRequestHandler::RestartStreamsRequestHandler
+} // GetMetricsStateRequestHandler::GetMetricsStateRequestHandler
 
-RestartStreamsRequestHandler::~RestartStreamsRequestHandler(void)
+GetMetricsStateRequestHandler::~GetMetricsStateRequestHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // RestartStreamsRequestHandler::~RestartStreamsRequestHandler
+} // GetMetricsStateRequestHandler::~GetMetricsStateRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
@@ -99,7 +100,7 @@ RestartStreamsRequestHandler::~RestartStreamsRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void RestartStreamsRequestHandler::fillInAliases(StringVector & alternateNames)
+void GetMetricsStateRequestHandler::fillInAliases(StringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -109,13 +110,13 @@ void RestartStreamsRequestHandler::fillInAliases(StringVector & alternateNames)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
-} // RestartStreamsRequestHandler::fillInAliases
+} // GetMetricsStateRequestHandler::fillInAliases
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void RestartStreamsRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                                     yarp::os::Property &          info)
+void GetMetricsStateRequestHandler::fillInDescription(const yarp::os::ConstString & request,
+                                                      yarp::os::Property &          info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -123,11 +124,13 @@ void RestartStreamsRequestHandler::fillInDescription(const yarp::os::ConstString
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, RESTARTSTREAMS_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Restart the input/output streams\n"
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_INT);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, GETMETRICSSTATE_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the state of metrics collection for the "
+                 "service\n"
                  "Input: nothing\n"
-                 "Output: nothing");
-        yarp::os::Value   keywords;
+                 "Output: 0 if metrics are disabled and 1 if they are enabled");
+        yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
@@ -139,16 +142,16 @@ void RestartStreamsRequestHandler::fillInDescription(const yarp::os::ConstString
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // RestartStreamsRequestHandler::fillInDescription
+} // GetMetricsStateRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool RestartStreamsRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                                  const yarp::os::Bottle &      restOfInput,
-                                                  const yarp::os::ConstString & senderChannel,
-                                                  yarp::os::ConnectionWriter *  replyMechanism)
+bool GetMetricsStateRequestHandler::processRequest(const yarp::os::ConstString & request,
+                                                   const yarp::os::Bottle &      restOfInput,
+                                                   const yarp::os::ConstString & senderChannel,
+                                                   yarp::os::ConnectionWriter *  replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -163,11 +166,13 @@ bool RestartStreamsRequestHandler::processRequest(const yarp::os::ConstString & 
     
     try
     {
-        static_cast<BaseInputOutputService &>(_service).restartStreams();
         if (replyMechanism)
         {
             OD_LOG("(replyMechanism)"); //####
-            sendResponse(MpM_OK_RESPONSE, replyMechanism);
+            yarp::os::Bottle reply;
+            
+            reply.addInt(_service.metricsAreEnabled() ? 1 : 0);
+            sendResponse(reply, replyMechanism);
         }
     }
     catch (...)
@@ -177,7 +182,7 @@ bool RestartStreamsRequestHandler::processRequest(const yarp::os::ConstString & 
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RestartStreamsRequestHandler::processRequest
+} // GetMetricsStateRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
