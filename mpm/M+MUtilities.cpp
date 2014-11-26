@@ -1413,6 +1413,93 @@ bool Utilities::GetMetricsForService(const yarp::os::ConstString & serviceChanne
     return result;
 } // Utilities::GetMetricsForService
 
+bool Utilities::GetMetricsStateForService(const yarp::os::ConstString & serviceChannelName,
+                                          bool &                        metricsState,
+                                          const double                  timeToWait,
+                                          Common::CheckFunction         checker,
+                                          void *                        checkStuff)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
+    OD_LOG_P2("metrics = ", &metricsState, "checkStuff = ", checkStuff); //####
+    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    bool                  result = false;
+    yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "servicemetrics_/"
+                                                     DEFAULT_CHANNEL_ROOT));
+    ClientChannel *       newChannel = new ClientChannel;
+    
+    if (newChannel)
+    {
+        if (newChannel->openWithRetries(aName, timeToWait))
+        {
+            if (NetworkConnectWithRetries(aName, serviceChannelName, timeToWait, false, checker,
+                                          checkStuff))
+            {
+                yarp::os::Bottle parameters;
+                ServiceRequest   request(MpM_GETMETRICSSTATE_REQUEST, parameters);
+                ServiceResponse  response;
+                
+                if (request.send(*newChannel, &response))
+                {
+                    OD_LOG_S1s("response <- ", response.asString()); //####
+                    if (1 == response.count())
+                    {
+                        yarp::os::Value responseValue = response.element(0);
+                        
+                        if (responseValue.isInt())
+                        {
+                            metricsState = (0 != responseValue.asInt());
+                        }
+                        else
+                        {
+                            metricsState = false;
+                        }
+                        result = true;
+                    }
+                    else
+                    {
+                        result = false;
+                    }
+                }
+                else
+                {
+                    OD_LOG("! (request.send(*newChannel, &response))"); //####
+                }
+                if (result)
+                {
+                }
+#if defined(MpM_DoExplicitDisconnect)
+                if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait, checker,
+                                                   checkStuff))
+                {
+                    OD_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
+                           "timeToWait, checker, checkStuff))"); //####
+                }
+#endif // defined(MpM_DoExplicitDisconnect)
+            }
+            else
+            {
+                OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, " //####
+                       "false, checker, checkStuff))"); //####
+            }
+#if defined(MpM_DoExplicitClose)
+            newChannel->close();
+#endif // defined(MpM_DoExplicitClose)
+        }
+        else
+        {
+            OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))"); //####
+        }
+        delete newChannel;
+    }
+    else
+    {
+        OD_LOG("! (newChannel)"); //####
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // Utilities::GetMetricsStateForService
+
 bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & serviceChannelName,
                                                 ServiceDescriptor &           descriptor,
                                                 const double                  timeToWait,
@@ -2122,6 +2209,79 @@ void Utilities::RemoveStalePorts(const float timeout)
     }
     OD_LOG_EXIT(); //####
 } // Utilities::RemoveStalePorts
+
+bool Utilities::SetMetricsStateForService(const yarp::os::ConstString & serviceChannelName,
+                                          const bool                    newMetricsState,
+                                          const double                  timeToWait,
+                                          Common::CheckFunction         checker,
+                                          void *                        checkStuff)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
+    OD_LOG_B1("newMetricsState = ", newMetricsState); //####
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
+    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    bool                  result = false;
+    yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "servicemetrics_/"
+                                                     DEFAULT_CHANNEL_ROOT));
+    ClientChannel *       newChannel = new ClientChannel;
+    
+    if (newChannel)
+    {
+        if (newChannel->openWithRetries(aName, timeToWait))
+        {
+            if (NetworkConnectWithRetries(aName, serviceChannelName, timeToWait, false, checker,
+                                          checkStuff))
+            {
+                yarp::os::Bottle parameters;
+                
+                parameters.addInt(newMetricsState ? 1 : 0);
+                ServiceRequest  request(MpM_SETMETRICSSTATE_REQUEST, parameters);
+                ServiceResponse response;
+                
+                if (request.send(*newChannel, &response))
+                {
+                    OD_LOG_S1s("response <- ", response.asString()); //####
+                    result = true;
+                }
+                else
+                {
+                    OD_LOG("! (request.send(*newChannel, &response))"); //####
+                }
+                if (result)
+                {
+                }
+#if defined(MpM_DoExplicitDisconnect)
+                if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait, checker,
+                                                   checkStuff))
+                {
+                    OD_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
+                           "timeToWait, checker, checkStuff))"); //####
+                }
+#endif // defined(MpM_DoExplicitDisconnect)
+            }
+            else
+            {
+                OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, " //####
+                       "false, checker, checkStuff))"); //####
+            }
+#if defined(MpM_DoExplicitClose)
+            newChannel->close();
+#endif // defined(MpM_DoExplicitClose)
+        }
+        else
+        {
+            OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))"); //####
+        }
+        delete newChannel;
+    }
+    else
+    {
+        OD_LOG("! (newChannel)"); //####
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // Utilities::SetMetricsStateForService
 
 void Utilities::SetUpGlobalStatusReporter(void)
 {

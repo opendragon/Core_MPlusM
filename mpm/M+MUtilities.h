@@ -279,6 +279,19 @@ namespace MplusM
                                   Common::CheckFunction         checker = NULL,
                                   void *                        checkStuff = NULL);
         
+        /*! @brief Retrieve the state of the channel metrics for a service.
+         @param serviceChannelName The channel for the service.
+         @param metricsState The state of metrics collection for the channels of a service.
+         @param timeToWait The number of seconds allowed before a failure is considered.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
+         @returns @c true if the service returned the desired information and @c false otherwise. */
+        bool GetMetricsStateForService(const yarp::os::ConstString & serviceChannelName,
+                                       bool &                        metricsState,
+                                       const double                  timeToWait,
+                                       Common::CheckFunction         checker = NULL,
+                                       void *                        checkStuff = NULL);
+        
         /*! @brief Retrieve the details for a service.
          @param serviceChannelName The channel for the service.
          @param descriptor The details for a service.
@@ -380,6 +393,20 @@ namespace MplusM
         /*! @brief Remove any ports that YARP considers to be stale.
          @param timeout The number of seconds to allow YARP to check a port. */
         void RemoveStalePorts(const float timeout = 5);
+        
+        /*! @brief Set the state of the channel metrics for a service.
+         @param serviceChannelName The channel for the service.
+         @param newMetricsState The desired state of metrics collection for the channels of a
+         service.
+         @param timeToWait The number of seconds allowed before a failure is considered.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
+         @returns @c true if the service returned the desired information and @c false otherwise. */
+        bool SetMetricsStateForService(const yarp::os::ConstString & serviceChannelName,
+                                       const bool                    newMetricsState,
+                                       const double                  timeToWait,
+                                       Common::CheckFunction         checker = NULL,
+                                       void *                        checkStuff = NULL);
         
         /*! @brief Set up the global status reporter. */
         void SetUpGlobalStatusReporter(void);
