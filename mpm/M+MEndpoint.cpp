@@ -185,7 +185,7 @@ bool Endpoint::CheckEndpointName(const yarp::os::ConstString & channelName)
 
 Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
                    const yarp::os::ConstString & portNumber) :
-    _channel(NULL), _contact(), _handler(NULL), _handlerCreator(NULL), _metricsEnabled(true),
+    _channel(NULL), _contact(), _handler(NULL), _handlerCreator(NULL), _metricsEnabled(false),
     _isOpen(false)
 {
     OD_LOG_ENTER(); //####
@@ -309,7 +309,7 @@ void Endpoint::enableMetrics(void)
     }
     _metricsEnabled = true;
     OD_LOG_OBJEXIT(); //####
-} // Endpoint::disableMetrics
+} // Endpoint::enableMetrics
 
 yarp::os::ConstString Endpoint::getName(void)
 const

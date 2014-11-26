@@ -151,6 +151,7 @@ int main(int      argc,
             }
             if (stuff)
             {
+                stuff->enableMetrics();
                 if (stuff->start())
                 {
                     // Note that the Registry Service is self-registering... so we don't need to

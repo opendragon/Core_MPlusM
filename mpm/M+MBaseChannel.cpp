@@ -135,7 +135,7 @@ void BaseChannel::RelinquishChannel(BaseChannel * theChannel)
 #endif // defined(__APPLE__)
 
 BaseChannel::BaseChannel(void) :
-    inherited(), _name(), _counters(), _metricsEnabled(true)
+    inherited(), _name(), _counters(), _metricsEnabled(false)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
@@ -184,7 +184,7 @@ void BaseChannel::disableMetrics(void)
     OD_LOG_OBJENTER(); //####
     _metricsEnabled = false;
     OD_LOG_OBJEXIT(); //####
-} // BaseChannel::enableMetrics
+} // BaseChannel::disableMetrics
 
 void BaseChannel::enableMetrics(void)
 {

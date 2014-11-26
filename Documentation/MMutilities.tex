@@ -239,34 +239,34 @@ of, if tab--delimited output is requested, with tabs shown as
 If no criteria is provided on the command--line, and default formatting is used, with
 user input shown in bold, an example execution of the program could be:
 \outputBegin{}
-Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
+Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag!blurt}\\
 /\dollarService, /\serviceName/filter/truncatefloat, /blort\\
-Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
+Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag:blurt}\\
 /\serviceName/input/randomburst/blurt\\
-Operation:\ \openSq{}f q\closeSq{}?\ \textbf{q}
+Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{q}
 \outputEnd{}
 or, it JSON--formatted output is requested:
 \outputBegin{}
-Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
+Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag!blurt}\\
 \openSq{} "/\dollarService", "/\serviceName/filter/truncatefloat", "/blort" \closeSq{}\\
-Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
+Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag:blurt}\\
 \openSq{} "/\serviceName/input/randomburst/blurt" \closeSq{}\\
-Operation:\ \openSq{}f q\closeSq{}?\ \textbf{q}
+Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{q}
 \outputEnd{}
 or, if tab--delimited output is requested, with tabs shown as
 `\texttt{\boldmath{$\vdash$}}':
 \outputBegin{}
-Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
+Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag!blurt}\\
 /\dollarService\pseudotab/\serviceName/filter/truncatefloat\pseudotab/blort\\
-Operation:\ \openSq{}f q\closeSq{}?\ \textbf{f}\\
+Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag:blurt}\\
 /\serviceName/input/randomburst/blurt\\
-Operation:\ \openSq{}f q\closeSq{}?\ \textbf{q}
+Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{q}
 \outputEnd{}
 \tertiaryEnd{\utilityNameE{mpmFindServices}}
 \newpage
@@ -806,11 +806,11 @@ Entering a zero value will exit the program.
 An example execution of the program, with the \utilityNameR{mpmRequestCounterService}
 application running in the background and user input shown in bold, could be:
 \outputBegin{}
-How many requests? \textbf{10000}\\
+How many requests?\ \textbf{10000}\\
 count = 10000, elapsed time = 2.2 seconds, average time = 0.22 milliseconds.\\
-How many requests? \textbf{300000}\\
+How many requests?\ \textbf{300000}\\
 count = 300000, elapsed time = 1.20052 minutes, average time = 0.240104 milliseconds.\\
-How many requests? \textbf{0}
+How many requests?\ \textbf{0}
 \outputEnd{}
 \tertiaryEnd{\utilityNameE{mpmRequestCounterClient}}
 \secondaryEnd{}

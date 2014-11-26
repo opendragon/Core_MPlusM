@@ -73,7 +73,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 BaseInputHandler::BaseInputHandler(void) :
-    inherited(), _channel(NULL), _canProcessInput(true), _metricsEnabled(true)
+    inherited(), _channel(NULL), _canProcessInput(true), _metricsEnabled(false)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
@@ -95,7 +95,7 @@ void BaseInputHandler::disableMetrics(void)
     OD_LOG_OBJENTER(); //####
     _metricsEnabled = false;
     OD_LOG_OBJEXIT(); //####
-} // BaseInputHandler::enableMetrics
+} // BaseInputHandler::disableMetrics
 
 void BaseInputHandler::enableMetrics(void)
 {

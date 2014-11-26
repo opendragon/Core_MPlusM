@@ -74,6 +74,7 @@ option(MpM_DoExplicitDisconnect "Perform an explicit disconnect prior to closing
 option(MpM_DontUseTimeouts "Allow operations to take arbitrary lengths of time")
 option(MpM_LogIncludesYarpTrace "Include YARP trace when logging")
 option(MpM_MainDoesDelayNotYield "Use Delay() in main() loop")
+option(MpM_MetricsInitiallyOn "Collect channel measurement data by default")
 option(MpM_ReportContactDetails
         "Report details of the contacts during operations that might change them")
 option(MpM_ReportOnConnections "Report on connections")

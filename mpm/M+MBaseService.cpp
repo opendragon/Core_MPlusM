@@ -80,6 +80,12 @@ using namespace MplusM::Common;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+#if defined(MpM_MetricsInitiallyOn)
+# define MEASUREMENTS_ON true
+#else // ! defined(MpM_MetricsInitiallyOn)
+# define MEASUREMENTS_ON false
+#endif // ! defined(MpM_MetricsInitiallyOn)
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -106,8 +112,8 @@ BaseService::BaseService(const ServiceKind             theKind,
     _auxCounters(), _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL),
     _getMetricsHandler(NULL), _getMetricsStateHandler(NULL), _infoHandler(NULL), _listHandler(NULL),
     _nameHandler(NULL), _setMetricsStateHandler(NULL), _endpoint(NULL), _handler(NULL),
-    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(true), _started(false),
-    _useMultipleHandlers(useMultipleHandlers)
+    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON),
+    _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
@@ -154,7 +160,7 @@ BaseService::BaseService(const ServiceKind             theKind,
     _clientsHandler(NULL), _detachHandler(NULL), _getMetricsHandler(NULL),
     _getMetricsStateHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
     _setMetricsStateHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
-    _pinger(NULL), _kind(theKind), _metricsEnabled(true), _started(false),
+    _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON), _started(false),
     _useMultipleHandlers(useMultipleHandlers)
 {
 #if (! defined(OD_ENABLE_LOGGING))
@@ -403,7 +409,7 @@ void BaseService::enableMetrics(void)
         _endpoint->enableMetrics();
     }
     OD_LOG_OBJEXIT(); //####
-} // BaseService::disableMetrics
+} // BaseService::enableMetrics
 
 void BaseService::fillInClientList(StringVector & clients)
 {
