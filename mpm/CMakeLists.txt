@@ -39,6 +39,7 @@
 include_directories("${MpM_SOURCE_DIR}")
 
 set(THIS_TARGET mpmCommon)
+set(OTHER_TARGET mpmCommon_swig)
 
 if(APPLE)
     set(DO_SHARED "SHARED")
@@ -185,67 +186,63 @@ endif(APPLE)
 if(APPLE AND MpM_DO_SWIG)
     include_directories("${MpM_SOURCE_DIR}/mpm")
     set(CMAKE_SWIG_OUTDIR "${MpM_SOURCE_DIR}/mpm/swig_mpm_out")
-    foreach(aFile
-            AdapterChannel
-            BailOut
-            BailOutThread
-            BaseAdapterData
-            BaseChannel
-            BaseClient
-            BaseContext
-            BaseFilterService
-            BaseInputHandler
-            BaseInputHandlerCreator
-            BaseInputOutputService
-            BaseInputService
-            BaseMatcher
-            BaseNameValidator
-            BaseOutputService
-            BaseRequestHandler
-            BaseService
-            ChannelStatusReporter
-            ClientChannel
-            Common
-            Endpoint
-            Exception
-            GeneralChannel
-            MatchConstraint
-            MatchExpression
-            MatchFieldName
-            MatchFieldWithValues
-            MatchValue
-            MatchValueList
-            RequestMap
-            SendReceiveCounters
-            ServiceChannel
-            ServiceInputHandler
-            ServiceInputHandlerCreator
-            ServiceRequest
-            ServiceResponse
-            Utilities)
-        set_source_files_properties("${MpM_SOURCE_DIR}/mpm/swig_mpm_in/M+M${aFile}.i" PROPERTIES CPLUSPLUS ON)
-        set_source_files_properties("${MpM_SOURCE_DIR}/mpm/swig_mpm_in/M+M${aFile}.i" PROPERTIES SWIG_FLAGS
-                                    "-includeall")
+    set_source_files_properties(swig_mpm_in/mpmCommon.i PROPERTIES CPLUSPLUS ON)
+    set_source_files_properties(swig_mpm_in/mpmCommon.i PROPERTIES SWIG_FLAGS "-includeall")
 
-        swig_add_module("mpm${aFile}_swig" csharp "${MpM_SOURCE_DIR}/mpm/swig_mpm_in/M+M${aFile}.i"
-                        "${MpM_SOURCE_DIR}/mpm/M+M${aFile}.h"
-                        "${MpM_SOURCE_DIR}/mpm/M+M${aFile}.cpp")
-        swig_link_libraries("mpm${aFile}_swig"
-                            ${THIS_TARGET}
-                            odLogging
-                            ${YARP_LIBRARIES}
-                            ${ACE_LIBRARIES})
+    swig_add_module(${OTHER_TARGET} csharp swig_mpm_in/mpmCommon.i
+                    M+MAdapterChannel.h M+MAdapterChannel.cpp
+                    M+MBailOut.h M+MBailOut.cpp
+                    M+MBailOutThread.h M+MBailOutThread.cpp
+                    M+MBaseAdapterData.h M+MBaseAdapterData.cpp
+                    M+MBaseChannel.h M+MBaseChannel.cpp
+                    M+MBaseClient.h M+MBaseClient.cpp
+                    M+MBaseContext.h M+MBaseContext.cpp
+                    M+MBaseFilterService.h M+MBaseFilterService.cpp
+                    M+MBaseInputHandler.h M+MBaseInputHandler.cpp
+                    M+MBaseInputHandlerCreator.h M+MBaseInputHandlerCreator.cpp
+                    M+MBaseInputOutputService.h M+MBaseInputOutputService.cpp
+                    M+MBaseInputService.h M+MBaseInputService.cpp
+                    M+MBaseMatcher.h M+MBaseMatcher.cpp
+                    M+MBaseNameValidator.h M+MBaseNameValidator.cpp
+                    M+MBaseOutputService.h M+MBaseOutputService.cpp
+                    M+MBaseRequestHandler.h M+MBaseRequestHandler.cpp
+                    M+MBaseService.h M+MBaseService.cpp
+                    M+MChannelStatusReporter.h M+MChannelStatusReporter.cpp
+                    M+MClientChannel.h M+MClientChannel.cpp
+                    M+MCommon.h M+MCommon.cpp
+                    M+MEndpoint.h M+MEndpoint.cpp
+                    M+MException.h M+MException.cpp
+                    M+MGeneralChannel.h M+MGeneralChannel.cpp
+                    M+MMatchConstraint.h M+MMatchConstraint.cpp
+                    M+MMatchExpression.h M+MMatchExpression.cpp
+                    M+MMatchFieldName.h M+MMatchFieldName.cpp
+                    M+MMatchFieldWithValues.h M+MMatchFieldWithValues.cpp
+                    M+MMatchValue.h M+MMatchValue.cpp
+                    M+MMatchValueList.h M+MMatchValueList.cpp
+                    M+MRequestMap.h M+MRequestMap.cpp
+                    M+MSendReceiveCounters.h M+MSendReceiveCounters.cpp
+                    M+MServiceChannel.h M+MServiceChannel.cpp
+                    M+MServiceInputHandler.h M+MServiceInputHandler.cpp
+                    M+MServiceInputHandlerCreator.h M+MServiceInputHandlerCreator.cpp
+                    M+MServiceRequest.h M+MServiceRequest.cpp
+                    M+MServiceResponse.h M+MServiceResponse.cpp
+                    M+MUtilities.h M+MUtilities.cpp)
 
-        install(TARGETS "mpm${aFile}_swig"
-                DESTINATION lib
-                COMPONENT libraries)
+    swig_link_libraries(${OTHER_TARGET}
+                        ${THIS_TARGET}
+                        odLogging
+                        ${YARP_LIBRARIES}
+                        ${ACE_LIBRARIES})
 
-        install(FILES
-                "${MpM_SOURCE_DIR}/mpm/swig_mpm_out/mpm${aFile}.cs"
-                "${MpM_SOURCE_DIR}/mpm/swig_mpm_out/mpm${aFile}PINVOKE.cs"
-                DESTINATION csharp/mpm
-                COMPONENT headers)
-    endforeach(aFile)
+    install(TARGETS ${OTHER_TARGET}
+            DESTINATION lib
+            COMPONENT libraries)
+
+    install(FILES
+            swig_mpm_out/mpm.cs
+            swig_mpm_out/mpmPINVOKE.cs
+            DESTINATION csharp/mpm
+            COMPONENT headers)
 endif(APPLE AND MpM_DO_SWIG)
 
 enable_testing()

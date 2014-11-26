@@ -86,5 +86,4 @@ if(APPLE AND MpM_DO_SWIG)
             swig_odl_out/ODLoggingPINVOKE.cs
             DESTINATION csharp/odl
             COMPONENT headers)
-
 endif(APPLE AND MpM_DO_SWIG)
