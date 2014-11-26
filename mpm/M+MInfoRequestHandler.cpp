@@ -99,7 +99,6 @@ void InfoRequestHandler::fillInAliases(StringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
-    alternateNames.push_back("i");
     OD_LOG_OBJEXIT(); //####
 } // InfoRequestHandler::fillInAliases
 

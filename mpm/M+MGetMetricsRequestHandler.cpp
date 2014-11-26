@@ -108,7 +108,6 @@ void GetMetricsRequestHandler::fillInAliases(StringVector & alternateNames)
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
-    alternateNames.push_back("g");
     OD_LOG_OBJEXIT(); //####
 } // GetMetricsRequestHandler::fillInAliases
 #if (! MAC_OR_LINUX_)

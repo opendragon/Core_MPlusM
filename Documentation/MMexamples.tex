@@ -59,6 +59,7 @@ the default endpoint is being used.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
+\item \textbf{?:} display a list of the available commands.
 \item \textbf{b:} start the input stream. 
 \item \textbf{c:} configure the service; this has no effect, as the service has no
 configurable parameters. 
@@ -67,7 +68,6 @@ configurable parameters.
 \item \textbf{r:} restart the input stream.
 \item \textbf{u:} reset the configuration so that it will be reprocessed when the input
 stream is restarted. 
-\item \textbf{?:} display a list of the available commands.
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmAbsorberService}}
 \tertiaryStart{\examplesNameP{Services}{mpmEchoService}}
@@ -144,6 +144,7 @@ running from a terminal.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
+\item \textbf{?:} display a list of the available commands.
 \item \textbf{b:} start the output stream, sending bursts of data of the specified size
 and period. 
 \item \textbf{c:} configure the service by providing the burst size and period. 
@@ -152,7 +153,6 @@ and period.
 \item \textbf{r:} restart the output stream. 
 \item \textbf{u:} reset the configuration so that it will be reprocessed when the output
 stream is restarted. 
-\item \textbf{?:} display a list of the available commands.
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomBurstService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRandomNumberService}}
@@ -229,6 +229,7 @@ running from a terminal.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
+\item \textbf{?:} display a list of the available commands.
 \item \textbf{b:} start the input stream, using the specified output file path to record
 the input data. 
 \item \textbf{c:} configure the service by providing the output file path to be used. 
@@ -238,7 +239,6 @@ the input data.
 closed and a new output file to be opened.
 \item \textbf{u:} reset the configuration so that it will be reprocessed when the input
 stream is restarted. 
-\item \textbf{?:} display a list of the available commands.
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRunningSumService}}
@@ -323,6 +323,7 @@ specified and the default endpoint is being used.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
+\item \textbf{?:} display a list of the available commands.
 \item \textbf{b:} start the input and output streams. 
 \item \textbf{c:} configure the service; this has no effect, as the service has no
 configurable parameters. 
@@ -331,7 +332,6 @@ configurable parameters.
 \item \textbf{r:} restart the input and output streams.
 \item \textbf{u:} reset the configuration so that it will be reprocessed when the input
 and output streams are restarted. 
-\item \textbf{?:} display a list of the available commands.
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmTruncateFloatService}}
 \secondaryEnd{}
@@ -367,6 +367,7 @@ terminal and sends corresponding requests to the
 
 The commands are:
 \begin{itemize}
+\item \textbf{?:} display a list of the available commands.
 \item \textbf{+:} read a number from the terminal and send it to the service via an
 \requestsNameR{Examples}{Examples}{addtosum} request, to update the running sum for this
 client.
@@ -377,7 +378,6 @@ application.
 service so that it will reset the running sum for this client.
 \item \textbf{s:} send a \requestsNameR{Examples}{Examples}{startsum} request to the
 service so that it will start calculating the running sum for this client.
-\item \textbf{?:} display a list of the available commands.
 \end{itemize}
 Note that the application will also exit if the
 \serviceNameR[Registry~Service]{RegistryService} or the

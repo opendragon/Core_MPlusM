@@ -217,9 +217,9 @@ If neither format is specified, the output is written as simple text.\\
 If no criteria is provided on the command--line, the program enters a loop, asking for an
 operation to do:
 \begin{itemize}
+\item \textbf{?:} display a list of the available commands.
 \item \textbf{f:} request the matching criteria and process it.
 \item \textbf{q:} quit the application. 
-\item \textbf{?:} display a list of the available commands.
 \end{itemize}
 An example execution of the program, with the command--line option
 \asCode{-c 'tag!blurt'} provided, would have the following output if default formatting is
@@ -362,6 +362,66 @@ Ports:\\
 \outputEnd{}
 and the tab--delimited output would be empty.
 \tertiaryEnd{\utilityNameE{mpmPortLister}}
+\tertiaryStart{\utilityNameP{mpmRecordAsJSONService}}
+The \utilityNameX{mpmRecordIntegersService} application is an Output
+service, recording a stream of \yarp{} values to an external file.
+The application responds to the standard Output service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
+
+The \requestsNameR{\inputOutput{}}{InputOutput}{configure} request has a single argument,
+the file--system path to use for the output file.
+The path will be used when the input stream is started or restarted.\\
+
+The \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request stops and then
+starts the input stream.\\
+
+The \requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request opens a file to be
+used for output, using the configured output file path.\\
+
+The \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request closes the output
+file that is being used.\\
+
+Note that the application will exit if the
+\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+
+The application has two optional arguments -- an alternative endpoint name to be used and
+the port number to be used, if a non--default port is desired.\\
+
+The application also has three optional parameters:
+\begin{itemize}
+\item \textbf{-p:} specifies the output file path to be used
+\item \textbf{-r:} report the service metrics when the application exits
+\item \textbf{-t:} specifies the tag to be used as part of the service name
+\end{itemize}
+The tag is added to the standard name of the service, so that more than one copy of the
+service can execute -- an \mplusm{} installation can support multiple copies of each
+\inputOutput{} service, but the \utilityNameR[Channel~Manager]{ChannelManager}
+application cannot display them without a distinguishing `tag'.
+If the tag is not specified, the standard name of the service will be used.
+As well as the service name, the input stream name is modified if a tag is specified and
+the default endpoint is being used.\\
+
+The output file path parameter provides the initial output file path; if not specified, a
+random path in the temporary directory will be used.
+For Microsoft Windows, the temporary directory being used is ``\textbackslash{}tmp''
+while, for Macintosh OS X, it will be ``/tmp''.
+Note that the output file path can also be set via commands, if the application is
+running from a terminal.\\
+
+If the application is running from a terminal, the following commands are available:
+\begin{itemize}
+\item \textbf{?:} display a list of the available commands.
+\item \textbf{b:} start the input stream, using the specified output file path to record
+the input data. 
+\item \textbf{c:} configure the service by providing the output file path to be used. 
+\item \textbf{e:} stop the input stream, which will close the output file. 
+\item \textbf{q:} quit the application. 
+\item \textbf{r:} restart the input stream, which will cause the current output file to be
+closed and a new output file to be opened.
+\item \textbf{u:} reset the configuration so that it will be reprocessed when the input
+stream is restarted. 
+\end{itemize}
+\tertiaryEnd{\utilityNameE{mpmRecordAsJSONService}}
 \tertiaryStart{\utilityNameP{mpmRequestInfo}}
 The program \utilityNameX{mpmRequestInfo} displays information on requests for one or more
 active services in the \mplusm{} installation.
@@ -444,6 +504,7 @@ Note that, if no matching request is found, the JSON--formatted output would be:
 \outputBegin{}
 \sqPair
 \outputEnd{}
+\newpage
 while the default output would be:
 \outputBegin{}
 No matching request found.
