@@ -394,6 +394,7 @@ void BaseService::detachRequestHandlers(void)
 void BaseService::disableMetrics(void)
 {
     OD_LOG_OBJENTER(); //####
+    _metricsEnabled = false;
     if (_endpoint)
     {
         _endpoint->disableMetrics();
@@ -408,6 +409,7 @@ void BaseService::enableMetrics(void)
     {
         _endpoint->enableMetrics();
     }
+    _metricsEnabled = true;
     OD_LOG_OBJEXIT(); //####
 } // BaseService::enableMetrics
 

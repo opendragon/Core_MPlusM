@@ -179,6 +179,12 @@ namespace MplusM
             /*! @brief Check for expired services. */
             void checkServiceTimes(void);
             
+            /*! @brief Turn off the send / receive metrics collecting. */
+            virtual void disableMetrics(void);
+            
+            /*! @brief Turn on the send / receive metrics collecting. */
+            virtual void enableMetrics(void);
+            
             /*! @brief Fill in the list of associated input channels and output channesls for a
              channel.
              @param channelName The channel to be checked.

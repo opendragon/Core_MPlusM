@@ -2300,6 +2300,28 @@ void RegistryService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::detachRequestHandlers
 
+void RegistryService::disableMetrics(void)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_statusChannel)
+    {
+        _statusChannel->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RegistryService::disableMetrics
+
+void RegistryService::enableMetrics(void)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_statusChannel)
+    {
+        _statusChannel->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RegistryService::enableMetrics
+
 bool RegistryService::fillInAssociates(const yarp::os::ConstString & channelName,
                                        bool &                        isPrimary,
                                        StringVector &                inputs,
@@ -3055,6 +3077,14 @@ bool RegistryService::setUpStatusChannel(void)
             _statusChannel->setReporter(reporter);
             _statusChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
+            if (metricsAreEnabled())
+            {
+                _statusChannel->enableMetrics();
+            }
+            else
+            {
+                _statusChannel->disableMetrics();
+            }
             if (_statusChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
             {
                 _statusChannel->setProtocol("s+", "One or more strings");
