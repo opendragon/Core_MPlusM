@@ -56,7 +56,7 @@
  
  @brief The main application for the record integers output service. */
 
-/*! @dir RecordAsJSONService
+/*! @dir RecordAsJSON
  @brief The set of files that implement the record integers output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
