@@ -108,7 +108,8 @@ add_library(${THIS_TARGET}
 target_link_libraries(${THIS_TARGET}
                         odLogging
                         ${YARP_LIBRARIES}
-                        ${ACE_LIBRARIES})
+                        ${ACE_LIBRARIES}
+						${BONJOUR_LIB})
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -183,7 +184,7 @@ else(APPLE)
             DESTINATION include/mpm)
 endif(APPLE)
 
-if(APPLE AND MpM_DO_SWIG)
+if(MpM_DO_SWIG)
     include_directories("${MpM_SOURCE_DIR}/mpm")
     set(CMAKE_SWIG_OUTDIR "${MpM_SOURCE_DIR}/mpm/swig_mpm_out")
     set_source_files_properties(swig_mpm_in/mpmCommon.i PROPERTIES CPLUSPLUS ON)
@@ -243,7 +244,7 @@ if(APPLE AND MpM_DO_SWIG)
             swig_mpm_out/mpmPINVOKE.cs
             DESTINATION csharp/mpm
             COMPONENT headers)
-endif(APPLE AND MpM_DO_SWIG)
+endif(MpM_DO_SWIG)
 
 enable_testing()
 
