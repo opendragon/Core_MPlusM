@@ -90,17 +90,21 @@
 
 \newcommand*{\compLang}[1]{\emphcorr{#1}}
 
-\newcommand{\objCaption}[1]{\caption{#1\ }}
-% Create a framed box as a figure, centred horizontally (note that we can't use \textttt{}, as the third argument
-% could be quite large):
-\newcommand{\objFileDescription}[4][0.75]{\begin{figure}[!ht]%
-\setlength{\fboxsep}{3pt}\setlength{\fboxrule}{0.75bp}%
-\begin{center}\fbox{\begin{minipage}[t]{#1\textwidth}\begin{flushleft}\footnotesize\ttfamily #4\end{flushleft}%
-\end{minipage}}\objCaption{#2}\label{file:#3}\end{center}\end{figure}}
+%\newcommand{\objCaption}[1]{\caption{#1\ }}
+% Create a framed box as a figure, centred horizontally (note that we can't use
+% \textttt{}, as the third argument could be quite large):
+%\newcommand{\objFileDescription}[4][0.75]{\begin{figure}[!ht]%
+%\setlength{\fboxsep}{3pt}\setlength{\fboxrule}{0.75bp}%
+%\centering\parbox[t]{#1\textwidth}{\begin{flushleft}\footnotesize\ttfamily #4%
+%\end{flushleft}}\caption{#2\ }\label{file:#3}\end{figure}}
 
 \newcommand*{\objPicture}[1]{\begin{center}\includegraphics{#1}\end{center}}
-\newcommand*{\objScaledPicture}[2]{\begin{center}\includegraphics[scale=#2]{#1}\end{center}}
-\newcommand*{\objDiagram}[3]{\begin{figure}[!ht]\objPicture{#1}\objCaption{#3}\label{diagram:#2}\end{figure}}
+\newcommand*{\objScaledPicture}[2]{\begin{center}\includegraphics[scale=#2]{#1}%
+\end{center}}
+\newcommand*{\objDiagram}[3]{\begin{figure}[!ht]\centering\includegraphics{#1}%
+\caption{#3\ }\label{diagram:#2}\end{figure}}
+\newcommand*{\objScaledDiagram}[4]{\begin{figure}[!ht]\centering%
+\includegraphics[scale=#4]{#1}\caption{#3\ }\label{diagram:#2}\end{figure}}
 
 % First argument: index category
 % Second argument: index subcategory
@@ -266,7 +270,8 @@
   
 % Use \entityReference, rather than \entityName, for the first mention of an object within
 % another object, so that page ranges will be present.
-\newcommand{\entityReference}[2]{\entityNameR{#1}{\default{}}{\default{}}{#2}{\default{}}\doVpage{#1}{#2}}%  command if generatingHyperPDF
+\newcommand{\entityReference}[2]{\entityNameR{#1}{\default{}}{\default{}}{#2}{\default{}}%
+\doVpage{#1}{#2}}%  command if generatingHyperPDF
 
 \ifthenelse{\boolean{generatingHyperPDF}}%
   {\newcommand{\companyReference}[2]{\href{#1}{#2}}}%  command if generatingHyperPDF

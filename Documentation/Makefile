@@ -14,15 +14,28 @@ VDSpsfiles =
 
 # Input image files
 
-IMimagefiles = Installer01.eps Installer02.eps Installer03.eps Installer04.eps \
-	Installer05.eps Installer05a.eps Installer06.eps Installer06a.eps Installer06b.eps \
-	Installer07.eps Installer08.eps RunningChannelManager.eps
+IMimagefiles = images/Installer01.eps images/Installer02.eps images/Installer03.eps \
+	images/Installer04.eps images/Installer05.eps images/Installer05a.eps \
+	images/Installer06.eps images/Installer06a.eps images/Installer06b.eps \
+	images/Installer07.eps images/Installer08.eps images/RunningChannelManager.eps \
+	images/win_install01.eps images/win_install02.eps images/win_install03.eps \
+	images/win_install04.eps images/win_install05.eps images/win_install06.eps \
+	images/win_install07.eps images/win_install08.eps images/win_install09.eps \
+	images/win_install10.eps images/win_install11.eps images/win_run01.eps
 
 KV2imagefiles =
 
 LMimagefiles =
 
-MMimagefiles = ChannelManager.eps
+MMimagefiles = images/afterAdd.eps images/backgroundMenu.eps images/beforeAdd.eps \
+	images/beforeRemove.eps images/ChannelManager.eps images/dragAdd2.eps \
+	images/entityMenu.eps images/portMenu.eps \
+	images/regularChannelMenuMetricsDisabled.eps \
+	images/regularChannelMenuMetricsEnabled.eps \
+	images/serviceChannelMenuMetricsDisabled.eps \
+	images/serviceChannelMenuMetricsEnabled.eps \
+	images/serviceMenuMetricsDisabled.eps \
+	images/serviceMenuMetricsEnabled.eps
 
 VDSimagefiles =
 

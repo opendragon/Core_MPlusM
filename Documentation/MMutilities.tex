@@ -10,6 +10,8 @@ Currently there is one GUI--based tool, \utilityNameR[Channel~Manager]{ChannelMa
 which provides a view of the state of connections within an \mplusm{} installation, as
 well as managing non--\mplusm{} \yarp{} network connections.
 \tertiaryStart{\utilityNameP[Channel~Manager]{ChannelManager}}
+\objDiagram{MMcmDiagram.ps}{cmDiagram}{Channel~Manager structure}
+
 The \utilityNameX[Channel~Manager]{ChannelManager} application displays a single window
 view of the connections within a \yarp{} network, with features designed to make
 management of an \mplusm{} installation easier.
@@ -60,7 +62,14 @@ somewhere other than a port.
 Note that it is not possible to add a connection from an input--only port, from a client
 port to a non--service port, or from an output--only port of an \inputOutput{} service to
 an input--only port of another \inputOutput{} service if the ports do not have matching
-protocols.\\
+protocols.
+\objScaledDiagram{images/beforeAdd.eps}{beforeAdd}{Before adding a connection}{0.8}
+
+\objScaledDiagram{images/clickAdd.eps}{clickAdd}{Clicking to add a connection}{0.8}
+
+\objScaledDiagram{images/afterAdd.eps}{afterAdd}{After adding a connection}{0.8}
+\clearpage
+\objScaledDiagram{images/dragAdd2.eps}{dragAdd}{Adding a connection via drag}{0.8}
 
 To remove a connection between two ports, click on the source port with the `Command' key
 held down and then click on the destination port.
@@ -68,12 +77,13 @@ While a `remove' operation is active, the source port will be overlaid with a sm
 hollow yellow circle.
 To clear a pending `remove' operation, either click on the source port a second time or
 click on a port that is not connected to the source port or somewhere other than a port.
-Note that is is not possible to remove a connection from a client to a service.\\
+Note that is is not possible to remove a connection from a client to a service.
+\objScaledDiagram{images/beforeRemove.eps}{beforeRemove}{Removing a connection}{0.8}
 
 Clicking on a rectangular object with no modifier key held down allows the user to drag
 the object around in the window.
-Note that connections cannot be selected by clicking on them.\\
-
+Note that connections cannot be selected by clicking on the line that represents them.
+\clearpage
 Doing a right--mouse click in the background, displays a popup menu with three choices:
 \begin{itemize}
 \item \textbf{Repaint} force a repaint, in case there's a `glitch' of the display; this
@@ -83,55 +93,96 @@ can also be triggered via a \textbf{Cmd--R} command
 \item \textbf{White background} switch between a black~/~white background and a gradient;
 this can also be triggered via a \textbf{Cmd--B} command
 \end{itemize}
-
-Doing a right--mouse click on the title of a rectangle representing a service, displays a
-popup menu with three choices:
-\begin{itemize}
-\item \textbf{Display service information} display information about the service
-\item \textbf{Display detailed service information} display information about the service,
-including the (non--default) requests for the service
-\item \textbf{Display service metrics} display information about the activity on each port
-of the service -- the number of bytes and number of messages sent to and from the port;
-the category `auxiliary' represents the anonymous ports used by the service during its
-operation
-\end{itemize}
-
+\objScaledDiagram{images/backgroundMenu.eps}{backgroundMenu}{Background menu}{0.5}
 Doing a right--mouse click on the title of a rectangle that does not represent a service,
 displays a popup menu with two choices:
 \begin{itemize}
 \item \textbf{Display entity information} display information about the entity
 \item \textbf{Display detailed entity information} display information about the entity
 \end{itemize}
-
-Doing a right--mouse click on the primary channel of a service displays a popup menu with
-three choices:
+\objScaledDiagram{images/entityMenu.eps}{entityMenu}{Entity menu}{0.5}
+\clearpage
+Doing a right--mouse click on the title of a rectangle representing a service, displays a
+popup menu with four choices, which depend on whether the `Display service metrics' menu
+item is enabled:
 \begin{itemize}
-\item \textbf{Display channel information} display information about the channel
-\item \textbf{Display detailed channel information} generate output in tab--delimited form
-\item \textbf{Display channel metrics} display information about the activity on the
-channel -- the number of bytes and number of messages sent to and from the channel
+\item \textbf{Display service information} display information about the service
+\item \textbf{Display detailed service information} display information about the service,
+including the (non--default) requests for the service
+\item \textbf{Enable service metrics collection} enable the `Display service metrics' menu
+item
+\item \textbf{Display service metrics} -- this item is disabled
 \end{itemize}
-
-Doing a right--mouse click on a non--primary channel of a service displays a popup menu
-with five choices:
+\objScaledDiagram{images/serviceMenuMetricsDisabled.eps}{serviceMenuMetricsDisabled}%
+{Service menu with Metrics disabled}{0.5}
+or
 \begin{itemize}
-\item \textbf{Display channel information} display information about the channel,
-including the protocol for the channel
-\item \textbf{Display detailed channel information} display information about the channel,
-including the protocol for the channel and a description of the protocol
-\item \textbf{Display channel metrics} display information about the activity on the
-channel -- the number of bytes and number of messages sent to and from the channel
-\item \textbf{Add simple monitor} activate a monitor with a simple graphical
-representation of the activity on the channel; this is currently not implemented
-\item \textbf{Add scrolling monitor} activate a monitor displaying the actual messages on
-the channel; this is currently not implemented
+\item \textbf{Display service information} -- as described above
+\item \textbf{Display detailed service information} -- as described above
+\item \textbf{Disable service metrics collection} disable the `Display service metrics'
+menu item
+\item \textbf{Display service metrics} display information about the activity on each port
+of the service -- the number of bytes and number of messages sent to and from the port;
+the category `auxiliary' represents the anonymous ports used by the service during its
+operation
 \end{itemize}
-
+if the `Display service metrics' item for the service is enabled.
+\objScaledDiagram{images/serviceMenuMetricsEnabled.eps}{serviceMenuMetricsEnabled}%
+{Service menu with Metrics enabled}{0.5}
+\clearpage
 Doing a right--mouse click on a regular port displays a popup menu with two choices:
 \begin{itemize}
 \item \textbf{Display port information} display information about the port
 \item \textbf{Display detailed port information} display information about the port
 \end{itemize}
+\objScaledDiagram{images/portMenu.eps}{portMenu}{Regular port menu}{0.5}
+Doing a right--mouse click on the primary channel of a service displays a popup menu with
+three choices, which depend on whether the `Display service metrics' menu item is enabled:
+\begin{itemize}
+\item \textbf{Display channel information} display information about the channel
+\item \textbf{Display detailed channel information} generate output in tab--delimited form
+\item \textbf{Display channel metrics} -- this item is disabled
+\end{itemize}
+\objScaledDiagram{images/serviceChannelMenuMetricsDisabled.eps}%
+{serviceChannelMenuMetricsDisabled}{Primary channel menu with Metrics disabled}{0.5}
+or
+\begin{itemize}
+\item \textbf{Display channel information} -- as described above
+\item \textbf{Display detailed channel information} -- as described above
+\item \textbf{Display channel metrics} display information about the activity on the
+channel -- the number of bytes and number of messages sent to and from the channel
+\end{itemize}
+\objScaledDiagram{images/serviceChannelMenuMetricsEnabled.eps}%
+{serviceChannelMenuMetricsEnabled}{Primary channel menu with Metrics enabled}{0.5}
+if the `Display service metrics' item for the service is enabled.
+\clearpage
+Doing a right--mouse click on a non--primary channel of a service displays a popup menu
+with five choices, which depend on whether the `Display service metrics' menu item is
+enabled:
+\begin{itemize}
+\item \textbf{Display channel information} display information about the channel,
+including the protocol for the channel
+\item \textbf{Display detailed channel information} display information about the channel,
+including the protocol for the channel and a description of the protocol
+\item \textbf{Display channel metrics} -- this item is disabled
+\item \textbf{Add simple monitor} -- this is currently not implemented, so it is
+disabled
+\item \textbf{Add scrolling monitor} -- this is currently not implemented, so it is
+disabled
+\end{itemize}
+\objScaledDiagram{images/regularChannelMenuMetricsDisabled.eps}%
+{regularChannelMenuMetricsDisabled}{Non--primary channel menu with Metrics disabled}{0.5}
+or
+\begin{itemize}
+\item \textbf{Display channel information} -- as described above
+\item \textbf{Display detailed channel information} -- as described above
+\item \textbf{Display channel metrics} -- as described above
+\item \textbf{Add simple monitor} -- as described above
+\item \textbf{Add scrolling monitor} -- as described above
+\end{itemize}
+\objScaledDiagram{images/regularChannelMenuMetricsEnabled.eps}%
+{regularChannelMenuMetricsEnabled}{Non--primary channel menu with Metrics enabled}{0.5}
+if the `Display service metrics' item for the service is enabled.\\
 
 The positions of the objects within the window are stored in the file `settings.txt'
 within the `ChannelManager' directory inside the user--specific application data
@@ -139,7 +190,6 @@ directory.
 On Microsoft Windows, this will likely be ``\textbackslash{}Documents~and~Settings%
 \textbackslash{}username\textbackslash{}Application~Data'' while, for Macintosh OS X, it
 will likely be ``\textasciitilde/Library''.\\
-\objDiagram{MMcmDiagram.ps}{cmDiagram}{Channel~Manager structure}
 \tertiaryEnd{\utilityNameE[Channel~Manager]{ChannelManager}}
 \secondaryEnd{}
 \newpage
