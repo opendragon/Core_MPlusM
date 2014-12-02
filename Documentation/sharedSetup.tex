@@ -105,6 +105,9 @@
 \caption{#3\ }\label{diagram:#2}\end{figure}}
 \newcommand*{\objScaledDiagram}[4]{\begin{figure}[!ht]\centering%
 \includegraphics[scale=#4]{#1}\caption{#3\ }\label{diagram:#2}\end{figure}}
+\newcommand*{\objDoubleScaledDiagram}[5]{\begin{figure}[!ht]\centering%
+\includegraphics[scale=#5]{#1}\hspace{3em}\includegraphics[scale=#5]{#2}\caption{#4\ }%
+\label{diagram:#3}\end{figure}}
 
 % First argument: index category
 % Second argument: index subcategory
