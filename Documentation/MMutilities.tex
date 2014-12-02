@@ -94,7 +94,7 @@ can also be triggered via a \textbf{Cmd--R} command
 this can also be triggered via a \textbf{Cmd--B} command
 \end{itemize}
 \objScaledDiagram{images/backgroundMenu.eps}{backgroundMenu}{Background menu}{0.7}
-Doing a right--mouse click on the title of a rectangle that does not represent a service,
+Doing a right--mouse click on the title of a rectangle that does not represent a service
 displays a popup menu with two choices:
 \begin{itemize}
 \item \textbf{Display entity information} display information about the entity
@@ -102,25 +102,28 @@ displays a popup menu with two choices:
 \end{itemize}
 \objScaledDiagram{images/entityMenu.eps}{entityMenu}{Entity menu}{0.7}
 \clearpage
-Doing a right--mouse click on the title of a rectangle representing a service, displays a
-popup menu with four choices, which depend on whether the `Display service metrics' menu
-item is enabled:
+Doing a right--mouse click on the title of a rectangle representing a service displays a
+popup menu with four choices, which depend on whether the `Service metrics collection'
+menu item is enabled:
 \begin{itemize}
 \item \textbf{Display service information} display information about the service
 \item \textbf{Display detailed service information} display information about the service,
 including the (non--default) requests for the service
 \item \textbf{Disable / Enable service metrics collection} disable or enable the
-`Display service metrics' menu item
+collection of service metrics, which affects the `Display service metrics' and `Display
+channel metrics' menu items
 \item \textbf{Display service metrics} display information about the activity on each port
 of the service -- the number of bytes and number of messages sent to and from the port;
 the category `auxiliary' represents the anonymous ports used by the service during its
 operation
 \end{itemize}
 \objDoubleScaledDiagram{images/serviceMenuMetricsDisabled.eps}%
-{images/serviceMenuMetricsEnabled.eps}{serviceMenu}{Service menu}{0.7}
+{images/serviceMenuMetricsEnabled.eps}{serviceMenu}%
+{Service menu (Left=Service metrics disabled, Right=Service metrics enabled)}{0.7}
 
 Doing a right--mouse click on the primary channel of a service displays a popup menu with
-three choices, which depend on whether the `Display service metrics' menu item is enabled:
+three choices, which depend on whether the `Service metrics collection' menu item is
+enabled:
 \begin{itemize}
 \item \textbf{Display channel information} display information about the channel
 \item \textbf{Display detailed channel information} generate output in tab--delimited form
@@ -129,7 +132,8 @@ channel -- the number of bytes and the number of messages sent to and from the c
 \end{itemize}
 \objDoubleScaledDiagram{images/serviceChannelMenuMetricsDisabled.eps}%
 {images/serviceChannelMenuMetricsEnabled.eps}%
-{serviceChannelMenu}{Primary channel menu}{0.7}
+{serviceChannelMenu}{Primary channel menu (Left=Service metrics disabled, Right=Service metrics enabled)}%
+{0.7}
 \clearpage
 Doing a right--mouse click on a regular port displays a popup menu with two choices:
 \begin{itemize}
@@ -139,7 +143,7 @@ Doing a right--mouse click on a regular port displays a popup menu with two choi
 \objScaledDiagram{images/portMenu.eps}{portMenu}{Regular port menu}{0.7}
 
 Doing a right--mouse click on a non--primary channel of a service displays a popup menu
-with five choices, which depend on whether the `Display service metrics' menu item is
+with five choices, which depend on whether the `Service metrics collection' menu item is
 enabled:
 \begin{itemize}
 \item \textbf{Display channel information} display information about the channel,
@@ -155,7 +159,8 @@ disabled
 \end{itemize}
 \objDoubleScaledDiagram{images/regularChannelMenuMetricsDisabled.eps}%
 {images/regularChannelMenuMetricsEnabled.eps}%
-{regularChannelMenu}{Non--primary channel menu}{0.7}
+{regularChannelMenu}%
+{Non--primary channel menu (Left=Service metrics disabled, Right=Service metrics enabled)}{0.7}
 \clearpage
 The positions of the objects within the window are stored in the file `settings.txt'
 within the `ChannelManager' directory inside the user--specific application data
