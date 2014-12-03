@@ -90,8 +90,7 @@ using namespace MplusM::Common;
 
 /*! @brief The entry point for running the Registry Service.
  
- The second, optional, argument is the port number to be used and the first, optional, argument is
- the name of the channel to be used. There is no output.
+ The first, optional, argument is the port number to be used. There is no output.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Registry Service.
  @returns @c 0 on a successful test and @c 1 on failure. */
