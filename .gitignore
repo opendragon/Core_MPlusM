@@ -46,6 +46,7 @@ mpmRandomBurstStreamService
 mpmRandomNumberAdapter
 mpmRandomNumberClient
 mpmRandomNumberService
+mpmRecordAsJSONService
 mpmRecordIntegersStreamService
 mpmParserTest
 mpmPortLister
