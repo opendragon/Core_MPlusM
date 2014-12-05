@@ -40,7 +40,8 @@ option(MpM_UseObjectiveCDebug "Use Objective C Debug" FALSE)
 mark_as_advanced(MpM_UseObjectiveCDebug)
 
 set(THIS_TARGET odLogging)
-set(OTHER_TARGET odLogging_swig)
+set(OTHER_TARGET_CSHARP odLogging_swig_csharp)
+set(OTHER_TARGET_PYTHON odLogging_swig_python)
 
 if(APPLE)
     set(DO_SHARED "SHARED")
@@ -69,21 +70,47 @@ install(FILES
         DESTINATION include/odl
         COMPONENT headers)
 
-if(APPLE AND MpM_DO_SWIG)
+if(MpM_DO_SWIG)
+    set(ODL_SWIG_SOURCES swig_odl_in/ODLogging.i ODLogging.h ODLogging.cpp)
+
     include_directories("${MpM_SOURCE_DIR}/odl")
-    set(CMAKE_SWIG_OUTDIR "${MpM_SOURCE_DIR}/odl/swig_odl_out")
     set_source_files_properties(swig_odl_in/ODLogging.i PROPERTIES CPLUSPLUS ON)
     set_source_files_properties(swig_odl_in/ODLogging.i PROPERTIES SWIG_FLAGS "-includeall")
 
-    swig_add_module(${OTHER_TARGET} csharp swig_odl_in/ODLogging.i ODLogging.h ODLogging.cpp)
+    set(CMAKE_SWIG_OUTDIR "${MpM_SOURCE_DIR}/odl/swig_odl_out_csharp")
 
-    install(TARGETS ${OTHER_TARGET}
+    swig_add_module(${OTHER_TARGET_CSHARP} csharp ${ODL_SWIG_SOURCES})
+
+    install(TARGETS ${OTHER_TARGET_CSHARP}
             DESTINATION lib
             COMPONENT libraries)
 
     install(FILES
-            swig_odl_out/ODLogging.cs
-            swig_odl_out/ODLoggingPINVOKE.cs
+            swig_odl_out_csharp/ODLogging.cs
+            swig_odl_out_csharp/ODLoggingPINVOKE.cs
             DESTINATION csharp/odl
             COMPONENT headers)
-endif(APPLE AND MpM_DO_SWIG)
+
+    set(CMAKE_SWIG_OUTDIR "${MpM_SOURCE_DIR}/odl/swig_odl_out_python")
+
+    find_package(PythonLibs)
+    include_directories(${PYTHON_INCLUDE_PATH})
+
+    swig_add_module(${OTHER_TARGET_PYTHON} python ${ODL_SWIG_SOURCES})
+
+    swig_link_libraries(${OTHER_TARGET_PYTHON}
+                        ${THIS_TARGET}
+                        ${PYTHON_LIBRARIES})
+
+# Note the modified target name!
+    install(TARGETS _${OTHER_TARGET_PYTHON}
+            DESTINATION lib
+            COMPONENT libraries)
+
+    install(FILES
+            swig_odl_out_python/ODLogging.py
+            swig_odl_out_python/ODLoggingPYTHON_wrap.cxx
+            DESTINATION python/odl
+            COMPONENT headers)
+
+endif(MpM_DO_SWIG)

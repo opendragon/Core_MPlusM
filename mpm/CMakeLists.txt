@@ -39,7 +39,8 @@
 include_directories("${MpM_SOURCE_DIR}")
 
 set(THIS_TARGET mpmCommon)
-set(OTHER_TARGET mpmCommon_swig)
+set(OTHER_TARGET_CSHARP mpmCommon_swig_csharp)
+set(OTHER_TARGET_PYTHON mpmCommon_swig_python)
 
 if(APPLE)
     set(DO_SHARED "SHARED")
@@ -185,65 +186,94 @@ else(APPLE)
 endif(APPLE)
 
 if(MpM_DO_SWIG)
+    set(MPM_SWIG_SOURCES swig_mpm_in/mpmCommon.i
+        M+MAdapterChannel.h M+MAdapterChannel.cpp
+        M+MBailOut.h M+MBailOut.cpp
+        M+MBailOutThread.h M+MBailOutThread.cpp
+        M+MBaseAdapterData.h M+MBaseAdapterData.cpp
+        M+MBaseChannel.h M+MBaseChannel.cpp
+        M+MBaseClient.h M+MBaseClient.cpp
+        M+MBaseContext.h M+MBaseContext.cpp
+        M+MBaseFilterService.h M+MBaseFilterService.cpp
+        M+MBaseInputHandler.h M+MBaseInputHandler.cpp
+        M+MBaseInputHandlerCreator.h M+MBaseInputHandlerCreator.cpp
+        M+MBaseInputOutputService.h M+MBaseInputOutputService.cpp
+        M+MBaseInputService.h M+MBaseInputService.cpp
+        M+MBaseMatcher.h M+MBaseMatcher.cpp
+        M+MBaseNameValidator.h M+MBaseNameValidator.cpp
+        M+MBaseOutputService.h M+MBaseOutputService.cpp
+        M+MBaseRequestHandler.h M+MBaseRequestHandler.cpp
+        M+MBaseService.h M+MBaseService.cpp
+        M+MChannelStatusReporter.h M+MChannelStatusReporter.cpp
+        M+MClientChannel.h M+MClientChannel.cpp
+        M+MCommon.h M+MCommon.cpp
+        M+MEndpoint.h M+MEndpoint.cpp
+        M+MException.h M+MException.cpp
+        M+MGeneralChannel.h M+MGeneralChannel.cpp
+        M+MMatchConstraint.h M+MMatchConstraint.cpp
+        M+MMatchExpression.h M+MMatchExpression.cpp
+        M+MMatchFieldName.h M+MMatchFieldName.cpp
+        M+MMatchFieldWithValues.h M+MMatchFieldWithValues.cpp
+        M+MMatchValue.h M+MMatchValue.cpp
+        M+MMatchValueList.h M+MMatchValueList.cpp
+        M+MRequestMap.h M+MRequestMap.cpp
+        M+MSendReceiveCounters.h M+MSendReceiveCounters.cpp
+        M+MServiceChannel.h M+MServiceChannel.cpp
+        M+MServiceInputHandler.h M+MServiceInputHandler.cpp
+        M+MServiceInputHandlerCreator.h M+MServiceInputHandlerCreator.cpp
+        M+MServiceRequest.h M+MServiceRequest.cpp
+        M+MServiceResponse.h M+MServiceResponse.cpp
+        M+MUtilities.h M+MUtilities.cpp)
+
     include_directories("${MpM_SOURCE_DIR}/mpm")
-    set(CMAKE_SWIG_OUTDIR "${MpM_SOURCE_DIR}/mpm/swig_mpm_out")
     set_source_files_properties(swig_mpm_in/mpmCommon.i PROPERTIES CPLUSPLUS ON)
     set_source_files_properties(swig_mpm_in/mpmCommon.i PROPERTIES SWIG_FLAGS "-includeall")
 
-    swig_add_module(${OTHER_TARGET} csharp swig_mpm_in/mpmCommon.i
-                    M+MAdapterChannel.h M+MAdapterChannel.cpp
-                    M+MBailOut.h M+MBailOut.cpp
-                    M+MBailOutThread.h M+MBailOutThread.cpp
-                    M+MBaseAdapterData.h M+MBaseAdapterData.cpp
-                    M+MBaseChannel.h M+MBaseChannel.cpp
-                    M+MBaseClient.h M+MBaseClient.cpp
-                    M+MBaseContext.h M+MBaseContext.cpp
-                    M+MBaseFilterService.h M+MBaseFilterService.cpp
-                    M+MBaseInputHandler.h M+MBaseInputHandler.cpp
-                    M+MBaseInputHandlerCreator.h M+MBaseInputHandlerCreator.cpp
-                    M+MBaseInputOutputService.h M+MBaseInputOutputService.cpp
-                    M+MBaseInputService.h M+MBaseInputService.cpp
-                    M+MBaseMatcher.h M+MBaseMatcher.cpp
-                    M+MBaseNameValidator.h M+MBaseNameValidator.cpp
-                    M+MBaseOutputService.h M+MBaseOutputService.cpp
-                    M+MBaseRequestHandler.h M+MBaseRequestHandler.cpp
-                    M+MBaseService.h M+MBaseService.cpp
-                    M+MChannelStatusReporter.h M+MChannelStatusReporter.cpp
-                    M+MClientChannel.h M+MClientChannel.cpp
-                    M+MCommon.h M+MCommon.cpp
-                    M+MEndpoint.h M+MEndpoint.cpp
-                    M+MException.h M+MException.cpp
-                    M+MGeneralChannel.h M+MGeneralChannel.cpp
-                    M+MMatchConstraint.h M+MMatchConstraint.cpp
-                    M+MMatchExpression.h M+MMatchExpression.cpp
-                    M+MMatchFieldName.h M+MMatchFieldName.cpp
-                    M+MMatchFieldWithValues.h M+MMatchFieldWithValues.cpp
-                    M+MMatchValue.h M+MMatchValue.cpp
-                    M+MMatchValueList.h M+MMatchValueList.cpp
-                    M+MRequestMap.h M+MRequestMap.cpp
-                    M+MSendReceiveCounters.h M+MSendReceiveCounters.cpp
-                    M+MServiceChannel.h M+MServiceChannel.cpp
-                    M+MServiceInputHandler.h M+MServiceInputHandler.cpp
-                    M+MServiceInputHandlerCreator.h M+MServiceInputHandlerCreator.cpp
-                    M+MServiceRequest.h M+MServiceRequest.cpp
-                    M+MServiceResponse.h M+MServiceResponse.cpp
-                    M+MUtilities.h M+MUtilities.cpp)
+    set(CMAKE_SWIG_OUTDIR "${MpM_SOURCE_DIR}/mpm/swig_mpm_out_csharp")
 
-    swig_link_libraries(${OTHER_TARGET}
+    swig_add_module(${OTHER_TARGET_CSHARP} csharp ${MPM_SWIG_SOURCES})
+
+    swig_link_libraries(${OTHER_TARGET_CSHARP}
                         ${THIS_TARGET}
                         odLogging
                         ${YARP_LIBRARIES}
                         ${ACE_LIBRARIES})
 
-    install(TARGETS ${OTHER_TARGET}
+    install(TARGETS ${OTHER_TARGET_CSHARP}
             DESTINATION lib
             COMPONENT libraries)
 
     install(FILES
-            swig_mpm_out/mpm.cs
-            swig_mpm_out/mpmPINVOKE.cs
+            swig_mpm_out_csharp/mpm.cs
+            swig_mpm_out_csharp/mpmPINVOKE.cs
             DESTINATION csharp/mpm
             COMPONENT headers)
+
+    set(CMAKE_SWIG_OUTDIR "${MpM_SOURCE_DIR}/mpm/swig_mpm_out_python")
+
+    find_package(PythonLibs)
+    include_directories(${PYTHON_INCLUDE_PATH})
+
+    swig_add_module(${OTHER_TARGET_PYTHON} python ${MPM_SWIG_SOURCES})
+
+    swig_link_libraries(${OTHER_TARGET_PYTHON}
+                        ${THIS_TARGET}
+                        odLogging
+                        ${YARP_LIBRARIES}
+                        ${ACE_LIBRARIES}
+                        ${PYTHON_LIBRARIES})
+
+# Note the modified target name!
+    install(TARGETS _${OTHER_TARGET_PYTHON}
+            DESTINATION lib
+            COMPONENT libraries)
+
+install(FILES
+        swig_mpm_out_python/mpm.py
+        swig_mpm_out_python/mpmCommonPYTHON_wrap.cxx
+        DESTINATION python/mpm
+        COMPONENT headers)
+
 endif(MpM_DO_SWIG)
 
 enable_testing()
