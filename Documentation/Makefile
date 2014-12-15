@@ -187,7 +187,7 @@ $(VDSmaindvi) : $(VDSimagefiles) $(VDSpsfiles) $(VDSmainsource) $(VDSsecondaryso
 
 # Top-level targets
 
-.PHONY : clean manual
+.PHONY : clean all
 
 .PRECIOUS : %.ps %.pdf
 
@@ -195,4 +195,4 @@ clean :
 	rm -f $(IMpsfiles) $(KV2psfiles) $(LMpsfiles) $(MMpsfiles) $(VDSpsfiles)
 	rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.ps *.toc
 
-manual : $(IMtarget) $(KV2target) $(LMtarget) $(MMtarget) $(VDStarget)
+all : $(IMtarget) $(KV2target) $(LMtarget) $(MMtarget) $(VDStarget)
