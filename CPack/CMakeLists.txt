@@ -120,6 +120,11 @@ install(FILES 	"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_OS.dll"
 				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_sig.dll"
             DESTINATION bin
             COMPONENT libraries)
+			
+#OTHER EXES
+install(FILES 	"${MpM_SOURCE_DIR}/../Utilities/ChannelManager/Builds/VisualStudio2012/Release/Channel Manager.exe"
+        DESTINATION bin
+        COMPONENT applications)
 
 
 			
