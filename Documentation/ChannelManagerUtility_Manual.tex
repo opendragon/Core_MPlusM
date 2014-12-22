@@ -1,13 +1,15 @@
-\ProvidesFile{MpM_Manual.tex}[v1.0.0]
+\ProvidesFile{ChannelManagerUtility_Manual.tex}[v1.0.0]
 
 % Begin Preamble
 
 \newcommand{\docAuthor}{Norman Jaffe}
-\newcommand{\docTitle}{Movement And Meaning Middleware}
+\newcommand{\docTitle}{Channel Manager Utility}
 \newcommand{\docKeywords}{movement,middleware,YARP,ACE,JUCE}
 \newcommand{\docSubject}{Middleware}
 
 \input{sharedSetup.tex}
+
+\newcommand{\CMM}{Channel~Manager~Utility}
 
 % Set up the page layout:
 \pagestyle{fancyplain}
@@ -16,13 +18,14 @@
 \chead[]{}
 \rhead[\fancyplain{}{\textsc{\mymark}}]{}
 \lfoot[Page \thepage]{\today}
-\cfoot[\MMM]{\MMM}
+\cfoot[\CMM]{\CMM}
 \rfoot[\today]{Page \thepage}
 \renewcommand{\headrulewidth}{0.5bp}
 \pagenumbering{roman}
 
-\title{\cal\Huge\textitcorr{\MMM}\\
-\vspace{1ex}}
+\title{\cal\Huge\textitcorr{\CMM}\\
+\vspace{1ex}
+\objPicture{images/ChannelManager.eps}}
 \author{HPlus~Technologies~Ltd. and Simon~Fraser~University\\
 Vancouver, British~Columbia, Canada}
 
@@ -39,38 +42,26 @@ Vancouver, British~Columbia, Canada}
 \insertpart{Contents}{\tableofcontents}
 \insertpart{List~of~Figures}{\listoffigures}
 
-\input{MMdocumentationHistory.tex}
-\input{MMfrontispiece.tex}
+\input{CMdocumentationHistory.tex}
+\input{CMfrontispiece.tex}
 \clearpage\pagenumbering{arabic}
 
 % End of front matter
 
 % Begin contents
 
-\input{MMoverview.tex}
+\input{CMoverview.tex}
 
 %% section for each of the utilities
 
-\input{MMutilities.tex}
+\input{CMutility.tex}
 
 %% section for each of the core services
 
-\input{MMservices.tex}
-
 %% section for each of the core classes
-
-\input{MMclasses.tex}
-
-\appendix
-\input{MMexamples.tex}
-\input{MMexemplars.tex}
-\input{MMcaseStudy.tex}
-\input{MMregistrationSequence.tex}
-\input{MMinternalDb.tex}
-\input{MMmatchSyntax.tex}
 
 % End of contents
 
-\insertpart{Index}{\printindex}
+%\insertpart{Index}{\printindex}
 \end{document}
 \end

@@ -2,17 +2,29 @@
 
 # Intermediate Postscript files
 
+CMpsfiles = CMcmDiagram.ps 
+
 IMpsfiles =
 
 KV2psfiles =
 
 LMpsfiles =
 
-MMpsfiles = MMdbDiagram.ps MMmatchSyntaxrails.ps MMcmDiagram.ps MMmpmDiagram.ps
+MMpsfiles = MMdbDiagram.ps MMmatchSyntaxrails.ps MMmpmDiagram.ps
 
 VDSpsfiles =
 
 # Input image files
+
+CMimagefiles = images/afterAdd.eps images/backgroundMenu.eps images/beforeAdd.eps \
+	images/beforeRemove.eps images/ChannelManager.eps images/dragAdd2.eps \
+	images/entityMenu.eps images/portMenu.eps \
+	images/regularChannelMenuMetricsDisabled.eps \
+	images/regularChannelMenuMetricsEnabled.eps \
+	images/serviceChannelMenuMetricsDisabled.eps \
+	images/serviceChannelMenuMetricsEnabled.eps \
+	images/serviceMenuMetricsDisabled.eps \
+	images/serviceMenuMetricsEnabled.eps
 
 IMimagefiles = images/Installer01.eps images/Installer02.eps images/Installer03.eps \
 	images/Installer04.eps images/Installer05.eps images/Installer05a.eps \
@@ -27,19 +39,13 @@ KV2imagefiles =
 
 LMimagefiles =
 
-MMimagefiles = images/afterAdd.eps images/backgroundMenu.eps images/beforeAdd.eps \
-	images/beforeRemove.eps images/ChannelManager.eps images/dragAdd2.eps \
-	images/entityMenu.eps images/portMenu.eps \
-	images/regularChannelMenuMetricsDisabled.eps \
-	images/regularChannelMenuMetricsEnabled.eps \
-	images/serviceChannelMenuMetricsDisabled.eps \
-	images/serviceChannelMenuMetricsEnabled.eps \
-	images/serviceMenuMetricsDisabled.eps \
-	images/serviceMenuMetricsEnabled.eps
+MMimagefiles = 
 
 VDSimagefiles =
 
 # Main source file
+
+CMmainsource = ChannelManagerUtility_Manual.tex
 
 IMmainsource = Installation_Manual.tex
 
@@ -55,6 +61,9 @@ VDSmainsource = ViconDataStreamInput_Manual.tex
 
 Commonsources = boilerPlate.tex sharedSetup.tex
 
+CMsecondarysources = CMdocumentationHistory.tex CMfrontispiece.tex CMoverview.tex \
+	CMutility.tex $(Commonsources)
+	
 IMsecondarysources = IMdocumentationHistory.tex IMfrontispiece.tex IMoverview.tex \
 	IMprocedure.tex $(Commonsources)
 
@@ -74,6 +83,8 @@ VDSsecondarysources = VDSdocumentationHistory.tex VDSfrontispiece.tex \
 
 # DVI files
 
+CMmaindvi = $(CMmainsource:.tex=.dvi)
+
 IMmaindvi = $(IMmainsource:.tex=.dvi)
 
 KV2maindvi = $(KV2mainsource:.tex=.dvi)
@@ -85,6 +96,8 @@ MMmaindvi = $(MMmainsource:.tex=.dvi)
 VDSmaindvi = $(VDSmainsource:.tex=.dvi)
 
 # Index files
+
+CMmainidx = $(CMmainsource:.tex=.idx)
 
 IMmainidx = $(IMmainsource:.tex=.idx)
 
@@ -98,6 +111,8 @@ VDSmainidx = $(VDSmainsource:.tex=.idx)
 
 # Intermediate Postscript files
 
+CMmainps = $(CMmainsource:.tex=.ps)
+
 IMmainps = $(IMmainsource:.tex=.ps)
 
 KV2mainps = $(KV2mainsource:.tex=.ps)
@@ -110,6 +125,8 @@ VDSmainps = $(VDSmainsource:.tex=.ps)
 
 # Output PDF files
 
+CMmainpdf = $(CMmainsource:.tex=.pdf)
+
 IMmainpdf = $(IMmainsource:.tex=.pdf)
 
 KV2mainpdf = $(KV2mainsource:.tex=.pdf)
@@ -121,6 +138,8 @@ MMmainpdf = $(MMmainsource:.tex=.pdf)
 VDSmainpdf = $(VDSmainsource:.tex=.pdf)
 
 # Target files
+
+CMtarget = $(HOME)/$(CMmainpdf)
 
 IMtarget = $(HOME)/$(IMmainpdf)
 
@@ -149,6 +168,13 @@ $(HOME)/%.pdf : %.pdf
 	cp $< $@
 
 # Specific rules
+
+$(CMmaindvi) : $(CMimagefiles) $(CMpsfiles) $(CMmainsource) $(CMsecondarysources)
+	latex -interaction=batchmode $(CMmainsource)
+	latex -interaction=batchmode $(CMmainsource)
+	latex -interaction=batchmode $(CMmainsource)
+	makeindex $(CMmainidx)
+	latex -interaction=batchmode $(CMmainsource)
 
 $(IMmaindvi) : $(IMimagefiles) $(IMpsfiles) $(IMmainsource) $(IMsecondarysources)
 	latex -interaction=batchmode $(IMmainsource)
@@ -192,7 +218,7 @@ $(VDSmaindvi) : $(VDSimagefiles) $(VDSpsfiles) $(VDSmainsource) $(VDSsecondaryso
 .PRECIOUS : %.ps %.pdf
 
 clean :
-	rm -f $(IMpsfiles) $(KV2psfiles) $(LMpsfiles) $(MMpsfiles) $(VDSpsfiles)
+	rm -f $(CMpsfiles) $(IMpsfiles) $(KV2psfiles) $(LMpsfiles) $(MMpsfiles) $(VDSpsfiles)
 	rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.ps *.toc
 
-all : $(IMtarget) $(KV2target) $(LMtarget) $(MMtarget) $(VDStarget)
+all : $(CMtarget) $(IMtarget) $(KV2target) $(LMtarget) $(MMtarget) $(VDStarget)
