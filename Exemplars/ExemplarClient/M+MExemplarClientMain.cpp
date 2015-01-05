@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       ExemplarClientMain.cpp
+//  File:       M+MExemplarClientMain.cpp
 //
 //  Project:    M+M
 //

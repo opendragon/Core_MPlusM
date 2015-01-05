@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       ExemplarAdapterMain.cpp
+//  File:       M+MExemplarAdapterMain.cpp
 //
 //  Project:    M+M
 //

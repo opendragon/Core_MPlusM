@@ -1,14 +1,14 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MExemplarFilterServiceMain.cpp
+//  File:       M+MJavaScriptServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the exemplar filter service.
+//  Contains:   The main application for the JavaScript Input/Output service.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,11 +32,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-15
+//  Created:    2015-01-05
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MExemplarFilterService.h"
+#include "M+MJavaScriptService.h"
 
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MUtilities.h>
@@ -54,17 +54,17 @@
 #endif // defined(__APPLE__)
 /*! @file
  
- @brief The main application for the exemplar filter service. */
+ @brief The main application for the JavaScript Input/Output service. */
 
-/*! @dir ExemplarFilterService
- @brief The set of files that implement the exemplar filter service. */
+/*! @dir JavaScriptService
+ @brief The set of files that implement the JavaScript Input/Output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Exemplar;
+using namespace MplusM::JavaScript;
 using std::cin;
 using std::cout;
 using std::endl;
@@ -74,7 +74,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The accepted command line arguments for the service. */
-#define EXEMPLARFILTER_OPTIONS "rt:"
+#define JAVASCRIPT_OPTIONS "rt:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -99,7 +99,7 @@ static void displayCommands(void)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the exemplar filter service.
+/*! @brief The entry point for running the JavaScript Input/Output service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
@@ -129,8 +129,8 @@ int main(int      argc,
         yarp::os::ConstString tag;
         
         opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, EXEMPLARFILTER_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, EXEMPLARFILTER_OPTIONS))
+        for (int cc = getopt(argc, argv, JAVASCRIPT_OPTIONS); -1 != cc;
+             cc = getopt(argc, argv, JAVASCRIPT_OPTIONS))
         {
             switch (cc)
             {
@@ -166,11 +166,12 @@ int main(int      argc,
             {
                 if (0 < tag.size())
                 {
-                    serviceEndpointName = yarp::os::ConstString(DEFAULT_EXEMPLARFILTER_SERVICE_NAME) + "/" + tag;
+                    serviceEndpointName = yarp::os::ConstString(DEFAULT_JAVASCRIPT_SERVICE_NAME) +
+                                            "/" + tag;
                 }
                 else
                 {
-                    serviceEndpointName = DEFAULT_EXEMPLARFILTER_SERVICE_NAME;
+                    serviceEndpointName = DEFAULT_JAVASCRIPT_SERVICE_NAME;
                 }
             }
             else if ((optind + 1) == argc)
@@ -183,9 +184,8 @@ int main(int      argc,
                 serviceEndpointName = argv[optind];
                 servicePortNumber = argv[optind + 1];
             }
-            ExemplarFilterService * stuff = new ExemplarFilterService(*argv, tag,
-                                                                      serviceEndpointName,
-                                                                      servicePortNumber);
+            JavaScriptService * stuff = new JavaScriptService(*argv, tag, serviceEndpointName,
+                                                              servicePortNumber);
             
             if (stuff)
             {
