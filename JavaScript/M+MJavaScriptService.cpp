@@ -45,7 +45,14 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Winvalid-offsetof"
+#endif // defined(__APPLE__)
 #include <jsapi.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -78,7 +85,8 @@ using namespace MplusM::JavaScript;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-JavaScriptService::JavaScriptService(const yarp::os::ConstString & launchPath,
+JavaScriptService::JavaScriptService(JSContext *                   context,
+                                     const yarp::os::ConstString & launchPath,
                                      const yarp::os::ConstString & tag,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
@@ -87,6 +95,7 @@ JavaScriptService::JavaScriptService(const yarp::os::ConstString & launchPath,
     _inHandler(new JavaScriptInputHandler)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("context = ", context); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_EXIT_P(this); //####

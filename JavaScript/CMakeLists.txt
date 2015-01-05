@@ -44,6 +44,9 @@ if(APPLE)
 # So, we need to temporarily build for 64-bit only...
     set(OLD_CMAKE_OSX_ARCHITECTURES "${CMAKE_OSX_ARCHITECTURES}")
     set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
+    set(OLD_CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH}")
+    set(CMAKE_INSTALL_RPATH "${OLD_CMAKE_INSTALL_RPATH};/opt/gecko/lib" CACHE STRING "Fixes rpath"
+        FORCE)
 endif(APPLE)
 
 if(WIN32)
@@ -74,6 +77,10 @@ target_link_libraries(${THIS_TARGET}
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        "@executable_path/libmozjs-37a1.dylib" "@rpath/libmozjs-37a1.dylib"
+                        ${THIS_TARGET})
+
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -101,6 +108,7 @@ if(APPLE)
 # Restore the architecture settings so that later builds will be correct.
     set(CMAKE_OSX_ARCHITECTURES "${OLD_CMAKE_OSX_ARCHITECTURES}" CACHE STRING
         "Build architectures for Mac OS X" FORCE)
+    set(CMAKE_INSTALL_RPATH "${OLD_CMAKE_INSTALL_RPATH}" CACHE STRING "Fixes rpath" FORCE)
 endif(APPLE)
 
 enable_testing()

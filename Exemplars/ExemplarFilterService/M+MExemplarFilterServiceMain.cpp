@@ -243,7 +243,7 @@ int main(int      argc,
                                         
                                     case 'c' :
                                     case 'C' :
-                                        // Configure - nothing to do for a truncate filter.
+                                        // Configure - nothing to do for the exemplar filter.
                                         if (stuff->configure(configureData))
                                         {
                                             configured = true;

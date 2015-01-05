@@ -56,6 +56,8 @@
 # define DEFAULT_JAVASCRIPT_SERVICE_NAME T_( \
         DEFAULT_SERVICE_NAME_BASE "filter/javascript")
 
+class JSContext;
+
 namespace MplusM
 {
     namespace JavaScript
@@ -68,11 +70,13 @@ namespace MplusM
         public :
             
             /*! @brief The constructor.
+             @param context The JavaScript engine context.
              @param launchPath The command-line name used to launch the service.
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            JavaScriptService(const yarp::os::ConstString & launchPath,
+            JavaScriptService(JSContext *                   context,
+                              const yarp::os::ConstString & launchPath,
                               const yarp::os::ConstString & tag,
                               const yarp::os::ConstString & serviceEndpointName,
                               const yarp::os::ConstString & servicePortNumber = "");
