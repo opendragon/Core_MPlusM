@@ -47,7 +47,8 @@ mark_as_advanced(CLEAR CMAKE_OSX_ARCHITECTURES)
 
 if(APPLE)
     set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
-    set(CMAKE_CXX_FLAGS "-stdlib=libstdc++" CACHE STRING "Fixes linking error for M+M/ACE" FORCE)
+    set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING
+        "Fixes linking error for M+M/ACE" FORCE)
     set(CMAKE_INSTALL_PREFIX "/opt/M+M" CACHE STRING "Fixes install path for M+M/ACE" FORCE)
     set(CMAKE_EXE_LINKER_FLAGS "-L/opt/M+M/lib" CACHE STRING "Fixes link path" FORCE)
 endif(APPLE)

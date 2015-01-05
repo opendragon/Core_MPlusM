@@ -126,3 +126,4 @@ ODLogging_wrap.cxx
 mpm/libmpmCommon.dylib
 odl/libodLogging.dylib
 mpmUnrealOutputService
+mpmJavaScriptService

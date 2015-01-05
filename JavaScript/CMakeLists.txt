@@ -38,6 +38,24 @@
 
 set(THIS_TARGET mpmJavaScriptService)
 
+if(APPLE)
+# There's a problem with building V8 / SpiderMonkey as a Universal - it acts as if we're building
+# for Solaris and adds a '-KPIC' flag?!?!?
+# So, we need to temporarily build for 64-bit only...
+    set(OLD_CMAKE_OSX_ARCHITECTURES "${CMAKE_OSX_ARCHITECTURES}")
+    set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
+endif(APPLE)
+
+if(WIN32)
+    set(SPIDERMONKEY "")
+endif(WIN32)
+if(APPLE)
+    add_library(JS SHARED IMPORTED)
+    include_directories("/opt/gecko/include/mozjs-37a1")
+    set_property(TARGET JS PROPERTY IMPORTED_LOCATION "/opt/gecko/lib/libmozjs-37a1.dylib")
+    set(SPIDERMONKEY "JS")
+endif(APPLE)
+
 # Set up our program
 add_executable(${THIS_TARGET}
                M+MJavaScriptServiceMain.cpp
@@ -49,6 +67,7 @@ add_executable(${THIS_TARGET}
 target_link_libraries(${THIS_TARGET}
                       mpmCommon
                       odLogging
+                      ${SPIDERMONKEY}
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
                       ${BONJOUR_LIB})
@@ -56,7 +75,7 @@ target_link_libraries(${THIS_TARGET}
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
-    
+
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
 
@@ -77,5 +96,11 @@ endif(APPLE)
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin)
+
+if(APPLE)
+# Restore the architecture settings so that later builds will be correct.
+    set(CMAKE_OSX_ARCHITECTURES "${OLD_CMAKE_OSX_ARCHITECTURES}" CACHE STRING
+        "Build architectures for Mac OS X" FORCE)
+endif(APPLE)
 
 enable_testing()

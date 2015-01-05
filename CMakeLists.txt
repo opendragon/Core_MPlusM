@@ -44,7 +44,7 @@ project(M+M)
 
 set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 4)
-set(MpM_VERSION_PATCH 14)
+set(MpM_VERSION_PATCH 15)
 
 set(MpM_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
@@ -56,7 +56,8 @@ mark_as_advanced(SET CMAKE_BUILD_WITH_INSTALL_RPATH)
 
 if(APPLE)
 	set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
-	set(CMAKE_CXX_FLAGS "-stdlib=libstdc++" CACHE STRING "Fixes linking error for M+M/ACE" FORCE)
+	set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING
+        "Fixes linking error for M+M/ACE" FORCE)
     set(CMAKE_INSTALL_PREFIX "/opt/M+M" CACHE STRING "Fixes install path for M+M/ACE" FORCE)
     set(CMAKE_INSTALL_RPATH
 "@executable_path/../lib;@executable_path/../mpm;@executable_path/../odl;@executable_path/../../mpm;@executable_path/../../odl;${CMAKE_INSTALL_PREFIX}/lib"

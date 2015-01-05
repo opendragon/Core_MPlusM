@@ -45,6 +45,8 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#include <jsapi.h>
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
