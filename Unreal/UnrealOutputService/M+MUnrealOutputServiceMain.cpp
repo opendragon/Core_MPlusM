@@ -53,8 +53,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The main application for the Unreal output service. */
+
+/*! @dir Unreal
+ @brief The set of files that implement the Unreal output service. */
 
 /*! @dir UnrealOutputService
  @brief The set of files that implement the Unreal output service. */
@@ -104,6 +106,7 @@ static void displayCommands(void)
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
  The option 'p' specifies the port to be written to.
+ The option 'r' indicates that the service metrics are to be reported on exit.
  The option 's' specifies the translation scale factor.
  name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.

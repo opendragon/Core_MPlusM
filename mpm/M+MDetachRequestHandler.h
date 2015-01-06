@@ -46,7 +46,6 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class declaration for the request handler for the standard 'detach' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop

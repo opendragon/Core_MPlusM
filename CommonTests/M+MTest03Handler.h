@@ -46,7 +46,6 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class declaration for an input handler used by the unit tests. */
 
 /*! @dir CommonTests

@@ -48,7 +48,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The main application for the running sum client. */
 /*! @dir RunningSumClient
  @brief The set of files that implement the running sum client. */

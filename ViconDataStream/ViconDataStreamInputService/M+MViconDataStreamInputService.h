@@ -46,8 +46,10 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class declaration for the Vicon DataStream input service. */
+
+/*! @namespace MplusM::ViconDataStream
+ @brief The classes that support reading from a Vicon DataStream input system. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

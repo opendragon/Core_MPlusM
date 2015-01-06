@@ -55,8 +55,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 
-/*! @file
- 
+/*! @file 
  @brief A utility application to list the available requests. */
 
 /*! @dir RequestInfo

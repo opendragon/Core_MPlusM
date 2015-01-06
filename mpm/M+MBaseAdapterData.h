@@ -47,7 +47,6 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class declaration for the minimal functionality required for the data shared between the
  input handlers and main thread of an M+M adapter. */
 # if defined(__APPLE__)

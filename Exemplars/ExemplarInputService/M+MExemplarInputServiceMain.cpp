@@ -53,7 +53,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The main application for the exemplar input service. */
 
 /*! @dir ExemplarInputService
@@ -105,6 +104,7 @@ static void displayCommands(void)
  the name of the channel to be used. There is no output.
  The option 'p' specifies the burst period, in seconds, while the option 's' specifies the number of
  random values to generate in each burst.
+ The option 'r' indicates that the service metrics are to be reported on exit.
  The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
  name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.

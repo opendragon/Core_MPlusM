@@ -53,8 +53,7 @@
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file
- 
+/*! @file 
  @brief The main application for the M+M Registry Service. */
 
 /*! @dir RegistryService
@@ -91,6 +90,7 @@ using namespace MplusM::Common;
 /*! @brief The entry point for running the Registry Service.
  
  The first, optional, argument is the port number to be used. There is no output.
+ The option 'r' indicates that the service metrics are to be reported on exit.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Registry Service.
  @returns @c 0 on a successful test and @c 1 on failure. */

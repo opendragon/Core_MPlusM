@@ -60,8 +60,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The test driver for the unit tests of the M+M common library. */
+
+/*! @namespace MplusM::Test
+ @brief The classes used for unit testing of the M+M classes. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

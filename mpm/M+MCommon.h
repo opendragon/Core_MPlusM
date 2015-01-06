@@ -87,7 +87,6 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
  @brief The function and variable declarations for common entities for M+M clients and services. */
 
 /*! @dir /mpm
@@ -111,18 +110,6 @@
 /*! @namespace MplusM::Parser
  @brief The classes that support parsing of search requests and the generation of SQL @c SELECT
  strings from the search requests. */
-
-/*! @namespace MplusM::Registry
- @brief The classes that support registering and unregistering services. */
-
-/*! @namespace MplusM::RequestCounter
- @brief The classes that support measuring the time for service requests. */
-
-/*! @namespace MplusM::Test
- @brief The classes used for unit testing of the M+M classes. */
-
-/*! @namespace MplusM::Utilities
- @brief The classes that extend the basic functionality of the M+M framework. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

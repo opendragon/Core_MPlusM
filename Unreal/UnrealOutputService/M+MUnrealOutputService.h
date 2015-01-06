@@ -54,8 +54,10 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class declaration for the Unreal output service. */
+
+/*! @namespace MplusM::Unreal
+ @brief The classes that support writing to an Unreal output system. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

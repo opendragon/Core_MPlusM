@@ -46,8 +46,10 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class declaration for the record integers output service. */
+
+/*! @namespace MplusM::RecordAsJSON
+ @brief The classes that support recording messages as JSON. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

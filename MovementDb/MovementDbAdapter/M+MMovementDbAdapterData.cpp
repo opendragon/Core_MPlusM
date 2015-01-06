@@ -48,7 +48,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class definition for the data shared between the input handlers and main thread of the
  movement database adapter. */
 #if defined(__APPLE__)

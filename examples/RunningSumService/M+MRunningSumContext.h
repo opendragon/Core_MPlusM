@@ -46,7 +46,6 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class declaration for a context used with the running sum service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop

@@ -48,7 +48,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The main application for the client of the echo service. */
 
 /*! @dir EchoClient

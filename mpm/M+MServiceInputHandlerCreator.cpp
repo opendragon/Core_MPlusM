@@ -48,7 +48,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class definition for the minimal functionality required for an M+M input handler factory
  object. */
 #if defined(__APPLE__)

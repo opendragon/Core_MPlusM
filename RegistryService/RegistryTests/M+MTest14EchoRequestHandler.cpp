@@ -48,7 +48,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class definition for a simple request handler used by the unit tests. */
 
 /*! @dir RegistryTests

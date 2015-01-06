@@ -47,9 +47,11 @@
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file
- 
+/*! @file 
  @brief The class declaration for the %Leap Motion input service. */
+
+/*! @namespace MplusM::LeapMotion
+ @brief The classes that support reading from a Leap Motion input device. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

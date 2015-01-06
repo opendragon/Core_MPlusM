@@ -50,7 +50,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief A utility application to search for matching services. */
 
 /*! @dir FindServices

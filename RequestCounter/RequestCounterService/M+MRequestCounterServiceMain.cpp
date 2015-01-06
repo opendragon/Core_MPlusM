@@ -53,7 +53,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The main application for the request counter service. */
 
 /*! @dir RequestCounter
@@ -64,7 +63,7 @@
  service. */
 
 /*! @dir RequestCounterService
- @brief The mpmRequestCounterService application. */
+ @brief The set of files that implement the request counter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -92,6 +91,7 @@ using namespace MplusM::RequestCounter;
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
+ The option 'r' indicates that the service metrics are to be reported on exit.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example service.
  @returns @c 0 on a successful test and @c 1 on failure. */

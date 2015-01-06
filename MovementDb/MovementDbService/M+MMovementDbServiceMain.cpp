@@ -49,7 +49,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The main application for the movement database service. */
 
 /*! @dir MovementDb
@@ -60,7 +59,7 @@
  service. */
 
 /*! @dir MovementDbService
- @brief The mpmMovementDbService application. */
+ @brief The set of files that implement the movement database service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -89,6 +88,7 @@ using namespace MplusM::MovementDb;
  The first argument is the IP address of the database server to be connected to.
  The third, optional, argument is the port number to be used and the second, optional, argument is
  the name of the channel to be used. There is no output.
+ The option 'r' indicates that the service metrics are to be reported on exit.
  The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
  name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.

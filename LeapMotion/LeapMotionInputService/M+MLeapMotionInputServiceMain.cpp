@@ -52,8 +52,7 @@
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file
- 
+/*! @file 
  @brief The main application for the %Leap Motion input service. */
 
 /*! @dir LeapMotion
@@ -106,6 +105,7 @@ static void displayCommands(void)
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
+ The option 'r' indicates that the service metrics are to be reported on exit.
  The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
  name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.

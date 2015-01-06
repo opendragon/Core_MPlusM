@@ -56,7 +56,6 @@
 #endif // defined(__APPLE__)
 
 /*! @file
- 
  @brief A utility application to display the metrics for one or more services. */
 
 /*! @dir ServiceMetrics

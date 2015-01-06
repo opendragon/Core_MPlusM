@@ -48,7 +48,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class definition for the request handler for a 'stop' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

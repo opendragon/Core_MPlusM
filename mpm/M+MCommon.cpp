@@ -73,7 +73,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The function and variable definitions for common entities for M+M clients and services. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

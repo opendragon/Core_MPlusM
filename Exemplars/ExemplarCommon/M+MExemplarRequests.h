@@ -45,9 +45,11 @@
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file
- 
+/*! @file 
  @brief The common macro definitions for requests and responses for the exemplar service. */
+
+/*! @namespace MplusM::Exemplar
+ @brief A set of template classes for developing new M+M subclasses. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

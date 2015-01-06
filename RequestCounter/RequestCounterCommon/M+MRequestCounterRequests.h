@@ -46,9 +46,11 @@
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file
- 
+/*! @file 
  @brief The common macro definitions for requests and responses for the request counter service. */
+
+/*! @namespace MplusM::RequestCounter
+ @brief The classes that support measuring the time for service requests. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

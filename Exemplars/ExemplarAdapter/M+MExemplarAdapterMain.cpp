@@ -51,7 +51,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The main application for the exemplar adapter. */
 
 /*! @dir ExemplarAdapter

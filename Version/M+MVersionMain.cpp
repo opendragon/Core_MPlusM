@@ -65,7 +65,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief A utility application to report the version numbers of M+M and its dependencies. */
 
 /*! @dir Version

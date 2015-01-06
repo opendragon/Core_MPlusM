@@ -49,8 +49,10 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class declaration for the M+M Registry Service. */
+
+/*! @namespace MplusM::Registry
+ @brief The classes that support registering and unregistering services. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

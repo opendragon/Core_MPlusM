@@ -42,8 +42,7 @@
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file
- 
+/*! @file 
  @brief The macro definitions to disable the logging facility. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

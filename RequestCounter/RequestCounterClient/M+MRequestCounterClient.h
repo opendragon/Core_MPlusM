@@ -45,8 +45,7 @@
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file
- 
+/*! @file 
  @brief The class declaration for the client of the request counter service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop

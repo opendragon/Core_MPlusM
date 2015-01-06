@@ -47,13 +47,16 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
- @brief The common macro definitions for requests and responses for the request counter service. */
+ @brief The common macro definitions for requests and responses for the movement database
+ service. */
+
+/*! @namespace MplusM::MovementDb
+ @brief The classes that support communicating with the movement database. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the example echo service. */
+/*! @brief The channel-independent name of the movement database service. */
 # define MpM_MOVEMENTDB_CANONICAL_NAME "MovementDb"
 
 /*! @brief The name for the 'addfile' request. */

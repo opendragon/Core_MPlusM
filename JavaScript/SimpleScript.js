@@ -1,14 +1,15 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MException.h
+//  File:       SimpleScript.js
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for objects thrown by exceptions within M+M.
+//  Contains:   An example script that meets the requirements for a JavaScript file to be used with
+//              the JavaScript Input/Output service.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,57 +33,8 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-02-07
+//  Created:    2015-01-06
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMException_H_))
-# define MpMException_H_ /* Header guard */
-
-# include <mpm/M+MCommon.h>
-
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-# endif // defined(__APPLE__)
-/*! @file
- @brief The class declaration for objects thrown by exceptions within M+M. */
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
-
-namespace MplusM
-{
-    namespace Common
-    {
-        /*! @brief A convenience class to provide distinct exception objects. */
-        class Exception
-        {
-        public :
-            
-            /*! @brief The constructor.
-             @param reason A description of the exception being reported. */
-            Exception(const yarp::os::ConstString & reason);
-            
-            /*! @brief The destructor. */
-            virtual ~Exception(void);
-            
-        protected :
-            
-        private :
-            
-            COPY_AND_ASSIGNMENT_(Exception);
-            
-        public :
-        
-        protected :
-        
-        private :
-            
-        }; // Exception
-        
-    } // Common
-    
-} // MplusM
-
-#endif // ! defined(MpMException_H_)
+'hello' + 'world, it is ' + new Date()

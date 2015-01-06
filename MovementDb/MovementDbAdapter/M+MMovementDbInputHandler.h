@@ -47,7 +47,6 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class declaration for the custom control channel input handler used by the movement
  database adapter. */
 # if defined(__APPLE__)

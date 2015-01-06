@@ -52,7 +52,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class definition for the custom data channel input handler used by the running sum
  adapter. */
 #if defined(__APPLE__)

@@ -47,14 +47,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
- @brief The common macro definitions for requests and responses for the JavaScript Input/Output
+ @brief The common macro definitions for requests and responses for the %JavaScript Input/Output
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the JavaScript Input/Output service. */
+/*! @brief The channel-independent name of the %JavaScript Input/Output service. */
 # define MpM_JAVASCRIPT_CANONICAL_NAME "javascript"
 
 #endif // ! defined(MpMJavaScriptStreamRequests_H_)

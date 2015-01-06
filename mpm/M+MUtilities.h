@@ -46,8 +46,10 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
  @brief The function and variable declarations for utilities for M+M clients and services. */
+
+/*! @namespace MplusM::Utilities
+ @brief The classes that extend the basic functionality of the M+M framework. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

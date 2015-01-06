@@ -47,12 +47,11 @@
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file
- 
+/*! @file 
  @brief The main application for the client of the request counter service. */
 
 /*! @dir RequestCounterClient
- @brief The mpmRequestCounterClient application. */
+ @brief The set of files that implement the request counter client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

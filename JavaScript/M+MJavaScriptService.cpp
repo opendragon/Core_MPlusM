@@ -49,6 +49,7 @@
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Winvalid-offsetof"
 #endif // defined(__APPLE__)
+#include <js/RequiredDefines.h>
 #include <jsapi.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -59,8 +60,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
- @brief The class definition for the JavaScript Input/Output service. */
+ @brief The class definition for the %JavaScript Input/Output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

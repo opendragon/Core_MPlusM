@@ -53,7 +53,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class definition for the minimal functionality required for an M+M client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

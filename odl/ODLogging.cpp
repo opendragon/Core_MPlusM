@@ -46,7 +46,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The C++ variation of the debugging facility. */
 
 /*! @dir /odl

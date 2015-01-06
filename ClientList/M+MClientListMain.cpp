@@ -55,7 +55,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief A utility application to list the clients of a service or all services. */
 
 /*! @dir ClientList

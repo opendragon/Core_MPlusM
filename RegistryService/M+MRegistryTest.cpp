@@ -56,7 +56,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The test driver for the unit tests of the Registry Service. */
 
 /*! @dir /RegistryTests

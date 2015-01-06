@@ -48,11 +48,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The main application for the client of the movement database service. */
 
-/*! @dir RequestCounterClient
- @brief The mpmRequestCounterClient application. */
+/*! @dir MovementDbClient
+ @brief The set of files that implement the movement database client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

@@ -46,8 +46,10 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
- @brief The class declaration for the JavaScript Input/Output service. */
+ @brief The class declaration for the %JavaScript Input/Output service. */
+
+/*! @namespace MplusM::JavaScript
+ @brief A set of classes to support executing %JavaScript in an M+M installation. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -64,13 +66,13 @@ namespace MplusM
     {
         class JavaScriptInputHandler;
         
-        /*! @brief The JavaScript Input/Output service. */
+        /*! @brief The %JavaScript Input/Output service. */
         class JavaScriptService : public Common::BaseFilterService
         {
         public :
             
             /*! @brief The constructor.
-             @param context The JavaScript engine context.
+             @param context The %JavaScript engine context.
              @param launchPath The command-line name used to launch the service.
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.

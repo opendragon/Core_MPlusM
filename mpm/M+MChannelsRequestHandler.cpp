@@ -48,8 +48,7 @@
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
-/*! @file
- 
+/*! @file 
  @brief The class definition for the request handler for the standard 'channels' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

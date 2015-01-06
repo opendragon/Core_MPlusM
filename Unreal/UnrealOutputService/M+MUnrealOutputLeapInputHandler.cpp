@@ -48,7 +48,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class definition for the Leap Motion input channel input handler used by the Unreal
  output service. */
 #if defined(__APPLE__)

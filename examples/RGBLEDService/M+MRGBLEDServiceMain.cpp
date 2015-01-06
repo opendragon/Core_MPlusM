@@ -55,10 +55,9 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The main application for a simple M+M service. */
 
-/*! @dir EchoService
+/*! @dir RGBLEDService
  @brief The set of files that implement a simple M+M service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -87,8 +86,9 @@ using std::endl;
 
 /*! @brief The entry point for running the example Echo service.
  
- The second, optional, argument is the port number to be used and the first, optional, argument is the name of the
- channel to be used. There is no output.
+ The second, optional, argument is the port number to be used and the first, optional, argument is
+ the name of the channel to be used. There is no output.
+ The option 'r' indicates that the service metrics are to be reported on exit.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example service.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -139,7 +139,8 @@ int main(int      argc,
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP infrastructure
+            yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP
+                                        // infrastructure
             yarp::os::ConstString serviceEndpointName;
             yarp::os::ConstString serviceHostName;
             yarp::os::ConstString servicePortNumber;
@@ -150,7 +151,7 @@ int main(int      argc,
                 if (0 < tag.size())
                 {
                     serviceEndpointName = yarp::os::ConstString(DEFAULT_ECHO_SERVICE_NAME) + "/" +
-                    tag;
+                                            tag;
                 }
                 else
                 {

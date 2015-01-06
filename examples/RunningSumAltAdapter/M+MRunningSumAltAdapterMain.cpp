@@ -51,7 +51,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The main application for the alternative running sum adapter. */
 
 /*! @dir RunningSumAltAdapter

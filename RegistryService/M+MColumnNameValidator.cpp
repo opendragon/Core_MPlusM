@@ -47,7 +47,6 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class definition for the functionality required for an M+M field name matcher for the
  Registry Service. */
 #if defined(__APPLE__)

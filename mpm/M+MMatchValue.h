@@ -46,7 +46,6 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- 
  @brief The class declaration for a pattern matcher for simple values. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
