@@ -48,6 +48,12 @@
 # include <mpm/getopt.h>
 #endif //(! MAC_OR_LINUX_)
 
+#if defined(MAC_OR_LINUX_)
+# include <libgen.h>
+#else  // ! defined(MAC_OR_LINUX_)
+# include <stdlib.h>
+#endif // ! defined(MAC_OR_LINUX_)
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Winvalid-offsetof"
@@ -152,6 +158,7 @@ static void reportJavaScriptError(JSContext *     cx,
 
 /*! @brief Set up the %JavaScript environment and start the %JavaScript input / output service.
  @param jct The %JavaScript engine context.
+ @param script The %JavaScript source code to be executed.
  @param argv The arguments to be used with the %JavaScript input / output service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -160,6 +167,7 @@ static void reportJavaScriptError(JSContext *     cx,
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
 static void setUpAndGo(JSContext *                   jct,
+                       const yarp::os::ConstString & script,
                        char * *                      argv,
                        const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,
@@ -182,8 +190,7 @@ static void setUpAndGo(JSContext *                   jct,
         // Enter the new global object's compartment.
         JSAutoCompartment ac(jct, global);
         
-        // Populate the global object with the standard globals, like Object and
-        // Array.
+        // Populate the global object with the standard globals, like Object and Array.
         if (JS_InitStandardClasses(jct, global))
         {
             JavaScriptService * stuff = new JavaScriptService(jct, *argv, tag, serviceEndpointName,
@@ -364,6 +371,56 @@ static void setUpAndGo(JSContext *                   jct,
     OD_LOG_EXIT(); //####
 } // setUpAndGo
 
+/*! @brief Return the file name part of a path.
+ @param inFileName The file path to be processed.
+ @returns The file name part of a path. */
+static yarp::os::ConstString getFileNamePart(const yarp::os::ConstString & inFileName)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("inFileName = ", inFileName); //####
+    yarp::os::ConstString result;
+#if defined(MAC_OR_LINUX_)
+    char * nameCopy = strdup(inFileName.c_str());
+#else // ! defined(MAC_OR_LINUX_)
+    char   baseFileName[_MAX_FNAME + 10];
+    char   baseExtension[_MAX_EXT + 10];
+#endif // ! defined(MAC_OR_LINUX_)
+    
+#if defined(MAC_OR_LINUX_)
+    result = basename(nameCopy);
+    free(nameCopy);
+#else // ! defined(MAC_OR_LINUX_)
+    _splitpath(inFileName.c_str(), NULL, NULL, baseFileName, baseExtension);
+    result = baseFileName;
+    result += ".";
+    result += baseExtension;
+#endif // ! defined(MAC_OR_LINUX_)
+    OD_LOG_EXIT_S(result.c_str()); //####
+    return result;
+} // getFileNamePart
+
+/*! @brief Return the base name of a file name.
+ @param inFileName The file name to be processed.
+ @returns The base name of a file name. */
+static yarp::os::ConstString getFileNameBase(const yarp::os::ConstString & inFileName)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("inFileName = ", inFileName);
+    yarp::os::ConstString result;
+    size_t                index = inFileName.rfind('.');
+    
+    if (yarp::os::ConstString::npos == index)
+    {
+        result = inFileName;
+    }
+    else
+    {
+        result = inFileName.substr(0, index);
+    }
+    OD_LOG_EXIT_S(result.c_str()); //####
+    return result;
+} // getFileNameBase
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -436,19 +493,18 @@ int main(int      argc,
                 yarp::os::ConstString scriptPath(argv[optind]);
                 yarp::os::ConstString serviceEndpointName;
                 yarp::os::ConstString servicePortNumber;
+                yarp::os::ConstString scriptSource;
                 
                 if ((optind + 1) == argc)
                 {
                     // 1 arg
+                    yarp::os::ConstString tagModifier(getFileNameBase(getFileNamePart(scriptPath)));
+                    
+                    serviceEndpointName = yarp::os::ConstString(DEFAULT_JAVASCRIPT_SERVICE_NAME) +
+                                            "/" + tagModifier;
                     if (0 < tag.size())
                     {
-                        serviceEndpointName =
-                                            yarp::os::ConstString(DEFAULT_JAVASCRIPT_SERVICE_NAME) +
-                                            "/" + tag;
-                    }
-                    else
-                    {
-                        serviceEndpointName = DEFAULT_JAVASCRIPT_SERVICE_NAME;
+                        serviceEndpointName += "/" + tag;
                     }
                 }
                 else if ((optind + 2) == argc)
@@ -464,70 +520,90 @@ int main(int      argc,
                 }
                 // Make sure that the scriptPath is valid and construct the modified 'tag' and
                 // (optional) endpoint name.
-
-#if 0
-#if MAC_OR_LINUX_
-                _outFile = fopen(_outPath.c_str(), "w");
-#else // ! MAC_OR_LINUX_
-                if (! fopen_s(&_outFile, _outPath.c_str(), "w"))
-                {
-                    _outFile = NULL;
-                }
-#endif // ! MAC_OR_LINUX_
-#endif//0
+                FILE * scratch = fopen(scriptPath.c_str(), "r");
                 
-
-                if (JS_Init())
+                if (scratch)
                 {
-                    JSContext * jct = NULL;
-                    JSRuntime * jrt = JS_NewRuntime(JAVASCRIPT_GC_SIZE * 1024 * 1024);
+                    // The path given is a readable file, so read it in and prepare to start the
+                    // service by filling in the scriptSource.
+                    char   buffer[10240];
+                    size_t numRead;
                     
-                    if (jrt)
+                    for ( ; ! feof(scratch); )
                     {
-                        jct = JS_NewContext(jrt, JAVASCRIPT_STACKCHUNK_SIZE);
-                        if (jct)
+                        numRead = fread(buffer, 1, sizeof(buffer) - 1, scratch);
+                        if (numRead)
                         {
-                            JS_SetErrorReporter(jrt, reportJavaScriptError);
+                            buffer[numRead] = '\0';
+                            scriptSource += buffer;
+                        }
+                    }
+                    fclose(scratch);
+                }
+                if (0 < scriptSource.size())
+                {
+                    if (JS_Init())
+                    {
+                        JSContext * jct = NULL;
+                        JSRuntime * jrt = JS_NewRuntime(JAVASCRIPT_GC_SIZE * 1024 * 1024);
+                        
+                        if (jrt)
+                        {
+                            jct = JS_NewContext(jrt, JAVASCRIPT_STACKCHUNK_SIZE);
+                            if (jct)
+                            {
+                                JS_SetErrorReporter(jrt, reportJavaScriptError);
 // Note that JS_SetOptions() is no longer supported.
 //                        JS_SetOptions(jct, JSOPTION_VAROBJFIX | JSOPTION_EXTRA_WARNINGS);
+                            }
+                            else
+                            {
+                                OD_LOG("! (jct)"); //####
+#if MAC_OR_LINUX_
+                                GetLogger().fail("JavaScript context could not be allocated.");
+#else // ! MAC_OR_LINUX_
+                                std::cerr << "JavaScript context could not be allocated." <<
+                                            std::endl;
+#endif // ! MAC_OR_LINUX_
+                                JS_DestroyRuntime(jrt);
+                                jrt = NULL;
+                            }
                         }
                         else
                         {
-                            OD_LOG("! (jct)"); //####
+                            OD_LOG("! (jrt)"); //####
 #if MAC_OR_LINUX_
-                            GetLogger().fail("JavaScript context could not be allocated.");
+                            GetLogger().fail("JavaScript runtime could not be allocated.");
 #else // ! MAC_OR_LINUX_
-                            std::cerr << "JavaScript context could not be allocated." << std::endl;
+                            std::cerr << "JavaScript runtime could not be allocated." << std::endl;
 #endif // ! MAC_OR_LINUX_
-                            JS_DestroyRuntime(jrt);
-                            jrt = NULL;
                         }
+                        if (jrt && jct)
+                        {
+                            setUpAndGo(jct, scriptSource, argv, tag, serviceEndpointName,
+                                       servicePortNumber, stdinAvailable, reportOnExit);
+                            JS_DestroyContext(jct);
+                            JS_DestroyRuntime(jrt);
+                        }
+                        JS_ShutDown();
                     }
                     else
                     {
-                        OD_LOG("! (jrt)"); //####
+                        OD_LOG("! (JS_Init())"); //####
 #if MAC_OR_LINUX_
-                        GetLogger().fail("JavaScript runtime could not be allocated.");
+                        GetLogger().fail("JavaScript engine could not be started.");
 #else // ! MAC_OR_LINUX_
-                        std::cerr << "JavaScript runtime could not be allocated." << std::endl;
+                        std::cerr << "JavaScript engine could not be started." << std::endl;
 #endif // ! MAC_OR_LINUX_
                     }
-                    if (jrt && jct)
-                    {
-                        setUpAndGo(jct, argv, tag, serviceEndpointName, servicePortNumber,
-                                   stdinAvailable, reportOnExit);
-                        JS_DestroyContext(jct);
-                        JS_DestroyRuntime(jrt);
-                    }
-                    JS_ShutDown();
                 }
                 else
                 {
-                    OD_LOG("! (JS_Init())"); //####
+                    OD_LOG("! (0 < scriptSource.size())"); //####
 #if MAC_OR_LINUX_
-                    GetLogger().fail("JavaScript engine could not be started.");
+                    GetLogger().fail("Empty script file.");
 #else // ! MAC_OR_LINUX_
-                    std::cerr << "JavaScript engine could not be started." << std::endl;
+                    std::cerr << "Empty script file." << std::endl;
 #endif // ! MAC_OR_LINUX_
                 }
             }
