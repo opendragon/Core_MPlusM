@@ -97,6 +97,179 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
+/*! @brief Set up the environment and start the Kinect V2 input service.
+ @param argv The arguments to be used with the Kinect V2 input service.
+ @param tag The modifier for the service name and port names.
+ @param serviceEndpointName The YARP name to be assigned to the new service.
+ @param servicePortNumber The port being used by the service.
+ @param stdinAvailable @c true if running in the foreground and @c false otherwise.
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
+ */
+static void setUpAndGo(char * *                      argv,
+                       const yarp::os::ConstString & tag,
+                       const yarp::os::ConstString & serviceEndpointName,
+                       const yarp::os::ConstString & servicePortNumber,
+                       const bool                    stdinAvailable,
+                       const bool                    reportOnExit)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
+               "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_B2("stdinAvailable = ", stdinAvailable, "reportOnExit = ", reportOnExit); //####
+    KinectV2InputService * stuff = new KinectV2InputService(*argv, tag, serviceEndpointName,
+                                                            servicePortNumber);
+    
+    if (stuff)
+    {
+        if (stuff->start())
+        {
+            yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+            
+            OD_LOG_S1s("channelName = ", channelName); //####
+            if (RegisterLocalService(channelName, *stuff))
+            {
+                bool             configured = false;
+                yarp::os::Bottle configureData;
+                
+                StartRunning();
+                SetSignalHandlers(SignalRunningStop);
+                stuff->startPinger();
+                if (! stdinAvailable)
+                {
+                    if (stuff->configure(configureData))
+                    {
+                        stuff->startStreams();
+                    }
+                }
+                for ( ; IsRunning(); )
+                {
+                    if (stdinAvailable)
+                    {
+                        char inChar;
+                        
+                        cout << "Operation: [? b c e q r u]? ";
+                        cout.flush();
+                        cin >> inChar;
+                        switch (inChar)
+                        {
+                            case '?' :
+                                // Help
+                                displayCommands();
+                                break;
+                                
+                            case 'b' :
+                            case 'B' :
+                                // Start streams
+                                if (! configured)
+                                {
+                                    configureData.clear();
+                                    if (stuff->configure(configureData))
+                                    {
+                                        configured = true;
+                                    }
+                                }
+                                if (configured)
+                                {
+                                    stuff->startStreams();
+                                }
+                                break;
+                                
+                            case 'c' :
+                            case 'C' :
+                                // Configure
+                                break;
+                                
+                            case 'e' :
+                            case 'E' :
+                                // Stop streams
+                                stuff->stopStreams();
+                                break;
+                                
+                            case 'q' :
+                            case 'Q' :
+                                // Quit
+                                StopRunning();
+                                break;
+                                
+                            case 'r' :
+                            case 'R' :
+                                // Restart streams
+                                if (! configured)
+                                {
+                                    configureData.clear();
+                                    if (stuff->configure(configureData))
+                                    {
+                                        configured = true;
+                                    }
+                                }
+                                if (configured)
+                                {
+                                    stuff->restartStreams();
+                                }
+                                break;
+                                
+                            case 'u' :
+                            case 'U' :
+                                // Unconfigure
+                                configured = false;
+                                break;
+                                
+                            default :
+                                cout << "Unrecognized request '" << inChar << "'." << endl;
+                                break;
+                                
+                        }
+                    }
+                    else
+                    {
+#if defined(MpM_MainDoesDelayNotYield)
+                        yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+                        yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+                    }
+                }
+                UnregisterLocalService(channelName, *stuff);
+                if (reportOnExit)
+                {
+                    yarp::os::Bottle metrics;
+                    
+                    stuff->gatherMetrics(metrics);
+                    yarp::os::ConstString converted(Utilities::ConvertMetricsToString(metrics));
+                    
+                    cout << converted.c_str() << endl;
+                }
+                stuff->stop();
+            }
+            else
+            {
+                OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("Service could not be registered.");
+#else // ! MAC_OR_LINUX_
+                std::cerr << "Service could not be registered." << std::endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        else
+        {
+            OD_LOG("! (stuff->start())"); //####
+#if MAC_OR_LINUX_
+            GetLogger().fail("Service could not be started.");
+#else // ! MAC_OR_LINUX_
+            std::cerr << "Service could not be started." << std::endl;
+#endif // ! MAC_OR_LINUX_
+        }
+        delete stuff;
+    }
+    else
+    {
+        OD_LOG("! (stuff)"); //####
+    }
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -109,7 +282,7 @@ static void displayCommands(void)
  The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
  name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the example service.
+ @param argv The arguments to be used with the Kinect V2 input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -190,157 +363,8 @@ int main(int      argc,
                 serviceEndpointName = argv[optind];
                 servicePortNumber = argv[optind + 1];
             }
-            KinectV2InputService * stuff = new KinectV2InputService(*argv, tag, serviceEndpointName,
-                                                                    servicePortNumber);
-            
-            if (stuff)
-            {
-                if (stuff->start())
-                {
-                    yarp::os::ConstString channelName(stuff->getEndpoint().getName());
-                    
-                    OD_LOG_S1s("channelName = ", channelName); //####
-                    if (RegisterLocalService(channelName, *stuff))
-                    {
-                        bool             configured = false;
-                        yarp::os::Bottle configureData;
-                        
-                        StartRunning();
-                        SetSignalHandlers(SignalRunningStop);
-                        stuff->startPinger();
-                        if (! stdinAvailable)
-                        {
-                            if (stuff->configure(configureData))
-                            {
-                                stuff->startStreams();
-                            }
-                        }
-                        for ( ; IsRunning(); )
-                        {
-                            if (stdinAvailable)
-                            {
-                                char inChar;
-                                
-                                cout << "Operation: [? b c e q r u]? ";
-                                cout.flush();
-                                cin >> inChar;
-                                switch (inChar)
-                                {
-                                    case '?' :
-                                        // Help
-                                        displayCommands();
-                                        break;
-                                        
-                                    case 'b' :
-                                    case 'B' :
-                                        // Start streams
-                                        if (! configured)
-                                        {
-                                            configureData.clear();
-                                            if (stuff->configure(configureData))
-                                            {
-                                                configured = true;
-                                            }
-                                        }
-                                        if (configured)
-                                        {
-                                            stuff->startStreams();
-                                        }
-                                        break;
-                                        
-                                    case 'c' :
-                                    case 'C' :
-                                        // Configure
-                                        break;
-                                        
-                                    case 'e' :
-                                    case 'E' :
-                                        // Stop streams
-                                        stuff->stopStreams();
-                                        break;
-                                        
-                                    case 'q' :
-                                    case 'Q' :
-                                        // Quit
-                                        StopRunning();
-                                        break;
-                                        
-                                    case 'r' :
-                                    case 'R' :
-                                        // Restart streams
-                                        if (! configured)
-                                        {
-                                            configureData.clear();
-                                            if (stuff->configure(configureData))
-                                            {
-                                                configured = true;
-                                            }
-                                        }
-                                        if (configured)
-                                        {
-                                            stuff->restartStreams();
-                                        }
-                                        break;
-                                        
-                                    case 'u' :
-                                    case 'U' :
-                                        // Unconfigure
-                                        configured = false;
-                                        break;
-                                        
-                                    default :
-                                        cout << "Unrecognized request '" << inChar << "'." << endl;
-                                        break;
-                                        
-                                }
-                            }
-                            else
-                            {
-#if defined(MpM_MainDoesDelayNotYield)
-                                yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                                yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-                            }
-                        }
-                        UnregisterLocalService(channelName, *stuff);
-                        if (reportOnExit)
-                        {
-                            yarp::os::Bottle metrics;
-                            
-                            stuff->gatherMetrics(metrics);
-                            yarp::os::ConstString converted =
-                                                        Utilities::ConvertMetricsToString(metrics);
-                            
-                            cout << converted.c_str() << endl;
-                        }
-                        stuff->stop();
-                    }
-                    else
-                    {
-                        OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Service could not be registered.");
-#else // ! MAC_OR_LINUX_
-                        std::cerr << "Service could not be registered." << std::endl;
-#endif // ! MAC_OR_LINUX_
-                    }
-                }
-                else
-                {
-                    OD_LOG("! (stuff->start())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Service could not be started.");
-#else // ! MAC_OR_LINUX_
-                    std::cerr << "Service could not be started." << std::endl;
-#endif // ! MAC_OR_LINUX_
-                }
-                delete stuff;
-            }
-            else
-            {
-                OD_LOG("! (stuff)"); //####
-            }
+            setUpAndGo(argv, tag, serviceEndpointName, servicePortNumber, stdinAvailable,
+                       reportOnExit);
         }
 #if CheckNetworkWorks_
         else

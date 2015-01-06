@@ -97,6 +97,216 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
+/*! @brief Set up the environment and start the %Unreal output service.
+ @param outPort The port to be written to.
+ @param translationScale The translation scale factor.
+ @param argv The arguments to be used with the %Unreal output service.
+ @param tag The modifier for the service name and port names.
+ @param serviceEndpointName The YARP name to be assigned to the new service.
+ @param servicePortNumber The port being used by the service.
+ @param stdinAvailable @c true if running in the foreground and @c false otherwise.
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
+ */
+static void setUpAndGo(int &                         outPort,
+                       double &                      translationScale,
+                       char * *                      argv,
+                       const yarp::os::ConstString & tag,
+                       const yarp::os::ConstString & serviceEndpointName,
+                       const yarp::os::ConstString & servicePortNumber,
+                       const bool                    stdinAvailable,
+                       const bool                    reportOnExit)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_L1("outPort = ", outPort); //####
+    OD_LOG_D1("translationScale = ", translationScale); //####
+    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
+               "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_B2("stdinAvailable = ", stdinAvailable, "reportOnExit = ", reportOnExit); //####
+    UnrealOutputService * stuff = new UnrealOutputService(*argv, tag, serviceEndpointName,
+                                                          servicePortNumber);
+    
+    if (stuff)
+    {
+        if (stuff->start())
+        {
+            yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+            
+            OD_LOG_S1s("channelName = ", channelName); //####
+            if (RegisterLocalService(channelName, *stuff))
+            {
+                double           tempDouble;
+                int              tempInt;
+                bool             configured = false;
+                yarp::os::Bottle configureData;
+                std::string      inputLine;
+                
+                StartRunning();
+                SetSignalHandlers(SignalRunningStop);
+                stuff->startPinger();
+                if (! stdinAvailable)
+                {
+                    configureData.addInt(outPort);
+                    if (stuff->configure(configureData))
+                    {
+                        stuff->startStreams();
+                    }
+                }
+                for ( ; IsRunning(); )
+                {
+                    if (stdinAvailable)
+                    {
+                        char inChar;
+                        
+                        cout << "Operation: [? b c e q r u]? ";
+                        cout.flush();
+                        cin >> inChar;
+                        switch (inChar)
+                        {
+                            case '?' :
+                                // Help
+                                displayCommands();
+                                break;
+                                
+                            case 'b' :
+                            case 'B' :
+                                // Start streams
+                                if (! configured)
+                                {
+                                    configureData.clear();
+                                    configureData.addInt(outPort);
+                                    configureData.addDouble(tempDouble);
+                                    if (stuff->configure(configureData))
+                                    {
+                                        configured = true;
+                                    }
+                                }
+                                if (configured)
+                                {
+                                    stuff->startStreams();
+                                }
+                                break;
+                                
+                            case 'c' :
+                            case 'C' :
+                                // Configure
+                                cout << "Output port: ";
+                                cout.flush();
+                                cin >> tempInt;
+                                cout << "Translation scale: ";
+                                cout.flush();
+                                cin >> tempDouble;
+                                if ((0 < tempInt) && (0 < tempDouble))
+                                {
+                                    outPort = tempInt;
+                                    translationScale = tempDouble;
+                                    configureData.clear();
+                                    configureData.addInt(outPort);
+                                    configureData.addDouble(tempDouble);
+                                    if (stuff->configure(configureData))
+                                    {
+                                        configured = true;
+                                    }
+                                }
+                                else
+                                {
+                                    cout << "One or both values out of range." << endl;
+                                }
+                                break;
+                                
+                            case 'e' :
+                            case 'E' :
+                                // Stop streams
+                                stuff->stopStreams();
+                                break;
+                                
+                            case 'q' :
+                            case 'Q' :
+                                // Quit
+                                StopRunning();
+                                break;
+                                
+                            case 'r' :
+                            case 'R' :
+                                // Restart streams
+                                if (! configured)
+                                {
+                                    configureData.clear();
+                                    configureData.addInt(outPort);
+                                    configureData.addDouble(tempDouble);
+                                    if (stuff->configure(configureData))
+                                    {
+                                        configured = true;
+                                    }
+                                }
+                                if (configured)
+                                {
+                                    stuff->restartStreams();
+                                }
+                                break;
+                                
+                            case 'u' :
+                            case 'U' :
+                                // Unconfigure
+                                configured = false;
+                                break;
+                                
+                            default :
+                                cout << "Unrecognized request '" << inChar << "'." << endl;
+                                break;
+                                
+                        }
+                    }
+                    else
+                    {
+#if defined(MpM_MainDoesDelayNotYield)
+                        yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+                        yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+                    }
+                }
+                UnregisterLocalService(channelName, *stuff);
+                if (reportOnExit)
+                {
+                    yarp::os::Bottle metrics;
+                    
+                    stuff->gatherMetrics(metrics);
+                    yarp::os::ConstString converted(Utilities::ConvertMetricsToString(metrics));
+                    
+                    cout << converted.c_str() << endl;
+                }
+                stuff->stop();
+            }
+            else
+            {
+                OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("Service could not be registered.");
+#else // ! MAC_OR_LINUX_
+                std::cerr << "Service could not be registered." << std::endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        else
+        {
+            OD_LOG("! (stuff->start())"); //####
+#if MAC_OR_LINUX_
+            GetLogger().fail("Service could not be started.");
+#else // ! MAC_OR_LINUX_
+            std::cerr << "Service could not be started." << std::endl;
+#endif // ! MAC_OR_LINUX_
+        }
+        delete stuff;
+    }
+    else
+    {
+        OD_LOG("! (stuff)"); //####
+    }
+    
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -110,7 +320,7 @@ static void displayCommands(void)
  The option 's' specifies the translation scale factor.
  name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the example service.
+ @param argv The arguments to be used with the %Unreal output service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -217,186 +427,8 @@ int main(int      argc,
                 serviceEndpointName = argv[optind];
                 servicePortNumber = argv[optind + 1];
             }
-            UnrealOutputService * stuff = new UnrealOutputService(*argv, tag,
-                                                                  serviceEndpointName,
-                                                                  servicePortNumber);
-            
-            if (stuff)
-            {
-                if (stuff->start())
-                {
-                    yarp::os::ConstString channelName(stuff->getEndpoint().getName());
-                    
-                    OD_LOG_S1s("channelName = ", channelName); //####
-                    if (RegisterLocalService(channelName, *stuff))
-                    {
-                        bool             configured = false;
-                        yarp::os::Bottle configureData;
-                        std::string      inputLine;
-                        
-                        StartRunning();
-                        SetSignalHandlers(SignalRunningStop);
-                        stuff->startPinger();
-                        if (! stdinAvailable)
-                        {
-							configureData.addInt(outPort);
-                            if (stuff->configure(configureData))
-                            {
-                                stuff->startStreams();
-                            }
-                        }
-                        for ( ; IsRunning(); )
-                        {
-                            if (stdinAvailable)
-                            {
-                                char inChar;
-                                
-                                cout << "Operation: [? b c e q r u]? ";
-                                cout.flush();
-                                cin >> inChar;
-                                switch (inChar)
-                                {
-                                    case '?' :
-                                        // Help
-                                        displayCommands();
-                                        break;
-                                        
-                                    case 'b' :
-                                    case 'B' :
-                                        // Start streams
-                                        if (! configured)
-                                        {
-                                            configureData.clear();
-											configureData.addInt(outPort);
-                                            configureData.addDouble(tempDouble);
-                                            if (stuff->configure(configureData))
-                                            {
-                                                configured = true;
-                                            }
-                                        }
-                                        if (configured)
-                                        {
-                                            stuff->startStreams();
-                                        }
-                                        break;
-                                        
-                                    case 'c' :
-                                    case 'C' :
-                                        // Configure
-                                        cout << "Output port: ";
-                                        cout.flush();
-                                        cin >> tempInt;
-                                        cout << "Translation scale: ";
-                                        cout.flush();
-                                        cin >> tempDouble;
-                                        if ((0 < tempInt) && (0 < tempDouble))
-                                        {
-                                            outPort = tempInt;
-                                            translationScale = tempDouble;
-                                            configureData.clear();
-                                            configureData.addInt(outPort);
-                                            configureData.addDouble(tempDouble);
-                                            if (stuff->configure(configureData))
-                                            {
-                                                configured = true;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            cout << "One or both values out of range." << endl;
-                                        }
-                                        break;
-                                        
-                                    case 'e' :
-                                    case 'E' :
-                                        // Stop streams
-                                        stuff->stopStreams();
-                                        break;
-                                        
-                                    case 'q' :
-                                    case 'Q' :
-                                        // Quit
-                                        StopRunning();
-                                        break;
-                                        
-                                    case 'r' :
-                                    case 'R' :
-                                        // Restart streams
-                                        if (! configured)
-                                        {
-                                            configureData.clear();
-											configureData.addInt(outPort);
-                                            configureData.addDouble(tempDouble);
-                                            if (stuff->configure(configureData))
-                                            {
-                                                configured = true;
-                                            }
-                                        }
-                                        if (configured)
-                                        {
-                                            stuff->restartStreams();
-                                        }
-                                        break;
-                                        
-                                    case 'u' :
-                                    case 'U' :
-                                        // Unconfigure
-                                        configured = false;
-                                        break;
-                                        
-                                    default :
-                                        cout << "Unrecognized request '" << inChar << "'." << endl;
-                                        break;
-                                        
-                                }
-                            }
-                            else
-                            {
-#if defined(MpM_MainDoesDelayNotYield)
-                                yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                                yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-                            }
-                        }
-                        UnregisterLocalService(channelName, *stuff);
-                        if (reportOnExit)
-                        {
-                            yarp::os::Bottle metrics;
-                            
-                            stuff->gatherMetrics(metrics);
-                            yarp::os::ConstString converted =
-                                                        Utilities::ConvertMetricsToString(metrics);
-                            
-                            cout << converted.c_str() << endl;
-                        }
-                        stuff->stop();
-                    }
-                    else
-                    {
-                        OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Service could not be registered.");
-#else // ! MAC_OR_LINUX_
-                        std::cerr << "Service could not be registered." << std::endl;
-#endif // ! MAC_OR_LINUX_
-                    }
-                }
-                else
-                {
-                    OD_LOG("! (stuff->start())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Service could not be started.");
-#else // ! MAC_OR_LINUX_
-                    std::cerr << "Service could not be started." << std::endl;
-#endif // ! MAC_OR_LINUX_
-                }
-                delete stuff;
-            }
-            else
-            {
-                OD_LOG("! (stuff)"); //####
-            }
+            setUpAndGo(outPort, translationScale, argv, tag, serviceEndpointName, servicePortNumber,
+                       stdinAvailable, reportOnExit);
         }
 #if CheckNetworkWorks_
         else

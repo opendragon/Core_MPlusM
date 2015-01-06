@@ -79,6 +79,90 @@ using namespace MplusM::MovementDb;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Set up the environment and start the movement database service.
+ @param databaseAddress The IP address of the database server to be connected to.
+ @param argv The arguments to be used with the movement database service.
+ @param tag The modifier for the service name and port names.
+ @param serviceEndpointName The YARP name to be assigned to the new service.
+ @param servicePortNumber The port being used by the service.
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
+ */
+static void setUpAndGo(const yarp::os::ConstString & databaseAddress,
+                       char * *                      argv,
+                       const yarp::os::ConstString & tag,
+                       const yarp::os::ConstString & serviceEndpointName,
+                       const yarp::os::ConstString & servicePortNumber,
+                       const bool                    reportOnExit)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_S4s("databaseAddress = ", databaseAddress, "tag = ", tag, //####
+               "serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
+               servicePortNumber); //####
+    OD_LOG_B1("reportOnExit = ", reportOnExit); //####
+    MovementDbService * stuff = new MovementDbService(*argv, tag, databaseAddress,
+                                                      serviceEndpointName, servicePortNumber);
+    
+    if (stuff)
+    {
+        if (stuff->start())
+        {
+            yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+            
+            OD_LOG_S1s("channelName = ", channelName); //####
+            if (RegisterLocalService(channelName, *stuff))
+            {
+                StartRunning();
+                SetSignalHandlers(SignalRunningStop);
+                stuff->startPinger();
+                for ( ; IsRunning(); )
+                {
+#if defined(MpM_MainDoesDelayNotYield)
+                    yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+                    yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+                }
+                UnregisterLocalService(channelName, *stuff);
+                if (reportOnExit)
+                {
+                    yarp::os::Bottle metrics;
+                    
+                    stuff->gatherMetrics(metrics);
+                    yarp::os::ConstString converted(Utilities::ConvertMetricsToString(metrics));
+                    
+                    cout << converted.c_str() << endl;
+                }
+                stuff->stop();
+            }
+            else
+            {
+                OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("Service could not be registered.");
+#else // ! MAC_OR_LINUX_
+                std::cerr << "Service could not be registered." << std::endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        else
+        {
+            OD_LOG("! (stuff->start())"); //####
+#if MAC_OR_LINUX_
+            GetLogger().fail("Service could not be started.");
+#else // ! MAC_OR_LINUX_
+            std::cerr << "Service could not be started." << std::endl;
+#endif // ! MAC_OR_LINUX_
+        }
+        delete stuff;
+    }
+    else
+    {
+        OD_LOG("! (stuff)"); //####
+    }
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -92,7 +176,7 @@ using namespace MplusM::MovementDb;
  The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
  name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the example service.
+ @param argv The arguments to be used with the Movement Database service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -147,14 +231,13 @@ int main(int      argc,
             Initialize(*argv);
             if (optind < argc)
             {
-                yarp::os::ConstString databaseAddress;
+                yarp::os::ConstString databaseAddress(argv[optind]);
                 yarp::os::ConstString serviceEndpointName;
                 yarp::os::ConstString servicePortNumber;
 
                 if ((optind + 1) == argc)
                 {
                     // 1 arg
-                    databaseAddress = argv[optind];
                     if (0 < tag.size())
                     {
                         serviceEndpointName =
@@ -169,78 +252,16 @@ int main(int      argc,
                 else if ((optind + 2) == argc)
                 {
                     // 2 args
-                    databaseAddress = argv[optind];
                     serviceEndpointName = argv[optind + 1];
                 }
                 else
                 {
                     // 3 args
-                    databaseAddress = argv[optind];
                     serviceEndpointName = argv[optind + 1];
                     servicePortNumber = argv[optind + 2];
                 }
-                MovementDbService * stuff = new MovementDbService(*argv, tag, databaseAddress,
-                                                                  serviceEndpointName,
-                                                                  servicePortNumber);
-                
-                if (stuff)
-                {
-                    if (stuff->start())
-                    {
-                        yarp::os::ConstString channelName(stuff->getEndpoint().getName());
-                        
-                        OD_LOG_S1s("channelName = ", channelName); //####
-                        if (RegisterLocalService(channelName, *stuff))
-                        {
-                            StartRunning();
-                            SetSignalHandlers(SignalRunningStop);
-                            stuff->startPinger();
-                            for ( ; IsRunning(); )
-                            {
-#if defined(MpM_MainDoesDelayNotYield)
-                                yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                                yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-                            }
-                            UnregisterLocalService(channelName, *stuff);
-                            if (reportOnExit)
-                            {
-                                yarp::os::Bottle metrics;
-                                
-                                stuff->gatherMetrics(metrics);
-                                yarp::os::ConstString converted =
-                                                        Utilities::ConvertMetricsToString(metrics);
-                                
-                                cout << converted.c_str() << endl;
-                            }
-                            stuff->stop();
-                        }
-                        else
-                        {
-                            OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Service could not be registered.");
-#else // ! MAC_OR_LINUX_
-                            std::cerr << "Service could not be registered." << std::endl;
-#endif // ! MAC_OR_LINUX_
-                        }
-                    }
-                    else
-                    {
-                        OD_LOG("! (stuff->start())"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Service could not be started.");
-#else // ! MAC_OR_LINUX_
-                        std::cerr << "Service could not be started." << std::endl;
-#endif // ! MAC_OR_LINUX_
-                    }
-                    delete stuff;
-                }
-                else
-                {
-                    OD_LOG("! (stuff)"); //####
-                }
+                setUpAndGo(databaseAddress, argv, tag, serviceEndpointName, servicePortNumber,
+                           reportOnExit);
             }
             else
             {
