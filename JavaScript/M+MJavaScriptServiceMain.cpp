@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the JavaScript Input/Output service.
+//  Contains:   The main application for the JavaScript input / output service.
 //
 //  Written by: Norman Jaffe
 //
@@ -15,7 +15,7 @@
 //                * Redistributions of source code must retain the above copyright notice, this list
 //                  of conditions and the following disclaimer.
 //                * Redistributions in binary form must reproduce the above copyright notice, this
-//                  list of conditions and the following disclaimer in the documentation and/or
+//                  list of conditions and the following disclaimer in the documentation and / or
 //                  other materials provided with the distribution.
 //                * Neither the name of the copyright holders nor the names of its contributors may
 //                  be used to endorse or promote products derived from this software without
@@ -63,10 +63,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the %JavaScript Input/Output service. */
+ @brief The main application for the %JavaScript input / output service. */
 
 /*! @dir JavaScript
- @brief The set of files that implement the %JavaScript Input/Output service. */
+ @brief The set of files that implement the %JavaScript input / output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -154,7 +154,7 @@ static void reportJavaScriptError(JSContext *     cx,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the %JavaScript Input/Output service.
+/*! @brief The entry point for running the %JavaScript input / output service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
@@ -353,7 +353,7 @@ int main(int      argc,
                                                     case 'c' :
                                                     case 'C' :
                                                         // Configure - nothing to do for the
-                                                        // JavaScript Input/Output service.
+                                                        // JavaScript input / output service.
                                                         if (stuff->configure(configureData))
                                                         {
                                                             configured = true;

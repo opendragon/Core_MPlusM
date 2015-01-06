@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the JavaScript Input/Output service.
+//  Contains:   The class declaration for the JavaScript input / output service.
 //
 //  Written by: Norman Jaffe
 //
@@ -15,7 +15,7 @@
 //                * Redistributions of source code must retain the above copyright notice, this list
 //                  of conditions and the following disclaimer.
 //                * Redistributions in binary form must reproduce the above copyright notice, this
-//                  list of conditions and the following disclaimer in the documentation and/or
+//                  list of conditions and the following disclaimer in the documentation and / or
 //                  other materials provided with the distribution.
 //                * Neither the name of the copyright holders nor the names of its contributors may
 //                  be used to endorse or promote products derived from this software without
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the %JavaScript Input/Output service. */
+ @brief The class declaration for the %JavaScript input / output service. */
 
 /*! @namespace MplusM::JavaScript
  @brief A set of classes to support executing %JavaScript in an M+M installation. */
@@ -66,7 +66,7 @@ namespace MplusM
     {
         class JavaScriptInputHandler;
         
-        /*! @brief The %JavaScript Input/Output service. */
+        /*! @brief The %JavaScript input / output service. */
         class JavaScriptService : public Common::BaseFilterService
         {
         public :

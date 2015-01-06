@@ -289,7 +289,7 @@ typedef sqlite_uint64 sqlite3_uint64;
 ** [sqlite3_backup_finish | finish] all [sqlite3_backup] objects associated
 ** with the [sqlite3] object prior to attempting to close the object.  ^If
 ** sqlite3_close_v2() is called on a [database connection] that still has
-** outstanding [prepared statements], [BLOB handles], and/or
+** outstanding [prepared statements], [BLOB handles], and / or
 ** [sqlite3_backup] objects then it returns SQLITE_OK but the deallocation
 ** of resources is deferred until all [prepared statements], [BLOB handles],
 ** and [sqlite3_backup] objects are also destroyed.
@@ -361,7 +361,7 @@ typedef int (*sqlite3_callback)(void*,int,char**, char**);
 ** from [sqlite3_column_name()].
 **
 ** ^If the 2nd parameter to sqlite3_exec() is a NULL pointer, a pointer
-** to an empty string, or a pointer that contains only whitespace and/or 
+** to an empty string, or a pointer that contains only whitespace and / or 
 ** SQL comments, then no SQL statements are evaluated and the database
 ** is not changed.
 **
@@ -1020,7 +1020,7 @@ typedef struct sqlite3_mutex sqlite3_mutex;
 ** from xFullPathname() with an optional suffix added.
 ** ^If a suffix is added to the zFilename parameter, it will
 ** consist of a single "-" character followed by no more than
-** 11 alphanumeric and/or "-" characters.
+** 11 alphanumeric and / or "-" characters.
 ** ^SQLite further guarantees that
 ** the string will be valid and unchanged until xClose() is
 ** called. Because of the previous sentence,
@@ -2643,7 +2643,7 @@ SQLITE_API void sqlite3_progress_handler(sqlite3*, int, int(*)(void*), void*);
 ** returned in *ppDb, even if an error occurs.  The only exception is that
 ** if SQLite is unable to allocate memory to hold the [sqlite3] object,
 ** a NULL will be written into *ppDb instead of a pointer to the [sqlite3]
-** object.)^ ^(If the database is opened (and/or created) successfully, then
+** object.)^ ^(If the database is opened (and / or created) successfully, then
 ** [SQLITE_OK] is returned.  Otherwise an [error code] is returned.)^ ^The
 ** [sqlite3_errmsg()] or [sqlite3_errmsg16()] routines can be used to obtain
 ** an English language description of the error following a failure of any
@@ -2663,7 +2663,7 @@ SQLITE_API void sqlite3_progress_handler(sqlite3*, int, int(*)(void*), void*);
 ** sqlite3_open_v2() can take one of
 ** the following three values, optionally combined with the 
 ** [SQLITE_OPEN_NOMUTEX], [SQLITE_OPEN_FULLMUTEX], [SQLITE_OPEN_SHAREDCACHE],
-** [SQLITE_OPEN_PRIVATECACHE], and/or [SQLITE_OPEN_URI] flags:)^
+** [SQLITE_OPEN_PRIVATECACHE], and / or [SQLITE_OPEN_URI] flags:)^
 **
 ** <dl>
 ** ^(<dt>[SQLITE_OPEN_READONLY]</dt>
@@ -3224,7 +3224,7 @@ SQLITE_API int sqlite3_stmt_readonly(sqlite3_stmt *pStmt);
 **
 ** ^The sqlite3_stmt_busy(S) interface returns true (non-zero) if the
 ** [prepared statement] S has been stepped at least once using 
-** [sqlite3_step(S)] but has not run to completion and/or has not 
+** [sqlite3_step(S)] but has not run to completion and / or has not 
 ** been reset using [sqlite3_reset(S)].  ^The sqlite3_stmt_busy(S)
 ** interface returns false if S is a NULL pointer.  If S is not a 
 ** NULL pointer and is not a pointer to a valid [prepared statement]
@@ -3287,7 +3287,7 @@ typedef struct Mem sqlite3_value;
 ** pointer through into calls to [sqlite3_result_int | sqlite3_result()],
 ** [sqlite3_aggregate_context()], [sqlite3_user_data()],
 ** [sqlite3_context_db_handle()], [sqlite3_get_auxdata()],
-** and/or [sqlite3_set_auxdata()].
+** and / or [sqlite3_set_auxdata()].
 */
 typedef struct sqlite3_context sqlite3_context;
 
@@ -3832,7 +3832,7 @@ SQLITE_API int sqlite3_data_count(sqlite3_stmt *pStmt);
 ** C programmers.
 **
 ** Note that when type conversions occur, pointers returned by prior
-** calls to sqlite3_column_blob(), sqlite3_column_text(), and/or
+** calls to sqlite3_column_blob(), sqlite3_column_text(), and / or
 ** sqlite3_column_text16() may be invalidated.
 ** Type conversions and pointer invalidations might occur
 ** in the following cases:
@@ -4984,7 +4984,7 @@ SQLITE_API int sqlite3_db_release_memory(sqlite3*);
 /*
 ** CAPI3REF: Impose A Limit On Heap Size
 **
-** ^The sqlite3_soft_heap_limit64() interface sets and/or queries the
+** ^The sqlite3_soft_heap_limit64() interface sets and / or queries the
 ** soft limit on the amount of heap memory that may be allocated by SQLite.
 ** ^SQLite strives to keep heap memory utilization below the soft heap
 ** limit by reducing the number of pages held in the page cache
@@ -6732,7 +6732,7 @@ typedef struct sqlite3_backup sqlite3_backup;
 ** returned and an error code and error message are stored in the
 ** destination [database connection] D.
 ** ^The error code and message for the failed call to sqlite3_backup_init()
-** can be retrieved using the [sqlite3_errcode()], [sqlite3_errmsg()], and/or
+** can be retrieved using the [sqlite3_errcode()], [sqlite3_errmsg()], and / or
 ** [sqlite3_errmsg16()] functions.
 ** ^A successful call to sqlite3_backup_init() returns a pointer to an
 ** [sqlite3_backup] object.

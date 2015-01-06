@@ -15,7 +15,7 @@
 //                * Redistributions of source code must retain the above copyright notice, this list
 //                  of conditions and the following disclaimer.
 //                * Redistributions in binary form must reproduce the above copyright notice, this
-//                  list of conditions and the following disclaimer in the documentation and/or
+//                  list of conditions and the following disclaimer in the documentation and / or
 //                  other materials provided with the distribution.
 //                * Neither the name of the copyright holders nor the names of its contributors may
 //                  be used to endorse or promote products derived from this software without
@@ -53,13 +53,13 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the Unreal output service. */
+ @brief The main application for the %Unreal output service. */
 
 /*! @dir Unreal
- @brief The set of files that implement the Unreal output service. */
+ @brief The set of files that implement the %Unreal output service. */
 
 /*! @dir UnrealOutputService
- @brief The set of files that implement the Unreal output service. */
+ @brief The set of files that implement the %Unreal output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -101,7 +101,7 @@ static void displayCommands(void)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Unreal output service.
+/*! @brief The entry point for running the %Unreal output service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.

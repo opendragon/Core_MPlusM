@@ -15,7 +15,7 @@
 //                * Redistributions of source code must retain the above copyright notice, this list
 //                  of conditions and the following disclaimer.
 //                * Redistributions in binary form must reproduce the above copyright notice, this
-//                  list of conditions and the following disclaimer in the documentation and/or
+//                  list of conditions and the following disclaimer in the documentation and / or
 //                  other materials provided with the distribution.
 //                * Neither the name of the copyright holders nor the names of its contributors may
 //                  be used to endorse or promote products derived from this software without
@@ -116,14 +116,14 @@ namespace MplusM
              @param theController The Controller object invoking this callback function. */
             virtual void onInit(const Leap::Controller & theController);
             
-            /*! @brief Called when the %Leap Motion daemon/service connects to your application
+            /*! @brief Called when the %Leap Motion daemon / service connects to your application
              Controller.
              
              In the normal course of events onServiceConnect will get called once after onInit.
              @param theController The Controller object invoking this callback function. */
             virtual void onServiceConnect(const Leap::Controller & theController);
             
-            /*! @brief Called if the %Leap Motion daemon/service disconnects from your application
+            /*! @brief Called if the %Leap Motion daemon / service disconnects from your application
              Controller.
              
              Normally, this callback is not invoked. It is only called if some external event or
