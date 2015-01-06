@@ -151,6 +151,7 @@ int main(int      argc,
             Initialize(*argv);
             if (optind >= argc)
             {
+                // Zero args
                 if (0 < tag.size())
                 {
                     serviceEndpointName = yarp::os::ConstString(DEFAULT_EXEMPLAR_SERVICE_NAME) +
@@ -163,11 +164,12 @@ int main(int      argc,
             }
             else if ((optind + 1) == argc)
             {
+                // 1 arg
                 serviceEndpointName = argv[optind];
             }
             else
             {
-                // 2 args
+                // 2 or more args
                 serviceEndpointName = argv[optind];
                 servicePortNumber = argv[optind + 1];
             }

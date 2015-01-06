@@ -145,7 +145,7 @@ int main(int      argc,
                                     // infrastructure
             
             Initialize(*argv);
-            if (optind >= argc)
+            if (optind < argc)
             {
                 yarp::os::ConstString databaseAddress;
                 yarp::os::ConstString serviceEndpointName;
@@ -153,6 +153,7 @@ int main(int      argc,
 
                 if ((optind + 1) == argc)
                 {
+                    // 1 arg
                     databaseAddress = argv[optind];
                     if (0 < tag.size())
                     {
