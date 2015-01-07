@@ -21,3 +21,5 @@ _release and _debug]
 * add index to general channels, pass index to input handler
 
 ** javascript should support thread _or_ input handler
+
+= change all executables to get endpoint info as options, not optional arguments, so that the rest of the argument list can be passed to interpreters —> -e for endpoint name, -p for endpoint port (change -p to -f for file paths); change documentation to reflect this, of course
